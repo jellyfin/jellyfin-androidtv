@@ -553,11 +553,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
                     }
                 }
-                Timber.d("Key Code: " + String.valueOf(keyCode));
-
-                //166 up
-                //167 down
-
+                
                 if (!mGuideVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
                 else {
