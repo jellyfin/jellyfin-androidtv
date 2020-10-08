@@ -517,7 +517,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
                 if (mPlaybackController.isLiveTv()) {
-                    if (mChannelNumberVisible && KeyUtilsKt.isDPADCenter(keyCode)) {
+                    if (mChannelNumberVisible && KeyUtilsKt.isSelect(keyCode)) {
                         mHandler.removeCallbacks(mHideNumberTask);
                         switchChannelByNumber(mChannelNumber);
                         hideChannelNumberView();
@@ -525,7 +525,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     }
 
                     if (!mGuideVisible) {
-                        if (keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
+                        if (KeyUtilsKt.isNumber(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             if (mPopupPanelVisible)
                                 hidePopupPanel();
@@ -543,11 +543,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         } else if (keyCode == KeyEvent.KEYCODE_LAST_CHANNEL) {
                             switchChannel(TvManager.getPrevLiveTvChannel());
                             return true;
-                        } else if (KeyUtilsKt.isChannelDown(keyCode)) {
+                        } else if (KeyUtilsKt.isChannelSurfDown(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(false);
                             return true;
-                        } else if (KeyUtilsKt.isChannelUp(keyCode)) {
+                        } else if (KeyUtilsKt.isChannelSurfUp(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(true);
                             return true;
