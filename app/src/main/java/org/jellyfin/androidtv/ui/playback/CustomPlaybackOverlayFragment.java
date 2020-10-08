@@ -71,6 +71,7 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.KeyUtilsKt;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -516,7 +517,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
                 if (mPlaybackController.isLiveTv()) {
-                    if (mChannelNumberVisible && keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                    if (mChannelNumberVisible && KeyUtilsKt.isDPADCenter(keyCode)) {
                         mHandler.removeCallbacks(mHideNumberTask);
                         switchChannelByNumber(mChannelNumber);
                         hideChannelNumberView();
@@ -542,18 +543,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         } else if (keyCode == KeyEvent.KEYCODE_LAST_CHANNEL) {
                             switchChannel(TvManager.getPrevLiveTvChannel());
                             return true;
-                        } else if (keyCode == KeyEvent.KEYCODE_CHANNEL_DOWN) {
+                        } else if (KeyUtilsKt.isChannelDown(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(false);
                             return true;
-                        } else if (keyCode == KeyEvent.KEYCODE_CHANNEL_UP) {
+                        } else if (KeyUtilsKt.isChannelUp(keyCode)) {
                             leanbackOverlayFragment.setShouldShowOverlay(false);
                             channelButton(true);
                             return true;
                         }
                     }
                 }
-                
+
                 if (!mGuideVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
                 else {
