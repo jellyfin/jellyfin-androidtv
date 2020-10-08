@@ -150,6 +150,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     Animation hidePopup;
     Handler mHandler = new Handler();
     Runnable mHideTask;
+    private Runnable mHideNumberTask;
 
     TvApp mApplication;
     PlaybackOverlayActivity mActivity;
@@ -208,6 +209,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (mIsVisible) {
                     hide();
                     leanbackOverlayFragment.hideOverlay();
+                }
+            }
+        };
+
+        mHideNumberTask = new Runnable() {
+            @Override
+            public void run() {
+                if (mChannelNumberVisible) {
+                    //Hide channel number text view
+                    switchChannelByNumber(mChannelNumber);
+                    hideChannelNumberView();
                 }
             }
         };
@@ -467,6 +479,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (mPlaybackController.isLiveTv()) hide();
             } else if (mGuideVisible) {
                 hideGuide();
+            } else if (mChannelNumberVisible) {
+                mHandler.removeCallbacks(mHideNumberTask);
+                hideChannelNumberView();
             } else {
                 mActivity.finish();
             }
@@ -498,18 +513,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
 
                 if (mChannelNumberVisible && keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-                    List<ChannelInfoDto> channels = TvManager.getAllChannels();
-                    for (ChannelInfoDto channel:
-                         channels) {
-                        if (channel.getNumber().equals(mChannelNumber)) {
-                            switchChannel(channel.getId());
-                            break;
-                        }
-                    }
-
-                    mChannelNumber = "";
-                    mChannelNumberVisible = false;
-                    mChannelNumberView.setVisibility(View.GONE);
+                    mHandler.removeCallbacks(mHideNumberTask);
+                    switchChannelByNumber(mChannelNumber);
+                    hideChannelNumberView();
                 }
 
                 if (!mGuideVisible && keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
@@ -523,6 +529,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     mChannelNumberVisible = true;
                     mChannelNumberView.setVisibility(View.VISIBLE);
                     mChannelNumberTextView.setText(mChannelNumber);
+
+                    mHandler.removeCallbacks(mHideNumberTask);
+                    mHandler.postDelayed(mHideNumberTask, 5000);
                 }
                 Timber.d("Key Code: " + String.valueOf(keyCode));
 
@@ -662,6 +671,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             return false;
         }
     };
+
+    private void switchChannelByNumber(String number) {
+        List<ChannelInfoDto> channels = TvManager.getAllChannels();
+        for (ChannelInfoDto channel:
+                channels) {
+            if (channel.getNumber().equals(number)) {
+                switchChannel(channel.getId());
+                break;
+            }
+        }
+    }
+
+    private void hideChannelNumberView() {
+        mChannelNumber = "";
+        mChannelNumberVisible = false;
+        mChannelNumberView.setVisibility(View.GONE);
+    }
 
     public long getCurrentLocalStartDate() {
         return mCurrentLocalGuideStart;
