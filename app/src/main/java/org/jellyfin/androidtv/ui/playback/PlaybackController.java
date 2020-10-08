@@ -903,7 +903,6 @@ public class PlaybackController {
                         channel.setOverview(program.getOverview());
                         channel.setRunTimeTicks(program.getRunTimeTicks());
                         channel.setCurrentProgram(program);
-                        channel.setChannelId(program.getChannelId());
                         mCurrentProgramEndTime = channel.getEndDate() != null ? TimeUtils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
                         mCurrentProgramStartTime = channel.getPremiereDate() != null ? TimeUtils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
                         mFragment.updateDisplay();

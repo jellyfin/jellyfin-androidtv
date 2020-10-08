@@ -88,6 +88,8 @@ import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -709,28 +711,38 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mAllChannels = TvManager.getAllChannels();
 
         if (mAllChannels.size() > 0) {
+            List<ChannelInfoDto> tempList = mAllChannels;
             if ("DatePlayed".equals(TvManager.getPrefs().channelOrder)) {
-                //Sort by channel number
+                Collections.sort(tempList, new Comparator<ChannelInfoDto>() {
+                    @Override
+                    public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
+                        return Integer.parseInt(channelOne.getNumber()) - Integer.parseInt(channelTwo.getNumber());
+                    }
+                });
             }
 
-            String id = mPlaybackController.getCurrentlyPlayingItem().getChannelId();
+            String id = mPlaybackController.getCurrentlyPlayingItem().getId();
 
             if (id == null) {
                 mChannelOffset = oldOffset;
                 return;
             }
 
-            int curChannelNdx = TvManager.getAllChannelsIndex(id);
+            int curChannelNdx = -1;
+            for (int i = 0; i < tempList.size(); i++) {
+                if (tempList.get(i).getId().equals(id)) {
+                    curChannelNdx = i;
+                    break;
+                }
+            }
 
-            if (curChannelNdx + mChannelOffset < 0 || curChannelNdx + mChannelOffset > (mAllChannels.size() - 1)) {
+            if (curChannelNdx + mChannelOffset < 0 || curChannelNdx + mChannelOffset > (tempList.size() - 1) || curChannelNdx == -1) {
                 mChannelOffset = oldOffset;
                 return;
             }
 
-            ChannelInfoDto channel =  TvManager.getChannel(curChannelNdx + mChannelOffset);
-
             mChannelNumberVisible = true;
-            mChannelNumber = channel.getNumber();
+            mChannelNumber = tempList.get(curChannelNdx + mChannelOffset).getNumber();
             mChannelNumberView.setVisibility(View.VISIBLE);
             mChannelNumberTextView.setText(mChannelNumber);
 
