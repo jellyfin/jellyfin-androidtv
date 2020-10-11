@@ -584,11 +584,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     }
 
-    public void setVideoFullSize() {
+    public void setVideoFullSize(){
+        setVideoFullSize(false);
+    }
+
+    public void setVideoFullSize(boolean force) {
         if (normalHeight == 0) return;
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
-        lp.height = normalHeight;
-        lp.width = normalWidth;
+        if (force) {
+            lp.height = -1;
+            lp.width = -1;
+        } else {
+            lp.height = normalHeight;
+            lp.width = normalWidth;
+        }
         if (nativeMode) {
             lp.rightMargin = 0;
             lp.bottomMargin = 0;

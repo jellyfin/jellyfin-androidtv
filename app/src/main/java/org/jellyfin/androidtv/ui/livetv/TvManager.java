@@ -52,8 +52,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class TvManager {
-    private static final String DISPLAY_PREFS_APP_NAME = "jellyfin";
-
     private static List<ChannelInfoDto> allChannels;
     private static String[] channelIds;
     private static HashMap<String, ArrayList<BaseItemDto>> mProgramsDict = new HashMap<>();
@@ -155,7 +153,7 @@ public class TvManager {
         current.put("guide-indicator-premiere", String.valueOf(newPrefs.showPremiereIndicator));
         current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
 
-        TvApp.getApplication().updateDisplayPrefs(DISPLAY_PREFS_APP_NAME, displayPrefs);
+        TvApp.getApplication().updateDisplayPrefs(TvApp.DISPLAY_PREFS_APP_NAME, displayPrefs);
         allChannels = null; //force a re-fetch
     }
 
@@ -166,7 +164,7 @@ public class TvManager {
             prefs.colorCodeGuide = Boolean.parseBoolean(customPrefs.get("guide-colorcodedbackgrounds"));
             prefs.favsAtTop = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-favoritechannelsattop"),"true"));
             prefs.showHDIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-hd"));
-            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-guide-indicator-live"),"true"));
+            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-live"),"true"));
             prefs.showNewIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-new"));
             prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-premiere"),"true"));
             prefs.showRepeatIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-repeat"));
@@ -174,7 +172,7 @@ public class TvManager {
     }
 
     private static void getLiveTvPrefs(final EmptyResponse outerResponse) {
-        TvApp.getApplication().getDisplayPrefsAsync("usersettings", DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
+        TvApp.getApplication().getDisplayPrefsAsync("usersettings", TvApp.DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
             @Override
             public void onResponse(DisplayPreferences response) {
                 displayPrefs = response;
@@ -246,6 +244,17 @@ public class TvManager {
                         return result == 0 ? 0 : result > 0 ? 1 : -1;
                     }
                 }));
+            }
+
+            if (prefs.favsAtTop) {
+                Collections.sort(allChannels, new Comparator<ChannelInfoDto>() {
+                    @Override
+                    public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
+                        boolean channelOneFav = channelOne.getUserData() != null && channelOne.getUserData().getIsFavorite();
+                        boolean channelTwoFav = channelTwo.getUserData() != null && channelTwo.getUserData().getIsFavorite();
+                        return -Boolean.compare(channelOneFav, channelTwoFav);
+                    }
+                });
             }
 
             //And  fill in channel IDs

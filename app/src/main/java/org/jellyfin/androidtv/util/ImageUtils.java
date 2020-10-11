@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.util;
 import android.content.ContentResolver;
 import android.content.res.Resources;
 
+import androidx.annotation.AnyRes;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -15,15 +17,10 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.AnyRes;
-
-import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
 
@@ -52,6 +49,9 @@ public class ImageUtils {
             }
         }
 
+        if (item.getBaseItemType() == BaseItemType.UserView && item.getHasPrimaryImage())
+            return ImageUtils.ASPECT_RATIO_16_9;
+
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
     }
 
@@ -69,17 +69,6 @@ public class ImageUtils {
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetImageUrl(studio.getId(), options);
-    }
-
-    public static String getPrimaryImageUrl(SeriesTimerInfoDto timer, ApiClient apiClient, int maxHeight) {
-        if (timer.getProgramId() == null) {
-            return null;
-        }
-        Timber.d("***** Program ID: %s", timer.getProgramId());
-        ImageOptions options = new ImageOptions();
-        options.setMaxHeight(maxHeight);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetImageUrl(timer.getProgramId(), options);
     }
 
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {

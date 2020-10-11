@@ -405,4 +405,6 @@
     <string name="lbl_program_ended">நிரல் முடிந்தது</string>
     <string name="lbl_begin_padding">திணிப்பு தொடங்குங்கள்</string>
     <string name="msg_will_record">பதிவு செய்யப்படும்</string>
+    <string name="lbl_tv_filter_status">அடுத்த %1$d மணிநேரங்களுக்கு</string>
+    <string name="lbl_tv_channel_status">%2$d சேனல்களில் %1$d</string>
 </resources>

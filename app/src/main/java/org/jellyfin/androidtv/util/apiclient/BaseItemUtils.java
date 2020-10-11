@@ -6,6 +6,7 @@ import android.text.format.DateFormat;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -70,6 +71,10 @@ public class BaseItemUtils {
                 return item.getOfficialRating();
         }
 
+    }
+
+    public static String getProgramUnknownChannelName(BaseItemDto baseItem) {
+        return TvManager.getChannel(TvManager.getAllChannelsIndex(baseItem.getChannelId())).getName();
     }
 
     public static String getProgramSubText(BaseItemDto baseItem) {

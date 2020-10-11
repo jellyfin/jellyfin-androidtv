@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.di
 
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
-import org.jellyfin.androidtv.ui.playback.PlaybackManager
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.android

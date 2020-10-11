@@ -13,10 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -24,6 +27,8 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 
 import java.util.Date;
@@ -34,33 +39,34 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveProgramDetailPopup {
-    final int MOVIE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 540);
-    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
+    private final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
-    PopupWindow mPopup;
-    BaseItemDto mProgram;
-    ProgramGridCell mSelectedProgramView;
-    BaseActivity mActivity;
-    TextView mDTitle;
-    TextView mDSummary;
-    TextView mDRecordInfo;
-    LinearLayout mDTimeline;
-    LinearLayout mDInfoRow;
-    LinearLayout mDButtonRow;
-    LinearLayout mDSimilarRow;
-    Button mFirstButton;
-    Button mSeriesSettingsButton;
+    private PopupWindow mPopup;
+    private BaseItemDto mProgram;
+    private ProgramGridCell mSelectedProgramView;
+    private BaseActivity mActivity;
+    private ILiveTvGuide mTvGuide;
+    private TextView mDTitle;
+    private TextView mDSummary;
+    private TextView mDRecordInfo;
+    private LinearLayout mDTimeline;
+    private LinearLayout mDInfoRow;
+    private LinearLayout mDButtonRow;
+    private LinearLayout mDSimilarRow;
+    private Button mFirstButton;
+    private Button mSeriesSettingsButton;
 
-    EmptyResponse mTuneAction;
+    private EmptyResponse mTuneAction;
 
-    View mAnchor;
-    int mPosLeft;
-    int mPosTop;
+    private View mAnchor;
+    private int mPosLeft;
+    private int mPosTop;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
-    public LiveProgramDetailPopup(BaseActivity activity, int width, EmptyResponse tuneAction) {
+    public LiveProgramDetailPopup(BaseActivity activity, ILiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
         mActivity = activity;
+        mTvGuide = tvGuide;
         mTuneAction = tuneAction;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.program_detail_popup, null);
@@ -90,6 +96,7 @@ public class LiveProgramDetailPopup {
         if (program.getId() == null) {
             //empty item, just offer tune button
             mFirstButton = createTuneButton();
+            createFavoriteButton();
             mDInfoRow.removeAllViews();
             mDTimeline.removeAllViews();
             mDSummary.setText("");
@@ -308,6 +315,8 @@ public class LiveProgramDetailPopup {
                 createTuneButton();
             }
 
+            createFavoriteButton();
+
 
         } else {
             // program has already ended
@@ -335,6 +344,37 @@ public class LiveProgramDetailPopup {
         });
 
         return tune;
+    }
+
+    public android.widget.ImageButton createFavoriteButton() {
+        ChannelInfoDto channel = TvManager.getChannel(TvManager.getAllChannelsIndex(mProgram.getChannelId()));
+        boolean isFav = channel.getUserData() != null && channel.getUserData().getIsFavorite();
+
+        android.widget.ImageButton fave = addImgButton(mDButtonRow, isFav ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+        fave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                apiClient.getValue().UpdateFavoriteStatusAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), !channel.getUserData().getIsFavorite(), new Response<UserItemDataDto>() {
+                    @Override
+                    public void onResponse(UserItemDataDto response) {
+                        channel.setUserData(response);
+                        fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
+                        mTvGuide.refreshFavorite(channel.getId());
+                        TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                    }
+                });
+            }
+        });
+
+        return fave;
+    }
+
+    private android.widget.ImageButton addImgButton(LinearLayout layout, int imgResource) {
+        android.widget.ImageButton btn = new android.widget.ImageButton(mActivity);
+        btn.setImageDrawable(ContextCompat.getDrawable(mActivity, imgResource));
+        btn.setBackgroundResource(R.drawable.jellyfin_button);
+        layout.addView(btn);
+        return btn;
     }
 
     private Button addButton(LinearLayout layout, int stringResource) {

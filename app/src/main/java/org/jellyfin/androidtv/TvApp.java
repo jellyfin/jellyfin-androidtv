@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import androidx.core.content.ContextCompat;
+
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraDialog;
@@ -18,13 +20,13 @@ import org.jellyfin.androidtv.di.PlaybackModuleKt;
 import org.jellyfin.androidtv.di.PreferenceModuleKt;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks;
-import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
+import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks;
+import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -56,6 +58,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 )
 @AcraLimiter
 public class TvApp extends Application {
+    public static final String DISPLAY_PREFS_APP_NAME = "ATV";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
 
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
@@ -195,14 +198,6 @@ public class TvApp extends Application {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
-    public Drawable getDrawableCompat(int id) {
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            return getDrawable(id);
-//        }
-
-        return getResources().getDrawable(id);
-    }
-
     public DisplayPreferences getCachedDisplayPrefs(String key) {
         return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
     }
@@ -218,7 +213,7 @@ public class TvApp extends Application {
     }
 
     public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
-        getDisplayPrefsAsync(key, "ATV", response);
+        getDisplayPrefsAsync(key, DISPLAY_PREFS_APP_NAME, response);
     }
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
@@ -231,7 +226,8 @@ public class TvApp extends Application {
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
-                    displayPrefsCache.put(key, response);
+                    if (app.equals(TvApp.DISPLAY_PREFS_APP_NAME))
+                        displayPrefsCache.put(key, response);
                     Timber.d("Display prefs loaded and saved in cache %s", key);
                     outerResponse.onResponse(response);
                 }

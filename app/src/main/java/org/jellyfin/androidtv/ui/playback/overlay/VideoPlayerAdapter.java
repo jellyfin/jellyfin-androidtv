@@ -33,13 +33,13 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public void rewind() {
-        playbackController.skip(-30000);
+        playbackController.rewind();
         updateCurrentPosition();
     }
 
     @Override
     public void fastForward() {
-        playbackController.skip(30000);
+        playbackController.fastForward();
         updateCurrentPosition();
     }
 

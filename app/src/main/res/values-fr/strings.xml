@@ -389,4 +389,20 @@
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
     <string name="mark_watched_message">L\'entrée ne semble pas avoir été jouée autant longtemps que sa durée. Marquer comme vu \?</string>
+    <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
+    <string name="msg_added_to_video">%1$s ajouté à la liste de lecture. Prend fin : %2$s</string>
+    <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer...</string>
+    <string name="seek_error">Impossible de chercher</string>
+    <string name="msg_live_tv_prev">Charger les précédentes %1$d heures \?</string>
+    <string name="msg_live_tv_next">Charger les prochaines %1$d heures \?</string>
+    <string name="lbl_load_guide_data">Charger données du Guide</string>
+    <string name="mark_watched">Marquer comme lue</string>
+    <string name="turn_off">Désactiver cette option</string>
+    <string name="not_deleted">Élément NON Supprimé</string>
+    <string name="lbl_deleted">%1$s Supprimé</string>
+    <string name="favorite_error">Erreur d\'enregistrement du statut favori</string>
+    <string name="playing_error">Erreur d\'enregistrement du statut de lecture</string>
+    <string name="just_one">Celui-ci uniquement</string>
+    <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
+    <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>
 </resources>

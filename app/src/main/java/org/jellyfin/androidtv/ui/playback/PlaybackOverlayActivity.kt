@@ -32,6 +32,15 @@ class PlaybackOverlayActivity : BaseActivity() {
 		if (keyListener?.onKey(currentFocus, keyCode, event) == true)
 			return true
 
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			val frag = supportFragmentManager.fragments.get(0)
+			if (frag is CustomPlaybackOverlayFragment) {
+				frag.onKeyUp(keyCode, event)
+				return true
+			}
+
+		}
+
 		val playbackController = TvApp.getApplication().playbackController
 
 		when (keyCode) {
@@ -46,5 +55,27 @@ class PlaybackOverlayActivity : BaseActivity() {
 		}
 
 		return true
+	}
+
+	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			event?.startTracking()
+			return true
+		}
+
+		return super.onKeyDown(keyCode, event)
+	}
+
+	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			val frag = supportFragmentManager.fragments.get(0)
+			if (frag is CustomPlaybackOverlayFragment) {
+				frag.onKeyLongPress(keyCode, event)
+				return true
+			}
+
+		}
+
+		return super.onKeyLongPress(keyCode, event)
 	}
 }

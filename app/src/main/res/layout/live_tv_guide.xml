@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <org.jellyfin.androidtv.ui.ObservableScrollView
         android:layout_width="160sp"
         android:layout_height="match_parent"
         android:id="@+id/channelScroller"
@@ -22,7 +23,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:id="@+id/channels" />
-    </ScrollView>
+    </org.jellyfin.androidtv.ui.ObservableScrollView>
 
     <org.jellyfin.androidtv.ui.ObservableScrollView
         android:layout_width="match_parent"
@@ -84,7 +85,7 @@
         android:id="@+id/backdrop"
         android:layout_above="@+id/timelineHScroller"
         android:layout_alignParentTop="true"
-        android:tint="@color/black_opaque"
+        app:tint="@color/black_opaque"
         android:scaleType="centerCrop" />
 
     <org.jellyfin.androidtv.ui.ClockUserView

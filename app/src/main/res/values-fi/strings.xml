@@ -219,4 +219,5 @@
     <string name="home_title">Koti</string>
     <string name="title_activity_select_user">ValitseKäyttäjänToiminta</string>
     <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
+    <string name="lbl_login_as">"Kirjaudu käyttäjänä "</string>
 </resources>

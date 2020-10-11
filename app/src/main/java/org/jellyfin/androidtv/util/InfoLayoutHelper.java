@@ -14,15 +14,14 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class InfoLayoutHelper {
 
@@ -41,11 +40,15 @@ public class InfoLayoutHelper {
         }
     }
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
-        addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+        layout.removeAllViews();
+        if (item.getId() != null) {
+            addInfoRow(activity, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+        }else{
+            addProgramChannel(activity, item, layout);
+        }
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        layout.removeAllViews();
         addCriticInfo(activity, item, layout);
         switch (item.getBaseItemType()) {
             case Episode:
@@ -139,16 +142,6 @@ public class InfoLayoutHelper {
         }
     }
 
-    private static void addSeasonCount(Activity activity, BaseItemDto item, LinearLayout layout) {
-        if (item.getChildCount() != null && item.getChildCount() > 0) {
-            TextView amt = new TextView(activity);
-            amt.setTextSize(textSize);
-            amt.setText(item.getChildCount().toString()+" "+ (item.getChildCount() == 1 ? activity.getResources().getString(R.string.lbl_season) : activity.getResources().getString(R.string.lbl_seasons)) +"  ");
-            layout.addView(amt);
-
-        }
-    }
-
     private static void addRecordingCount(Activity activity, BaseItemDto item, LinearLayout layout) {
         if (item.getRecordingCount() != null && item.getRecordingCount() > 0) {
             TextView amt = new TextView(activity);
@@ -166,6 +159,13 @@ public class InfoLayoutHelper {
             layout.addView(textView);
 
         }
+    }
+
+    private static void addProgramChannel(Activity activity, BaseItemDto item, LinearLayout layout){
+        TextView name = new TextView(activity);
+        name.setTextSize(textSize);
+        name.setText(BaseItemUtils.getProgramUnknownChannelName(item));
+        layout.addView(name);
     }
 
     private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
@@ -404,14 +404,5 @@ public class InfoLayoutHelper {
         mSpacer.setTextSize(size);
         mSpacer.setText(sp);
         layout.addView(mSpacer);
-    }
-
-    public static void addResourceImage(Activity activity, LinearLayout layout, int imgResource, int width, int height) {
-        ImageView image = new ImageView(activity);
-        image.setImageResource(imgResource);
-        if (width > 0) image.setMaxWidth(width);
-        if (height > 0) image.setMaxHeight(height);
-        image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        layout.addView(image);
     }
 }

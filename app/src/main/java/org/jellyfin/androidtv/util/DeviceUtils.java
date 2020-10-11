@@ -30,10 +30,10 @@ public class DeviceUtils {
     }
 
     public static boolean is50() {
-        return Build.VERSION.SDK_INT >= 21;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static boolean is60() {
-        return Build.VERSION.SDK_INT >= 23;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }
