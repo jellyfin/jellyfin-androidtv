@@ -405,4 +405,6 @@
     <string name="just_one">Celui-ci uniquement</string>
     <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
     <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>
+    <string name="like_setting_error">Erreur d\'enregistrement du statut Aime</string>
+    <string name="like_clearing_error">Erreur de vidage du statut Aime</string>
 </resources>
