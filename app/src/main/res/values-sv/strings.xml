@@ -374,4 +374,5 @@
     <string name="pref_button_remapping_category">Mappa om knappar</string>
     <string name="lbl_unknown_key">Okänd (%1s)</string>
     <string name="mark_watched">Markera uppspelad</string>
+    <string name="lbl_tv_channel_status">%1$d av %2$d kanaler</string>
 </resources>
