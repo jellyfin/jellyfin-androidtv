@@ -2,30 +2,15 @@ package org.jellyfin.androidtv;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 
-import androidx.core.content.ContextCompat;
-
-import org.acra.ACRA;
-import org.acra.annotation.AcraCore;
-import org.acra.annotation.AcraDialog;
-import org.acra.annotation.AcraHttpSender;
-import org.acra.annotation.AcraLimiter;
-import org.acra.sender.HttpSender;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.LogonCredentials;
-import org.jellyfin.androidtv.di.AppModuleKt;
-import org.jellyfin.androidtv.di.PlaybackModuleKt;
-import org.jellyfin.androidtv.di.PreferenceModuleKt;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks;
-import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -34,29 +19,15 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
-import org.koin.android.java.KoinAndroidApplication;
-import org.koin.core.KoinApplication;
-import org.koin.core.context.GlobalContext;
 
 import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.core.context.ContextFunctionsKt.startKoin;
 import static org.koin.java.KoinJavaComponent.inject;
 
-@AcraCore(buildConfigClass = BuildConfig.class)
-@AcraHttpSender(
-        uri = "https://collector.tracepot.com/a2eda9d9",
-        httpMethod = HttpSender.Method.POST
-)
-@AcraDialog(
-        resTitle = R.string.acra_dialog_title,
-        resText = R.string.acra_dialog_text,
-        resTheme = R.style.Theme_Jellyfin
-)
-@AcraLimiter
+
 public class TvApp extends Application {
     public static final String DISPLAY_PREFS_APP_NAME = "ATV";
     public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
@@ -87,33 +58,10 @@ public class TvApp extends Application {
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-
-        ACRA.init(this);
-    }
-
-    @Override
     public void onCreate() {
         super.onCreate();
 
-        app = (TvApp) getApplicationContext();
-
-        // Start Koin
-        KoinApplication koin = KoinAndroidApplication.create(this)
-                .modules(
-                        AppModuleKt.getAppModule(),
-                        PlaybackModuleKt.getPlaybackModule(),
-                        PreferenceModuleKt.getPreferenceModule()
-                );
-        startKoin(new GlobalContext(), koin);
-
-        registerActivityLifecycleCallbacks(new AuthenticatedUserCallbacks());
-        registerActivityLifecycleCallbacks(new AppThemeCallbacks());
-
-        // Initialize the logging library
-        Timber.plant(new Timber.DebugTree());
-        Timber.i("Application object created");
+        app = this;
     }
 
     public static TvApp getApplication() {
@@ -221,11 +169,12 @@ public class TvApp extends Application {
             Timber.d("Display prefs loaded from cache %s", key);
             outerResponse.onResponse(displayPrefsCache.get(key));
         } else {
-            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>(){
+            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>() {
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
-                    if (response.getCustomPrefs() == null) response.setCustomPrefs(new HashMap<String, String>());
+                    if (response.getCustomPrefs() == null)
+                        response.setCustomPrefs(new HashMap<String, String>());
                     if (app.equals(TvApp.DISPLAY_PREFS_APP_NAME))
                         displayPrefsCache.put(key, response);
                     Timber.d("Display prefs loaded and saved in cache %s", key);
