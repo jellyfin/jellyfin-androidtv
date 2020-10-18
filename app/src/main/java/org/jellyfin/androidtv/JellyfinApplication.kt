@@ -7,11 +7,11 @@ import org.acra.annotation.AcraDialog
 import org.acra.annotation.AcraHttpSender
 import org.acra.annotation.AcraLimiter
 import org.acra.sender.HttpSender
+import org.jellyfin.androidtv.di.activityLifecycleCallbacksModule
 import org.jellyfin.androidtv.di.appModule
 import org.jellyfin.androidtv.di.playbackModule
 import org.jellyfin.androidtv.di.preferenceModule
-import org.jellyfin.androidtv.ui.shared.AppThemeCallbacks
-import org.jellyfin.androidtv.ui.shared.AuthenticatedUserCallbacks
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -42,14 +42,14 @@ class JellyfinApplication : TvApp() {
 
 			modules(
 				appModule,
+				activityLifecycleCallbacksModule,
 				playbackModule,
 				preferenceModule
 			)
 		}
 
 		// Register lifecycle callbacks
-		registerActivityLifecycleCallbacks(AuthenticatedUserCallbacks())
-		registerActivityLifecycleCallbacks(AppThemeCallbacks())
+		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 
 		// Initialize the logging library
 		Timber.plant(DebugTree())
