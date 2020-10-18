@@ -31,12 +31,6 @@ import timber.log.Timber.DebugTree
 )
 @AcraLimiter
 class JellyfinApplication : TvApp() {
-	override fun attachBaseContext(base: Context?) {
-		super.attachBaseContext(base)
-
-		ACRA.init(this)
-	}
-
 	override fun onCreate() {
 		super.onCreate()
 
@@ -60,5 +54,11 @@ class JellyfinApplication : TvApp() {
 		// Initialize the logging library
 		Timber.plant(DebugTree())
 		Timber.i("Application object created")
+	}
+
+	override fun attachBaseContext(base: Context?) {
+		super.attachBaseContext(base)
+
+		ACRA.init(this)
 	}
 }
