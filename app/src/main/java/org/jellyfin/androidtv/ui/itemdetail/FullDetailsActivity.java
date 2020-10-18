@@ -890,7 +890,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         });
 
         //playButton becomes playWith button
-        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Video)) {
+        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Video || mBaseItem.getBaseItemType() == BaseItemType.Episode)) {
             playButton = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
