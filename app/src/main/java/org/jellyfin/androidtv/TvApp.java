@@ -44,7 +44,6 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
 
     private int autoBitrate;
-    private String directItemId;
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
@@ -84,7 +83,7 @@ public class TvApp extends Application {
     /**
      * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
      */
-    @Deprecated()
+    @Deprecated
     public BaseActivity getCurrentActivity() {
         return currentActivity;
     }
@@ -208,14 +207,6 @@ public class TvApp extends Application {
                 Timber.i("Auto bitrate set to: %d", autoBitrate);
             }
         });
-    }
-
-    public String getDirectItemId() {
-        return directItemId;
-    }
-
-    public void setDirectItemId(String directItemId) {
-        this.directItemId = directItemId;
     }
 
     public BaseItemDto getLastPlayedItem() {
