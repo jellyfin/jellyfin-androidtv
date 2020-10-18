@@ -128,19 +128,6 @@ public class TvApp extends Application {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
-    /**
-     * @deprecated Use `getUserPreferences().getResumePreroll()`
-     */
-    @Deprecated
-    public int getResumePreroll() {
-        try {
-            return Integer.parseInt(userPreferences.getValue().get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
-        } catch (Exception e) {
-            Timber.e(e, "Unable to parse resume preroll");
-            return 0;
-        }
-    }
-
     public boolean canManageRecordings() {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }

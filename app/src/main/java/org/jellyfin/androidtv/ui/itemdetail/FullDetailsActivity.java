@@ -58,6 +58,8 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -211,6 +213,15 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     }
 
+    private int getResumePreroll() {
+        try {
+            return Integer.parseInt(get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+        } catch (Exception e) {
+            Timber.e(e, "Unable to parse resume preroll");
+            return 0;
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -237,7 +248,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         boolean resumeVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()) {
-                                            mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll())));
+                                            mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
                                         }
                                         if (resumeVisible) {
                                             mResumeButton.requestFocus();
@@ -853,7 +864,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         } else {
             long startPos = 0;
             if (mBaseItem.getCanResume()) {
-                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - mApplication.getResumePreroll();
+                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
@@ -884,7 +895,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 } else {
                     //resume
                     Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                    play(mBaseItem, pos.intValue() - mApplication.getResumePreroll(), false);
+                    play(mBaseItem, pos.intValue() - getResumePreroll(), false);
 
                 }
             }
@@ -1158,8 +1169,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             mDetailsOverviewRow.addAction(mPrevButton);
 
-
-
             //now go get our prev episode id
             EpisodeQuery adjacent = new EpisodeQuery();
             adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -1284,7 +1293,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 more.show();
             }
         });
-
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
