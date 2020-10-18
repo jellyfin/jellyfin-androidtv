@@ -26,5 +26,11 @@ enum class PreferredVideoPlayer {
 	 * Use external player
 	 */
 	@EnumDisplayOptions(R.string.pref_video_player_external)
-	EXTERNAL
+	EXTERNAL,
+
+	/**
+	 * Choose a player - play with button
+	 */
+	@EnumDisplayOptions(R.string.pref_video_player_choose)
+	CHOOSE
 }
