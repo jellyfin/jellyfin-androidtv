@@ -114,5 +114,5 @@
     <string name="lbl_status">%s / %s</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="dpad_pw_cancel">* Mantenga pulsado el botón \'abajo\' durante 1 segundo y suéltelo. Si tiene una contraseña compuesta por letras, necesita un teclado para ingresarla</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Seleccionar actividad del usuario</string>
 </resources>
