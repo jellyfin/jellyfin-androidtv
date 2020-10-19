@@ -407,4 +407,9 @@
     <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>
     <string name="like_setting_error">Erreur d\'enregistrement du statut Aime</string>
     <string name="like_clearing_error">Erreur de vidage du statut Aime</string>
+    <string name="play_with">Lecture avec</string>
+    <string name="play_with_external_app">Lecture avec une application externe</string>
+    <string name="play_with_exo_player">Lecture avec ExoPlayer</string>
+    <string name="play_with_vlc">Lecture avec libVLC</string>
+    <string name="pref_video_player_choose">Toujours demander</string>
 </resources>
