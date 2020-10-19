@@ -243,14 +243,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MediaManager.isPlayingAudio()) {
-                    MediaManager.pauseAudio();
-                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
-                }
-                else {
-                    MediaManager.resumeAudio();
-                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
-                }
+                if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio();
+                else MediaManager.resumeAudio();
             }
         });
 
