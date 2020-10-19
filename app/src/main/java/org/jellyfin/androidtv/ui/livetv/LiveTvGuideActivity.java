@@ -91,9 +91,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private HorizontalScrollView mTimelineScroller;
     private View mSpinner;
     private View mResetButton;
-    private View mFilterButton;
-    private View mOptionsButton;
-    private View mDateButton;
 
     private BaseItemDto mSelectedProgram;
     private ProgramGridCell mSelectedProgramView;
@@ -139,7 +136,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
 
-        mFilterButton = findViewById(R.id.filterButton);
+        View mFilterButton = findViewById(R.id.filterButton);
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +145,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         });
         mFilterButton.setContentDescription(getString(R.string.lbl_filters));
 
-        mOptionsButton = findViewById(R.id.optionsButton);
+        View mOptionsButton = findViewById(R.id.optionsButton);
         mOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,7 +154,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         });
         mOptionsButton.setContentDescription(getString(R.string.lbl_other_options));
 
-        mDateButton = findViewById(R.id.dateButton);
+        View mDateButton = findViewById(R.id.dateButton);
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

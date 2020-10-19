@@ -441,8 +441,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 if (!playing) {
                     mPlayPauseButton.setState(ImageButton.STATE_PRIMARY);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
-                }
-                else {
+                } else {
                     mPlayPauseButton.setState(ImageButton.STATE_SECONDARY);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
                 }
