@@ -407,4 +407,9 @@
     <string name="mark_watched">Označit jako zhlédnuté</string>
     <string name="lbl_tv_filter_status">po dalších %1$d hodin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanálů</string>
+    <string name="play_with">Přehrát v</string>
+    <string name="play_with_external_app">Přehrát v externí aplikaci</string>
+    <string name="play_with_exo_player">Přehrát v ExoPlayer</string>
+    <string name="play_with_vlc">Přehrát v libVLC</string>
+    <string name="pref_video_player_choose">Pokaždé zeptat</string>
 </resources>
