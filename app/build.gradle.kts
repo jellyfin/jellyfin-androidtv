@@ -87,7 +87,7 @@ dependencies {
 
 	// Media players
 	implementation("com.amazon.android:exoplayer:2.11.3")
-	implementation("org.videolan.android:libvlc-all:3.2.5")
+	implementation("org.videolan.android:libvlc-all:3.3.2")
 
 	// Image utility
 	implementation("com.github.bumptech.glide:glide:4.11.0")
