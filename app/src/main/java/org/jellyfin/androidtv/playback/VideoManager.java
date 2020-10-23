@@ -31,9 +31,9 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
-import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
 import java.util.List;
