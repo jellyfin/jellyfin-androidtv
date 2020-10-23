@@ -407,4 +407,9 @@
     <string name="msg_will_record">பதிவு செய்யப்படும்</string>
     <string name="lbl_tv_filter_status">அடுத்த %1$d மணிநேரங்களுக்கு</string>
     <string name="lbl_tv_channel_status">%2$d சேனல்களில் %1$d</string>
+    <string name="play_with">செயல்பட</string>
+    <string name="play_with_external_app">வெளிப்புற பயன்பாட்டுடன் செயல்பட</string>
+    <string name="play_with_exo_player">ExoPlayer உடன் செயல்பட</string>
+    <string name="play_with_vlc">LibVLC உடன் செயல்பட</string>
+    <string name="pref_video_player_choose">எப்போதும் கேள்</string>
 </resources>

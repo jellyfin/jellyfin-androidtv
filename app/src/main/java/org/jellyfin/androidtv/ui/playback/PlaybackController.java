@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.ImageButton;
@@ -57,6 +58,7 @@ public class PlaybackController {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -485,6 +487,12 @@ public class PlaybackController {
                                                         !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts"))) &&
                                         (!DeviceUtils.isFireTvStick() ||
                                                 (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
+                            } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
+                                PreferredVideoPlayer preferredVideoPlayerByPlayWith = systemPreferences.getValue().get(SystemPreferences.Companion.getChosenPlayer());
+
+                                useVlc = preferredVideoPlayerByPlayWith == PreferredVideoPlayer.VLC;
+
+                                Timber.i("PREFERRED PLAYER %s", preferredVideoPlayerByPlayWith.name());
                             }
 
                             Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");

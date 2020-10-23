@@ -373,4 +373,17 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automatico</string>
+    <string name="audio_error">Impossibile riprodurre audio %1$s</string>
+    <string name="mark_watched">Segna come visto</string>
+    <string name="not_deleted">Oggetto NON eliminato</string>
+    <string name="play_with">Riproduci con</string>
+    <string name="play_with_external_app">Riproduci con app esterna</string>
+    <string name="play_with_exo_player">Riproduci con ExoPlayer</string>
+    <string name="play_with_vlc">Riproduci con libVLC</string>
+    <string name="just_one">Solo questo</string>
+    <string name="turn_off">Disattiva questa opzione</string>
+    <string name="subtitle_error">Impossibile selezionare sottotitolo</string>
+    <string name="pref_video_player_choose">Chiedi sempre</string>
+    <string name="lbl_tv_filter_status">per le prossime %1$d ore</string>
+    <string name="lbl_tv_channel_status">%1$d di %2$d canali</string>
 </resources>

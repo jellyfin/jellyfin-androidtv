@@ -373,4 +373,8 @@
     <string name="pref_subtitle_track_button">Ondertiteltrack-knop</string>
     <string name="pref_audio_track_button">Audiotrack-knop</string>
     <string name="pref_button_remapping_category">Knoppen opnieuw toewijzen</string>
+    <string name="mark_watched">Als gekeken markeren</string>
+    <string name="pref_video_player_choose">Altijd vragen</string>
+    <string name="lbl_tv_filter_status">voor de volgende %1$d uur</string>
+    <string name="lbl_tv_channel_status">%1$d van %2$d kanalen</string>
 </resources>

@@ -404,4 +404,7 @@
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
     <string name="episode_missing">Episodio Faltante</string>
     <string name="delete_warning">Se eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Desea continuar\?</string>
+    <string name="like_setting_error">Error aplicando estado de \"me gusta/no me gusta\"</string>
+    <string name="like_clearing_error">Error removiendo estado de \"me gusta/no me gusta\"</string>
+    <string name="seek_error">Incapaz de retroceder o avanzar</string>
 </resources>

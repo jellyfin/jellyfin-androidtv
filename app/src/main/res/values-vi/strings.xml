@@ -28,7 +28,7 @@
     <string name="lbl_empty">Trống</string>
     <string name="lbl_no_items">Không có mục nào</string>
     <string name="msg_cannot_play">Mục này không thể phát được</string>
-    <string name="msg_cannot_play_time">Không thể chơi mục này vào lúc này</string>
+    <string name="msg_cannot_play_time">Không thể phát mục này vào lúc này</string>
     <string name="lbl_never">Không bao giờ</string>
     <string name="msg_playback_incompatible">Không thể phát định dạng video này</string>
     <string name="msg_playback_restricted">Quản trị viên đã hạn chế phát lại mục này vào lúc này</string>
@@ -280,7 +280,7 @@
     <string name="lbl_use_vlc_livetv">Cố gắng sử dụng VLC cho Truyền hình trực tiếp</string>
     <string name="lbl_show_backdrop">Hiển thị Phông nền trong khi duyệt</string>
     <string name="lbl_open">Mở</string>
-    <string name="lbl_play_next_up">Chơi tiếp</string>
+    <string name="lbl_play_next_up">Phát Kế Tiếp</string>
     <string name="lbl_clear_queue">Xóa hàng đợi</string>
     <string name="desc_current_video_queue">Các mục video hiện được xếp hàng đợi để phát lại</string>
     <string name="lbl_current_queue">Hàng đợi hiện tại</string>
@@ -336,7 +336,7 @@
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
     <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
     <string name="msg_queue_saved">Hàng đợi được lưu dưới dạng danh sách phát mới: %1$s</string>
-    <string name="msg_no_items">Không có mục nào để chơi</string>
+    <string name="msg_no_items">Không có mục nào để phát</string>
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
     <string name="player_error">Đã gặp lỗi trình phát. Sẽ thử lại ...</string>
@@ -369,10 +369,10 @@
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
     <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho libVLC</string>
     <string name="pref_next_up_enabled_title">Bật màn hình Tiếp theo</string>
-    <string name="pref_next_up_enabled_summary">Xem trước mục được xếp hàng tiếp theo trước khi chơi</string>
+    <string name="pref_next_up_enabled_summary">Xem trước mục được xếp hàng tiếp theo trước khi phát</string>
     <string name="watch_now">Xem bây giờ</string>
     <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ Tiếp theo</string>
-    <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi chơi mục tiếp theo</string>
+    <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi phát mục tiếp theo</string>
     <string name="pref_media_player">Trình phát phương tiện ưu tiên</string>
     <string name="pref_video_player_external">Ứng dụng bên ngoài</string>
     <string name="pref_video_player_auto">Tự động chọn</string>
@@ -403,4 +403,9 @@
     <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
     <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
+    <string name="play_with_vlc">Phát với libVLC</string>
+    <string name="play_with">Phát với</string>
+    <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
+    <string name="play_with_exo_player">Phát với ExoPlayer</string>
+    <string name="pref_video_player_choose">Luôn luôn hỏi</string>
 </resources>

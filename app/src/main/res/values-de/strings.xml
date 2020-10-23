@@ -407,4 +407,9 @@
     <string name="mark_watched">Als gesehen markieren</string>
     <string name="lbl_tv_filter_status">für die nächsten %1$d Stunden</string>
     <string name="lbl_tv_channel_status">%1$d von %2$d Kanälen</string>
+    <string name="play_with">Abspielen mit</string>
+    <string name="play_with_external_app">Mit externer App abspielen</string>
+    <string name="play_with_exo_player">Mit ExoPlayer abspielen</string>
+    <string name="play_with_vlc">Mit libVLC abspielen</string>
+    <string name="pref_video_player_choose">Immer fragen</string>
 </resources>

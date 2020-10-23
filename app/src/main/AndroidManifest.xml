@@ -22,7 +22,7 @@
         android:required="false" />
 
     <application
-        android:name=".TvApp"
+        android:name=".JellyfinApplication"
         android:allowBackup="false"
         android:banner="@drawable/app_logo"
         android:icon="@drawable/ic_jellyfin"

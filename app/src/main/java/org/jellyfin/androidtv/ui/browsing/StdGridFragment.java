@@ -353,6 +353,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
+    protected ImageButton mSortButton;
+    protected ImageButton mSearchButton;
+    protected ImageButton mSettingsButton;
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
     protected ImageButton mLetterButton;
@@ -390,7 +393,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             }
         });
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_sort, size, new View.OnClickListener() {
+        mSortButton = new ImageButton(getActivity(), R.drawable.ic_sort, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Create sort menu
@@ -414,7 +417,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 });
                 sortMenu.show();
             }
-        }));
+        });
+        mSortButton.setContentDescription(getString(R.string.lbl_sort_by));
+
+        toolBar.addView(mSortButton);
 
         if (mRowDef.getQueryType() == QueryType.Items) {
             mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch, size, new View.OnClickListener() {
@@ -436,6 +442,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
                 }
             });
+            mUnwatchedButton.setContentDescription(getString(R.string.lbl_unwatched));
             toolBar.addView(mUnwatchedButton);
         }
 
@@ -457,6 +464,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
             }
         });
+        mFavoriteButton.setContentDescription(getString(R.string.lbl_favorite));
         toolBar.addView(mFavoriteButton);
 
         mLetterButton = new ImageButton(getActivity(), R.drawable.ic_jump_letter, size, new View.OnClickListener() {
@@ -466,9 +474,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 mJumplistPopup.show();
             }
         });
+        mLetterButton.setContentDescription(getString(R.string.lbl_by_letter));
         toolBar.addView(mLetterButton);
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
+        mSearchButton = new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
@@ -476,14 +485,18 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
                 startActivity(intent);
             }
-        }));
+        });
+        mSearchButton.setContentDescription(getString(R.string.lbl_search));
+        toolBar.addView(mSearchButton);
 
-        toolBar.addView(new ImageButton(getActivity(), R.drawable.ic_settings, size, new View.OnClickListener() {
+        mSettingsButton = new ImageButton(getActivity(), R.drawable.ic_settings, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDisplayPrefsPopup.show(mDisplayPrefs, mFolder.getCollectionType());
             }
-        }));
+        });
+        mSettingsButton.setContentDescription(getString(R.string.lbl_settings));
+        toolBar.addView(mSettingsButton);
 
 
     }

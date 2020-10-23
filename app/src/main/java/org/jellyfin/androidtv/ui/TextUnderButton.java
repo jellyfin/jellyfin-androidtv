@@ -47,6 +47,8 @@ public class TextUnderButton extends RelativeLayout {
 
         mButton = (android.widget.ImageButton) v.findViewById(R.id.imageButton);
 
+        if (label != null) mButton.setContentDescription(label);
+
         mButton.setImageResource(imageResource);
         mButton.setMaxHeight(size);
         mButton.setOnClickListener(clicked);

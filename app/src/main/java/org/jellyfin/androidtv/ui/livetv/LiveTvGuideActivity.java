@@ -140,26 +140,32 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mSpinner = findViewById(R.id.spinner);
         mSpinner.setVisibility(View.VISIBLE);
 
-        findViewById(R.id.filterButton).setOnClickListener(new View.OnClickListener() {
+        View mFilterButton = findViewById(R.id.filterButton);
+        mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFilterOptions();
             }
         });
+        mFilterButton.setContentDescription(getString(R.string.lbl_filters));
 
-        findViewById(R.id.optionsButton).setOnClickListener(new View.OnClickListener() {
+        View mOptionsButton = findViewById(R.id.optionsButton);
+        mOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showOptions();
             }
         });
+        mOptionsButton.setContentDescription(getString(R.string.lbl_other_options));
 
-        findViewById(R.id.dateButton).setOnClickListener(new View.OnClickListener() {
+        View mDateButton = findViewById(R.id.dateButton);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
             }
         });
+        mDateButton.setContentDescription(getString(R.string.lbl_select_date));
 
         mResetButton = findViewById(R.id.resetButton);
         mResetButton.setOnClickListener(new View.OnClickListener() {

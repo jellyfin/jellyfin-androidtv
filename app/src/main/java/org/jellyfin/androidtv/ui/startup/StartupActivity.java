@@ -87,7 +87,7 @@ public class StartupActivity extends FragmentActivity {
             } else {
                 //Can just go right into details
                 Intent detailsIntent = new Intent(this, FullDetailsActivity.class);
-                detailsIntent.putExtra("ItemId", application.getDirectItemId());
+                detailsIntent.putExtra("ItemId", getIntent().getStringExtra("ItemId"));
                 startActivity(detailsIntent);
 
                 finish();
@@ -116,9 +116,6 @@ public class StartupActivity extends FragmentActivity {
     }
 
     private void establishConnection() {
-        //See if we are coming in via direct entry
-        application.setDirectItemId(getIntent().getStringExtra("ItemId"));
-
         // Ask for server information
         AuthenticationHelper.enterManualServerAddress(this);
     }

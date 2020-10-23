@@ -135,10 +135,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mSSUpNext = findViewById(R.id.ssUpNext);
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
+        mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
         mPlayPauseButton.setSecondaryImage(R.drawable.ic_pause);
         mPlayPauseButton.setPrimaryImage(R.drawable.ic_play);
         TextView helpView = findViewById(R.id.buttonTip);
         mPrevButton = findViewById(R.id.prevBtn);
+        mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
         mPrevButton.setHelpView(helpView);
         mPrevButton.setHelpText(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +151,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mPrevButton.setGotFocusListener(mainAreaFocusListener);
         mNextButton = findViewById(R.id.nextBtn);
+        mNextButton.setContentDescription(getString(R.string.lbl_next_item));
         mNextButton.setHelpView(helpView);
         mNextButton.setHelpText(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +162,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mNextButton.setGotFocusListener(mainAreaFocusListener);
         mRepeatButton = findViewById(R.id.repeatBtn);
+        mRepeatButton.setContentDescription(getString(R.string.lbl_repeat));
         mRepeatButton.setHelpView(helpView);
         mRepeatButton.setHelpText(getString(R.string.lbl_repeat));
         mRepeatButton.setPrimaryImage(R.drawable.ic_loop);
@@ -171,6 +175,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mSaveButton = findViewById(R.id.saveBtn);
+        mSaveButton.setContentDescription(getString(R.string.lbl_save_as_playlist));
         mSaveButton.setHelpView(helpView);
         mSaveButton.setHelpText(getString(R.string.lbl_save_as_playlist));
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +186,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mRepeatButton.setGotFocusListener(mainAreaFocusListener);
         mShuffleButton = findViewById(R.id.shuffleBtn);
+        mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setHelpView(helpView);
         mShuffleButton.setHelpText(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +207,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mShuffleButton.setGotFocusListener(mainAreaFocusListener);
         mAlbumButton = findViewById(R.id.albumBtn);
+        mAlbumButton.setContentDescription(getString(R.string.lbl_open_album));
         mAlbumButton.setHelpView(helpView);
         mAlbumButton.setHelpText(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +220,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mAlbumButton.setGotFocusListener(mainAreaFocusListener);
         mArtistButton = findViewById(R.id.artistBtn);
+        mArtistButton.setContentDescription(getString(R.string.lbl_open_artist));
         mArtistButton.setHelpView(helpView);
         mArtistButton.setHelpText(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
@@ -424,7 +432,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
             @Override
             public void run() {
                 mPoster.setKeepScreenOn(playing);
-                mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
+                if (!playing) {
+                    mPlayPauseButton.setState(ImageButton.STATE_PRIMARY);
+                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
+                } else {
+                    mPlayPauseButton.setState(ImageButton.STATE_SECONDARY);
+                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
+                }
                 mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
                 mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
                 mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
