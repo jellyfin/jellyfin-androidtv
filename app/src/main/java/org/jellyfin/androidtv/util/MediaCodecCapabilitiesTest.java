@@ -69,7 +69,7 @@ public class MediaCodecCapabilitiesTest  {
                     }
                 }
             } catch (IllegalArgumentException e) {
-                Timber.e(e);
+                Timber.w(e);
             }
         }
         return false;
