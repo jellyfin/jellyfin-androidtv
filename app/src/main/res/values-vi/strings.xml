@@ -408,4 +408,9 @@
     <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
     <string name="play_with_exo_player">Phát với ExoPlayer</string>
     <string name="pref_video_player_choose">Luôn luôn hỏi</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="lbl_subtitle_track">Chọn bản phụ đề</string>
+    <string name="lbl_audio_track">Chọn bản âm thanh</string>
+    <string name="lbl_pause">Tạm dừng</string>
 </resources>
