@@ -412,4 +412,7 @@
     <string name="play_with_exo_player">ExoPlayer உடன் செயல்பட</string>
     <string name="play_with_vlc">LibVLC உடன் செயல்பட</string>
     <string name="pref_video_player_choose">எப்போதும் கேள்</string>
+    <string name="lbl_subtitle_track">வசனத் தடத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="lbl_audio_track">ஆடியோ டிராக்கைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="lbl_pause">இடைநிறுத்தம்</string>
 </resources>
