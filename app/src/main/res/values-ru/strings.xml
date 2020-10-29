@@ -376,7 +376,7 @@
     <string name="play_with">Воспроизвести в</string>
     <string name="play_with_external_app">Воспроизвести во внешнем приложении</string>
     <string name="play_with_exo_player">Воспроизвести в ExoPlayer</string>
-    <string name="play_with_vlc">Воспроизвести в libVLC</string>
+    <string name="play_with_vlc">Воспроизвести с libVLC</string>
     <string name="just_one">Только в этот раз</string>
     <string name="turn_off">Отключить эту опцию</string>
     <string name="lbl_deleted">%1$s удалено</string>
@@ -387,7 +387,7 @@
     <string name="msg_queue_saved">Очередь сохранена как новый плей-лист: %1$s</string>
     <string name="msg_no_items">Нет элементов для воспроизведения</string>
     <string name="subtitle_error">Невозможно выбрать субтитры</string>
-    <string name="too_many_errors">Слишком много ошибок</string>
+    <string name="too_many_errors">Слишком много ошибок. Отказ</string>
     <string name="player_error">Произошла ошибка проигрывателя. Попробую еще раз…</string>
     <string name="seek_error">Невозможно найти</string>
     <string name="msg_live_tv_prev">Загрузить предыдующие %1$d часов\?</string>
@@ -407,4 +407,12 @@
     <string name="pref_video_player_choose">Всегда спрашивать</string>
     <string name="lbl_tv_filter_status">на следующие %1$d часов</string>
     <string name="lbl_tv_channel_status">%1$d из %2$d каналов</string>
+    <string name="mark_watched_message">Элемент не воспроизведён до конца. Пометить как воспроизведённое\?</string>
+    <string name="not_deleted">Элемент НЕ удалён</string>
+    <string name="audio_error">Невозможно воспроизвести аудио %1$s</string>
+    <string name="msg_added_to_video">%1$s добавлено в очередь видео. Конец: %2$s</string>
+    <string name="no_player">Нет проигрывателя</string>
+    <string name="lbl_subtitle_track">Выбрать дорожку субтитров</string>
+    <string name="lbl_audio_track">Выбрать аудио дорожку</string>
+    <string name="lbl_pause">Пауза</string>
 </resources>
