@@ -350,7 +350,7 @@
     <string name="pref_max_bitrate_title">Maximal strömningsbitrate</string>
     <string name="pref_playback">Uppspelning</string>
     <string name="pref_login_behavior_title">Uppstartsbeteende</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Select User Activity</string>
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Live-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
@@ -409,5 +409,10 @@
     <string name="no_player_message">Det verkar inte som du har någon app som kan spela upp video. Detta alternativ kräver att du installerar en tredjepartsapp för att spela video-innehåll.</string>
     <string name="no_player">Ingen spelare</string>
     <string name="mark_watched_message">Videon verkar inte ha spelats till sin fulla längd. Markera som spelad\?</string>
-    <string name="lbl_tv_filter_status">i ytterligare %1$d timmar</string>
+    <string name="lbl_tv_filter_status">nästkommande %1$d timmar</string>
+    <string name="like_setting_error">Fel när gilla-status sattes</string>
+    <string name="like_clearing_error">Fel när gilla-status nollställdes</string>
+    <string name="lbl_subtitle_track">Välj undertextspår</string>
+    <string name="lbl_audio_track">Välj ljudspår</string>
+    <string name="lbl_pause">Pausa</string>
 </resources>
