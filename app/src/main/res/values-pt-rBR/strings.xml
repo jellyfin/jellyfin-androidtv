@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Falha ao carregar o vídeo</string>
     <string name="txt_loading">Carregando…</string>
-    <string name="title_activity_select_user">Selecionar Atividade Usuário</string>
+    <string name="title_activity_select_user">Selecione a atividade do usuário</string>
     <string name="home_title">Início</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -412,4 +412,7 @@
     <string name="episode_missing_message">Esse episódio não está disponível na sua biblioteca. Gostaria de pular esse e continuar para o próximo\?</string>
     <string name="episode_missing">Episódio não disponível</string>
     <string name="pref_video_player_choose">Sempre perguntar</string>
+    <string name="lbl_subtitle_track">Selecionar faixa de legenda</string>
+    <string name="lbl_audio_track">Selecionar faixa de áudio</string>
+    <string name="lbl_pause">Pausar</string>
 </resources>
