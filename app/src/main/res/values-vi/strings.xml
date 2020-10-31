@@ -413,4 +413,5 @@
     <string name="lbl_subtitle_track">Chọn bản phụ đề</string>
     <string name="lbl_audio_track">Chọn bản âm thanh</string>
     <string name="lbl_pause">Tạm dừng</string>
+    <string name="lbl_on">Bật</string>
 </resources>
