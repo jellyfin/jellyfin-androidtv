@@ -386,4 +386,16 @@
     <string name="pref_video_player_choose">Chiedi sempre</string>
     <string name="lbl_tv_filter_status">per le prossime %1$d ore</string>
     <string name="lbl_tv_channel_status">%1$d di %2$d canali</string>
+    <string name="msg_no_items">Nessun contenuto da riprodurre</string>
+    <string name="too_many_errors">Troppi errori. Annullamento</string>
+    <string name="lbl_new_playlist_name">Inserisci un nome per la nuova playlist</string>
+    <string name="episode_missing">Episodio mancante</string>
+    <string name="clear_expanded">Cancellare la coda di riproduzione\?</string>
+    <string name="lbl_clear">Cancella</string>
+    <string name="password_prompt_message">Inserisci la password per %1$s</string>
+    <string name="password_prompt">Inserisci password</string>
+    <string name="mark_watched_message">Il contenuto non sembra essere stato riprodotto per intero. Segnare come visto\?</string>
+    <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
+    <string name="lbl_audio_track">Seleziona traccia audio</string>
+    <string name="lbl_pause">Pausa</string>
 </resources>
