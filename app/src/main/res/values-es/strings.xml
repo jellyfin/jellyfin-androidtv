@@ -407,4 +407,12 @@
     <string name="subtitle_error">Incapaz de selecionar subtítulo</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
     <string name="lbl_load_guide_data">Cargar Programación de Canales (TV Guía)</string>
+    <string name="play_with">Reproducir con</string>
+    <string name="play_with_external_app">Reproducir con una app externa</string>
+    <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
+    <string name="play_with_vlc">Reproducir con libVLC</string>
+    <string name="pref_video_player_choose">Preguntar siempre</string>
+    <string name="lbl_subtitle_track">Selecciona track de subtitulos</string>
+    <string name="lbl_audio_track">Selecciona un track de audio</string>
+    <string name="lbl_pause">Pausar</string>
 </resources>
