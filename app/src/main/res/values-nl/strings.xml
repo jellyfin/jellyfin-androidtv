@@ -26,10 +26,10 @@
     <string name="lbl_library">Bibliotheek</string>
     <string name="lbl_continue_watching">Kijken hervatten</string>
     <string name="lbl_latest_movies">Nieuwste films</string>
-    <string name="lbl_next_up">Series vervolgen</string>
+    <string name="lbl_next_up">Volgende</string>
     <string name="lbl_next_up_tv">TV vervolgen</string>
-    <string name="lbl_on_now">Nu aan het spelen</string>
-    <string name="lbl_views">Aantal keer bekeken</string>
+    <string name="lbl_on_now">Nu aan het afspelen</string>
+    <string name="lbl_views">Aantal weergaven</string>
     <string name="lbl_by_letter">Op letter</string>
     <string name="lbl_suggested">Voorgesteld</string>
     <string name="lbl_genres">Genres</string>
