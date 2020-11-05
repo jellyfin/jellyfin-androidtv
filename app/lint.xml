@@ -12,4 +12,5 @@
     <issue id="UnusedIds" severity="warning" />
     <issue id="KotlinPropertyAccess" severity="warning" />
     <issue id="LambdaLast" severity="warning" />
+    <issue id="ExtraTranslation" severity="warning" />
 </lint>
