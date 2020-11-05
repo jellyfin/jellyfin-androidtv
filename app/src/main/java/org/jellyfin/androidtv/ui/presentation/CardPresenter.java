@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -359,7 +360,8 @@ public class CardPresenter extends Presenter {
         MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
+        //TODO make a themeable color
+        cardView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
         return new ViewHolder(cardView);
     }
 

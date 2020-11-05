@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
+import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 
 /**
@@ -98,13 +99,13 @@ public class MyImageCardView extends BaseCardView {
 
         v.setOnFocusChangeListener((view, b) -> {
             if (b) {
-                mTitleView.setTextColor(getResources().getColor(R.color.lb_basic_card_title_text_color));
-                mContentView.setTextColor(getResources().getColor(R.color.lb_basic_card_title_text_color));
-                mMainWrapper.setBackground(getResources().getDrawable(R.drawable.white_border));
+                mTitleView.setTextColor(ContextCompat.getColor(context, R.color.lb_basic_card_title_text_color));
+                mContentView.setTextColor(ContextCompat.getColor(context, R.color.lb_basic_card_title_text_color));
+                mMainWrapper.setBackground(ContextCompat.getDrawable(context, R.drawable.theme_border));
                 mBadgeImage.setAlpha(1.0f);
             } else {
-                mTitleView.setTextColor(getResources().getColor(R.color.gray_gradient_end));
-                mContentView.setTextColor(getResources().getColor(R.color.gray_gradient_end));
+                mTitleView.setTextColor(ContextCompat.getColor(context, R.color.gray_gradient_end));
+                mContentView.setTextColor(ContextCompat.getColor(context, R.color.gray_gradient_end));
                 mMainWrapper.setBackground(null);
                 mBadgeImage.setAlpha(0.25f);
             }

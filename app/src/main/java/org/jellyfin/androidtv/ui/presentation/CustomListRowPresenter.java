@@ -26,6 +26,16 @@ public class CustomListRowPresenter extends ListRowPresenter {
     }
 
     @Override
+    public boolean isUsingDefaultShadow() {
+        return false;
+    }
+
+    @Override
+    protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
+        //Do nothing - this removes the shadow on the out of focus rows of image cards
+    }
+
+    @Override
     protected void onBindRowViewHolder(RowPresenter.ViewHolder holder, Object item) {
         super.onBindRowViewHolder(holder, item);
 

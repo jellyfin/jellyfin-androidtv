@@ -47,5 +47,5 @@
     <color name="button_default_highlight_text">#444444</color>
 
     <!-- Card Background Color -->
-    <color name="lb_basic_card_info_bg_color">#00FFFFFF</color>
+    <color name="lb_basic_card_info_bg_color">@color/grey</color>
 </resources>
