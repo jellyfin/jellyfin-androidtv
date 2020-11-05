@@ -21,6 +21,11 @@ public class PositionableListRowPresenter extends CustomListRowPresenter impleme
         setShadowEnabled(false);
     }
 
+    public PositionableListRowPresenter(Integer padding) {
+        super(padding);
+        setShadowEnabled(false);
+    }
+
     @Override
     public boolean isUsingDefaultShadow() {
         return false;

@@ -8,21 +8,20 @@ import android.view.View;
 public class CustomListRowPresenter extends ListRowPresenter {
 
     private View viewHolder;
-    private Integer backgroundColor;
     private Integer topPadding;
     private Drawable backgroundDrawable;
 
     public CustomListRowPresenter() { super();}
 
-    public CustomListRowPresenter(int color) {
-        super();
-        this.backgroundColor = color;
-    }
-
     public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
         super();
         this.topPadding = topPadding;
         this.backgroundDrawable = drawable;
+    }
+
+    public CustomListRowPresenter(Integer topPadding) {
+        super();
+        this.topPadding = topPadding;
     }
 
     @Override
@@ -47,8 +46,6 @@ public class CustomListRowPresenter extends ListRowPresenter {
 
         if (backgroundDrawable != null) {
             viewHolder.setBackground(backgroundDrawable);
-        } else if (backgroundColor != null) {
-            viewHolder.setBackgroundColor(backgroundColor);
         }
     }
 
