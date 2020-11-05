@@ -383,13 +383,13 @@
     <string name="mark_watched">标记为已观看</string>
     <string name="lbl_tv_filter_status">接下来的 %1$d 小时</string>
     <string name="lbl_tv_channel_status">%2$d 个频道中的第 %1$d 个</string>
-    <string name="just_one">只选一项</string>
+    <string name="just_one">只选此项</string>
     <string name="turn_off">将此选项关闭</string>
     <string name="not_deleted">项目「未」删除</string>
     <string name="lbl_deleted">%1$s已删除</string>
     <string name="like_setting_error">无法设置喜爱状态</string>
     <string name="like_clearing_error">无法清空喜爱状态</string>
-    <string name="favorite_error">无法设置最爱的状态</string>
+    <string name="favorite_error">无法设置最爱状态</string>
     <string name="playing_error">无法设置已播放状态</string>
     <string name="audio_error">无法播放音频%1$s</string>
     <string name="msg_queue_saved">使用保存项目新建列表： %1$s</string>
@@ -410,4 +410,9 @@
     <string name="lbl_subtitle_track">选择字幕轨道</string>
     <string name="lbl_audio_track">选择音轨</string>
     <string name="lbl_pause">暂停</string>
+    <string name="play_with">使用指定播放器播放</string>
+    <string name="play_with_external_app">使用外部播放器播放</string>
+    <string name="play_with_exo_player">使用ExoPlayer播放</string>
+    <string name="play_with_vlc">使用libVLC播放</string>
+    <string name="msg_added_to_video">%1$s 已添加到视频队列。播放结束时间: %2$s</string>
 </resources>
