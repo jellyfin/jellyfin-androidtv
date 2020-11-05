@@ -404,8 +404,8 @@
     <string name="episode_missing_message">库内不包含该剧集。是否跳过并继续观看下一集？</string>
     <string name="episode_missing">剧集缺失</string>
     <string name="mark_watched_message">此项目似乎没有播放完毕。是否标记为已观看？</string>
-    <string name="msg_live_tv_prev">加载上一个 %1$小时？</string>
-    <string name="msg_live_tv_next">加载下一个 %1$小时？</string>
+    <string name="msg_live_tv_prev">加载上一个 %1$d 小时？</string>
+    <string name="msg_live_tv_next">加载下一个 %1$d 小时？</string>
     <string name="pref_video_player_choose">总是询问</string>
     <string name="lbl_subtitle_track">选择字幕轨道</string>
     <string name="lbl_audio_track">选择音轨</string>
