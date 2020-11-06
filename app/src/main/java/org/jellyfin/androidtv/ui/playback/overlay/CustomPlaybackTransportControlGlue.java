@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 
+import androidx.leanback.media.PlaybackGlueHost;
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
+import androidx.leanback.widget.PlaybackRowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -26,7 +28,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 
 import static org.koin.java.KoinJavaComponent.get;
 
-public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
+public class CustomPlaybackTransportControlGlue extends CustomPlaybackTransportControlGlueHelper {
 
     // Normal playback actions
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
@@ -76,13 +78,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
-        previousLiveTvChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_prev_item)});
+        previousLiveTvChannelAction.setLabels(new String[]{context.getString(R.string.lbl_prev_item)});
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
-        channelBarChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_other_channels)});
+        channelBarChannelAction.setLabels(new String[]{context.getString(R.string.lbl_other_channels)});
         guideAction = new GuideAction(context, this);
-        guideAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_live_tv_guide)});
+        guideAction.setLabels(new String[]{context.getString(R.string.lbl_live_tv_guide)});
         recordAction = new RecordAction(context, this);
-        recordAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_record)});
+        recordAction.setLabels(new String[]{context.getString(R.string.lbl_record)});
     }
 
     @Override

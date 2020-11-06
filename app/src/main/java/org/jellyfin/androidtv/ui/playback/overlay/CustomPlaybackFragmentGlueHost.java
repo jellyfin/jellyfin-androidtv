@@ -5,6 +5,7 @@ import androidx.leanback.app.PlaybackSupportFragmentGlueHost;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.OnActionClickedListener;
 import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.PlaybackRowPresenter;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
@@ -26,19 +27,15 @@ public class CustomPlaybackFragmentGlueHost extends PlaybackSupportFragmentGlueH
         if (listener == null) {
             fragment.setOnPlaybackItemViewClickedListener(null);
         } else {
-            fragment.setOnPlaybackItemViewClickedListener(new OnItemViewClickedListener() {
-                @Override
-                public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                          RowPresenter.ViewHolder rowViewHolder, Row row) {
-                    // Call our custom function and pass the view instance
-                    if (item instanceof CustomAction) {
-                        ((CustomAction) item).onCustomActionClicked(itemViewHolder.view);
-                    }
-                    if (item instanceof Action) {
-                        listener.onActionClicked((Action) item);
-                    }
+            fragment.setOnPlaybackItemViewClickedListener((OnItemViewClickedListener) (itemViewHolder, item, rowViewHolder, row) -> {
+                // Call our custom function and pass the view instance
+                if (item instanceof CustomAction) {
+                    ((CustomAction) item).onCustomActionClicked(itemViewHolder.view);
+                }
+                if (item instanceof Action) {
+                    listener.onActionClicked((Action) item);
                 }
             });
-        };
+        }
     }
 }
