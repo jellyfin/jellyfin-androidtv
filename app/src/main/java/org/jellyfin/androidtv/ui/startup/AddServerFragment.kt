@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 
 class AddServerFragment(
 	private val onConfirmCallback: (url: String) -> Unit = {},
-	private val onCancelCallback: () -> Unit = {},
+	onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
 ) : AlertFragment(
 	title = R.string.lbl_enter_server_address,

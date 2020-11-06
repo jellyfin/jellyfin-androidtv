@@ -15,7 +15,11 @@ data class Server(
 	val accessToken: String? = null,
 	val dateLastAccessed: Date = Date(0)
 ) {
-	override fun equals(other: Any?) = (other is Server) && id == other.id
+	override fun equals(other: Any?) = (other is Server) && id == other.id && address == other.address
 
-	override fun hashCode() = id.hashCode()
+	override fun hashCode(): Int {
+		var result = id.hashCode()
+		result = 31 * result + address.hashCode()
+		return result
+	}
 }

@@ -129,8 +129,8 @@ class ChannelManager : KoinComponent {
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
 				.setIntent(Intent(application, StartupActivity::class.java).apply {
-					putExtra("ItemId", item.id)
-					putExtra("ItemIsUserView", true)
+					putExtra(StartupActivity.ITEM_ID, item.id)
+					putExtra(StartupActivity.ITEM_IS_USER_VIEW, true)
 				})
 				.build().toContentValues()
 		}.toTypedArray())
@@ -207,7 +207,7 @@ class ChannelManager : KoinComponent {
 
 		// Set intent to open the episode
 		setIntent(Intent(application, StartupActivity::class.java).apply {
-			putExtra("ItemId", item.id)
+			putExtra(StartupActivity.ITEM_ID, item.id)
 		})
 	}.build()
 }

@@ -30,20 +30,25 @@ import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 
 class StartupActivity : FragmentActivity() {
-	private companion object {
+	companion object {
 		private const val NETWORK_PERMISSION = 1
-		private const val ITEM_ID = "ItemId"
+		const val ITEM_ID = "ItemId"
+		const val ITEM_IS_USER_VIEW = "ItemIsUserView"
+		const val HIDE_SPLASH = "HideSplash"
 	}
 
 	private var application: TvApp? = null
 	private val loginViewModel: LoginViewModel by viewModel()
+	private var isLoaded = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.fragment_content_view)
-		supportFragmentManager.beginTransaction()
-			.replace(R.id.content_view, SplashFragment())
-			.commit()
+		if (!intent.getBooleanExtra(HIDE_SPLASH, false)) {
+			supportFragmentManager.beginTransaction()
+				.replace(R.id.content_view, SplashFragment())
+				.commit()
+		}
 		application = applicationContext as TvApp
 
 		//Ensure basic permissions
@@ -56,7 +61,7 @@ class StartupActivity : FragmentActivity() {
 
 			val loadingObserver = Observer<ServerList> { serverList ->
 				Timber.d("LoadingState: %s", serverList.state.toString())
-				if (serverList.state == LoadingState.SUCCESS) start()
+				if (serverList.state == LoadingState.SUCCESS && !isLoaded) start()
 			}
 			loginViewModel.serverList.observe(this, loadingObserver)
 		}
@@ -81,13 +86,14 @@ class StartupActivity : FragmentActivity() {
 			//clear audio queue in case left over from last run
 			MediaManager.clearAudioQueue()
 			MediaManager.clearVideoQueue()
-			establishConnection()
+			showServerList()
 		}
+		isLoaded = true;
 	}
 
 	private fun openNextActivity() {
 		val itemId = intent.getStringExtra(ITEM_ID)
-		val itemIsUserView = intent.getBooleanExtra("ItemIsUserView", false)
+		val itemIsUserView = intent.getBooleanExtra(ITEM_IS_USER_VIEW, false)
 		if (itemId != null) {
 			if (itemIsUserView) {
 				get(ApiClient::class.java).GetItemAsync(itemId, get(ApiClient::class.java).currentUserId, object : Response<BaseItemDto?>() {
@@ -130,7 +136,7 @@ class StartupActivity : FragmentActivity() {
 		}
 	}
 
-	private fun establishConnection() {
+	private fun showServerList() {
 		// Ask for server information
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.content_view, StartupToolbarFragment(

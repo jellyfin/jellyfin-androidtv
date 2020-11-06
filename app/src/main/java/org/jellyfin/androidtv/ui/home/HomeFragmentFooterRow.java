@@ -51,6 +51,7 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
 
                 // Open login activity
                 Intent selectUserIntent = new Intent(activity, StartupActivity.class);
+                selectUserIntent.putExtra(StartupActivity.HIDE_SPLASH, true);
                 selectUserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY); // Disallow back button
                 activity.startActivity(selectUserIntent);
 

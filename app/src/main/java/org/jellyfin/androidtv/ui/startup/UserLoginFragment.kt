@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.startup
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Button
@@ -24,6 +25,7 @@ class UserLoginFragment(
 		super.onActivityCreated(savedInstanceState)
 
 		val contentView = requireActivity().findViewById<LinearLayout>(R.id.content)
+		contentView.minimumWidth = 360
 
 		// Build the username field
 		val username = EditText(activity)
@@ -47,6 +49,7 @@ class UserLoginFragment(
 		password.isSingleLine = true
 		password.onFocusChangeListener = KeyboardFocusChangeListener()
 		password.nextFocusDownId = R.id.confirm
+		password.typeface = Typeface.DEFAULT
 		if (user != null) password.requestFocus()
 		// Add the password field to the content view
 		contentView.addView(password)

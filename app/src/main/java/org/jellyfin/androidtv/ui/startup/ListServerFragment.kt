@@ -44,7 +44,7 @@ class ListServerFragment : RowsSupportFragment() {
 							loginViewModel.login(server = item.server, username = username, password = password)
 						}
 					},
-					onClose = { parentFragmentManager.popBackStack() }
+					onCancelCallback = { parentFragmentManager.popBackStack() }
 				))
 			} else {
 				GlobalScope.launch {
@@ -59,7 +59,7 @@ class ListServerFragment : RowsSupportFragment() {
 						loginViewModel.login(server = item.server, username = username, password = password)
 					}
 				},
-				onClose = { parentFragmentManager.popBackStack() }
+				onCancelCallback = { parentFragmentManager.popBackStack() }
 			))
 		}
 	}
