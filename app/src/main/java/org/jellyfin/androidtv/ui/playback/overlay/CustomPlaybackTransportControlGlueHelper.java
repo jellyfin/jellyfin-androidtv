@@ -183,11 +183,6 @@ public class CustomPlaybackTransportControlGlueHelper<T extends PlayerAdapter>
                 rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rl.addView(endsAt, rlp2);
                 bar.addView(rl, 0, rlp);
-                /*View v = vh.view.getRootView().getRootView();
-                for(int i = 0; i < ((LinearLayout)v).getChildCount(); i++) {
-                    View v2 = ((LinearLayout)v).getChildAt(i);
-                    ViewGroup.LayoutParams lp = vh.view.getLayoutParams();
-                }*/
             }
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
