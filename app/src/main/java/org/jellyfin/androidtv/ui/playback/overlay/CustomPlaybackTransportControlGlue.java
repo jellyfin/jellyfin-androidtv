@@ -3,11 +3,19 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
+import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
+import androidx.leanback.widget.PlaybackRowPresenter;
+import androidx.leanback.widget.PlaybackTransportRowPresenter;
+import androidx.leanback.widget.PlaybackTransportRowView;
+import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -51,12 +59,64 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
+    //Custom views
+    TextView endsAt = null;
+
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
         initActions(context);
+    }
+
+    @Override
+    protected PlaybackRowPresenter onCreateRowPresenter() {
+        final AbstractDetailsDescriptionPresenter detailsPresenter =
+                new AbstractDetailsDescriptionPresenter() {
+                    @Override
+                    protected void onBindDescription(ViewHolder
+                                                             viewHolder, Object obj) {
+                        PlaybackTransportControlGlue glue = (PlaybackTransportControlGlue) obj;
+                        viewHolder.getTitle().setText(glue.getTitle());
+                        viewHolder.getSubtitle().setText(glue.getSubtitle());
+                    }
+                };
+
+        PlaybackTransportRowPresenter rowPresenter = new PlaybackTransportRowPresenter() {
+            @Override
+            protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
+                super.onBindRowViewHolder(vh, item);
+                vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
+                endsAt = new TextView(getContext());
+
+                LinearLayout view = (LinearLayout)vh.view;
+
+                PlaybackTransportRowView bar = (PlaybackTransportRowView)view.getChildAt(1);
+                View v = bar.getChildAt(0);
+                bar.removeViewAt(0);
+                RelativeLayout rl = new RelativeLayout(getContext());
+                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rl.addView(v);
+
+                RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                rl.addView(endsAt, rlp2);
+                bar.addView(rl, 0, rlp);
+            }
+            @Override
+            protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
+                super.onUnbindRowViewHolder(vh);
+                vh.setOnKeyListener(null);
+            }
+        };
+        rowPresenter.setDescriptionPresenter(detailsPresenter);
+        return rowPresenter;
     }
 
     private void initActions(Context context) {
@@ -76,13 +136,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
-        previousLiveTvChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_prev_item)});
+        previousLiveTvChannelAction.setLabels(new String[]{context.getString(R.string.lbl_prev_item)});
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
-        channelBarChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_other_channels)});
+        channelBarChannelAction.setLabels(new String[]{context.getString(R.string.lbl_other_channels)});
         guideAction = new GuideAction(context, this);
-        guideAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_live_tv_guide)});
+        guideAction.setLabels(new String[]{context.getString(R.string.lbl_live_tv_guide)});
         recordAction = new RecordAction(context, this);
-        recordAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_record)});
+        recordAction.setLabels(new String[]{context.getString(R.string.lbl_record)});
     }
 
     @Override
@@ -195,6 +255,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             playerAdapter.toggleRecording();
             // Icon will be updated via callback recordingStateChanged
         }
+    }
+
+    public void setEndTime(String text) {
+        if (endsAt != null)
+            endsAt.setText(text);
     }
 
     private void notifyActionChanged(Action action) {
