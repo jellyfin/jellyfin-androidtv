@@ -9,9 +9,8 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
@@ -58,8 +57,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
         Calendar ends = Calendar.getInstance();
         ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        SimpleDateFormat format = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        playerGlue.setEndTime("Ends at: " + format.format(ends.getTime()));
+        playerGlue.setEndTime("Ends at: " + DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime()));
     }
 
     public void setShouldShowOverlay(boolean shouldShowOverlay) {

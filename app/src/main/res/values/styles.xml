@@ -49,4 +49,10 @@
     <style name="Widget.Jellyfin.BrowseHeaders" parent="Widget.Leanback.Headers.VerticalGridView">
         <item name="android:background">@drawable/noise</item>
     </style>
+
+    <style name="PlaybackControlsText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#B2EEEEEE</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 </resources>

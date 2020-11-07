@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -84,11 +85,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         PlaybackTransportRowPresenter rowPresenter = new PlaybackTransportRowPresenter() {
             @Override
-            protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
-                super.onBindRowViewHolder(vh, item);
-                vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
+            protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
+                RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
                 mEndsText = new TextView(getContext());
-
+                mEndsText.setTextAppearance(getContext(), R.style.PlaybackControlsText);
+                mEndsText.setText(getContext().getString(R.string.loading));
                 LinearLayout view = (LinearLayout)vh.view;
 
                 PlaybackTransportRowView bar = (PlaybackTransportRowView)view.getChildAt(1);
@@ -107,6 +108,14 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 rl.addView(mEndsText, rlp2);
                 bar.addView(rl, 0, rlp);
+
+                return vh;
+            }
+
+            @Override
+            protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
+                super.onBindRowViewHolder(vh, item);
+                vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
             }
             @Override
             protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
