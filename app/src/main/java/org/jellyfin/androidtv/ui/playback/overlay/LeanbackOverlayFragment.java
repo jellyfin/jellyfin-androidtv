@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
 
+import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -57,7 +59,9 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
         Calendar ends = Calendar.getInstance();
         ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        playerGlue.setEndTime("Ends at: " + DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime()));
+        Context context = getContext();
+        if (context != null)
+            playerGlue.setEndTime(context.getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
     }
 
     public void setShouldShowOverlay(boolean shouldShowOverlay) {

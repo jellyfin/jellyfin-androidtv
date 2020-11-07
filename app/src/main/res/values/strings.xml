@@ -413,4 +413,5 @@
     <string name="play_with_exo_player">Play with ExoPlayer</string>
     <string name="play_with_external_app">Play with external app</string>
     <string name="play_with">Play with</string>
+    <string name="lbl_playback_control_ends">Ends at %1$s</string>
 </resources>

@@ -87,27 +87,31 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             @Override
             protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
-                mEndsText = new TextView(getContext());
-                mEndsText.setTextAppearance(getContext(), R.style.PlaybackControlsText);
-                mEndsText.setText(getContext().getString(R.string.loading));
-                LinearLayout view = (LinearLayout)vh.view;
+                Context context = getContext();
 
-                PlaybackTransportRowView bar = (PlaybackTransportRowView)view.getChildAt(1);
-                View v = bar.getChildAt(0);
-                bar.removeViewAt(0);
-                RelativeLayout rl = new RelativeLayout(getContext());
-                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-                rl.addView(v);
+                if (context != null) {
+                    mEndsText = new TextView(context);
+                    mEndsText.setTextAppearance(context, R.style.PlaybackControlsText);
+                    mEndsText.setText(context.getString(R.string.loading));
+                    LinearLayout view = (LinearLayout) vh.view;
 
-                RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-                rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                rl.addView(mEndsText, rlp2);
-                bar.addView(rl, 0, rlp);
+                    PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
+                    View v = bar.getChildAt(0);
+                    bar.removeViewAt(0);
+                    RelativeLayout rl = new RelativeLayout(context);
+                    RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    rl.addView(v);
+
+                    RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    rl.addView(mEndsText, rlp2);
+                    bar.addView(rl, 0, rlp);
+                }
 
                 return vh;
             }
