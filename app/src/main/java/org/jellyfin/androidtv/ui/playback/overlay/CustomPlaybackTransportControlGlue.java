@@ -18,7 +18,6 @@ import androidx.leanback.widget.PlaybackTransportRowView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -60,7 +59,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ArrayObjectAdapter secondaryActionsAdapter;
 
     //Custom views
-    TextView endsAt = null;
+    private TextView mEndsText = null;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
@@ -88,7 +87,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
                 super.onBindRowViewHolder(vh, item);
                 vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
-                endsAt = new TextView(getContext());
+                mEndsText = new TextView(getContext());
 
                 LinearLayout view = (LinearLayout)vh.view;
 
@@ -106,7 +105,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
                 rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                rl.addView(endsAt, rlp2);
+                rl.addView(mEndsText, rlp2);
                 bar.addView(rl, 0, rlp);
             }
             @Override
@@ -258,8 +257,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public void setEndTime(String text) {
-        if (endsAt != null)
-            endsAt.setText(text);
+        if (mEndsText != null)
+            mEndsText.setText(text);
     }
 
     private void notifyActionChanged(Action action) {
