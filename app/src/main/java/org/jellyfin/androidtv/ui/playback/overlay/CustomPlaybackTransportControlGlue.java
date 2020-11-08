@@ -32,6 +32,9 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 import static org.koin.java.KoinJavaComponent.get;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
@@ -67,6 +70,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
+        mEndsText = new TextView(context);
+        mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
+        setEndTime();
         initActions(context);
     }
 
@@ -90,9 +96,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 Context context = getContext();
 
                 if (context != null) {
-                    mEndsText = new TextView(context);
-                    mEndsText.setTextAppearance(context, R.style.PlaybackControlsText);
-                    mEndsText.setText(context.getString(R.string.loading));
                     LinearLayout view = (LinearLayout) vh.view;
 
                     PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
@@ -269,9 +272,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
     }
 
-    public void setEndTime(String text) {
-        if (mEndsText != null)
-            mEndsText.setText(text);
+    public void setEndTime() {
+        long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
+        Calendar ends = Calendar.getInstance();
+        ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
+        Context context = getContext();
+        if (context != null && mEndsText != null)
+            mEndsText.setText(context.getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
     }
 
     private void notifyActionChanged(Action action) {

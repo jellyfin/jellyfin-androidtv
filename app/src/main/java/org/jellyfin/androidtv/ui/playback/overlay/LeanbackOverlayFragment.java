@@ -1,18 +1,13 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
 
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
-import java.text.DateFormat;
-import java.util.Calendar;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
@@ -56,12 +51,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void updatePlayState() {
         playerAdapter.updatePlayState();
         playerGlue.updatePlayState();
-        long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
-        Calendar ends = Calendar.getInstance();
-        ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        Context context = getContext();
-        if (context != null)
-            playerGlue.setEndTime(context.getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
+        playerGlue.setEndTime();
     }
 
     public void setShouldShowOverlay(boolean shouldShowOverlay) {
