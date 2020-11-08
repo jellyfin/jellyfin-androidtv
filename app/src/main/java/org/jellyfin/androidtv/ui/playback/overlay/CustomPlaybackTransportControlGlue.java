@@ -95,6 +95,12 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
                 Context context = getContext();
 
+                if (mEndsText == null) {
+                    mEndsText = new TextView(context);
+                    mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
+                    setEndTime();
+                }
+
                 if (context != null) {
                     LinearLayout view = (LinearLayout) vh.view;
 
