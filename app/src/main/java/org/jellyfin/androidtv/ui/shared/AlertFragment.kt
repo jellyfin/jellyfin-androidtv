@@ -1,14 +1,11 @@
 package org.jellyfin.androidtv.ui.shared
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_alert_dialog.*
 import org.jellyfin.androidtv.R
 
 @Suppress("LongParameterList")
@@ -20,7 +17,7 @@ open class AlertFragment(
 	@StringRes private val cancelButtonText: Int? = null,
 	private val onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
-) : Fragment() {
+) : Fragment(R.layout.fragment_alert_dialog) {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 
@@ -48,9 +45,5 @@ open class AlertFragment(
 			onCancelCallback()
 			onClose()
 		}
-	}
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_alert_dialog, container, false)
 	}
 }
