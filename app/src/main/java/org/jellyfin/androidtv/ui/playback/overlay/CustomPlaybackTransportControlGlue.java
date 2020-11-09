@@ -70,9 +70,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
-        mEndsText = new TextView(context);
-        mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
-        setEndTime();
         initActions(context);
     }
 
@@ -95,13 +92,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
                 Context context = getContext();
 
-                if (mEndsText == null) {
+                if (context != null) {
                     mEndsText = new TextView(context);
                     mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
                     setEndTime();
-                }
 
-                if (context != null) {
                     LinearLayout view = (LinearLayout) vh.view;
 
                     PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
