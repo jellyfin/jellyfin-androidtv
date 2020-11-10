@@ -314,7 +314,7 @@
     <string name="lbl_series_recordings">Serie-opnames</string>
     <string name="lbl_series_settings">Serie-instellingen</string>
     <string name="lbl_episode_not_record">Deze weergave wordt niet opgenomen</string>
-    <string name="lbl_schedule">Planning</string>
+    <string name="lbl_schedule">Inplannen</string>
     <string name="no_program_data">&lt;Geen programmadata beschikbaar&gt;</string>
     <string name="title_activity_expanded_text">UitgeklapteTekstActiviteit</string>
     <string name="lbl_image_type">Afbeeldingstype</string>
@@ -412,4 +412,7 @@
     <string name="lbl_subtitle_track">Selecteer een ondertiteling</string>
     <string name="lbl_audio_track">Selecteer een audio track</string>
     <string name="lbl_pause">Pauze</string>
+    <string name="seek_error">Kan niet zoeken</string>
+    <string name="lbl_load_guide_data">Laad gids data</string>
+    <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als bekeken\?</string>
 </resources>
