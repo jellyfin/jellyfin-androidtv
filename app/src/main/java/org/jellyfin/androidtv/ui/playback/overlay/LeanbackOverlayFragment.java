@@ -51,7 +51,6 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void updatePlayState() {
         playerAdapter.updatePlayState();
         playerGlue.updatePlayState();
-        playerGlue.setEndTime();
     }
 
     public void setShouldShowOverlay(boolean shouldShowOverlay) {

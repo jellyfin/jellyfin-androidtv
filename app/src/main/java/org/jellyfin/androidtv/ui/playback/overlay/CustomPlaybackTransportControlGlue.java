@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,14 +64,32 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
-    //Custom views
+    // Injected views
     private TextView mEndsText = null;
+
+    Handler mHandler = new Handler();
+    Runnable mRefreshEndTime;
+
+    View mButtonRef;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
+
+        mRefreshEndTime = () -> {
+            if (!isPlaying())
+                setEndTime();
+
+            if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
+                mEndsText.setVisibility(mButtonRef.getVisibility());
+
+            mHandler.postDelayed(mRefreshEndTime, 250);
+        };
+
+        mHandler.postDelayed(mRefreshEndTime, 250);
+
         initActions(context);
     }
 
@@ -90,32 +110,31 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             @Override
             protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
-                Context context = getContext();
+                Context context = parent.getContext();
 
-                if (context != null) {
-                    mEndsText = new TextView(context);
-                    mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
-                    setEndTime();
+                mEndsText = new TextView(context);
+                mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
+                setEndTime();
 
-                    LinearLayout view = (LinearLayout) vh.view;
+                LinearLayout view = (LinearLayout) vh.view;
 
-                    PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
-                    View v = bar.getChildAt(0);
-                    bar.removeViewAt(0);
-                    RelativeLayout rl = new RelativeLayout(context);
-                    RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    rl.addView(v);
+                PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
+                FrameLayout v = (FrameLayout) bar.getChildAt(0);
+                mButtonRef = v.getChildAt(0);
+                bar.removeViewAt(0);
+                RelativeLayout rl = new RelativeLayout(context);
+                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rl.addView(v);
 
-                    RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    rl.addView(mEndsText, rlp2);
-                    bar.addView(rl, 0, rlp);
-                }
+                RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                rl.addView(mEndsText, rlp2);
+                bar.addView(rl, 0, rlp);
 
                 return vh;
             }
@@ -273,13 +292,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
     }
 
-    public void setEndTime() {
+    private void setEndTime() {
+        if (mEndsText == null)
+            return;
         long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
         Calendar ends = Calendar.getInstance();
         ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        Context context = getContext();
-        if (context != null && mEndsText != null)
-            mEndsText.setText(context.getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
     }
 
     private void notifyActionChanged(Action action) {
@@ -349,6 +368,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void updatePlayState() {
         playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
         notifyActionChanged(playPauseAction);
+        setEndTime();
     }
 
     @Override
