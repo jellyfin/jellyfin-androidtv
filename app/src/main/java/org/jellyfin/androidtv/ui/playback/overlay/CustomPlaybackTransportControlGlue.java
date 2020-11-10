@@ -67,10 +67,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     // Injected views
     private TextView mEndsText = null;
 
-    Handler mHandler = new Handler();
-    Runnable mRefreshEndTime;
+    private Handler mHandler = new Handler();
+    private Runnable mRefreshEndTime;
 
-    View mButtonRef;
+    private View mButtonRef;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
