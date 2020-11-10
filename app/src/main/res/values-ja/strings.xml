@@ -292,8 +292,8 @@
     <string name="msg_unable_load_subs">字幕のロードが出来ません</string>
     <string name="lbl_goto_series">シリーズに移動</string>
     <string name="pref_audio_compat">ステレオにダウンミックス</string>
-    <string name="lbl_repeat_options">リピート設定</string>
-    <string name="lbl_similar_items_library">ライブラリの類似アイテム</string>
+    <string name="lbl_repeat_options">リピートオプション</string>
+    <string name="lbl_similar_items_library">ライブラリ内の類似項目</string>
     <string name="lbl_program_ended">プログラム終了</string>
     <string name="lbl_no_recordings">録画はありません</string>
     <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
