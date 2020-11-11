@@ -374,8 +374,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
         notifyActionChanged(playPauseAction);
         setEndTime();
-        if (!isPlaying())
+        if (!isPlaying()) {
+            mHandler.removeCallbacks(mRefreshEndTime);
             mHandler.postDelayed(mRefreshEndTime, 30000);
+        } else {
+            mHandler.removeCallbacks(mRefreshEndTime);
+        }
+
     }
 
     public void setInjectedViewsVisibility() {
