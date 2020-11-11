@@ -645,6 +645,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     if (mFadeEnabled) startFadeTimer();
                 }
             }
+
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    leanbackOverlayFragment.getPlayerGlue().setInjectedViewsVisibility();
+            }
+
             return false;
         }
     };

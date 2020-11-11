@@ -69,8 +69,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private Handler mHandler = new Handler();
     private Runnable mRefreshEndTime;
+    private Runnable mRefreshViewVisibility;
 
-    private View mButtonRef;
+    private LinearLayout mButtonRef;
 
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
@@ -79,16 +80,19 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         this.leanbackOverlayFragment = leanbackOverlayFragment;
 
         mRefreshEndTime = () -> {
-            if (!isPlaying())
+            if (!isPlaying()) {
                 setEndTime();
 
-            if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
-                mEndsText.setVisibility(mButtonRef.getVisibility());
-
-            mHandler.postDelayed(mRefreshEndTime, 250);
+                mHandler.postDelayed(mRefreshEndTime, 30000);
+            }
         };
 
-        mHandler.postDelayed(mRefreshEndTime, 250);
+        mRefreshViewVisibility = () -> {
+            if (mButtonRef.getVisibility() != mEndsText.getVisibility())
+                mEndsText.setVisibility(mButtonRef.getVisibility());
+            else
+                mHandler.postDelayed(mRefreshViewVisibility, 100);
+        };
 
         initActions(context);
     }
@@ -120,7 +124,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
                 PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
                 FrameLayout v = (FrameLayout) bar.getChildAt(0);
-                mButtonRef = v.getChildAt(0);
+                mButtonRef = (LinearLayout) v.getChildAt(0);
+
                 bar.removeViewAt(0);
                 RelativeLayout rl = new RelativeLayout(context);
                 RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
@@ -369,6 +374,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
         notifyActionChanged(playPauseAction);
         setEndTime();
+        if (!isPlaying())
+            mHandler.postDelayed(mRefreshEndTime, 30000);
+    }
+
+    public void setInjectedViewsVisibility() {
+        if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
+            mEndsText.setVisibility(mButtonRef.getVisibility());
+        mHandler.removeCallbacks(mRefreshViewVisibility);
+        mHandler.postDelayed(mRefreshViewVisibility, 100);
     }
 
     @Override
