@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/resumeProgress"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/main_image"
             android:maxHeight="5sp"
             android:visibility="gone"
             android:max="100" />

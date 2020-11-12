@@ -1,21 +1,15 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
@@ -28,7 +22,6 @@ import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
-import java.security.MessageDigest;
 import java.util.Date;
 
 import timber.log.Timber;
@@ -337,23 +330,6 @@ public class CardPresenter extends Presenter {
                             .load(url)
                             .override(cardWidth, cardHeight)
                             .error(mDefaultCardImage)
-                            /*.transform(new BitmapTransformation() {
-                                @Override
-                                protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-                                    return RoundedDrawable.fromBitmap(toTransform)
-                                            .setScaleType(ImageView.ScaleType.FIT_XY)
-                                            .setCornerRadius(30, 30, 30, 30)
-                                            .setBorderWidth(3)
-                                            .setBorderColor(Color.YELLOW)
-                                            .setOval(false)
-                                            .toBitmap();
-                                }
-
-                                @Override
-                                public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
-                                }
-                            })*/
                             .into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {

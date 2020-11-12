@@ -68,7 +68,7 @@ public class MyImageCardView extends BaseCardView {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.image_card_view, this);;
+        View v = inflater.inflate(R.layout.image_card_view, this);
 
         mImageView = (ImageView) v.findViewById(R.id.main_image);
         mInfoArea = v.findViewById(R.id.info_field);
