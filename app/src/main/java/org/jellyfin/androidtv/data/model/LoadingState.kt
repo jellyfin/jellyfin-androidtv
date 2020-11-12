@@ -11,7 +11,7 @@ data class LoadingState(
 		val LOADING = LoadingState(Status.LOADING)
 		val SUCCESS = LoadingState(Status.SUCCESS)
 		val ERROR = LoadingState(Status.ERROR)
-		fun error(@StringRes msgRes: Int? = null) = LoadingState(Status.ERROR, msgRes)
+		fun error(@StringRes messageRes: Int? = null) = LoadingState(Status.ERROR, messageRes)
 	}
 
 	enum class Status {
