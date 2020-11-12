@@ -32,19 +32,19 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
-import org.jellyfin.androidtv.ui.playback.AudioEventListener;
-import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.playback.AudioEventListener;
+import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MathUtils;
@@ -203,7 +203,8 @@ public class ItemListActivity extends BaseActivity {
                     return true;
             }
         }
-        return false;
+
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
