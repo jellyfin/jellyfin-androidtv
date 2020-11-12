@@ -1,16 +1,10 @@
 package org.jellyfin.androidtv.util;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.text.InputType;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -19,11 +13,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
-import org.jellyfin.androidtv.ui.startup.DpadPwActivity;
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -178,34 +167,6 @@ public class Utils {
         styledAttributes.recycle();
 
         return themeColor;
-    }
-
-    public static void processPasswordEntry(Activity activity, UserDto user) {
-        processPasswordEntry(activity, user, null);
-    }
-
-    public static void processPasswordEntry(final Activity activity, final UserDto user, final String directItemId) {
-        if (get(UserPreferences.class).get(UserPreferences.Companion.getPasswordDPadEnabled())) {
-            Intent pwIntent = new Intent(activity, DpadPwActivity.class);
-            pwIntent.putExtra("User", get(GsonJsonSerializer.class).SerializeToString(user));
-            pwIntent.putExtra("ItemId", directItemId);
-            pwIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            activity.startActivity(pwIntent);
-        } else {
-            Timber.d("Requesting dialog...");
-            final EditText password = new EditText(activity);
-            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            new AlertDialog.Builder(activity)
-                    .setTitle(R.string.password_prompt)
-                    .setMessage(TvApp.getApplication().getString(R.string.password_prompt_message, user.getName()))
-                    .setView(password)
-                    .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            String pw = password.getText().toString();
-                            AuthenticationHelper.loginUser(user.getName(), pw, get(ApiClient.class), activity, directItemId);
-                        }
-                    }).show();
-        }
     }
 
     public static boolean downMixAudio() {

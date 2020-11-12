@@ -255,7 +255,7 @@
     <string name="lbl_series_recordings">シリーズ録画</string>
     <string name="no_program_data">&lt;進行中のデータはありません&gt;</string>
     <string name="msg_record_entire_series">シリーズすべてを録画しますか？</string>
-    <string name="lbl_show_premieres">ホームスクリーンでシーズンプレミアを表示</string>
+    <string name="lbl_show_premieres">ブラウザでシーズンプレミアを表示</string>
     <string name="desc_use_vlc_livetv">可能なときライブTVの直接ストリーミングにVLCを使う</string>
     <string name="lbl_repeat_episodes">エピソードをリピート</string>
     <string name="lbl_premieres">プレミア</string>
@@ -292,8 +292,11 @@
     <string name="msg_unable_load_subs">字幕のロードが出来ません</string>
     <string name="lbl_goto_series">シリーズに移動</string>
     <string name="pref_audio_compat">ステレオにダウンミックス</string>
-    <string name="lbl_repeat_options">リピート設定</string>
-    <string name="lbl_similar_items_library">ライブラリの類似アイテム</string>
+    <string name="lbl_repeat_options">リピートオプション</string>
+    <string name="lbl_similar_items_library">ライブラリ内の類似項目</string>
     <string name="lbl_program_ended">プログラム終了</string>
     <string name="lbl_no_recordings">録画はありません</string>
+    <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
+    <string name="msg_total_items_in_queue">" キュー内の全項目"</string>
+    <string name="lbl_pause">一時停止</string>
 </resources>

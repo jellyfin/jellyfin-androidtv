@@ -2,16 +2,12 @@ package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.data.model.LogonCredentials
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.LoginBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
 import org.jellyfin.apiclient.interaction.ApiClient
-import timber.log.Timber
-import java.io.IOException
 
 fun OptionsScreen.authenticationCategory(
 	userPreferences: UserPreferences,
@@ -23,13 +19,9 @@ fun OptionsScreen.authenticationCategory(
 		setTitle(R.string.pref_login_behavior_title)
 		bind {
 			set {
+				@Suppress("ControlFlowWithEmptyBody")
 				if (it == LoginBehavior.AUTO_LOGIN) {
-					try {
-						val credentials = LogonCredentials(apiClient.serverInfo, TvApp.getApplication().currentUser)
-						AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
-					} catch (e: IOException) {
-						Timber.e(e, "Unable to save logon credentials")
-					}
+					// FIXME: Fix autologin preference
 				}
 
 				userPreferences[UserPreferences.loginBehavior] = it
@@ -43,7 +35,7 @@ fun OptionsScreen.authenticationCategory(
 			// Auto login is disabled
 			userPreferences[UserPreferences.loginBehavior] != LoginBehavior.AUTO_LOGIN
 				// Or configured user is set to current user
-				|| configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
+				|| configuredAutoCredentials.user?.id == TvApp.getApplication().currentUser.id
 		}
 	}
 
@@ -56,9 +48,9 @@ fun OptionsScreen.authenticationCategory(
 			// Auto login is enabled
 			userPreferences[UserPreferences.loginBehavior] == LoginBehavior.AUTO_LOGIN
 				// Configured user is set to current user
-				&& configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
+				&& configuredAutoCredentials.user?.id == TvApp.getApplication().currentUser.id
 				// Configured user contains a password
-				&& configuredAutoCredentials.userDto.hasPassword
+				&& configuredAutoCredentials.user?.hasPassword ?: false
 		}
 	}
 

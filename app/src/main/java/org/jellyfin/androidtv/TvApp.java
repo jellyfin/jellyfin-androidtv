@@ -27,10 +27,8 @@ import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-
 public class TvApp extends Application {
     public static final String DISPLAY_PREFS_APP_NAME = "ATV";
-    public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
 
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
@@ -67,6 +65,7 @@ public class TvApp extends Application {
         return app;
     }
 
+    @Deprecated
     public UserDto getCurrentUser() {
         if (currentUser == null) {
             Timber.e("Called getCurrentUser() but value was null.");
@@ -74,6 +73,7 @@ public class TvApp extends Application {
         return currentUser;
     }
 
+    @Deprecated
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser = currentUser;
         TvManager.clearCache();
