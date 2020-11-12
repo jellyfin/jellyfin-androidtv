@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 
@@ -43,7 +45,6 @@ public class MyImageCardView extends BaseCardView {
     private ImageView mWatchedMark;
     private TextView mUnwatchedCount;
     private ProgressBar mProgress;
-    private RelativeLayout mMainWrapper;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -67,7 +68,7 @@ public class MyImageCardView extends BaseCardView {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.image_card_view, this);
+        View v = inflater.inflate(R.layout.image_card_view, this);;
 
         mImageView = (ImageView) v.findViewById(R.id.main_image);
         mInfoArea = v.findViewById(R.id.info_field);
@@ -84,7 +85,8 @@ public class MyImageCardView extends BaseCardView {
         mWatchedMark = (ImageView) v.findViewById(R.id.checkMark);
         mUnwatchedCount = (TextView) v.findViewById(R.id.unwatchedCount);
         mProgress = (ProgressBar) v.findViewById(R.id.resumeProgress);
-        mMainWrapper = (RelativeLayout) v.findViewById(R.id.main_wrap);
+
+        mImageView.setClipToOutline(true);
 
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
@@ -96,22 +98,21 @@ public class MyImageCardView extends BaseCardView {
                 a.recycle();
             }
         }
-
-        v.setOnFocusChangeListener((view, b) -> {
-            if (b) {
-                mTitleView.setTextColor(ContextCompat.getColor(context, R.color.lb_basic_card_title_text_color));
-                mContentView.setTextColor(ContextCompat.getColor(context, R.color.lb_basic_card_title_text_color));
-                mMainWrapper.setBackground(ContextCompat.getDrawable(context, R.drawable.theme_border));
-                mBadgeImage.setAlpha(1.0f);
-            } else {
-                mTitleView.setTextColor(ContextCompat.getColor(context, R.color.gray_gradient_end));
-                mContentView.setTextColor(ContextCompat.getColor(context, R.color.gray_gradient_end));
-                mMainWrapper.setBackground(null);
-                mBadgeImage.setAlpha(0.25f);
-            }
-        });
     }
 
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        if (gainFocus) {
+            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            mBadgeImage.setAlpha(1.0f);
+        } else {
+            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_gradient_end));
+            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_gradient_end));
+            mBadgeImage.setAlpha(0.25f);
+        }
+    }
 
     public void setBanner(int bannerResource) {
         if (mBanner == null) {
