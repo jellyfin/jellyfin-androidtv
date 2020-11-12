@@ -23,7 +23,6 @@ import org.jellyfin.androidtv.integration.ChannelManager;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.ui.browsing.IRowLoader;
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment;
@@ -33,7 +32,7 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
@@ -48,7 +47,6 @@ import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,11 +95,7 @@ public class HomeFragment extends StdBrowseFragment {
         super.onActivityCreated(savedInstanceState);
 
         // Save last login so we can get back proper context on entry
-        try {
-            AuthenticationHelper.saveLoginCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()), TvApp.CREDENTIALS_PATH);
-        } catch (IOException e) {
-            Timber.e(e, "Unable to save login credentials");
-        }
+        mApplication.setConfiguredAutoCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()));
 
         // Init leanback home channels;
         channelManager = new ChannelManager();

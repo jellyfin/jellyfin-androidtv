@@ -9,7 +9,6 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.ViewType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
 import org.jellyfin.androidtv.ui.browsing.CollectionActivity;
@@ -21,15 +20,14 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -256,21 +254,6 @@ public class ItemLauncher {
                     }
                 });
 
-                break;
-            case Server:
-                //Log in to selected server
-                get(ApiClient.class).ChangeServerLocation(rowItem.getServerInfo().getAddress());
-                AuthenticationHelper.enterManualUser(activity);
-                break;
-
-            case User:
-                final UserDto user = rowItem.getUser();
-                if (user.getHasPassword()) {
-                    Utils.processPasswordEntry(activity, user);
-
-                } else {
-                    AuthenticationHelper.loginUser(user.getName(), "", get(ApiClient.class), activity);
-                }
                 break;
 
             case SearchHint:

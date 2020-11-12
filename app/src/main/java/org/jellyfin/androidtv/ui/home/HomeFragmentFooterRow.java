@@ -13,11 +13,11 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
-import org.jellyfin.androidtv.ui.startup.SelectUserActivity;
-import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.ui.startup.StartupActivity;
 
 public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemViewClickedListener {
     private static final int LOGOUT = 0;
@@ -46,10 +46,12 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
 
         switch (((GridButton) item).getId()) {
             case LOGOUT:
-                TvApp app = TvApp.getApplication();
+                // Unset the current user
+                TvApp.getApplication().setCurrentUser(null);
 
                 // Open login activity
-                Intent selectUserIntent = new Intent(activity, SelectUserActivity.class);
+                Intent selectUserIntent = new Intent(activity, StartupActivity.class);
+                selectUserIntent.putExtra(StartupActivity.HIDE_SPLASH, true);
                 selectUserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY); // Disallow back button
                 activity.startActivity(selectUserIntent);
 
@@ -61,6 +63,5 @@ public class HomeFragmentFooterRow extends HomeFragmentRow implements OnItemView
                 activity.startActivity(settingsIntent);
                 break;
         }
-
     }
 }
