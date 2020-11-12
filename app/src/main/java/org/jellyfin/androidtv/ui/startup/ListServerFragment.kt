@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -67,8 +70,6 @@ class ListServerFragment : RowsSupportFragment() {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 
-		requireView().updatePadding(top = 20)
-
 		buildRows(emptyMap())
 
 		val serverObserver = Observer<ServerList> { serverList ->
@@ -78,6 +79,12 @@ class ListServerFragment : RowsSupportFragment() {
 		loginViewModel.serverList.observe(viewLifecycleOwner, serverObserver)
 
 		onItemViewClickedListener = itemViewClickedListener
+	}
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return super.onCreateView(inflater, container, savedInstanceState)?.apply {
+			updatePadding(top = 20)
+		}
 	}
 
 	private fun buildRows(usersByServer: Map<Server, List<User>>) {
