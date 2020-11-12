@@ -416,4 +416,5 @@
     <string name="lbl_add_server">Add Server</string>
     <string name="lbl_sign_in">Please Sign In</string>
     <string name="lbl_manual_login">Manual Login</string>
+    <string name="lbl_playback_control_ends">Ends at %1$s</string>
 </resources>

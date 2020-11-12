@@ -85,6 +85,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         playerAdapter.getMasterOverlayFragment().onPause();
     }
 
+    public CustomPlaybackTransportControlGlue getPlayerGlue() {
+        return playerGlue;
+    }
+
     public void onFullyInitialized() {
         updatePlayState();
         playerGlue.addMediaActions();
