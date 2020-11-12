@@ -2,9 +2,11 @@ package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
 import android.text.InputType
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
@@ -19,10 +21,8 @@ class AddServerFragment(
 	onCancelCallback = onCancelCallback,
 	onClose = onClose
 ) {
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
-
-		val contentView = requireActivity().findViewById<LinearLayout>(R.id.content)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
 		// Build the url field
 		val address = EditText(activity)
@@ -33,15 +33,16 @@ class AddServerFragment(
 		address.nextFocusDownId = R.id.confirm
 		address.requestFocus()
 		// Add the url field to the content view
-		contentView.addView(address)
+		view.content.addView(address)
 
 		// Override the default confirm button click listener to return the address field text
-		val confirmButton = requireActivity().findViewById<Button>(R.id.confirm)
-		confirmButton.setOnClickListener {
+		view.confirm.setOnClickListener {
 			if (address.text.isNotBlank()) {
 				onConfirmCallback(address.text.toString())
 				onClose()
 			}
 		}
+
+		return view
 	}
 }

@@ -11,18 +11,16 @@ open class JsonFileSource<T>(
 	private val serializer: Gson,
 	private val clazz: Class<T>
 ) {
-	fun read(): T? {
-		try {
-			context.openFileInput(fileName).use {
-				val data = it.readBytes()
-					.toString(Charsets.UTF_8)
+	fun read(): T? = try {
+		context.openFileInput(fileName).use {
+			val data = it.readBytes()
+				.toString(Charsets.UTF_8)
 
-				return serializer.fromJson(data, clazz)
-			}
-		} catch (ex: FileNotFoundException) {
-			Timber.e(ex, "File %s not found", fileName)
+			serializer.fromJson(data, clazz)
 		}
-		return null
+	} catch (ex: FileNotFoundException) {
+		Timber.e(ex, "File %s not found", fileName)
+		null
 	}
 
 	fun write(t: T) {

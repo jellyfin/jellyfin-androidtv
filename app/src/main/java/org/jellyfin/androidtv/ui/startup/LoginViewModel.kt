@@ -57,26 +57,28 @@ class LoginViewModel(
 	}
 
 	init {
-		// Add all loading states
-		_serverList.addSource(_loadingCurrentServer) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { currentServerUsersState = it }
-		}
-		_serverList.addSource(_loadingDiscoveredServers) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { discoveredServersUsersState = it }
-		}
-		_serverList.addSource(_loadingSavedServers) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { savedServersUsersState = it }
-		}
+		_serverList.apply {
+			// Add all loading states
+			addSource(_loadingCurrentServer) {
+				value = (value ?: ServerList()).apply { currentServerUsersState = it }
+			}
+			addSource(_loadingDiscoveredServers) {
+				value = (value ?: ServerList()).apply { discoveredServersUsersState = it }
+			}
+			addSource(_loadingSavedServers) {
+				value = (value ?: ServerList()).apply { savedServersUsersState = it }
+			}
 
-		// Add all the server data
-		_serverList.addSource(currentServerUsers) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { currentServerUsers = it }
-		}
-		_serverList.addSource(discoveredServers) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { discoveredServersUsers = it }
-		}
-		_serverList.addSource(savedServers) {
-			_serverList.value = (_serverList.value ?: ServerList()).apply { savedServersUsers = it }
+			// Add all the server data
+			addSource(currentServerUsers) {
+				value = (value ?: ServerList()).apply { currentServerUsers = it }
+			}
+			addSource(discoveredServers) {
+				value = (value ?: ServerList()).apply { discoveredServersUsers = it }
+			}
+			addSource(savedServers) {
+				value = (value ?: ServerList()).apply { savedServersUsers = it }
+			}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.apiclient
 
+import org.jellyfin.androidtv.data.model.LegacyServer
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.data.model.UserConfiguration
@@ -9,19 +10,28 @@ import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.system.PublicSystemInfo
 
-fun DiscoveryServerInfo.toServerInfo(): ServerInfo = ServerInfo().apply {
+fun DiscoveryServerInfo.toServerInfo() = ServerInfo().apply {
 	id = this@toServerInfo.id
 	name = this@toServerInfo.name
 	address = this@toServerInfo.address
 }
 
-fun DiscoveryServerInfo.toServer(): Server = Server(id, name, address)
+fun DiscoveryServerInfo.toServer() = Server(id, name, address)
 
-fun PublicSystemInfo.toServer(): Server = Server(id, serverName, localAddress)
+fun PublicSystemInfo.toServer() = Server(id, serverName, localAddress)
 
-fun ServerInfo.toServer(): Server = Server(id, name, address, userId, accessToken, dateLastAccessed)
+fun ServerInfo.toLegacyServer() = LegacyServer(id, name, address, dateLastAccessed, userId, accessToken)
 
-fun Server.toServerInfo(): ServerInfo = ServerInfo().apply {
+fun ServerInfo.toServer() = Server(id, name, address, dateLastAccessed)
+
+fun Server.toServerInfo() = ServerInfo().apply {
+	id = this@toServerInfo.id
+	name = this@toServerInfo.name
+	address = this@toServerInfo.address
+	dateLastAccessed = this@toServerInfo.dateLastAccessed
+}
+
+fun LegacyServer.toServerInfo() = ServerInfo().apply {
 	id = this@toServerInfo.id
 	name = this@toServerInfo.name
 	address = this@toServerInfo.address
@@ -30,7 +40,7 @@ fun Server.toServerInfo(): ServerInfo = ServerInfo().apply {
 	dateLastAccessed = this@toServerInfo.dateLastAccessed
 }
 
-fun UserDto.toUser(): User = User(
+fun UserDto.toUser() = User(
 	id = id,
 	name = name,
 	serverId = serverId,
@@ -39,7 +49,7 @@ fun UserDto.toUser(): User = User(
 	hasConfiguredPassword = hasConfiguredPassword,
 	hasConfiguredEasyPassword = hasConfiguredEasyPassword,
 	configuration = UserConfiguration(
-		latestItemsExcludes = configuration.latestItemsExcludes
+		latestItemsExcludes = configuration.latestItemsExcludes.toList()
 	),
 	policy = UserPolicy(
 		enableLiveTvAccess = policy.enableLiveTvAccess,
@@ -47,7 +57,7 @@ fun UserDto.toUser(): User = User(
 	)
 )
 
-fun User.toUserDto(): UserDto = UserDto().apply {
+fun User.toUserDto() = UserDto().apply {
 	id = this@toUserDto.id
 	name = this@toUserDto.name
 	serverId = this@toUserDto.serverId
@@ -56,7 +66,7 @@ fun User.toUserDto(): UserDto = UserDto().apply {
 	hasConfiguredPassword = this@toUserDto.hasConfiguredPassword
 	hasConfiguredEasyPassword = this@toUserDto.hasConfiguredEasyPassword
 	configuration = org.jellyfin.apiclient.model.configuration.UserConfiguration().apply {
-		latestItemsExcludes = this@toUserDto.configuration.latestItemsExcludes
+		latestItemsExcludes = this@toUserDto.configuration.latestItemsExcludes.toTypedArray()
 	}
 	policy = org.jellyfin.apiclient.model.users.UserPolicy().apply {
 		enableLiveTvAccess = this@toUserDto.policy.enableLiveTvAccess

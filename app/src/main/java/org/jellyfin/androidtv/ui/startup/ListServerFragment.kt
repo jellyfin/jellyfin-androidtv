@@ -111,8 +111,8 @@ class ListServerFragment : RowsSupportFragment() {
 			.addToBackStack(this::class.simpleName)
 			.commit()
 	}
+
+	private class AddUserGridButton(val server: Server, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
+
+	private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
 }
-
-private class AddUserGridButton(val server: Server, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
-
-private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)

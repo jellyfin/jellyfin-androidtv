@@ -20,7 +20,7 @@ class ServerListTest {
 
 	@Test
 	fun errorState() {
-		val errorState = LoadingState.error("ERROR!")
+		val errorState = LoadingState.error(1)
 		var serverList = ServerList(
 			currentServerUsersState = errorState,
 			discoveredServersUsersState = LoadingState.SUCCESS,

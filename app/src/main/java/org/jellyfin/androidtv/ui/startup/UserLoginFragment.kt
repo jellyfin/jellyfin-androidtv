@@ -3,9 +3,11 @@ package org.jellyfin.androidtv.ui.startup
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.ui.shared.AlertFragment
@@ -21,11 +23,10 @@ class UserLoginFragment(
 	onCancelCallback = onCancelCallback,
 	onClose = onClose
 ) {
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		val contentView = requireActivity().findViewById<LinearLayout>(R.id.content)
-		contentView.minimumWidth = 360
+		view.content.minimumWidth = 360
 
 		// Build the username field
 		val username = EditText(activity)
@@ -40,7 +41,7 @@ class UserLoginFragment(
 			username.requestFocus()
 		}
 		// Add the username field to the content view
-		contentView.addView(username)
+		view.content.addView(username)
 
 		// Build the password field
 		val password = EditText(activity)
@@ -52,15 +53,16 @@ class UserLoginFragment(
 		password.typeface = Typeface.DEFAULT
 		if (user != null) password.requestFocus()
 		// Add the password field to the content view
-		contentView.addView(password)
+		view.content.addView(password)
 
 		// Override the default confirm button click listener to return the address field text
-		val confirmButton = requireActivity().findViewById<Button>(R.id.confirm)
-		confirmButton.setOnClickListener {
+		view.confirm.setOnClickListener {
 			if (username.text.isNotBlank()) {
 				onConfirmCallback(username.text.toString(), password.text.toString())
 				onClose()
 			}
 		}
+
+		return view
 	}
 }

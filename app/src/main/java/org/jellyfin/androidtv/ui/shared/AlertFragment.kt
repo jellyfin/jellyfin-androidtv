@@ -1,11 +1,12 @@
 package org.jellyfin.androidtv.ui.shared
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 
 @Suppress("LongParameterList")
@@ -18,20 +19,20 @@ open class AlertFragment(
 	private val onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
 ) : Fragment(R.layout.fragment_alert_dialog) {
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		val titleView = requireActivity().findViewById<TextView>(R.id.title)
+		val titleView = view.title
 		titleView.setText(title)
 
-		val descriptionView = requireActivity().findViewById<TextView>(R.id.description)
+		val descriptionView = view.description
 		if (description != null) {
 			descriptionView.setText(description)
 		} else {
 			descriptionView.visibility = View.GONE
 		}
 
-		val confirmButton = requireActivity().findViewById<Button>(R.id.confirm)
+		val confirmButton = view.confirm
 		if (confirmButtonText != null) confirmButton.setText(confirmButtonText)
 		confirmButton.requestFocus()
 		confirmButton.setOnClickListener {
@@ -39,11 +40,13 @@ open class AlertFragment(
 			onClose()
 		}
 
-		val cancelButton = requireActivity().findViewById<Button>(R.id.cancel)
+		val cancelButton = view.cancel
 		if (cancelButtonText != null) cancelButton.setText(cancelButtonText)
 		cancelButton.setOnClickListener {
 			onCancelCallback()
 			onClose()
 		}
+
+		return view
 	}
 }

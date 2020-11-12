@@ -5,17 +5,15 @@ import java.util.*
 /**
  * Server model to use locally in place of ServerInfo model in ApiClient.
  */
-data class Server(
+open class Server(
 	var id: String,
 	var name: String,
 	var address: String,
-	@Deprecated("This is only used for legacy stored credentials")
-	val userId: String? = null,
-	@Deprecated("This is only used for legacy stored credentials")
-	val accessToken: String? = null,
-	val dateLastAccessed: Date = Date(0)
+	var dateLastAccessed: Date = Date(0)
 ) {
-	override fun equals(other: Any?) = (other is Server) && id == other.id && address == other.address
+	override fun equals(other: Any?) = other is Server
+			&& id == other.id
+			&& address == other.address
 
 	override fun hashCode(): Int {
 		var result = id.hashCode()
@@ -23,3 +21,18 @@ data class Server(
 		return result
 	}
 }
+
+@Deprecated("Should use Server model that does not include legacy user fields")
+class LegacyServer(
+	id: String,
+	name: String,
+	address: String,
+	dateLastAccessed: Date = Date(0),
+	var userId: String? = null,
+	var accessToken: String? = null
+) : Server(
+	id,
+	name,
+	address,
+	dateLastAccessed
+)

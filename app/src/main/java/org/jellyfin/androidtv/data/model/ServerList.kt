@@ -8,27 +8,20 @@ class ServerList(
 	var savedServersUsers: Map<Server, List<User>> = emptyMap(),
 	var savedServersUsersState: LoadingState = LoadingState.PENDING
 ) {
-	val state: LoadingState
-		get() {
-			return if (currentServerUsersState.status == LoadingState.error().status) {
-				currentServerUsersState
-			} else if (discoveredServersUsersState.status == LoadingState.error().status) {
-				discoveredServersUsersState
-			} else if (savedServersUsersState.status == LoadingState.error().status) {
-				savedServersUsersState
-			} else if (currentServerUsersState == LoadingState.LOADING ||
+	val state
+		get() = when {
+			currentServerUsersState.status == LoadingState.ERROR.status -> currentServerUsersState
+			discoveredServersUsersState.status == LoadingState.ERROR.status -> discoveredServersUsersState
+			savedServersUsersState.status == LoadingState.ERROR.status -> savedServersUsersState
+			currentServerUsersState == LoadingState.LOADING ||
 					discoveredServersUsersState == LoadingState.LOADING ||
-					savedServersUsersState == LoadingState.LOADING) {
-				LoadingState.LOADING
-			} else if (currentServerUsersState == LoadingState.SUCCESS ||
+					savedServersUsersState == LoadingState.LOADING -> LoadingState.LOADING
+			currentServerUsersState == LoadingState.SUCCESS ||
 					discoveredServersUsersState == LoadingState.SUCCESS ||
-					savedServersUsersState == LoadingState.SUCCESS) {
-				LoadingState.SUCCESS
-			} else {
-				LoadingState.PENDING
-			}
+					savedServersUsersState == LoadingState.SUCCESS -> LoadingState.SUCCESS
+			else -> LoadingState.PENDING
 		}
 
-	val allServersUsers: Map<Server, List<User>>
+	val allServersUsers
 		get() = currentServerUsers + savedServersUsers + discoveredServersUsers
 }

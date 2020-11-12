@@ -1,11 +1,17 @@
 package org.jellyfin.androidtv.data.model
 
-data class LoadingState private constructor(val status: Status, val message: String? = null){
+import androidx.annotation.StringRes
+
+data class LoadingState(
+	val status: Status,
+	@StringRes val messageRes: Int? = null
+) {
 	companion object {
 		val PENDING = LoadingState(Status.PENDING)
 		val LOADING = LoadingState(Status.LOADING)
 		val SUCCESS = LoadingState(Status.SUCCESS)
-		fun error(msg: String? = null) = LoadingState(Status.ERROR, msg)
+		val ERROR = LoadingState(Status.ERROR)
+		fun error(@StringRes msgRes: Int? = null) = LoadingState(Status.ERROR, msgRes)
 	}
 
 	enum class Status {

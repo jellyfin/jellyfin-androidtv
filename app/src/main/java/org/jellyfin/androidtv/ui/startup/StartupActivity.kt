@@ -70,11 +70,8 @@ class StartupActivity : FragmentActivity() {
 		val currentUserObserver = Observer<User> { user: User? ->
 			// TODO: This should be removed in favor of fragments getting the current user directly
 			application!!.currentUser = user?.toUserDto()
-			// User has been logged in continue to home screen
-			// TODO: We should use a fragment for this, but the current fragment depends on BaseActivity
-			val intent = Intent(application, MainActivity::class.java)
-			startActivity(intent)
-			finish()
+			// User has been logged in continue to correct screen
+			openNextActivity()
 		}
 		loginViewModel.currentUser.observe(this, currentUserObserver)
 	}
@@ -88,7 +85,7 @@ class StartupActivity : FragmentActivity() {
 			MediaManager.clearVideoQueue()
 			showServerList()
 		}
-		isLoaded = true;
+		isLoaded = true
 	}
 
 	private fun openNextActivity() {

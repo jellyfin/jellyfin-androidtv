@@ -15,7 +15,7 @@ data class User(
 	val configuration: UserConfiguration = UserConfiguration(),
 	val policy: UserPolicy = UserPolicy()
 ) {
-	override fun equals(other: Any?) = (other is User)
+	override fun equals(other: Any?) = other is User
 			&& serverId == other.serverId
 			&& id == other.id
 
