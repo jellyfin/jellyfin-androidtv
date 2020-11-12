@@ -26,10 +26,11 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.java.KoinJavaComponent.get
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 
-class StartupActivity : FragmentActivity() {
+class StartupActivity : FragmentActivity(), KoinComponent {
 	companion object {
 		private const val NETWORK_PERMISSION = 1
 		const val ITEM_ID = "ItemId"
@@ -39,6 +40,7 @@ class StartupActivity : FragmentActivity() {
 
 	private var application: TvApp? = null
 	private val loginViewModel: LoginViewModel by viewModel()
+	private val apiClient: ApiClient by inject()
 	private var isLoaded = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +95,7 @@ class StartupActivity : FragmentActivity() {
 		val itemIsUserView = intent.getBooleanExtra(ITEM_IS_USER_VIEW, false)
 		if (itemId != null) {
 			if (itemIsUserView) {
-				get(ApiClient::class.java).GetItemAsync(itemId, get(ApiClient::class.java).currentUserId, object : Response<BaseItemDto?>() {
+				apiClient.GetItemAsync(itemId, apiClient.currentUserId, object : Response<BaseItemDto?>() {
 					override fun onResponse(item: BaseItemDto?) {
 						ItemLauncher.launchUserView(item, this@StartupActivity, true)
 					}
