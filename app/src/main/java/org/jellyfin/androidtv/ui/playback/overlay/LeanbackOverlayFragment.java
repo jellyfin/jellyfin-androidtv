@@ -67,6 +67,8 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void mediaInfoChanged() {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        if (currentlyPlayingItem == null) return;
+
         playerGlue.setTitle(currentlyPlayingItem.getName());
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
