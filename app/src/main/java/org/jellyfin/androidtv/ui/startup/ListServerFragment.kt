@@ -24,6 +24,7 @@ import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.ServerList
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.ui.GridButton
+import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
@@ -88,7 +89,7 @@ class ListServerFragment : RowsSupportFragment() {
 	}
 
 	private fun buildRows(usersByServer: Map<Server, List<User>>) {
-		val rowAdapter = ArrayObjectAdapter(ListRowPresenter())
+		val rowAdapter = ArrayObjectAdapter(CustomListRowPresenter())
 		adapter = rowAdapter
 
 		usersByServer.forEach { (server: Server, userList: List<User>) ->
