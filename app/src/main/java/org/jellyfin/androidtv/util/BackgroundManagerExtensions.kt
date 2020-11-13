@@ -18,7 +18,8 @@ fun BackgroundManager.drawable(
 	context: Context,
 	url: String,
 	widthPixels: Int,
-	heightPixels: Int
+	heightPixels: Int,
+	applyAlpha: Boolean
 ) {
 	Glide.with(context)
 		.load(url)
@@ -31,9 +32,11 @@ fun BackgroundManager.drawable(
 			}
 
 			override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-				val filter: ColorFilter = PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.DST_OVER)
-				resource?.colorFilter = filter
-				resource?.alpha = 50
+				if (applyAlpha) {
+					val filter: ColorFilter = PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.DST_OVER)
+					resource?.colorFilter = filter
+					resource?.alpha = 150
+				}
 				drawable = resource
 				return true
 			}

@@ -385,7 +385,8 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
                     getActivity(),
                     url,
                     mMetrics.widthPixels,
-                    mMetrics.heightPixels
+                    mMetrics.heightPixels,
+                    true
             );
         }
     }

@@ -45,6 +45,7 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MathUtils;
@@ -773,23 +774,14 @@ public class ItemListActivity extends BaseActivity {
         if (url == null) {
             backgroundInstance.setDrawable(null);
         } else {
-
-            Glide.with(this)
-                    .load(url)
-                    .override(mMetrics.widthPixels, mMetrics.heightPixels)
-                    .centerCrop()
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            backgroundInstance.setDrawable(resource);
-                            return false;
-                        }
-                    }).submit();
+            BackgroundManagerExtensionsKt.drawable(
+                    backgroundInstance,
+                    this,
+                    url,
+                    mMetrics.widthPixels,
+                    mMetrics.heightPixels,
+                    true
+            );
         }
     }
 }
