@@ -16,7 +16,7 @@ class StartupToolbarFragment(
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
 		view.toolbar_start.apply {
-			this.addView(Button(requireContext()).apply {
+			this.addView(Button(requireContext(), null, 0, R.style.Button_Default).apply {
 				text = context.getString(R.string.lbl_add_server)
 				setOnClickListener { onAddServerClicked() }
 			})

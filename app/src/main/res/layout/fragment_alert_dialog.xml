@@ -55,9 +55,9 @@
 
             <Button
                 android:id="@+id/cancel"
+                style="@style/Button.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/jellyfin_button"
                 android:text="@string/lbl_cancel" />
 
             <Space
@@ -66,9 +66,9 @@
 
             <Button
                 android:id="@+id/confirm"
+                style="@style/Button.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/jellyfin_button"
                 android:text="@string/lbl_ok" />
         </LinearLayout>
 
