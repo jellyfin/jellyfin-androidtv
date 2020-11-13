@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Fallo al cargar el video</string>
     <string name="txt_loading">Cargando…</string>
-    <string name="title_activity_select_user">Selecionar Actividad de Usuario</string>
+    <string name="title_activity_select_user">Select User Activity</string>
     <string name="home_title">Inicio</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
@@ -254,7 +254,7 @@
     <string name="lbl_status">%s / %s</string>
     <string name="desc_suggestions_holiday">Prueba algunas de nuestras sugerencias festivas</string>
     <string name="title_suggestions_holiday">¡Felices vacaciones!</string>
-    <string name="lbl_suggestions_holiday">Sugerencias festivas</string>
+    <string name="lbl_suggestions_holiday">Sugerencias por navidades</string>
     <string name="desc_suggestions_halloween">Prueba algunas de nuestras sugerencias escalofriantes</string>
     <string name="title_suggestions_halloween">¡Feliz Halloween!</string>
     <string name="lbl_suggestions_halloween">Sugerencias escalofriantes</string>
@@ -404,4 +404,15 @@
     <string name="mark_watched">Marcar como visto</string>
     <string name="lbl_tv_filter_status">durante las próximas %1$d horas</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
+    <string name="play_with">Reproducir con</string>
+    <string name="play_with_external_app">Reproducir con aplicación externa</string>
+    <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
+    <string name="play_with_vlc">Reproducir con libVLC</string>
+    <string name="like_setting_error">Error estableciendo estado</string>
+    <string name="like_clearing_error">Error limpiando como estado</string>
+    <string name="seek_error">No se puede buscar</string>
+    <string name="pref_video_player_choose">Siempre preguntar</string>
+    <string name="lbl_subtitle_track">Seleccione pista de subtítulos</string>
+    <string name="lbl_audio_track">Seleccione pista de audio</string>
+    <string name="lbl_pause">Pausa</string>
 </resources>

@@ -1,16 +1,26 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.leanback.media.PlaybackTransportControlGlue;
+import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 import androidx.leanback.widget.Action;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.PlaybackControlsRow;
+import androidx.leanback.widget.PlaybackRowPresenter;
+import androidx.leanback.widget.PlaybackTransportRowPresenter;
+import androidx.leanback.widget.PlaybackTransportRowView;
+import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -23,6 +33,9 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAc
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
+
+import java.text.DateFormat;
+import java.util.Calendar;
 
 import static org.koin.java.KoinJavaComponent.get;
 
@@ -51,12 +64,99 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
+    // Injected views
+    private TextView mEndsText = null;
+
+    private Handler mHandler = new Handler();
+    private Runnable mRefreshEndTime;
+    private Runnable mRefreshViewVisibility;
+
+    private LinearLayout mButtonRef;
+
     CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         super(context, playerAdapter);
         this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
         this.leanbackOverlayFragment = leanbackOverlayFragment;
+
+        mRefreshEndTime = () -> {
+            if (!isPlaying()) {
+                setEndTime();
+
+                mHandler.postDelayed(mRefreshEndTime, 30000);
+            }
+        };
+
+        mRefreshViewVisibility = () -> {
+            if (mButtonRef.getVisibility() != mEndsText.getVisibility())
+                mEndsText.setVisibility(mButtonRef.getVisibility());
+            else
+                mHandler.postDelayed(mRefreshViewVisibility, 100);
+        };
+
         initActions(context);
+    }
+
+    @Override
+    protected PlaybackRowPresenter onCreateRowPresenter() {
+        final AbstractDetailsDescriptionPresenter detailsPresenter =
+                new AbstractDetailsDescriptionPresenter() {
+                    @Override
+                    protected void onBindDescription(ViewHolder
+                                                             viewHolder, Object obj) {
+                        PlaybackTransportControlGlue glue = (PlaybackTransportControlGlue) obj;
+                        viewHolder.getTitle().setText(glue.getTitle());
+                        viewHolder.getSubtitle().setText(glue.getSubtitle());
+                    }
+                };
+
+        PlaybackTransportRowPresenter rowPresenter = new PlaybackTransportRowPresenter() {
+            @Override
+            protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
+                RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
+                Context context = parent.getContext();
+
+                mEndsText = new TextView(context);
+                mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
+                setEndTime();
+
+                LinearLayout view = (LinearLayout) vh.view;
+
+                PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
+                FrameLayout v = (FrameLayout) bar.getChildAt(0);
+                mButtonRef = (LinearLayout) v.getChildAt(0);
+
+                bar.removeViewAt(0);
+                RelativeLayout rl = new RelativeLayout(context);
+                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rl.addView(v);
+
+                RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                rl.addView(mEndsText, rlp2);
+                bar.addView(rl, 0, rlp);
+
+                return vh;
+            }
+
+            @Override
+            protected void onBindRowViewHolder(RowPresenter.ViewHolder vh, Object item) {
+                super.onBindRowViewHolder(vh, item);
+                vh.setOnKeyListener(CustomPlaybackTransportControlGlue.this);
+            }
+            @Override
+            protected void onUnbindRowViewHolder(RowPresenter.ViewHolder vh) {
+                super.onUnbindRowViewHolder(vh);
+                vh.setOnKeyListener(null);
+            }
+        };
+        rowPresenter.setDescriptionPresenter(detailsPresenter);
+        return rowPresenter;
     }
 
     private void initActions(Context context) {
@@ -76,13 +176,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         chapterAction.setLabels(new String[]{context.getString(R.string.lbl_chapters)});
 
         previousLiveTvChannelAction = new PreviousLiveTvChannelAction(context, this);
-        previousLiveTvChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_prev_item)});
+        previousLiveTvChannelAction.setLabels(new String[]{context.getString(R.string.lbl_prev_item)});
         channelBarChannelAction = new ChannelBarChannelAction(context, this);
-        channelBarChannelAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_other_channels)});
+        channelBarChannelAction.setLabels(new String[]{context.getString(R.string.lbl_other_channels)});
         guideAction = new GuideAction(context, this);
-        guideAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_live_tv_guide)});
+        guideAction.setLabels(new String[]{context.getString(R.string.lbl_live_tv_guide)});
         recordAction = new RecordAction(context, this);
-        recordAction.setLabels(new String[]{TvApp.getApplication().getString(R.string.lbl_record)});
+        recordAction.setLabels(new String[]{context.getString(R.string.lbl_record)});
     }
 
     @Override
@@ -197,6 +297,15 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         }
     }
 
+    private void setEndTime() {
+        if (mEndsText == null)
+            return;
+        long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
+        Calendar ends = Calendar.getInstance();
+        ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
+    }
+
     private void notifyActionChanged(Action action) {
         ArrayObjectAdapter adapter = primaryActionsAdapter;
         if (adapter.indexOf(action) >= 0) {
@@ -264,6 +373,21 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void updatePlayState() {
         playPauseAction.setIndex(isPlaying() ? PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE : PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
         notifyActionChanged(playPauseAction);
+        setEndTime();
+        if (!isPlaying()) {
+            mHandler.removeCallbacks(mRefreshEndTime);
+            mHandler.postDelayed(mRefreshEndTime, 30000);
+        } else {
+            mHandler.removeCallbacks(mRefreshEndTime);
+        }
+
+    }
+
+    public void setInjectedViewsVisibility() {
+        if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
+            mEndsText.setVisibility(mButtonRef.getVisibility());
+        mHandler.removeCallbacks(mRefreshViewVisibility);
+        mHandler.postDelayed(mRefreshViewVisibility, 100);
     }
 
     @Override

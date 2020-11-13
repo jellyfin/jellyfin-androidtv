@@ -54,6 +54,19 @@ class JellyfinApplication : TvApp() {
 		// Initialize the logging library
 		Timber.plant(DebugTree())
 		Timber.i("Application object created")
+
+		// Enable improved logging for leaking resources
+		// https://wh0.github.io/2020/08/12/closeguard.html
+		if (BuildConfig.DEBUG) {
+			try {
+				Class.forName("dalvik.system.CloseGuard")
+					.getMethod("setEnabled", Boolean::class.javaPrimitiveType)
+					.invoke(null, true)
+			} catch (e: ReflectiveOperationException) {
+				@Suppress("TooGenericExceptionThrown")
+				throw RuntimeException(e)
+			}
+		}
 	}
 
 	override fun attachBaseContext(base: Context?) {

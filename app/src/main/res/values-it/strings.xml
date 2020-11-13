@@ -398,4 +398,7 @@
     <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
     <string name="lbl_audio_track">Seleziona traccia audio</string>
     <string name="lbl_pause">Pausa</string>
+    <string name="seek_error">Impossibile ricercare</string>
+    <string name="lbl_load_guide_data">Carica Dati Manuale</string>
+    <string name="no_player">Player non disponibile</string>
 </resources>

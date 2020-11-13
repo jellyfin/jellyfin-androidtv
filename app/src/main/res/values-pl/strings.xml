@@ -175,7 +175,7 @@
     <string name="pref_audio_compat">Downmix do Stereo</string>
     <string name="msg_remote_already_playing">Zignorowano zdalne żądanie odtważania. Proszę zatrzymać aktualne odtwarzanie.</string>
     <string name="lbl_only_new_episodes">Tylko nowe odcinki</string>
-    <string name="lbl_similar_items_library">Podobne elementy Biblioteki</string>
+    <string name="lbl_similar_items_library">Podobne elementy w Bibliotece</string>
     <string name="lbl_program_ended">Program zakończony</string>
     <string name="msg_recording_now">Nagrywanie</string>
     <string name="lbl_tune_to_channel">Odtwarzaj</string>
@@ -407,4 +407,5 @@
     <string name="no_player">Brak aplikacji odtwarzającej</string>
     <string name="mark_watched_message">Plik nie został do końca odtworzony. Czy oznaczyć go jako obejrzany\?</string>
     <string name="mark_watched">Oznacz jako obejrzane</string>
+    <string name="lbl_pause">Zatrzymaj</string>
 </resources>
