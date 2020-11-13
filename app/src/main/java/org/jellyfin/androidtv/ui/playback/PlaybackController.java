@@ -42,6 +42,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -143,7 +144,17 @@ public class PlaybackController {
     public BaseItemDto getCurrentlyPlayingItem() {
         return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }
-    public MediaSourceInfo getCurrentMediaSource() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null ? mCurrentStreamInfo.getMediaSource() : getCurrentlyPlayingItem().getMediaSources().get(0);}
+
+    public MediaSourceInfo getCurrentMediaSource() {
+        if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
+            return mCurrentStreamInfo.getMediaSource();
+        } else {
+            ArrayList<MediaSourceInfo> mediaSources = getCurrentlyPlayingItem().getMediaSources();
+            if (mediaSources == null || mediaSources.isEmpty()) return null;
+            else return mediaSources.get(0);
+        }
+    }
+
     public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
     public boolean canSeek() {return !isLiveTv;}
     public boolean isLiveTv() { return isLiveTv; }

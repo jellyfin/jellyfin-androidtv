@@ -1,12 +1,13 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class StreamHelper {
     public static MediaStream getMediaStream(MediaSourceInfo mediaSource, int index) {
@@ -37,6 +38,8 @@ public class StreamHelper {
     }
 
     public static List<MediaStream> getStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
+        if (mediaSource == null) return Collections.emptyList();
+
         ArrayList<MediaStream> streams = mediaSource.getMediaStreams();
         ArrayList<MediaStream> ret = new ArrayList<>();
         if (streams != null) {
