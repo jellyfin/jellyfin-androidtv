@@ -1,7 +1,0 @@
-.git*
-.dockerignore
-Dockerfile
-build
-new-file-header.txt
-CONTRIBUTORS.md
-README.md
