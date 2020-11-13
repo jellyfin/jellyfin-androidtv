@@ -17,7 +17,7 @@
         <item name="headerTextColor">@color/white</item>
 
         <!-- Progress Bar -->
-        <item name="progressBackground">@color/black</item>
+        <item name="progressBackground">#CC4b4b4b</item>
         <item name="progressPrimary">@color/jellyfin_blue</item>
         <item name="progressSecondary">@color/jellyfin_purple</item>
 

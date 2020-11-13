@@ -38,7 +38,8 @@
             android:layout_height="25dp"
             android:src="@drawable/ic_heart_red"
             android:alpha="0.8"
-            android:layout_alignBottom="@+id/main_image"
+            android:layout_alignBottom="@+id/resumeProgress"
+            android:layout_marginBottom="2dp"
             android:layout_alignEnd="@+id/main_image"
             android:visibility="gone" />
 
@@ -50,6 +51,9 @@
             android:layout_alignBottom="@+id/main_image"
             android:maxHeight="5sp"
             android:visibility="gone"
+            android:layout_marginBottom="2dp"
+            android:paddingEnd="2dp"
+            android:paddingStart="2dp"
             android:max="100" />
 
         <RelativeLayout
@@ -66,8 +70,8 @@
 
             <ImageView
                 android:id="@+id/watched"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/circle_accent" />
 
             <TextView
@@ -77,7 +81,11 @@
                 android:textAlignment="center"
                 android:visibility="invisible"
                 android:gravity="center"
-                android:layout_marginTop="5dp" />
+                android:textSize="11sp"
+                android:layout_alignEnd="@+id/watched"
+                android:layout_alignTop="@+id/watched"
+                android:layout_alignBottom="@+id/watched"
+                android:layout_alignStart="@+id/watched"/>
 
             <ImageView
                 android:layout_width="44dp"
@@ -86,7 +94,8 @@
                 android:src="@drawable/ic_watch"
                 android:layout_alignEnd="@+id/watched"
                 android:layout_alignTop="@+id/watched"
-                android:layout_marginTop="-7dp" />
+                android:layout_alignBottom="@+id/watched"
+                android:layout_alignStart="@+id/watched" />
 
         </RelativeLayout>
 
@@ -146,8 +155,8 @@
             android:id="@+id/info_field"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lb_basic_card_info_height"
-            android:paddingLeft="@dimen/lb_basic_card_info_padding_horizontal"
-            android:paddingRight="@dimen/lb_basic_card_info_padding_horizontal"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:paddingBottom="@dimen/lb_basic_card_info_padding_bottom"
             android:paddingTop="@dimen/lb_basic_card_info_padding_top"
             android:layout_centerHorizontal="true">
@@ -191,6 +200,7 @@
                 android:layout_below="@id/title_text"
                 android:scaleType="fitCenter"
                 android:visibility="gone"
+                android:alpha="0.25"
                 android:contentDescription="@null" />
 
         </RelativeLayout>
