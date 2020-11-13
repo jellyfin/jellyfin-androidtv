@@ -12,11 +12,10 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class NextUpActivity : FragmentActivity(), KoinComponent {
+class NextUpActivity : FragmentActivity() {
 	private lateinit var fragment: NextUpFragment
 	private val apiClient: ApiClient by inject()
 

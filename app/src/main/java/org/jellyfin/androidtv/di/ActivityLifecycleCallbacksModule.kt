@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 val activityLifecycleCallbacksModule = module {
 	single { AuthenticatedUserCallbacks() } bind Application.ActivityLifecycleCallbacks::class
-	single { AppThemeCallbacks() } bind Application.ActivityLifecycleCallbacks::class
+	single { AppThemeCallbacks(get()) } bind Application.ActivityLifecycleCallbacks::class
 }

@@ -25,12 +25,11 @@ import org.jellyfin.androidtv.util.apiclient.toUserDto
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class StartupActivity : FragmentActivity(), KoinComponent {
+class StartupActivity : FragmentActivity() {
 	companion object {
 		private const val NETWORK_PERMISSION = 1
 		const val ITEM_ID = "ItemId"
