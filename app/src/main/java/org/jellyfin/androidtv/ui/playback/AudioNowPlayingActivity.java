@@ -433,7 +433,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
             @Override
             public void run() {
                 mPoster.setKeepScreenOn(playing);
-                mPlayPauseButton.setState(!playing ? ImageButton.STATE_PRIMARY : ImageButton.STATE_SECONDARY);
+                if (!playing) {
+                    mPlayPauseButton.setState(ImageButton.STATE_PRIMARY);
+                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
+                } else {
+                    mPlayPauseButton.setState(ImageButton.STATE_SECONDARY);
+                    mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
+                }
                 mRepeatButton.setState(MediaManager.isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
                 mSaveButton.setEnabled(MediaManager.getCurrentAudioQueueSize() > 1);
                 mPrevButton.setEnabled(MediaManager.hasPrevAudioItem());
