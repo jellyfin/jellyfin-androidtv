@@ -369,7 +369,7 @@ public class MyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         if (count > 0) {
-            mUnwatchedCount.setText(Integer.toString(count));
+            mUnwatchedCount.setText(count > 99 ? getContext().getString(R.string.nine_nine_plus) : Integer.toString(count));
             mUnwatchedCount.setVisibility(VISIBLE);
             mWatchedMark.setVisibility(INVISIBLE);
             mWatchedIndicator.setVisibility(VISIBLE);
