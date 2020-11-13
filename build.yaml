@@ -1,7 +1,0 @@
----
-# We just wrap `build` so this is really it
-name: "jellyfin-androidtv"
-version: "0.9.0"
-packages:
-  - production
-  - debug
