@@ -417,4 +417,5 @@
     <string name="lbl_sign_in">Please Sign In</string>
     <string name="lbl_manual_login">Manual Login</string>
     <string name="lbl_playback_control_ends">Ends at %1$s</string>
+    <string name="watch_count_overflow">99+</string>
 </resources>

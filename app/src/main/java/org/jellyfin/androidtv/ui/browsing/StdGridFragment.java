@@ -709,7 +709,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     getActivity(),
                     url,
                     mMetrics.widthPixels,
-                    mMetrics.heightPixels
+                    mMetrics.heightPixels,
+                    true
             );
         }
     }

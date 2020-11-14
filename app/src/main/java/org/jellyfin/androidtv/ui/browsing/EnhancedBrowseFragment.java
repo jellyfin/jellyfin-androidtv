@@ -614,7 +614,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     getActivity(),
                     url,
                     mMetrics.widthPixels,
-                    mMetrics.heightPixels
+                    mMetrics.heightPixels,
+                    true
             );
         }
     }

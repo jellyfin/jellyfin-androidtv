@@ -11,10 +11,29 @@ public class PositionableListRowPresenter extends CustomListRowPresenter impleme
 
     private ListRowPresenter.ViewHolder viewHolder;
 
-    public PositionableListRowPresenter() { super(); }
+    public PositionableListRowPresenter() {
+        super();
+        setShadowEnabled(false);
+    }
 
     public PositionableListRowPresenter(Drawable background, Integer padding) {
         super(background, padding);
+        setShadowEnabled(false);
+    }
+
+    public PositionableListRowPresenter(Integer padding) {
+        super(padding);
+        setShadowEnabled(false);
+    }
+
+    @Override
+    public boolean isUsingDefaultShadow() {
+        return false;
+    }
+
+    @Override
+    protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
+        //Do nothing - this removes the shadow on the out of focus rows of image cards
     }
 
     @Override

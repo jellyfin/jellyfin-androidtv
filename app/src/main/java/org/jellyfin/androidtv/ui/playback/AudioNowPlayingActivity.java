@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -101,6 +100,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
+    private boolean mApplyAlpha = true;
 
     private long lastUserInteraction;
     private boolean ssActive;
@@ -258,7 +258,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
-        mAudioQueuePresenter = new PositionableListRowPresenter(ContextCompat.getDrawable(this, R.color.black_transparent_light), 10);
+        mAudioQueuePresenter = new PositionableListRowPresenter(10);
         mRowsAdapter = new ArrayObjectAdapter(mAudioQueuePresenter);
         mRowsFragment.setAdapter(mRowsAdapter);
         addQueue();
@@ -276,7 +276,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadItem();
-        rotateBackdrops();
+        if (mBaseItem != null && (mBaseItem.getBackdropCount() > 1 || (mBaseItem.getParentBackdropImageTags() != null && mBaseItem.getParentBackdropImageTags().size() > 1)))
+            rotateBackdrops();
         //link events
         MediaManager.addAudioEventListener(audioEventListener);
         //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
@@ -467,7 +468,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            updateBackground(ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true));
+            updateBackground(ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true), mApplyAlpha);
         }
     }
 
@@ -519,7 +520,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true));
+                //TODO Make this random but NOT previous
+                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true), mApplyAlpha);
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
@@ -541,6 +543,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
+        mApplyAlpha = false;
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mScrollView, "alpha", 1f, 0f);
         fadeOut.setDuration(1000);
         fadeOut.start();
@@ -553,6 +556,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     protected void stopScreenSaver() {
+        mApplyAlpha = true;
         mLogoImage.setVisibility(View.GONE);
         mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
@@ -588,7 +592,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         }
     }
 
-    protected void updateBackground(String url) {
+    protected void updateBackground(String url, boolean applyAlpha) {
         BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
         if (url == null) {
             backgroundManager.setDrawable(null);
@@ -598,7 +602,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     this,
                     url,
                     mMetrics.widthPixels,
-                    mMetrics.heightPixels
+                    mMetrics.heightPixels,
+                    applyAlpha
             );
         }
     }

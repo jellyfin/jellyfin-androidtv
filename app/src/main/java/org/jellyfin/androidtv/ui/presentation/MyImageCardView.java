@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -19,6 +20,8 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 
 /**
@@ -83,6 +86,8 @@ public class MyImageCardView extends BaseCardView {
         mUnwatchedCount = (TextView) v.findViewById(R.id.unwatchedCount);
         mProgress = (ProgressBar) v.findViewById(R.id.resumeProgress);
 
+        mImageView.setClipToOutline(true);
+
         if (mInfoArea != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
                     defStyle, 0);
@@ -95,6 +100,19 @@ public class MyImageCardView extends BaseCardView {
         }
     }
 
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        if (gainFocus) {
+            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            mBadgeImage.setAlpha(1.0f);
+        } else {
+            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            mBadgeImage.setAlpha(0.25f);
+        }
+    }
 
     public void setBanner(int bannerResource) {
         if (mBanner == null) {
@@ -351,7 +369,7 @@ public class MyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         if (count > 0) {
-            mUnwatchedCount.setText(Integer.toString(count));
+            mUnwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
             mUnwatchedCount.setVisibility(VISIBLE);
             mWatchedMark.setVisibility(INVISIBLE);
             mWatchedIndicator.setVisibility(VISIBLE);
