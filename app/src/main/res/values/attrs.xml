@@ -9,5 +9,7 @@
         <attr name="progressSecondary" format="reference|color" />
         <!-- Popup Window Attributes -->
         <attr name="popupWindowBackground" format="reference|color" />
+        <!-- CardView Attributes -->
+        <attr name="cardViewBackground" format="reference|color" />
     </declare-styleable>
 </resources>

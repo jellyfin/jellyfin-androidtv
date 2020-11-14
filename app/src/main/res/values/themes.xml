@@ -9,6 +9,8 @@
         <item name="android:windowBackground">@color/not_quite_black</item>
         <!-- Background color for popup windows -->
         <item name="popupWindowBackground">@color/not_quite_black</item>
+        <!-- Background color for CardViews -->
+        <item name="cardViewBackground">@android:color/transparent</item>
         <!-- Search FAB color -->
         <item name="defaultSearchColor">@color/jellyfin_blue</item>
         <!-- Default (non-active) button color -->
@@ -17,7 +19,7 @@
         <item name="headerTextColor">@color/white</item>
 
         <!-- Progress Bar -->
-        <item name="progressBackground">#CC4b4b4b</item>
+        <item name="progressBackground">@color/grey_transparent</item>
         <item name="progressPrimary">@color/jellyfin_blue</item>
         <item name="progressSecondary">@color/jellyfin_purple</item>
 

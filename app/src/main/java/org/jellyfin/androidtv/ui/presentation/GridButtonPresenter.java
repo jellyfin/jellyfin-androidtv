@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
 
@@ -71,8 +73,13 @@ public class GridButtonPresenter extends Presenter {
         MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        //TODO make a themeable color
-        cardView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = parent.getContext().getTheme();
+        theme.resolveAttribute(R.attr.cardViewBackground, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        cardView.setBackgroundColor(color);
+
         return new ViewHolder(cardView);
     }
 

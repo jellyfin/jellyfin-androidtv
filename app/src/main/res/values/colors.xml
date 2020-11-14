@@ -13,6 +13,9 @@
     <color name="black_transparent">#97000000</color>
     <color name="black_transparent_light">#74000000</color>
 
+    <!-- Progressbar Background -->
+    <color name="grey_transparent">#CC4b4b4b</color>
+
     <!-- Gradients -->
     <color name="dark_green_gradient_start" >#c306610a</color>
     <color name="dark_green_gradient_end" >#c3064d07</color>
@@ -45,4 +48,6 @@
 
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
+    <!-- Card Text Color -->
+    <color name="lb_basic_card_title_text_color_inactive">#4b4b4b</color>
 </resources>

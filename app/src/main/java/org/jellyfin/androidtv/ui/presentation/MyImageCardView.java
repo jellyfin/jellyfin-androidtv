@@ -108,8 +108,8 @@ public class MyImageCardView extends BaseCardView {
             mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             mBadgeImage.setAlpha(1.0f);
         } else {
-            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_gradient_end));
-            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_gradient_end));
+            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             mBadgeImage.setAlpha(0.25f);
         }
     }
@@ -369,7 +369,7 @@ public class MyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         if (count > 0) {
-            mUnwatchedCount.setText(count > 99 ? getContext().getString(R.string.nine_nine_plus) : Integer.toString(count));
+            mUnwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
             mUnwatchedCount.setVisibility(VISIBLE);
             mWatchedMark.setVisibility(INVISIBLE);
             mWatchedIndicator.setVisibility(VISIBLE);

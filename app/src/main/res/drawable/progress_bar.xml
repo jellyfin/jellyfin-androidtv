@@ -2,25 +2,23 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
-            <corners android:radius="8dp"/>
-            <solid android:color="?attr/progressBackground"/>
+            <corners android:radius="8dp" />
+            <solid android:color="?attr/progressBackground" />
         </shape>
     </item>
-    <item android:id="@android:id/secondaryProgress" >
-
+    <item android:id="@android:id/secondaryProgress">
         <scale android:scaleWidth="100%">
             <shape>
-                <corners android:radius="8dp"/>
-                <solid android:color="?attr/progressSecondary"/>
+                <corners android:radius="8dp" />
+                <solid android:color="?attr/progressSecondary" />
             </shape>
         </scale>
     </item>
-    <item android:id="@android:id/progress" >
-
+    <item android:id="@android:id/progress">
         <scale android:scaleWidth="100%">
             <shape>
-                <corners android:radius="8dp"/>
-                <solid android:color="?attr/progressPrimary"/>
+                <corners android:radius="8dp" />
+                <solid android:color="?attr/progressPrimary" />
             </shape>
         </scale>
     </item>
