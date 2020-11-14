@@ -520,7 +520,7 @@ public class BaseRowItem {
         switch (type) {
             case BaseItem:
                 if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
-                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.fresh) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.rotten);
+                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_rt_rotten);
                 } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
                     return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_series_red) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_red);
                 }

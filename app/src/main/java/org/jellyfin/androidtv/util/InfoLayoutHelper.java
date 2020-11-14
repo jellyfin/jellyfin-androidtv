@@ -226,7 +226,7 @@ public class InfoLayoutHelper {
         boolean hasSomething = false;
         if (item.getCommunityRating() != null) {
             ImageView star = new ImageView(activity);
-            star.setImageResource(R.drawable.star);
+            star.setImageResource(R.drawable.ic_star);
             star.setLayoutParams(imageParams);
             layout.addView(star);
 
@@ -242,9 +242,9 @@ public class InfoLayoutHelper {
             ImageView tomato = new ImageView(activity);
             tomato.setLayoutParams(imageParams);
             if (item.getCriticRating() > 59) {
-                tomato.setImageResource(R.drawable.fresh);
+                tomato.setImageResource(R.drawable.ic_rt_fresh);
             } else {
-                tomato.setImageResource(R.drawable.rotten);
+                tomato.setImageResource(R.drawable.ic_rt_rotten);
             }
 
             layout.addView(tomato);
