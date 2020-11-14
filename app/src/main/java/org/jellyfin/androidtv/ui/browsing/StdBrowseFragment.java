@@ -235,14 +235,14 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     }
 
     private void prepareBackgroundManager() {
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
 
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
-        if (!backgroundManager.isAttached())
-            backgroundManager.attach(getActivity().getWindow());
+        if (!backgroundManager.isAttached()) {
+            backgroundManager.attach(requireActivity().getWindow());
+        }
 
         mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     protected void setupUIElements() {

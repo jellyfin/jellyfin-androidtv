@@ -35,9 +35,6 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -47,6 +44,9 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.search.SearchActivity;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.IKeyListener;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -598,11 +598,14 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     };
 
     private void prepareBackgroundManager() {
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
-        backgroundManager.attach(getActivity().getWindow());
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
+
+        if (!backgroundManager.isAttached()) {
+            backgroundManager.attach(requireActivity().getWindow());
+        }
 
         mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     protected void updateBackground(String url) {
