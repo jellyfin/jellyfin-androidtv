@@ -5,7 +5,7 @@
             <size
                 android:width="384dp"
                 android:height="256dp" />
-            <solid android:color="@color/tile_port_series_timer" />
+            <solid android:color="?attr/tile_port_series_timer_bg" />
         </shape>
     </item>
 

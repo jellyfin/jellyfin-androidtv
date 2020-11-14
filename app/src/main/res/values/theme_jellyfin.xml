@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default Jellyfin Theme -->
+
     <style name="Theme.Jellyfin" parent="Theme.Leanback">
         <!-- Colors -->
         <item name="android:colorPrimary">@color/grey</item>
@@ -29,39 +30,38 @@
         <item name="headersVerticalGridStyle">@style/Widget.Jellyfin.BrowseHeaders</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
+
+        <!-- Tile colors -->
+        <item name="tile_settings_bg">#359AB8</item>
+        <item name="tile_edit_bg">#4b41ae</item>
+        <item name="tile_logout_bg">#064B22</item>
+        <item name="tile_search_bg">#3486BD</item>
+        <item name="tile_suggestions_bg">#DFCD41</item>
+        <item name="tile_actors_bg">#720826</item>
+        <item name="tile_artists_bg">#4A3F87</item>
+        <item name="tile_audio_bg">#253D63</item>
+        <item name="tile_chapter_bg">#007F7F</item>
+        <item name="tile_genres_bg">#0B4B08</item>
+        <item name="tile_letters_bg">#1D0472</item>
+        <item name="tile_land_photo_bg">#224982</item>
+        <item name="tile_land_series_timer_bg">#014A7F</item>
+        <item name="tile_land_tv_bg">#145A98</item>
+        <item name="tile_port_server_bg">#145A98</item>
+        <item name="tile_port_time_bg">#145A99</item>
+        <item name="tile_port_tv_bg">#014A7F</item>
+        <item name="tile_port_video_bg">#006309</item>
+        <item name="tile_port_video_queue_bg">#006853</item>
+        <item name="tile_port_folder_bg">#003C68</item>
+        <item name="tile_port_grid_bg">#3486BD</item>
+        <item name="tile_port_guide_bg">#132DA1</item>
+        <item name="tile_port_person_bg">#7E0001</item>
+        <item name="tile_port_record_bg">#101777</item>
+        <item name="tile_port_series_timer_bg">#014A7F</item>
     </style>
 
     <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <!-- Legacy Emerald Theme -->
-    <style name="Theme.Jellyfin.Emerald" parent="Theme.Jellyfin">
-        <item name="android:colorPrimary">#051802</item>
-        <item name="android:colorPrimaryDark">#051802</item>
-        <item name="android:colorAccent">#52B54B</item>
-        <item name="android:windowBackground">@drawable/moviebg</item>
-        <item name="defaultSearchColor">#007d8d</item>
-        <item name="android:colorButtonNormal">#3c3a3a</item>
-        <item name="progressBackground">#5a5d5a</item>
-        <item name="progressPrimary">#52B54B</item>
-        <item name="progressSecondary">#80ffb600</item>
-    </style>
-
-    <!-- Hot Dog Stand Theme -->
-    <style name="Theme.Jellyfin.HotDogStand" parent="Theme.Jellyfin">
-        <item name="android:colorPrimary">#ff0</item>
-        <item name="android:colorPrimaryDark">#ff0</item>
-        <item name="android:colorAccent">@color/red</item>
-        <item name="android:colorButtonNormal">#c6c6c6</item>
-        <item name="headerTextColor">@color/black</item>
-        <item name="android:windowBackground">@color/red</item>
-        <item name="popupWindowBackground">@color/black</item>
-        <item name="defaultSearchColor">@color/black</item>
-        <item name="progressBackground">@color/black</item>
-        <item name="progressPrimary">@color/red</item>
-        <item name="progressSecondary">#ff0</item>
     </style>
 </resources>
