@@ -415,4 +415,8 @@
     <string name="lbl_subtitle_track">Sélectionner la piste de sous-titres</string>
     <string name="lbl_audio_track">Sélectionner la piste audio</string>
     <string name="lbl_pause">Pause</string>
+    <string name="lbl_playback_control_ends">Se termine à %1$s</string>
+    <string name="lbl_manual_login">Connexion manuelle</string>
+    <string name="lbl_sign_in">Veuillez vous connecter</string>
+    <string name="lbl_add_server">Ajouter un serveur</string>
 </resources>
