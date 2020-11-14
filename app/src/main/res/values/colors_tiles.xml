@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tile_settings">#359AB8</color>
+    <color name="tile_edit">#4b41ae</color>
+    <color name="tile_logout">#064B22</color>
+</resources>
