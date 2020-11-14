@@ -3,11 +3,6 @@
     <color name="tile_settings">#359AB8</color>
     <color name="tile_edit">#4b41ae</color>
     <color name="tile_logout">#064B22</color>
-    <color name="tile_port_server">#145A98</color>
-    <color name="tile_port_time">#145A99</color>
-    <color name="tile_port_tv">#014A7F</color>
-    <color name="tile_port_video">#006309</color>
-    <color name="tile_port_video_queue">#006853</color>
     <color name="tile_search">#3486BD</color>
     <color name="tile_suggestions">#DFCD41</color>
     <color name="tile_actors">#720826</color>
@@ -15,10 +10,17 @@
     <color name="tile_audio">#253D63</color>
     <color name="tile_chapter">#007F7F</color>
     <color name="tile_genres">#0B4B08</color>
+    <color name="tile_letters">#1D0472</color>
+
     <color name="tile_land_photo">#224982</color>
     <color name="tile_land_series_timer">#014A7F</color>
     <color name="tile_land_tv">#145A98</color>
-    <color name="tile_letters">#1D0472</color>
+
+    <color name="tile_port_server">#145A98</color>
+    <color name="tile_port_time">#145A99</color>
+    <color name="tile_port_tv">#014A7F</color>
+    <color name="tile_port_video">#006309</color>
+    <color name="tile_port_video_queue">#006853</color>
     <color name="tile_port_folder">#003C68</color>
     <color name="tile_port_grid">#3486BD</color>
     <color name="tile_port_guide">#132DA1</color>
