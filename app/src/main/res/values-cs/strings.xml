@@ -419,4 +419,5 @@
     <string name="lbl_manual_login">Ruční přihlášení</string>
     <string name="lbl_sign_in">Prosím přihlaste se</string>
     <string name="lbl_add_server">Přidat server</string>
+    <string name="watch_count_overflow">99+</string>
 </resources>
