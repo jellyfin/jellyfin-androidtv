@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -46,13 +45,11 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
 import org.jellyfin.androidtv.ui.TextUnderButton;
-import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
@@ -1258,7 +1255,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         //Now, create a more button to show if needed
-        moreButton = new TextUnderButton(this, R.drawable.lb_ic_more, buttonSize, getString(R.string.lbl_other_options), new View.OnClickListener() {
+        moreButton = new TextUnderButton(this, R.drawable.ic_more, buttonSize, getString(R.string.lbl_other_options), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //show popup
