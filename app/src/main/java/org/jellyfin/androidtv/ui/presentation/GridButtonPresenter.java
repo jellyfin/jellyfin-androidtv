@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
 
-import com.bumptech.glide.Glide;
-
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.GridButton;
 
 public class GridButtonPresenter extends Presenter {
@@ -58,13 +56,8 @@ public class GridButtonPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(int image) {
-            Glide.with(mCardView.getContext())
-                    .load(image)
-                    .override(cardWidth, cardHeight)
-                    .centerCrop()
-                    .error(mDefaultCardImage)
-                    .into(mCardView.getMainImageView());
+        protected void updateCardViewImage(@DrawableRes int image) {
+            mCardView.getMainImageView().setImageResource(image);
         }
     }
 
