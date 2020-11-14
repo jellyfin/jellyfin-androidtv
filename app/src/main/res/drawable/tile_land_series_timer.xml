@@ -3,16 +3,16 @@
     <item>
         <shape android:shape="rectangle">
             <size
-                android:width="256dp"
-                android:height="384dp" />
+                android:width="384dp"
+                android:height="256dp" />
             <solid android:color="@color/tile_port_series_timer" />
         </shape>
     </item>
 
     <item
-        android:bottom="124dp"
+        android:bottom="60dp"
         android:drawable="@drawable/ic_tv_timer"
-        android:left="60dp"
-        android:right="60dp"
-        android:top="124dp" />
+        android:left="124dp"
+        android:right="124dp"
+        android:top="60dp" />
 </layer-list>

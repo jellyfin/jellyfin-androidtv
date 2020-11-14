@@ -10,15 +10,8 @@
     </item>
 
     <item
-        android:bottom="149dp"
-        android:drawable="@drawable/ic_guide"
-        android:left="80dp"
-        android:right="80dp"
-        android:top="139dp" />
-
-    <item
         android:bottom="124dp"
-        android:drawable="@drawable/ic_tv"
+        android:drawable="@drawable/ic_tv_guide"
         android:left="60dp"
         android:right="60dp"
         android:top="124dp" />
