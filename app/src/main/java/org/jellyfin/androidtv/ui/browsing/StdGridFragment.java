@@ -56,9 +56,6 @@ import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -66,6 +63,9 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.ui.search.SearchActivity;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.IKeyListener;
+import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
@@ -345,12 +345,14 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     }
     private void prepareBackgroundManager() {
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
 
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
-        backgroundManager.attach(getActivity().getWindow());
+        if (!backgroundManager.isAttached()) {
+            backgroundManager.attach(requireActivity().getWindow());
+        }
 
         mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     protected ImageButton mSortButton;

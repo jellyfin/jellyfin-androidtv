@@ -21,14 +21,14 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 
 import java.util.ArrayList;
@@ -189,12 +189,14 @@ public class CustomBrowseFragment extends Fragment implements IRowLoader {
     }
 
     private void prepareBackgroundManager() {
+        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
 
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(getActivity());
-        backgroundManager.attach(getActivity().getWindow());
+        if (!backgroundManager.isAttached()) {
+            backgroundManager.attach(requireActivity().getWindow());
+        }
 
         mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     protected void setupUIElements() {
