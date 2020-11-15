@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         private TextView mSummary;
         private LinearLayout mButtonRow;
         private ImageView mStudioImage;
+        private ProgressBar mProgress;
 
         private TextView mInfoTitle1;
         private TextView mInfoTitle2;
@@ -67,6 +69,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             mGenreRow = (FlexboxLayout) rootView.findViewById(R.id.fdGenreRow);
             mInfoRow =  (LinearLayout)rootView.findViewById(R.id.fdMainInfoRow);
             mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
+            mProgress = (ProgressBar) rootView.findViewById(R.id.fdProgress);
             //mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
             mButtonRow = (LinearLayout) rootView.findViewById(R.id.fdButtonRow);
             mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
@@ -105,6 +108,11 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         vh.mPoster.setImageDrawable(row.getImageDrawable());
         //vh.mStudioImage.setImageDrawable(row.getStudioDrawable());
+        int prog = row.getProgress();
+        if (row.getProgress() > 0  && vh.mPoster.getDrawable() != null) {
+            vh.mProgress.setProgress(row.getProgress());
+            vh.mProgress.setVisibility(View.VISIBLE);
+        }
 
         // Support simple HTML elements
         String summaryRaw = row.getSummary();
