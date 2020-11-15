@@ -150,8 +150,12 @@ public class PlaybackController {
             return mCurrentStreamInfo.getMediaSource();
         } else {
             ArrayList<MediaSourceInfo> mediaSources = getCurrentlyPlayingItem().getMediaSources();
-            if (mediaSources == null || mediaSources.isEmpty()) return null;
-            else return mediaSources.get(0);
+
+            if (mediaSources == null || mediaSources.isEmpty()) {
+                return null;
+            } else {
+                return mediaSources.get(0);
+            }
         }
     }
 
