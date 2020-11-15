@@ -400,4 +400,9 @@
     <string name="lbl_subtitle_track">Selectează pista subtitrare</string>
     <string name="lbl_audio_track">Selectează pista audio</string>
     <string name="lbl_pause">Pauză</string>
+    <string name="favorite_error">Eroare la setarea statutului de preferate</string>
+    <string name="playing_error">Eroare la setarea statusului de redare</string>
+    <string name="audio_error">Imposibil de redat sunetul %1$s</string>
+    <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
+    <string name="msg_queue_saved">Coada salvată ca listă de redare nouă: %1$s</string>
 </resources>
