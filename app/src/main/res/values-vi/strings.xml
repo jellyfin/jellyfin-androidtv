@@ -414,4 +414,9 @@
     <string name="lbl_audio_track">Chọn bản âm thanh</string>
     <string name="lbl_pause">Tạm dừng</string>
     <string name="lbl_on">Bật</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Kết thúc lúc %1$s</string>
+    <string name="lbl_manual_login">Đang Nhập Thủ Công</string>
+    <string name="lbl_sign_in">Hãy Đăng Nhập</string>
+    <string name="lbl_add_server">Thêm Máy Chủ</string>
 </resources>
