@@ -77,7 +77,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestMovies.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Overview,
-                        ItemFields.ChildCount
+                        ItemFields.ChildCount,
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams
                 });
                 latestMovies.setParentId(mFolder.getId());
                 latestMovies.setLimit(50);
@@ -120,7 +122,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 nextUpQuery.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Overview,
-                        ItemFields.ChildCount
+                        ItemFields.ChildCount,
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams
                 });
                 mRows.add(new BrowseRowDef(mApplication.getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
@@ -152,7 +156,9 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestSeries.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Overview,
-                        ItemFields.ChildCount
+                        ItemFields.ChildCount,
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams
                 });
                 latestSeries.setIncludeItemTypes(new String[]{"Episode"});
                 latestSeries.setGroupItems(true);

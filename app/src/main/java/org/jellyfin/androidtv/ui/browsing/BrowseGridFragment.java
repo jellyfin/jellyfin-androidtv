@@ -26,7 +26,9 @@ public class BrowseGridFragment extends StdGridFragment {
     protected void setupQueries(IGridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {
                 ItemFields.PrimaryImageAspectRatio,
-                ItemFields.ChildCount
+                ItemFields.ChildCount,
+                ItemFields.MediaSources,
+                ItemFields.MediaStreams
         });
         query.setParentId(mParentId);
         if (mFolder.getBaseItemType() == BaseItemType.UserView || mFolder.getBaseItemType() == BaseItemType.CollectionFolder) {

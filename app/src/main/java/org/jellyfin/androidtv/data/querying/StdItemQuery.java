@@ -13,7 +13,9 @@ public class StdItemQuery extends ItemQuery {
                     ItemFields.Overview,
                     ItemFields.ItemCounts,
                     ItemFields.DisplayPreferencesId,
-                    ItemFields.ChildCount
+                    ItemFields.ChildCount,
+                    ItemFields.MediaStreams,
+                    ItemFields.MediaSources
             };
         }
         setUserId(TvApp.getApplication().getCurrentUser().getId());
