@@ -5,7 +5,7 @@
             <size
                 android:width="384dp"
                 android:height="256dp" />
-            <solid android:color="@color/tile_land_photo" />
+            <solid android:color="?attr/tile_land_photo_bg" />
         </shape>
     </item>
 

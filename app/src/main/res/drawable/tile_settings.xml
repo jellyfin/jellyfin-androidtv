@@ -5,7 +5,7 @@
             <size
                 android:width="256dp"
                 android:height="256dp" />
-            <solid android:color="@color/tile_settings" />
+            <solid android:color="?attr/tile_settings_bg" />
         </shape>
     </item>
 

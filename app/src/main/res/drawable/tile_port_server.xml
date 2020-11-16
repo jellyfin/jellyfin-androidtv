@@ -5,7 +5,7 @@
             <size
                 android:width="256dp"
                 android:height="384dp" />
-            <solid android:color="@color/tile_port_server" />
+            <solid android:color="?attr/tile_port_server_bg" />
         </shape>
     </item>
 

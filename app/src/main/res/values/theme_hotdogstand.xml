@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Jellyfin.HotDogStand" parent="Theme.Jellyfin">
+        <item name="android:colorPrimary">#ff0</item>
+        <item name="android:colorPrimaryDark">#ff0</item>
+        <item name="android:colorAccent">@color/red</item>
+        <item name="android:colorButtonNormal">#c6c6c6</item>
+        <item name="headerTextColor">@color/black</item>
+        <item name="android:windowBackground">@color/red</item>
+        <item name="popupWindowBackground">@color/black</item>
+        <item name="defaultSearchColor">@color/black</item>
+        <item name="progressBackground">@color/black</item>
+        <item name="progressPrimary">@color/red</item>
+        <item name="progressSecondary">#ff0</item>
+    </style>
+</resources>
