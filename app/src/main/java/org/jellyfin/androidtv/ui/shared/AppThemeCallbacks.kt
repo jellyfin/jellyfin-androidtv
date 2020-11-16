@@ -6,14 +6,13 @@ import android.os.Bundle
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
-class AppThemeCallbacks : Application.ActivityLifecycleCallbacks, KoinComponent {
+class AppThemeCallbacks(
+	private val userPreferences: UserPreferences
+) : Application.ActivityLifecycleCallbacks {
 	private var lastTheme: AppTheme? = null
 	private var lastPreferencesTheme: AppTheme? = null
-	private val userPreferences: UserPreferences by inject()
 
 	override fun onActivityPaused(activity: Activity) {
 	}

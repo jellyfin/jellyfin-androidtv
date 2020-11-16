@@ -5,19 +5,16 @@ plugins {
 }
 
 android {
-	compileSdkVersion(29)
-	// Explicitly specify ndk version for Azure
-	// Can be removed when version 4.1.x of the Android Gradle plugin is released
-	ndkVersion = "21.3.6528147"
+	compileSdkVersion(30)
 
 	defaultConfig {
 		// Android version targets
 		minSdkVersion(21)
-		targetSdkVersion(29)
+		targetSdkVersion(30)
 
 		// Release version
 		versionName = project.getVersionName()
-		versionCode = getVersionCode(versionName)
+		versionCode = getVersionCode(versionName!!)
 	}
 
 	compileOptions {
@@ -57,19 +54,19 @@ android {
 
 dependencies {
 	// Jellyfin
-	implementation("org.jellyfin.apiclient:android:0.7.4")
+	implementation("org.jellyfin.apiclient:android:0.7.7")
 
 	// Kotlin
-	implementation(kotlin("stdlib-jdk8"))
+	implementation(kotlin("stdlib"))
 
 	val kotlinCoroutinesVersion = "1.3.3"
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion")
 
 	// Android(x)
-	implementation("androidx.core:core-ktx:1.3.1")
+	implementation("androidx.core:core-ktx:1.3.2")
 	implementation("androidx.fragment:fragment-ktx:1.2.5")
-	val androidxLeanbackVersion = "1.1.0-alpha03"
+	val androidxLeanbackVersion = "1.1.0-alpha05"
 	implementation("androidx.leanback:leanback:$androidxLeanbackVersion")
 	implementation("androidx.leanback:leanback-preference:$androidxLeanbackVersion")
 	val androidxPreferenceVersion = "1.1.1"
@@ -77,13 +74,16 @@ dependencies {
 	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
 	implementation("androidx.appcompat:appcompat:1.2.0")
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
-	implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("com.google.android:flexbox:2.0.1")
 
 	// Dependency Injection
-	val koinVersion = "2.1.6"
-	implementation("org.koin:koin-android-viewmodel:$koinVersion")
+	val koinVersion = "2.2.0"
+	implementation("org.koin:koin-android:$koinVersion")
+	implementation("org.koin:koin-androidx-viewmodel:$koinVersion")
+	implementation("org.koin:koin-androidx-fragment:$koinVersion")
+
 	// Lifecycle extensions
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
@@ -98,7 +98,7 @@ dependencies {
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
 
 	// Crash Reporting
-	val acraVersion = "5.4.0"
+	val acraVersion = "5.7.0"
 	implementation("ch.acra:acra-http:$acraVersion")
 	implementation("ch.acra:acra-dialog:$acraVersion")
 	implementation("ch.acra:acra-limiter:$acraVersion")

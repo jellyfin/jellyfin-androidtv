@@ -8,10 +8,17 @@ import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.fragment_next_up_buttons.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
+@KoinApiExtension
+class NextUpButtons(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyle: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
 	private var countdownTimer: CountDownTimer? = null

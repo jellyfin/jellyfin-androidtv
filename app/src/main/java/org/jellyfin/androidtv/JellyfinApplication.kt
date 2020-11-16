@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.di.playbackModule
 import org.jellyfin.androidtv.di.preferenceModule
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -34,10 +35,13 @@ class JellyfinApplication : TvApp() {
 	override fun onCreate() {
 		super.onCreate()
 
+		// Initialize the logging library
+		Timber.plant(DebugTree())
+		Timber.i("Application object created")
+
 		// Dependency Injection
 		startKoin {
-			// Temporary disabled until Koin is updated to 2.2 >=
-			// androidLogger()
+			androidLogger()
 			androidContext(this@JellyfinApplication)
 
 			modules(
@@ -50,10 +54,6 @@ class JellyfinApplication : TvApp() {
 
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
-
-		// Initialize the logging library
-		Timber.plant(DebugTree())
-		Timber.i("Application object created")
 
 		// Enable improved logging for leaking resources
 		// https://wh0.github.io/2020/08/12/closeguard.html

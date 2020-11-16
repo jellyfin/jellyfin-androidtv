@@ -8,14 +8,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.RowsSupportFragment
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HeaderItem
-import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.ListRowPresenter
-import androidx.leanback.widget.OnItemViewClickedListener
-import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.Row
-import androidx.leanback.widget.RowPresenter
+import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,7 +19,7 @@ import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 class ListServerFragment : RowsSupportFragment() {

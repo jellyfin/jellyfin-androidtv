@@ -46,6 +46,7 @@ import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
+import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +99,7 @@ public class HomeFragment extends StdBrowseFragment {
         mApplication.setConfiguredAutoCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()));
 
         // Init leanback home channels;
-        channelManager = new ChannelManager();
+        channelManager = new ChannelManager(get(ApiClient.class));
 
         // Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
@@ -145,7 +146,7 @@ public class HomeFragment extends StdBrowseFragment {
         }
 
         nowPlaying = new HomeFragmentNowPlayingRow(getActivity());
-        liveTVRow = new HomeFragmentLiveTVRow(getActivity());
+        liveTVRow = new HomeFragmentLiveTVRow(getActivity(), get(GsonJsonSerializer.class));
         footer = new HomeFragmentFooterRow(getActivity());
     }
 

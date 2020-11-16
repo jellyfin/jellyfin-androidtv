@@ -7,12 +7,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.tvprovider.media.tv.Channel
-import androidx.tvprovider.media.tv.ChannelLogoUtils
-import androidx.tvprovider.media.tv.PreviewProgram
-import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
-import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,15 +26,15 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
 /**
  * Manages channels on the android tv home screen
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
-class ChannelManager : KoinComponent {
+class ChannelManager(
+	private val apiClient: ApiClient
+) {
 	private companion object {
 		/**
 		 * Amount of ticks found in a millisecond, used for calculation
@@ -47,7 +43,6 @@ class ChannelManager : KoinComponent {
 	}
 
 	private val application = TvApp.getApplication()
-	private val apiClient: ApiClient by inject()
 
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher
