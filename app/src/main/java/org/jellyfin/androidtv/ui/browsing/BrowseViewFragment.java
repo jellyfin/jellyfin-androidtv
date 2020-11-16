@@ -59,7 +59,15 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 itemTypeString = "Movie";
 
                 //Resume
-                StdItemQuery resumeMovies = new StdItemQuery();
+                StdItemQuery resumeMovies = new StdItemQuery(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Overview,
+                        ItemFields.ItemCounts,
+                        ItemFields.DisplayPreferencesId,
+                        ItemFields.ChildCount,
+                        ItemFields.MediaStreams,
+                        ItemFields.MediaSources
+                });
                 resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
                 resumeMovies.setRecursive(true);
                 resumeMovies.setParentId(mFolder.getId());
@@ -87,7 +95,15 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
-                StdItemQuery favorites = new StdItemQuery();
+                StdItemQuery favorites = new StdItemQuery(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Overview,
+                        ItemFields.ItemCounts,
+                        ItemFields.DisplayPreferencesId,
+                        ItemFields.ChildCount,
+                        ItemFields.MediaStreams,
+                        ItemFields.MediaSources
+                });
                 favorites.setIncludeItemTypes(new String[]{"Movie"});
                 favorites.setRecursive(true);
                 favorites.setParentId(mFolder.getId());
