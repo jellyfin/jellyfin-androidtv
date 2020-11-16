@@ -415,4 +415,9 @@
     <string name="lbl_subtitle_track">Selecionar faixa de legenda</string>
     <string name="lbl_audio_track">Selecionar faixa de áudio</string>
     <string name="lbl_pause">Pausar</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Termina em %1$s</string>
+    <string name="lbl_manual_login">Login manual</string>
+    <string name="lbl_sign_in">Por favor cadastre-se</string>
+    <string name="lbl_add_server">Adicionar Servidor</string>
 </resources>
