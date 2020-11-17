@@ -16,6 +16,8 @@
         <item name="defaultSearchColor">@color/jellyfin_blue</item>
         <!-- Default (non-active) button color -->
         <item name="android:colorButtonNormal">@color/grey</item>
+        <!-- Toolbar background color -->
+        <item name="toolbarBackground">@color/not_quite_black</item>
         <!-- Header text color -->
         <item name="headerTextColor">@color/white</item>
 
