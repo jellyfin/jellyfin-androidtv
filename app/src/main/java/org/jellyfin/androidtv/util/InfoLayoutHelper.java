@@ -39,6 +39,7 @@ public class InfoLayoutHelper {
                 break;
         }
     }
+
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
