@@ -17,8 +17,8 @@
     <color name="grey_transparent">#CC4b4b4b</color>
 
     <!-- Gradients -->
-    <color name="dark_green_gradient_start" >#c306610a</color>
-    <color name="dark_green_gradient_end" >#c3064d07</color>
+    <color name="dark_green_gradient_start">#c306610a</color>
+    <color name="dark_green_gradient_end">#c3064d07</color>
     <color name="gray_gradient_start">#898989</color>
     <color name="gray_gradient_end">#4b4b4b</color>
     <color name="green_gradient_start">#044b13</color>
