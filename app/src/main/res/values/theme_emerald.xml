@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="theme_emerald_light">#52B54B</color>
+    <color name="theme_emerald_dark">#051802</color>
+
     <style name="Theme.Jellyfin.Emerald" parent="Theme.Jellyfin">
-        <item name="android:colorPrimary">#051802</item>
-        <item name="android:colorPrimaryDark">#051802</item>
-        <item name="android:colorAccent">#52B54B</item>
+        <item name="android:colorPrimary">@color/theme_emerald_dark</item>
+        <item name="android:colorPrimaryDark">@color/theme_emerald_dark</item>
+        <item name="android:colorAccent">@color/theme_emerald_light</item>
         <item name="android:windowBackground">@drawable/moviebg</item>
-        <item name="defaultSearchColor">#007d8d</item>
-        <item name="android:colorButtonNormal">#3c3a3a</item>
-        <item name="progressBackground">#5a5d5a</item>
-        <item name="progressPrimary">#52B54B</item>
-        <item name="progressSecondary">#80ffb600</item>
+        <item name="defaultSearchColor">@color/theme_emerald_light</item>
+        <item name="progressPrimary">@color/theme_emerald_light</item>
+        <item name="progressSecondary">@color/theme_emerald_dark</item>
 
         <!-- Tile colors -->
-        <item name="tile_settings_bg">#52B54B</item>
-        <item name="tile_edit_bg">#52B54B</item>
-        <item name="tile_logout_bg">#52B54B</item>
-        <item name="tile_search_bg">#52B54B</item>
-        <item name="tile_suggestions_bg">#52B54B</item>
-        <item name="tile_actors_bg">#52B54B</item>
-        <item name="tile_artists_bg">#52B54B</item>
-        <item name="tile_audio_bg">#52B54B</item>
-        <item name="tile_chapter_bg">#52B54B</item>
-        <item name="tile_genres_bg">#52B54B</item>
-        <item name="tile_letters_bg">#52B54B</item>
-        <item name="tile_land_photo_bg">#52B54B</item>
-        <item name="tile_land_series_timer_bg">#52B54B</item>
-        <item name="tile_land_tv_bg">#52B54B</item>
-        <item name="tile_port_server_bg">#52B54B</item>
-        <item name="tile_port_time_bg">#52B54B</item>
-        <item name="tile_port_tv_bg">#52B54B</item>
-        <item name="tile_port_video_bg">#52B54B</item>
-        <item name="tile_port_video_queue_bg">#52B54B</item>
-        <item name="tile_port_folder_bg">#52B54B</item>
-        <item name="tile_port_grid_bg">#52B54B</item>
-        <item name="tile_port_guide_bg">#52B54B</item>
-        <item name="tile_port_person_bg">#52B54B</item>
-        <item name="tile_port_record_bg">#52B54B</item>
-        <item name="tile_port_series_timer_bg">#52B54B</item>
+        <item name="tile_settings_bg">@color/theme_emerald_light</item>
+        <item name="tile_edit_bg">@color/theme_emerald_light</item>
+        <item name="tile_logout_bg">@color/theme_emerald_light</item>
+        <item name="tile_search_bg">@color/theme_emerald_light</item>
+        <item name="tile_suggestions_bg">@color/theme_emerald_light</item>
+        <item name="tile_actors_bg">@color/theme_emerald_light</item>
+        <item name="tile_artists_bg">@color/theme_emerald_light</item>
+        <item name="tile_audio_bg">@color/theme_emerald_light</item>
+        <item name="tile_chapter_bg">@color/theme_emerald_light</item>
+        <item name="tile_genres_bg">@color/theme_emerald_light</item>
+        <item name="tile_letters_bg">@color/theme_emerald_light</item>
+        <item name="tile_land_photo_bg">@color/theme_emerald_light</item>
+        <item name="tile_land_series_timer_bg">@color/theme_emerald_light</item>
+        <item name="tile_land_tv_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_server_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_time_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_tv_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_video_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_video_queue_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_folder_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_grid_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_guide_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_person_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_record_bg">@color/theme_emerald_light</item>
+        <item name="tile_port_series_timer_bg">@color/theme_emerald_light</item>
     </style>
 </resources>
