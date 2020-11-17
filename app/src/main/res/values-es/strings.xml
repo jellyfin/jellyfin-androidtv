@@ -415,4 +415,9 @@
     <string name="lbl_subtitle_track">Selecciona track de subtitulos</string>
     <string name="lbl_audio_track">Selecciona un track de audio</string>
     <string name="lbl_pause">Pausar</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Acaba</string>
+    <string name="lbl_manual_login">Iniciar Sesión Manualmente</string>
+    <string name="lbl_sign_in">Por Favor, Inicie Sesión</string>
+    <string name="lbl_add_server">Añadir Servidor</string>
 </resources>
