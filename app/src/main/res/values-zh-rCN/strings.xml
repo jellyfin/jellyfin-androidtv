@@ -415,4 +415,9 @@
     <string name="play_with_exo_player">使用ExoPlayer播放</string>
     <string name="play_with_vlc">使用libVLC播放</string>
     <string name="msg_added_to_video">%1$s 已添加到视频队列。播放结束时间: %2$s</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">结束于 %1$s</string>
+    <string name="lbl_manual_login">手动登录</string>
+    <string name="lbl_sign_in">请登录</string>
+    <string name="lbl_add_server">添加服务器</string>
 </resources>
