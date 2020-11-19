@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.di
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.auth.AccountRepository
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.repository.ServerRepository
 import org.jellyfin.androidtv.data.repository.ServerRepositoryImpl
@@ -20,6 +21,7 @@ import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.apiclient.serialization.ServerInfoDeserializer
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -63,10 +65,14 @@ val appModule = module {
 	}
 
 	single<UserRepository> {
-		UserRepositoryImpl(get(), get(), get(), get())
+		UserRepositoryImpl(get(), get(), get(), get(), get())
 	}
 
 	viewModel {
-		LoginViewModel(get(), get())
+		LoginViewModel(get(), get(), get())
+	}
+
+	single {
+		AccountRepository(androidContext())
 	}
 }

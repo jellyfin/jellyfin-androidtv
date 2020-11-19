@@ -1,11 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
+import org.jellyfin.androidtv.auth.AccountRepository
 import org.jellyfin.androidtv.data.model.LoadingState
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.ServerList
@@ -17,7 +13,8 @@ import timber.log.Timber
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
-	private val userRepository: UserRepository
+	private val userRepository: UserRepository,
+	accountRepository: AccountRepository
 ) : ViewModel() {
 	private val _currentServer = MutableLiveData<Server>()
 	val currentServer: LiveData<Server>
@@ -44,7 +41,7 @@ class LoginViewModel(
 	private val discoveredServers = liveData {
 		_loadingDiscoveredServers.value = LoadingState.LOADING
 		emit(serverRepository.discoverServers()
-				 .associateWith { userRepository.getUsers(it) })
+			.associateWith { userRepository.getUsers(it) })
 		_loadingDiscoveredServers.value = LoadingState.SUCCESS
 	}
 
@@ -52,7 +49,7 @@ class LoginViewModel(
 	private val savedServers = liveData {
 		_loadingSavedServers.value = LoadingState.LOADING
 		emit(serverRepository.getServers()
-				 .associateWith { userRepository.getUsers(it) })
+			.associateWith { userRepository.getUsers(it) })
 		_loadingSavedServers.value = LoadingState.SUCCESS
 	}
 
@@ -69,16 +66,21 @@ class LoginViewModel(
 				value = (value ?: ServerList()).apply { savedServersUsersState = it }
 			}
 
-			// Add all the server data
-			addSource(currentServerUsers) {
-				value = (value ?: ServerList()).apply { currentServerUsers = it }
-			}
-			addSource(discoveredServers) {
-				value = (value ?: ServerList()).apply { discoveredServersUsers = it }
-			}
-			addSource(savedServers) {
+			addSource(MutableLiveData(accountRepository.getAccounts().map { Server(it.key, it.key, it.key) to it.value.map { User(it.username, it.username, it.accessToken ?: "", it.server) } }.toMap())) {
+//				value = (value ?: ServerList()).apply { currentServerUsers = it }
 				value = (value ?: ServerList()).apply { savedServersUsers = it }
 			}
+
+			// Add all the server data
+			addSource (currentServerUsers) {
+				value = (value ?: ServerList()).apply { currentServerUsers = it }
+			}
+				addSource (discoveredServers) {
+				value = (value ?: ServerList()).apply { discoveredServersUsers = it }
+			}
+//				addSource (savedServers) {
+////				value = (value ?: ServerList()).apply { savedServersUsers = it }
+//			}
 		}
 	}
 
