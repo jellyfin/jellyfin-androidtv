@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.data.repository
 
-import org.jellyfin.androidtv.auth.AccountRepository
-import org.jellyfin.androidtv.auth.model.AccountManagerAccount
+import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.LogonCredentials
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
@@ -23,10 +22,10 @@ interface UserRepository {
 
 class UserRepositoryImpl(
 	private val jellyfin: Jellyfin,
-	private val accountRepository: AccountRepository,
 	private val apiClient: ApiClient,
 	private val device: IDevice,
-	private val credentialsFileSource: CredentialsFileSource
+	private val credentialsFileSource: CredentialsFileSource,
+	private val authenticationRepository: AuthenticationRepository
 ) : UserRepository {
 	override suspend fun getUsers(server: Server): List<User> {
 		val api = jellyfin.createApi(serverAddress = server.address, device = device)
@@ -34,7 +33,7 @@ class UserRepositoryImpl(
 	}
 
 	override suspend fun login(server: Server, username: String, password: String): AuthenticationResult {
-		accountRepository.createAccount(AccountManagerAccount(server.address, username, null))
+		authenticationRepository.login(server, username, password)
 
 		// TODO: Are both of these updates needed?
 		// Update the server address the apiClient uses

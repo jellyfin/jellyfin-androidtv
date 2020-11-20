@@ -4,7 +4,6 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.os.Bundle
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -15,11 +14,8 @@ const val ACCOUNT_DATA_SERVER = "$ACCOUNT_TYPE.server"
 const val ACCOUNT_DATA_NAME = "$ACCOUNT_TYPE.name"
 const val ACCOUNT_ACCESS_TOKEN_TYPE = "$ACCOUNT_TYPE.access_token.v1"
 
-// Helper functions
-private fun String.toUUID(): UUID = UUID.fromString(this)
-
 private fun AccountManager.getAccountData(account: Account): AccountManagerAccount = AccountManagerAccount(
-	id = getUserData(account, ACCOUNT_DATA_ID).toUUID(),
+	id = getUserData(account, ACCOUNT_DATA_ID),
 	server = getUserData(account, ACCOUNT_DATA_SERVER),
 	name = getUserData(account, ACCOUNT_DATA_NAME),
 	accessToken = peekAuthToken(account, ACCOUNT_ACCESS_TOKEN_TYPE)
@@ -28,7 +24,7 @@ private fun AccountManager.getAccountData(account: Account): AccountManagerAccou
 // Extensions
 suspend fun AccountManager.putJellyfinAccount(accountManagerAccount: AccountManagerAccount) {
 	var androidAccount = getAccountsByType(ACCOUNT_TYPE)
-		.first { getUserData(it, ACCOUNT_DATA_ID) == accountManagerAccount.id.toString() }
+		.firstOrNull { getUserData(it, ACCOUNT_DATA_ID) == accountManagerAccount.id.toString() }
 
 	// Update credentials
 	if (androidAccount == null) {
@@ -67,11 +63,11 @@ fun AccountManager.removeJellyfinAccount(accountManagerAccount: AccountManagerAc
 
 fun AccountManager.getJellyfinAccounts() = getAccountsByType(ACCOUNT_TYPE).map(::getAccountData)
 
-fun AccountManager.getJellyfinServerAccounts(server: UUID) = getAccountsByType(ACCOUNT_TYPE).filter { account ->
+fun AccountManager.getJellyfinServerAccounts(server: String) = getAccountsByType(ACCOUNT_TYPE).filter { account ->
 	getUserData(account, ACCOUNT_DATA_SERVER) == server.toString()
 }.map(::getAccountData)
 
 
-fun AccountManager.getJellyfinAccount(id: UUID) = getAccountsByType(ACCOUNT_TYPE).first { account ->
+fun AccountManager.getJellyfinAccount(id: String) = getAccountsByType(ACCOUNT_TYPE).first { account ->
 	getUserData(account, ACCOUNT_DATA_ID) == id.toString()
 }?.let(::getAccountData)

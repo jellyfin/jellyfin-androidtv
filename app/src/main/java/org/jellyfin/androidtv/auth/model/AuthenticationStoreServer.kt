@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.auth.model
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
 
 @Serializable
 data class AuthenticationStoreServer(
@@ -11,5 +10,5 @@ data class AuthenticationStoreServer(
 	val url: String,
 	@SerialName("last_used") val lastUsed: Long,
 	@SerialName("display_order") val displayOrder: Int,
-	val users: Map<@Contextual UUID, AuthenticationStoreUser>,
+	val users: Map<@Contextual String, AuthenticationStoreUser>,
 )

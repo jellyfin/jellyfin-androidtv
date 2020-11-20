@@ -2,14 +2,10 @@ package org.jellyfin.androidtv.auth
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.contextual
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
-import org.jellyfin.androidtv.util.serializer.UUIDSerializer
 import timber.log.Timber
 import java.io.File
-import java.util.*
 
 class AuthenticationStore {
 	private val storePath
@@ -17,16 +13,13 @@ class AuthenticationStore {
 
 	private val json = Json {
 		encodeDefaults = true
-		serializersModule = SerializersModule {
-			contextual(UUIDSerializer)
-		}
 	}
 
 	private val store by lazy {
 		load().toMutableMap()
 	}
 
-	private fun load(): Map<UUID, AuthenticationStoreServer> {
+	private fun load(): Map<String, AuthenticationStoreServer> {
 		// No store found
 		if (!storePath.exists()) return emptyMap()
 
@@ -45,7 +38,7 @@ class AuthenticationStore {
 		}
 	}
 
-	private fun parseV1(root: JsonObject) = json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
+	private fun parseV1(root: JsonObject) = json.decodeFromJsonElement<Map<String, AuthenticationStoreServer>>(root["servers"]!!)
 
 	private fun save(): Boolean {
 		val root = JsonObject(mapOf(
@@ -58,16 +51,16 @@ class AuthenticationStore {
 		return false
 	}
 
-	fun getServers(): Map<UUID, AuthenticationStoreServer> = store
+	fun getServers(): Map<String, AuthenticationStoreServer> = store
 
-	fun getUsers(server: UUID): Map<UUID, AuthenticationStoreUser>? = getServers()[server]?.users
+	fun getUsers(server: String): Map<String, AuthenticationStoreUser>? = getServers()[server]?.users
 
-	fun putServer(id: UUID, server: AuthenticationStoreServer): Boolean {
+	fun putServer(id: String, server: AuthenticationStoreServer): Boolean {
 		store[id] = server
 		return save()
 	}
 
-	fun putUser(server: UUID, id: UUID, user: AuthenticationStoreUser): Boolean {
+	fun putUser(server: String, id: String, user: AuthenticationStoreUser): Boolean {
 		val serverInfo = store[server] ?: return false
 
 		store[server] = serverInfo.copy(users = serverInfo.users.toMutableMap().apply { put(id, user) })
@@ -75,12 +68,12 @@ class AuthenticationStore {
 		return save()
 	}
 
-	fun removeServer(server: UUID): Boolean {
+	fun removeServer(server: String): Boolean {
 		store.remove(server)
 		return save()
 	}
 
-	fun removeUser(server: UUID, user: UUID): Boolean {
+	fun removeUser(server: String, user: String): Boolean {
 		val serverInfo = store[server] ?: return false
 
 		store[server] = serverInfo.copy(users = serverInfo.users.toMutableMap().apply { remove(user) })

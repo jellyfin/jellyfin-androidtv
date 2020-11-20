@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
 import androidx.lifecycle.*
-import org.jellyfin.androidtv.auth.AccountRepository
+import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.LoadingState
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.ServerList
@@ -14,7 +14,7 @@ import timber.log.Timber
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
 	private val userRepository: UserRepository,
-	accountRepository: AccountRepository
+	private val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {
 	private val _currentServer = MutableLiveData<Server>()
 	val currentServer: LiveData<Server>
@@ -48,8 +48,7 @@ class LoginViewModel(
 	private val _loadingSavedServers = MutableLiveData<LoadingState>()
 	private val savedServers = liveData {
 		_loadingSavedServers.value = LoadingState.LOADING
-		emit(serverRepository.getServers()
-			.associateWith { userRepository.getUsers(it) })
+		emit(authenticationRepository.getUsers())
 		_loadingSavedServers.value = LoadingState.SUCCESS
 	}
 
@@ -66,21 +65,18 @@ class LoginViewModel(
 				value = (value ?: ServerList()).apply { savedServersUsersState = it }
 			}
 
-			addSource(MutableLiveData(accountRepository.getAccounts().map { Server(it.key, it.key, it.key) to it.value.map { User(it.username, it.username, it.accessToken ?: "", it.server) } }.toMap())) {
-//				value = (value ?: ServerList()).apply { currentServerUsers = it }
-				value = (value ?: ServerList()).apply { savedServersUsers = it }
-			}
-
 			// Add all the server data
-			addSource (currentServerUsers) {
+			addSource(currentServerUsers) {
 				value = (value ?: ServerList()).apply { currentServerUsers = it }
 			}
-				addSource (discoveredServers) {
+
+			addSource(discoveredServers) {
 				value = (value ?: ServerList()).apply { discoveredServersUsers = it }
 			}
-//				addSource (savedServers) {
-////				value = (value ?: ServerList()).apply { savedServersUsers = it }
-//			}
+
+			addSource(savedServers) {
+				value = (value ?: ServerList()).apply { savedServersUsers = it }
+			}
 		}
 	}
 
