@@ -386,4 +386,23 @@
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
     <string name="lbl_pause">Szünet</string>
+    <string name="like_clearing_error">Hiba történt a kedvelések törlése közben</string>
+    <string name="favorite_error">Hiba a kedvencek állapotának beállításakor</string>
+    <string name="playing_error">Hiba a lejátszási állapot beállításakor</string>
+    <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
+    <string name="msg_added_to_video">%1$s hozzáadva a videósorhoz. Vége: %2$s</string>
+    <string name="msg_queue_saved">A sor új mentési listaként mentve: %1$s</string>
+    <string name="msg_no_items">Nincsen lejátszható elem(ek)</string>
+    <string name="subtitle_error">Nem lehet kiválasztani a feliratot</string>
+    <string name="too_many_errors">Túl sok hiba. Feladom</string>
+    <string name="player_error">Lejátszási hiba történt. Újrapróbálkozás...</string>
+    <string name="seek_error">Nem lehet keresni</string>
+    <string name="msg_live_tv_prev">Betöltöd az előző %1$d órát\?</string>
+    <string name="msg_live_tv_next">Betöltöd a következő %1$d órát\?</string>
+    <string name="lbl_load_guide_data">Útmutató adatok betöltése</string>
+    <string name="lbl_new_playlist_name">Adj nevet az új lejátszási listának</string>
+    <string name="episode_missing_message_2">Ez az epizód hiányzik a könyvtáradból. A lejátszás megáll.</string>
+    <string name="episode_missing_message">Ez az epizód hiányzik a könyvtáradból. Szeretnéd kihagyni, és folytatni az azután következővel\?</string>
+    <string name="episode_missing">Epizód hiányzik</string>
+    <string name="delete_warning">Ez véglegesen törli a könyvtáradból a %1$s -t. Biztos vagy benne\?</string>
 </resources>
