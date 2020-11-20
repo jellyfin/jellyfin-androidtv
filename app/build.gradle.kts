@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	kotlin("android.extensions")
+	kotlin("plugin.serialization")
 }
 
 android {
@@ -59,9 +60,12 @@ dependencies {
 	// Kotlin
 	implementation(kotlin("stdlib"))
 
-	val kotlinCoroutinesVersion = "1.3.3"
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion")
+	val kotlinxCoroutinesVersion = "1.3.3"
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")
+
+	val kotlinxSerializationVersion = "1.0.1"
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.3.2")

@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.data.repository
 
-import org.jellyfin.androidtv.auth.Account
 import org.jellyfin.androidtv.auth.AccountRepository
+import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.data.model.LogonCredentials
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
@@ -34,7 +34,7 @@ class UserRepositoryImpl(
 	}
 
 	override suspend fun login(server: Server, username: String, password: String): AuthenticationResult {
-		accountRepository.createAccount(Account(server.address, username, null))
+		accountRepository.createAccount(AccountManagerAccount(server.address, username, null))
 
 		// TODO: Are both of these updates needed?
 		// Update the server address the apiClient uses
