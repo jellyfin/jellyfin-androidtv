@@ -373,4 +373,17 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automatikus</string>
+    <string name="clear_expanded">Törli az aktuális videósort\?</string>
+    <string name="lbl_clear">Töröl</string>
+    <string name="password_prompt_message">Kérjük, írja be a jelszót %1$s számára</string>
+    <string name="password_prompt">Írd be a jelszót</string>
+    <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
+    <string name="no_player">Nincs elérhető lejátszó</string>
+    <string name="mark_watched">Megtekintettnek jelölés</string>
+    <string name="pref_video_player_choose">Mindig rákérdez</string>
+    <string name="lbl_tv_filter_status">az elkövetkezendő %1$d órá(k)ban</string>
+    <string name="lbl_tv_channel_status">%1$d a %2$d csatornából</string>
+    <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
+    <string name="lbl_audio_track">Hangsáv kiválasztása</string>
+    <string name="lbl_pause">Szünet</string>
 </resources>
