@@ -14,11 +14,11 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_favorites">Obľúbené</string>
     <string name="lbl_by_name">Podľa mena</string>
-    <string name="lbl_latest">Posledné</string>
-    <string name="lbl_search">Vyhľadávať</string>
+    <string name="lbl_latest">Najnovšie</string>
+    <string name="lbl_search">Vyhľadávanie</string>
     <string name="lbl_genres">Žánre</string>
-    <string name="lbl_next_up">Nasleduje</string>
-    <string name="lbl_latest_movies">Posledné filmy</string>
+    <string name="lbl_next_up">Pozerajte ďalej</string>
+    <string name="lbl_latest_movies">Najnovšie filmy</string>
     <string name="lbl_continue_watching">Pokračovať v pozeraní</string>
     <string name="lbl_logout">Odhlásiť</string>
     <string name="lbl_settings">Nastavenia</string>
@@ -144,13 +144,13 @@
     <string name="lbl_cancel_recording">Zrušiť nahrávanie</string>
     <string name="lbl_cancel">Zrušiť</string>
     <string name="lbl_play">Prehrať</string>
-    <string name="lbl_shuffle_all">Všetko zamiešať</string>
+    <string name="lbl_shuffle_all">Náhodne</string>
     <string name="lbl_because_you_watched">"Pretože ste pozerali "</string>
-    <string name="lbl_latest_additions">Naposledy pridané</string>
+    <string name="lbl_latest_additions">Najnovšie pridané</string>
     <string name="lbl_collections">Kolekcie</string>
     <string name="lbl_other_channels">Ostatné kanály</string>
     <string name="lbl_favorite_channels">Obľúbené kanály</string>
-    <string name="lbl_coming_up">Prichádzajúce</string>
+    <string name="lbl_coming_up">Práve vychádzajúce</string>
     <string name="msg_not_implemented">" nie je implementované"</string>
     <string name="lbl_performers">Účinkujúci</string>
     <string name="lbl_status">%s / %s</string>
@@ -158,11 +158,11 @@
     <string name="lbl_by_letter">Po písmenách</string>
     <string name="lbl_views">Zobrazenie</string>
     <string name="lbl_on_now">Práve teraz</string>
-    <string name="lbl_next_up_tv">Nasleduje v TV</string>
+    <string name="lbl_next_up_tv">Pozerajte ďalej v TV</string>
     <string name="pref_general">Všeobecné</string>
     <string name="pref_alt_pw_entry_desc">Číselné heslo s použitím len kláves D-padu</string>
     <string name="pref_alt_pw_entry">Vlastný D-pad pre zadanie hesla</string>
-    <string name="pref_prompt_pw">Výzva k zadaniu hesla</string>
+    <string name="pref_prompt_pw">Vyzvať k zadaniu hesla</string>
     <string name="pref_max_bitrate_title">Maximálny dátový tok</string>
     <string name="pref_playback">Prehrávanie</string>
     <string name="pref_login_behavior_title">Správanie pri spustení</string>
@@ -327,7 +327,7 @@
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
     <string name="lbl_last_played">"Naposledy pozreté "</string>
     <string name="lbl_watched">Pozreté</string>
-    <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alpha heslo alebo bude pre vstup potrebná klávesnica</string>
+    <string name="dpad_pw_cancel">* Podržte na 1 sekundu tlačidlo \'Dole\' a uvolnite ho pokiaľ máte alfa heslo alebo bude pre vstup potrebná klávesnica</string>
     <string name="pref_acra_alwaysaccept_disabled">Pred odoslaním chybového hlásenia sa zobrazí dialóg</string>
     <string name="pref_acra_alwaysaccept_enabled">Hlásenie chýb bude odoslané bez výzvy</string>
     <string name="pref_acra_alwaysaccept">Odoslať hlásenie chýb bez výzvy</string>
@@ -376,4 +376,5 @@
     <string name="no_player">Žiadny prehrávač</string>
     <string name="mark_watched_message">Zdá sa, že položka nebola prehratá celá. Aj tak označiť ako pozreté\?</string>
     <string name="mark_watched">Označiť ako pozreté</string>
+    <string name="lbl_pause">Pozastaviť</string>
 </resources>
