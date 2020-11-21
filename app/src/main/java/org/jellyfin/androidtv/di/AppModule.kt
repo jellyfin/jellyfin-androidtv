@@ -4,6 +4,7 @@ import androidx.core.content.getSystemService
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.auth.AccountManagerService
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.AuthenticationStore
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
@@ -74,6 +75,7 @@ val appModule = module {
 		LoginViewModel(get(), get(), get())
 	}
 
-	single {AuthenticationStore() }
-	single { AuthenticationRepository(androidContext().getSystemService()!!, get())}
+	single { AuthenticationStore() }
+	single { AccountManagerService(androidContext().getSystemService()!!) }
+	single { AuthenticationRepository(get(), get()) }
 }
