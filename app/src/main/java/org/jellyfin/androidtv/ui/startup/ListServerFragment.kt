@@ -9,12 +9,10 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.Server
-import org.jellyfin.androidtv.data.model.ServerList
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
@@ -66,11 +64,9 @@ class ListServerFragment : RowsSupportFragment() {
 
 		buildRows(emptyMap())
 
-		val serverObserver = Observer<ServerList> { serverList ->
-			if (serverList.allServersUsers.isNotEmpty()) buildRows(serverList.allServersUsers)
+		loginViewModel.serverList.observe(viewLifecycleOwner) { serverList ->
+			buildRows(serverList)
 		}
-
-		loginViewModel.serverList.observe(viewLifecycleOwner, serverObserver)
 
 		onItemViewClickedListener = itemViewClickedListener
 	}
@@ -97,7 +93,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 			rowAdapter.add(ListRow(
 				HeaderItem(usersByServer.keys.indexOf(server).toLong(),
-						   if (server.name.isNotBlank()) server.name else server.address),
+					if (server.name.isNotBlank()) server.name else server.address),
 				userListAdapter
 			))
 		}
