@@ -18,7 +18,7 @@
     <string name="play">Lejátszás</string>
     <string name="btn_filter">Szűrő</string>
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Válassza ki a felhasználói tevékenységet</string>
     <string name="lbl_new">Új</string>
     <string name="enter_password">Jelszó megadása</string>
     <string name="pref_alt_pw_entry_desc">Numerikus jelszó bevitele, csak a D-Pad gombokkal</string>
@@ -141,7 +141,7 @@
     <string name="msg_cannot_play_time">A kiválasztott médiaelem nem olvasható</string>
     <string name="msg_playback_restricted">Jelenleg adminisztrátori korlátozás van a kiválasztott médiaelem lejátszására</string>
     <string name="lbl_to_change_paren">" , változhat)"</string>
-    <string name="lbl_runs">Időtartam:</string>
+    <string name="lbl_runs">Időtartam</string>
     <string name="msg_set_to_record">Felvételre megjelölt műsor</string>
     <string name="lbl_audio_output">Hangkimenet</string>
     <string name="pref_audio_compat">Sztereóra keverés</string>
@@ -156,7 +156,7 @@
     <string name="lbl_program_ended">A műsor véget ért</string>
     <string name="lbl_begin_padding">Padding az elején</string>
     <string name="msg_will_record">Fel lesz véve</string>
-    <string name="msg_recording_now">Felvétel</string>
+    <string name="msg_recording_now">Felvétel most</string>
     <string name="lbl_tune_to_channel">Csatornaváltás</string>
     <string name="lbl_tomorrow">Holnap</string>
     <string name="lbl_today">Ma</string>
@@ -167,7 +167,7 @@
     <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik:</string>
     <string name="lbl_on">Ekkor:</string>
     <string name="lbl_resume_preroll">Késleltetett lejátszás</string>
-    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
+    <string name="title_activity_expanded_text">Kibővített szöveges tevékenység</string>
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
     <string name="lbl_show_backdrop">Háttér mutatása böngészéskor</string>
     <string name="desc_current_video_queue">Jelenleg várakozásban levő videók</string>
@@ -206,7 +206,7 @@
     <string name="lbl_latest_tv_shows">Legújabb TV sorozatok</string>
     <string name="desc_suggestions_holiday">Nyaralással kapcsolatos javaslatok kipróbálása</string>
     <string name="title_suggestions_holiday">Kellemes ünnepeket!</string>
-    <string name="lbl_suggestions_holiday">Javaslatok nyaralással kapcsolatban</string>
+    <string name="lbl_suggestions_holiday">Ünnepi javaslatok</string>
     <string name="desc_suggestions_halloween">Ijesztő javaslatok kipróbálása</string>
     <string name="title_suggestions_halloween">Boldog Halloweent!</string>
     <string name="lbl_suggestions_halloween">Ijesztő javaslatok</string>
@@ -265,7 +265,7 @@
     <string name="lbl_sports">Sport</string>
     <string name="no_program_data">&lt;Nincs elérhető műsorinformáció&gt;</string>
     <string name="msg_record_entire_series">Az egész sorozat rögzítésre kerüljön\?</string>
-    <string name="lbl_just_this_once">Csak egyszer</string>
+    <string name="lbl_just_this_once">Csak most az egyszer</string>
     <string name="pref_live_tv_mode_desc">Ugrás a legutóbb lejátszott TV csatornához</string>
     <string name="pref_live_tv_mode">Élő TV mód</string>
     <string name="lbl_select_date">Dátum kiválasztása</string>
