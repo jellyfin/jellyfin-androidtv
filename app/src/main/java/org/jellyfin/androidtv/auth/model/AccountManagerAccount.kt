@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.auth.model
 
+import java.util.*
+
 data class AccountManagerAccount(
-	val id: String,
-	val server: String,
+	val id: UUID,
+	val server: UUID,
 	val name: String,
 	val accessToken: String?,
 )

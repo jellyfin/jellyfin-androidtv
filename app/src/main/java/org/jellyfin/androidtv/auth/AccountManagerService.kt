@@ -4,6 +4,9 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.os.Bundle
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
+import org.jellyfin.androidtv.util.toUUID
+import org.jellyfin.androidtv.util.toUUIDOrNull
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -20,15 +23,15 @@ class AccountManagerService(
 	}
 
 	private fun getAccountData(account: Account): AccountManagerAccount = AccountManagerAccount(
-		id = accountManager.getUserData(account, ACCOUNT_DATA_ID),
-		server = accountManager.getUserData(account, ACCOUNT_DATA_SERVER),
+		id = accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUID(),
+		server = accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUID(),
 		name = accountManager.getUserData(account, ACCOUNT_DATA_NAME),
 		accessToken = accountManager.peekAuthToken(account, ACCOUNT_ACCESS_TOKEN_TYPE)
 	)
 
 	suspend fun putAccount(accountManagerAccount: AccountManagerAccount) {
 		var androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID) == accountManagerAccount.id.toString() }
+			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID).toUUIDOrNull() == accountManagerAccount.id }
 
 		// Update credentials
 		if (androidAccount == null) {
@@ -39,6 +42,7 @@ class AccountManagerService(
 				"", // Leave password empty
 				Bundle()
 			)
+			accountManager.setUserData(androidAccount, ACCOUNT_DATA_ID, accountManagerAccount.id.toString())
 		}
 
 		// Update name
@@ -49,13 +53,13 @@ class AccountManagerService(
 		}
 
 		accountManager.setUserData(androidAccount, ACCOUNT_DATA_NAME, accountManagerAccount.name)
-		accountManager.setUserData(androidAccount, ACCOUNT_DATA_SERVER, accountManagerAccount.server)
+		accountManager.setUserData(androidAccount, ACCOUNT_DATA_SERVER, accountManagerAccount.server.toString())
 		accountManager.setAuthToken(androidAccount, ACCOUNT_ACCESS_TOKEN_TYPE, accountManagerAccount.accessToken)
 	}
 
 	fun removeAccount(accountManagerAccount: AccountManagerAccount) {
 		val androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.first { accountManager.getUserData(it, ACCOUNT_DATA_ID) == accountManagerAccount.id.toString() }
+			.first { accountManager.getUserData(it, ACCOUNT_DATA_ID).toUUIDOrNull() == accountManagerAccount.id }
 
 		// Remove current account info
 		@Suppress("DEPRECATION")
@@ -67,12 +71,12 @@ class AccountManagerService(
 
 	fun getAccounts() = accountManager.getAccountsByType(ACCOUNT_TYPE).map(::getAccountData)
 
-	fun getAccountsByServer(server: String) = accountManager.getAccountsByType(ACCOUNT_TYPE).filter { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_SERVER) == server.toString()
+	fun getAccountsByServer(server: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).filter { account ->
+		accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUIDOrNull() == server
 	}.map(::getAccountData)
 
 
-	fun getAccount(id: String) = accountManager.getAccountsByType(ACCOUNT_TYPE).first { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_ID) == id.toString()
+	fun getAccount(id: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).first { account ->
+		accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUIDOrNull() == id
 	}?.let(::getAccountData)
 }
