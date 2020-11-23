@@ -81,6 +81,9 @@ dependencies {
 	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("com.google.android:flexbox:2.0.1")
+	val androidxLifecycleVersion = "2.2.0"
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
 
 	// Dependency Injection
 	val koinVersion = "2.2.0"
@@ -88,9 +91,7 @@ dependencies {
 	implementation("org.koin:koin-androidx-viewmodel:$koinVersion")
 	implementation("org.koin:koin-androidx-fragment:$koinVersion")
 
-	// Lifecycle extensions
-	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
-
+	// GSON
 	implementation("com.google.code.gson:gson:2.8.6")
 
 	// Media players

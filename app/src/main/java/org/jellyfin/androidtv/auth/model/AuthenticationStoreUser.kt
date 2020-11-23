@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AuthenticationStoreUser(
 	val name: String,
-	val profile_picture: String,
+	@SerialName("profile_picture") val profilePicture: String,
 	@SerialName("last_used") val lastUsed: Long,
 	@SerialName("display_order") val displayOrder: Int,
 )

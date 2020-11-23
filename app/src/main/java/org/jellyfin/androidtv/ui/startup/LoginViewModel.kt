@@ -1,8 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.LoadingState
 import org.jellyfin.androidtv.data.model.Server
@@ -10,7 +9,9 @@ import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.data.repository.ServerRepository
 import org.jellyfin.androidtv.data.repository.UserRepository
 import org.jellyfin.androidtv.util.apiclient.toUser
+import org.jellyfin.androidtv.util.toUUID
 import timber.log.Timber
+import java.util.*
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
@@ -29,20 +30,44 @@ class LoginViewModel(
 	private val _loadingState = MutableLiveData<LoadingState>()
 	val loadingState: LiveData<LoadingState> get() = _loadingState
 
-	// Discovered servers
-	private val discoveredServers = MutableLiveData<Collection<Server>>()
-
-	// Stored servers + users
-	private val storedServers = authenticationRepository.getUsers()
-
 	// All available servers + users
-	private val _serverList = MutableLiveData<Map<Server, List<User>>>()
-	val serverList: LiveData<Map<Server, List<User>>> get() = _serverList
+	private val _serverList = MediatorLiveData<List<Server>>()
+	val serverList: LiveData<List<Server>> get() = _serverList
+
+	private val serverMapUsers = mutableMapOf<UUID, MutableList<User>>()
+	val serverMap get() = serverList.map(::getUsers)
 
 	init {
-		_serverList.value = storedServers
-		_loadingState.value = LoadingState.SUCCESS
+		_serverList.apply {
+			value = mutableListOf()
+
+			// Add all the server data
+			addSource(serverRepository.discoverServers()) {
+				value = value!!.union(it).toMutableList()
+			}
+
+			addSource(serverRepository.getServers()) {
+				value = value!!.union(it).toMutableList()
+
+				// Set to success after first batch of received servers
+				_loadingState.value = LoadingState.SUCCESS
+			}
+		}
 	}
+
+	private fun getUsers(servers: List<Server>) = servers.map { server ->
+		val id = server.id.toUUID()
+
+		if (id !in serverMapUsers) {
+			val users = mutableListOf<User>()
+			users += runBlocking { userRepository.getUsers(server) } // TODO no runblocking
+			users += authenticationRepository.getUsersByServer(id) ?: emptyList()
+
+			serverMapUsers[id] = users
+		}
+
+		server to (serverMapUsers[id]!! as List<User>)
+	}.toMap()
 
 	// Connect to server
 	suspend fun connect(address: String) {
@@ -52,8 +77,8 @@ class LoginViewModel(
 			val connectResult = serverRepository.connect(address)
 			Timber.d("Connected to server %s %s", connectResult.name, connectResult.address)
 			_currentServer.postValue(connectResult)
-			if (serverList.value?.keys?.contains(connectResult) != true)
-				_serverList.postValue(_serverList.value!! + (connectResult to emptyList()))
+			if (!serverList.value!!.contains(connectResult))
+				_serverList.postValue((_serverList.value!! + connectResult).toMutableList())
 		} catch (ex: RuntimeException) {
 			Timber.w(ex, "Failed to connect to server $address")
 			// TODO: Show error messaging
@@ -67,7 +92,7 @@ class LoginViewModel(
 			Timber.d("User authenticated %s %s", authResult.user.name, authResult.accessToken)
 //			_currentServer.postValue(server)
 			_currentUser.postValue(authResult.user.toUser())
-			authenticationRepository.login(server,username,password)
+			authenticationRepository.login(server, username, password)
 		} catch (ex: RuntimeException) {
 			Timber.w(ex, "Failed to login as user $username")
 			// TODO: Show error messaging

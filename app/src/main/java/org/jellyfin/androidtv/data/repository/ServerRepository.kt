@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.collect
+import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.util.apiclient.callApi
@@ -13,9 +15,9 @@ import org.jellyfin.apiclient.model.system.PublicSystemInfo
 import timber.log.Timber
 
 interface ServerRepository {
-	suspend fun getServers(): List<Server>
+	fun getServers(): LiveData<List<Server>>
 
-	suspend fun discoverServers(): List<Server>
+	fun discoverServers(): LiveData<List<Server>>
 
 	suspend fun connect(address: String): Server
 }
@@ -23,9 +25,15 @@ interface ServerRepository {
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val device: IDevice,
-	private val credentialsFileSource: CredentialsFileSource
+	private val credentialsFileSource: CredentialsFileSource,
+	private val authenticationRepository: AuthenticationRepository
 ) : ServerRepository {
-	override suspend fun getServers(): List<Server> {
+	override fun getServers() = liveData(Dispatchers.IO) {
+		val servers = mutableListOf<Server>()
+
+		servers += authenticationRepository.getServers()
+		emit(servers as List<Server>)
+
 		val legacyCredentials = credentialsFileSource.read()
 		if (legacyCredentials?.server != null) {
 			// Augment saved ServerInfo with PublicSystemInfo
@@ -33,21 +41,22 @@ class ServerRepositoryImpl(
 			val systemInfo: PublicSystemInfo = callApi { callback ->
 				api.GetPublicSystemInfoAsync(callback)
 			}
-			legacyCredentials.server!!.apply {
+			servers += legacyCredentials.server!!.apply {
 				name = systemInfo.serverName
 				id = systemInfo.id
 			}
 
-			return listOf(legacyCredentials.server!!)
+			emit(servers as List<Server>)
 		}
-
-		// TODO: Add new method of saving credentials
-
-		return emptyList()
 	}
 
-	override suspend fun discoverServers() = withContext(Dispatchers.IO) {
-		jellyfin.discovery.discover().toList().map { it.toServer() }
+	override fun discoverServers() = liveData(Dispatchers.IO) {
+		val discoveredServers = mutableListOf<Server>()
+		jellyfin.discovery.discover().collect { discoveredServer ->
+			discoveredServers += discoveredServer.toServer()
+
+			emit(discoveredServers as List<Server>)
+		}
 	}
 
 	override suspend fun connect(address: String): Server {

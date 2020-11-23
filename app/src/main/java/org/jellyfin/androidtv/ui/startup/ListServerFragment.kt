@@ -64,7 +64,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 		buildRows(emptyMap())
 
-		loginViewModel.serverList.observe(viewLifecycleOwner) { serverList ->
+		loginViewModel.serverMap.observe(viewLifecycleOwner) { serverList ->
 			buildRows(serverList)
 		}
 

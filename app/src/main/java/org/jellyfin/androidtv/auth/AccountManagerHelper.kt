@@ -10,8 +10,7 @@ import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-// TODO use UUID in storage
-class AccountManagerService(
+class AccountManagerHelper(
 	private val accountManager: AccountManager
 ) {
 	companion object {
