@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.data.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.LogonCredentials
 import org.jellyfin.androidtv.data.model.Server
@@ -27,9 +29,9 @@ class UserRepositoryImpl(
 	private val credentialsFileSource: CredentialsFileSource,
 	private val authenticationRepository: AuthenticationRepository
 ) : UserRepository {
-	override suspend fun getUsers(server: Server): List<User> {
+	override suspend fun getUsers(server: Server): List<User> = withContext(Dispatchers.IO) {
 		val api = jellyfin.createApi(serverAddress = server.address, device = device)
-		return api.getPublicUsers()?.toList()?.map { it.toUser() } ?: emptyList()
+		api.getPublicUsers()?.toList()?.map { it.toUser() } ?: emptyList()
 	}
 
 	override suspend fun login(server: Server, username: String, password: String): AuthenticationResult {

@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.startup
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.LoadingState
 import org.jellyfin.androidtv.data.model.Server
@@ -35,7 +35,7 @@ class LoginViewModel(
 	val serverList: LiveData<List<Server>> get() = _serverList
 
 	private val serverMapUsers = mutableMapOf<UUID, MutableList<User>>()
-	val serverMap get() = serverList.map(::getUsers)
+	val serverMap get() = serverList.asFlow().map(::getUsers).asLiveData()
 
 	init {
 		_serverList.apply {
@@ -49,18 +49,18 @@ class LoginViewModel(
 			addSource(serverRepository.getServers()) {
 				value = value!!.union(it).toMutableList()
 
-				// Set to success after first batch of received servers
-				_loadingState.value = LoadingState.SUCCESS
 			}
+
+			_loadingState.value = LoadingState.SUCCESS
 		}
 	}
 
-	private fun getUsers(servers: List<Server>) = servers.map { server ->
+	private suspend fun getUsers(servers: List<Server>) = servers.map { server ->
 		val id = server.id.toUUID()
 
 		if (id !in serverMapUsers) {
 			val users = mutableListOf<User>()
-			users += runBlocking { userRepository.getUsers(server) } // TODO no runblocking
+			users += userRepository.getUsers(server)
 			users += authenticationRepository.getUsersByServer(id) ?: emptyList()
 
 			serverMapUsers[id] = users
@@ -76,6 +76,7 @@ class LoginViewModel(
 			Timber.d("Connecting to server %s", address)
 			val connectResult = serverRepository.connect(address)
 			Timber.d("Connected to server %s %s", connectResult.name, connectResult.address)
+
 			_currentServer.postValue(connectResult)
 			if (!serverList.value!!.contains(connectResult))
 				_serverList.postValue((_serverList.value!! + connectResult).toMutableList())
