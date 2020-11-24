@@ -408,4 +408,15 @@
     <string name="mark_watched_message">Plik nie został do końca odtworzony. Czy oznaczyć go jako obejrzany\?</string>
     <string name="mark_watched">Oznacz jako obejrzane</string>
     <string name="lbl_pause">Zatrzymaj</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_manual_login">Logowanie ręczne</string>
+    <string name="lbl_sign_in">Zaloguj się</string>
+    <string name="lbl_add_server">Dodaj serwer</string>
+    <string name="play_with">Odtwarzaj przy użyciu</string>
+    <string name="play_with_external_app">Odtwarzaj w zewnętrznej aplikacji</string>
+    <string name="play_with_exo_player">Odtwarzaj w ExoPlayer</string>
+    <string name="play_with_vlc">Odtwarzaj przy użyciu libVLC</string>
+    <string name="pref_video_player_choose">Zawsze pytaj</string>
+    <string name="lbl_subtitle_track">Wybierz napisy</string>
+    <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
 </resources>
