@@ -57,7 +57,7 @@ val appModule = module {
 	}
 
 	single<ServerRepository> {
-		ServerRepositoryImpl(get(), get(), get())
+		ServerRepositoryImpl(get(), get(), get(), get())
 	}
 
 	viewModel {

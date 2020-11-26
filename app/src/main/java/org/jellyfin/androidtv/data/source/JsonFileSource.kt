@@ -11,7 +11,7 @@ open class JsonFileSource<T>(
 	private val serializer: Gson,
 	private val clazz: Class<T>
 ) {
-	fun read(): T? = try {
+	open fun read(): T? = try {
 		context.openFileInput(fileName).use {
 			val data = it.readBytes()
 				.toString(Charsets.UTF_8)

@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.util.apiclient.getPublicUsers
 import org.jellyfin.androidtv.util.apiclient.toServer
 import org.jellyfin.androidtv.util.apiclient.toUser
@@ -33,7 +34,8 @@ data class ConnectedState(val publicInfo: PublicSystemInfo) : ServerAdditionStat
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val device: IDevice,
-	private val authenticationRepository: AuthenticationRepository
+	private val authenticationRepository: AuthenticationRepository,
+	private val credentialsFileSource: CredentialsFileSource,
 ) : ServerRepository {
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private fun getDiscoveryServers(): Flow<Server> = flow {
@@ -47,7 +49,7 @@ class ServerRepositoryImpl(
 	}
 
 	private fun getLegacyServers(): Flow<Server> = flow {
-		val server = authenticationRepository.getLegacyCredentials()?.server ?: return@flow
+		val server =  credentialsFileSource.read()?.server ?: return@flow
 		emit(server)
 	}
 
@@ -64,7 +66,7 @@ class ServerRepositoryImpl(
 	}
 
 	private fun getLegacyUsersForServer(server: Server): Flow<User> = flow {
-		val user = authenticationRepository.getLegacyCredentials()?.user ?: return@flow
+		val user =  credentialsFileSource.read()?.user ?: return@flow
 		if (user.serverId == server.id) emit(user)
 	}
 
