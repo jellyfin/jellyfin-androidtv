@@ -415,4 +415,9 @@
     <string name="lbl_subtitle_track">Выбрать дорожку субтитров</string>
     <string name="lbl_audio_track">Выбрать аудио дорожку</string>
     <string name="lbl_pause">Пауза</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Конец в %1$s</string>
+    <string name="lbl_manual_login">Войти вручную</string>
+    <string name="lbl_sign_in">Войдите</string>
+    <string name="lbl_add_server">Добавить сервер</string>
 </resources>
