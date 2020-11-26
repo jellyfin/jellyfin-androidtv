@@ -415,4 +415,5 @@
     <string name="seek_error">Kan niet zoeken</string>
     <string name="lbl_load_guide_data">Laad gids data</string>
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als bekeken\?</string>
+    <string name="lbl_add_server">Server Toevoegen</string>
 </resources>
