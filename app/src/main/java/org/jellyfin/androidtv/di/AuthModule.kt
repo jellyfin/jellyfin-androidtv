@@ -8,7 +8,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val authModule = module {
-	single { AuthenticationStore() }
+	single { AuthenticationStore(androidContext()) }
 	single { AccountManagerHelper(androidContext().getSystemService()!!) }
-	single { AuthenticationRepository(get(), get()) }
+	single { AuthenticationRepository(get(), get(), get(), get()) }
 }

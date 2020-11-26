@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.Server
-import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.toServer
 import org.jellyfin.apiclient.Jellyfin
@@ -25,7 +24,6 @@ interface ServerRepository {
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val device: IDevice,
-	private val credentialsFileSource: CredentialsFileSource,
 	private val authenticationRepository: AuthenticationRepository
 ) : ServerRepository {
 	override fun getServers() = liveData(Dispatchers.IO) {
@@ -34,7 +32,7 @@ class ServerRepositoryImpl(
 		servers += authenticationRepository.getServers()
 		emit(servers as List<Server>)
 
-		val legacyCredentials = credentialsFileSource.read()
+		val legacyCredentials = authenticationRepository.getLegacyCredentials()
 		if (legacyCredentials?.server != null) {
 			// Augment saved ServerInfo with PublicSystemInfo
 			val api = jellyfin.createApi(serverAddress = legacyCredentials.server!!.address, device = device)

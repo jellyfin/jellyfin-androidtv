@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.auth
 
+import android.content.Context
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 import kotlinx.serialization.modules.SerializersModule
@@ -8,12 +9,18 @@ import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.util.serializer.UUIDSerializer
 import timber.log.Timber
-import java.io.File
 import java.util.*
 
-class AuthenticationStore {
+/**
+ * Storage for authentication related entities. Stores servers with users inside. Should be used in
+ * combination with the [AccountManagerHelper] to store access tokens and integrate with the
+ * operating system.
+ *
+ * The data is stored in a JSON file located in the applications data directory.
+ */
+class AuthenticationStore(private val context: Context) {
 	private val storePath
-		get() = File("authentication_store.json")
+		get() = context.filesDir.resolve("authentication_store.json")
 
 	private val json = Json {
 		encodeDefaults = true

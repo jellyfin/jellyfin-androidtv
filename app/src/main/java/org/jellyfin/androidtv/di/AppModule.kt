@@ -59,7 +59,7 @@ val appModule = module {
 	}
 
 	single<ServerRepository> {
-		ServerRepositoryImpl(get(), get(), get(), get())
+		ServerRepositoryImpl(get(), get(), get())
 	}
 
 	single<UserRepository> {
