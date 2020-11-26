@@ -1,12 +1,18 @@
 package org.jellyfin.androidtv.data.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.util.apiclient.getPublicUsers
+import org.jellyfin.androidtv.util.apiclient.toServer
+import org.jellyfin.androidtv.util.apiclient.toUser
 import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
+import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.system.PublicSystemInfo
 import java.util.*
@@ -29,23 +35,26 @@ class ServerRepositoryImpl(
 	private val device: IDevice,
 	private val authenticationRepository: AuthenticationRepository
 ) : ServerRepository {
-	private fun getDiscoveryServers(): Flow<Server> {
-		// TODO
-		return emptyFlow()
+	@OptIn(ExperimentalCoroutinesApi::class)
+	private fun getDiscoveryServers(): Flow<Server> = flow {
+		withContext(Dispatchers.IO) {
+			emitAll(jellyfin.discovery.discover().map(DiscoveryServerInfo::toServer))
+		}
 	}
 
 	private fun getStoredServers(): Flow<Server> = flow {
 		authenticationRepository.getServers().forEach { server -> emit(server) }
 	}
 
-	private fun getLegacyServers(): Flow<Server> {
-		// TODO
-		return emptyFlow()
+	private fun getLegacyServers(): Flow<Server> = flow {
+		val server = authenticationRepository.getLegacyCredentials()?.server ?: return@flow
+		emit(server)
 	}
 
-	private fun getPublicUsersForServer(server: Server): Flow<User> {
-		// TODO
-		return emptyFlow()
+	private fun getPublicUsersForServer(server: Server): Flow<User> = flow {
+		jellyfin.createApi(server.address, device = device).getPublicUsers()?.forEach { userDto ->
+			emit(userDto.toUser())
+		}
 	}
 
 	private fun getStoredUsersForServer(server: Server): Flow<User> = flow {
@@ -54,9 +63,9 @@ class ServerRepositoryImpl(
 		authenticationRepository.getUsersByServer(id)?.forEach { user -> emit(user) }
 	}
 
-	private fun getLegacyUsersForServer(server: Server): Flow<User> {
-		// TODO
-		return emptyFlow()
+	private fun getLegacyUsersForServer(server: Server): Flow<User> = flow {
+		val user = authenticationRepository.getLegacyCredentials()?.user ?: return@flow
+		if (user.serverId == server.id) emit(user)
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
@@ -64,7 +73,7 @@ class ServerRepositoryImpl(
 		if (discovery) emitAll(getDiscoveryServers())
 		if (stored) emitAll(getStoredServers())
 		if (legacy) emitAll(getLegacyServers())
-	}
+	}.distinctUntilChangedBy { it.id }
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun getServersWithUsers(discovery: Boolean, stored: Boolean, legacy: Boolean): Flow<Pair<Server, List<User>>> = getServers(discovery, stored, legacy).map { server ->
@@ -72,7 +81,7 @@ class ServerRepositoryImpl(
 			emitAll(getPublicUsersForServer(server))
 			if (stored) emitAll(getStoredUsersForServer(server))
 			if (legacy) emitAll(getLegacyUsersForServer(server))
-		}.toList()
+		}.distinctUntilChangedBy { it.id }.toList()
 
 		Pair(server, users)
 	}
