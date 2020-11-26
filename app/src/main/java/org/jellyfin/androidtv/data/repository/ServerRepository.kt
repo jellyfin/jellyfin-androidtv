@@ -8,14 +8,17 @@ import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.data.source.CredentialsFileSource
+import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.getPublicUsers
 import org.jellyfin.androidtv.util.apiclient.toServer
 import org.jellyfin.androidtv.util.apiclient.toUser
+import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.system.PublicSystemInfo
+import timber.log.Timber
 import java.util.*
 
 interface ServerRepository {
@@ -23,12 +26,12 @@ interface ServerRepository {
 	fun getServersWithUsers(discovery: Boolean = true, stored: Boolean = true, legacy: Boolean = true): Flow<Pair<Server, List<User>>>
 
 	fun removeServer(serverId: UUID)
-	fun addServer(url: String): Flow<ServerAdditionState>
+	fun addServer(address: String): Flow<ServerAdditionState>
 }
 
 sealed class ServerAdditionState
 object ConnectingState : ServerAdditionState()
-object UnableToConnectState : ServerAdditionState()
+data class UnableToConnectState(val error: Exception) : ServerAdditionState()
 data class ConnectedState(val publicInfo: PublicSystemInfo) : ServerAdditionState()
 
 class ServerRepositoryImpl(
@@ -49,7 +52,7 @@ class ServerRepositoryImpl(
 	}
 
 	private fun getLegacyServers(): Flow<Server> = flow {
-		val server =  credentialsFileSource.read()?.server ?: return@flow
+		val server = credentialsFileSource.read()?.server ?: return@flow
 		emit(server)
 	}
 
@@ -66,7 +69,7 @@ class ServerRepositoryImpl(
 	}
 
 	private fun getLegacyUsersForServer(server: Server): Flow<User> = flow {
-		val user =  credentialsFileSource.read()?.user ?: return@flow
+		val user = credentialsFileSource.read()?.user ?: return@flow
 		if (user.serverId == server.id) emit(user)
 	}
 
@@ -92,7 +95,22 @@ class ServerRepositoryImpl(
 		TODO("Not yet implemented")
 	}
 
-	override fun addServer(url: String): Flow<ServerAdditionState> {
-		TODO("Not yet implemented")
+	override fun addServer(address: String): Flow<ServerAdditionState> = flow {
+		Timber.d("Adding server %s", address)
+
+		emit(ConnectingState)
+
+		try {
+			val api = jellyfin.createApi(serverAddress = address, device = device)
+			val systemInfo: PublicSystemInfo = callApi { callback ->
+				api.GetPublicSystemInfoAsync(callback)
+			}
+
+			authenticationRepository.saveServer(systemInfo.id.toUUID(), systemInfo.serverName, address)
+
+			emit(ConnectedState(systemInfo))
+		} catch (error: Exception) {
+			emit(UnableToConnectState(error))
+		}
 	}
 }

@@ -7,13 +7,14 @@ import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.Flow
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.data.repository.ServerAdditionState
 import org.jellyfin.androidtv.data.repository.ServerRepository
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 class LoginViewModel(
-	serverRepository: ServerRepository,
+	private val serverRepository: ServerRepository,
 ) : ViewModel() {
 	// All available servers and users
 	private val _servers = serverRepository.getServersWithUsers(
@@ -38,9 +39,7 @@ class LoginViewModel(
 		return liveData
 	}
 
-	suspend fun connect(address: String) {
-		// TODO
-	}
+	fun addServer(address: String): LiveData<ServerAdditionState> = serverRepository.addServer(address).asLiveData()
 
 	suspend fun login(userId: UUID) {
 		TODO()

@@ -9,8 +9,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.data.model.User
@@ -52,7 +50,7 @@ class StartupActivity : FragmentActivity() {
 
 		//Ensure basic permissions
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
-						|| ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
+				|| ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
 			Timber.i("Requesting network permissions")
 			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET), NETWORK_PERMISSION)
 		} else {
@@ -143,9 +141,7 @@ class StartupActivity : FragmentActivity() {
 				onAddServerClicked = {
 					supportFragmentManager.beginTransaction()
 						.replace(R.id.content_view, AddServerFragment(
-							onConfirmCallback = {
-								GlobalScope.launch { loginViewModel.connect(it) }
-							},
+							onServerAdded = { id ->	},
 							onClose = { supportFragmentManager.popBackStack() }
 						))
 						.addToBackStack(StartupToolbarFragment::class.simpleName)

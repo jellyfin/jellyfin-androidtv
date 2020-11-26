@@ -48,7 +48,16 @@ class AuthenticationRepository(
 	fun getUsersByServer(server: UUID): List<User>? = authenticationStore.getUsers(server)?.map { (userId, userInfo) ->
 		val authInfo = accountManagerHelper.getAccount(userId)
 
-		User(userId.toString(), userInfo.name, authInfo?.accessToken ?: "", authInfo?.server.toString(), userInfo.profilePicture)
+		User(userId.toString(), userInfo.name, authInfo?.accessToken
+			?: "", authInfo?.server.toString(), userInfo.profilePicture)
+	}
+
+	fun saveServer(id: UUID, name: String, address: String) {
+		if (authenticationStore.containsServer(id)) {
+			// val current =  authenticationStore.getServer(id)
+			// update TODO
+		}
+		authenticationStore.putServer(id, AuthenticationStoreServer(name, address, Date().time, 0, emptyMap()))
 	}
 
 	suspend fun login(
