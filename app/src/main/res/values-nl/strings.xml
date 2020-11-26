@@ -416,4 +416,8 @@
     <string name="lbl_load_guide_data">Laad gids data</string>
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als bekeken\?</string>
     <string name="lbl_add_server">Server Toevoegen</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Eindigt op %1$s</string>
+    <string name="lbl_manual_login">Handmatige Login</string>
+    <string name="lbl_sign_in">Log alstublieft in</string>
 </resources>
