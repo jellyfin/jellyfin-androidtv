@@ -415,4 +415,7 @@
     <string name="lbl_subtitle_track">Välj undertextspår</string>
     <string name="lbl_audio_track">Välj ljudspår</string>
     <string name="lbl_pause">Pausa</string>
+    <string name="lbl_manual_login">Manuell inloggning</string>
+    <string name="lbl_sign_in">Logga in</string>
+    <string name="lbl_add_server">Lägg till server</string>
 </resources>
