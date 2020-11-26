@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.auth
 
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
+import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
@@ -60,9 +61,16 @@ class AuthenticationRepository(
 		password: String,
 		remember: Boolean = true
 	) {
+		if (!authenticationStore.containsServer(server.id.toUUID())) {
+			authenticationStore.putServer(server.id.toUUID(), AuthenticationStoreServer(server.name, server.address, server.dateLastAccessed.time, 0, emptyMap()))
+		}
+
 		//TODO actual login
 		val userId = UUID.randomUUID().toString()
 		authenticationStore.putUser(server.id.toUUID(), userId.toUUID(), AuthenticationStoreUser(name, "", Date().time, 0))
 		accountManagerHelper.putAccount(AccountManagerAccount(userId.toUUID(), server.id.toUUID(), name, null))
+
+
 	}
 }
+

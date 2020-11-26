@@ -36,14 +36,16 @@ class ListServerFragment : RowsSupportFragment() {
 					user = item.user,
 					onConfirmCallback = { username: String, password: String ->
 						GlobalScope.launch {
-							loginViewModel.login(server = item.server, username = username, password = password)
+							//TODO
+//							loginViewModel.login(server = item.server, username = username, password = password)
 						}
 					},
 					onCancelCallback = { parentFragmentManager.popBackStack() }
 				))
 			} else {
 				GlobalScope.launch {
-					loginViewModel.login(item.server, item.user.name, "")
+					//TODO
+//					loginViewModel.login(item.server, item.user.name, "")
 				}
 			}
 		} else if (item is AddUserGridButton) {
@@ -51,7 +53,8 @@ class ListServerFragment : RowsSupportFragment() {
 			navigate(UserLoginFragment(
 				onConfirmCallback = { username: String, password: String ->
 					GlobalScope.launch {
-						loginViewModel.login(server = item.server, username = username, password = password)
+						//TODO
+//						loginViewModel.login(server = item.server, username = username, password = password)
 					}
 				},
 				onCancelCallback = { parentFragmentManager.popBackStack() }
@@ -62,10 +65,10 @@ class ListServerFragment : RowsSupportFragment() {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 
-		buildRows(emptyMap())
+		buildRows(emptyList())
 
-		loginViewModel.serverMap.observe(viewLifecycleOwner) { serverList ->
-			buildRows(serverList)
+		loginViewModel.servers.observe(viewLifecycleOwner) { servers  ->
+			buildRows(servers)
 		}
 
 		onItemViewClickedListener = itemViewClickedListener
@@ -77,11 +80,10 @@ class ListServerFragment : RowsSupportFragment() {
 		}
 	}
 
-	private fun buildRows(usersByServer: Map<Server, List<User>>) {
+	private fun buildRows(servers: List<Pair<Server, List<User>>>) {
 		val rowAdapter = ArrayObjectAdapter(CustomListRowPresenter())
-		adapter = rowAdapter
 
-		usersByServer.forEach { (server: Server, userList: List<User>) ->
+		servers.forEachIndexed { index, (server: Server, userList: List<User>) ->
 			Timber.d("Adding server row %s", server.name)
 
 			val userListAdapter = ArrayObjectAdapter(GridButtonPresenter())
@@ -92,12 +94,13 @@ class ListServerFragment : RowsSupportFragment() {
 			userListAdapter.add(AddUserGridButton(server, ADD_USER, requireContext().getString(R.string.lbl_manual_login), R.drawable.tile_edit))
 
 			rowAdapter.add(ListRow(
-				HeaderItem(usersByServer.keys.indexOf(server).toLong(),
+				HeaderItem(index.toLong(),
 					if (server.name.isNotBlank()) server.name else server.address),
 				userListAdapter
 			))
 		}
 
+		adapter = rowAdapter
 		// Ensure the server rows get focus
 		requireView().requestFocus()
 	}

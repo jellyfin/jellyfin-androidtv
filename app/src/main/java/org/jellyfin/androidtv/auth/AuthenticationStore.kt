@@ -40,7 +40,7 @@ class AuthenticationStore(private val context: Context) {
 		// Check for version
 		val root = json.parseToJsonElement(storePath.readText()).jsonObject
 		return when (root["version"]?.jsonPrimitive?.intOrNull) {
-			1 -> parseV1(root)
+			1 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
 			null -> {
 				Timber.e("Authentication Store is corrupt!")
 				emptyMap()
@@ -51,8 +51,6 @@ class AuthenticationStore(private val context: Context) {
 			}
 		}
 	}
-
-	private fun parseV1(root: JsonObject) = json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
 
 	private fun save(): Boolean {
 		val root = JsonObject(mapOf(
@@ -81,6 +79,10 @@ class AuthenticationStore(private val context: Context) {
 
 		return save()
 	}
+
+	fun containsServer(server: UUID): Boolean = server in store
+
+	fun containsUser(server: UUID, user: UUID): Boolean = server in store && user in store[server]!!.users
 
 	fun removeServer(server: UUID): Boolean {
 		store.remove(server)

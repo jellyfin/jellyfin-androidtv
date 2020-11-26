@@ -6,8 +6,6 @@ import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.repository.ServerRepository
 import org.jellyfin.androidtv.data.repository.ServerRepositoryImpl
-import org.jellyfin.androidtv.data.repository.UserRepository
-import org.jellyfin.androidtv.data.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.apiclient.AppInfo
@@ -62,11 +60,7 @@ val appModule = module {
 		ServerRepositoryImpl(get(), get(), get())
 	}
 
-	single<UserRepository> {
-		UserRepositoryImpl(get(), get(), get(), get(), get())
-	}
-
 	viewModel {
-		LoginViewModel(get(), get(), get())
+		LoginViewModel(get())
 	}
 }

@@ -74,8 +74,7 @@ class AccountManagerHelper(
 		accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUIDOrNull() == server
 	}.map(::getAccountData)
 
-
-	fun getAccount(id: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).first { account ->
+	fun getAccount(id: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).firstOrNull { account ->
 		accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUIDOrNull() == id
 	}?.let(::getAccountData)
 }

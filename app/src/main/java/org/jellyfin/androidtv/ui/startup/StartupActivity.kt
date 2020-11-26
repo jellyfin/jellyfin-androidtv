@@ -13,7 +13,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.data.model.LoadingState
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
@@ -59,11 +58,13 @@ class StartupActivity : FragmentActivity() {
 		} else {
 			Timber.i("Basic network permissions are granted")
 
-			loginViewModel.loadingState.observe(this) { state ->
-				Timber.d("LoadingState: %s", state.toString())
-				if (state == LoadingState.SUCCESS && !isLoaded) start()
-
-			}
+//			loginViewModel.loadingState.observe(this) { state ->
+//				Timber.d("LoadingState: %s", state.toString())
+//				if (state == LoadingState.SUCCESS && !isLoaded) start()
+//
+//			}
+			//TODO
+			start()
 		}
 
 		// Navigate to home screen when user has logged in
@@ -73,7 +74,7 @@ class StartupActivity : FragmentActivity() {
 			// User has been logged in continue to correct screen
 			openNextActivity()
 		}
-		loginViewModel.currentUser.observe(this, currentUserObserver)
+//		loginViewModel.currentUser.observe(this, currentUserObserver)
 	}
 
 	private fun start() {
