@@ -373,4 +373,5 @@
     <string name="bitrate_auto">自動位元率</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/秒</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/秒</string>
+    <string name="lbl_pause">暫停</string>
 </resources>
