@@ -4,6 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
@@ -16,11 +17,13 @@ import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.users.AuthenticationResult
 import timber.log.Timber
 import java.util.*
 
 class AuthenticationRepository(
+	private val application: JellyfinApplication,
 	private val jellyfin: Jellyfin,
 	private val apiClient: ApiClient,
 	private val device: IDevice,
@@ -81,9 +84,16 @@ class AuthenticationRepository(
 		val server = account?.server.let { authenticationStore.getServers()[it] }
 		if (account?.accessToken != null && server != null) {
 			apiClient.ChangeServerLocation(server.url)
-
 			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
-			emit(AuthenticatedState)
+
+			val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
+			application.currentUser = userDto
+
+			if (application.currentUser == null) {
+				emit(RequireSignInState)
+			} else {
+				emit(AuthenticatedState)
+			}
 		} else {
 			// Try password-less login
 
