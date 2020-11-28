@@ -34,6 +34,12 @@ object ConnectingState : ServerAdditionState()
 data class UnableToConnectState(val error: Exception) : ServerAdditionState()
 data class ConnectedState(val publicInfo: PublicSystemInfo) : ServerAdditionState()
 
+sealed class LoginState
+object AuthenticatingState : LoginState()
+object RequireSignInState : LoginState()
+object ServerUnavailableState : LoginState()
+object AuthenticatedState : LoginState()
+
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val device: IDevice,

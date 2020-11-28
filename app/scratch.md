@@ -14,3 +14,13 @@
     .AuthenticationRepository - Deals with authentication
         legacy credentials
         stored servers + users
+
+ISSUES
+- Adding a server does not refresh the server list (need to restart activity)
+- Profile pictures missing
+  - Also not cached
+- Login does not work
+- Use consistent naming for:
+  - user/account
+  - login/authenticate
+  etc

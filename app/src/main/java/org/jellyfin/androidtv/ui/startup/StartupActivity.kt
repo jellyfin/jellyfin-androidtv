@@ -87,7 +87,7 @@ class StartupActivity : FragmentActivity() {
 		isLoaded = true
 	}
 
-	private fun openNextActivity() {
+	fun openNextActivity() {
 		val itemId = intent.getStringExtra(ITEM_ID)
 		val itemIsUserView = intent.getBooleanExtra(ITEM_IS_USER_VIEW, false)
 		if (itemId != null) {

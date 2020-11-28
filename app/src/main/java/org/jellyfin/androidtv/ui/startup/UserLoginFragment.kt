@@ -10,19 +10,26 @@ import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.data.repository.AuthenticatedState
+import org.jellyfin.androidtv.data.repository.AuthenticatingState
+import org.jellyfin.androidtv.data.repository.RequireSignInState
+import org.jellyfin.androidtv.data.repository.ServerUnavailableState
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class UserLoginFragment(
+	private val serverId: UUID,
 	private val user: User? = null,
-	private val onConfirmCallback: (username: String, password: String) -> Unit = { _: String, _: String -> },
-	onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
 ) : AlertFragment(
 	title = R.string.lbl_sign_in,
-	onCancelCallback = onCancelCallback,
+	onCancelCallback = {},
 	onClose = onClose
 ) {
+	private val loginViewModel: LoginViewModel by viewModel()
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
@@ -57,12 +64,33 @@ class UserLoginFragment(
 
 		// Override the default confirm button click listener to return the address field text
 		view.confirm.setOnClickListener {
-			if (username.text.isNotBlank()) {
-				onConfirmCallback(username.text.toString(), password.text.toString())
-				onClose()
-			}
+			if (username.text.isNotBlank())
+				signIn(serverId, username.text.toString(), password.text.toString())
 		}
 
 		return view
+	}
+
+	private fun signIn(server: UUID, username: String, password: String) {
+		loginViewModel.login(server, username, password).observe(viewLifecycleOwner) { state ->
+			println(state)
+			when (state) {
+				AuthenticatingState -> {
+					// loading
+				}
+				RequireSignInState -> {
+					// unreachable
+				}
+				ServerUnavailableState -> {
+					// TODO show error
+				}
+				AuthenticatedState -> {
+					onClose()
+
+					// TODO use view model and observe in activity
+					(requireActivity() as StartupActivity).openNextActivity()
+				}
+			}
+		}
 	}
 }

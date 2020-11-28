@@ -8,16 +8,22 @@ import androidx.annotation.DrawableRes
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.RowsSupportFragment
-import androidx.leanback.widget.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.OnItemViewClickedListener
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.data.repository.AuthenticatedState
+import org.jellyfin.androidtv.data.repository.AuthenticatingState
+import org.jellyfin.androidtv.data.repository.RequireSignInState
+import org.jellyfin.androidtv.data.repository.ServerUnavailableState
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.jellyfin.androidtv.util.toUUID
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class ListServerFragment : RowsSupportFragment() {
@@ -26,38 +32,34 @@ class ListServerFragment : RowsSupportFragment() {
 		private const val SELECT_USER = 2
 	}
 
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val loginViewModel: LoginViewModel by viewModel()
 
-	private val itemViewClickedListener = OnItemViewClickedListener() { _: Presenter.ViewHolder, item: Any, _: RowPresenter.ViewHolder, _: Row ->
+	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
-			if (item.user.hasPassword) {
-				// Open login fragment
-				navigate(UserLoginFragment(
-					user = item.user,
-					onConfirmCallback = { username: String, password: String ->
-						GlobalScope.launch {
-							//TODO
-//							loginViewModel.login(server = item.server, username = username, password = password)
-						}
-					},
-					onCancelCallback = { parentFragmentManager.popBackStack() }
-				))
-			} else {
-				GlobalScope.launch {
-					//TODO
-//					loginViewModel.login(item.server, item.user.name, "")
+			loginViewModel.authenticate(item.user.id.toUUID()).observe(viewLifecycleOwner) { state ->
+				when (state) {
+					AuthenticatingState -> {
+					}
+					RequireSignInState -> {
+						// Open login fragment
+						navigate(UserLoginFragment(
+							serverId = item.server.id.toUUID(),
+							user = item.user,
+						))
+					}
+					ServerUnavailableState -> {
+						// TODO show error
+					}
+					AuthenticatedState -> {
+						// TODO use view model and observe in activity
+						(requireActivity() as StartupActivity).openNextActivity()
+					}
 				}
 			}
 		} else if (item is AddUserGridButton) {
 			// Open login fragment
 			navigate(UserLoginFragment(
-				onConfirmCallback = { username: String, password: String ->
-					GlobalScope.launch {
-						//TODO
-//						loginViewModel.login(server = item.server, username = username, password = password)
-					}
-				},
-				onCancelCallback = { parentFragmentManager.popBackStack() }
+				serverId = item.server.id.toUUID()
 			))
 		}
 	}
@@ -67,7 +69,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 		buildRows(emptyList())
 
-		loginViewModel.servers.observe(viewLifecycleOwner) { servers  ->
+		loginViewModel.servers.observe(viewLifecycleOwner) { servers ->
 			buildRows(servers)
 		}
 
