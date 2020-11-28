@@ -12,5 +12,5 @@ import org.koin.dsl.module
 val authModule = module {
 	single { AuthenticationStore(androidContext()) }
 	single { AccountManagerHelper(androidContext().getSystemService()!!) }
-	single { AuthenticationRepository(androidApplication() as JellyfinApplication, get(), get(), get(), get(), get()) }
+	single { AuthenticationRepository(androidApplication() as JellyfinApplication, get(), get(), get(), get(), get(), get()) }
 }

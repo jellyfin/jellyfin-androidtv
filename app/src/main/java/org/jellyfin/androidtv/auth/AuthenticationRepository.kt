@@ -11,8 +11,10 @@ import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.data.repository.*
+import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.toUUID
+import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
@@ -29,6 +31,7 @@ class AuthenticationRepository(
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
+	private val credentialsFileSource: CredentialsFileSource,
 ) {
 	/**
 	 * Remove accounts from authentication store that are not in the account manager.
@@ -108,10 +111,16 @@ class AuthenticationRepository(
 		username: String,
 		password: String
 	) = flow {
-		val server = authenticationStore.getServers()[serverId]
+		var server = authenticationStore.getServers()[serverId]
 		if (server == null) {
-			println(server)
-			return@flow emit(ServerUnavailableState)
+			val legacyCredentials = credentialsFileSource.read()
+			if (legacyCredentials?.server?.id?.toUUIDOrNull() == serverId) {
+				val serverInfo = legacyCredentials.server!!
+				server = AuthenticationStoreServer(serverInfo.name, serverInfo.address, serverInfo.dateLastAccessed.time, 0, emptyMap())
+				authenticationStore.putServer(serverId, server)
+			} else {
+				return@flow emit(ServerUnavailableState)
+			}
 		}
 
 		val result = callApi<AuthenticationResult> { callback ->
