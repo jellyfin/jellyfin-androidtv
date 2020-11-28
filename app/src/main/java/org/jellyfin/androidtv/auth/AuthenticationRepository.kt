@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
-import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.users.AuthenticationResult
 import timber.log.Timber
@@ -129,11 +128,10 @@ class AuthenticationRepository(
 		}
 
 		val currentUser = authenticationStore.getUsers(serverId)?.get(username)
-		val profilePicture = apiClient.GetUserImageUrl(result.user, ImageOptions()) ?: ""
 		val updatedUser = if (currentUser == null) {
-			AuthenticationStoreUser(result.user.name, profilePicture, Date().time, 0)
+			AuthenticationStoreUser(result.user.name, result.user.primaryImageTag, Date().time, 0)
 		} else {
-			currentUser.copy(name = result.user.name, profilePicture = profilePicture, lastUsed = Date().time)
+			currentUser.copy(name = result.user.name, profilePicture = result.user.primaryImageTag, lastUsed = Date().time)
 		}
 
 		val userId = result.user.id.toUUID()
