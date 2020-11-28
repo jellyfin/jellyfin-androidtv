@@ -76,7 +76,7 @@ class ServerRepositoryImpl(
 
 	private fun getLegacyUsersForServer(server: Server): Flow<User> = flow {
 		val user = credentialsFileSource.read()?.user ?: return@flow
-		if (user.serverId == server.id) emit(user)
+		if (user.serverId.toUUID() == server.id.toUUID()) emit(user)
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
@@ -92,7 +92,7 @@ class ServerRepositoryImpl(
 			emitAll(getPublicUsersForServer(server))
 			if (stored) emitAll(getStoredUsersForServer(server))
 			if (legacy) emitAll(getLegacyUsersForServer(server))
-		}.distinctUntilChangedBy { it.id }.toList()
+		}.distinctUntilChangedBy { it.id.toUUID() }.toList()
 
 		Pair(server, users)
 	}
