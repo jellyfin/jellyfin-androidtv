@@ -155,7 +155,7 @@
             app:srcCompat="@drawable/blank30x30"
             android:layout_marginTop="60dp"
             android:foregroundGravity="fill_horizontal"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:paddingTop="80dp"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"

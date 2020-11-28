@@ -108,9 +108,9 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         vh.mPoster.setImageDrawable(row.getImageDrawable());
         //vh.mStudioImage.setImageDrawable(row.getStudioDrawable());
-        int prog = row.getProgress();
-        if (row.getProgress() > 0  && vh.mPoster.getDrawable() != null) {
-            vh.mProgress.setProgress(row.getProgress());
+        int progress = row.getProgress();
+        if (progress > 0  && vh.mPoster.getDrawable() != null) {
+            vh.mProgress.setProgress(progress);
             vh.mProgress.setVisibility(View.VISIBLE);
         }
 
