@@ -18,7 +18,9 @@ import java.util.*
  *
  * The data is stored in a JSON file located in the applications data directory.
  */
-class AuthenticationStore(private val context: Context) {
+class AuthenticationStore(
+	private val context: Context
+) {
 	private val storePath
 		get() = context.filesDir.resolve("authentication_store.json")
 
@@ -27,6 +29,7 @@ class AuthenticationStore(private val context: Context) {
 		serializersModule = SerializersModule {
 			contextual(UUIDSerializer)
 		}
+		ignoreUnknownKeys = true
 	}
 
 	private val store by lazy {

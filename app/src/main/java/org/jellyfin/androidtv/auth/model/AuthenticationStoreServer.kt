@@ -12,7 +12,6 @@ import java.util.*
 data class AuthenticationStoreServer(
 	val name: String,
 	val url: String,
-	@SerialName("last_used") val lastUsed: Long,
-	@SerialName("display_order") val displayOrder: Int,
-	val users: Map<UUID, AuthenticationStoreUser>,
+	@SerialName("last_used") val lastUsed: Long = Date().time,
+	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
 )

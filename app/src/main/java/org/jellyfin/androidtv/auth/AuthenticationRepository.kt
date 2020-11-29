@@ -75,7 +75,7 @@ class AuthenticationRepository(
 			// val current =  authenticationStore.getServer(id)
 			// update TODO
 		}
-		authenticationStore.putServer(id, AuthenticationStoreServer(name, address, Date().time, 0, emptyMap()))
+		authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
 	}
 
 	fun authenticateUser(user: UUID): Flow<LoginState> = flow {
@@ -115,7 +115,7 @@ class AuthenticationRepository(
 			val legacyCredentials = credentialsFileSource.read()
 			if (legacyCredentials?.server?.id?.toUUIDOrNull() == serverId) {
 				val serverInfo = legacyCredentials.server!!
-				server = AuthenticationStoreServer(serverInfo.name, serverInfo.address, serverInfo.dateLastAccessed.time, 0, emptyMap())
+				server = AuthenticationStoreServer(serverInfo.name, serverInfo.address, serverInfo.dateLastAccessed.time)
 				authenticationStore.putServer(serverId, server)
 			} else {
 				return@flow emit(ServerUnavailableState)
@@ -129,7 +129,7 @@ class AuthenticationRepository(
 
 		val currentUser = authenticationStore.getUsers(serverId)?.get(username)
 		val updatedUser = if (currentUser == null) {
-			AuthenticationStoreUser(result.user.name, result.user.primaryImageTag, Date().time, 0)
+			AuthenticationStoreUser(result.user.name, result.user.primaryImageTag)
 		} else {
 			currentUser.copy(name = result.user.name, profilePicture = result.user.primaryImageTag, lastUsed = Date().time)
 		}
