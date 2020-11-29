@@ -247,8 +247,8 @@
     <string name="lbl_by_letter">Harfe Göre</string>
     <string name="lbl_views">Görüntüleme</string>
     <string name="lbl_on_now">Şuan Açık</string>
-    <string name="lbl_next_up_tv">Sırada TV</string>
-    <string name="lbl_next_up">Sırada</string>
+    <string name="lbl_next_up_tv">TV\'de Gelecek Hafta</string>
+    <string name="lbl_next_up">Gelecek Hafta</string>
     <string name="lbl_latest_movies">Son Filmler</string>
     <string name="lbl_continue_watching">İzlemeye Devam Et</string>
     <string name="lbl_library">Kütüphane</string>
