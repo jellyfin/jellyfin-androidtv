@@ -17,9 +17,9 @@
 
 ISSUES
 - Adding a server does not refresh the server list (need to restart activity)
-- Profile pictures missing
-  - Also not cached
-- Login does not work
+- Profile pictures not showing
+- Profile pictures not cached
+- Add old credential migration and remove as sources in ServersRepo
 - Use consistent naming for:
   - user/account
   - login/authenticate

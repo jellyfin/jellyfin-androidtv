@@ -3,26 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.jellyfin.androidtv">
 
-    <uses-feature
-        android:name="android.software.leanback"
-        android:required="false" />
+    <!-- Android TV Integration -->
+    <uses-permission
+        android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"
+        android:maxSdkVersion="23" />
 
+    <!-- AccountManager permissions -->
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
         android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
+
+    <!-- Generic permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Needed for ChannelManager on older devices (< API 23) -->
-    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
+    <!-- Device feature requirements -->
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -34,8 +40,8 @@
     <application
         android:name=".JellyfinApplication"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_content"
         android:banner="@drawable/app_logo"
+        android:fullBackupContent="@xml/backup_content"
         android:icon="@drawable/ic_jellyfin"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -53,6 +59,12 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
+        <receiver android:name=".util.RemoteControlReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ui.browsing.MainActivity"
@@ -73,13 +85,15 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity-alias
             android:name=".startup.StartupActivity"
             android:targetActivity=".ui.startup.StartupActivity" />
+
         <activity
             android:name=".ui.playback.PlaybackOverlayActivity"
-            android:label="PlaybackOverlayActivity"
             android:colorMode="wideColorGamut"
+            android:label="PlaybackOverlayActivity"
             android:screenOrientation="landscape" />
 
         <activity
@@ -89,66 +103,77 @@
         <activity
             android:name=".ui.browsing.UserViewActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.CollectionActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.ByLetterActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.ByGenreActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.preference.PreferencesActivity"
             android:theme="@style/Theme.Jellyfin.Preferences" />
+
         <activity
             android:name=".ui.browsing.SuggestedMoviesActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.BrowsePersonsActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.search.SearchActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.itemdetail.FullDetailsActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.livetv.LiveTvGuideActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.GenericGridActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.BrowseRecordingsActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.browsing.BrowseScheduleActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.itemdetail.PhotoPlayerActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.itemdetail.ItemListActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.playback.AudioNowPlayingActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".ui.playback.ExternalPlayerActivity" />
 
-        <receiver android:name=".util.RemoteControlReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
+        <activity android:name=".ui.playback.ExternalPlayerActivity" />
 
         <activity
             android:name=".ui.itemdetail.ExpandedTextActivity"
             android:label="@string/title_activity_expanded_text"
             android:screenOrientation="landscape" />
-        <activity android:name=".ui.playback.nextup.NextUpActivity"
+
+        <activity
+            android:name=".ui.playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />
     </application>
-
 </manifest>
