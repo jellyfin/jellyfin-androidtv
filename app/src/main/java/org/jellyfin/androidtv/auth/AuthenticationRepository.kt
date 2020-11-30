@@ -48,11 +48,11 @@ class AuthenticationRepository(
 	}
 
 	fun getServers() = authenticationStore.getServers().map { (id, info) ->
-		Server(id.toString(), info.name, info.url, Date(info.lastUsed))
+		Server(id.toString(), info.name, info.address, Date(info.lastUsed))
 	}
 
 	fun getUsers(): Map<Server, List<User>> = authenticationStore.getServers().map { (serverId, serverInfo) ->
-		Server(serverId.toString(), serverInfo.name, serverInfo.url, Date(serverInfo.lastUsed)) to serverInfo.users.map { (userId, userInfo) ->
+		Server(serverId.toString(), serverInfo.name, serverInfo.address, Date(serverInfo.lastUsed)) to serverInfo.users.map { (userId, userInfo) ->
 			val authInfo = accountManagerHelper.getAccount(userId)
 
 			User(userId.toString(), userInfo.name, authInfo?.accessToken
@@ -71,7 +71,7 @@ class AuthenticationRepository(
 		val current = authenticationStore.getServer(id)
 
 		if (current != null)
-			authenticationStore.putServer(id, current.copy(name = name, url = address))
+			authenticationStore.putServer(id, current.copy(name = name, address = address))
 		else
 			authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
 	}
@@ -83,7 +83,7 @@ class AuthenticationRepository(
 		val account = accountManagerHelper.getAccount(user)
 		val server = account?.server?.let(authenticationStore::getServer)
 		if (account?.accessToken != null && server != null) {
-			apiClient.ChangeServerLocation(server.url)
+			apiClient.ChangeServerLocation(server.address)
 			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
 
 			val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
@@ -121,7 +121,7 @@ class AuthenticationRepository(
 		}
 
 		val result = callApi<AuthenticationResult> { callback ->
-			val api = jellyfin.createApi(server.url, device = device)
+			val api = jellyfin.createApi(server.address, device = device)
 			api.AuthenticateUserAsync(username, password, callback)
 		}
 

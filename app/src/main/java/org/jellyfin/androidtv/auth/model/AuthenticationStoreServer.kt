@@ -11,7 +11,7 @@ import java.util.*
 @Serializable
 data class AuthenticationStoreServer(
 	val name: String,
-	val url: String,
+	val address: String,
 	@SerialName("last_used") val lastUsed: Long = Date().time,
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
 )
