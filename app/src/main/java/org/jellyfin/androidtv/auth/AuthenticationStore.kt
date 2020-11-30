@@ -91,6 +91,9 @@ class AuthenticationStore(
 
 	fun containsUser(server: UUID, user: UUID): Boolean = server in store && user in store[server]!!.users
 
+	/**
+	 * Removes the server and stored users from the credential store.
+	 */
 	fun removeServer(server: UUID): Boolean {
 		store.remove(server)
 		return save()
