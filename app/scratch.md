@@ -23,4 +23,8 @@ ISSUES
 - Use consistent naming for:
   - user/account
   - login/authenticate
+  - address/url
   etc
+- Add "Id" suffix to parameters/variables that hold the id of an entity
+  - serverId
+  - userId

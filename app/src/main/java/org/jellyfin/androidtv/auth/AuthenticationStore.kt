@@ -68,7 +68,11 @@ class AuthenticationStore(
 
 	fun getServers(): Map<UUID, AuthenticationStoreServer> = store
 
-	fun getUsers(server: UUID): Map<UUID, AuthenticationStoreUser>? = getServers()[server]?.users
+	fun getUsers(server: UUID): Map<UUID, AuthenticationStoreUser>? = getServer(server)?.users
+
+	fun getServer(serverId: UUID) = store[serverId]
+
+	fun getUser(serverId: UUID, userId: UUID) = getUsers(serverId)?.get(userId)
 
 	fun putServer(id: UUID, server: AuthenticationStoreServer): Boolean {
 		store[id] = server

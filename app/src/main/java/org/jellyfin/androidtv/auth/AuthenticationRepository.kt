@@ -47,9 +47,6 @@ class AuthenticationRepository(
 		}
 	}
 
-//	fun getActiveServer() = TODO()
-//	fun getActiveUser() = TODO()
-
 	fun getServers() = authenticationStore.getServers().map { (id, info) ->
 		Server(id.toString(), info.name, info.url, Date(info.lastUsed))
 	}
@@ -71,11 +68,12 @@ class AuthenticationRepository(
 	}
 
 	fun saveServer(id: UUID, name: String, address: String) {
-		if (authenticationStore.containsServer(id)) {
-			// val current =  authenticationStore.getServer(id)
-			// update TODO
-		}
-		authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
+		val current = authenticationStore.getServer(id)
+
+		if (current != null)
+			authenticationStore.putServer(id, current.copy(name = name, url = address))
+		else
+			authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
 	}
 
 	fun authenticateUser(user: UUID): Flow<LoginState> = flow {
@@ -83,7 +81,7 @@ class AuthenticationRepository(
 		emit(AuthenticatingState)
 
 		val account = accountManagerHelper.getAccount(user)
-		val server = account?.server.let { authenticationStore.getServers()[it] }
+		val server = account?.server?.let(authenticationStore::getServer)
 		if (account?.accessToken != null && server != null) {
 			apiClient.ChangeServerLocation(server.url)
 			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
@@ -97,7 +95,7 @@ class AuthenticationRepository(
 				emit(AuthenticatedState)
 			}
 		} else {
-			// Try password-less login
+			// TODO Try password-less login
 
 			// Failed
 			emit(RequireSignInState)
@@ -110,7 +108,7 @@ class AuthenticationRepository(
 		username: String,
 		password: String
 	) = flow {
-		var server = authenticationStore.getServers()[serverId]
+		var server = authenticationStore.getServer(serverId)
 		if (server == null) {
 			val legacyCredentials = credentialsFileSource.read()
 			if (legacyCredentials?.server?.id?.toUUIDOrNull() == serverId) {
@@ -127,14 +125,17 @@ class AuthenticationRepository(
 			api.AuthenticateUserAsync(username, password, callback)
 		}
 
-		val currentUser = authenticationStore.getUsers(serverId)?.get(username)
-		val updatedUser = if (currentUser == null) {
-			AuthenticationStoreUser(result.user.name, result.user.primaryImageTag)
-		} else {
-			currentUser.copy(name = result.user.name, profilePicture = result.user.primaryImageTag, lastUsed = Date().time)
-		}
-
 		val userId = result.user.id.toUUID()
+		val currentUser = authenticationStore.getUser(serverId, userId)
+		val updatedUser = currentUser?.copy(
+			name = result.user.name,
+			profilePicture = result.user.primaryImageTag,
+			lastUsed = Date().time
+		) ?: AuthenticationStoreUser(
+			name = result.user.name,
+			profilePicture = result.user.primaryImageTag
+		)
+
 		authenticationStore.putUser(serverId, userId, updatedUser)
 		accountManagerHelper.putAccount(AccountManagerAccount(userId, serverId, updatedUser.name, result.accessToken))
 
