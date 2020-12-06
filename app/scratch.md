@@ -12,3 +12,4 @@
   - Add "Id" suffix to parameters/variables that hold the id of an entity
     - serverId
     - userId
+  - Test with CBOR instead of JSON and determine if file size reduction is worth it

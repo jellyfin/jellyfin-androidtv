@@ -4,9 +4,7 @@
     package="org.jellyfin.androidtv">
 
     <!-- Android TV Integration -->
-    <uses-permission
-        android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"
-        android:maxSdkVersion="23" />
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
 
     <!-- AccountManager permissions -->
     <uses-permission

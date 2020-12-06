@@ -129,11 +129,11 @@ class AuthenticationRepository(
 		val currentUser = authenticationStore.getUser(serverId, userId)
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
-			profilePicture = result.user.primaryImageTag,
+			profilePicture = result.user.primaryImageTag ?: "",
 			lastUsed = Date().time
 		) ?: AuthenticationStoreUser(
 			name = result.user.name,
-			profilePicture = result.user.primaryImageTag
+			profilePicture = result.user.primaryImageTag ?: ""
 		)
 
 		authenticationStore.putUser(serverId, userId, updatedUser)
