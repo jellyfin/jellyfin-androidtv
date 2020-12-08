@@ -37,7 +37,7 @@ class AuthenticationRepository(
 		val authInfo = accountManagerHelper.getAccount(userId)
 
 		User(userId.toString(), userInfo.name, authInfo?.accessToken
-			?: "", authInfo?.server.toString(), userInfo.profilePictureTag!!)
+			?: "", authInfo?.server.toString())
 	}
 
 	fun saveServer(id: UUID, name: String, address: String) {
@@ -93,11 +93,9 @@ class AuthenticationRepository(
 		val currentUser = authenticationStore.getUser(serverId, userId)
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
-			profilePictureTag = result.user.primaryImageTag,
 			lastUsed = Date().time
 		) ?: AuthenticationStoreUser(
 			name = result.user.name,
-			profilePictureTag = result.user.primaryImageTag
 		)
 
 		authenticationStore.putUser(serverId, userId, updatedUser)

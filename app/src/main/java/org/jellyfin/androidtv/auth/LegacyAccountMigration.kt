@@ -61,8 +61,7 @@ class LegacyAccountMigration(
 						server = serverId,
 						userId = userId,
 						userInfo = AuthenticationStoreUser(
-							name = name,
-							profilePictureTag = user["PrimaryImageTag"]?.jsonPrimitive?.content
+							name = name
 						)
 					)
 					accountManagerHelper.putAccount(AccountManagerAccount(
