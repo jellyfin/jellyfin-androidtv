@@ -19,8 +19,7 @@ class LoginViewModel(
 	// All available servers and users
 	private val _servers = serverRepository.getServersWithUsers(
 		discovery = true,
-		stored = true,
-		legacy = true
+		stored = true
 	).asLiveDataCollection()
 	val servers: LiveData<List<Pair<Server, List<User>>>> get() = _servers
 

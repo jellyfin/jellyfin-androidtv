@@ -11,10 +11,8 @@ import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.data.repository.*
-import org.jellyfin.androidtv.data.source.CredentialsFileSource
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.toUUID
-import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
@@ -30,41 +28,16 @@ class AuthenticationRepository(
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
-	private val credentialsFileSource: CredentialsFileSource,
 ) {
-	/**
-	 * Remove accounts from authentication store that are not in the account manager.
-	 * Should be run once on app start.
-	 */
-	fun sync() {
-		val savedAccountIds = accountManagerHelper.getAccounts().map { it.id }
-
-		authenticationStore.getServers().forEach { (serverId, server) ->
-			server.users.forEach { (userId, _) ->
-				if (!savedAccountIds.contains(userId))
-					authenticationStore.removeUser(serverId, userId)
-			}
-		}
-	}
-
 	fun getServers() = authenticationStore.getServers().map { (id, info) ->
 		Server(id.toString(), info.name, info.address, Date(info.lastUsed))
 	}
 
-	fun getUsers(): Map<Server, List<User>> = authenticationStore.getServers().map { (serverId, serverInfo) ->
-		Server(serverId.toString(), serverInfo.name, serverInfo.address, Date(serverInfo.lastUsed)) to serverInfo.users.map { (userId, userInfo) ->
-			val authInfo = accountManagerHelper.getAccount(userId)
-
-			User(userId.toString(), userInfo.name, authInfo?.accessToken
-				?: "", serverId.toString(), userInfo.profilePicture)
-		}
-	}.toMap()
-
-	fun getUsersByServer(server: UUID): List<User>? = authenticationStore.getUsers(server)?.map { (userId, userInfo) ->
+	fun getUsers(server: UUID): List<User>? = authenticationStore.getUsers(server)?.map { (userId, userInfo) ->
 		val authInfo = accountManagerHelper.getAccount(userId)
 
 		User(userId.toString(), userInfo.name, authInfo?.accessToken
-			?: "", authInfo?.server.toString(), userInfo.profilePicture)
+			?: "", authInfo?.server.toString(), userInfo.profilePictureTag!!)
 	}
 
 	fun saveServer(id: UUID, name: String, address: String) {
@@ -108,17 +81,8 @@ class AuthenticationRepository(
 		username: String,
 		password: String
 	) = flow {
-		var server = authenticationStore.getServer(serverId)
-		if (server == null) {
-			val legacyCredentials = credentialsFileSource.read()
-			if (legacyCredentials?.server?.id?.toUUIDOrNull() == serverId) {
-				val serverInfo = legacyCredentials.server!!
-				server = AuthenticationStoreServer(serverInfo.name, serverInfo.address, serverInfo.dateLastAccessed.time)
-				authenticationStore.putServer(serverId, server)
-			} else {
-				return@flow emit(ServerUnavailableState)
-			}
-		}
+		val server = authenticationStore.getServer(serverId)
+			?: return@flow emit(ServerUnavailableState)
 
 		val result = callApi<AuthenticationResult> { callback ->
 			val api = jellyfin.createApi(server.address, device = device)
@@ -129,11 +93,11 @@ class AuthenticationRepository(
 		val currentUser = authenticationStore.getUser(serverId, userId)
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
-			profilePicture = result.user.primaryImageTag ?: "",
+			profilePictureTag = result.user.primaryImageTag,
 			lastUsed = Date().time
 		) ?: AuthenticationStoreUser(
 			name = result.user.name,
-			profilePicture = result.user.primaryImageTag ?: ""
+			profilePictureTag = result.user.primaryImageTag
 		)
 
 		authenticationStore.putUser(serverId, userId, updatedUser)
