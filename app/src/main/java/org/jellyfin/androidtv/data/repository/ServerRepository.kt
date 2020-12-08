@@ -13,7 +13,6 @@ import org.jellyfin.androidtv.util.apiclient.getPublicUsers
 import org.jellyfin.androidtv.util.apiclient.toServer
 import org.jellyfin.androidtv.util.apiclient.toUser
 import org.jellyfin.androidtv.util.toUUID
-import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.interaction.device.IDevice
@@ -53,9 +52,7 @@ class ServerRepositoryImpl(
 	}
 
 	private fun getStoredUsersForServer(server: Server): Flow<User> = flow {
-		val id = server.id.toUUIDOrNull() ?: return@flow
-
-		authenticationRepository.getUsers(id)?.forEach { user -> emit(user) }
+		authenticationRepository.getUsers(server.id)?.forEach { user -> emit(user) }
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)

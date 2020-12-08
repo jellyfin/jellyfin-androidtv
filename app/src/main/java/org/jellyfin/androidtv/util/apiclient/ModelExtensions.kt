@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util.apiclient
 
-import org.jellyfin.androidtv.data.model.LegacyServer
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
 import org.jellyfin.androidtv.util.toUUID
@@ -15,28 +14,17 @@ fun DiscoveryServerInfo.toServerInfo() = ServerInfo().apply {
 	address = this@toServerInfo.address
 }
 
-fun DiscoveryServerInfo.toServer() = Server(id, name, address)
+fun DiscoveryServerInfo.toServer() = Server(id.toUUID(), name, address)
 
-fun PublicSystemInfo.toServer() = Server(id, serverName, localAddress)
+fun PublicSystemInfo.toServer() = Server(id.toUUID(), serverName, localAddress)
 
-fun ServerInfo.toLegacyServer() = LegacyServer(id, name, address, dateLastAccessed, userId, accessToken)
+fun ServerInfo.toServer() = Server(id.toUUID(), name, address, dateLastAccessed)
 
-fun ServerInfo.toServer() = Server(id, name, address, dateLastAccessed)
-
-fun Server.toServerInfo() = ServerInfo().apply {
-	id = this@toServerInfo.id
-	name = this@toServerInfo.name
-	address = this@toServerInfo.address
-	dateLastAccessed = this@toServerInfo.dateLastAccessed
-}
-
-fun LegacyServer.toServerInfo() = ServerInfo().apply {
-	id = this@toServerInfo.id
-	name = this@toServerInfo.name
-	address = this@toServerInfo.address
-	userId = this@toServerInfo.userId
-	accessToken = this@toServerInfo.accessToken
-	dateLastAccessed = this@toServerInfo.dateLastAccessed
+fun Server.toServerInfo() = ServerInfo().also { server ->
+	id = server.id.toUUID()
+	name = server.name
+	address = server.address
+	dateLastAccessed = server.dateLastAccessed
 }
 
 fun UserDto.toUser() = User(

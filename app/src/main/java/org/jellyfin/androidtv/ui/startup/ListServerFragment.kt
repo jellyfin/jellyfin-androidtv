@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.data.repository.ServerUnavailableState
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
-import org.jellyfin.androidtv.util.toUUID
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -43,7 +42,7 @@ class ListServerFragment : RowsSupportFragment() {
 					RequireSignInState -> {
 						// Open login fragment
 						navigate(UserLoginFragment(
-							serverId = item.server.id.toUUID(),
+							serverId = item.server.id,
 							user = item.user,
 						))
 					}
@@ -59,7 +58,7 @@ class ListServerFragment : RowsSupportFragment() {
 		} else if (item is AddUserGridButton) {
 			// Open login fragment
 			navigate(UserLoginFragment(
-				serverId = item.server.id.toUUID()
+				serverId = item.server.id
 			))
 		}
 	}

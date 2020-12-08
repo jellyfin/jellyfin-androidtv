@@ -30,7 +30,7 @@ class AuthenticationRepository(
 	private val authenticationStore: AuthenticationStore,
 ) {
 	fun getServers() = authenticationStore.getServers().map { (id, info) ->
-		Server(id.toString(), info.name, info.address, Date(info.lastUsed))
+		Server(id, info.name, info.address, Date(info.lastUsed))
 	}
 
 	fun getUsers(server: UUID): List<User>? = authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
