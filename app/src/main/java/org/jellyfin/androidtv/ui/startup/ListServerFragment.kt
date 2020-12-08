@@ -36,7 +36,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
-			loginViewModel.authenticate(item.user.id.toUUID()).observe(viewLifecycleOwner) { state ->
+			loginViewModel.authenticate(item.user.id).observe(viewLifecycleOwner) { state ->
 				when (state) {
 					AuthenticatingState -> {
 					}

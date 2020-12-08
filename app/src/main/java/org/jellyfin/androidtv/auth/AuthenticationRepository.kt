@@ -33,11 +33,10 @@ class AuthenticationRepository(
 		Server(id.toString(), info.name, info.address, Date(info.lastUsed))
 	}
 
-	fun getUsers(server: UUID): List<User>? = authenticationStore.getUsers(server)?.map { (userId, userInfo) ->
-		val authInfo = accountManagerHelper.getAccount(userId)
-
-		User(userId.toString(), userInfo.name, authInfo?.accessToken
-			?: "", authInfo?.server.toString())
+	fun getUsers(server: UUID): List<User>? = authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
+		accountManagerHelper.getAccount(userId)?.let { authInfo ->
+			User(userId, authInfo.server, userInfo.name, authInfo.accessToken)
+		}
 	}
 
 	fun saveServer(id: UUID, name: String, address: String) {

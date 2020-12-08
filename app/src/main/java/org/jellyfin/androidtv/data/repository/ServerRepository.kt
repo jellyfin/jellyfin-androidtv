@@ -72,7 +72,7 @@ class ServerRepositoryImpl(
 		val users = flow {
 			emitAll(getPublicUsersForServer(server))
 			if (stored) emitAll(getStoredUsersForServer(server))
-		}.distinctUntilChangedBy { it.id.toUUID() }.toList()
+		}.distinctUntilChangedBy { it.id }.toList()
 
 		Pair(server, users)
 	}

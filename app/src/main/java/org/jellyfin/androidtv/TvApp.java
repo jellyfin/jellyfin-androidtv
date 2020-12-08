@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
@@ -48,8 +47,6 @@ public class TvApp extends Application {
     public final DataRefreshService dataRefreshService = new DataRefreshService();
 
     private BaseActivity currentActivity;
-
-    private LogonCredentials configuredAutoCredentials;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -98,14 +95,6 @@ public class TvApp extends Application {
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
-    }
-
-    public LogonCredentials getConfiguredAutoCredentials() {
-        return configuredAutoCredentials;
-    }
-
-    public void setConfiguredAutoCredentials(LogonCredentials configuredAutoCredentials) {
-        this.configuredAutoCredentials = configuredAutoCredentials;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {

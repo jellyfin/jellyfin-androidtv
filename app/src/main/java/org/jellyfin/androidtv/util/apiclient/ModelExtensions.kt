@@ -3,8 +3,7 @@ package org.jellyfin.androidtv.util.apiclient
 import org.jellyfin.androidtv.data.model.LegacyServer
 import org.jellyfin.androidtv.data.model.Server
 import org.jellyfin.androidtv.data.model.User
-import org.jellyfin.androidtv.data.model.UserConfiguration
-import org.jellyfin.androidtv.data.model.UserPolicy
+import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
@@ -41,35 +40,8 @@ fun LegacyServer.toServerInfo() = ServerInfo().apply {
 }
 
 fun UserDto.toUser() = User(
-	id = id,
+	id = id.toUUID(),
 	name = name,
-	serverId = serverId,
-	primaryImageTag = primaryImageTag ?: "",
-	hasPassword = hasPassword,
-	hasConfiguredPassword = hasConfiguredPassword,
-	hasConfiguredEasyPassword = hasConfiguredEasyPassword,
-	configuration = UserConfiguration(
-		latestItemsExcludes = configuration.latestItemsExcludes.toList()
-	),
-	policy = UserPolicy(
-		enableLiveTvAccess = policy.enableLiveTvAccess,
-		enableLiveTvManagement = policy.enableLiveTvManagement
-	)
+	serverId = serverId.toUUID(),
+	accessToken = null
 )
-
-fun User.toUserDto() = UserDto().apply {
-	id = this@toUserDto.id
-	name = this@toUserDto.name
-	serverId = this@toUserDto.serverId
-	primaryImageTag = this@toUserDto.primaryImageTag
-	hasPassword = this@toUserDto.hasPassword
-	hasConfiguredPassword = this@toUserDto.hasConfiguredPassword
-	hasConfiguredEasyPassword = this@toUserDto.hasConfiguredEasyPassword
-	configuration = org.jellyfin.apiclient.model.configuration.UserConfiguration().apply {
-		latestItemsExcludes = this@toUserDto.configuration.latestItemsExcludes.toTypedArray()
-	}
-	policy = org.jellyfin.apiclient.model.users.UserPolicy().apply {
-		enableLiveTvAccess = this@toUserDto.policy.enableLiveTvAccess
-		enableLiveTvManagement = this@toUserDto.policy.enableLiveTvManagement
-	}
-}
