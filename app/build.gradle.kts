@@ -13,8 +13,8 @@ android {
 		targetSdkVersion(29)
 
 		// Release version
-		versionCode = 909
-		versionName = "0.11.4"
+		versionCode = 910
+		versionName = "0.11.5"
 	}
 
 	compileOptions {
