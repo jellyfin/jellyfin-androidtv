@@ -40,7 +40,8 @@ class AuthenticatedUserCallbacks : Application.ActivityLifecycleCallbacks {
 			is DpadPwActivity,
 			is SelectServerActivity,
 			is SelectUserActivity,
-			is StartupActivity -> return
+			is StartupActivity,
+			is org.acra.dialog.CrashReportDialog -> return
 			// All other activities should have a current user
 			else -> {
 				TvApp.getApplication().apply {
