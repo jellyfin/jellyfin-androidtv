@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Jellyfin</string>
     <string name="play">Тоглуулах</string>
     <string name="video_error_unknown_error">Бичлэг алдаатай</string>
     <string name="loading">Ачааллаж байна…</string>
@@ -24,7 +23,6 @@
     <string name="dpad_entry_desc">Алсын удирдлага дээрх D-Pad-ыг ашиглан тоон нууц үг оруулна уу. Эхний жагсаалтад байгаа дугаарын товчлуур дээр эсвэл давхар дарж хоёрыг аваарай. Жишээ нь нэгийг дарахын тулд \"дээш\", 5-ыг сонгохын тулд хоёр удаа дарна уу. 1 секундын турш бариад дууссаны дараа \'сонгох\' товчийг, эсвэл зүүн товчийг дарж дахин эхлүүлнэ үү.</string>
     <string name="dpad_pw_cancel">* \'Доош\' товчийг 1 секундын турш бариад альфа нууц үгтэй эсвэл нэвтрэхэд шаардлагатай бол гаргана уу</string>
     <string name="chapters">Тэмдэгтүүд</string>
-    <string name="pref_auto_logoff_title">Автоматаар гарах хугацаа</string>
     <string name="pref_general">Ерөнхий</string>
     <string name="lbl_settings">Тохиргоо</string>
     <string name="lbl_logout">Гарах</string>

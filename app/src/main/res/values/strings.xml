@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Jellyfin</string>
+    <string name="app_name_release" translatable="false">Jellyfin</string>
+    <string name="app_name_debug" translatable="false">Jellyfin Debug</string>
     <string name="play">Play</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
     <string name="txt_loading">Loading…</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">Select User Activity</string>
     <string name="home_title">Home</string>
     <string name="btn_cancel">Cancel</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -24,7 +25,6 @@
     <string name="dpad_entry_desc">Use the D-Pad on your remote to enter a numeric password.  Single-click a button for the first listed number or double-click for the second. e.g. Single-click \'up\' for 1 or double-click \'select\' for 5.  Hold down for 1 second and release the \'select\' button when finished or the left button to start over.</string>
     <string name="dpad_pw_cancel">* Hold the \'down\' button down for 1 second and release if you have an alpha password or need a keyboard for entry</string>
     <string name="chapters">Chapters</string>
-    <string name="pref_auto_logoff_title">Auto Logoff Timeout</string>
     <string name="pref_general">General</string>
     <string name="lbl_settings">Settings</string>
     <string name="lbl_logout">Logout</string>
@@ -57,6 +57,7 @@
     <string name="lbl_play_all">Play All</string>
     <string name="lbl_shuffle_all">Shuffle All</string>
     <string name="lbl_play">Play</string>
+    <string name="lbl_pause">Pause</string>
     <string name="lbl_cancel">Cancel</string>
     <string name="lbl_cancel_recording">Cancel Recording</string>
     <string name="lbl_cancel_series">Cancel Series</string>
@@ -246,6 +247,8 @@
     <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
     <string name="lbl_vertical_stretch">Vertical Stretch</string>
     <string name="lbl_audio_capabilitites">Audio Capabilities</string>
+    <string name="lbl_audio_track">Select audio track</string>
+    <string name="lbl_subtitle_track">Select subtitle track</string>
     <string name="msg_audio_warning">This app has the ability to direct stream certain multi-channel audio formats. If your hardware does not support these formats, you may hear no sound when playing certain items. This can be fixed by changing the audio mode to \'downmix\' in the settings.</string>
     <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>
@@ -259,10 +262,10 @@
     <string name="lbl_use_vlc_livetv">Attempt to Use VLC for Live TV</string>
     <string name="desc_use_vlc_livetv">Use VLC for direct streaming live TV when available</string>
     <string name="lbl_refresh_switching">Refresh Rate Switching</string>
-    <string name="lbl_show_premieres">Show Season Premieres on Home Screen</string>
+    <string name="lbl_show_premieres">Show season premieres while browsing</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
-    <string name="lbl_in_x_days">In %s days</string>
+    <string name="lbl_in_x_days">In %d days</string>
     <string name="lbl_select_date">Select Date</string>
     <string name="pref_live_tv_mode">Live TV Mode</string>
     <string name="pref_live_tv_mode_desc">Go directly to the last played live TV channel</string>
@@ -329,6 +332,8 @@
     <string name="title_suggestions_holiday">Happy Holidays!</string>
     <string name="desc_suggestions_holiday">Try some of our holiday suggestions</string>
     <string name="lbl_latest_tv_shows">Latest TV Shows</string>
+    <string name="lbl_tv_channel_status">%1$d of %2$d channels</string>
+    <string name="lbl_tv_filter_status"> for next %1$d hours</string>
     <string name="lbl_news">News</string>
     <string name="lbl_new_only">New Only</string>
     <string name="lbl_audio_delay">Audio Delay</string>
@@ -343,8 +348,74 @@
     <string name="lbl_image_type">Image Type</string>
     <string name="lbl_image_size">Image Size</string>
     <string name="lbl_my_media">My Media</string>
+    <string name="pref_theme_dark">Dark (Default)</string>
+    <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_video_player_auto">Automatically choose</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_external">External app</string>
+    <string name="pref_video_player_choose">Always ask</string>
+    <string name="pref_about_title">About</string>
+    <string name="pref_media_player">Preferred media player</string>
+    <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
+    <string name="pref_next_up_timeout_title">Next Up timer duration</string>
+    <string name="watch_now">Watch now</string>
+    <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
+    <string name="pref_next_up_enabled_title">Enable Next Up screen</string>
+    <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
+    <string name="pref_app_theme">App Theme</string>
+    <string name="pref_device_model">Device Model</string>
+    <string name="grid_direction">Grid direction</string>
+    <string name="grid_direction_horizontal">Horizontal</string>
+    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="lbl_unknown_key">Unknown (%1s)</string>
+    <string name="pref_button_remapping_category">Button Remapping</string>
+    <string name="pref_audio_track_button">Audio track button</string>
+    <string name="pref_subtitle_track_button">Subtitle track button</string>
+    <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
+    <string name="lbl_Reset">Reset</string>
+    <string name="bitrate_auto">Auto</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="mark_watched">Mark Watched</string>
+    <string name="mark_watched_message">The item didn\'t appear to play as long as its duration. Mark watched?</string>
+    <string name="no_player">No Player</string>
+    <string name="no_player_message">It doesn\'t appear you have a video capable app installed.  This option requires you install a 3rd party application for playing video content.</string>
+    <string name="password_prompt">Enter Password</string>
+    <string name="password_prompt_message">Please enter password for %1$s</string>
+    <string name="lbl_clear">Clear</string>
+    <string name="clear_expanded">Clear current video queue?</string>
+    <string name="delete_warning">This will PERMANENTLY DELETE %1$s from your library. Are you VERY sure?</string>
+    <string name="episode_missing">Episode Missing</string>
+    <string name="episode_missing_message">This episode is missing from your library.  Would you like to skip it and continue to the next one?</string>
+    <string name="episode_missing_message_2">This episode is missing from your library.  Playback will stop.</string>
+    <string name="lbl_new_playlist_name">Enter a name for the new playlist</string>
+    <string name="lbl_load_guide_data">Load Guide Data</string>
+    <string name="msg_live_tv_next">Load next %1$d hours?"</string>
+    <string name="msg_live_tv_prev">Load prev %1$d hours?"</string>
+    <string name="seek_error">Unable to seek</string>
+    <string name="player_error">Player error encountered.  Will re-try...</string>
+    <string name="too_many_errors">Too many errors. Giving up</string>
+    <string name="subtitle_error">Unable to select subtitle</string>
+    <string name="msg_no_items">No items to play</string>
+    <string name="msg_queue_saved">Queue saved as new playlist: %1$s</string>
+    <string name="msg_added_to_video">%1$s added to video queue. Ends: %2$s</string>
+    <string name="audio_error">Unable to play audio %1$s</string>
+    <string name="playing_error">Error setting played status</string>
+    <string name="favorite_error">Error setting favorite status</string>
+    <string name="like_clearing_error">Error clearing like status</string>
+    <string name="like_setting_error">Error setting like status</string>
+    <string name="lbl_deleted">%1$s Deleted</string>
+    <string name="not_deleted">Item NOT Deleted</string>
+    <string name="turn_off">Turn this option off</string>
+    <string name="just_one">Just this one</string>
+    <string name="play_with_vlc">Play with libVLC</string>
+    <string name="play_with_exo_player">Play with ExoPlayer</string>
+    <string name="play_with_external_app">Play with external app</string>
+    <string name="play_with">Play with</string>
+    <string name="lbl_add_server">Add Server</string>
+    <string name="lbl_sign_in">Please Sign In</string>
+    <string name="lbl_manual_login">Manual Login</string>
+    <string name="lbl_playback_control_ends">Ends at %1$s</string>
+    <string name="watch_count_overflow">99+</string>
 </resources>

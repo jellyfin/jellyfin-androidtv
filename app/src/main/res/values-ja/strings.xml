@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Jellyfin</string>
     <string name="play">再生</string>
     <string name="video_error_unknown_error">動画を読み込めませんでした</string>
     <string name="loading">読み込み中…</string>
@@ -24,7 +23,6 @@
     <string name="dpad_entry_desc">リモート上の十字キーで数値パスワードを入力してください。</string>
     <string name="dpad_pw_cancel">※ アルファベット入力の場合は「下」ボタンを1秒くらい長押ししてください</string>
     <string name="chapters">章</string>
-    <string name="pref_auto_logoff_title">自動ログアウト期限</string>
     <string name="pref_general">全般</string>
     <string name="lbl_settings">設定</string>
     <string name="lbl_logout">ログアウト</string>
@@ -257,7 +255,7 @@
     <string name="lbl_series_recordings">シリーズ録画</string>
     <string name="no_program_data">&lt;進行中のデータはありません&gt;</string>
     <string name="msg_record_entire_series">シリーズすべてを録画しますか？</string>
-    <string name="lbl_show_premieres">ホームスクリーンでシーズンプレミアを表示</string>
+    <string name="lbl_show_premieres">ブラウザでシーズンプレミアを表示</string>
     <string name="desc_use_vlc_livetv">可能なときライブTVの直接ストリーミングにVLCを使う</string>
     <string name="lbl_repeat_episodes">エピソードをリピート</string>
     <string name="lbl_premieres">プレミア</string>
@@ -266,7 +264,7 @@
     <string name="lbl_suggestions_holiday">休日のおすすめ</string>
     <string name="pref_live_tv_mode">ライブTVモード</string>
     <string name="lbl_bitstream_dts">ビットストリームDTSオーディオ</string>
-    <string name="lbl_in_x_days">%s 日で</string>
+    <string name="lbl_in_x_days">%d 日で</string>
     <string name="lbl_refresh_switching">リフレッシュレート切り替え中</string>
     <string name="lbl_current_queue">現在のキュー</string>
     <string name="btn_set_compatible_audio">ダウンミックスをセットする</string>
@@ -281,7 +279,7 @@
     <string name="lbl_instant_mix">インスタントミックス</string>
     <string name="lbl_goto_now_playing">現在再生中に移動</string>
     <string name="lbl_remove_from_queue">キューから削除</string>
-    <string name="msg_reshuffle_audio_queue">現在のオーディオキューを再シャッフル</string>
+    <string name="msg_reshuffle_audio_queue">現在のオーディオキューを再シャッフル？</string>
     <string name="lbl_open_artist">アーティストを開く</string>
     <string name="lbl_add_to_queue">キューに追加</string>
     <string name="lbl_episodes">エピソード</string>
@@ -294,7 +292,11 @@
     <string name="msg_unable_load_subs">字幕のロードが出来ません</string>
     <string name="lbl_goto_series">シリーズに移動</string>
     <string name="pref_audio_compat">ステレオにダウンミックス</string>
-    <string name="lbl_repeat_options">リピート設定</string>
-    <string name="lbl_similar_items_library">ライブラリの類似アイテム</string>
+    <string name="lbl_repeat_options">リピートオプション</string>
+    <string name="lbl_similar_items_library">ライブラリ内の類似項目</string>
     <string name="lbl_program_ended">プログラム終了</string>
+    <string name="lbl_no_recordings">録画はありません</string>
+    <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
+    <string name="msg_total_items_in_queue">" キュー内の全項目"</string>
+    <string name="lbl_pause">一時停止</string>
 </resources>

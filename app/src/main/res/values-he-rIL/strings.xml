@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lbl_suggested">ממולץ</string>
+    <string name="lbl_by_letter">לפי אות</string>
+    <string name="lbl_views">צפיות</string>
+    <string name="lbl_on_now">עכשיו</string>
+    <string name="lbl_next_up_tv">תוכנית הבאה</string>
+    <string name="lbl_next_up">הבא</string>
+    <string name="lbl_latest_movies">סרטים חדשים</string>
+    <string name="lbl_continue_watching">המשך צפייה</string>
+    <string name="lbl_library">ספרייה</string>
+    <string name="lbl_logout">התנתק</string>
+    <string name="lbl_settings">הגדרות</string>
+    <string name="pref_general">כללי</string>
+    <string name="chapters">פרקים</string>
+    <string name="enter_password">הכנס סיסמא</string>
+    <string name="title_activity_dpad_pw">הכנס סיסמא</string>
+    <string name="pref_prompt_pw">בקש סיסמא</string>
+    <string name="pref_authentication_cat">התחברות</string>
+    <string name="settings_title">הגדרות</string>
+    <string name="pref_auto_login">התחבר אוטומטית כמשתמש זה</string>
+    <string name="pref_max_bitrate_title">מקסימום ביטרייט סטרים</string>
+    <string name="pref_playback">ניגון</string>
+    <string name="pref_show_login">הצג לוח כניסה</string>
+    <string name="pref_login_behavior_title">התנהגות התחלה</string>
+    <string name="btn_cancel">בטל</string>
+    <string name="home_title">עמוד הבית</string>
+    <string name="title_activity_select_user">בחר פעולת משתמש</string>
+    <string name="txt_loading">טוען…</string>
+    <string name="loading">טוען…</string>
+    <string name="video_error_unknown_error">נכשל לטעון וידאו</string>
+    <string name="play">נגן</string>
+</resources>
