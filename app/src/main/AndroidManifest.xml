@@ -25,7 +25,7 @@
         android:name=".TvApp"
         android:banner="@drawable/app_logo"
         android:icon="@drawable/app_icon_large"
-        android:label="@string/app_name"
+        android:label="@string/app_name_release"
         android:largeHeap="true"
         android:theme="@style/Theme.Jellyfin"
         android:allowBackup="false"
@@ -33,12 +33,12 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".browsing.MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/app_name_release"
             android:logo="@drawable/app_logo"
             android:screenOrientation="landscape" />
         <activity
             android:name=".startup.StartupActivity"
-            android:label="@string/app_name"
+            android:label="@string/app_name_release"
             android:logo="@drawable/app_logo"
             android:noHistory="true">
             <intent-filter>
