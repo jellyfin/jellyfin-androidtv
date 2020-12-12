@@ -53,13 +53,18 @@ class AuthenticationRepository(
 			apiClient.ChangeServerLocation(server.address)
 			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
 
-			val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
-			application.currentUser = userDto
+			try {
+				val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
+				application.currentUser = userDto
 
-			if (application.currentUser == null) {
+				if (application.currentUser == null) {
+					emit(RequireSignInState)
+				} else {
+					emit(AuthenticatedState)
+				}
+			} catch (err: Exception) {
+				// Assume it's a bad access token
 				emit(RequireSignInState)
-			} else {
-				emit(AuthenticatedState)
 			}
 		} else {
 			// Failed
