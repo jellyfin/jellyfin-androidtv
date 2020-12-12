@@ -172,7 +172,6 @@ public class ProfileHelper {
             ContainerTypes.OGM,
             ContainerTypes.OGV,
             ContainerTypes.M2V,
-            ContainerTypes.AVI,
             ContainerTypes.MPG,
             ContainerTypes.MPEG,
             ContainerTypes.MP4,
@@ -236,33 +235,24 @@ public class ProfileHelper {
                         new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
                 });
 
-        ContainerProfile videoContainerProfile = new ContainerProfile();
-        videoContainerProfile.setType(DlnaProfileType.Video);
-        videoContainerProfile.setContainer(ContainerTypes.AVI);
-        videoContainerProfile.setConditions(new ProfileCondition[]
-                {
-                        new ProfileCondition(ProfileConditionType.NotEquals, ProfileConditionValue.VideoCodecTag, "xvid"),
-                });
-
         CodecProfile videoAudioCodecProfile = new CodecProfile();
         videoAudioCodecProfile.setType(CodecType.VideoAudio);
-        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "6")});
+        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")});
 
         profile.setCodecProfiles(new CodecProfile[]{getHevcProfile(), h264MainProfile, videoAudioCodecProfile});
-        profile.setContainerProfiles(new ContainerProfile[] {videoContainerProfile});
         profile.setSubtitleProfiles(new SubtitleProfile[]{
-                getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
-                getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
+            getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
+            getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
+            getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
         });
     }
 

@@ -31,9 +31,9 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
-import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +104,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 // Do not add text renderers since we handle subtitles
             }
         }).build();
+
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
@@ -437,16 +438,25 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long getAudioDelay() { return mVlcPlayer != null ? mVlcPlayer.getAudioDelay() / 1000 : 0;}
 
     public void setCompatibleAudio() {
-         if (!nativeMode) {
-             mVlcPlayer.setAudioOutput("opensles_android");
-             mVlcPlayer.setAudioOutputDevice("hdmi");
-         }
+        if (!nativeMode) {
+            mVlcPlayer.setAudioOutput("opensles_android");
+            mVlcPlayer.setAudioOutputDevice("hdmi");
+        }
     }
 
     public void setAudioMode() {
         if (!nativeMode) {
-            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
+            setVlcAudioOptions();
+        }
+    }
+
+    private void setVlcAudioOptions() {
+
+        if(!Utils.downMixAudio()) {
+            mVlcPlayer.setAudioOutput("android_audiotrack");
+            mVlcPlayer.setAudioDigitalOutputEnabled(true);
+        } else {
+            setCompatibleAudio();
         }
     }
 
@@ -502,8 +512,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             TvApp.getApplication().getLogger().Info("Network buffer set to %d", buffer);
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-            mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
-            mVlcPlayer.setAudioOutputDevice("hdmi");
+            setVlcAudioOptions();
 
 
             mSurfaceHolder.addCallback(mSurfaceCallback);

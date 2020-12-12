@@ -13,8 +13,8 @@ android {
 		targetSdkVersion(29)
 
 		// Release version
-		versionCode = 909
-		versionName = "0.11.4"
+		versionCode = 910
+		versionName = "0.11.5"
 	}
 
 	compileOptions {
@@ -67,7 +67,7 @@ dependencies {
 
 	// Media players
 	implementation("com.amazon.android:exoplayer:2.11.3")
-	implementation("org.videolan.android:libvlc-all:3.2.5")
+	implementation("org.videolan.android:libvlc-all:3.3.2")
 
 	// Image utility
 	implementation("com.squareup.picasso:picasso:2.3.2")

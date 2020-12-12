@@ -227,8 +227,14 @@ public class MediaManager {
                 mLibVLC = new LibVLC(TvApp.getApplication(), options);
 
                 mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-                mVlcPlayer.setAudioOutput(Utils.downMixAudio() ? "opensles_android" : "android_audiotrack");
-                mVlcPlayer.setAudioOutputDevice("hdmi");
+                if(!Utils.downMixAudio()) {
+                    mVlcPlayer.setAudioOutput("android_audiotrack");
+                    mVlcPlayer.setAudioDigitalOutputEnabled(true);
+                } else {
+                    mVlcPlayer.setAudioOutput("opensles_android");
+                    mVlcPlayer.setAudioOutputDevice("hdmi");
+                }
+
 
                 mVlcHandler.setOnProgressListener(new PlaybackListener() {
                     @Override
