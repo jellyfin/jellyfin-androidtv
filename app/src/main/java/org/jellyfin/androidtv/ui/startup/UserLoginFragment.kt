@@ -9,11 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.data.model.User
-import org.jellyfin.androidtv.data.repository.AuthenticatedState
-import org.jellyfin.androidtv.data.repository.AuthenticatingState
-import org.jellyfin.androidtv.data.repository.RequireSignInState
-import org.jellyfin.androidtv.data.repository.ServerUnavailableState
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.data.model.Server
-import org.jellyfin.androidtv.data.model.User
-import org.jellyfin.androidtv.data.repository.LoginState
-import org.jellyfin.androidtv.data.repository.ServerAdditionState
-import org.jellyfin.androidtv.data.repository.ServerRepository
+import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.model.LoginState
+import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerAdditionState
+import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.util.asLiveDataCollection
 import java.util.*
 

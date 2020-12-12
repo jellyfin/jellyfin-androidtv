@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.di
 
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
-import org.jellyfin.androidtv.data.repository.ServerRepository
-import org.jellyfin.androidtv.data.repository.ServerRepositoryImpl
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.Jellyfin

@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.data.model
+package org.jellyfin.androidtv.auth.model
 
 import androidx.annotation.StringRes
 

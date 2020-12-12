@@ -1,13 +1,10 @@
-package org.jellyfin.androidtv.data.repository
+package org.jellyfin.androidtv.auth
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.LegacyAccountMigration
-import org.jellyfin.androidtv.data.model.Server
-import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.getPublicUsers
 import org.jellyfin.androidtv.util.apiclient.toServer
@@ -32,6 +29,7 @@ class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val device: IDevice,
 	private val authenticationRepository: AuthenticationRepository,
+	private val authenticationStore: AuthenticationStore,
 	private val legacyAccountMigration: LegacyAccountMigration
 ) : ServerRepository {
 	@OptIn(ExperimentalCoroutinesApi::class)
@@ -75,7 +73,7 @@ class ServerRepositoryImpl(
 	}
 
 	override fun removeServer(serverId: UUID) {
-		TODO("Not yet implemented")
+		authenticationStore.removeServer(serverId)
 	}
 
 	override fun addServer(address: String): Flow<ServerAdditionState> = flow {

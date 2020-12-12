@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.data.repository
+package org.jellyfin.androidtv.auth.model
 
 import org.jellyfin.apiclient.model.system.PublicSystemInfo
 

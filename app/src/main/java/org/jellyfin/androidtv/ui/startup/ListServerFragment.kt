@@ -13,12 +13,7 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.data.model.Server
-import org.jellyfin.androidtv.data.model.User
-import org.jellyfin.androidtv.data.repository.AuthenticatedState
-import org.jellyfin.androidtv.data.repository.AuthenticatingState
-import org.jellyfin.androidtv.data.repository.RequireSignInState
-import org.jellyfin.androidtv.data.repository.ServerUnavailableState
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter

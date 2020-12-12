@@ -9,9 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.data.repository.ConnectedState
-import org.jellyfin.androidtv.data.repository.ConnectingState
-import org.jellyfin.androidtv.data.repository.UnableToConnectState
+import org.jellyfin.androidtv.auth.model.ConnectedState
+import org.jellyfin.androidtv.auth.model.ConnectingState
+import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.jellyfin.androidtv.util.toUUID
