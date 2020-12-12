@@ -54,8 +54,8 @@ class AddServerFragment(
 			if (address.text.isNotBlank()) {
 				loginViewModel.addServer(address.text.toString()).observe(viewLifecycleOwner) { state ->
 					when (state) {
-						ConnectingState -> errorText.text = "CONNECTING"// TODO error message
-						is UnableToConnectState -> errorText.text = "NO CONNECT (${state.error.message})"// TODO error message
+						ConnectingState -> errorText.text = getString(R.string.server_connecting)
+						is UnableToConnectState -> errorText.text = getString(R.string.server_connection_failed, state.error.message)
 						is ConnectedState -> {
 							onServerAdded(state.publicInfo.id.toUUID())
 							onClose()
@@ -63,8 +63,7 @@ class AddServerFragment(
 					}
 				}
 			} else {
-				// TODO error message
-				errorText.text = "EMPTY FIELD"
+				errorText.text = getString(R.string.server_field_empty)
 			}
 		}
 

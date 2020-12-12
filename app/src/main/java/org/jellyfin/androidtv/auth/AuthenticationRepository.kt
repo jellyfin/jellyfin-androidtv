@@ -63,8 +63,6 @@ class AuthenticationRepository(
 				emit(AuthenticatedState)
 			}
 		} else {
-			// TODO Try password-less login
-
 			// Failed
 			emit(RequireSignInState)
 		}

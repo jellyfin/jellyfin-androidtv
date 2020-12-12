@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.*
@@ -58,35 +59,38 @@ class UserLoginFragment(
 		// Add the password field to the content view
 		view.content.addView(password)
 
+		// Build the error text field
+		val errorText = TextView(requireContext())
+		view.content.addView(errorText)
+
 		// Override the default confirm button click listener to return the address field text
 		view.confirm.setOnClickListener {
-			if (username.text.isNotBlank())
-				signIn(serverId, username.text.toString(), password.text.toString())
+			if (username.text.isNotBlank()) {
+				loginViewModel.login(serverId, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
+					println(state)
+					when (state) {
+						AuthenticatingState -> {
+							errorText.text = getString(R.string.login_authenticating)
+						}
+						RequireSignInState -> {
+							errorText.text = getString(R.string.login_invalid_credentials)
+						}
+						ServerUnavailableState -> {
+							errorText.text = getString(R.string.login_server_unavailable)
+						}
+						AuthenticatedState -> {
+							onClose()
+
+							// TODO use view model and observe in activity
+							(requireActivity() as StartupActivity).openNextActivity()
+						}
+					}
+				}
+			} else {
+				errorText.text = getString(R.string.login_username_field_empty)
+			}
 		}
 
 		return view
-	}
-
-	private fun signIn(server: UUID, username: String, password: String) {
-		loginViewModel.login(server, username, password).observe(viewLifecycleOwner) { state ->
-			println(state)
-			when (state) {
-				AuthenticatingState -> {
-					// loading
-				}
-				RequireSignInState -> {
-					// unreachable
-				}
-				ServerUnavailableState -> {
-					// TODO show error
-				}
-				AuthenticatedState -> {
-					onClose()
-
-					// TODO use view model and observe in activity
-					(requireActivity() as StartupActivity).openNextActivity()
-				}
-			}
-		}
 	}
 }

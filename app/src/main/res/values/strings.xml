@@ -425,4 +425,11 @@
     <string name="lbl_always">Always</string>
     <string name="pref_clock_display_browsing">While browsing</string>
     <string name="pref_clock_display_playback">During playback</string>
+    <string name="server_connecting">Connecting to server...</string>
+    <string name="server_connection_failed">Unable to connect to server: %s</string>
+    <string name="server_field_empty">The address can not be empty</string>
+    <string name="login_authenticating">Authenticating...</string>
+    <string name="login_invalid_credentials">Invalid username and/or password</string>
+    <string name="login_server_unavailable">Unable to connect to server</string>
+    <string name="login_username_field_empty">Username cannot be empty</string>
 </resources>

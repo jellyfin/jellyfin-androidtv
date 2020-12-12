@@ -33,6 +33,7 @@ class ListServerFragment : RowsSupportFragment() {
 			loginViewModel.authenticate(item.user.id).observe(viewLifecycleOwner) { state ->
 				when (state) {
 					AuthenticatingState -> {
+						// TODO show Loading state
 					}
 					RequireSignInState -> {
 						// Open login fragment
@@ -45,7 +46,7 @@ class ListServerFragment : RowsSupportFragment() {
 						// TODO show error
 					}
 					AuthenticatedState -> {
-						// TODO use view model and observe in activity
+						// TODO use view model and observe in activity or something similar
 						(requireActivity() as StartupActivity).openNextActivity()
 					}
 				}
