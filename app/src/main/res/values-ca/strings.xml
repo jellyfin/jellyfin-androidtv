@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="enter_password">Introdueix Contrasenya</string>
+    <string name="title_activity_dpad_pw">Introdueix Contrasenya</string>
+    <string name="pref_alt_pw_entry_desc">Contrasenya Numèrica amb Fletxes del Mando</string>
+    <string name="pref_alt_pw_entry">Introduïr Contrasenya amb Fletxes del Mando</string>
+    <string name="pref_prompt_pw">Introdueix Contrasenya</string>
+    <string name="pref_authentication_cat">Autenticació</string>
+    <string name="settings_title">Configuració</string>
+    <string name="pref_auto_login">Inicia sessió automàticament amb aquest usuari</string>
+    <string name="pref_max_bitrate_title">Bitrate màxim de l\'streaming</string>
+    <string name="pref_playback">Reproducció</string>
+    <string name="pref_show_login">Mostra pantalla login</string>
+    <string name="pref_login_behavior_title">Comportament Engegada</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="home_title">Inici</string>
+    <string name="title_activity_select_user">Selecciona Activitat de l\'Usuari</string>
+    <string name="txt_loading">Carregant text…</string>
+    <string name="loading">Carregant…</string>
+    <string name="video_error_unknown_error">Error al carregar el video</string>
+    <string name="play">Reproduir</string>
+</resources>
