@@ -150,14 +150,36 @@
         android:layout_toEndOf="@+id/middleFrame">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:srcCompat="@drawable/blank30x30"
             android:layout_marginTop="60dp"
             android:foregroundGravity="fill_horizontal"
             android:scaleType="centerInside"
-            android:padding="50dp"
-            android:layout_centerHorizontal="true"
+            android:paddingTop="80dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="30dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
             android:id="@+id/mainImage" />
+
+        <ProgressBar
+            android:id="@+id/fdProgress"
+            style="@style/overlay_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/mainImage"
+            android:layout_alignEnd="@+id/mainImage"
+            android:layout_alignStart="@+id/mainImage"
+            android:layout_marginBottom="5dp"
+            android:max="100"
+            android:maxHeight="5sp"
+            android:paddingStart="55dp"
+            android:paddingEnd="55dp"
+            android:paddingBottom="30dp"
+            android:visibility="gone" />
+
     </RelativeLayout>
 </RelativeLayout>
