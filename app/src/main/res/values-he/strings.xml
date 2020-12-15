@@ -249,4 +249,13 @@
     <string name="txt_loading">טוען…</string>
     <string name="loading">טוען…</string>
     <string name="video_error_unknown_error">טעינת וידאו נכשלה</string>
+    <string name="lbl_show_premieres">הצג קדימוני עונות בזמן דפדוף</string>
+    <string name="lbl_refresh_switching">קצב רענון מתחלף</string>
+    <string name="desc_use_vlc_livetv">השתמש ב VLC עבור שידורי טלויזיה חיה כשזה אפשרי</string>
+    <string name="lbl_use_vlc_livetv">השתמש ב VLC עבור שידורי טלויזיה</string>
+    <string name="lbl_show_backdrop">הצג רקע בזמן דפדוף</string>
+    <string name="lbl_open">פתח</string>
+    <string name="lbl_play_next_up">נגן את הבא בתור</string>
+    <string name="lbl_clear_queue">נקה תור</string>
+    <string name="desc_current_video_queue">סרטים שמחכים בתור להצגה</string>
 </resources>
