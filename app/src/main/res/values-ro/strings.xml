@@ -406,4 +406,18 @@
     <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
     <string name="msg_queue_saved">Coada salvată ca listă de redare nouă: %1$s</string>
     <string name="like_clearing_error">Eroare la eliminarea stării</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="lbl_playback_control_ends">Se termină la %1$s</string>
+    <string name="lbl_manual_login">Conectare manuală</string>
+    <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>
+    <string name="lbl_add_server">Adaugă Server</string>
+    <string name="play_with">Redă cu</string>
+    <string name="play_with_external_app">Rulează cu o aplicație externă</string>
+    <string name="play_with_exo_player">Ruleaza cu ExoPlayer</string>
+    <string name="play_with_vlc">Rulează cu libVLC</string>
+    <string name="just_one">Doar pe aceasta</string>
+    <string name="turn_off">Dezactivați această opțiune</string>
+    <string name="not_deleted">Articolul NU a fost sters</string>
+    <string name="lbl_deleted">%1$s Șters</string>
+    <string name="like_setting_error">Eroare la setarea statusului plăcut</string>
 </resources>
