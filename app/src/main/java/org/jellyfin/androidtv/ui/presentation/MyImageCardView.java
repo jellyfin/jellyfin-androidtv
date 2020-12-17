@@ -45,6 +45,7 @@ public class MyImageCardView extends BaseCardView {
     private ImageView mWatchedMark;
     private TextView mUnwatchedCount;
     private ProgressBar mProgress;
+    private TextView mBadgeText;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
 
     public MyImageCardView(Context context) {
@@ -85,6 +86,7 @@ public class MyImageCardView extends BaseCardView {
         mWatchedMark = (ImageView) v.findViewById(R.id.checkMark);
         mUnwatchedCount = (TextView) v.findViewById(R.id.unwatchedCount);
         mProgress = (ProgressBar) v.findViewById(R.id.resumeProgress);
+        mBadgeText = (TextView) v.findViewById(R.id.badge_text);
 
         mImageView.setClipToOutline(true);
 
@@ -106,10 +108,12 @@ public class MyImageCardView extends BaseCardView {
         if (gainFocus) {
             mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            mBadgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             mBadgeImage.setAlpha(1.0f);
         } else {
             mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            mBadgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             mBadgeImage.setAlpha(0.25f);
         }
     }
@@ -314,6 +318,16 @@ public class MyImageCardView extends BaseCardView {
         }
 
         return mContentView.getText();
+    }
+
+    public void setRating(String rating) {
+        if (rating != null) {
+            mBadgeText.setText(rating);
+            mBadgeText.setVisibility(VISIBLE);
+        } else {
+            mBadgeText.setText("");
+            mBadgeText.setVisibility(GONE);
+        }
     }
 
     public void setBadgeImage(Drawable drawable) {

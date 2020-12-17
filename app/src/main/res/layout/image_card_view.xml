@@ -180,7 +180,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
-                android:layout_toStartOf="@+id/extra_badge"
+                android:layout_toStartOf="@+id/badge_layout"
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-condensed"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -188,18 +188,38 @@
                 android:textColor="@color/lb_basic_card_title_text_color_inactive"
                 android:textSize="@dimen/lb_basic_card_content_text_size" />
 
-            <ImageView
-                android:id="@+id/extra_badge"
-                android:layout_width="@dimen/lb_basic_card_info_badge_size"
-                android:layout_height="@dimen/lb_basic_card_info_badge_size"
-                android:layout_below="@id/title_text"
+            <LinearLayout
+                android:id="@+id/badge_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:alpha="0.25"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:visibility="gone" />
+                android:layout_below="@id/title_text"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/extra_badge"
+                    android:layout_width="@dimen/lb_basic_card_info_badge_size"
+                    android:layout_height="@dimen/lb_basic_card_info_badge_size"
+                    android:layout_marginStart="10dp"
+                    android:alpha="0.25"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/badge_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
+                    android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
+                    android:fontFamily="sans-serif-condensed"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    android:textColor="@color/lb_basic_card_title_text_color_inactive"
+                    android:textSize="@dimen/lb_basic_card_content_text_size" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

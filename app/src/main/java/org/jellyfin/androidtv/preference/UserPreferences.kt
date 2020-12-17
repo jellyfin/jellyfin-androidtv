@@ -174,6 +174,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Include system logs in crash reports
 		 */
 		var acraIncludeSystemLogs = Preference.boolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
+
+		/**
+		 * Set which ratings provider should show on MyImageCardViews
+		 */
+		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
 	}
 
 	init {
