@@ -3,14 +3,14 @@ package org.jellyfin.androidtv.auth.model
 import java.util.*
 
 /**
- * User model to use locally in place of UserDto model in ApiClient.
+ * User model used locally
  */
-data class User(
-	val id: UUID,
-	val serverId: UUID,
-	val name: String,
-	val accessToken: String?,
-) {
+sealed class User {
+	abstract val id: UUID
+	abstract val serverId: UUID
+	abstract val name: String
+	abstract val accessToken: String?
+
 	override fun equals(other: Any?) = other is User
 		&& serverId == other.serverId
 		&& id == other.id
@@ -21,3 +21,24 @@ data class User(
 		return result
 	}
 }
+
+/**
+ * Represents a user stored client side
+ */
+data class PrivateUser(
+	override val id: UUID,
+	override val serverId: UUID,
+	override val name: String,
+	override val accessToken: String?,
+) : User()
+
+/**
+ * Represents a user stored server side. Found using the Public User endpoint.
+ */
+data class PublicUser(
+	override val id: UUID,
+	override val serverId: UUID,
+	override val name: String,
+	override val accessToken: String?,
+	val requirePassword: Boolean
+) : User()

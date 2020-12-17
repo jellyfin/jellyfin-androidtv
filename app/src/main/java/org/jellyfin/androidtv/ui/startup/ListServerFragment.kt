@@ -30,7 +30,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
-			loginViewModel.authenticate(item.user.id).observe(viewLifecycleOwner) { state ->
+			loginViewModel.authenticate(item.user, item.server).observe(viewLifecycleOwner) { state ->
 				when (state) {
 					AuthenticatingState -> {
 						// TODO show Loading state

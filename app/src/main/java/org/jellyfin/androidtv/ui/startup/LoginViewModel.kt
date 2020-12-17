@@ -25,7 +25,7 @@ class LoginViewModel(
 
 	fun addServer(address: String): LiveData<ServerAdditionState> = serverRepository.addServer(address).asLiveData()
 
-	fun authenticate(userId: UUID): LiveData<LoginState> = authenticationRepository.authenticateUser(userId).asLiveData()
+	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
 
 	fun login(serverId: UUID, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(serverId, username, password).asLiveData()
 }

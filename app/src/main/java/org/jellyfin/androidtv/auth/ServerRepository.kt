@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.*
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.getPublicUsers
+import org.jellyfin.androidtv.util.apiclient.toPublicUser
 import org.jellyfin.androidtv.util.apiclient.toServer
-import org.jellyfin.androidtv.util.apiclient.toUser
 import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
@@ -42,13 +42,13 @@ class ServerRepositoryImpl(
 		authenticationRepository.getServers().forEach { server -> emit(server) }
 	}
 
-	private fun getPublicUsersForServer(server: Server): Flow<User> = flow {
+	private fun getPublicUsersForServer(server: Server): Flow<PublicUser> = flow {
 		jellyfin.createApi(server.address, device = device).getPublicUsers()?.forEach { userDto ->
-			emit(userDto.toUser())
+			emit(userDto.toPublicUser())
 		}
 	}
 
-	private fun getStoredUsersForServer(server: Server): Flow<User> = flow {
+	private fun getStoredUsersForServer(server: Server): Flow<PrivateUser> = flow {
 		authenticationRepository.getUsers(server.id)?.forEach { user -> emit(user) }
 	}
 

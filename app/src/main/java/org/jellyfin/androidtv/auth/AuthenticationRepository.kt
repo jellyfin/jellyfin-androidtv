@@ -29,9 +29,9 @@ class AuthenticationRepository(
 		Server(id, info.name, info.address, Date(info.lastUsed))
 	}
 
-	fun getUsers(server: UUID): List<User>? = authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
+	fun getUsers(server: UUID): List<PrivateUser>? = authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
 		accountManagerHelper.getAccount(userId)?.let { authInfo ->
-			User(userId, authInfo.server, userInfo.name, authInfo.accessToken)
+			PrivateUser(userId, authInfo.server, userInfo.name, authInfo.accessToken)
 		}
 	}
 
@@ -44,38 +44,65 @@ class AuthenticationRepository(
 			authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
 	}
 
-	fun authenticateUser(user: UUID): Flow<LoginState> = flow {
+	/**
+	 * Set the active session to the information in [user] and [server].
+	 * Connects to the server and requests the info of the currently authenticated user.
+	 *
+	 * @return Whether the user information can be retrieved
+	 */
+	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
+		apiClient.EnableAutomaticNetworking(ServerInfo().apply {
+			id = server.id.toString()
+			name = server.name
+			address = server.address
+			userId = user.id.toString()
+			accessToken = user.accessToken
+		})
+
+		try {
+			val userDto = callApi<UserDto?> { callback -> apiClient.GetUserAsync(user.id.toString(), callback) }
+			if (userDto != null) {
+				application.currentUser = userDto
+				return true
+			}
+		} catch (err: Exception) {
+			Timber.e(err, "Could not get user information while access token was set")
+		}
+
+		return false
+	}
+
+	@OptIn(ExperimentalCoroutinesApi::class)
+	fun authenticateUser(user: User): Flow<LoginState> = flow {
+		Timber.d("Authenticating serverless user %s", user)
+		emit(AuthenticatingState)
+
+		val server = authenticationStore.getServer(user.serverId)?.let {
+			Server(user.serverId, it.name, it.address, Date(it.lastUsed))
+		}
+
+		if (server == null) emit(RequireSignInState)
+		else emitAll(authenticateUser(user, server))
+	}
+
+	@OptIn(ExperimentalCoroutinesApi::class)
+	fun authenticateUser(user: User, server: Server): Flow<LoginState> = flow {
 		Timber.d("Authenticating user %s", user)
 		emit(AuthenticatingState)
 
-		val account = accountManagerHelper.getAccount(user)
-		val server = account?.server?.let(authenticationStore::getServer)
-		if (account?.accessToken != null && server != null) {
-			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
-			apiClient.EnableAutomaticNetworking(ServerInfo().apply {
-				id = account.server.toString()
-				name = server.name
-				address = server.address
-				userId = account.id.toString()
-				accessToken = account.accessToken
-			})
-
-			try {
-				val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
-				application.currentUser = userDto
-
-				if (application.currentUser == null) {
-					emit(RequireSignInState)
-				} else {
-					emit(AuthenticatedState)
-				}
-			} catch (err: Exception) {
-				// Assume it's a bad access token
-				emit(RequireSignInState)
+		val account = accountManagerHelper.getAccount(user.id)
+		when {
+			// Access token found, proceed with sign in
+			account?.accessToken != null -> {
+				val authenticated = setActiveSession(user, server)
+				if (authenticated) emit(AuthenticatedState)
+				else emit(RequireSignInState)
 			}
-		} else {
-			// Failed
-			emit(RequireSignInState)
+			// User is known to not require a password, try a sign in
+			user is PublicUser && !user.requirePassword -> emitAll(login(server.id, user.name))
+			// Account found without access token, require sign in
+			else -> emit(RequireSignInState)
 		}
 	}
 
@@ -83,10 +110,11 @@ class AuthenticationRepository(
 	fun login(
 		serverId: UUID,
 		username: String,
-		password: String
+		password: String = ""
 	) = flow {
-		val server = authenticationStore.getServer(serverId)
-			?: return@flow emit(ServerUnavailableState)
+		val server = authenticationStore.getServer(serverId)?.let {
+			Server(serverId, it.name, it.address, Date(it.lastUsed))
+		} ?: return@flow emit(ServerUnavailableState)
 
 		val result = callApi<AuthenticationResult> { callback ->
 			val api = jellyfin.createApi(server.address, device = device)
@@ -105,7 +133,10 @@ class AuthenticationRepository(
 		authenticationStore.putUser(serverId, userId, updatedUser)
 		accountManagerHelper.putAccount(AccountManagerAccount(userId, serverId, updatedUser.name, result.accessToken))
 
-		emitAll(authenticateUser(userId))
+		val user = PrivateUser(userId, serverId, updatedUser.name, result.accessToken)
+		val authenticated = setActiveSession(user, server)
+		if (authenticated) emit(AuthenticatedState)
+		else emit(RequireSignInState)
 	}
 }
 
