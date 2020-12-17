@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.getPublicUsers
@@ -34,10 +33,10 @@ class ServerRepositoryImpl(
 ) : ServerRepository {
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private fun getDiscoveryServers(): Flow<Server> = flow {
-		withContext(Dispatchers.IO) {
-			emitAll(jellyfin.discovery.discover().map(DiscoveryServerInfo::toServer))
-		}
-	}
+		jellyfin.discovery.discover()
+			.map(DiscoveryServerInfo::toServer)
+			.collect(::emit)
+	}.flowOn(Dispatchers.IO)
 
 	private fun getStoredServers(): Flow<Server> = flow {
 		authenticationRepository.getServers().forEach { server -> emit(server) }
