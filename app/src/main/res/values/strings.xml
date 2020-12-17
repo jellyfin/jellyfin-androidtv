@@ -418,4 +418,12 @@
     <string name="lbl_manual_login">Manual Login</string>
     <string name="lbl_playback_control_ends">Ends at %1$s</string>
     <string name="watch_count_overflow">99+</string>
+    <string name="lbl_stars">Stars</string>
+    <string name="lbl_tomatoes">Tomatoes</string>
+    <string name="pref_default_rating">Default rating type</string>
+    <string name="pref_clock_display">Show Clock</string>
+    <string name="pref_clock_display">Show clock</string>
+    <string name="lbl_always">Always</string>
+    <string name="pref_clock_display_browsing">While browsing</string>
+    <string name="pref_clock_display_playback">During playback</string>
 </resources>

@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -28,6 +30,8 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import java.util.Date;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
@@ -374,13 +378,22 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);
-            Drawable badge = rowItem.getBadgeImage();
-            if (badge != null) {
-                ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
+
+            RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+            if (ratingType == RatingType.RATING_TOMATOES) {
+                Drawable badge = rowItem.getBadgeImage();
+                holder.mCardView.setRating(null);
+                if (badge != null) {
+                    holder.mCardView.setBadgeImage(badge);
+                }
+            } else if (ratingType == RatingType.RATING_STARS &&
+                    rowItem.getBaseItem() != null && rowItem.getBaseItem().getCommunityRating() != null) {
+                holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
+                holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
             }
         }
 
-        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));
+        holder.updateCardViewImage(rowItem.getImageUrl(mImageType, holder.getCardHeight()));
     }
 
     @Override
