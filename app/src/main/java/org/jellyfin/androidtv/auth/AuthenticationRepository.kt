@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
+import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.users.AuthenticationResult
 import timber.log.Timber
@@ -50,8 +51,14 @@ class AuthenticationRepository(
 		val account = accountManagerHelper.getAccount(user)
 		val server = account?.server?.let(authenticationStore::getServer)
 		if (account?.accessToken != null && server != null) {
-			apiClient.ChangeServerLocation(server.address)
 			apiClient.SetAuthenticationInfo(account.accessToken, user.toString())
+			apiClient.EnableAutomaticNetworking(ServerInfo().apply {
+				id = account.server.toString()
+				name = server.name
+				address = server.address
+				userId = account.id.toString()
+				accessToken = account.accessToken
+			})
 
 			try {
 				val userDto = callApi<UserDto> { callback -> apiClient.GetUserAsync(user.toString(), callback) }
