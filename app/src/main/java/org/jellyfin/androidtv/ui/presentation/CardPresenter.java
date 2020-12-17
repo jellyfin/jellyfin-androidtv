@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
@@ -317,41 +318,20 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected void updateCardViewImage(String url) {
+        protected void updateCardViewImage(@Nullable String url) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
-                            .load("nothing")
-                            .fitCenter()
-                            .error(mDefaultCardImage)
+                            .load(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
                 } else {
-
                     Glide.with(mCardView.getContext())
-                            .asBitmap()
                             .load(url)
-                            .override(cardWidth, cardHeight)
                             .error(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");
-            }
-        }
-
-        protected void resetCardViewImage() {
-            mCardView.clearBanner();
-            mCardView.setUnwatchedCount(-1);
-            mCardView.setProgress(0);
-
-            try {
-                Glide.with(mCardView.getContext())
-                        .load(ContextCompat.getDrawable(mCardView.getContext(), R.drawable.loading))
-                        .fitCenter()
-                        .error(mDefaultCardImage)
-                        .into(mCardView.getMainImageView());
-            } catch (IllegalArgumentException e) {
-                Timber.i("Image reset aborted due to activity closing");
             }
         }
     }
@@ -405,8 +385,6 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        //Get the image out of there so won't be there if recycled
-        ((ViewHolder) viewHolder).resetCardViewImage();
     }
 
     @Override
