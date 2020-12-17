@@ -62,8 +62,6 @@ class ListServerFragment : RowsSupportFragment() {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 
-		buildRows(emptyList())
-
 		loginViewModel.servers.observe(viewLifecycleOwner) { servers ->
 			buildRows(servers)
 		}
@@ -77,21 +75,21 @@ class ListServerFragment : RowsSupportFragment() {
 		}
 	}
 
-	private fun buildRows(servers: List<Pair<Server, List<User>>>) {
+	private fun buildRows(servers: Map<Server, Set<User>>) {
 		val rowAdapter = ArrayObjectAdapter(CustomListRowPresenter())
 
-		servers.forEachIndexed { index, (server: Server, userList: List<User>) ->
+		servers.forEach { (server, users) ->
 			Timber.d("Adding server row %s", server.name)
 
 			val userListAdapter = ArrayObjectAdapter(GridButtonPresenter())
-			userList.forEach { user ->
+			users.forEach { user ->
 				userListAdapter.add(UserGridButton(server, user, SELECT_USER, user.name, R.drawable.tile_port_person))
 			}
 
 			userListAdapter.add(AddUserGridButton(server, ADD_USER, requireContext().getString(R.string.lbl_manual_login), R.drawable.tile_edit))
 
 			rowAdapter.add(ListRow(
-				HeaderItem(index.toLong(),
+				HeaderItem(
 					if (server.name.isNotBlank()) server.name else server.address),
 				userListAdapter
 			))

@@ -9,7 +9,6 @@ import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerAdditionState
 import org.jellyfin.androidtv.auth.model.User
-import org.jellyfin.androidtv.util.asLiveDataCollection
 import java.util.*
 
 class LoginViewModel(
@@ -20,8 +19,8 @@ class LoginViewModel(
 	private val _servers = serverRepository.getServersWithUsers(
 		discovery = true,
 		stored = true
-	).asLiveDataCollection()
-	val servers: LiveData<List<Pair<Server, List<User>>>> get() = _servers
+	).asLiveData()
+	val servers: LiveData<Map<Server, Set<User>>> get() = _servers
 
 	fun addServer(address: String): LiveData<ServerAdditionState> = serverRepository.addServer(address).asLiveData()
 
