@@ -33,14 +33,12 @@ class ServerRepositoryImpl(
 ) : ServerRepository {
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private fun getDiscoveryServers(): Flow<Server> = flow {
-		jellyfin.discovery.discover()
-			.map(DiscoveryServerInfo::toServer)
-			.collect(::emit)
+		emitAll(jellyfin.discovery.discover().map(DiscoveryServerInfo::toServer))
 	}.flowOn(Dispatchers.IO)
 
 	private fun getStoredServers(): Flow<Server> = flow {
 		authenticationRepository.getServers().forEach { server -> emit(server) }
-	}
+	}.flowOn(Dispatchers.IO)
 
 	private fun getPublicUsersForServer(server: Server): Flow<PublicUser> = flow {
 		jellyfin.createApi(server.address, device = device).getPublicUsers()?.forEach { userDto ->
@@ -54,65 +52,72 @@ class ServerRepositoryImpl(
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun getServers(discovery: Boolean, stored: Boolean): Flow<Set<Server>> = flow {
-		// Migrate old servers and users to new store
+		// Migrate old servers and users to new store before reading them from the new store
 		legacyAccountMigration.migrate()
 
 		// Start by emitting an empty collection
 		val servers = mutableSetOf<Server>()
+		val flows = mutableListOf<Flow<Server>>()
 		emit(servers)
 
 		// Add discovered servers
-		if (discovery) getDiscoveryServers().collect { server ->
+		if (discovery) flows += getDiscoveryServers().onEach { server ->
 			// Only add if not already found in storage
-			if (servers.any { it.id == server.id }) {
+			if (servers.none { it.id == server.id }) {
 				servers.add(server)
 				emit(servers)
 			}
 		}
 
 		// Add stored servers
-		if (stored) getStoredServers().collect { server ->
+		if (stored) flows += getStoredServers().onEach { server ->
 			// Remove existing server with id
 			// only happens for servers added via discovery
 			servers.removeAll { it.id == server.id }
 			servers += server
 			emit(servers)
 		}
+
+		// Wait for all flows to complete
+		flows.forEach { it.collect() }
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	private suspend fun getUsers(server: Server): Set<User> {
 		val users = mutableSetOf<User>()
+		val flows = mutableListOf<Flow<User>>()
 
-		getPublicUsersForServer(server).collect { user ->
+		flows += getPublicUsersForServer(server).onEach { user ->
 			// Only add if not already found in storage
-			if (users.any { it.id == user.id }) {
+			if (users.none { it.id == user.id }) {
 				users.add(user)
 			}
 		}
 
-		getStoredUsersForServer(server).collect { user ->
+		flows += getStoredUsersForServer(server).onEach { user ->
 			// Remove existing server with id
 			// only happens for servers added via discovery
 			users.removeAll { it.id == user.id }
 			users += user
 		}
 
+		// Wait for all flows to complete
+		flows.forEach { it.collect() }
+
 		return users
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
-	//TODO ALWAYS retrieve users to make way simpler code
 	override fun getServersWithUsers(discovery: Boolean, stored: Boolean): Flow<Map<Server, Set<User>>> = flow {
-		val serversWithUsers = mutableMapOf<Server, Set<User>>()
-		emit(serversWithUsers)
+		val userFlows = mutableMapOf<UUID, Set<User>>()
 
 		getServers(discovery, stored).collect { servers ->
-			servers.forEach { server ->
-				if (server !in serversWithUsers) serversWithUsers[server] = getUsers(server)
-			}
+			emit(servers.map { server ->
+				if (server.id !in userFlows)
+					userFlows[server.id] = getUsers(server)
 
-			emit(serversWithUsers)
+				server to userFlows[server.id]!!
+			}.toMap())
 		}
 	}
 
