@@ -9,7 +9,6 @@ import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerAdditionState
 import org.jellyfin.androidtv.auth.model.User
-import java.util.*
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
@@ -26,5 +25,5 @@ class LoginViewModel(
 
 	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
 
-	fun login(serverId: UUID, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(serverId, username, password).asLiveData()
+	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
 }

@@ -38,7 +38,7 @@ class ListServerFragment : RowsSupportFragment() {
 					RequireSignInState -> {
 						// Open login fragment
 						navigate(UserLoginFragment(
-							serverId = item.server.id,
+							server = item.server,
 							user = item.user,
 						))
 					}
@@ -54,7 +54,7 @@ class ListServerFragment : RowsSupportFragment() {
 		} else if (item is AddUserGridButton) {
 			// Open login fragment
 			navigate(UserLoginFragment(
-				serverId = item.server.id
+				server = item.server
 			))
 		}
 	}

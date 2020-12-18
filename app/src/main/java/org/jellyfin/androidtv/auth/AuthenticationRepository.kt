@@ -100,7 +100,7 @@ class AuthenticationRepository(
 				else emit(RequireSignInState)
 			}
 			// User is known to not require a password, try a sign in
-			user is PublicUser && !user.requirePassword -> emitAll(login(server.id, user.name))
+			user is PublicUser && !user.requirePassword -> emitAll(login(server, user.name))
 			// Account found without access token, require sign in
 			else -> emit(RequireSignInState)
 		}
@@ -108,21 +108,17 @@ class AuthenticationRepository(
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	fun login(
-		serverId: UUID,
+		server: Server,
 		username: String,
 		password: String = ""
 	) = flow {
-		val server = authenticationStore.getServer(serverId)?.let {
-			Server(serverId, it.name, it.address, Date(it.lastUsed))
-		} ?: return@flow emit(ServerUnavailableState)
-
 		val result = callApi<AuthenticationResult> { callback ->
 			val api = jellyfin.createApi(server.address, device = device)
 			api.AuthenticateUserAsync(username, password, callback)
 		}
 
 		val userId = result.user.id.toUUID()
-		val currentUser = authenticationStore.getUser(serverId, userId)
+		val currentUser = authenticationStore.getUser(server.id, userId)
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
 			lastUsed = Date().time
@@ -130,10 +126,10 @@ class AuthenticationRepository(
 			name = result.user.name,
 		)
 
-		authenticationStore.putUser(serverId, userId, updatedUser)
-		accountManagerHelper.putAccount(AccountManagerAccount(userId, serverId, updatedUser.name, result.accessToken))
+		authenticationStore.putUser(server.id, userId, updatedUser)
+		accountManagerHelper.putAccount(AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken))
 
-		val user = PrivateUser(userId, serverId, updatedUser.name, result.accessToken)
+		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken)
 		val authenticated = setActiveSession(user, server)
 		if (authenticated) emit(AuthenticatedState)
 		else emit(RequireSignInState)

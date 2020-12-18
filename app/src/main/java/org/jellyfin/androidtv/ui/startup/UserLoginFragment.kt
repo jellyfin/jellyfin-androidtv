@@ -14,10 +14,9 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class UserLoginFragment(
-	private val serverId: UUID,
+	private val server: Server,
 	private val user: User? = null,
 	private val onClose: () -> Unit = {}
 ) : AlertFragment(
@@ -66,7 +65,7 @@ class UserLoginFragment(
 		// Override the default confirm button click listener to return the address field text
 		view.confirm.setOnClickListener {
 			if (username.text.isNotBlank()) {
-				loginViewModel.login(serverId, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
+				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
 					println(state)
 					when (state) {
 						AuthenticatingState -> {
