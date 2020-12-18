@@ -420,4 +420,7 @@
     <string name="not_deleted">Az elem NINCS törölve</string>
     <string name="lbl_deleted">%1$s törölve</string>
     <string name="like_setting_error">Hiba történt a kedvelt állapotok beállítása közben</string>
+    <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
+    <string name="lbl_tomatoes">Paradicsomok</string>
+    <string name="lbl_stars">Csillagok</string>
 </resources>
