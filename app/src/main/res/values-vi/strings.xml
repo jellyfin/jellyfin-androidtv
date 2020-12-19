@@ -419,4 +419,7 @@
     <string name="lbl_manual_login">Đang Nhập Thủ Công</string>
     <string name="lbl_sign_in">Hãy Đăng Nhập</string>
     <string name="lbl_add_server">Thêm Máy Chủ</string>
+    <string name="pref_default_rating">Kiểu xếp hạng mặc định</string>
+    <string name="lbl_tomatoes">Cà chua</string>
+    <string name="lbl_stars">Ngôi sao</string>
 </resources>
