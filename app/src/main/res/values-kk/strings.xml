@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Beıne júkteý sátsiz</string>
     <string name="txt_loading">Júktelýde…</string>
-    <string name="title_activity_select_user">PaıdalanýshyÁreketinTańdaý</string>
+    <string name="title_activity_select_user">Paıdalanýshy Áreketin Tańdaý</string>
     <string name="home_title">Basqy</string>
     <string name="btn_cancel">Boldyrmaý</string>
     <string name="byletter_letters">AÁBCDEFGǴHIJKLMNŃOÓPQRSTUÚVWXYÝZ</string>
