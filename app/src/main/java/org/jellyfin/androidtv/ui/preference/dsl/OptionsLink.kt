@@ -16,7 +16,7 @@ class OptionsLink(
 	var content: String? = null
 	var fragment: KClass<out OptionsFragment>? = null
 
-	inline fun <reified T: OptionsFragment> withFragment() {
+	inline fun <reified T : OptionsFragment> withFragment() {
 		fragment = T::class
 	}
 
@@ -27,6 +27,7 @@ class OptionsLink(
 	fun setContent(@StringRes resId: Int) {
 		content = context.getString(resId)
 	}
+
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val pref = Preference(context).also {
 			it.isPersistent = false

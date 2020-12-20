@@ -15,9 +15,22 @@ class OptionsScreen(
 		title = context.getString(resId)
 	}
 
+	/**
+	 * Create a category
+	 */
 	fun category(init: OptionsCategory.() -> Unit) {
 		val category = OptionsCategory(context)
 			.apply { init() }
+
+		nodes.add(category)
+	}
+
+	/**
+	 * Create a link inside of a category.
+	 */
+	fun link(init: OptionsLink.() -> Unit) {
+		val category = OptionsCategory(context)
+		category += OptionsLink(context).apply { init() }
 
 		nodes.add(category)
 	}
