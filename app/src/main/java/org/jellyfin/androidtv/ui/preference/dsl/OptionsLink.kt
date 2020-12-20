@@ -9,7 +9,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 /**
- * Link to a different fragment
+ * Link to a different fragment.
  */
 class OptionsLink(
 	private val context: Context

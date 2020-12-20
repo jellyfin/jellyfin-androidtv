@@ -16,7 +16,7 @@ class OptionsScreen(
 	}
 
 	/**
-	 * Create a category
+	 * Create a category.
 	 */
 	fun category(init: OptionsCategory.() -> Unit) {
 		val category = OptionsCategory(context)
