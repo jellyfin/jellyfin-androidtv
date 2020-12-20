@@ -9,13 +9,24 @@ class PreferencesActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		val screen = intent.extras?.getString(EXTRA_SCREEN) ?: UserPreferencesScreen::class.qualifiedName
+		val screenArgs = intent.extras?.getBundle(EXTRA_SCREEN_ARGS) ?: bundleOf()
+
 		supportFragmentManager
 			.beginTransaction()
 			.replace(android.R.id.content, PreferencesFragment().apply {
 				// Set screen
-				arguments = bundleOf(PreferencesFragment.EXTRA_SCREEN to UserPreferencesScreen::class.qualifiedName)
+				arguments = bundleOf(
+					PreferencesFragment.EXTRA_SCREEN to screen,
+					PreferencesFragment.EXTRA_SCREEN_ARGS to screenArgs
+				)
 			})
 			.commit()
+	}
+
+	companion object {
+		const val EXTRA_SCREEN = "screen"
+		const val EXTRA_SCREEN_ARGS = "screen_args"
 	}
 }
 

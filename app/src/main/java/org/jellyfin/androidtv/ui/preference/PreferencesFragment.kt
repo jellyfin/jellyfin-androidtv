@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.preference
 
+import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.leanback.preference.LeanbackEditTextPreferenceDialogFragmentCompat
 import androidx.leanback.preference.LeanbackListPreferenceDialogFragmentCompat
 import androidx.leanback.preference.LeanbackSettingsFragmentCompat
@@ -8,7 +10,13 @@ import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapDialogFragment
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
 
 class PreferencesFragment : LeanbackSettingsFragmentCompat() {
-	override fun onPreferenceStartInitialScreen() = startPreferenceFragment(instantiateFragment(requireArguments().getString(EXTRA_SCREEN)!!))
+	override fun onPreferenceStartInitialScreen() {
+		val fragment = instantiateFragment(
+			requireArguments().getString(EXTRA_SCREEN)!!,
+			requireArguments().getBundle(EXTRA_SCREEN_ARGS)!!
+		)
+		startPreferenceFragment(fragment)
+	}
 
 	override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
 		val fragment = instantiateFragment(pref.fragment).apply {
@@ -43,12 +51,15 @@ class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 		return true
 	}
 
-	private fun instantiateFragment(name: String) = childFragmentManager.fragmentFactory.instantiate(
+	private fun instantiateFragment(name: String, arguments: Bundle = bundleOf()) = childFragmentManager.fragmentFactory.instantiate(
 		requireActivity().classLoader,
 		name
-	)
+	).also { fragment ->
+		fragment.arguments = arguments
+	}
 
 	companion object {
 		const val EXTRA_SCREEN = "screen"
+		const val EXTRA_SCREEN_ARGS = "screen_args"
 	}
 }
