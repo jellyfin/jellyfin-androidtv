@@ -420,4 +420,7 @@
     <string name="lbl_sign_in">உள்நுழைக</string>
     <string name="lbl_add_server">சேவையகத்தைச் சேர்க்கவும்</string>
     <string name="watch_count_overflow">99+</string>
+    <string name="pref_default_rating">இயல்புநிலை மதிப்பீட்டு வகை</string>
+    <string name="lbl_tomatoes">தக்காளி</string>
+    <string name="lbl_stars">நட்சத்திரங்கள்</string>
 </resources>
