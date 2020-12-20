@@ -22,6 +22,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.action.AdjustAudioDelayAction;
@@ -114,32 +115,36 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             @Override
             protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
-                Context context = parent.getContext();
 
-                mEndsText = new TextView(context);
-                mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
-                setEndTime();
+                ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
 
-                LinearLayout view = (LinearLayout) vh.view;
+                if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_VIDEO) {
+                    Context context = parent.getContext();
+                    mEndsText = new TextView(context);
+                    mEndsText.setTextAppearance(context, androidx.leanback.R.style.Widget_Leanback_PlaybackControlsTimeStyle);
+                    setEndTime();
 
-                PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
-                FrameLayout v = (FrameLayout) bar.getChildAt(0);
-                mButtonRef = (LinearLayout) v.getChildAt(0);
+                    LinearLayout view = (LinearLayout) vh.view;
 
-                bar.removeViewAt(0);
-                RelativeLayout rl = new RelativeLayout(context);
-                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-                rl.addView(v);
+                    PlaybackTransportRowView bar = (PlaybackTransportRowView) view.getChildAt(1);
+                    FrameLayout v = (FrameLayout) bar.getChildAt(0);
+                    mButtonRef = (LinearLayout) v.getChildAt(0);
 
-                RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-                rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                rl.addView(mEndsText, rlp2);
-                bar.addView(rl, 0, rlp);
+                    bar.removeViewAt(0);
+                    RelativeLayout rl = new RelativeLayout(context);
+                    RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    rl.addView(v);
+
+                    RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    rlp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    rl.addView(mEndsText, rlp2);
+                    bar.addView(rl, 0, rlp);
+                }
 
                 return vh;
             }

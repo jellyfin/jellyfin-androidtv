@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.preference.category
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.GridDirection
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
@@ -33,6 +34,11 @@ fun OptionsScreen.generalCategory(
 	enum<GridDirection> {
 		setTitle(R.string.grid_direction)
 		bind(userPreferences, UserPreferences.gridDirection)
+	}
+
+	enum<ClockBehavior> {
+		setTitle(R.string.pref_clock_display)
+		bind(userPreferences, UserPreferences.clockBehavior)
 	}
 
 	enum<RatingType> {

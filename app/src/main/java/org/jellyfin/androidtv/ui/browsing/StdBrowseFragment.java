@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -44,6 +45,7 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -88,6 +90,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
+    private TextClock mClock;
 
     protected boolean justLoaded = true;
 
@@ -130,6 +133,12 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         super.onResume();
 
         ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
+        ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
+
+        if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_MENUS)
+            mClock.setVisibility(View.VISIBLE);
+        else
+            mClock.setVisibility(View.GONE);
 
         //React to deletion
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {
@@ -271,12 +280,13 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
         // and add the clock element
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ClockUserView clock = new ClockUserView(getActivity());
+        ClockUserView userClock = new ClockUserView(getActivity());
+        mClock = userClock.findViewById(R.id.clock);
         layoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
         layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 40);
         layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
-        clock.setLayoutParams(layoutParams);
-        root.addView(clock);
+        userClock.setLayoutParams(layoutParams);
+        root.addView(userClock);
     }
 
     protected void setupEventListeners() {

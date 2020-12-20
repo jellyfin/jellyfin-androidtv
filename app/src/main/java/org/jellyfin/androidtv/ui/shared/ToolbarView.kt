@@ -7,10 +7,16 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.view_toolbar.view.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.koin.java.KoinJavaComponent.get
 
 class ToolbarView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 	init {
 		inflate(context, R.layout.view_toolbar, this)
+		val clockBehavior = get(UserPreferences::class.java)[UserPreferences.clockBehavior]
+		if (clockBehavior == ClockBehavior.NEVER || clockBehavior == ClockBehavior.IN_VIDEO)
+			toolbar_clock.visibility = GONE
 	}
 
 	// Add child views to the content slot

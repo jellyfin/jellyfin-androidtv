@@ -176,6 +176,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var acraIncludeSystemLogs = Preference.boolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
 
 		/**
+		 * When to show the clock.
+		 */
+		var clockBehavior = Preference.enum("pref_clock_behavior", ClockBehavior.ALWAYS)
+
+		/**
 		 * Set which ratings provider should show on MyImageCardViews
 		 */
 		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
