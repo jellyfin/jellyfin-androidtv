@@ -38,6 +38,7 @@ class OptionsScreen(
 }
 
 @OptionsDSL
-fun optionsScreen(context: Context, init: OptionsScreen.() -> Unit) =
-	OptionsScreen(context)
+fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = lazy {
+	OptionsScreen(requireContext())
 		.apply { init() }
+}
