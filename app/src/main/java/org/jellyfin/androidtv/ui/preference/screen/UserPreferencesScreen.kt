@@ -16,6 +16,7 @@ class UserPreferencesScreen : OptionsFragment() {
 		// Add all categories using extension functions in the "category" subpackage
 		link {
 			setTitle(R.string.pref_authentication_link)
+			icon = R.drawable.ic_users
 			withFragment<AuthPreferencesScreen>()
 		}
 		generalCategory(userPreferences)
