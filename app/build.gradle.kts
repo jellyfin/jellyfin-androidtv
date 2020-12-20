@@ -90,7 +90,7 @@ dependencies {
 	implementation("com.google.code.gson:gson:2.8.6")
 
 	// Media players
-	implementation("com.amazon.android:exoplayer:2.11.3")
+	implementation("com.amazon.android:exoplayer:2.12.2")
 	implementation("org.videolan.android:libvlc-all:3.3.2")
 
 	// Image utility
