@@ -350,4 +350,5 @@
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasıkalyq kók-jasyl</string>
     <string name="pref_theme_dark">Kúngirt (ádepki)</string>
+    <string name="lbl_pause">Úzý</string>
 </resources>
