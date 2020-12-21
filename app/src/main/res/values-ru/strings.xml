@@ -423,4 +423,8 @@
     <string name="pref_default_rating">Тип оценки по умолчанию</string>
     <string name="lbl_tomatoes">Томаты</string>
     <string name="lbl_stars">Звёзды</string>
+    <string name="pref_clock_display_playback">При воспроизведении</string>
+    <string name="pref_clock_display_browsing">При навигации</string>
+    <string name="lbl_always">Всегда</string>
+    <string name="pref_clock_display">Показывать часы</string>
 </resources>
