@@ -423,4 +423,8 @@
     <string name="lbl_pause">Паузирај</string>
     <string name="dpad_pw_cancel">* Држите притиснуто дугме „доле“ 1 секунду и отпустите ако имате словну лозинку или вам је за унос потребна тастатура</string>
     <string name="dpad_entry_desc">Помоћу D+Pad -а на даљинском управљачу унесите нумеричку лозинку. Једнократно притисните дугме за први наведени број или двоструко за други, на пример једнократним притиском на „горе“ за 1 или двокликом на „изабери“ за 5. Држите притиснуту 1 секунду и отпустите дугме „изабери“ када завршите или лево дугме да бисте започели испочетка.</string>
+    <string name="pref_clock_display_playback">Током репродукције</string>
+    <string name="pref_clock_display_browsing">Док претражујете</string>
+    <string name="lbl_always">Увек</string>
+    <string name="pref_clock_display">Прикажи сат</string>
 </resources>
