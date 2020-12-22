@@ -422,4 +422,8 @@
     <string name="pref_default_rating">Kiểu xếp hạng mặc định</string>
     <string name="lbl_tomatoes">Cà chua</string>
     <string name="lbl_stars">Ngôi sao</string>
+    <string name="pref_clock_display_playback">Trong khi phát lại</string>
+    <string name="pref_clock_display_browsing">Trong khi duyệt</string>
+    <string name="lbl_always">Luôn luôn</string>
+    <string name="pref_clock_display">Hiển thị đồng hồ</string>
 </resources>
