@@ -398,7 +398,7 @@
     <string name="episode_missing_message_2">Tego epizodu nie ma w twojej bibliotece. Odtwarzanie zostanie zatrzymane.</string>
     <string name="episode_missing_message">Tego epizodu nie ma w twojej bibliotece. Czy chciałbyś go pominąć i odtworzyć następny epizod\?</string>
     <string name="episode_missing">Brakuje epizodu</string>
-    <string name="delete_warning">"Plik %1$s  zostanie NA ZAWSZE USUNIĘTY z twojej biblioteki. Czy jesteś pewien że chcesz usunąć ten plik\?"</string>
+    <string name="delete_warning">Plik %1$s zostanie NA ZAWSZE USUNIĘTY z twojej biblioteki. Czy jesteś pewien że chcesz usunąć ten plik\?</string>
     <string name="clear_expanded">Czy wyczyścić obecną kolejkę video\?</string>
     <string name="lbl_clear">Wyczyść</string>
     <string name="password_prompt_message">Podaj hasło dla %1$s</string>
