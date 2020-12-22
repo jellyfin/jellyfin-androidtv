@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.util.apiclient
 import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import java.util.*
 
@@ -14,6 +15,7 @@ class ModelExtensionsTest {
 		private val USER_ID = UUID.fromString("5331276d-d620-44c7-af8f-53eb4ff56f7f")
 		private const val USER_NAME = "User Name"
 		private const val IMAGE_TAG = "tag"
+		private const val HAS_PASSWORD = true
 		private val EXCLUDE_ITEMS = listOf("exclude")
 	}
 
@@ -26,13 +28,13 @@ class ModelExtensionsTest {
 	}
 
 	@Test
-	fun userDtoToUser() {
+	fun userDtoToPublicUser() {
 		val user = UserDto().apply {
 			id = USER_ID.toString()
 			name = USER_NAME
 			serverId = SERVER_ID.toString()
 			primaryImageTag = IMAGE_TAG
-			hasPassword = true
+			hasPassword = HAS_PASSWORD
 			hasConfiguredPassword = true
 			hasConfiguredEasyPassword = false
 			policy = org.jellyfin.apiclient.model.users.UserPolicy().apply {
@@ -42,9 +44,11 @@ class ModelExtensionsTest {
 			configuration = org.jellyfin.apiclient.model.configuration.UserConfiguration().apply {
 				latestItemsExcludes = EXCLUDE_ITEMS.toTypedArray()
 			}
-		}.toUser()
+		}.toPublicUser()
 		assertEquals(USER_ID, user.id)
 		assertEquals(USER_NAME, user.name)
 		assertEquals(SERVER_ID, user.serverId)
+		assertNull(null, user.accessToken)
+		assertEquals(HAS_PASSWORD, user.requirePassword)
 	}
 }
