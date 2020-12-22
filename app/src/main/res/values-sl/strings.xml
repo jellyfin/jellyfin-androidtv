@@ -365,4 +365,13 @@
     <string name="lbl_switch_server">Preklopi strežnik</string>
     <string name="desc_automatic_fav_songs">Avtomatsko generiran seznam predvajanja priljubljenih in všečkanih glasb</string>
     <string name="lbl_pause">Pavza</string>
+    <string name="pref_live_tv_mode_desc">Pojdi neposredno na zadnje predvajan kanal TV v živo</string>
+    <string name="lbl_refresh_switching">Spreminjanje hitrosti osveževanja</string>
+    <string name="desc_use_vlc_livetv">Uporabi VLC za neposredno pretakanje TV v živo, kadar je na voljo</string>
+    <string name="lbl_use_vlc_livetv">Poskusi uporabiti VLC za TV v živo</string>
+    <string name="lbl_show_backdrop">Prikaži ozadje med brskanjem</string>
+    <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
+    <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
+    <string name="btn_set_compatible_audio">Nastavi pretvorbo v stereo zdaj</string>
+    <string name="msg_audio_warning">Aplikacija podpira neposredno pretakanje določenih več kanalnih zvočnih formatov. V primeru da vaša naprava teh formatov ne podpira pri predvajanju določenih vsebin ne boste slišali zvoka. To lahko popravite s spreminjanjem nastavitve Pretvori v stereo.</string>
 </resources>
