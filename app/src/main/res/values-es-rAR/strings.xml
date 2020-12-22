@@ -420,4 +420,11 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_next_up_tv">A continuación en TV</string>
     <string name="dpad_entry_desc">Utiliza el D-Pad en tu control remoto para introducir una contraseña numérica. Haz clic en un botón para el primer número listado o doble clic para el segundo. Ej. Haz un clic en «arriba» para 1 o doble clic en «seleccionar» para 5. Mantén presionado por un segundo y después libera el botón «seleccionar» cuando hayas terminado, o el botón de «izquierda» para comenzar nuevamente.</string>
+    <string name="pref_clock_display_playback">Durante la Reproducción</string>
+    <string name="pref_clock_display_browsing">Mientras Navega</string>
+    <string name="lbl_always">Siempre</string>
+    <string name="pref_clock_display">Mostrar Reloj</string>
+    <string name="pref_default_rating">Tipo de Puntuación por Defecto</string>
+    <string name="lbl_tomatoes">Tomatoes</string>
+    <string name="lbl_stars">Estrellas</string>
 </resources>
