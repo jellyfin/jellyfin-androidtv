@@ -423,4 +423,8 @@
     <string name="pref_default_rating">Výchozí typ hodnocení</string>
     <string name="lbl_tomatoes">Rajčata</string>
     <string name="lbl_stars">Hvězdičky</string>
+    <string name="pref_clock_display_playback">Při přehrávání</string>
+    <string name="pref_clock_display_browsing">Při prohlížení</string>
+    <string name="lbl_always">Vždy</string>
+    <string name="pref_clock_display">Zobrazit hodiny</string>
 </resources>
