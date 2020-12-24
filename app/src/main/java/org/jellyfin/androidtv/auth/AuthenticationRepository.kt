@@ -29,11 +29,12 @@ class AuthenticationRepository(
 		Server(id, info.name, info.address, Date(info.lastUsed))
 	}
 
-	fun getUsers(server: UUID): List<PrivateUser>? = authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
-		accountManagerHelper.getAccount(userId)?.let { authInfo ->
-			PrivateUser(userId, authInfo.server, userInfo.name, authInfo.accessToken)
+	fun getUsers(server: UUID): List<PrivateUser>? =
+		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
+			accountManagerHelper.getAccount(userId)?.let { authInfo ->
+				PrivateUser(userId, authInfo.server, userInfo.name, authInfo.accessToken)
+			}
 		}
-	}
 
 	fun saveServer(id: UUID, name: String, address: String) {
 		val current = authenticationStore.getServer(id)
@@ -48,7 +49,7 @@ class AuthenticationRepository(
 	 * Set the active session to the information in [user] and [server].
 	 * Connects to the server and requests the info of the currently authenticated user.
 	 *
-	 * @return Whether the user information can be retrieved
+	 * @return Whether the user information can be retrieved.
 	 */
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
 		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
@@ -60,6 +61,8 @@ class AuthenticationRepository(
 			accessToken = user.accessToken
 		})
 
+		// Suppressed because the old apiclient is unreliable
+		@Suppress("TooGenericExceptionCaught")
 		try {
 			val userDto = callApi<UserDto?> { callback -> apiClient.GetUserAsync(user.id.toString(), callback) }
 			if (userDto != null) {

@@ -130,6 +130,8 @@ class ServerRepositoryImpl(
 
 		emit(ConnectingState)
 
+		// Suppressed because the old apiclient is unreliable
+		@Suppress("TooGenericExceptionCaught")
 		try {
 			val api = jellyfin.createApi(serverAddress = address, device = device)
 			val systemInfo: PublicSystemInfo = callApi { callback ->

@@ -1,2 +1,9 @@
 build:
   maxIssues: 0
+
+comments:
+  # Comments are always appreciated, even for private functions and properties
+  CommentOverPrivateFunction:
+    active: false
+  CommentOverPrivateProperty:
+    active: false

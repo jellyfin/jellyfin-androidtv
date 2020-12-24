@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.auth.model
 import java.util.*
 
 /**
- * User model used locally
+ * User model used locally.
  */
 sealed class User {
 	abstract val id: UUID
@@ -23,7 +23,7 @@ sealed class User {
 }
 
 /**
- * Represents a user stored client side
+ * Represents a user stored client side.
  */
 data class PrivateUser(
 	override val id: UUID,
