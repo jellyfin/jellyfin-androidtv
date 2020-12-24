@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv
 
 import android.content.Context
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import org.acra.ACRA
 import org.acra.annotation.AcraCore
 import org.acra.annotation.AcraDialog
@@ -11,12 +14,17 @@ import org.jellyfin.androidtv.di.activityLifecycleCallbacksModule
 import org.jellyfin.androidtv.di.appModule
 import org.jellyfin.androidtv.di.playbackModule
 import org.jellyfin.androidtv.di.preferenceModule
+import org.jellyfin.androidtv.integration.LeanbackChannelWorker
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.KoinExperimentalAPI
 import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.util.concurrent.TimeUnit
 
 @AcraCore(
 	buildConfigClass = BuildConfig::class
@@ -33,6 +41,7 @@ import timber.log.Timber.DebugTree
 @AcraLimiter
 @Suppress("unused")
 class JellyfinApplication : TvApp() {
+	@OptIn(KoinExperimentalAPI::class)
 	override fun onCreate() {
 		super.onCreate()
 
@@ -44,6 +53,7 @@ class JellyfinApplication : TvApp() {
 		startKoin {
 			androidLogger()
 			androidContext(this@JellyfinApplication)
+			workManagerFactory()
 
 			modules(
 				appModule,
@@ -52,6 +62,13 @@ class JellyfinApplication : TvApp() {
 				preferenceModule
 			)
 		}
+
+		// Setup workers
+		get<WorkManager>().enqueueUniquePeriodicWork(
+			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
+			ExistingPeriodicWorkPolicy.REPLACE,
+			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
+		)
 
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)

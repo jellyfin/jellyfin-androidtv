@@ -127,6 +127,11 @@
         <activity android:name=".ui.playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove" />
     </application>
 
 </manifest>
