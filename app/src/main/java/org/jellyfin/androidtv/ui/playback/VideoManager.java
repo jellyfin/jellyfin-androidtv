@@ -639,7 +639,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         double ar, vw;
         if (sarDen == sarNum) {
             /* No indication about the density, assuming 1:1 */
-            vw = videoVisibleWidth;
             ar = (double)videoVisibleWidth / (double)videoVisibleHeight;
         } else {
             /* Use the specified aspect ratio */

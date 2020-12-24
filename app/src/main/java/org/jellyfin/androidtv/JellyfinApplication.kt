@@ -31,6 +31,7 @@ import timber.log.Timber.DebugTree
 	resTheme = R.style.Theme_Jellyfin
 )
 @AcraLimiter
+@Suppress("unused")
 class JellyfinApplication : TvApp() {
 	override fun onCreate() {
 		super.onCreate()
