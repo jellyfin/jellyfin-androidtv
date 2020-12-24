@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -48,6 +49,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class PlaybackController {
@@ -1018,7 +1020,8 @@ public class PlaybackController {
     }
 
     public void removePreviousQueueItems() {
-        TvApp.getApplication().dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
+        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         if (isLiveTv || !MediaManager.isVideoQueueModified()) {
             MediaManager.clearVideoQueue();
             return;

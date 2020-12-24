@@ -3,7 +3,6 @@ package org.jellyfin.androidtv;
 import android.app.Activity;
 import android.app.Application;
 
-import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -44,8 +43,6 @@ public class TvApp extends Application {
     private int autoBitrate;
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
-
-    public final DataRefreshService dataRefreshService = new DataRefreshService();
 
     private BaseActivity currentActivity;
 

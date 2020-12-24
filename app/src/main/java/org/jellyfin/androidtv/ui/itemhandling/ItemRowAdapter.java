@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -57,6 +58,7 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -583,26 +585,26 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         boolean retrieve = false;
-        TvApp app = TvApp.getApplication();
+        DataRefreshService dataRefreshService = KoinJavaComponent.get(DataRefreshService.class);
         for (ChangeTriggerType trigger : reRetrieveTriggers) {
             switch (trigger) {
                 case LibraryUpdated:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastLibraryChange();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastLibraryChange();
                     break;
                 case MoviePlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastMoviePlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMoviePlayback();
                     break;
                 case TvPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastTvPlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastTvPlayback();
                     break;
                 case MusicPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastMusicPlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMusicPlayback();
                     break;
                 case FavoriteUpdate:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastFavoriteUpdate();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastFavoriteUpdate();
                     break;
                 case VideoQueueChange:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastVideoQueueChange();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastVideoQueueChange();
                     break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));

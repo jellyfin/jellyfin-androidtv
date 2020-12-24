@@ -32,6 +32,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -218,9 +219,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
-        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(TvApp.getApplication().dataRefreshService.getLastDeletedItemId())) {
+        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
-            TvApp.getApplication().dataRefreshService.setLastDeletedItemId(null);
+            dataRefreshService.setLastDeletedItemId(null);
         }
 
         if (!justLoaded) {
