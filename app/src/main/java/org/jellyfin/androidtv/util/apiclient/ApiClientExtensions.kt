@@ -46,7 +46,7 @@ suspend fun ApiClient.getUserViews(): ItemsResult? = suspendCoroutine { continua
  * Uses the userId of the currently signed in user
  */
 suspend fun ApiClient.getItem(id: String): BaseItemDto? = suspendCoroutine { continuation ->
-	GetItemAsync(id, TvApp.getApplication().currentUser.id, object : Response<BaseItemDto>() {
+	GetItemAsync(id, TvApp.getApplication().currentUser?.id, object : Response<BaseItemDto>() {
 		override fun onResponse(response: BaseItemDto?) = continuation.resume(response!!)
 		override fun onError(exception: Exception?) = continuation.resume(null)
 	})

@@ -35,7 +35,7 @@ fun OptionsScreen.authenticationCategory(
 			// Auto login is disabled
 			userPreferences[UserPreferences.loginBehavior] != LoginBehavior.AUTO_LOGIN
 				// Or configured user is set to current user
-				|| configuredAutoCredentials.user?.id == TvApp.getApplication().currentUser.id
+				|| configuredAutoCredentials?.user?.id == TvApp.getApplication().currentUser?.id
 		}
 	}
 
@@ -48,9 +48,9 @@ fun OptionsScreen.authenticationCategory(
 			// Auto login is enabled
 			userPreferences[UserPreferences.loginBehavior] == LoginBehavior.AUTO_LOGIN
 				// Configured user is set to current user
-				&& configuredAutoCredentials.user?.id == TvApp.getApplication().currentUser.id
+				&& configuredAutoCredentials?.user?.id == TvApp.getApplication().currentUser?.id
 				// Configured user contains a password
-				&& configuredAutoCredentials.user?.hasPassword ?: false
+				&& configuredAutoCredentials?.user?.hasPassword ?: false
 		}
 	}
 
