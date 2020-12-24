@@ -3,6 +3,9 @@ package org.jellyfin.androidtv;
 import android.app.Activity;
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -63,10 +66,12 @@ public class TvApp extends Application {
     }
 
     @Deprecated
+    @Nullable
     public UserDto getCurrentUser() {
         if (currentUser == null) {
             Timber.e("Called getCurrentUser() but value was null.");
         }
+
         return currentUser;
     }
 
@@ -81,6 +86,7 @@ public class TvApp extends Application {
      * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
      */
     @Deprecated
+    @Nullable
     public BaseActivity getCurrentActivity() {
         return currentActivity;
     }
@@ -89,6 +95,7 @@ public class TvApp extends Application {
         currentActivity = activity;
     }
 
+    @Nullable
     public PlaybackController getPlaybackController() {
         return playbackController;
     }
@@ -97,6 +104,7 @@ public class TvApp extends Application {
         this.playbackController = playbackController;
     }
 
+    @Nullable
     public LogonCredentials getConfiguredAutoCredentials() {
         return configuredAutoCredentials;
     }
@@ -121,14 +129,17 @@ public class TvApp extends Application {
         }
     }
 
+    @NonNull
     public Class<? extends Activity> getPlaybackActivityClass(BaseItemType itemType) {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
+    @NonNull
     public boolean canManageRecordings() {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
+    @NonNull
     public DisplayPreferences getCachedDisplayPrefs(String key) {
         return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
     }
@@ -178,7 +189,7 @@ public class TvApp extends Application {
         }
     }
 
-
+    @Nullable
     public int getAutoBitrate() {
         return autoBitrate;
     }
@@ -193,6 +204,7 @@ public class TvApp extends Application {
         });
     }
 
+    @Nullable
     public BaseItemDto getLastPlayedItem() {
         return lastPlayedItem;
     }
