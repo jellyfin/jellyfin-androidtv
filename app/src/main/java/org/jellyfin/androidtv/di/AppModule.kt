@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
@@ -54,4 +55,6 @@ val appModule = module {
 
 	viewModel { LoginViewModel(get(), get()) }
 	viewModel { NextUpViewModel(get(), get()) }
+
+	single { BackgroundService(get()) }
 }

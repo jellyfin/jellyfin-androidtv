@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
@@ -40,6 +39,7 @@ import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -137,7 +137,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private FullDetailsActivity mActivity;
     private Handler mLoopHandler = new Handler();
     private Runnable mClockLoop;
-    public static int BACKDROP_ROTATION_INTERVAL = 8000;
 
     private BaseItemDto mBaseItem;
 
@@ -146,7 +145,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
-    
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,8 +154,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 40);
         mActivity = this;
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
-        backgroundManager.attach(getWindow());
+        backgroundService.getValue().attach(this);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);

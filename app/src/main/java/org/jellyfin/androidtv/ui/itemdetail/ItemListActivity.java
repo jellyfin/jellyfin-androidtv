@@ -19,8 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.leanback.app.BackgroundManager;
-
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -29,6 +27,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
@@ -40,7 +39,6 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MathUtils;
@@ -63,7 +61,6 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -72,7 +69,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class ItemListActivity extends BaseActivity {
-
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
@@ -93,18 +89,16 @@ public class ItemListActivity extends BaseActivity {
     private String mItemId;
 
     private int mBottomScrollThreshold;
-    private Runnable mClockLoop;
 
     private BaseActivity mActivity;
     private DisplayMetrics mMetrics;
-    private Handler mLoopHandler = new Handler();
-    private Runnable mBackdropLoop;
 
     private boolean firstTime = true;
     private Calendar lastUpdated = Calendar.getInstance();
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,8 +152,7 @@ public class ItemListActivity extends BaseActivity {
             }
         });
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
-        backgroundManager.attach(getWindow());
+        backgroundService.getValue().attach(this);
 
         mItemId = getIntent().getStringExtra("ItemId");
         loadItem(mItemId);
@@ -205,7 +198,6 @@ public class ItemListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        rotateBackdrops();
         MediaManager.addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
@@ -246,15 +238,7 @@ public class ItemListActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        stopRotate();
-        stopClock();
         MediaManager.removeAudioEventListener(mAudioEventListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopRotate();
     }
 
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
@@ -530,24 +514,6 @@ public class ItemListActivity extends BaseActivity {
         }
     }
 
-    private String getEndTime() {
-        if (mBaseItem != null) {
-            Long runtime = mBaseItem.getCumulativeRunTimeTicks();
-            if (runtime != null && runtime > 0) {
-                long endTimeTicks = System.currentTimeMillis() + runtime / 10000;
-                return getString(R.string.lbl_ends) + android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
-            }
-
-        }
-        return "";
-    }
-
-    private void stopClock() {
-        if (mLoopHandler != null && mClockLoop != null) {
-            mLoopHandler.removeCallbacks(mClockLoop);
-        }
-    }
-
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
             Intent intent = new Intent(mActivity, TvApp.getApplication().getPlaybackActivityClass(mBaseItem.getBaseItemType()));
@@ -735,48 +701,13 @@ public class ItemListActivity extends BaseActivity {
         return mItems.get(MathUtils.randInt(0, mItems.size() - 1));
     }
 
-    private void rotateBackdrops() {
-        mBackdropLoop = new Runnable() {
-            @Override
-            public void run() {
-                updateBackdrop();
-                mLoopHandler.postDelayed(this, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
-            }
-        };
-
-        mLoopHandler.postDelayed(mBackdropLoop, FullDetailsActivity.BACKDROP_ROTATION_INTERVAL);
-    }
-
     private void updateBackdrop() {
         String url = ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true);
         if (url == null) {
             BaseItemDto item = getRandomListItem();
             if (item != null) url = ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true);
         }
-        if (url != null) updateBackground(url);
 
-    }
-
-    private void stopRotate() {
-        if (mLoopHandler != null && mBackdropLoop != null) {
-            mLoopHandler.removeCallbacks(mBackdropLoop);
-        }
-    }
-
-    protected void updateBackground(String url) {
-
-        BackgroundManager backgroundInstance = BackgroundManager.getInstance(this);
-        if (url == null) {
-            backgroundInstance.setDrawable(null);
-        } else {
-            BackgroundManagerExtensionsKt.drawable(
-                    backgroundInstance,
-                    this,
-                    url,
-                    mMetrics.widthPixels,
-                    mMetrics.heightPixels,
-                    true
-            );
-        }
+        if (url != null) backgroundService.getValue().setBackground(url);
     }
 }

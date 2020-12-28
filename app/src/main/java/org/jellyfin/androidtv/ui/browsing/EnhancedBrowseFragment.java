@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
@@ -34,6 +32,7 @@ import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -48,7 +47,6 @@ import org.jellyfin.androidtv.ui.search.SearchActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -61,8 +59,6 @@ import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import kotlin.Lazy;
 
@@ -70,7 +66,6 @@ import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
-    private static final int BACKGROUND_UPDATE_DELAY = 100;
     BaseActivity mActivity;
 
     TextView mTitle;
@@ -97,21 +92,18 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected BaseRowItem favSongsRowItem;
 
-    private DisplayMetrics mMetrics;
-
     RowsSupportFragment mRowsFragment;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
-    private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
 
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,8 +151,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        prepareBackgroundManager();
-
         setupViews();
 
         setupUIElements();
@@ -199,14 +189,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             showViews = false;
         }
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
     }
 
     @Override
@@ -556,8 +538,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 mInfoRow.removeAllViews();
                 mSummary.setText("");
                 //fill in default background
-                mBackgroundUrl = null;
-                startBackgroundTimer();
+                backgroundService.getValue().clearBackgrounds();
                 return;
             }
 
@@ -575,10 +556,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
             if (ShowFanart) {
-                mBackgroundUrl = rowItem.getBackdropImageUrl();
-                startBackgroundTimer();
+                backgroundService.getValue().setBackground(rowItem.getBackdropImageUrl());
             }
-
         }
     }
 
@@ -595,57 +574,4 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
         }
     };
-
-    private void prepareBackgroundManager() {
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
-
-        if (!backgroundManager.isAttached()) {
-            backgroundManager.attach(requireActivity().getWindow());
-        }
-
-        mMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-    }
-
-    protected void updateBackground(String url) {
-        if (url == null) {
-            clearBackground();
-        } else {
-            BackgroundManagerExtensionsKt.drawable(
-                    BackgroundManager.getInstance(getActivity()),
-                    getActivity(),
-                    url,
-                    mMetrics.widthPixels,
-                    mMetrics.heightPixels,
-                    true
-            );
-        }
-    }
-
-    protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(null);
-    }
-
-    private void startBackgroundTimer() {
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
-        mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
-    }
-
-    private class UpdateBackgroundTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateBackground(mBackgroundUrl);
-                }
-            });
-
-        }
-    }
-
 }

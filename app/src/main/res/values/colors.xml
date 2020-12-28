@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Semi-Transparent Blacks -->
     <color name="black_opaque">#AA000000</color>

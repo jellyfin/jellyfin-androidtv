@@ -21,7 +21,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
@@ -49,6 +47,7 @@ import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.GridDirection;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
@@ -66,7 +65,6 @@ import org.jellyfin.androidtv.ui.search.SearchActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -77,28 +75,21 @@ import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StdGridFragment extends GridFragment implements IGridLoader {
-    private static final String TAG = "StdGridFragment";
-
-    private static final int BACKGROUND_UPDATE_DELAY = 100;
-
     protected String MainTitle;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ItemRowAdapter mGridAdapter;
-    private DisplayMetrics mMetrics;
-    private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
-    private String mBackgroundUrl;
     protected BrowseRowDef mRowDef;
     CardPresenter mCardPresenter;
 
@@ -115,6 +106,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private int mCardHeight = SMALL_CARD;
 
     protected boolean mAllowViewSelection = true;
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -175,8 +167,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
-        prepareBackgroundManager();
-
         setupQueries(this);
 
         addTools();
@@ -185,14 +175,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     protected void setupQueries(IGridLoader gridLoader) {
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
     }
 
     @Override
@@ -340,17 +322,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             return getCardHeight(PosterSize.MED);
         else
             return getCardHeight(PosterSize.LARGE);
-
-    }
-    private void prepareBackgroundManager() {
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
-
-        if (!backgroundManager.isAttached()) {
-            backgroundManager.attach(requireActivity().getWindow());
-        }
-
-        mMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     protected ImageButton mSortButton;
@@ -536,10 +507,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         }
 
-        public boolean isShowing() {
-            return (mPopup != null && mPopup.isShowing());
-        }
-
         public void show() {
 
             mPopup.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
@@ -650,7 +617,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     }
                 }
             });
-
         }
     }
 
@@ -668,8 +634,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         @Override
         public void run() {
             if (ShowFanart) {
-                mBackgroundUrl = mCurrentItem.getBackdropImageUrl();
-                startBackgroundTimer();
+                backgroundService.getValue().setBackground(mCurrentItem.getBackdropImageUrl());
             }
             setItem(mCurrentItem);
         }
@@ -685,8 +650,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 mCurrentItem = null;
                 setTitle(MainTitle);
                 //fill in default background
-                mBackgroundUrl = null;
-                startBackgroundTimer();
+                backgroundService.getValue().clearBackgrounds();
             } else {
                 mCurrentItem = (BaseRowItem)item;
                 mTitleView.setText(mCurrentItem.getName());
@@ -699,47 +663,4 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         }
     }
-
-    protected void updateBackground(String url) {
-        if (url == null) {
-            clearBackground();
-        } else {
-            BackgroundManagerExtensionsKt.drawable(
-                    BackgroundManager.getInstance(getActivity()),
-                    getActivity(),
-                    url,
-                    mMetrics.widthPixels,
-                    mMetrics.heightPixels,
-                    true
-            );
-        }
-    }
-
-    protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(null);
-    }
-
-    private void startBackgroundTimer() {
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
-        mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
-    }
-
-    private class UpdateBackgroundTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateBackground(mBackgroundUrl);
-                }
-            });
-
-        }
-    }
-
-
 }
