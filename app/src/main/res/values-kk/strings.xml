@@ -351,4 +351,7 @@
     <string name="pref_theme_emerald">Klasıkalyq kók-jasyl</string>
     <string name="pref_theme_dark">Kúngirt (ádepki)</string>
     <string name="lbl_pause">Úzý</string>
+    <string name="pref_video_player_choose">Áldeqashan suraý</string>
+    <string name="lbl_tv_filter_status">kelesi %1$d saǵat úshin</string>
+    <string name="lbl_tv_channel_status">%1$d %2$d arnadan</string>
 </resources>
