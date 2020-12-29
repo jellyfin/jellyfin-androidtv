@@ -43,8 +43,8 @@ class LeanbackChannelWorker(
 		 */
 		private const val TICKS_IN_MILLISECOND = 10000
 
-		const val SINGLE_UPDATE_REQUEST_NAME = "channelUpdateRequest"
-		const val PERIODIC_UPDATE_REQUEST_NAME = "channelUpdateRequest"
+		const val SINGLE_UPDATE_REQUEST_NAME = "LeanbackChannelSingleUpdateRequest"
+		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
 	private val application = TvApp.getApplication()
