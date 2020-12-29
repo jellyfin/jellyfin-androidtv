@@ -31,8 +31,13 @@ class AuthenticationRepository(
 
 	fun getUsers(server: UUID): List<PrivateUser>? =
 		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
-			accountManagerHelper.getAccount(userId)?.let { authInfo ->
-				PrivateUser(userId, authInfo.server, userInfo.name, authInfo.accessToken)
+			accountManagerHelper.getAccount(userId).let { authInfo ->
+				PrivateUser(
+					id = userId,
+					serverId = authInfo?.server ?: server, name = userInfo.name,
+					accessToken = authInfo?.accessToken,
+					requirePassword = userInfo.requirePassword
+				)
 			}
 		}
 
@@ -103,7 +108,7 @@ class AuthenticationRepository(
 				else emit(RequireSignInState)
 			}
 			// User is known to not require a password, try a sign in
-			user is PublicUser && !user.requirePassword -> emitAll(login(server, user.name))
+			!user.requirePassword -> emitAll(login(server, user.name))
 			// Account found without access token, require sign in
 			else -> emit(RequireSignInState)
 		}
@@ -115,24 +120,34 @@ class AuthenticationRepository(
 		username: String,
 		password: String = ""
 	) = flow {
-		val result = callApi<AuthenticationResult> { callback ->
-			val api = jellyfin.createApi(server.address, device = device)
-			api.AuthenticateUserAsync(username, password, callback)
+		val result = try {
+			callApi<AuthenticationResult> { callback ->
+				val api = jellyfin.createApi(server.address, device = device)
+				api.AuthenticateUserAsync(username, password, callback)
+			}
+
+			// Supress because com.android.volley.AuthFailureError is not exposed by the apiclient
+		} catch (@Suppress("TooGenericExceptionCaught") err: Exception) {
+			Timber.e(err, "Unable to sign in as $username")
+			emit(RequireSignInState)
+			return@flow
 		}
 
 		val userId = result.user.id.toUUID()
 		val currentUser = authenticationStore.getUser(server.id, userId)
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
-			lastUsed = Date().time
+			lastUsed = Date().time,
+			requirePassword = result.user.hasPassword
 		) ?: AuthenticationStoreUser(
 			name = result.user.name,
+			requirePassword = result.user.hasPassword
 		)
 
 		authenticationStore.putUser(server.id, userId, updatedUser)
 		accountManagerHelper.putAccount(AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken))
 
-		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken)
+		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken, result.user.hasPassword)
 		val authenticated = setActiveSession(user, server)
 		if (authenticated) emit(AuthenticatedState)
 		else emit(RequireSignInState)

@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.auth
 
 import android.content.Context
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.modules.SerializersModule
@@ -57,11 +58,14 @@ class LegacyAccountMigration(
 				if (userId != null && !authenticationStore.containsUser(serverId, userId)) {
 					Timber.i("Migrating user $userId")
 					val name = user["Name"]?.jsonPrimitive?.content ?: userId.toString()
+					val requirePassword = user["HasPassword"]?.jsonPrimitive?.booleanOrNull ?: true
+
 					authenticationStore.putUser(
 						server = serverId,
 						userId = userId,
 						userInfo = AuthenticationStoreUser(
-							name = name
+							name = name,
+							requirePassword = requirePassword
 						)
 					)
 					accountManagerHelper.putAccount(AccountManagerAccount(
