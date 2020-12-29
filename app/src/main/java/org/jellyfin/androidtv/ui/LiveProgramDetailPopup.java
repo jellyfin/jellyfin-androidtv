@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
@@ -36,6 +37,7 @@ import java.util.Date;
 import kotlin.Lazy;
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveProgramDetailPopup {
@@ -360,7 +362,8 @@ public class LiveProgramDetailPopup {
                         channel.setUserData(response);
                         fave.setImageDrawable(ContextCompat.getDrawable(mActivity, response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart));
                         mTvGuide.refreshFavorite(channel.getId());
-                        TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                        dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                     }
                 });
             }

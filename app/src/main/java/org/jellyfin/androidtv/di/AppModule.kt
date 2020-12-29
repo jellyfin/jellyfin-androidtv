@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
+import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ServerRepository
 import org.jellyfin.androidtv.data.repository.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserRepository
@@ -42,7 +43,7 @@ val appModule = module {
 	single {
 		get<Jellyfin>().createApi(
 			device = get(),
-			eventListener = TvApiEventListener()
+			eventListener = TvApiEventListener(get())
 		)
 	}
 
@@ -69,4 +70,6 @@ val appModule = module {
 	viewModel {
 		LoginViewModel(get(), get())
 	}
+
+	single { DataRefreshService() }
 }

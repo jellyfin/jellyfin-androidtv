@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.LiveTvPrefs;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
@@ -417,7 +418,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
-                    TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                    DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                    dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                 }
             });
         }

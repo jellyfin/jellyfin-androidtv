@@ -11,14 +11,15 @@ import android.widget.PopupMenu;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -528,7 +529,8 @@ public class KeyProcessor {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
-                TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
             }
 
             @Override

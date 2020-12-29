@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -20,18 +19,14 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.leanback.app.BackgroundManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.ui.GenreButton;
@@ -109,7 +104,8 @@ public class ItemListActivity extends BaseActivity {
     private boolean firstTime = true;
     private Calendar lastUpdated = Calendar.getInstance();
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +212,7 @@ public class ItemListActivity extends BaseActivity {
         // and fire it to be sure we're updated
         mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
 
-        if (!firstTime && mApplication.dataRefreshService.getLastPlayback() > lastUpdated.getTimeInMillis()) {
+        if (!firstTime && dataRefreshService.getValue().getLastPlayback() > lastUpdated.getTimeInMillis()) {
             if (mItemId.equals(VIDEO_QUEUE)) {
                 //update this in case it changed - delay to allow for the changes
                 new Handler().postDelayed(new Runnable() {
@@ -639,7 +635,7 @@ public class ItemListActivity extends BaseActivity {
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
                                 ((ImageButton) v).setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
-                                TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                                dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
                             }
                         });
                     }
@@ -669,7 +665,7 @@ public class ItemListActivity extends BaseActivity {
                                     .setPositiveButton(R.string.lbl_clear, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
-                                            mApplication.dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
+                                            dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
                                             finish();
                                         }
                                     })
@@ -690,7 +686,7 @@ public class ItemListActivity extends BaseActivity {
                                                 @Override
                                                 public void onResponse() {
                                                     Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
-                                                    TvApp.getApplication().dataRefreshService.setLastDeletedItemId(mBaseItem.getId());
+                                                    dataRefreshService.getValue().setLastDeletedItemId(mBaseItem.getId());
                                                     finish();
                                                 }
 
