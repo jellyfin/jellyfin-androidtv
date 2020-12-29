@@ -44,7 +44,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
-
     public final static int ZOOM_NORMAL = 0;
     public final static int ZOOM_VERTICAL = 1;
     public final static int ZOOM_HORIZONTAL = 2;
@@ -61,8 +60,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private PlayerView mExoPlayerView;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
-    private String mCurrentVideoPath;
-    private String mCurrentVideoMRL;
     private Media mCurrentMedia;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
@@ -72,8 +69,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
-    private int mCurrentBuffer;
-    private boolean mIsInterlaced;
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
@@ -222,8 +217,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer != null && mVlcPlayer.isPlaying();
     }
 
-    public boolean canSeek() { return nativeMode || mVlcPlayer.isSeekable(); }
-
     public void start() {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(true);
@@ -240,7 +233,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 mVlcPlayer.play();
             }
         }
-
     }
 
     public void play() {
@@ -261,11 +253,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mVlcPlayer.pause();
             mSurfaceView.setKeepScreenOn(false);
         }
-
-    }
-
-    public void setPlaySpeed(float speed) {
-        if (!nativeMode) mVlcPlayer.setRate(speed);
     }
 
     public void stopPlayback() {
@@ -302,13 +289,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setVideoPath(String path) {
-        mCurrentVideoPath = path;
-        try {
-            Timber.i("Video path set to: %s", path);
-
-        } catch(Exception e){
-            Timber.e(e, "Error writing path to log");
-        }
+        Timber.i("Video path set to: %s", path);
 
         if (nativeMode) {
             try {
@@ -326,23 +307,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mVlcPlayer.setMedia(mCurrentMedia);
 
             mCurrentMedia.release();
-        }
-
-    }
-
-    public void hideSurface() {
-        if (nativeMode) {
-            mExoPlayerView.setVisibility(View.INVISIBLE);
-        } else {
-            mSurfaceView.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void showSurface() {
-        if (nativeMode) {
-            mExoPlayerView.setVisibility(View.VISIBLE);
-        } else {
-            mSurfaceView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -488,10 +452,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void createPlayer(int buffer, boolean isInterlaced) {
-        if (mVlcPlayer != null && mIsInterlaced == isInterlaced && mCurrentBuffer == buffer) return; // don't need to re-create
-
         try {
-
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);
             options.add("--network-caching=" + buffer);
@@ -584,10 +545,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     }
 
-    public void setVideoFullSize(){
-        setVideoFullSize(false);
-    }
-
     public void setVideoFullSize(boolean force) {
         if (normalHeight == 0) return;
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
@@ -636,14 +593,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
 
         // compute the aspect ratio
-        double ar, vw;
+        double ar;
         if (sarDen == sarNum) {
             /* No indication about the density, assuming 1:1 */
-            vw = videoVisibleWidth;
             ar = (double)videoVisibleWidth / (double)videoVisibleHeight;
         } else {
             /* Use the specified aspect ratio */
-            vw = videoVisibleWidth * (double)sarNum / sarDen;
+            double vw = videoVisibleWidth * (double)sarNum / sarDen;
             ar = vw / videoVisibleHeight;
         }
 
@@ -681,10 +637,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setOnErrorListener(final PlaybackListener listener) {
         mVlcHandler.setOnErrorListener(listener);
         errorListener = listener;
-    }
-
-    public void fakeError() {
-        if (errorListener != null) errorListener.onEvent();
     }
 
     public void setOnCompletionListener(final PlaybackListener listener) {
