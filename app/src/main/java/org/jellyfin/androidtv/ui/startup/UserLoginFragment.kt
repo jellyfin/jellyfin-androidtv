@@ -7,22 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.data.model.User
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserLoginFragment(
+	private val server: Server,
 	private val user: User? = null,
-	private val onConfirmCallback: (username: String, password: String) -> Unit = { _: String, _: String -> },
-	onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
 ) : AlertFragment(
 	title = R.string.lbl_sign_in,
-	onCancelCallback = onCancelCallback,
+	onCancelCallback = {},
 	onClose = onClose
 ) {
+	private val loginViewModel: LoginViewModel by viewModel()
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
@@ -55,11 +58,35 @@ class UserLoginFragment(
 		// Add the password field to the content view
 		view.content.addView(password)
 
+		// Build the error text field
+		val errorText = TextView(requireContext())
+		view.content.addView(errorText)
+
 		// Override the default confirm button click listener to return the address field text
 		view.confirm.setOnClickListener {
 			if (username.text.isNotBlank()) {
-				onConfirmCallback(username.text.toString(), password.text.toString())
-				onClose()
+				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
+					println(state)
+					when (state) {
+						AuthenticatingState -> {
+							errorText.text = getString(R.string.login_authenticating)
+						}
+						RequireSignInState -> {
+							errorText.text = getString(R.string.login_invalid_credentials)
+						}
+						ServerUnavailableState -> {
+							errorText.text = getString(R.string.login_server_unavailable)
+						}
+						AuthenticatedState -> {
+							onClose()
+
+							// TODO use view model and observe in activity
+							(requireActivity() as StartupActivity).openNextActivity()
+						}
+					}
+				}
+			} else {
+				errorText.text = getString(R.string.login_username_field_empty)
 			}
 		}
 

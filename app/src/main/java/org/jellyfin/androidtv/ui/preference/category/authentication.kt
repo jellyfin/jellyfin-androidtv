@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.LoginBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
@@ -30,12 +29,7 @@ fun OptionsScreen.authenticationCategory(
 			default { userPreferences.getDefaultValue(UserPreferences.loginBehavior) }
 		}
 		depends {
-			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
-
-			// Auto login is disabled
-			userPreferences[UserPreferences.loginBehavior] != LoginBehavior.AUTO_LOGIN
-				// Or configured user is set to current user
-				|| configuredAutoCredentials?.user?.id == TvApp.getApplication().currentUser?.id
+			false //FIXME
 		}
 	}
 
@@ -43,14 +37,7 @@ fun OptionsScreen.authenticationCategory(
 		setTitle(R.string.pref_prompt_pw)
 		bind(userPreferences, UserPreferences.passwordPromptEnabled)
 		depends {
-			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
-
-			// Auto login is enabled
-			userPreferences[UserPreferences.loginBehavior] == LoginBehavior.AUTO_LOGIN
-				// Configured user is set to current user
-				&& configuredAutoCredentials?.user?.id == TvApp.getApplication().currentUser?.id
-				// Configured user contains a password
-				&& configuredAutoCredentials?.user?.hasPassword ?: false
+			false //FIXME
 		}
 	}
 

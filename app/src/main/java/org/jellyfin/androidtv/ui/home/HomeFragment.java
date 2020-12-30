@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.HomeSectionType;
 import org.jellyfin.androidtv.constant.QueryType;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker;
@@ -95,9 +94,6 @@ public class HomeFragment extends StdBrowseFragment {
         MainTitle = this.getString(R.string.home_title);
 
         super.onActivityCreated(savedInstanceState);
-
-        // Save last login so we can get back proper context on entry
-        mApplication.setConfiguredAutoCredentials(new LogonCredentials(apiClient.getValue().getServerInfo(), TvApp.getApplication().getCurrentUser()));
 
         // Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();

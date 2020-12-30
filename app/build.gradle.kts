@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	kotlin("android.extensions")
+	kotlin("plugin.serialization")
 }
 
 android {
@@ -59,9 +60,12 @@ dependencies {
 	// Kotlin
 	implementation(kotlin("stdlib"))
 
-	val kotlinCoroutinesVersion = "1.3.3"
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion")
+	val kotlinxCoroutinesVersion = "1.3.3"
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")
+
+	val kotlinxSerializationVersion = "1.0.1"
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.3.2")
@@ -78,6 +82,9 @@ dependencies {
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("androidx.work:work-runtime-ktx:2.4.0")
 	implementation("com.google.android:flexbox:2.0.1")
+	val androidxLifecycleVersion = "2.2.0"
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
 
 	// Dependency Injection
 	val koinVersion = "2.2.0"
@@ -86,9 +93,7 @@ dependencies {
 	implementation("org.koin:koin-androidx-fragment:$koinVersion")
 	implementation("org.koin:koin-androidx-workmanager:$koinVersion")
 
-	// Lifecycle extensions
-	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
-
+	// GSON
 	implementation("com.google.code.gson:gson:2.8.6")
 
 	// Media players

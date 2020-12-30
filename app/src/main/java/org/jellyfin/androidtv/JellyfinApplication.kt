@@ -10,10 +10,7 @@ import org.acra.annotation.AcraDialog
 import org.acra.annotation.AcraHttpSender
 import org.acra.annotation.AcraLimiter
 import org.acra.sender.HttpSender
-import org.jellyfin.androidtv.di.activityLifecycleCallbacksModule
-import org.jellyfin.androidtv.di.appModule
-import org.jellyfin.androidtv.di.playbackModule
-import org.jellyfin.androidtv.di.preferenceModule
+import org.jellyfin.androidtv.di.*
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
@@ -57,6 +54,7 @@ class JellyfinApplication : TvApp() {
 
 			modules(
 				appModule,
+				authModule,
 				activityLifecycleCallbacksModule,
 				playbackModule,
 				preferenceModule
