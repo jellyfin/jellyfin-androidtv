@@ -425,4 +425,5 @@
     <string name="lbl_always">Always</string>
     <string name="pref_clock_display_browsing">While browsing</string>
     <string name="pref_clock_display_playback">During playback</string>
+    <string name="pref_authentication_link">Authentication options</string>
 </resources>
