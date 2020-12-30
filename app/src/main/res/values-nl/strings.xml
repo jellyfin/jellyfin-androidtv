@@ -420,4 +420,11 @@
     <string name="lbl_playback_control_ends">Eindigt op %1$s</string>
     <string name="lbl_manual_login">Handmatige Login</string>
     <string name="lbl_sign_in">Log alstublieft in</string>
+    <string name="pref_clock_display_playback">Tijdens het afspelen</string>
+    <string name="pref_clock_display_browsing">Tijdens het bladeren</string>
+    <string name="lbl_always">Altijd</string>
+    <string name="pref_clock_display">Toon klok</string>
+    <string name="pref_default_rating">Standaard beoordelingstype</string>
+    <string name="lbl_tomatoes">Tomaten</string>
+    <string name="lbl_stars">Sterren</string>
 </resources>

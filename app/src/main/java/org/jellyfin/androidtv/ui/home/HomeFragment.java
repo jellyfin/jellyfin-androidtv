@@ -9,6 +9,9 @@ import android.util.ArrayMap;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRow;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -18,7 +21,7 @@ import org.jellyfin.androidtv.constant.HomeSectionType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
-import org.jellyfin.androidtv.integration.ChannelManager;
+import org.jellyfin.androidtv.integration.LeanbackChannelWorker;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
@@ -77,8 +80,6 @@ public class HomeFragment extends StdBrowseFragment {
     private HomeFragmentLiveTVRow liveTVRow;
     private HomeFragmentFooterRow footer;
 
-    private ChannelManager channelManager;
-
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     private AudioEventListener audioEventListener = new AudioEventListener() {
@@ -93,9 +94,6 @@ public class HomeFragment extends StdBrowseFragment {
         MainTitle = this.getString(R.string.home_title);
 
         super.onActivityCreated(savedInstanceState);
-
-        // Init leanback home channels;
-        channelManager = new ChannelManager(get(ApiClient.class));
 
         // Get auto bitrate
         TvApp.getApplication().determineAutoBitrate();
@@ -151,7 +149,8 @@ public class HomeFragment extends StdBrowseFragment {
         super.onResume();
 
         // Update leanback channels
-        channelManager.update();
+        OneTimeWorkRequest channelUpdateRequest = new OneTimeWorkRequest.Builder(LeanbackChannelWorker.class).build();
+        get(WorkManager.class).enqueueUniqueWork(LeanbackChannelWorker.SINGLE_UPDATE_REQUEST_NAME, ExistingWorkPolicy.REPLACE, channelUpdateRequest);
 
         //make sure rows have had a chance to be created
         new Handler().postDelayed(new Runnable() {

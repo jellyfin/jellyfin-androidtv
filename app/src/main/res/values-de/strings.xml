@@ -423,4 +423,8 @@
     <string name="pref_default_rating">Standard Bewertung</string>
     <string name="lbl_tomatoes">Tomaten</string>
     <string name="lbl_stars">Sterne</string>
+    <string name="pref_clock_display_playback">Während der Wiedergabe</string>
+    <string name="pref_clock_display_browsing">Während dem durchsuchen</string>
+    <string name="lbl_always">Immer</string>
+    <string name="pref_clock_display">Zeige Uhr</string>
 </resources>

@@ -80,6 +80,7 @@ dependencies {
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
+	implementation("androidx.work:work-runtime-ktx:2.4.0")
 	implementation("com.google.android:flexbox:2.0.1")
 	val androidxLifecycleVersion = "2.2.0"
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
@@ -90,6 +91,7 @@ dependencies {
 	implementation("org.koin:koin-android:$koinVersion")
 	implementation("org.koin:koin-androidx-viewmodel:$koinVersion")
 	implementation("org.koin:koin-androidx-fragment:$koinVersion")
+	implementation("org.koin:koin-androidx-workmanager:$koinVersion")
 
 	// GSON
 	implementation("com.google.code.gson:gson:2.8.6")

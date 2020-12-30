@@ -13,6 +13,7 @@ enum class GridDirection {
 	/**
 	 * Vertical.
 	 */
+	@Suppress("unused")
 	@EnumDisplayOptions(R.string.grid_direction_vertical)
 	VERTICAL
 }

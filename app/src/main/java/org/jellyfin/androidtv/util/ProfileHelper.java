@@ -5,7 +5,6 @@ import org.jellyfin.androidtv.constant.ContainerTypes;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
-import org.jellyfin.apiclient.model.dlna.ContainerProfile;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType;

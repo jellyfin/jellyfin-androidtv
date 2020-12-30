@@ -21,6 +21,7 @@ class OptionsItemShortcut(
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
+			it.dialogTitle = title
 			it.summaryProvider = ButtonRemapPreference.ButtonRemapSummaryProvider.instance
 			it.keyCode = binder.get()
 			it.defaultKeyCode = binder.default()

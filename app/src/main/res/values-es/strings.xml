@@ -420,4 +420,11 @@
     <string name="lbl_manual_login">Iniciar Sesión Manualmente</string>
     <string name="lbl_sign_in">Por Favor, Inicie Sesión</string>
     <string name="lbl_add_server">Añadir Servidor</string>
+    <string name="pref_clock_display_browsing">Durante la navegación</string>
+    <string name="pref_clock_display_playback">Durante la reproducción</string>
+    <string name="lbl_always">Siempre</string>
+    <string name="pref_clock_display">Mostrar reloj</string>
+    <string name="pref_default_rating">Tipo de valoración por defecto</string>
+    <string name="lbl_tomatoes">tomates</string>
+    <string name="lbl_stars">estrellas</string>
 </resources>

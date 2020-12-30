@@ -32,4 +32,11 @@ class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatText
 			activity.startActivity(intent, options.toBundle())
 		}
 	}
+
+	override fun onTextChanged(text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int) {
+		super.onTextChanged(text, start, lengthBefore, lengthAfter)
+
+		isFocusable = !text.isNullOrBlank()
+		isClickable = !text.isNullOrBlank()
+	}
 }

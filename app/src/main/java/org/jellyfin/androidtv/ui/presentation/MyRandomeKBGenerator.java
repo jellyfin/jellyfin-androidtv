@@ -69,7 +69,7 @@ public class MyRandomeKBGenerator implements TransitionGenerator {
         boolean drawableBoundsChanged = true;
         boolean viewportRatioChanged = true;
 
-        RectF srcRect = null;
+        RectF srcRect;
         RectF dstRect = null;
 
         if (!firstTransition) {

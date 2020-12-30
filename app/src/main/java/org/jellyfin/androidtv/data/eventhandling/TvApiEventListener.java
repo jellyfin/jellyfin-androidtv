@@ -8,12 +8,13 @@ import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -36,19 +37,25 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class TvApiEventListener extends ApiEventListener {
+    private final DataRefreshService dataRefreshService;
+
+    public TvApiEventListener(DataRefreshService dataRefreshService) {
+        this.dataRefreshService = dataRefreshService;
+    }
+
     @Override
     public void onPlaybackStopped(ApiClient client, SessionInfoDto info) {
         TvApp app = TvApp.getApplication();
         Timber.d("Got Playback stopped message from server");
         if (info.getUserId().equals(app.getCurrentUser().getId())) {
-            app.dataRefreshService.setLastPlayback(System.currentTimeMillis());
+            dataRefreshService.setLastPlayback(System.currentTimeMillis());
             if (info.getNowPlayingItem() == null) return;
             switch (info.getNowPlayingItem().getType()) {
                 case "Movie":
-                    TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
                     break;
                 case "Episode":
-                    TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
                     break;
 
             }
@@ -59,7 +66,7 @@ public class TvApiEventListener extends ApiEventListener {
     public void onLibraryChanged(ApiClient client, LibraryUpdateInfo info) {
         Timber.d("Library Changed. Added %o items. Removed %o items. Changed %o items.", info.getItemsAdded().size(), info.getItemsRemoved().size(), info.getItemsUpdated().size());
         if (info.getItemsAdded().size() > 0 || info.getItemsRemoved().size() > 0)
-            TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
+            dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
     }
 
     @Override

@@ -423,4 +423,8 @@
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
     <string name="lbl_tomatoes">Paradicsomok</string>
     <string name="lbl_stars">Csillagok</string>
+    <string name="pref_clock_display_playback">Amíg fut a lejátszás</string>
+    <string name="pref_clock_display_browsing">Amíg böngészem</string>
+    <string name="lbl_always">Mindig</string>
+    <string name="pref_clock_display">Idő mutatása</string>
 </resources>

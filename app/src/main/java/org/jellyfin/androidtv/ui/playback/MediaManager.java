@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -356,7 +357,8 @@ public class MediaManager {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
                                 Toast.makeText(activity, activity.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
-                                TvApp.getApplication().dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
+                                DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                                dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
 
                             @Override
@@ -405,7 +407,8 @@ public class MediaManager {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
-        TvApp.getApplication().dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
+        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
             TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
         }
@@ -593,7 +596,8 @@ public class MediaManager {
                 }
 
                 updateCurrentAudioItemPlaying(true);
-                TvApp.getApplication().dataRefreshService.setLastMusicPlayback(System.currentTimeMillis());
+                DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                dataRefreshService.setLastMusicPlayback(System.currentTimeMillis());
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
                 for (AudioEventListener listener : mAudioEventListeners) {

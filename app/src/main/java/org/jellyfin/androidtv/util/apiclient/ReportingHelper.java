@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.util.apiclient;
 
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -22,13 +23,14 @@ public class ReportingHelper {
             info.setPositionTicks(pos);
             get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, get(ApiClient.class).getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, get(ApiClient.class), new EmptyResponse());
 
-            TvApp.getApplication().dataRefreshService.setLastPlayback(System.currentTimeMillis());
+            DataRefreshService dataRefreshService = get(DataRefreshService.class);
+            dataRefreshService.setLastPlayback(System.currentTimeMillis());
             switch (item.getBaseItemType()) {
                 case Movie:
-                    TvApp.getApplication().dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
                     break;
                 case Episode:
-                    TvApp.getApplication().dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                    dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
                     break;
             }
         }
