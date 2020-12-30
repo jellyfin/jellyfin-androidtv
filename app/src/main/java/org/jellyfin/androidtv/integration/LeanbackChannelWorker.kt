@@ -9,9 +9,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
@@ -32,14 +32,19 @@ import org.jellyfin.apiclient.model.querying.NextUpQuery
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
-class ChannelManager(
+class LeanbackChannelWorker(
+	context: Context,
+	val workerParams: WorkerParameters,
 	private val apiClient: ApiClient
-) {
-	private companion object {
+) : CoroutineWorker(context, workerParams) {
+	companion object {
 		/**
 		 * Amount of ticks found in a millisecond, used for calculation
 		 */
 		private const val TICKS_IN_MILLISECOND = 10000
+
+		const val SINGLE_UPDATE_REQUEST_NAME = "LeanbackChannelSingleUpdateRequest"
+		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
 	private val application = TvApp.getApplication()
@@ -53,14 +58,18 @@ class ChannelManager(
 	/**
 	 * Update all channels for the currently authenticated user
 	 */
-	fun update() {
-		// Don't do anything if not supported
-		if (!isSupported) return
-
-		// Launch in separate coroutine scope
-		GlobalScope.launch {
+	override suspend fun doWork(): Result = when {
+		// Fail when not supported
+		!isSupported -> Result.failure()
+		// Retry later if no authenticated user is found
+		application.currentUser == null -> Result.retry()
+		else -> {
+			// Update various channels
 			updateMyMedia()
 			updateWatchNext()
+
+			// Success!
+			Result.success()
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.di
 
+import androidx.work.WorkManager
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import org.jellyfin.androidtv.BuildConfig
@@ -10,6 +11,7 @@ import org.jellyfin.androidtv.data.repository.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserRepository
 import org.jellyfin.androidtv.data.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.source.CredentialsFileSource
+import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.Jellyfin
@@ -21,7 +23,9 @@ import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.apiclient.serialization.ServerInfoDeserializer
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -72,4 +76,8 @@ val appModule = module {
 	}
 
 	single { DataRefreshService() }
+
+	worker { LeanbackChannelWorker(get(), get(), get()) }
+
+	single { WorkManager.getInstance(androidContext()) }
 }
