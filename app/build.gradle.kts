@@ -17,6 +17,10 @@ android {
 		versionCode = getVersionCode(versionName!!)
 	}
 
+	buildFeatures {
+		viewBinding = true
+	}
+
 	compileOptions {
 		// Use Java 1.8 features
 		sourceCompatibility = JavaVersion.VERSION_1_8
