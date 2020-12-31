@@ -2,9 +2,9 @@ package org.jellyfin.androidtv.ui.preference.custom
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
+import android.widget.TextView
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
-import kotlinx.android.synthetic.main.button_remap_preference.*
-import kotlinx.android.synthetic.main.button_remap_preference.view.*
 import org.jellyfin.androidtv.R
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
@@ -30,7 +30,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		else {
 			this.keyCode = keyCode
 			setKeyCodeText()
-			requireView().buttonSave.isEnabled = this.keyCode != originalKeyCode
+			requireView().findViewById<Button>(R.id.buttonSave).isEnabled = this.keyCode != originalKeyCode
 			true
 		}
 	}
@@ -73,30 +73,38 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		val buttonRemapPreference = preference as ButtonRemapPreference
 
-		decor_title.text = preference.title
-		message.visibility = View.VISIBLE
-		message.text = getString(R.string.pref_button_remapping_description)
-
-		buttonSave.setOnClickListener { _ ->
-			buttonRemapPreference.keyCode = keyCode
-			parentFragmentManager.popBackStack()
+		requireView().findViewById<Button>(R.id.decor_title).text = preference.title
+		requireView().findViewById<Button>(R.id.message).apply {
+			visibility = View.VISIBLE
+			text = getString(R.string.pref_button_remapping_description)
 		}
-		buttonSave.isEnabled = false
-		buttonSave.setOnKeyListener(checkKeys)
 
-		buttonReset.setOnClickListener { _ ->
-			setKeyCodeText()
-			buttonRemapPreference.keyCode = buttonRemapPreference.defaultKeyCode
-			parentFragmentManager.popBackStack()
+		requireView().findViewById<Button>(R.id.buttonSave).apply {
+			setOnClickListener { _ ->
+				buttonRemapPreference.keyCode = keyCode
+				parentFragmentManager.popBackStack()
+			}
+
+			isEnabled = false
+			setOnKeyListener(checkKeys)
 		}
-		buttonReset.setOnKeyListener(checkKeys)
-		buttonReset.requestFocus()
+
+		requireView().findViewById<Button>(R.id.buttonReset).apply {
+			setOnClickListener { _ ->
+				setKeyCodeText()
+				buttonRemapPreference.keyCode = buttonRemapPreference.defaultKeyCode
+				parentFragmentManager.popBackStack()
+			}
+
+			setOnKeyListener(checkKeys)
+			requestFocus()
+		}
 
 		setKeyCodeText()
 	}
 
 	private fun setKeyCodeText() {
-		textViewKeyCode.text = ButtonRemapPreference.ButtonRemapSummaryProvider.instance.getKeycodeName(requireContext(), keyCode)
+		requireView().findViewById<TextView>(R.id.textViewKeyCode).text = ButtonRemapPreference.ButtonRemapSummaryProvider.instance.getKeycodeName(requireContext(), keyCode)
 	}
 
 	companion object {

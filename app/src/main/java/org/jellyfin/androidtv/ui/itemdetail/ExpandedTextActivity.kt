@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.ui.itemdetail
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-import kotlinx.android.synthetic.main.activity_expanded_text.*
 import org.jellyfin.androidtv.R
 
 class ExpandedTextActivity : FragmentActivity() {
@@ -11,8 +11,10 @@ class ExpandedTextActivity : FragmentActivity() {
 
 		setContentView(R.layout.activity_expanded_text)
 
-		expanded_text_content.transitionName = TRANSITION_NAME
-		expanded_text_content.text = intent.getStringExtra(EXTRA_TEXT)
+		findViewById<TextView>(R.id.expanded_text_content).apply {
+			transitionName = TRANSITION_NAME
+			text = intent.getStringExtra(EXTRA_TEXT)
+		}
 	}
 
 	companion object {

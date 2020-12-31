@@ -5,9 +5,10 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -43,14 +44,14 @@ class AddServerFragment(
 		address.requestFocus()
 
 		// Add the url field to the content view
-		view.content.addView(address)
+		view.findViewById<LinearLayout>(R.id.content).addView(address)
 
 		// Build the error text field
 		val errorText = TextView(requireContext())
-		view.content.addView(errorText)
+		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		view.confirm.setOnClickListener {
+		view.findViewById<Button>(R.id.confirm).setOnClickListener {
 			if (address.text.isNotBlank()) {
 				loginViewModel.addServer(address.text.toString()).observe(viewLifecycleOwner) { state ->
 					when (state) {
