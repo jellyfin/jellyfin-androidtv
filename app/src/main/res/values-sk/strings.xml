@@ -427,4 +427,12 @@
     <string name="pref_default_rating">Predvolený typ hodnotení</string>
     <string name="lbl_tomatoes">Rajčiny</string>
     <string name="lbl_stars">Hviezdy</string>
+    <string name="pref_authentication_link">Možnosti overenia</string>
+    <string name="login_username_field_empty">Používateľské meno nemôže byť prázdne</string>
+    <string name="login_server_unavailable">Nedá sa pripojiť k serveru</string>
+    <string name="login_invalid_credentials">Neplatné používateľské meno a/alebo heslo</string>
+    <string name="login_authenticating">Prebieha overovanie...</string>
+    <string name="server_field_empty">Táto adresa nemôže byť prázdna</string>
+    <string name="server_connection_failed">Nedá sa pripojiť k serveru: %s</string>
+    <string name="server_connecting">Pripájanie k serveru...</string>
 </resources>
