@@ -426,4 +426,12 @@
     <string name="pref_clock_display_browsing">Trong khi duyệt</string>
     <string name="lbl_always">Luôn luôn</string>
     <string name="pref_clock_display">Hiển thị đồng hồ</string>
+    <string name="pref_authentication_link">Tùy chọn xác thực</string>
+    <string name="login_username_field_empty">Tên người dùng không được để trống</string>
+    <string name="login_server_unavailable">Không thể kết nối đến máy chủ</string>
+    <string name="login_invalid_credentials">Tên đăng nhập và / hoặc mật khẩu không hợp lệ</string>
+    <string name="login_authenticating">Đang xác thực...</string>
+    <string name="server_field_empty">Địa chỉ không được để trống</string>
+    <string name="server_connection_failed">Không thể kết nối đến máy chủ: %s</string>
+    <string name="server_connecting">Kết nối đến máy chủ...</string>
 </resources>
