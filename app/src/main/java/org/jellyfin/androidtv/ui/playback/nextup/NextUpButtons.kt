@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatButton
@@ -76,7 +77,7 @@ class NextUpButtons(
 	}
 
 	fun setCancelListener(listener: () -> Unit) {
-		val button = view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next)
+		val button = view.findViewById<Button>(R.id.fragment_next_up_buttons_cancel)
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }
