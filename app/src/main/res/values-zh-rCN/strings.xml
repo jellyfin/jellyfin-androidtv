@@ -427,4 +427,12 @@
     <string name="pref_default_rating">默认评分类型</string>
     <string name="lbl_tomatoes">番茄</string>
     <string name="lbl_stars">星级</string>
+    <string name="pref_authentication_link">验证选项</string>
+    <string name="login_username_field_empty">用户名不能为空</string>
+    <string name="login_server_unavailable">无法连接到服务器</string>
+    <string name="login_invalid_credentials">无效的用户名或密码</string>
+    <string name="login_authenticating">验证中 ……</string>
+    <string name="server_field_empty">地址栏不能为空</string>
+    <string name="server_connection_failed">无法连接到服务器：%s</string>
+    <string name="server_connecting">正在连接服务器 ……</string>
 </resources>
