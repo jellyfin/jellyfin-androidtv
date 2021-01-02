@@ -280,25 +280,14 @@ public class ProfileHelper {
                 ContainerTypes.WEBM
             ));
             videoDirectPlayProfile.setContainer(Utils.join(",", containers));
-            List<String> videoCodecs;
-            if (DeviceUtils.isShield() || DeviceUtils.isNexus() || DeviceUtils.isBeyondTv()) {
-                videoCodecs = Arrays.asList(
-                    CodecTypes.H264,
-                    CodecTypes.HEVC,
-                    CodecTypes.VP8,
-                    CodecTypes.VP9,
-                    ContainerTypes.MPEG,
-                    CodecTypes.MPEG2VIDEO
-                );
-            } else {
-                videoCodecs = Arrays.asList(
-                    CodecTypes.H264,
-                    CodecTypes.VP8,
-                    CodecTypes.VP9,
-                    ContainerTypes.MPEG,
-                    CodecTypes.MPEG2VIDEO
-                );
-            }
+            List<String> videoCodecs = Arrays.asList(
+                CodecTypes.H264,
+                CodecTypes.HEVC,
+                CodecTypes.VP8,
+                CodecTypes.VP9,
+                ContainerTypes.MPEG,
+                CodecTypes.MPEG2VIDEO
+            );
             videoDirectPlayProfile.setVideoCodec(Utils.join(",", videoCodecs));
             if (Utils.downMixAudio()) {
                 //compatible audio mode - will need to transcode dts and ac3
