@@ -427,4 +427,12 @@
     <string name="pref_clock_display_browsing">Während dem durchsuchen</string>
     <string name="lbl_always">Immer</string>
     <string name="pref_clock_display">Zeige Uhr</string>
+    <string name="pref_authentication_link">Authentifizierungsoptionen</string>
+    <string name="login_username_field_empty">Nutzername darf nicht leer sein</string>
+    <string name="login_server_unavailable">Verbindung zum Server nicht möglich</string>
+    <string name="login_invalid_credentials">Falscher Nutzername und/oder Passwort</string>
+    <string name="login_authenticating">Authentifizierung...</string>
+    <string name="server_field_empty">Das Addressfeld darf nicht leer sein</string>
+    <string name="server_connection_failed">Verbindung zum Server nicht möglich: %s</string>
+    <string name="server_connecting">Mit Server verbinden...</string>
 </resources>
