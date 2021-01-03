@@ -1050,7 +1050,7 @@ public class PlaybackController {
 
             BaseItemDto curItem = getCurrentlyPlayingItem();
 
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && curItem.getBaseItemType() != BaseItemType.Trailer) {
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mFragment.showNextUp(nextItem.getId());
