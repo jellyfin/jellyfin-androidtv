@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class UserLoginFragment(
 	private val server: Server,
@@ -25,7 +25,7 @@ class UserLoginFragment(
 	onCancelCallback = {},
 	onClose = onClose
 ) {
-	private val loginViewModel: LoginViewModel by viewModel()
+	private val loginViewModel: LoginViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!

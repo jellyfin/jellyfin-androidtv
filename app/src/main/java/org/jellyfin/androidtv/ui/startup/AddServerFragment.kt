@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.jellyfin.androidtv.util.toUUID
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 class AddServerFragment(
@@ -29,7 +29,7 @@ class AddServerFragment(
 	onCancelCallback = onCancelCallback,
 	onClose = onClose
 ) {
-	private val loginViewModel: LoginViewModel by viewModel()
+	private val loginViewModel: LoginViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
