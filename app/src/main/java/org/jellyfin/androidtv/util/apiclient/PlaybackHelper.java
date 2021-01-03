@@ -217,7 +217,11 @@ public class PlaybackHelper {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
-                                Collections.addAll(items, response.getItems());
+
+                                for (BaseItemDto intro : response.getItems()) {
+                                    intro.setBaseItemType(BaseItemType.Trailer);
+                                    items.add(intro);
+                                }
                                 Timber.i("%d intro items added for playback.", response.getTotalRecordCount());
                             }
                             //Finally, the main item including subsequent parts

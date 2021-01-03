@@ -1051,7 +1051,9 @@ public class PlaybackController {
         if (nextItem != null) {
             Timber.d("Moving to next queue item. Index: " + (mCurrentIndex + 1));
 
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled())) {
+            BaseItemDto curItem = getCurrentlyPlayingItem();
+
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mFragment.showNextUp(nextItem.getId());
