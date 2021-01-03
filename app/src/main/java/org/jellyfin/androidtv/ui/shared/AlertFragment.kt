@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 
 @Suppress("LongParameterList")
@@ -22,17 +23,17 @@ open class AlertFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		val titleView = view.title
+		val titleView = view.findViewById<TextView>(R.id.title)
 		titleView.setText(title)
 
-		val descriptionView = view.description
+		val descriptionView = view.findViewById<TextView>(R.id.description)
 		if (description != null) {
 			descriptionView.setText(description)
 		} else {
 			descriptionView.visibility = View.GONE
 		}
 
-		val confirmButton = view.confirm
+		val confirmButton = view.findViewById<Button>(R.id.confirm)
 		if (confirmButtonText != null) confirmButton.setText(confirmButtonText)
 		confirmButton.requestFocus()
 		confirmButton.setOnClickListener {
@@ -40,7 +41,7 @@ open class AlertFragment(
 			onClose()
 		}
 
-		val cancelButton = view.cancel
+		val cancelButton = view.findViewById<Button>(R.id.cancel)
 		if (cancelButtonText != null) cancelButton.setText(cancelButtonText)
 		cancelButton.setOnClickListener {
 			onCancelCallback()

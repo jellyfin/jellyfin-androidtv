@@ -2,8 +2,8 @@ package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_toolbar_startup.view.*
 import org.jellyfin.androidtv.R
 
 class StartupToolbarFragment(
@@ -12,7 +12,7 @@ class StartupToolbarFragment(
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		view.add_server.setOnClickListener {
+		view.findViewById<Button>(R.id.add_server).setOnClickListener {
 			onAddServerClicked()
 		}
 	}

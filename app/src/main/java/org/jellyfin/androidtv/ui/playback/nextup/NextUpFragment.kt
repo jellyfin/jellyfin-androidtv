@@ -7,43 +7,45 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
-import kotlinx.android.synthetic.main.fragment_next_up.*
-import kotlinx.android.synthetic.main.fragment_next_up.view.*
-import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.toHtmlSpanned
 
 class NextUpFragment(private val data: NextUpItemData) : Fragment() {
+	private lateinit var binding: FragmentNextUpBinding
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_next_up, container, false).apply {
-			BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
+		binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
-			logo.setImageBitmap(data.logo)
-			image.setImageBitmap(data.thumbnail)
-			title.text = data.title
-			description.text = data.description?.toHtmlSpanned()
+		BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
 
-			fragment_next_up_buttons.apply {
-				setPlayNextListener {
-					startActivity(Intent(activity, PlaybackOverlayActivity::class.java))
-					activity?.finish()
-				}
-				setCancelListener {
-					activity?.finish()
-				}
+		binding.logo.setImageBitmap(data.logo)
+		binding.image.setImageBitmap(data.thumbnail)
+		binding.title.text = data.title
+		binding.description.text = data.description?.toHtmlSpanned()
+
+		binding.fragmentNextUpButtons.apply {
+			setPlayNextListener {
+				startActivity(Intent(activity, PlaybackOverlayActivity::class.java))
+				activity?.finish()
+			}
+			setCancelListener {
+				activity?.finish()
 			}
 		}
+
+		return binding.root
 	}
 
 	override fun onResume() {
 		super.onResume()
 
-		fragment_next_up_buttons.startTimer()
+		binding.fragmentNextUpButtons.startTimer()
 	}
 
 	override fun onPause() {
 		super.onPause()
 
-		fragment_next_up_buttons.stopTimer()
+		binding.fragmentNextUpButtons.stopTimer()
 	}
 }

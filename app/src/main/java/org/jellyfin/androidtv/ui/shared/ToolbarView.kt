@@ -5,7 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.view_toolbar.view.*
+import android.widget.LinearLayout
+import android.widget.TextClock
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
@@ -16,31 +17,31 @@ class ToolbarView(context: Context, attrs: AttributeSet) : FrameLayout(context, 
 		inflate(context, R.layout.view_toolbar, this)
 		val clockBehavior = get(UserPreferences::class.java)[UserPreferences.clockBehavior]
 		if (clockBehavior == ClockBehavior.NEVER || clockBehavior == ClockBehavior.IN_VIDEO)
-			toolbar_clock.visibility = GONE
+			findViewById<TextClock>(R.id.toolbar_clock).visibility = GONE
 	}
 
 	// Add child views to the content slot
 	override fun addView(child: View) =
 		if (child.id == R.id.toolbar_root) super.addView(child)
-		else toolbar_content.addView(child)
+		else findViewById<LinearLayout>(R.id.toolbar_content).addView(child)
 
 	override fun addView(child: View, params: ViewGroup.LayoutParams) =
 		if (child.id == R.id.toolbar_root) super.addView(child, params)
-		else toolbar_content.addView(child, params)
+		else findViewById<LinearLayout>(R.id.toolbar_content).addView(child, params)
 
 	override fun addView(child: View, index: Int) =
 		if (child.id == R.id.toolbar_root) super.addView(child, index)
-		else toolbar_content.addView(child, index)
+		else findViewById<LinearLayout>(R.id.toolbar_content).addView(child, index)
 
 	override fun addView(child: View, width: Int, height: Int) =
 		if (child.id == R.id.toolbar_root) super.addView(child, width, height)
-		else toolbar_content.addView(child, width, height)
+		else findViewById<LinearLayout>(R.id.toolbar_content).addView(child, width, height)
 
 	override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams) =
 		if (child.id == R.id.toolbar_root) super.addView(child, index, params)
-		else toolbar_content.addView(child, index, params)
+		else findViewById<LinearLayout>(R.id.toolbar_content).addView(child, index, params)
 
 	override fun removeView(child: View) =
 		if (child.id == R.id.toolbar_root) super.removeView(child)
-		else toolbar_content.removeView(child)
+		else findViewById<LinearLayout>(R.id.toolbar_content).removeView(child)
 }

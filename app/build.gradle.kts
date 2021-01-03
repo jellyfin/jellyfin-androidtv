@@ -1,7 +1,6 @@
 plugins {
 	id("com.android.application")
 	kotlin("android")
-	kotlin("android.extensions")
 	kotlin("plugin.serialization")
 }
 
@@ -16,6 +15,10 @@ android {
 		// Release version
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
+	}
+
+	buildFeatures {
+		viewBinding = true
 	}
 
 	compileOptions {

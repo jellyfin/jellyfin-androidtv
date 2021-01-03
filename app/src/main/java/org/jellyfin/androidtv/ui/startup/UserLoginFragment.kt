@@ -6,9 +6,10 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_alert_dialog.view.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.shared.AlertFragment
@@ -29,7 +30,7 @@ class UserLoginFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		view.content.minimumWidth = 360
+		view.findViewById<LinearLayout>(R.id.content).minimumWidth = 360
 
 		// Build the username field
 		val username = EditText(activity)
@@ -44,7 +45,7 @@ class UserLoginFragment(
 			username.requestFocus()
 		}
 		// Add the username field to the content view
-		view.content.addView(username)
+		view.findViewById<LinearLayout>(R.id.content).addView(username)
 
 		// Build the password field
 		val password = EditText(activity)
@@ -56,14 +57,14 @@ class UserLoginFragment(
 		password.typeface = Typeface.DEFAULT
 		if (user != null) password.requestFocus()
 		// Add the password field to the content view
-		view.content.addView(password)
+		view.findViewById<LinearLayout>(R.id.content).addView(password)
 
 		// Build the error text field
 		val errorText = TextView(requireContext())
-		view.content.addView(errorText)
+		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		view.confirm.setOnClickListener {
+		view.findViewById<Button>(R.id.confirm).setOnClickListener {
 			if (username.text.isNotBlank()) {
 				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
 					println(state)
