@@ -427,4 +427,11 @@
     <string name="pref_default_rating">Default rating type</string>
     <string name="lbl_tomatoes">Tomatoes</string>
     <string name="lbl_stars">Stars</string>
+    <string name="pref_authentication_link">Authentication options</string>
+    <string name="login_username_field_empty">Username cannot be empty</string>
+    <string name="login_server_unavailable">Unable to connect to server</string>
+    <string name="login_invalid_credentials">Invalid username and/or password</string>
+    <string name="server_field_empty">The address cannot be empty</string>
+    <string name="server_connection_failed">Unable to connect to server: %s</string>
+    <string name="server_connecting">Connecting to server...</string>
 </resources>
