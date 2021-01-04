@@ -433,6 +433,6 @@
     <string name="login_invalid_credentials">Nom d\'utilisateur ou mot de passe incorrect</string>
     <string name="login_authenticating">authentifier...</string>
     <string name="server_field_empty">L\'adresse ne peut pas être vide</string>
-    <string name="server_connection_failed">Impossible de se connecter au serveur: %s</string>
+    <string name="server_connection_failed">Impossible de se connecter au serveur : %s</string>
     <string name="server_connecting">connexion au serveur...</string>
 </resources>
