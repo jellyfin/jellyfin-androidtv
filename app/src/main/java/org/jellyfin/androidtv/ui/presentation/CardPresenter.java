@@ -34,7 +34,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
-    private static final String TAG = "CardPresenter";
     private static final double ASPECT_RATIO_BANNER = 5.414;
 
     private int mStaticHeight = 300;
@@ -318,10 +317,6 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        public MyImageCardView getCardView() {
-            return mCardView;
-        }
-
         protected void updateCardViewImage(@Nullable String url) {
             try {
                 if (url == null) {
@@ -337,6 +332,14 @@ public class CardPresenter extends Presenter {
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");
             }
+        }
+
+        protected void resetCardView() {
+            mCardView.clearBanner();
+            mCardView.setUnwatchedCount(-1);
+            mCardView.setProgress(0);
+
+            mCardView.getMainImageView().setImageResource(R.drawable.loading);
         }
     }
 
@@ -398,6 +401,7 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
+        ((ViewHolder) viewHolder).resetCardView();
     }
 
     @Override
