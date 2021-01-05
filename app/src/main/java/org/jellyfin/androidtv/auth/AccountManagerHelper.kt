@@ -30,7 +30,7 @@ class AccountManagerHelper(
 
 	suspend fun putAccount(accountManagerAccount: AccountManagerAccount) {
 		var androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID).toUUIDOrNull() == accountManagerAccount.id }
+			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
 
 		// Update credentials
 		if (androidAccount == null) {
@@ -58,7 +58,7 @@ class AccountManagerHelper(
 
 	fun removeAccount(accountManagerAccount: AccountManagerAccount) {
 		val androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.first { accountManager.getUserData(it, ACCOUNT_DATA_ID).toUUIDOrNull() == accountManagerAccount.id }
+			.first { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
 
 		// Remove current account info
 		@Suppress("DEPRECATION")
@@ -71,10 +71,10 @@ class AccountManagerHelper(
 	fun getAccounts() = accountManager.getAccountsByType(ACCOUNT_TYPE).map(::getAccountData)
 
 	fun getAccountsByServer(server: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).filter { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUIDOrNull() == server
+		accountManager.getUserData(account, ACCOUNT_DATA_SERVER)?.toUUIDOrNull() == server
 	}.map(::getAccountData)
 
 	fun getAccount(id: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).firstOrNull { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUIDOrNull() == id
+		accountManager.getUserData(account, ACCOUNT_DATA_ID)?.toUUIDOrNull() == id
 	}?.let(::getAccountData)
 }
