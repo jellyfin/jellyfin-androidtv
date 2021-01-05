@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.util;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -420,47 +418,10 @@ public class KeyProcessor {
                     toggleFavorite(false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    if (currentItemIsFolder) {
-                        // confirm
-                        new AlertDialog.Builder(mCurrentActivity)
-                                .setTitle(R.string.lbl_mark_played)
-                                .setMessage(mCurrentActivity.getString(R.string.lbl_confirm_mark_watched))
-                                .setNegativeButton(mCurrentActivity.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).setPositiveButton(mCurrentActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                    markPlayed();
-                            }
-                        }).show();
-
-                    } else {
-                        markPlayed();
-                    }
+                    markPlayed();
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    if (currentItemIsFolder) {
-                        // confirm
-                        new AlertDialog.Builder(mCurrentActivity)
-                                .setTitle(R.string.lbl_mark_unplayed)
-                                .setMessage(mCurrentActivity.getString(R.string.lbl_confirm_mark_unwatched))
-                                .setNegativeButton(mCurrentActivity.getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).setPositiveButton(mCurrentActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                markUnplayed();
-                            }
-                        }).show();
-                    } else {
-                        markUnplayed();
-                    }
+                    markUnplayed();
                     return true;
                 case MENU_LIKE:
                     toggleLikes(true);

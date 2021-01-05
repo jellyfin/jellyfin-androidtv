@@ -1468,21 +1468,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         public void onClick(final View v) {
             final UserItemDataDto data = mBaseItem.getUserData();
             if (mBaseItem.getIsFolderItem()) {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(getString(data.getPlayed() ? R.string.lbl_mark_unplayed : R.string.lbl_mark_played))
-                        .setMessage(getString(data.getPlayed() ? R.string.lbl_confirm_mark_unwatched : R.string.lbl_confirm_mark_watched))
-                        .setNegativeButton(getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).setPositiveButton(getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                            if (data.getPlayed())  markUnPlayed(); else markPlayed();
-                    }
-                }).show();
-
+                if (data.getPlayed())
+                    markUnPlayed();
+                else
+                    markPlayed();
             } else {
                 if (data.getPlayed()) {
                     markUnPlayed();
