@@ -17,7 +17,7 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 class ListServerFragment : RowsSupportFragment() {
@@ -26,7 +26,7 @@ class ListServerFragment : RowsSupportFragment() {
 		private const val SELECT_USER = 2
 	}
 
-	private val loginViewModel: LoginViewModel by viewModel()
+	private val loginViewModel: LoginViewModel by sharedViewModel()
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {

@@ -1,19 +1,24 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.databinding.FragmentToolbarStartupBinding
 
-class StartupToolbarFragment(
-	private val onAddServerClicked: () -> Unit = {}
-) : Fragment(R.layout.fragment_toolbar_startup) {
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+class StartupToolbarFragment : Fragment() {
+	private lateinit var binding: FragmentToolbarStartupBinding
 
-		view.findViewById<Button>(R.id.add_server).setOnClickListener {
-			onAddServerClicked()
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		binding = FragmentToolbarStartupBinding.inflate(inflater, container, false)
+
+		// Add click listener
+		binding.addServer.setOnClickListener {
+			val activity = requireActivity()
+			if (activity is StartupActivity) activity.addServer()
 		}
+
+		return binding.root
 	}
 }

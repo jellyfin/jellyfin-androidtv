@@ -113,20 +113,19 @@ class StartupActivity : FragmentActivity() {
 		}
 	}
 
-	private fun showServerList() {
-		// Ask for server information
+	fun addServer() {
 		supportFragmentManager.beginTransaction()
-			.replace(R.id.content_view, StartupToolbarFragment(
-				onAddServerClicked = {
-					supportFragmentManager.beginTransaction()
-						.replace(R.id.content_view, AddServerFragment(
-							onServerAdded = { id ->	},
-							onClose = { supportFragmentManager.popBackStack() }
-						))
-						.addToBackStack(StartupToolbarFragment::class.simpleName)
-						.commit()
-				}
+			.addToBackStack(null)
+			.replace(R.id.content_view, AddServerFragment(
+				onServerAdded = { id -> },
+				onClose = { supportFragmentManager.popBackStack() }
 			))
+			.commit()
+	}
+
+	private fun showServerList() {
+		supportFragmentManager.beginTransaction()
+			.replace(R.id.content_view, StartupToolbarFragment())
 			.add(R.id.content_view, ListServerFragment())
 			.commit()
 	}
