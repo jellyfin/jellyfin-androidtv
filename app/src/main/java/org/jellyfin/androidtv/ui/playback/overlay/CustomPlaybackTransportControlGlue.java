@@ -40,7 +40,7 @@ import java.util.Calendar;
 
 import static org.koin.java.KoinJavaComponent.get;
 
-public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue {
+public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
     // Normal playback actions
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
@@ -68,7 +68,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     // Injected views
     private TextView mEndsText = null;
 
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private Runnable mRefreshEndTime;
     private Runnable mRefreshViewVisibility;
 
@@ -103,8 +103,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         final AbstractDetailsDescriptionPresenter detailsPresenter =
                 new AbstractDetailsDescriptionPresenter() {
                     @Override
-                    protected void onBindDescription(ViewHolder
-                                                             viewHolder, Object obj) {
+                    protected void onBindDescription(ViewHolder viewHolder, Object obj) {
                         PlaybackTransportControlGlue glue = (PlaybackTransportControlGlue) obj;
                         viewHolder.getTitle().setText(glue.getTitle());
                         viewHolder.getSubtitle().setText(glue.getSubtitle());
@@ -303,7 +302,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     private void setEndTime() {
-        if (mEndsText == null)
+        if (mEndsText == null || playerAdapter.getDuration() < 1)
             return;
         long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
         Calendar ends = Calendar.getInstance();
