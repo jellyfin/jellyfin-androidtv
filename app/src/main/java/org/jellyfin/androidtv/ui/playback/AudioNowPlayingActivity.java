@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.ui.playback;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -192,17 +190,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.lbl_shuffle)
-                        .setMessage(R.string.msg_reshuffle_audio_queue)
-                        .setPositiveButton(mActivity.getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                MediaManager.shuffleAudioQueue();
-                            }
-                        })
-                        .setNegativeButton(mActivity.getString(R.string.lbl_no), null)
-                        .show();
+               MediaManager.shuffleAudioQueue();
             }
         });
         mShuffleButton.setGotFocusListener(mainAreaFocusListener);
