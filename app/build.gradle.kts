@@ -116,6 +116,9 @@ dependencies {
 	// Logging
 	implementation("com.jakewharton.timber:timber:4.7.1")
 
+	// Debugging
+	debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+
 	// Testing
 	testImplementation("junit:junit:4.12")
 	testImplementation("org.mockito:mockito-core:3.2.4")
