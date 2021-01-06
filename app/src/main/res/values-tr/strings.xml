@@ -420,4 +420,12 @@
     <string name="lbl_series_recordings">Seri Kayıtları</string>
     <string name="lbl_save">Kaydet</string>
     <string name="msg_settings_updated">Ayarlar güncellendi</string>
+    <string name="login_username_field_empty">Kullanıcı adı boş olamaz</string>
+    <string name="login_server_unavailable">Sunucuya bağlanılamadı</string>
+    <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya şifre</string>
+    <string name="server_field_empty">Adres boş olamaz</string>
+    <string name="server_connection_failed">Sunucuya bağlanılamadı: %s</string>
+    <string name="server_connecting">Sunucuya bağlanılıyor...</string>
+    <string name="pref_clock_display_playback">Oynatma sırasında</string>
+    <string name="lbl_always">Her zaman</string>
 </resources>
