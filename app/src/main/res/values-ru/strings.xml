@@ -387,7 +387,7 @@
     <string name="msg_queue_saved">Очередь сохранена как новый плей-лист: %1$s</string>
     <string name="msg_no_items">Нет элементов для воспроизведения</string>
     <string name="subtitle_error">Невозможно выбрать субтитры</string>
-    <string name="too_many_errors">Слишком много ошибок. Попытка не будет повторена</string>
+    <string name="too_many_errors">Слишком много ошибок. Отказ от попыток</string>
     <string name="player_error">Произошла ошибка проигрывателя. Повторная попытка…</string>
     <string name="seek_error">Невозможно найти</string>
     <string name="msg_live_tv_prev">Загрузить предыдующие %1$d часов\?</string>
