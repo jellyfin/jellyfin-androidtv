@@ -314,4 +314,7 @@
     <string name="pref_use_direct_path_summary">Περάστε τη διαδρομή του συστήματος αρχείων αντί της διεύθυνσης URL ροής</string>
     <string name="title_activity_expanded_text">Δραστηριότητα διευρυμένου κειμένου</string>
     <string name="pref_live_tv_mode">Λειτουργία Live TV</string>
+    <string name="lbl_subtitle_track">Επιλέξτε αρχείο υποτίτλων</string>
+    <string name="lbl_audio_track">Επιλέξτε αρχείο ήχου</string>
+    <string name="lbl_pause">Παύση</string>
 </resources>
