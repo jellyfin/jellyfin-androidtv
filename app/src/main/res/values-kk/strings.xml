@@ -425,4 +425,14 @@
     <string name="pref_acra_syslog_disabled">Júıelik jýurnaldar apattyq esepter ishine qosylmaıdy</string>
     <string name="pref_acra_syslog_enabled">Júıelik jýurnaldar apattyq esepter ishine qosylady</string>
     <string name="pref_acra_syslog">Apattyq esepterge júıelik jurnaldar qosylady. Buǵan basqa qoldanbalardan jekelik derekter kirýi múmkin, eger ol apat kezinde tirkelgen bolsa.</string>
+    <string name="too_many_errors">Qateler óte kóp. Bas tartý</string>
+    <string name="episode_missing_message_2">Bul bólim tasyǵyshhanańyzda joq. Oınatý toqtalady.</string>
+    <string name="episode_missing_message">Bul bólim tasyǵyshhanańyzda joq. Ótkіzіp, kelesіge ótýdі qalaısyz ba\?</string>
+    <string name="no_player_message">Beıne úshin qabiletti qoldanba ornatylmaǵan. Bul opsıa beıne mazmundy oınatýǵa arnalǵan bógde qoldanbasyn ornatýdy qajet etedі.</string>
+    <string name="mark_watched_message">Tarmaq uzaǵyna deıіn oınatyla almady. Qaralǵan dep belgileımiz be\?</string>
+    <string name="acra_dialog_text">Ázіrleýshіlerge apattyq esep jіbergіńіz kele me\?
+\n
+\nBul aqparat úshіnshі tarapqa usynylady (tracepot.com).
+\n
+\nBul shaqyrýdy Jellyfin qoldanbasynyń Parametrlerde Apattyq esep bólіmіnen óshirýge bolady.</string>
 </resources>
