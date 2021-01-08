@@ -634,7 +634,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         @Override
         public void run() {
             if (ShowFanart) {
-                backgroundService.getValue().setBackground(mCurrentItem.getBackdropImageUrl());
+                backgroundService.getValue().setBackground(mCurrentItem.getBaseItem());
             }
             setItem(mCurrentItem);
         }

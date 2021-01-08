@@ -451,7 +451,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            backgroundService.getValue().setBackground(ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true));
+            backgroundService.getValue().setBackground(item);
         }
     }
 
@@ -503,7 +503,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                backgroundService.getValue().setBackground(ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true));
+                backgroundService.getValue().setBackground(mBaseItem);
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();

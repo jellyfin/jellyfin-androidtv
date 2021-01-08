@@ -340,7 +340,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             }
 
             if (ShowFanart) {
-                backgroundService.getValue().setBackground(rowItem.getBackdropImageUrl());
+                backgroundService.getValue().setBackground(rowItem.getBaseItem());
             }
         }
     }

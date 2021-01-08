@@ -695,19 +695,12 @@ public class ItemListActivity extends BaseActivity {
 
     }
 
-    private BaseItemDto getRandomListItem() {
-        if (mItems == null || mItems.size() == 0) return null;
-
-        return mItems.get(MathUtils.randInt(0, mItems.size() - 1));
-    }
-
     private void updateBackdrop() {
-        String url = ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true);
-        if (url == null) {
-            BaseItemDto item = getRandomListItem();
-            if (item != null) url = ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true);
-        }
+        BaseItemDto item = mBaseItem;
 
-        if (url != null) backgroundService.getValue().setBackground(url);
+        if(item.getBackdropCount() == 0 && mItems != null && mItems.size() >= 1)
+            item = mItems.get(MathUtils.randInt(0, mItems.size() - 1));
+
+        backgroundService.getValue().setBackground(item);
     }
 }

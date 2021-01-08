@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.data.service
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -17,22 +16,32 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
-import timber.log.Timber
-import java.util.concurrent.ExecutionException
+import org.jellyfin.apiclient.interaction.ApiClient
+import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.jellyfin.apiclient.model.entities.ImageType
 
 class BackgroundService(
-	private val context: Context
+	private val context: Context,
+	private val apiClient: ApiClient
 ) {
+	companion object {
+		const val TRANSITION_DURATION = 400L // 0.4 seconds
+		const val SLIDESHOW_DURATION = 10000L // 10 seconds
+	}
+
+	// Async
+	private val scope = MainScope()
+	private var loadBackgroundsJob: Job? = null
+	private var updateBackgroundTimerJob: Job? = null
+
 	// All background drawables currently showing
 	private val backgrounds = mutableListOf<Drawable>()
 
 	// Current background index
-	private var currentIndex = -1
+	private var currentIndex = 0
 
 	// Prefered display size, set when calling [attach].
 	private var windowSize = Size(0, 0)
@@ -45,9 +54,10 @@ class BackgroundService(
 	private val nextBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_next)
 
 	// Animation
+	@Suppress("MagicNumber")
 	private val backgroundAnimator = ValueAnimator.ofInt(0, 255).apply {
 		interpolator = AccelerateDecelerateInterpolator()
-		duration = 400L // 0.4 seconds
+		duration = TRANSITION_DURATION
 
 		addUpdateListener { animation ->
 			// Set alpha
@@ -86,46 +96,49 @@ class BackgroundService(
 		update()
 	}
 
-	fun setBackground(bitmap: Bitmap) = GlobalScope.launch(Dispatchers.IO) {
-		val drawable = Glide.with(context)
-			.load(bitmap)
-			.override(windowSize.width, windowSize.height)
-			.centerCrop()
-			.submit()
-			.get()
+	// Helper function for [setBackground]
+	private fun ArrayList<String>?.getUrls(itemId: String?): List<String> {
+		// Check for nullability
+		if (itemId == null || isNullOrEmpty()) return emptyList()
 
-		backgrounds.clear()
-		backgrounds += drawable
-
-		withContext(Dispatchers.Main) {
-			update()
+		return mapIndexed { index, tag ->
+			apiClient.GetImageUrl(itemId, ImageOptions().apply {
+				imageType = ImageType.Backdrop
+				setImageIndex(index)
+				setTag(tag)
+			})
 		}
 	}
 
-	// TODO: add set methods for baseitem or list of urls
-	//TODO suspend?
-	fun setBackground(url: String?) = GlobalScope.launch(Dispatchers.IO) {
-		Timber.i("Set background to %s", url)
+	/**
+	 * Use all available backdrops from [baseItem] as background.
+	 */
+	fun setBackground(baseItem: BaseItemDto?) {
+		if (baseItem == null) return clearBackgrounds()
 
-		//TODO get null
-		val drawable = try {
-			Glide.with(context)
-				.load(url)
-				.override(windowSize.width, windowSize.height)
-				.centerCrop()
-				.submit()
-				.get()
-		} catch (err: ExecutionException) {
-			Timber.e(err)
+		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
+		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
+		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
 
-			null
-		}
+		if (backdropUrls.isEmpty()) return clearBackgrounds()
 
-		backgrounds.clear()
-		if (drawable != null) backgrounds += drawable
+		// Cancel current loading job
+		loadBackgroundsJob?.cancel()
+		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
+			val backdropDrawables = backdropUrls
+				.map { url -> Glide.with(context).load(url).override(windowSize.width, windowSize.height).centerCrop().submit() }
+				.map { future -> async { future.get() } }
+				.awaitAll()
+				.filterNotNull()
 
-		withContext(Dispatchers.Main) {
-			update()
+			backgrounds.clear()
+			backgrounds.addAll(backdropDrawables)
+
+			withContext(Dispatchers.Main) {
+				// Go to first background
+				currentIndex = 0
+				update()
+			}
 		}
 	}
 
@@ -147,7 +160,6 @@ class BackgroundService(
 		}
 
 		// Get next background to show
-		currentIndex++
 		if (currentIndex >= backgrounds.size) currentIndex = 0
 
 		backgroundDrawable.setDrawable(
@@ -157,6 +169,16 @@ class BackgroundService(
 
 		// Animate
 		backgroundAnimator.start()
+
+		// Set timer for next background
+		updateBackgroundTimerJob?.cancel()
+		if (backgrounds.size > 1) {
+			updateBackgroundTimerJob = scope.launch {
+				delay(SLIDESHOW_DURATION)
+				currentIndex++
+				update()
+			}
+		}
 	}
 
 	private fun Drawable.copy() = constantState!!.newDrawable().mutate()

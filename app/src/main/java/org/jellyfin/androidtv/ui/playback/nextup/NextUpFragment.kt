@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
 import org.jellyfin.androidtv.util.toHtmlSpanned
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
@@ -23,8 +23,7 @@ class NextUpFragment : Fragment() {
 			// No data, keep current
 			if (data == null) return@observe
 
-			if (data.backdrop != null) backgroundService.setBackground(data.backdrop)
-			else backgroundService.clearBackgrounds()
+			backgroundService.setBackground(data.baseItem)
 
 			binding.logo.setImageBitmap(data.logo)
 			binding.image.setImageBitmap(data.thumbnail)

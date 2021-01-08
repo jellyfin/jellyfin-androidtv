@@ -53,7 +53,6 @@ class NextUpViewModel(
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val backdrop = apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
 		val thumbnail = apiClient.GetImageUrl(item, ImageOptions())
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
@@ -64,10 +63,10 @@ class NextUpViewModel(
 		else ""
 
 		NextUpItemData(
+			item,
 			item.id,
 			title,
 			item.overview,
-			backdrop?.let { safelyLoadBitmap(it) },
 			thumbnail?.let { safelyLoadBitmap(it) },
 			logo?.let { safelyLoadBitmap(it) }
 		)

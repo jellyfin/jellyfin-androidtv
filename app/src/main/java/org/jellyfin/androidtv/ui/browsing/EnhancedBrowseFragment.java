@@ -556,7 +556,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
             if (ShowFanart) {
-                backgroundService.getValue().setBackground(rowItem.getBackdropImageUrl());
+                backgroundService.getValue().setBackground(rowItem.getBaseItem());
             }
         }
     }
