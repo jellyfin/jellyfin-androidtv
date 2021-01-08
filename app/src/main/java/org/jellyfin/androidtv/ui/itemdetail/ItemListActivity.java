@@ -506,7 +506,7 @@ public class ItemListActivity extends BaseActivity {
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), false, posterHeight);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, apiClient.getValue(), false, posterHeight);
 
 
                 Glide.with(this)

@@ -188,7 +188,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse(SeriesTimerInfoDto response) {
                             mSeriesTimerInfo = response;
-                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo));
+                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mActivity, mSeriesTimerInfo));
                             mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
                         }
                     });
@@ -335,16 +335,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private static List<BaseItemType> buttonTypeList = Arrays.asList(buttonTypes);
     private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
-    private static List<String> directPlayableTypeList = Arrays.asList(directPlayableTypes);
-
-    private void updatePoster() {
-        if (isFinishing()) return;
-        Glide.with(mActivity)
-                .load(ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), true, false, false, posterHeight))
-                .override(posterWidth, posterHeight)
-                .centerInside()
-                .into(mDorPresenter.getPosterView());
-    }
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
@@ -372,7 +362,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
             item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
-            item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo));
+            item.setOverview(BaseItemUtils.getSeriesOverview(this, mSeriesTimerInfo));
 
             setBaseItem(item);
         } else {
@@ -415,7 +405,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, apiClient.getValue(), 600);
             if (primaryImageUrl == null) {
-                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), false, posterHeight);
+                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mActivity, mBaseItem, apiClient.getValue(), false, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
@@ -724,7 +714,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             case SeriesTimer:
                 TimerQuery scheduled = new TimerQuery();
                 scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-                TvManager.getScheduleRowsAsync(scheduled, new CardPresenter(true), adapter, new Response<Integer>());
+                TvManager.getScheduleRowsAsync(this, scheduled, new CardPresenter(true), adapter, new Response<Integer>());
                 break;
         }
 
@@ -1409,7 +1399,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
                 if (recordSeries || Utils.isTrue(program.getIsSports())){
-                    mRecordPopup.setContent(program, response, mActivity, recordSeries);
+                    mRecordPopup.setContent(mActivity, program, response, mActivity, recordSeries);
                     mRecordPopup.show();
                 } else {
                     //just record with defaults

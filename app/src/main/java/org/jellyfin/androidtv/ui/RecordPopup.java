@@ -190,7 +190,7 @@ public class RecordPopup {
         return (mPopup != null && mPopup.isShowing());
     }
 
-    public void setContent(BaseItemDto program, SeriesTimerInfoDto current, IRecordingIndicatorView selectedView, boolean recordSeries) {
+    public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, IRecordingIndicatorView selectedView, boolean recordSeries) {
         mProgramId = program.getId();
         mCurrentOptions = current;
         mRecordSeries = recordSeries;
@@ -199,7 +199,7 @@ public class RecordPopup {
         mDTitle.setText(program.getName());
 
         // build timeline info
-        setTimelineRow(mDTimeline, program);
+        setTimelineRow(context, mDTimeline, program);
 
         // set defaults
         mPrePadding.setSelection(getPaddingNdx(current.getPrePaddingSeconds()));
@@ -239,7 +239,7 @@ public class RecordPopup {
         if (mPopup != null && mPopup.isShowing()) mPopup.dismiss();
     }
 
-    private void setTimelineRow(LinearLayout timelineRow, BaseItemDto program) {
+    private void setTimelineRow(Context context, LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
@@ -253,7 +253,7 @@ public class RecordPopup {
         channel.setTextColor(mActivity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(mActivity);
-        datetime.setText(TimeUtils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }

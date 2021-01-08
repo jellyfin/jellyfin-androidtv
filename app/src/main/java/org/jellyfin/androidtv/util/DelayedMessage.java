@@ -7,7 +7,6 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 
 public class DelayedMessage {
     private final String title;
@@ -21,8 +20,8 @@ public class DelayedMessage {
     }
 
     public DelayedMessage(@NonNull final Context activity, int delay) {
-        title = TvApp.getApplication().getString(R.string.lbl_please_wait);
-        message = TvApp.getApplication().getString(R.string.msg_little_longer);
+        title = activity.getString(R.string.lbl_please_wait);
+        message = activity.getString(R.string.msg_little_longer);
 
         handler = new Handler(activity.getMainLooper());
         runnable = new Runnable() {
