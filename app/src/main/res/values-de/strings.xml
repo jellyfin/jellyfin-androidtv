@@ -432,7 +432,7 @@
     <string name="login_server_unavailable">Verbindung zum Server nicht möglich</string>
     <string name="login_invalid_credentials">Falscher Nutzername und/oder Passwort</string>
     <string name="login_authenticating">Authentifizierung...</string>
-    <string name="server_field_empty">Das Addressfeld darf nicht leer sein</string>
+    <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
     <string name="server_connection_failed">Verbindung zum Server nicht möglich: %s</string>
     <string name="server_connecting">Mit Server verbinden...</string>
 </resources>
