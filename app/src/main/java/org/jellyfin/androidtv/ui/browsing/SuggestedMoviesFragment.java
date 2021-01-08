@@ -49,7 +49,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
                             ItemFields.MediaSources
                     });
                     similar.setLimit(7);
-                    mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
+                    mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
                 }
 
                 rowLoader.loadRows(mRows);

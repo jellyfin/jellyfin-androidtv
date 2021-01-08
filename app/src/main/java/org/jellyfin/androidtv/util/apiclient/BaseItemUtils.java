@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import android.app.Application;
 import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
@@ -144,20 +143,19 @@ public class BaseItemUtils {
     }
 
     public static String getSeriesOverview(SeriesTimerInfoDto timer) {
-        Application application = TvApp.getApplication();
         StringBuilder builder = new StringBuilder();
-        builder.append(application.getString(R.string.msg_will_record))
+        builder.append(TvApp.getApplication().getString(R.string.msg_will_record))
                 .append(" ");
         if (Utils.isTrue(timer.getRecordNewOnly())) {
-            builder.append(application.getString(R.string.lbl_only_new_episodes));
+            builder.append(TvApp.getApplication().getString(R.string.lbl_only_new_episodes));
         } else {
-            builder.append(application.getString(R.string.lbl_all_episodes));
+            builder.append(TvApp.getApplication().getString(R.string.lbl_all_episodes));
         }
         builder.append("\n")
-                .append(application.getString(R.string.lbl_on))
+                .append(TvApp.getApplication().getString(R.string.lbl_on))
                 .append(" ");
         if (Utils.isTrue(timer.getRecordAnyChannel())) {
-            builder.append(application.getString(R.string.lbl_any_channel));
+            builder.append(TvApp.getApplication().getString(R.string.lbl_any_channel));
         } else {
             builder.append(timer.getChannelName());
         }
@@ -165,7 +163,7 @@ public class BaseItemUtils {
                 .append(timer.getDayPattern());
         if (Utils.isTrue(timer.getRecordAnyTime())) {
             builder.append(" ")
-                    .append(application.getString(R.string.lbl_at_any_time));
+                    .append(TvApp.getApplication().getString(R.string.lbl_at_any_time));
         }
         builder.append("\n")
                 .append("Starting");

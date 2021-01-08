@@ -72,7 +72,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
     BaseActivity mActivity;
-    TvApp mApplication;
 
     TextView mTitle;
     LinearLayout mInfoRow;
@@ -159,8 +158,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mApplication = TvApp.getApplication();
 
         prepareBackgroundManager();
 
@@ -325,20 +322,20 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
+            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
             switch (itemTypeString) {
                 case "Movie":
-                    gridRowAdapter.add(new GridButton(SUGGESTED, mApplication.getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
+                    gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
                     addStandardViewButtons(gridRowAdapter);
                     break;
                 case "MusicAlbum":
                     gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio));
                     gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists));
-                    gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.tile_genres));
-                    gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.tile_search));
+                    gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres));
+                    gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search));
                     break;
                 default:
                     addStandardViewButtons(gridRowAdapter);
@@ -352,10 +349,10 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
         gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.tile_port_grid));
-        gridRowAdapter.add(new GridButton(BY_LETTER, mApplication.getString(R.string.lbl_by_letter), R.drawable.tile_letters));
-        gridRowAdapter.add(new GridButton(GENRES, mApplication.getString(R.string.lbl_genres), R.drawable.tile_genres));
-        //gridRowAdapter.add(new GridButton(PERSONS, mApplication.getString(R.string.lbl_performers), R.drawable.tile_actors));
-        gridRowAdapter.add(new GridButton(SEARCH, mApplication.getString(R.string.lbl_search), R.drawable.tile_search));
+        gridRowAdapter.add(new GridButton(BY_LETTER, TvApp.getApplication().getString(R.string.lbl_by_letter), R.drawable.tile_letters));
+        gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres));
+        //gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
+        gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search));
 
     }
 
@@ -526,7 +523,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     default:
-                        Toast.makeText(getActivity(), item.toString() + mApplication.getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
+                        Toast.makeText(getActivity(), item.toString() + TvApp.getApplication().getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }
@@ -573,7 +570,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             mSummary.setText("");
             mHandler.postDelayed(updateContentTask, 500);
 
-            //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
+            //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 

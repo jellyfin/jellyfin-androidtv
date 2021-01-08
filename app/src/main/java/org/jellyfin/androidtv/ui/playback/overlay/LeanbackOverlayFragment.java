@@ -22,8 +22,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         setBackgroundType(BG_LIGHT);
 
-        TvApp application = TvApp.getApplication();
-        PlaybackController playbackController = application.getPlaybackController();
+        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
 
         playerAdapter = new VideoPlayerAdapter(playbackController);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController, this);

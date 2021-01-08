@@ -1,9 +1,11 @@
 package org.jellyfin.androidtv.ui.home;
 
+import androidx.leanback.widget.ArrayObjectAdapter;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.ui.browsing.BrowseRowDef;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.apiclient.model.configuration.UserConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -13,8 +15,6 @@ import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.leanback.widget.ArrayObjectAdapter;
 
 class HomeFragmentLatestRow extends HomeFragmentRow {
     // See: https://github.com/jellyfin/jellyfin-web/blob/bbf1f8d5df66a58c29f07969caa476852d86ab4a/src/components/homesections/homesections.js#L292
@@ -29,10 +29,8 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
 
     @Override
     public void addToRowsAdapter(CardPresenter cardPresenter, ArrayObjectAdapter rowsAdapter) {
-        TvApp application = TvApp.getApplication();
-
         // Get configuration (to find excluded items)
-        UserConfiguration configuration = application.getCurrentUser().getConfiguration();
+        UserConfiguration configuration = TvApp.getApplication().getCurrentUser().getConfiguration();
 
         // Create a list of views to include
         List<String> latestItemsExcludes = Arrays.asList(configuration.getLatestItemsExcludes());
@@ -55,7 +53,7 @@ class HomeFragmentLatestRow extends HomeFragmentRow {
             query.setGroupItems(true);
             query.setLimit(50);
 
-            HomeFragmentBrowseRowDefRow row = new HomeFragmentBrowseRowDefRow(new BrowseRowDef(String.format("%s %s", application.getString(R.string.lbl_latest), item.getName()), query, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+            HomeFragmentBrowseRowDefRow row = new HomeFragmentBrowseRowDefRow(new BrowseRowDef(String.format("%s %s", TvApp.getApplication().getString(R.string.lbl_latest), item.getName()), query, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
             row.addToRowsAdapter(cardPresenter, rowsAdapter);
         }
     }
