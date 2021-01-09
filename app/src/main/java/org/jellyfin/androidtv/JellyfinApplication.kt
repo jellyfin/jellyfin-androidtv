@@ -57,7 +57,8 @@ class JellyfinApplication : TvApp() {
 				authModule,
 				activityLifecycleCallbacksModule,
 				playbackModule,
-				preferenceModule
+				preferenceModule,
+				utilsModule
 			)
 		}
 

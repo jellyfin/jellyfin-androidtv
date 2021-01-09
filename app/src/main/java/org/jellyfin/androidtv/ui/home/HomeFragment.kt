@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
+import org.jellyfin.androidtv.util.AutoBitrate
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
@@ -62,7 +63,9 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 		// Get auto bitrate
 		// TODO move to somewhere else (automatically start at app start?)
-		TvApp.getApplication().determineAutoBitrate()
+		lifecycleScope.launch(Dispatchers.IO) {
+			get<AutoBitrate>().detect()
+		}
 
 		//First time audio message
 		// TODO move to somewhere else (remove entirely?)
