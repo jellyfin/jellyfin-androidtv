@@ -264,7 +264,7 @@
     <string name="lbl_repeat_options">Opcje powtarzania</string>
     <string name="lbl_record_any_time">Nagrywaj w dowolnym momencie</string>
     <string name="lbl_record_any_channel">Nagrywaj na dowolnym kanale</string>
-    <string name="lbl_end_padding">Wypełnienie końcowe</string>
+    <string name="lbl_end_padding">Kończenie wypełniania</string>
     <string name="lbl_begin_padding">Rozpocznij wypełnianie</string>
     <string name="lbl_schedule">Harmonogram</string>
     <string name="lbl_live">Na żywo</string>
@@ -419,4 +419,20 @@
     <string name="pref_video_player_choose">Zawsze pytaj</string>
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
+    <string name="pref_authentication_link">Opcje uwierzytelniania</string>
+    <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
+    <string name="login_server_unavailable">Niemożna połączyć z serwerem</string>
+    <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
+    <string name="login_authenticating">Uwierzytelnianie...</string>
+    <string name="server_field_empty">Adres nie może być pusty</string>
+    <string name="server_connection_failed">Nie można połączyć się z serwerem: %s</string>
+    <string name="server_connecting">Łączenie z serwerem...</string>
+    <string name="pref_clock_display_playback">Podczas odtwarzania</string>
+    <string name="pref_clock_display_browsing">Podczas przeglądania</string>
+    <string name="lbl_always">Zawsze</string>
+    <string name="pref_clock_display">Pokaż zegar</string>
+    <string name="pref_default_rating">Domyślny typ oceny</string>
+    <string name="lbl_tomatoes">Pomidory</string>
+    <string name="lbl_stars">Gwiazdy</string>
+    <string name="lbl_playback_control_ends">Koniec za %1$s</string>
 </resources>
