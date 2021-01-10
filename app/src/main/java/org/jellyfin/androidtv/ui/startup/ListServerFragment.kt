@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -76,7 +77,7 @@ class ListServerFragment : RowsSupportFragment() {
 	}
 
 	private fun buildRows(servers: Map<Server, Set<User>>) {
-		val rowAdapter = ArrayObjectAdapter(CustomListRowPresenter())
+		val rowAdapter = MutableObjectAdapter<ListRow>(CustomListRowPresenter())
 
 		servers.forEach { (server, users) ->
 			Timber.d("Adding server row %s", server.name)
