@@ -46,10 +46,4 @@ fun OptionsScreen.authenticationCategory(
 		setContent(R.string.pref_alt_pw_entry_desc)
 		bind(userPreferences, UserPreferences.passwordDPadEnabled)
 	}
-
-	checkbox {
-		setTitle(R.string.pref_live_tv_mode)
-		setContent(R.string.pref_live_tv_mode_desc)
-		bind(userPreferences, UserPreferences.liveTvMode)
-	}
 }

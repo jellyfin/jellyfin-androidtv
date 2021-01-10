@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.Presenter
@@ -24,7 +23,6 @@ import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
@@ -84,15 +82,6 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 		// Subscribe to Audio messages
 		MediaManager.addAudioEventListener(this)
-
-		// TODO Move this (should be in the startup code when deciding the activity to open)
-		if (get<UserPreferences>()[UserPreferences.liveTvMode]) {
-			// Open guide activity and tell it to start last channel
-			val guide = Intent(activity, LiveTvGuideActivity::class.java).apply {
-				putExtra("loadLast", true) // TODO use constant
-			}
-			startActivity(guide)
-		}
 	}
 
 	override fun onResume() {
