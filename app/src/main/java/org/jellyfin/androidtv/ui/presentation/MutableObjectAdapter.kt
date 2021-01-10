@@ -24,7 +24,32 @@ class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	override fun iterator(): Iterator<T> = data.iterator()
 
 	// Custom
-	fun add(element: T) = data.add(element)
-	fun add(index: Int, element: T) = data.add(index, element)
-	fun remove(element: T) = data.remove(element)
+	fun add(element: T) {
+		data.add(element)
+		notifyItemRangeInserted(data.size - 1, 1)
+	}
+
+	fun add(index: Int, element: T) {
+		data.add(index, element)
+		notifyItemRangeInserted(index, 1)
+	}
+
+	fun set(index: Int, element: T) {
+		data.set(index, element)
+		notifyItemRangeChanged(index, 1)
+	}
+
+	fun clear() {
+		val size = data.size
+		if (size == 0) return
+
+		notifyItemRangeRemoved(0, size)
+		data.clear()
+	}
+
+	fun remove(element: T): Boolean {
+		val removed = data.remove(element)
+		if (removed) notifyChanged()
+		return removed
+	}
 }
