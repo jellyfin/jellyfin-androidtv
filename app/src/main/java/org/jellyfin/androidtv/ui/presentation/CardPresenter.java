@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -382,17 +383,19 @@ public class CardPresenter extends Presenter {
         } else {
             holder.mCardView.setPlayingIndicator(false);
 
-            RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
-            if (ratingType == RatingType.RATING_TOMATOES) {
-                Drawable badge = rowItem.getBadgeImage();
-                holder.mCardView.setRating(null);
-                if (badge != null) {
-                    holder.mCardView.setBadgeImage(badge);
+            if (holder.getItem().getBaseItemType() != BaseItemType.UserView) {
+                RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+                if (ratingType == RatingType.RATING_TOMATOES) {
+                    Drawable badge = rowItem.getBadgeImage();
+                    holder.mCardView.setRating(null);
+                    if (badge != null) {
+                        holder.mCardView.setBadgeImage(badge);
+                    }
+                } else if (ratingType == RatingType.RATING_STARS &&
+                        rowItem.getBaseItem() != null && rowItem.getBaseItem().getCommunityRating() != null) {
+                    holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
+                    holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
                 }
-            } else if (ratingType == RatingType.RATING_STARS &&
-                    rowItem.getBaseItem() != null && rowItem.getBaseItem().getCommunityRating() != null) {
-                holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
-                holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
             }
         }
 
