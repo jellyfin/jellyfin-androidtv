@@ -45,7 +45,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	private val helper by lazy { HomeFragmentHelper(requireContext()) }
 
 	// Data
-	private val rows: MutableList<HomeFragmentRow?> = ArrayList()
+	private val rows = mutableListOf<HomeFragmentRow>()
 	private var views: ItemsResult? = null
 
 	// Special rows
@@ -190,7 +190,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 			withContext(Dispatchers.Main) {
 				// Add rows in order
 				nowPlaying.addToRowsAdapter(mCardPresenter, mRowsAdapter)
-				for (row in rows) row?.addToRowsAdapter(mCardPresenter, mRowsAdapter)
+				for (row in rows) row.addToRowsAdapter(mCardPresenter, mRowsAdapter)
 				footer.addToRowsAdapter(mCardPresenter, mRowsAdapter)
 			}
 		}
