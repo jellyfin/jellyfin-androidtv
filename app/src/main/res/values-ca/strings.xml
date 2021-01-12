@@ -50,4 +50,7 @@
     <string name="chapters">Capítols</string>
     <string name="dpad_pw_cancel">* Manten premut el botó \'a baix\' durant 1 segon i deixa\'l anar si tens una contrasenya amb caràcters o necessites un teclat per introduïrla</string>
     <string name="dpad_entry_desc">Utilitza les fletxes del mando per introduïr una contrasenya numèrica. Clica un cop un botó per posar un numero de la primera llista o dos clics per un número de la segona. Per exemple: Un clic \'a dalt\' per un 1, o dos clics \'seleccionar\' per un 5. Manten premut durant 1 segon i deixa anar el botó \'seleccionar\' quan acabis el botò dret per tornar a començar.</string>
+    <string name="lbl_play_all">Reproduïr Tots</string>
+    <string name="lbl_because_you_watched">"Perque els has vist "</string>
+    <string name="lbl_latest_additions">Últims Afegits</string>
 </resources>
