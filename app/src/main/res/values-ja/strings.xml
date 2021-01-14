@@ -307,4 +307,14 @@
     <string name="msg_replace_or_add_queue_q">現在のキューを置き換えるか、追加しますか？</string>
     <string name="msg_added_item_to_queue">"アイテムがキューの位置に追加されました "</string>
     <string name="msg_burn_sub_warning">付属字幕は数分がかかれます。ちょっと待ってください...</string>
+    <string name="pref_use_direct_path_title">外部プレーヤーにダイレクトパスを給う</string>
+    <string name="pref_external_live_tv_summary">ライブストリームを再生できるアプリが必要です</string>
+    <string name="lbl_more_like_this">このように</string>
+    <string name="lbl_resume_preroll">プレロールを再開する</string>
+    <string name="lbl_use_vlc_livetv">ライブTVにVLCを使用しよう</string>
+    <string name="lbl_show_backdrop">閲覧中に背景を表示する</string>
+    <string name="lbl_subtitle_track">字幕トラックを選択</string>
+    <string name="lbl_audio_track">オーディオトラックを選択</string>
+    <string name="desc_automatic_fav_songs">お気に入りの曲と好きな曲の自動プレイリスト</string>
+    <string name="desc_seasonal_themes">一年の特定の時期に特別な色や助言を表示する</string>
 </resources>
