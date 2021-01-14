@@ -299,9 +299,12 @@
     <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
     <string name="msg_total_items_in_queue">" キュー内の全項目"</string>
     <string name="lbl_pause">一時停止</string>
-    <string name="desc_info_panel">詳細情報のない画面の現在のアイテムの詳細を含むパネルを表示する</string>
+    <string name="desc_info_panel">詳細情報のない画面に現在のアイテムの詳細情報を含むパネルを表示する</string>
     <string name="msg_remote_already_playing">リモートプレイリクエストは無視されます。最初に現在のアイテムを停止してください。</string>
     <string name="lbl_record_any_channel">任意のチャンネルで録音</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
+    <string name="msg_replace_or_add_queue_q">現在のキューを置き換えるか、追加しますか？</string>
+    <string name="msg_added_item_to_queue">"アイテムがキューの位置に追加されました "</string>
+    <string name="msg_burn_sub_warning">付属字幕は数分がかかれます。ちょっと待ってください...</string>
 </resources>
