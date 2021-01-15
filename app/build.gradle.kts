@@ -35,12 +35,22 @@ android {
 		getByName("release") {
 			isMinifyEnabled = false
 			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
+			// Add applicationId as string for XML resources
+			resValue("string", "app_id", "org.jellyfin.androidtv")
+
+			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
 		}
 
 		getByName("debug") {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
+
+			// Add applicationId as string for XML resources
+			resValue("string", "app_id", "org.jellyfin.androidtv.debug")
+
+			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
 		}
 	}

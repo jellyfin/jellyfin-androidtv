@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.auth
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.os.Bundle
+import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.androidtv.util.toUUIDOrNull
@@ -14,11 +15,11 @@ class AccountManagerHelper(
 	private val accountManager: AccountManager
 ) {
 	companion object {
-		const val ACCOUNT_TYPE = "org.jellyfin.v1"
+		const val ACCOUNT_TYPE = BuildConfig.APPLICATION_ID
 		const val ACCOUNT_DATA_ID = "$ACCOUNT_TYPE.id"
 		const val ACCOUNT_DATA_SERVER = "$ACCOUNT_TYPE.server"
 		const val ACCOUNT_DATA_NAME = "$ACCOUNT_TYPE.name"
-		const val ACCOUNT_ACCESS_TOKEN_TYPE = "$ACCOUNT_TYPE.access_token.v1"
+		const val ACCOUNT_ACCESS_TOKEN_TYPE = "$ACCOUNT_TYPE.access_token"
 	}
 
 	private fun getAccountData(account: Account): AccountManagerAccount = AccountManagerAccount(
