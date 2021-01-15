@@ -434,4 +434,5 @@
     <string name="lbl_subtitle_track">Velg undertekst</string>
     <string name="lbl_audio_track">Velg lydspor</string>
     <string name="lbl_pause">Pause</string>
+    <string name="watch_count_overflow">99+</string>
 </resources>
