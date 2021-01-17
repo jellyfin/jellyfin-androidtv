@@ -233,7 +233,7 @@
     <string name="lbl_audio_capabilitites">Dybys múmkindikteri</string>
     <string name="msg_audio_warning">Bul qoldanbada keıbir kóp arnaly dybys pishimderin tikeleı taratý múmkindigi bar. Sizdiń jabdyq osy pishimderdi qoldamaıtyn bolsa, keıbir tarmaqtardy oınatqanda, dybys estilmeýi múmkin. Eger bul oryn alsa, parametrlerde Dybys rejimin «tómendetip aralastyrý» kúıine ornatyńyz.</string>
     <string name="btn_got_it">Túsinikti</string>
-    <string name="btn_set_compatible_audio">Endi kemitip mıksherleýdi ornatý</string>
+    <string name="btn_set_compatible_audio">Arnalar tómendetýin ornatý</string>
     <string name="lbl_current_queue">Aǵymdyq kezek</string>
     <string name="desc_current_video_queue">Beıne tarmaqtar oınatý úshin qazirgi ýaqytta kezekte</string>
     <string name="lbl_clear_queue">Kezekti tazalaý</string>
