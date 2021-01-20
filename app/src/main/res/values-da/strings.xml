@@ -421,4 +421,19 @@
     <string name="lbl_subtitle_track">Vælg undertekst</string>
     <string name="lbl_audio_track">Vælg lydspor</string>
     <string name="lbl_pause">Stop</string>
+    <string name="pref_authentication_link">Verificerings muligheder</string>
+    <string name="login_username_field_empty">Brugernavnet må ikke være tomt</string>
+    <string name="login_server_unavailable">Kan ikke forbinde til serveren</string>
+    <string name="login_invalid_credentials">Ugyldigt brugernavn og / eller adgangskode</string>
+    <string name="login_authenticating">Verificere...</string>
+    <string name="server_field_empty">Addressen må ikke være tom</string>
+    <string name="server_connection_failed">Kan ikke forbinde til serveren:%s</string>
+    <string name="server_connecting">Forbinder til server...</string>
+    <string name="pref_clock_display_playback">Under afspilning</string>
+    <string name="pref_clock_display_browsing">Imens du søger</string>
+    <string name="lbl_always">Altid</string>
+    <string name="pref_clock_display">Vis uret</string>
+    <string name="pref_default_rating">Standard vurderingstype</string>
+    <string name="lbl_tomatoes">Tomater</string>
+    <string name="lbl_stars">Stjerner</string>
 </resources>
