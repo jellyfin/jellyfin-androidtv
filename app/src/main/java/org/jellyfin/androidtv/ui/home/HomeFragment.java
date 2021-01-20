@@ -103,10 +103,10 @@ public class HomeFragment extends StdBrowseFragment {
             get(SystemPreferences.class).set(SystemPreferences.Companion.getAudioWarned(), true);
 
             new AlertDialog.Builder(mActivity)
-                    .setTitle(mApplication.getString(R.string.lbl_audio_capabilitites))
-                    .setMessage(mApplication.getString(R.string.msg_audio_warning))
-                    .setPositiveButton(mApplication.getString(R.string.btn_got_it), null)
-                    .setNegativeButton(mApplication.getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
+                    .setTitle(TvApp.getApplication().getString(R.string.lbl_audio_capabilitites))
+                    .setMessage(TvApp.getApplication().getString(R.string.msg_audio_warning))
+                    .setPositiveButton(TvApp.getApplication().getString(R.string.btn_got_it), null)
+                    .setNegativeButton(TvApp.getApplication().getString(R.string.btn_set_compatible_audio), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             get(UserPreferences.class).set(UserPreferences.Companion.getAudioBehaviour(), AudioBehavior.DOWNMIX_TO_STEREO);
@@ -212,10 +212,8 @@ public class HomeFragment extends StdBrowseFragment {
 
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
-        TvApp application = TvApp.getApplication();
-
         // Update the views before creating rows
-        apiClient.getValue().GetUserViews(application.getCurrentUser().getId(), new Response<ItemsResult>() {
+        apiClient.getValue().GetUserViews(TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 views = response;
@@ -303,7 +301,7 @@ public class HomeFragment extends StdBrowseFragment {
 
     private HomeFragmentRow loadLibraryTiles() {
         ViewQuery query = new ViewQuery();
-        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(mApplication.getString(R.string.lbl_my_media), query));
+        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_my_media), query));
     }
 
 
@@ -329,11 +327,11 @@ public class HomeFragment extends StdBrowseFragment {
     }
 
     private HomeFragmentRow loadResumeVideo() {
-        return loadResume(mApplication.getString(R.string.lbl_continue_watching), new String[]{MediaType.Video});
+        return loadResume(TvApp.getApplication().getString(R.string.lbl_continue_watching), new String[]{MediaType.Video});
     }
 
     private HomeFragmentRow loadResumeAudio() {
-        return loadResume(mApplication.getString(R.string.lbl_continue_watching), new String[]{MediaType.Audio});
+        return loadResume(TvApp.getApplication().getString(R.string.lbl_continue_watching), new String[]{MediaType.Audio});
     }
 
     private HomeFragmentRow loadLatestLiveTvRecordings() {
@@ -361,7 +359,7 @@ public class HomeFragment extends StdBrowseFragment {
                 ItemFields.ChildCount
         });
 
-        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(mApplication.getString(R.string.lbl_next_up), query, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
+        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_next_up), query, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
     }
 
     private HomeFragmentRow loadOnNow() {
@@ -378,7 +376,7 @@ public class HomeFragment extends StdBrowseFragment {
         query.setEnableTotalRecordCount(false);
         query.setLimit(20);
 
-        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(mApplication.getString(R.string.lbl_on_now), query));
+        return new HomeFragmentBrowseRowDefRow(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_on_now), query));
     }
 
     private boolean hasResumeRow() {

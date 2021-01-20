@@ -95,7 +95,6 @@ public class ItemListActivity extends BaseActivity {
     private int mBottomScrollThreshold;
     private Runnable mClockLoop;
 
-    private TvApp mApplication;
     private BaseActivity mActivity;
     private DisplayMetrics mMetrics;
     private Handler mLoopHandler = new Handler();
@@ -112,7 +111,6 @@ public class ItemListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        mApplication = TvApp.getApplication();
         mActivity = this;
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
@@ -384,7 +382,7 @@ public class ItemListActivity extends BaseActivity {
                 setBaseItem(queue);
                 break;
             default:
-                apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         setBaseItem(response);
@@ -552,7 +550,7 @@ public class ItemListActivity extends BaseActivity {
 
     private void play(List<BaseItemDto> items) {
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Intent intent = new Intent(mActivity, mApplication.getPlaybackActivityClass(mBaseItem.getBaseItemType()));
+            Intent intent = new Intent(mActivity, TvApp.getApplication().getPlaybackActivityClass(mBaseItem.getBaseItemType()));
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
             if (first != null && first.getUserData() != null) {
@@ -630,7 +628,7 @@ public class ItemListActivity extends BaseActivity {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
-                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), mApplication.getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                             @Override
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);

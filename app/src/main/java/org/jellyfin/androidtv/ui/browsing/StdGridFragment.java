@@ -90,7 +90,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private static final int BACKGROUND_UPDATE_DELAY = 100;
 
     protected String MainTitle;
-    protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
@@ -121,7 +120,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mApplication = TvApp.getApplication();
         mFolder = get(GsonJsonSerializer.class).DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();

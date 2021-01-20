@@ -152,7 +152,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     Handler mHandler = new Handler();
     Runnable mHideTask;
 
-    TvApp mApplication;
     PlaybackOverlayActivity mActivity;
     private AudioManager mAudioManager;
 
@@ -172,13 +171,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragment = this;
-        mApplication = TvApp.getApplication();
         mActivity = (PlaybackOverlayActivity) getActivity();
 
         // stop any audio that may be playing
         MediaManager.stopAudio();
 
-        mAudioManager = (AudioManager) mApplication.getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager == null) {
             Timber.e("Unable to get audio manager");
             Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
@@ -190,15 +188,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         mItemsToPlay = MediaManager.getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(mApplication, mApplication.getString(R.string.msg_no_playable_items));
+            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
             mActivity.finish();
             return;
         }
 
         mButtonSize = Utils.convertDpToPixel(mActivity, 28);
 
-        mApplication.setPlaybackController(new PlaybackController(mItemsToPlay, this));
-        mPlaybackController = mApplication.getPlaybackController();
+        TvApp.getApplication().setPlaybackController(new PlaybackController(mItemsToPlay, this));
+        mPlaybackController = TvApp.getApplication().getPlaybackController();
 
         // setup fade task
         mHideTask = new Runnable() {
@@ -681,7 +679,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             mPlaybackController.stop();
             if (hideGuide)
                 hideGuide();
-            apiClient.getValue().GetItemAsync(id, mApplication.getCurrentUser().getId(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     List<BaseItemDto> items = new ArrayList<BaseItemDto>();
@@ -692,7 +690,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast(mApplication, R.string.msg_video_playback_error);
+                    Utils.showToast(TvApp.getApplication(), R.string.msg_video_playback_error);
                     finish();
                 }
             });

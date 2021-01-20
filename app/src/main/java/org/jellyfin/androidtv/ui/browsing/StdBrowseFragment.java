@@ -40,7 +40,6 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
@@ -78,7 +77,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected boolean ShowFanart = false;
-    protected TvApp mApplication;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
@@ -99,7 +97,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mApplication = TvApp.getApplication();
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         prepareBackgroundManager();
@@ -374,7 +371,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             BaseRowItem rowItem = (BaseRowItem) item;
 
             if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
-                //mApplication.getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
+                //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
                 ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }
