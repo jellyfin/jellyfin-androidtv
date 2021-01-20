@@ -6,8 +6,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
-import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
+import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.TimeUtils
 
@@ -72,7 +72,7 @@ fun OptionsScreen.playbackCategory(
 			120, 300
 		).map {
 			val value = if (it == 0) activity.getString(R.string.lbl_none)
-			else TimeUtils.formatSeconds(it)
+			else TimeUtils.formatSeconds(context, it)
 
 			it.toString() to value
 		}.toMap()

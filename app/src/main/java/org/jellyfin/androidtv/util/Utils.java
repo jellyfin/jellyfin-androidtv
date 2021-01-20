@@ -69,8 +69,8 @@ public class Utils {
         return value != null && value;
     }
 
-    public static String getVersionString() {
-        return TvApp.getApplication().getString(R.string.lbl_version) + BuildConfig.VERSION_NAME;
+    public static String getVersionString(Context context) {
+        return context.getString(R.string.lbl_version) + BuildConfig.VERSION_NAME;
     }
 
     public static String firstToUpper(String value) {

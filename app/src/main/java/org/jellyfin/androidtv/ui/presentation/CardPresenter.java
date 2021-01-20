@@ -373,7 +373,7 @@ public class CardPresenter extends Presenter {
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
         holder.mCardView.setTitleText(rowItem.getCardName());
-        holder.mCardView.setContentText(rowItem.getSubText());
+        holder.mCardView.setContentText(rowItem.getSubText(holder.mCardView.getContext()));
         if (ImageType.DEFAULT.equals(mImageType)) {
             holder.mCardView.setOverlayInfo(rowItem);
         }
@@ -399,7 +399,7 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        holder.updateCardViewImage(rowItem.getImageUrl(mImageType, holder.getCardHeight()));
+        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()));
     }
 
     @Override

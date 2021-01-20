@@ -7,10 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
@@ -26,7 +27,6 @@ import java.util.Date;
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
-    private static int BTMARGIN = Utils.convertDpToPixel(TvApp.getApplication(), -2);
 
     public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
@@ -169,21 +169,21 @@ public class InfoLayoutHelper {
         layout.addView(name);
     }
 
-    private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
+    private static void addProgramInfo(@NonNull Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramSubText(item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(activity, item)+"  ");
         layout.addView(name);
 
         if (BaseItemUtils.isNew(item)) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(activity, layout, "  ");
         } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
         }
         if (Utils.isTrue(item.getIsLive())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
 
         }
@@ -193,7 +193,7 @@ public class InfoLayoutHelper {
         layout.removeAllViews();
         TextView text = new TextView(activity);
         text.setTextSize(textSize);
-        text.setText(item.getSubText() + " ");
+        text.setText(item.getSubText(activity) + " ");
         layout.addView(text);
 
     }
@@ -261,14 +261,14 @@ public class InfoLayoutHelper {
         if (hasSomething) addSpacer(activity, layout, "  ");
     }
 
-    private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
+    private static void addDate(@NonNull  Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView date = new TextView(activity);
         date.setTextSize(textSize);
         switch (item.getBaseItemType()) {
             case Person:
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
-                    sb.append(TvApp.getApplication().getString(R.string.lbl_born));
+                    sb.append(activity.getString(R.string.lbl_born));
                     sb.append(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
@@ -291,8 +291,8 @@ public class InfoLayoutHelper {
             case Program:
             case TvChannel:
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getStartDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getEndDate())));
+                    date.setText(android.text.format.DateFormat.getTimeFormat(activity).format(TimeUtils.convertToLocalDate(item.getStartDate()))
+                            + "-"+ android.text.format.DateFormat.getTimeFormat(activity).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
                     addSpacer(activity, layout, "    ");
                 }
@@ -382,7 +382,7 @@ public class InfoLayoutHelper {
         view.setText(" " + text + " ");
         view.setBackgroundResource(backgroundRes);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        params.setMargins(0,BTMARGIN,0,0);
+        params.setMargins(0,Utils.convertDpToPixel(activity, -2),0,0);
         view.setLayoutParams(params);
         layout.addView(view);
 

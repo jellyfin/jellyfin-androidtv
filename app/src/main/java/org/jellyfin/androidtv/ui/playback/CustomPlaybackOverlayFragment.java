@@ -1031,7 +1031,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(TimeUtils.getFriendlyDate(mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -1080,7 +1080,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         //info row
         InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mGuideInfoRow, false, false);
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(mActivity, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
         }
 
     }
@@ -1163,16 +1163,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         public void onAnimationRepeat(Animation animation) {
         }
     };
-
-    private void updatePoster(BaseItemDto item, ImageView target, boolean preferSeries) {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            int height = Utils.convertDpToPixel(getActivity(), 300);
-            int width = Utils.convertDpToPixel(getActivity(), 150);
-            String posterImageUrl = ImageUtils.getPrimaryImageUrl(item, apiClient.getValue(), false, false, preferSeries, height);
-            if (posterImageUrl != null)
-                Glide.with(getActivity()).load(posterImageUrl).override(width, height).centerInside().into(target);
-        }
-    }
 
     private void updateLogo(BaseItemDto item, ImageView target) {
         if (getActivity() != null && !getActivity().isFinishing()) {

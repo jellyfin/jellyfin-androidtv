@@ -588,7 +588,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             if (mCurrentItem == null) return;
             mTitle.setText(mCurrentItem.getName());
 
-            String summary = mCurrentItem.getSummary();
+            String summary = mCurrentItem.getSummary(requireContext());
             if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
             else mSummary.setText(null);
 

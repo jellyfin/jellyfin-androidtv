@@ -33,7 +33,7 @@ import org.jellyfin.apiclient.model.querying.NextUpQuery
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
 class LeanbackChannelWorker(
-	context: Context,
+	private val context: Context,
 	val workerParams: WorkerParameters,
 	private val apiClient: ApiClient
 ) : CoroutineWorker(context, workerParams) {
@@ -47,13 +47,11 @@ class LeanbackChannelWorker(
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
-	private val application = TvApp.getApplication()
-
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher
 	 */
 	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-		&& application.packageManager.hasSystemFeature("android.software.leanback")
+		&& context.packageManager.hasSystemFeature("android.software.leanback")
 
 	/**
 	 * Update all channels for the currently authenticated user
@@ -62,7 +60,7 @@ class LeanbackChannelWorker(
 		// Fail when not supported
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
-		application.currentUser == null -> Result.retry()
+		TvApp.getApplication().currentUser == null -> Result.retry()
 		else -> {
 			// Update various channels
 			updateMyMedia()
@@ -79,16 +77,16 @@ class LeanbackChannelWorker(
 	 * The [name] parameter is used to store the id and should be unique.
 	 */
 	private fun getChannelUri(name: String, settings: Channel): Uri {
-		val store = application.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
+		val store = context.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
 
 		val uri = if (store.contains(name)) {
 			// Retrieve uri and update content resolver
 			Uri.parse(store.getString(name, null)).also { uri ->
-				application.contentResolver.update(uri, settings.toContentValues(), null, null)
+				context.contentResolver.update(uri, settings.toContentValues(), null, null)
 			}
 		} else {
 			// Create new channel and save uri
-			application.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, settings.toContentValues())!!.also { uri ->
+			context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, settings.toContentValues())!!.also { uri ->
 				store.edit().putString(name, uri.toString()).apply()
 			}
 
@@ -98,8 +96,8 @@ class LeanbackChannelWorker(
 		}
 
 		// Update logo
-		ResourcesCompat.getDrawable(application.resources, R.drawable.ic_jellyfin, null)?.let {
-			ChannelLogoUtils.storeChannelLogo(application, ContentUris.parseId(uri), it.toBitmap(80.dp, 80.dp))
+		ResourcesCompat.getDrawable(context.resources, R.drawable.ic_jellyfin, null)?.let {
+			ChannelLogoUtils.storeChannelLogo(context, ContentUris.parseId(uri), it.toBitmap(80.dp, 80.dp))
 		}
 
 		return uri
@@ -112,19 +110,19 @@ class LeanbackChannelWorker(
 		// Get channel
 		val channelUri = getChannelUri("my_media", Channel.Builder()
 			.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-			.setDisplayName(application.getString(R.string.lbl_my_media))
-			.setAppLinkIntent(Intent(application, StartupActivity::class.java))
+			.setDisplayName(context.getString(R.string.lbl_my_media))
+			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 			.build())
 
 		val response = apiClient.getUserViews() ?: return
 
 		// Delete current items
-		application.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+		context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
 
 		// Add new items
-		application.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
+		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
 			val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
-			else Uri.parse(ImageUtils.getResourceUrl(R.drawable.tile_land_tv))
+			else Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
 
 			PreviewProgram.Builder()
 				.setChannelId(ContentUris.parseId(channelUri))
@@ -132,7 +130,7 @@ class LeanbackChannelWorker(
 				.setTitle(item.name)
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
-				.setIntent(Intent(application, StartupActivity::class.java).apply {
+				.setIntent(Intent(context, StartupActivity::class.java).apply {
 					putExtra(StartupActivity.ITEM_ID, item.id)
 					putExtra(StartupActivity.ITEM_IS_USER_VIEW, true)
 				})
@@ -146,10 +144,10 @@ class LeanbackChannelWorker(
 	 */
 	private suspend fun updateWatchNext() = withContext(Dispatchers.Default) {
 		// Delete current items
-		application.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
+		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
 
 		// Get user or return if no user is found (not authenticated)
-		val user = application.currentUser ?: return@withContext
+		val user = TvApp.getApplication().currentUser ?: return@withContext
 
 		// Get new items
 		val response = apiClient.getNextUpEpisodes(NextUpQuery().apply {
@@ -161,7 +159,7 @@ class LeanbackChannelWorker(
 
 		// Add new items
 		response?.items?.let { items ->
-			application.contentResolver.bulkInsert(
+			context.contentResolver.bulkInsert(
 				WatchNextPrograms.CONTENT_URI,
 				items.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }.toTypedArray()
 			)
@@ -210,7 +208,7 @@ class LeanbackChannelWorker(
 		}
 
 		// Set intent to open the episode
-		setIntent(Intent(application, StartupActivity::class.java).apply {
+		setIntent(Intent(context, StartupActivity::class.java).apply {
 			putExtra(StartupActivity.ITEM_ID, item.id)
 		})
 	}.build()

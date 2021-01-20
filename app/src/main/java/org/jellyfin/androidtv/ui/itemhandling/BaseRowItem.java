@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
@@ -222,30 +223,30 @@ public class BaseRowItem {
         }
     }
 
-    public String getImageUrl(String imageType, int maxHeight) {
+    public String getImageUrl(Context context, String imageType, int maxHeight) {
         switch (type) {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
                     case org.jellyfin.androidtv.constant.ImageType.BANNER:
-                        return ImageUtils.getBannerImageUrl(baseItem, apiClient.getValue(), maxHeight);
+                        return ImageUtils.getBannerImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
                     case org.jellyfin.androidtv.constant.ImageType.THUMB:
-                        return ImageUtils.getThumbImageUrl(baseItem, apiClient.getValue(), maxHeight);
+                        return ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
                     default:
-                        return getPrimaryImageUrl(maxHeight);
+                        return getPrimaryImageUrl(context, maxHeight);
                 }
             default:
-                return getPrimaryImageUrl(maxHeight);
+                return getPrimaryImageUrl(context, maxHeight);
         }
     }
 
-    public String getPrimaryImageUrl(int maxHeight) {
+    public String getPrimaryImageUrl(Context context, int maxHeight) {
         switch (type) {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return ImageUtils.getPrimaryImageUrl(baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
             case Person:
                 return ImageUtils.getPrimaryImageUrl(person, apiClient.getValue(), maxHeight);
             case User:
@@ -255,11 +256,11 @@ public class BaseRowItem {
             case LiveTvChannel:
                 return ImageUtils.getPrimaryImageUrl(channelInfo, apiClient.getValue());
             case Server:
-                return ImageUtils.getResourceUrl(R.drawable.tile_port_server);
+                return ImageUtils.getResourceUrl(context, R.drawable.tile_port_server);
             case GridButton:
-                return ImageUtils.getResourceUrl(gridButton.getImageIndex());
+                return ImageUtils.getResourceUrl(context, gridButton.getImageIndex());
             case SeriesTimer:
-                return ImageUtils.getResourceUrl(R.drawable.tile_land_series_timer);
+                return ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer);
             case SearchHint:
                 if (Utils.isNonEmpty(searchHint.getPrimaryImageTag())) {
                     return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), apiClient.getValue());
@@ -400,10 +401,10 @@ public class BaseRowItem {
         return null;
     }
 
-    public String getSubText() {
+    public String getSubText(Context context) {
         switch (type) {
             case BaseItem:
-                return BaseItemUtils.getSubName(baseItem);
+                return BaseItemUtils.getSubName(context, baseItem);
             case Person:
                 return person.getRole();
             case Chapter:
@@ -439,7 +440,7 @@ public class BaseRowItem {
             return null;
     }
 
-    public String getSummary() {
+    public String getSummary(Context context) {
         switch (type) {
             case BaseItem:
             case LiveTvRecording:
@@ -454,7 +455,7 @@ public class BaseRowItem {
             case GridButton:
                 break;
             case SeriesTimer:
-                return BaseItemUtils.getSeriesOverview(seriesTimerInfo);
+                return BaseItemUtils.getSeriesOverview(context, seriesTimerInfo);
         }
 
         return "";

@@ -955,7 +955,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(TimeUtils.getFriendlyDate(mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(this, mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -1011,7 +1011,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
             Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
 

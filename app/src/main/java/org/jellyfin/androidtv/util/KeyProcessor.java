@@ -434,7 +434,7 @@ public class KeyProcessor {
                     toggleLikes(null);
                     return true;
                 case MENU_GOTO_NOW_PLAYING:
-                    Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
+                    Intent nowPlaying = new Intent(mCurrentActivity, AudioNowPlayingActivity.class);
                     mCurrentActivity.startActivity(nowPlaying);
                     return true;
                 case MENU_REMOVE_FROM_QUEUE:

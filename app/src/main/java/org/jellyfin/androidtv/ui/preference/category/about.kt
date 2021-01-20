@@ -11,7 +11,7 @@ fun OptionsScreen.aboutCategory() = category {
 
 	info {
 		setTitle(R.string.lbl_version)
-		content = Utils.getVersionString()
+		content = Utils.getVersionString(context)
 	}
 
 	info {

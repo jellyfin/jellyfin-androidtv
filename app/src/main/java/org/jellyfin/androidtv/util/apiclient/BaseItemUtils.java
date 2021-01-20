@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.apiclient;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
@@ -55,10 +56,10 @@ public class BaseItemUtils {
         }
     }
 
-    public static String getSubName(BaseItemDto item) {
+    public static String getSubName(Context context, BaseItemDto item) {
         switch (item.getBaseItemType()) {
             case Episode:
-                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
+                String addendum = item.getLocationType().equals(LocationType.Virtual) && item.getPremiereDate() != null ? " (" +  TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(item.getPremiereDate())) + ")" : "";
                 return item.getName() + addendum;
             case Season:
                 return item.getChildCount() != null && item.getChildCount() > 0 ? item.getChildCount() + " " + TvApp.getApplication().getString(R.string.lbl_episodes) : "";
@@ -76,7 +77,7 @@ public class BaseItemUtils {
         return TvManager.getChannel(TvManager.getAllChannelsIndex(baseItem.getChannelId())).getName();
     }
 
-    public static String getProgramSubText(BaseItemDto baseItem) {
+    public static String getProgramSubText(Context context, BaseItemDto baseItem) {
         StringBuilder builder = new StringBuilder();
         // Add the channel name if set
         if (baseItem.getChannelName() != null) {
@@ -93,7 +94,7 @@ public class BaseItemUtils {
         startTime.setTime(TimeUtils.convertToLocalDate(baseItem.getStartDate()));
         // If the start time is on a different day, add the date
         if (startTime.get(Calendar.DAY_OF_YEAR) != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
-            builder.append(TimeUtils.getFriendlyDate(startTime.getTime()))
+            builder.append(TimeUtils.getFriendlyDate(context, startTime.getTime()))
                     .append(" ");
         }
         // Add the start and end time
@@ -142,7 +143,7 @@ public class BaseItemUtils {
         return Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsNews()) && !Utils.isTrue(program.getIsRepeat());
     }
 
-    public static String getSeriesOverview(SeriesTimerInfoDto timer) {
+    public static String getSeriesOverview(Context context, SeriesTimerInfoDto timer) {
         StringBuilder builder = new StringBuilder();
         builder.append(TvApp.getApplication().getString(R.string.msg_will_record))
                 .append(" ");
@@ -168,14 +169,14 @@ public class BaseItemUtils {
         builder.append("\n")
                 .append("Starting");
         if (timer.getPrePaddingSeconds() > 0) {
-            builder.append(TimeUtils.formatSeconds(timer.getPrePaddingSeconds()))
+            builder.append(TimeUtils.formatSeconds(context, timer.getPrePaddingSeconds()))
                     .append(" Early");
         } else {
             builder.append("On Schedule");
         }
         builder.append(" And Ending ");
         if (timer.getPostPaddingSeconds() > 0) {
-            builder.append(TimeUtils.formatSeconds(timer.getPostPaddingSeconds()))
+            builder.append(TimeUtils.formatSeconds(context, timer.getPostPaddingSeconds()))
                     .append(" After Schedule");
         } else {
             builder.append("On Schedule");

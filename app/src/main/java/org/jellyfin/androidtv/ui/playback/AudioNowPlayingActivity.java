@@ -390,7 +390,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (posterHeight < 10)
             posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, apiClient.getValue(), false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, apiClient.getValue(), false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         Glide.with(mActivity)
                 .load(primaryImageUrl)
