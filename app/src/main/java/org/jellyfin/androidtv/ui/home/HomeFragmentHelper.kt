@@ -37,7 +37,7 @@ class HomeFragmentHelper(
 			enableTotalRecordCount = false
 			collapseBoxSetItems = false
 			excludeLocationTypes = arrayOf(LocationType.Virtual)
-			limit = 50
+			limit = ITEM_LIMIT_RESUME
 			filters = arrayOf(ItemFilter.IsResumable)
 			sortBy = arrayOf(ItemSortBy.DatePlayed)
 			sortOrder = org.jellyfin.apiclient.model.entities.SortOrder.Descending
@@ -64,7 +64,7 @@ class HomeFragmentHelper(
 
 			userId = TvApp.getApplication().currentUser!!.id
 			enableImages = true
-			limit = 40
+			limit = ITEM_LIMIT_RECORDINGS
 		}
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_recordings), query))
@@ -74,7 +74,7 @@ class HomeFragmentHelper(
 		val query = NextUpQuery().apply {
 			userId = TvApp.getApplication().currentUser!!.id
 			imageTypeLimit = 1
-			limit = 50
+			limit = ITEM_LIMIT_NEXT_UP
 			fields = arrayOf(
 				ItemFields.PrimaryImageAspectRatio,
 				ItemFields.Overview,
@@ -97,7 +97,7 @@ class HomeFragmentHelper(
 			userId = TvApp.getApplication().currentUser!!.id
 			imageTypeLimit = 1
 			enableTotalRecordCount = false
-			limit = 20
+			limit = ITEM_LIMIT_ON_NOW
 		}
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
@@ -110,5 +110,13 @@ class HomeFragmentHelper(
 		}
 
 		return false
+	}
+
+	companion object {
+		// Maximum ammount of items loaded for a row
+		private const val ITEM_LIMIT_RESUME = 50
+		private const val ITEM_LIMIT_RECORDINGS = 40
+		private const val ITEM_LIMIT_NEXT_UP = 50
+		private const val ITEM_LIMIT_ON_NOW = 20
 	}
 }
