@@ -83,7 +83,10 @@ class ListServerFragment : RowsSupportFragment() {
 
 	private fun buildRows(servers: Map<Server, Set<User>>) {
 		servers.forEach { (server, users) ->
-			val exists = rowAdapter.any { it.id == server.id.mostSignificantBits and Long.MAX_VALUE }
+			// Convert the UUID of the server to a long to get a unique id
+			// to make sure a server can't be added multiple times
+			val uniqueRowId = server.id.mostSignificantBits and Long.MAX_VALUE
+			val exists = rowAdapter.any { it.id == uniqueRowId }
 			// Already added, don't add it again
 			if (exists) return@forEach
 
@@ -98,7 +101,7 @@ class ListServerFragment : RowsSupportFragment() {
 			userListAdapter.add(AddUserGridButton(server, ADD_USER, requireContext().getString(R.string.lbl_manual_login), R.drawable.tile_edit))
 
 			val row = ListRow(
-				server.id.mostSignificantBits and Long.MAX_VALUE,
+				uniqueRowId,
 				HeaderItem(if (server.name.isNotBlank()) server.name else server.address),
 				userListAdapter
 			)
