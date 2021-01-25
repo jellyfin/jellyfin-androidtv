@@ -429,10 +429,10 @@
     <string name="lbl_stars">Étoiles</string>
     <string name="pref_authentication_link">Options d\'authentification</string>
     <string name="login_username_field_empty">Le nom d\'utilisateur ne peut pas être vide</string>
-    <string name="login_server_unavailable">Incapable de se connecter au serveur</string>
+    <string name="login_server_unavailable">Impossible de se connecter au serveur</string>
     <string name="login_invalid_credentials">Nom d\'utilisateur ou mot de passe incorrect</string>
-    <string name="login_authenticating">authentifier...</string>
+    <string name="login_authenticating">Authentification ...</string>
     <string name="server_field_empty">L\'adresse ne peut pas être vide</string>
     <string name="server_connection_failed">Impossible de se connecter au serveur : %s</string>
-    <string name="server_connecting">connexion au serveur...</string>
+    <string name="server_connecting">Connexion au serveur ...</string>
 </resources>
