@@ -109,4 +109,12 @@
     <string name="lbl_pause">Pausar</string>
     <string name="lbl_play">Reproduir</string>
     <string name="lbl_shuffle_all">Totes aleatòries</string>
+    <string name="lbl_loading_elipses">Carregant...</string>
+    <string name="lbl_born">"Nascut "</string>
+    <string name="lbl_ok">D\'acord</string>
+    <string name="lbl_valid_server_address">Introduïu l\'adreça del servidor (IP o nom de domini / màquina)</string>
+    <string name="lbl_enter_server_address">Introduïu l\'adreça del servidor</string>
+    <string name="lbl_ip_hint">192.168.1.100:8096 o https://myserver.com</string>
+    <string name="lbl_version">"Versió "</string>
+    <string name="msg_invalid_id_pw">Identificador d\'usuari o contrasenya no vàlids</string>
 </resources>
