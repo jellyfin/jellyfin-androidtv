@@ -19,8 +19,8 @@ import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
 	private val serializer: GsonJsonSerializer
-) : HomeFragmentRow(), OnItemViewClickedListener {
-	override fun addToRowsAdapter(cardPresenter: CardPresenter?, rowsAdapter: ArrayObjectAdapter) {
+) : HomeFragmentRow, OnItemViewClickedListener {
+	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
 		val adapter = ArrayObjectAdapter(GridButtonPresenter())
 

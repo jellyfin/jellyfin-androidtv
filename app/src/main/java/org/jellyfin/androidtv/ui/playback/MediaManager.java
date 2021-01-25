@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
@@ -559,7 +560,8 @@ public class MediaManager {
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
-        options.setMaxBitrate(TvApp.getApplication().getAutoBitrate());
+        Long maxBitrate = get(AutoBitrate.class).getBitrate();
+        if (maxBitrate != null) options.setMaxBitrate(maxBitrate.intValue());
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile = ProfileHelper.getBaseProfile(false);
         if (DeviceUtils.is60()) {

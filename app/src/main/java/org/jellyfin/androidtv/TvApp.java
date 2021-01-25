@@ -42,8 +42,6 @@ public class TvApp extends Application {
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
 
-    private int autoBitrate;
-
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
     private BaseActivity currentActivity;
@@ -175,21 +173,6 @@ public class TvApp extends Application {
                 }
             });
         }
-    }
-
-    @Nullable
-    public int getAutoBitrate() {
-        return autoBitrate;
-    }
-
-    public void determineAutoBitrate() {
-        apiClient.getValue().detectBitrate(new Response<Long>() {
-            @Override
-            public void onResponse(Long response) {
-                autoBitrate = response.intValue();
-                Timber.i("Auto bitrate set to: %d", autoBitrate);
-            }
-        });
     }
 
     @Nullable

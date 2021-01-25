@@ -152,8 +152,9 @@ public class Utils {
 
     public static int getMaxBitrate() {
         String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
+        Long autoRate = get(AutoBitrate.class).getBitrate();
         float factor = Float.parseFloat(maxRate) * 10;
-        return Math.min(factor == 0 ? TvApp.getApplication().getAutoBitrate() : ((int) factor * 100000), 100000000);
+        return Math.min(autoRate != null && factor == 0 ? autoRate.intValue() : ((int) factor * 100000), 100000000);
     }
 
     public static PopupMenu createPopupMenu(Context context, View view, int gravity) {
