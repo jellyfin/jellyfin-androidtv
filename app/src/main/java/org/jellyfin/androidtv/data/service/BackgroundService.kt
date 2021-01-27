@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -15,6 +14,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
+import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
@@ -85,9 +85,9 @@ class BackgroundService(
 		backgroundDrawable.setDrawable(staticBackgroundLayer, windowBackground)
 
 		// Store size of window manager for this activity
-		windowSize = Point()
-			.apply { activity.window.windowManager.defaultDisplay.getSize(this) }
-			.let { Size(it.x, it.y) }
+		windowSize = WindowManager(activity).currentWindowMetrics.bounds.let {
+			Size(it.right, it.bottom)
+		}
 
 		// Replace current background with service background
 		activity.window.decorView.background = backgroundDrawable
