@@ -3,7 +3,7 @@
     <string name="play">Тоглуулах</string>
     <string name="video_error_unknown_error">Бичлэг алдаатай</string>
     <string name="loading">Ачааллаж байна…</string>
-    <string name="txt_loading">Ачааллаж байна..</string>
+    <string name="txt_loading">Ачааллаж байна…</string>
     <string name="title_activity_select_user">Идэвхитэй хэрэглэгч сонго</string>
     <string name="home_title">Нүүр</string>
     <string name="btn_cancel">Цуцлах</string>
@@ -98,7 +98,7 @@
     <string name="msg_little_longer">Энэ нь бодож байснаас удаж байна ...</string>
     <string name="lbl_no">Үгүй</string>
     <string name="lbl_yes">Тийм</string>
-    <string name="msg_error_connecting_server">Сервертэй холбогдоход алдаа гарлаа.</string>
+    <string name="msg_error_connecting_server">Сервертэй холбогдоход алдаа гарлаа</string>
     <string name="msg_error_server_unavailable">Сервер тодорхойгүй</string>
     <string name="msg_error_server_version">Дэмжигдээгүй серверийн хувилбар. Серверийн хувилбар %1$s буюу түүнээс дээш байх шаардлагатай.</string>
     <string name="msg_error_signin">Хадгалсан мэдээлэлтэйгээ нэвтрэх үед алдаа гарлаа.</string>
