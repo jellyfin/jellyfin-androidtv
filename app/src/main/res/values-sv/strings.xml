@@ -418,4 +418,21 @@
     <string name="lbl_manual_login">Manuell inloggning</string>
     <string name="lbl_sign_in">Logga in</string>
     <string name="lbl_add_server">Lägg till server</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="pref_authentication_link">Autentiseringsalternativ</string>
+    <string name="login_username_field_empty">Användarnamn får inte vara tomt</string>
+    <string name="server_field_empty">Adress får inte vara tomt</string>
+    <string name="login_server_unavailable">Kunde inte ansluta till server</string>
+    <string name="login_invalid_credentials">Ogiltigt användarnamn och/eller lösenord</string>
+    <string name="login_authenticating">Autentiserar...</string>
+    <string name="server_connection_failed">Kunde inte ansluta till server: %s</string>
+    <string name="server_connecting">Ansluter till server...</string>
+    <string name="pref_clock_display_playback">Under uppspelning</string>
+    <string name="pref_clock_display_browsing">Vid bläddring</string>
+    <string name="lbl_always">Alltid</string>
+    <string name="pref_clock_display">Visa klocka</string>
+    <string name="pref_default_rating">Förvald betygstyp</string>
+    <string name="lbl_tomatoes">Tomater</string>
+    <string name="lbl_stars">Stjärnor</string>
+    <string name="lbl_playback_control_ends">Slutar vid %1$s</string>
 </resources>
