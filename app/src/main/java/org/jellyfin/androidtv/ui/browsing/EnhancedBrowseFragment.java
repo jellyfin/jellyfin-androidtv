@@ -33,7 +33,6 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -88,7 +87,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected String itemTypeString;
     protected boolean showViews = true;
     protected boolean justLoaded = true;
-    protected boolean ShowFanart = false;
 
     protected BaseRowItem favSongsRowItem;
 
@@ -194,8 +192,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     @Override
     public void onResume() {
         super.onResume();
-
-        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         //React to deletion
         DataRefreshService dataRefreshService = get(DataRefreshService.class);
@@ -555,9 +551,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
-            if (ShowFanart) {
-                backgroundService.getValue().setBackground(rowItem.getBaseItem());
-            }
+            backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }
     }
 

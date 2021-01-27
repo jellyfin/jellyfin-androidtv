@@ -56,5 +56,5 @@ val appModule = module {
 	viewModel { LoginViewModel(get(), get()) }
 	viewModel { NextUpViewModel(get(), get()) }
 
-	single { BackgroundService(get(), get()) }
+	single { BackgroundService(get(), get(), get()) }
 }

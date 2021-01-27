@@ -72,7 +72,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
-    protected boolean ShowFanart = false;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
@@ -108,7 +107,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onResume() {
         super.onResume();
 
-        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
         ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
 
         if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_MENUS)
@@ -339,9 +337,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }
 
-            if (ShowFanart) {
-                backgroundService.getValue().setBackground(rowItem.getBaseItem());
-            }
+            backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }
     }
 }

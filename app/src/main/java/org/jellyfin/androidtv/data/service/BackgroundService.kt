@@ -12,12 +12,15 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.MainThread
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -25,7 +28,8 @@ import org.jellyfin.apiclient.model.entities.ImageType
 
 class BackgroundService(
 	private val context: Context,
-	private val apiClient: ApiClient
+	private val apiClient: ApiClient,
+	private val userPreferences: UserPreferences
 ) {
 	companion object {
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
@@ -52,6 +56,12 @@ class BackgroundService(
 	private val staticBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_static)
 	private val currentBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_current)
 	private val nextBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_next)
+
+	// Filter to darken backgrounds
+	private val colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+		context.getColor(R.color.background_filter),
+		BlendModeCompat.SRC_ATOP
+	)
 
 	// Animation
 	@Suppress("MagicNumber")
@@ -114,6 +124,7 @@ class BackgroundService(
 	 * Use all available backdrops from [baseItem] as background.
 	 */
 	fun setBackground(baseItem: BaseItemDto?) {
+		if (!userPreferences[UserPreferences.backdropEnabled]) return clearBackgrounds()
 		if (baseItem == null) return clearBackgrounds()
 
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
@@ -126,9 +137,16 @@ class BackgroundService(
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
 			val backdropDrawables = backdropUrls
-				.map { url -> Glide.with(context).load(url).override(windowSize.width, windowSize.height).centerCrop().submit() }
+				.map { url ->
+					Glide.with(context)
+						.load(url)
+						.override(windowSize.width, windowSize.height)
+						.centerCrop()
+						.submit()
+				}
 				.map { future -> async { future.get() } }
 				.awaitAll()
+				.onEach { it.colorFilter = colorFilter }
 				.filterNotNull()
 
 			backgrounds.clear()
@@ -143,6 +161,8 @@ class BackgroundService(
 	}
 
 	fun clearBackgrounds() {
+		if (backgrounds.isEmpty()) return
+
 		backgrounds.clear()
 		update()
 	}

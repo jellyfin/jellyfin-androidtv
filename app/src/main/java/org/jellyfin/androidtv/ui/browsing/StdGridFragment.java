@@ -94,7 +94,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     CardPresenter mCardPresenter;
 
     protected boolean justLoaded = true;
-    protected boolean ShowFanart = false;
     protected String mPosterSizeSetting = PosterSize.AUTO;
     protected String mImageType = ImageType.DEFAULT;
     protected boolean determiningPosterSize = false;
@@ -186,8 +185,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     @Override
     public void onResume() {
         super.onResume();
-
-        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
@@ -633,9 +630,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private final Runnable mDelayedSetItem = new Runnable() {
         @Override
         public void run() {
-            if (ShowFanart) {
-                backgroundService.getValue().setBackground(mCurrentItem.getBaseItem());
-            }
+            backgroundService.getValue().setBackground(mCurrentItem.getBaseItem());
             setItem(mCurrentItem);
         }
     };
