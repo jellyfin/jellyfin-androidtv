@@ -34,12 +34,14 @@ class BackgroundService(
 	companion object {
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
 		const val SLIDESHOW_DURATION = 10000L // 10 seconds
+		const val UPDATE_INTERVAL = 500L // 0.5 seconds
 	}
 
 	// Async
 	private val scope = MainScope()
 	private var loadBackgroundsJob: Job? = null
 	private var updateBackgroundTimerJob: Job? = null
+	private var lastBackgroundUpdate = 0L
 
 	// All background drawables currently showing
 	private val backgrounds = mutableListOf<Drawable>()
@@ -124,9 +126,11 @@ class BackgroundService(
 	 * Use all available backdrops from [baseItem] as background.
 	 */
 	fun setBackground(baseItem: BaseItemDto?) {
-		if (!userPreferences[UserPreferences.backdropEnabled]) return clearBackgrounds()
-		if (baseItem == null) return clearBackgrounds()
+		// Check if item is set and backgrounds are enabled
+		if (baseItem == null || !userPreferences[UserPreferences.backdropEnabled])
+			return clearBackgrounds()
 
+		// Get all backdrop urls
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
 		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
@@ -169,6 +173,12 @@ class BackgroundService(
 
 	@MainThread
 	private fun update() {
+		val now = System.currentTimeMillis()
+		if (lastBackgroundUpdate > now - UPDATE_INTERVAL)
+			return setTimer(lastBackgroundUpdate - now + UPDATE_INTERVAL, false)
+
+		lastBackgroundUpdate = now
+
 		// Snapshot the current state if an animation is running and draw the new
 		// background on top.
 		if (backgroundAnimator.isRunning) {
@@ -191,13 +201,18 @@ class BackgroundService(
 		backgroundAnimator.start()
 
 		// Set timer for next background
+		if (backgrounds.size > 1) setTimer()
+		else updateBackgroundTimerJob?.cancel()
+	}
+
+	private fun setTimer(updateDelay: Long = SLIDESHOW_DURATION, increaseIndex: Boolean = true) {
 		updateBackgroundTimerJob?.cancel()
-		if (backgrounds.size > 1) {
-			updateBackgroundTimerJob = scope.launch {
-				delay(SLIDESHOW_DURATION)
-				currentIndex++
-				update()
-			}
+		updateBackgroundTimerJob = scope.launch {
+			delay(updateDelay)
+
+			if (increaseIndex) currentIndex++
+
+			update()
 		}
 	}
 

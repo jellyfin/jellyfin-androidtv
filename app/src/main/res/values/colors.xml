@@ -52,5 +52,5 @@
     <!-- Card Text Color -->
     <color name="lb_basic_card_title_text_color_inactive">#4b4b4b</color>
 
-    <color name="background_filter">#A6000000</color>
+    <color name="background_filter">#8B000000</color>
 </resources>
