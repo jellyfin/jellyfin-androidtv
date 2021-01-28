@@ -258,7 +258,7 @@ public class BaseRowItem {
             case Server:
                 return ImageUtils.getResourceUrl(context, R.drawable.tile_port_server);
             case GridButton:
-                return ImageUtils.getResourceUrl(context, gridButton.getImageIndex());
+                return ImageUtils.getResourceUrl(context, gridButton.getImageRes());
             case SeriesTimer:
                 return ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer);
             case SearchHint:

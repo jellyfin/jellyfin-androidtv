@@ -5,7 +5,8 @@ import androidx.annotation.DrawableRes
 open class GridButton(
 	val id: Int,
 	val text: String,
-	@DrawableRes val imageIndex: Int
+	@DrawableRes val imageRes: Int,
+	val imageUrl: String? = null
 ) {
 	override fun toString() = text
 }

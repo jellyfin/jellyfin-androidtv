@@ -13,5 +13,6 @@ fun UserDto.toPublicUser() = PublicUser(
 	name = name,
 	serverId = serverId.toUUID(),
 	accessToken = null,
-	requirePassword = hasPassword
+	requirePassword = hasPassword,
+	primaryImageTag = primaryImageTag
 )

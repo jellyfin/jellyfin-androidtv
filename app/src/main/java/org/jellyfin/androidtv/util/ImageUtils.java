@@ -29,7 +29,7 @@ public class ImageUtils {
     public static final double ASPECT_RATIO_16_9 = 1.779;
     public static final double ASPECT_RATIO_7_9 = .777777777;
 
-    private static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
+    public static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
 
     private static final List<BaseItemType> THUMB_FALLBACK_TYPES = Collections.singletonList(BaseItemType.Episode);
     private static final List<BaseItemType> PROGRESS_INDICATOR_TYPES = Arrays.asList(BaseItemType.Episode, BaseItemType.Movie, BaseItemType.MusicVideo, BaseItemType.Video);

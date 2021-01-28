@@ -468,10 +468,10 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record));
+            gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null));
             if (TvApp.getApplication().canManageRecordings()) {
-                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time));
-                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer));
+                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null));
+                gridRowAdapter.add(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer, null));
             }
 
             mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
