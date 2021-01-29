@@ -21,10 +21,12 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.shared.AbstractActivityLifecycleCallbacks
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
+import timber.log.Timber
 
 class BackgroundService(
 	private val context: Context,
@@ -101,11 +103,23 @@ class BackgroundService(
 			Size(it.right, it.bottom)
 		}
 
-		// Replace current background with service background
 		activity.window.decorView.background = backgroundDrawable
 
-		// Update
-		update()
+		// Set background on resume
+		activity.registerActivityLifecycleCallbacks(object : AbstractActivityLifecycleCallbacks() {
+			override fun onActivityResumed(activity: Activity) {
+				Timber.i("Setting decorview background")
+
+				activity.window.decorView.apply {
+					// We need to force the system to add a new callback
+					// this won't happen if we set the background to the same one
+					// so we set it to null first
+					if (background == backgroundDrawable) background = null
+
+					background = backgroundDrawable
+				}
+			}
+		})
 	}
 
 	// Helper function for [setBackground]
