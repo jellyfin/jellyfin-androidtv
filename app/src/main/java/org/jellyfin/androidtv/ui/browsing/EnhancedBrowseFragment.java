@@ -149,6 +149,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        backgroundService.getValue().attach(requireActivity());
+
         setupViews();
 
         setupUIElements();

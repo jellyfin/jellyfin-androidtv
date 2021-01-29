@@ -92,6 +92,8 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
+        backgroundService.getValue().attach(requireActivity());
+
         setupUIElements();
 
         setupQueries(this);

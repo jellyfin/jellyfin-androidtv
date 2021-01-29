@@ -166,6 +166,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
+        backgroundService.getValue().attach(requireActivity());
+
         setupQueries(this);
 
         addTools();
