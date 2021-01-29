@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.data.service
 
+import android.graphics.drawable.Drawable
 import androidx.fragment.app.Fragment
 
 /**
@@ -8,8 +9,16 @@ import androidx.fragment.app.Fragment
 internal class BackgroundServiceFragment(
 	private val backgroundService: BackgroundService
 ) : Fragment() {
+	private var backgrounds: Array<Drawable>? = null
+
 	override fun onResume() {
 		super.onResume()
+
+		if (backgrounds != null) {
+			backgroundService.backgrounds.clear()
+			backgroundService.backgrounds.addAll(backgrounds!!)
+			backgroundService.update()
+		}
 
 		activity?.window?.decorView?.apply {
 			// We need to force the system to add a new callback
@@ -19,5 +28,11 @@ internal class BackgroundServiceFragment(
 
 			background = backgroundService.backgroundDrawable
 		}
+	}
+
+	override fun onPause() {
+		super.onPause()
+
+		backgrounds = backgroundService.backgrounds.toTypedArray()
 	}
 }

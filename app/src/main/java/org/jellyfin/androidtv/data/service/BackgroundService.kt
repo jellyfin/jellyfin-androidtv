@@ -47,7 +47,7 @@ class BackgroundService(
 	private var lastBackgroundUpdate = 0L
 
 	// All background drawables currently showing
-	private val backgrounds = mutableListOf<Drawable>()
+	internal val backgrounds = mutableListOf<Drawable>()
 
 	// Current background index
 	private var currentIndex = 0
@@ -182,7 +182,7 @@ class BackgroundService(
 	}
 
 	@MainThread
-	private fun update() {
+	internal fun update() {
 		val now = System.currentTimeMillis()
 		if (lastBackgroundUpdate > now - UPDATE_INTERVAL)
 			return setTimer(lastBackgroundUpdate - now + UPDATE_INTERVAL, false)
