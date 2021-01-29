@@ -16,12 +16,12 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.FragmentActivity
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.shared.AbstractActivityLifecycleCallbacks
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -37,6 +37,7 @@ class BackgroundService(
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
 		const val SLIDESHOW_DURATION = 10000L // 10 seconds
 		const val UPDATE_INTERVAL = 500L // 0.5 seconds
+		val FRAGMENT_TAG = BackgroundServiceFragment::class.qualifiedName
 	}
 
 	// Async
@@ -56,14 +57,11 @@ class BackgroundService(
 	private var windowBackground: Drawable = ColorDrawable(Color.BLACK)
 
 	// Background layers
-	private val backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.layer_background) as LayerDrawable
-	private val staticBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_static)
-	private val currentBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_current)
-	private val nextBackgroundLayer = backgroundDrawable.findIndexByLayerId(R.id.background_next)
+	internal val backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.layer_background) as LayerDrawable
 
 	// Filter to darken backgrounds
 	private val colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-		context.getColor(R.color.background_filter),
+		ContextCompat.getColor(context, R.color.background_filter),
 		BlendModeCompat.SRC_ATOP
 	)
 
@@ -76,15 +74,15 @@ class BackgroundService(
 		addUpdateListener { animation ->
 			// Set alpha
 			val value = animation.animatedValue as Int
-			backgroundDrawable.getDrawable(nextBackgroundLayer).alpha = value
+			backgroundDrawable.findDrawableByLayerId(R.id.background_next).alpha = value
 			backgroundDrawable.invalidateSelf()
 		}
 
 		doOnEnd {
 			// Set next as current and clear next
-			val drawable = backgroundDrawable.getDrawable(nextBackgroundLayer)
-			backgroundDrawable.setDrawable(currentBackgroundLayer, drawable)
-			backgroundDrawable.setDrawable(nextBackgroundLayer, ColorDrawable(Color.TRANSPARENT))
+			val drawable = backgroundDrawable.findDrawableByLayerId(R.id.background_next)
+			backgroundDrawable.setDrawableByLayerId(R.id.background_current, drawable)
+			backgroundDrawable.setDrawableByLayerId(R.id.background_next, ColorDrawable(Color.TRANSPARENT))
 			backgroundDrawable.invalidateSelf()
 		}
 	}
@@ -96,7 +94,7 @@ class BackgroundService(
 		// Set default background to current
 		val current = activity.window.decorView.background
 		windowBackground = current?.copy() ?: ColorDrawable(Color.BLACK)
-		backgroundDrawable.setDrawable(staticBackgroundLayer, windowBackground)
+		backgroundDrawable.setDrawableByLayerId(R.id.background_static, windowBackground)
 
 		// Store size of window manager for this activity
 		windowSize = WindowManager(activity).currentWindowMetrics.bounds.let {
@@ -105,21 +103,19 @@ class BackgroundService(
 
 		activity.window.decorView.background = backgroundDrawable
 
-		// Set background on resume
-		activity.registerActivityLifecycleCallbacks(object : AbstractActivityLifecycleCallbacks() {
-			override fun onActivityResumed(activity: Activity) {
-				Timber.i("Setting decorview background")
+		// Add a fragment to the activity to automatically set the background on resume
+		if (activity is FragmentActivity) {
+			val fragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
 
-				activity.window.decorView.apply {
-					// We need to force the system to add a new callback
-					// this won't happen if we set the background to the same one
-					// so we set it to null first
-					if (background == backgroundDrawable) background = null
+			if (fragment == null) {
+				Timber.i("Adding BackgroundServiceFragment to activity")
 
-					background = backgroundDrawable
-				}
+				activity.supportFragmentManager
+					.beginTransaction()
+					.add(BackgroundServiceFragment(this), FRAGMENT_TAG)
+					.commit()
 			}
-		})
+		}
 	}
 
 	// Helper function for [setBackground]
@@ -200,14 +196,14 @@ class BackgroundService(
 				.toBitmap(windowSize.width, windowSize.height)
 				.toDrawable(context.resources)
 			backgroundAnimator.end()
-			backgroundDrawable.setDrawable(currentBackgroundLayer, current)
+			backgroundDrawable.setDrawableByLayerId(R.id.background_current, current)
 		}
 
 		// Get next background to show
 		if (currentIndex >= backgrounds.size) currentIndex = 0
 
-		backgroundDrawable.setDrawable(
-			nextBackgroundLayer,
+		backgroundDrawable.setDrawableByLayerId(
+			R.id.background_next,
 			backgrounds.getOrElse(currentIndex) { windowBackground.copy() }
 		)
 
