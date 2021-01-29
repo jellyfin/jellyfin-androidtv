@@ -127,7 +127,8 @@ dependencies {
 	implementation("com.jakewharton.timber:timber:4.7.1")
 
 	// Debugging
-	debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+	if (getProperty("leakcanary.enable")?.toBoolean() == true)
+		debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
 
 	// Testing
 	testImplementation("junit:junit:4.12")
