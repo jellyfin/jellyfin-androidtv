@@ -58,7 +58,6 @@ import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -814,11 +813,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        final DelayedMessage msg = new DelayedMessage(mActivity, 150);
                         apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                             @Override
                             public void onResponse() {
-                                msg.Cancel();
                                 Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
                                 dataRefreshService.getValue().setLastDeletedItemId(mBaseItem.getId());
                                 finish();
@@ -826,7 +823,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                             @Override
                             public void onError(Exception ex) {
-                                msg.Cancel();
                                 Utils.showToast(mActivity, ex.getLocalizedMessage());
                             }
                         });
@@ -1223,11 +1219,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             .setMessage(getString(R.string.msg_cancel_entire_series))
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    final DelayedMessage msg = new DelayedMessage(activity, 150);
                                     apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
-                                            msg.Cancel();
                                             Utils.showToast(activity, mSeriesTimerInfo.getName() + " Canceled");
                                             dataRefreshService.getValue().setLastDeletedItemId(mSeriesTimerInfo.getId());
                                             finish();
@@ -1235,7 +1229,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            msg.Cancel();
                                             Utils.showToast(activity, ex.getLocalizedMessage());
                                         }
                                     });
