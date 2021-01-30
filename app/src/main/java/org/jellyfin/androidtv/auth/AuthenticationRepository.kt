@@ -57,6 +57,7 @@ class AuthenticationRepository(
 	 * @return Whether the user information can be retrieved.
 	 */
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+		apiClient.setDevice(AuthenticationDevice(device, user.name))
 		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
 		apiClient.EnableAutomaticNetworking(ServerInfo().apply {
 			id = server.id.toString()
