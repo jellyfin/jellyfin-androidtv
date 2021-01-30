@@ -1,5 +1,9 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.FocusHighlightHelper;
 import androidx.leanback.widget.HorizontalGridView;
@@ -12,20 +16,14 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.ShadowOverlayContainer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import org.jellyfin.androidtv.R;
+
+import timber.log.Timber;
 
 /**
  * A presenter that renders objects in a horizontal grid.
  */
 public class HorizontalGridPresenter extends Presenter {
-    private static final String TAG = "GridPresenter";
-    private static final boolean DEBUG = false;
-
     public static class ViewHolder extends Presenter.ViewHolder {
         final ItemBridgeAdapter mItemBridgeAdapter = new ItemBridgeAdapter();
         final HorizontalGridView mGridView;
@@ -180,7 +178,7 @@ public class HorizontalGridPresenter extends Presenter {
         if (mNumRows == -1) {
             throw new IllegalStateException("Number of rows must be set");
         }
-        if (DEBUG) Log.v(TAG, "mNumRows " + mNumRows);
+        Timber.d("mNumRows %s", mNumRows);
         vh.getGridView().setNumRows(mNumRows);
         vh.getGridView().setFadingRightEdge(true);
         vh.getGridView().setFadingRightEdgeLength(100);
@@ -243,7 +241,7 @@ public class HorizontalGridPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        if (DEBUG) Log.v(TAG, "onBindViewHolder " + item);
+        Timber.d("onBindViewHolder %s", item);
         mViewHolder = (ViewHolder) viewHolder;
         mViewHolder.mItemBridgeAdapter.setAdapter((ObjectAdapter) item);
         mViewHolder.getGridView().setAdapter(mViewHolder.mItemBridgeAdapter);
@@ -251,7 +249,7 @@ public class HorizontalGridPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        if (DEBUG) Log.v(TAG, "onUnbindViewHolder");
+        Timber.d("onUnbindViewHolder");
         ViewHolder vh = (ViewHolder) viewHolder;
         vh.mItemBridgeAdapter.setAdapter(null);
         vh.getGridView().setAdapter(null);
