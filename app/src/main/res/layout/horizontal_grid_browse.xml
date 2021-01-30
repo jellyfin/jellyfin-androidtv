@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statusText"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
         android:layout_alignBottom="@+id/counter"
