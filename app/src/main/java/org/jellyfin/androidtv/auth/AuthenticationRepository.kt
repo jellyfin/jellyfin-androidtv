@@ -122,7 +122,7 @@ class AuthenticationRepository(
 	) = flow {
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
-				val api = jellyfin.createApi(server.address, device = device)
+				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
 				api.AuthenticateUserAsync(username, password, callback)
 			}
 
@@ -153,4 +153,3 @@ class AuthenticationRepository(
 		else emit(RequireSignInState)
 	}
 }
-
