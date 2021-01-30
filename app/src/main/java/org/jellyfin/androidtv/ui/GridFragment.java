@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.entities.SortOrder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.fragment.app.Fragment;
 import androidx.leanback.widget.BaseGridView;
@@ -33,10 +19,22 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
 
-public class GridFragment extends Fragment {
-    private static final String TAG = "HorizontalGridFragment";
-    private static boolean DEBUG = false;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.FilterOptions;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import timber.log.Timber;
+
+public class GridFragment extends Fragment {
     protected TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
@@ -189,7 +187,7 @@ public class GridFragment extends Fragment {
                 public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                            RowPresenter.ViewHolder rowViewHolder, Row row) {
                     int position = mGridView.getSelectedPosition();
-                    if (DEBUG) Log.v(TAG, "row selected position " + position);
+                    Timber.d("row selected position %s", position);
                     onRowSelected(position);
                     if (mOnItemViewSelectedListener != null && position >= 0) {
                         mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
