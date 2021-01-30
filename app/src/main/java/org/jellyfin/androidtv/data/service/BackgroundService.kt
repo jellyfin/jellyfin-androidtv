@@ -26,6 +26,7 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
+import org.jellyfin.apiclient.model.search.SearchHint
 import timber.log.Timber
 
 class BackgroundService(
@@ -165,6 +166,48 @@ class BackgroundService(
 
 			backgrounds.clear()
 			backgrounds.addAll(backdropDrawables)
+
+			withContext(Dispatchers.Main) {
+				// Go to first background
+				currentIndex = 0
+				update()
+			}
+		}
+	}
+
+	/**
+	 * Use one available backdrop from [SearchHint] as background.
+	 */
+	fun setBackground(searchHint: SearchHint?) {
+		// Check if item is set and backgrounds are enabled
+		if (searchHint == null || !userPreferences[UserPreferences.backdropEnabled])
+			return clearBackgrounds()
+
+		//Manually grab the backdrop URL
+		val options = ImageOptions()
+		options.maxWidth = 1200
+		options.imageType = ImageType.Backdrop
+		options.tag = searchHint.backdropImageTag
+
+		val backdropUrl = apiClient.GetImageUrl(searchHint.backdropImageItemId, options)
+
+		if (backdropUrl.isNullOrEmpty()) return clearBackgrounds()
+
+		// Cancel current loading job
+		loadBackgroundsJob?.cancel()
+		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
+			val drawable = Glide.with(context)
+					.load(backdropUrl)
+					.override(windowSize.width, windowSize.height)
+					.centerCrop()
+					.submit()
+					.get()
+
+			drawable.colorFilter = colorFilter
+
+			backgrounds.clear()
+			if (drawable != null)
+				backgrounds.add(drawable);
 
 			withContext(Dispatchers.Main) {
 				// Go to first background
