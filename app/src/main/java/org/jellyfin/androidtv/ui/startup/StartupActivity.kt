@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
@@ -121,6 +122,12 @@ class StartupActivity : FragmentActivity() {
 				onClose = { supportFragmentManager.popBackStack() }
 			))
 			.commit()
+	}
+
+	fun manageServers() {
+		val settingsIntent = Intent(this, PreferencesActivity::class.java)
+		settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, ManageServersScreen::class.qualifiedName)
+		startActivity(settingsIntent)
 	}
 
 	private fun showServerList() {
