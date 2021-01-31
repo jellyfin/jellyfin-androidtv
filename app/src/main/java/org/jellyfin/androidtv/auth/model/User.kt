@@ -11,7 +11,7 @@ sealed class User {
 	abstract val name: String
 	abstract val accessToken: String?
 	abstract val requirePassword: Boolean
-	abstract val primaryImageTag: String?
+	abstract val imageTag: String?
 
 	override fun equals(other: Any?) = other is User
 		&& serverId == other.serverId
@@ -33,7 +33,7 @@ data class PrivateUser(
 	override val name: String,
 	override val accessToken: String?,
 	override val requirePassword: Boolean,
-	override val primaryImageTag: String?
+	override val imageTag: String?
 ) : User()
 
 /**
@@ -45,5 +45,5 @@ data class PublicUser(
 	override val name: String,
 	override val accessToken: String?,
 	override val requirePassword: Boolean,
-	override val primaryImageTag: String?
+	override val imageTag: String?
 ) : User()

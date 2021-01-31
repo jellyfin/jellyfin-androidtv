@@ -40,7 +40,7 @@ class AuthenticationRepository(
 					serverId = authInfo?.server ?: server, name = userInfo.name,
 					accessToken = authInfo?.accessToken,
 					requirePassword = userInfo.requirePassword,
-					primaryImageTag = userInfo.primaryImageTag
+					imageTag = userInfo.imageTag
 				)
 			}
 		}
@@ -160,7 +160,7 @@ class AuthenticationRepository(
 	fun getUserImageUrl(server: Server, user: User): String? {
 		val apiClient = jellyfin.createApi(serverAddress = server.address, device = device)
 		return apiClient.GetUserImageUrl(user.id.toString(), ImageOptions().apply {
-			tag = user.primaryImageTag
+			tag = user.imageTag
 			imageType = ImageType.Primary
 			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
 		})

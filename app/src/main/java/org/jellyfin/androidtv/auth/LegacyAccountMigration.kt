@@ -59,7 +59,7 @@ class LegacyAccountMigration(
 					Timber.i("Migrating user $userId")
 					val name = user["Name"]?.jsonPrimitive?.content ?: userId.toString()
 					val requirePassword = user["HasPassword"]?.jsonPrimitive?.booleanOrNull ?: true
-					val primaryImageTag = user["PrimaryImageTag"]?.jsonPrimitive?.content
+					val imageTag = user["PrimaryImageTag"]?.jsonPrimitive?.content
 
 					authenticationStore.putUser(
 						server = serverId,
@@ -67,7 +67,7 @@ class LegacyAccountMigration(
 						userInfo = AuthenticationStoreUser(
 							name = name,
 							requirePassword = requirePassword,
-							primaryImageTag = primaryImageTag
+							imageTag = imageTag
 						)
 					)
 					accountManagerHelper.putAccount(AccountManagerAccount(
