@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Échec du chargement de la vidéo</string>
     <string name="txt_loading">Chargement …</string>
-    <string name="title_activity_select_user">Sélectionnez l\'activité de l\'utilisateur</string>
+    <string name="title_activity_select_user">Choisir l\'activité de l\'utilisateur</string>
     <string name="home_title">Accueil</string>
     <string name="btn_cancel">Annuler</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -15,9 +15,9 @@
     <string name="pref_prompt_pw">Demander le mot de passe</string>
     <string name="pref_alt_pw_entry">Utiliser un code D-PAD personnalisé</string>
     <string name="pref_alt_pw_entry_desc">Saisie du mot de passe numérique en utilisant uniquement les touches du D-Pad</string>
-    <string name="title_activity_dpad_pw">Entrer le mot de passe</string>
-    <string name="enter_password">Entrer le mot de passe</string>
-    <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour entrer un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre de la liste ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
+    <string name="title_activity_dpad_pw">Saisir le mot de passe</string>
+    <string name="enter_password">Saisir le mot de passe</string>
+    <string name="dpad_entry_desc">Utilisez le bouton multidirectionnel de votre télécommande pour saisir un mot de passe numérique. Un simple clic sur un bouton sélectionne le premier chiffre de la liste ; un double-clic sélectionne le second. Exemples : un simple clic sur le bouton vers le haut sélectionne \'1\', un double-clic sélectionne \'5\'. Maintenez appuyé pendant 1 seconde puis relâchez le bouton \'select\' quand vous avez terminé, ou le bouton de gauche pour recommencer.</string>
     <string name="dpad_pw_cancel">* Maintenez appuyé pendant 1 seconde sur le bouton \'bas\' puis relâchez si vous avez un mot de passe alphanumérique ou si vous avez besoin d\'un clavier</string>
     <string name="chapters">Chapitres</string>
     <string name="pref_general">Général</string>
@@ -74,10 +74,10 @@
     <string name="lbl_ends">"Fin :"</string>
     <string name="lbl_directed_by">"Réalisé par :"</string>
     <string name="lbl_last_played">"Dernière lecture "</string>
-    <string name="lbl_select_server">Sélectionnez un serveur</string>
+    <string name="lbl_select_server">Choisir un serveur</string>
     <string name="lbl_other_options">Autres options</string>
     <string name="lbl_enter_manually">Entrez manuellement</string>
-    <string name="lbl_select_user">Sélectionnez un utilisateur</string>
+    <string name="lbl_select_user">Choisir un utilisateur</string>
     <string name="lbl_paren_login_as">" (se connecter en tant que "</string>
     <string name="lbl_to_change_paren">" pour changer)"</string>
     <string name="lbl_login_as">"Se connecter en tant que "</string>
@@ -102,7 +102,7 @@
     <string name="lbl_version">"Version : "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ou https://monserveur.com</string>
     <string name="lbl_enter_server_address">Entrez l\'adresse du serveur</string>
-    <string name="lbl_valid_server_address">Veuillez entrer une adresse de serveur valide (IP ou nom de machine/domaine)</string>
+    <string name="lbl_valid_server_address">Veuillez saisir une adresse de serveur valide (IP ou nom de machine/domaine)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Né "</string>
     <string name="lbl_loading_elipses">Chargement…</string>
@@ -246,7 +246,7 @@
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds pendant la navigation</string>
-    <string name="lbl_show_premieres">Afficher les premières de la saison pendant la navigation</string>
+    <string name="lbl_show_premieres">Afficher le premier épisode des saisons lors de la navigation</string>
     <string name="lbl_use_vlc_livetv">Utiliser VLC pour la télévision en direct</string>
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
@@ -271,7 +271,7 @@
     <string name="lbl_repeat">Répéter</string>
     <string name="lbl_resume_from">Reprendre à partir de %s</string>
     <string name="lbl_save">Sauvegarder</string>
-    <string name="lbl_select_date">Sélectionner la date</string>
+    <string name="lbl_select_date">Choisir la date</string>
     <string name="lbl_series_settings">Paramètres des séries</string>
     <string name="lbl_show_indicators">Afficher les indicateurs pour</string>
     <string name="lbl_sort_by">Trié par</string>
@@ -375,7 +375,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="msg_queue_saved">File d\'attente sauvée comme nouvelle liste de lecture : %1$s</string>
     <string name="msg_no_items">Aucun élément à jouer</string>
-    <string name="subtitle_error">Impossible de sélectionner le sous-titre</string>
+    <string name="subtitle_error">Impossible de choisir le sous-titre</string>
     <string name="too_many_errors">Trop d\'erreurs. Abandon</string>
     <string name="lbl_new_playlist_name">Entrez un nom pour la nouvelle liste de lecture</string>
     <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
@@ -384,7 +384,7 @@
     <string name="delete_warning">Ceci va EFFACER DÉFINITIVEMENT %1$s de votre bibliothèque. Êtes-vous RÉELLEMENT sûr \?</string>
     <string name="clear_expanded">Vider la file d\'attente de vidéos \?</string>
     <string name="lbl_clear">Vider</string>
-    <string name="password_prompt_message">Veuillez entrer le mode de passe pour %1$s</string>
+    <string name="password_prompt_message">Veuillez saisir le mode de passe pour %1$s</string>
     <string name="password_prompt">Saisir le mot de passe</string>
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
@@ -412,8 +412,8 @@
     <string name="play_with_exo_player">Lecture avec ExoPlayer</string>
     <string name="play_with_vlc">Lecture avec libVLC</string>
     <string name="pref_video_player_choose">Toujours demander</string>
-    <string name="lbl_subtitle_track">Sélectionner la piste de sous-titres</string>
-    <string name="lbl_audio_track">Sélectionner la piste audio</string>
+    <string name="lbl_subtitle_track">Choisir la piste de sous-titres</string>
+    <string name="lbl_audio_track">Choisir la piste audio</string>
     <string name="lbl_pause">Pause</string>
     <string name="lbl_playback_control_ends">Se termine à %1$s</string>
     <string name="lbl_manual_login">Connexion manuelle</string>
