@@ -12,7 +12,12 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.auth.model.AuthenticatedState
+import org.jellyfin.androidtv.auth.model.AuthenticatingState
+import org.jellyfin.androidtv.auth.model.RequireSignInState
+import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerUnavailableState
+import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
@@ -95,7 +100,7 @@ class ListServerFragment : RowsSupportFragment() {
 			val userListAdapter = MutableObjectAdapter<GridButton>(GridButtonPresenter())
 
 			users.forEach { user ->
-				userListAdapter.add(UserGridButton(server, user, SELECT_USER, user.name, R.drawable.tile_port_person))
+				userListAdapter.add(UserGridButton(server, user, SELECT_USER, user.name, R.drawable.tile_port_person, loginViewModel.getUserImage(server, user)))
 			}
 
 			userListAdapter.add(AddUserGridButton(server, ADD_USER, requireContext().getString(R.string.lbl_manual_login), R.drawable.tile_edit))
@@ -122,5 +127,5 @@ class ListServerFragment : RowsSupportFragment() {
 
 	private class AddUserGridButton(val server: Server, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
 
-	private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
+	private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int, imageUrl: String?) : GridButton(id, text, imageId, imageUrl)
 }

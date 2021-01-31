@@ -48,6 +48,7 @@ class ModelExtensionsTest {
 		assertEquals(USER_ID, user.id)
 		assertEquals(USER_NAME, user.name)
 		assertEquals(SERVER_ID, user.serverId)
+		assertEquals(IMAGE_TAG, user.imageTag)
 		assertNull(null, user.accessToken)
 		assertEquals(HAS_PASSWORD, user.requirePassword)
 	}

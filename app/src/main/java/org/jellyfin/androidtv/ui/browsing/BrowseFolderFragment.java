@@ -71,11 +71,11 @@ public class BrowseFolderFragment extends StdBrowseFragment {
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            gridRowAdapter.add(new GridButton(BY_LETTER, TvApp.getApplication().getString(R.string.lbl_by_letter), R.drawable.tile_letters));
+            gridRowAdapter.add(new GridButton(BY_LETTER, TvApp.getApplication().getString(R.string.lbl_by_letter), R.drawable.tile_letters, null));
             if (itemTypeString != null && itemTypeString.equals("Movie"))
-                gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
-            gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres));
-            gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
+                gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions, null));
+            gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
+            gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors, null));
             rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
         }
     }
