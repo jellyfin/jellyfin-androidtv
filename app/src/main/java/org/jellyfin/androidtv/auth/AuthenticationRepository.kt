@@ -61,6 +61,7 @@ class AuthenticationRepository(
 	 * @return Whether the user information can be retrieved.
 	 */
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+		apiClient.setDevice(AuthenticationDevice(device, user.name))
 		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
 		apiClient.EnableAutomaticNetworking(ServerInfo().apply {
 			id = server.id.toString()
@@ -126,7 +127,7 @@ class AuthenticationRepository(
 	) = flow {
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
-				val api = jellyfin.createApi(server.address, device = device)
+				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
 				api.AuthenticateUserAsync(username, password, callback)
 			}
 
@@ -166,4 +167,3 @@ class AuthenticationRepository(
 		})
 	}
 }
-
