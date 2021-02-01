@@ -1047,7 +1047,7 @@ public class PlaybackController {
 
         BaseItemDto nextItem = getNextItem();
         if (nextItem != null) {
-            Timber.d("Moving to next queue item. Index: " + (mCurrentIndex + 1));
+            Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
 
             BaseItemDto curItem = getCurrentlyPlayingItem();
 

@@ -13,5 +13,7 @@
     <issue id="KotlinPropertyAccess" severity="warning" />
     <issue id="LambdaLast" severity="warning" />
     <issue id="ExtraTranslation" severity="warning" />
+    <issue id="LogNotTimber" severity="error" />
+    <issue id="BinaryOperationInTimber" severity="error" />
     <issue id="FragmentTagUsage" severity="error" />
 </lint>
