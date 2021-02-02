@@ -1,27 +1,49 @@
 package org.jellyfin.androidtv.ui.startup
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.Server
-import org.jellyfin.androidtv.auth.model.ServerAdditionState
 import org.jellyfin.androidtv.auth.model.User
+import java.util.*
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
 	private val authenticationRepository: AuthenticationRepository,
 ) : ViewModel() {
-	// All available servers and users
-	private val _servers = serverRepository.getServersWithUsers(
-		discovery = true,
-		stored = true
-	).asLiveData()
-	val servers: LiveData<Map<Server, Set<User>>> get() = _servers
+	val discoveredServers: Flow<Server>
+		get() = serverRepository.getDiscoveryServers()
 
-	fun addServer(address: String): LiveData<ServerAdditionState> = serverRepository.addServer(address).asLiveData()
+	private val _storedServers = MutableLiveData<List<Server>>()
+	val storedServers: LiveData<List<Server>>
+		get() = _storedServers
+
+	init {
+		// Initial values
+		viewModelScope.launch {
+			_storedServers.postValue(serverRepository.getStoredServers())
+		}
+	}
+
+	suspend fun getServer(id: UUID) = serverRepository.getStoredServers()
+		.find { it.id == id }
+
+	suspend fun getUsers(server: Server) = serverRepository.gerServerUsers(server)
+
+	fun addServer(address: String) = liveData {
+		serverRepository.addServer(address).onEach {
+			// Reload stored servers when new server is added
+			if (it is ConnectedState) _storedServers.postValue(serverRepository.getStoredServers())
+
+			emit(it)
+		}.collect()
+	}
 
 	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
 

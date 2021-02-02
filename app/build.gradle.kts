@@ -99,6 +99,7 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
 	implementation("androidx.window:window:1.0.0-alpha02")
+	implementation("androidx.viewpager:viewpager:1.0.0")
 
 	// Dependency Injection
 	val koinVersion = "2.2.0"

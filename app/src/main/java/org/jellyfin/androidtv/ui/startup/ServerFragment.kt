@@ -1,38 +1,32 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.model.AuthenticatedState
-import org.jellyfin.androidtv.auth.model.AuthenticatingState
-import org.jellyfin.androidtv.auth.model.RequireSignInState
-import org.jellyfin.androidtv.auth.model.Server
-import org.jellyfin.androidtv.auth.model.ServerUnavailableState
-import org.jellyfin.androidtv.auth.model.User
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
+import java.util.*
 
-class ListServerFragment : RowsSupportFragment() {
-	private companion object {
-		private const val ADD_USER = 1
-		private const val SELECT_USER = 2
+class ServerFragment : RowsSupportFragment() {
+	companion object {
+		const val ARG_SERVER_ID = "server_id"
 	}
 
 	private val loginViewModel: LoginViewModel by sharedViewModel()
 	private val rowAdapter = MutableObjectAdapter<ListRow>(CustomListRowPresenter())
+	private val userComparator = compareByDescending<User> { if (it is PrivateUser) it.lastUsed else 0L }.thenBy { it.name }
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
@@ -43,7 +37,7 @@ class ListServerFragment : RowsSupportFragment() {
 					}
 					RequireSignInState -> {
 						// Open login fragment
-						navigate(UserLoginFragment(
+						navigate(UserLoginAlertFragment(
 							server = item.server,
 							user = item.user,
 						))
@@ -59,7 +53,7 @@ class ListServerFragment : RowsSupportFragment() {
 			}
 		} else if (item is AddUserGridButton) {
 			// Open login fragment
-			navigate(UserLoginFragment(
+			navigate(UserLoginAlertFragment(
 				server = item.server
 			))
 		}
@@ -70,62 +64,64 @@ class ListServerFragment : RowsSupportFragment() {
 
 		adapter = rowAdapter
 		onItemViewClickedListener = itemViewClickedListener
-	}
 
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
+		val serverId = UUID.fromString(arguments?.getString(ARG_SERVER_ID))
+		lifecycleScope.launch {
+			val server = loginViewModel.getServer(serverId) ?: return@launch
+			val users = loginViewModel.getUsers(server).sortedWith(userComparator)
 
-		loginViewModel.servers.observe(viewLifecycleOwner) { servers ->
-			buildRows(servers)
+			buildRow(server, users)
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return super.onCreateView(inflater, container, savedInstanceState)?.apply {
-			updatePadding(top = 20)
+	private fun buildRow(server: Server, users: List<User>) {
+		Timber.d("Creating server row %s", server.name)
+
+		val userListAdapter = MutableObjectAdapter<GridButton>(GridButtonPresenter())
+
+		users.forEachIndexed { index, user ->
+			userListAdapter.add(UserGridButton(
+				server = server,
+				user = user,
+				id = index + 1,
+				text = user.name,
+				imageId = R.drawable.tile_port_person,
+				imageUrl = loginViewModel.getUserImage(server, user),
+			))
 		}
+
+		userListAdapter.add(AddUserGridButton(
+			server = server,
+			id = 0,
+			text = requireContext().getString(R.string.lbl_manual_login),
+			imageId = R.drawable.tile_edit,
+		))
+
+		val row = ListRow(
+			HeaderItem(server.name.ifBlank { server.address }),
+			userListAdapter,
+		)
+
+		rowAdapter.add(row)
 	}
 
-	private fun buildRows(servers: Map<Server, Set<User>>) {
-		servers.forEach { (server, users) ->
-			// Convert the UUID of the server to a long to get a unique id
-			// to make sure a server can't be added multiple times
-			val uniqueRowId = server.id.mostSignificantBits and Long.MAX_VALUE
-			val exists = rowAdapter.any { it.id == uniqueRowId }
-			// Already added, don't add it again
-			if (exists) return@forEach
-
-			Timber.d("Creating server row %s", server.name)
-
-			val userListAdapter = MutableObjectAdapter<GridButton>(GridButtonPresenter())
-
-			users.forEach { user ->
-				userListAdapter.add(UserGridButton(server, user, SELECT_USER, user.name, R.drawable.tile_port_person, loginViewModel.getUserImage(server, user)))
-			}
-
-			userListAdapter.add(AddUserGridButton(server, ADD_USER, requireContext().getString(R.string.lbl_manual_login), R.drawable.tile_edit))
-
-			val row = ListRow(
-				uniqueRowId,
-				HeaderItem(if (server.name.isNotBlank()) server.name else server.address),
-				userListAdapter
-			)
-
-			rowAdapter.add(row)
-		}
+	override fun onResume() {
+		super.onResume()
 
 		// Ensure the server rows get focus
+		// FIXME Ideally not done in current fragment as this changes the focus when the screen changes
 		requireView().requestFocus()
 	}
 
 	private fun navigate(fragment: Fragment) {
-		parentFragmentManager.beginTransaction()
+		requireActivity()
+			.supportFragmentManager
+			.beginTransaction()
 			.replace(R.id.content_view, fragment)
-			.addToBackStack(this::class.simpleName)
+			.addToBackStack(null)
 			.commit()
 	}
 
 	private class AddUserGridButton(val server: Server, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
-
 	private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int, imageUrl: String?) : GridButton(id, text, imageId, imageUrl)
 }

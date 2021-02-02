@@ -17,7 +17,7 @@ import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class UserLoginFragment(
+class UserLoginAlertFragment(
 	private val server: Server,
 	private val user: User? = null,
 	private val onClose: () -> Unit = {}
