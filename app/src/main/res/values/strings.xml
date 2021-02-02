@@ -433,5 +433,11 @@
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_username_field_empty">Username cannot be empty</string>
     <string name="pref_authentication_link">Authentication options</string>
-    <string name="lbl_manage_servers">Manage Servers</string>
+    <string name="lbl_manage_servers">Manage servers</string>
+    <string name="lbl_remove_users">This will also remove all associated users</string>
+    <string name="lbl_remove_server">Remove server</string>
+    <string name="lbl_remove_user">Remove %1$s</string>
+    <string name="lbl_user_last_used">Last used: %1$s %2$s</string>
+    <string name="lbl_users">Users</string>
+    <string name="lbl_server">Server</string>
 </resources>

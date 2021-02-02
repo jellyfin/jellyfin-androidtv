@@ -1,11 +1,13 @@
 package org.jellyfin.androidtv.ui.startup
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.databinding.FragmentToolbarStartupBinding
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 
 class StartupToolbarFragment : Fragment() {
 	private lateinit var binding: FragmentToolbarStartupBinding
