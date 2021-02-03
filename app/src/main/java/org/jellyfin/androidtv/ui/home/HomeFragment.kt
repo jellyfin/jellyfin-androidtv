@@ -47,12 +47,12 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	private val footer by lazy { HomeFragmentFooterRow(requireActivity()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-
 		// Create adapter/presenter and set it to parent
 		mRowsAdapter = ArrayObjectAdapter(PositionableListRowPresenter())
 		mCardPresenter = CardPresenter()
 		adapter = mRowsAdapter
+
+		super.onCreate(savedInstanceState)
 
 		// Get auto bitrate
 		// TODO move to somewhere else (automatically start at app start?)
