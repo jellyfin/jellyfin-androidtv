@@ -1,45 +1,39 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context
+import android.view.Gravity
+import android.view.View.OnFocusChangeListener
+import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.res.ResourcesCompat
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.util.Utils
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.util.Utils;
+/**
+ * Button used in [JumpList].
+ */
+class TextButton(
+	context: Context,
+	text: String?,
+	size: Float,
+	listener: OnClickListener?
+) : AppCompatButton(context) {
+	init {
+		// Set box size
+		layoutParams = Utils.convertDpToPixel(context, size).let { pixels ->
+			ViewGroup.LayoutParams(pixels * 2 + 15, pixels + 40)
+		}
 
-import androidx.appcompat.widget.AppCompatButton;
+		setBackgroundColor(0)
+		textSize = size
+		gravity = Gravity.CENTER
+		setText(text)
 
-public class TextButton extends AppCompatButton {
-    public TextButton(Context context) {
-        super(context);
-        setOnFocusChangeListener(focusChangeListener);
-    }
+		onFocusChangeListener = OnFocusChangeListener { view, hasFocus ->
+			val color = if (hasFocus) ResourcesCompat.getColor(resources, R.color.lb_default_brand_color, null) else 0
+			view.setBackgroundColor(color)
+		}
 
-    public TextButton(Context context, String text, int size, OnClickListener listener) {
-        super(context);
-        setOnFocusChangeListener(focusChangeListener);
-        setOnClickListener(listener);
-        setText(text);
-        setBackgroundColor(0);
-        if (size == 0) {
-            setTextSize(16);
-        } else {
-            setTextSize(size);
-            int trueSize = Utils.convertDpToPixel(context, size);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(trueSize * 2 + 15, trueSize + 40);
-
-            setLayoutParams(lp);
-        }
-    }
-
-    private OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (hasFocus) {
-                v.setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
-            } else {
-                v.setBackgroundColor(0);
-            }
-        }
-    };
+		setOnClickListener(listener)
+	}
 }
