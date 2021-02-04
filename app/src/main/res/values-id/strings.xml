@@ -195,7 +195,7 @@
     <string name="lbl_series">Seri</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_chapters">Bagian</string>
-    <string name="lbl_cast_crew">Pemeran / Kru</string>
+    <string name="lbl_cast_crew">Pemeran/Kru</string>
     <string name="msg_unable_to_cancel">Tidak dapat membatalkan rekaman</string>
     <string name="lbl_performers">Peforma</string>
     <string name="pref_external_live_tv_summary">Membutuhkan aplikasi yang mampu untuk memutar live streaming</string>
@@ -275,11 +275,11 @@
     <string name="msg_recording_cancelled">Rekaman Dibatalkan</string>
     <string name="msg_unable_to_create_recording">Tidak dapat membuat rekaman</string>
     <string name="msg_set_to_record">Program disetel untuk merekam</string>
-    <string name="lbl_record">Rekaman</string>
-    <string name="lbl_record_series">Rekaman Seri</string>
-    <string name="lbl_cancel_series">Batalkan Serial</string>
+    <string name="lbl_record">Rekam</string>
+    <string name="lbl_record_series">Rekam Series</string>
+    <string name="lbl_cancel_series">Batalkan Series</string>
     <string name="lbl_cancel_recording">Batalkan Perekaman</string>
-    <string name="lbl_cancel">Membatalkan</string>
+    <string name="lbl_cancel">Batal</string>
     <string name="lbl_play">Memulai</string>
     <string name="lbl_shuffle_all">Acak Semua</string>
     <string name="lbl_play_all">Mainkan Semua</string>
@@ -373,4 +373,5 @@
     <string name="lbl_premiere">Premier</string>
     <string name="desc_premieres">Tunjukkan deretan episode baru untuk serial apa pun yang Anda tonton</string>
     <string name="lbl_show_premieres">Tampilkan pemutaran perdana season saat menjelajah</string>
+    <string name="lbl_pause">Jeda</string>
 </resources>
