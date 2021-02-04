@@ -124,12 +124,6 @@ class StartupActivity : FragmentActivity() {
 			.commit()
 	}
 
-	fun manageServers() {
-		val settingsIntent = Intent(this, PreferencesActivity::class.java)
-		settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, ManageServersScreen::class.qualifiedName)
-		startActivity(settingsIntent)
-	}
-
 	private fun showServerList() {
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.content_view, StartupToolbarFragment())

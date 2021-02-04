@@ -22,8 +22,9 @@ class StartupToolbarFragment : Fragment() {
 		}
 
 		binding.manageServers.setOnClickListener {
-			val activity = requireActivity()
-			if (activity is StartupActivity) activity.manageServers()
+			val settingsIntent = Intent(requireActivity(), PreferencesActivity::class.java)
+			settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, ManageServersScreen::class.qualifiedName)
+			startActivity(settingsIntent)
 		}
 
 		return binding.root
