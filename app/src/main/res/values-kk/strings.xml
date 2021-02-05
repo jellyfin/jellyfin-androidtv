@@ -121,8 +121,8 @@
     <string name="lbl_confirm_mark_watched">Būl barlyq mazmūndy oinatylğan dep belgıleidı. Sız oğan ÄBDEN senımdısız be\?</string>
     <string name="lbl_mark_unplayed">Oinatylmağan dep belgıleu</string>
     <string name="lbl_mark_played">Oinatylğan dep belgıleu</string>
-    <string name="lbl_remove_favorite">Taŋdaulydan alastau</string>
-    <string name="lbl_add_favorite">Taŋdaulyğa üsteu</string>
+    <string name="lbl_remove_favorite">Taŋdaulyny alastau</string>
+    <string name="lbl_add_favorite">Taŋdaulyny üsteu</string>
     <string name="lbl_like">Ūnaidy</string>
     <string name="lbl_dislike">Ūnamaidy</string>
     <string name="lbl_unlike">Basqaşa</string>
@@ -274,7 +274,7 @@
     <string name="pref_live_tv_mode">Efirlık rejım</string>
     <string name="lbl_in_x_days">%d künde</string>
     <string name="lbl_now_playing_album">%s ışınen</string>
-    <string name="lbl_now_playing_track">%s - %s ışınen</string>
+    <string name="lbl_now_playing_track">%s — %s ışınen</string>
     <string name="lbl_watched">Qaralğan</string>
     <string name="lbl_favorite">Taŋdauly</string>
     <string name="lbl_series">Telehikaia</string>
