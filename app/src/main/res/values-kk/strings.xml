@@ -114,8 +114,8 @@
     <string name="msg_cannot_play">Osy tarmaq oinatyluy mümkın emes</string>
     <string name="lbl_no_items">Tarmaqtar joq</string>
     <string name="lbl_empty">Bos</string>
-    <string name="lbl_tv_queuing">Kelesı bölımderdıŋ bärın kezekke qoiu</string>
-    <string name="sum_tv_queuing">Epizod oinatu kezınde mausymda qalğandardy oinatu kezegıne üsteŋız</string>
+    <string name="lbl_tv_queuing">Kelesı telebölımderdıŋ bärın kezekke qoiu</string>
+    <string name="sum_tv_queuing">Telebölım oinatu kezınde mausymda qalğandardy oinatu kezegıne üsteŋız</string>
     <string name="lbl_search_hint">Mätındı ızdeu (pernetaqta üşın taŋdau)</string>
     <string name="lbl_play_first_unwatched">Qaralmağandardyŋ bırınşısın oinatu</string>
     <string name="lbl_confirm_mark_watched">Būl barlyq mazmūndy oinatylğan dep belgıleidı. Sız oğan ÄBDEN senımdısız be\?</string>
@@ -143,7 +143,7 @@
     <string name="lbl_similar_items_library">Tasyğyşhanaŋyzdağy ūqsas tarmaqtar</string>
     <string name="lbl_record_any_channel">Qaisybır arnadan jazu</string>
     <string name="lbl_record_any_time">Qaisybır uaqytta jazu</string>
-    <string name="lbl_only_new_episodes">Tek qana jaŋa bölımderdı</string>
+    <string name="lbl_only_new_episodes">Tek jaŋa telebölımder</string>
     <string name="lbl_repeat_options">Qaitalau opsialary</string>
     <string name="msg_cancel_entire_series">Şynymen osy TELEHİKAİANYŊ BÄRİN boldyrmau qajet pe\?</string>
     <string name="msg_remote_already_playing">Qaşyqtan oinatu sūranysy elenbeidı. Aldynan ağymdağy tarmaqty toqtatyŋyz.</string>
@@ -191,7 +191,7 @@
     <string name="lbl_song">Äuen</string>
     <string name="lbl_songs">Äuender</string>
     <string name="lbl_album">Älbom</string>
-    <string name="lbl_episodes">Bölımder</string>
+    <string name="lbl_episodes">Telebölımder</string>
     <string name="lbl_enable_cinema_mode">Kinoteatr rejımın qosu</string>
     <string name="sum_enable_cinema_mode">Eger serverde qosylğan bolsa, film oinatu aldynan kırıspeler men aldyn-ala körınısterge rūqsat etıledı</string>
     <string name="lbl_playlists">Oinatu tızımderı</string>
@@ -244,7 +244,7 @@
     <string name="desc_use_vlc_livetv">Qol jetımdı bolsa, tıkelei taratylğan efirlık TD üşın VLC paidalanu</string>
     <string name="lbl_refresh_switching">Jaŋartu jiılıgın auystyrudy qosu</string>
     <string name="lbl_show_premieres">Mausym tūsaukeserlerın şarlau kezınde körsetu</string>
-    <string name="desc_premieres">Qaraludağy telehikaialar üşın bölımder jolynda tek jaŋasyn körsetu</string>
+    <string name="desc_premieres">Qaraludağy telehikaialar üşın telebölımder jolynda tek jaŋasyn körsetu</string>
     <string name="lbl_bitstream_dts">DTS dybysty tasymaldau</string>
     <string name="lbl_album_name">Älbom aty</string>
     <string name="lbl_more_like_this">Osy siaqty köbırek</string>
@@ -260,7 +260,7 @@
     <string name="lbl_hour">sağ</string>
     <string name="lbl_minutes">min</string>
     <string name="lbl_seconds">s</string>
-    <string name="lbl_all_episodes">Barlyq bölımder</string>
+    <string name="lbl_all_episodes">Barlyq telebölımder</string>
     <string name="lbl_series_recordings">Telehikaia jazbalary</string>
     <string name="lbl_save">Saqtau</string>
     <string name="msg_settings_updated">Parametrler jaŋartyldy</string>
@@ -294,9 +294,9 @@
     <string name="lbl_colored_backgrounds">Tüspen belgılengen öŋder</string>
     <string name="lbl_hd_programs">HD-berılımder</string>
     <string name="lbl_live_broadcasts">Tıkelei taratymdar</string>
-    <string name="lbl_repeat_episodes">Bölımderdıŋ qaitalanuy</string>
+    <string name="lbl_repeat_episodes">Telebölımderdı qaitalau</string>
     <string name="lbl_premieres">Tūsaukeserler</string>
-    <string name="lbl_new_episodes">Jaŋa bölımder</string>
+    <string name="lbl_new_episodes">Jaŋa telebölımder</string>
     <string name="lbl_audio_delay">Dybys kıdıruı</string>
     <string name="lbl_new_only">Tek qana jaŋa</string>
     <string name="lbl_news">Jaŋalyqtar</string>
@@ -311,8 +311,8 @@
     <string name="pref_use_direct_path_title">Syrtqy oinatqyş üşın tıkelei şyğaru</string>
     <string name="pref_external_live_tv_title">Efir üşın syrtqy oinatqyşty paidalanu</string>
     <string name="lbl_song_title">Äuen atauy</string>
-    <string name="lbl_next_episode">Kelesı bölımge</string>
-    <string name="lbl_previous_episode">Aldyŋğy bölımge</string>
+    <string name="lbl_next_episode">Kelesı telebölım</string>
+    <string name="lbl_previous_episode">Aldyŋğy telebölım</string>
     <string name="lbl_resume_preroll">Jalğastyru üşın oralu</string>
     <string name="lbl_guide_option_played">Soŋğy oinatylğan</string>
     <string name="title_activity_expanded_text">KeŋeitılgenMätındıkÄreket</string>
@@ -360,7 +360,7 @@
     <string name="msg_live_tv_prev">Aldyŋğy %1$d sağatty jükteimız be\?</string>
     <string name="msg_live_tv_next">Kelesı %1$d sağatty jüktep alamyz ba\?</string>
     <string name="lbl_load_guide_data">Telegid derekterın jükteu</string>
-    <string name="episode_missing">Bölım joq</string>
+    <string name="episode_missing">Telebölım joq</string>
     <string name="lbl_clear">Tazalau</string>
     <string name="password_prompt_message">%1$s üşın paröl engızıŋız</string>
     <string name="password_prompt">Paröl engızıŋız</string>
@@ -426,8 +426,8 @@
     <string name="pref_acra_syslog_enabled">Jüielık juūrnaldar apattyq esepter ışıne qosylady</string>
     <string name="pref_acra_syslog">Apattyq esepterge jüielık jūrnaldar qosylady. Būğan basqa qoldanbalardan jekelık derekter kıruı mümkın, eger ol apat kezınde tırkelgen bolsa.</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>
-    <string name="episode_missing_message_2">Būl bölım tasyğyşhanaŋyzda joq. Oinatu toqtalady.</string>
-    <string name="episode_missing_message">Būl bölım tasyğyşhanaŋyzda joq. Ötkіzіp, kelesіge ötudі qalaisyz ba\?</string>
+    <string name="episode_missing_message_2">Būl telebölım tasyğyşhanaŋyzda joq. Oinatu toqtalady.</string>
+    <string name="episode_missing_message">Būl telebölım tasyğyşhanaŋyzda joq. Ötkіzіp, kelesіge ötudі qalaisyz ba\?</string>
     <string name="no_player_message">Beine üşın qabılettı qoldanba ornatylmağan. Būl opsia beine mazmūndy oinatuğa arnalğan bögde qoldanbasyn ornatudy qajet etedі.</string>
     <string name="mark_watched_message">Tarmaq ūzağyna deiіn oinatyla almady. Qaralğan dep belgıleimız be\?</string>
     <string name="acra_dialog_text">Äzіrleuşіlerge apattyq esep jіbergіŋіz kele me\?
