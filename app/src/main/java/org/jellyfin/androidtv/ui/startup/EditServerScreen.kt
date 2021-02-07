@@ -8,10 +8,6 @@ import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.koin.android.ext.android.get
 import java.text.DateFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 class EditServerScreen : OptionsFragment() {
@@ -36,7 +32,6 @@ class EditServerScreen : OptionsFragment() {
 					action {
 						title = context.getString(R.string.lbl_remove_user, user.value.name)
 						icon = R.drawable.ic_user
-						key = user.key.toString()
 
 						val lastUsedDate = Date(user.value.lastUsed)
 						content = context.getString(R.string.lbl_user_last_used,
@@ -46,6 +41,7 @@ class EditServerScreen : OptionsFragment() {
 						setListener { pref ->
 							(pref.parent as PreferenceCategory).removePreference(pref)
 							authenticationStore.removeUser(serverUUID, user.key)
+							return@setListener true
 						}
 					}
 				}
@@ -59,9 +55,13 @@ class EditServerScreen : OptionsFragment() {
 				setTitle(R.string.lbl_remove_server)
 				setContent(R.string.lbl_remove_users)
 				icon = R.drawable.ic_delete
-				withFragment<ManageServersScreen>()
 				setListener { _ ->
 					authenticationStore.removeServer(serverUUID)
+
+					//Pop the back stack manually
+					requireActivity().supportFragmentManager.fragments[0].childFragmentManager.popBackStackImmediate()
+
+					return@setListener true
 				}
 			}
 		}

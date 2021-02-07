@@ -19,15 +19,7 @@ class OptionsAction(
 	@DrawableRes
 	var icon: Int? = null
 	var content: String? = null
-	var key: String = UUID.randomUUID().toString()
-	var fragment: KClass<out OptionsFragment>? = null
-	var extras: Bundle = bundleOf()
 	var clickListener: Preference.OnPreferenceClickListener? = null
-
-	inline fun <reified T : OptionsFragment> withFragment(extraBundle: Bundle = bundleOf()) {
-		fragment = T::class
-		extras = extraBundle
-	}
 
 	fun setListener(preferenceClickListener: Preference.OnPreferenceClickListener) {
 		clickListener = preferenceClickListener
@@ -41,16 +33,10 @@ class OptionsAction(
 		content = context.getString(resId)
 	}
 
-	fun setItemKey(key: String) {
-		this.key = key
-	}
-
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val pref = Preference(context).also {
 			it.isPersistent = false
-			it.key = key
-			it.fragment = fragment?.qualifiedName
-			it.extras.putAll(extras)
+			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
