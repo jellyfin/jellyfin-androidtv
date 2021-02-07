@@ -16,10 +16,10 @@ class OptionsAction(
 	@DrawableRes
 	var icon: Int? = null
 	var content: String? = null
-	var clickListener: Preference.OnPreferenceClickListener? = null
+	var clickListener: OptionAction? = null
 
-	fun setListener(preferenceClickListener: Preference.OnPreferenceClickListener) {
-		clickListener = preferenceClickListener
+	fun setAction(action: OptionAction) {
+		clickListener = action
 	}
 
 	fun setTitle(@StringRes resId: Int) {
@@ -49,3 +49,10 @@ class OptionsAction(
 		}
 	}
 }
+
+@OptionsDSL
+fun OptionsCategory.action(init: OptionsAction.() -> Unit) {
+	this += OptionsAction(context).apply { init() }
+}
+
+typealias OptionAction = Preference.OnPreferenceClickListener

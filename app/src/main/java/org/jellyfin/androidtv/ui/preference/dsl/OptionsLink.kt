@@ -20,9 +20,9 @@ class OptionsLink(
 	var icon: Int? = null
 	var content: String? = null
 	var fragment: KClass<out OptionsFragment>? = null
-	var extras: Bundle = bundleOf()
+	var extras: Bundle? = null
 
-	inline fun <reified T : OptionsFragment> withFragment(extraBundle: Bundle = bundleOf()) {
+	inline fun <reified T : OptionsFragment> withFragment(extraBundle: Bundle? = null) {
 		fragment = T::class
 		extras = extraBundle
 	}
@@ -40,7 +40,7 @@ class OptionsLink(
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			it.fragment = fragment?.qualifiedName
-			it.extras.putAll(extras)
+			extras?.let { extras -> it.extras.putAll(extras)}
 			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
@@ -53,4 +53,9 @@ class OptionsLink(
 			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}
+}
+
+@OptionsDSL
+fun OptionsCategory.link(init: OptionsLink.() -> Unit) {
+	this += OptionsLink(context).apply { init() }
 }

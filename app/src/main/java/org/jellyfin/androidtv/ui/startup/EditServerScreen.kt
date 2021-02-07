@@ -1,10 +1,11 @@
 package org.jellyfin.androidtv.ui.startup
 
-import androidx.preference.PreferenceCategory
+import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationStore
-import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
+import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.koin.android.ext.android.get
 import java.text.DateFormat
@@ -28,9 +29,9 @@ class EditServerScreen : OptionsFragment() {
 			category {
 				setTitle(R.string.lbl_users)
 
-				server.users.forEach { user ->
-					action {
-						title = context.getString(R.string.lbl_remove_user, user.value.name)
+				for (user in server.users) {
+					link {
+						title = user.value.name
 						icon = R.drawable.ic_user
 
 						val lastUsedDate = Date(user.value.lastUsed)
@@ -38,11 +39,10 @@ class EditServerScreen : OptionsFragment() {
 								DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastUsedDate),
 								DateFormat.getTimeInstance(DateFormat.SHORT).format(lastUsedDate))
 
-						setListener { pref ->
-							(pref.parent as PreferenceCategory).removePreference(pref)
-							authenticationStore.removeUser(serverUUID, user.key)
-							return@setListener true
-						}
+						withFragment<EditUserScreen>(bundleOf(
+								EditUserScreen.ARG_SERVER_UUID to serverUUID,
+								EditUserScreen.ARG_USER_UUID to user.key
+						))
 					}
 				}
 			}
@@ -55,13 +55,14 @@ class EditServerScreen : OptionsFragment() {
 				setTitle(R.string.lbl_remove_server)
 				setContent(R.string.lbl_remove_users)
 				icon = R.drawable.ic_delete
-				setListener { _ ->
+				setAction { _ ->
 					authenticationStore.removeServer(serverUUID)
 
-					//Pop the back stack manually
-					requireActivity().supportFragmentManager.fragments[0].childFragmentManager.popBackStackImmediate()
+					//Finish the activity because the server list in
+					// ManageServersScreen won't update otherwise
+					requireActivity().finish()
 
-					return@setListener true
+					return@setAction true
 				}
 			}
 		}

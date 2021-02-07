@@ -435,9 +435,14 @@
     <string name="pref_authentication_link">Authentication options</string>
     <string name="lbl_manage_servers">Manage servers</string>
     <string name="lbl_remove_users">This will also remove all associated users</string>
+    <string name="lbl_remove_user_content">Remove account</string>
+    <string name="lbl_sign_out_content">Sign this account out.</string>
     <string name="lbl_remove_server">Remove server</string>
     <string name="lbl_remove_user">Remove %1$s</string>
-    <string name="lbl_user_last_used">Last used: %1$s %2$s</string>
+    <string name="lbl_user_last_used">Last used on %1$s at %2$s</string>
+    <string name="lbl_user_server">%1$s on %2$s</string>
     <string name="lbl_users">Users</string>
     <string name="lbl_server">Server</string>
+    <string name="lbl_remove">Remove</string>
+    <string name="lbl_sign_out">Sign out</string>
 </resources>

@@ -19,16 +19,6 @@ class OptionsCategory(
 		nodes.add(item)
 	}
 
-	@OptionsDSL
-	fun link(init: OptionsLink.() -> Unit) {
-		this += OptionsLink(context).apply { init() }
-	}
-
-	@OptionsDSL
-	fun action(init: OptionsAction.() -> Unit) {
-		this += OptionsAction(context).apply { init() }
-	}
-
 	fun build(screen: PreferenceScreen, container: OptionsUpdateFunContainer): PreferenceCategory {
 		return PreferenceCategory(context).also {
 			it.isPersistent = false
