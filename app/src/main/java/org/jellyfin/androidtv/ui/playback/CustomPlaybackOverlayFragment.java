@@ -724,7 +724,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPlaybackController != null) {
+        if (mPlaybackController != null && mPlaybackController.hasFragment()) {
             mPlaybackController.removePreviousQueueItems();
         }
     }
@@ -1473,6 +1473,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         Intent intent = new Intent(getActivity(), NextUpActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
+        mPlaybackController.clearFragment();
+        mPlaybackController.removePreviousQueueItems();
         finish();
     }
 
