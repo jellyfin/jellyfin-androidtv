@@ -49,8 +49,3 @@ class OptionsAction(
 		}
 	}
 }
-
-@OptionsDSL
-fun OptionsCategory.action(init: OptionsAction.() -> Unit) {
-	this += OptionsAction(context).apply { init() }
-}

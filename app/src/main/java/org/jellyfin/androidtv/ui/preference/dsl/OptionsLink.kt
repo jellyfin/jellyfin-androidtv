@@ -54,8 +54,3 @@ class OptionsLink(
 		}
 	}
 }
-
-@OptionsDSL
-fun OptionsCategory.link(init: OptionsLink.() -> Unit) {
-	this += OptionsLink(context).apply { init() }
-}

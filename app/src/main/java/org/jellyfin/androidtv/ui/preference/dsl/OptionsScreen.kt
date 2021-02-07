@@ -28,9 +28,21 @@ class OptionsScreen(
 	/**
 	 * Create a link inside of a category.
 	 */
+	@OptionsDSL
 	fun link(init: OptionsLink.() -> Unit) {
 		val category = OptionsCategory(context)
 		category += OptionsLink(context).apply { init() }
+
+		nodes.add(category)
+	}
+
+	/**
+	 * Create an action inside of a category.
+	 */
+	@OptionsDSL
+	fun action(init: OptionsAction.() -> Unit) {
+		val category = OptionsCategory(context)
+		category += OptionsAction(context).apply { init() }
 
 		nodes.add(category)
 	}
