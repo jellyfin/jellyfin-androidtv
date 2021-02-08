@@ -31,7 +31,7 @@ class UserLoginFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		val confirmBtn = view.findViewById<Button>(R.id.confirm)
+		val confirm = view.findViewById<Button>(R.id.confirm)
 
 		view.findViewById<LinearLayout>(R.id.content).minimumWidth = 360
 
@@ -54,11 +54,10 @@ class UserLoginFragment(
 		val password = EditText(activity)
 
 		password.setOnEditorActionListener { textView, actionId, keyEvent ->
-			if (actionId == EditorInfo.IME_ACTION_DONE) {
-				confirmBtn.performClick()
-				return@setOnEditorActionListener true
-			}
-			return@setOnEditorActionListener false
+			if (actionId == EditorInfo.IME_ACTION_DONE)
+				confirm.performClick()
+			else
+				false
 		}
 
 		password.hint = getString(R.string.lbl_enter_user_pw)
@@ -77,7 +76,7 @@ class UserLoginFragment(
 		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		confirmBtn.setOnClickListener {
+		confirm.setOnClickListener {
 			if (username.text.isNotBlank()) {
 				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
 					println(state)
