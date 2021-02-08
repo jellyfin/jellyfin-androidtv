@@ -35,7 +35,7 @@ class AddServerFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-		val confirmBtn = view.findViewById<Button>(R.id.confirm)
+		val confirm = view.findViewById<Button>(R.id.confirm)
 
 		// Build the url field
 		val address = EditText(requireContext())
@@ -47,11 +47,10 @@ class AddServerFragment(
 		address.imeOptions = EditorInfo.IME_ACTION_DONE
 		address.requestFocus()
 		address.setOnEditorActionListener { textView, actionId, keyEvent ->
-			if (actionId == EditorInfo.IME_ACTION_DONE) {
-				confirmBtn.performClick()
-				return@setOnEditorActionListener true
-			}
-			return@setOnEditorActionListener false
+			if (actionId == EditorInfo.IME_ACTION_DONE)
+				confirm.performClick()
+			else
+				false
 		}
 
 		// Add the url field to the content view
@@ -62,7 +61,7 @@ class AddServerFragment(
 		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		confirmBtn.setOnClickListener {
+		confirm.setOnClickListener {
 			if (address.text.isNotBlank()) {
 				loginViewModel.addServer(address.text.toString()).observe(viewLifecycleOwner) { state ->
 					when (state) {
