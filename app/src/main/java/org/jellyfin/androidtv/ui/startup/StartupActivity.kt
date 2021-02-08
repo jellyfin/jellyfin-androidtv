@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
@@ -14,6 +15,7 @@ import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.shared.IFocusListener
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
@@ -51,6 +53,17 @@ class StartupActivity : FragmentActivity() {
 		} else {
 			Timber.i("Basic network permissions are granted")
 			start()
+		}
+	}
+
+	override fun onWindowFocusChanged(hasFocus: Boolean) {
+		super.onWindowFocusChanged(hasFocus)
+		for(frag in supportFragmentManager.fragments) {
+			if (frag.isVisible) {
+				if (frag != null && frag is IFocusListener) {
+					(frag as IFocusListener).onWindowFocusChanged(hasFocus)
+				}
+			}
 		}
 	}
 

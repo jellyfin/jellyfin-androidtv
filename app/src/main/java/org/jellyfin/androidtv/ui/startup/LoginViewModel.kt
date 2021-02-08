@@ -15,7 +15,7 @@ class LoginViewModel(
 	private val authenticationRepository: AuthenticationRepository,
 ) : ViewModel() {
 	// All available servers and users
-	private val _servers = serverRepository.getServersWithUsers(
+	private var _servers = serverRepository.getServersWithUsers(
 		discovery = true,
 		stored = true
 	).asLiveData()
@@ -28,4 +28,11 @@ class LoginViewModel(
 	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
 
 	fun getUserImage(server: Server, user: User): String? = authenticationRepository.getUserImageUrl(server, user)
+
+	fun refreshServers() {
+		_servers = serverRepository.getServersWithUsers(
+				discovery = true,
+				stored = true
+		).asLiveData()
+	}
 }

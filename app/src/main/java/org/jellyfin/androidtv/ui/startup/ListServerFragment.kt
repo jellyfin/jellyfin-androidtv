@@ -22,10 +22,11 @@ import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
+import org.jellyfin.androidtv.ui.shared.IFocusListener
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class ListServerFragment : RowsSupportFragment() {
+class ListServerFragment : RowsSupportFragment(), IFocusListener {
 	private companion object {
 		private const val ADD_USER = 1
 		private const val SELECT_USER = 2
@@ -70,6 +71,7 @@ class ListServerFragment : RowsSupportFragment() {
 
 		adapter = rowAdapter
 		onItemViewClickedListener = itemViewClickedListener
+
 	}
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,6 +80,12 @@ class ListServerFragment : RowsSupportFragment() {
 		loginViewModel.servers.observe(viewLifecycleOwner) { servers ->
 			buildRows(servers)
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		loginViewModel.refreshServers()
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -128,4 +136,9 @@ class ListServerFragment : RowsSupportFragment() {
 	private class AddUserGridButton(val server: Server, id: Int, text: String, @DrawableRes imageId: Int) : GridButton(id, text, imageId)
 
 	private class UserGridButton(val server: Server, val user: User, id: Int, text: String, @DrawableRes imageId: Int, imageUrl: String?) : GridButton(id, text, imageId, imageUrl)
+
+	override fun onWindowFocusChanged(hasFocus: Boolean) {
+		if (hasFocus)
+			loginViewModel.refreshServers()
+	}
 }
