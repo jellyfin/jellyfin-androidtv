@@ -104,6 +104,10 @@ class UserLoginFragment(
 			}
 		}
 
+		view.findViewById<Button>(R.id.cancel).setOnClickListener {
+			requireActivity().supportFragmentManager.popBackStackImmediate()
+		}
+
 		return view
 	}
 }
