@@ -5,6 +5,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -34,6 +35,8 @@ class AddServerFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
+		val confirm = view.findViewById<Button>(R.id.confirm)
+
 		// Build the url field
 		val address = EditText(requireContext())
 		address.hint = requireActivity().getString(R.string.lbl_ip_hint)
@@ -41,7 +44,14 @@ class AddServerFragment(
 		address.isSingleLine = true
 		address.onFocusChangeListener = KeyboardFocusChangeListener()
 		address.nextFocusDownId = R.id.confirm
+		address.imeOptions = EditorInfo.IME_ACTION_DONE
 		address.requestFocus()
+		address.setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_DONE)
+				confirm.performClick()
+			else
+				false
+		}
 
 		// Add the url field to the content view
 		view.findViewById<LinearLayout>(R.id.content).addView(address)
@@ -51,7 +61,7 @@ class AddServerFragment(
 		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		view.findViewById<Button>(R.id.confirm).setOnClickListener {
+		confirm.setOnClickListener {
 			if (address.text.isNotBlank()) {
 				loginViewModel.addServer(address.text.toString()).observe(viewLifecycleOwner) { state ->
 					when (state) {
