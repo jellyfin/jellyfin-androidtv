@@ -46,7 +46,7 @@ class AddServerFragment(
 		address.nextFocusDownId = R.id.confirm
 		address.imeOptions = EditorInfo.IME_ACTION_DONE
 		address.requestFocus()
-		address.setOnEditorActionListener { textView, actionId, keyEvent ->
+		address.setOnEditorActionListener { _, actionId, _ ->
 			if (actionId == EditorInfo.IME_ACTION_DONE)
 				confirm.performClick()
 			else

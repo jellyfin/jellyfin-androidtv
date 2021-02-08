@@ -53,7 +53,7 @@ class UserLoginFragment(
 		// Build the password field
 		val password = EditText(activity)
 
-		password.setOnEditorActionListener { textView, actionId, keyEvent ->
+		password.setOnEditorActionListener { _, actionId, _ ->
 			if (actionId == EditorInfo.IME_ACTION_DONE)
 				confirm.performClick()
 			else
