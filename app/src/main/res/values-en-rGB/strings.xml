@@ -434,4 +434,5 @@
     <string name="server_field_empty">The address cannot be empty</string>
     <string name="server_connection_failed">Unable to connect to server: %s</string>
     <string name="server_connecting">Connecting to server...</string>
+    <string name="login_authenticating">Authenticating...</string>
 </resources>
