@@ -110,4 +110,11 @@
     <string name="lbl_tv">টিভি</string>
     <string name="lbl_select_user">ব্যবহারকারী নির্বাচন করুন</string>
     <string name="lbl_ends">শেষ হবে</string>
+    <string name="lbl_clear">বাদ করুন</string>
+    <string name="password_prompt_message">দয়া করে পাসওয়ার্ড দিন %1$s</string>
+    <string name="password_prompt">পাসওয়ার্ড দিন</string>
+    <string name="audio_error">অডিওটি প্লে করা সম্ভব হচ্ছে না %1$s</string>
+    <string name="msg_added_to_video">%1$s ভিডিওটি অপেক্ষালিস্টে যুক্ত হয়েছে। শেষ হয়েছে:%2$s</string>
+    <string name="msg_no_items">প্লে করার মত কোন আইটেম নেই</string>
+    <string name="subtitle_error">সাবটাইটেল নির্বাচন সম্ভব হয়নি</string>
 </resources>
