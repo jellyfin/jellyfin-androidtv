@@ -204,6 +204,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize")) {
             mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
             mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+
+            // Set defaults
+            if (mImageType == null) mImageType = ImageType.DEFAULT;
+            if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
+
             mCardHeight = getCardHeight(mPosterSizeSetting);
 
             setGridSizes();
@@ -330,7 +335,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 return mImageType.equals(ImageType.BANNER) ? LARGE_BANNER : LARGE_CARD;
             default:
                 return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
-
         }
     }
 
