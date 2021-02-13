@@ -8,7 +8,7 @@ import androidx.preference.PreferenceCategory
 import java.util.*
 
 /**
- * Perform a custom action when clicked.
+ * Perform a custom action when activated.
  */
 class OptionsAction(
 	private val context: Context
@@ -16,11 +16,7 @@ class OptionsAction(
 	@DrawableRes
 	var icon: Int? = null
 	var content: String? = null
-	var clickListener: OptionAction? = null
-
-	fun setAction(action: OptionAction) {
-		clickListener = action
-	}
+	var onActivate: () -> Unit = {}
 
 	fun setTitle(@StringRes resId: Int) {
 		title = context.getString(resId)
@@ -40,8 +36,11 @@ class OptionsAction(
 			icon?.let { icon -> it.setIcon(icon) }
 			it.title = title
 			it.summary = content
-			if (clickListener != null)
-				it.onPreferenceClickListener = clickListener
+			it.setOnPreferenceClickListener {
+				onActivate()
+				container()
+				true
+			}
 		}
 
 		container += {
@@ -54,5 +53,3 @@ class OptionsAction(
 fun OptionsCategory.action(init: OptionsAction.() -> Unit) {
 	this += OptionsAction(context).apply { init() }
 }
-
-typealias OptionAction = Preference.OnPreferenceClickListener

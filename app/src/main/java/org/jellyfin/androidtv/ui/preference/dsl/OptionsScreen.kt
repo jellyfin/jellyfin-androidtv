@@ -50,9 +50,15 @@ class OptionsScreen(
 	/**
 	 * Create androidx PreferenceScreen instance.
 	 */
-	fun build(preferenceManager: PreferenceManager): PreferenceScreen {
+	fun build(
+		preferenceManager: PreferenceManager,
+		preferenceScreen: PreferenceScreen = preferenceManager.createPreferenceScreen(context)
+	): PreferenceScreen {
 		val container = OptionsUpdateFunContainer()
-		return preferenceManager.createPreferenceScreen(context).also {
+		return preferenceScreen.also {
+			// Clear current preferences in re-used screen
+			it.removeAll()
+
 			it.isPersistent = false
 			it.title = title
 			nodes.forEach { node ->
@@ -63,7 +69,10 @@ class OptionsScreen(
 }
 
 @OptionsDSL
-fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = lazy {
-	OptionsScreen(requireContext())
-		.apply { init() }
+fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = OptionsScreen(requireContext())
+	.apply { init() }
+
+@OptionsDSL
+fun OptionsFragment.lazyOptionsScreen(init: OptionsScreen.() -> Unit) = lazy {
+	optionsScreen(init)
 }

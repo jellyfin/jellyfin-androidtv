@@ -3,27 +3,25 @@ package org.jellyfin.androidtv.ui.startup
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AccountManagerHelper
 import org.jellyfin.androidtv.auth.AuthenticationStore
-import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.action
+import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
 import org.koin.android.ext.android.get
 import java.util.*
 
 class EditUserScreen : OptionsFragment() {
-
-	override val screen by optionsScreen {
+	override val screen by lazyOptionsScreen {
 		val serverUUID = requireArguments().get(ARG_SERVER_UUID)
 		val userUUID = requireArguments().get(ARG_USER_UUID)
 
 		if (serverUUID !is UUID || userUUID !is UUID)
-			return@optionsScreen
+			return@lazyOptionsScreen
 
 		val accountManagerHelper = get<AccountManagerHelper>()
 		val authenticationStore = get<AuthenticationStore>()
-		val server = authenticationStore.getServer(serverUUID) ?: return@optionsScreen
+		val server = authenticationStore.getServer(serverUUID) ?: return@lazyOptionsScreen
 
-		val user = authenticationStore.getUser(serverUUID, userUUID) ?: return@optionsScreen
+		val user = authenticationStore.getUser(serverUUID, userUUID) ?: return@lazyOptionsScreen
 		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
 
 		val account = accountManagerHelper.getAccount(userUUID)
@@ -35,17 +33,13 @@ class EditUserScreen : OptionsFragment() {
 
 				icon = R.drawable.ic_logout
 
-				when {
-					account?.accessToken != null -> {
-						setAction { pref ->
-							accountManagerHelper.removeAccount(account)
+				onActivate = {
+					if (account != null) accountManagerHelper.removeAccount(account)
+				}
 
-							pref.isEnabled = false
-
-							return@setAction true
-						}
-					}
-					else -> enabled = false
+				// Disable action when access token is not set (already signed out)
+				depends {
+					accountManagerHelper.getAccount(userUUID)?.accessToken != null
 				}
 			}
 
@@ -55,20 +49,9 @@ class EditUserScreen : OptionsFragment() {
 
 				icon = R.drawable.ic_delete
 
-				setAction { _ ->
+				onActivate = {
 					authenticationStore.removeUser(serverUUID, userUUID)
-
-					//Pop the back stack manually
-					//Do it twice because the EditServerScreen doesn't update to remove the listed user we just deleted
-					val fragment = requireActivity().supportFragmentManager.findFragmentByTag(PreferencesActivity.FRAGMENT_TAG)
-					if (fragment != null) {
-						fragment.childFragmentManager.popBackStackImmediate()
-						fragment.childFragmentManager.popBackStackImmediate()
-					} else {
-						requireActivity().finish()
-					}
-
-					return@setAction true
+					parentFragmentManager.popBackStack()
 				}
 			}
 		}
