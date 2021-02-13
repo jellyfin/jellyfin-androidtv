@@ -13,6 +13,9 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	 */
 	protected var rebuildOnResume = false
 
+	// Used to not build twice during onCreate()
+	private var skippedInitialResume = false
+
 	override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 		preferenceScreen = screen.build(preferenceManager)
 	}
@@ -20,6 +23,8 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	override fun onResume() {
 		super.onResume()
 
-		if (rebuildOnResume) screen.build(preferenceManager, preferenceScreen)
+		if (skippedInitialResume && rebuildOnResume) screen.build(preferenceManager, preferenceScreen)
+
+		skippedInitialResume = true
 	}
 }
