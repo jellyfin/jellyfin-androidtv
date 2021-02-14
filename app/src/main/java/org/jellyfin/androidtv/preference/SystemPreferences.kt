@@ -13,12 +13,6 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = context.getSharedPreferences("systemprefs", Context.MODE_PRIVATE)
 ) {
 	companion object {
-		// Warnings
-		/**
-		 * Used to track if the warning for the `pref_audio_option` has been shown.
-		 */
-		val audioWarned = Preference.boolean("syspref_audio_warned", false)
-
 		// Live TV - Channel history
 		/**
 		 * Stores the channel that was active before leaving the app
@@ -62,9 +56,8 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		val liveTvGuideFilterSports = Preference.boolean("guide_filter_sports", false)
 
 		/**
-		 * chosen player for play with button - changes every time user chooses a player with "play with" button
+		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
 		 */
-
 		var chosenPlayer = Preference.enum("chosen_player", PreferredVideoPlayer.VLC)
 	}
 }
