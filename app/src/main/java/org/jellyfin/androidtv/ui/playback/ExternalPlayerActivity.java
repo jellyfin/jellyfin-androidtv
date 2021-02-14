@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.BackgroundManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.util.ProfileHelper;
@@ -52,12 +52,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        BackgroundManager.getInstance(this).attach(getWindow());
+        backgroundService.getValue().attach(this);
 
         mItemsToPlay = MediaManager.getCurrentVideoQueue();
 

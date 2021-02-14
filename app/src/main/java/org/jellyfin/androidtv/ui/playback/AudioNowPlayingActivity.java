@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -29,6 +28,7 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
@@ -37,7 +37,6 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -52,9 +51,6 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
-
-    private int BUTTON_SIZE;
-
     private LinearLayout mGenreRow;
     private ImageButton mPlayPauseButton;
     private ImageButton mNextButton;
@@ -104,6 +100,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private boolean ssActive;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +109,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         lastUserInteraction = System.currentTimeMillis();
 
-        BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
         mActivity = this;
 
         mClock = findViewById(R.id.clock);
@@ -236,8 +232,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
 
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
-        backgroundManager.attach(getWindow());
+        backgroundService.getValue().attach(this);
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -456,7 +451,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             //set progress to match duration
             mCurrentProgress.setMax(mCurrentDuration);
             addGenres(mGenreRow);
-            updateBackground(ImageUtils.getBackdropImageUrl(item, apiClient.getValue(), true), mApplyAlpha);
+            backgroundService.getValue().setBackground(item);
         }
     }
 
@@ -508,8 +503,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                //TODO Make this random but NOT previous
-                updateBackground(ImageUtils.getBackdropImageUrl(mBaseItem, apiClient.getValue(), true), mApplyAlpha);
+                backgroundService.getValue().setBackground(mBaseItem);
                 //manage our "screen saver" too
                 if (MediaManager.isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
@@ -561,38 +555,5 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mSSQueueStatus.setText(MediaManager.getCurrentAudioQueueDisplayPosition() + " | " + MediaManager.getCurrentAudioQueueDisplaySize());
         BaseItemDto next = MediaManager.getNextAudioItem();
         mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (getArtistName(next) != null ? getArtistName(next) + " / " : "") + next.getName() : "");
-    }
-
-    protected void updateLogo() {
-        if (mBaseItem.getHasLogo() || mBaseItem.getParentLogoImageTag() != null) {
-            if (ssActive) {
-                mLogoImage.setVisibility(View.VISIBLE);
-                Glide.with(this)
-                        .load(ImageUtils.getLogoImageUrl(mBaseItem, apiClient.getValue()))
-                        .override(700, 200)
-                        .centerInside()
-                        .into(mLogoImage);
-                mArtistName.setVisibility(View.INVISIBLE);
-            }
-        } else {
-            mLogoImage.setVisibility(View.GONE);
-            mArtistName.setVisibility(View.VISIBLE);
-        }
-    }
-
-    protected void updateBackground(String url, boolean applyAlpha) {
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
-        if (url == null) {
-            backgroundManager.setDrawable(null);
-        } else {
-            BackgroundManagerExtensionsKt.drawable(
-                    backgroundManager,
-                    this,
-                    url,
-                    mMetrics.widthPixels,
-                    mMetrics.heightPixels,
-                    applyAlpha
-            );
-        }
     }
 }
