@@ -428,4 +428,5 @@
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
     <string name="play">הפעל</string>
+    <string name="server_connection_failed"></string>
 </resources>
