@@ -413,4 +413,19 @@
     <string name="title_suggestions_halloween">הלואין שמח!</string>
     <string name="lbl_suggestions_halloween">הצעות מפחידות</string>
     <string name="lbl_suggestions">הצעות</string>
+    <string name="server_connecting">מתחבר לשרת...</string>
+    <string name="pref_clock_display_playback">בזמן השמעה</string>
+    <string name="pref_clock_display_browsing">בזמן גלישה</string>
+    <string name="lbl_always">תמיד</string>
+    <string name="pref_clock_display">הצג שעון</string>
+    <string name="pref_default_rating">סוג דירוג ברירת מחדל</string>
+    <string name="lbl_tomatoes">עגבניות</string>
+    <string name="lbl_stars">כוכבים</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">‭%1$,.0f Mbit/s</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="lbl_item">פריט</string>
+    <string name="lbl_items">פריטים</string>
+    <string name="play">הפעל</string>
 </resources>
