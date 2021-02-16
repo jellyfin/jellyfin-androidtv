@@ -234,6 +234,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
+        staticHeight = true;
         add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 

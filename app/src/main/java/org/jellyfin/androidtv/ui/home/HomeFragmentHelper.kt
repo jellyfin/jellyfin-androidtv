@@ -43,7 +43,7 @@ class HomeFragmentHelper(
 			sortOrder = org.jellyfin.apiclient.model.entities.SortOrder.Descending
 		}
 
-		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, arrayOf(ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
 	}
 
 	fun loadResumeVideo(): HomeFragmentRow {
