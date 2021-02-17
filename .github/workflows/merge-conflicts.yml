@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
-      - uses: mschilde/auto-label-merge-conflicts@master
+      - uses: mschilde/auto-label-merge-conflicts@v2
         with:
           CONFLICT_LABEL_NAME: "merge conflict"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
