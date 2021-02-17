@@ -49,8 +49,12 @@ public class Utils {
     }
 
     public static int convertDpToPixel(Context ctx, int dp) {
+        return convertDpToPixel(ctx, (float) dp);
+    }
+
+    public static int convertDpToPixel(Context ctx, float dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
+        return Math.round(dp * density);
     }
 
     public static void beep() {

@@ -89,7 +89,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         };
 
         mRefreshViewVisibility = () -> {
-            if (mButtonRef.getVisibility() != mEndsText.getVisibility())
+            if (mButtonRef != null && mButtonRef.getVisibility() != mEndsText.getVisibility())
                 mEndsText.setVisibility(mButtonRef.getVisibility());
             else
                 mHandler.postDelayed(mRefreshViewVisibility, 100);

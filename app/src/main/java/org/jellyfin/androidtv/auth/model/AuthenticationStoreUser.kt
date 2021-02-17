@@ -11,5 +11,6 @@ import java.util.*
 data class AuthenticationStoreUser(
 	val name: String,
 	@SerialName("last_used") val lastUsed: Long = Date().time,
-	@SerialName("require_password") val requirePassword: Boolean = true
+	@SerialName("require_password") val requirePassword: Boolean = true,
+	@SerialName("image_tag") val imageTag: String? = null
 )

@@ -6,13 +6,16 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
+import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.dto.UserDto
+import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.users.AuthenticationResult
 import timber.log.Timber
 import java.util.*
@@ -36,7 +39,8 @@ class AuthenticationRepository(
 					id = userId,
 					serverId = authInfo?.server ?: server, name = userInfo.name,
 					accessToken = authInfo?.accessToken,
-					requirePassword = userInfo.requirePassword
+					requirePassword = userInfo.requirePassword,
+					imageTag = userInfo.imageTag
 				)
 			}
 		}
@@ -57,6 +61,7 @@ class AuthenticationRepository(
 	 * @return Whether the user information can be retrieved.
 	 */
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+		apiClient.setDevice(AuthenticationDevice(device, user.name))
 		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
 		apiClient.EnableAutomaticNetworking(ServerInfo().apply {
 			id = server.id.toString()
@@ -122,7 +127,7 @@ class AuthenticationRepository(
 	) = flow {
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
-				val api = jellyfin.createApi(server.address, device = device)
+				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
 				api.AuthenticateUserAsync(username, password, callback)
 			}
 
@@ -147,10 +152,18 @@ class AuthenticationRepository(
 		authenticationStore.putUser(server.id, userId, updatedUser)
 		accountManagerHelper.putAccount(AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken))
 
-		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken, result.user.hasPassword)
+		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken, result.user.hasPassword, result.user.primaryImageTag)
 		val authenticated = setActiveSession(user, server)
 		if (authenticated) emit(AuthenticatedState)
 		else emit(RequireSignInState)
 	}
-}
 
+	fun getUserImageUrl(server: Server, user: User): String? {
+		val apiClient = jellyfin.createApi(serverAddress = server.address, device = device)
+		return apiClient.GetUserImageUrl(user.id.toString(), ImageOptions().apply {
+			tag = user.imageTag
+			imageType = ImageType.Primary
+			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
+		})
+	}
+}

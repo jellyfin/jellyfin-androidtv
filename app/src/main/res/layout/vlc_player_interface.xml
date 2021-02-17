@@ -37,7 +37,7 @@
             android:visibility="gone"
             app:use_controller="false" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leanback_fragment"
             android:name="org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment"
             android:layout_width="match_parent"

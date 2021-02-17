@@ -93,8 +93,8 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://mojotserver.com</string>
     <string name="lbl_version">"Верзија "</string>
     <string name="msg_invalid_id_pw">Невалидно корисничко име или лозинка</string>
-    <string name="msg_error_signin">Имаше проблем при најавувањето со зачуваните акредитиви</string>
-    <string name="msg_error_server_version">Неподржана верзија на серверот. Верзијата на серворот мора да биде %1$s или подоцнежна</string>
+    <string name="msg_error_signin">Имаше проблем при најавувањето со зачуваните акредитиви.</string>
+    <string name="msg_error_server_version">Неподржана верзија на серверот. Верзијата на серворот мора да биде %1$s или подоцнежна.</string>
     <string name="msg_error_server_unavailable">Серверот е недостапен</string>
     <string name="msg_error_connecting_server">Грешка при поврзување со серверот</string>
     <string name="lbl_yes">Да</string>

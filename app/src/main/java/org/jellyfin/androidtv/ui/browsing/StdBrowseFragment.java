@@ -1,23 +1,8 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package org.jellyfin.androidtv.ui.browsing;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.BrowseSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -44,6 +29,7 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.ClockUserView;
@@ -56,7 +42,6 @@ import org.jellyfin.androidtv.ui.search.SearchActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.BackgroundManagerExtensionsKt;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -64,42 +49,37 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
-    private static final int BACKGROUND_UPDATE_DELAY = 100;
-
     protected String MainTitle;
     protected boolean ShowBadge = true;
-    protected boolean ShowFanart = false;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private DisplayMetrics mMetrics;
-    private Timer mBackgroundTimer;
-    private final Handler mHandler = new Handler();
-    private String mBackgroundUrl;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     private TextClock mClock;
 
     protected boolean justLoaded = true;
 
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
-        prepareBackgroundManager();
+        backgroundService.getValue().attach(requireActivity());
 
         setupUIElements();
 
@@ -113,24 +93,9 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
-        ShowFanart = get(UserPreferences.class).get(UserPreferences.Companion.getBackdropEnabled());
         ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
 
         if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_MENUS)
@@ -171,11 +136,9 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
                 }
             }
         },1500);
-
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
-
         mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter();
 
@@ -235,29 +198,23 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         addAdditionalRows(mRowsAdapter);
 
         setAdapter(mRowsAdapter);
-
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
 
     }
 
-    private void prepareBackgroundManager() {
-        final BackgroundManager backgroundManager = BackgroundManager.getInstance(requireActivity());
+    protected void setupUIElements() {
+        if (ShowBadge)
+            setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
 
-        if (!backgroundManager.isAttached()) {
-            backgroundManager.attach(requireActivity().getWindow());
-        }
-
-        mMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+        setTitle(MainTitle); // Badge, when set, takes precedent over title
+        setHeadersState(HEADERS_DISABLED);
     }
 
-    protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
-        setTitle(MainTitle); // Badge, when set, takes precedent over title
-        setHeadersState(HEADERS_ENABLED);
-        setHeadersTransitionOnBackEnabled(true);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // move the badge/title to the left to make way for our clock/user bug
         ImageView badge = (ImageView) getActivity().findViewById(R.id.title_badge);
@@ -360,8 +317,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
                 //fill in default background
-                mBackgroundUrl = null;
-                startBackgroundTimer();
+                backgroundService.getValue().clearBackgrounds();
                 return;
             } else {
                 mCurrentItem = (BaseRowItem)item;
@@ -376,55 +332,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }
 
-            if (ShowFanart) {
-                mBackgroundUrl = rowItem.getBackdropImageUrl();
-                startBackgroundTimer();
-            }
-
+            backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }
     }
-
-    protected void updateBackground(String url) {
-        if (url == null) {
-            clearBackground();
-        } else {
-
-            BackgroundManagerExtensionsKt.drawable(
-                    BackgroundManager.getInstance(getActivity()),
-                    getActivity(),
-                    url,
-                    mMetrics.widthPixels,
-                    mMetrics.heightPixels,
-                    true
-            );
-        }
-    }
-
-    protected void clearBackground() {
-        BackgroundManager.getInstance(getActivity()).setDrawable(null);
-    }
-
-    private void startBackgroundTimer() {
-        if (null != mBackgroundTimer) {
-            mBackgroundTimer.cancel();
-        }
-        mBackgroundTimer = new Timer();
-        mBackgroundTimer.schedule(new UpdateBackgroundTask(), BACKGROUND_UPDATE_DELAY);
-    }
-
-    private class UpdateBackgroundTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateBackground(mBackgroundUrl);
-                }
-            });
-
-        }
-    }
-
-
 }

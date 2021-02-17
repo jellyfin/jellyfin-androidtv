@@ -166,7 +166,7 @@
     <string name="msg_playback_restricted">Ο διαχειριστής έχει περιορίσει την αναπαραγωγή αυτού του στοιχείου αυτήν τη στιγμή</string>
     <string name="msg_playback_not_allowed">Δεν επιτρέπεται η αναπαραγωγή αυτή τη στιγμή</string>
     <string name="lbl_loading_elipses">Φόρτωση...</string>
-    <string name="lbl_born">"Γέννημα "</string>
+    <string name="lbl_born">"Γέννηση "</string>
     <string name="lbl_ok">Εντάξει</string>
     <string name="lbl_valid_server_address">Εισαγάγετε την διεύθυνση του διακομιστή (IP ή τομέα / όνομα μηχανήματος)</string>
     <string name="lbl_enter_server_address">Εισαγάγετε την διεύθυνση του διακομιστή</string>
@@ -317,4 +317,58 @@
     <string name="lbl_subtitle_track">Επιλέξτε αρχείο υποτίτλων</string>
     <string name="lbl_audio_track">Επιλέξτε αρχείο ήχου</string>
     <string name="lbl_pause">Παύση</string>
+    <string name="just_one">Μόνο αυτό</string>
+    <string name="turn_off">Απενεργοποίησε αυτή την επιλογή</string>
+    <string name="play_with_vlc">Αναπαραγωγή με libVLC</string>
+    <string name="play_with_external_app">Αναπαραγωγή με εξωτερική εφαρμογή</string>
+    <string name="play_with_exo_player">Αναπαραγωγή με ExoPlayer</string>
+    <string name="pref_authentication_link">Επιλογές Πιστοποίησης</string>
+    <string name="login_server_unavailable">Δεν είναι δυνατή η σύνδεση με τον διακομιστή</string>
+    <string name="login_authenticating">Έλεγχος ταυτότητας...</string>
+    <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
+    <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %s</string>
+    <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή...</string>
+    <string name="pref_clock_display_playback">Κατά την αναπαραγωγή</string>
+    <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
+    <string name="lbl_always">Πάντα</string>
+    <string name="pref_clock_display">Δείξε το ρολόι</string>
+    <string name="pref_default_rating">Προεπιλεγμένος τύπος βαθμολογίας</string>
+    <string name="lbl_tomatoes">Ντομάτες</string>
+    <string name="lbl_stars">Αστέρια</string>
+    <string name="lbl_manual_login">Χειροκίνητη Σύνδεση</string>
+    <string name="lbl_sign_in">Παρακαλώ Συνδεθείτε</string>
+    <string name="lbl_add_server">Προσθήκη Διακομιστή</string>
+    <string name="play_with">Αναπαραγωγή με</string>
+    <string name="pref_video_player_choose">Να ερωτούμαι πάντα</string>
+    <string name="pref_video_player_exoplayer"></string>
+    <string name="pref_theme_emerald">Κλασσικό Σμαραγδί</string>
+    <string name="lbl_image_size">Μέγεθος Εικόνας</string>
+    <string name="lbl_image_type">Τύπος Εικόνας</string>
+    <string name="lbl_default_view">Προεπιλεγμένη Προβολή</string>
+    <string name="lbl_start_favorites">Βάλε τα Αγαπημένα στην Αρχή</string>
+    <string name="lbl_colored_backgrounds">Χρωματική Κωδικοποίηση Φόντου</string>
+    <string name="lbl_hd_programs">Προγράμματα HD</string>
+    <string name="lbl_live_broadcasts">Ζωντανές Εκπομπές</string>
+    <string name="lbl_premieres">Πρεμιέρες</string>
+    <string name="lbl_new_episodes">Νέα Επεισόδια</string>
+    <string name="lbl_new_only">Μόνο τα Πρόσφατα</string>
+    <string name="lbl_news">Νέα</string>
+    <string name="lbl_tv_filter_status">για τις επόμενες %1$d ώρες</string>
+    <string name="lbl_tv_channel_status">%1$d από %2$d κανάλια</string>
+    <string name="lbl_latest_tv_shows">Πρόσφατες Τηλεοπτικές Σειρές</string>
+    <string name="title_suggestions_halloween">Καλό Halloween!</string>
+    <string name="lbl_suggestions">Προτάσεις</string>
+    <string name="acra_dialog_text">Θέλεις να στείλεις μία αναφορά σφάλματος στους προγραμματιστές;
+\n
+\nΗ πληροφορίες θα σταλούν σε τρίτο (traceport.com).
+\n
+\nΑυτή η προτροπή μπορεί ν\'απενεργοποιηθεί στην περιοχή Αναφορά Σφαλμάτων στις Ρυθμίσεις της εφαρμογής Jellyfin.</string>
+    <string name="acra_dialog_title">Ούπς! Κάτι πήγε στραβά.</string>
+    <string name="pref_acra_syslog_disabled">Τα αρχεία καταγραφής δεν θα περιλαμβάνονται στις αναφορές σφαλμάτων</string>
+    <string name="pref_acra_syslog_enabled">Τα αρχεία καταγραφής θα περιλαμβάνονται στις αναφορές σφαλμάτων</string>
+    <string name="pref_acra_syslog">Θα περιλαμβάνονται τα αρχεία καταγραφής του συστήματος στις αναφορές σφαλμάτων. Αυτά μπορεί να περιλαμβάνουν ιδιωτικά δεδομένα από άλλες εφαρμογές αν υπήρχαν καταγραφές τους τη στιγμή του σφάλματος.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Πριν την αναφορά σφαλμάτων θα ζητείται επιβεβαίωση</string>
+    <string name="pref_acra_alwaysaccept_enabled">Οι αναφορές σφαλμάτων θα υποβάλλoνται χωρίς υπενθύμιση</string>
+    <string name="lbl_bitstream_dts">Ήχος Bitstream DTS</string>
+    <string name="lbl_recorded_tv">Εγγραφές TV</string>
 </resources>

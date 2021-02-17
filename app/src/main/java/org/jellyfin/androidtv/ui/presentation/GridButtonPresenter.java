@@ -1,15 +1,15 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
-import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
+
+import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -32,32 +32,33 @@ public class GridButtonPresenter extends Presenter {
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
-        private GridButton mItem;
-        private int cardWidth;
-        private int cardHeight;
-        private MyImageCardView mCardView;
-        private Drawable mDefaultCardImage;
+        private GridButton gridButton;
+        private final MyImageCardView cardView;
 
         public ViewHolder(View view) {
             super(view);
-
-            mCardView = (MyImageCardView) view;
-            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_settings);
+            cardView = (MyImageCardView) view;
         }
 
         public void setItem(GridButton m, int width, int height) {
-            mItem = m;
-            cardWidth = width;
-            cardHeight = height;
-            mCardView.setMainImageDimensions(width, height);
+            gridButton = m;
+            cardView.setMainImageDimensions(width, height);
+            if (gridButton.getImageUrl() == null) {
+                cardView.getMainImageView().setImageResource(gridButton.getImageRes());
+            } else {
+                Glide.with(cardView.getContext())
+                        .load(gridButton.getImageUrl())
+                        .error(gridButton.getImageRes())
+                        .into(cardView.getMainImageView());
+            }
         }
 
         public GridButton getItem() {
-            return mItem;
+            return gridButton;
         }
 
         protected void updateCardViewImage(@DrawableRes int image) {
-            mCardView.getMainImageView().setImageResource(image);
+            cardView.getMainImageView().setImageResource(image);
         }
     }
 
@@ -82,11 +83,9 @@ public class GridButtonPresenter extends Presenter {
         GridButton gridItem = (GridButton) item;
 
         ViewHolder vh = (ViewHolder) viewHolder;
-
         vh.setItem(gridItem, mCardWidth, mCardHeight);
-        vh.mCardView.setTitleText(gridItem.getText());
-        vh.mCardView.setOverlayText(gridItem.getText());
-        vh.updateCardViewImage(gridItem.getImageIndex());
+        vh.cardView.setTitleText(gridItem.getText());
+        vh.cardView.setOverlayText(gridItem.getText());
     }
 
     @Override

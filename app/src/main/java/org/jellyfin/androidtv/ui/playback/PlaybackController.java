@@ -122,6 +122,14 @@ public class PlaybackController {
         useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
     }
 
+    public void clearFragment() {
+        mFragment = null;
+    }
+
+    public boolean hasFragment() {
+        return mFragment != null ? true : false;
+    }
+
     public void init(VideoManager mgr) {
         mVideoManager = mgr;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
@@ -1047,13 +1055,14 @@ public class PlaybackController {
 
         BaseItemDto nextItem = getNextItem();
         if (nextItem != null) {
-            Timber.d("Moving to next queue item. Index: " + (mCurrentIndex + 1));
+            Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
 
             BaseItemDto curItem = getCurrentlyPlayingItem();
 
             if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
+                MediaManager.setCurrentVideoQueue(mItems);
                 mFragment.showNextUp(nextItem.getId());
             } else {
                 mCurrentIndex++;

@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.leanback.app.BackgroundManager
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
 import org.jellyfin.androidtv.util.toHtmlSpanned
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
 	private lateinit var binding: FragmentNextUpBinding
+	private val backgroundService: BackgroundService by inject()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
@@ -21,7 +23,7 @@ class NextUpFragment : Fragment() {
 			// No data, keep current
 			if (data == null) return@observe
 
-			BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
+			backgroundService.setBackground(data.baseItem)
 
 			binding.logo.setImageBitmap(data.logo)
 			binding.image.setImageBitmap(data.thumbnail)

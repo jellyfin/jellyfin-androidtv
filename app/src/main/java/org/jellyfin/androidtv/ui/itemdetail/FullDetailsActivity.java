@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
@@ -40,6 +39,7 @@ import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -58,7 +58,6 @@ import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.DelayedMessage;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -137,7 +136,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private FullDetailsActivity mActivity;
     private Handler mLoopHandler = new Handler();
     private Runnable mClockLoop;
-    public static int BACKDROP_ROTATION_INTERVAL = 8000;
 
     private BaseItemDto mBaseItem;
 
@@ -146,7 +144,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
-    
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,8 +153,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 40);
         mActivity = this;
-        BackgroundManager backgroundManager = BackgroundManager.getInstance(this);
-        backgroundManager.attach(getWindow());
+        backgroundService.getValue().attach(this);
 
         mMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
@@ -500,6 +498,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
+        backgroundService.getValue().setBackground(item);
         if (mBaseItem != null) {
             if (mChannelId != null) {
                 mBaseItem.setParentId(mChannelId);
@@ -814,11 +813,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        final DelayedMessage msg = new DelayedMessage(mActivity, 150);
                         apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                             @Override
                             public void onResponse() {
-                                msg.Cancel();
                                 Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
                                 dataRefreshService.getValue().setLastDeletedItemId(mBaseItem.getId());
                                 finish();
@@ -826,7 +823,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                             @Override
                             public void onError(Exception ex) {
-                                msg.Cancel();
                                 Utils.showToast(mActivity, ex.getLocalizedMessage());
                             }
                         });
@@ -1223,11 +1219,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             .setMessage(getString(R.string.msg_cancel_entire_series))
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    final DelayedMessage msg = new DelayedMessage(activity, 150);
                                     apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
-                                            msg.Cancel();
                                             Utils.showToast(activity, mSeriesTimerInfo.getName() + " Canceled");
                                             dataRefreshService.getValue().setLastDeletedItemId(mSeriesTimerInfo.getId());
                                             finish();
@@ -1235,7 +1229,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            msg.Cancel();
                                             Utils.showToast(activity, ex.getLocalizedMessage());
                                         }
                                     });

@@ -26,4 +26,6 @@ class LoginViewModel(
 	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
 
 	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
+
+	fun getUserImage(server: Server, user: User): String? = authenticationRepository.getUserImageUrl(server, user)
 }

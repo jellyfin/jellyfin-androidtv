@@ -135,11 +135,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 		/* Live TV */
 		/**
-		 * Open live tv when opening the app
-		 */
-		var liveTvMode = Preference.boolean("pref_live_tv_mode", false)
-
-		/**
 		 * Use direct play
 		 */
 		var liveTvDirectPlayEnabled = Preference.boolean("pref_live_direct", true)

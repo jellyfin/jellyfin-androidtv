@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -30,6 +31,8 @@ class UserLoginFragment(
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
+		val confirm = view.findViewById<Button>(R.id.confirm)
+
 		view.findViewById<LinearLayout>(R.id.content).minimumWidth = 360
 
 		// Build the username field
@@ -49,12 +52,21 @@ class UserLoginFragment(
 
 		// Build the password field
 		val password = EditText(activity)
+
+		password.setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_DONE)
+				confirm.performClick()
+			else
+				false
+		}
+
 		password.hint = getString(R.string.lbl_enter_user_pw)
 		password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 		password.isSingleLine = true
 		password.onFocusChangeListener = KeyboardFocusChangeListener()
 		password.nextFocusDownId = R.id.confirm
 		password.typeface = Typeface.DEFAULT
+		password.imeOptions = EditorInfo.IME_ACTION_DONE
 		if (user != null) password.requestFocus()
 		// Add the password field to the content view
 		view.findViewById<LinearLayout>(R.id.content).addView(password)
@@ -64,7 +76,7 @@ class UserLoginFragment(
 		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
 
 		// Override the default confirm button click listener to return the address field text
-		view.findViewById<Button>(R.id.confirm).setOnClickListener {
+		confirm.setOnClickListener {
 			if (username.text.isNotBlank()) {
 				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
 					println(state)
@@ -89,6 +101,10 @@ class UserLoginFragment(
 			} else {
 				errorText.text = getString(R.string.login_username_field_empty)
 			}
+		}
+
+		view.findViewById<Button>(R.id.cancel).setOnClickListener {
+			requireActivity().supportFragmentManager.popBackStackImmediate()
 		}
 
 		return view

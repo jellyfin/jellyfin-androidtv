@@ -68,7 +68,7 @@ android {
 
 dependencies {
 	// Jellyfin
-	implementation("org.jellyfin.apiclient:android:0.7.7")
+	implementation("org.jellyfin.apiclient:android:0.7.9")
 
 	// Kotlin
 	implementation(kotlin("stdlib"))
@@ -83,9 +83,9 @@ dependencies {
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.3.2")
 	implementation("androidx.fragment:fragment-ktx:1.2.5")
-	val androidxLeanbackVersion = "1.1.0-alpha05"
-	implementation("androidx.leanback:leanback:$androidxLeanbackVersion")
-	implementation("androidx.leanback:leanback-preference:$androidxLeanbackVersion")
+	val androidxLeanbackVersion = "1.1.0-beta01"
+	implementation("androidx.leanback:leanback:${androidxLeanbackVersion}")
+	implementation("androidx.leanback:leanback-preference:${androidxLeanbackVersion}")
 	val androidxPreferenceVersion = "1.1.1"
 	implementation("androidx.preference:preference:$androidxPreferenceVersion")
 	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
@@ -93,11 +93,12 @@ dependencies {
 	implementation("androidx.tvprovider:tvprovider:1.0.0")
 	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
-	implementation("androidx.work:work-runtime-ktx:2.4.0")
+	implementation("androidx.work:work-runtime-ktx:2.5.0")
 	implementation("com.google.android:flexbox:2.0.1")
 	val androidxLifecycleVersion = "2.2.0"
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
+	implementation("androidx.window:window:1.0.0-alpha02")
 
 	// Dependency Injection
 	val koinVersion = "2.2.0"
@@ -114,7 +115,7 @@ dependencies {
 	implementation("org.videolan.android:libvlc-all:3.3.2")
 
 	// Image utility
-	implementation("com.github.bumptech.glide:glide:4.11.0")
+	implementation("com.github.bumptech.glide:glide:4.12.0")
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
 
 	// Crash Reporting
@@ -127,9 +128,10 @@ dependencies {
 	implementation("com.jakewharton.timber:timber:4.7.1")
 
 	// Debugging
-	debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+	if (getProperty("leakcanary.enable")?.toBoolean() == true)
+		debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
 
 	// Testing
-	testImplementation("junit:junit:4.12")
+	testImplementation("junit:junit:4.13.1")
 	testImplementation("org.mockito:mockito-core:3.2.4")
 }
