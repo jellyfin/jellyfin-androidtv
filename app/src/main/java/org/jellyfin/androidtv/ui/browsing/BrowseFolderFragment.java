@@ -38,7 +38,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         mFolder = serializer.getValue().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (MainTitle == null) MainTitle = mFolder.getName();
         ShowBadge = false;
@@ -60,7 +60,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
             showViews = false;
         }
 
-        super.onActivityCreated(savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

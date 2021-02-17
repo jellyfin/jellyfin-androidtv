@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package org.jellyfin.androidtv.ui.browsing;
 
 import android.content.Intent;
@@ -26,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BrowseSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -87,8 +74,8 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
@@ -218,10 +205,16 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     }
 
     protected void setupUIElements() {
-        if (ShowBadge) setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
+        if (ShowBadge)
+            setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
+
         setTitle(MainTitle); // Badge, when set, takes precedent over title
-        setHeadersState(HEADERS_ENABLED);
-        setHeadersTransitionOnBackEnabled(true);
+        setHeadersState(HEADERS_DISABLED);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // move the badge/title to the left to make way for our clock/user bug
         ImageView badge = (ImageView) getActivity().findViewById(R.id.title_badge);
