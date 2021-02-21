@@ -188,7 +188,7 @@
     <string name="lbl_confirm_mark_unwatched">Cała zawartość zostanie oznaczona jako nie odtwarzana. Jesteś CAŁKIEM pewny\?</string>
     <string name="lbl_remove_dislike">Usuń Nie podoba mi się</string>
     <string name="lbl_to_change_paren">" by zmienić)"</string>
-    <string name="lbl_runs">Działa</string>
+    <string name="lbl_runs">Odtworzeń</string>
     <string name="lbl_performers">Wykonawcy</string>
     <string name="dpad_entry_desc">Użyj klawiatury numerycznej na pilocie, aby wprowadzić hasło numeryczne. Pojedyncze kliknięcie dla pierwszego numeru z listy lub podwójne kliknięcie dla drugiego, np. pojedyncze kliknięcie \"w górę\" dla 1 lub podwójne kliknięcie \"wybierz\" dla 5. Przytrzymaj wciśnięty przycisk przez 1 sekundę i zwolnij przycisk \"wybierz\" aby zakończyć lub przycisk lewy aby rozpocząć od nowa.</string>
     <string name="lbl_items_in_queue">Przedmioty w kolejce</string>
@@ -387,7 +387,7 @@
     <string name="msg_queue_saved">Kolejka zapisana jako nowa playlista: %1$s</string>
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
-    <string name="too_many_errors">Za dużo błędów. Poddaje się.</string>
+    <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
     <string name="player_error">Błąd odtwarzacza. Próbuje ponownie...</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
     <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
