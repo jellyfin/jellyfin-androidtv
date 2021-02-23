@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.shared
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import org.jellyfin.androidtv.TvApp
@@ -13,23 +12,8 @@ import timber.log.Timber
  * ActivityLifecycleCallback that bounces to the StartupActivity if an Activity is created and
  * the currentUser is null.
  */
-class AuthenticatedUserCallbacks : Application.ActivityLifecycleCallbacks {
-	override fun onActivityPaused(activity: Activity) {
-	}
-
-	override fun onActivityStarted(activity: Activity) {
-	}
-
-	override fun onActivityDestroyed(activity: Activity) {
-	}
-
-	override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
-	}
-
-	override fun onActivityStopped(activity: Activity) {
-	}
-
-	override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+class AuthenticatedUserCallbacks : AbstractActivityLifecycleCallbacks() {
+	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 		when (activity) {
 			// Ignore startup activities
 			is StartupActivity -> return
@@ -46,8 +30,5 @@ class AuthenticatedUserCallbacks : Application.ActivityLifecycleCallbacks {
 				}
 			}
 		}
-	}
-
-	override fun onActivityResumed(activity: Activity) {
 	}
 }

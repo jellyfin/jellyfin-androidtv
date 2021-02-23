@@ -246,13 +246,10 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
     <string name="lbl_vertical_stretch">Vertical Stretch</string>
-    <string name="lbl_audio_capabilitites">Audio Capabilities</string>
     <string name="lbl_audio_track">Select audio track</string>
     <string name="lbl_subtitle_track">Select subtitle track</string>
-    <string name="msg_audio_warning">This app has the ability to direct stream certain multi-channel audio formats. If your hardware does not support these formats, you may hear no sound when playing certain items. This can be fixed by changing the audio mode to \'downmix\' in the settings.</string>
     <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>
-    <string name="btn_set_compatible_audio">Set downmix now</string>
     <string name="lbl_current_queue">Current Queue</string>
     <string name="desc_current_video_queue">Video items currently queued for playback</string>
     <string name="lbl_clear_queue">Clear Queue</string>

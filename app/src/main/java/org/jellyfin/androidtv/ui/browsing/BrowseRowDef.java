@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.browsing;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
-
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
@@ -112,6 +111,7 @@ public class BrowseRowDef {
         headerText = header;
         this.latestItemsQuery = query;
         this.queryType = QueryType.LatestItems;
+        this.staticHeight = true;
         this.changeTriggers = changeTriggers;
     }
 

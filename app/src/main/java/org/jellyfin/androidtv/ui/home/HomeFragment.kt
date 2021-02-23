@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.home
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.Presenter
@@ -13,13 +12,9 @@ import androidx.work.WorkManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
-import org.jellyfin.androidtv.preference.SystemPreferences
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment
@@ -52,32 +47,17 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	private val footer by lazy { HomeFragmentFooterRow(requireActivity()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-
 		// Create adapter/presenter and set it to parent
 		mRowsAdapter = ArrayObjectAdapter(PositionableListRowPresenter())
 		mCardPresenter = CardPresenter()
 		adapter = mRowsAdapter
 
+		super.onCreate(savedInstanceState)
+
 		// Get auto bitrate
 		// TODO move to somewhere else (automatically start at app start?)
 		lifecycleScope.launch(Dispatchers.IO) {
 			get<AutoBitrate>().detect()
-		}
-
-		//First time audio message
-		// TODO move to somewhere else (remove entirely?)
-		if (!get<SystemPreferences>()[SystemPreferences.audioWarned]) {
-			get<SystemPreferences>()[SystemPreferences.audioWarned] = true
-			AlertDialog.Builder(requireContext())
-				.setTitle(getString(R.string.lbl_audio_capabilitites))
-				.setMessage(getString(R.string.msg_audio_warning))
-				.setPositiveButton(getString(R.string.btn_got_it), null)
-				.setNegativeButton(getString(R.string.btn_set_compatible_audio)) { _, _ ->
-					get<UserPreferences>()[UserPreferences.audioBehaviour] = AudioBehavior.DOWNMIX_TO_STEREO
-				}
-				.setCancelable(false)
-				.show()
 		}
 
 		// Subscribe to Audio messages

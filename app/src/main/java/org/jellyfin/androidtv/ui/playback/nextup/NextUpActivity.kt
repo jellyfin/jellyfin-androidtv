@@ -3,18 +3,20 @@ package org.jellyfin.androidtv.ui.playback.nextup
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.leanback.app.BackgroundManager
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NextUpActivity : FragmentActivity() {
 	private val viewModel: NextUpViewModel by viewModel()
+	private val backgroundService: BackgroundService by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		// Observe state
-		viewModel.state.observe(this) {state ->
+		viewModel.state.observe(this) { state ->
 			when (state) {
 				// Open next item
 				NextUpState.PLAY_NEXT -> {
@@ -29,7 +31,7 @@ class NextUpActivity : FragmentActivity() {
 		}
 
 		// Add background manager
-		BackgroundManager.getInstance(this).attach(window)
+		backgroundService.attach(this)
 
 		// Add fragment
 		supportFragmentManager

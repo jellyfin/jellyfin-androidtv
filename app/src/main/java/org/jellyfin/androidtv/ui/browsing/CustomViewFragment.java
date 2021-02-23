@@ -10,11 +10,11 @@ public class CustomViewFragment extends BrowseFolderFragment {
     protected String includeType;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
         Timber.d("Item type: %s", includeType);
         showViews = false;
 
-        super.onActivityCreated(savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 }
