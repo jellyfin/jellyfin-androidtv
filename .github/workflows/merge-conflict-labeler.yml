@@ -1,15 +1,16 @@
-name: "Merge Conflicts"
+name: Merge conflicts labeler
 
 on:
+  schedule:
+    - cron: '0 4 * * *'
   push:
-    branches:
-      - master
+
 jobs:
   triage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
       - uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
-          CONFLICT_LABEL_NAME: "merge conflict"
+          CONFLICT_LABEL_NAME: merge conflict
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
