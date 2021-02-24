@@ -6,12 +6,12 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Validate Gradle Wrapper
+      - name: Update Gradle Wrapper
         uses: gradle-update/update-gradle-wrapper-action@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

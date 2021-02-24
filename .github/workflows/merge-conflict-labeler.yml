@@ -1,4 +1,4 @@
-name: Merge conflicts labeler
+name: Merge conflict label
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   triage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
       - uses: mschilde/auto-label-merge-conflicts@v2.0
