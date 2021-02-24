@@ -430,6 +430,15 @@
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_username_field_empty">Username cannot be empty</string>
     <string name="pref_authentication_link">Authentication options</string>
+    <string name="enable_smart_view">Enable smart screen</string>
+    <string name="enable_smart_view_description">Smart screen shows relevant items instead of a grid</string>
+    <string name="image_type_default">Default</string>
+    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_banner">Banner</string>
+    <string name="image_size_auto">Default</string>
+    <string name="image_size_small">Small</string>
+    <string name="image_size_medium">Medium</string>
+    <string name="image_size_large">Large</string>
     <string name="pref_developer_link">Developer options</string>
     <string name="pref_developer_link_description">Advanced and experimental features</string>
 </resources>

@@ -51,7 +51,6 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.GridDirection;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
-import org.jellyfin.androidtv.ui.DisplayPrefsPopup;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.JumpList;
@@ -59,6 +58,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.ui.search.SearchActivity;
@@ -179,14 +179,23 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+
+        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize")) {
+            mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+            mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+
+            // Set defaults
+            if (mImageType == null) mImageType = ImageType.DEFAULT;
+            if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
+
+            mCardHeight = getCardHeight(mPosterSizeSetting);
+
+            setGridSizes();
+            createGrid();
+            loadGrid(mRowDef);
+        }
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
@@ -267,8 +276,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         setupRetrieveListeners();
         mGridAdapter.setFilters(filters);
         setAdapter(mGridAdapter);
-
-
     }
 
     public void loadGrid(final BrowseRowDef rowDef) {
@@ -309,7 +316,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 return mImageType.equals(ImageType.BANNER) ? LARGE_BANNER : LARGE_CARD;
             default:
                 return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
-
         }
     }
 
@@ -329,7 +335,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
     protected ImageButton mLetterButton;
-    protected DisplayPrefsPopup mDisplayPrefsPopup;
 
     protected void updateDisplayPrefs() {
         if (mDisplayPrefs.getCustomPrefs() == null)
@@ -345,23 +350,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         //Add tools
         LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(getActivity(), 24);
-
-        mDisplayPrefsPopup = new DisplayPrefsPopup(getActivity(), mGridDock, mAllowViewSelection, new Response<Boolean>() {
-            @Override
-            public void onResponse(Boolean response) {
-                TvApp.getApplication().updateDisplayPrefs(mDisplayPrefs);
-                if (response)
-                {
-                    mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
-                    mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
-                    mCardHeight = getCardHeight(mPosterSizeSetting);
-
-                    setGridSizes();
-                    createGrid();
-                    loadGrid(mRowDef);
-                }
-            }
-        });
 
         mSortButton = new ImageButton(getActivity(), R.drawable.ic_sort, size, new View.OnClickListener() {
             @Override
@@ -462,13 +450,17 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mSettingsButton = new ImageButton(getActivity(), R.drawable.ic_settings, size, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDisplayPrefsPopup.show(mDisplayPrefs, mFolder.getCollectionType());
+                Intent settingsIntent = new Intent(getActivity(), PreferencesActivity.class);
+                settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, DisplayPreferencesScreen.class.getCanonicalName());
+                Bundle screenArgs = new Bundle();
+                screenArgs.putString(DisplayPreferencesScreen.ARG_PREFERENCES_ID, mFolder.getDisplayPreferencesId());
+                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, mAllowViewSelection);
+                settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, screenArgs);
+                getActivity().startActivity(settingsIntent);
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));
         toolBar.addView(mSettingsButton);
-
-
     }
 
     private JumplistPopup mJumplistPopup;
