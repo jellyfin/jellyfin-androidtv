@@ -430,4 +430,6 @@
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_username_field_empty">Username cannot be empty</string>
     <string name="pref_authentication_link">Authentication options</string>
+    <string name="pref_developer_link">Developer options</string>
+    <string name="pref_developer_link_description">Advanced and experimental features</string>
 </resources>
