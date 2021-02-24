@@ -439,4 +439,6 @@
     <string name="image_size_small">Small</string>
     <string name="image_size_medium">Medium</string>
     <string name="image_size_large">Large</string>
+    <string name="pref_developer_link">Developer options</string>
+    <string name="pref_developer_link_description">Advanced and experimental features</string>
 </resources>
