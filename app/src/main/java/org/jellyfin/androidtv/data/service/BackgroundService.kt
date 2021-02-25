@@ -146,33 +146,7 @@ class BackgroundService(
 		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
 
-		if (backdropUrls.isEmpty()) return clearBackgrounds()
-
-		// Cancel current loading job
-		loadBackgroundsJob?.cancel()
-		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
-			val backdropDrawables = backdropUrls
-				.map { url ->
-					Glide.with(context)
-						.load(url)
-						.override(windowSize.width, windowSize.height)
-						.centerCrop()
-						.submit()
-				}
-				.map { future -> async { future.get() } }
-				.awaitAll()
-				.onEach { it.colorFilter = colorFilter }
-				.filterNotNull()
-
-			backgrounds.clear()
-			backgrounds.addAll(backdropDrawables)
-
-			withContext(Dispatchers.Main) {
-				// Go to first background
-				currentIndex = 0
-				update()
-			}
-		}
+		loadBackgrounds(backdropUrls)
 	}
 
 	/**
@@ -189,25 +163,32 @@ class BackgroundService(
 		options.imageType = ImageType.Backdrop
 		options.tag = searchHint.backdropImageTag
 
-		val backdropUrl = apiClient.GetImageUrl(searchHint.backdropImageItemId, options)
+		val backdropUrls = setOf(apiClient.GetImageUrl(searchHint.backdropImageItemId, options))
 
-		if (backdropUrl.isNullOrEmpty()) return clearBackgrounds()
+		loadBackgrounds(backdropUrls)
+	}
+
+	private fun loadBackgrounds(backdropUrls: Set<String>) {
+		if (backdropUrls.isEmpty()) return clearBackgrounds()
 
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
-			val drawable = Glide.with(context)
-					.load(backdropUrl)
-					.override(windowSize.width, windowSize.height)
-					.centerCrop()
-					.submit()
-					.get()
-
-			drawable.colorFilter = colorFilter
+			val backdropDrawables = backdropUrls
+					.map { url ->
+						Glide.with(context)
+								.load(url)
+								.override(windowSize.width, windowSize.height)
+								.centerCrop()
+								.submit()
+					}
+					.map { future -> async { future.get() } }
+					.awaitAll()
+					.onEach { it.colorFilter = colorFilter }
+					.filterNotNull()
 
 			backgrounds.clear()
-			if (drawable != null)
-				backgrounds.add(drawable);
+			backgrounds.addAll(backdropDrawables)
 
 			withContext(Dispatchers.Main) {
 				// Go to first background
