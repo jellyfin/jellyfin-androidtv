@@ -14,5 +14,11 @@ enum class RatingType {
 	 * Sets the default rating type to stars.
 	 */
 	@EnumDisplayOptions(R.string.lbl_stars)
-	RATING_STARS
+	RATING_STARS,
+
+	/**
+	 * Sets the default rating type to hidden.
+	 */
+	@EnumDisplayOptions(R.string.lbl_hidden)
+	RATING_HIDDEN
 }
