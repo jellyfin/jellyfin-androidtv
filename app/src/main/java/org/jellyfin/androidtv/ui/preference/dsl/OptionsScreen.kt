@@ -28,6 +28,7 @@ class OptionsScreen(
 	/**
 	 * Create a link inside of a category.
 	 */
+	@OptionsDSL
 	fun link(init: OptionsLink.() -> Unit) {
 		val category = OptionsCategory(context)
 		category += OptionsLink(context).apply { init() }
@@ -36,11 +37,28 @@ class OptionsScreen(
 	}
 
 	/**
+	 * Create an action inside of a category.
+	 */
+	@OptionsDSL
+	fun action(init: OptionsAction.() -> Unit) {
+		val category = OptionsCategory(context)
+		category += OptionsAction(context).apply { init() }
+
+		nodes.add(category)
+	}
+
+	/**
 	 * Create androidx PreferenceScreen instance.
 	 */
-	fun build(preferenceManager: PreferenceManager): PreferenceScreen {
+	fun build(
+		preferenceManager: PreferenceManager,
+		preferenceScreen: PreferenceScreen = preferenceManager.createPreferenceScreen(context)
+	): PreferenceScreen {
 		val container = OptionsUpdateFunContainer()
-		return preferenceManager.createPreferenceScreen(context).also {
+		return preferenceScreen.also {
+			// Clear current preferences in re-used screen
+			it.removeAll()
+
 			it.isPersistent = false
 			it.title = title
 			nodes.forEach { node ->
@@ -51,7 +69,10 @@ class OptionsScreen(
 }
 
 @OptionsDSL
-fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = lazy {
-	OptionsScreen(requireContext())
-		.apply { init() }
+fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = OptionsScreen(requireContext())
+	.apply { init() }
+
+@OptionsDSL
+fun OptionsFragment.lazyOptionsScreen(init: OptionsScreen.() -> Unit) = lazy {
+	optionsScreen(init)
 }

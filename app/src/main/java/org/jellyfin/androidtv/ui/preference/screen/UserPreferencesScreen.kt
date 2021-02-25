@@ -4,13 +4,13 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.preference.category.*
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
 import org.koin.android.ext.android.inject
 
 class UserPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
 
-	override val screen by optionsScreen {
+	override val screen by lazyOptionsScreen {
 		setTitle(R.string.settings_title)
 
 		// Add all categories using extension functions in the "category" subpackage

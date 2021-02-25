@@ -15,6 +15,7 @@ class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 			requireArguments().getString(EXTRA_SCREEN)!!,
 			requireArguments().getBundle(EXTRA_SCREEN_ARGS)!!
 		)
+
 		startPreferenceFragment(fragment)
 	}
 

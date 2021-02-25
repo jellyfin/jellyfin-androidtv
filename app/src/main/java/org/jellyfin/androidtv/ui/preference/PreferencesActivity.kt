@@ -20,13 +20,14 @@ class PreferencesActivity : FragmentActivity() {
 					PreferencesFragment.EXTRA_SCREEN to screen,
 					PreferencesFragment.EXTRA_SCREEN_ARGS to screenArgs
 				)
-			})
+			}, FRAGMENT_TAG)
 			.commit()
 	}
 
 	companion object {
 		const val EXTRA_SCREEN = "screen"
 		const val EXTRA_SCREEN_ARGS = "screen_args"
+		const val FRAGMENT_TAG = "PreferencesActivity"
 	}
 }
 

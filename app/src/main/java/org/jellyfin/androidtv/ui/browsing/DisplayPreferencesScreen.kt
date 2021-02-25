@@ -2,10 +2,7 @@ package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.dsl.checkbox
-import org.jellyfin.androidtv.ui.preference.dsl.list
-import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.*
 
 class DisplayPreferencesScreen : OptionsFragment() {
 	// Requires the caller of this view to pre-cache the display preferences
@@ -14,7 +11,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 		TvApp.getApplication().getCachedDisplayPrefs(id)
 	}
 
-	override val screen by optionsScreen {
+	override val screen by lazyOptionsScreen {
 		val allowViewSelection = requireArguments().getBoolean(ARG_ALLOW_VIEW_SELECTION)
 
 		setTitle(R.string.lbl_display_preferences)

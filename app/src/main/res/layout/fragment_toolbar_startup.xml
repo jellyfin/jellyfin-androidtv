@@ -8,5 +8,13 @@
         style="@style/Button.Default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
         android:text="@string/lbl_add_server" />
+
+    <Button
+        android:id="@+id/manage_servers"
+        style="@style/Button.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_manage_servers" />
 </org.jellyfin.androidtv.ui.shared.ToolbarView>

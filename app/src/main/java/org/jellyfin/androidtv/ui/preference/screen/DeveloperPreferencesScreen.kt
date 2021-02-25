@@ -3,16 +3,13 @@ package org.jellyfin.androidtv.ui.preference.screen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.GridDirection
-import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.dsl.checkbox
-import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.koin.android.ext.android.inject
 
 class DeveloperPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
 
-	override val screen by optionsScreen {
+	override val screen by lazyOptionsScreen {
 		setTitle(R.string.pref_developer_link)
 
 		category {
