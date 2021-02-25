@@ -24,6 +24,14 @@ class UserPreferencesScreen : OptionsFragment() {
 		liveTvCategory(userPreferences)
 		shortcutsCategory(userPreferences)
 		crashReportingCategory(userPreferences)
+
+		link {
+			setTitle(R.string.pref_developer_link)
+			setContent(R.string.pref_developer_link_description)
+			icon = R.drawable.ic_flask
+			withFragment<DeveloperPreferencesScreen>()
+		}
+
 		aboutCategory()
 	}
 }

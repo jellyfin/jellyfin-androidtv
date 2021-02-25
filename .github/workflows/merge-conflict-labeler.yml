@@ -1,9 +1,10 @@
-name: "Merge Conflicts"
+name: Merge conflict label
 
 on:
+  schedule:
+    - cron: '0 4 * * *'
   push:
-    branches:
-      - master
+
 jobs:
   triage:
     runs-on: ubuntu-latest
@@ -11,5 +12,5 @@ jobs:
     steps:
       - uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
-          CONFLICT_LABEL_NAME: "merge conflict"
+          CONFLICT_LABEL_NAME: merge conflict
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

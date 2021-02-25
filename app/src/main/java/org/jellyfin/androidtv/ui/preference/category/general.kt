@@ -4,7 +4,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
-import org.jellyfin.androidtv.preference.constant.GridDirection
 import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -31,11 +30,6 @@ fun OptionsScreen.generalCategory(
 		bind(userPreferences, UserPreferences.premieresEnabled)
 	}
 
-	enum<GridDirection> {
-		setTitle(R.string.grid_direction)
-		bind(userPreferences, UserPreferences.gridDirection)
-	}
-
 	enum<ClockBehavior> {
 		setTitle(R.string.pref_clock_display)
 		bind(userPreferences, UserPreferences.clockBehavior)
@@ -50,11 +44,5 @@ fun OptionsScreen.generalCategory(
 		setTitle(R.string.lbl_enable_seasonal_themes)
 		setContent(R.string.desc_seasonal_themes)
 		bind(userPreferences, UserPreferences.seasonalGreetingsEnabled)
-	}
-
-	checkbox {
-		setTitle(R.string.lbl_enable_debug)
-		setContent(R.string.desc_debug)
-		bind(userPreferences, UserPreferences.debuggingEnabled)
 	}
 }
