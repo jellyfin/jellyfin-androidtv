@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_root"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
-    android:background="?attr/toolbarBackground">
+    android:layout_height="95dp">
 
     <LinearLayout
         android:id="@+id/toolbar_start"
@@ -23,12 +22,11 @@
             android:id="@+id/toolbar_logo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="48dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/app_logo_transparent" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/toolbar_content"
         android:layout_width="0dp"
@@ -37,6 +35,8 @@
         android:layout_marginBottom="27dp"
         android:gravity="bottom"
         android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintEnd_toStartOf="@id/toolbar_end"
         app:layout_constraintStart_toEndOf="@id/toolbar_start" />
 
