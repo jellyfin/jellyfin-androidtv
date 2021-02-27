@@ -453,4 +453,5 @@
     <string name="image_size_large">Large</string>
     <string name="pref_developer_link">Developer options</string>
     <string name="pref_developer_link_description">Advanced and experimental features</string>
+    <string name="lbl_hidden">Hidden</string>
 </resources>

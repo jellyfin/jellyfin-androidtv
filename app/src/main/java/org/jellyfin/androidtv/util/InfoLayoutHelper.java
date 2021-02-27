@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
@@ -23,6 +25,8 @@ import org.jellyfin.apiclient.model.entities.SeriesStatus;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class InfoLayoutHelper {
 
@@ -50,7 +54,10 @@ public class InfoLayoutHelper {
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        addCriticInfo(activity, item, layout);
+        RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+        if (ratingType != RatingType.RATING_HIDDEN) {
+            addCriticInfo(activity, item, layout);
+        }
         switch (item.getBaseItemType()) {
             case Episode:
                 addSeasonEpisode(activity, item, layout);
