@@ -1,36 +1,35 @@
-package org.jellyfin.androidtv.ui.search;
+package org.jellyfin.androidtv.ui.search
 
-import android.os.Bundle;
-import android.speech.SpeechRecognizer;
+import android.R
+import android.os.Bundle
+import android.speech.SpeechRecognizer
+import androidx.fragment.app.FragmentActivity
 
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
+class SearchActivity : FragmentActivity() {
+	private val isSpeechEnabled by lazy {
+		SpeechRecognizer.isRecognitionAvailable(this)
+	}
 
-import androidx.fragment.app.Fragment;
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-public class SearchActivity extends BaseActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		// Determine fragment to use
+		val searchFragment = when {
+			isSpeechEnabled -> LeanbackSearchFragment()
+			else -> TextSearchFragment()
+		}
 
-        boolean isSpeechEnabled = SpeechRecognizer.isRecognitionAvailable(this);
+		// Add fragment
+		supportFragmentManager
+			.beginTransaction()
+			.replace(R.id.content, searchFragment)
+			.commit()
+	}
 
-        // Determine fragment to use
-        Fragment searchFragment = isSpeechEnabled
-                ? new LeanbackSearchFragment()
-                : new TextSearchFragment();
+	override fun onSearchRequested(): Boolean {
+		// Reset layout
+		recreate()
 
-        // Add fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(android.R.id.content, searchFragment)
-                .commit();
-    }
-
-    @Override
-    public boolean onSearchRequested() {
-        // Reset layout
-        recreate();
-
-        return true;
-    }
+		return true
+	}
 }
