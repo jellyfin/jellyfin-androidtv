@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.ui.browsing
 
 import android.os.Bundle
-import org.jellyfin.androidtv.ui.shared.BaseActivity
+import androidx.fragment.app.FragmentActivity
 
-class BrowseRecordingsActivity : BaseActivity() {
+class BrowseRecordingsActivity : FragmentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 

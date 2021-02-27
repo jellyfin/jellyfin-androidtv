@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
@@ -38,7 +41,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MathUtils;
@@ -68,7 +70,7 @@ import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-public class ItemListActivity extends BaseActivity {
+public class ItemListActivity extends FragmentActivity {
     private int BUTTON_SIZE;
     public static final String FAV_SONGS = "FAV_SONGS";
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
@@ -90,7 +92,7 @@ public class ItemListActivity extends BaseActivity {
 
     private int mBottomScrollThreshold;
 
-    private BaseActivity mActivity;
+    private Activity mActivity;
     private DisplayMetrics mMetrics;
 
     private boolean firstTime = true;
