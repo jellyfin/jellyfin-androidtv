@@ -1,11 +1,9 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,29 +12,27 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.BaseCardView;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.leanback.widget.BaseCardView;
-
 /**
  * Modified ImageCard with no fade on the badge
  * A card view with an {@link ImageView} as its main region.
  */
 public class MyImageCardView extends BaseCardView {
-
     private ImageView mBanner;
     private ViewGroup mInfoOverlay;
     private ImageView mOverlayIcon;
     private TextView mOverlayName;
     private TextView mOverlayCount;
     private ImageView mImageView;
-    private View mInfoArea;
     private TextView mTitleView;
     private TextView mContentView;
     private ImageView mBadgeImage;
@@ -47,22 +43,10 @@ public class MyImageCardView extends BaseCardView {
     private ProgressBar mProgress;
     private TextView mBadgeText;
     private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
-
-    public MyImageCardView(Context context) {
-        this(context, null, true);
-    }
+    private int noIconMargin = Utils.convertDpToPixel(TvApp.getApplication(), 5);
 
     public MyImageCardView(Context context, boolean showInfo) {
-        this(context, null, showInfo);
-
-    }
-
-    public MyImageCardView(Context context, AttributeSet attrs, boolean showInfo) {
-        this(context, attrs, R.attr.imageCardViewStyle, showInfo);
-    }
-
-    public MyImageCardView(Context context, AttributeSet attrs, int defStyle, boolean showInfo) {
-        super(context, attrs, defStyle);
+        super(context, null, R.attr.imageCardViewStyle);
 
         if (!showInfo) {
             setCardType(CARD_TYPE_MAIN_ONLY);
@@ -71,35 +55,23 @@ public class MyImageCardView extends BaseCardView {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.image_card_view, this);
 
-        mImageView = (ImageView) v.findViewById(R.id.main_image);
-        mInfoArea = v.findViewById(R.id.info_field);
-        mTitleView = (TextView) v.findViewById(R.id.title_text);
-        mContentView = (TextView) v.findViewById(R.id.content_text);
-        mBadgeImage = (ImageView) v.findViewById(R.id.extra_badge);
-        mOverlayName = (TextView) v.findViewById(R.id.overlay_text);
-        mOverlayCount = (TextView) v.findViewById(R.id.overlay_count);
-        mOverlayIcon = (ImageView) v.findViewById(R.id.icon);
-        mInfoOverlay = (ViewGroup) v.findViewById(R.id.name_overlay);
+        mImageView = v.findViewById(R.id.main_image);
+        mTitleView = v.findViewById(R.id.title_text);
+        mContentView = v.findViewById(R.id.content_text);
+        mBadgeImage = v.findViewById(R.id.extra_badge);
+        mOverlayName = v.findViewById(R.id.overlay_text);
+        mOverlayCount = v.findViewById(R.id.overlay_count);
+        mOverlayIcon = v.findViewById(R.id.icon);
+        mInfoOverlay = v.findViewById(R.id.name_overlay);
         mInfoOverlay.setVisibility(GONE);
-        mFavIcon = (ImageView) v.findViewById(R.id.favIcon);
-        mWatchedIndicator = (RelativeLayout) v.findViewById(R.id.watchedIndicator);
-        mWatchedMark = (ImageView) v.findViewById(R.id.checkMark);
-        mUnwatchedCount = (TextView) v.findViewById(R.id.unwatchedCount);
-        mProgress = (ProgressBar) v.findViewById(R.id.resumeProgress);
-        mBadgeText = (TextView) v.findViewById(R.id.badge_text);
+        mFavIcon = v.findViewById(R.id.favIcon);
+        mWatchedIndicator = v.findViewById(R.id.watchedIndicator);
+        mWatchedMark = v.findViewById(R.id.checkMark);
+        mUnwatchedCount = v.findViewById(R.id.unwatchedCount);
+        mProgress = v.findViewById(R.id.resumeProgress);
+        mBadgeText = v.findViewById(R.id.badge_text);
 
         mImageView.setClipToOutline(true);
-
-        if (mInfoArea != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.lbImageCardView,
-                    defStyle, 0);
-            try {
-                setInfoAreaBackground(
-                        a.getDrawable(R.styleable.lbImageCardView_infoAreaBackground));
-            } finally {
-                a.recycle();
-            }
-        }
     }
 
     @Override
@@ -123,7 +95,7 @@ public class MyImageCardView extends BaseCardView {
             mBanner = new ImageView(getContext());
             mBanner.setLayoutParams(new ViewGroup.LayoutParams(BANNER_SIZE, BANNER_SIZE));
 
-            ((ViewGroup)getRootView()).addView(mBanner);
+            ((ViewGroup) getRootView()).addView(mBanner);
         }
 
         mBanner.setImageResource(bannerResource);
@@ -132,12 +104,6 @@ public class MyImageCardView extends BaseCardView {
 
     public final ImageView getMainImageView() {
         return mImageView;
-    }
-
-    public void setMainImageAdjustViewBounds(boolean adjustViewBounds) {
-        if (mImageView != null) {
-            mImageView.setAdjustViewBounds(adjustViewBounds);
-        }
     }
 
     public void setPlayingIndicator(boolean playing) {
@@ -150,43 +116,6 @@ public class MyImageCardView extends BaseCardView {
         }
     }
 
-    public void setMainImageScaleType(ImageView.ScaleType scaleType) {
-        if (mImageView != null) {
-            mImageView.setScaleType(scaleType);
-        }
-    }
-
-    /**
-     * Set drawable with fade-in animation.
-     */
-    public void setMainImage(Drawable drawable) {
-        setMainImage(drawable, true);
-    }
-
-    /**
-     * Set drawable with optional fade-in animation.
-     */
-    public void setMainImage(Drawable drawable, boolean fade) {
-        if (mImageView == null) {
-            return;
-        }
-
-        mImageView.setImageDrawable(drawable);
-        if (drawable == null) {
-            mImageView.animate().cancel();
-            mImageView.setAlpha(1f);
-            mImageView.setVisibility(View.INVISIBLE);
-        } else {
-            mImageView.setVisibility(View.VISIBLE);
-            if (fade) {
-                fadeIn(mImageView);
-            } else {
-                mImageView.animate().cancel();
-                mImageView.setAlpha(1f);
-            }
-        }
-    }
-
     public void setMainImageDimensions(int width, int height) {
         ViewGroup.LayoutParams lp = mImageView.getLayoutParams();
         lp.width = width;
@@ -196,39 +125,6 @@ public class MyImageCardView extends BaseCardView {
         ViewGroup.LayoutParams lp2 = mProgress.getLayoutParams();
         lp2.width = width;
         mProgress.setLayoutParams(lp2);
-    }
-
-    public Drawable getMainImage() {
-        if (mImageView == null) {
-            return null;
-        }
-
-        return mImageView.getDrawable();
-    }
-
-    public Drawable getInfoAreaBackground() {
-        if (mInfoArea != null) {
-            return mInfoArea.getBackground();
-        }
-        return null;
-    }
-
-    public void setInfoAreaBackground(Drawable drawable) {
-        if (mInfoArea != null) {
-            mInfoArea.setBackground(drawable);
-            if (mBadgeImage != null) {
-                mBadgeImage.setBackground(drawable);
-            }
-        }
-    }
-
-    public void setInfoAreaBackgroundColor(int color) {
-        if (mInfoArea != null) {
-            mInfoArea.setBackgroundColor(color);
-            if (mBadgeImage != null) {
-                mBadgeImage.setBackgroundColor(color);
-            }
-        }
     }
 
     public void setTitleText(CharSequence text) {
@@ -285,14 +181,12 @@ public class MyImageCardView extends BaseCardView {
         }
     }
 
-    protected int noIconMargin = Utils.convertDpToPixel(TvApp.getApplication(), 5);
     protected void hideIcon() {
         mOverlayIcon.setVisibility(GONE);
         RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) mOverlayName.getLayoutParams();
         parms.rightMargin = noIconMargin;
         parms.leftMargin = noIconMargin;
         mOverlayName.setLayoutParams(parms);
-
     }
 
     public CharSequence getTitleText() {
@@ -343,20 +237,6 @@ public class MyImageCardView extends BaseCardView {
         }
     }
 
-    public Drawable getBadgeImage() {
-        if (mBadgeImage == null) {
-            return null;
-        }
-
-        return mBadgeImage.getDrawable();
-    }
-
-    private void fadeIn(View v) {
-        v.setAlpha(0f);
-        v.animate().alpha(1f).setDuration(v.getContext().getResources().getInteger(
-                android.R.integer.config_shortAnimTime)).start();
-    }
-
     @Override
     public boolean hasOverlappingRendering() {
         return false;
@@ -368,6 +248,7 @@ public class MyImageCardView extends BaseCardView {
         } else {
             mContentView.setMaxLines(1);
         }
+
         if (TextUtils.isEmpty(getContentText())) {
             mTitleView.setMaxLines(2);
         } else {
@@ -407,12 +288,5 @@ public class MyImageCardView extends BaseCardView {
 
     public void showFavIcon(boolean show) {
         mFavIcon.setVisibility(show ? VISIBLE : GONE);
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        mImageView.animate().cancel();
-        mImageView.setAlpha(1f);
-        super.onDetachedFromWindow();
     }
 }
