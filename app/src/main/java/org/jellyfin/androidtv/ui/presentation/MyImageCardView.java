@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -18,6 +16,7 @@ import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.databinding.ImageCardViewBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -27,23 +26,10 @@ import org.jellyfin.androidtv.util.Utils;
  * A card view with an {@link ImageView} as its main region.
  */
 public class MyImageCardView extends BaseCardView {
+    private ImageCardViewBinding binding = ImageCardViewBinding.inflate(LayoutInflater.from(getContext()), this);
     private ImageView mBanner;
-    private ViewGroup mInfoOverlay;
-    private ImageView mOverlayIcon;
-    private TextView mOverlayName;
-    private TextView mOverlayCount;
-    private ImageView mImageView;
-    private TextView mTitleView;
-    private TextView mContentView;
-    private ImageView mBadgeImage;
-    private ImageView mFavIcon;
-    private RelativeLayout mWatchedIndicator;
-    private ImageView mWatchedMark;
-    private TextView mUnwatchedCount;
-    private ProgressBar mProgress;
-    private TextView mBadgeText;
-    private int BANNER_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 50);
-    private int noIconMargin = Utils.convertDpToPixel(TvApp.getApplication(), 5);
+    private int BANNER_SIZE = Utils.convertDpToPixel(getContext(), 50);
+    private int noIconMargin = Utils.convertDpToPixel(getContext(), 5);
 
     public MyImageCardView(Context context, boolean showInfo) {
         super(context, null, R.attr.imageCardViewStyle);
@@ -52,41 +38,22 @@ public class MyImageCardView extends BaseCardView {
             setCardType(CARD_TYPE_MAIN_ONLY);
         }
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.image_card_view, this);
-
-        mImageView = v.findViewById(R.id.main_image);
-        mTitleView = v.findViewById(R.id.title_text);
-        mContentView = v.findViewById(R.id.content_text);
-        mBadgeImage = v.findViewById(R.id.extra_badge);
-        mOverlayName = v.findViewById(R.id.overlay_text);
-        mOverlayCount = v.findViewById(R.id.overlay_count);
-        mOverlayIcon = v.findViewById(R.id.icon);
-        mInfoOverlay = v.findViewById(R.id.name_overlay);
-        mInfoOverlay.setVisibility(GONE);
-        mFavIcon = v.findViewById(R.id.favIcon);
-        mWatchedIndicator = v.findViewById(R.id.watchedIndicator);
-        mWatchedMark = v.findViewById(R.id.checkMark);
-        mUnwatchedCount = v.findViewById(R.id.unwatchedCount);
-        mProgress = v.findViewById(R.id.resumeProgress);
-        mBadgeText = v.findViewById(R.id.badge_text);
-
-        mImageView.setClipToOutline(true);
+        binding.mainImage.setClipToOutline(true);
     }
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
-            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            mBadgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            mBadgeImage.setAlpha(1.0f);
+            binding.titleText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            binding.extraBadge.setAlpha(1.0f);
         } else {
-            mTitleView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            mContentView.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            mBadgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            mBadgeImage.setAlpha(0.25f);
+            binding.titleText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            binding.extraBadge.setAlpha(0.25f);
         }
     }
 
@@ -103,137 +70,137 @@ public class MyImageCardView extends BaseCardView {
     }
 
     public final ImageView getMainImageView() {
-        return mImageView;
+        return binding.mainImage;
     }
 
     public void setPlayingIndicator(boolean playing) {
         if (playing) {
             // TODO use decent animation for equalizer icon
-            mBadgeImage.setBackgroundResource(R.drawable.ic_play);
-            mBadgeImage.setVisibility(VISIBLE);
+            binding.extraBadge.setBackgroundResource(R.drawable.ic_play);
+            binding.extraBadge.setVisibility(VISIBLE);
         } else {
-            mBadgeImage.setBackgroundResource(R.drawable.blank10x10);
+            binding.extraBadge.setBackgroundResource(R.drawable.blank10x10);
         }
     }
 
     public void setMainImageDimensions(int width, int height) {
-        ViewGroup.LayoutParams lp = mImageView.getLayoutParams();
+        ViewGroup.LayoutParams lp = binding.mainImage.getLayoutParams();
         lp.width = width;
         lp.height = height;
-        mImageView.setLayoutParams(lp);
+        binding.mainImage.setLayoutParams(lp);
         if (mBanner != null) mBanner.setX(width - BANNER_SIZE);
-        ViewGroup.LayoutParams lp2 = mProgress.getLayoutParams();
+        ViewGroup.LayoutParams lp2 = binding.resumeProgress.getLayoutParams();
         lp2.width = width;
-        mProgress.setLayoutParams(lp2);
+        binding.resumeProgress.setLayoutParams(lp2);
     }
 
     public void setTitleText(CharSequence text) {
-        if (mTitleView == null) {
+        if (binding.titleText == null) {
             return;
         }
 
-        mTitleView.setText(text);
+        binding.titleText.setText(text);
         setTextMaxLines();
     }
 
     public void setOverlayText(String text) {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY) {
-            mOverlayName.setText(text);
-            mInfoOverlay.setVisibility(VISIBLE);
+            binding.overlayText.setText(text);
+            binding.nameOverlay.setVisibility(VISIBLE);
             hideIcon();
         } else {
-            mInfoOverlay.setVisibility(GONE);
+            binding.nameOverlay.setVisibility(GONE);
         }
     }
 
     public void setOverlayInfo(BaseRowItem item) {
-        if (mOverlayName == null) return;
+        if (binding.overlayText == null) return;
 
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
                 case Photo:
-                    mOverlayName.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.ic_camera);
+                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
+                    binding.icon.setImageResource(R.drawable.ic_camera);
                     break;
                 case PhotoAlbum:
-                    mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.ic_photos);
+                    binding.overlayText.setText(item.getFullName());
+                    binding.icon.setImageResource(R.drawable.ic_photos);
                     break;
                 case Video:
-                    mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(R.drawable.ic_movie);
+                    binding.overlayText.setText(item.getFullName());
+                    binding.icon.setImageResource(R.drawable.ic_movie);
                     break;
                 case Playlist:
                 case MusicArtist:
                 case Person:
-                    mOverlayName.setText(item.getFullName());
+                    binding.overlayText.setText(item.getFullName());
                     hideIcon();
                     break;
                 default:
-                    mOverlayName.setText(item.getFullName());
-                    mOverlayIcon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
+                    binding.overlayText.setText(item.getFullName());
+                    binding.icon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
                     break;
             }
-            mOverlayCount.setText(item.getChildCountStr());
-            mInfoOverlay.setVisibility(VISIBLE);
+            binding.overlayCount.setText(item.getChildCountStr());
+            binding.nameOverlay.setVisibility(VISIBLE);
         } else {
-            mInfoOverlay.setVisibility(GONE);
+            binding.nameOverlay.setVisibility(GONE);
         }
     }
 
     protected void hideIcon() {
-        mOverlayIcon.setVisibility(GONE);
-        RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) mOverlayName.getLayoutParams();
+        binding.icon.setVisibility(GONE);
+        RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) binding.overlayText.getLayoutParams();
         parms.rightMargin = noIconMargin;
         parms.leftMargin = noIconMargin;
-        mOverlayName.setLayoutParams(parms);
+        binding.overlayText.setLayoutParams(parms);
     }
 
     public CharSequence getTitleText() {
-        if (mTitleView == null) {
+        if (binding.titleText == null) {
             return null;
         }
 
-        return mTitleView.getText();
+        return binding.titleText.getText();
     }
 
     public void setContentText(CharSequence text) {
-        if (mContentView == null) {
+        if (binding.contentText == null) {
             return;
         }
 
-        mContentView.setText(text);
+        binding.contentText.setText(text);
         setTextMaxLines();
     }
 
     public CharSequence getContentText() {
-        if (mContentView == null) {
+        if (binding.contentText == null) {
             return null;
         }
 
-        return mContentView.getText();
+        return binding.contentText.getText();
     }
 
     public void setRating(String rating) {
         if (rating != null) {
-            mBadgeText.setText(rating);
-            mBadgeText.setVisibility(VISIBLE);
+            binding.badgeText.setText(rating);
+            binding.badgeText.setVisibility(VISIBLE);
         } else {
-            mBadgeText.setText("");
-            mBadgeText.setVisibility(GONE);
+            binding.badgeText.setText("");
+            binding.badgeText.setVisibility(GONE);
         }
     }
 
     public void setBadgeImage(Drawable drawable) {
-        if (mBadgeImage == null) {
+        if (binding.extraBadge == null) {
             return;
         }
 
         if (drawable != null) {
-            mBadgeImage.setImageDrawable(drawable);
-            mBadgeImage.setVisibility(View.VISIBLE);
+            binding.extraBadge.setImageDrawable(drawable);
+            binding.extraBadge.setVisibility(View.VISIBLE);
         } else {
-            mBadgeImage.setVisibility(View.GONE);
+            binding.extraBadge.setVisibility(View.GONE);
         }
     }
 
@@ -244,15 +211,15 @@ public class MyImageCardView extends BaseCardView {
 
     private void setTextMaxLines() {
         if (TextUtils.isEmpty(getTitleText())) {
-            mContentView.setMaxLines(2);
+            binding.contentText.setMaxLines(2);
         } else {
-            mContentView.setMaxLines(1);
+            binding.contentText.setMaxLines(1);
         }
 
         if (TextUtils.isEmpty(getContentText())) {
-            mTitleView.setMaxLines(2);
+            binding.titleText.setMaxLines(2);
         } else {
-            mTitleView.setMaxLines(1);
+            binding.titleText.setMaxLines(1);
         }
     }
 
@@ -264,29 +231,29 @@ public class MyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         if (count > 0) {
-            mUnwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
-            mUnwatchedCount.setVisibility(VISIBLE);
-            mWatchedMark.setVisibility(INVISIBLE);
-            mWatchedIndicator.setVisibility(VISIBLE);
+            binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
+            binding.unwatchedCount.setVisibility(VISIBLE);
+            binding.watched.setVisibility(INVISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
         } else if (count == 0) {
-            mWatchedMark.setVisibility(VISIBLE);
-            mUnwatchedCount.setVisibility(INVISIBLE);
-            mWatchedIndicator.setVisibility(VISIBLE);
+            binding.watched.setVisibility(VISIBLE);
+            binding.unwatchedCount.setVisibility(INVISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
         } else {
-            mWatchedIndicator.setVisibility(GONE);
+            binding.watchedIndicator.setVisibility(GONE);
         }
     }
 
     public void setProgress(int pct) {
         if (pct > 0) {
-            mProgress.setProgress(pct);
-            mProgress.setVisibility(VISIBLE);
+            binding.resumeProgress.setProgress(pct);
+            binding.resumeProgress.setVisibility(VISIBLE);
         } else {
-            mProgress.setVisibility(GONE);
+            binding.resumeProgress.setVisibility(GONE);
         }
     }
 
     public void showFavIcon(boolean show) {
-        mFavIcon.setVisibility(show ? VISIBLE : GONE);
+        binding.favIcon.setVisibility(show ? VISIBLE : GONE);
     }
 }
