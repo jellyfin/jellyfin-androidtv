@@ -12,13 +12,16 @@
      MODIFIED to add Jellyfin specifics
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:lb="http://schemas.android.com/apk/res-auto">
+    xmlns:lb="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="androidx.leanback.widget.BaseCardView">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/main_image"
@@ -28,7 +31,8 @@
             android:background="@drawable/transparent_card_border"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            lb:layout_viewType="main" />
+            lb:layout_viewType="main"
+            tools:src="@drawable/app_logo" />
 
         <ImageView
             android:id="@+id/favIcon"
@@ -39,7 +43,8 @@
             android:layout_marginBottom="2dp"
             android:alpha="0.8"
             android:src="@drawable/ic_heart_red"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/resumeProgress"
@@ -52,7 +57,8 @@
             android:maxHeight="5sp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/watchedIndicator"
@@ -64,7 +70,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="4dp"
             android:gravity="end"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/watched"
@@ -83,7 +90,9 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textSize="11sp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                tools:text="5"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/checkMark"
@@ -127,7 +136,8 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="overlay text" />
 
             <TextView
                 android:id="@+id/overlay_count"
@@ -170,7 +180,8 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color_inactive"
-                android:textSize="@dimen/lb_basic_card_title_text_size" />
+                android:textSize="@dimen/lb_basic_card_title_text_size"
+                tools:text="Title text" />
 
             <TextView
                 android:id="@+id/content_text"
@@ -186,16 +197,17 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color_inactive"
-                android:textSize="@dimen/lb_basic_card_content_text_size" />
+                android:textSize="@dimen/lb_basic_card_content_text_size"
+                tools:text="Content text" />
 
             <LinearLayout
                 android:id="@+id/badge_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentEnd="true"
                 android:layout_below="@id/title_text"
-                android:layout_centerVertical="true">
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/extra_badge"
@@ -215,9 +227,9 @@
                     android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                     android:fontFamily="sans-serif-condensed"
                     android:singleLine="true"
-                    android:visibility="gone"
                     android:textColor="@color/lb_basic_card_title_text_color_inactive"
-                    android:textSize="@dimen/lb_basic_card_content_text_size" />
+                    android:textSize="@dimen/lb_basic_card_content_text_size"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
