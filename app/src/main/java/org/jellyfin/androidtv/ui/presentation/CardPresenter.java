@@ -339,6 +339,8 @@ public class CardPresenter extends Presenter {
             mCardView.clearBanner();
             mCardView.setUnwatchedCount(-1);
             mCardView.setProgress(0);
+            mCardView.setRating(null);
+            mCardView.setBadgeImage(null);
 
             mCardView.getMainImageView().setImageResource(R.drawable.loading);
         }
