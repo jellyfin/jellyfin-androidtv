@@ -67,7 +67,7 @@ class OverviewFragment : Fragment() {
 
 		override fun getPageTitle(position: Int) = when {
 			// Last page is always used to add servers
-			position == servers.size -> context.getString(R.string.lbl_add_server)
+			position == servers.size -> context.getString(R.string.connect_title)
 			else -> servers.getOrNull(position)?.name
 		}
 	}

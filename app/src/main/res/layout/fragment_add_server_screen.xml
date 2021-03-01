@@ -24,20 +24,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/discovery_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/discovered_servers_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discovery_title" />
-
         <ProgressBar
             android:id="@+id/discovery_progress_indicator"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/discovery_description"
+            app:layout_constraintBottom_toBottomOf="@id/discovery_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/discovery_title" />
 
@@ -49,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discovery_description"
+            app:layout_constraintTop_toBottomOf="@id/discovery_title"
             tools:itemCount="3"
             tools:listitem="@layout/item_discovery_server" />
 
@@ -86,15 +78,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/connect_manually_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/connect_manually_description"
-            app:layout_constraintEnd_toEndOf="@id/connect_manually_title"
-            app:layout_constraintStart_toStartOf="@id/connect_manually_title"
-            app:layout_constraintTop_toBottomOf="@id/connect_manually_title" />
-
         <Button
             android:id="@+id/enter_server_address"
             style="@style/Button.Default"
@@ -104,14 +87,14 @@
             android:text="@string/connect_manually_by_address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/connect_manually_description" />
+            app:layout_constraintTop_toBottomOf="@id/connect_manually_title" />
 
         <TextView
             android:id="@+id/help_title"
             style="@style/Widget.Jellyfin.Row.Header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:gravity="start"
             android:text="@string/login_help_title"
             app:layout_constraintEnd_toEndOf="parent"

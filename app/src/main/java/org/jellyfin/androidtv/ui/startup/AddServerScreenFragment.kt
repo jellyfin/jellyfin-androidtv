@@ -46,9 +46,12 @@ class AddServerScreenFragment : Fragment() {
 
 		lifecycleScope.launchWhenCreated {
 			binding.discoveryProgressIndicator.visibility = View.VISIBLE
+			binding.discoveryServers.isFocusable = false
 
 			loginViewModel.discoveredServers.collect { server ->
 				discoveryServerAdapter.addServer(server)
+
+				binding.discoveryServers.isFocusable = true
 			}
 
 			binding.discoveryProgressIndicator.visibility = View.GONE

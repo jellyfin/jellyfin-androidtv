@@ -70,7 +70,8 @@ class ServerFragment : RowsSupportFragment() {
 			val server = loginViewModel.getServer(serverId) ?: return@launch
 			val users = loginViewModel.getUsers(server).sortedWith(userComparator)
 
-			buildRow(server, users)
+			// Fragment may be unloaded at this point, verify by checking for context
+			if (context != null) buildRow(server, users)
 		}
 	}
 
