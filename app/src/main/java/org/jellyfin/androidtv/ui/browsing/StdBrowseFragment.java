@@ -126,7 +126,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mActivity != null && mActivity.isFinishing()) return;
+                if (mActivity == null || mActivity.isFinishing()) return;
                 for (int i = 0; i < mRowsAdapter.size(); i++) {
                     if (mRowsAdapter.get(i) instanceof ListRow) {
                         if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter) {
