@@ -17,13 +17,9 @@ import androidx.leanback.widget.BaseCardView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.databinding.ImageCardViewBinding;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 /**
  * Modified ImageCard with no fade on the badge
@@ -234,26 +230,15 @@ public class MyImageCardView extends BaseCardView {
     }
 
     public void setUnwatchedCount(int count) {
-        WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
         if (count > 0) {
-            if (showIndicator != WatchedIndicatorBehavior.ALWAYS) {
-                binding.watchedIndicator.setVisibility(GONE);
-            }
-            else {
-                binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
-                binding.unwatchedCount.setVisibility(VISIBLE);
-                binding.checkMark.setVisibility(INVISIBLE);
-                binding.watchedIndicator.setVisibility(VISIBLE);
-            }
+            binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
+            binding.unwatchedCount.setVisibility(VISIBLE);
+            binding.checkMark.setVisibility(INVISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
         } else if (count == 0) {
-            if (showIndicator != WatchedIndicatorBehavior.NEVER) {
-                binding.checkMark.setVisibility(VISIBLE);
-                binding.unwatchedCount.setVisibility(INVISIBLE);
-                binding.watchedIndicator.setVisibility(VISIBLE);
-            }
-            else {
-                binding.watchedIndicator.setVisibility(GONE);
-            }
+            binding.checkMark.setVisibility(VISIBLE);
+            binding.unwatchedCount.setVisibility(INVISIBLE);
+            binding.watchedIndicator.setVisibility(VISIBLE);
         } else {
             binding.watchedIndicator.setVisibility(GONE);
         }

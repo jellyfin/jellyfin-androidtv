@@ -191,21 +191,17 @@ public class CardPresenter extends Presenter {
                     }
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null) {
+                        WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
                         if (userData.getPlayed()) {
-                            WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
-                            if (showIndicator == WatchedIndicatorBehavior.EPISODES_ONLY) {
-                                if (itemDto.getBaseItemType() == BaseItemType.Episode) {
-                                    mCardView.setUnwatchedCount(0);
-                                }
-                                else {
-                                    mCardView.setUnwatchedCount(-1);
-                                }
-                            }
-                            else {
+                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getBaseItemType() == BaseItemType.Episode))
                                 mCardView.setUnwatchedCount(0);
-                            }
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         } else if (userData.getUnplayedItemCount() != null) {
-                            mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            if (showIndicator == WatchedIndicatorBehavior.ALWAYS)
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         }
                     }
 
