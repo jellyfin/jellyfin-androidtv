@@ -233,10 +233,10 @@ public class MyImageCardView extends BaseCardView {
         if (count > 0) {
             binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
             binding.unwatchedCount.setVisibility(VISIBLE);
-            binding.watched.setVisibility(INVISIBLE);
+            binding.checkMark.setVisibility(INVISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
         } else if (count == 0) {
-            binding.watched.setVisibility(VISIBLE);
+            binding.checkMark.setVisibility(VISIBLE);
             binding.unwatchedCount.setVisibility(INVISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
         } else {
