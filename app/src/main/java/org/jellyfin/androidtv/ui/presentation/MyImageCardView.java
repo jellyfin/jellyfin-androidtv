@@ -237,25 +237,23 @@ public class MyImageCardView extends BaseCardView {
         WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
         if (count > 0) {
             if (showIndicator != WatchedIndicatorBehavior.ALWAYS) {
-                binding.unwatchedCount.setVisibility(INVISIBLE);
-                binding.watchedIndicator.setVisibility(INVISIBLE);
+                binding.watchedIndicator.setVisibility(GONE);
             }
             else {
                 binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
                 binding.unwatchedCount.setVisibility(VISIBLE);
+                binding.checkMark.setVisibility(INVISIBLE);
                 binding.watchedIndicator.setVisibility(VISIBLE);
             }
-            binding.watched.setVisibility(INVISIBLE);
         } else if (count == 0) {
             if (showIndicator != WatchedIndicatorBehavior.NEVER) {
-                binding.watched.setVisibility(VISIBLE);
+                binding.checkMark.setVisibility(VISIBLE);
+                binding.unwatchedCount.setVisibility(INVISIBLE);
                 binding.watchedIndicator.setVisibility(VISIBLE);
             }
             else {
-                binding.watched.setVisibility(INVISIBLE);
-                binding.watchedIndicator.setVisibility(INVISIBLE);
+                binding.watchedIndicator.setVisibility(GONE);
             }
-            binding.unwatchedCount.setVisibility(INVISIBLE);
         } else {
             binding.watchedIndicator.setVisibility(GONE);
         }
