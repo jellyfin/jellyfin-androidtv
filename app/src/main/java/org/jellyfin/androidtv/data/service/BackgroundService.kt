@@ -175,6 +175,8 @@ class BackgroundService(
 	}
 
 	fun clearBackgrounds() {
+		loadBackgroundsJob?.cancel()
+
 		if (backgrounds.isEmpty()) return
 
 		backgrounds.clear()
