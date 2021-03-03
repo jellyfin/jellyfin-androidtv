@@ -20,7 +20,7 @@ import org.jellyfin.androidtv.util.toUUID
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class AddServerFragment(
+class AddServerAlertFragment(
 	private val onServerAdded: (serverId: UUID) -> Unit = {},
 	private val onCancelCallback: () -> Unit = {},
 	private val onClose: () -> Unit = {}
@@ -30,6 +30,10 @@ class AddServerFragment(
 	onCancelCallback = onCancelCallback,
 	onClose = onClose
 ) {
+	companion object {
+		const val ARG_SERVER_ADDRESS = "server_address"
+	}
+
 	private val loginViewModel: LoginViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,6 +80,12 @@ class AddServerFragment(
 			} else {
 				errorText.text = getString(R.string.server_field_empty)
 			}
+		}
+
+		arguments?.getString(ARG_SERVER_ADDRESS)?.let { serverAddress ->
+			address.setText(serverAddress)
+			address.isEnabled = false
+			confirm.callOnClick()
 		}
 
 		return view

@@ -23,7 +23,7 @@ import java.util.*
 class AuthenticationRepository(
 	private val application: JellyfinApplication,
 	private val jellyfin: Jellyfin,
-	private val apiClient: ApiClient,
+	private val api: ApiClient,
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
@@ -40,7 +40,8 @@ class AuthenticationRepository(
 					serverId = authInfo?.server ?: server, name = userInfo.name,
 					accessToken = authInfo?.accessToken,
 					requirePassword = userInfo.requirePassword,
-					imageTag = userInfo.imageTag
+					imageTag = userInfo.imageTag,
+					lastUsed = userInfo.lastUsed,
 				)
 			}
 		}
@@ -49,7 +50,7 @@ class AuthenticationRepository(
 		val current = authenticationStore.getServer(id)
 
 		if (current != null)
-			authenticationStore.putServer(id, current.copy(name = name, address = address))
+			authenticationStore.putServer(id, current.copy(name = name, address = address, lastUsed = Date().time))
 		else
 			authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
 	}
@@ -61,9 +62,19 @@ class AuthenticationRepository(
 	 * @return Whether the user information can be retrieved.
 	 */
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
-		apiClient.setDevice(AuthenticationDevice(device, user.name))
-		apiClient.SetAuthenticationInfo(user.accessToken, user.id.toString())
-		apiClient.EnableAutomaticNetworking(ServerInfo().apply {
+		// Update last use in store
+		authenticationStore.getServer(server.id)?.let { storedServer ->
+			authenticationStore.putServer(server.id, storedServer.copy(lastUsed = Date().time))
+		}
+
+		authenticationStore.getUser(server.id, user.id)?.let { storedUser ->
+			authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
+		}
+
+		// Set user in apiclient
+		api.setDevice(AuthenticationDevice(device, user.name))
+		api.SetAuthenticationInfo(user.accessToken, user.id.toString())
+		api.EnableAutomaticNetworking(ServerInfo().apply {
 			id = server.id.toString()
 			name = server.name
 			address = server.address
@@ -74,7 +85,7 @@ class AuthenticationRepository(
 		// Suppressed because the old apiclient is unreliable
 		@Suppress("TooGenericExceptionCaught")
 		try {
-			val userDto = callApi<UserDto?> { callback -> apiClient.GetUserAsync(user.id.toString(), callback) }
+			val userDto = callApi<UserDto?> { callback -> api.GetUserAsync(user.id.toString(), callback) }
 			if (userDto != null) {
 				application.currentUser = userDto
 				return true
@@ -152,7 +163,15 @@ class AuthenticationRepository(
 		authenticationStore.putUser(server.id, userId, updatedUser)
 		accountManagerHelper.putAccount(AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken))
 
-		val user = PrivateUser(userId, server.id, updatedUser.name, result.accessToken, result.user.hasPassword, result.user.primaryImageTag)
+		val user = PrivateUser(
+			id = userId,
+			serverId = server.id,
+			name = updatedUser.name,
+			accessToken = result.accessToken,
+			requirePassword = result.user.hasPassword,
+			imageTag = result.user.primaryImageTag,
+			lastUsed = Date().time,
+		)
 		val authenticated = setActiveSession(user, server)
 		if (authenticated) emit(AuthenticatedState)
 		else emit(RequireSignInState)

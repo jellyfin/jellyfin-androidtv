@@ -454,4 +454,11 @@
     <string name="pref_developer_link">Developer options</string>
     <string name="pref_developer_link_description">Advanced and experimental features</string>
     <string name="lbl_hidden">Hidden</string>
+    <string name="discovered_servers_title">Discovered servers</string>
+    <string name="discovered_servers_empty">No servers discoverd on local network.</string>
+    <string name="connect_manually_title">Connect manually</string>
+    <string name="connect_manually_by_address">Enter server address</string>
+    <string name="login_help_title">Need help?</string>
+    <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org to get started with Jellyfin.</string>
+    <string name="connect_title">Connect</string>
 </resources>
