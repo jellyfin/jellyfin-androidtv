@@ -33,7 +33,8 @@ data class PrivateUser(
 	override val name: String,
 	override val accessToken: String?,
 	override val requirePassword: Boolean,
-	override val imageTag: String?
+	override val imageTag: String?,
+	val lastUsed: Long,
 ) : User()
 
 /**
@@ -45,5 +46,5 @@ data class PublicUser(
 	override val name: String,
 	override val accessToken: String?,
 	override val requirePassword: Boolean,
-	override val imageTag: String?
+	override val imageTag: String?,
 ) : User()

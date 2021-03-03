@@ -115,7 +115,9 @@
             android:layout_alignBottom="@id/main_image"
             android:background="@color/black_transparent_light"
             android:gravity="center_vertical"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/icon"

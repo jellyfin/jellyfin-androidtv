@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ProfileHelper;
@@ -410,8 +411,9 @@ public class MediaManager {
         videoQueueModified = true;
         DataRefreshService dataRefreshService = get(DataRefreshService.class);
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
-        if (mCurrentVideoQueue.size() == 1 && TvApp.getApplication().getCurrentActivity() != null) {
-            TvApp.getApplication().getCurrentActivity().sendMessage(CustomMessage.RefreshRows);
+        Activity currentActivity = TvApp.getApplication().getCurrentActivity();
+        if (mCurrentVideoQueue.size() == 1 && currentActivity != null && currentActivity instanceof BaseActivity) {
+            ((BaseActivity)currentActivity).sendMessage(CustomMessage.RefreshRows);
         }
         long total = System.currentTimeMillis();
         for (BaseItemDto video :

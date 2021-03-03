@@ -8,8 +8,11 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -31,6 +34,7 @@ class StartupActivity : FragmentActivity() {
 
 	private var application: TvApp? = null
 	private val apiClient: ApiClient by inject()
+	private val serverRepository: ServerRepository by inject()
 	private var isLoaded = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +47,12 @@ class StartupActivity : FragmentActivity() {
 		}
 		application = applicationContext as TvApp
 
-		//Ensure basic permissions
+		// Migrate old credentials
+		lifecycleScope.launch {
+			serverRepository.migrateLegacyCredentials()
+		}
+
+		// Ensure basic permissions
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
 				|| ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
 			Timber.i("Requesting network permissions")
@@ -116,8 +125,7 @@ class StartupActivity : FragmentActivity() {
 	fun addServer() {
 		supportFragmentManager.beginTransaction()
 			.addToBackStack(null)
-			.replace(R.id.content_view, AddServerFragment(
-				onServerAdded = { id -> },
+			.replace(R.id.content_view, AddServerAlertFragment(
 				onClose = { supportFragmentManager.popBackStack() }
 			))
 			.commit()
@@ -126,7 +134,7 @@ class StartupActivity : FragmentActivity() {
 	private fun showServerList() {
 		supportFragmentManager.beginTransaction()
 			.replace(R.id.content_view, StartupToolbarFragment())
-			.add(R.id.content_view, ListServerFragment())
+			.add(R.id.content_view, OverviewFragment())
 			.commit()
 	}
 }
