@@ -49,7 +49,7 @@ class StartupActivity : FragmentActivity() {
 
 		// Migrate old credentials
 		lifecycleScope.launch {
-			serverRepository.mirateLegacyCredentials()
+			serverRepository.migrateLegacyCredentials()
 		}
 
 		// Ensure basic permissions

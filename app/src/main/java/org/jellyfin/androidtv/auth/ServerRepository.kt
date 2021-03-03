@@ -19,7 +19,7 @@ import java.util.*
 interface ServerRepository {
 	suspend fun getStoredServers(): List<Server>
 	fun getDiscoveryServers(): Flow<Server>
-	suspend fun mirateLegacyCredentials()
+	suspend fun migrateLegacyCredentials()
 
 	suspend fun gerServerUsers(server: Server): Set<User>
 	fun removeServer(serverId: UUID): Unit
@@ -62,7 +62,7 @@ class ServerRepositoryImpl(
 		return users
 	}
 
-	override suspend fun mirateLegacyCredentials() = legacyAccountMigration.migrate()
+	override suspend fun migrateLegacyCredentials() = legacyAccountMigration.migrate()
 
 	override fun removeServer(serverId: UUID) {
 		authenticationStore.removeServer(serverId)
