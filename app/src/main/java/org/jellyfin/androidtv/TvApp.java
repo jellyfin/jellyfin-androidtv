@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -44,7 +43,7 @@ public class TvApp extends Application {
 
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    private BaseActivity currentActivity;
+    private Activity currentActivity;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -82,11 +81,11 @@ public class TvApp extends Application {
      */
     @Deprecated
     @Nullable
-    public BaseActivity getCurrentActivity() {
+    public Activity getCurrentActivity() {
         return currentActivity;
     }
 
-    public void setCurrentActivity(BaseActivity activity) {
+    public void setCurrentActivity(Activity activity) {
         currentActivity = activity;
     }
 
