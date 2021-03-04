@@ -203,7 +203,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mActivity.isFinishing()) return;
+                        if (mActivity == null || mActivity.isFinishing()) return;
                         if (mGridAdapter != null && mGridAdapter.size() > 0) {
                             if (!mGridAdapter.ReRetrieveIfNeeded()) refreshCurrentItem();
                         }
