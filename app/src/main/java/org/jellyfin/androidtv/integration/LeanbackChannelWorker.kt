@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
@@ -26,6 +27,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+
+import org.koin.java.KoinJavaComponent.get
 
 /**
  * Manages channels on the android tv home screen
@@ -172,17 +175,28 @@ class LeanbackChannelWorker(
 	 * Assumes the item type is "episode"
 	 */
 	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
+		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
+
 		setInternalProviderId(item.id)
 		setType(WatchNextPrograms.TYPE_TV_EPISODE)
 		setTitle("${item.seriesName} - ${item.name}")
 
 		// Poster image
-		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
-			format = ImageFormat.Png
-			height = 288
-			width = 512
-		})))
+		if (preferParentThumb && item.parentThumbItemId != null) {
+			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
+				format = ImageFormat.Png
+				height = 288
+				width = 512
+				imageType = org.jellyfin.apiclient.model.entities.ImageType.Thumb
+			})))
+		}
+		else {
+			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
+				format = ImageFormat.Png
+				height = 288
+				width = 512
+			})))
+		}
 
 		// Use date created or fallback to current time if unavailable
 		setLastEngagementTimeUtcMillis(item.dateCreated?.time ?: System.currentTimeMillis())
@@ -193,10 +207,6 @@ class LeanbackChannelWorker(
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
 			}
-			// Episode runtime has been determined
-			item.runTimeTicks != null -> {
-				setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
-			}
 			// First episode of the season
 			item.indexNumber == 0 -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
@@ -205,6 +215,11 @@ class LeanbackChannelWorker(
 			else -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
 			}
+		}
+
+		// Episode runtime has been determined
+		if (item.runTimeTicks != null) {
+		setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
 		}
 
 		// Set intent to open the episode
