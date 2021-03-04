@@ -183,7 +183,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable series thumbnails in home screen rows
 		 */
-		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", false)
+		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
 	}
 
 	init {
