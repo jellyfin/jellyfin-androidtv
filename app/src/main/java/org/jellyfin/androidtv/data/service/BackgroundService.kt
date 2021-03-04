@@ -150,20 +150,19 @@ class BackgroundService(
 	}
 
 	/**
-	 * Use one available backdrop from [SearchHint] as background.
+	 * Use backdrop from [SearchHint] as background.
 	 */
 	fun setBackground(searchHint: SearchHint?) {
 		// Check if item is set and backgrounds are enabled
 		if (searchHint == null || !userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
 
-		//Manually grab the backdrop URL
+		// Manually grab the backdrop URL
 		val options = ImageOptions()
-		options.maxWidth = 1200
 		options.imageType = ImageType.Backdrop
 		options.tag = searchHint.backdropImageTag
 
-		val backdropUrls = setOf(apiClient.GetImageUrl(searchHint.backdropImageItemId, options))
+		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { apiClient.GetImageUrl(it, options) })
 
 		loadBackgrounds(backdropUrls)
 	}
@@ -175,17 +174,17 @@ class BackgroundService(
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
 			val backdropDrawables = backdropUrls
-					.map { url ->
-						Glide.with(context)
-								.load(url)
-								.override(windowSize.width, windowSize.height)
-								.centerCrop()
-								.submit()
-					}
-					.map { future -> async { future.get() } }
-					.awaitAll()
-					.onEach { it.colorFilter = colorFilter }
-					.filterNotNull()
+				.map { url ->
+					Glide.with(context)
+						.load(url)
+						.override(windowSize.width, windowSize.height)
+						.centerCrop()
+						.submit()
+				}
+				.map { future -> async { future.get() } }
+				.awaitAll()
+				.onEach { it.colorFilter = colorFilter }
+				.filterNotNull()
 
 			backgrounds.clear()
 			backgrounds.addAll(backdropDrawables)
