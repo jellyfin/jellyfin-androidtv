@@ -182,6 +182,7 @@ class LeanbackChannelWorker(
 		setTitle("${item.seriesName} - ${item.name}")
 
 		// Poster image
+		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
 		if (preferParentThumb && item.parentThumbItemId != null) {
 			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
 				format = ImageFormat.Png
@@ -219,7 +220,7 @@ class LeanbackChannelWorker(
 
 		// Episode runtime has been determined
 		if (item.runTimeTicks != null) {
-		setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
+			setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
 		}
 
 		// Set intent to open the episode
