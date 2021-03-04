@@ -150,11 +150,11 @@ class BackgroundService(
 	}
 
 	/**
-	 * Use backdrop from [SearchHint] as background.
+	 * Use backdrop from [searchHint] as background.
 	 */
-	fun setBackground(searchHint: SearchHint?) {
+	fun setBackground(searchHint: SearchHint) {
 		// Check if item is set and backgrounds are enabled
-		if (searchHint == null || !userPreferences[UserPreferences.backdropEnabled])
+		if (!userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
 
 		// Manually grab the backdrop URL
