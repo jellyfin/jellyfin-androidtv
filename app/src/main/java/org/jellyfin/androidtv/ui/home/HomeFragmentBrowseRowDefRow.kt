@@ -5,20 +5,24 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.querying.ViewQuery
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
+
+import org.koin.java.KoinJavaComponent.get
 
 class HomeFragmentBrowseRowDefRow(
 	private val browseRowDef: BrowseRowDef
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(browseRowDef.headerText)
+		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
 
 		// Some of these members are probably never used and could be removed
 		val rowAdapter = when (browseRowDef.queryType) {
-			QueryType.NextUp -> ItemRowAdapter(browseRowDef.nextUpQuery, true, cardPresenter, rowsAdapter)
-			QueryType.LatestItems -> ItemRowAdapter(browseRowDef.latestItemsQuery, true, cardPresenter, rowsAdapter)
+			QueryType.NextUp -> ItemRowAdapter(browseRowDef.nextUpQuery, preferParentThumb, cardPresenter, rowsAdapter)
+			QueryType.LatestItems -> ItemRowAdapter(browseRowDef.latestItemsQuery, preferParentThumb, cardPresenter, rowsAdapter)
 			QueryType.Season -> ItemRowAdapter(browseRowDef.seasonQuery, cardPresenter, rowsAdapter)
 			QueryType.Upcoming -> ItemRowAdapter(browseRowDef.upcomingQuery, cardPresenter, rowsAdapter)
 			QueryType.Views -> ItemRowAdapter(ViewQuery(), cardPresenter, rowsAdapter)

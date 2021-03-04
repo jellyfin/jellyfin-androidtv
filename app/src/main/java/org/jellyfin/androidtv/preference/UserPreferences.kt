@@ -179,6 +179,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Set which ratings provider should show on MyImageCardViews
 		 */
 		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
+
+		/**
+		 * Enable series thumbnails in home screen rows
+		 */
+		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", false)
 	}
 
 	init {

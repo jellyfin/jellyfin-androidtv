@@ -461,4 +461,6 @@
     <string name="login_help_title">Need help?</string>
     <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org to get started with Jellyfin.</string>
     <string name="connect_title">Connect</string>
+    <string name="lbl_use_series_thumbnails">Prefer series thumbnails on home screen</string>
+    <string name="lbl_use_series_thumbnails_description">Use series thumbnails for episodes in home screen rows</string>
 </resources>

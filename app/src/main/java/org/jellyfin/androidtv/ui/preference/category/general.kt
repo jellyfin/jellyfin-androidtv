@@ -41,6 +41,12 @@ fun OptionsScreen.generalCategory(
 	}
 
 	checkbox {
+		setTitle(R.string.lbl_use_series_thumbnails)
+		setContent(R.string.lbl_use_series_thumbnails_description)
+		bind(userPreferences, UserPreferences.seriesThumbnailsEnabled)
+	}
+
+	checkbox {
 		setTitle(R.string.lbl_enable_seasonal_themes)
 		setContent(R.string.desc_seasonal_themes)
 		bind(userPreferences, UserPreferences.seasonalGreetingsEnabled)
