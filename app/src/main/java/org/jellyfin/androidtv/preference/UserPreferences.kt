@@ -16,23 +16,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
-		/* Authentication */
-		/**
-		 * Behavior for login when starting the app.
-		 * **note**: Make sure to update the stored credentials when changing to AUTO_LOGIN
-		 */
-		var loginBehavior = Preference.enum("login_behavior", LoginBehavior.SHOW_LOGIN)
-
-		/**
-		 * Ask for password when starting the app
-		 */
-		var passwordPromptEnabled = Preference.boolean("pref_auto_pw_prompt", false)
-
-		/**
-		 * Use login using pin (when set)
-		 */
-		var passwordDPadEnabled = Preference.boolean("pref_alt_pw_entry", false)
-
 		/* Display */
 		/**
 		 * Select the app theme
@@ -205,9 +188,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		migration(toVersion = 3) {
 			// Migrate to audio behavior enum
 			putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
-
-			// Migrate to login behavior enum
-			putEnum("login_behavior", if (it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
 
 			// Migrate live tv player to use enum
 			putEnum("live_tv_video_player",
