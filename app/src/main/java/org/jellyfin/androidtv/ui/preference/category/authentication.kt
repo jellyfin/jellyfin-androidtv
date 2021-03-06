@@ -1,49 +1,69 @@
 package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.LoginBehavior
+import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.preference.Preference
+import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.checkbox
-import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.apiclient.interaction.ApiClient
+import org.jellyfin.androidtv.ui.preference.dsl.userPicker
+import org.jellyfin.androidtv.util.toUUIDOrNull
 
 fun OptionsScreen.authenticationCategory(
-	userPreferences: UserPreferences,
-	apiClient: ApiClient
+	authenticationRepository: AuthenticationRepository,
+	authenticationPreferences: AuthenticationPreferences
 ) = category {
-	setTitle(R.string.pref_authentication_cat)
+	setTitle(R.string.lbl_settings)
 
-	enum<LoginBehavior> {
-		setTitle(R.string.pref_login_behavior_title)
+	userPicker(authenticationRepository) {
+		setTitle(R.string.auto_signin)
+
 		bind {
-			set {
-				@Suppress("ControlFlowWithEmptyBody")
-				if (it == LoginBehavior.AUTO_LOGIN) {
-					// FIXME: Fix autologin preference
-				}
-
-				userPreferences[UserPreferences.loginBehavior] = it
-			}
-			get { userPreferences[UserPreferences.loginBehavior] }
-			default { userPreferences.getDefaultValue(UserPreferences.loginBehavior) }
-		}
-		depends {
-			false //FIXME
+			from(
+				authenticationPreferences,
+				AuthenticationPreferences.autoLoginUserBehavior,
+				AuthenticationPreferences.autoLoginUserId
+			)
 		}
 	}
 
-	checkbox {
-		setTitle(R.string.pref_prompt_pw)
-		bind(userPreferences, UserPreferences.passwordPromptEnabled)
-		depends {
-			false //FIXME
+	userPicker(authenticationRepository) {
+		setTitle(R.string.service_user)
+		setDialogMessage(R.string.service_user_explanation)
+
+		bind {
+			from(
+				authenticationPreferences,
+				AuthenticationPreferences.serviceUserBehavior,
+				AuthenticationPreferences.serviceUserId
+			)
 		}
 	}
+}
 
-	checkbox {
-		setTitle(R.string.pref_alt_pw_entry)
-		setContent(R.string.pref_alt_pw_entry_desc)
-		bind(userPreferences, UserPreferences.passwordDPadEnabled)
+/**
+ * Helper function to bind two preferences to a user picker.
+ */
+private fun OptionsBinder.Builder<UserSelection>.from(
+	authenticationPreferences: AuthenticationPreferences,
+	userBehaviorPreference: Preference<UserSelectBehavior>,
+	userIdPreference: Preference<String>,
+) {
+	get {
+		UserSelection(
+			authenticationPreferences[userBehaviorPreference],
+			authenticationPreferences[userIdPreference].toUUIDOrNull()
+		)
+	}
+
+	set {
+		authenticationPreferences[userBehaviorPreference] = it.behavior
+		authenticationPreferences[userIdPreference] = it.userId?.toString().orEmpty()
+	}
+
+	default {
+		UserSelection(UserSelectBehavior.LAST_USER, null)
 	}
 }

@@ -466,4 +466,11 @@
     <string name="lbl_episode_marks">On episodes only</string>
     <string name="lbl_use_series_thumbnails">Prefer series thumbnails</string>
     <string name="lbl_use_series_thumbnails_description">Use series thumbnails when displaying episodes</string>
+    <string name="auto_signin">Automatically sign in</string>
+    <string name="service_user">Service user</string>
+    <string name="service_user_explanation">Selected user will be used for system integrations like search</string>
+    <string name="user_picker_disable_title">Disable</string>
+    <string name="user_picker_disable_summary">Feature will be disabled</string>
+    <string name="user_picker_last_user_title">Most recently used</string>
+    <string name="user_picker_last_user_summary">Uses the user that was last active in the app</string>
 </resources>
