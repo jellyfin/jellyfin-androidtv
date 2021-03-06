@@ -27,6 +27,11 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private lateinit var binding: PreferenceRichListBinding
 	private lateinit var adapter: RecyclerView.Adapter<*>
 
+	private fun <K> RichListPreference<K>.createAdapter() = Adapter(
+		items = getItems(),
+		selectedValue = value
+	)
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -38,6 +43,7 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 				},
 				selectedValue = preference.value
 			)
+			is RichListPreference<*> -> preference.createAdapter()
 			else -> throw NotImplementedError()
 		}
 	}
