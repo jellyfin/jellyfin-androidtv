@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.startup
+package org.jellyfin.androidtv.ui.startup.preference
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AccountManagerHelper

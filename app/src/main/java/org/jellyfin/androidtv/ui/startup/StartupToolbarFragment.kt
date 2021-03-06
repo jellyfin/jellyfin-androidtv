@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.databinding.FragmentToolbarStartupBinding
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
+import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
 
 class StartupToolbarFragment : Fragment() {
 	private lateinit var binding: FragmentToolbarStartupBinding
@@ -23,7 +24,7 @@ class StartupToolbarFragment : Fragment() {
 
 		binding.manageServers.setOnClickListener {
 			val settingsIntent = Intent(requireActivity(), PreferencesActivity::class.java)
-			settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, ManageServersScreen::class.qualifiedName)
+			settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, AuthPreferencesScreen::class.qualifiedName)
 			startActivity(settingsIntent)
 		}
 

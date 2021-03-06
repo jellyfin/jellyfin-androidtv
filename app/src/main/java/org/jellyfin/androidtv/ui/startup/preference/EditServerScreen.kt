@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.startup
+package org.jellyfin.androidtv.ui.startup.preference
 
 import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
