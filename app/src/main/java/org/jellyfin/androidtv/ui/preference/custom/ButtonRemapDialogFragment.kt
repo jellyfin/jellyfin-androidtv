@@ -65,7 +65,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val styledContext = ContextThemeWrapper(activity, R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		return styledInflater.inflate(R.layout.button_remap_preference, container, false)
+		return styledInflater.inflate(R.layout.preference_button_remap, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
