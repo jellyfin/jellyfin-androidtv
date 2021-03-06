@@ -435,4 +435,16 @@
     <string name="server_field_empty">Адрес не может быть пустым</string>
     <string name="server_connection_failed">Невозможно подключиться к серверу: %s</string>
     <string name="server_connecting">Подключается к серверу...</string>
+    <string name="enable_smart_view">Включить умный экран</string>
+    <string name="lbl_sign_out">Выйти</string>
+    <string name="lbl_remove">Изъять</string>
+    <string name="lbl_server">Сервер</string>
+    <string name="lbl_users">Пользователи</string>
+    <string name="lbl_user_server">%1$s на %2$s</string>
+    <string name="lbl_user_last_used">Последний раз использовано на %1$s в %2$s</string>
+    <string name="lbl_remove_user">Изъять %1$s</string>
+    <string name="lbl_remove_server">Изъять сервер</string>
+    <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
+    <string name="lbl_remove_user_content">Изъять учётную запись</string>
+    <string name="lbl_manage_servers">Управление серверами</string>
 </resources>
