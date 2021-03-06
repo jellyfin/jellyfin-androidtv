@@ -458,4 +458,12 @@
     <string name="lbl_remove_server">Serverdı alastau</string>
     <string name="lbl_remove_user_content">Tırkelgını alastau</string>
     <string name="lbl_manage_servers">Serverlerdı basqaru</string>
+    <string name="login_help_description">Jellyfın qosylu üşın serverdı qajet etedı. Jellyfın arqyly jūmysty bastau üşın docs.jellyfin.org arqyly qūjattamamyzben tanysyŋyz.</string>
+    <string name="discovered_servers_empty">Jergılıktı jelıde serverler tabylğan joq.</string>
+    <string name="pref_developer_link_description">Keŋeitılgen ben täjıribelık mükındıkter</string>
+    <string name="enable_smart_view_description">Tordyŋ ornyna aqyldy ekran tiıstı tarmaqtardy körsetedı</string>
+    <string name="enable_smart_view">Aqyldy ekrandy qosu</string>
+    <string name="lbl_user_last_used">Soŋğy ret %1$s ışınde %2$s kezınde paidalanyldy</string>
+    <string name="lbl_sign_out_content">Kelesı paidalanu kezınde kırudı talap etedı</string>
+    <string name="lbl_remove_users">Sonymen bırge būl barlyq bailanysty paidalanuşylardy alastaidy</string>
 </resources>
