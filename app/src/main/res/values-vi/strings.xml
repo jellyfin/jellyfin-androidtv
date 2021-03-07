@@ -463,4 +463,6 @@
     <string name="lbl_remove_user_content">Xoá tài khoản</string>
     <string name="lbl_remove_users">Điều này cũng sẽ xóa tất cả người dùng được liên kết</string>
     <string name="lbl_manage_servers">Quản lý máy chủ</string>
+    <string name="image_type_banner">Ảnh bìa</string>
+    <string name="lbl_user_server">%1$s lúc %2$s</string>
 </resources>
