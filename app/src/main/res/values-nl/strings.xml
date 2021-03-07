@@ -435,4 +435,25 @@
     <string name="login_invalid_credentials">Ongeldige gebruikersnaam en/of wachtwoord</string>
     <string name="server_field_empty">Het adres kan niet leeg zijn</string>
     <string name="server_connection_failed">Kan niet verbinden met server: %s</string>
+    <string name="pref_developer_link">Ontwikkelaar opties</string>
+    <string name="image_size_large">Groot</string>
+    <string name="image_size_medium">Gemiddeld</string>
+    <string name="image_size_small">Klein</string>
+    <string name="image_size_auto">Standaard</string>
+    <string name="image_type_banner">Banner</string>
+    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_default">Standaard</string>
+    <string name="enable_smart_view_description">Smart screen toont relevante items in plaats van de grond weergave</string>
+    <string name="enable_smart_view">Smart screen inschakelen</string>
+    <string name="lbl_sign_out">Uitloggen</string>
+    <string name="lbl_remove">Verwijder</string>
+    <string name="lbl_server">Server</string>
+    <string name="lbl_users">Gebruikers</string>
+    <string name="lbl_user_server">%1$s om %2$s</string>
+    <string name="lbl_user_last_used">Laatst gebruikt op %1$s om %2$s</string>
+    <string name="lbl_remove_user">Verwijder %1$s</string>
+    <string name="lbl_remove_server">Verwijder server</string>
+    <string name="lbl_remove_user_content">Verwijder account</string>
+    <string name="lbl_remove_users">Dit zal ook alle gerelateerde gebruikers verwijderen</string>
+    <string name="lbl_manage_servers">Beheer servers</string>
 </resources>
