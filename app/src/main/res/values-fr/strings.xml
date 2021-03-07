@@ -435,4 +435,7 @@
     <string name="server_field_empty">L\'adresse ne peut pas être vide</string>
     <string name="server_connection_failed">Impossible de se connecter au serveur : %s</string>
     <string name="server_connecting">Connexion au serveur ...</string>
+    <string name="lbl_remove_user_content">Supprimer le compte</string>
+    <string name="lbl_remove_users">Cela supprimera également les utilisateurs associés</string>
+    <string name="lbl_manage_servers">Gérer les serveurs</string>
 </resources>
