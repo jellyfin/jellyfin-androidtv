@@ -66,11 +66,11 @@ import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
-    FragmentActivity mActivity;
+    protected FragmentActivity mActivity;
 
-    TextView mTitle;
-    LinearLayout mInfoRow;
-    TextView mSummary;
+    protected TextView mTitle;
+    private LinearLayout mInfoRow;
+    private TextView mSummary;
 
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
@@ -91,13 +91,13 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected BaseRowItem favSongsRowItem;
 
-    RowsSupportFragment mRowsFragment;
+    protected RowsSupportFragment mRowsFragment;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
     private final Handler mHandler = new Handler();
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
-    CardPresenter mCardPresenter;
+    protected CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
 
