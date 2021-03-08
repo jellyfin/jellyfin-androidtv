@@ -95,7 +95,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private final Handler mHandler = new Handler();
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
@@ -526,7 +525,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            mHandler.removeCallbacks(updateContentTask);
             if (item instanceof GridButton && ((GridButton)item).getId() == FAVSONGS) {
                 //set to specialized item
                 mCurrentItem = favSongsRowItem;
@@ -545,10 +543,15 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             mCurrentItem = rowItem;
             mCurrentRow = (ListRow) row;
-            mTitle.setText(mCurrentItem.getName());
             mInfoRow.removeAllViews();
-            mSummary.setText("");
-            mHandler.postDelayed(updateContentTask, 500);
+
+            mTitle.setText(rowItem.getName());
+
+            String summary = rowItem.getSummary(requireContext());
+            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
+            else mSummary.setText(null);
+
+            InfoLayoutHelper.addInfoRow(mActivity, rowItem, mInfoRow, true, true);
 
             //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
@@ -557,18 +560,4 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }
     }
-
-    protected Runnable updateContentTask = new Runnable() {
-        @Override
-        public void run() {
-            if (mCurrentItem == null) return;
-            mTitle.setText(mCurrentItem.getName());
-
-            String summary = mCurrentItem.getSummary(requireContext());
-            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
-            else mSummary.setText(null);
-
-            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
-        }
-    };
 }
