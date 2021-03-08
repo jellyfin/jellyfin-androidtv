@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
@@ -65,7 +66,7 @@ import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
-    BaseActivity mActivity;
+    FragmentActivity mActivity;
 
     TextView mTitle;
     LinearLayout mInfoRow;
@@ -120,7 +121,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
-        mActivity = (BaseActivity) getActivity();
+        mActivity = getActivity();
 
         mTitle = (TextView) root.findViewById(R.id.title);
         mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
@@ -347,15 +348,15 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
         mRowsFragment.setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
-        if (mActivity != null) {
-            mActivity.registerKeyListener(new IKeyListener() {
+        if (mActivity != null && mActivity instanceof BaseActivity) {
+            ((BaseActivity) mActivity).registerKeyListener(new IKeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
-                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
+                    return KeyProcessor.HandleKey(key, mCurrentItem, ((BaseActivity) mActivity));
                 }
             });
 
-            mActivity.registerMessageListener(new IMessageListener() {
+            ((BaseActivity) mActivity).registerMessageListener(new IMessageListener() {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
                     switch (message) {
