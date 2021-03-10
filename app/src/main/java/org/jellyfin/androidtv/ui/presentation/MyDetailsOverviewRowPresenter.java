@@ -56,7 +56,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         public ViewHolder(View rootView) {
             super(rootView);
             mTitle = (TextView) rootView.findViewById(R.id.fdTitle);
-            mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
             mInfoTitle1 = (TextView) rootView.findViewById(R.id.infoTitle1);
             mInfoTitle2 = (TextView) rootView.findViewById(R.id.infoTitle2);
             mInfoTitle3 = (TextView) rootView.findViewById(R.id.infoTitle3);
