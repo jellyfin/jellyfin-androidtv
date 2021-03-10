@@ -464,4 +464,6 @@
     <string name="pref_watched_indicator">Show watched indicators</string>
     <string name="lbl_hide_unwatched_count">Hide unwatched count</string>
     <string name="lbl_episode_marks">On episodes only</string>
+    <string name="lbl_use_series_thumbnails">Prefer series thumbnails</string>
+    <string name="lbl_use_series_thumbnails_description">Use series thumbnails when displaying episodes</string>
 </resources>
