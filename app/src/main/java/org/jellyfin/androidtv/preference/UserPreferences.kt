@@ -185,7 +185,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
 
-    /**
+		/**
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
