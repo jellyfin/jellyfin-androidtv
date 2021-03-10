@@ -466,4 +466,7 @@
     <string name="lbl_remove_user_content">Eliminar Cuenta</string>
     <string name="lbl_remove_users">Esta acción también eliminara todos los usuarios asociados</string>
     <string name="lbl_manage_servers">Administrar Servidores</string>
+    <string name="lbl_episode_marks">Solo en episodios</string>
+    <string name="lbl_hide_unwatched_count">Ocultar contador de No Visto</string>
+    <string name="pref_watched_indicator">Mostrar Indicadores de Ya Visto</string>
 </resources>
