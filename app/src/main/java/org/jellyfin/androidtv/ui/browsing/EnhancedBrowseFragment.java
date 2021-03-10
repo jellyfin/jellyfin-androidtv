@@ -121,10 +121,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         mActivity = getActivity();
 
         mTitle = (TextView) root.findViewById(R.id.title);
-        mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mSummary = (TextView) root.findViewById(R.id.summary);
-        mSummary.setShadowLayer(5, 5, 5, Color.BLACK);
 
         // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {
