@@ -111,7 +111,6 @@ public class ItemListActivity extends FragmentActivity {
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
         mTitle = (TextView) findViewById(R.id.fdTitle);
-        mTitle.setShadowLayer(5, 5, 5, Color.BLACK);
         mTitle.setText(getString(R.string.loading));
         mGenreRow = (FlexboxLayout) findViewById(R.id.fdGenreRow);
         mPoster = (ImageView) findViewById(R.id.mainImage);

@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.ui.browsing
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
+import org.jellyfin.androidtv.ui.shared.BaseActivity
 
-class UserViewActivity : FragmentActivity() {
+class UserViewActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 

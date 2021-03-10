@@ -11,7 +11,6 @@
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:textSize="32sp"
-        android:shadowColor="#ff000000"
         android:layout_toLeftOf="@+id/npBug"
         android:layout_marginRight="10sp"
         android:maxLines="1"

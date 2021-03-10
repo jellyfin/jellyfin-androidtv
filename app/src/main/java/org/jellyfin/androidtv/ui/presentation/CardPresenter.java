@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -190,10 +191,17 @@ public class CardPresenter extends Presenter {
                     }
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null) {
+                        WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
                         if (userData.getPlayed()) {
-                            mCardView.setUnwatchedCount(0);
+                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getBaseItemType() == BaseItemType.Episode))
+                                mCardView.setUnwatchedCount(0);
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         } else if (userData.getUnplayedItemCount() != null) {
-                            mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            if (showIndicator == WatchedIndicatorBehavior.ALWAYS)
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         }
                     }
 

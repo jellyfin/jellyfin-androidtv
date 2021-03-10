@@ -11,7 +11,7 @@ class ButtonRemapPreference(
 	context: Context,
 	attrs: AttributeSet? = null
 ) : DialogPreference(context, attrs) {
-	override fun getDialogLayoutResource() = R.layout.button_remap_preference
+	override fun getDialogLayoutResource() = R.layout.preference_button_remap
 
 	private var innerKeyCode: Int = -1
 	var keyCode: Int

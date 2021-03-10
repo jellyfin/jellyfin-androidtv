@@ -181,6 +181,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
 
 		/**
+		 * Set when watched indicators should show on MyImageCardViews
+		 */
+		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
+
+    /**
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)

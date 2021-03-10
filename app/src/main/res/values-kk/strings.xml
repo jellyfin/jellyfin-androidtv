@@ -435,4 +435,35 @@
 \nBūl aqparat üşіnşі tarapqa ūsynylady (tracepot.com).
 \n
 \nBūl şaqyrudy Jellyfin qoldanbasynyŋ Parametrlerde Apattyq esep bölіmіnen öşıruge bolady.</string>
+    <string name="connect_title">Qosylu</string>
+    <string name="login_help_title">Kömek kerek pe\?</string>
+    <string name="connect_manually_by_address">Server mekenjaiyn engızu</string>
+    <string name="connect_manually_title">Qolmen qosylu</string>
+    <string name="discovered_servers_title">Anyqtalğan serverler</string>
+    <string name="lbl_hidden">Jasyryn</string>
+    <string name="pref_developer_link">Äzırleuşı opsialary</string>
+    <string name="image_size_large">Irı</string>
+    <string name="image_size_medium">Ortaşa</string>
+    <string name="image_size_small">Ūsaq</string>
+    <string name="image_size_auto">Ädepkı</string>
+    <string name="image_type_banner">Baner</string>
+    <string name="image_type_thumbnail">Nobai</string>
+    <string name="image_type_default">Ädepkı</string>
+    <string name="lbl_sign_out">Şyğu</string>
+    <string name="lbl_remove">Alastau</string>
+    <string name="lbl_server">Server</string>
+    <string name="lbl_users">Paidalanuşylar</string>
+    <string name="lbl_user_server">%1$s %2$s ışınde</string>
+    <string name="lbl_remove_user">%1$s alastau</string>
+    <string name="lbl_remove_server">Serverdı alastau</string>
+    <string name="lbl_remove_user_content">Tırkelgını alastau</string>
+    <string name="lbl_manage_servers">Serverlerdı basqaru</string>
+    <string name="login_help_description">Jellyfın qosylu üşın serverdı qajet etedı. Jellyfın arqyly jūmysty bastau üşın docs.jellyfin.org arqyly qūjattamamyzben tanysyŋyz.</string>
+    <string name="discovered_servers_empty">Jergılıktı jelıde serverler tabylğan joq.</string>
+    <string name="pref_developer_link_description">Keŋeitılgen ben täjıribelık mükındıkter</string>
+    <string name="enable_smart_view_description">Tordyŋ ornyna aqyldy ekran tiıstı tarmaqtardy körsetedı</string>
+    <string name="enable_smart_view">Aqyldy ekrandy qosu</string>
+    <string name="lbl_user_last_used">Soŋğy ret %1$s ışınde %2$s kezınde paidalanyldy</string>
+    <string name="lbl_sign_out_content">Kelesı paidalanu kezınde kırudı talap etedı</string>
+    <string name="lbl_remove_users">Sonymen bırge būl barlyq bailanysty paidalanuşylardy alastaidy</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.ObjectAdapter;
 
+import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.util.Utils;
 
 public class SearchProvider implements SearchSupportFragment.SearchResultProvider {
@@ -18,7 +19,7 @@ public class SearchProvider implements SearchSupportFragment.SearchResultProvide
     private String lastQuery;
 
     SearchProvider(Context context, boolean musicOnly) {
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(new CustomListRowPresenter());
         mDelayedLoad = new SearchRunnable(context, mRowsAdapter, musicOnly);
     }
 
