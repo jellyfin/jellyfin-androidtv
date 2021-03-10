@@ -74,7 +74,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
-    protected static final int YEARS = 2;
     protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
     protected static final int SEARCH = 5;
@@ -95,7 +94,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
     protected ArrayObjectAdapter mRowsAdapter;
-    private final Handler mHandler = new Handler();
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
@@ -118,7 +116,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
 
         mActivity = getActivity();
@@ -132,7 +129,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {
             mRowsFragment = new RowsSupportFragment();
-            getChildFragmentManager().beginTransaction()
+            getChildFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.rowsFragment, mRowsFragment).commit();
         } else {
             mRowsFragment = (RowsSupportFragment) getChildFragmentManager()
@@ -143,7 +141,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         mRowsFragment.setAdapter(mRowsAdapter);
 
         return root;
-
     }
 
     @Override
@@ -153,11 +150,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         backgroundService.getValue().attach(requireActivity());
 
         setupViews();
-
-        setupUIElements();
-
         setupQueries(this);
-
         setupEventListeners();
     }
 
@@ -166,7 +159,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     protected void setupViews() {
-        mFolder = serializer.getValue().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
+        mFolder = serializer.getValue().DeserializeFromString(requireActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
@@ -189,22 +182,21 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         } else {
             showViews = false;
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        //React to deletion
+        // React to deletion
         DataRefreshService dataRefreshService = get(DataRefreshService.class);
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
-            ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
+            ((ItemRowAdapter) mCurrentRow.getAdapter()).remove(mCurrentItem);
             dataRefreshService.setLastDeletedItemId(null);
         }
 
         if (!justLoaded) {
-            //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
+            // Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
                 refreshCurrentItem();
                 new Handler().postDelayed(new Runnable() {
@@ -221,20 +213,17 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     }
                 }, 1500);
             }
-
         } else {
             justLoaded = false;
         }
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
-
         mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter(false, 280);
         ClassPresenterSelector ps = new ClassPresenterSelector();
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
         ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 310, 280));
-
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText());
@@ -298,50 +287,46 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         addAdditionalRows(mRowsAdapter);
 
         mRowsFragment.setAdapter(mRowsAdapter);
-
     }
 
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
-        if (showViews) {
-            HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
+        if (!showViews) return;
 
-            GridButtonPresenter mGridPresenter = new GridButtonPresenter();
-            ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-            switch (itemTypeString) {
-                case "Movie":
-                    gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions, null));
-                    addStandardViewButtons(gridRowAdapter);
-                    break;
-                case "MusicAlbum":
-                    gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio, null));
-                    gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists, null));
-                    gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
-                    gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search, null));
-                    break;
-                default:
-                    addStandardViewButtons(gridRowAdapter);
-                    break;
-            }
-            rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
+        GridButtonPresenter mGridPresenter = new GridButtonPresenter();
+        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
+        switch (itemTypeString) {
+            case "Movie":
+                gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions, null));
+                addStandardViewButtons(gridRowAdapter);
+                break;
+
+            case "MusicAlbum":
+                gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio, null));
+                gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists, null));
+                gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
+                gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search, null));
+                break;
+
+            default:
+                addStandardViewButtons(gridRowAdapter);
+                break;
         }
 
+        rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 
     protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
         gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.tile_port_grid, null));
         gridRowAdapter.add(new GridButton(BY_LETTER, TvApp.getApplication().getString(R.string.lbl_by_letter), R.drawable.tile_letters, null));
         gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
-        //gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
+        // Disabled because the screen doesn't behave properly
+        // gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
         gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search, null));
-
-    }
-
-    protected void setupUIElements() {
     }
 
     protected void setupEventListeners() {
-
         mRowsFragment.setOnItemViewClickedListener(mClickedListener);
         mClickedListener.registerListener(new ItemViewClickedListener());
         if (showViews) mClickedListener.registerListener(new SpecialViewClickedListener());
@@ -360,7 +345,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
                     switch (message) {
-
                         case RefreshCurrentItem:
                             refreshCurrentItem();
                             break;
@@ -371,8 +355,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist
-                && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum && mCurrentItem.getBaseItemType() != BaseItemType.Playlist) {
+        if (mCurrentItem != null &&
+                mCurrentItem.getBaseItemType() != BaseItemType.Photo &&
+                mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist &&
+                mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum &&
+                mCurrentItem.getBaseItemType() != BaseItemType.Playlist
+        ) {
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
@@ -380,16 +368,12 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                     adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }
             });
-
         }
-
     }
 
     private final class SpecialViewClickedListener implements OnItemViewClickedListener {
         @Override
-        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
-
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
@@ -398,33 +382,33 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
                                 folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                                getActivity().startActivity(folderIntent);
+                                requireActivity().startActivity(folderIntent);
                             }
                         });
                         break;
 
                     case ALBUMS:
-                        mFolder.setDisplayPreferencesId(mFolder.getId()+"AL");
+                        mFolder.setDisplayPreferencesId(mFolder.getId() + "AL");
                         TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
                                 folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "MusicAlbum");
-                                getActivity().startActivity(folderIntent);
+                                requireActivity().startActivity(folderIntent);
                             }
                         });
                         break;
 
                     case ARTISTS:
-                        mFolder.setDisplayPreferencesId(mFolder.getId()+"AR");
+                        mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
                         TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
                             @Override
                             public void onResponse(DisplayPreferences response) {
                                 Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
                                 folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                                 folderIntent.putExtra(Extras.IncludeType, "AlbumArtist");
-                                getActivity().startActivity(folderIntent);
+                                requireActivity().startActivity(folderIntent);
                             }
                         });
                         break;
@@ -434,7 +418,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         intent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         intent.putExtra(Extras.IncludeType, itemTypeString);
 
-                        getActivity().startActivity(intent);
+                        requireActivity().startActivity(intent);
                         break;
 
                     case GENRES:
@@ -442,7 +426,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         genreIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
-                        getActivity().startActivity(genreIntent);
+                        requireActivity().startActivity(genreIntent);
                         break;
 
                     case SUGGESTED:
@@ -450,7 +434,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         suggIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
-                        getActivity().startActivity(suggIntent);
+                        requireActivity().startActivity(suggIntent);
                         break;
 
                     case PERSONS:
@@ -458,7 +442,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         personIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
-                        getActivity().startActivity(personIntent);
+                        requireActivity().startActivity(personIntent);
                         break;
 
                     case SEARCH:
@@ -473,7 +457,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         favIntent.putExtra("ItemId", ItemListActivity.FAV_SONGS);
                         favIntent.putExtra("ParentId", mFolder.getId());
 
-                        getActivity().startActivity(favIntent);
+                        requireActivity().startActivity(favIntent);
                         break;
 
                     case SERIES:
@@ -485,13 +469,13 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
                         seriesIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(seriesTimers));
 
-                        getActivity().startActivity(seriesIntent);
+                        requireActivity().startActivity(seriesIntent);
                         break;
 
                     case SCHEDULE:
                     case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
                         Intent schedIntent = new Intent(mActivity, BrowseScheduleActivity.class);
-                        getActivity().startActivity(schedIntent);
+                        requireActivity().startActivity(schedIntent);
                         break;
 
                     case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
@@ -504,21 +488,20 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     default:
-                        Toast.makeText(getActivity(), item.toString() + TvApp.getApplication().getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(getActivity(), item.toString() + TvApp.getApplication().getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         }
     }
+
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
-        public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
-                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
-
+        public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
+
             MediaManager.setCurrentMediaTitle(row.getHeaderItem().getName());
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), getActivity());
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
         }
     }
 
@@ -526,9 +509,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            mHandler.removeCallbacks(updateContentTask);
-            if (item instanceof GridButton && ((GridButton)item).getId() == FAVSONGS) {
-                //set to specialized item
+            if (item instanceof GridButton && ((GridButton) item).getId() == FAVSONGS) {
+                // Set to specialized item
                 mCurrentItem = favSongsRowItem;
             }
 
@@ -536,7 +518,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 mTitle.setText(mFolder != null ? mFolder.getName() : "");
                 mInfoRow.removeAllViews();
                 mSummary.setText("");
-                //fill in default background
+                // Fill in default background
                 backgroundService.getValue().clearBackgrounds();
                 return;
             }
@@ -545,30 +527,20 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
             mCurrentItem = rowItem;
             mCurrentRow = (ListRow) row;
-            mTitle.setText(mCurrentItem.getName());
             mInfoRow.removeAllViews();
-            mSummary.setText("");
-            mHandler.postDelayed(updateContentTask, 500);
 
-            //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
-            ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)row).getAdapter();
+            mTitle.setText(rowItem.getName());
+
+            String summary = rowItem.getSummary(requireContext());
+            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
+            else mSummary.setText(null);
+
+            InfoLayoutHelper.addInfoRow(mActivity, rowItem, mInfoRow, true, true);
+
+            ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
 
             backgroundService.getValue().setBackground(rowItem.getBaseItem());
         }
     }
-
-    protected Runnable updateContentTask = new Runnable() {
-        @Override
-        public void run() {
-            if (mCurrentItem == null) return;
-            mTitle.setText(mCurrentItem.getName());
-
-            String summary = mCurrentItem.getSummary(requireContext());
-            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
-            else mSummary.setText(null);
-
-            InfoLayoutHelper.addInfoRow(mActivity, mCurrentItem, mInfoRow, true, true);
-        }
-    };
 }
