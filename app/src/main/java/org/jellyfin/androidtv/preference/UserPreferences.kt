@@ -179,6 +179,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Set which ratings provider should show on MyImageCardViews
 		 */
 		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
+
+		/**
+		 * Set when watched indicators should show on MyImageCardViews
+		 */
+		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
 	}
 
 	init {

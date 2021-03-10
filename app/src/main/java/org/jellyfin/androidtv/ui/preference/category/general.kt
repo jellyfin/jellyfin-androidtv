@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.RatingType
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
@@ -38,6 +39,11 @@ fun OptionsScreen.generalCategory(
 	enum<RatingType> {
 		setTitle(R.string.pref_default_rating)
 		bind(userPreferences, UserPreferences.defaultRatingType)
+	}
+
+	enum<WatchedIndicatorBehavior> {
+		setTitle(R.string.pref_watched_indicator)
+		bind(userPreferences, UserPreferences.watchedIndicatorBehavior)
 	}
 
 	checkbox {
