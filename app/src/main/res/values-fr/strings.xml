@@ -116,7 +116,7 @@
     <string name="lbl_empty">Vide</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
-    <string name="lbl_search_hint">Recherche texte (choisir un clavier)</string>
+    <string name="lbl_search_hint">Recherche de texte (choisir un clavier)</string>
     <string name="lbl_play_first_unwatched">Lire le premier élément non vu</string>
     <string name="lbl_confirm_mark_watched">Cette action marquera tout le contenu comme lu. Êtes-vous VRAIMENT sûr \?</string>
     <string name="lbl_mark_unplayed">Marquer comme non vu</string>
