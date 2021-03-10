@@ -466,4 +466,7 @@
     <string name="lbl_remove_user_content">கணக்கை அகற்று</string>
     <string name="lbl_remove_users">இது தொடர்புடைய அனைத்து பயனர்களையும் அகற்றும்</string>
     <string name="lbl_manage_servers">சேவையகங்களை நிர்வகிக்கவும்</string>
+    <string name="lbl_episode_marks">அத்தியாயங்களில் மட்டுமே</string>
+    <string name="lbl_hide_unwatched_count">பார்க்கப்படாத எண்ணிக்கையை மறைக்க</string>
+    <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
 </resources>
