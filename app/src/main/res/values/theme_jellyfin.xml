@@ -45,6 +45,7 @@
         <item name="tile_chapter_bg">#007F7F</item>
         <item name="tile_genres_bg">#0B4B08</item>
         <item name="tile_letters_bg">#1D0472</item>
+        <item name="tile_land_folder_bg">#003C68</item>
         <item name="tile_land_photo_bg">#224982</item>
         <item name="tile_land_series_timer_bg">#014A7F</item>
         <item name="tile_land_tv_bg">#145A98</item>
