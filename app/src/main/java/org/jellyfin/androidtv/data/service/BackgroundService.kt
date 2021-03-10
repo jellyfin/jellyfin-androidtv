@@ -26,6 +26,7 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
+import org.jellyfin.apiclient.model.search.SearchHint
 import timber.log.Timber
 
 class BackgroundService(
@@ -145,6 +146,28 @@ class BackgroundService(
 		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
 
+		loadBackgrounds(backdropUrls)
+	}
+
+	/**
+	 * Use backdrop from [searchHint] as background.
+	 */
+	fun setBackground(searchHint: SearchHint) {
+		// Check if item is set and backgrounds are enabled
+		if (!userPreferences[UserPreferences.backdropEnabled])
+			return clearBackgrounds()
+
+		// Manually grab the backdrop URL
+		val options = ImageOptions()
+		options.imageType = ImageType.Backdrop
+		options.tag = searchHint.backdropImageTag
+
+		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { apiClient.GetImageUrl(it, options) })
+
+		loadBackgrounds(backdropUrls)
+	}
+
+	private fun loadBackgrounds(backdropUrls: Set<String>) {
 		if (backdropUrls.isEmpty()) return clearBackgrounds()
 
 		// Cancel current loading job
