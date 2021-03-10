@@ -32,6 +32,7 @@
         <item name="tile_chapter_bg">@color/theme_hotdog_black</item>
         <item name="tile_genres_bg">@color/theme_hotdog_black</item>
         <item name="tile_letters_bg">@color/theme_hotdog_black</item>
+        <item name="tile_land_folder_bg">@color/theme_hotdog_black</item>
         <item name="tile_land_photo_bg">@color/theme_hotdog_black</item>
         <item name="tile_land_series_timer_bg">@color/theme_hotdog_black</item>
         <item name="tile_land_tv_bg">@color/theme_hotdog_black</item>
