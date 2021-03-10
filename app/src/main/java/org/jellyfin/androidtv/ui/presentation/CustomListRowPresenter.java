@@ -1,27 +1,36 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.graphics.drawable.Drawable;
+
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.RowPresenter;
+
 import android.view.View;
 
 public class CustomListRowPresenter extends ListRowPresenter {
-
     private View viewHolder;
     private Integer topPadding;
     private Drawable backgroundDrawable;
 
-    public CustomListRowPresenter() { super();}
-
-    public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
+    public CustomListRowPresenter() {
         super();
-        this.topPadding = topPadding;
-        this.backgroundDrawable = drawable;
+
+        setHeaderPresenter(new CustomRowHeaderPresenter());
     }
 
     public CustomListRowPresenter(Integer topPadding) {
         super();
         this.topPadding = topPadding;
+
+        setHeaderPresenter(new CustomRowHeaderPresenter());
+    }
+
+    public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
+        super();
+        this.topPadding = topPadding;
+        this.backgroundDrawable = drawable;
+
+        setHeaderPresenter(new CustomRowHeaderPresenter());
     }
 
     @Override
@@ -31,7 +40,7 @@ public class CustomListRowPresenter extends ListRowPresenter {
 
     @Override
     protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
-        //Do nothing - this removes the shadow on the out of focus rows of image cards
+        // Do nothing - this removes the shadow on the out of focus rows of image cards
     }
 
     @Override
@@ -48,6 +57,4 @@ public class CustomListRowPresenter extends ListRowPresenter {
             viewHolder.setBackground(backgroundDrawable);
         }
     }
-
-
 }
