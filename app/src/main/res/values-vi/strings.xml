@@ -465,4 +465,7 @@
     <string name="lbl_manage_servers">Quản lý máy chủ</string>
     <string name="image_type_banner">Ảnh bìa</string>
     <string name="lbl_user_server">%1$s lúc %2$s</string>
+    <string name="pref_watched_indicator">Hiển thị các chỉ số đã xem</string>
+    <string name="lbl_episode_marks">Chỉ trên các tập</string>
+    <string name="lbl_hide_unwatched_count">Ẩn số lượng chưa xem</string>
 </resources>
