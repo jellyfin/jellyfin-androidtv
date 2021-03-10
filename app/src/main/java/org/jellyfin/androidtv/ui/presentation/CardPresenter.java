@@ -147,7 +147,9 @@ public class CardPresenter extends Presenter {
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case CollectionFolder:
+                        case UserView:
                             // Force the aspect ratio to 16x9 because the server is returning the wrong value of 1
+                            // When this is fixed we should still force 16x9 if an image is not set to be consistent
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
                             break;
@@ -157,7 +159,6 @@ public class CardPresenter extends Presenter {
                         case MovieGenre:
                         case Genre:
                         case MusicGenre:
-                        case UserView:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
                             break;
                         case Photo:
