@@ -466,4 +466,9 @@
     <string name="lbl_remove_user_content">Fiók törlése</string>
     <string name="lbl_remove_users">Ez eltávolítja az összes társított felhasználót is</string>
     <string name="lbl_manage_servers">Szerverek kezelése</string>
+    <string name="lbl_use_series_thumbnails_description">Az epizódok megjelenítésekor sorozat bélyegképeket használjon</string>
+    <string name="lbl_use_series_thumbnails">Inkább a sorozat indexképeit</string>
+    <string name="lbl_episode_marks">Csak epizódokon</string>
+    <string name="lbl_hide_unwatched_count">Megnézetlen számláló elrejtése</string>
+    <string name="pref_watched_indicator">Megtekintett mutatók megjelenítése</string>
 </resources>
