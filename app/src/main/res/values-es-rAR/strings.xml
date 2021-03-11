@@ -469,4 +469,6 @@
     <string name="lbl_episode_marks">Solo en episodios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contador de No Visto</string>
     <string name="pref_watched_indicator">Mostrar Indicadores de Ya Visto</string>
+    <string name="lbl_use_series_thumbnails_description">Utilizar serie de miniaturas cuando se muestran episodios</string>
+    <string name="lbl_use_series_thumbnails">Preferir Series de Miniaturas</string>
 </resources>
