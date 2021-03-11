@@ -466,4 +466,9 @@
     <string name="lbl_remove_user_content">Usuń konto</string>
     <string name="lbl_remove_users">Spowoduje to również usunięcie wszystkich powiązanych użytkowników</string>
     <string name="lbl_manage_servers">Zarządzaj serwerami</string>
+    <string name="lbl_use_series_thumbnails_description">Podczas wyświetlania odcinków używaj miniatur seriali</string>
+    <string name="lbl_use_series_thumbnails">Preferuj miniatury seriali</string>
+    <string name="lbl_episode_marks">Tylko w odcinkach</string>
+    <string name="lbl_hide_unwatched_count">Ukryj liczbę nieobejrzanych</string>
+    <string name="pref_watched_indicator">Pokaż obserwowane wskaźniki</string>
 </resources>
