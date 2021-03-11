@@ -468,4 +468,6 @@
     <string name="pref_watched_indicator">Hiển thị các chỉ số đã xem</string>
     <string name="lbl_episode_marks">Chỉ trên các tập</string>
     <string name="lbl_hide_unwatched_count">Ẩn số lượng chưa xem</string>
+    <string name="lbl_use_series_thumbnails_description">Dùng hình thu nhỏ loạt phim khi hiển thị các tập</string>
+    <string name="lbl_use_series_thumbnails">Hình thu nhỏ loạt phim ưa thích</string>
 </resources>
