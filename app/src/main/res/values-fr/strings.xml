@@ -469,4 +469,6 @@
     <string name="lbl_user_last_used">Dernière utilisation le %1$s à %2$s</string>
     <string name="lbl_remove_user">Supprime %1$s</string>
     <string name="lbl_remove_server">Serveur distant</string>
+    <string name="lbl_use_series_thumbnails_description">Utiliser les miniatures des séries lors de l\'affichage des épisodes</string>
+    <string name="lbl_use_series_thumbnails">Préférez les miniatures de séries</string>
 </resources>
