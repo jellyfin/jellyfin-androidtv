@@ -455,4 +455,11 @@
     <string name="lbl_remove_users">Questo rimuoverà tutti gli utenti associati</string>
     <string name="lbl_manage_servers">Gestisci i server</string>
     <string name="pref_default_rating">Tipo di rating preferito</string>
+    <string name="connect_title">Connetti</string>
+    <string name="login_help_description">Jellyfin ha bisogno di un server a cui connettersi. Visita la nostra documentazione su docs.jellyfin.org per iniziare con Jellyfin.</string>
+    <string name="login_help_title">Hai bisogno d\'aiuto\?</string>
+    <string name="connect_manually_by_address">Inserisci l\'indirizzo del server</string>
+    <string name="connect_manually_title">Connetti manualmente</string>
+    <string name="discovered_servers_empty">Nessun server trovato nella rete locale.</string>
+    <string name="discovered_servers_title">Server trovati</string>
 </resources>
