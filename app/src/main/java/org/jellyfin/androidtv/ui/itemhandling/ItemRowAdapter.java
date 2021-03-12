@@ -813,7 +813,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         notifyRetrieveFinished();
     }
 
-    private static String[] ignoreTypes = new String[]{"books", "games"};
+    private static String[] ignoreTypes = new String[]{"books", "games", "folders"};
     private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
 
     private void retrieveViews() {
