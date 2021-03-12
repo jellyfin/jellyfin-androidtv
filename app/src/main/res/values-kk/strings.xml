@@ -177,7 +177,7 @@
     <string name="lbl_filters">Süzgıler</string>
     <string name="msg_subtitles_loading">Subtitrler jüktelude...</string>
     <string name="msg_unable_load_subs">Subtitrlerdı jükteu mümkın emes</string>
-    <string name="msg_burn_sub_warning">Subtitrlerdı oiyp beru bırneşe minöt aluy mümkın. Kışkene şydaŋyz.</string>
+    <string name="msg_burn_sub_warning">Subtitrlerdı oiyp beru bırneşe minut aluy mümkın. Kışkene şydaŋyz.</string>
     <string name="lbl_recording">Jazba</string>
     <string name="lbl_no_recordings">Jazbalar qol jetımdı emes</string>
     <string name="lbl_live_tv_guide">Efirlık telegid</string>
@@ -357,8 +357,8 @@
     <string name="not_deleted">Tarmaq JOİYLMADY</string>
     <string name="lbl_deleted">%1$s joiyldy</string>
     <string name="seek_error">İzdeu mümkіn emes</string>
-    <string name="msg_live_tv_prev">Aldyŋğy %1$d sağatty jükteimız be\?</string>
-    <string name="msg_live_tv_next">Kelesı %1$d sağatty jüktep alamyz ba\?</string>
+    <string name="msg_live_tv_prev">Aldyŋğy %1$d sağat jüktelsın be\?</string>
+    <string name="msg_live_tv_next">Kelesı %1$d sağat jüktelsın be\?</string>
     <string name="lbl_load_guide_data">Telegid derekterın jükteu</string>
     <string name="episode_missing">Telebölım joq</string>
     <string name="lbl_clear">Tazalau</string>
@@ -366,8 +366,8 @@
     <string name="password_prompt">Paröl engızıŋız</string>
     <string name="no_player">Oinatqyş joq</string>
     <string name="mark_watched">Qaralğan</string>
-    <string name="bitrate_kbit">%1$,.0f Kbıt/s</string>
-    <string name="bitrate_mbit">%1$,.0f Mbıt/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Avtomatty</string>
     <string name="lbl_Reset">Ysyru</string>
     <string name="pref_subtitle_track_button">Subtitrler jolşyğynyŋ tüimeşıgı</string>
@@ -406,7 +406,7 @@
     <string name="play_with_vlc">libVLC arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
-    <string name="like_clearing_error">Ūnaidy küin tazalau qatesı</string>
+    <string name="like_clearing_error">Ūnaidy küiın tazalau qatesı</string>
     <string name="like_setting_error">Ūnaidy küiın ornatu qatesı</string>
     <string name="favorite_error">Taŋdauly küiın ornatu qatesı</string>
     <string name="playing_error">Oinatylğan küidı ornatu qatesı</string>
@@ -430,10 +430,10 @@
     <string name="episode_missing_message">Būl telebölım tasyğyşhanaŋyzda joq. Ötkіzіp, kelesіge ötudі qalaisyz ba\?</string>
     <string name="no_player_message">Beine üşın qabılettı qoldanba ornatylmağan. Būl opsia beine mazmūndy oinatuğa arnalğan bögde qoldanbasyn ornatudy qajet etedі.</string>
     <string name="mark_watched_message">Tarmaq ūzağyna deiіn oinatyla almady. Qaralğan dep belgıleimız be\?</string>
-    <string name="acra_dialog_text">Äzіrleuşіlerge apattyq esep jіbergіŋіz kele me\?
-\n
-\nBūl aqparat üşіnşі tarapqa ūsynylady (tracepot.com).
-\n
+    <string name="acra_dialog_text">Äzіrleuşіlerge apattyq esep jіbergіŋіz kele me\? 
+\n 
+\nBūl aqparat üşınşі tarapqa ūsynylady (tracepot.com). 
+\n 
 \nBūl şaqyrudy Jellyfin qoldanbasynyŋ Parametrlerde Apattyq esep bölіmіnen öşıruge bolady.</string>
     <string name="connect_title">Qosylu</string>
     <string name="login_help_title">Kömek kerek pe\?</string>
@@ -466,7 +466,7 @@
     <string name="lbl_user_last_used">Soŋğy ret %1$s ışınde %2$s kezınde paidalanyldy</string>
     <string name="lbl_sign_out_content">Kelesı paidalanu kezınde kırudı talap etedı</string>
     <string name="lbl_remove_users">Sonymen bırge būl barlyq bailanysty paidalanuşylardy alastaidy</string>
-    <string name="lbl_use_series_thumbnails_description">Telebölımderdi beineleu kezınde serialdyŋ nobailaryn paidalanu</string>
+    <string name="lbl_use_series_thumbnails_description">Telebölımderdı beineleu kezınde serialdyŋ nobailaryn paidalanu</string>
     <string name="lbl_use_series_thumbnails">Telehikaia nobailaryn qalau</string>
     <string name="lbl_episode_marks">Tek telebölımderde</string>
     <string name="lbl_hide_unwatched_count">Qaralmağannyŋ sanağyn jasyru</string>
