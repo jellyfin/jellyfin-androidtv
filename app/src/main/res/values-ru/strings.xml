@@ -466,4 +466,9 @@
     <string name="image_type_banner">Баннер</string>
     <string name="image_type_thumbnail">Эскиз</string>
     <string name="image_type_default">По умолчанию</string>
+    <string name="lbl_use_series_thumbnails_description">Использовать эскизы сериалов при отображении эпизодов</string>
+    <string name="lbl_use_series_thumbnails">Предпочитать эскизы сериалов</string>
+    <string name="lbl_episode_marks">Только в эпизодах</string>
+    <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
+    <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
 </resources>
