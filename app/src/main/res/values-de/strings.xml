@@ -466,4 +466,5 @@
     <string name="lbl_remove_user_content">Benutzerkonto entfernen</string>
     <string name="lbl_remove_users">Dadurch werden auch alle zugehörigen Benutzer entfernt</string>
     <string name="lbl_manage_servers">Server verwalten</string>
+    <string name="lbl_episode_marks">Nur bei Episoden</string>
 </resources>
