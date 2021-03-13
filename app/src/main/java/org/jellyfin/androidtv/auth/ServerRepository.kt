@@ -21,7 +21,7 @@ interface ServerRepository {
 	fun getDiscoveryServers(): Flow<Server>
 	suspend fun migrateLegacyCredentials()
 
-	suspend fun gerServerUsers(server: Server): Set<User>
+	suspend fun gerServerUsers(server: Server): List<User>
 	fun removeServer(serverId: UUID): Unit
 	fun addServer(address: String): Flow<ServerAdditionState>
 }
@@ -51,13 +51,16 @@ class ServerRepositoryImpl(
 		.getUsers(server.id)
 		.orEmpty()
 
-	override suspend fun gerServerUsers(server: Server): Set<User> {
-		val users = mutableSetOf<User>()
+	override suspend fun gerServerUsers(server: Server): List<User> {
+		val users = mutableListOf<User>()
 
 		users.addAll(getServerStoredUsers(server))
-		getServerPublicUsers(server).forEach { user ->
-			if (users.none { it.id == user.id }) users.add(user)
-		}
+		getServerPublicUsers(server)
+			.sortedBy { it.name }
+			.forEach { user ->
+				if (users.none { it.id == user.id })
+					users.add(user)
+			}
 
 		return users
 	}
