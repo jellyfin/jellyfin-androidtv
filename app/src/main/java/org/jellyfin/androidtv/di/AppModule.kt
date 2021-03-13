@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
+import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.apiclient.AppInfo
@@ -38,10 +39,12 @@ val appModule = module {
 		AndroidDevice.fromContext(androidApplication())
 	}
 
+	single { MediaManager() }
+
 	single {
 		get<Jellyfin>().createApi(
 			device = get(),
-			eventListener = TvApiEventListener(get())
+			eventListener = TvApiEventListener(get(), get())
 		)
 	}
 

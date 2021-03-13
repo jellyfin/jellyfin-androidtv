@@ -38,9 +38,11 @@ import static org.koin.java.KoinJavaComponent.get;
 
 public class TvApiEventListener extends ApiEventListener {
     private final DataRefreshService dataRefreshService;
+    private final MediaManager mediaManager;
 
-    public TvApiEventListener(DataRefreshService dataRefreshService) {
+    public TvApiEventListener(DataRefreshService dataRefreshService, MediaManager mediaManager) {
         this.dataRefreshService = dataRefreshService;
+        this.mediaManager = mediaManager;
     }
 
     @Override
@@ -75,8 +77,8 @@ public class TvApiEventListener extends ApiEventListener {
 
         switch (command.getCommand()) {
             case Stop:
-                if (MediaManager.isPlayingAudio())
-                    MediaManager.stopAudio();
+                if (mediaManager.isPlayingAudio())
+                    mediaManager.stopAudio();
                 else {
                     Activity currentActivity = TvApp.getApplication().getCurrentActivity();
 
@@ -85,26 +87,26 @@ public class TvApiEventListener extends ApiEventListener {
                 }
                 break;
             case Pause:
-                if (MediaManager.isPlayingAudio())
-                    MediaManager.pauseAudio();
+                if (mediaManager.isPlayingAudio())
+                    mediaManager.pauseAudio();
                 else if(playbackController != null)
                     playbackController.playPause();
                 break;
             case Unpause:
-                if (MediaManager.hasAudioQueueItems())
-                    MediaManager.resumeAudio();
+                if (mediaManager.hasAudioQueueItems())
+                    mediaManager.resumeAudio();
                 else if(playbackController != null)
                     playbackController.playPause();
                 break;
             case NextTrack:
-                if (MediaManager.hasAudioQueueItems())
-                    MediaManager.nextAudioItem();
+                if (mediaManager.hasAudioQueueItems())
+                    mediaManager.nextAudioItem();
                 else if(playbackController != null)
                     playbackController.next();
                 break;
             case PreviousTrack:
-                if (MediaManager.hasAudioQueueItems())
-                    MediaManager.prevAudioItem();
+                if (mediaManager.hasAudioQueueItems())
+                    mediaManager.prevAudioItem();
                 else if(playbackController != null)
                     playbackController.prev();
                 break;
@@ -177,12 +179,12 @@ public class TvApiEventListener extends ApiEventListener {
                         //peek at first item to see what type it is
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
-                                MediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
+                                mediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
                                 Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getPlaybackActivityClass(response.getItems()[0].getBaseItemType()));
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                 break;
                             case "Audio":
-                                MediaManager.playNow(Arrays.asList(response.getItems()));
+                                mediaManager.playNow(Arrays.asList(response.getItems()));
                                 break;
 
                         }

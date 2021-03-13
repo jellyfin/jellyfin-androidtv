@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package org.jellyfin.androidtv.ui.browsing;
 
 import android.app.Activity;
@@ -106,6 +92,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected boolean mAllowViewSelection = true;
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -525,9 +512,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
                     if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                        MediaManager.setCurrentMediaAdapter(mGridAdapter);
-                        MediaManager.setCurrentMediaPosition(mCurrentItem.getIndex());
-                        MediaManager.setCurrentMediaTitle(mFolder.getName());
+                        mediaManager.getValue().setCurrentMediaAdapter(mGridAdapter);
+                        mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
+                        mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
                     }
                     return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
                 }
@@ -578,15 +565,15 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     private void refreshCurrentItem() {
-        if (MediaManager.getCurrentMediaPosition() >= 0) {
-            mCurrentItem = MediaManager.getCurrentMediaItem();
+        if (mediaManager.getValue().getCurrentMediaPosition() >= 0) {
+            mCurrentItem = mediaManager.getValue().getCurrentMediaItem();
 
             Presenter presenter = getGridPresenter();
             if (presenter instanceof HorizontalGridPresenter)
-                ((HorizontalGridPresenter) presenter).setPosition(MediaManager.getCurrentMediaPosition());
+                ((HorizontalGridPresenter) presenter).setPosition(mediaManager.getValue().getCurrentMediaPosition());
             // Don't do anything for vertical grids as the presenter does not allow setting the position
 
-            MediaManager.setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
+            mediaManager.getValue().setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
                 && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {

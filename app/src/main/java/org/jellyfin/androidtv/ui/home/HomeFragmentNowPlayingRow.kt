@@ -9,7 +9,8 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 
 class HomeFragmentNowPlayingRow(
-	private val context: Context
+	private val context: Context,
+	private val mediaManager: MediaManager
 ) : HomeFragmentRow {
 	private var row: ListRow? = null
 
@@ -20,7 +21,7 @@ class HomeFragmentNowPlayingRow(
 	private fun add(rowsAdapter: ArrayObjectAdapter) {
 		if (row != null) return
 
-		row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), MediaManager.getManagedAudioQueue())
+		row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.getManagedAudioQueue())
 		rowsAdapter.add(0, row)
 	}
 
@@ -32,7 +33,7 @@ class HomeFragmentNowPlayingRow(
 	}
 
 	fun update(rowsAdapter: ArrayObjectAdapter) {
-		if (MediaManager.isPlayingAudio()) add(rowsAdapter)
+		if (mediaManager.isPlayingAudio()) add(rowsAdapter)
 		else remove(rowsAdapter)
 	}
 }

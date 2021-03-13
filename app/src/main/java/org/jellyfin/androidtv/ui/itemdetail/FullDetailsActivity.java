@@ -145,6 +145,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -782,10 +783,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private void addItemToQueue() {
         if (mBaseItem.getBaseItemType() == BaseItemType.Audio) {
-            MediaManager.addToAudioQueue(Arrays.asList(mBaseItem));
+            mediaManager.getValue().addToAudioQueue(Arrays.asList(mBaseItem));
 
         } else {
-            MediaManager.addToVideoQueue(mBaseItem);
+            mediaManager.getValue().addToVideoQueue(mBaseItem);
         }
     }
 
@@ -1364,10 +1365,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
                             if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
-                                MediaManager.playNow(response);
+                                mediaManager.getValue().playNow(response);
                             } else {
                                 Intent intent = new Intent(FullDetailsActivity.this, ExternalPlayerActivity.class);
-                                MediaManager.setCurrentVideoQueue(response);
+                                mediaManager.getValue().setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 startActivity(intent);
                             }
@@ -1520,10 +1521,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
-                    MediaManager.playNow(response);
+                    mediaManager.getValue().playNow(response);
                 } else {
                     Intent intent = new Intent(FullDetailsActivity.this, TvApp.getApplication().getPlaybackActivityClass(item.getBaseItemType()));
-                    MediaManager.setCurrentVideoQueue(response);
+                    mediaManager.getValue().setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
                     startActivity(intent);
                 }
@@ -1536,7 +1537,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
         Intent intent = new Intent(this, TvApp.getApplication().getPlaybackActivityClass(items[0].getBaseItemType()));
         if (shuffle) Collections.shuffle(itemsToPlay);
-        MediaManager.setCurrentVideoQueue(itemsToPlay);
+        mediaManager.getValue().setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);
         startActivity(intent);
 

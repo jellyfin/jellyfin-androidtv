@@ -27,7 +27,6 @@ import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
 import org.jellyfin.apiclient.model.querying.ItemsResult
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -35,6 +34,7 @@ import java.util.*
 
 class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
+	private val mediaManager by inject<MediaManager>()
 	private val helper by lazy { HomeFragmentHelper(requireContext()) }
 
 	// Data
@@ -42,8 +42,8 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	private var views: ItemsResult? = null
 
 	// Special rows
-	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity()) }
-	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get<GsonJsonSerializer>()) }
+	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
+	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get()) }
 	private val footer by lazy { HomeFragmentFooterRow(requireActivity()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 		}
 
 		// Subscribe to Audio messages
-		MediaManager.addAudioEventListener(this)
+		mediaManager.addAudioEventListener(this)
 	}
 
 	override fun onResume() {
@@ -91,7 +91,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	override fun onDestroy() {
 		super.onDestroy()
 
-		MediaManager.removeAudioEventListener(this)
+		mediaManager.removeAudioEventListener(this)
 	}
 
 	override fun setupEventListeners() {

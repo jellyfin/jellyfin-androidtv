@@ -12,6 +12,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -28,18 +40,10 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.OnItemViewClickedListener;
-import androidx.leanback.widget.OnItemViewSelectedListener;
-import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.Row;
-import androidx.leanback.widget.RowPresenter;
+import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PhotoPlayerActivity extends FragmentActivity {
     BaseItemDto currentPhoto;
@@ -66,6 +70,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     boolean mPopupPanelVisible;
 
     Handler handler;
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +95,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         currentImageView().pause();
         nextImageView().pause();
 
-        currentPhoto = MediaManager.getCurrentMediaItem().getBaseItem();
+        currentPhoto = mediaManager.getValue().getCurrentMediaItem().getBaseItem();
         loadImage(currentPhoto, currentImageView(), getIntent().getBooleanExtra("Play", false));
         loadImage(currentPhoto, nextImageView());
         loadNext();
@@ -109,7 +114,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         mPopupRowPresenter = new PositionableListRowPresenter();
         mPopupRowAdapter = new ArrayObjectAdapter(mPopupRowPresenter);
         mPopupRowsFragment.setAdapter(mPopupRowAdapter);
-        mThumbRow = new ListRow(new HeaderItem(""), MediaManager.getCurrentMediaAdapter());
+        mThumbRow = new ListRow(new HeaderItem(""), mediaManager.getValue().getCurrentMediaAdapter());
         mPopupRowAdapter.add(mThumbRow);
         mPopupRowsFragment.setOnItemViewClickedListener(itemViewClickedListener);
         mPopupRowsFragment.setOnItemViewSelectedListener(itemViewSelectedListener);
@@ -128,7 +133,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
                 break;
 
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (!mPopupPanelVisible && MediaManager.hasNextMediaItem()) {
+                if (!mPopupPanelVisible && mediaManager.getValue().hasNextMediaItem()) {
                     if (isLoadingNext || isTransitioning)
                         return true; //swallow too fast requests
                     if (isPlaying) {
@@ -142,11 +147,11 @@ public class PhotoPlayerActivity extends FragmentActivity {
                 break;
 
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (!mPopupPanelVisible && MediaManager.hasPrevMediaItem()) {
+                if (!mPopupPanelVisible && mediaManager.getValue().hasPrevMediaItem()) {
                     if (isLoadingPrev || isTransitioning)
                         return true; //swallow too fast requests
                     if (isPlaying) stop();
-                    currentPhoto = MediaManager.prevMedia().getBaseItem();
+                    currentPhoto = mediaManager.getValue().prevMedia().getBaseItem();
                     nextImage.setImageDrawable(currentImageView().getDrawable());
                     nextImageView().setImageDrawable(prevImage.getDrawable());
                     transition(750);
@@ -181,8 +186,8 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (isPlaying) stop();
             Utils.beep();
             hideThumbPanel();
-            MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());
+            mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
+            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
             nextImageView().setAlpha(0f);
             currentImageView().resume();
             loadNext();
@@ -206,8 +211,8 @@ public class PhotoPlayerActivity extends FragmentActivity {
         if (mPopupPanelVisible) {
             if (isPlaying) stop();
             hideThumbPanel();
-            MediaManager.setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(MediaManager.getCurrentMediaItem().getBaseItem(), currentImageView());
+            mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
+            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
             nextImageView().setAlpha(0f);
             loadNext();
 
@@ -225,7 +230,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     }
 
     private void next(int transDuration) {
-        currentPhoto = MediaManager.nextMedia().getBaseItem();
+        currentPhoto = mediaManager.getValue().nextMedia().getBaseItem();
         prevImage.setImageDrawable(currentImageView().getDrawable());
         nextImageView().setImageDrawable(nextImage.getDrawable());
         transition(transDuration);
@@ -236,7 +241,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     Runnable playRunnable = new Runnable() {
         @Override
         public void run() {
-            if (MediaManager.hasNextMediaItem()) {
+            if (mediaManager.getValue().hasNextMediaItem()) {
                 next(1800);
                 handler.postDelayed(this, 8000);
             } else {
@@ -267,12 +272,12 @@ public class PhotoPlayerActivity extends FragmentActivity {
     private KenBurnsView nextImageView() { return mainImages[nextImageNdx]; }
 
     private void loadNext() {
-        if (MediaManager.hasNextMediaItem()) loadImage(MediaManager.peekNextMediaItem().getBaseItem(), nextImage);
+        if (mediaManager.getValue().hasNextMediaItem()) loadImage(mediaManager.getValue().peekNextMediaItem().getBaseItem(), nextImage);
 
     }
 
     private void loadPrev() {
-        if (MediaManager.hasPrevMediaItem()) loadImage(MediaManager.peekPrevMediaItem().getBaseItem(), prevImage);
+        if (mediaManager.getValue().hasPrevMediaItem()) loadImage(mediaManager.getValue().peekPrevMediaItem().getBaseItem(), prevImage);
 
     }
 
@@ -380,8 +385,8 @@ public class PhotoPlayerActivity extends FragmentActivity {
     private OnItemViewSelectedListener itemViewSelectedListener = new OnItemViewSelectedListener() {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (!(item instanceof BaseRowItem) || MediaManager.getCurrentMediaAdapter() == null) return;
-            MediaManager.getCurrentMediaAdapter().loadMoreItemsIfNeeded(((BaseRowItem)item).getIndex());
+            if (!(item instanceof BaseRowItem) || mediaManager.getValue().getCurrentMediaAdapter() == null) return;
+            mediaManager.getValue().getCurrentMediaAdapter().loadMoreItemsIfNeeded(((BaseRowItem)item).getIndex());
         }
     };
 
@@ -428,7 +433,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     private void showThumbPanel() {
 
         mPopupArea.bringToFront();
-        mPopupRowPresenter.setPosition(MediaManager.getCurrentMediaPosition());
+        mPopupRowPresenter.setPosition(mediaManager.getValue().getCurrentMediaPosition());
         mPopupArea.startAnimation(showPopup);
         mPopupPanelVisible = true;
     }

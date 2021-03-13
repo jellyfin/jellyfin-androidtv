@@ -166,6 +166,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private VideoManager videoManager = null;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,7 +175,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mActivity = (PlaybackOverlayActivity) getActivity();
 
         // stop any audio that may be playing
-        MediaManager.stopAudio();
+        mediaManager.getValue().stopAudio();
 
         mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager == null) {
@@ -186,7 +187,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mActivity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mActivity.setKeyListener(keyListener);
 
-        mItemsToPlay = MediaManager.getCurrentVideoQueue();
+        mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
             mActivity.finish();
@@ -1468,7 +1469,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void showNextUp(String id) {
         // Set to "modified" so the queue won't be cleared
-        MediaManager.setVideoQueueModified(true);
+        mediaManager.getValue().setVideoQueueModified(true);
 
         Intent intent = new Intent(getActivity(), NextUpActivity.class);
         intent.putExtra("id", id);

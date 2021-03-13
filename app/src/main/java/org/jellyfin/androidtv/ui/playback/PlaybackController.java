@@ -62,6 +62,7 @@ public class PlaybackController {
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -1028,8 +1029,8 @@ public class PlaybackController {
     public void removePreviousQueueItems() {
         DataRefreshService dataRefreshService = get(DataRefreshService.class);
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
-        if (isLiveTv || !MediaManager.isVideoQueueModified()) {
-            MediaManager.clearVideoQueue();
+        if (isLiveTv || !mediaManager.getValue().isVideoQueueModified()) {
+            mediaManager.getValue().clearVideoQueue();
             return;
         }
 
@@ -1062,7 +1063,7 @@ public class PlaybackController {
             if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
-                MediaManager.setCurrentVideoQueue(mItems);
+                mediaManager.getValue().setCurrentVideoQueue(mItems);
                 mFragment.showNextUp(nextItem.getId());
             } else {
                 mCurrentIndex++;

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,70 +58,70 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class MediaManager {
-    private static ItemRowAdapter mCurrentMediaAdapter;
-    private static int mCurrentMediaPosition = -1;
-    private static String currentMediaTitle;
+    private ItemRowAdapter mCurrentMediaAdapter;
+    private int mCurrentMediaPosition = -1;
+    private String currentMediaTitle;
 
-    private static ItemRowAdapter mCurrentAudioQueue;
-    private static ItemRowAdapter mManagedAudioQueue;
-    private static int mCurrentAudioQueuePosition = -1;
-    private static BaseItemDto mCurrentAudioItem;
-    private static StreamInfo mCurrentAudioStreamInfo;
-    private static long mCurrentAudioPosition;
+    private ItemRowAdapter mCurrentAudioQueue;
+    private ItemRowAdapter mManagedAudioQueue;
+    private int mCurrentAudioQueuePosition = -1;
+    private BaseItemDto mCurrentAudioItem;
+    private StreamInfo mCurrentAudioStreamInfo;
+    private long mCurrentAudioPosition;
 
-    private static LibVLC mLibVLC;
-    private static org.videolan.libvlc.MediaPlayer mVlcPlayer;
-    private static VlcEventHandler mVlcHandler = new VlcEventHandler();
-    private static SimpleExoPlayer mExoPlayer;
-    private static AudioManager mAudioManager;
-    private static boolean audioInitialized;
-    private static boolean nativeMode = false;
-    private static boolean videoQueueModified = false;
+    private LibVLC mLibVLC;
+    private org.videolan.libvlc.MediaPlayer mVlcPlayer;
+    private VlcEventHandler mVlcHandler = new VlcEventHandler();
+    private SimpleExoPlayer mExoPlayer;
+    private AudioManager mAudioManager;
+    private boolean audioInitialized;
+    private boolean nativeMode = false;
+    private boolean videoQueueModified = false;
 
-    private static List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
+    private List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
-    private static long lastProgressReport;
-    private static long lastProgressEvent;
+    private long lastProgressReport;
+    private long lastProgressEvent;
 
-    private static boolean mRepeat;
+    private boolean mRepeat;
 
-    private static List<BaseItemDto> mCurrentVideoQueue;
+    private List<BaseItemDto> mCurrentVideoQueue;
 
-    public static ItemRowAdapter getCurrentMediaAdapter() {
+    public ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
     }
-    public static boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
-    public static boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
+    public boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
+    public boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
-    public static void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
-        MediaManager.mCurrentMediaAdapter = currentMediaAdapter;
+    public void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
+         this.mCurrentMediaAdapter = currentMediaAdapter;
     }
 
-    public static int getCurrentMediaPosition() {
+    public int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
 
-    public static void setCurrentVideoQueue(List<BaseItemDto> items) { mCurrentVideoQueue = items; }
-    public static List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
+    public void setCurrentVideoQueue(List<BaseItemDto> items) { mCurrentVideoQueue = items; }
+    public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
-    public static int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
-    public static int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
-    public static long getCurrentAudioPosition() { return mCurrentAudioPosition; }
-    public static String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition >=0 ? mCurrentAudioQueuePosition+1 : 1); }
-    public static String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
+    public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
+    public int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+    public long getCurrentAudioPosition() { return mCurrentAudioPosition; }
+    public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition >=0 ? mCurrentAudioQueuePosition+1 : 1); }
+    public String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
-    public static BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
+    public BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
 
-    public static boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
-    public static boolean isRepeatMode() { return mRepeat; }
+    public boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
+    public boolean isRepeatMode() { return mRepeat; }
 
-    public static ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
-    public static ItemRowAdapter getManagedAudioQueue() {
+    public ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
+    public ItemRowAdapter getManagedAudioQueue() {
         createManagedAudioQueue();
         return mManagedAudioQueue;
     }
 
-    public static void createManagedAudioQueue() {
+    public void createManagedAudioQueue() {
         if (mCurrentAudioQueue != null) {
             if (mManagedAudioQueue != null) {
                 //re-create existing one
@@ -143,16 +144,16 @@ public class MediaManager {
 
     }
 
-    public static void addAudioEventListener(AudioEventListener listener) {
+    public void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
         Timber.d("Added event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
-    public static void removeAudioEventListener(AudioEventListener listener) {
+    public void removeAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.remove(listener);
         Timber.d("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
 
-    public static boolean initAudio() {
+    public boolean initAudio() {
         if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
 
         if (mAudioManager == null) {
@@ -164,11 +165,11 @@ public class MediaManager {
         return createPlayer(600);
     }
 
-    private static boolean isPaused() {
+    private boolean isPaused() {
         return nativeMode ? !mExoPlayer.isPlaying() : !mVlcPlayer.isPlaying();
     }
 
-    private static void reportProgress() {
+    private void reportProgress() {
         //Don't need to be too aggressive with these calls - just be sure every second
         if (System.currentTimeMillis() < lastProgressEvent + 750) return;
         lastProgressEvent = System.currentTimeMillis();
@@ -188,7 +189,7 @@ public class MediaManager {
 
     }
 
-    private static void onComplete() {
+    private void onComplete() {
         ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
         nextAudioItem();
 
@@ -200,7 +201,7 @@ public class MediaManager {
 
     }
 
-    private static boolean createPlayer(int buffer) {
+    private boolean createPlayer(int buffer) {
         try {
 
             // Create a new media player based on platform
@@ -268,9 +269,9 @@ public class MediaManager {
         return true;
     }
 
-    private static Runnable progressLoop;
-    private static Handler mHandler = new Handler();
-    private static void startProgressLoop() {
+    private Runnable progressLoop;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private void startProgressLoop() {
         progressLoop = new Runnable() {
             @Override
             public void run() {
@@ -281,13 +282,13 @@ public class MediaManager {
         mHandler.post(progressLoop);
     }
 
-    private static void stopProgressLoop() {
+    private void stopProgressLoop() {
         if (progressLoop != null) {
             mHandler.removeCallbacks(progressLoop);
         }
     }
 
-    private static AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
+    private AudioManager.OnAudioFocusChangeListener mAudioFocusChanged = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
@@ -305,14 +306,14 @@ public class MediaManager {
         }
     };
 
-    private static void fireQueueReplaced(){
+    private void fireQueueReplaced(){
         for (AudioEventListener listener : mAudioEventListeners) {
             Timber.i("Firing queue replaced listener. ");
             listener.onQueueReplaced();
         }
     }
 
-    private static void fireQueueStatusChange() {
+    private void fireQueueStatusChange() {
         for (AudioEventListener listener : mAudioEventListeners) {
             Timber.i("Firing queue state change listener. %b", hasAudioQueueItems());
             listener.onQueueStatusChanged(hasAudioQueueItems());
@@ -320,25 +321,25 @@ public class MediaManager {
 
     }
 
-    private static void createAudioQueue(List<BaseItemDto> items) {
+    private void createAudioQueue(List<BaseItemDto> items) {
         mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 140)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         mManagedAudioQueue = null;
         fireQueueStatusChange();
     }
 
-    private static int TYPE_AUDIO = 0;
-    private static int TYPE_VIDEO = 1;
+    private int TYPE_AUDIO = 0;
+    private int TYPE_VIDEO = 1;
 
-    public static void saveAudioQueue(Activity activity) {
+    public void saveAudioQueue(Activity activity) {
         saveQueue(activity, TYPE_AUDIO);
     }
 
-    public static void saveVideoQueue(Activity activity) {
+    public void saveVideoQueue(Activity activity) {
         saveQueue(activity, TYPE_VIDEO);
     }
 
-    public static void saveQueue(Activity activity, final int type) {
+    public void saveQueue(Activity activity, final int type) {
         //Get a name and save as playlist
         final EditText name = new EditText(activity);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -374,7 +375,7 @@ public class MediaManager {
 
     }
 
-    private static ArrayList<String> getCurrentAudioQueueItemIds() {
+    private ArrayList<String> getCurrentAudioQueueItemIds() {
         ArrayList<String> result = new ArrayList<>();
 
         if (mCurrentAudioQueue != null) {
@@ -387,7 +388,7 @@ public class MediaManager {
         return result;
     }
 
-    private static ArrayList<String> getCurrentVideoQueueItemIds() {
+    private ArrayList<String> getCurrentVideoQueueItemIds() {
         ArrayList<String> result = new ArrayList<>();
 
         if (mCurrentVideoQueue != null) {
@@ -399,13 +400,13 @@ public class MediaManager {
         return result;
     }
 
-    public static int queueAudioItem(BaseItemDto item) {
+    public int queueAudioItem(BaseItemDto item) {
         if (mCurrentAudioQueue == null) createAudioQueue(new ArrayList<BaseItemDto>());
         mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         return mCurrentAudioQueue.size()-1;
     }
 
-    public static int addToVideoQueue(BaseItemDto item) {
+    public int addToVideoQueue(BaseItemDto item) {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
@@ -425,7 +426,7 @@ public class MediaManager {
         return mCurrentVideoQueue.size()-1;
     }
 
-    public static void clearAudioQueue() {
+    public void clearAudioQueue() {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<BaseItemDto>());
         }
@@ -437,7 +438,7 @@ public class MediaManager {
         if (mManagedAudioQueue != null) mManagedAudioQueue.clear();
     }
 
-    public static void addToAudioQueue(List<BaseItemDto> items) {
+    public void addToAudioQueue(List<BaseItemDto> items) {
         if (mCurrentAudioQueue == null) createAudioQueue(items);
         else {
             int ndx = mCurrentAudioQueue.size();
@@ -452,7 +453,7 @@ public class MediaManager {
         Toast.makeText(TvApp.getApplication(), items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
-    public static void removeFromAudioQueue(int ndx) {
+    public void removeFromAudioQueue(int ndx) {
         if (mCurrentAudioQueuePosition == ndx) {
             // current item - stop audio, remove and re-start
             stopAudio();
@@ -485,9 +486,9 @@ public class MediaManager {
         }
     }
 
-    public static boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
+    public boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
 
-    private static boolean ensureInitialized() {
+    private boolean ensureInitialized() {
         if (!audioInitialized) {
             audioInitialized = initAudio();
         }
@@ -499,7 +500,7 @@ public class MediaManager {
         return audioInitialized;
     }
 
-    public static void playNow(final List<BaseItemDto> items) {
+    public void playNow(final List<BaseItemDto> items) {
         if (!ensureInitialized()) return;
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
@@ -510,7 +511,7 @@ public class MediaManager {
             fireQueueReplaced();
     }
 
-    private static void playNowInternal(List<BaseItemDto> items) {
+    private void playNowInternal(List<BaseItemDto> items) {
         createAudioQueue(items);
         mCurrentAudioQueuePosition = -1;
         nextAudioItem();
@@ -523,7 +524,7 @@ public class MediaManager {
 
     }
 
-    public static void playNow(final BaseItemDto item) {
+    public void playNow(final BaseItemDto item) {
         if (!ensureInitialized()) return;
 
         List<BaseItemDto> list = new ArrayList<BaseItemDto>();
@@ -531,7 +532,7 @@ public class MediaManager {
         playNow(list);
     }
 
-    public static boolean playFrom(int ndx) {
+    public boolean playFrom(int ndx) {
         if (ndx >= mCurrentAudioQueue.size()) return false;
 
         if (isPlayingAudio()) stopAudio();
@@ -542,7 +543,7 @@ public class MediaManager {
         return true;
     }
 
-    private static boolean ensureAudioFocus() {
+    private boolean ensureAudioFocus() {
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Timber.e("Unable to get audio focus");
             Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
@@ -555,7 +556,7 @@ public class MediaManager {
         return true;
     }
 
-    private static void playInternal(final BaseItemDto item, final int pos) {
+    private void playInternal(final BaseItemDto item, final int pos) {
         if (!ensureInitialized()) return;
         ensureAudioFocus();
         final ApiClient apiClient = get(ApiClient.class);
@@ -618,7 +619,7 @@ public class MediaManager {
 
     }
 
-    public static void shuffleAudioQueue() {
+    public void shuffleAudioQueue() {
         if (!hasAudioQueueItems()) return;
 
         List<BaseItemDto> items = new ArrayList<>();
@@ -631,7 +632,7 @@ public class MediaManager {
 
     }
 
-    public static BaseItemDto getNextAudioItem() {
+    public BaseItemDto getNextAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return null;
 
         int ndx = mCurrentAudioQueuePosition+1;
@@ -639,7 +640,7 @@ public class MediaManager {
         return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
-    public static BaseItemDto getPrevAudioItem() {
+    public BaseItemDto getPrevAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == 0)) return null;
 
         int ndx = mCurrentAudioQueuePosition-1;
@@ -647,10 +648,10 @@ public class MediaManager {
         return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
-    public static boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()-1); }
-    public static boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
+    public boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()-1); }
+    public boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
 
-    public static void updateCurrentAudioItemPlaying(boolean playing) {
+    public void updateCurrentAudioItemPlaying(boolean playing) {
         if (mCurrentAudioQueuePosition < 0) return;
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
         if (rowItem != null) {
@@ -664,7 +665,7 @@ public class MediaManager {
         }
     }
 
-    public static int nextAudioItem() {
+    public int nextAudioItem() {
         //turn off indicator for current item
         if (mCurrentAudioQueuePosition >= 0) {
             updateCurrentAudioItemPlaying(false);
@@ -682,7 +683,7 @@ public class MediaManager {
         return ndx;
     }
 
-    public static int prevAudioItem() {
+    public int prevAudioItem() {
         if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
             //just back up to the beginning of current item
@@ -707,12 +708,12 @@ public class MediaManager {
         return ndx;
     }
 
-    private static void stop() {
+    private void stop() {
         if (nativeMode) mExoPlayer.stop(true);
         else mVlcPlayer.stop();
     }
 
-    public static void stopAudio() {
+    public void stopAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             stop();
             updateCurrentAudioItemPlaying(false);
@@ -726,12 +727,12 @@ public class MediaManager {
         }
     }
 
-    private static void pause() {
+    private void pause() {
         if (nativeMode) mExoPlayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
 
-    public static void pauseAudio() {
+    public void pauseAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             pause();
@@ -746,7 +747,7 @@ public class MediaManager {
         }
     }
 
-    public static void resumeAudio() {
+    public void resumeAudio() {
         if (mCurrentAudioItem != null) {
             ensureAudioFocus();
             if (nativeMode) mExoPlayer.setPlayWhenReady(true);
@@ -762,16 +763,16 @@ public class MediaManager {
         }
     }
 
-    public static void setCurrentMediaPosition(int currentMediaPosition) {
-        MediaManager.mCurrentMediaPosition = currentMediaPosition;
+    public void setCurrentMediaPosition(int currentMediaPosition) {
+         this.mCurrentMediaPosition = currentMediaPosition;
     }
 
-    public static BaseRowItem getMediaItem(int pos) {
+    public BaseRowItem getMediaItem(int pos) {
         return mCurrentMediaAdapter != null && mCurrentMediaAdapter.size() > pos ? (BaseRowItem) mCurrentMediaAdapter.get(pos) : null;
     }
 
-    public static BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
-    public static BaseRowItem nextMedia() {
+    public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
+    public BaseRowItem nextMedia() {
         if (hasNextMediaItem()) {
             mCurrentMediaPosition++;
             mCurrentMediaAdapter.loadMoreItemsIfNeeded(mCurrentMediaPosition);
@@ -780,7 +781,7 @@ public class MediaManager {
         return getCurrentMediaItem();
     }
 
-    public static BaseRowItem prevMedia() {
+    public BaseRowItem prevMedia() {
         if (hasPrevMediaItem()) {
             mCurrentMediaPosition--;
         }
@@ -788,34 +789,34 @@ public class MediaManager {
         return getCurrentMediaItem();
     }
 
-    public static BaseRowItem peekNextMediaItem() {
+    public BaseRowItem peekNextMediaItem() {
         return hasNextMediaItem() ? getMediaItem(mCurrentMediaPosition +1) : null;
     }
 
-    public static BaseRowItem peekPrevMediaItem() {
+    public BaseRowItem peekPrevMediaItem() {
         return hasPrevMediaItem() ? getMediaItem(mCurrentMediaPosition -1) : null;
     }
 
-    public static boolean hasNextMediaItem() { return mCurrentMediaAdapter.size() > mCurrentMediaPosition +1; }
-    public static boolean hasPrevMediaItem() { return mCurrentMediaPosition > 0; }
+    public boolean hasNextMediaItem() { return mCurrentMediaAdapter.size() > mCurrentMediaPosition +1; }
+    public boolean hasPrevMediaItem() { return mCurrentMediaPosition > 0; }
 
-    public static String getCurrentMediaTitle() {
+    public String getCurrentMediaTitle() {
         return currentMediaTitle;
     }
 
-    public static void setCurrentMediaTitle(String currentMediaTitle) {
-        MediaManager.currentMediaTitle = currentMediaTitle;
+    public void setCurrentMediaTitle(String currentMediaTitle) {
+         this.currentMediaTitle = currentMediaTitle;
     }
 
-    public static boolean isVideoQueueModified() {
+    public boolean isVideoQueueModified() {
         return videoQueueModified;
     }
 
-    public static void setVideoQueueModified(boolean videoQueueModified) {
-        MediaManager.videoQueueModified = videoQueueModified;
+    public void setVideoQueueModified(boolean videoQueueModified) {
+         this.videoQueueModified = videoQueueModified;
     }
 
-    public static void clearVideoQueue() {
+    public void clearVideoQueue() {
         mCurrentVideoQueue = new ArrayList<>();
         videoQueueModified = false;
     }
