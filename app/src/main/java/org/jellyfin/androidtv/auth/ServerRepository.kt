@@ -21,7 +21,7 @@ interface ServerRepository {
 	fun getDiscoveryServers(): Flow<Server>
 	suspend fun migrateLegacyCredentials()
 
-	suspend fun gerServerUsers(server: Server): List<User>
+	suspend fun getServerUsers(server: Server): List<User>
 	fun removeServer(serverId: UUID): Unit
 	fun addServer(address: String): Flow<ServerAdditionState>
 }
@@ -51,7 +51,7 @@ class ServerRepositoryImpl(
 		.getUsers(server.id)
 		.orEmpty()
 
-	override suspend fun gerServerUsers(server: Server): List<User> {
+	override suspend fun getServerUsers(server: Server): List<User> {
 		val users = mutableListOf<User>()
 
 		users.addAll(getServerStoredUsers(server))

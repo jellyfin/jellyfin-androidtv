@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.startup.preference
 
 import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.AuthenticationStore
 import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.koin.android.ext.android.get
@@ -18,20 +19,22 @@ class EditServerScreen : OptionsFragment() {
 			val serverUUID = requireArguments().get(ARG_SERVER_UUID) as? UUID
 				?: return@optionsScreen
 			val authenticationStore = get<AuthenticationStore>()
+			val authenticationRepository = get<AuthenticationRepository>()
 			val server = authenticationStore.getServer(serverUUID) ?: return@optionsScreen
+			val users = authenticationRepository.getUsers(serverUUID) ?: return@optionsScreen
 
 			title = server.name
 
-			if (server.users.isNotEmpty()) {
+			if (users.isNotEmpty()) {
 				category {
 					setTitle(R.string.lbl_users)
 
-					server.users.forEach { user ->
+					users.forEach { user ->
 						link {
-							title = user.value.name
+							title = user.name
 							icon = R.drawable.ic_user
 
-							val lastUsedDate = Date(user.value.lastUsed)
+							val lastUsedDate = Date(user.lastUsed)
 							content = context.getString(
 								R.string.lbl_user_last_used,
 								DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastUsedDate),
@@ -39,8 +42,8 @@ class EditServerScreen : OptionsFragment() {
 							)
 
 							withFragment<EditUserScreen>(bundleOf(
-								EditUserScreen.ARG_SERVER_UUID to serverUUID,
-								EditUserScreen.ARG_USER_UUID to user.key
+								EditUserScreen.ARG_SERVER_UUID to user.serverId,
+								EditUserScreen.ARG_USER_UUID to user.id
 							))
 						}
 					}
