@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,20 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.leanback.widget.RowPresenter;
+
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
-import androidx.leanback.widget.RowPresenter;
 
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
@@ -201,5 +200,10 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     public void updateEndTime(String text) {
         if (viewHolder != null && viewHolder.mInfoValue3 != null) viewHolder.mInfoValue3.setText(text);
+    }
+
+    @Override
+    protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
+        // Do nothing - this removes the shadow on the out of focus rows of image cards
     }
 }
