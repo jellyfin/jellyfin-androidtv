@@ -466,4 +466,9 @@
     <string name="lbl_remove_user_content">Remover conta</string>
     <string name="lbl_remove_users">Isso também removerá todos os usuários associados</string>
     <string name="lbl_manage_servers">Gerenciar servidores</string>
+    <string name="lbl_use_series_thumbnails_description">Use miniaturas de séries ao exibir episódios</string>
+    <string name="lbl_use_series_thumbnails">Prefira miniaturas de séries</string>
+    <string name="lbl_episode_marks">Apenas em episódios</string>
+    <string name="lbl_hide_unwatched_count">Ocultar contagem não assistida</string>
+    <string name="pref_watched_indicator">Mostrar indicadores assistidos</string>
 </resources>
