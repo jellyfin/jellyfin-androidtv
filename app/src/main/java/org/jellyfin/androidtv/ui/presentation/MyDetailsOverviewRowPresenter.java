@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +9,22 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.leanback.widget.RowPresenter;
+
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
-import androidx.leanback.widget.RowPresenter;
-
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
-
     private ViewHolder viewHolder;
 
     public final class ViewHolder extends RowPresenter.ViewHolder {
@@ -36,7 +34,6 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         private ImageView mPoster;
         private TextView mSummary;
         private LinearLayout mButtonRow;
-        private ImageView mStudioImage;
         private ProgressBar mProgress;
 
         private TextView mInfoTitle1;
@@ -55,6 +52,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          */
         public ViewHolder(View rootView) {
             super(rootView);
+
             mTitle = (TextView) rootView.findViewById(R.id.fdTitle);
             mInfoTitle1 = (TextView) rootView.findViewById(R.id.infoTitle1);
             mInfoTitle2 = (TextView) rootView.findViewById(R.id.infoTitle2);
@@ -66,20 +64,17 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             mLeftFrame = (RelativeLayout) rootView.findViewById(R.id.leftFrame);
 
             mGenreRow = (FlexboxLayout) rootView.findViewById(R.id.fdGenreRow);
-            mInfoRow =  (LinearLayout)rootView.findViewById(R.id.fdMainInfoRow);
+            mInfoRow = (LinearLayout) rootView.findViewById(R.id.fdMainInfoRow);
             mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
             mProgress = (ProgressBar) rootView.findViewById(R.id.fdProgress);
-            //mStudioImage = (ImageView) rootView.findViewById(R.id.studioImage);
             mButtonRow = (LinearLayout) rootView.findViewById(R.id.fdButtonRow);
             mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
-
         }
 
         public void collapseLeftFrame() {
             ViewGroup.LayoutParams params = mLeftFrame.getLayoutParams();
-            params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
+            params.width = Utils.convertDpToPixel(TvApp.getApplication(), 100);
         }
-
     }
 
     @Override
@@ -106,9 +101,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         setInfo3(row.getInfoItem3());
 
         vh.mPoster.setImageDrawable(row.getImageDrawable());
-        //vh.mStudioImage.setImageDrawable(row.getStudioDrawable());
         int progress = row.getProgress();
-        if (progress > 0  && vh.mPoster.getDrawable() != null) {
+        if (progress > 0 && vh.mPoster.getDrawable() != null) {
             vh.mProgress.setProgress(progress);
             vh.mProgress.setVisibility(View.VISIBLE);
         }
@@ -131,13 +125,10 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
                 break;
         }
 
-
-
         vh.mButtonRow.removeAllViews();
         for (TextUnderButton button : row.getActions()) {
             vh.mButtonRow.addView(button);
         }
-
     }
 
     private void addGenres(FlexboxLayout layout, BaseItemDto item) {
@@ -145,20 +136,19 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         if (item.getGenres() != null && item.getGenres().size() > 0) {
             boolean first = true;
             for (String genre : item.getGenres()) {
-                if (!first) InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
+                if (!first)
+                    InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
                 first = false;
                 layout.addView(new GenreButton(layout.getContext(), 14, genre, item.getBaseItemType()));
             }
         }
     }
 
-
-
     public void setTitle(String text) {
         viewHolder.mTitle.setText(text);
         if (text.length() > 28) {
             // raise it up a bit
-            ((RelativeLayout.LayoutParams)viewHolder.mTitle.getLayoutParams()).topMargin = Utils.convertDpToPixel(TvApp.getApplication(), 55);
+            ((RelativeLayout.LayoutParams) viewHolder.mTitle.getLayoutParams()).topMargin = Utils.convertDpToPixel(TvApp.getApplication(), 55);
         }
     }
 
@@ -192,14 +182,17 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         }
     }
 
-
-    public LinearLayout getButtonRow() { return viewHolder.mButtonRow; }
-    public ImageView getPosterView() { return viewHolder.mPoster; }
-    public FlexboxLayout getGenreRow() { return viewHolder.mGenreRow; }
-    public TextView getSummaryView() { return viewHolder.mSummary; }
-    public LinearLayout getInfoRow() { return viewHolder.mInfoRow; }
+    public TextView getSummaryView() {
+        return viewHolder.mSummary;
+    }
 
     public void updateEndTime(String text) {
-        if (viewHolder != null && viewHolder.mInfoValue3 != null) viewHolder.mInfoValue3.setText(text);
+        if (viewHolder != null && viewHolder.mInfoValue3 != null)
+            viewHolder.mInfoValue3.setText(text);
+    }
+
+    @Override
+    protected void onSelectLevelChanged(RowPresenter.ViewHolder holder) {
+        // Do nothing - this removes the shadow on the out of focus rows of image cards
     }
 }
