@@ -466,4 +466,5 @@
     <string name="lbl_remove_user_content">删除账户</string>
     <string name="lbl_remove_users">这也会删除所有关联的用户</string>
     <string name="lbl_manage_servers">管理服务器</string>
+    <string name="pref_watched_indicator">显示已观看标志</string>
 </resources>
