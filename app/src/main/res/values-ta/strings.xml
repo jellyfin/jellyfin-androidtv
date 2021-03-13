@@ -469,4 +469,6 @@
     <string name="lbl_episode_marks">அத்தியாயங்களில் மட்டுமே</string>
     <string name="lbl_hide_unwatched_count">பார்க்கப்படாத எண்ணிக்கையை மறைக்க</string>
     <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
+    <string name="lbl_use_series_thumbnails_description">அத்தியாயங்களைக் காண்பிக்கும் போது தொடர் சிறுபடங்களைப் பயன்படுத்தவும்</string>
+    <string name="lbl_use_series_thumbnails">தொடர் சிறு உருவங்களை விரும்புங்கள்</string>
 </resources>
