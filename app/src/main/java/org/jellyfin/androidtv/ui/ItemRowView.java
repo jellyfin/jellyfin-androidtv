@@ -158,11 +158,11 @@ public class ItemRowView extends FrameLayout {
         rowSelectedListener = listener;
     }
 
-    public static class RowSelectedListener {
-        public void onRowSelected(ItemRowView row) {};
+    public interface RowSelectedListener {
+        public void onRowSelected(ItemRowView row);
     }
 
-    public static class RowClickedListener {
-        public void onRowClicked(ItemRowView row) {};
+    public interface RowClickedListener {
+        public void onRowClicked(ItemRowView row);
     }
 }

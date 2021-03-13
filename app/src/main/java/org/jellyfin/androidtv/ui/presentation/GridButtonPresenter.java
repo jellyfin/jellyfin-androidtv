@@ -31,7 +31,7 @@ public class GridButtonPresenter extends Presenter {
         mCardHeight = height;
     }
 
-    static class ViewHolder extends Presenter.ViewHolder {
+    class ViewHolder extends Presenter.ViewHolder {
         private GridButton gridButton;
         private final MyImageCardView cardView;
 

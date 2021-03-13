@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.ui.presentation;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-
 import androidx.leanback.widget.Presenter;
 
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+
 public class ChannelCardPresenter extends Presenter {
-    static class ViewHolder extends Presenter.ViewHolder {
+    class ViewHolder extends Presenter.ViewHolder {
         private MyChannelCardView mCardView;
 
         public ViewHolder(View view) {
