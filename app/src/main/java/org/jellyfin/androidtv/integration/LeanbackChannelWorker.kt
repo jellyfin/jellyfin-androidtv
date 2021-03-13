@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
 import org.jellyfin.androidtv.util.apiclient.getUserViews
 import org.jellyfin.androidtv.util.dp
@@ -25,6 +26,7 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.jellyfin.apiclient.model.entities.SeriesStatus
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
 
@@ -174,8 +176,9 @@ class LeanbackChannelWorker(
 	 *
 	 * Assumes the item type is "episode"
 	 */
-	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
+	private suspend fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
 		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
+		val seriesItem = apiClient.getItem(item.seriesId)
 
 		setInternalProviderId(item.id)
 		setType(WatchNextPrograms.TYPE_TV_EPISODE)
@@ -183,8 +186,8 @@ class LeanbackChannelWorker(
 
 		// Poster image
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		if (preferParentThumb && item.parentThumbItemId != null) {
-			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
+		if (preferParentThumb && seriesItem != null && seriesItem.hasThumb) {
+			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(seriesItem, ImageOptions().apply {
 				format = ImageFormat.Png
 				height = 288
 				width = 512
@@ -208,8 +211,8 @@ class LeanbackChannelWorker(
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
 			}
-			// First episode of the season
-			item.indexNumber == 0 -> {
+			// Most recently aired episode
+			seriesItem?.userData?.unplayedItemCount == 1 && seriesItem.seriesStatus == SeriesStatus.Continuing -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
 			}
 			// Default
