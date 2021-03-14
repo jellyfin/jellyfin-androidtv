@@ -466,4 +466,9 @@
     <string name="lbl_remove_user_content">Odstranit účet</string>
     <string name="lbl_remove_users">Tímto odstraníte také všechny asociované uživatele</string>
     <string name="lbl_manage_servers">Spravovat servery</string>
+    <string name="lbl_use_series_thumbnails_description">Použít náhledy seriálů při zobrazení epizod</string>
+    <string name="lbl_use_series_thumbnails">Preferovat náhledy seriálů</string>
+    <string name="lbl_episode_marks">Pouze u epizod</string>
+    <string name="lbl_hide_unwatched_count">Skrýt počet nezhlédnutých</string>
+    <string name="pref_watched_indicator">Zobrazit indikátory zhlédnutí</string>
 </resources>
