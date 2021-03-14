@@ -469,4 +469,6 @@
     <string name="lbl_episode_marks">Nur bei Episoden</string>
     <string name="lbl_use_series_thumbnails_description">Serien-Vorschaubilder verwenden, wenn Episoden angezeigt werden</string>
     <string name="lbl_use_series_thumbnails">Serien-Vorschaubilder bevorzugen</string>
+    <string name="lbl_hide_unwatched_count">Verberge die Anzahl von ungesehenen Elementen</string>
+    <string name="pref_watched_indicator">Präferierte Vorschläge anzeigen</string>
 </resources>
