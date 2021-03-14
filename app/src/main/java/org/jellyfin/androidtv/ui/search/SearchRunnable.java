@@ -103,6 +103,12 @@ public class SearchRunnable implements Runnable {
         ListRow songRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_songs)), songAdapter);
         songAdapter.setRow(songRow);
         retrieveSearchResult(songAdapter);
+
+        SearchQuery musicVideos = getSearchQuery(new String[]{"MusicVideo"});
+        ItemRowAdapter musicVideosAdapter = new ItemRowAdapter(musicVideos, new CardPresenter(), mRowsAdapter);
+        ListRow musicVideosRow = new ListRow(new HeaderItem(context.getString(R.string.lbl_music_videos)), musicVideosAdapter);
+        musicVideosAdapter.setRow(musicVideosRow);
+        retrieveSearchResult(musicVideosAdapter);
     }
 
     private void retrieveSearchResult(ItemRowAdapter itemRow) {

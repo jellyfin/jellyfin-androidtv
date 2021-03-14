@@ -466,4 +466,5 @@
     <string name="lbl_episode_marks">On episodes only</string>
     <string name="lbl_use_series_thumbnails">Prefer series thumbnails</string>
     <string name="lbl_use_series_thumbnails_description">Use series thumbnails when displaying episodes</string>
+    <string name="lbl_music_videos">Music Videos</string>
 </resources>
