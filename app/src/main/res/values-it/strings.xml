@@ -462,4 +462,7 @@
     <string name="connect_manually_title">Connetti manualmente</string>
     <string name="discovered_servers_empty">Nessun server trovato nella rete locale.</string>
     <string name="discovered_servers_title">Server trovati</string>
+    <string name="lbl_hidden">Nascosto</string>
+    <string name="pref_developer_link_description">Funzionalità avanzate e sperimentali</string>
+    <string name="pref_developer_link">Opzioni Sviluppatore</string>
 </resources>
