@@ -28,6 +28,7 @@ import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.search.SearchHint
 import timber.log.Timber
+import java.lang.Exception
 
 class BackgroundService(
 	private val context: Context,
@@ -53,7 +54,7 @@ class BackgroundService(
 	// Current background index
 	private var currentIndex = 0
 
-	// Prefered display size, set when calling [attach].
+	// Preferred display size, set when calling [attach].
 	private var windowSize = Size(0, 0)
 	private var windowBackground: Drawable = ColorDrawable(Color.BLACK)
 
@@ -181,9 +182,15 @@ class BackgroundService(
 						.centerCrop()
 						.submit()
 				}
-				.map { future -> async { future.get() } }
+				.map { future -> async {
+					try {
+						future.get()
+					} catch (ex: Exception) {
+						null
+					}
+				} }
 				.awaitAll()
-				.onEach { it.colorFilter = colorFilter }
+				.onEach { it?.colorFilter = colorFilter }
 				.filterNotNull()
 
 			backgrounds.clear()
