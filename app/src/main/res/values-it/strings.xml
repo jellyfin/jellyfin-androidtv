@@ -465,4 +465,10 @@
     <string name="lbl_hidden">Nascosto</string>
     <string name="pref_developer_link_description">Funzionalità avanzate e sperimentali</string>
     <string name="pref_developer_link">Opzioni Sviluppatore</string>
+    <string name="lbl_use_series_thumbnails_description">Utilizza miniature delle serie anche per gli episodi</string>
+    <string name="lbl_use_series_thumbnails">Preferisci etichette di serie</string>
+    <string name="lbl_episode_marks">Solo episodi</string>
+    <string name="lbl_hide_unwatched_count">Nascondi numero di non visti</string>
+    <string name="pref_watched_indicator">Mostra indicatori di avvenuta visione</string>
+    <string name="lbl_tomatoes">Pomodori</string>
 </resources>
