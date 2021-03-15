@@ -67,8 +67,12 @@ class LeanbackChannelWorker(
 		// Retry later if no authenticated user is found
 		TvApp.getApplication().currentUser == null -> Result.retry()
 		else -> {
+			// Delete current items
+			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+
 			// Update various channels
 			updateMyMedia()
+			updateNextUp()
 			updateWatchNext()
 
 			// Success!
@@ -121,9 +125,6 @@ class LeanbackChannelWorker(
 
 		val response = apiClient.getUserViews() ?: return
 
-		// Delete current items
-		context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
-
 		// Add new items
 		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
 			val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
@@ -141,6 +142,75 @@ class LeanbackChannelWorker(
 				})
 				.build().toContentValues()
 		}.toTypedArray())
+	}
+
+	/**
+	 * Updates the "next up" row with current episodes
+	 */
+	private suspend fun updateNextUp() {
+		// Get channel
+		val channelUri = getChannelUri("next_up", Channel.Builder()
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.lbl_next_up))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build())
+
+		// Get user or return if no user is found (not authenticated)
+		val user = TvApp.getApplication().currentUser ?: return
+
+		val response = apiClient.getNextUpEpisodes(NextUpQuery().apply {
+			userId = user?.id
+			imageTypeLimit = 1
+			limit = 15
+		})
+
+		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
+
+		// Add new items
+		response?.items?.map { item ->
+			val imageUri = if (preferParentThumb && item.parentThumbItemId != null) {
+				Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
+					format = ImageFormat.Png
+					height = 288
+					width = 512
+					imageType = org.jellyfin.apiclient.model.entities.ImageType.Thumb
+				}))
+			} else {
+				Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
+					format = ImageFormat.Png
+					height = 288
+					width = 512
+				}))
+			}
+
+			val seasonString = if (item.parentIndexNumber != null) {
+				"${item.parentIndexNumber}"
+			} else {
+				""
+			}
+
+			val episodeString = if (item.indexNumber != null && item.indexNumberEnd != null) {
+				"${item.indexNumber}-${item.indexNumberEnd}"
+			} else if (item.indexNumber != null) {
+				"${item.indexNumber}"
+			} else {
+				""
+			}
+
+			PreviewProgram.Builder()
+					.setChannelId(ContentUris.parseId(channelUri))
+					.setType(WatchNextPrograms.TYPE_TV_EPISODE)
+					.setTitle(item.seriesName)
+					.setEpisodeTitle(item.name)
+					.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
+					.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
+					.setPosterArtUri(imageUri)
+					.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+					.setIntent(Intent(context, StartupActivity::class.java).apply {
+						putExtra(StartupActivity.ITEM_ID, item.id)
+					})
+					.build().toContentValues()
+		}?.let { context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, it.toTypedArray()) }
 	}
 
 	/**
