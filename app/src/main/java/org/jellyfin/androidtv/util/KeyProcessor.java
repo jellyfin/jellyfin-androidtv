@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -57,12 +58,12 @@ public class KeyProcessor {
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
-    private static BaseActivity mCurrentActivity;
+    private static Activity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean currentItemIsFolder = false;
     private static boolean isMusic;
 
-    public static boolean HandleKey(int key, BaseRowItem rowItem, BaseActivity activity) {
+    public static boolean HandleKey(int key, BaseRowItem rowItem, Activity activity) {
         if (rowItem == null) return false;
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
@@ -227,7 +228,7 @@ public class KeyProcessor {
         return false;
     }
 
-    private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, BaseActivity activity) {
+    private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
         BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
@@ -313,7 +314,7 @@ public class KeyProcessor {
         menu.show();
     }
 
-    private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, BaseActivity activity) {
+    private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
         PopupMenu menu = Utils.createPopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
         if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
@@ -457,7 +458,8 @@ public class KeyProcessor {
         get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
-                mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof BaseActivity)
+                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
             }
 
             @Override
@@ -473,7 +475,8 @@ public class KeyProcessor {
         get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
-                mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof BaseActivity)
+                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
             }
 
             @Override
@@ -489,7 +492,8 @@ public class KeyProcessor {
         get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), fav, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
-                mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof BaseActivity)
+                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
                 DataRefreshService dataRefreshService = get(DataRefreshService.class);
                 dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
             }
@@ -508,7 +512,8 @@ public class KeyProcessor {
             get(ApiClient.class).ClearUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
-                    mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                    if (mCurrentActivity instanceof BaseActivity)
+                        ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
                 }
 
                 @Override
@@ -522,7 +527,8 @@ public class KeyProcessor {
             get(ApiClient.class).UpdateUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
-                    mCurrentActivity.sendMessage(CustomMessage.RefreshCurrentItem);
+                    if (mCurrentActivity instanceof BaseActivity)
+                        ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
                 }
 
                 @Override
