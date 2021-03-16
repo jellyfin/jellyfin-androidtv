@@ -328,8 +328,8 @@ public class MediaManager {
         fireQueueStatusChange();
     }
 
-    private int TYPE_AUDIO = 0;
-    private int TYPE_VIDEO = 1;
+    private static final int TYPE_AUDIO = 0;
+    private static final int TYPE_VIDEO = 1;
 
     public void saveAudioQueue(Activity activity) {
         saveQueue(activity, TYPE_AUDIO);
