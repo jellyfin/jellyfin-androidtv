@@ -307,9 +307,9 @@
     <string name="lbl_suggestions">Suggestions</string>
     <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_latest_tv_shows">Dernières séries TV</string>
-    <string name="desc_suggestions_holiday">Essayer certaines de nos suggestions pour les fêtes</string>
+    <string name="desc_suggestions_holiday">Essayez certaines de nos suggestions pour les fêtes</string>
     <string name="title_suggestions_holiday">Joyeuses fêtes !</string>
-    <string name="lbl_suggestions_holiday">Suggestions de vacances</string>
+    <string name="lbl_suggestions_holiday">Suggestions pour les fêtes</string>
     <string name="desc_suggestions_halloween">Essayez quelques-unes de nos suggestions effrayantes</string>
     <string name="title_suggestions_halloween">Joyeux Halloween !</string>
     <string name="lbl_suggestions_halloween">Suggestions effrayantes</string>
