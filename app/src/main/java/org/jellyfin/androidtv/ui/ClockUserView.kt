@@ -38,8 +38,10 @@ class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
 			}
 		}
 
-		if (!isInEditMode) {
+		if (TvApp.getApplication().currentUser != null && !isInEditMode) {
 			binding.userName.text = TvApp.getApplication().currentUser!!.name
+			binding.userName.visibility = VISIBLE
+
 			if (TvApp.getApplication().currentUser!!.primaryImageTag != null) {
 				Glide.with(context)
 					.load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().currentUser, get()))
@@ -51,6 +53,10 @@ class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
 			} else {
 				binding.userImage.setImageResource(R.drawable.ic_user)
 			}
+			binding.userImage.visibility = VISIBLE
+		} else {
+			binding.userName.visibility = GONE
+			binding.userImage.visibility = GONE
 		}
 	}
 }
