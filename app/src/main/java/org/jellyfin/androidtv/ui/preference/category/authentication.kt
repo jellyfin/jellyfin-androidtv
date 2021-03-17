@@ -18,7 +18,7 @@ fun OptionsScreen.authenticationCategory(
 	setTitle(R.string.lbl_settings)
 
 	userPicker(authenticationRepository) {
-		setTitle(R.string.auto_signin)
+		setTitle(R.string.auto_sign_in)
 
 		bind {
 			from(
@@ -30,14 +30,14 @@ fun OptionsScreen.authenticationCategory(
 	}
 
 	userPicker(authenticationRepository) {
-		setTitle(R.string.service_user)
-		setDialogMessage(R.string.service_user_explanation)
+		setTitle(R.string.system_user)
+		setDialogMessage(R.string.system_user_explanation)
 
 		bind {
 			from(
 				authenticationPreferences,
-				AuthenticationPreferences.serviceUserBehavior,
-				AuthenticationPreferences.serviceUserId
+				AuthenticationPreferences.systemUserBehavior,
+				AuthenticationPreferences.systemUserId
 			)
 		}
 	}

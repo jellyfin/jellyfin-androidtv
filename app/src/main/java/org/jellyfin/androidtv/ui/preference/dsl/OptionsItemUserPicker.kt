@@ -61,7 +61,6 @@ class OptionsItemUserPicker(
 		)
 
 		// Add users grouped by server
-		// TODO Do we want to sort this?
 		for (server in authenticationRepository.getServers()) {
 			val users = authenticationRepository.getUsers(server.id)
 			if (users.isNullOrEmpty()) continue
