@@ -54,8 +54,7 @@
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
         android:layout_marginRight="40sp"
-        android:layout_alignParentEnd="true"
-        android:alpha=".9" />
+        android:layout_alignParentEnd="true" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"
