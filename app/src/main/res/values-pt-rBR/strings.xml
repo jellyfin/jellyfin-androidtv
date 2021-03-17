@@ -458,7 +458,7 @@
     <string name="lbl_remove">Remover</string>
     <string name="lbl_server">Servidor</string>
     <string name="lbl_users">Usuários</string>
-    <string name="lbl_user_server">%1$s on %2$s</string>
+    <string name="lbl_user_server">%1$s em %2$s</string>
     <string name="lbl_user_last_used">Usado pela última vez em %1$s em %2$s</string>
     <string name="lbl_remove_user">Remover %1$s</string>
     <string name="lbl_remove_server">Remover servidor</string>
