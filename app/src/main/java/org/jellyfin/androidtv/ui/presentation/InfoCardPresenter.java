@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.ui.presentation;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jellyfin.apiclient.model.entities.MediaStream;
-
 import androidx.leanback.widget.Presenter;
 
+import org.jellyfin.apiclient.model.entities.MediaStream;
+
 public class InfoCardPresenter extends Presenter {
-    static class ViewHolder extends Presenter.ViewHolder {
+    class ViewHolder extends Presenter.ViewHolder {
         private MyInfoCardView mInfoCardView;
 
         public ViewHolder(View view) {

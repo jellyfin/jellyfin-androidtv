@@ -68,8 +68,8 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (MediaManager.isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemType.Photo)) {
-                    MediaManager.pauseAudio();
+                if (get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemType.Photo)) {
+                    get(MediaManager.class).pauseAudio();
                     return true;
                 }
 
@@ -162,15 +162,15 @@ public class KeyProcessor {
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
                             Utils.beep();
-                            BaseItemType itemType = MediaManager.getCurrentVideoQueue().size() > 0 ? MediaManager.getCurrentVideoQueue().get(0).getBaseItemType() : null;
+                            BaseItemType itemType = get(MediaManager.class).getCurrentVideoQueue().size() > 0 ? get(MediaManager.class).getCurrentVideoQueue().get(0).getBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
                         }
                         break;
                 }
 
-                if (MediaManager.hasAudioQueueItems()) {
-                    MediaManager.resumeAudio();
+                if (get(MediaManager.class).hasAudioQueueItems()) {
+                    get(MediaManager.class).resumeAudio();
                     return true;
                 }
 
@@ -237,11 +237,11 @@ public class KeyProcessor {
             if (!(activity instanceof AudioNowPlayingActivity)) {
                 menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
             }
-            if (rowItem.getBaseItem() != MediaManager.getCurrentAudioItem()) {
+            if (rowItem.getBaseItem() != get(MediaManager.class).getCurrentAudioItem()) {
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             }
             // don't allow removal of last item - framework will crash trying to animate an empty row
-            if (MediaManager.getCurrentAudioQueue().size() > 1) {
+            if (get(MediaManager.class).getCurrentAudioQueue().size() > 1) {
                 menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
             }
         } else {
@@ -361,7 +361,7 @@ public class KeyProcessor {
                         PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
-                                MediaManager.addToAudioQueue(response);
+                                get(MediaManager.class).addToAudioQueue(response);
                             }
 
                             @Override
@@ -374,7 +374,7 @@ public class KeyProcessor {
                         get(ApiClient.class).GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
-                                MediaManager.addToVideoQueue(response);
+                                get(MediaManager.class).addToVideoQueue(response);
                             }
 
                             @Override
@@ -439,10 +439,10 @@ public class KeyProcessor {
                     mCurrentActivity.startActivity(nowPlaying);
                     return true;
                 case MENU_REMOVE_FROM_QUEUE:
-                    MediaManager.removeFromAudioQueue(mCurrentRowItemNdx);
+                    get(MediaManager.class).removeFromAudioQueue(mCurrentRowItemNdx);
                     return true;
                 case MENU_ADVANCE_QUEUE:
-                    MediaManager.playFrom(mCurrentRowItemNdx);
+                    get(MediaManager.class).playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_INSTANT_MIX:
                     Utils.beep();

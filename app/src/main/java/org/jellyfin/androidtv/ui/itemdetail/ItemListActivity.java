@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -101,6 +100,7 @@ public class ItemListActivity extends FragmentActivity {
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,20 +164,20 @@ public class ItemListActivity extends FragmentActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (MediaManager.isPlayingAudio()) {
+        if (mediaManager.getValue().isPlayingAudio()) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                    if (MediaManager.isPlayingAudio()) MediaManager.pauseAudio();
-                    else MediaManager.resumeAudio();
+                    if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
+                    else mediaManager.getValue().resumeAudio();
                     return true;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                    MediaManager.nextAudioItem();
+                    mediaManager.getValue().nextAudioItem();
                     return true;
                 case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                 case KeyEvent.KEYCODE_MEDIA_REWIND:
-                    MediaManager.prevAudioItem();
+                    mediaManager.getValue().prevAudioItem();
                     return true;
                 case KeyEvent.KEYCODE_MENU:
                     showMenu(mCurrentRow, false);
@@ -199,9 +199,9 @@ public class ItemListActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MediaManager.addAudioEventListener(mAudioEventListener);
+        mediaManager.getValue().addAudioEventListener(mAudioEventListener);
         // and fire it to be sure we're updated
-        mAudioEventListener.onPlaybackStateChange(MediaManager.isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, MediaManager.getCurrentAudioItem());
+        mAudioEventListener.onPlaybackStateChange(mediaManager.getValue().isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, mediaManager.getValue().getCurrentAudioItem());
 
         if (!firstTime && dataRefreshService.getValue().getLastPlayback() > lastUpdated.getTimeInMillis()) {
             if (mItemId.equals(VIDEO_QUEUE)) {
@@ -209,7 +209,7 @@ public class ItemListActivity extends FragmentActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mItems = MediaManager.getCurrentVideoQueue();
+                        mItems = mediaManager.getValue().getCurrentVideoQueue();
                         if (mItems != null && mItems.size() > 0) {
                             mItemList.clear();
                             mCurrentRow = null;
@@ -239,7 +239,7 @@ public class ItemListActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MediaManager.removeAudioEventListener(mAudioEventListener);
+        mediaManager.getValue().removeAudioEventListener(mAudioEventListener);
     }
 
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
@@ -307,10 +307,10 @@ public class ItemListActivity extends FragmentActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (row.getItem().getMediaType()) {
                     case "Video":
-                        MediaManager.addToVideoQueue(row.getItem());
+                        mediaManager.getValue().addToVideoQueue(row.getItem());
                         break;
                     case "Audio":
-                        MediaManager.queueAudioItem(row.getItem());
+                        mediaManager.getValue().queueAudioItem(row.getItem());
                         break;
                 }
                 return true;
@@ -354,10 +354,10 @@ public class ItemListActivity extends FragmentActivity {
                 queue.setMediaType("Video");
                 queue.setBaseItemType(BaseItemType.Playlist);
                 queue.setIsFolder(true);
-                if (MediaManager.getCurrentVideoQueue() != null) {
+                if (mediaManager.getValue().getCurrentVideoQueue() != null) {
                     long runtime = 0;
                     int children = 0;
-                    for (BaseItemDto video : MediaManager.getCurrentVideoQueue()) {
+                    for (BaseItemDto video : mediaManager.getValue().getCurrentVideoQueue()) {
                         runtime += video.getRunTimeTicks() != null ? video.getRunTimeTicks() : 0;
                         children += 1;
                     }
@@ -411,8 +411,8 @@ public class ItemListActivity extends FragmentActivity {
                 case VIDEO_QUEUE:
                     //Show current queue
                     mTitle.setText(mBaseItem.getName());
-                    mItemList.addItems(MediaManager.getCurrentVideoQueue());
-                    mItems.addAll(MediaManager.getCurrentVideoQueue());
+                    mItemList.addItems(mediaManager.getValue().getCurrentVideoQueue());
+                    mItems.addAll(mediaManager.getValue().getCurrentVideoQueue());
                     updateBackdrop();
                     break;
                 default:
@@ -460,9 +460,9 @@ public class ItemListActivity extends FragmentActivity {
                     mItemList.addItem(item, i++);
                     mItems.add(item);
                 }
-                if (MediaManager.isPlayingAudio()) {
+                if (mediaManager.getValue().isPlayingAudio()) {
                     //update our status
-                    mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, MediaManager.getCurrentAudioItem());
+                    mAudioEventListener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mediaManager.getValue().getCurrentAudioItem());
                 }
 
                 updateBackdrop();
@@ -524,11 +524,11 @@ public class ItemListActivity extends FragmentActivity {
                 Long pos = first.getUserData().getPlaybackPositionTicks() / 10000;
                 intent.putExtra("Position", pos.intValue());
             }
-            MediaManager.setCurrentVideoQueue(items);
+            mediaManager.getValue().setCurrentVideoQueue(items);
             startActivity(intent);
 
         } else {
-            MediaManager.playNow(items);
+            mediaManager.getValue().playNow(items);
 
         }
 
@@ -615,7 +615,7 @@ public class ItemListActivity extends FragmentActivity {
                     mButtonRow.addView(new TextUnderButton(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MediaManager.saveVideoQueue(mActivity);
+                            mediaManager.getValue().saveVideoQueue(mActivity);
                         }
                     }));
                 }
@@ -629,7 +629,7 @@ public class ItemListActivity extends FragmentActivity {
                                     .setMessage(R.string.clear_expanded)
                                     .setPositiveButton(R.string.lbl_clear, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
-                                            MediaManager.setCurrentVideoQueue(new ArrayList<BaseItemDto>());
+                                            mediaManager.getValue().setCurrentVideoQueue(new ArrayList<BaseItemDto>());
                                             dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
                                             finish();
                                         }

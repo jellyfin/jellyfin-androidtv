@@ -53,6 +53,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         backgroundService.getValue().attach(this);
 
-        mItemsToPlay = MediaManager.getCurrentVideoQueue();
+        mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
 
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
@@ -133,7 +134,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void handlePlayerError() {
-        if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
+        if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.no_player)
@@ -197,7 +198,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
+                            if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
                             finish();
                         }
                     })

@@ -23,7 +23,10 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
+import kotlin.Lazy;
+
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class NowPlayingBug extends FrameLayout {
     ImageView npIcon;
@@ -31,6 +34,7 @@ public class NowPlayingBug extends FrameLayout {
     TextView npStatus;
     String currentDuration;
     Context context;
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     public NowPlayingBug(Context context) {
         super(context);
@@ -90,8 +94,8 @@ public class NowPlayingBug extends FrameLayout {
         public void onQueueStatusChanged(boolean hasQueue) {
             if (hasQueue) {
                 // may have just added one so update display
-                setInfo(MediaManager.getCurrentAudioItem());
-                setStatus(MediaManager.getCurrentAudioPosition());
+                setInfo(mediaManager.getValue().getCurrentAudioItem());
+                setStatus(mediaManager.getValue().getCurrentAudioPosition());
                 setVisibility(VISIBLE);
             } else {
                 setVisibility(GONE);
@@ -104,10 +108,10 @@ public class NowPlayingBug extends FrameLayout {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
             // hook our events
-            MediaManager.addAudioEventListener(listener);
+            mediaManager.getValue().addAudioEventListener(listener);
             if (manageVisibility()) {
-                setInfo(MediaManager.getCurrentAudioItem());
-                setStatus(MediaManager.getCurrentAudioPosition());
+                setInfo(mediaManager.getValue().getCurrentAudioItem());
+                setStatus(mediaManager.getValue().getCurrentAudioPosition());
             }
         }
     }
@@ -117,7 +121,7 @@ public class NowPlayingBug extends FrameLayout {
         super.onDetachedFromWindow();
         if (!isInEditMode()) {
             // unhook our events
-            MediaManager.removeAudioEventListener(listener);
+            mediaManager.getValue().removeAudioEventListener(listener);
         }
     }
 
@@ -134,8 +138,8 @@ public class NowPlayingBug extends FrameLayout {
     }
 
     public boolean manageVisibility() {
-        this.setVisibility(MediaManager.hasAudioQueueItems() ? VISIBLE : GONE);
-        return MediaManager.hasAudioQueueItems();
+        this.setVisibility(mediaManager.getValue().hasAudioQueueItems() ? VISIBLE : GONE);
+        return mediaManager.getValue().hasAudioQueueItems();
     }
 
     public void showDescription(boolean show) {

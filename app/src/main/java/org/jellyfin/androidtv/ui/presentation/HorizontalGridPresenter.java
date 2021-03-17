@@ -24,7 +24,7 @@ import timber.log.Timber;
  * A presenter that renders objects in a horizontal grid.
  */
 public class HorizontalGridPresenter extends Presenter {
-    public static class ViewHolder extends Presenter.ViewHolder {
+    public class ViewHolder extends Presenter.ViewHolder {
         final ItemBridgeAdapter mItemBridgeAdapter = new ItemBridgeAdapter();
         final HorizontalGridView mGridView;
         boolean mInitialized;

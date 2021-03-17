@@ -62,7 +62,7 @@ public class CardPresenter extends Presenter {
         mStaticHeight = staticHeight;
     }
 
-    static class ViewHolder extends Presenter.ViewHolder {
+    class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
         private int cardHeight = 280;
 

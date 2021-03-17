@@ -95,7 +95,7 @@ public class ItemLauncher {
     }
 
     public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
-        MediaManager.setCurrentMediaAdapter(adapter);
+        get(MediaManager.class).setCurrentMediaAdapter(adapter);
 
         switch (rowItem.getItemType()) {
 
@@ -170,7 +170,7 @@ public class ItemLauncher {
 
                     case Photo:
                         // open photo player
-                        MediaManager.setCurrentMediaPosition(pos);
+                        get(MediaManager.class).setCurrentMediaPosition(pos);
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
 
                         activity.startActivity(photoIntent);
@@ -213,7 +213,7 @@ public class ItemLauncher {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
                                         Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(baseItem.getBaseItemType()));
-                                        MediaManager.setCurrentVideoQueue(response);
+                                        get(MediaManager.class).setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
                                     }
@@ -244,7 +244,7 @@ public class ItemLauncher {
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
-                        MediaManager.setCurrentVideoQueue(items);
+                        get(MediaManager.class).setCurrentVideoQueue(items);
                         Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
@@ -320,7 +320,7 @@ public class ItemLauncher {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
-                                    MediaManager.setCurrentVideoQueue(items);
+                                    get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
 
@@ -343,7 +343,7 @@ public class ItemLauncher {
                             public void onResponse(List<BaseItemDto> response) {
                                 // TODO Check whether this usage of BaseItemType.valueOf is okay.
                                 Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(BaseItemType.valueOf(channel.getType())));
-                                MediaManager.setCurrentVideoQueue(response);
+                                get(MediaManager.class).setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
 
@@ -372,7 +372,7 @@ public class ItemLauncher {
                                     Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(rowItem.getBaseItemType()));
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    MediaManager.setCurrentVideoQueue(items);
+                                    get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
                                 }
@@ -415,7 +415,7 @@ public class ItemLauncher {
                         Intent queueIntent = new Intent(activity, ItemListActivity.class);
                         queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
                         //Resume first item if needed
-                        List<BaseItemDto> items = MediaManager.getCurrentVideoQueue();
+                        List<BaseItemDto> items = get(MediaManager.class).getCurrentVideoQueue();
                         if (items != null) {
                             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
                             if (first != null && first.getUserData() != null) {

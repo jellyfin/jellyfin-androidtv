@@ -119,6 +119,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private boolean staticHeight = false;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     public boolean isCurrentlyRetrieving() {
         synchronized (currentlyRetrievingSemaphore) {
@@ -1014,7 +1015,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveContinueWatching(final ItemQuery query) {
         //Add current video queue first if there
         clear();
-        if (MediaManager.hasVideoQueueItems()) {
+        if (mediaManager.getValue().hasVideoQueueItems()) {
             Timber.d("Adding video queue...");
             add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.tile_port_video_queue, null)));
             itemsLoaded = 1;

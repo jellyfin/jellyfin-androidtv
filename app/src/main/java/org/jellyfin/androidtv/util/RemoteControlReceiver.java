@@ -9,13 +9,18 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class RemoteControlReceiver extends BroadcastReceiver {
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+
     @Override
     public void onReceive(Context context, Intent intent) {
         //TvApp.getApplication().getLogger().Debug("****** In remote receiver. ");
-        if ((TvApp.getApplication().getCurrentActivity() == null || !(TvApp.getApplication().getCurrentActivity() instanceof AudioNowPlayingActivity )) && MediaManager.isPlayingAudio()) {
+        if ((TvApp.getApplication().getCurrentActivity() == null || !(TvApp.getApplication().getCurrentActivity() instanceof AudioNowPlayingActivity )) && mediaManager.getValue().isPlayingAudio()) {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
@@ -25,16 +30,16 @@ public class RemoteControlReceiver extends BroadcastReceiver {
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                         //if the current activity is null then we must not be the foreground app - process play/pause here
                         if (TvApp.getApplication().getCurrentActivity() == null) {
-                            MediaManager.pauseAudio();
+                            mediaManager.getValue().pauseAudio();
                         }
                         break;
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                     case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                        MediaManager.nextAudioItem();
+                        mediaManager.getValue().nextAudioItem();
                         break;
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                     case KeyEvent.KEYCODE_MEDIA_REWIND:
-                        MediaManager.prevAudioItem();
+                        mediaManager.getValue().prevAudioItem();
                         break;
                 }
                 abortBroadcast(); // we handled it - don't pass it on

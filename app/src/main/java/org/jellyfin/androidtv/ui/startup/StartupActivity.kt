@@ -34,6 +34,7 @@ class StartupActivity : FragmentActivity() {
 
 	private var application: TvApp? = null
 	private val apiClient: ApiClient by inject()
+	private val mediaManager: MediaManager by inject()
 	private val serverRepository: ServerRepository by inject()
 	private var isLoaded = false
 
@@ -64,12 +65,12 @@ class StartupActivity : FragmentActivity() {
 	}
 
 	private fun start() {
-		if (application!!.currentUser != null && MediaManager.isPlayingAudio()) {
+		if (application!!.currentUser != null && mediaManager.isPlayingAudio()) {
 			openNextActivity()
 		} else {
-			//clear audio queue in case left over from last run
-			MediaManager.clearAudioQueue()
-			MediaManager.clearVideoQueue()
+			// Clear audio queue in case left over from last run
+			mediaManager.clearAudioQueue()
+			mediaManager.clearVideoQueue()
 			showServerList()
 		}
 		isLoaded = true

@@ -41,7 +41,7 @@ public class PlaybackHelper {
             case Episode:
                 items.add(mainItem);
                 if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
-                    MediaManager.setVideoQueueModified(false); // we are automatically creating new queue
+                    get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
                         query.setParentId(mainItem.getSeasonId());
@@ -249,16 +249,16 @@ public class PlaybackHelper {
                 switch (item.getBaseItemType()) {
                     case MusicAlbum:
                     case MusicArtist:
-                        MediaManager.playNow(response);
+                        get(MediaManager.class).playNow(response);
                         break;
                     case Playlist:
                         if ("Audio".equals(item.getMediaType())) {
-                            MediaManager.playNow(response);
+                            get(MediaManager.class).playNow(response);
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
-                            MediaManager.setCurrentVideoQueue(response);
+                            get(MediaManager.class).setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -267,13 +267,13 @@ public class PlaybackHelper {
                         break;
                     case Audio:
                         if (response.size() > 0) {
-                            MediaManager.playNow(response.get(0));
+                            get(MediaManager.class).playNow(response.get(0));
                         }
                         break;
 
                     default:
                         Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getBaseItemType()));
-                        MediaManager.setCurrentVideoQueue(response);
+                        get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -317,7 +317,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    MediaManager.playNow(Arrays.asList(response));
+                    get(MediaManager.class).playNow(Arrays.asList(response));
                 } else {
                     Utils.showToast(TvApp.getApplication(), R.string.msg_no_playable_items);
                 }

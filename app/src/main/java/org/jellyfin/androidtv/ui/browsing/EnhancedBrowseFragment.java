@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.browsing;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -101,6 +100,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -498,7 +498,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
 
-            MediaManager.setCurrentMediaTitle(row.getHeaderItem().getName());
+            mediaManager.getValue().setCurrentMediaTitle(row.getHeaderItem().getName());
             ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
         }
     }
