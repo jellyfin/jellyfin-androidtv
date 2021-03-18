@@ -19,6 +19,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.FragmentActivity
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -28,7 +29,6 @@ import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.search.SearchHint
 import timber.log.Timber
-import java.lang.Exception
 
 class BackgroundService(
 	private val context: Context,
@@ -185,13 +185,14 @@ class BackgroundService(
 				.map { future -> async {
 					try {
 						future.get()
-					} catch (ex: Exception) {
+					} catch (ex: GlideException) {
+						Timber.e(ex, "There was an error fetching the background image:")
 						null
 					}
 				} }
 				.awaitAll()
-				.onEach { it?.colorFilter = colorFilter }
 				.filterNotNull()
+				.onEach { it.colorFilter = colorFilter }
 
 			backgrounds.clear()
 			backgrounds.addAll(backdropDrawables)
