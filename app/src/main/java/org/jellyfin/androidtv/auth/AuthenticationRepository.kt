@@ -28,9 +28,12 @@ class AuthenticationRepository(
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
 ) {
+	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
+	private val userComparator = compareByDescending<PrivateUser> {it.lastUsed }.thenBy { it.name }
+
 	fun getServers() = authenticationStore.getServers().map { (id, info) ->
 		Server(id, info.name, info.address, Date(info.lastUsed))
-	}
+	}.sortedWith(serverComparator)
 
 	fun getUsers(server: UUID): List<PrivateUser>? =
 		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
@@ -44,7 +47,7 @@ class AuthenticationRepository(
 					lastUsed = userInfo.lastUsed,
 				)
 			}
-		}
+		}?.sortedWith(userComparator)
 
 	fun saveServer(id: UUID, name: String, address: String) {
 		val current = authenticationStore.getServer(id)

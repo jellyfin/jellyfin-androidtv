@@ -42,11 +42,10 @@ class OverviewFragment : Fragment() {
 		fragmentManager,
 		BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
 	) {
-		private val comparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 		private var _servers = emptyList<Server>()
 		var servers
 			set(value) {
-				_servers = value.sortedWith(comparator)
+				_servers = value
 				notifyDataSetChanged()
 			}
 			get() = _servers

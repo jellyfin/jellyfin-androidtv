@@ -34,7 +34,7 @@ class LoginViewModel(
 	suspend fun getServer(id: UUID) = serverRepository.getStoredServers()
 		.find { it.id == id }
 
-	suspend fun getUsers(server: Server) = serverRepository.gerServerUsers(server)
+	suspend fun getUsers(server: Server) = serverRepository.getServerUsers(server)
 
 	fun addServer(address: String) = liveData {
 		serverRepository.addServer(address).onEach {

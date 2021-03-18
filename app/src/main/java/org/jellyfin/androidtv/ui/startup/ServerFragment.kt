@@ -26,7 +26,6 @@ class ServerFragment : RowsSupportFragment() {
 
 	private val loginViewModel: LoginViewModel by sharedViewModel()
 	private val rowAdapter = MutableObjectAdapter<ListRow>(CustomListRowPresenter())
-	private val userComparator = compareByDescending<User> { if (it is PrivateUser) it.lastUsed else 0L }.thenBy { it.name }
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
@@ -68,7 +67,7 @@ class ServerFragment : RowsSupportFragment() {
 		val serverId = UUID.fromString(arguments?.getString(ARG_SERVER_ID))
 		lifecycleScope.launch {
 			val server = loginViewModel.getServer(serverId) ?: return@launch
-			val users = loginViewModel.getUsers(server).sortedWith(userComparator)
+			val users = loginViewModel.getUsers(server)
 
 			// Fragment may be unloaded at this point, verify by checking for context
 			if (context != null) buildRow(server, users)
