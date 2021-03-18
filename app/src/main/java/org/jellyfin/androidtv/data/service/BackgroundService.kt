@@ -182,14 +182,16 @@ class BackgroundService(
 						.centerCrop()
 						.submit()
 				}
-				.map { future -> async {
-					try {
-						future.get()
-					} catch (ex: GlideException) {
-						Timber.e(ex, "There was an error fetching the background image:")
-						null
+				.map { future ->
+					async {
+						try {
+							future.get()
+						} catch (ex: GlideException) {
+							Timber.e(ex, "There was an error fetching the background image.")
+							null
+						}
 					}
-				} }
+				}
 				.awaitAll()
 				.filterNotNull()
 				.onEach { it.colorFilter = colorFilter }
