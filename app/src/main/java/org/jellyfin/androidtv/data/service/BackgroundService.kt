@@ -19,6 +19,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.FragmentActivity
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -53,7 +54,7 @@ class BackgroundService(
 	// Current background index
 	private var currentIndex = 0
 
-	// Prefered display size, set when calling [attach].
+	// Preferred display size, set when calling [attach].
 	private var windowSize = Size(0, 0)
 	private var windowBackground: Drawable = ColorDrawable(Color.BLACK)
 
@@ -181,10 +182,19 @@ class BackgroundService(
 						.centerCrop()
 						.submit()
 				}
-				.map { future -> async { future.get() } }
+				.map { future ->
+					async {
+						try {
+							future.get()
+						} catch (ex: GlideException) {
+							Timber.e(ex, "There was an error fetching the background image.")
+							null
+						}
+					}
+				}
 				.awaitAll()
-				.onEach { it.colorFilter = colorFilter }
 				.filterNotNull()
+				.onEach { it.colorFilter = colorFilter }
 
 			backgrounds.clear()
 			backgrounds.addAll(backdropDrawables)
