@@ -471,4 +471,11 @@
     <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
+    <string name="user_picker_last_user_summary">Использовать последнего активного пользователя</string>
+    <string name="user_picker_last_user_title">Последний использованный</string>
+    <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
+    <string name="user_picker_disable_title">Отключить</string>
+    <string name="system_user_explanation">Выбранный пользователь будет использован для системной интеграции, такой как поиск</string>
+    <string name="system_user">Системный пользователь</string>
+    <string name="auto_sign_in">Автоматический вход</string>
 </resources>
