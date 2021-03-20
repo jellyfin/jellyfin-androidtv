@@ -471,4 +471,11 @@
     <string name="lbl_episode_marks">Pouze u epizod</string>
     <string name="lbl_hide_unwatched_count">Skrýt počet nezhlédnutých</string>
     <string name="pref_watched_indicator">Zobrazit indikátory zhlédnutí</string>
+    <string name="user_picker_last_user_summary">Použít posledního aktivního uživatele</string>
+    <string name="user_picker_last_user_title">Naposledy použité</string>
+    <string name="user_picker_disable_summary">Vždy zobrazit přihlašovací obrazovku</string>
+    <string name="user_picker_disable_title">Vypnout</string>
+    <string name="system_user_explanation">Vybraný uživatel bude sloužit pro systémové integrace jako vyhledávání</string>
+    <string name="system_user">Systémový uživatel</string>
+    <string name="auto_sign_in">Automatické přihlášení</string>
 </resources>
