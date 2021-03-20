@@ -92,9 +92,6 @@ class UserLoginAlertFragment(
 						}
 						AuthenticatedState -> {
 							onClose()
-
-							// TODO use view model and observe in activity
-							(requireActivity() as StartupActivity).openNextActivity()
 						}
 					}
 				}

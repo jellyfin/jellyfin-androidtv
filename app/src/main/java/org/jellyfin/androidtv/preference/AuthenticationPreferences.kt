@@ -12,5 +12,10 @@ class AuthenticationPreferences(context: Context) : SharedPreferenceStore(
 
 		val systemUserBehavior = Preference.enum<UserSelectBehavior>("system_user_behavior", UserSelectBehavior.LAST_USER)
 		val systemUserId = Preference.string("system_user_id", "")
+
+		/**
+		 * Do not set directly, use [SessionRepository] instead.
+		 */
+		val lastUserId = Preference.string("last_user_id", "")
 	}
 }

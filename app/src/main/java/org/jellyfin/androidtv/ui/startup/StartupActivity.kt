@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -36,7 +37,7 @@ class StartupActivity : FragmentActivity() {
 	private val apiClient: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
 	private val serverRepository: ServerRepository by inject()
-	private var isLoaded = false
+	private val sessionRepository: SessionRepository by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -65,15 +66,25 @@ class StartupActivity : FragmentActivity() {
 	}
 
 	private fun start() {
-		if (application!!.currentUser != null && mediaManager.isPlayingAudio()) {
-			openNextActivity()
-		} else {
-			// Clear audio queue in case left over from last run
-			mediaManager.clearAudioQueue()
-			mediaManager.clearVideoQueue()
-			showServerList()
+		var isLoaded = false
+		sessionRepository.currentSession.observe(this) { session ->
+			if (session != null) {
+				supportFragmentManager.beginTransaction()
+					.replace(R.id.content_view, SplashFragment())
+					.commit()
+
+				application?.currentUserLiveData?.observe(this) { currentUser ->
+					if (currentUser != null) openNextActivity()
+				}
+			} else if (isLoaded == false) {
+				// Clear audio queue in case left over from last run
+				mediaManager.clearAudioQueue()
+				mediaManager.clearVideoQueue()
+				showServerList()
+
+				isLoaded = true
+			}
 		}
-		isLoaded = true
 	}
 
 	fun openNextActivity() {

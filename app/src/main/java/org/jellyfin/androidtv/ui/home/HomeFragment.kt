@@ -44,7 +44,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	// Special rows
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
 	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get()) }
-	private val footer by lazy { HomeFragmentFooterRow(requireActivity()) }
+	private val footer by lazy { HomeFragmentFooterRow(requireActivity(), get()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		// Create adapter/presenter and set it to parent
