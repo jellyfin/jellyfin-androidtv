@@ -471,4 +471,11 @@
     <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
     <string name="lbl_use_series_thumbnails_description">அத்தியாயங்களைக் காண்பிக்கும் போது தொடர் சிறுபடங்களைப் பயன்படுத்தவும்</string>
     <string name="lbl_use_series_thumbnails">தொடர் சிறு உருவங்களை விரும்புங்கள்</string>
+    <string name="user_picker_last_user_summary">கடைசியாக செயலில் உள்ள பயனரைப் பயன்படுத்தவும்</string>
+    <string name="user_picker_last_user_title">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
+    <string name="user_picker_disable_summary">உள்நுழைவு திரையில் எப்போதும் காட்டு</string>
+    <string name="user_picker_disable_title">முடக்கு</string>
+    <string name="system_user_explanation">தேர்ந்தெடுக்கப்பட்ட பயனர் தேடல் போன்ற கணினி ஒருங்கிணைப்புகளுக்குப் பயன்படுத்தப்படும்</string>
+    <string name="system_user">கணினி பயனர்</string>
+    <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
 </resources>
