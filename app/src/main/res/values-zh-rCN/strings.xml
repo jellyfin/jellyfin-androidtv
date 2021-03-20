@@ -467,4 +467,8 @@
     <string name="lbl_remove_users">这也会删除所有关联的用户</string>
     <string name="lbl_manage_servers">管理服务器</string>
     <string name="pref_watched_indicator">显示已观看标志</string>
+    <string name="lbl_use_series_thumbnails_description">显示章节时使用剧集缩略图</string>
+    <string name="lbl_use_series_thumbnails">优先使用剧集缩略图</string>
+    <string name="lbl_episode_marks">仅在章节中</string>
+    <string name="lbl_hide_unwatched_count">隐藏未观看计数</string>
 </resources>
