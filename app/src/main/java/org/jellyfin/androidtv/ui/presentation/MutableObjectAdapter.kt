@@ -52,4 +52,13 @@ class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 		if (removed) notifyChanged()
 		return removed
 	}
+
+	fun removeAt(index: Int): Boolean {
+		if (index < 0 || index >= data.size) return false
+
+		data.removeAt(index)
+		notifyItemRangeRemoved(index, 1)
+
+		return true
+	}
 }

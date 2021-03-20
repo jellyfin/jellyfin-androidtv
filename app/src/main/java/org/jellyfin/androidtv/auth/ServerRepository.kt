@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.auth
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.jellyfin.androidtv.auth.model.*
@@ -17,11 +19,11 @@ import timber.log.Timber
 import java.util.*
 
 interface ServerRepository {
-	suspend fun getStoredServers(): List<Server>
+	fun getStoredServers(): List<Server>
 	fun getDiscoveryServers(): Flow<Server>
 	suspend fun migrateLegacyCredentials()
 
-	suspend fun getServerUsers(server: Server): List<User>
+	fun getServerUsers(server: Server): LiveData<List<User>>
 	fun removeServer(serverId: UUID): Unit
 	fun addServer(address: String): Flow<ServerAdditionState>
 }
@@ -33,7 +35,7 @@ class ServerRepositoryImpl(
 	private val authenticationStore: AuthenticationStore,
 	private val legacyAccountMigration: LegacyAccountMigration
 ) : ServerRepository {
-	override suspend fun getStoredServers() = authenticationRepository.getServers()
+	override fun getStoredServers() = authenticationRepository.getServers()
 
 	override fun getDiscoveryServers() = flow {
 		val servers = jellyfin.discovery.discover().map(DiscoveryServerInfo::toServer)
@@ -51,10 +53,12 @@ class ServerRepositoryImpl(
 		.getUsers(server.id)
 		.orEmpty()
 
-	override suspend fun getServerUsers(server: Server): List<User> {
+	override fun getServerUsers(server: Server): LiveData<List<User>> = liveData {
 		val users = mutableListOf<User>()
 
 		users.addAll(getServerStoredUsers(server))
+		emit(users)
+
 		getServerPublicUsers(server)
 			.sortedBy { it.name }
 			.forEach { user ->
@@ -62,7 +66,7 @@ class ServerRepositoryImpl(
 					users.add(user)
 			}
 
-		return users
+		emit(users)
 	}
 
 	override suspend fun migrateLegacyCredentials() = legacyAccountMigration.migrate()
