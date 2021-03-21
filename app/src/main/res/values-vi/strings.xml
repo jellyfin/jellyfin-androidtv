@@ -470,4 +470,11 @@
     <string name="lbl_hide_unwatched_count">Ẩn số lượng chưa xem</string>
     <string name="lbl_use_series_thumbnails_description">Dùng hình thu nhỏ loạt phim khi hiển thị các tập</string>
     <string name="lbl_use_series_thumbnails">Hình thu nhỏ loạt phim ưa thích</string>
+    <string name="user_picker_last_user_summary">Sử dụng người dùng hoạt động cuối cùng</string>
+    <string name="user_picker_last_user_title">Được sử dụng gần đây nhất</string>
+    <string name="user_picker_disable_summary">Luôn hiển thị màn hình đăng nhập</string>
+    <string name="user_picker_disable_title">Tắt</string>
+    <string name="system_user_explanation">Người dùng được chọn sẽ được sử dụng để tích hợp hệ thống như tìm kiếm</string>
+    <string name="system_user">Người dùng hệ thống</string>
+    <string name="auto_sign_in">Đăng nhập tự động</string>
 </resources>
