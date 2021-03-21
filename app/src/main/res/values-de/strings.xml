@@ -471,4 +471,11 @@
     <string name="lbl_use_series_thumbnails">Serien-Vorschaubilder bevorzugen</string>
     <string name="lbl_hide_unwatched_count">Verberge die Anzahl von ungesehenen Elementen</string>
     <string name="pref_watched_indicator">Präferierte Vorschläge anzeigen</string>
+    <string name="user_picker_last_user_summary">Den zuletzt aktiven Benutzer verwenden</string>
+    <string name="user_picker_last_user_title">Als Letztes verwendet</string>
+    <string name="user_picker_disable_summary">Immer den Anmeldebildschirm anzeigen</string>
+    <string name="user_picker_disable_title">Deaktivieren</string>
+    <string name="system_user_explanation">Der ausgewählte Benutzer wird für Integrationen wie z.B. die Suche verwendet</string>
+    <string name="system_user">Systembenutzer</string>
+    <string name="auto_sign_in">Automatisch anmelden</string>
 </resources>
