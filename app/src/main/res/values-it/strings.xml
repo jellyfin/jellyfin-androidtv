@@ -471,4 +471,11 @@
     <string name="lbl_hide_unwatched_count">Nascondi numero di non visti</string>
     <string name="pref_watched_indicator">Mostra indicatori di avvenuta visione</string>
     <string name="lbl_tomatoes">Pomodori</string>
+    <string name="user_picker_last_user_summary">Utilizza l\'ultimo utente attivo</string>
+    <string name="user_picker_last_user_title">Utilizzati di recente</string>
+    <string name="user_picker_disable_summary">Mostra sempre la schermata di login</string>
+    <string name="user_picker_disable_title">Disabilita</string>
+    <string name="system_user_explanation">L\'utente selezionato sarà utilizzato per le chiamate interne come la ricerca</string>
+    <string name="system_user">Utente di sistema</string>
+    <string name="auto_sign_in">Login automatico</string>
 </resources>
