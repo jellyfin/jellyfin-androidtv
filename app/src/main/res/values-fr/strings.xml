@@ -471,4 +471,8 @@
     <string name="lbl_remove_server">Serveur distant</string>
     <string name="lbl_use_series_thumbnails_description">Utiliser les miniatures des séries lors de l\'affichage des épisodes</string>
     <string name="lbl_use_series_thumbnails">Préférez les miniatures de séries</string>
+    <string name="user_picker_disable_summary">Toujours afficher l\'écran de connexion</string>
+    <string name="user_picker_disable_title">Désactiver</string>
+    <string name="system_user_explanation">L\'utilisateur sélectionné sera utilisé pour les intégrations systèmes telles que la recherche</string>
+    <string name="system_user">Utilisateur système</string>
 </resources>
