@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.data.service
 
 import android.animation.ValueAnimator
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -17,6 +16,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.add
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
@@ -39,7 +39,7 @@ class BackgroundService(
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
 		const val SLIDESHOW_DURATION = 10000L // 10 seconds
 		const val UPDATE_INTERVAL = 500L // 0.5 seconds
-		val FRAGMENT_TAG = BackgroundServiceFragment::class.qualifiedName
+		val FRAGMENT_TAG = BackgroundServiceFragment::class.qualifiedName!!
 	}
 
 	// Async
@@ -92,10 +92,10 @@ class BackgroundService(
 	/**
 	 * Attach the bakground to [activity].
 	 */
-	fun attach(activity: Activity) {
-		// Set default background to current
+	fun attach(activity: FragmentActivity) {
+		// Set default background to current if it's not layered
 		val current = activity.window.decorView.background
-		windowBackground = current?.copy() ?: ColorDrawable(Color.BLACK)
+		windowBackground = if (current !is LayerDrawable) current.copy() else ColorDrawable(Color.BLACK)
 		backgroundDrawable.setDrawableByLayerId(R.id.background_static, windowBackground)
 
 		// Store size of window manager for this activity
@@ -103,20 +103,16 @@ class BackgroundService(
 			Size(it.right, it.bottom)
 		}
 
-		activity.window.decorView.background = backgroundDrawable
-
 		// Add a fragment to the activity to automatically set the background on resume
-		if (activity is FragmentActivity) {
-			val fragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
+		val fragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
+		if (fragment == null) {
+			// Add fragment
+			Timber.i("Adding BackgroundServiceFragment to activity")
 
-			if (fragment == null) {
-				Timber.i("Adding BackgroundServiceFragment to activity")
-
-				activity.supportFragmentManager
-					.beginTransaction()
-					.add(BackgroundServiceFragment(this), FRAGMENT_TAG)
-					.commit()
-			}
+			activity.supportFragmentManager
+				.beginTransaction()
+				.add<BackgroundServiceFragment>(FRAGMENT_TAG)
+				.commit()
 		}
 	}
 
