@@ -471,4 +471,11 @@
     <string name="pref_watched_indicator">Mostrar Indicadores de Ya Visto</string>
     <string name="lbl_use_series_thumbnails_description">Utilizar serie de miniaturas cuando se muestran episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir Series de Miniaturas</string>
+    <string name="user_picker_last_user_summary">Usar el ultimo usuario activo</string>
+    <string name="user_picker_last_user_title">Mas recientemente usados</string>
+    <string name="user_picker_disable_summary">Siempre mostrar la pantalla de registro</string>
+    <string name="user_picker_disable_title">Inhabilitado</string>
+    <string name="system_user_explanation">Los usuarios seleccionados serán utilizados integraciones de sistemas, como busquedas</string>
+    <string name="system_user">Usuario de Sistema</string>
+    <string name="auto_sign_in">Registrarse automáticamente</string>
 </resources>
