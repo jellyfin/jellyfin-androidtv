@@ -471,4 +471,11 @@
     <string name="lbl_episode_marks">Tylko w odcinkach</string>
     <string name="lbl_hide_unwatched_count">Ukryj liczbę nieobejrzanych</string>
     <string name="pref_watched_indicator">Pokaż obserwowane wskaźniki</string>
+    <string name="user_picker_last_user_summary">Użyj ostatniego aktywnego użytkownika</string>
+    <string name="user_picker_last_user_title">Ostatnio używany</string>
+    <string name="user_picker_disable_summary">Zawsze pokazuj ekran logowania</string>
+    <string name="user_picker_disable_title">Wyłączone</string>
+    <string name="system_user_explanation">Wybrany użytkownik będzie używany do integracji systemów, takich jak wyszukiwanie</string>
+    <string name="system_user">Użytkownik systemowy</string>
+    <string name="auto_sign_in">Automatyczne logowanie</string>
 </resources>
