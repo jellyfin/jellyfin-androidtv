@@ -24,8 +24,11 @@ class ServerFragment : RowsSupportFragment() {
 	}
 
 	private val loginViewModel: LoginViewModel by sharedViewModel()
-	private val rowAdapter = MutableObjectAdapter<ListRow>(CustomListRowPresenter())
 	private val userListAdapter = MutableObjectAdapter<GridButton>(GridButtonPresenter())
+	private val userListRow = ListRow(userListAdapter)
+	private val rowAdapter = MutableObjectAdapter<ListRow>(CustomListRowPresenter()).apply {
+		add(userListRow)
+	}
 
 	private val itemViewClickedListener = OnItemViewClickedListener { _, item, _, _ ->
 		if (item is UserGridButton) {
@@ -71,10 +74,7 @@ class ServerFragment : RowsSupportFragment() {
 		val serverId = UUID.fromString(arguments?.getString(ARG_SERVER_ID))
 		val server = loginViewModel.getServer(serverId) ?: return
 
-		rowAdapter.add(ListRow(
-			HeaderItem(server.name.ifBlank { server.address }),
-			userListAdapter,
-		))
+		userListRow.headerItem = HeaderItem(server.name.ifBlank { server.address })
 
 		loginViewModel.getUsers(server).observe(viewLifecycleOwner) { users ->
 			buildRow(server, users)
@@ -101,7 +101,7 @@ class ServerFragment : RowsSupportFragment() {
 
 		val currentAddButton = userListAdapter.indexOfLast { it is AddUserGridButton }
 		// Don't move when it's already the last item
-		if (currentAddButton == userListAdapter.size()) return
+		if (currentAddButton == userListAdapter.size() - 1) return
 		// Remove when it's not the last item anymore
 		if (currentAddButton != -1) userListAdapter.removeAt(currentAddButton)
 		// Add button
