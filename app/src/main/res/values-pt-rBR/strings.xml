@@ -471,4 +471,11 @@
     <string name="lbl_episode_marks">Apenas em episódios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contagem não assistida</string>
     <string name="pref_watched_indicator">Mostrar indicadores assistidos</string>
+    <string name="user_picker_last_user_summary">Usar o último usuário ativo</string>
+    <string name="user_picker_last_user_title">Mais usado recentemente</string>
+    <string name="user_picker_disable_summary">Sempre mostrar tela de login</string>
+    <string name="user_picker_disable_title">Desativar</string>
+    <string name="system_user_explanation">O usuário selecionado vai ser usado para integrações do sistema como pesquisa</string>
+    <string name="system_user">Usuário do sistema</string>
+    <string name="auto_sign_in">Login automático</string>
 </resources>
