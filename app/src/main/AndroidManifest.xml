@@ -90,7 +90,6 @@
 
         <activity
             android:name=".ui.playback.PlaybackOverlayActivity"
-            android:colorMode="wideColorGamut"
             android:label="PlaybackOverlayActivity"
             android:screenOrientation="landscape" />
 
