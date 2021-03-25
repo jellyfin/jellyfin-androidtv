@@ -149,19 +149,19 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Gets the poster art for an [item]
+	 * Gets the poster art for an item
 	 * Uses the [preferParentThumb] parameter to fetch the series image when preferred
 	 */
-	private fun getPosterArtImageUrl(preferParentThumb: Boolean, item: BaseItemDto): Uri? {
-		return if (preferParentThumb && item.parentThumbItemId != null) {
-			Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
+	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri? {
+		return if (preferParentThumb && this.parentThumbItemId != null) {
+			Uri.parse(apiClient.GetImageUrl(this.seriesId, ImageOptions().apply {
 				format = ImageFormat.Png
 				height = 288
 				width = 512
 				imageType = ImageType.Thumb
 			}))
 		} else {
-			Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
+			Uri.parse(apiClient.GetImageUrl(this, ImageOptions().apply {
 				format = ImageFormat.Png
 				height = 288
 				width = 512
@@ -200,7 +200,7 @@ class LeanbackChannelWorker(
 
 		// Add new items
 		nextUpItems?.items?.map { item ->
-			val imageUri = getPosterArtImageUrl(preferParentThumb, item)
+			val imageUri = item.getPosterArtImageUrl(preferParentThumb)
 
 			val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
@@ -257,7 +257,7 @@ class LeanbackChannelWorker(
 		setTitle("${item.seriesName} - ${item.name}")
 
 		// Poster image
-		val imageUri = getPosterArtImageUrl(preferParentThumb, item)
+		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
 		setPosterArtUri(imageUri)
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
 
