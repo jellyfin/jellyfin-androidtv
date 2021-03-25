@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
 import org.jellyfin.androidtv.util.apiclient.getUserViews
 import org.jellyfin.androidtv.util.dp
@@ -26,11 +25,10 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.entities.SeriesStatus
+import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
-
-import org.koin.java.KoinJavaComponent.get
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * Manages channels on the android tv home screen
@@ -57,6 +55,12 @@ class LeanbackChannelWorker(
 	 */
 	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 		&& context.packageManager.hasSystemFeature("android.software.leanback")
+
+	/**
+	 * Check if "Prefer series thumbnails" is enabled for the user
+	 */
+	private val userPreferences by inject(UserPreferences::class.java)
+	private val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 	/**
 	 * Update all channels for the currently authenticated user
@@ -150,10 +154,10 @@ class LeanbackChannelWorker(
 	private suspend fun updateNextUp() {
 		// Get channel
 		val channelUri = getChannelUri("next_up", Channel.Builder()
-				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-				.setDisplayName(context.getString(R.string.lbl_next_up))
-				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-				.build())
+			.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+			.setDisplayName(context.getString(R.string.lbl_next_up))
+			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+			.build())
 
 		// Get user or return if no user is found (not authenticated)
 		val user = TvApp.getApplication().currentUser ?: return
@@ -164,8 +168,6 @@ class LeanbackChannelWorker(
 			limit = 15
 		})
 
-		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
-
 		// Add new items
 		response?.items?.map { item ->
 			val imageUri = if (preferParentThumb && item.parentThumbItemId != null) {
@@ -173,7 +175,7 @@ class LeanbackChannelWorker(
 					format = ImageFormat.Png
 					height = 288
 					width = 512
-					imageType = org.jellyfin.apiclient.model.entities.ImageType.Thumb
+					imageType = ImageType.Thumb
 				}))
 			} else {
 				Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
@@ -183,18 +185,14 @@ class LeanbackChannelWorker(
 				}))
 			}
 
-			val seasonString = if (item.parentIndexNumber != null) {
-				"${item.parentIndexNumber}"
-			} else {
-				""
-			}
+			val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
-			val episodeString = if (item.indexNumber != null && item.indexNumberEnd != null) {
-				"${item.indexNumber}-${item.indexNumberEnd}"
-			} else if (item.indexNumber != null) {
-				"${item.indexNumber}"
-			} else {
-				""
+			val episodeString = when {
+				item.indexNumberEnd != null && item.indexNumber != null -> {
+					"${item.indexNumber}-${item.indexNumberEnd}"
+				} else -> {
+					item.indexNumber?.toString().orEmpty()
+				}
 			}
 
 			PreviewProgram.Builder()
@@ -246,25 +244,21 @@ class LeanbackChannelWorker(
 	 *
 	 * Assumes the item type is "episode"
 	 */
-	private suspend fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
-		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
-		val seriesItem = apiClient.getItem(item.seriesId)
-
+	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
 		setInternalProviderId(item.id)
 		setType(WatchNextPrograms.TYPE_TV_EPISODE)
 		setTitle("${item.seriesName} - ${item.name}")
 
 		// Poster image
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		if (preferParentThumb && seriesItem != null && seriesItem.hasThumb) {
-			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(seriesItem, ImageOptions().apply {
+		if (preferParentThumb && item.parentThumbItemId != null) {
+			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item.seriesId, ImageOptions().apply {
 				format = ImageFormat.Png
 				height = 288
 				width = 512
-				imageType = org.jellyfin.apiclient.model.entities.ImageType.Thumb
+				imageType = ImageType.Thumb
 			})))
-		}
-		else {
+		} else {
 			setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
 				format = ImageFormat.Png
 				height = 288
@@ -281,8 +275,8 @@ class LeanbackChannelWorker(
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
 			}
-			// Most recently aired episode
-			seriesItem?.userData?.unplayedItemCount == 1 && seriesItem.seriesStatus == SeriesStatus.Continuing -> {
+			// First episode of the season
+			item.indexNumber == 1 -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
 			}
 			// Default
