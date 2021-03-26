@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
@@ -24,8 +25,11 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.drawing.ImageFormat
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.querying.ItemFields
+import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * Manages channels on the android tv home screen
@@ -47,6 +51,8 @@ class LeanbackChannelWorker(
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
+	private val userPreferences by inject(UserPreferences::class.java)
+
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher
 	 */
@@ -62,9 +68,16 @@ class LeanbackChannelWorker(
 		// Retry later if no authenticated user is found
 		TvApp.getApplication().currentUser == null -> Result.retry()
 		else -> {
+			// Get next up episodes
+			val nextUpItems = getNextUpItems()
+
+			// Delete current items from the My Media and Next Up channels
+			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+
 			// Update various channels
 			updateMyMedia()
-			updateWatchNext()
+			updateNextUp(nextUpItems)
+			updateWatchNext(nextUpItems)
 
 			// Success!
 			Result.success()
@@ -116,9 +129,6 @@ class LeanbackChannelWorker(
 
 		val response = apiClient.getUserViews() ?: return
 
-		// Delete current items
-		context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
-
 		// Add new items
 		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
 			val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
@@ -134,31 +144,101 @@ class LeanbackChannelWorker(
 					putExtra(StartupActivity.ITEM_ID, item.id)
 					putExtra(StartupActivity.ITEM_IS_USER_VIEW, true)
 				})
-				.build().toContentValues()
+				.build()
+				.toContentValues()
 		}.toTypedArray())
 	}
 
 	/**
-	 * Updates the "watch next" row with new and unfinished episodes
-	 * does not include movies, music or other types of media
+	 * Gets the poster art for an item
+	 * Uses the [preferParentThumb] parameter to fetch the series image when preferred
 	 */
-	private suspend fun updateWatchNext() = withContext(Dispatchers.Default) {
-		// Delete current items
-		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
+	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri? {
+		return if (preferParentThumb && this.parentThumbItemId != null) {
+			Uri.parse(apiClient.GetImageUrl(this.seriesId, ImageOptions().apply {
+				format = ImageFormat.Png
+				height = 288
+				width = 512
+				imageType = ImageType.Thumb
+			}))
+		} else {
+			Uri.parse(apiClient.GetImageUrl(this, ImageOptions().apply {
+				format = ImageFormat.Png
+				height = 288
+				width = 512
+			}))
+		}
+	}
 
+	/**
+	 * Gets the next up episodes or returns null
+	 */
+	private suspend fun getNextUpItems(): ItemsResult? = withContext(Dispatchers.Default) {
 		// Get user or return if no user is found (not authenticated)
-		val user = TvApp.getApplication().currentUser ?: return@withContext
+		val user = TvApp.getApplication().currentUser ?: return@withContext null
 
-		// Get new items
-		val response = apiClient.getNextUpEpisodes(NextUpQuery().apply {
-			userId = user.id
+		return@withContext apiClient.getNextUpEpisodes(NextUpQuery().apply {
+			userId = user?.id
 			imageTypeLimit = 1
 			limit = 10
 			fields = arrayOf(ItemFields.DateCreated)
 		})
+	}
+
+	/**
+	 * Updates the "next up" row with current episodes
+	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
+	 */
+	private suspend fun updateNextUp(nextUpItems: ItemsResult?) = withContext(Dispatchers.Default) {
+		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
+
+		// Get channel
+		val channelUri = getChannelUri("next_up", Channel.Builder()
+			.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+			.setDisplayName(context.getString(R.string.lbl_next_up))
+			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+			.build())
 
 		// Add new items
-		response?.items?.let { items ->
+		nextUpItems?.items?.map { item ->
+			val imageUri = item.getPosterArtImageUrl(preferParentThumb)
+
+			val seasonString = item.parentIndexNumber?.toString().orEmpty()
+
+			val episodeString = when {
+				item.indexNumberEnd != null && item.indexNumber != null ->
+					"${item.indexNumber}-${item.indexNumberEnd}"
+				else -> item.indexNumber?.toString().orEmpty()
+			}
+
+			PreviewProgram.Builder()
+				.setChannelId(ContentUris.parseId(channelUri))
+				.setType(WatchNextPrograms.TYPE_TV_EPISODE)
+				.setTitle(item.seriesName)
+				.setEpisodeTitle(item.name)
+				.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
+				.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
+				.setPosterArtUri(imageUri)
+				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+				.setIntent(Intent(context, StartupActivity::class.java).apply {
+					putExtra(StartupActivity.ITEM_ID, item.id)
+				})
+				.build()
+				.toContentValues()
+		}?.let { context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, it.toTypedArray()) }
+	}
+
+	/**
+	 * Updates the "watch next" row with new and unfinished episodes
+	 * Does not include movies, music or other types of media
+	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
+	 */
+	private suspend fun updateWatchNext(nextUpItems: ItemsResult?) = withContext(Dispatchers.Default) {
+		// Delete current items
+		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
+
+		// Add new items
+		nextUpItems?.items?.let { items ->
 			context.contentResolver.bulkInsert(
 				WatchNextPrograms.CONTENT_URI,
 				items.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }.toTypedArray()
@@ -172,17 +252,16 @@ class LeanbackChannelWorker(
 	 * Assumes the item type is "episode"
 	 */
 	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
+		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
+
 		setInternalProviderId(item.id)
 		setType(WatchNextPrograms.TYPE_TV_EPISODE)
 		setTitle("${item.seriesName} - ${item.name}")
 
 		// Poster image
+		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
+		setPosterArtUri(imageUri)
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		setPosterArtUri(Uri.parse(apiClient.GetImageUrl(item, ImageOptions().apply {
-			format = ImageFormat.Png
-			height = 288
-			width = 512
-		})))
 
 		// Use date created or fallback to current time if unavailable
 		setLastEngagementTimeUtcMillis(item.dateCreated?.time ?: System.currentTimeMillis())
@@ -193,18 +272,19 @@ class LeanbackChannelWorker(
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
 			}
-			// Episode runtime has been determined
-			item.runTimeTicks != null -> {
-				setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
-			}
 			// First episode of the season
-			item.indexNumber == 0 -> {
+			item.indexNumber == 1 -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
 			}
 			// Default
 			else -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
 			}
+		}
+
+		// Episode runtime has been determined
+		if (item.runTimeTicks != null) {
+			setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
 		}
 
 		// Set intent to open the episode
