@@ -144,7 +144,8 @@ class LeanbackChannelWorker(
 					putExtra(StartupActivity.ITEM_ID, item.id)
 					putExtra(StartupActivity.ITEM_IS_USER_VIEW, true)
 				})
-				.build().toContentValues()
+				.build()
+				.toContentValues()
 		}.toTypedArray())
 	}
 
@@ -211,18 +212,19 @@ class LeanbackChannelWorker(
 			}
 
 			PreviewProgram.Builder()
-					.setChannelId(ContentUris.parseId(channelUri))
-					.setType(WatchNextPrograms.TYPE_TV_EPISODE)
-					.setTitle(item.seriesName)
-					.setEpisodeTitle(item.name)
-					.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
-					.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
-					.setPosterArtUri(imageUri)
-					.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
-					.setIntent(Intent(context, StartupActivity::class.java).apply {
-						putExtra(StartupActivity.ITEM_ID, item.id)
-					})
-					.build().toContentValues()
+				.setChannelId(ContentUris.parseId(channelUri))
+				.setType(WatchNextPrograms.TYPE_TV_EPISODE)
+				.setTitle(item.seriesName)
+				.setEpisodeTitle(item.name)
+				.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
+				.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
+				.setPosterArtUri(imageUri)
+				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+				.setIntent(Intent(context, StartupActivity::class.java).apply {
+					putExtra(StartupActivity.ITEM_ID, item.id)
+				})
+				.build()
+				.toContentValues()
 		}?.let { context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, it.toTypedArray()) }
 	}
 
