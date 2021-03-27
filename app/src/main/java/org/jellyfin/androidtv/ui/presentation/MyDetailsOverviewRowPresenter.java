@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,9 @@ import android.widget.TextView;
 
 import androidx.leanback.widget.RowPresenter;
 
-import com.google.android.flexbox.FlexboxLayout;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.InfoItem;
-import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -28,7 +26,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
     private ViewHolder viewHolder;
 
     public final class ViewHolder extends RowPresenter.ViewHolder {
-        private FlexboxLayout mGenreRow;
+        private TextView mGenreRow;
         private LinearLayout mInfoRow;
         private TextView mTitle;
         private ImageView mPoster;
@@ -63,7 +61,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
             mLeftFrame = (RelativeLayout) rootView.findViewById(R.id.leftFrame);
 
-            mGenreRow = (FlexboxLayout) rootView.findViewById(R.id.fdGenreRow);
+            mGenreRow = (TextView) rootView.findViewById(R.id.fdGenreRow);
             mInfoRow = (LinearLayout) rootView.findViewById(R.id.fdMainInfoRow);
             mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
             mProgress = (ProgressBar) rootView.findViewById(R.id.fdProgress);
@@ -131,17 +129,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         }
     }
 
-    private void addGenres(FlexboxLayout layout, BaseItemDto item) {
-        layout.removeAllViews();
-        if (item.getGenres() != null && item.getGenres().size() > 0) {
-            boolean first = true;
-            for (String genre : item.getGenres()) {
-                if (!first)
-                    InfoLayoutHelper.addSpacer(TvApp.getApplication().getCurrentActivity(), layout, "  /  ", 12);
-                first = false;
-                layout.addView(new GenreButton(layout.getContext(), 14, genre, item.getBaseItemType()));
-            }
-        }
+    private void addGenres(TextView textView, BaseItemDto item) {
+        textView.setText(TextUtils.join(" / ", item.getGenres()));
     }
 
     public void setTitle(String text) {

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -22,7 +23,6 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.flexbox.FlexboxLayout;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -30,7 +30,6 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
@@ -75,7 +74,7 @@ public class ItemListActivity extends FragmentActivity {
     public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
 
     private TextView mTitle;
-    private FlexboxLayout mGenreRow;
+    private TextView mGenreRow;
     private ImageView mPoster;
     private TextView mSummary;
     private LinearLayout mButtonRow;
@@ -112,7 +111,7 @@ public class ItemListActivity extends FragmentActivity {
 
         mTitle = (TextView) findViewById(R.id.fdTitle);
         mTitle.setText(getString(R.string.loading));
-        mGenreRow = (FlexboxLayout) findViewById(R.id.fdGenreRow);
+        mGenreRow = (TextView) findViewById(R.id.fdGenreRow);
         mPoster = (ImageView) findViewById(R.id.mainImage);
         mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
         mSummary = (TextView) findViewById(R.id.fdSummaryText);
@@ -504,15 +503,8 @@ public class ItemListActivity extends FragmentActivity {
         }
     }
 
-    private void addGenres(FlexboxLayout layout) {
-        if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
-            boolean first = true;
-            for (String genre : mBaseItem.getGenres()) {
-                if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
-                first = false;
-                layout.addView(new GenreButton(this, 16, genre, mBaseItem.getBaseItemType()));
-            }
-        }
+    private void addGenres(TextView textView) {
+        textView.setText(TextUtils.join(" / ", mBaseItem.getGenres()));
     }
 
     private void play(List<BaseItemDto> items) {

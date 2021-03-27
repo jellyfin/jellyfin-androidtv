@@ -103,16 +103,13 @@
             android:layout_alignStart="@+id/fdTitle"
             />
 
-        <com.google.android.flexbox.FlexboxLayout
+        <TextView
             android:id="@+id/fdGenreRow"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fdMainInfoRow"
             android:layout_alignStart="@+id/fdMainInfoRow"
-            android:divider="@drawable/whitedivider"
-            android:minHeight="22sp"
-            android:orientation="horizontal"
-            app:flexWrap="wrap" />
+            android:minHeight="22sp" />
 
         <org.jellyfin.androidtv.ui.ExpandableTextView
             android:layout_width="match_parent"

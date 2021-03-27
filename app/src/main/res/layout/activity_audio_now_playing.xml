@@ -22,12 +22,10 @@
         android:text="@string/lbl_artists"
         android:fontFamily="sans-serif-light" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/genreRow"
-        android:divider="@drawable/whitedivider"
         android:minHeight="22sp"
         android:layout_below="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"

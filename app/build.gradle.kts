@@ -91,7 +91,6 @@ dependencies {
 	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("androidx.work:work-runtime-ktx:2.5.0")
-	implementation("com.google.android:flexbox:2.0.1")
 	val androidxLifecycleVersion = "2.3.1"
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
