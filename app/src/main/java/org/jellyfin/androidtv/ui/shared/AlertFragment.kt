@@ -4,21 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.databinding.FragmentAlertDialogBinding
 
 @Suppress("LongParameterList")
 abstract class AlertFragment(
 	@StringRes protected var title: Int? = null,
-	@StringRes protected var description: Int? = null,
 	@StringRes protected var confirmButtonText: Int? = null,
 	@StringRes protected var cancelButtonText: Int? = null,
 ) : Fragment() {
 	private lateinit var binding: FragmentAlertDialogBinding
 	protected val parentBinding get() = binding
 
+	@CallSuper
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentAlertDialogBinding.inflate(inflater, container, false)
 		onCreateChildView(inflater, binding.content)?.let { childView ->
@@ -27,13 +27,11 @@ abstract class AlertFragment(
 		return binding.root
 	}
 
+	@CallSuper
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
 		title?.let { binding.title.setText(it) }
-
-		if (description == null) binding.description.isVisible = false
-		else description?.let { binding.description.setText(it) }
 
 		with(binding.confirm) {
 			confirmButtonText?.let { setText(it) }

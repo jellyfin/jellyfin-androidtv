@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.collect
@@ -29,13 +30,12 @@ class AddServerScreenFragment : Fragment() {
 			requireActivity()
 				.supportFragmentManager
 				.beginTransaction()
-				.replace(
+				.replace<AddServerAlertFragment>(
 					R.id.content_view,
-					AddServerAlertFragment().apply {
-						arguments = bundleOf(
-							AddServerAlertFragment.ARG_SERVER_ADDRESS to server.address
-						)
-					}
+					null,
+					bundleOf(
+						AddServerAlertFragment.ARG_SERVER_ADDRESS to server.address
+					)
 				)
 				.addToBackStack(null)
 				.commit()
