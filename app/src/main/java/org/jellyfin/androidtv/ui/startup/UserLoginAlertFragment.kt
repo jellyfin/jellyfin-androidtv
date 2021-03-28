@@ -1,109 +1,94 @@
 package org.jellyfin.androidtv.ui.startup
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.auth.model.AuthenticatedState
+import org.jellyfin.androidtv.auth.model.AuthenticatingState
+import org.jellyfin.androidtv.auth.model.RequireSignInState
+import org.jellyfin.androidtv.auth.model.ServerUnavailableState
+import org.jellyfin.androidtv.databinding.FragmentAlertUserLoginBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
+import org.jellyfin.androidtv.util.toUUIDOrNull
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class UserLoginAlertFragment(
-	private val server: Server,
-	private val user: User? = null,
-	private val onClose: () -> Unit = {}
-) : AlertFragment(
-	title = R.string.lbl_sign_in,
-	onCancelCallback = {},
-	onClose = onClose
-) {
+class UserLoginAlertFragment : AlertFragment() {
+	companion object {
+		const val ARG_USERNAME = "username"
+		const val ARG_SERVER_ID = "server_id"
+	}
+
 	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private lateinit var binding: FragmentAlertUserLoginBinding
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = super.onCreateView(inflater, container, savedInstanceState)!!
+	private val usernameArgument get() = arguments?.getString(ARG_USERNAME)?.ifBlank { null }
+	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }
 
-		val confirm = view.findViewById<Button>(R.id.confirm)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-		view.findViewById<LinearLayout>(R.id.content).minimumWidth = 360
+		title = R.string.lbl_sign_in
+	}
 
-		// Build the username field
-		val username = EditText(activity)
-		username.hint = getString(R.string.lbl_enter_user_name)
-		username.isSingleLine = true
-		if (user != null) {
-			username.setText(user.name)
-			username.isEnabled = false
-			username.inputType = InputType.TYPE_NULL
-		} else {
-			username.onFocusChangeListener = KeyboardFocusChangeListener()
-			username.requestFocus()
-		}
-		// Add the username field to the content view
-		view.findViewById<LinearLayout>(R.id.content).addView(username)
+	override fun onCreateChildView(inflater: LayoutInflater, contentContainer: ViewGroup): View? {
+		binding = FragmentAlertUserLoginBinding.inflate(inflater, contentContainer, false)
+		return binding.root
+	}
 
-		// Build the password field
-		val password = EditText(activity)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-		password.setOnEditorActionListener { _, actionId, _ ->
-			if (actionId == EditorInfo.IME_ACTION_DONE)
-				confirm.performClick()
-			else
-				false
-		}
+		with(binding.username) {
+			onFocusChangeListener = KeyboardFocusChangeListener()
 
-		password.hint = getString(R.string.lbl_enter_user_pw)
-		password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-		password.isSingleLine = true
-		password.onFocusChangeListener = KeyboardFocusChangeListener()
-		password.nextFocusDownId = R.id.confirm
-		password.typeface = Typeface.DEFAULT
-		password.imeOptions = EditorInfo.IME_ACTION_DONE
-		if (user != null) password.requestFocus()
-		// Add the password field to the content view
-		view.findViewById<LinearLayout>(R.id.content).addView(password)
-
-		// Build the error text field
-		val errorText = TextView(requireContext())
-		view.findViewById<LinearLayout>(R.id.content).addView(errorText)
-
-		// Override the default confirm button click listener to return the address field text
-		confirm.setOnClickListener {
-			if (username.text.isNotBlank()) {
-				loginViewModel.login(server, username.text.toString(), password.text.toString()).observe(viewLifecycleOwner) { state ->
-					println(state)
-					when (state) {
-						AuthenticatingState -> {
-							errorText.text = getString(R.string.login_authenticating)
-						}
-						RequireSignInState -> {
-							errorText.text = getString(R.string.login_invalid_credentials)
-						}
-						ServerUnavailableState -> {
-							errorText.text = getString(R.string.login_server_unavailable)
-						}
-						AuthenticatedState -> {
-							onClose()
-						}
-					}
-				}
-			} else {
-				errorText.text = getString(R.string.login_username_field_empty)
+			if (usernameArgument != null) {
+				isEnabled = false
+				setText(usernameArgument)
+				binding.password.requestFocus()
 			}
 		}
 
-		view.findViewById<Button>(R.id.cancel).setOnClickListener {
-			requireActivity().supportFragmentManager.popBackStackImmediate()
+		with(binding.password) {
+			onFocusChangeListener = KeyboardFocusChangeListener()
+			nextFocusForwardId = parentBinding.confirm.id
+
+			imeOptions = EditorInfo.IME_ACTION_DONE
+			setOnEditorActionListener { _, actionId, _ ->
+				if (actionId == EditorInfo.IME_ACTION_DONE) parentBinding.confirm.performClick()
+				else false
+			}
 		}
 
-		return view
+		// Set focus
+		if (usernameArgument == null) binding.username.requestFocus()
+		else binding.password.requestFocus()
+	}
+
+	override fun onConfirm(): Boolean {
+		val server = serverIdArgument?.toUUIDOrNull()?.let { loginViewModel.getServer(it) }
+		if (server == null) {
+			binding.error.setText(R.string.msg_error_server_unavailable)
+		} else if (binding.username.text.isNotBlank()) {
+			loginViewModel.login(
+				server,
+				binding.username.text.toString(),
+				binding.password.text.toString()
+			).observe(viewLifecycleOwner) { state ->
+				when (state) {
+					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
+					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
+					ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
+					AuthenticatedState -> onClose()
+				}
+			}
+		} else {
+			binding.error.setText(R.string.login_username_field_empty)
+		}
+
+		return false
 	}
 }

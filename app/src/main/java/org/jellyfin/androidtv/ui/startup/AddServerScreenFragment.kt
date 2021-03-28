@@ -31,9 +31,7 @@ class AddServerScreenFragment : Fragment() {
 				.beginTransaction()
 				.replace(
 					R.id.content_view,
-					AddServerAlertFragment(onClose = {
-						requireActivity().supportFragmentManager.popBackStack()
-					}).apply {
+					AddServerAlertFragment().apply {
 						arguments = bundleOf(
 							AddServerAlertFragment.ARG_SERVER_ADDRESS to server.address
 						)

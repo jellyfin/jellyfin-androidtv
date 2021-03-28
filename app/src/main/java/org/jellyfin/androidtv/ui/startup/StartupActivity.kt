@@ -141,9 +141,7 @@ class StartupActivity : FragmentActivity() {
 	fun addServer() {
 		supportFragmentManager.beginTransaction()
 			.addToBackStack(null)
-			.replace(R.id.content_view, AddServerAlertFragment(
-				onClose = { supportFragmentManager.popBackStack() }
-			))
+			.replace(R.id.content_view, AddServerAlertFragment())
 			.commit()
 	}
 

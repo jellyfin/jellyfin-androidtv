@@ -22,13 +22,9 @@ import java.util.*
 
 class AddServerAlertFragment(
 	private val onServerAdded: (serverId: UUID) -> Unit = {},
-	private val onCancelCallback: () -> Unit = {},
-	private val onClose: () -> Unit = {}
 ) : AlertFragment(
 	title = R.string.lbl_enter_server_address,
 	description = R.string.lbl_valid_server_address,
-	onCancelCallback = onCancelCallback,
-	onClose = onClose
 ) {
 	companion object {
 		const val ARG_SERVER_ADDRESS = "server_address"
@@ -89,5 +85,9 @@ class AddServerAlertFragment(
 		}
 
 		return view
+	}
+
+	override fun onCreateChildView(inflater: LayoutInflater, contentContainer: ViewGroup): View? {
+		TODO("Not yet implemented")
 	}
 }

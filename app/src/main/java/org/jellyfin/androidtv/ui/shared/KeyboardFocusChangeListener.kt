@@ -1,14 +1,14 @@
 package org.jellyfin.androidtv.ui.shared
 
-import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.getSystemService
 
 class KeyboardFocusChangeListener : View.OnFocusChangeListener {
-	override fun onFocusChange(v : View, hasFocus : Boolean) {
-		(v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
-			if (!hasFocus) hideSoftInputFromWindow(v.windowToken, 0)
-			else showSoftInput(v, 0)
+	override fun onFocusChange(view: View, hasFocus: Boolean) {
+		view.context.getSystemService<InputMethodManager>()?.apply {
+			if (!hasFocus) hideSoftInputFromWindow(view.windowToken, 0)
+			else showSoftInput(view, 0)
 		}
 	}
 }
