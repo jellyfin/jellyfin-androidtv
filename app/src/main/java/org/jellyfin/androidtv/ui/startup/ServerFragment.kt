@@ -100,10 +100,15 @@ class ServerFragment : RowsSupportFragment() {
 		}
 
 		val currentAddButton = userListAdapter.indexOfLast { it is AddUserGridButton }
-		// Don't move when it's already the last item
-		if (currentAddButton == userListAdapter.size() - 1) return
-		// Remove when it's not the last item anymore
-		if (currentAddButton != -1) userListAdapter.removeAt(currentAddButton)
+
+		// Only mutate if the button exists
+		if (currentAddButton >= 0) {
+			// Don't move when it's already the last item
+			if (currentAddButton == userListAdapter.size() - 1) return
+			// Remove when it's not the last item anymore
+			else userListAdapter.removeAt(currentAddButton)
+		}
+
 		// Add button
 		userListAdapter.add(AddUserGridButton(
 			server = server,
