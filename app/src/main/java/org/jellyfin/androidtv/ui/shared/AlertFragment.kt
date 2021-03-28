@@ -9,12 +9,10 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.databinding.FragmentAlertDialogBinding
 
-@Suppress("LongParameterList")
-abstract class AlertFragment(
-	@StringRes protected var title: Int? = null,
-	@StringRes protected var confirmButtonText: Int? = null,
-	@StringRes protected var cancelButtonText: Int? = null,
-) : Fragment() {
+abstract class AlertFragment : Fragment() {
+	@StringRes
+	protected var title: Int? = null
+
 	private lateinit var binding: FragmentAlertDialogBinding
 	protected val parentBinding get() = binding
 
@@ -34,19 +32,14 @@ abstract class AlertFragment(
 		title?.let { binding.title.setText(it) }
 
 		with(binding.confirm) {
-			confirmButtonText?.let { setText(it) }
-
 			requestFocus()
 			setOnClickListener {
 				if (onConfirm()) onClose()
 			}
 		}
 
-		with(binding.cancel) {
-			cancelButtonText?.let { setText(it) }
-			setOnClickListener {
-				if (onCancel()) onClose()
-			}
+		binding.cancel.setOnClickListener {
+			if (onCancel()) onClose()
 		}
 	}
 
