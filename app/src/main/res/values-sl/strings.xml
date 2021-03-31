@@ -388,4 +388,7 @@
     <string name="lbl_play_next_up">Predvajaj naslednje</string>
     <string name="lbl_end_padding">Končni zamik</string>
     <string name="lbl_begin_padding">Začetni zamik</string>
+    <string name="pref_use_direct_path_title">Posreduj neposredno pot zunanjemu predvajalniku</string>
+    <string name="lbl_resume_preroll">Nadaljuj Pre-Roll</string>
+    <string name="msg_external_path">Ta funkcija bo delovala le, če ste pravilno nastavili omrežne poti oz. nadomestne poti v vaši knjižnici na strežniku in jih hkrati vaš odjemalec lahko dostopa.</string>
 </resources>
