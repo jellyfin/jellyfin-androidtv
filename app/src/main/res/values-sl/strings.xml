@@ -391,4 +391,12 @@
     <string name="pref_use_direct_path_title">Posreduj neposredno pot zunanjemu predvajalniku</string>
     <string name="lbl_resume_preroll">Nadaljuj Pre-Roll</string>
     <string name="msg_external_path">Ta funkcija bo delovala le, če ste pravilno nastavili omrežne poti oz. nadomestne poti v vaši knjižnici na strežniku in jih hkrati vaš odjemalec lahko dostopa.</string>
+    <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
+    <string name="desc_suggestions_halloween">Preizkusite naše strašljive predloge</string>
+    <string name="title_suggestions_halloween">Vesela noč čarovnic!</string>
+    <string name="acra_dialog_text">Ali želite razvijalcem poslati poročilo o sesutju\?
+\n
+\nPodatki bodo poslani tretji stranki (tracepot.com).
+\n
+\nTo sporočilo lahko onemogočite v razdelku Poročanje o sesutjih v nastavitvah aplikacije Jellyfin.</string>
 </resources>
