@@ -355,7 +355,7 @@
     <string name="pref_video_player_vlc">libVLC （VLC解码器）</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默认音频延迟</string>
-    <string name="pref_next_up_enabled_summary">播放队列中的下一个项目前进行预览</string>
+    <string name="pref_next_up_enabled_summary">播放前预览下一个队列里的项目</string>
     <string name="pref_next_up_enabled_title">允许播放下一个画面</string>
     <string name="pref_app_theme">应用程序主题</string>
     <string name="pref_theme_emerald">经典翡翠色</string>
@@ -471,4 +471,11 @@
     <string name="lbl_use_series_thumbnails">优先使用剧集缩略图</string>
     <string name="lbl_episode_marks">仅在章节中</string>
     <string name="lbl_hide_unwatched_count">隐藏未观看计数</string>
+    <string name="system_user_explanation">选中用户将被集成到系统功能中比如“搜索”</string>
+    <string name="user_picker_last_user_summary">使用最后一个活跃的用户</string>
+    <string name="user_picker_last_user_title">最近常用</string>
+    <string name="user_picker_disable_summary">允许显示登录界面</string>
+    <string name="user_picker_disable_title">禁用</string>
+    <string name="system_user">系统用户</string>
+    <string name="auto_sign_in">自动登录</string>
 </resources>
