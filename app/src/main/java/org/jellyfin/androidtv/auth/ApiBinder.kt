@@ -5,10 +5,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.util.apiclient.callApi
+import org.jellyfin.androidtv.util.apiclient.callApiEmpty
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
+import org.jellyfin.apiclient.model.entities.MediaType
+import org.jellyfin.apiclient.model.session.ClientCapabilities
+import org.jellyfin.apiclient.model.session.GeneralCommandType
 import timber.log.Timber
 
 class ApiBinder(
@@ -38,6 +42,7 @@ class ApiBinder(
 			userId = session.userId.toString()
 			accessToken = session.accessToken
 		})
+		api.ensureWebSocket()
 
 		// Update currentUser DTO
 		GlobalScope.launch(Dispatchers.IO) {
@@ -49,6 +54,24 @@ class ApiBinder(
 			}
 
 			application.currentUser = response
+
+			try {
+				callApiEmpty { callback ->
+					api.ReportCapabilities(ClientCapabilities().apply {
+						setPlayableMediaTypes(arrayListOf(MediaType.Video.toString(), MediaType.Audio.toString()));
+						setSupportsMediaControl(true);
+						setSupportedCommands(arrayListOf(
+							GeneralCommandType.DisplayContent.toString(),
+							GeneralCommandType.Mute.toString(),
+							GeneralCommandType.Unmute.toString(),
+							GeneralCommandType.ToggleMute.toString(),
+							GeneralCommandType.DisplayContent.toString(),
+						));
+					}, callback)
+				}
+			} catch (exception: Exception) {
+				Timber.e(exception, "Unable to update session capabilities")
+			}
 		}
 	}
 }
