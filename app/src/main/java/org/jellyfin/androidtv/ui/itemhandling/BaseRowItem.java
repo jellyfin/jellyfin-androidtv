@@ -7,12 +7,11 @@ import android.text.format.DateUtils;
 
 import androidx.core.content.ContextCompat;
 
-import com.wolt.blurhashkt.BlurHashDecoder;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.util.BlurHashDecoder;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
