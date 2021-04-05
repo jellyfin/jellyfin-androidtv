@@ -69,11 +69,15 @@ class StartupActivity : FragmentActivity() {
 		var isLoaded = false
 		sessionRepository.currentSession.observe(this) { session ->
 			if (session != null) {
+				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
+
 				supportFragmentManager.beginTransaction()
 					.replace(R.id.content_view, SplashFragment())
 					.commit()
 
 				application?.currentUserLiveData?.observe(this) { currentUser ->
+					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
+
 					if (currentUser != null) openNextActivity()
 				}
 			} else if (isLoaded == false) {
