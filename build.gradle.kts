@@ -6,7 +6,7 @@ buildscript {
 
 	dependencies {
 		val kotlinVersion: String by project
-		classpath("com.android.tools.build:gradle:4.1.2")
+		classpath("com.android.tools.build:gradle:4.1.3")
 		classpath(kotlin("gradle-plugin", kotlinVersion))
 		classpath(kotlin("serialization", kotlinVersion))
 	}
@@ -22,7 +22,7 @@ allprojects {
 }
 
 plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.14.2")
+	id("io.gitlab.arturbosch.detekt").version("1.16.0")
 }
 
 // Detekt configuration
