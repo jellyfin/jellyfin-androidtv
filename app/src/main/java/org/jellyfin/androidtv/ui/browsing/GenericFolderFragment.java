@@ -71,7 +71,8 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
                 StdItemQuery byName = new StdItemQuery();
                 byName.setParentId(mFolder.getId());
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_by_name), byName, 100));
+                String header = (mFolder.getBaseItemType() == BaseItemType.Season) ? mFolder.getName() : TvApp.getApplication().getString(R.string.lbl_by_name);
+                mRows.add(new BrowseRowDef(header, byName, 100));
 
                 rowLoader.loadRows(mRows);
 
