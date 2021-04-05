@@ -556,11 +556,11 @@ public class BaseRowItem {
         if (baseItem != null && baseItem.getImageBlurHashes() != null) {
             HashMap<String, String> blurHashMap;
             if (aspect == ASPECT_RATIO_BANNER) {
-                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                blurHashMap = baseItem.getImageBlurHashes().get(ImageType.Banner);
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9) {
-                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                blurHashMap = baseItem.getImageBlurHashes().get(ImageType.Thumb);
             } else {
-                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                blurHashMap = baseItem.getImageBlurHashes().get(ImageType.Primary);
             }
 
             if (blurHashMap != null) {
