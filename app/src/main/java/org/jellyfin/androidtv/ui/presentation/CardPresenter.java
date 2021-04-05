@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
@@ -40,6 +43,7 @@ public class CardPresenter extends Presenter {
 
     private int mStaticHeight = 300;
     private String mImageType = ImageType.DEFAULT;
+    private double aspect;
 
     private boolean mShowInfo = true;
 
@@ -93,7 +97,6 @@ public class CardPresenter extends Presenter {
                     BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
                     boolean showProgress = false;
-                    double aspect;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
                     } else if (imageType.equals(ImageType.THUMB)) {
@@ -327,16 +330,24 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url) {
+        protected void updateCardViewImage(@Nullable String url, Drawable placeholder) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
                             .load(mDefaultCardImage)
                             .into(mCardView.getMainImageView());
+                } else if (placeholder == null) {
+                    Glide.with(mCardView.getContext())
+                            .load(url)
+                            .error(mDefaultCardImage)
+                            .transition(DrawableTransitionOptions.withCrossFade(200))
+                            .into(mCardView.getMainImageView());
                 } else {
                     Glide.with(mCardView.getContext())
                             .load(url)
                             .error(mDefaultCardImage)
+                            .placeholder(placeholder)
+                            .transition(DrawableTransitionOptions.withCrossFade(200))
                             .into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {
@@ -410,7 +421,10 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()));
+        Bitmap blurHashBitmap = rowItem.getBlurHashBitmap(aspect);
+        BitmapDrawable blurHashDrawable = (blurHashBitmap != null) ? new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap) : null;
+
+        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
     }
 
     @Override

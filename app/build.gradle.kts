@@ -117,6 +117,7 @@ dependencies {
 
 	// Image utility
 	implementation("com.github.bumptech.glide:glide:4.12.0")
+	implementation("com.github.woltapp:blurhash:f41a23cc50")
 	implementation("com.flaviofaria:kenburnsview:1.0.6")
 
 	// Crash Reporting

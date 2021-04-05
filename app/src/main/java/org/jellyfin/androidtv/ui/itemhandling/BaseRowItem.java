@@ -1,10 +1,13 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 
 import androidx.core.content.ContextCompat;
+
+import com.wolt.blurhashkt.BlurHashDecoder;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -30,6 +33,7 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import kotlin.Lazy;
 
@@ -543,6 +547,28 @@ public class BaseRowItem {
         }
 
         return ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.blank10x10);
+    }
+
+    public Bitmap getBlurHashBitmap(double aspect) {
+        final double ASPECT_RATIO_BANNER = 5.414;
+
+        Bitmap bitmap = null;
+        if (baseItem != null && baseItem.getImageBlurHashes() != null) {
+            HashMap<String, String> blurHashMap;
+            if (aspect == ASPECT_RATIO_BANNER) {
+                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9) {
+                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+            } else {
+                blurHashMap = baseItem.getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+            }
+
+            if (blurHashMap != null) {
+                String blurHash = (String) blurHashMap.values().toArray()[0];
+                bitmap = BlurHashDecoder.INSTANCE.decode(blurHash, 32, 32, 1, true);
+            }
+        }
+        return bitmap;
     }
 
     public void refresh(final EmptyResponse outerResponse) {
