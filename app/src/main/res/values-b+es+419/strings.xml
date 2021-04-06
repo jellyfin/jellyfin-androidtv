@@ -467,7 +467,7 @@
     <string name="lbl_remove_server">Quitar servidor</string>
     <string name="lbl_sign_out_content">Requiere iniciar sesión en el próximo uso</string>
     <string name="lbl_remove_user_content">Eliminar cuenta</string>
-    <string name="lbl_remove_users">Esto también eliminará a todos los usuarios asociados.</string>
+    <string name="lbl_remove_users">Esto también eliminará a todos los usuarios asociados</string>
     <string name="lbl_manage_servers">Administrar servidores</string>
     <string name="user_picker_last_user_summary">Usar el ultimo usuario activo</string>
     <string name="user_picker_last_user_title">Mas recientemente usado</string>
