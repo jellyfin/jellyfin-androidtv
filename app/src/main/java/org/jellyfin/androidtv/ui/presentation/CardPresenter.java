@@ -150,6 +150,7 @@ public class CardPresenter extends Presenter {
                             showProgress = true;
                             //Always show info for episodes
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
+                            isUserView = false;
                             break;
                         case CollectionFolder:
                         case UserView:
