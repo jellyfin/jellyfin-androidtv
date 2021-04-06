@@ -457,12 +457,11 @@
     <string name="lbl_remove_users">Dit zal ook alle gerelateerde gebruikers verwijderen</string>
     <string name="lbl_manage_servers">Beheer servers</string>
     <string name="connect_title">Verbinden</string>
-    <string name="login_help_description">Jellyfin heeft een server nodig om mee te verbinden.
-\nLees onze documentatie op docs.jellyfin.org over hoe te beginnen met Jellyfin.</string>
+    <string name="login_help_description">Jellyfin heeft een server nodig om mee te verbinden. Lees onze documentatie op docs.jellyfin.org over hoe te beginnen met Jellyfin.</string>
     <string name="login_help_title">Hulp nodig\?</string>
     <string name="connect_manually_by_address">Server adres opgeven</string>
     <string name="connect_manually_title">Handmatig verbinden</string>
-    <string name="discovered_servers_empty">Geen servers gevonden op het lokale netwerk</string>
+    <string name="discovered_servers_empty">Geen servers gevonden op het lokale netwerk.</string>
     <string name="discovered_servers_title">Gevonden servers</string>
     <string name="lbl_hidden">Verborgen</string>
     <string name="pref_developer_link_description">Geavanceerd en experimentele features</string>
