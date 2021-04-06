@@ -47,6 +47,8 @@ public class CardPresenter extends Presenter {
 
     private boolean mShowInfo = true;
 
+    private boolean isUserView = false;
+
     public CardPresenter() {
         super();
     }
@@ -155,6 +157,7 @@ public class CardPresenter extends Presenter {
                             // When this is fixed we should still force 16x9 if an image is not set to be consistent
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_folder);
+                            isUserView = true;
                             break;
                         case Folder:
                         case MovieGenreFolder:
@@ -421,7 +424,7 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        Bitmap blurHashBitmap = rowItem.getBlurHashBitmap(aspect);
+        Bitmap blurHashBitmap = (!isUserView) ? rowItem.getBlurHashBitmap(aspect) : rowItem.getBlurHashBitmap(ImageUtils.ASPECT_RATIO_2_3);
         BitmapDrawable blurHashDrawable = (blurHashBitmap != null) ? new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap) : null;
 
         holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
