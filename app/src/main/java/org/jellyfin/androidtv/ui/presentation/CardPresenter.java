@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.BlurHashDecoder;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -33,6 +34,7 @@ import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import timber.log.Timber;
 
@@ -148,9 +150,9 @@ public class CardPresenter extends Presenter {
                                     break;
                             }
                             showProgress = true;
+                            isUserView = false;
                             //Always show info for episodes
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
-                            isUserView = false;
                             break;
                         case CollectionFolder:
                         case UserView:
@@ -425,8 +427,23 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        Bitmap blurHashBitmap = (!isUserView) ? rowItem.getBlurHashBitmap(aspect) : rowItem.getBlurHashBitmap(ImageUtils.ASPECT_RATIO_2_3);
-        BitmapDrawable blurHashDrawable = (blurHashBitmap != null) ? new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap) : null;
+        BitmapDrawable blurHashDrawable = null;
+        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
+            HashMap<String, String> blurHashMap;
+            if (aspect == ASPECT_RATIO_BANNER) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+            } else {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+            }
+
+            if (blurHashMap != null) {
+                String blurHash = (String) blurHashMap.values().toArray()[0];
+                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, 32, 32, 1, true);
+                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
+            }
+        }
 
         holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
     }
