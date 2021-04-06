@@ -4,11 +4,11 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -30,7 +30,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.GenreButton;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -38,7 +37,6 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -51,7 +49,7 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
-    private LinearLayout mGenreRow;
+    private TextView mGenreRow;
     private ImageButton mPlayPauseButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
@@ -466,16 +464,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
         }
     }
 
-    private void addGenres(LinearLayout layout) {
-        layout.removeAllViews();
-        if (mBaseItem.getGenres() != null && mBaseItem.getGenres().size() > 0) {
-            boolean first = true;
-            for (String genre : mBaseItem.getGenres()) {
-                if (!first) InfoLayoutHelper.addSpacer(this, layout, "  /  ", 14);
-                first = false;
-                layout.addView(new GenreButton(this, 16, genre, mBaseItem.getBaseItemType()));
-            }
-        }
+    private void addGenres(TextView textView) {
+        textView.setText(TextUtils.join(" / ", mBaseItem.getGenres()));
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {

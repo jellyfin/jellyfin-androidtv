@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.flexbox.FlexboxLayout;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
@@ -392,7 +390,6 @@ public class InfoLayoutHelper {
         params.setMargins(0,Utils.convertDpToPixel(activity, -2),0,0);
         view.setLayoutParams(params);
         layout.addView(view);
-
     }
 
     private static void addSpacer(Activity activity, LinearLayout layout, String sp) {
@@ -400,14 +397,6 @@ public class InfoLayoutHelper {
     }
 
     public static void addSpacer(Activity activity, LinearLayout layout, String sp, int size) {
-        TextView mSpacer = new TextView(activity);
-        mSpacer.setTextSize(size);
-        mSpacer.setText(sp);
-        layout.addView(mSpacer);
-
-    }
-
-    public static void addSpacer(Activity activity, FlexboxLayout layout, String sp, int size) {
         TextView mSpacer = new TextView(activity);
         mSpacer.setTextSize(size);
         mSpacer.setText(sp);
