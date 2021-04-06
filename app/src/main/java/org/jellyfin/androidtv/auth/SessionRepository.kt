@@ -18,8 +18,8 @@ data class Session(
 )
 
 interface SessionRepository {
-	val currentSession: LiveData<Session>
-	val currentSystemSession: LiveData<Session>
+	val currentSession: LiveData<Session?>
+	val currentSystemSession: LiveData<Session?>
 
 	fun restoreDefaultSession()
 	fun restoreDefaultSystemSession()
@@ -33,11 +33,11 @@ class SessionRepositoryImpl(
 	private val accountManagerHelper: AccountManagerHelper,
 	private val apiBinder: ApiBinder,
 ) : SessionRepository {
-	private val _currentSession = MutableLiveData<Session>()
-	override val currentSession: LiveData<Session> get() = _currentSession
+	private val _currentSession = MutableLiveData<Session?>()
+	override val currentSession: LiveData<Session?> get() = _currentSession
 
-	private val _currentSystemSession = MutableLiveData<Session>()
-	override val currentSystemSession: LiveData<Session> get() = _currentSystemSession
+	private val _currentSystemSession = MutableLiveData<Session?>()
+	override val currentSystemSession: LiveData<Session?> get() = _currentSystemSession
 
 	override fun restoreDefaultSession() {
 		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
