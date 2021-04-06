@@ -50,7 +50,6 @@ class JellyfinApplication : TvApp() {
 		startKoin {
 			androidLogger()
 			androidContext(this@JellyfinApplication)
-			workManagerFactory()
 
 			modules(
 				appModule,
@@ -60,6 +59,10 @@ class JellyfinApplication : TvApp() {
 				preferenceModule,
 				utilsModule
 			)
+
+			// Must be called after setting the modules to prevent a crash because the worker class
+			// definition is not found
+			workManagerFactory()
 		}
 
 		// Setup workers
