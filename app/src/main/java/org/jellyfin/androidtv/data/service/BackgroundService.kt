@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.GlideException
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -29,6 +28,7 @@ import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.search.SearchHint
 import timber.log.Timber
+import java.util.concurrent.ExecutionException
 
 class BackgroundService(
 	private val context: Context,
@@ -182,7 +182,7 @@ class BackgroundService(
 					async {
 						try {
 							future.get()
-						} catch (ex: GlideException) {
+						} catch (ex: ExecutionException) {
 							Timber.e(ex, "There was an error fetching the background image.")
 							null
 						}
