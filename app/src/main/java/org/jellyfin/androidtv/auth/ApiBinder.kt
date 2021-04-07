@@ -21,15 +21,17 @@ class ApiBinder(
 	private val device: IDevice,
 	private val authenticationStore: AuthenticationStore,
 ) {
-	fun updateSession(session: Session?) {
+	fun updateSession(session: Session?, resultCallback: (Boolean) -> Unit) {
 		if (session == null) {
 			application.currentUser = null
+			resultCallback(false)
 			return
 		}
 
 		val server = authenticationStore.getServer(session.serverId)
 		if (server == null) {
 			Timber.e("Could not bind API because server ${session.serverId} was not found in the store.")
+			resultCallback(false)
 			return
 		}
 
@@ -46,16 +48,10 @@ class ApiBinder(
 
 		// Update currentUser DTO
 		GlobalScope.launch(Dispatchers.IO) {
-			val response = try {
-				callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
-			} catch (exception: Exception) {
-				Timber.e(exception, "Could not get user information while access token was set")
-				null
-			}
-
-			application.currentUser = response
-
 			try {
+				val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
+				application.currentUser = user
+
 				callApiEmpty { callback ->
 					api.ReportCapabilities(ClientCapabilities().apply {
 						setPlayableMediaTypes(arrayListOf(MediaType.Video.toString(), MediaType.Audio.toString()));
@@ -69,8 +65,11 @@ class ApiBinder(
 						));
 					}, callback)
 				}
+
+				resultCallback(true)
 			} catch (exception: Exception) {
-				Timber.e(exception, "Unable to update session capabilities")
+				Timber.e(exception, "Unable to retrieve user information or set session capabilities.")
+				resultCallback(false)
 			}
 		}
 	}

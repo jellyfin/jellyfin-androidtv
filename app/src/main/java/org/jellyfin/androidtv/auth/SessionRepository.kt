@@ -87,11 +87,10 @@ class SessionRepositoryImpl(
 		val systemUserBehavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
 		if (includeSystemUser && systemUserBehavior == LAST_USER) _currentSystemSession.postValue(session)
 
-		// Update API details
-		apiBinder.updateSession(session)
-
-		// Actually set the session
-		_currentSession.postValue(session)
+		// Update session after binding the apiclient settings
+		apiBinder.updateSession(session) { success ->
+			if (success) _currentSession.postValue(session)
+		}
 	}
 
 	private fun createLastUserSession(): Session? {
