@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util
-
 /**
+ * https://github.com/woltapp/blurhash/blob/539cf8a5425d766227b52e1d487a231bc5c7b72e/Kotlin/lib/src/main/java/com/wolt/blurhashkt/BlurHashDecoder.kt
+ *
  * MIT License
  *
  * Copyright (c) 2018 Wolt Enterprises

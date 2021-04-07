@@ -95,6 +95,7 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
+            isUserView = false;
             switch (mItem.getItemType()) {
 
                 case BaseItem:
@@ -150,7 +151,6 @@ public class CardPresenter extends Presenter {
                                     break;
                             }
                             showProgress = true;
-                            isUserView = false;
                             //Always show info for episodes
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
@@ -336,17 +336,11 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url, Drawable placeholder) {
+        protected void updateCardViewImage(@Nullable String url, @Nullable Drawable placeholder) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
                             .load(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
-                } else if (placeholder == null) {
-                    Glide.with(mCardView.getContext())
-                            .load(url)
-                            .error(mDefaultCardImage)
-                            .transition(DrawableTransitionOptions.withCrossFade(200))
                             .into(mCardView.getMainImageView());
                 } else {
                     Glide.with(mCardView.getContext())
@@ -430,16 +424,20 @@ public class CardPresenter extends Presenter {
         BitmapDrawable blurHashDrawable = null;
         if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
             HashMap<String, String> blurHashMap;
+            String imageTag;
             if (aspect == ASPECT_RATIO_BANNER) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                imageTag = (rowItem.getPreferParentThumb()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
             } else {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
             }
 
-            if (blurHashMap != null) {
-                String blurHash = (String) blurHashMap.values().toArray()[0];
+            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
+                String blurHash = blurHashMap.get(imageTag);
                 Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, 32, 32, 1, true);
                 blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
             }
