@@ -69,10 +69,10 @@
     <string name="lbl_seasons">Saisons</string>
     <string name="lbl_upcoming">À venir</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">Durée :</string>
+    <string name="lbl_runs">Durée</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">"Fin :"</string>
-    <string name="lbl_directed_by">"Réalisé par :"</string>
+    <string name="lbl_directed_by">Réalisé par</string>
     <string name="lbl_last_played">"Dernière lecture "</string>
     <string name="lbl_select_server">Choisir un serveur</string>
     <string name="lbl_other_options">Autres options</string>
