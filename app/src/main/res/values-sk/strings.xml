@@ -463,4 +463,5 @@
     <string name="lbl_remove_user_content">Odstrániť účet</string>
     <string name="lbl_remove_users">Týmto odstránite aj všetkých pridružených používateľov</string>
     <string name="lbl_manage_servers">Spravovať servery</string>
+    <string name="lbl_sign_out_content">Vyžaduje prihlásenie pri ďalšom použití</string>
 </resources>
