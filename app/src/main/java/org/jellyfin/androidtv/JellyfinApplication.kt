@@ -10,6 +10,7 @@ import org.acra.annotation.AcraDialog
 import org.acra.annotation.AcraHttpSender
 import org.acra.annotation.AcraLimiter
 import org.acra.sender.HttpSender
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.di.*
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.koin.android.ext.android.get
@@ -41,6 +42,19 @@ class JellyfinApplication : TvApp() {
 	@OptIn(KoinExperimentalAPI::class)
 	override fun onCreate() {
 		super.onCreate()
+
+		// Enable improved logging for leaking resources
+		// https://wh0.github.io/2020/08/12/closeguard.html
+		if (BuildConfig.DEBUG) {
+			try {
+				Class.forName("dalvik.system.CloseGuard")
+					.getMethod("setEnabled", Boolean::class.javaPrimitiveType)
+					.invoke(null, true)
+			} catch (e: ReflectiveOperationException) {
+				@Suppress("TooGenericExceptionThrown")
+				throw RuntimeException(e)
+			}
+		}
 
 		// Initialize the logging library
 		Timber.plant(DebugTree())
@@ -75,17 +89,10 @@ class JellyfinApplication : TvApp() {
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 
-		// Enable improved logging for leaking resources
-		// https://wh0.github.io/2020/08/12/closeguard.html
-		if (BuildConfig.DEBUG) {
-			try {
-				Class.forName("dalvik.system.CloseGuard")
-					.getMethod("setEnabled", Boolean::class.javaPrimitiveType)
-					.invoke(null, true)
-			} catch (e: ReflectiveOperationException) {
-				@Suppress("TooGenericExceptionThrown")
-				throw RuntimeException(e)
-			}
+		// Restore session
+		get<SessionRepository>().apply {
+			restoreDefaultSession()
+			restoreDefaultSystemSession()
 		}
 	}
 

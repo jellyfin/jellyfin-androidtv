@@ -48,8 +48,7 @@ class ServerFragment : RowsSupportFragment() {
 						// TODO show error
 					}
 					AuthenticatedState -> {
-						// TODO use view model and observe in activity or something similar
-						(requireActivity() as StartupActivity).openNextActivity()
+						// Ignore
 					}
 				}
 			}

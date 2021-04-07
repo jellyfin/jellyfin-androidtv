@@ -5,6 +5,8 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -37,7 +39,7 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static TvApp app;
-    private UserDto currentUser;
+    private MediatorLiveData<UserDto> currentUser = new MediatorLiveData<UserDto>();
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
 
@@ -62,16 +64,17 @@ public class TvApp extends Application {
     @Deprecated
     @Nullable
     public UserDto getCurrentUser() {
-        if (currentUser == null) {
-            Timber.e("Called getCurrentUser() but value was null.");
-        }
+        return currentUser.getValue();
+    }
 
+    @Deprecated
+    public LiveData<UserDto> getCurrentUserLiveData() {
         return currentUser;
     }
 
     @Deprecated
     public void setCurrentUser(UserDto currentUser) {
-        this.currentUser = currentUser;
+        this.currentUser.postValue(currentUser);
         TvManager.clearCache();
         this.displayPrefsCache = new HashMap<>();
     }
@@ -121,6 +124,7 @@ public class TvApp extends Application {
 
     @NonNull
     public boolean canManageRecordings() {
+        UserDto currentUser = getCurrentUser();
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 

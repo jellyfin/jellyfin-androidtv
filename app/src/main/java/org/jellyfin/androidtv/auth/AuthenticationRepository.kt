@@ -12,30 +12,39 @@ import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
-import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.users.AuthenticationResult
 import timber.log.Timber
 import java.util.*
 
-class AuthenticationRepository(
+interface AuthenticationRepository {
+	fun getServers(): List<Server>
+	fun getUsers(server: UUID): List<PrivateUser>?
+	fun saveServer(id: UUID, name: String, address: String)
+	fun authenticateUser(user: User): Flow<LoginState>
+	fun authenticateUser(user: User, server: Server): Flow<LoginState>
+	fun login(server: Server, username: String, password: String = ""): Flow<LoginState>
+	fun getUserImageUrl(server: Server, user: User): String?
+}
+
+class AuthenticationRepositoryImpl(
 	private val application: JellyfinApplication,
 	private val jellyfin: Jellyfin,
 	private val api: ApiClient,
+	private val sessionRepository: SessionRepository,
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
-) {
+) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
-	private val userComparator = compareByDescending<PrivateUser> {it.lastUsed }.thenBy { it.name }
+	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
 
-	fun getServers() = authenticationStore.getServers().map { (id, info) ->
+	override fun getServers() = authenticationStore.getServers().map { (id, info) ->
 		Server(id, info.name, info.address, Date(info.lastUsed))
 	}.sortedWith(serverComparator)
 
-	fun getUsers(server: UUID): List<PrivateUser>? =
+	override fun getUsers(server: UUID): List<PrivateUser>? =
 		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
 			accountManagerHelper.getAccount(userId).let { authInfo ->
 				PrivateUser(
@@ -49,7 +58,7 @@ class AuthenticationRepository(
 			}
 		}?.sortedWith(userComparator)
 
-	fun saveServer(id: UUID, name: String, address: String) {
+	override fun saveServer(id: UUID, name: String, address: String) {
 		val current = authenticationStore.getServer(id)
 
 		if (current != null)
@@ -64,7 +73,7 @@ class AuthenticationRepository(
 	 *
 	 * @return Whether the user information can be retrieved.
 	 */
-	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+	private suspend fun setActiveSession(user: User, server: Server) {
 		// Update last use in store
 		authenticationStore.getServer(server.id)?.let { storedServer ->
 			authenticationStore.putServer(server.id, storedServer.copy(lastUsed = Date().time))
@@ -74,34 +83,11 @@ class AuthenticationRepository(
 			authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
 		}
 
-		// Set user in apiclient
-		api.setDevice(AuthenticationDevice(device, user.name))
-		api.SetAuthenticationInfo(user.accessToken, user.id.toString())
-		api.EnableAutomaticNetworking(ServerInfo().apply {
-			id = server.id.toString()
-			name = server.name
-			address = server.address
-			userId = user.id.toString()
-			accessToken = user.accessToken
-		})
-
-		// Suppressed because the old apiclient is unreliable
-		@Suppress("TooGenericExceptionCaught")
-		try {
-			val userDto = callApi<UserDto?> { callback -> api.GetUserAsync(user.id.toString(), callback) }
-			if (userDto != null) {
-				application.currentUser = userDto
-				return true
-			}
-		} catch (err: Exception) {
-			Timber.e(err, "Could not get user information while access token was set")
-		}
-
-		return false
+		sessionRepository.switchCurrentSession(user.id)
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
-	fun authenticateUser(user: User): Flow<LoginState> = flow {
+	override fun authenticateUser(user: User): Flow<LoginState> = flow {
 		Timber.d("Authenticating serverless user %s", user)
 		emit(AuthenticatingState)
 
@@ -114,7 +100,7 @@ class AuthenticationRepository(
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
-	fun authenticateUser(user: User, server: Server): Flow<LoginState> = flow {
+	override fun authenticateUser(user: User, server: Server): Flow<LoginState> = flow {
 		Timber.d("Authenticating user %s", user)
 		emit(AuthenticatingState)
 
@@ -122,9 +108,8 @@ class AuthenticationRepository(
 		when {
 			// Access token found, proceed with sign in
 			account?.accessToken != null -> {
-				val authenticated = setActiveSession(user, server)
-				if (authenticated) emit(AuthenticatedState)
-				else emit(RequireSignInState)
+				setActiveSession(user, server)
+				emit(AuthenticatedState)
 			}
 			// User is known to not require a password, try a sign in
 			!user.requirePassword -> emitAll(login(server, user.name))
@@ -134,11 +119,7 @@ class AuthenticationRepository(
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
-	fun login(
-		server: Server,
-		username: String,
-		password: String = ""
-	) = flow {
+	override fun login(server: Server, username: String, password: String) = flow {
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
 				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
@@ -175,12 +156,11 @@ class AuthenticationRepository(
 			imageTag = result.user.primaryImageTag,
 			lastUsed = Date().time,
 		)
-		val authenticated = setActiveSession(user, server)
-		if (authenticated) emit(AuthenticatedState)
-		else emit(RequireSignInState)
+		setActiveSession(user, server)
+		emit(AuthenticatedState)
 	}
 
-	fun getUserImageUrl(server: Server, user: User): String? {
+	override fun getUserImageUrl(server: Server, user: User): String? {
 		val apiClient = jellyfin.createApi(serverAddress = server.address, device = device)
 		return apiClient.GetUserImageUrl(user.id.toString(), ImageOptions().apply {
 			tag = user.imageTag

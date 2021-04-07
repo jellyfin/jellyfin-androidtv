@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.leanback.widget.*
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
@@ -12,7 +12,8 @@ import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 
 class HomeFragmentFooterRow(
-	private val activity: Activity
+	private val activity: Activity,
+	private val sessionRepository: SessionRepository,
 ) : HomeFragmentRow, OnItemViewClickedListener {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.lbl_settings))
@@ -34,8 +35,7 @@ class HomeFragmentFooterRow(
 
 		when (item.id) {
 			BUTTON_LOGOUT -> {
-				// Unset the current user
-				TvApp.getApplication().currentUser = null
+				sessionRepository.destroyCurrentSession()
 
 				// Open login activity
 				val selectUserIntent = Intent(activity, StartupActivity::class.java)
