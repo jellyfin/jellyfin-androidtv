@@ -2,7 +2,7 @@
 <resources>
     <string name="lbl_loading_elipses">Ładowanie....</string>
     <string name="lbl_ok">Ok</string>
-    <string name="lbl_valid_server_address">"Podaj adres serwera  (IP or domain/machine name)"</string>
+    <string name="lbl_valid_server_address">Podaj adres serwera (IP or domain/machine name)</string>
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
     <string name="lbl_version">"Wersja "</string>
     <string name="msg_invalid_id_pw">Zły login bądź hasło</string>
