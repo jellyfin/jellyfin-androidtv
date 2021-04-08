@@ -24,7 +24,7 @@ class ApiBinder(
 	fun updateSession(session: Session?, resultCallback: (Boolean) -> Unit) {
 		if (session == null) {
 			application.currentUser = null
-			resultCallback(false)
+			resultCallback(true)
 			return
 		}
 
