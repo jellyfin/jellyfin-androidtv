@@ -80,7 +80,7 @@ dependencies {
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.3.2")
 	implementation("androidx.fragment:fragment-ktx:1.3.2")
-	val androidxLeanbackVersion = "1.1.0-beta01"
+	val androidxLeanbackVersion = "1.1.0-rc01"
 	implementation("androidx.leanback:leanback:${androidxLeanbackVersion}")
 	implementation("androidx.leanback:leanback-preference:${androidxLeanbackVersion}")
 	val androidxPreferenceVersion = "1.1.1"

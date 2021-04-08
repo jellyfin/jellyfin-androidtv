@@ -2,27 +2,17 @@ package org.jellyfin.androidtv.ui.search
 
 import android.R
 import android.os.Bundle
-import android.speech.SpeechRecognizer
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.replace
 
 class SearchActivity : FragmentActivity() {
-	private val isSpeechEnabled by lazy {
-		SpeechRecognizer.isRecognitionAvailable(this)
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-
-		// Determine fragment to use
-		val searchFragment = when {
-			isSpeechEnabled -> LeanbackSearchFragment()
-			else -> TextSearchFragment()
-		}
 
 		// Add fragment
 		supportFragmentManager
 			.beginTransaction()
-			.replace(R.id.content, searchFragment)
+			.replace<LeanbackSearchFragment>(R.id.content)
 			.commit()
 	}
 
