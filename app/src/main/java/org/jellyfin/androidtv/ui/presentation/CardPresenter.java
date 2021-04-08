@@ -438,8 +438,8 @@ public class CardPresenter extends Presenter {
 
             if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
                 String blurHash = blurHashMap.get(imageTag);
-                int width = (aspect >= 1) ? (int) Math.round(32 * aspect) : 32;
-                int height = (aspect > 1) ? 32 : (int) Math.round(32 / aspect);
+                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
+                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
                 Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
                 blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
             }
