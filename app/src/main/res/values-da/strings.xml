@@ -189,7 +189,7 @@
     <string name="msg_added_item_to_queue">"Elementet blev sat i kø position "</string>
     <string name="lbl_warning">Advarsel</string>
     <string name="lbl_playlists">Spillelister</string>
-    <string name="sum_enable_cinema_mode">Hvis aktiveret på serveren, så vises intros og og previews før filmafspilning</string>
+    <string name="sum_enable_cinema_mode">Hvis aktiveret på serveren, så vises intros og previews før filmafspilning</string>
     <string name="lbl_enable_cinema_mode">Biograftilstand</string>
     <string name="lbl_episodes">Episoder</string>
     <string name="lbl_albums">Album</string>
