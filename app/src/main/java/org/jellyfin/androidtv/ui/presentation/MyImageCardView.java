@@ -45,12 +45,12 @@ public class MyImageCardView extends BaseCardView {
     protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
-            binding.titleText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
+            binding.title.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
             binding.extraBadge.setAlpha(1.0f);
         } else {
-            binding.titleText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
+            binding.title.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
             binding.extraBadge.setAlpha(0.25f);
@@ -95,11 +95,11 @@ public class MyImageCardView extends BaseCardView {
     }
 
     public void setTitleText(CharSequence text) {
-        if (binding.titleText == null) {
+        if (binding.title == null) {
             return;
         }
 
-        binding.titleText.setText(text);
+        binding.title.setText(text);
         setTextMaxLines();
     }
 
@@ -156,12 +156,12 @@ public class MyImageCardView extends BaseCardView {
         binding.overlayText.setLayoutParams(parms);
     }
 
-    public CharSequence getTitleText() {
-        if (binding.titleText == null) {
+    public CharSequence gettitle() {
+        if (binding.title == null) {
             return null;
         }
 
-        return binding.titleText.getText();
+        return binding.title.getText();
     }
 
     public void setContentText(CharSequence text) {
@@ -210,16 +210,16 @@ public class MyImageCardView extends BaseCardView {
     }
 
     private void setTextMaxLines() {
-        if (TextUtils.isEmpty(getTitleText())) {
+        if (TextUtils.isEmpty(gettitle())) {
             binding.contentText.setMaxLines(2);
         } else {
             binding.contentText.setMaxLines(1);
         }
 
         if (TextUtils.isEmpty(getContentText())) {
-            binding.titleText.setMaxLines(2);
+            binding.title.setMaxLines(2);
         } else {
-            binding.titleText.setMaxLines(1);
+            binding.title.setMaxLines(1);
         }
     }
 

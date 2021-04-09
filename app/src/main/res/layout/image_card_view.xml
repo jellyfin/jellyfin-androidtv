@@ -172,7 +172,7 @@
             android:paddingBottom="@dimen/lb_basic_card_info_padding_bottom">
 
             <TextView
-                android:id="@+id/title_text"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -206,7 +206,7 @@
                 android:id="@+id/badge_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title_text"
+                android:layout_below="@id/title"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
