@@ -10,6 +10,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
@@ -151,6 +152,9 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 			// Make sure the rows are empty
 			rows.clear()
+
+			// Check for couroutine cancellation
+			if (!isActive) return@launch
 
 			// Actually add the sections
 			homesections.forEach { section -> addSection(section.value) }
