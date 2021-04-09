@@ -3,7 +3,8 @@ package org.jellyfin.androidtv.ui.startup
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
+import androidx.fragment.app.replace
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
@@ -39,10 +40,7 @@ class ServerFragment : RowsSupportFragment() {
 					}
 					RequireSignInState -> {
 						// Open login fragment
-						navigate(UserLoginAlertFragment(
-							server = item.server,
-							user = item.user,
-						))
+						showLoginFragment(item.server, item.user)
 					}
 					ServerUnavailableState -> {
 						// TODO show error
@@ -54,9 +52,7 @@ class ServerFragment : RowsSupportFragment() {
 			}
 		} else if (item is AddUserGridButton) {
 			// Open login fragment
-			navigate(UserLoginAlertFragment(
-				server = item.server
-			))
+			showLoginFragment(item.server)
 		}
 	}
 
@@ -125,11 +121,14 @@ class ServerFragment : RowsSupportFragment() {
 		requireView().requestFocus()
 	}
 
-	private fun navigate(fragment: Fragment) {
+	private fun showLoginFragment(server: Server, user: User? = null) {
 		requireActivity()
 			.supportFragmentManager
 			.beginTransaction()
-			.replace(R.id.content_view, fragment)
+			.replace<UserLoginAlertFragment>(R.id.content_view, null, bundleOf(
+				UserLoginAlertFragment.ARG_SERVER_ID to server.id.toString(),
+				UserLoginAlertFragment.ARG_USERNAME to user?.name
+			))
 			.addToBackStack(null)
 			.commit()
 	}

@@ -23,6 +23,7 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.koin.android.ext.android.inject
+import org.koin.androidx.fragment.android.replace
 import timber.log.Timber
 
 class StartupActivity : FragmentActivity() {
@@ -141,9 +142,7 @@ class StartupActivity : FragmentActivity() {
 	fun addServer() {
 		supportFragmentManager.beginTransaction()
 			.addToBackStack(null)
-			.replace(R.id.content_view, AddServerAlertFragment(
-				onClose = { supportFragmentManager.popBackStack() }
-			))
+			.replace<AddServerAlertFragment>(R.id.content_view)
 			.commit()
 	}
 

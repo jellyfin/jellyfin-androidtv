@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Alert Title" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,16 +34,7 @@
             app:layout_constraintBottom_toTopOf="@id/actions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                tools:text="This is the description of the alert." />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <LinearLayout
             android:id="@+id/actions"
