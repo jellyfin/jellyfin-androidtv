@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
@@ -20,6 +23,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.BlurHashDecoder;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -30,6 +34,7 @@ import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import timber.log.Timber;
 
@@ -40,8 +45,11 @@ public class CardPresenter extends Presenter {
 
     private int mStaticHeight = 300;
     private String mImageType = ImageType.DEFAULT;
+    private double aspect;
 
     private boolean mShowInfo = true;
+
+    private boolean isUserView = false;
 
     public CardPresenter() {
         super();
@@ -87,13 +95,13 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
+            isUserView = false;
             switch (mItem.getItemType()) {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
                     boolean showProgress = false;
-                    double aspect;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
                     } else if (imageType.equals(ImageType.THUMB)) {
@@ -152,6 +160,7 @@ public class CardPresenter extends Presenter {
                             // When this is fixed we should still force 16x9 if an image is not set to be consistent
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_folder);
+                            isUserView = true;
                             break;
                         case Folder:
                         case MovieGenreFolder:
@@ -327,7 +336,7 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url) {
+        protected void updateCardViewImage(@Nullable String url, @Nullable Drawable placeholder) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
@@ -337,6 +346,8 @@ public class CardPresenter extends Presenter {
                     Glide.with(mCardView.getContext())
                             .load(url)
                             .error(mDefaultCardImage)
+                            .placeholder(placeholder)
+                            .transition(DrawableTransitionOptions.withCrossFade(200))
                             .into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {
@@ -410,7 +421,31 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()));
+        BitmapDrawable blurHashDrawable = null;
+        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
+            HashMap<String, String> blurHashMap;
+            String imageTag;
+            if (aspect == ASPECT_RATIO_BANNER) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                imageTag = (rowItem.getPreferParentThumb()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+            } else {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+            }
+
+            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
+                String blurHash = blurHashMap.get(imageTag);
+                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
+                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
+                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
+                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
+            }
+        }
+
+        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
     }
 
     @Override
