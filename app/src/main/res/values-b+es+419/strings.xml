@@ -443,7 +443,7 @@
     <string name="login_help_title">¿Necesitas ayuda\?</string>
     <string name="connect_manually_by_address">Ingrese la dirección del servidor</string>
     <string name="connect_manually_title">Conectar manualmente</string>
-    <string name="discovered_servers_empty">No se han descubierto servidores en la red local.</string>
+    <string name="discovered_servers_empty">No se han encontrado servidores en la red local.</string>
     <string name="discovered_servers_title">Servidores descubiertos</string>
     <string name="lbl_hidden">Oculto</string>
     <string name="pref_developer_link_description">Funciones avanzadas y experimentales</string>
