@@ -473,4 +473,5 @@
     <string name="user_picker_disable_summary">Always show the sign in screen</string>
     <string name="user_picker_last_user_title">Most recently used</string>
     <string name="user_picker_last_user_summary">Use the last active user</string>
+    <string name="lbl_switch_user">Switch user</string>
 </resources>

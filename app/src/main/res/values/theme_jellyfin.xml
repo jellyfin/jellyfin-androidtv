@@ -36,7 +36,7 @@
         <!-- Tile colors -->
         <item name="tile_settings_bg">#359AB8</item>
         <item name="tile_edit_bg">#4b41ae</item>
-        <item name="tile_logout_bg">#064B22</item>
+        <item name="tile_switch_user_bg">#4b41ae</item>
         <item name="tile_search_bg">#3486BD</item>
         <item name="tile_suggestions_bg">#DFCD41</item>
         <item name="tile_actors_bg">#720826</item>

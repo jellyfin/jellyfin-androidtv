@@ -19,7 +19,7 @@ class HomeFragmentFooterRow(
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.lbl_settings))
 		val adapter = ArrayObjectAdapter(GridButtonPresenter()).apply {
 			add(GridButton(BUTTON_SETTINGS, activity.getString(R.string.lbl_settings), R.drawable.tile_settings))
-			add(GridButton(BUTTON_LOGOUT, activity.getString(R.string.lbl_logout), R.drawable.tile_logout))
+			add(GridButton(BUTTON_SWITCH_USER, activity.getString(R.string.lbl_switch_user), R.drawable.tile_switch_user))
 		}
 
 		rowsAdapter.add(ListRow(header, adapter))
@@ -34,7 +34,7 @@ class HomeFragmentFooterRow(
 		if (item !is GridButton) return
 
 		when (item.id) {
-			BUTTON_LOGOUT -> {
+			BUTTON_SWITCH_USER -> {
 				sessionRepository.destroyCurrentSession()
 
 				// Open login activity
@@ -55,7 +55,7 @@ class HomeFragmentFooterRow(
 	}
 
 	companion object {
-		private const val BUTTON_LOGOUT = 0
+		private const val BUTTON_SWITCH_USER = 0
 		private const val BUTTON_SETTINGS = 1
 	}
 }
