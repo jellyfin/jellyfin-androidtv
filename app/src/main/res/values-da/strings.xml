@@ -189,7 +189,7 @@
     <string name="msg_added_item_to_queue">"Elementet blev sat i kø position "</string>
     <string name="lbl_warning">Advarsel</string>
     <string name="lbl_playlists">Spillelister</string>
-    <string name="sum_enable_cinema_mode">Hvis aktiveret på serveren, så vises intros og previews før filmafspilning</string>
+    <string name="sum_enable_cinema_mode">Vis introer og trailere inden filmen, når det er aktiveret på serveren</string>
     <string name="lbl_enable_cinema_mode">Biograftilstand</string>
     <string name="lbl_episodes">Episoder</string>
     <string name="lbl_albums">Album</string>
@@ -439,7 +439,7 @@
     <string name="lbl_use_series_thumbnails">Foretræk miniaturebilleder fra serie</string>
     <string name="lbl_episode_marks">Kun på afsnit</string>
     <string name="lbl_hide_unwatched_count">Skjul antal usete</string>
-    <string name="pref_watched_indicator">Vis indikator for set</string>
+    <string name="pref_watched_indicator">Vis indikatorer for set</string>
     <string name="connect_title">Forbind</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde med. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
     <string name="login_help_title">Behøver du hjælp\?</string>
@@ -464,11 +464,19 @@
     <string name="lbl_server">Server</string>
     <string name="lbl_users">Brugere</string>
     <string name="lbl_user_server">%1$s på %2$s</string>
-    <string name="lbl_user_last_used">Sidst brugt %1$s kl. %2$s</string>
+    <string name="lbl_user_last_used">Sidst brugt den %1$s kl. %2$s</string>
     <string name="lbl_remove_user">Fjern %1$s</string>
     <string name="lbl_remove_server">Fjern server</string>
     <string name="lbl_sign_out_content">Kræver login ved næste brug</string>
     <string name="lbl_remove_user_content">Fjern konto</string>
     <string name="lbl_remove_users">Dette vil også fjerne alle tilknyttede brugere</string>
     <string name="lbl_manage_servers">Administrer servere</string>
+    <string name="user_picker_last_user_summary">Brug den sidste aktive bruger</string>
+    <string name="user_picker_last_user_title">Senest brugt</string>
+    <string name="user_picker_disable_summary">Vis altid log ind skærmen</string>
+    <string name="user_picker_disable_title">Deaktiver</string>
+    <string name="system_user_explanation">Valgte bruger vil blive brugt til system integrationer som f.eks søg</string>
+    <string name="system_user">System bruger</string>
+    <string name="auto_sign_in">Automatisk log ind</string>
+    <string name="lbl_use_series_thumbnails_description">Brug serieminiaturer når der vises afsnit</string>
 </resources>
