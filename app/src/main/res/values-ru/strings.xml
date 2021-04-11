@@ -454,7 +454,7 @@
     <string name="login_help_title">Нужна помощь\?</string>
     <string name="connect_manually_by_address">Ввод адреса сервера</string>
     <string name="connect_manually_title">Соединение вручную</string>
-    <string name="discovered_servers_empty">В локальной сети не обнаружено серверов.</string>
+    <string name="discovered_servers_empty">В локальной сети серверов не найдено.</string>
     <string name="discovered_servers_title">Обнаруженные серверы</string>
     <string name="lbl_hidden">Скрытый</string>
     <string name="pref_developer_link_description">Расширенные и экспериментальные функции</string>
