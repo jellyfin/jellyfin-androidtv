@@ -180,8 +180,8 @@
     <string name="no_player">பிளேயர் இல்லை</string>
     <string name="mark_watched_message">உருப்படி அதன் கால அளவு வரை இயக்க தெரியவில்லை. பார்த்ததாகக் குறிக்கவா\?</string>
     <string name="mark_watched">பார்த்ததாகக் குறிக்கவும்</string>
-    <string name="bitrate_kbit">%1$, 0f Kbit/s</string>
-    <string name="bitrate_mbit">%1$, 0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">தானியங்கி</string>
     <string name="lbl_Reset">மீட்டமை</string>
     <string name="pref_button_remapping_description">அதை ஒதுக்க டிவி ரிமோட்டில் உள்ள எந்த பொத்தானையும் அழுத்தவும்</string>
