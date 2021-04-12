@@ -440,7 +440,7 @@
     <string name="login_help_title">Kell segítség\?</string>
     <string name="connect_manually_by_address">Szerver címének megadása</string>
     <string name="connect_manually_title">Manuális csatlakozás</string>
-    <string name="discovered_servers_empty">A helyi hálózaton nincsenek kiszolgálók.</string>
+    <string name="discovered_servers_empty">Nem található szerverek a helyi hálózaton.</string>
     <string name="discovered_servers_title">Felfedezett szerverek</string>
     <string name="lbl_hidden">Rejtett</string>
     <string name="pref_developer_link_description">Haladó és kísérleti funkciók</string>
