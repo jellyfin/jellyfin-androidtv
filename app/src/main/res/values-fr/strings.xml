@@ -335,10 +335,10 @@
     <string name="pref_acra_category">Signalement d\'un plantage</string>
     <string name="pref_acra_alwaysaccept_disabled">Une fenêtre de dialogue s\'affichera avant d\'envoyer un rapport de plantage</string>
     <string name="pref_acra_alwaysaccept_enabled">Les rapports de plantage seront envoyés sans confirmation</string>
-    <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs\?
-\n
-\nCette information sera transmise à une tierce partie (tracepot.com).
-\n
+    <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs \? 
+\n 
+\nCette information sera transmise à une tierce partie (tracepot.com). 
+\n 
 \nCet affichage peut être désactivé dans la section Rapport d\'erreur dans les paramètres de l\'application Jellyfin.</string>
     <string name="acra_dialog_title">Oh non ! Quelque chose est allé de travers.</string>
     <string name="pref_acra_syslog_disabled">Les logs système ne seront pas inclus dans les rapports de plantage</string>
