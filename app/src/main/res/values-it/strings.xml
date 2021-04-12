@@ -405,7 +405,7 @@
     <string name="no_player_message">Non sembra che tu abbia un\'app per i video. Quest\'opzione richiede l\'installazione di un\'app di terze parti in grado di riprodurre video.</string>
     <string name="pref_authentication_link">Opzioni di autenticazione</string>
     <string name="login_username_field_empty">Lo Username non può essere vuoto</string>
-    <string name="login_server_unavailable">Impossibile connettersi al server: %s</string>
+    <string name="login_server_unavailable">Impossibile connettersi al server</string>
     <string name="login_invalid_credentials">Username e/o password non validi</string>
     <string name="login_authenticating">Autenticazione...</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
