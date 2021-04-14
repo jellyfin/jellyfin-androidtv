@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 import static org.koin.java.KoinJavaComponent.get;
@@ -307,7 +307,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
         Calendar ends = Calendar.getInstance();
         ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeInstance(DateFormat.SHORT).format(ends.getTime())));
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(ends.getTime())));
     }
 
     private void notifyActionChanged(Action action) {
