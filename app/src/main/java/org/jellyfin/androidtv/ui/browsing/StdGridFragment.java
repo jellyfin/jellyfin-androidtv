@@ -130,16 +130,34 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             // is this bad? Yup it definitely is, we'll fix it when this screen is rewritten
 
             int size;
-            switch (mPosterSizeSetting) {
-                case PosterSize.SMALL:
-                    size = 10;
-                    break;
-                case PosterSize.MED:
+            switch (mImageType) {
+                case ImageType.DEFAULT:
                 default:
-                    size = 6;
+                    if (mCardHeight == SMALL_VERTICAL_POSTER) {
+                        size = 10;
+                    } else if (mCardHeight == MED_VERTICAL_POSTER) {
+                        size = 7;
+                    } else {
+                        size = 6;
+                    }
                     break;
-                case PosterSize.LARGE:
-                    size = 5;
+                case ImageType.THUMB:
+                    if (mCardHeight == SMALL_VERTICAL_THUMB) {
+                        size = 4;
+                    } else if (mCardHeight == MED_VERTICAL_THUMB) {
+                        size = 3;
+                    } else {
+                        size = 2;
+                    }
+                    break;
+                case ImageType.BANNER:
+                    if (mCardHeight == SMALL_VERTICAL_BANNER) {
+                        size = 3;
+                    } else if (mCardHeight == MED_VERTICAL_BANNER) {
+                        size = 2;
+                    } else {
+                        size = 1;
+                    }
                     break;
             }
 
@@ -296,13 +314,24 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     protected int getCardHeight(String heightSetting) {
-        switch (heightSetting) {
-            case PosterSize.MED:
-                return mImageType.equals(ImageType.BANNER) ? MED_BANNER : MED_CARD;
-            case PosterSize.LARGE:
-                return mImageType.equals(ImageType.BANNER) ? LARGE_BANNER : LARGE_CARD;
-            default:
-                return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
+        if (getGridPresenter() instanceof VerticalGridPresenter) {
+            switch (heightSetting) {
+                case PosterSize.MED:
+                    return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : MED_VERTICAL_POSTER;
+                case PosterSize.LARGE:
+                    return mImageType.equals(ImageType.BANNER) ? LARGE_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? LARGE_VERTICAL_THUMB : LARGE_VERTICAL_POSTER;
+                default:
+                    return mImageType.equals(ImageType.BANNER) ? SMALL_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? SMALL_VERTICAL_THUMB : SMALL_VERTICAL_POSTER;
+            }
+        } else {
+            switch (heightSetting) {
+                case PosterSize.MED:
+                    return mImageType.equals(ImageType.BANNER) ? MED_BANNER : MED_CARD;
+                case PosterSize.LARGE:
+                    return mImageType.equals(ImageType.BANNER) ? LARGE_BANNER : LARGE_CARD;
+                default:
+                    return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
+            }
         }
     }
 

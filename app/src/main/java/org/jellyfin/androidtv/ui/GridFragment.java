@@ -57,6 +57,16 @@ public class GridFragment extends Fragment {
     protected int MED_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 88);
     protected int LARGE_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 105);
 
+    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 171);
+    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 202);
+    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 155);
+    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 210);
+    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 51);
+    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 77);
+    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 118);
+
     /**
      * Sets the grid presenter.
      */
