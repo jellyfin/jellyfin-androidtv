@@ -439,7 +439,7 @@
     <string name="login_help_title">Cần giúp đỡ\?</string>
     <string name="connect_manually_by_address">Nhập địa chỉ máy chủ</string>
     <string name="connect_manually_title">Kết nối thủ công</string>
-    <string name="discovered_servers_empty">Không có máy chủ nào phát hiện trên mạng cục bộ.</string>
+    <string name="discovered_servers_empty">Không tìm thấy máy chủ trên mạng cục bộ.</string>
     <string name="discovered_servers_title">Máy chủ được phát hiện</string>
     <string name="lbl_hidden">Ẩn</string>
     <string name="pref_developer_link_description">Các tính năng nâng cao và thử nghiệm</string>
