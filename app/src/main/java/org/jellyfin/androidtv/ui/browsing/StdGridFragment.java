@@ -107,12 +107,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
 
-        mCardHeight = getCardHeight(mPosterSizeSetting);
-
         if (get(UserPreferences.class).get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
             setGridPresenter(new HorizontalGridPresenter());
         else
             setGridPresenter(new VerticalGridPresenter());
+
+        mCardHeight = getCardHeight(mPosterSizeSetting);
 
         setGridSizes();
 
