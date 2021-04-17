@@ -66,12 +66,10 @@
 
         <activity
             android:name=".ui.browsing.MainActivity"
-            android:label="@string/app_name"
             android:logo="@drawable/app_logo"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.startup.StartupActivity"
-            android:label="@string/app_name"
             android:logo="@drawable/app_logo"
             android:noHistory="true"
             android:screenOrientation="landscape"
@@ -90,7 +88,6 @@
 
         <activity
             android:name=".ui.playback.PlaybackOverlayActivity"
-            android:label="PlaybackOverlayActivity"
             android:screenOrientation="landscape" />
 
         <activity
@@ -169,7 +166,6 @@
 
         <activity
             android:name=".ui.itemdetail.ExpandedTextActivity"
-            android:label="@string/title_activity_expanded_text"
             android:screenOrientation="landscape" />
 
         <activity
