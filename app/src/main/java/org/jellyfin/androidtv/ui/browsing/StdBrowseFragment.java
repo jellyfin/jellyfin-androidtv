@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BrowseSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -213,22 +212,20 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         // move the badge/title to the left to make way for our clock/user bug
         ImageView badge = (ImageView) getActivity().findViewById(R.id.title_badge);
+        TextView title = (TextView) getActivity().findViewById(R.id.title_text);
         if (badge != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) badge.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
-            lp.width = Utils.convertDpToPixel(getActivity(), 250);
             badge.setLayoutParams(lp);
         }
-        TextView title = (TextView) getActivity().findViewById(R.id.title_text);
         if (title != null) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) title.getLayoutParams();
             lp.rightMargin = Utils.convertDpToPixel(getActivity(), 120);
-            lp.width = Utils.convertDpToPixel(getActivity(), 250);
             title.setLayoutParams(lp);
         }
 
