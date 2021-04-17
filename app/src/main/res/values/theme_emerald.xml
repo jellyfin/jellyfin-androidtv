@@ -18,7 +18,7 @@
         <!-- Tile colors -->
         <item name="tile_settings_bg">@color/theme_emerald_light</item>
         <item name="tile_edit_bg">@color/theme_emerald_light</item>
-        <item name="tile_logout_bg">@color/theme_emerald_light</item>
+        <item name="tile_switch_user_bg">@color/theme_emerald_light</item>
         <item name="tile_search_bg">@color/theme_emerald_light</item>
         <item name="tile_suggestions_bg">@color/theme_emerald_light</item>
         <item name="tile_actors_bg">@color/theme_emerald_light</item>
