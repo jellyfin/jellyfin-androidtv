@@ -478,4 +478,5 @@
     <string name="auto_sign_in">ingreso Automatico</string>
     <string name="lbl_use_series_thumbnails_description">Usar serie de miniaturas cuando se muestren episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir serie de miniaturas</string>
+    <string name="lbl_switch_user">Cambiar usuario</string>
 </resources>
