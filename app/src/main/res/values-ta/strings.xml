@@ -293,7 +293,7 @@
     <string name="pref_live_tv_mode">நேரடி தொலைக்காட்சி பயன்முறை</string>
     <string name="lbl_select_date">தேதி தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_in_x_days">%d நாட்களில்</string>
-    <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் டி.டி.எஸ் ஆடியோ</string>
+    <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் DTS ஆடியோ</string>
     <string name="desc_premieres">நீங்கள் பார்க்கும் எந்தத் தொடருக்கும் புதிய எபிசோட் விமானிகளின் வரிசையைக் காட்டு</string>
     <string name="lbl_show_premieres">உலாவும்போது சீசன் பிரீமியர்களைக் காட்டு</string>
     <string name="lbl_refresh_switching">வீத மாற்றத்தை புதுப்பிக்கவும்</string>
@@ -459,7 +459,7 @@
     <string name="lbl_server">சேவையகம்</string>
     <string name="lbl_users">பயனர்கள்</string>
     <string name="lbl_user_server">%2$s இல் %1$s</string>
-    <string name="lbl_user_last_used">கடைசியாக %1$s இல் %2$s இல் பயன்படுத்தப்பட்டது</string>
+    <string name="lbl_user_last_used">கடைசியாக %1$s இல் %2$s பயன்படுத்தப்பட்டது</string>
     <string name="lbl_remove_user">%1$s ஐ அகற்று</string>
     <string name="lbl_remove_server">சேவையகத்தை அகற்று</string>
     <string name="lbl_sign_out_content">அடுத்த பயன்பாட்டில் உள்நுழைவு தேவை</string>
@@ -478,4 +478,5 @@
     <string name="system_user_explanation">தேர்ந்தெடுக்கப்பட்ட பயனர் தேடல் போன்ற கணினி ஒருங்கிணைப்புகளுக்குப் பயன்படுத்தப்படும்</string>
     <string name="system_user">கணினி பயனர்</string>
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
+    <string name="lbl_switch_user">பயன்பாட்டாளர் மாற்றம்</string>
 </resources>
