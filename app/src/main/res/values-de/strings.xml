@@ -478,4 +478,5 @@
     <string name="system_user_explanation">Der ausgewählte Benutzer wird für Integrationen wie z.B. die Suche verwendet</string>
     <string name="system_user">Systembenutzer</string>
     <string name="auto_sign_in">Automatisch anmelden</string>
+    <string name="lbl_switch_user">Benutzer wechseln</string>
 </resources>
