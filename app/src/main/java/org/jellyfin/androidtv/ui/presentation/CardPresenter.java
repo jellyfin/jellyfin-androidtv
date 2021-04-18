@@ -362,7 +362,7 @@ public class CardPresenter extends Presenter {
             mCardView.setRating(null);
             mCardView.setBadgeImage(null);
 
-            mCardView.getMainImageView().setImageResource(R.drawable.loading);
+            mCardView.getMainImageView().setImageDrawable(null);
         }
     }
 

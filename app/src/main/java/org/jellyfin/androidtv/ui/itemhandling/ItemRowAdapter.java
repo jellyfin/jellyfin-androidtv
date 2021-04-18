@@ -173,7 +173,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setLimit(chunkSize);
         }
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
@@ -188,7 +187,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setLimit(chunkSize);
         }
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
@@ -206,7 +204,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mArtistsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.AlbumArtists;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -217,7 +214,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -225,7 +221,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSeriesTimerQuery = query;
         queryType = QueryType.SeriesTimer;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -236,7 +231,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
@@ -281,7 +275,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSpecialsQuery = query;
         queryType = QueryType.Specials;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -289,7 +282,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTrailersQuery = query;
         queryType = QueryType.Trailers;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(LiveTvChannelQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -301,7 +293,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mTvChannelQuery.setLimit(chunkSize);
         }
         queryType = QueryType.LiveTvChannel;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(RecommendedProgramQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -310,7 +301,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mTvProgramQuery = query;
         queryType = QueryType.LiveTvProgram;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -320,7 +310,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -328,7 +317,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvRecordingGroupQuery = query;
         queryType = QueryType.LiveTvRecordingGroup;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -337,7 +325,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSimilarQuery = query;
         mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -346,7 +333,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mUpcomingQuery = query;
         mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Upcoming;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(SeasonQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -355,7 +341,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSeasonQuery = query;
         mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Season;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(PersonsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -368,7 +353,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mPersonsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.Persons;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(SearchQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -378,7 +362,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         mSearchQuery.setLimit(50);
         queryType = QueryType.Search;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -386,7 +369,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading, null)));
     }
 
     public ItemRowAdapter(Presenter presenter, ArrayObjectAdapter parent) {
