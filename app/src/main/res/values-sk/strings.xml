@@ -438,7 +438,7 @@
     <string name="login_help_title">Potrebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadajte adresu servera</string>
     <string name="connect_manually_title">Manuálne pripojenie</string>
-    <string name="discovered_servers_empty">Žiadne servery neboli objavené na lokálnej sieti.</string>
+    <string name="discovered_servers_empty">Žiadne servery neboli nájdené na lokálnej sieti.</string>
     <string name="discovered_servers_title">Objavené servery</string>
     <string name="lbl_hidden">Skryté</string>
     <string name="pref_developer_link_description">Pokročilé a experimentálne funkcie</string>
@@ -464,4 +464,6 @@
     <string name="lbl_remove_users">Týmto odstránite aj všetkých pridružených používateľov</string>
     <string name="lbl_manage_servers">Spravovať servery</string>
     <string name="lbl_sign_out_content">Vyžaduje prihlásenie pri ďalšom použití</string>
+    <string name="connect_title">Pripojiť</string>
+    <string name="login_help_description">Jellyfin vyžaduje server, ku ktorému sa môže pripojiť. Aby ste zistili, ako začať s Jellyfinom, prezrite si našu dokumentáciu na docs.jellyfin.org.</string>
 </resources>
