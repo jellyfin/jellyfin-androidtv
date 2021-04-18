@@ -478,4 +478,5 @@
     <string name="user_picker_disable_title">Öşıru</string>
     <string name="system_user">Jüielık paidalanuşy</string>
     <string name="auto_sign_in">Avtomatty kıru</string>
+    <string name="lbl_switch_user">Paidalanuşyny auystyru</string>
 </resources>
