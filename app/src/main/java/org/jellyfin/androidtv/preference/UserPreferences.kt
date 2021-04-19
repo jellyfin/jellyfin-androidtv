@@ -28,11 +28,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var backdropEnabled = Preference.boolean("pref_show_backdrop", true)
 
 		/**
-		 * Preferred direction of grids, will not be used for **all** grids
-		 */
-		var gridDirection = Preference.enum("grid_direction", GridDirection.HORIZONTAL)
-
-		/**
 		 * Show premieres on home screen
 		 */
 		var premieresEnabled = Preference.boolean("pref_enable_premieres", false)

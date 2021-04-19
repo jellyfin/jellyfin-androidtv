@@ -49,6 +49,7 @@ public class GridFragment extends Fragment {
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
     private OnItemViewClickedListener mOnItemViewClickedListener;
     private int mSelectedPosition = -1;
+    private int mCardHeight;
 
     protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
     protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
@@ -203,6 +204,25 @@ public class GridFragment extends Fragment {
                         mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
                                 rowViewHolder, row);
                     }
+                    if (mGridPresenter instanceof VerticalGridPresenter) {
+                        if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 11.4);
+                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 25.95);
+                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 3) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 40.5);
+                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent(15);
+                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent(36);
+                        } else if (position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 5.1);
+                            mGridView.setWindowAlignmentOffset((int) Math.round(mCardHeight * 0.5));
+                        } else {
+                            mGridView.setWindowAlignmentOffsetPercent(50);
+                            mGridView.setWindowAlignmentOffset(0);
+                        }
+                    }
                 }
             };
 
@@ -343,5 +363,9 @@ public class GridFragment extends Fragment {
                 mGridView.setSelectedPosition(mSelectedPosition);
             }
         }
+    }
+
+    protected void setCardHeight(int height) {
+        mCardHeight = height;
     }
 }

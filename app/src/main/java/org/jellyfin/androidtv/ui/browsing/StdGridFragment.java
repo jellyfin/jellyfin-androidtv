@@ -28,14 +28,13 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.GridDirection;
 import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.GridDirection;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
@@ -57,6 +56,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.entities.CollectionType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
@@ -82,6 +82,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected boolean justLoaded = true;
     protected String mPosterSizeSetting = PosterSize.AUTO;
     protected String mImageType = ImageType.DEFAULT;
+    protected String mGridDirection = GridDirection.VERTICAL;
     protected boolean determiningPosterSize = false;
 
     protected String mParentId;
@@ -91,6 +92,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private int mCardHeight = SMALL_CARD;
 
     protected boolean mAllowViewSelection = true;
+    protected boolean mAllowVerticalGrid = true;
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
@@ -104,15 +106,21 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
         mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
         mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+        mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
+        if (mGridDirection == null) mGridDirection = GridDirection.VERTICAL;
 
-        if (get(UserPreferences.class).get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
+        // Always use the horizontal grid for music libraries since the vertical grid does not account for square cards at this time
+        if (mFolder.getCollectionType().equals(CollectionType.Music)) mAllowVerticalGrid = false;
+
+        if (mGridDirection.equals(GridDirection.HORIZONTAL) || !mAllowVerticalGrid)
             setGridPresenter(new HorizontalGridPresenter());
         else
             setGridPresenter(new VerticalGridPresenter());
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
+        setCardHeight(mCardHeight);
 
         setGridSizes();
 
@@ -187,15 +195,23 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize")) {
+        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize") || mGridDirection != mDisplayPrefs.getCustomPrefs().get("GridDirection")) {
             mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
             mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+            mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
 
             // Set defaults
             if (mImageType == null) mImageType = ImageType.DEFAULT;
             if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
+            if (mGridDirection == null) mGridDirection = (mAllowVerticalGrid) ? GridDirection.VERTICAL : GridDirection.HORIZONTAL;
+
+            if (mGridDirection.equals(GridDirection.HORIZONTAL) || !mAllowVerticalGrid)
+                setGridPresenter(new HorizontalGridPresenter());
+            else
+                setGridPresenter(new VerticalGridPresenter());
 
             mCardHeight = getCardHeight(mPosterSizeSetting);
+            setCardHeight(mCardHeight);
 
             setGridSizes();
             createGrid();
@@ -219,10 +235,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         } else {
             justLoaded = false;
         }
-    }
-
-    public void setCardHeight(int height) {
-        mCardHeight = height;
     }
 
     public int getCardHeight() {
@@ -294,6 +306,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     int autoHeight = getAutoCardHeight(response);
                     if (autoHeight != mCardHeight) {
                         mCardHeight = autoHeight;
+                        setCardHeight(mCardHeight);
 
                         setGridSizes();
                         createGrid();
@@ -471,6 +484,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 Bundle screenArgs = new Bundle();
                 screenArgs.putString(DisplayPreferencesScreen.ARG_PREFERENCES_ID, mFolder.getDisplayPreferencesId());
                 screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, mAllowViewSelection);
+                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VERTICAL_GRID, mAllowVerticalGrid);
                 settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, screenArgs);
                 getActivity().startActivity(settingsIntent);
             }

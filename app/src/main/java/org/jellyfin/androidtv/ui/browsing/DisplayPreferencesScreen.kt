@@ -28,6 +28,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 
 	override val screen by lazyOptionsScreen {
 		val allowViewSelection = requireArguments().getBoolean(ARG_ALLOW_VIEW_SELECTION)
+		val allowVerticalGrid = requireArguments().getBoolean(ARG_ALLOW_VERTICAL_GRID)
 
 		setTitle(R.string.lbl_display_preferences)
 
@@ -62,6 +63,22 @@ class DisplayPreferencesScreen : OptionsFragment() {
 				}
 			}
 
+			if (allowVerticalGrid) {
+				list {
+					setTitle(R.string.grid_direction)
+					entries = mapOf(
+						"0" to requireContext().getString(R.string.grid_direction_vertical),
+						"1" to requireContext().getString(R.string.grid_direction_horizontal),
+					)
+
+					bind {
+						get { displayPreferences.getCustomPrefs().get("GridDirection") ?: "0" }
+						set { displayPreferences.getCustomPrefs().set("GridDirection", it) }
+						default { "0" }
+					}
+				}
+			}
+
 			if (allowViewSelection) {
 				checkbox {
 					setTitle(R.string.enable_smart_view)
@@ -81,5 +98,6 @@ class DisplayPreferencesScreen : OptionsFragment() {
 	companion object {
 		const val ARG_ALLOW_VIEW_SELECTION = "allow_view_selection"
 		const val ARG_PREFERENCES_ID = "preferences_id"
+		const val ARG_ALLOW_VERTICAL_GRID = "allow_vertical_grid"
 	}
 }
