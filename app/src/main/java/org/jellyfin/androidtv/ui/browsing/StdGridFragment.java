@@ -137,20 +137,16 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             switch (mImageType) {
                 case ImageType.DEFAULT:
                 default:
-                    if (!mFolder.getCollectionType().equals(CollectionType.Music) && !mFolder.getCollectionType().equals(CollectionType.playlists)) {
-                        if (mCardHeight == SMALL_VERTICAL_POSTER) {
-                            size = 10;
-                        } else if (mCardHeight == MED_VERTICAL_POSTER) {
-                            size = 7;
-                        } else {
-                            size = 6;
-                        }
+                    if (mCardHeight == SMALL_VERTICAL_POSTER) {
+                        size = 10;
+                    } else if (mCardHeight == MED_VERTICAL_POSTER || mCardHeight == SMALL_VERTICAL_SQUARE) {
+                        size = 7;
+                    } else if (mCardHeight == LARGE_VERTICAL_POSTER){
+                        size = 6;
+                    } else if (mCardHeight == MED_VERTICAL_SQUARE) {
+                        size = 5;
                     } else {
-                        if (mCardHeight == SMALL_VERTICAL_POSTER) {
-                            size = 6;
-                        } else {
-                            size = 4;
-                        }
+                        size = 4;
                     }
                     break;
                 case ImageType.THUMB:
@@ -332,13 +328,14 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected int getCardHeight(String heightSetting) {
         if (getGridPresenter() instanceof VerticalGridPresenter) {
+            boolean isSquareCard = mFolder.getCollectionType().equals(CollectionType.Music) || mFolder.getCollectionType().equals(CollectionType.playlists);
             switch (heightSetting) {
                 case PosterSize.MED:
-                    return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : MED_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : (isSquareCard) ? MED_VERTICAL_SQUARE : MED_VERTICAL_POSTER;
                 case PosterSize.LARGE:
-                    return mImageType.equals(ImageType.BANNER) ? LARGE_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? LARGE_VERTICAL_THUMB : LARGE_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? LARGE_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? LARGE_VERTICAL_THUMB : (isSquareCard) ? LARGE_VERTICAL_SQUARE : LARGE_VERTICAL_POSTER;
                 default:
-                    return mImageType.equals(ImageType.BANNER) ? SMALL_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? SMALL_VERTICAL_THUMB : SMALL_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? SMALL_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? SMALL_VERTICAL_THUMB : (isSquareCard) ? SMALL_VERTICAL_SQUARE : SMALL_VERTICAL_POSTER;
             }
         } else {
             switch (heightSetting) {

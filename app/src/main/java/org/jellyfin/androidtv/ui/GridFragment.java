@@ -61,6 +61,9 @@ public class GridFragment extends Fragment {
     protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 116);
     protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 171);
     protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 202);
+    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 114);
+    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 163);
+    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 206);
     protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 116);
     protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 155);
     protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 210);
