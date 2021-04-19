@@ -478,4 +478,5 @@
     <string name="system_user_explanation">A kiválasztott felhasználót rendszer integrációkhoz, például kereséshez használják</string>
     <string name="system_user">Rendszerhasználó</string>
     <string name="auto_sign_in">Automatikus bejelentkezés</string>
+    <string name="lbl_switch_user">Felhasználóváltás</string>
 </resources>
