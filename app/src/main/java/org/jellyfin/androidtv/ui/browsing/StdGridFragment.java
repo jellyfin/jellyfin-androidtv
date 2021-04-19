@@ -92,7 +92,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private int mCardHeight = SMALL_CARD;
 
     protected boolean mAllowViewSelection = true;
-    protected boolean mAllowVerticalGrid = true;
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
@@ -110,11 +109,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
         if (mGridDirection == null) mGridDirection = GridDirection.VERTICAL;
-
-        // Always use the horizontal grid for music libraries since the vertical grid does not account for square cards at this time
-        if (mFolder.getCollectionType().equals(CollectionType.Music)) mAllowVerticalGrid = false;
-
-        if (mGridDirection.equals(GridDirection.HORIZONTAL) || !mAllowVerticalGrid)
+        
+        if (mGridDirection.equals(GridDirection.HORIZONTAL))
             setGridPresenter(new HorizontalGridPresenter());
         else
             setGridPresenter(new VerticalGridPresenter());
@@ -141,12 +137,20 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             switch (mImageType) {
                 case ImageType.DEFAULT:
                 default:
-                    if (mCardHeight == SMALL_VERTICAL_POSTER) {
-                        size = 10;
-                    } else if (mCardHeight == MED_VERTICAL_POSTER) {
-                        size = 7;
+                    if (!mFolder.getCollectionType().equals(CollectionType.Music) && !mFolder.getCollectionType().equals(CollectionType.playlists)) {
+                        if (mCardHeight == SMALL_VERTICAL_POSTER) {
+                            size = 10;
+                        } else if (mCardHeight == MED_VERTICAL_POSTER) {
+                            size = 7;
+                        } else {
+                            size = 6;
+                        }
                     } else {
-                        size = 6;
+                        if (mCardHeight == SMALL_VERTICAL_POSTER) {
+                            size = 6;
+                        } else {
+                            size = 4;
+                        }
                     }
                     break;
                 case ImageType.THUMB:
@@ -203,9 +207,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             // Set defaults
             if (mImageType == null) mImageType = ImageType.DEFAULT;
             if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
-            if (mGridDirection == null) mGridDirection = (mAllowVerticalGrid) ? GridDirection.VERTICAL : GridDirection.HORIZONTAL;
+            if (mGridDirection == null) mGridDirection = GridDirection.VERTICAL;
 
-            if (mGridDirection.equals(GridDirection.HORIZONTAL) || !mAllowVerticalGrid)
+            if (mGridDirection.equals(GridDirection.HORIZONTAL))
                 setGridPresenter(new HorizontalGridPresenter());
             else
                 setGridPresenter(new VerticalGridPresenter());
@@ -484,7 +488,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 Bundle screenArgs = new Bundle();
                 screenArgs.putString(DisplayPreferencesScreen.ARG_PREFERENCES_ID, mFolder.getDisplayPreferencesId());
                 screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, mAllowViewSelection);
-                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VERTICAL_GRID, mAllowVerticalGrid);
                 settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, screenArgs);
                 getActivity().startActivity(settingsIntent);
             }
