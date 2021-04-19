@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.ui.preference.dsl
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import java.util.*
@@ -20,6 +20,7 @@ class OptionsLink(
 	var icon: Int? = null
 	var content: String? = null
 	var fragment: KClass<out OptionsFragment>? = null
+	var intent: Intent? = null
 	var extras: Bundle? = null
 
 	inline fun <reified T : OptionsFragment> withFragment(extraBundle: Bundle? = null) {
@@ -40,6 +41,7 @@ class OptionsLink(
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			it.fragment = fragment?.qualifiedName
+			it.intent = intent
 			extras?.let { extras -> it.extras.putAll(extras)}
 			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled

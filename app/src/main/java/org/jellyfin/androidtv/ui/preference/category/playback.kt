@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.preference.category
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.provider.Settings
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
@@ -95,6 +97,13 @@ fun OptionsScreen.playbackCategory(
 		setTitle(R.string.lbl_audio_output)
 		bind(userPreferences, UserPreferences.audioBehaviour)
 		depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.isFireTv() && DeviceUtils.is50() }
+	}
+
+	link {
+		title = context.getString(R.string.settings_captions)
+		content = context.getString(R.string.settings_captions_description)
+		intent = Intent(Settings.ACTION_CAPTIONING_SETTINGS)
+		depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL && intent!!.resolveActivity(context.packageManager) != null }
 	}
 
 	checkbox {
