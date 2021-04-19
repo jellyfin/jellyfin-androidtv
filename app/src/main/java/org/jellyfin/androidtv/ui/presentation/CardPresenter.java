@@ -134,6 +134,7 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
@@ -179,14 +180,17 @@ public class CardPresenter extends Presenter {
                         case Playlist:
                             showWatched = false;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = 1.0;
                             break;
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                     }
                     cardHeight = !m.isStaticHeight() ? (aspect > 1 ? lHeight : pHeight) : sHeight;
