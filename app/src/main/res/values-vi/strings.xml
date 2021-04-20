@@ -477,4 +477,5 @@
     <string name="system_user_explanation">Người dùng được chọn sẽ được sử dụng để tích hợp hệ thống như tìm kiếm</string>
     <string name="system_user">Người dùng hệ thống</string>
     <string name="auto_sign_in">Đăng nhập tự động</string>
+    <string name="lbl_switch_user">‎Chuyển người dùng‎</string>
 </resources>
