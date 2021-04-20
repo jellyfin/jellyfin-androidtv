@@ -217,7 +217,25 @@
     <string name="pref_show_login">Näytä kirjautumisruutu</string>
     <string name="pref_login_behavior_title">Käynnistys käyttäytyminen</string>
     <string name="home_title">Koti</string>
-    <string name="title_activity_select_user">ValitseKäyttäjänToiminta</string>
+    <string name="title_activity_select_user">Valitse käyttäjän toiminta</string>
     <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
     <string name="lbl_login_as">"Kirjaudu käyttäjänä "</string>
+    <string name="lbl_confirm_mark_watched">Tämä merkitsee kaiken sisällön toistetuksi. Oletko ERITTÄIN varma\?</string>
+    <string name="lbl_play_first_unwatched">Toista ensimmäinen katsomaton</string>
+    <string name="lbl_search_hint">Hae</string>
+    <string name="sum_tv_queuing">Laita kauden loput jaksot jonoon kun jakso toistetaan</string>
+    <string name="lbl_tv_queuing">Laita kaikki peräkkäiset jaksot jonoon</string>
+    <string name="msg_cannot_play">Tätä nimikettä ei voida toistaa</string>
+    <string name="msg_cannot_play_time">Tätä nimikettä ei voida toistaa</string>
+    <string name="msg_playback_incompatible">Tätä videoformaattia ei voida toistaa</string>
+    <string name="msg_playback_restricted">Pääkäyttäjä on rajoittanut tämän nimikkeen toistoa</string>
+    <string name="msg_playback_not_allowed">Toisto ei sallittu</string>
+    <string name="lbl_valid_server_address">Syötä palvelimen osoite (IP-osoite tai domain/laitteen nimi)</string>
+    <string name="msg_invalid_id_pw">Väärä käyttäjätunnus tai salasana</string>
+    <string name="msg_error_signin">Kirjautuminen tallennetuilla kirjautumistiedoilla aiheutti virheen.</string>
+    <string name="msg_error_server_version">Palvelinversio ei ole tuettu. Palvelinversion pitää olla %1$s tai uudempi.</string>
+    <string name="msg_little_longer">Tässä kestää odotettua pitempään...</string>
+    <string name="msg_access_restricted">Pääsy rajoitettu</string>
+    <string name="msg_video_playback_error">"Toistovirhe "</string>
+    <string name="lbl_pause">Keskeytä</string>
 </resources>
