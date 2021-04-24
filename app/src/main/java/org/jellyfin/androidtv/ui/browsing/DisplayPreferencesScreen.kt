@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
@@ -64,14 +65,14 @@ class DisplayPreferencesScreen : OptionsFragment() {
 			list {
 				setTitle(R.string.grid_direction)
 				entries = mapOf(
-					"0" to requireContext().getString(R.string.grid_direction_vertical),
-					"1" to requireContext().getString(R.string.grid_direction_horizontal),
+					GridDirection.HORIZONTAL.name to requireContext().getString(R.string.grid_direction_horizontal),
+					GridDirection.VERTICAL.name to requireContext().getString(R.string.grid_direction_vertical),
 				)
 
 				bind {
-					get { displayPreferences.getCustomPrefs().get("GridDirection") ?: "0" }
+					get { displayPreferences.getCustomPrefs().get("GridDirection") ?: GridDirection.HORIZONTAL.name }
 					set { displayPreferences.getCustomPrefs().set("GridDirection", it) }
-					default { "0" }
+					default { GridDirection.HORIZONTAL.name }
 				}
 			}
 

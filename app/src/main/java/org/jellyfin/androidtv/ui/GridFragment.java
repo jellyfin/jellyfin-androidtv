@@ -218,6 +218,9 @@ public class GridFragment extends Fragment {
                             mGridView.setWindowAlignmentOffsetPercent(15);
                         } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
                             mGridView.setWindowAlignmentOffsetPercent(36);
+                        } else if (mCardHeight == SMALL_VERTICAL_SQUARE && position >= ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 49.3);
+                            mGridView.setWindowAlignmentOffset(0);
                         } else if (position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
                             mGridView.setWindowAlignmentOffsetPercent((float) 5.1);
                             mGridView.setWindowAlignmentOffset((int) Math.round(mCardHeight * 0.5));

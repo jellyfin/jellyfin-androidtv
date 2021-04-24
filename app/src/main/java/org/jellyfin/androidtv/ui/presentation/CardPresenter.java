@@ -180,7 +180,6 @@ public class CardPresenter extends Presenter {
                         case Playlist:
                             showWatched = false;
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
-                            if (imageType.equals(ImageType.DEFAULT)) aspect = 1.0;
                             break;
                         case Movie:
                         case Video:

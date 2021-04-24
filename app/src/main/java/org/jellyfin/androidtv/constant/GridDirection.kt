@@ -1,6 +1,19 @@
 package org.jellyfin.androidtv.constant
 
-object GridDirection {
-	const val VERTICAL = "0"
-	const val HORIZONTAL = "1"
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+
+enum class GridDirection {
+	/**
+	 * Horizontal.
+	 */
+	@EnumDisplayOptions(R.string.grid_direction_horizontal)
+	HORIZONTAL,
+
+	/**
+	 * Vertical.
+	 */
+	@Suppress("unused")
+	@EnumDisplayOptions(R.string.grid_direction_vertical)
+	VERTICAL
 }

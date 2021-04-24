@@ -82,7 +82,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected boolean justLoaded = true;
     protected String mPosterSizeSetting = PosterSize.AUTO;
     protected String mImageType = ImageType.DEFAULT;
-    protected String mGridDirection = GridDirection.VERTICAL;
+    protected String mGridDirection = GridDirection.HORIZONTAL.name();
     protected boolean determiningPosterSize = false;
 
     protected String mParentId;
@@ -108,12 +108,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
-        if (mGridDirection == null) mGridDirection = GridDirection.VERTICAL;
+        if (mGridDirection == null) mGridDirection = GridDirection.HORIZONTAL.name();
         
-        if (mGridDirection.equals(GridDirection.HORIZONTAL))
-            setGridPresenter(new HorizontalGridPresenter());
-        else
+        if (mGridDirection.equals(GridDirection.VERTICAL.name()))
             setGridPresenter(new VerticalGridPresenter());
+        else
+            setGridPresenter(new HorizontalGridPresenter());
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
         setCardHeight(mCardHeight);
@@ -203,12 +203,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             // Set defaults
             if (mImageType == null) mImageType = ImageType.DEFAULT;
             if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
-            if (mGridDirection == null) mGridDirection = GridDirection.VERTICAL;
+            if (mGridDirection == null) mGridDirection = GridDirection.HORIZONTAL.name();
 
-            if (mGridDirection.equals(GridDirection.HORIZONTAL))
-                setGridPresenter(new HorizontalGridPresenter());
-            else
+            if (mGridDirection.equals(GridDirection.VERTICAL.name()))
                 setGridPresenter(new VerticalGridPresenter());
+            else
+                setGridPresenter(new HorizontalGridPresenter());
 
             mCardHeight = getCardHeight(mPosterSizeSetting);
             setCardHeight(mCardHeight);
@@ -328,7 +328,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected int getCardHeight(String heightSetting) {
         if (getGridPresenter() instanceof VerticalGridPresenter) {
-            boolean isSquareCard = mFolder.getCollectionType().equals(CollectionType.Music) || mFolder.getCollectionType().equals(CollectionType.playlists);
+            boolean isSquareCard = mFolder.getCollectionType().equals(CollectionType.Music);
             switch (heightSetting) {
                 case PosterSize.MED:
                     return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : (isSquareCard) ? MED_VERTICAL_SQUARE : MED_VERTICAL_POSTER;
