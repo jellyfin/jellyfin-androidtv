@@ -761,7 +761,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private String getRunTime() {
         Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
-        return runtime != null && runtime > 0 ? runtime / 600000000 + getString(R.string.lbl_min) : "";
+        return runtime != null && runtime > 0 ? (int) Math.ceil((double) runtime / 600000000) + getString(R.string.lbl_min) : "";
     }
 
     private String getEndTime() {
