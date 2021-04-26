@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +22,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -266,19 +267,19 @@ public class InfoLayoutHelper {
         if (hasSomething) addSpacer(activity, layout, "  ");
     }
 
-    private static void addDate(@NonNull  Activity activity, BaseItemDto item, LinearLayout layout) {
-        TextView date = new TextView(activity);
+    private static void addDate(@NonNull Context context, BaseItemDto item, LinearLayout layout) {
+        TextView date = new TextView(context);
         date.setTextSize(textSize);
         switch (item.getBaseItemType()) {
             case Person:
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
-                    sb.append(activity.getString(R.string.lbl_born));
-                    sb.append(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
+                    sb.append(context.getString(R.string.lbl_born));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     sb.append("  |  Died ");
-                    sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     sb.append(" (");
                     sb.append(TimeUtils.numYears(item.getPremiereDate(), item.getEndDate()));
                     sb.append(")");
@@ -296,28 +297,28 @@ public class InfoLayoutHelper {
             case Program:
             case TvChannel:
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(activity).format(TimeUtils.convertToLocalDate(item.getStartDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(activity).format(TimeUtils.convertToLocalDate(item.getEndDate())));
+                    date.setText(DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(item.getStartDate()))
+                            + "-"+ DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
-                    addSpacer(activity, layout, "    ");
+                    addSpacer(context, layout, "    ");
                 }
                 break;
             case Series:
                 if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 }
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
+                    date.setText(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 }
                 break;
         }
@@ -392,12 +393,12 @@ public class InfoLayoutHelper {
         layout.addView(view);
     }
 
-    private static void addSpacer(Activity activity, LinearLayout layout, String sp) {
-        addSpacer(activity, layout, sp, textSize);
+    private static void addSpacer(Context context, LinearLayout layout, String sp) {
+        addSpacer(context, layout, sp, textSize);
     }
 
-    public static void addSpacer(Activity activity, LinearLayout layout, String sp, int size) {
-        TextView mSpacer = new TextView(activity);
+    public static void addSpacer(Context context, LinearLayout layout, String sp, int size) {
+        TextView mSpacer = new TextView(context);
         mSpacer.setTextSize(size);
         mSpacer.setText(sp);
         layout.addView(mSpacer);
