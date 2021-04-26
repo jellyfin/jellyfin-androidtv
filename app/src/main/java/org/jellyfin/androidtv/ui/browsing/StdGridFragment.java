@@ -141,7 +141,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                         size = 10;
                     } else if (mCardHeight == MED_VERTICAL_POSTER || mCardHeight == SMALL_VERTICAL_SQUARE) {
                         size = 7;
-                    } else if (mCardHeight == LARGE_VERTICAL_POSTER){
+                    } else if (mCardHeight == LARGE_VERTICAL_POSTER) {
                         size = 6;
                     } else if (mCardHeight == MED_VERTICAL_SQUARE) {
                         size = 5;

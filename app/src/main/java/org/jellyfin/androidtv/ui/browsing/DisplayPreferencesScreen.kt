@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
+import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import timber.log.Timber
@@ -62,17 +63,12 @@ class DisplayPreferencesScreen : OptionsFragment() {
 					default { "0" }
 				}
 			}
-			list {
+			enum<GridDirection> {
 				setTitle(R.string.grid_direction)
-				entries = mapOf(
-					GridDirection.HORIZONTAL.name to requireContext().getString(R.string.grid_direction_horizontal),
-					GridDirection.VERTICAL.name to requireContext().getString(R.string.grid_direction_vertical),
-				)
-
 				bind {
-					get { displayPreferences.getCustomPrefs().get("GridDirection") ?: GridDirection.HORIZONTAL.name }
-					set { displayPreferences.getCustomPrefs().set("GridDirection", it) }
-					default { GridDirection.HORIZONTAL.name }
+					get { GridDirection.getGridDirection(displayPreferences.getCustomPrefs().get("GridDirection")?.let(GridDirection::valueOf)) ?: GridDirection.HORIZONTAL }
+					set { displayPreferences.getCustomPrefs().set("GridDirection", it.name) }
+					default { GridDirection.HORIZONTAL }
 				}
 			}
 
