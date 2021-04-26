@@ -28,14 +28,13 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.GridDirection;
 import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.GridDirection;
 import org.jellyfin.androidtv.ui.CharSelectedListener;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
@@ -57,6 +56,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.entities.CollectionType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
@@ -82,6 +82,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected boolean justLoaded = true;
     protected String mPosterSizeSetting = PosterSize.AUTO;
     protected String mImageType = ImageType.DEFAULT;
+    protected String mGridDirection = GridDirection.HORIZONTAL.name();
     protected boolean determiningPosterSize = false;
 
     protected String mParentId;
@@ -104,15 +105,18 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mDisplayPrefs = TvApp.getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
         mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
         mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+        mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
         if (mImageType == null) mImageType = ImageType.DEFAULT;
         if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
-
-        if (get(UserPreferences.class).get(UserPreferences.Companion.getGridDirection()) == GridDirection.HORIZONTAL)
-            setGridPresenter(new HorizontalGridPresenter());
-        else
+        if (mGridDirection == null) mGridDirection = GridDirection.HORIZONTAL.name();
+        
+        if (mGridDirection.equals(GridDirection.VERTICAL.name()))
             setGridPresenter(new VerticalGridPresenter());
+        else
+            setGridPresenter(new HorizontalGridPresenter());
 
         mCardHeight = getCardHeight(mPosterSizeSetting);
+        setCardHeight(mCardHeight);
 
         setGridSizes();
 
@@ -135,10 +139,14 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 default:
                     if (mCardHeight == SMALL_VERTICAL_POSTER) {
                         size = 10;
-                    } else if (mCardHeight == MED_VERTICAL_POSTER) {
+                    } else if (mCardHeight == MED_VERTICAL_POSTER || mCardHeight == SMALL_VERTICAL_SQUARE) {
                         size = 7;
-                    } else {
+                    } else if (mCardHeight == LARGE_VERTICAL_POSTER) {
                         size = 6;
+                    } else if (mCardHeight == MED_VERTICAL_SQUARE) {
+                        size = 5;
+                    } else {
+                        size = 4;
                     }
                     break;
                 case ImageType.THUMB:
@@ -187,15 +195,23 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize")) {
+        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize") || mGridDirection != mDisplayPrefs.getCustomPrefs().get("GridDirection")) {
             mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
             mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+            mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
 
             // Set defaults
             if (mImageType == null) mImageType = ImageType.DEFAULT;
             if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
+            if (mGridDirection == null) mGridDirection = GridDirection.HORIZONTAL.name();
+
+            if (mGridDirection.equals(GridDirection.VERTICAL.name()))
+                setGridPresenter(new VerticalGridPresenter());
+            else
+                setGridPresenter(new HorizontalGridPresenter());
 
             mCardHeight = getCardHeight(mPosterSizeSetting);
+            setCardHeight(mCardHeight);
 
             setGridSizes();
             createGrid();
@@ -219,10 +235,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         } else {
             justLoaded = false;
         }
-    }
-
-    public void setCardHeight(int height) {
-        mCardHeight = height;
     }
 
     public int getCardHeight() {
@@ -294,6 +306,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     int autoHeight = getAutoCardHeight(response);
                     if (autoHeight != mCardHeight) {
                         mCardHeight = autoHeight;
+                        setCardHeight(mCardHeight);
 
                         setGridSizes();
                         createGrid();
@@ -315,13 +328,14 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected int getCardHeight(String heightSetting) {
         if (getGridPresenter() instanceof VerticalGridPresenter) {
+            boolean isSquareCard = mFolder.getCollectionType().equals(CollectionType.Music);
             switch (heightSetting) {
                 case PosterSize.MED:
-                    return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : MED_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? MED_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? MED_VERTICAL_THUMB : (isSquareCard) ? MED_VERTICAL_SQUARE : MED_VERTICAL_POSTER;
                 case PosterSize.LARGE:
-                    return mImageType.equals(ImageType.BANNER) ? LARGE_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? LARGE_VERTICAL_THUMB : LARGE_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? LARGE_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? LARGE_VERTICAL_THUMB : (isSquareCard) ? LARGE_VERTICAL_SQUARE : LARGE_VERTICAL_POSTER;
                 default:
-                    return mImageType.equals(ImageType.BANNER) ? SMALL_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? SMALL_VERTICAL_THUMB : SMALL_VERTICAL_POSTER;
+                    return mImageType.equals(ImageType.BANNER) ? SMALL_VERTICAL_BANNER : mImageType.equals(ImageType.THUMB) ? SMALL_VERTICAL_THUMB : (isSquareCard) ? SMALL_VERTICAL_SQUARE : SMALL_VERTICAL_POSTER;
             }
         } else {
             switch (heightSetting) {

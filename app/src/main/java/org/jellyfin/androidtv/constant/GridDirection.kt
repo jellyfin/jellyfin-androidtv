@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.preference.constant
+package org.jellyfin.androidtv.constant
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
@@ -13,7 +13,10 @@ enum class GridDirection {
 	/**
 	 * Vertical.
 	 */
-	@Suppress("unused")
 	@EnumDisplayOptions(R.string.grid_direction_vertical)
-	VERTICAL
+	VERTICAL;
+
+	companion object {
+		fun getGridDirection(direction: String?) = values().firstOrNull { it.name == direction }
+	}
 }
