@@ -66,7 +66,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 			enum<GridDirection> {
 				setTitle(R.string.grid_direction)
 				bind {
-					get { GridDirection.getGridDirection(displayPreferences.getCustomPrefs().get("GridDirection")?.let(GridDirection::valueOf)) ?: GridDirection.HORIZONTAL }
+					get { GridDirection.getGridDirection(displayPreferences.getCustomPrefs().get("GridDirection")) ?: GridDirection.HORIZONTAL }
 					set { displayPreferences.getCustomPrefs().set("GridDirection", it.name) }
 					default { GridDirection.HORIZONTAL }
 				}

@@ -17,6 +17,6 @@ enum class GridDirection {
 	VERTICAL;
 
 	companion object {
-		fun getGridDirection(direction: GridDirection?) = values().firstOrNull { it == direction }
+		fun getGridDirection(direction: String?) = values().firstOrNull { it.name == direction }
 	}
 }
