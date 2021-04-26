@@ -635,7 +635,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(), adapter);
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(true, 260), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, TvApp.getApplication().getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
