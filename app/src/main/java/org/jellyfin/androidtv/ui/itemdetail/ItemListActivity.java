@@ -504,7 +504,9 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void addGenres(TextView textView) {
-        textView.setText(TextUtils.join(" / ", mBaseItem.getGenres()));
+        ArrayList<String> genres = mBaseItem.getGenres();
+        if (genres != null) textView.setText(TextUtils.join(" / ", genres));
+        else textView.setText(null);
     }
 
     private void play(List<BaseItemDto> items) {
