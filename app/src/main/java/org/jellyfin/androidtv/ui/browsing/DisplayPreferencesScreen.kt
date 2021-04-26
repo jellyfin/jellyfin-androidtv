@@ -2,13 +2,28 @@ package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.ui.preference.dsl.*
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.checkbox
+import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.list
+import timber.log.Timber
 
 class DisplayPreferencesScreen : OptionsFragment() {
+	private val preferencesId by lazy {
+		requireArguments().getString(ARG_PREFERENCES_ID)
+	}
+
 	// Requires the caller of this view to pre-cache the display preferences
 	private val displayPreferences by lazy {
-		val id = requireArguments().getString(ARG_PREFERENCES_ID)
-		TvApp.getApplication().getCachedDisplayPrefs(id)
+		Timber.d("Loading cached display preferences with id $preferencesId")
+		TvApp.getApplication().getCachedDisplayPrefs(preferencesId)
+	}
+
+	override fun onStop() {
+		super.onStop()
+
+		Timber.d("Saving cached display preferences with id $preferencesId")
+		TvApp.getApplication().updateDisplayPrefs(displayPreferences)
 	}
 
 	override val screen by lazyOptionsScreen {
