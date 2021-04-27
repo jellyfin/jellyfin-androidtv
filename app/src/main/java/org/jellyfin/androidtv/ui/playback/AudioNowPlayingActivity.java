@@ -25,6 +25,7 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
@@ -391,6 +392,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 .error(R.drawable.ic_album)
                 .override(posterWidth, posterHeight)
                 .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(mPoster);
     }
 

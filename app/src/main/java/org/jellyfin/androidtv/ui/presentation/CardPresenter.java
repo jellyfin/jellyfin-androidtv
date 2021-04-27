@@ -15,6 +15,7 @@ import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
@@ -345,6 +346,7 @@ public class CardPresenter extends Presenter {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
                             .load(mDefaultCardImage)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mCardView.getMainImageView());
                 } else {
                     Glide.with(mCardView.getContext())
@@ -352,6 +354,7 @@ public class CardPresenter extends Presenter {
                             .error(mDefaultCardImage)
                             .placeholder(placeholder)
                             .transition(DrawableTransitionOptions.withCrossFade(200))
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mCardView.getMainImageView());
                 }
             } catch (IllegalArgumentException e) {

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -497,6 +498,7 @@ public class ItemListActivity extends FragmentActivity {
                         .load(primaryImageUrl)
                         .override(posterWidth,posterHeight)
                         .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(mPoster);
 
                 break;

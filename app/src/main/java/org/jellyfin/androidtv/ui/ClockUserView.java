@@ -12,6 +12,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -75,6 +76,7 @@ public class ClockUserView extends RelativeLayout {
                         .error(R.drawable.ic_user)
                         .override(30, 30)
                         .centerInside()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(userImage);
             } else {
                 userImage.setImageResource(R.drawable.ic_user);

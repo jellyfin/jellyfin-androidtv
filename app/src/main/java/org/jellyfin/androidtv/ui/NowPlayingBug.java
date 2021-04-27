@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -128,7 +129,7 @@ public class NowPlayingBug extends FrameLayout {
     private void setInfo(BaseItemDto item) {
         if (item == null) return;
 
-        Glide.with(context).load(ImageUtils.getPrimaryImageUrl(item, get(ApiClient.class))).error(R.drawable.ic_album).override(35, 35).centerInside().into(npIcon);
+        Glide.with(context).load(ImageUtils.getPrimaryImageUrl(item, get(ApiClient.class))).error(R.drawable.ic_album).override(35, 35).centerInside().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(npIcon);
         currentDuration = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);
         npDesc.setText(item.getAlbumArtist() != null ? item.getAlbumArtist() : item.getName());
     }

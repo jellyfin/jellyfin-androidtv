@@ -26,6 +26,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -344,6 +345,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
                     .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .override(displayWidth, displayHeight)
                     .centerInside()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .error(R.drawable.tile_land_photo)
                     .listener(new RequestListener<Drawable>() {
                         @Override

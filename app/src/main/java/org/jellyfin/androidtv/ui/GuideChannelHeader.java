@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -63,6 +64,7 @@ public class GuideChannelHeader extends RelativeLayout {
                 .load(ImageUtils.getPrimaryImageUrl(mChannel, get(ApiClient.class)))
                 .override(IMAGE_WIDTH, IMAGE_HEIGHT)
                 .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(mChannelImage);
     }
 
