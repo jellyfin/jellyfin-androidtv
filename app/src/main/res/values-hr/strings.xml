@@ -103,7 +103,7 @@
     <string name="pref_show_login">Prikaži zaslon za prijavu</string>
     <string name="pref_login_behavior_title">Ponašanje pri startu</string>
     <string name="title_activity_select_user">Aktivnost Odabira Korisnika</string>
-    <string name="video_error_unknown_error">Neuspješno učitavanje videa</string>
+    <string name="video_error_unknown_error">Neuspješno učitavanje videozapisa</string>
     <string name="lbl_programs">Programi</string>
     <string name="lbl_direct_stream_live">Direktna reprodukcija TV programa</string>
     <string name="msg_error_live_stream">Greška pri reprodukciji TV programa. Pokušati ćemo ponovo...</string>
