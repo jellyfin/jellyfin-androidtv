@@ -43,6 +43,7 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -1171,7 +1172,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             int width = Utils.convertDpToPixel(getActivity(), 180);
             String imageUrl = ImageUtils.getLogoImageUrl(item, apiClient.getValue());
             if (imageUrl != null)
-                Glide.with(getActivity()).load(imageUrl).override(width, height).centerInside().into(target);
+                Glide.with(getActivity()).load(imageUrl).override(width, height).centerInside().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(target);
         }
     }
 

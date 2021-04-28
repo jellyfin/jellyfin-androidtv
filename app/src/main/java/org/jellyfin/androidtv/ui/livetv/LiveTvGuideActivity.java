@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -999,7 +1000,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
-            Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+            Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(mImage);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.banner_news);

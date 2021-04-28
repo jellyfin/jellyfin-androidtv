@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -176,6 +177,7 @@ class BackgroundService(
 						.load(url)
 						.override(windowSize.width, windowSize.height)
 						.centerCrop()
+						.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 						.submit()
 				}
 				.map { future ->
