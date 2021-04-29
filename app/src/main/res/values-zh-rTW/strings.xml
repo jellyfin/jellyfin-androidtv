@@ -396,7 +396,7 @@
     <string name="image_type_banner">橫幅</string>
     <string name="image_type_thumbnail">預覽圖</string>
     <string name="image_type_default">預設</string>
-    <string name="enable_smart_view_description">智能顯示將顯示相關項目而非網格</string>
+    <string name="enable_smart_view_description">智慧畫面將顯示相關項目而非網格</string>
     <string name="enable_smart_view">開啟智能顯示</string>
     <string name="lbl_sign_out">登出</string>
     <string name="lbl_remove">移除</string>
@@ -438,8 +438,8 @@
     <string name="turn_off">關閉此選項</string>
     <string name="not_deleted">項目「未」被刪除</string>
     <string name="lbl_deleted">%1$s 已刪除</string>
-    <string name="like_setting_error">無法設定喜歡狀態</string>
-    <string name="like_clearing_error">無法清除喜歡狀態</string>
+    <string name="like_setting_error">無法設定「喜歡」狀態</string>
+    <string name="like_clearing_error">無法清除「喜歡」狀態</string>
     <string name="favorite_error">無法設為最愛</string>
     <string name="playing_error">無法設為已播放狀態</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
@@ -458,7 +458,7 @@
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>
     <string name="delete_warning">%1$s 將會從您的收藏庫中刪除。您確定嗎？</string>
-    <string name="clear_expanded">清空目前的影片隊列？</string>
+    <string name="clear_expanded">清空目前的影片佇列？</string>
     <string name="lbl_clear">清空</string>
     <string name="password_prompt_message">請輸入 %1$s 的密碼</string>
     <string name="password_prompt">輸入密碼</string>
