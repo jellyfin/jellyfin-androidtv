@@ -474,4 +474,5 @@
     <string name="user_picker_last_user_title">Most recently used</string>
     <string name="user_picker_last_user_summary">Use the last active user</string>
     <string name="lbl_switch_user">Switch user</string>
+    <string name="pref_theme_muted">Muted Purple</string>
 </resources>

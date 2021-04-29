@@ -33,6 +33,16 @@
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
 
+        <!-- Rounding Values -->
+        <item name="cardRounding">4dp</item>
+        <item name="buttonRounding">4dp</item>
+
+        <!-- Watched Indicator Shape -->
+        <item name="accentShape">@drawable/circle_accent</item>
+
+        <!-- Dim level of non-focus grid items -->
+        <item name="overlayDimDimmedLevel">30%</item>
+
         <!-- Tile colors -->
         <item name="tile_settings_bg">#359AB8</item>
         <item name="tile_edit_bg">#4b41ae</item>

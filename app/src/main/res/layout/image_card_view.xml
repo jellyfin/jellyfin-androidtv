@@ -77,7 +77,7 @@
                 android:id="@+id/watched"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/circle_accent" />
+                android:src="?attr/accentShape" />
 
             <TextView
                 android:id="@+id/unwatchedCount"
