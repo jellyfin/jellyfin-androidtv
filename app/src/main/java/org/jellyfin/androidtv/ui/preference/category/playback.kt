@@ -63,6 +63,13 @@ fun OptionsScreen.playbackCategory(
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
 	}
 
+	checkbox {
+		setTitle(R.string.pref_next_up_full_title)
+		setContent(R.string.pref_next_up_full_summary)
+		bind(userPreferences, UserPreferences.nextUpFullEnabled)
+		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
+	}
+
 	list {
 		setTitle(R.string.lbl_resume_preroll)
 		entries = setOf(

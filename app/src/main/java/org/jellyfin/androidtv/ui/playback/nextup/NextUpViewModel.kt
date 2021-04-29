@@ -11,9 +11,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
+import org.koin.java.KoinJavaComponent
 
 class NextUpViewModel(
 	private val context: Context,
@@ -23,6 +25,7 @@ class NextUpViewModel(
 	val item: LiveData<NextUpItemData?> = _item
 	private val _state = MutableLiveData(NextUpState.INITIALIZED)
 	val state: LiveData<NextUpState> = _state
+	private val userPreferences by KoinJavaComponent.inject(UserPreferences::class.java)
 
 	fun setItemId(id: String?) = viewModelScope.launch {
 		if (id == null) {
@@ -52,22 +55,26 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
+		val nextUpFullEnabled = userPreferences[UserPreferences.nextUpFullEnabled]
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val thumbnail = apiClient.GetImageUrl(item, ImageOptions())
+		val thumbnail = if (nextUpFullEnabled) apiClient.GetImageUrl(item, ImageOptions()) else null
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
-		val title = if (item.indexNumber != null && item.name != null)
-			"${item.indexNumber}. ${item.name}"
-		else if (item.name != null)
-			item.name
-		else ""
+		val title = when {
+			(item.indexNumber != null && item.indexNumberEnd != null && item.name != null && item.parentIndexNumber != 0) -> "${item.indexNumber}-${item.indexNumberEnd}. ${item.name}"
+			(item.indexNumber != null && item.name != null && item.parentIndexNumber != 0) -> "${item.indexNumber}. ${item.name}"
+			(item.name != null) -> item.name
+			else -> ""
+		}
+
+		val overview = if (nextUpFullEnabled) item.overview else null
 
 		NextUpItemData(
 			item,
 			item.id,
 			title,
-			item.overview,
+			overview,
 			thumbnail?.let { safelyLoadBitmap(it) },
 			logo?.let { safelyLoadBitmap(it) }
 		)

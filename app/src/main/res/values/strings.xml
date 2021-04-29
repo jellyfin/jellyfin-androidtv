@@ -419,4 +419,6 @@
     <string name="who_is_watching">Who\'s watching?</string>
     <string name="add_user">Add user</string>
     <string name="help">Help</string>
+    <string name = "pref_next_up_full_title">Show Next Up thumbnail and description</string>
+    <string name = "pref_next_up_full_summary">Display the thumbnail and description on the Next Up screen</string>
 </resources>
