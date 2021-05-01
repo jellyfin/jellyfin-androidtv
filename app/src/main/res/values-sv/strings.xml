@@ -445,7 +445,7 @@
     <string name="login_help_title">Behöver du hjälp\?</string>
     <string name="connect_manually_by_address">Ange serveraddress</string>
     <string name="connect_manually_title">Anslut manuellt</string>
-    <string name="discovered_servers_empty">Inga servrar kunde hittades på det lokala nätverket.</string>
+    <string name="discovered_servers_empty">Inga servrar hittades på det lokala nätverket.</string>
     <string name="discovered_servers_title">Upptäckta servrar</string>
     <string name="lbl_hidden">Dold</string>
     <string name="pref_developer_link_description">Avancerade och experimentiella funktioner</string>
@@ -467,4 +467,16 @@
     <string name="lbl_remove_user_content">Radera konto</string>
     <string name="lbl_remove_users">Det här tar bort alla associerade användare</string>
     <string name="lbl_manage_servers">Hantera servrar</string>
+    <string name="lbl_switch_user">Byt användare</string>
+    <string name="user_picker_last_user_summary">Välj den sist aktiva användaren</string>
+    <string name="user_picker_last_user_title">Senast använt</string>
+    <string name="user_picker_disable_summary">Visa alltid inloggningsskärmen</string>
+    <string name="user_picker_disable_title">Inaktivera</string>
+    <string name="system_user_explanation">Den valde användaren kommer brukas för systemintegreringar som exempelvis sök</string>
+    <string name="system_user">Systemanvändare</string>
+    <string name="auto_sign_in">Automatisk inloggning</string>
+    <string name="lbl_use_series_thumbnails_description">Använd serieminiatyr när avsnitt visas</string>
+    <string name="lbl_use_series_thumbnails">Föredra miniatyr för serier</string>
+    <string name="image_type_banner">Banner</string>
+    <string name="lbl_user_server">%1$s på %2$s</string>
 </resources>
