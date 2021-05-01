@@ -40,6 +40,8 @@ class SessionRepositoryImpl(
 	override val currentSystemSession: LiveData<Session?> get() = _currentSystemSession
 
 	override fun restoreDefaultSession() {
+		Timber.d("Restoring default session")
+
 		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
 		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
 
@@ -51,6 +53,8 @@ class SessionRepositoryImpl(
 	}
 
 	override fun restoreDefaultSystemSession() {
+		Timber.d("Restoring default system session")
+
 		val behavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
 		val userId = authenticationPreferences[AuthenticationPreferences.systemUserId].toUUIDOrNull()
 
@@ -62,9 +66,11 @@ class SessionRepositoryImpl(
 	}
 
 	override fun switchCurrentSession(userId: UUID) {
+		Timber.d("Switching current session to user ${userId}")
+
 		val session = createUserSession(userId)
 		if (session == null) {
-			Timber.d("switchCurrentSession was unable to succeed")
+			Timber.d("Could not switch to non-existing session for user ${userId}")
 			return
 		}
 
@@ -72,6 +78,8 @@ class SessionRepositoryImpl(
 	}
 
 	override fun destroyCurrentSession() {
+		Timber.d("Destroying current session")
+
 		setCurrentSession(null, false)
 	}
 
@@ -89,6 +97,8 @@ class SessionRepositoryImpl(
 
 		// Update session after binding the apiclient settings
 		apiBinder.updateSession(session) { success ->
+			Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
+
 			if (success) _currentSession.postValue(session)
 		}
 	}

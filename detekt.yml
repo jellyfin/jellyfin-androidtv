@@ -8,7 +8,10 @@ comments:
   CommentOverPrivateProperty:
     active: false
 
+
 style:
   ForbiddenComment:
     # Allow TODO and FIXME
     values: [ 'STOPSHIP:' ]
+  ReturnCount:
+    max: 6
