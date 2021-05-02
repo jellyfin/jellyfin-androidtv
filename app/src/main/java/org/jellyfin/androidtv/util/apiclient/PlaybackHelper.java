@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.configuration.ServerConfiguration;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -21,6 +22,7 @@ import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 import java.util.ArrayList;
@@ -43,42 +45,147 @@ public class PlaybackHelper {
                 if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
-                    if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
-                        query.setParentId(mainItem.getSeasonId());
-                        query.setIsVirtualUnaired(false);
-                        query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
-                        query.setSortBy(new String[] {ItemSortBy.SortName});
-                        query.setIncludeItemTypes(new String[]{"Episode"});
-                        query.setFields(new ItemFields[] {
-                                ItemFields.MediaSources,
-                                ItemFields.MediaStreams,
-                                ItemFields.Path,
-                                ItemFields.Chapters,
-                                ItemFields.Overview,
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.ChildCount
-                        });
-                        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                    if (mainItem.getSeasonId() != null || (mainItem.getAirsBeforeSeasonNumber() != null && mainItem.getSeriesId() != null)) {
+                        get(ApiClient.class).GetServerConfigurationAsync(new Response<ServerConfiguration>() {
                             @Override
-                            public void onResponse(ItemsResult response) {
-                                if (response.getTotalRecordCount() > 0) {
-                                    for (BaseItemDto item : response.getItems()) {
-                                        if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
-                                                items.add(item);
+                            public void onResponse(ServerConfiguration serverConfiguration) {
+                                boolean displaySpecialsWithinSeasons = serverConfiguration.getDisplaySpecialsWithinSeasons();
+
+                                if (displaySpecialsWithinSeasons && mainItem.getAirsBeforeSeasonNumber() != null && mainItem.getSeriesId() != null) {
+                                    SeasonQuery seasonQuery = new SeasonQuery();
+                                    seasonQuery.setSeriesId(mainItem.getSeriesId());
+                                    seasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+
+                                    get(ApiClient.class).GetSeasonsAsync(seasonQuery, new Response<ItemsResult>() {
+                                        @Override
+                                        public void onResponse(ItemsResult response){
+                                            for (BaseItemDto item : response.getItems()) {
+                                                if (item.getIndexNumber().equals(mainItem.getAirsBeforeSeasonNumber())) {
+                                                    query.setParentId(item.getId());
+                                                    break;
+                                                }
+                                            }
+                                            query.setIsVirtualUnaired(false);
+                                            query.setSortBy(new String[] {ItemSortBy.SortName});
+                                            query.setIncludeItemTypes(new String[]{"Episode"});
+                                            query.setFields(new ItemFields[] {
+                                                    ItemFields.MediaSources,
+                                                    ItemFields.MediaStreams,
+                                                    ItemFields.Path,
+                                                    ItemFields.Chapters,
+                                                    ItemFields.Overview,
+                                                    ItemFields.PrimaryImageAspectRatio,
+                                                    ItemFields.ChildCount,
+                                                    ItemFields.SpecialEpisodeNumbers
+                                            });
+                                            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+
+                                            if (query.getParentId() != null && !query.getParentId().isEmpty()) {
+                                                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                                                    @Override
+                                                    public void onResponse(ItemsResult response) {
+                                                        if (response.getTotalRecordCount() > 0) {
+                                                            boolean mainItemIsBeforeSeason = mainItem.getAirsBeforeEpisodeNumber() == null;
+
+                                                            for (BaseItemDto item : response.getItems()) {
+                                                                boolean itemIsSpecialBeforeSeason = item.getAirsBeforeSeasonNumber() != null && item.getAirsBeforeEpisodeNumber() == null;
+                                                                boolean itemIsSpecialWithinSeason = item.getAirsBeforeEpisodeNumber() != null;
+                                                                boolean itemIsSpecialAfterSeason = item.getAirsAfterSeasonNumber() != null;
+                                                                boolean itemIsSpecial = itemIsSpecialBeforeSeason || itemIsSpecialWithinSeason || itemIsSpecialAfterSeason;
+                                                                boolean itemIndexIsGreater = item.getIndexNumber() != null && mainItem.getIndexNumber() != null && item.getIndexNumber() > mainItem.getIndexNumber();
+
+                                                                boolean itemIsAfterSpecialEpisodeBefore = (mainItemIsBeforeSeason && !itemIsSpecial)
+                                                                        || (mainItemIsBeforeSeason && itemIsSpecialBeforeSeason && itemIndexIsGreater)
+                                                                        || (mainItemIsBeforeSeason && itemIsSpecialWithinSeason)
+                                                                        || (!mainItemIsBeforeSeason && itemIsSpecialWithinSeason && mainItem.getAirsBeforeEpisodeNumber().equals(item.getAirsBeforeEpisodeNumber()) && itemIndexIsGreater)
+                                                                        || (!mainItemIsBeforeSeason && itemIsSpecialWithinSeason && item.getAirsBeforeEpisodeNumber() > mainItem.getAirsBeforeEpisodeNumber())
+                                                                        || (!mainItemIsBeforeSeason && !itemIsSpecial && item.getIndexNumber() != null && item.getIndexNumber() >= mainItem.getAirsBeforeEpisodeNumber())
+                                                                        || (itemIsSpecialAfterSeason);
+
+                                                                if (itemIsAfterSpecialEpisodeBefore) {
+                                                                    if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                                                        items.add(item);
+                                                                    } else {
+                                                                        //stop adding when we hit a missing one
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        outerResponse.onResponse(items);
+                                                    }
+                                                });
                                             } else {
-                                                //stop adding when we hit a missing one
-                                                break;
+                                                outerResponse.onResponse(items);
                                             }
                                         }
-                                    }
+                                    });
+                                } else {
+                                    query.setParentId(mainItem.getSeasonId());
+                                    query.setIsVirtualUnaired(false);
+                                    query.setSortBy(new String[]{ItemSortBy.SortName});
+                                    query.setIncludeItemTypes(new String[]{"Episode"});
+                                    query.setFields(new ItemFields[]{
+                                            ItemFields.MediaSources,
+                                            ItemFields.MediaStreams,
+                                            ItemFields.Path,
+                                            ItemFields.Chapters,
+                                            ItemFields.Overview,
+                                            ItemFields.PrimaryImageAspectRatio,
+                                            ItemFields.ChildCount,
+                                            ItemFields.SpecialEpisodeNumbers
+                                    });
+                                    query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                    if (displaySpecialsWithinSeasons && mainItem.getAirsAfterSeasonNumber() != null)
+                                        query.setAiredDuringSeason(mainItem.getAirsAfterSeasonNumber());
+
+                                    get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                                        @Override
+                                        public void onResponse(ItemsResult response) {
+                                            if (response.getTotalRecordCount() > 0) {
+                                                if (displaySpecialsWithinSeasons) {
+                                                    boolean mainItemIsSpecial = mainItem.getAirsBeforeSeasonNumber() != null || mainItem.getAirsAfterSeasonNumber() != null;
+
+                                                    for (BaseItemDto item : response.getItems()) {
+                                                        boolean itemIndexIsGreater = item.getIndexNumber() != null && mainItem.getIndexNumber() != null && item.getIndexNumber() > mainItem.getIndexNumber();
+
+                                                        boolean itemIsAfterNormalEpisode = !mainItemIsSpecial
+                                                                && ((item.getAirsBeforeSeasonNumber() == null && item.getAirsAfterSeasonNumber() == null && itemIndexIsGreater)
+                                                                || (item.getAirsBeforeSeasonNumber() != null && item.getAirsBeforeEpisodeNumber() != null && mainItem.getIndexNumber() != null && item.getAirsBeforeEpisodeNumber() > mainItem.getIndexNumber())
+                                                                || item.getAirsAfterSeasonNumber() != null);
+
+                                                        boolean itemIsAfterSpecialEpisodeAfter = mainItem.getAirsAfterSeasonNumber() != null && item.getAirsAfterSeasonNumber() != null && itemIndexIsGreater;
+
+                                                        if (itemIsAfterNormalEpisode || itemIsAfterSpecialEpisodeAfter) {
+                                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                                                items.add(item);
+                                                            } else {
+                                                                //stop adding when we hit a missing one
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    for (BaseItemDto item : response.getItems()) {
+                                                        if (item.getIndexNumber() != null && mainItem.getIndexNumber() != null && item.getIndexNumber() > mainItem.getIndexNumber()) {
+                                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                                                items.add(item);
+                                                            } else {
+                                                                //stop adding when we hit a missing one
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            outerResponse.onResponse(items);
+                                        }
+                                    });
                                 }
-                                outerResponse.onResponse(items);
                             }
                         });
                     } else {
-                        Timber.i("Unable to add subsequent episodes due to lack of season or episode data.");
+                        Timber.i("Unable to add subsequent episodes due to lack of season or series data.");
                         outerResponse.onResponse(items);
                     }
                 } else {
