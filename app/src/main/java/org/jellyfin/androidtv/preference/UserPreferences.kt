@@ -167,6 +167,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
+
+		/**
+		 * Display the chapters row on movie and episode screens
+		 */
+		var chaptersRowEnabled = Preference.boolean("pref_enable_chapters_row", true)
 	}
 
 	init {

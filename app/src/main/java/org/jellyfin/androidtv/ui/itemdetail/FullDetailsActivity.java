@@ -523,6 +523,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void addAdditionalRows(ArrayObjectAdapter adapter) {
         Timber.d("Item type: %s", mBaseItem.getBaseItemType().toString());
+        boolean chaptersRowEnabled;
         switch (mBaseItem.getBaseItemType()) {
             case Movie:
 
@@ -543,7 +544,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
 
                 //Chapters
-                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
+                chaptersRowEnabled = userPreferences.getValue().get(UserPreferences.Companion.getChaptersRowEnabled());
+                if (chaptersRowEnabled && mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
@@ -704,7 +706,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
 
                 //Chapters
-                if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
+                chaptersRowEnabled = userPreferences.getValue().get(UserPreferences.Companion.getChaptersRowEnabled());
+                if (chaptersRowEnabled && mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
