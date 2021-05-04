@@ -7,7 +7,6 @@ import org.jellyfin.androidtv.auth.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.service.BackgroundService
-import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
@@ -21,7 +20,6 @@ import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 
 val appModule = module {
@@ -50,9 +48,7 @@ val appModule = module {
 
 	single { DataRefreshService() }
 
-	worker { LeanbackChannelWorker(get(), get(), get()) }
-
-	single { WorkManager.getInstance(androidContext()) }
+	factory { WorkManager.getInstance(androidContext()) }
 
 	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get(), get(), get()) }
 
