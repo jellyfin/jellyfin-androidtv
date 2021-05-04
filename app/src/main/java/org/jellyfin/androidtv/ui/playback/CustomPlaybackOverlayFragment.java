@@ -441,7 +441,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         break;
                 }
             } else if (item instanceof ChannelInfoDto) {
-                Utils.beep(100);
                 hidePopupPanel();
                 switchChannel(((ChannelInfoDto) item).getId());
             }
@@ -568,7 +567,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                             (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                         // tune to the current channel
-                        Utils.beep();
                         switchChannel(mSelectedProgram.getChannelId());
                         return true;
                     } else {
@@ -619,7 +617,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     if (!mIsVisible) {
                         if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
                             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                Utils.beep(100);
                                 mPlaybackController.skip(30000);
                                 mIsVisible = true;
                                 setFadingEnabled(true);
@@ -627,7 +624,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             }
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                Utils.beep(100);
                                 mPlaybackController.skip(-11000);
                                 mIsVisible = true;
                                 setFadingEnabled(true);

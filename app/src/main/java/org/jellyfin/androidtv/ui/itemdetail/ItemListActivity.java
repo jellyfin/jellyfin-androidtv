@@ -576,7 +576,6 @@ public class ItemListActivity extends FragmentActivity {
             TextUnderButton mix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    Utils.beep();
                     PlaybackHelper.playInstantMix(mBaseItem.getId());
                 }
             });
