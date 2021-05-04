@@ -1,16 +1,17 @@
-name: Merge conflict label
+name: Merge conflict labeler
 
 on:
-  schedule:
-    - cron: '0 4 * * *'
   push:
+  pull_request_target:
+    types:
+      - synchronize
 
 jobs:
   triage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
-      - uses: mschilde/auto-label-merge-conflicts@v2.0
+      - uses: eps1lon/actions-label-merge-conflict@v2.0.1
         with:
-          CONFLICT_LABEL_NAME: merge conflict
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          dirtyLabel: merge conflict
+          repoToken: ${{ secrets.GH_TOKEN }}
