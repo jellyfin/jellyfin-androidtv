@@ -45,6 +45,13 @@ class LoginViewModel(
 		}.collect()
 	}
 
+	fun removeServer(serverId: UUID) {
+		val removed = serverRepository.removeServer(serverId)
+
+		// Reload stored servers when server is removed
+		if (removed) _storedServers.postValue(serverRepository.getStoredServers())
+	}
+
 	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
 
 	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
