@@ -225,7 +225,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     protected void onResume() {
         super.onResume();
 
-        startClock();
+        ClockBehavior clockBehavior = userPreferences.getValue().get(UserPreferences.Companion.getClockBehavior());
+        if (clockBehavior == ClockBehavior.ALWAYS || clockBehavior == ClockBehavior.IN_MENUS) {
+            startClock();
+        }
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
         if (dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
