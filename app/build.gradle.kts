@@ -79,12 +79,12 @@ dependencies {
 
 	// Android(x)
 	implementation("androidx.core:core-ktx:1.3.2")
+	implementation("androidx.activity:activity-ktx:1.2.2")
 	implementation("androidx.fragment:fragment-ktx:1.3.2")
 	val androidxLeanbackVersion = "1.1.0-beta01"
 	implementation("androidx.leanback:leanback:${androidxLeanbackVersion}")
 	implementation("androidx.leanback:leanback-preference:${androidxLeanbackVersion}")
 	val androidxPreferenceVersion = "1.1.1"
-	implementation("androidx.preference:preference:$androidxPreferenceVersion")
 	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
 	implementation("androidx.appcompat:appcompat:1.2.0")
 	implementation("androidx.tvprovider:tvprovider:1.1.0-alpha01")
@@ -92,8 +92,10 @@ dependencies {
 	implementation("androidx.recyclerview:recyclerview:1.1.0")
 	implementation("androidx.work:work-runtime-ktx:2.5.0")
 	val androidxLifecycleVersion = "2.3.1"
+	implementation("androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
+	implementation("androidx.lifecycle:lifecycle-service:$androidxLifecycleVersion")
 	implementation("androidx.window:window:1.0.0-alpha05")
 	implementation("androidx.viewpager:viewpager:1.0.0")
 

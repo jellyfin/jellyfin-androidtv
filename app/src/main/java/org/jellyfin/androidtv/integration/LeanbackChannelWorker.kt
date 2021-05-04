@@ -141,8 +141,8 @@ class LeanbackChannelWorker(
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
 				.setIntent(Intent(context, StartupActivity::class.java).apply {
-					putExtra(StartupActivity.ITEM_ID, item.id)
-					putExtra(StartupActivity.ITEM_IS_USER_VIEW, true)
+					putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
+					putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
 				})
 				.build()
 				.toContentValues()
@@ -221,7 +221,7 @@ class LeanbackChannelWorker(
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
 				.setIntent(Intent(context, StartupActivity::class.java).apply {
-					putExtra(StartupActivity.ITEM_ID, item.id)
+					putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
 				})
 				.build()
 				.toContentValues()
@@ -289,7 +289,7 @@ class LeanbackChannelWorker(
 
 		// Set intent to open the episode
 		setIntent(Intent(context, StartupActivity::class.java).apply {
-			putExtra(StartupActivity.ITEM_ID, item.id)
+			putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
 		})
 	}.build()
 }
