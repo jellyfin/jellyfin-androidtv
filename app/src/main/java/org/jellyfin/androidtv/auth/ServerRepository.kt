@@ -24,7 +24,7 @@ interface ServerRepository {
 	suspend fun migrateLegacyCredentials()
 
 	fun getServerUsers(server: Server): LiveData<List<User>>
-	fun removeServer(serverId: UUID): Unit
+	fun removeServer(serverId: UUID): Boolean
 	fun addServer(address: String): Flow<ServerAdditionState>
 }
 
@@ -71,9 +71,7 @@ class ServerRepositoryImpl(
 
 	override suspend fun migrateLegacyCredentials() = legacyAccountMigration.migrate()
 
-	override fun removeServer(serverId: UUID) {
-		authenticationStore.removeServer(serverId)
-	}
+	override fun removeServer(serverId: UUID) = authenticationStore.removeServer(serverId)
 
 	override fun addServer(address: String): Flow<ServerAdditionState> = flow {
 		Timber.d("Adding server %s", address)

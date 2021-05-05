@@ -3,13 +3,17 @@ package org.jellyfin.androidtv.ui.startup.preference
 import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.AuthenticationStore
 import org.jellyfin.androidtv.ui.preference.dsl.*
-import org.koin.android.ext.android.get
+import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.DateFormat
 import java.util.*
 
 class EditServerScreen : OptionsFragment() {
+	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val authenticationRepository by inject<AuthenticationRepository>()
+
 	init {
 		rebuildOnResume = true
 	}
@@ -18,9 +22,8 @@ class EditServerScreen : OptionsFragment() {
 		get() = optionsScreen {
 			val serverUUID = requireArguments().get(ARG_SERVER_UUID) as? UUID
 				?: return@optionsScreen
-			val authenticationStore = get<AuthenticationStore>()
-			val authenticationRepository = get<AuthenticationRepository>()
-			val server = authenticationStore.getServer(serverUUID) ?: return@optionsScreen
+
+			val server = loginViewModel.getServer(serverUUID) ?: return@optionsScreen
 			val users = authenticationRepository.getUsers(serverUUID) ?: return@optionsScreen
 
 			title = server.name
@@ -58,7 +61,7 @@ class EditServerScreen : OptionsFragment() {
 					setContent(R.string.lbl_remove_users)
 					icon = R.drawable.ic_delete
 					onActivate = {
-						authenticationStore.removeServer(serverUUID)
+						loginViewModel.removeServer(serverUUID)
 
 						parentFragmentManager.popBackStack()
 					}

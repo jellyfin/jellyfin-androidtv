@@ -6,25 +6,27 @@ import org.jellyfin.androidtv.auth.AuthenticationStore
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
-import org.koin.android.ext.android.get
+import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 class EditUserScreen : OptionsFragment() {
+	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val accountManagerHelper by inject<AccountManagerHelper>()
+	private val authenticationStore by inject<AuthenticationStore>()
+
 	override val screen by lazyOptionsScreen {
 		val serverUUID = requireArguments().get(ARG_SERVER_UUID)
 		val userUUID = requireArguments().get(ARG_USER_UUID)
 
-		if (serverUUID !is UUID || userUUID !is UUID)
-			return@lazyOptionsScreen
+		if (serverUUID !is UUID || userUUID !is UUID) return@lazyOptionsScreen
 
-		val accountManagerHelper = get<AccountManagerHelper>()
-		val authenticationStore = get<AuthenticationStore>()
-		val server = authenticationStore.getServer(serverUUID) ?: return@lazyOptionsScreen
-
-		val user = authenticationStore.getUser(serverUUID, userUUID) ?: return@lazyOptionsScreen
-		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
-
+		val server = loginViewModel.getServer(serverUUID) ?: return@lazyOptionsScreen
+		val user = authenticationStore.getUser(server.id, userUUID) ?: return@lazyOptionsScreen
 		val account = accountManagerHelper.getAccount(userUUID)
+
+		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
 
 		category {
 			action {
