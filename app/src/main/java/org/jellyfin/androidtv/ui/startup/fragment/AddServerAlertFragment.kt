@@ -1,10 +1,14 @@
-package org.jellyfin.androidtv.ui.startup
+package org.jellyfin.androidtv.ui.startup.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.os.bundleOf
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -12,6 +16,7 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.databinding.FragmentAlertAddServerBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
+import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AddServerAlertFragment : AlertFragment() {
@@ -72,7 +77,16 @@ class AddServerAlertFragment : AlertFragment() {
 						R.string.server_connection_failed,
 						state.addressCandidates.joinToString(prefix = "\n", separator = "\n")
 					)
-					is ConnectedState -> onClose()
+					is ConnectedState -> parentFragmentManager.commit {
+						replace<StartupToolbarFragment>(R.id.content_view)
+						add<ServerFragment>(
+							R.id.content_view,
+							null,
+							bundleOf(
+								ServerFragment.ARG_SERVER_ID to state.id.toString()
+							)
+						)
+					}
 				}
 			}
 		} else {

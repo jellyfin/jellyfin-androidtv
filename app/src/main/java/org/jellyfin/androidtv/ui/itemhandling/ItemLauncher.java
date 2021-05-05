@@ -1,8 +1,13 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
+
+import androidx.core.util.Consumer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -38,14 +43,12 @@ import java.util.List;
 
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void launchUserView(final BaseItemDto baseItem, final Activity context, final boolean finishParent) {
+    public static void createUserViewIntent(final BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
         //We need to get display prefs...
         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
             @Override
@@ -54,6 +57,7 @@ public class ItemLauncher {
                     baseItem.setCollectionType("unknown");
                 }
                 Timber.d("**** Collection type: %s", baseItem.getCollectionType());
+                Intent intent;
                 switch (baseItem.getCollectionType()) {
                     case "movies":
                     case "tvshows":
@@ -61,36 +65,40 @@ public class ItemLauncher {
                         Timber.d("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
                         if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open grid browsing
-                            Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                            folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                            context.startActivity(folderIntent);
-                            if (finishParent) context.finish();
-
+                            intent = new Intent(context, GenericGridActivity.class);
+                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         } else {
                             // open user view browsing
-                            Intent intent = new Intent(context, UserViewActivity.class);
+                            intent = new Intent(context, UserViewActivity.class);
                             intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-
-                            context.startActivity(intent);
-                            if (finishParent) context.finish();
                         }
                         break;
                     case "livetv":
                         // open user view browsing
-                        Intent intent = new Intent(context, UserViewActivity.class);
+                        intent = new Intent(context, UserViewActivity.class);
                         intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-
-                        context.startActivity(intent);
-                        if (finishParent) context.finish();
                         break;
                     default:
                         // open generic folder browsing
-                        Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                        folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                        context.startActivity(folderIntent);
-                        if (finishParent) context.finish();
+                        intent = new Intent(context, GenericGridActivity.class);
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                 }
+
+                callback.accept(intent);
             }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception);
+                callback.accept(null);
+            }
+        });
+    }
+
+    public static void launchUserView(final BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
+        createUserViewIntent(baseItem, activity, intent -> {
+            activity.startActivity(intent);
+            if (finishParent) activity.finishAfterTransition();
         });
     }
 

@@ -37,7 +37,14 @@ class AuthenticationRepositoryImpl(
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
 
 	override fun getServers() = authenticationStore.getServers().map { (id, info) ->
-		Server(id, info.name, info.address, Date(info.lastUsed))
+		Server(
+			id = id,
+			name = info.name,
+			address = info.address,
+			version = info.version,
+			loginDisclaimer = info.loginDisclaimer,
+			dateLastAccessed = Date(info.lastUsed),
+		)
 	}.sortedWith(serverComparator)
 
 	override fun getUsers(server: UUID): List<PrivateUser>? =
@@ -91,10 +98,18 @@ class AuthenticationRepositoryImpl(
 		emit(AuthenticatingState)
 
 		val server = authenticationStore.getServer(user.serverId)?.let {
-			Server(user.serverId, it.name, it.address, Date(it.lastUsed))
+			Server(
+				id = user.serverId,
+				name = it.name,
+				address = it.address,
+				version = it.version,
+				loginDisclaimer = it.loginDisclaimer,
+				dateLastAccessed = Date(it.lastUsed),
+			)
 		}
 
 		if (server == null) emit(RequireSignInState)
+		else if (!server.versionSupported) emit(ServerVersionNotSupported(server))
 		else emitAll(authenticateUser(user, server))
 	}
 
@@ -105,6 +120,7 @@ class AuthenticationRepositoryImpl(
 
 		val account = accountManagerHelper.getAccount(user.id)
 		when {
+			!server.versionSupported -> emit(ServerVersionNotSupported(server))
 			// Access token found, proceed with sign in
 			account?.accessToken != null -> when {
 				// Update session
@@ -126,6 +142,11 @@ class AuthenticationRepositoryImpl(
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun login(server: Server, username: String, password: String) = flow {
+		if (!server.versionSupported) {
+			emit(ServerVersionNotSupported(server))
+			return@flow
+		}
+
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
 				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))

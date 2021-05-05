@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.startup
+package org.jellyfin.androidtv.ui.startup.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +13,13 @@ import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.databinding.FragmentAlertUserLoginBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
+import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class UserLoginAlertFragment : AlertFragment() {
 	companion object {
-		const val ARG_USERNAME = "username"
+		const val ARG_USERNAME = "user_name"
 		const val ARG_SERVER_ID = "server_id"
 	}
 
@@ -89,7 +90,8 @@ class UserLoginAlertFragment : AlertFragment() {
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
 					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
 					ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
-					AuthenticatedState -> onClose()
+					// Do nothing beause the activity will respond to the new session
+					AuthenticatedState -> Unit
 				}
 			}
 		} else {

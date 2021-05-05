@@ -28,13 +28,17 @@ interface ServerRepository {
 	fun removeServer(serverId: UUID): Boolean
 	fun addServer(address: String): Flow<ServerAdditionState>
 	suspend fun refreshServerInfo(server: Server): Boolean
+
+	companion object {
+		val minimumServerVersion = Jellyfin.minimumVersion
+	}
 }
 
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val authenticationRepository: AuthenticationRepository,
 	private val authenticationStore: AuthenticationStore,
-	private val legacyAccountMigration: LegacyAccountMigration
+	private val legacyAccountMigration: LegacyAccountMigration,
 ) : ServerRepository {
 	override fun getStoredServers() = authenticationRepository.getServers()
 
@@ -81,7 +85,7 @@ class ServerRepositoryImpl(
 		val users = mutableListOf<User>()
 
 		users.addAll(getServerStoredUsers(server))
-		emit(users)
+		emit(users.toList())
 
 		getServerPublicUsers(server)
 			.sortedBy { it.name }
@@ -90,7 +94,7 @@ class ServerRepositoryImpl(
 					users.add(user)
 			}
 
-		emit(users)
+		emit(users.toList())
 	}
 
 	override suspend fun migrateLegacyCredentials() = legacyAccountMigration.migrate()
