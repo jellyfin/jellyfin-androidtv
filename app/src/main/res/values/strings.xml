@@ -476,4 +476,6 @@
     <string name="lbl_switch_user">Switch user</string>
     <string name="lbl_show_chapters_row">Show video chapters</string>
     <string name="lbl_show_chapters_row_description">Display the video\'s chapters on the item details</string>
+    <string name="lbl_written_by">Written By</string>
+    <string name="lbl_network">Network</string>
 </resources>

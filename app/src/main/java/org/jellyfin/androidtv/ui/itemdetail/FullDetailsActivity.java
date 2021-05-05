@@ -74,6 +74,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.dto.StudioDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -437,13 +438,26 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mDetailsOverviewRow.setInfoItem1(firstRow);
 
                     if ((item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0) || item.getOriginalRunTimeTicks() != null) {
-                        mDetailsOverviewRow.setInfoItem2(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
-
                         ClockBehavior clockBehavior = userPreferences.getValue().get(UserPreferences.Companion.getClockBehavior());
                         if (clockBehavior == ClockBehavior.ALWAYS || clockBehavior == ClockBehavior.IN_MENUS) {
+                            mDetailsOverviewRow.setInfoItem2(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
                             mDetailsOverviewRow.setInfoItem3(new InfoItem(getString(R.string.lbl_ends), getEndTime()));
                         } else {
-                            mDetailsOverviewRow.setInfoItem3(new InfoItem());
+                            InfoItem secondRow;
+                            if (item.getBaseItemType() == BaseItemType.Series) {
+                                StudioDto[] itemStudios = item.getStudios();
+                                StudioDto network = itemStudios.length > 0 ? itemStudios[0] : null;
+                                secondRow = new InfoItem(
+                                        getString(R.string.lbl_network),
+                                        network != null ? network.getName() : getString(R.string.lbl_bracket_unknown));
+                            } else {
+                                BaseItemPerson writer = BaseItemUtils.getFirstPerson(item, PersonType.Writer);
+                                secondRow = new InfoItem(
+                                        getString(R.string.lbl_written_by),
+                                        writer != null ? writer.getName() : getString(R.string.lbl_bracket_unknown));
+                            }
+                            mDetailsOverviewRow.setInfoItem2(secondRow);
+                            mDetailsOverviewRow.setInfoItem3(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
                         }
                     } else {
                         mDetailsOverviewRow.setInfoItem2(new InfoItem());
