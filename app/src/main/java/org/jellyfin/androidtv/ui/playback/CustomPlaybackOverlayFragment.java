@@ -1384,31 +1384,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         requireActivity().finish();
     }
 
-    private SubtitleTrackInfo mManualSubs;
-    private long lastReportedPosMs;
-
-    public void addManualSubtitles(SubtitleTrackInfo info) {
-        mManualSubs = info;
-        lastReportedPosMs = 0;
-
-        mActivity.runOnUiThread(() -> {
-            mSubtitleText.setVisibility(View.INVISIBLE);
-            mSubtitleText.setText("");
-        });
-    }
-
-    public void showSubLoadingMsg(final boolean show) {
-        mActivity.runOnUiThread(() -> {
-            if (show) {
-                mSubtitleText.setText(R.string.msg_subtitles_loading);
-                mSubtitleText.setVisibility(View.VISIBLE);
-            } else {
-                mSubtitleText.setVisibility(View.INVISIBLE);
-                mSubtitleText.setText("");
-            }
-        });
-    }
-
     @Override
     public void showNextUp(String id) {
         // Set to "modified" so the queue won't be cleared
@@ -1420,6 +1395,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPlaybackController.clearFragment();
         mPlaybackController.removePreviousQueueItems();
         finish();
+    }
+
+    private SubtitleTrackInfo mManualSubs;
+    private long lastReportedPosMs;
+
+    public void addManualSubtitles(SubtitleTrackInfo info) {
+        mManualSubs = info;
+        lastReportedPosMs = 0;
+        clearSubtitles();
+    }
+
+    public void showSubLoadingMsg(final boolean show) {
+        if (show) {
+            renderSubtitles(requireContext().getString(R.string.msg_subtitles_loading));
+        } else {
+            clearSubtitles();
+        }
     }
 
     public void updateSubtitles(long positionMs) {
@@ -1436,36 +1428,37 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         long positionTicks = positionMs * 10000;
         for (SubtitleTrackEvent caption : mManualSubs.getTrackEvents()) {
             if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
-                setTimedText(caption);
+                renderSubtitles(caption.getText());
                 return;
             }
         }
 
-        setTimedText(null);
+        clearSubtitles();
     }
 
-    private void setTimedText(final SubtitleTrackEvent textObj) {
+    private void clearSubtitles() {
         requireActivity().runOnUiThread(() -> {
-            if (textObj == null) {
-                mSubtitleText.setVisibility(View.INVISIBLE);
-                return;
-            }
+            mSubtitleText.setVisibility(View.INVISIBLE);
+            mSubtitleText.setText("");
+        });
+    }
 
-            String text = textObj.getText();
+    private void renderSubtitles(@Nullable final String text) {
+        requireActivity().runOnUiThread(() -> {
             if (text == null || text.length() == 0) {
                 mSubtitleText.setVisibility(View.INVISIBLE);
-                return;
+                mSubtitleText.setText("");
+            } else {
+                // Encode whitespace as html entities
+                String htmlText = text.replaceAll("\\r\\n", "<br>");
+                htmlText = htmlText.replaceAll("\\\\h", "&ensp;");
+
+                SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
+                span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                mSubtitleText.setText(span);
+                mSubtitleText.setVisibility(View.VISIBLE);
             }
-
-            // Encode whitespace as html entities
-            text = text.replaceAll("\\r\\n", "<br>");
-            text = text.replaceAll("\\\\h", "&ensp;");
-
-            SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(text));
-            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            mSubtitleText.setText(span);
-            mSubtitleText.setVisibility(View.VISIBLE);
         });
     }
 }
