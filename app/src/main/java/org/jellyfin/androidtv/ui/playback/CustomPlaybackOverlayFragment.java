@@ -201,13 +201,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPlaybackController = TvApp.getApplication().getPlaybackController();
 
         // setup fade task
-        mHideTask = new Runnable() {
-            @Override
-            public void run() {
-                if (mIsVisible) {
-                    hide();
-                    leanbackOverlayFragment.hideOverlay();
-                }
+        mHideTask = () -> {
+            if (mIsVisible) {
+                hide();
+                leanbackOverlayFragment.hideOverlay();
             }
         };
     }
@@ -237,18 +234,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         root.addView(mTvGuide);
         mTvGuide.setVisibility(View.GONE);
 
-        root.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //if we're not visible, show us
-                if (!mIsVisible) show();
+        root.setOnTouchListener((v, event) -> {
+            //if we're not visible, show us
+            if (!mIsVisible) show();
 
-                //and then manage our fade timer
-                if (mFadeEnabled) startFadeTimer();
+            //and then manage our fade timer
+            if (mFadeEnabled) startFadeTimer();
 
-                Timber.d("Got touch event.");
-                return false;
-            }
+            Timber.d("Got touch event.");
+            return false;
         });
 
         return root;
@@ -348,11 +342,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mChannelScroller.setFocusable(false);
 
         // register to receive message from popup
-        mActivity.registerMessageListener(new IMessageListener() {
-            @Override
-            public void onMessageReceived(CustomMessage message) {
-                if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
-            }
+        mActivity.registerMessageListener(message -> {
+            if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
         });
 
         mActivity.getOnBackPressedDispatcher().addCallback(backPressedCallback);
@@ -555,7 +546,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
 
                 if (mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
-                    mPopupRowsFragment.getView().requestFocus();
+                    mPopupRowsFragment.requireView().requestFocus();
                     mPopupRowPresenter.setPosition(0);
                     return true;
                 }
@@ -905,14 +896,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
                 prevRow = row;
 
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        GuideChannelHeader header = getChannelHeader(mActivity, channel);
-                        mChannels.addView(header);
-                        header.loadImage();
-                        mProgramRows.addView(row);
-                    }
+                mActivity.runOnUiThread(() -> {
+                    GuideChannelHeader header = getChannelHeader(mActivity, channel);
+                    mChannels.addView(header);
+                    header.loadImage();
+                    mProgramRows.addView(row);
                 });
 
                 displayedChannels++;
@@ -1174,29 +1162,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public void showQuickChannelChanger() {
         showChapterPanel();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
-                if (ndx > 0) {
-                    mPopupRowPresenter.setPosition(ndx);
-                }
-                mPopupPanelVisible = true;
+        mHandler.postDelayed(() -> {
+            int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+            if (ndx > 0) {
+                mPopupRowPresenter.setPosition(ndx);
             }
+            mPopupPanelVisible = true;
         }, 500);
     }
 
     public void showChapterSelector() {
         showChapterPanel();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
-                if (ndx > 0) {
-                    mPopupRowPresenter.setPosition(ndx);
-                }
-                mPopupPanelVisible = true;
+        mHandler.postDelayed(() -> {
+            int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
+            if (ndx > 0) {
+                mPopupRowPresenter.setPosition(ndx);
             }
+            mPopupPanelVisible = true;
         }, 500);
     }
 
@@ -1223,28 +1205,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_cancel_recording)
                             .setMessage(R.string.msg_cancel_entire_series)
-                            .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, true);
-                                }
-                            })
-                            .setNegativeButton(R.string.just_one, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_cancel_series, (dialog, which) -> cancelRecording(program, true))
+                            .setNegativeButton(R.string.just_one, (dialog, which) -> cancelRecording(program, false))
                             .show();
                 } else {
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_cancel_recording)
-                            .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_yes, (dialog, which) -> cancelRecording(program, false))
                             .setNegativeButton(R.string.lbl_no, null)
                             .show();
                 }
@@ -1253,18 +1220,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_record_series)
                             .setMessage(R.string.msg_record_entire_series)
-                            .setPositiveButton(R.string.lbl_record_series, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    recordProgram(program, true);
-                                }
-                            })
-                            .setNegativeButton(R.string.lbl_just_this_once, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    recordProgram(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_record_series, (dialog, which) -> recordProgram(program, true))
+                            .setNegativeButton(R.string.lbl_just_this_once, (dialog, which) -> recordProgram(program, false))
                             .show();
                 } else {
                     recordProgram(program, false);
@@ -1365,12 +1322,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mIsVisible) startFadeTimer();
         } else {
             mHandler.removeCallbacks(mHideTask);
-            if (!mIsVisible) getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    show();
-                }
-            });
+            if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         }
     }
 
@@ -1429,7 +1381,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void finish() {
-        getActivity().finish();
+        requireActivity().finish();
     }
 
     private SubtitleTrackInfo mManualSubs;
@@ -1439,26 +1391,20 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mManualSubs = info;
         lastReportedPosMs = 0;
 
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSubtitleText.setVisibility(View.INVISIBLE);
-                mSubtitleText.setText("");
-            }
+        mActivity.runOnUiThread(() -> {
+            mSubtitleText.setVisibility(View.INVISIBLE);
+            mSubtitleText.setText("");
         });
     }
 
     public void showSubLoadingMsg(final boolean show) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (show) {
-                    mSubtitleText.setText(R.string.msg_subtitles_loading);
-                    mSubtitleText.setVisibility(View.VISIBLE);
-                } else {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    mSubtitleText.setText("");
-                }
+        mActivity.runOnUiThread(() -> {
+            if (show) {
+                mSubtitleText.setText(R.string.msg_subtitles_loading);
+                mSubtitleText.setVisibility(View.VISIBLE);
+            } else {
+                mSubtitleText.setVisibility(View.INVISIBLE);
+                mSubtitleText.setText("");
             }
         });
     }
@@ -1499,30 +1445,27 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void setTimedText(final SubtitleTrackEvent textObj) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (textObj == null) {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
-
-                String text = textObj.getText();
-                if (text == null || text.length() == 0) {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
-
-                // Encode whitespace as html entities
-                text = text.replaceAll("\\r\\n", "<br>");
-                text = text.replaceAll("\\\\h", "&ensp;");
-
-                SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(text));
-                span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(mActivity, R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                mSubtitleText.setText(span);
-                mSubtitleText.setVisibility(View.VISIBLE);
+        requireActivity().runOnUiThread(() -> {
+            if (textObj == null) {
+                mSubtitleText.setVisibility(View.INVISIBLE);
+                return;
             }
+
+            String text = textObj.getText();
+            if (text == null || text.length() == 0) {
+                mSubtitleText.setVisibility(View.INVISIBLE);
+                return;
+            }
+
+            // Encode whitespace as html entities
+            text = text.replaceAll("\\r\\n", "<br>");
+            text = text.replaceAll("\\\\h", "&ensp;");
+
+            SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(text));
+            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            mSubtitleText.setText(span);
+            mSubtitleText.setVisibility(View.VISIBLE);
         });
     }
 }
