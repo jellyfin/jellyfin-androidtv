@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.apiclient.callApi
@@ -15,6 +16,7 @@ import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.system.PublicSystemInfo
+import org.jellyfin.sdk.discovery.AddressCandidateHelper
 import timber.log.Timber
 import java.util.*
 
@@ -76,21 +78,43 @@ class ServerRepositoryImpl(
 	override fun addServer(address: String): Flow<ServerAdditionState> = flow {
 		Timber.d("Adding server %s", address)
 
-		emit(ConnectingState)
+		emit(ConnectingState(address))
 
-		// Suppressed because the old apiclient is unreliable
-		@Suppress("TooGenericExceptionCaught")
-		try {
-			val api = jellyfin.createApi(serverAddress = address, device = device)
-			val systemInfo: PublicSystemInfo = callApi { callback ->
-				api.GetPublicSystemInfoAsync(callback)
+		// TODO Use the getRecommendedServer function in the DiscoveryService of the SDK
+		val addressCandidates = AddressCandidateHelper(address).apply {
+			addCommonCandidates()
+			prioritize()
+		}.getCandidates()
+
+		Timber.d("Found ${addressCandidates.size} candidates")
+
+		// Yup we're going to mix the new SDK with the old apiclient for now..
+		for (candidate in addressCandidates) {
+			// Suppressed because the old apiclient is unreliable
+			@Suppress("TooGenericExceptionCaught")
+			try {
+				emit(ConnectingState(candidate))
+				Timber.d("Trying candidate %s", candidate)
+
+				val api = jellyfin.createApi(serverAddress = candidate, device = device)
+				val systemInfo: PublicSystemInfo = callApi { callback ->
+					api.GetPublicSystemInfoAsync(callback)
+				}
+
+				authenticationRepository.saveServer(systemInfo.id.toUUID(), systemInfo.serverName, candidate)
+
+				emit(ConnectedState(systemInfo))
+
+				// Stop looping because we found a working connection
+				break
+			} catch (error: Exception) {
+				emit(UnableToConnectState(error))
+
+				// Wait for 0.3 seconds before attempting the next connection
+				// this is to prevent network flooding and allowing the user to
+				// view the error (although shortly)
+				delay(300)
 			}
-
-			authenticationRepository.saveServer(systemInfo.id.toUUID(), systemInfo.serverName, address)
-
-			emit(ConnectedState(systemInfo))
-		} catch (error: Exception) {
-			emit(UnableToConnectState(error))
 		}
 	}
 }
