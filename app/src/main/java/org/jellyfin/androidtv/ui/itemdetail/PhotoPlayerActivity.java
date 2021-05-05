@@ -38,7 +38,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.MyRandomeKBGenerator;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
@@ -185,7 +184,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
     protected boolean handlePlayKey() {
         if (mPopupPanelVisible) {
             if (isPlaying) stop();
-            Utils.beep();
             hideThumbPanel();
             mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
             loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());

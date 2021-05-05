@@ -92,8 +92,6 @@ public class KeyProcessor {
                             case Program:
                             case ChannelVideoItem:
                             case Trailer:
-                                // give some audible feedback
-                                Utils.beep();
                                 // retrieve full item and play
                                 PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                                 return true;
@@ -111,7 +109,6 @@ public class KeyProcessor {
                                 return true;
                             case Photo:
                                 // open photo player
-                                Utils.beep();
                                 Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
                                 photoIntent.putExtra("Play",true);
                                 activity.startActivity(photoIntent);
@@ -133,8 +130,6 @@ public class KeyProcessor {
                             case "TvChannel":
                             case "Video":
                             case "Program":
-                                // give some audible feedback
-                                Utils.beep();
                                 // retrieve full item and play
                                 PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
                                 return true;
@@ -147,21 +142,16 @@ public class KeyProcessor {
                         break;
                     case LiveTvChannel:
                     case LiveTvRecording:
-                        // give some audible feedback
-                        Utils.beep();
                         // retrieve full item and play
                         PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
                         return true;
                     case LiveTvProgram:
-                        // give some audible feedback
-                        Utils.beep();
                         // retrieve channel this program belongs to and play
                         PlaybackHelper.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
-                            Utils.beep();
                             BaseItemType itemType = get(MediaManager.class).getCurrentVideoQueue().size() > 0 ? get(MediaManager.class).getCurrentVideoQueue().get(0).getBaseItemType() : null;
                             Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
                             activity.startActivity(intent);
@@ -445,7 +435,6 @@ public class KeyProcessor {
                     get(MediaManager.class).playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_INSTANT_MIX:
-                    Utils.beep();
                     PlaybackHelper.playInstantMix(mCurrentItemId);
                     return true;
             }

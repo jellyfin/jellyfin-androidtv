@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.util;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -25,9 +24,6 @@ import static org.koin.java.KoinJavaComponent.get;
  * A collection of utility methods, all static.
  */
 public class Utils {
-    // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
-    private static final ToneGenerator TONE_GENERATOR = new ToneGenerator(AudioManager.STREAM_ALARM, 50);
-
     /**
      * Shows a (long) toast
      *
@@ -55,18 +51,6 @@ public class Utils {
     public static int convertDpToPixel(Context ctx, float dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
-    }
-
-    public static void beep() {
-        beep(200);
-    }
-
-    public static void beep(int ms) {
-        makeTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, ms);
-    }
-
-    public static void makeTone(int type, int ms) {
-        TONE_GENERATOR.startTone(type, ms);
     }
 
     public static boolean isTrue(Boolean value) {
