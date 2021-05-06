@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -16,7 +15,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -69,7 +67,6 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -165,6 +162,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     int mCurrentDuration;
     private LeanbackOverlayFragment leanbackOverlayFragment;
     private VideoManager videoManager = null;
+
+    // Subtitle fields
+    private static final long SUBTITLE_RENDER_INTERVAL_MS = 50;
+    private SubtitleTrackInfo subtitleTrackInfo;
+    private int currentSubtitleIndex = 0;
+    private long lastSubtitlePositionMs = 0;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -1397,12 +1400,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         finish();
     }
 
-    private SubtitleTrackInfo mManualSubs;
-    private long lastReportedPosMs;
-
-    public void addManualSubtitles(SubtitleTrackInfo info) {
-        mManualSubs = info;
-        lastReportedPosMs = 0;
+    public void addManualSubtitles(@Nullable SubtitleTrackInfo info) {
+        subtitleTrackInfo = info;
+        currentSubtitleIndex = 0;
+        lastSubtitlePositionMs = 0;
         clearSubtitles();
     }
 
@@ -1415,20 +1416,53 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void updateSubtitles(long positionMs) {
-        if (lastReportedPosMs > 0) {
-            if (Math.abs(lastReportedPosMs - positionMs) < 500) {
-                return;
-            }
-        }
-
-        if (mManualSubs == null) {
+        if (subtitleTrackInfo == null
+                || subtitleTrackInfo.getTrackEvents() == null
+                || currentSubtitleIndex > subtitleTrackInfo.getTrackEvents().size()) {
             return;
         }
 
-        long positionTicks = positionMs * 10000;
-        for (SubtitleTrackEvent caption : mManualSubs.getTrackEvents()) {
-            if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
-                renderSubtitles(caption.getText());
+        // Skip rendering if the interval ms have not passed since last render
+        if (lastSubtitlePositionMs > 0
+                && Math.abs(lastSubtitlePositionMs - positionMs) < SUBTITLE_RENDER_INTERVAL_MS) {
+            return;
+        }
+
+        // If the user has skipped back, need to reset the subtitle index
+        if (lastSubtitlePositionMs > positionMs) {
+            currentSubtitleIndex = 0;
+        }
+
+        lastSubtitlePositionMs = positionMs;
+
+        final long positionTicks = positionMs * 10000;
+        SubtitleTrackEvent trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
+
+        // Check the current subtitle event
+        if (positionTicks >= trackEvent.getStartPositionTicks()) {
+            if (positionTicks <= trackEvent.getEndPositionTicks()) {
+                // Current event should still be rendered
+                renderSubtitles(trackEvent.getText());
+                return;
+            } else {
+                // Current event should be cleared
+                clearSubtitles();
+            }
+        }
+
+        // Find the next subtitle event that should be rendered
+        for (; currentSubtitleIndex < subtitleTrackInfo.getTrackEvents().size(); currentSubtitleIndex++) {
+            trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
+
+            // This subtitle event should be displayed now
+            if (positionTicks >= trackEvent.getStartPositionTicks()
+                    && positionTicks <= trackEvent.getEndPositionTicks()) {
+                renderSubtitles(trackEvent.getText());
+                return;
+            }
+
+            // This subtitle event should be displayed next, but it is not time for it yet
+            if (trackEvent.getStartPositionTicks() > positionTicks) {
                 return;
             }
         }
