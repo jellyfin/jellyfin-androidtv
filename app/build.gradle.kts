@@ -21,14 +21,9 @@ android {
 		viewBinding = true
 	}
 
-	compileOptions {
-		// Use Java 1.8 features
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
-	}
-
-	kotlinOptions {
-		jvmTarget = compileOptions.targetCompatibility.toString()
+	lintOptions {
+		isAbortOnError = false
+		sarifReport = true
 	}
 
 	buildTypes {
