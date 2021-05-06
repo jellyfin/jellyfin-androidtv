@@ -434,7 +434,7 @@
     <string name="login_authenticating">Ověřování uživatele…</string>
     <string name="server_field_empty">Adresa nesmí být prázdná</string>
     <string name="server_connection_failed">Nelze se připojit k serveru: %s</string>
-    <string name="server_connecting">Připojování k serveru…</string>
+    <string name="server_connecting">Připojování k %s</string>
     <string name="connect_title">Připojit</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ke kterému se může připojit. Chcete-li zjistit, jak začít Jellyfin používat, podívejte se na dokumentaci na docs.jellyfin.org.</string>
     <string name="login_help_title">Potřebujete pomoc\?</string>
@@ -478,4 +478,5 @@
     <string name="system_user_explanation">Vybraný uživatel bude sloužit pro systémové integrace jako vyhledávání</string>
     <string name="system_user">Systémový uživatel</string>
     <string name="auto_sign_in">Automatické přihlášení</string>
+    <string name="lbl_switch_user">Přepnout uživatele</string>
 </resources>
