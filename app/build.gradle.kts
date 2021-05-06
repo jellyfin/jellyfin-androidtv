@@ -103,7 +103,6 @@ dependencies {
 	implementation("io.insert-koin:koin-android:$koinVersion")
 	implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
 	implementation("io.insert-koin:koin-androidx-fragment:$koinVersion")
-	implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
 	// GSON
 	implementation("com.google.code.gson:gson:2.8.6")

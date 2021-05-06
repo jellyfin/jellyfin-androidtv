@@ -70,7 +70,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 		// Update leanback channels
 		// TODO Move this (on app start?)
-		val channelUpdateRequest = OneTimeWorkRequest.Builder(LeanbackChannelWorker::class.java).build()
+		val channelUpdateRequest = OneTimeWorkRequest.from(LeanbackChannelWorker::class.java)
 		get<WorkManager>().enqueueUniqueWork(
 			LeanbackChannelWorker.SINGLE_UPDATE_REQUEST_NAME,
 			ExistingWorkPolicy.REPLACE,
