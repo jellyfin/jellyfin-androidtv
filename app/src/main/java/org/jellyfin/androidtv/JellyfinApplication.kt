@@ -22,6 +22,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinExperimentalAPI
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
@@ -64,7 +65,9 @@ class JellyfinApplication : TvApp() {
 
 		// Dependency Injection
 		startKoin {
-			androidLogger()
+			// FIXME: Log level is required to work around this issue in Koin temporarily
+			// https://github.com/InsertKoinIO/koin/issues/1076
+			androidLogger(Level.ERROR)
 			androidContext(this@JellyfinApplication)
 
 			modules(
