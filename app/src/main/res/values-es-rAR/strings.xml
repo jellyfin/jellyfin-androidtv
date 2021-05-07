@@ -434,7 +434,7 @@
     <string name="login_authenticating">Autenticando...</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
     <string name="server_connection_failed">No se puede conectar al servidor: %s</string>
-    <string name="server_connecting">Conectando al servidor...</string>
+    <string name="server_connecting">Conectando a %s</string>
     <string name="connect_title">Conectar</string>
     <string name="login_help_description">Jellyfin requiere un servidor al que conectarse. Vea nuestra documentación en docs.jellyfin.org para comenzar a utilizar Jellyfin.</string>
     <string name="login_help_title">Necesita Ayuda\?</string>
