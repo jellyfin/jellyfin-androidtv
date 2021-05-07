@@ -387,7 +387,7 @@
     <string name="login_authenticating">Tüpnūsqalyq rastauda…</string>
     <string name="server_field_empty">Mekenjaiy bos boluy mümkın emes</string>
     <string name="server_connection_failed">Serverge qosylu mümkın emes: %s</string>
-    <string name="server_connecting">Serverge qosyluda…</string>
+    <string name="server_connecting">%s üşın qosyluda</string>
     <string name="pref_clock_display_playback">Oinatu kezınde</string>
     <string name="pref_clock_display_browsing">Şarlau kezınde</string>
     <string name="lbl_always">Äldeqaşan</string>
