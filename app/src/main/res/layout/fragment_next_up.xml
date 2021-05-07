@@ -17,6 +17,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/app_logo" />
 
+    <ImageView
+        android:id="@+id/logo_minimal"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_marginStart="48dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/app_logo" />
+
     <!-- Overlay -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
@@ -50,9 +61,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/lbl_next_up"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nextup_minimal"
+            style="@style/TextAppearance.Leanback.DetailsDescriptionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="@string/lbl_next_up"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/title_minimal" />
 
         <TextView
             android:id="@+id/title"
@@ -63,6 +86,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/nextup"
+            tools:text="Episode title" />
+
+        <TextView
+            android:id="@+id/title_minimal"
+            style="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fragment_next_up_buttons"
             tools:text="Episode title" />
 
         <TextView

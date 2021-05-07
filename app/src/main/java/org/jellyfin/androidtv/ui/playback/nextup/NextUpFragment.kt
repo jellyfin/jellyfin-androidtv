@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
-import org.jellyfin.androidtv.databinding.FragmentNextUpMinimalBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.toHtmlSpanned
 import org.koin.android.ext.android.inject
@@ -16,28 +15,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
 	private lateinit var binding: FragmentNextUpBinding
-	private lateinit var bindingMinimal: FragmentNextUpMinimalBinding
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
-	private val nextUpFullEnabled = userPreferences[UserPreferences.nextUpFullEnabled]
 	private var timerStarted = false
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		if (nextUpFullEnabled) {
-			binding = FragmentNextUpBinding.inflate(inflater, container, false)
-
-			binding.fragmentNextUpButtons.apply {
-				setPlayNextListener(viewModel::playNext)
-				setCancelListener(viewModel::close)
-			}
-		} else {
-			bindingMinimal = FragmentNextUpMinimalBinding.inflate(inflater, container, false)
-
-			bindingMinimal.fragmentNextUpButtons.apply {
-				setPlayNextListener(viewModel::playNext)
-				setCancelListener(viewModel::close)
-			}
-		}
+		val nextUpFullEnabled = userPreferences[UserPreferences.nextUpFullEnabled]
+		binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
 		viewModel.item.observe(viewLifecycleOwner) { data ->
 			// No data, keep current
@@ -47,25 +31,37 @@ class NextUpFragment : Fragment() {
 
 			if (nextUpFullEnabled) {
 				binding.logo.setImageBitmap(data.logo)
-				binding.image.setImageBitmap(data.thumbnail)
-
 				binding.title.text = data.title
+
+				binding.image.setImageBitmap(data.thumbnail)
 				binding.description.text = data.description?.toHtmlSpanned()
+
+				binding.nextup.visibility = View.VISIBLE
+				binding.nextupMinimal.visibility = View.GONE
 			} else {
-				bindingMinimal.logo.setImageBitmap(data.logo)
-				bindingMinimal.title.text = data.title
+				binding.logoMinimal.setImageBitmap(data.logo)
+				binding.titleMinimal.text = data.title
+
+				binding.nextup.visibility = View.GONE
+				binding.nextupMinimal.visibility = View.VISIBLE
+
+				binding.content.background = null;
 			}
 		}
 
-		return if (nextUpFullEnabled) binding.root else bindingMinimal.root
+		binding.fragmentNextUpButtons.apply {
+			setPlayNextListener(viewModel::playNext)
+			setCancelListener(viewModel::close)
+		}
+
+		return binding.root
 	}
 
 	override fun onResume() {
 		super.onResume()
 
 		if (!timerStarted) {
-			if (nextUpFullEnabled) binding.fragmentNextUpButtons.startTimer()
-			else bindingMinimal.fragmentNextUpButtons.startTimer()
+			binding.fragmentNextUpButtons.startTimer()
 
 			timerStarted = true
 		}
@@ -74,7 +70,6 @@ class NextUpFragment : Fragment() {
 	override fun onPause() {
 		super.onPause()
 
-		if (nextUpFullEnabled) binding.fragmentNextUpButtons.stopTimer()
-		else bindingMinimal.fragmentNextUpButtons.stopTimer()
+		binding.fragmentNextUpButtons.stopTimer()
 	}
 }
