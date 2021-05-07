@@ -19,7 +19,7 @@ enum class AppTheme {
 	/**
 	 * A theme with a more muted accent color, inspired by CTalvio's Monochromic CSS theme for Jellyfin Web
 	 */
-	@EnumDisplayOptions(R.string.pref_theme_muted)
+	@EnumDisplayOptions(R.string.pref_theme_muted_purple)
 	MUTED_PURPLE,
 
 	/**
