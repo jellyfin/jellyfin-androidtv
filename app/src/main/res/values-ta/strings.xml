@@ -434,7 +434,7 @@
     <string name="login_authenticating">அங்கீகரிக்கிறது ...</string>
     <string name="server_field_empty">முகவரி காலியாக இருக்க முடியாது</string>
     <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %s</string>
-    <string name="server_connecting">சேவையகத்துடன் இணைக்கப்படுகிறது...</string>
+    <string name="server_connecting">%s உடன் இணைக்கிறது</string>
     <string name="connect_title">இணைக்கவும்</string>
     <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. ஜெல்லிஃபினுடன் தொடங்க எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும்.</string>
     <string name="login_help_title">உதவி தேவை\?</string>
