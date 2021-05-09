@@ -410,7 +410,7 @@
     <string name="login_authenticating">Autenticazione...</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
     <string name="server_connection_failed">Impossibile connettersi al server: %s</string>
-    <string name="server_connecting">Connessione al server...</string>
+    <string name="server_connecting">Connessione al server %s</string>
     <string name="pref_clock_display_playback">Durante la riproduzione</string>
     <string name="pref_clock_display_browsing">Durante la navigazione</string>
     <string name="lbl_always">Sempre</string>
