@@ -66,9 +66,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var nextUpTimeout = Preference.int("next_up_timeout", 1000 * 7)
 
 		/**
-		 * Display the next up item's thumbnail and description on the next up screen
+		 * Display the next up item's thumbnail on the next up screen
 		 */
-		var nextUpFullEnabled = Preference.boolean("next_up_full_enabled", true)
+		var nextUpThumbnailEnabled = Preference.boolean("next_up_thumbnail_enabled", false)
 
 		/**
 		 * Duration in seconds to subtract from resume time

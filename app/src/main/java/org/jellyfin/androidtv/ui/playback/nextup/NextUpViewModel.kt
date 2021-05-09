@@ -55,10 +55,10 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val nextUpFullEnabled = userPreferences[UserPreferences.nextUpFullEnabled]
+		val nextUpThumbnailEnabled = userPreferences[UserPreferences.nextUpThumbnailEnabled]
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val thumbnail = if (nextUpFullEnabled) apiClient.GetImageUrl(item, ImageOptions()) else null
+		val thumbnail = if (nextUpThumbnailEnabled) apiClient.GetImageUrl(item, ImageOptions()) else null
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val title = when {
@@ -68,13 +68,10 @@ class NextUpViewModel(
 			else -> ""
 		}
 
-		val overview = if (nextUpFullEnabled) item.overview else null
-
 		NextUpItemData(
 			item,
 			item.id,
 			title,
-			overview,
 			thumbnail?.let { safelyLoadBitmap(it) },
 			logo?.let { safelyLoadBitmap(it) }
 		)

@@ -64,9 +64,9 @@ fun OptionsScreen.playbackCategory(
 	}
 
 	checkbox {
-		setTitle(R.string.pref_next_up_full_title)
-		setContent(R.string.pref_next_up_full_summary)
-		bind(userPreferences, UserPreferences.nextUpFullEnabled)
+		setTitle(R.string.pref_next_up_thumbnail_title)
+		setContent(R.string.pref_next_up_thumbnail_summary)
+		bind(userPreferences, UserPreferences.nextUpThumbnailEnabled)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
 	}
 
