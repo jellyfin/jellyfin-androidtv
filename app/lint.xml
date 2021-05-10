@@ -16,7 +16,4 @@
     <issue id="LogNotTimber" severity="error" />
     <issue id="BinaryOperationInTimber" severity="error" />
     <issue id="FragmentTagUsage" severity="error" />
-
-    <!-- Broken in Sarif output -->
-    <issue id="LocaleFolder" severity="ignore" />
 </lint>
