@@ -1473,26 +1473,27 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private void clearSubtitles() {
         requireActivity().runOnUiThread(() -> {
             mSubtitleText.setVisibility(View.INVISIBLE);
-            mSubtitleText.setText("");
+            mSubtitleText.setText(null);
         });
     }
 
     private void renderSubtitles(@Nullable final String text) {
+        if (text == null || text.length() == 0) {
+            clearSubtitles();
+            return;
+        }
         requireActivity().runOnUiThread(() -> {
-            if (text == null || text.length() == 0) {
-                mSubtitleText.setVisibility(View.INVISIBLE);
-                mSubtitleText.setText("");
-            } else {
-                // Encode whitespace as html entities
-                String htmlText = text.replaceAll("\\r\\n", "<br>");
-                htmlText = htmlText.replaceAll("\\\\h", "&ensp;");
+            // Encode whitespace as html entities
+            final String htmlText = text
+                    .replaceAll("\\r\\n", "<br>")
+                    .replaceAll("\\\\h", "&ensp;");
 
-                SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
-                span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                mSubtitleText.setText(span);
-                mSubtitleText.setVisibility(View.VISIBLE);
-            }
+            SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
+            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+            mSubtitleText.setText(span);
+            mSubtitleText.setVisibility(View.VISIBLE);
         });
     }
 }
