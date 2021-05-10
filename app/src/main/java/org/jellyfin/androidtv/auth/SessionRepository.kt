@@ -100,6 +100,7 @@ class SessionRepositoryImpl(
 			Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
 			if (success) _currentSession.postValue(session)
+			else _currentSession.postValue(null)
 		}
 	}
 
