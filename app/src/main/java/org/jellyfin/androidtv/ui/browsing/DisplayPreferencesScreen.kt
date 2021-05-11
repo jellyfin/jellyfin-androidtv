@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.browsing
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.GridDirection
+import org.jellyfin.androidtv.constant.ViewType
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
@@ -79,8 +80,8 @@ class DisplayPreferencesScreen : OptionsFragment() {
 					contentOff = contentOn
 
 					bind {
-						get { displayPreferences.getCustomPrefs().get("DefaultView") == "0" }
-						set { displayPreferences.getCustomPrefs().set("DefaultView", if (it) "0" else "1") }
+						get { displayPreferences.getCustomPrefs().get("DefaultView") ?: ViewType.SMART == ViewType.SMART }
+						set { displayPreferences.getCustomPrefs().set("DefaultView", if (it) ViewType.SMART else ViewType.GRID) }
 						default { true }
 					}
 				}
