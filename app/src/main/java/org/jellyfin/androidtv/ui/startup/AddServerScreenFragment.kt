@@ -57,7 +57,7 @@ class AddServerScreenFragment : Fragment() {
 		}
 
 		// Manual
-		binding.enterServerAddress.setOnClickListener { (requireActivity() as StartupActivity).addServer() }
+		binding.enterServerAddress.setOnClickListener { (requireActivity() as StartupActivity).showAddServer() }
 
 		// App info
 		binding.appVersion.text = "jellyfin-androidtv ${BuildConfig.VERSION_NAME} ${BuildConfig.BUILD_TYPE}"

@@ -39,7 +39,7 @@ class HomeFragmentFooterRow(
 
 				// Open login activity
 				val selectUserIntent = Intent(activity, StartupActivity::class.java)
-				selectUserIntent.putExtra(StartupActivity.HIDE_SPLASH, true)
+				selectUserIntent.putExtra(StartupActivity.EXTRA_HIDE_SPLASH, true)
 				// Remove history to prevent user going back to current activity
 				selectUserIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 

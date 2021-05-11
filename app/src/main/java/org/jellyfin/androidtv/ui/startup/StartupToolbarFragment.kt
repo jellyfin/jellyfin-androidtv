@@ -19,7 +19,7 @@ class StartupToolbarFragment : Fragment() {
 		// Add click listener
 		binding.addServer.setOnClickListener {
 			val activity = requireActivity()
-			if (activity is StartupActivity) activity.addServer()
+			if (activity is StartupActivity) activity.showAddServer()
 		}
 
 		binding.manageServers.setOnClickListener {

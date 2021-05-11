@@ -2,14 +2,16 @@ package org.jellyfin.androidtv.ui.startup
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.ServerRepository
@@ -18,68 +20,67 @@ import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.koin.android.ext.android.inject
-import org.koin.androidx.fragment.android.replace
 import timber.log.Timber
 
-class StartupActivity : FragmentActivity() {
+class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	companion object {
-		private const val NETWORK_PERMISSION = 1
-		const val ITEM_ID = "ItemId"
-		const val ITEM_IS_USER_VIEW = "ItemIsUserView"
-		const val HIDE_SPLASH = "HideSplash"
+		const val EXTRA_ITEM_ID = "ItemId"
+		const val EXTRA_ITEM_IS_USER_VIEW = "ItemIsUserView"
+		const val EXTRA_HIDE_SPLASH = "HideSplash"
 	}
 
-	private var application: TvApp? = null
 	private val apiClient: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
 	private val serverRepository: ServerRepository by inject()
 	private val sessionRepository: SessionRepository by inject()
 
+	private val networkPermissionsRequester = registerForActivityResult(
+		ActivityResultContracts.RequestMultiplePermissions()
+	) { grants ->
+		val anyRejected = grants.any { !it.value }
+
+		if (anyRejected) {
+			// Permission denied, exit the app.
+			Toast.makeText(this, R.string.no_network_permissions, Toast.LENGTH_LONG).show()
+			finish()
+		} else {
+			observeSession()
+		}
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.fragment_content_view)
-		if (!intent.getBooleanExtra(HIDE_SPLASH, false)) {
-			supportFragmentManager.beginTransaction()
-				.replace(R.id.content_view, SplashFragment())
-				.commit()
-		}
-		application = applicationContext as TvApp
+
+		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
 
 		// Migrate old credentials
-		lifecycleScope.launch {
+		runBlocking {
 			serverRepository.migrateLegacyCredentials()
 		}
 
 		// Ensure basic permissions
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED
-				|| ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
-			Timber.i("Requesting network permissions")
-			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET), NETWORK_PERMISSION)
-		} else {
-			Timber.i("Basic network permissions are granted")
-			start()
-		}
+		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
 	}
 
-	private fun start() {
+	private fun observeSession() {
 		var isLoaded = false
+
 		sessionRepository.currentSession.observe(this) { session ->
 			if (session != null) {
 				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
-				supportFragmentManager.beginTransaction()
-					.replace(R.id.content_view, SplashFragment())
-					.commit()
+				showSplash()
 
-				application?.currentUserLiveData?.observe(this) { currentUser ->
+				(application as? TvApp)?.currentUserLiveData?.observe(this) { currentUser ->
 					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
-					if (currentUser != null) openNextActivity()
+					if (currentUser != null) lifecycleScope.launch {
+						openNextActivity()
+					}
 				}
 			} else if (isLoaded == false) {
 				// Clear audio queue in case left over from last run
@@ -92,64 +93,51 @@ class StartupActivity : FragmentActivity() {
 		}
 	}
 
-	fun openNextActivity() {
-		val itemId = intent.getStringExtra(ITEM_ID)
-		val itemIsUserView = intent.getBooleanExtra(ITEM_IS_USER_VIEW, false)
+	private suspend fun openNextActivity() {
+		val itemId = intent.getStringExtra(EXTRA_ITEM_ID)
+		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
+
 		if (itemId != null) {
 			if (itemIsUserView) {
-				apiClient.GetItemAsync(itemId, apiClient.currentUserId, object : Response<BaseItemDto?>() {
-					override fun onResponse(item: BaseItemDto?) {
-						ItemLauncher.launchUserView(item, this@StartupActivity, true)
-					}
+				// Try opening the user view
+				val item = callApi<BaseItemDto?> { apiClient.GetItemAsync(itemId, apiClient.currentUserId, it) }
 
-					override fun onError(exception: Exception) {
-						// go straight into last connection
-						val intent = Intent(application, MainActivity::class.java)
-						startActivity(intent)
-						finish()
-					}
-				})
+				if (item != null) {
+					ItemLauncher.launchUserView(item, this, true)
+					finish()
+					return
+				}
 			} else {
-				//Can just go right into details
-				val detailsIntent = Intent(this, FullDetailsActivity::class.java)
-				detailsIntent.putExtra(ITEM_ID, intent.getStringExtra(ITEM_ID))
+				// Open item details
+				val detailsIntent = Intent(this, FullDetailsActivity::class.java).apply {
+					putExtra(EXTRA_ITEM_ID, itemId)
+				}
+
 				startActivity(detailsIntent)
-				finish()
-			}
-		} else {
-			// go straight into last connection
-			val intent = Intent(this, MainActivity::class.java)
-			startActivity(intent)
-			finish()
-		}
-	}
-
-	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-		if (requestCode == NETWORK_PERMISSION) { // If request is cancelled, the result arrays are empty.
-			if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				// permission was granted
-				start()
-			} else {
-				// permission denied! Disable the app.
-				Utils.showToast(this, "Application cannot continue without network")
-				finish()
+				finishAfterTransition()
+				return
 			}
 		}
+
+		// Go to home screen
+		val intent = Intent(this, MainActivity::class.java)
+		startActivity(intent)
+		finishAfterTransition()
 	}
 
-	fun addServer() {
-		supportFragmentManager.beginTransaction()
-			.addToBackStack(null)
-			.replace<AddServerAlertFragment>(R.id.content_view)
-			.commit()
+	// Fragment switching
+
+	fun showSplash() = supportFragmentManager.commit {
+		replace<SplashFragment>(R.id.content_view)
 	}
 
-	private fun showServerList() {
-		supportFragmentManager.beginTransaction()
-			.replace(R.id.content_view, StartupToolbarFragment())
-			.add(R.id.content_view, OverviewFragment())
-			.commit()
+	fun showAddServer() = supportFragmentManager.commit {
+		addToBackStack(null)
+		replace<AddServerAlertFragment>(R.id.content_view)
+	}
+
+	fun showServerList() = supportFragmentManager.commit {
+		replace<StartupToolbarFragment>(R.id.content_view)
+		add<OverviewFragment>(R.id.content_view)
 	}
 }
