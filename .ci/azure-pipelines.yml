@@ -17,40 +17,6 @@ pr:
     - '*'
 
 jobs:
-- job: Lint
-  displayName: 'Lint'
-
-  pool:
-    vmImage: 'ubuntu-latest'
-
-  steps:
-  - task: Gradle@2
-    displayName: 'Run Lint'
-    inputs:
-      gradleWrapperFile: 'gradlew'
-      tasks: 'lint'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      sonarQubeRunAnalysis: false
-
-- job: Test
-  displayName: 'Test'
-
-  pool:
-    vmImage: 'ubuntu-latest'
-
-  steps:
-  - task: Gradle@2
-    displayName: 'Run Tests'
-    inputs:
-      gradleWrapperFile: 'gradlew'
-      tasks: 'test'
-      publishJUnitResults: true
-      testResultsFiles: '**/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      sonarQubeRunAnalysis: false
-
 - job: Build
   displayName: 'Build'
 

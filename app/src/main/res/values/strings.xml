@@ -422,7 +422,7 @@
     <string name="lbl_always">Always</string>
     <string name="pref_clock_display_browsing">While browsing</string>
     <string name="pref_clock_display_playback">During playback</string>
-    <string name="server_connecting">Connecting to server...</string>
+    <string name="server_connecting">Connecting to %s</string>
     <string name="server_connection_failed">Unable to connect to server: %s</string>
     <string name="server_field_empty">The address cannot be empty</string>
     <string name="login_authenticating">Authenticating...</string>
@@ -474,5 +474,6 @@
     <string name="user_picker_last_user_title">Most recently used</string>
     <string name="user_picker_last_user_summary">Use the last active user</string>
     <string name="lbl_switch_user">Switch user</string>
+    <string name="pref_theme_muted_purple">Muted Purple</string>
     <string name="no_network_permissions">Jellyfin requires network permissions to function</string>
 </resources>

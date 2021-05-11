@@ -29,18 +29,20 @@ import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * Manages channels on the android tv home screen
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
  */
+@KoinApiExtension
 class LeanbackChannelWorker(
 	private val context: Context,
-	val workerParams: WorkerParameters,
-	private val apiClient: ApiClient
-) : CoroutineWorker(context, workerParams) {
+	workerParams: WorkerParameters,
+) : CoroutineWorker(context, workerParams), KoinComponent {
 	companion object {
 		/**
 		 * Amount of ticks found in a millisecond, used for calculation
@@ -51,7 +53,8 @@ class LeanbackChannelWorker(
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
-	private val userPreferences by inject(UserPreferences::class.java)
+	private val apiClient by inject<ApiClient>()
+	private val userPreferences by inject<UserPreferences>()
 
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher

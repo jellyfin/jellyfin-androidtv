@@ -22,17 +22,28 @@ class ApiBinder(
 	private val authenticationStore: AuthenticationStore,
 ) {
 	fun updateSession(session: Session?, resultCallback: (Boolean) -> Unit) {
+		GlobalScope.launch(Dispatchers.IO) {
+			@Suppress("TooGenericExceptionCaught")
+			try {
+				val success = updateSessionInternal(session)
+				resultCallback(success)
+			} catch (throwable: Throwable) {
+				Timber.e(throwable, "Unable to update legacy API session.")
+				resultCallback(false)
+			}
+		}
+	}
+
+	private suspend fun updateSessionInternal(session: Session?): Boolean {
 		if (session == null) {
 			application.currentUser = null
-			resultCallback(true)
-			return
+			return true
 		}
 
 		val server = authenticationStore.getServer(session.serverId)
 		if (server == null) {
 			Timber.e("Could not bind API because server ${session.serverId} was not found in the store.")
-			resultCallback(false)
-			return
+			return false
 		}
 
 		api.setDevice(AuthenticationDevice(device, session.userId.toString()))
@@ -47,30 +58,23 @@ class ApiBinder(
 		api.ensureWebSocket()
 
 		// Update currentUser DTO
-		GlobalScope.launch(Dispatchers.IO) {
-			try {
-				val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
-				application.currentUser = user
+		val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
+		application.currentUser = user
 
-				callApiEmpty { callback ->
-					api.ReportCapabilities(ClientCapabilities().apply {
-						setPlayableMediaTypes(arrayListOf(MediaType.Video.toString(), MediaType.Audio.toString()));
-						setSupportsMediaControl(true);
-						setSupportedCommands(arrayListOf(
-							GeneralCommandType.DisplayContent.toString(),
-							GeneralCommandType.Mute.toString(),
-							GeneralCommandType.Unmute.toString(),
-							GeneralCommandType.ToggleMute.toString(),
-							GeneralCommandType.DisplayContent.toString(),
-						));
-					}, callback)
-				}
-
-				resultCallback(true)
-			} catch (exception: Exception) {
-				Timber.e(exception, "Unable to retrieve user information or set session capabilities.")
-				resultCallback(false)
-			}
+		callApiEmpty { callback ->
+			api.ReportCapabilities(ClientCapabilities().apply {
+				setPlayableMediaTypes(arrayListOf(MediaType.Video.toString(), MediaType.Audio.toString()));
+				setSupportsMediaControl(true);
+				setSupportedCommands(arrayListOf(
+					GeneralCommandType.DisplayContent.toString(),
+					GeneralCommandType.Mute.toString(),
+					GeneralCommandType.Unmute.toString(),
+					GeneralCommandType.ToggleMute.toString(),
+					GeneralCommandType.DisplayContent.toString(),
+				));
+			}, callback)
 		}
+
+		return true
 	}
 }

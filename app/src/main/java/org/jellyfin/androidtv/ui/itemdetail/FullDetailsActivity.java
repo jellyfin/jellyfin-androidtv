@@ -950,7 +950,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Utils.beep();
                             PlaybackHelper.playInstantMix(mBaseItem.getId());
                         }
                     });

@@ -434,7 +434,7 @@
     <string name="login_authenticating">Аутентификация...</string>
     <string name="server_field_empty">Адрес не может быть пустым</string>
     <string name="server_connection_failed">Невозможно подключиться к серверу: %s</string>
-    <string name="server_connecting">Подключается к серверу...</string>
+    <string name="server_connecting">Подключение к %s</string>
     <string name="enable_smart_view">Включить умный экран</string>
     <string name="lbl_sign_out">Выйти</string>
     <string name="lbl_remove">Изъять</string>

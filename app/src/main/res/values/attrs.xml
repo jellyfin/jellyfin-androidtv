@@ -13,5 +13,9 @@
         <attr name="popupWindowBackground" format="reference|color" />
         <!-- CardView Attributes -->
         <attr name="cardViewBackground" format="reference|color" />
+        <!-- Theme Attributes -->
+        <attr name="cardRounding" format="dimension" />
+        <attr name="buttonRounding" format="dimension" />
+        <attr name="accentShape" format="reference" />
     </declare-styleable>
 </resources>

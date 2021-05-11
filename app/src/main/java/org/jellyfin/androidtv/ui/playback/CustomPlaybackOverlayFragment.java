@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -12,11 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -69,7 +66,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -166,6 +163,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private LeanbackOverlayFragment leanbackOverlayFragment;
     private VideoManager videoManager = null;
 
+    // Subtitle fields
+    private static final int SUBTITLE_PADDING = 8;
+    private static final long SUBTITLE_RENDER_INTERVAL_MS = 50;
+    private SubtitleTrackInfo subtitleTrackInfo;
+    private int currentSubtitleIndex = 0;
+    private long lastSubtitlePositionMs = 0;
+
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
@@ -201,13 +205,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mPlaybackController = TvApp.getApplication().getPlaybackController();
 
         // setup fade task
-        mHideTask = new Runnable() {
-            @Override
-            public void run() {
-                if (mIsVisible) {
-                    hide();
-                    leanbackOverlayFragment.hideOverlay();
-                }
+        mHideTask = () -> {
+            if (mIsVisible) {
+                hide();
+                leanbackOverlayFragment.hideOverlay();
             }
         };
     }
@@ -237,18 +238,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         root.addView(mTvGuide);
         mTvGuide.setVisibility(View.GONE);
 
-        root.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //if we're not visible, show us
-                if (!mIsVisible) show();
+        root.setOnTouchListener((v, event) -> {
+            //if we're not visible, show us
+            if (!mIsVisible) show();
 
-                //and then manage our fade timer
-                if (mFadeEnabled) startFadeTimer();
+            //and then manage our fade timer
+            if (mFadeEnabled) startFadeTimer();
 
-                Timber.d("Got touch event.");
-                return false;
-            }
+            Timber.d("Got touch event.");
+            return false;
         });
 
         return root;
@@ -285,6 +283,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         //manual subtitles
         mSubtitleText = mActivity.findViewById(R.id.offLine_subtitleText);
+        // This configuration is required for the PaddedLineBackgroundSpan to work
+        mSubtitleText.setShadowLayer(SUBTITLE_PADDING, 0, 0, Color.TRANSPARENT);
+        mSubtitleText.setPadding(SUBTITLE_PADDING, 0, SUBTITLE_PADDING, 0);
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -348,11 +349,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mChannelScroller.setFocusable(false);
 
         // register to receive message from popup
-        mActivity.registerMessageListener(new IMessageListener() {
-            @Override
-            public void onMessageReceived(CustomMessage message) {
-                if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
-            }
+        mActivity.registerMessageListener(message -> {
+            if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
         });
 
         mActivity.getOnBackPressedDispatcher().addCallback(backPressedCallback);
@@ -441,7 +439,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         break;
                 }
             } else if (item instanceof ChannelInfoDto) {
-                Utils.beep(100);
                 hidePopupPanel();
                 switchChannel(((ChannelInfoDto) item).getId());
             }
@@ -556,7 +553,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
 
                 if (mPopupPanelVisible && !mGuideVisible && keyCode == KeyEvent.KEYCODE_DPAD_LEFT && mPopupRowPresenter.getPosition() == 0) {
-                    mPopupRowsFragment.getView().requestFocus();
+                    mPopupRowsFragment.requireView().requestFocus();
                     mPopupRowPresenter.setPosition(0);
                     return true;
                 }
@@ -568,7 +565,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) &&
                             (mSelectedProgram != null && mSelectedProgram.getChannelId() != null)) {
                         // tune to the current channel
-                        Utils.beep();
                         switchChannel(mSelectedProgram.getChannelId());
                         return true;
                     } else {
@@ -619,7 +615,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     if (!mIsVisible) {
                         if (!DeviceUtils.isFireTv() && !mPlaybackController.isLiveTv()) {
                             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                Utils.beep(100);
                                 mPlaybackController.skip(30000);
                                 mIsVisible = true;
                                 setFadingEnabled(true);
@@ -627,7 +622,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                             }
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                Utils.beep(100);
                                 mPlaybackController.skip(-11000);
                                 mIsVisible = true;
                                 setFadingEnabled(true);
@@ -909,14 +903,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 }
                 prevRow = row;
 
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        GuideChannelHeader header = getChannelHeader(mActivity, channel);
-                        mChannels.addView(header);
-                        header.loadImage();
-                        mProgramRows.addView(row);
-                    }
+                mActivity.runOnUiThread(() -> {
+                    GuideChannelHeader header = getChannelHeader(mActivity, channel);
+                    mChannels.addView(header);
+                    header.loadImage();
+                    mProgramRows.addView(row);
                 });
 
                 displayedChannels++;
@@ -1178,29 +1169,23 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     public void showQuickChannelChanger() {
         showChapterPanel();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
-                if (ndx > 0) {
-                    mPopupRowPresenter.setPosition(ndx);
-                }
-                mPopupPanelVisible = true;
+        mHandler.postDelayed(() -> {
+            int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
+            if (ndx > 0) {
+                mPopupRowPresenter.setPosition(ndx);
             }
+            mPopupPanelVisible = true;
         }, 500);
     }
 
     public void showChapterSelector() {
         showChapterPanel();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
-                if (ndx > 0) {
-                    mPopupRowPresenter.setPosition(ndx);
-                }
-                mPopupPanelVisible = true;
+        mHandler.postDelayed(() -> {
+            int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
+            if (ndx > 0) {
+                mPopupRowPresenter.setPosition(ndx);
             }
+            mPopupPanelVisible = true;
         }, 500);
     }
 
@@ -1227,28 +1212,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_cancel_recording)
                             .setMessage(R.string.msg_cancel_entire_series)
-                            .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, true);
-                                }
-                            })
-                            .setNegativeButton(R.string.just_one, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_cancel_series, (dialog, which) -> cancelRecording(program, true))
+                            .setNegativeButton(R.string.just_one, (dialog, which) -> cancelRecording(program, false))
                             .show();
                 } else {
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_cancel_recording)
-                            .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    cancelRecording(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_yes, (dialog, which) -> cancelRecording(program, false))
                             .setNegativeButton(R.string.lbl_no, null)
                             .show();
                 }
@@ -1257,18 +1227,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.lbl_record_series)
                             .setMessage(R.string.msg_record_entire_series)
-                            .setPositiveButton(R.string.lbl_record_series, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    recordProgram(program, true);
-                                }
-                            })
-                            .setNegativeButton(R.string.lbl_just_this_once, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    recordProgram(program, false);
-                                }
-                            })
+                            .setPositiveButton(R.string.lbl_record_series, (dialog, which) -> recordProgram(program, true))
+                            .setNegativeButton(R.string.lbl_just_this_once, (dialog, which) -> recordProgram(program, false))
                             .show();
                 } else {
                     recordProgram(program, false);
@@ -1369,12 +1329,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             if (mIsVisible) startFadeTimer();
         } else {
             mHandler.removeCallbacks(mHideTask);
-            if (!mIsVisible) getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    show();
-                }
-            });
+            if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         }
     }
 
@@ -1433,38 +1388,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void finish() {
-        getActivity().finish();
-    }
-
-    private SubtitleTrackInfo mManualSubs;
-    private long lastReportedPosMs;
-
-    public void addManualSubtitles(SubtitleTrackInfo info) {
-        mManualSubs = info;
-        lastReportedPosMs = 0;
-
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSubtitleText.setVisibility(View.INVISIBLE);
-                mSubtitleText.setText("");
-            }
-        });
-    }
-
-    public void showSubLoadingMsg(final boolean show) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (show) {
-                    mSubtitleText.setText(R.string.msg_subtitles_loading);
-                    mSubtitleText.setVisibility(View.VISIBLE);
-                } else {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    mSubtitleText.setText("");
-                }
-            }
-        });
+        requireActivity().finish();
     }
 
     @Override
@@ -1480,53 +1404,100 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         finish();
     }
 
-    public void updateSubtitles(long positionMs) {
-        if (lastReportedPosMs > 0) {
-            if (Math.abs(lastReportedPosMs - positionMs) < 500) {
-                return;
-            }
-        }
+    public void addManualSubtitles(@Nullable SubtitleTrackInfo info) {
+        subtitleTrackInfo = info;
+        currentSubtitleIndex = 0;
+        lastSubtitlePositionMs = 0;
+        clearSubtitles();
+    }
 
-        if (mManualSubs == null) {
+    public void showSubLoadingMsg(final boolean show) {
+        if (show) {
+            renderSubtitles(requireContext().getString(R.string.msg_subtitles_loading));
+        } else {
+            clearSubtitles();
+        }
+    }
+
+    public void updateSubtitles(long positionMs) {
+        if (subtitleTrackInfo == null
+                || subtitleTrackInfo.getTrackEvents() == null
+                || currentSubtitleIndex > subtitleTrackInfo.getTrackEvents().size()) {
             return;
         }
 
-        long positionTicks = positionMs * 10000;
-        for (SubtitleTrackEvent caption : mManualSubs.getTrackEvents()) {
-            if (positionTicks >= caption.getStartPositionTicks() && positionTicks <= caption.getEndPositionTicks()) {
-                setTimedText(caption);
+        // Skip rendering if the interval ms have not passed since last render
+        if (lastSubtitlePositionMs > 0
+                && Math.abs(lastSubtitlePositionMs - positionMs) < SUBTITLE_RENDER_INTERVAL_MS) {
+            return;
+        }
+
+        // If the user has skipped back, need to reset the subtitle index
+        if (lastSubtitlePositionMs > positionMs) {
+            currentSubtitleIndex = 0;
+        }
+
+        lastSubtitlePositionMs = positionMs;
+
+        final long positionTicks = positionMs * 10000;
+        SubtitleTrackEvent trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
+
+        // Check the current subtitle event
+        if (positionTicks >= trackEvent.getStartPositionTicks()) {
+            if (positionTicks <= trackEvent.getEndPositionTicks()) {
+                // Current event should still be rendered
+                renderSubtitles(trackEvent.getText());
+                return;
+            } else {
+                // Current event should be cleared
+                clearSubtitles();
+            }
+        }
+
+        // Find the next subtitle event that should be rendered
+        for (; currentSubtitleIndex < subtitleTrackInfo.getTrackEvents().size(); currentSubtitleIndex++) {
+            trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
+
+            // This subtitle event should be displayed now
+            if (positionTicks >= trackEvent.getStartPositionTicks()
+                    && positionTicks <= trackEvent.getEndPositionTicks()) {
+                renderSubtitles(trackEvent.getText());
+                return;
+            }
+
+            // This subtitle event should be displayed next, but it is not time for it yet
+            if (trackEvent.getStartPositionTicks() > positionTicks) {
                 return;
             }
         }
 
-        setTimedText(null);
+        clearSubtitles();
     }
 
-    private void setTimedText(final SubtitleTrackEvent textObj) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (textObj == null) {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
+    private void clearSubtitles() {
+        requireActivity().runOnUiThread(() -> {
+            mSubtitleText.setVisibility(View.INVISIBLE);
+            mSubtitleText.setText(null);
+        });
+    }
 
-                String text = textObj.getText();
-                if (text == null || text.length() == 0) {
-                    mSubtitleText.setVisibility(View.INVISIBLE);
-                    return;
-                }
+    private void renderSubtitles(@Nullable final String text) {
+        if (text == null || text.length() == 0) {
+            clearSubtitles();
+            return;
+        }
+        requireActivity().runOnUiThread(() -> {
+            // Encode whitespace as html entities
+            final String htmlText = text
+                    .replaceAll("\\r\\n", "<br>")
+                    .replaceAll("\\\\h", "&ensp;");
 
-                // Encode whitespace as html entities
-                text = text.replaceAll("\\r\\n", "<br>");
-                text = text.replaceAll("\\\\h", "&ensp;");
+            SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
+            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(text));
-                span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(mActivity, R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                mSubtitleText.setText(span);
-                mSubtitleText.setVisibility(View.VISIBLE);
-            }
+            mSubtitleText.setText(span);
+            mSubtitleText.setVisibility(View.VISIBLE);
         });
     }
 }

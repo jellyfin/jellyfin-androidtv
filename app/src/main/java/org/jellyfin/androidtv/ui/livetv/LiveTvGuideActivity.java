@@ -360,7 +360,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    Utils.beep();
                     PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
                     return true;
                 }

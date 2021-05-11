@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.await
+import kotlinx.coroutines.runBlocking
 import org.acra.ACRA
 import org.acra.annotation.AcraCore
 import org.acra.annotation.AcraDialog
@@ -15,11 +17,12 @@ import org.jellyfin.androidtv.di.*
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.KoinExperimentalAPI
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
@@ -62,7 +65,9 @@ class JellyfinApplication : TvApp() {
 
 		// Dependency Injection
 		startKoin {
-			androidLogger()
+			// FIXME: Log level is required to work around this issue in Koin temporarily
+			// https://github.com/InsertKoinIO/koin/issues/1076
+			androidLogger(Level.ERROR)
 			androidContext(this@JellyfinApplication)
 
 			modules(
@@ -73,18 +78,22 @@ class JellyfinApplication : TvApp() {
 				preferenceModule,
 				utilsModule
 			)
-
-			// Must be called after setting the modules to prevent a crash because the worker class
-			// definition is not found
-			workManagerFactory()
 		}
 
-		// Setup workers
-		get<WorkManager>().enqueueUniquePeriodicWork(
-			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
-			ExistingPeriodicWorkPolicy.REPLACE,
-			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
-		)
+		// Setup background workers
+		runBlocking {
+			val workManager by inject<WorkManager>()
+
+			// Cancel all workers
+			workManager.cancelAllWork().await()
+
+			// Recreate periodic workers
+			workManager.enqueueUniquePeriodicWork(
+				LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
+				ExistingPeriodicWorkPolicy.REPLACE,
+				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
+			).await()
+		}
 
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)

@@ -434,7 +434,7 @@
     <string name="login_authenticating">Hitelesítés...</string>
     <string name="server_field_empty">Az elérhetőség nem lehet üres</string>
     <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %s</string>
-    <string name="server_connecting">Csatlakozás a szerverhez...</string>
+    <string name="server_connecting">Csatlakozás a következőhöz: %s</string>
     <string name="connect_title">Csatlakozás</string>
     <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen a Jellyfin használatának megkezdéséhez.</string>
     <string name="login_help_title">Kell segítség\?</string>

@@ -21,14 +21,9 @@ android {
 		viewBinding = true
 	}
 
-	compileOptions {
-		// Use Java 1.8 features
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
-	}
-
-	kotlinOptions {
-		jvmTarget = compileOptions.targetCompatibility.toString()
+	lintOptions {
+		isAbortOnError = false
+		sarifReport = true
 	}
 
 	buildTypes {
@@ -69,6 +64,7 @@ android {
 dependencies {
 	// Jellyfin
 	implementation("org.jellyfin.apiclient:android:0.7.9")
+	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.3")
 
 	// Kotlin
 	val kotlinxCoroutinesVersion = "1.4.3"
@@ -100,11 +96,10 @@ dependencies {
 	implementation("androidx.viewpager:viewpager:1.0.0")
 
 	// Dependency Injection
-	val koinVersion = "2.2.0"
-	implementation("org.koin:koin-android:$koinVersion")
-	implementation("org.koin:koin-androidx-viewmodel:$koinVersion")
-	implementation("org.koin:koin-androidx-fragment:$koinVersion")
-	implementation("org.koin:koin-androidx-workmanager:$koinVersion")
+	val koinVersion = "2.2.2"
+	implementation("io.insert-koin:koin-android:$koinVersion")
+	implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
+	implementation("io.insert-koin:koin-androidx-fragment:$koinVersion")
 
 	// GSON
 	implementation("com.google.code.gson:gson:2.8.6")
