@@ -479,4 +479,5 @@
     <string name="system_user">Utente di sistema</string>
     <string name="auto_sign_in">Login automatico</string>
     <string name="lbl_switch_user">Cambia utente</string>
+    <string name="no_network_permissions">Jellyfin richiede i permessi di rete per funzionare</string>
 </resources>
