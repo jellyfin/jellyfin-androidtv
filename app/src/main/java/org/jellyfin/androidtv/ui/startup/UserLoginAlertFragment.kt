@@ -55,6 +55,7 @@ class UserLoginAlertFragment : AlertFragment() {
 		with(binding.password) {
 			onFocusChangeListener = KeyboardFocusChangeListener()
 			nextFocusForwardId = parentBinding.confirm.id
+			nextFocusDownId = parentBinding.confirm.id
 
 			imeOptions = EditorInfo.IME_ACTION_DONE
 			setOnEditorActionListener { _, actionId, _ ->
