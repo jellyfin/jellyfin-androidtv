@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -67,6 +66,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -164,6 +164,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private VideoManager videoManager = null;
 
     // Subtitle fields
+    private static final int SUBTITLE_PADDING = 8;
     private static final long SUBTITLE_RENDER_INTERVAL_MS = 50;
     private SubtitleTrackInfo subtitleTrackInfo;
     private int currentSubtitleIndex = 0;
@@ -282,6 +283,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         //manual subtitles
         mSubtitleText = mActivity.findViewById(R.id.offLine_subtitleText);
+        // This configuration is required for the PaddedLineBackgroundSpan to work
+        mSubtitleText.setShadowLayer(SUBTITLE_PADDING, 0, 0, Color.TRANSPARENT);
+        mSubtitleText.setPadding(SUBTITLE_PADDING, 0, SUBTITLE_PADDING, 0);
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_out);
@@ -1489,8 +1493,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     .replaceAll("\\\\h", "&ensp;");
 
             SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
-            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            span.setSpan(new BackgroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque)), 0, span.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             mSubtitleText.setText(span);
             mSubtitleText.setVisibility(View.VISIBLE);
