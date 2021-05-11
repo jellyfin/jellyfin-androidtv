@@ -46,6 +46,7 @@ class UserLoginAlertFragment : AlertFragment() {
 			onFocusChangeListener = KeyboardFocusChangeListener()
 
 			if (usernameArgument != null) {
+				isFocusable = false
 				isEnabled = false
 				setText(usernameArgument)
 				binding.password.requestFocus()
