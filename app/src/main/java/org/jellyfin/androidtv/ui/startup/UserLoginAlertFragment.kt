@@ -60,7 +60,7 @@ class UserLoginAlertFragment : AlertFragment() {
 			imeOptions = EditorInfo.IME_ACTION_DONE
 			setOnEditorActionListener { _, actionId, _ ->
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					binding.password.clearFocus()
+					clearFocus()
 					parentBinding.confirm.performClick()
 					return@setOnEditorActionListener true
 				}

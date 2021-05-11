@@ -45,7 +45,11 @@ class AddServerAlertFragment : AlertFragment() {
 			nextFocusDownId = parentBinding.confirm.id
 			imeOptions = EditorInfo.IME_ACTION_DONE
 			setOnEditorActionListener { _, actionId, _ ->
-				if (actionId == EditorInfo.IME_ACTION_DONE) parentBinding.confirm.performClick()
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					clearFocus()
+					parentBinding.confirm.performClick()
+					return@setOnEditorActionListener true
+				}
 				else false
 			}
 
