@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.userPicker
-import org.jellyfin.androidtv.util.toUUIDOrNull
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 fun OptionsScreen.authenticationCategory(
 	authenticationRepository: AuthenticationRepository,

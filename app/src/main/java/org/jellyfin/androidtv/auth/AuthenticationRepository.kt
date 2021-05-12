@@ -8,13 +8,13 @@ import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.androidtv.util.toUUID
 import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.users.AuthenticationResult
+import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.*
 

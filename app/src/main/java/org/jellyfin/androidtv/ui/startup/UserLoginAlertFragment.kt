@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.databinding.FragmentAlertUserLoginBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
-import org.jellyfin.androidtv.util.toUUIDOrNull
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class UserLoginAlertFragment : AlertFragment() {

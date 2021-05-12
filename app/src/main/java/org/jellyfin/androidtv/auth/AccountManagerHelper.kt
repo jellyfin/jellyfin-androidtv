@@ -5,8 +5,8 @@ import android.accounts.AccountManager
 import android.os.Bundle
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
-import org.jellyfin.androidtv.util.toUUID
-import org.jellyfin.androidtv.util.toUUIDOrNull
+import org.jellyfin.sdk.model.serializer.toUUID
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

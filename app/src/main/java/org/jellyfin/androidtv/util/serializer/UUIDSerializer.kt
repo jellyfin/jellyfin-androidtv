@@ -6,7 +6,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import org.jellyfin.androidtv.util.toUUID
+import org.jellyfin.sdk.model.serializer.toUUID
 import java.util.*
 
 object UUIDSerializer : KSerializer<UUID> {

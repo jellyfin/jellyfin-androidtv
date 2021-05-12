@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.util.serializer.UUIDSerializer
-import org.jellyfin.androidtv.util.toUUIDOrNull
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 
 class LegacyAccountMigration(
