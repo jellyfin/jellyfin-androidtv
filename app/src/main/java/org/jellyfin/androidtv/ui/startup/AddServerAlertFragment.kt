@@ -48,7 +48,7 @@ class AddServerAlertFragment : AlertFragment() {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					clearFocus()
 					parentBinding.confirm.performClick()
-					return@setOnEditorActionListener true
+					true
 				} else {
 					false
 				}
