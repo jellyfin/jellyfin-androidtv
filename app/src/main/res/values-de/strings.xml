@@ -479,4 +479,6 @@
     <string name="system_user">Systembenutzer</string>
     <string name="auto_sign_in">Automatisch anmelden</string>
     <string name="lbl_switch_user">Benutzer wechseln</string>
+    <string name="no_network_permissions">Jellyfin benötigt zum Funktionieren Netzwerkberechtigungen</string>
+    <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
 </resources>
