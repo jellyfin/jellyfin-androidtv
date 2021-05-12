@@ -181,7 +181,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:textColor="@color/lb_basic_card_title_text_color_inactive"
+                android:textColor="@color/lb_basic_card_title_text_color"
                 android:textSize="@dimen/lb_basic_card_title_text_size"
                 tools:text="Title text" />
 
@@ -198,7 +198,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:textColor="@color/lb_basic_card_title_text_color_inactive"
+                android:textColor="@color/lb_basic_card_title_text_color"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
                 tools:text="Content text" />
 
@@ -229,7 +229,7 @@
                     android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
                     android:fontFamily="sans-serif-condensed"
                     android:singleLine="true"
-                    android:textColor="@color/lb_basic_card_title_text_color_inactive"
+                    android:textColor="@color/lb_basic_card_title_text_color"
                     android:textSize="@dimen/lb_basic_card_content_text_size"
                     android:visibility="gone" />
 
