@@ -49,8 +49,9 @@ class AddServerAlertFragment : AlertFragment() {
 					clearFocus()
 					parentBinding.confirm.performClick()
 					return@setOnEditorActionListener true
+				} else {
+					false
 				}
-				else false
 			}
 
 			if (serverAddressArgument != null) {

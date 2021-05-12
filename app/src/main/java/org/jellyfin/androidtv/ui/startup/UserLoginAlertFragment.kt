@@ -64,8 +64,9 @@ class UserLoginAlertFragment : AlertFragment() {
 					clearFocus()
 					parentBinding.confirm.performClick()
 					return@setOnEditorActionListener true
+				} else {
+					false
 				}
-				else false
 			}
 		}
 
