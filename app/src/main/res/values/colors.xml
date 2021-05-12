@@ -49,8 +49,6 @@
 
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
-    <!-- Card Text Color -->
-    <color name="lb_basic_card_title_text_color_inactive">#4b4b4b</color>
 
     <color name="background_filter">#8B000000</color>
 </resources>
