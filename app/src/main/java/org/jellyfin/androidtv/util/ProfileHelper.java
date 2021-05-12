@@ -382,7 +382,7 @@ public class ProfileHelper {
                 getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
-                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Encode),
                 getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
                 getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
