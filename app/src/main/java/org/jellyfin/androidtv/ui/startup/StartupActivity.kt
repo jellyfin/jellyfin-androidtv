@@ -12,6 +12,7 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.ServerRepository
@@ -96,6 +97,9 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private suspend fun openNextActivity() {
 		val itemId = intent.getStringExtra(EXTRA_ITEM_ID)
 		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
+
+		// Start session
+		(application as? JellyfinApplication)?.onSessionStart()
 
 		if (itemId != null) {
 			if (itemIsUserView) {
