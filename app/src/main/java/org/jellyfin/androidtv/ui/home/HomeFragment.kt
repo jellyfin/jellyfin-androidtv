@@ -6,16 +6,12 @@ import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.lifecycleScope
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
-import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
 import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment
@@ -23,7 +19,6 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
-import org.jellyfin.androidtv.util.AutoBitrate
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
@@ -55,27 +50,12 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 		super.onCreate(savedInstanceState)
 
-		// Get auto bitrate
-		// TODO move to somewhere else (automatically start at app start?)
-		lifecycleScope.launch(Dispatchers.IO) {
-			get<AutoBitrate>().detect()
-		}
-
 		// Subscribe to Audio messages
 		mediaManager.addAudioEventListener(this)
 	}
 
 	override fun onResume() {
 		super.onResume()
-
-		// Update leanback channels
-		// TODO Move this (on app start?)
-		val channelUpdateRequest = OneTimeWorkRequest.from(LeanbackChannelWorker::class.java)
-		get<WorkManager>().enqueueUniqueWork(
-			LeanbackChannelWorker.SINGLE_UPDATE_REQUEST_NAME,
-			ExistingWorkPolicy.REPLACE,
-			channelUpdateRequest
-		)
 
 		// Update audio queue
 		Timber.i("Updating audio queue in HomeFragment (onResume)")

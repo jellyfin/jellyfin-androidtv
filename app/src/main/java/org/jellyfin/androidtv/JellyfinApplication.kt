@@ -5,7 +5,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.acra.ACRA
 import org.acra.annotation.AcraCore
 import org.acra.annotation.AcraDialog
@@ -15,6 +16,7 @@ import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.di.*
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
+import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
@@ -80,21 +82,6 @@ class JellyfinApplication : TvApp() {
 			)
 		}
 
-		// Setup background workers
-		runBlocking {
-			val workManager by inject<WorkManager>()
-
-			// Cancel all workers
-			workManager.cancelAllWork().await()
-
-			// Recreate periodic workers
-			workManager.enqueueUniquePeriodicWork(
-				LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
-				ExistingPeriodicWorkPolicy.REPLACE,
-				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
-			).await()
-		}
-
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 
@@ -102,6 +89,29 @@ class JellyfinApplication : TvApp() {
 		get<SessionRepository>().apply {
 			restoreDefaultSession()
 			restoreDefaultSystemSession()
+		}
+	}
+
+	/**
+	 * Called from the StartupActivity when the user session is started.
+	 */
+	suspend fun onSessionStart() {
+		val workManager by inject<WorkManager>()
+		val autoBitrate by inject<AutoBitrate>()
+
+		// Cancel all current workers
+		workManager.cancelAllWork().await()
+
+		// Recreate periodic workers
+		workManager.enqueueUniquePeriodicWork(
+			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
+			ExistingPeriodicWorkPolicy.REPLACE,
+			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
+		).await()
+
+		// Detect auto bitrate
+		withContext(Dispatchers.IO) {
+			autoBitrate.detect()
 		}
 	}
 
