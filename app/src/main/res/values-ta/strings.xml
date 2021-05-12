@@ -479,4 +479,6 @@
     <string name="system_user">கணினி பயனர்</string>
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
     <string name="lbl_switch_user">பயன்பாட்டாளர் மாற்றம்</string>
+    <string name="no_network_permissions">ஜெல்லிஃபின் செயல்பட பிணைய அனுமதிகள் தேவை</string>
+    <string name="pref_theme_muted_purple">முடக்கிய ஊதா</string>
 </resources>
