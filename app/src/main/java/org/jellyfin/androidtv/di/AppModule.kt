@@ -11,22 +11,37 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.apiclient.AppInfo
-import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.android
 import org.jellyfin.apiclient.interaction.AndroidDevice
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
+import org.jellyfin.sdk.android
+import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
+import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 
 val appModule = module {
+	// New SDK
+	single {
+		JellyfinSdk {
+			// Set deviceInfo and discovery provider
+			android(androidContext())
+
+			// Add client info
+			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)
+		}
+	}
+
+	// Old apiclient
 	single { GsonJsonSerializer() }
 
 	single {
-		Jellyfin {
+		JellyfinApiClient {
 			appInfo = AppInfo("Android TV", BuildConfig.VERSION_NAME)
 			logger = AndroidLogger()
 			android(androidApplication())
@@ -37,20 +52,22 @@ val appModule = module {
 		AndroidDevice.fromContext(androidApplication())
 	}
 
-	single { MediaManager() }
-
 	single {
-		get<Jellyfin>().createApi(
+		get<JellyfinApiClient>().createApi(
 			device = get(),
 			eventListener = TvApiEventListener(get(), get())
 		)
 	}
 
+	// Non API related
+	single { MediaManager() }
+
+
 	single { DataRefreshService() }
 
 	factory { WorkManager.getInstance(androidContext()) }
 
-	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get(), get(), get()) }
+	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get(), get()) }
 
 	viewModel { LoginViewModel(get(), get()) }
 	viewModel { NextUpViewModel(get(), get()) }

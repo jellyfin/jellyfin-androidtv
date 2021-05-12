@@ -68,7 +68,7 @@ android {
 dependencies {
 	// Jellyfin
 	implementation("org.jellyfin.apiclient:android:0.7.9")
-	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.3")
+	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.5")
 
 	// Kotlin
 	val kotlinxCoroutinesVersion = "1.4.3"
@@ -124,6 +124,7 @@ dependencies {
 
 	// Logging
 	implementation("com.jakewharton.timber:timber:4.7.1")
+	implementation("uk.uuid.slf4j:slf4j-android:1.7.30-0")
 
 	// Debugging
 	if (getProperty("leakcanary.enable")?.toBoolean() == true)
