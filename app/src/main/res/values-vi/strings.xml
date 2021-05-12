@@ -478,4 +478,5 @@
     <string name="system_user">Người dùng hệ thống</string>
     <string name="auto_sign_in">Đăng nhập tự động</string>
     <string name="lbl_switch_user">‎Chuyển người dùng‎</string>
+    <string name="no_network_permissions">Jellyfin yêu cầu quyền mạng để hoạt động</string>
 </resources>
