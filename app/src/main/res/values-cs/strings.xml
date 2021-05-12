@@ -479,4 +479,6 @@
     <string name="system_user">Systémový uživatel</string>
     <string name="auto_sign_in">Automatické přihlášení</string>
     <string name="lbl_switch_user">Přepnout uživatele</string>
+    <string name="no_network_permissions">Jellyfin ke svému fungování potřebuje povolení k přístupu k síti</string>
+    <string name="pref_theme_muted_purple">Nevtíravá fialová</string>
 </resources>
