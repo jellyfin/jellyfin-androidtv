@@ -479,4 +479,6 @@
     <string name="system_user">Rendszerhasználó</string>
     <string name="auto_sign_in">Automatikus bejelentkezés</string>
     <string name="lbl_switch_user">Felhasználóváltás</string>
+    <string name="no_network_permissions">A Jellyfin működéséhez hálózati engedélyekre van szükség</string>
+    <string name="pref_theme_muted_purple">Néma lila</string>
 </resources>
