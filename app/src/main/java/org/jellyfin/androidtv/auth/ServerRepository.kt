@@ -3,20 +3,17 @@ package org.jellyfin.androidtv.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.jellyfin.androidtv.auth.model.*
-import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.androidtv.util.apiclient.getPublicUsers
-import org.jellyfin.androidtv.util.apiclient.toPublicUser
-import org.jellyfin.androidtv.util.apiclient.toServer
-import org.jellyfin.androidtv.util.toUUID
-import org.jellyfin.apiclient.Jellyfin
-import org.jellyfin.apiclient.discovery.DiscoveryServerInfo
-import org.jellyfin.apiclient.interaction.device.IDevice
-import org.jellyfin.apiclient.model.dto.UserDto
-import org.jellyfin.apiclient.model.system.PublicSystemInfo
-import org.jellyfin.sdk.discovery.AddressCandidateHelper
+import org.jellyfin.androidtv.util.sdk.toPublicUser
+import org.jellyfin.androidtv.util.sdk.toServer
+import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.operations.UserApi
+import org.jellyfin.sdk.discovery.RecommendedServerInfo
+import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
+import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
+import org.jellyfin.sdk.model.api.UserDto
+import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.*
 
@@ -32,7 +29,6 @@ interface ServerRepository {
 
 class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
-	private val device: IDevice,
 	private val authenticationRepository: AuthenticationRepository,
 	private val authenticationStore: AuthenticationStore,
 	private val legacyAccountMigration: LegacyAccountMigration
@@ -40,16 +36,16 @@ class ServerRepositoryImpl(
 	override fun getStoredServers() = authenticationRepository.getServers()
 
 	override fun getDiscoveryServers() = flow {
-		val servers = jellyfin.discovery.discover().map(DiscoveryServerInfo::toServer)
+		val servers = jellyfin.discovery.discoverLocalServers().mapNotNull(ServerDiscoveryInfo::toServer)
 		emitAll(servers)
 	}.flowOn(Dispatchers.IO)
 
-	private suspend fun getServerPublicUsers(server: Server): List<PublicUser> = jellyfin
-		.createApi(server.address, device = device)
-		.getPublicUsers()
-		?.toList()
-		.orEmpty()
-		.map(UserDto::toPublicUser)
+	private suspend fun getServerPublicUsers(server: Server): List<PublicUser> {
+		val api = UserApi(jellyfin.createApi(server.address))
+		val users by api.getPublicUsers()
+
+		return users.mapNotNull(UserDto::toPublicUser)
+	}
 
 	private fun getServerStoredUsers(server: Server): List<PrivateUser> = authenticationRepository
 		.getUsers(server.id)
@@ -80,41 +76,50 @@ class ServerRepositoryImpl(
 
 		emit(ConnectingState(address))
 
-		// TODO Use the getRecommendedServer function in the DiscoveryService of the SDK
-		val addressCandidates = AddressCandidateHelper(address).apply {
-			addCommonCandidates()
-			prioritize()
-		}.getCandidates()
-
+		val addressCandidates = jellyfin.discovery.getAddressCandidates(address)
 		Timber.d("Found ${addressCandidates.size} candidates")
 
-		// Yup we're going to mix the new SDK with the old apiclient for now..
-		for (candidate in addressCandidates) {
-			// Suppressed because the old apiclient is unreliable
-			@Suppress("TooGenericExceptionCaught")
-			try {
-				emit(ConnectingState(candidate))
-				Timber.d("Trying candidate %s", candidate)
-
-				val api = jellyfin.createApi(serverAddress = candidate, device = device)
-				val systemInfo: PublicSystemInfo = callApi { callback ->
-					api.GetPublicSystemInfoAsync(callback)
+		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
+		val badRecommendations = mutableListOf<RecommendedServerInfo>()
+		val greatRecommendaton = jellyfin.discovery.getRecommendedServers(addressCandidates)
+			.firstOrNull { recommendedServer ->
+				when (recommendedServer.score) {
+					RecommendedServerInfoScore.GREAT -> true
+					RecommendedServerInfoScore.GOOD -> {
+						goodRecommendations += recommendedServer
+						false
+					}
+					else -> {
+						badRecommendations += recommendedServer
+						false
+					}
 				}
-
-				authenticationRepository.saveServer(systemInfo.id.toUUID(), systemInfo.serverName, candidate)
-
-				emit(ConnectedState(systemInfo))
-
-				// Stop looping because we found a working connection
-				break
-			} catch (error: Exception) {
-				emit(UnableToConnectState(error))
-
-				// Wait for 0.3 seconds before attempting the next connection
-				// this is to prevent network flooding and allowing the user to
-				// view the error (although shortly)
-				delay(300)
 			}
+
+		Timber.d(buildString {
+			append("Recommendations: ")
+			if (greatRecommendaton == null) append(0)
+			else append(1)
+			append(" great, ")
+			append(goodRecommendations.size)
+			append(" good, ")
+			append(badRecommendations.size)
+			append(" bad")
+		})
+
+		val chosenRecommendation = greatRecommendaton ?: goodRecommendations.firstOrNull()
+		if (chosenRecommendation != null) {
+			val systemInfo = chosenRecommendation.systemInfo!!
+			authenticationRepository.saveServer(
+				id = systemInfo.id!!.toUUID(),
+				name = systemInfo?.serverName ?: "Jellyfin Server",
+				address = chosenRecommendation.address
+			)
+
+			emit(ConnectedState(systemInfo))
+		} else {
+			// No great or good recommendations, only add bad recommendations
+			emit(UnableToConnectState(addressCandidates))
 		}
 	}
 }
