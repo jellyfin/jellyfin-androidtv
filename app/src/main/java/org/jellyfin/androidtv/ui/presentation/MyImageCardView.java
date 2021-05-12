@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
@@ -39,22 +36,6 @@ public class MyImageCardView extends BaseCardView {
         }
 
         binding.mainImage.setClipToOutline(true);
-    }
-
-    @Override
-    protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
-        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-        if (gainFocus) {
-            binding.title.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color));
-            binding.extraBadge.setAlpha(1.0f);
-        } else {
-            binding.title.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            binding.contentText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            binding.badgeText.setTextColor(ContextCompat.getColor(getContext(), R.color.lb_basic_card_title_text_color_inactive));
-            binding.extraBadge.setAlpha(0.25f);
-        }
     }
 
     public void setBanner(int bannerResource) {
