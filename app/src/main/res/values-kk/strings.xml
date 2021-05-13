@@ -479,4 +479,6 @@
     <string name="system_user">Jüielık paidalanuşy</string>
     <string name="auto_sign_in">Avtomatty kıru</string>
     <string name="lbl_switch_user">Paidalanuşyny auystyru</string>
+    <string name="no_network_permissions">Jellyfin jūmys ısteu üşın jelılık rūqsattar qajet</string>
+    <string name="pref_theme_muted_purple">Bäseñdetılgen küreñ</string>
 </resources>
