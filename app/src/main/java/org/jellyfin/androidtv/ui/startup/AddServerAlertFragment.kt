@@ -42,10 +42,16 @@ class AddServerAlertFragment : AlertFragment() {
 		with(binding.address) {
 			onFocusChangeListener = KeyboardFocusChangeListener()
 			nextFocusForwardId = parentBinding.confirm.id
+			nextFocusDownId = parentBinding.confirm.id
 			imeOptions = EditorInfo.IME_ACTION_DONE
 			setOnEditorActionListener { _, actionId, _ ->
-				if (actionId == EditorInfo.IME_ACTION_DONE) parentBinding.confirm.performClick()
-				else false
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					clearFocus()
+					parentBinding.confirm.performClick()
+					true
+				} else {
+					false
+				}
 			}
 
 			if (serverAddressArgument != null) {
