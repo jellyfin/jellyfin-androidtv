@@ -479,4 +479,6 @@
     <string name="system_user">Системный пользователь</string>
     <string name="auto_sign_in">Автоматический вход</string>
     <string name="lbl_switch_user">Поменять пользователя</string>
+    <string name="no_network_permissions">Jellyfin требуются сетевые разрешения для работы</string>
+    <string name="pref_theme_muted_purple">Приглушённый пурпурный</string>
 </resources>
