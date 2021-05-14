@@ -35,10 +35,9 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.ui.CharSelectedListener;
+import org.jellyfin.androidtv.ui.AlphaPicker;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.ui.JumpList;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -120,7 +119,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         setGridSizes();
 
-        mJumplistPopup = new JumplistPopup(getActivity());
+        mJumplistPopup = new JumplistPopup();
     }
 
     private void setGridSizes() {
@@ -496,48 +495,41 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private JumplistPopup mJumplistPopup;
     class JumplistPopup {
 
-        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 900);
-        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 55);
+        final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
+        final int HEIGHT = Utils.convertDpToPixel(requireContext(), 55);
 
-        PopupWindow mPopup;
-        Activity mActivity;
-        JumpList mJumplist;
+        private final PopupWindow popupWindow;
+        private final AlphaPicker alphaPicker;
 
-        JumplistPopup(Activity activity) {
-            mActivity = activity;
-            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        JumplistPopup() {
+            LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.empty_popup, null);
-            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
-            mPopup.setFocusable(true);
-            mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInTop);
+            popupWindow = new PopupWindow(layout, WIDTH, HEIGHT, true);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
+            popupWindow.setAnimationStyle(R.style.PopupSlideInTop);
 
-            mJumplist = new JumpList(activity, new CharSelectedListener() {
-                @Override
-                public void onCharSelected(String ch) {
-                    mGridAdapter.setStartLetter(ch);
-                    loadGrid(mRowDef);
-                    dismiss();
-                }
+            alphaPicker = new AlphaPicker(requireContext(), null);
+            alphaPicker.setOnAlphaSelected(str -> {
+                mGridAdapter.setStartLetter(str);
+                loadGrid(mRowDef);
+                dismiss();
+                return null;
             });
+            alphaPicker.setGravity(Gravity.CENTER_HORIZONTAL);
 
-            mJumplist.setGravity(Gravity.CENTER_HORIZONTAL);
-            FrameLayout root = (FrameLayout) layout.findViewById(R.id.root);
-            root.addView(mJumplist);
-
+            FrameLayout root = layout.findViewById(R.id.empty_popup);
+            root.addView(alphaPicker);
         }
 
         public void show() {
-
-            mPopup.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
-            mJumplist.setFocus(mGridAdapter.getStartLetter());
-
+            popupWindow.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
+            alphaPicker.focus(mGridAdapter.getStartLetter());
         }
 
         public void dismiss() {
-            if (mPopup != null && mPopup.isShowing()) {
-                mPopup.dismiss();
+            if (popupWindow != null && popupWindow.isShowing()) {
+                popupWindow.dismiss();
             }
         }
     }
