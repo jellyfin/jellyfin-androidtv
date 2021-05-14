@@ -4,39 +4,36 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.core.view.children
 import org.jellyfin.androidtv.R
 
 class AlphaPicker(
 	context: Context,
-	attrs: AttributeSet?
+	attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
-	var onAlphaSelected: (s: String) -> Unit = {}
+	var onAlphaSelected: (letter: Char) -> Unit = {}
 
 	init {
 		removeAllViews()
 
 		val letters = "#${resources.getString(R.string.byletter_letters)}"
-		letters.toCharArray().forEach {
+		letters.forEach { letter ->
 			// NOTE: We must use a Button here and NOT AppCompatButton due to focus issues on Fire OS
-			val button = Button(context)
-			button.text = it.toString()
-			button.setOnClickListener { _ ->
-				this.onAlphaSelected(it.toString())
+			val button = Button(context).apply {
+				text = letter.toString()
+				setOnClickListener { _ ->
+					onAlphaSelected(letter)
+				}
 			}
 
 			addView(button)
 		}
 	}
 
-	fun focus(text: String?) {
-		if (!text.isNullOrBlank()) {
-			for (i in 1..childCount) {
-				val button = getChildAt(i) as Button
-				if (text == button.text) {
-					button.requestFocus()
-					return
-				}
-			}
-		}
+	fun focus(letter: Char) {
+		children
+			.filterIsInstance<Button>()
+			.firstOrNull { it.text == letter.toString() }
+			?.requestFocus()
 	}
 }

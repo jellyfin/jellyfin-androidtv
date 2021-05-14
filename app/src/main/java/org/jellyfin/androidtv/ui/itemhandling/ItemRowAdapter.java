@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.os.Handler;
 
+import androidx.annotation.Nullable;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -453,7 +454,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         ((IPositionablePresenter) (getParent().getPresenter(this))).setPosition(pos);
     }
 
-    public String getStartLetter() {
+    public @Nullable String getStartLetter() {
         return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
     }
 

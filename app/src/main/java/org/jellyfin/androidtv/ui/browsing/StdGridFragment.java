@@ -510,8 +510,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             popupWindow.setAnimationStyle(R.style.PopupSlideInTop);
 
             alphaPicker = new AlphaPicker(requireContext(), null);
-            alphaPicker.setOnAlphaSelected(str -> {
-                mGridAdapter.setStartLetter(str);
+            alphaPicker.setOnAlphaSelected(letter -> {
+                mGridAdapter.setStartLetter(letter.toString());
                 loadGrid(mRowDef);
                 dismiss();
                 return null;
@@ -524,7 +524,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         public void show() {
             popupWindow.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
-            alphaPicker.focus(mGridAdapter.getStartLetter());
+            if (mGridAdapter.getStartLetter() != null && !mGridAdapter.getStartLetter().isEmpty()) {
+                alphaPicker.focus(mGridAdapter.getStartLetter().charAt(0));
+            }
         }
 
         public void dismiss() {
