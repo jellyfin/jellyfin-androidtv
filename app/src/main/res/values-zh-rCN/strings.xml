@@ -434,7 +434,7 @@
     <string name="login_authenticating">验证中 ……</string>
     <string name="server_field_empty">地址栏不能为空</string>
     <string name="server_connection_failed">无法连接到服务器：%s</string>
-    <string name="server_connecting">正在连接服务器 ……</string>
+    <string name="server_connecting">正在连接服务器 %s</string>
     <string name="lbl_user_server">%1$s 于 %2$s</string>
     <string name="lbl_user_last_used">上次在 %1$s 于 %2$s 使用</string>
     <string name="connect_title">连接</string>
@@ -479,4 +479,6 @@
     <string name="system_user">系统用户</string>
     <string name="auto_sign_in">自动登录</string>
     <string name="lbl_switch_user">切换用户</string>
+    <string name="no_network_permissions">Jellyfin需要网络权限才能运行</string>
+    <string name="pref_theme_muted_purple">淡紫色</string>
 </resources>
