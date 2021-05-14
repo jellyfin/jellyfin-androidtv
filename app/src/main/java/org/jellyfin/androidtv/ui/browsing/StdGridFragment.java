@@ -495,8 +495,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private JumplistPopup mJumplistPopup;
     class JumplistPopup {
 
-        final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
-        final int HEIGHT = Utils.convertDpToPixel(requireContext(), 55);
+        private final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
+        private final int HEIGHT = Utils.convertDpToPixel(requireContext(), 55);
 
         private final PopupWindow popupWindow;
         private final AlphaPicker alphaPicker;
