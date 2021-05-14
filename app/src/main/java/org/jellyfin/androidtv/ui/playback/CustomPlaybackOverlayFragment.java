@@ -1494,7 +1494,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
             span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.transparent), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             mSubtitleText.setText(span);
             mSubtitleText.setVisibility(View.VISIBLE);
