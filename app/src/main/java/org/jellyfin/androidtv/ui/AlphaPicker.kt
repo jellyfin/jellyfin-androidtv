@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.view.children
@@ -19,7 +20,8 @@ class AlphaPicker(
 		val letters = "#${resources.getString(R.string.byletter_letters)}"
 		letters.forEach { letter ->
 			// NOTE: We must use a Button here and NOT AppCompatButton due to focus issues on Fire OS
-			val button = Button(context).apply {
+			val button = View.inflate(context, R.layout.alpha_picker_button, null) as Button
+			button.apply {
 				text = letter.toString()
 				setOnClickListener { _ ->
 					onAlphaSelected(letter)
