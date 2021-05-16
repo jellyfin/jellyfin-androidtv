@@ -150,7 +150,7 @@
     <string name="lbl_enter_user_name">Introduce el usuario</string>
     <string name="lbl_play_trailers">Reproducir Tráiler(s)</string>
     <string name="lbl_recordings">Grabaciones</string>
-    <string name="lbl_videos">Videos</string>
+    <string name="lbl_videos">Vídeos</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favoritos</string>
     <string name="lbl_series">Series</string>
@@ -170,7 +170,7 @@
     <string name="msg_items_added">" Elemento añadido"</string>
     <string name="msg_added_item_to_queue">"Elemento añadido a la cola en la posición "</string>
     <string name="lbl_warning">Aviso</string>
-    <string name="lbl_playlists">Playlists</string>
+    <string name="lbl_playlists">Listas de reproducción</string>
     <string name="lbl_enable_cinema_mode">Modo Cine</string>
     <string name="lbl_episodes">Episodios</string>
     <string name="lbl_album">Álbum</string>
@@ -468,4 +468,17 @@
     <string name="lbl_remove_user_content">Eliminar cuenta</string>
     <string name="lbl_remove_users">Esto también eliminará todos los usuarios asociados</string>
     <string name="lbl_manage_servers">Gestionar servidores</string>
+    <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
+    <string name="pref_theme_muted_purple">Morado silenciado</string>
+    <string name="lbl_switch_user">Cambiar de usuario</string>
+    <string name="user_picker_last_user_summary">Usar el último usuario activo</string>
+    <string name="user_picker_last_user_title">Usado más recientemente</string>
+    <string name="user_picker_disable_summary">Mostrar siempre la pantalla de inicio de sesión</string>
+    <string name="user_picker_disable_title">Desactivar</string>
+    <string name="system_user_explanation">El usuario seleccionado se usara en las integraciones del sistema como la búsqueda</string>
+    <string name="system_user">Usuario del sistema</string>
+    <string name="auto_sign_in">Inicio de sesión automático</string>
+    <string name="lbl_use_series_thumbnails_description">Usar las miniaturas de las series mientras se muestran los episodios</string>
+    <string name="lbl_use_series_thumbnails">Preferir miniaturas de las series</string>
+    <string name="image_type_banner">Banner</string>
 </resources>
