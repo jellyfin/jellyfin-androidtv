@@ -49,7 +49,9 @@ class LegacyAccountMigration(
 						id = serverId,
 						server = AuthenticationStoreServer(
 							name = serverName ?: "",
-							address = serverAddress ?: ""
+							address = serverAddress ?: "",
+							loginDisclaimer = null,
+							version = null,
 						)
 					)
 				}

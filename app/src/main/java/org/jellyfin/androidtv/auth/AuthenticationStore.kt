@@ -63,7 +63,7 @@ class AuthenticationStore(
 
 		storePath.writeText(json.encodeToString(root))
 
-		return false
+		return true
 	}
 
 	fun getServers(): Map<UUID, AuthenticationStoreServer> = store

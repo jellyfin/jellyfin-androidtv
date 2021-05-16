@@ -8,6 +8,8 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.sdk.toPublicUser
 import org.jellyfin.androidtv.util.sdk.toServer
 import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.operations.BrandingApi
+import org.jellyfin.sdk.api.operations.SystemApi
 import org.jellyfin.sdk.api.operations.UserApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
@@ -25,6 +27,7 @@ interface ServerRepository {
 	fun getServerUsers(server: Server): LiveData<List<User>>
 	fun removeServer(serverId: UUID): Boolean
 	fun addServer(address: String): Flow<ServerAdditionState>
+	suspend fun refreshServerInfo(server: Server): Boolean
 }
 
 class ServerRepositoryImpl(
@@ -41,10 +44,33 @@ class ServerRepositoryImpl(
 	}.flowOn(Dispatchers.IO)
 
 	private suspend fun getServerPublicUsers(server: Server): List<PublicUser> {
-		val api = UserApi(jellyfin.createApi(server.address))
-		val users by api.getPublicUsers()
+		val client = jellyfin.createApi(server.address)
+		val userApi = UserApi(client)
+
+		val users by userApi.getPublicUsers()
 
 		return users.mapNotNull(UserDto::toPublicUser)
+	}
+
+	public override suspend fun refreshServerInfo(server: Server): Boolean {
+		// Only update existing servers
+		val serverInfo = authenticationStore.getServer(server.id) ?: return false
+		val now = Date().time
+
+		// Only update every 10 minutes
+		if (now - serverInfo.lastRefreshed < 600000) return false
+
+		val client = jellyfin.createApi(server.address)
+		// Get login disclaimer
+		val branding by BrandingApi(client).getBrandingOptions()
+		val systemInfo by SystemApi(client).getPublicSystemInfo()
+
+		return authenticationStore.putServer(server.id, serverInfo.copy(
+			name = systemInfo.serverName ?: serverInfo.name,
+			version = systemInfo.version ?: serverInfo.version,
+			loginDisclaimer = branding.loginDisclaimer ?: serverInfo.loginDisclaimer,
+			lastRefreshed = now
+		))
 	}
 
 	private fun getServerStoredUsers(server: Server): List<PrivateUser> = authenticationRepository
@@ -109,11 +135,19 @@ class ServerRepositoryImpl(
 
 		val chosenRecommendation = greatRecommendaton ?: goodRecommendations.firstOrNull()
 		if (chosenRecommendation != null) {
+			// Get system info
 			val systemInfo = chosenRecommendation.systemInfo!!
+
+			// Get branding info
+			val api = BrandingApi(jellyfin.createApi(chosenRecommendation.address))
+			val branding by api.getBrandingOptions()
+
 			authenticationRepository.saveServer(
 				id = systemInfo.id!!.toUUID(),
-				name = systemInfo?.serverName ?: "Jellyfin Server",
-				address = chosenRecommendation.address
+				name = systemInfo.serverName ?: "Jellyfin Server",
+				address = chosenRecommendation.address,
+				version = systemInfo.version,
+				loginDisclaimer = branding.loginDisclaimer,
 			)
 
 			emit(ConnectedState(systemInfo))

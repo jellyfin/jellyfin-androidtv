@@ -4,12 +4,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.Jellyfin
-import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.jellyfin.apiclient.model.entities.ImageType
@@ -21,7 +19,7 @@ import java.util.*
 interface AuthenticationRepository {
 	fun getServers(): List<Server>
 	fun getUsers(server: UUID): List<PrivateUser>?
-	fun saveServer(id: UUID, name: String, address: String)
+	fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?)
 	fun authenticateUser(user: User): Flow<LoginState>
 	fun authenticateUser(user: User, server: Server): Flow<LoginState>
 	fun login(server: Server, username: String, password: String = ""): Flow<LoginState>
@@ -29,9 +27,7 @@ interface AuthenticationRepository {
 }
 
 class AuthenticationRepositoryImpl(
-	private val application: JellyfinApplication,
 	private val jellyfin: Jellyfin,
-	private val api: ApiClient,
 	private val sessionRepository: SessionRepository,
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
@@ -58,13 +54,12 @@ class AuthenticationRepositoryImpl(
 			}
 		}?.sortedWith(userComparator)
 
-	override fun saveServer(id: UUID, name: String, address: String) {
+	override fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?) {
 		val current = authenticationStore.getServer(id)
+		val server = if (current != null) current.copy(name = name, address = address, version = version, loginDisclaimer = loginDisclaimer, lastUsed = Date().time)
+		else AuthenticationStoreServer(name, address, version, loginDisclaimer)
 
-		if (current != null)
-			authenticationStore.putServer(id, current.copy(name = name, address = address, lastUsed = Date().time))
-		else
-			authenticationStore.putServer(id, AuthenticationStoreServer(name, address))
+		authenticationStore.putServer(id, server)
 	}
 
 	/**
