@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -502,8 +500,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         private final AlphaPicker alphaPicker;
 
         JumplistPopup() {
-            LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.empty_popup, null);
+            LayoutInflater inflater = LayoutInflater.from(requireContext());
+            View layout = inflater.inflate(R.layout.popup_empty, mGridDock, false);
             popupWindow = new PopupWindow(layout, WIDTH, HEIGHT, true);
             popupWindow.setOutsideTouchable(true);
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
