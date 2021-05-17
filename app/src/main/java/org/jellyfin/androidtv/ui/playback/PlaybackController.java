@@ -664,7 +664,7 @@ public class PlaybackController {
     }
 
     public void switchAudioStream(int index) {
-        if (!isPlaying()) return;
+        if (!(isPlaying() || isPaused())) return;
 
         mCurrentOptions.setAudioStreamIndex(index);
         if (mVideoManager.isNativeMode()) {
