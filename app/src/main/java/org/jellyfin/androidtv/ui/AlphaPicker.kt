@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.view.children
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.databinding.AlphaPickerButtonBinding
+import org.jellyfin.androidtv.databinding.ViewButtonAlphaPickerBinding
 
 class AlphaPicker(
 	context: Context,
@@ -18,8 +18,7 @@ class AlphaPicker(
 	init {
 		val letters = "#${resources.getString(R.string.byletter_letters)}"
 		letters.forEach { letter ->
-			// NOTE: We must use a Button here and NOT AppCompatButton due to focus issues on Fire OS
-			val binding = AlphaPickerButtonBinding.inflate(LayoutInflater.from(context), this, false)
+			val binding = ViewButtonAlphaPickerBinding.inflate(LayoutInflater.from(context), this, false)
 			binding.button.apply {
 				text = letter.toString()
 				setOnClickListener { _ ->

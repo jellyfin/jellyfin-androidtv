@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- NOTE: We must use a Button here and NOT AppCompatButton due to focus issues on Fire OS -->
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/button"
     android:layout_width="wrap_content"
