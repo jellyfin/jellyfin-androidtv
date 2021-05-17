@@ -1422,7 +1422,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void updateSubtitles(long positionMs) {
         if (subtitleTrackInfo == null
                 || subtitleTrackInfo.getTrackEvents() == null
-                || currentSubtitleIndex > subtitleTrackInfo.getTrackEvents().size()) {
+                || currentSubtitleIndex >= subtitleTrackInfo.getTrackEvents().size()) {
             return;
         }
 
