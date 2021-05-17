@@ -216,7 +216,6 @@
                     android:layout_width="@dimen/lb_basic_card_info_badge_size"
                     android:layout_height="@dimen/lb_basic_card_info_badge_size"
                     android:layout_marginStart="10dp"
-                    android:alpha="0.25"
                     android:contentDescription="@null"
                     android:scaleType="fitCenter"
                     android:visibility="gone" />
