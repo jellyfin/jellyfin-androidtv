@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
+import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -231,7 +232,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 options.setItemId(item.getId());
                 options.setMediaSources(item.getMediaSources());
                 options.setMaxBitrate(Utils.getMaxBitrate());
-                options.setProfile(ProfileHelper.getExternalProfile());
+                options.setProfile(new ExternalPlayerProfile());
 
                 // Get playback info for each player and then decide on which one to use
                 get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient.getValue(), new Response<StreamInfo>() {

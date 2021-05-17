@@ -84,77 +84,6 @@ public class ProfileHelper {
 
     }
 
-    public static DeviceProfile getExternalProfile() {
-        DeviceProfile profile = new DeviceProfile();
-
-        profile.setName("Android-External");
-        profile.setMaxStaticBitrate(100000000);
-
-        DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-        List<String> containers = Arrays.asList(
-            ContainerTypes.M4V,
-            ContainerTypes._3GP,
-            ContainerTypes.TS,
-            ContainerTypes.MPEGTS,
-            ContainerTypes.MOV,
-            ContainerTypes.XVID,
-            ContainerTypes.VOB,
-            ContainerTypes.MKV,
-            ContainerTypes.WMV,
-            ContainerTypes.ASF,
-            ContainerTypes.OGM,
-            ContainerTypes.OGV,
-            ContainerTypes.M2V,
-            ContainerTypes.AVI,
-            ContainerTypes.MPG,
-            ContainerTypes.MPEG,
-            ContainerTypes.MP4,
-            ContainerTypes.WEBM,
-            ContainerTypes.DVR_MS,
-            ContainerTypes.WTV
-        );
-        videoDirectPlayProfile.setContainer(Utils.join(",", containers));
-        videoDirectPlayProfile.setType(DlnaProfileType.Video);
-
-        profile.setDirectPlayProfiles(new DirectPlayProfile[] {videoDirectPlayProfile});
-
-        List<TranscodingProfile> transcodingProfiles = new ArrayList<>();
-
-        TranscodingProfile mkvProfile = new TranscodingProfile();
-        mkvProfile.setContainer(ContainerTypes.MKV);
-        mkvProfile.setVideoCodec(CodecTypes.H264);
-        mkvProfile.setAudioCodec(Utils.join(",", CodecTypes.AAC, CodecTypes.MP3, CodecTypes.AC3));
-        mkvProfile.setType(DlnaProfileType.Video);
-        mkvProfile.setContext(EncodingContext.Streaming);
-        mkvProfile.setCopyTimestamps(true);
-        transcodingProfiles.add(mkvProfile);
-
-        TranscodingProfile tempVar = new TranscodingProfile();
-        tempVar.setContainer(CodecTypes.MP3);
-        tempVar.setAudioCodec(CodecTypes.MP3);
-        tempVar.setType(DlnaProfileType.Audio);
-        tempVar.setContext(EncodingContext.Streaming);
-        transcodingProfiles.add(tempVar);
-
-        profile.setTranscodingProfiles(transcodingProfiles.toArray(new TranscodingProfile[transcodingProfiles.size()]));
-        profile.setSubtitleProfiles(new SubtitleProfile[] {
-            getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed),
-            getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed)
-        });
-
-        return profile;
-
-    }
-
     public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
         profile.setName("Android-VLC");
         DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
@@ -440,7 +369,7 @@ public class ProfileHelper {
         return null;
     }
 
-    private static SubtitleProfile getSubtitleProfile(String format, SubtitleDeliveryMethod method) {
+    protected static SubtitleProfile getSubtitleProfile(String format, SubtitleDeliveryMethod method) {
         SubtitleProfile subs = new SubtitleProfile();
         subs.setFormat(format);
         subs.setMethod(method);
