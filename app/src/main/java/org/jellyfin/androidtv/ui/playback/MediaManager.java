@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.profile.BaseProfile;
+import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -570,7 +571,7 @@ public class MediaManager {
         if (DeviceUtils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
-            ProfileHelper.setVlcOptions(profile, false);
+            profile = new LibVlcProfile();
         }
         options.setProfile(profile);
         get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {

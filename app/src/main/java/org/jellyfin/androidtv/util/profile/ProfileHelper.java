@@ -29,108 +29,6 @@ import static org.koin.java.KoinJavaComponent.get;
 public class ProfileHelper {
     private static MediaCodecCapabilitiesTest MediaTest = new MediaCodecCapabilitiesTest();
 
-    public static void setVlcOptions(DeviceProfile profile, boolean isLiveTv) {
-        profile.setName("Android-VLC");
-        DirectPlayProfile videoDirectPlayProfile = new DirectPlayProfile();
-
-        List<String> videoContainers = Arrays.asList(
-            ContainerTypes.M4V,
-            ContainerTypes._3GP,
-            ContainerTypes.TS,
-            ContainerTypes.MPEGTS,
-            ContainerTypes.MOV,
-            ContainerTypes.XVID,
-            ContainerTypes.VOB,
-            ContainerTypes.MKV,
-            ContainerTypes.WMV,
-            ContainerTypes.ASF,
-            ContainerTypes.OGM,
-            ContainerTypes.OGV,
-            ContainerTypes.M2V,
-            ContainerTypes.MPG,
-            ContainerTypes.MPEG,
-            ContainerTypes.MP4,
-            ContainerTypes.WEBM,
-            ContainerTypes.WTV
-        );
-        videoDirectPlayProfile.setContainer(Utils.join(",", videoContainers));
-        List<String> audioCodecs = new ArrayList<>(Arrays.asList(
-            CodecTypes.AAC,
-            CodecTypes.MP3,
-            CodecTypes.MP2,
-            CodecTypes.AC3,
-            CodecTypes.WMA,
-            CodecTypes.WMAV2,
-            CodecTypes.DCA,
-            CodecTypes.DTS,
-            CodecTypes.PCM,
-            CodecTypes.PCM_S16LE,
-            CodecTypes.PCM_S24LE,
-            CodecTypes.OPUS,
-            CodecTypes.FLAC,
-            CodecTypes.TRUEHD
-        ));
-        if (!Utils.downMixAudio() && isLiveTv) {
-            audioCodecs.add(CodecTypes.AAC_LATM);
-        }
-        videoDirectPlayProfile.setAudioCodec(Utils.join(",", audioCodecs));
-        videoDirectPlayProfile.setType(DlnaProfileType.Video);
-
-        DirectPlayProfile audioDirectPlayProfile = new DirectPlayProfile();
-        List<String> audioContainers = Arrays.asList(
-            CodecTypes.FLAC,
-            CodecTypes.AAC,
-            CodecTypes.MP3,
-            CodecTypes.MPA,
-            CodecTypes.WAV,
-            CodecTypes.WMA,
-            CodecTypes.MP2,
-            ContainerTypes.OGG,
-            ContainerTypes.OGA,
-            ContainerTypes.WEBMA,
-            CodecTypes.APE
-        );
-        audioDirectPlayProfile.setContainer(Utils.join(",", audioContainers));
-        audioDirectPlayProfile.setType(DlnaProfileType.Audio);
-
-        DirectPlayProfile photoDirectPlayProfile = new DirectPlayProfile();
-        photoDirectPlayProfile.setContainer("jpg,jpeg,png,gif");
-        photoDirectPlayProfile.setType(DlnaProfileType.Photo);
-
-        profile.setDirectPlayProfiles(new DirectPlayProfile[]{videoDirectPlayProfile, audioDirectPlayProfile, photoDirectPlayProfile});
-
-
-        CodecProfile h264MainProfile = new CodecProfile();
-        h264MainProfile.setType(CodecType.Video);
-        h264MainProfile.setCodec(CodecTypes.H264);
-        h264MainProfile.setConditions(new ProfileCondition[]
-                {
-                        new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStickGen1() ? "41" : "51"),
-                        new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
-                });
-
-        CodecProfile videoAudioCodecProfile = new CodecProfile();
-        videoAudioCodecProfile.setType(CodecType.VideoAudio);
-        videoAudioCodecProfile.setConditions(new ProfileCondition[]{new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")});
-
-        profile.setCodecProfiles(new CodecProfile[]{getHevcProfile(), h264MainProfile, videoAudioCodecProfile});
-        profile.setSubtitleProfiles(new SubtitleProfile[]{
-                getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
-                getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
-                getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
-        });
-    }
-
     public static void setExoOptions(DeviceProfile profile, boolean isLiveTv, boolean allowDTS) {
         profile.setName("Android-Exo");
 
@@ -265,7 +163,7 @@ public class ProfileHelper {
         });
     }
 
-    private static CodecProfile getHevcProfile() {
+    protected static CodecProfile getHevcProfile() {
         CodecProfile hevcProfile = new CodecProfile();
         hevcProfile.setType(CodecType.Video);
         hevcProfile.setCodec(CodecTypes.HEVC);

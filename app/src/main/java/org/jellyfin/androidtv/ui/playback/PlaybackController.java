@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.profile.BaseProfile;
+import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -377,8 +378,7 @@ public class PlaybackController {
                 }
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
-                DeviceProfile vlcProfile = new BaseProfile();
-                ProfileHelper.setVlcOptions(vlcProfile, isLiveTv);
+                DeviceProfile vlcProfile = new LibVlcProfile(isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();

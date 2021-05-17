@@ -9,7 +9,7 @@ import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
-class BaseProfile : DeviceProfile() {
+open class BaseProfile : DeviceProfile() {
 	init {
 		name = "AndroidTV"
 		maxStreamingBitrate = 20000000
