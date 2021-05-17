@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.profile.BaseProfile;
 import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -376,7 +377,7 @@ public class PlaybackController {
                 }
                 vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
-                DeviceProfile vlcProfile = ProfileHelper.getBaseProfile(isLiveTv);
+                DeviceProfile vlcProfile = new BaseProfile();
                 ProfileHelper.setVlcOptions(vlcProfile, isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
@@ -389,7 +390,7 @@ public class PlaybackController {
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
-                DeviceProfile internalProfile = ProfileHelper.getBaseProfile(isLiveTv);
+                DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     ProfileHelper.setExoOptions(internalProfile, isLiveTv, true);
                     ProfileHelper.addAc3Streaming(internalProfile, true);
@@ -525,7 +526,7 @@ public class PlaybackController {
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                                 // remove direct play profiles to force the transcode
                                 final DeviceProfile save = internalOptions.getProfile();
-                                DeviceProfile newProfile = ProfileHelper.getBaseProfile(isLiveTv);
+                                DeviceProfile newProfile = new BaseProfile();
                                 ProfileHelper.setExoOptions(newProfile, isLiveTv, true);
                                 if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});

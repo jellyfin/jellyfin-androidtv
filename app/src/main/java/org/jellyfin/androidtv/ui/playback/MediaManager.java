@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.profile.BaseProfile;
 import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -565,7 +566,7 @@ public class MediaManager {
         Long maxBitrate = get(AutoBitrate.class).getBitrate();
         if (maxBitrate != null) options.setMaxBitrate(maxBitrate.intValue());
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile = ProfileHelper.getBaseProfile(false);
+        DeviceProfile profile = new BaseProfile();
         if (DeviceUtils.is60()) {
             ProfileHelper.setExoOptions(profile, false, true);
         } else {
