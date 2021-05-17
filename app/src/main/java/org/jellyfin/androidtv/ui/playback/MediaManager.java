@@ -35,7 +35,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
-import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.util.profile.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;

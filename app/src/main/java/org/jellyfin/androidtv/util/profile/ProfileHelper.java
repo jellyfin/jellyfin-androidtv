@@ -1,8 +1,10 @@
-package org.jellyfin.androidtv.util;
+package org.jellyfin.androidtv.util.profile;
 
 import org.jellyfin.androidtv.constant.CodecTypes;
 import org.jellyfin.androidtv.constant.ContainerTypes;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.util.DeviceUtils;
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dlna.CodecProfile;
 import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;

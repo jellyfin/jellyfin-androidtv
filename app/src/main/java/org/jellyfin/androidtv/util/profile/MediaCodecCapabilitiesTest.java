@@ -1,7 +1,9 @@
-package org.jellyfin.androidtv.util;
+package org.jellyfin.androidtv.util.profile;
 
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
+
+import org.jellyfin.androidtv.util.MediaUtils;
 
 import timber.log.Timber;
 
