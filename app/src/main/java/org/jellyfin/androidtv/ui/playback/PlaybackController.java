@@ -244,16 +244,32 @@ public class PlaybackController {
     }
 
     @TargetApi(23)
-    private Display.Mode findBestDisplayMode(Float refreshRate) {
-        if (mDisplayModes == null || refreshRate == null) return null;
+    private Display.Mode findBestDisplayMode(MediaStream videoStream) {
+        if (mDisplayModes == null || videoStream.getRealFrameRate() == null) return null;
 
-        int sourceRate = Math.round(refreshRate);
-        for (Display.Mode mode : mDisplayModes){
-            int rate = Math.round(mode.getRefreshRate());
-            if (rate == sourceRate || rate == sourceRate * 2) return mode;
+        int curWeight = 0;
+        Display.Mode bestMode = null;
+        int sourceRate = Math.round(videoStream.getRealFrameRate() * 100);
+        for (Display.Mode mode : mDisplayModes) {
+            // Skip unwanted display modes
+            if (mode.getPhysicalWidth() < 1280 || mode.getPhysicalHeight() < 720)  // Skip non-HD
+                continue;
+
+            if (mode.getPhysicalWidth() < videoStream.getWidth() || mode.getPhysicalHeight() < videoStream.getHeight())  // Disallow reso downgrade
+                continue;
+
+            int rate = Math.round(mode.getRefreshRate() * 100);
+            if (rate != sourceRate && rate != sourceRate * 2 && rate != Math.round(sourceRate * 2.5)) // Skip inappropriate rates
+                continue;
+
+            int weight = Math.round(rate * 10000) + (9999 - (mode.getPhysicalWidth() - videoStream.getWidth()));
+            if (weight > curWeight) {
+                curWeight = weight;
+                bestMode = mode;
+            }
         }
 
-        return null;
+        return bestMode;
     }
 
     @TargetApi(23)
@@ -264,9 +280,10 @@ public class PlaybackController {
         }
 
         Display.Mode current = TvApp.getApplication().getCurrentActivity().getWindowManager().getDefaultDisplay().getMode();
-        Display.Mode best = findBestDisplayMode(videoStream.getRealFrameRate());
+        Display.Mode best = findBestDisplayMode(videoStream);
         if (best != null) {
-            Timber.i("*** Best refresh mode is: %s/%s",best.getModeId(), best.getRefreshRate());
+            Timber.i("*** Best refresh mode is: %s - %dx%d/%f",
+                best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
             if (current.getModeId() != best.getModeId()) {
                 Timber.i("*** Attempting to change refresh rate from %s/%s",current.getModeId(), current.getRefreshRate());
                 WindowManager.LayoutParams params = TvApp.getApplication().getCurrentActivity().getWindow().getAttributes();
