@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.util.profile.ProfileHelper.getSubtitleProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
@@ -67,17 +67,17 @@ class ExternalPlayerProfile : DeviceProfile() {
 		)
 
 		subtitleProfiles = arrayOf(
-			getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed)
+			subtitleProfile("srt", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("ass", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("idx", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("smi", SubtitleDeliveryMethod.Embed)
 		)
 	}
 }

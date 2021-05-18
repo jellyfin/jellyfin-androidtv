@@ -4,8 +4,8 @@ import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
-import org.jellyfin.androidtv.util.profile.ProfileHelper.getHevcProfile
-import org.jellyfin.androidtv.util.profile.ProfileHelper.getSubtitleProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
@@ -92,7 +92,7 @@ class LibVlcProfile(
 
 		codecProfiles = arrayOf(
 			// HEVC profile
-			getHevcProfile(),
+			deviceHevcCodecProfile,
 			// H264 profile
 			CodecProfile().apply {
 				type = CodecType.Video
@@ -129,18 +129,18 @@ class LibVlcProfile(
 		)
 
 		subtitleProfiles = arrayOf(
-			getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
-			getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
+			subtitleProfile("srt", SubtitleDeliveryMethod.External),
+			subtitleProfile("srt", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("ass", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("smi", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("idx", SubtitleDeliveryMethod.Embed)
 		)
 	}
 }
