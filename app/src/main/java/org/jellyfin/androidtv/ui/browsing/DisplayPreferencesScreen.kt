@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.ui.browsing
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.GridDirection
+import org.jellyfin.androidtv.constant.ImageType
+import org.jellyfin.androidtv.constant.PosterSize
 import org.jellyfin.androidtv.constant.ViewType
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -38,30 +40,30 @@ class DisplayPreferencesScreen : OptionsFragment() {
 			list {
 				setTitle(R.string.lbl_image_size)
 				entries = mapOf(
-					"0" to requireContext().getString(R.string.image_size_auto),
-					"1" to requireContext().getString(R.string.image_size_small),
-					"2" to requireContext().getString(R.string.image_size_medium),
-					"3" to requireContext().getString(R.string.image_size_large),
+					PosterSize.AUTO to requireContext().getString(R.string.image_size_auto),
+					PosterSize.SMALL to requireContext().getString(R.string.image_size_small),
+					PosterSize.MED to requireContext().getString(R.string.image_size_medium),
+					PosterSize.LARGE to requireContext().getString(R.string.image_size_large),
 				)
 
 				bind {
-					get { displayPreferences.getCustomPrefs().get("PosterSize") ?: "0" }
+					get { displayPreferences.getCustomPrefs().get("PosterSize") ?: PosterSize.AUTO }
 					set { displayPreferences.getCustomPrefs().set("PosterSize", it) }
-					default { "0" }
+					default { PosterSize.AUTO }
 				}
 			}
 			list {
 				setTitle(R.string.lbl_image_type)
 				entries = mapOf(
-					"0" to requireContext().getString(R.string.image_type_default),
-					"1" to requireContext().getString(R.string.image_type_thumbnail),
-					"2" to requireContext().getString(R.string.image_type_banner),
+					ImageType.DEFAULT to requireContext().getString(R.string.image_type_default),
+					ImageType.THUMB to requireContext().getString(R.string.image_type_thumbnail),
+					ImageType.BANNER to requireContext().getString(R.string.image_type_banner),
 				)
 
 				bind {
-					get { displayPreferences.getCustomPrefs().get("ImageType") ?: "0" }
+					get { displayPreferences.getCustomPrefs().get("ImageType") ?: ImageType.DEFAULT }
 					set { displayPreferences.getCustomPrefs().set("ImageType", it) }
-					default { "0" }
+					default { ImageType.DEFAULT }
 				}
 			}
 			enum<GridDirection> {
