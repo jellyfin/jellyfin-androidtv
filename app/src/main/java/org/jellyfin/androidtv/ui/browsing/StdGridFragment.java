@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -300,30 +301,21 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         buildAdapter(rowDef);
 
         if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
-            mGridAdapter.GetResultSizeAsync(new Response<Integer>() {
-                @Override
-                public void onResponse(Integer response) {
-                    int autoHeight = getAutoCardHeight(response);
-                    if (autoHeight != mCardHeight) {
-                        mCardHeight = autoHeight;
-                        setCardHeight(mCardHeight);
+            int autoHeight = getAutoCardHeight();
+            if (autoHeight != mCardHeight) {
+                mCardHeight = autoHeight;
+                setCardHeight(mCardHeight);
 
-                        setGridSizes();
-                        createGrid();
-                        Timber.d("Auto card height is %d", mCardHeight);
-                        buildAdapter(rowDef);
-                    }
-                    mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
-                    mGridAdapter.Retrieve();
-                    determiningPosterSize = false;
-                }
-            });
-        } else {
-            mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
-            mGridAdapter.Retrieve();
-            determiningPosterSize = false;
+                setGridSizes();
+                createGrid();
+                Timber.d("Auto card height is %d", mCardHeight);
+                buildAdapter(rowDef);
+            }
         }
 
+        mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
+        mGridAdapter.Retrieve();
+        determiningPosterSize = false;
     }
 
     protected int getCardHeight(String heightSetting) {
@@ -349,14 +341,18 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         }
     }
 
-    protected int getAutoCardHeight(Integer size) {
-        Timber.d("Result size for auto card height is %d", size);
-        if (size > 35)
-            return getCardHeight(PosterSize.SMALL);
-        else if (size > 10)
-            return getCardHeight(PosterSize.MED);
-        else
+    protected int getAutoCardHeight() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        if (displayMetrics.widthPixels < 1920) {
+            // Screens less than 1080p use large cards
             return getCardHeight(PosterSize.LARGE);
+        } else if (displayMetrics.widthPixels < 3840) {
+            // Screens less than 4K use medium cards
+            return getCardHeight(PosterSize.MED);
+        }
+        // 4k and higher use small cards
+        return getCardHeight(PosterSize.SMALL);
     }
 
     protected ImageButton mSortButton;
