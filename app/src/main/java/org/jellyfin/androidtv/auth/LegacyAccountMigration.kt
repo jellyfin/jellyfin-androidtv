@@ -25,15 +25,15 @@ class LegacyAccountMigration(
 
 	suspend fun migrate() {
 		val path = context.filesDir.resolve(LEGACY_CREDENTIAL_FILE)
-		val json = Json {
-			serializersModule = SerializersModule {
-				contextual(UUIDSerializer)
-			}
-			ignoreUnknownKeys = true
-		}
 
 		if (path.exists()) {
 			Timber.d("Starting migration of legacy credentials from $path")
+			val json = Json {
+				serializersModule = SerializersModule {
+					contextual(UUIDSerializer)
+				}
+				ignoreUnknownKeys = true
+			}
 			val root = json.parseToJsonElement(path.readText()).jsonObject
 			val server = root["serverInfo"]?.jsonObject
 			val user = root["userDto"]?.jsonObject
