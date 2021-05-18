@@ -15,62 +15,72 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionType
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 
-class LibVlcProfile(
-	isLiveTV: Boolean = false
+class ExoPlayerProfile(
+	isLiveTV: Boolean = false,
+	isLiveTVDirectPlayEnabled: Boolean = false,
+	isDtsEnabled: Boolean = true
 ) : BaseProfile() {
 	init {
-		name = "AndroidTV-libVLC"
+		name = "AndroidTV-ExoPlayer"
 
-		directPlayProfiles = arrayOf(
+		directPlayProfiles = listOfNotNull(
 			// Video direct play
-			DirectPlayProfile().apply {
-				type = DlnaProfileType.Video
+			if (!isLiveTV || isLiveTVDirectPlayEnabled) {
+				DirectPlayProfile().apply {
+					type = DlnaProfileType.Video
 
-				container = arrayOf(
-					ContainerTypes.M4V,
-					ContainerTypes._3GP,
-					ContainerTypes.TS,
-					ContainerTypes.MPEGTS,
-					ContainerTypes.MOV,
-					ContainerTypes.XVID,
-					ContainerTypes.VOB,
-					ContainerTypes.MKV,
-					ContainerTypes.WMV,
-					ContainerTypes.ASF,
-					ContainerTypes.OGM,
-					ContainerTypes.OGV,
-					ContainerTypes.M2V,
-					ContainerTypes.MPG,
-					ContainerTypes.MPEG,
-					ContainerTypes.MP4,
-					ContainerTypes.WEBM,
-					ContainerTypes.WTV
-				).joinToString(",")
+					container = listOfNotNull(
+						if (isLiveTV) ContainerTypes.TS else null,
+						if (isLiveTV) ContainerTypes.MPEGTS else null,
+						ContainerTypes.M4V,
+						ContainerTypes.MOV,
+						ContainerTypes.XVID,
+						ContainerTypes.VOB,
+						ContainerTypes.MKV,
+						ContainerTypes.WMV,
+						ContainerTypes.ASF,
+						ContainerTypes.OGM,
+						ContainerTypes.OGV,
+						ContainerTypes.MP4,
+						ContainerTypes.WEBM
+					).joinToString(",")
 
-				audioCodec = listOfNotNull(
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.MP2,
-					CodecTypes.AC3,
-					CodecTypes.WMA,
-					CodecTypes.WMAV2,
-					CodecTypes.DCA,
-					CodecTypes.DTS,
-					CodecTypes.PCM,
-					CodecTypes.PCM_S16LE,
-					CodecTypes.PCM_S24LE,
-					CodecTypes.OPUS,
-					CodecTypes.FLAC,
-					CodecTypes.TRUEHD,
-					if (!Utils.downMixAudio() && isLiveTV) CodecTypes.AAC_LATM else null
-				).joinToString(",")
+					videoCodec = arrayOf(
+						CodecTypes.H264,
+						CodecTypes.HEVC,
+						CodecTypes.VP8,
+						CodecTypes.VP9,
+						ContainerTypes.MPEG,
+						CodecTypes.MPEG2VIDEO
+					).joinToString(",")
+
+					audioCodec = if (Utils.downMixAudio()) {
+						arrayOf(
+							CodecTypes.AAC,
+							CodecTypes.MP3,
+							CodecTypes.MP2
+						).joinToString(",")
+					} else {
+						listOfNotNull(
+							CodecTypes.AAC,
+							CodecTypes.AC3,
+							CodecTypes.EAC3,
+							CodecTypes.AAC_LATM,
+							CodecTypes.MP3,
+							CodecTypes.MP2,
+							if (isDtsEnabled) CodecTypes.DCA else null,
+							if (isDtsEnabled) CodecTypes.DTS else null
+						).joinToString(",")
+					}
+				}
+			} else {
+				null
 			},
 			// Audio direct play
 			DirectPlayProfile().apply {
 				type = DlnaProfileType.Audio
 
 				container = arrayOf(
-					CodecTypes.FLAC,
 					CodecTypes.AAC,
 					CodecTypes.MP3,
 					CodecTypes.MPA,
@@ -80,7 +90,8 @@ class LibVlcProfile(
 					ContainerTypes.OGG,
 					ContainerTypes.OGA,
 					ContainerTypes.WEBMA,
-					CodecTypes.APE
+					CodecTypes.APE,
+					CodecTypes.OPUS
 				).joinToString(",")
 			},
 			// Photo direct play
@@ -88,11 +99,9 @@ class LibVlcProfile(
 				type = DlnaProfileType.Photo
 				container = "jpg,jpeg,png,gif"
 			}
-		)
+		).toTypedArray()
 
 		codecProfiles = arrayOf(
-			// HEVC profile
-			getHevcProfile(),
 			// H264 profile
 			CodecProfile().apply {
 				type = CodecType.Video
@@ -107,14 +116,49 @@ class LibVlcProfile(
 						ProfileConditionType.LessThanEqual,
 						ProfileConditionValue.VideoLevel,
 						if (DeviceUtils.isFireTvStickGen1()) "41" else "51"
-					),
-					ProfileCondition(
-						ProfileConditionType.GreaterThanEqual,
-						ProfileConditionValue.RefFrames,
-						"2"
 					)
 				)
 			},
+			// H264 ref frames profile
+			CodecProfile().apply {
+				type = CodecType.Video
+				codec = CodecTypes.H264
+				conditions = arrayOf(
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.RefFrames,
+						"12"
+					)
+				)
+				applyConditions = arrayOf(
+					ProfileCondition(
+						ProfileConditionType.GreaterThanEqual,
+						ProfileConditionValue.Width,
+						"1200"
+					)
+				)
+			},
+			// H264 ref frames profile
+			CodecProfile().apply {
+				type = CodecType.Video
+				codec = CodecTypes.H264
+				conditions = arrayOf(
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.RefFrames,
+						"4"
+					)
+				)
+				applyConditions = arrayOf(
+					ProfileCondition(
+						ProfileConditionType.GreaterThanEqual,
+						ProfileConditionValue.Width,
+						"1900"
+					)
+				)
+			},
+			// HEVC profile
+			getHevcProfile(),
 			// Audio channel profile
 			CodecProfile().apply {
 				type = CodecType.VideoAudio
@@ -122,7 +166,7 @@ class LibVlcProfile(
 					ProfileCondition(
 						ProfileConditionType.LessThanEqual,
 						ProfileConditionValue.AudioChannels,
-						"8"
+						"6"
 					)
 				)
 			}
@@ -132,14 +176,13 @@ class LibVlcProfile(
 			getSubtitleProfile("srt", SubtitleDeliveryMethod.External),
 			getSubtitleProfile("srt", SubtitleDeliveryMethod.Embed),
 			getSubtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
+			getSubtitleProfile("ass", SubtitleDeliveryMethod.Encode),
+			getSubtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
+			getSubtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
+			getSubtitleProfile("pbssub", SubtitleDeliveryMethod.Encode),
+			getSubtitleProfile("dvdsub", SubtitleDeliveryMethod.Encode),
 			getSubtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
 			getSubtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-			getSubtitleProfile("smi", SubtitleDeliveryMethod.Embed),
 			getSubtitleProfile("idx", SubtitleDeliveryMethod.Embed)
 		)
 	}
