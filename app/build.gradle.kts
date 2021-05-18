@@ -21,6 +21,10 @@ android {
 		viewBinding = true
 	}
 
+	compileOptions {
+		isCoreLibraryDesugaringEnabled = true
+	}
+
 	lintOptions {
 		isAbortOnError = false
 		sarifReport = true
@@ -124,6 +128,9 @@ dependencies {
 	// Debugging
 	if (getProperty("leakcanary.enable")?.toBoolean() == true)
 		debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+
+	// Compatibility (desugaring)
+	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
 	// Testing
 	testImplementation("junit:junit:4.13.1")
