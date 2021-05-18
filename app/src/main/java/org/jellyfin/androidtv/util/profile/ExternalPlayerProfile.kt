@@ -10,10 +10,11 @@ import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
+@Suppress("MagicNumber")
 class ExternalPlayerProfile : DeviceProfile() {
 	init {
 		name = "AndroidTV-External"
-		maxStaticBitrate = 100000000
+		maxStaticBitrate = 100_000_000 // 100 mbps
 
 		directPlayProfiles = arrayOf(
 			DirectPlayProfile().apply {

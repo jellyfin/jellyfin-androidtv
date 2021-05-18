@@ -9,11 +9,12 @@ import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
+@Suppress("MagicNumber")
 open class BaseProfile : DeviceProfile() {
 	init {
 		name = "AndroidTV"
-		maxStreamingBitrate = 20000000
-		maxStaticBitrate = 100000000
+		maxStreamingBitrate = 20_000_000 // 20 mbps
+		maxStaticBitrate = 10_000_0000 // 10 mbps
 
 		transcodingProfiles = arrayOf(
 			// MKV video profile
