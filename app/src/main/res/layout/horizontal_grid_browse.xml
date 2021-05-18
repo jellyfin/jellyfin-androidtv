@@ -12,15 +12,6 @@
         android:layout_below="@+id/infoRow"
         android:layout_marginTop="15dp" />
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/spinner"
-        android:background="@color/black_transparent"
-        android:visibility="gone">
-
-    </FrameLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

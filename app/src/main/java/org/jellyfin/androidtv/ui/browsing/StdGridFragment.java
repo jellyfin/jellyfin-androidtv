@@ -578,17 +578,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     protected void setupRetrieveListeners() {
-        mGridAdapter.setRetrieveStartedListener(new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                showSpinner();
-
-            }
-        });
         mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
             @Override
             public void onResponse() {
-                hideSpinner();
                 setStatusText(mFolder.getName());
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
                 mLetterButton.setVisibility("SortName".equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
