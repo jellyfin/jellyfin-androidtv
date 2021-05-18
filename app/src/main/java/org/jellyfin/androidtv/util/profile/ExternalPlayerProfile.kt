@@ -39,7 +39,7 @@ class ExternalPlayerProfile : DeviceProfile() {
 					ContainerTypes.WEBM,
 					ContainerTypes.DVR_MS,
 					ContainerTypes.WTV
-				).joinToString()
+				).joinToString(",")
 			}
 		)
 
@@ -54,7 +54,7 @@ class ExternalPlayerProfile : DeviceProfile() {
 					CodecTypes.AAC,
 					CodecTypes.MP3,
 					CodecTypes.AC3
-				).joinToString()
+				).joinToString(",")
 				copyTimestamps = true
 			},
 			// MP3 audio profile

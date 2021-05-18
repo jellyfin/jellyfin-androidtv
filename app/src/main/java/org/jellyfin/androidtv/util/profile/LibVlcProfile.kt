@@ -45,7 +45,7 @@ class LibVlcProfile(
 					ContainerTypes.MP4,
 					ContainerTypes.WEBM,
 					ContainerTypes.WTV
-				).joinToString()
+				).joinToString(",")
 
 				audioCodec = listOfNotNull(
 					CodecTypes.AAC,
@@ -63,7 +63,7 @@ class LibVlcProfile(
 					CodecTypes.FLAC,
 					CodecTypes.TRUEHD,
 					if (!Utils.downMixAudio() && isLiveTV) CodecTypes.AAC_LATM else null
-				).joinToString()
+				).joinToString(",")
 			},
 			// Audio direct play
 			DirectPlayProfile().apply {
@@ -81,7 +81,7 @@ class LibVlcProfile(
 					ContainerTypes.OGA,
 					ContainerTypes.WEBMA,
 					CodecTypes.APE
-				).joinToString()
+				).joinToString(",")
 			},
 			// Photo direct play
 			DirectPlayProfile().apply {

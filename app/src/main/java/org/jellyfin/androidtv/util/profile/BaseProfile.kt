@@ -22,7 +22,7 @@ open class BaseProfile : DeviceProfile() {
 				context = EncodingContext.Streaming
 				container = ContainerTypes.MKV
 				videoCodec = CodecTypes.H264
-				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString()
+				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
 				copyTimestamps = true
 			},
 			// MP3 audio profile
