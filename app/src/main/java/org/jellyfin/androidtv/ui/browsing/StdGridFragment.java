@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -516,13 +515,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 return null;
             });
 
-            HorizontalScrollView scrollView = new HorizontalScrollView(requireContext());
-            scrollView.setFocusable(false);
-            scrollView.setFocusableInTouchMode(false);
-            scrollView.addView(alphaPicker);
-
             FrameLayout root = layout.findViewById(R.id.empty_popup);
-            root.addView(scrollView);
+            root.addView(alphaPicker);
         }
 
         public void show() {
