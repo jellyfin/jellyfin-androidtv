@@ -98,16 +98,32 @@ class LibVlcProfile(
 				type = CodecType.Video
 				codec = CodecTypes.H264
 				conditions = arrayOf(
-					ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-					ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, if (DeviceUtils.isFireTvStickGen1()) "41" else "51"),
-					ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2")
+					ProfileCondition(
+						ProfileConditionType.EqualsAny,
+						ProfileConditionValue.VideoProfile,
+						"high|main|baseline|constrained baseline"
+					),
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.VideoLevel,
+						if (DeviceUtils.isFireTvStickGen1()) "41" else "51"
+					),
+					ProfileCondition(
+						ProfileConditionType.GreaterThanEqual,
+						ProfileConditionValue.RefFrames,
+						"2"
+					)
 				)
 			},
 			// Audio channel profile
 			CodecProfile().apply {
 				type = CodecType.VideoAudio
 				conditions = arrayOf(
-					ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.AudioChannels, "8")
+					ProfileCondition(
+						ProfileConditionType.LessThanEqual,
+						ProfileConditionValue.AudioChannels,
+						"8"
+					)
 				)
 			}
 		)

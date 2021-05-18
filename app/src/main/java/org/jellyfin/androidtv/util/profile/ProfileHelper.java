@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util.profile;
 
+import androidx.annotation.NonNull;
+
 import org.jellyfin.androidtv.constant.CodecTypes;
 import org.jellyfin.androidtv.constant.ContainerTypes;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -10,7 +12,6 @@ import org.jellyfin.apiclient.model.dlna.CodecType;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile;
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType;
-import org.jellyfin.apiclient.model.dlna.EncodingContext;
 import org.jellyfin.apiclient.model.dlna.ProfileCondition;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionType;
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue;
@@ -163,7 +164,7 @@ public class ProfileHelper {
         });
     }
 
-    protected static CodecProfile getHevcProfile() {
+    protected static @NonNull CodecProfile getHevcProfile() {
         CodecProfile hevcProfile = new CodecProfile();
         hevcProfile.setType(CodecType.Video);
         hevcProfile.setCodec(CodecTypes.HEVC);
@@ -195,7 +196,7 @@ public class ProfileHelper {
         return hevcProfile;
     }
 
-    public static void addAc3Streaming(DeviceProfile profile, boolean primary) {
+    public static void addAc3Streaming(@NonNull DeviceProfile profile, boolean primary) {
         TranscodingProfile mkvProfile = getTranscodingProfile(profile, ContainerTypes.MKV);
         if (mkvProfile != null && !Utils.downMixAudio())
         {
@@ -212,7 +213,7 @@ public class ProfileHelper {
         return null;
     }
 
-    protected static SubtitleProfile getSubtitleProfile(String format, SubtitleDeliveryMethod method) {
+    protected static @NonNull SubtitleProfile getSubtitleProfile(@NonNull String format, @NonNull SubtitleDeliveryMethod method) {
         SubtitleProfile subs = new SubtitleProfile();
         subs.setFormat(format);
         subs.setMethod(method);
