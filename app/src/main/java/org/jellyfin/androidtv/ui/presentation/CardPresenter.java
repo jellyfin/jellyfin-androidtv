@@ -352,7 +352,7 @@ public class CardPresenter extends Presenter {
                     Glide.with(mCardView.getContext())
                             .load(url)
                             .error(mDefaultCardImage)
-                            .placeholder(placeholder)
+                            .placeholder(placeholder == null ? mDefaultCardImage : placeholder)
                             .transition(DrawableTransitionOptions.withCrossFade(200))
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mCardView.getMainImageView());
@@ -429,28 +429,29 @@ public class CardPresenter extends Presenter {
         }
 
         BitmapDrawable blurHashDrawable = null;
-        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
-            HashMap<String, String> blurHashMap;
-            String imageTag;
-            if (aspect == ASPECT_RATIO_BANNER) {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
-                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
-            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getHasPrimaryImage()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-            } else {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
-                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
-            }
-
-            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
-                String blurHash = blurHashMap.get(imageTag);
-                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
-                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
-                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
-                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
-            }
-        }
+// FIXME: This blurhash decoding is happening on the main UI thread and causing serious performance issues on low-end devices
+//        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
+//            HashMap<String, String> blurHashMap;
+//            String imageTag;
+//            if (aspect == ASPECT_RATIO_BANNER) {
+//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+//                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+//            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
+//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+//                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getHasPrimaryImage()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+//            } else {
+//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+//                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+//            }
+//
+//            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
+//                String blurHash = blurHashMap.get(imageTag);
+//                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
+//                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
+//                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
+//                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
+//            }
+//        }
 
         holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
     }
