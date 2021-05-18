@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.search.SearchActivity
 import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
@@ -108,7 +109,10 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	private suspend fun openNextActivity() {
-		val itemId = intent.getStringExtra(EXTRA_ITEM_ID)
+		val itemId = when (intent.action) {
+			Intent.ACTION_VIEW -> intent.data.toString()
+			else -> intent.getStringExtra(EXTRA_ITEM_ID)
+		}
 		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
 
 		// Start session
@@ -116,6 +120,14 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		// Create intent
 		val intent = when {
+			// Search is requested
+			intent.action === Intent.ACTION_SEARCH -> {
+				Intent(this, SearchActivity::class.java).apply {
+					action = intent.action
+					data = intent.data
+					putExtras(intent)
+				}
+			}
 			// Item is requested
 			itemId != null -> when {
 				// Item is a user view - need to get info from API and create the intent
@@ -137,7 +149,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			// Launch default
 			else -> null
 		} ?: Intent(this, MainActivity::class.java)
-
 
 		// Clear navigation history
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)

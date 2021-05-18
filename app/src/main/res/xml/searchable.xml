@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:hint="@string/searchable_hint"
+    android:icon="@drawable/app_icon_foreground_padded"
+    android:imeOptions="actionSearch"
+    android:includeInGlobalSearch="true"
+    android:label="@string/app_name"
+    android:searchSettingsDescription="@string/searchable_settings_description"
+    android:searchSuggestAuthority="org.jellyfin.androidtv.content"
+    android:searchSuggestIntentAction="android.intent.action.VIEW"
+    android:searchSuggestIntentData="content://org.jellyfin.androidtv.content/intent"
+    android:searchSuggestPath="suggestions"
+    android:searchSuggestSelection=" ?"
+    android:searchSuggestThreshold="2"
+    android:voiceSearchMode="launchRecognizer|showVoiceSearchButton" />
