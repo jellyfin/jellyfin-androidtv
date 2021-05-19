@@ -230,7 +230,7 @@ public class ProfileHelper {
         h264MainProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStick() ? "41" : "51"),
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStickGen1() ? "41" : "51"),
                         new ProfileCondition(ProfileConditionType.GreaterThanEqual, ProfileConditionValue.RefFrames, "2"),
                 });
 
@@ -344,7 +344,7 @@ public class ProfileHelper {
         videoCodecProfile.setConditions(new ProfileCondition[]
                 {
                         new ProfileCondition(ProfileConditionType.EqualsAny, ProfileConditionValue.VideoProfile, "high|main|baseline|constrained baseline"),
-                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStick()? "41" : "51")
+                        new ProfileCondition(ProfileConditionType.LessThanEqual, ProfileConditionValue.VideoLevel, DeviceUtils.isFireTvStickGen1()? "41" : "51")
                 });
 
         CodecProfile refFramesProfile = new CodecProfile();

@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.acra.ACRA
 import org.jellyfin.androidtv.preference.constant.*
+import org.jellyfin.androidtv.util.DeviceUtils
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -104,7 +105,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", true)
+		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
 
 		/**
 		 * Default audio delay in milliseconds for libVLC
@@ -196,6 +197,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		// Change audio delay type from long to int
 		migration(toVersion = 4) {
 			putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
+		}
+
+		// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
+		migration(toVersion = 5) {
+			if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
 		}
 	}
 }
