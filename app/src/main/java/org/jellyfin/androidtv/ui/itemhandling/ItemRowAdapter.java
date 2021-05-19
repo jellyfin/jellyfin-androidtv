@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Handler;
 
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -68,8 +70,6 @@ import java.util.TimeZone;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
     private ItemQuery mQuery;
@@ -796,8 +796,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         notifyRetrieveFinished();
     }
 
-    private static String[] ignoreTypes = new String[]{"books", "games", "folders"};
-    private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
+    public static String[] ignoredCollectionTypes = new String[]{ "books", "games", "folders" };
+    private static List<String> ignoreTypeList = Arrays.asList(ignoredCollectionTypes);
 
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
