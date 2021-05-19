@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.acra.ACRA
 import org.jellyfin.androidtv.preference.constant.*
+import org.jellyfin.androidtv.util.DeviceUtils
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -104,7 +105,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", true)
+		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
 
 		/**
 		 * Default audio delay in milliseconds for libVLC

@@ -509,7 +509,7 @@ public class PlaybackController {
                                                 internalResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dca") &&
                                                         !internalResponse.getMediaSource().getDefaultAudioStream().getCodec().equals("dts"))) &&
-                                        (!DeviceUtils.isFireTvStick() ||
+                                        (!DeviceUtils.isFireTvStickGen1() ||
                                                 (vlcResponse.getMediaSource().getVideoStream() != null && vlcResponse.getMediaSource().getVideoStream().getWidth() < 1000));
                             } else if (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE) {
                                 PreferredVideoPlayer preferredVideoPlayerByPlayWith = systemPreferences.getValue().get(SystemPreferences.Companion.getChosenPlayer());
