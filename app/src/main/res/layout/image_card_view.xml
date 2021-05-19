@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="@drawable/transparent_card_border"
+            android:background="@drawable/shape_card_image_background"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             lb:layout_viewType="main"

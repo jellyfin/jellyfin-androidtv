@@ -11,6 +11,7 @@
         <!-- Background color for popup windows -->
         <item name="popupWindowBackground">@color/not_quite_black</item>
         <!-- Background color for CardViews -->
+        <item name="cardImageBackground">@color/grey</item>
         <item name="cardViewBackground">@android:color/transparent</item>
         <!-- Search FAB color -->
         <item name="defaultSearchColor">@color/jellyfin_blue</item>

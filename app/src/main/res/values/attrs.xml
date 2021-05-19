@@ -12,6 +12,7 @@
         <!-- Popup Window Attributes -->
         <attr name="popupWindowBackground" format="reference|color" />
         <!-- CardView Attributes -->
+        <attr name="cardImageBackground" format="reference|color" />
         <attr name="cardViewBackground" format="reference|color" />
         <!-- Theme Attributes -->
         <attr name="cardRounding" format="dimension" />
