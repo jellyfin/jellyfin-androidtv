@@ -341,7 +341,7 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url, @NonNull String blurHash, int width, int height) {
+        protected void updateCardViewImage(@Nullable String url, @NonNull String blurHash) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
@@ -358,8 +358,8 @@ public class CardPresenter extends Presenter {
                                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE),
                             get(BlurHashService.class),
                             blurHash,
-                            width,
-                            height,
+                            (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                            (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
                             (requestBuilder) -> {
                                 requestBuilder.into(mCardView.getMainImageView());
                                 return null;
@@ -459,9 +459,7 @@ public class CardPresenter extends Presenter {
 
         holder.updateCardViewImage(
                 rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()),
-                blurHash,
-                (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
-                (aspect >= 1) ? 32 : (int) Math.round(32 / aspect)
+                blurHash
         );
     }
 
