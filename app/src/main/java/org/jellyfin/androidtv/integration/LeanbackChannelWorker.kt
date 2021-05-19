@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
@@ -133,23 +134,26 @@ class LeanbackChannelWorker(
 		val response = apiClient.getUserViews() ?: return
 
 		// Add new items
-		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, response.items.map { item ->
-			val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
-			else Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
+		val items = response.items
+			.filterNot { it.collectionType in ItemRowAdapter.ignoredCollectionTypes }
+			.map { item ->
+				val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
+				else Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
 
-			PreviewProgram.Builder()
-				.setChannelId(ContentUris.parseId(channelUri))
-				.setType(TvContractCompat.PreviewPrograms.TYPE_CHANNEL)
-				.setTitle(item.name)
-				.setPosterArtUri(imageUri)
-				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
-				.setIntent(Intent(context, StartupActivity::class.java).apply {
-					putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
-					putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
-				})
-				.build()
-				.toContentValues()
-		}.toTypedArray())
+				PreviewProgram.Builder()
+					.setChannelId(ContentUris.parseId(channelUri))
+					.setType(TvContractCompat.PreviewPrograms.TYPE_CHANNEL)
+					.setTitle(item.name)
+					.setPosterArtUri(imageUri)
+					.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
+					.setIntent(Intent(context, StartupActivity::class.java).apply {
+						putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
+						putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
+					})
+					.build()
+					.toContentValues()
+			}.toTypedArray()
+		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, items)
 	}
 
 	/**
