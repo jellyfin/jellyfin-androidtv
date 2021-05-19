@@ -344,10 +344,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected int getAutoCardHeight() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        if (displayMetrics.widthPixels < 1920) {
+        int screenWidth = Math.round(displayMetrics.widthPixels / displayMetrics.density);
+        if (screenWidth < 1920) {
             // Screens less than 1080p use large cards
             return getCardHeight(PosterSize.LARGE);
-        } else if (displayMetrics.widthPixels < 3840) {
+        } else if (screenWidth < 3840) {
             // Screens less than 4K use medium cards
             return getCardHeight(PosterSize.MED);
         }
