@@ -414,7 +414,7 @@
     <string name="login_authenticating">Autentiserer...</string>
     <string name="server_field_empty">Adressen kan ikke være tom</string>
     <string name="server_connection_failed">Kan ikke koble til serveren: %s</string>
-    <string name="server_connecting">Kobler til server...</string>
+    <string name="server_connecting">Kobler til %s</string>
     <string name="pref_clock_display_playback">Under avspilling</string>
     <string name="pref_clock_display_browsing">Når du blar</string>
     <string name="lbl_always">Alltid</string>
@@ -445,7 +445,7 @@
     <string name="login_help_title">Trenger du hjelp\?</string>
     <string name="connect_manually_by_address">Skriv inn serveradresse</string>
     <string name="connect_manually_title">Koble til manuelt</string>
-    <string name="discovered_servers_empty">Ingen servere oppdaget i det lokale nettverket.</string>
+    <string name="discovered_servers_empty">Ingen servere funnet i det lokale nettverket.</string>
     <string name="discovered_servers_title">Oppdagede servere</string>
     <string name="lbl_hidden">Skjult</string>
     <string name="pref_developer_link_description">Avanserte og eksperimentelle funksjoner</string>
@@ -471,4 +471,14 @@
     <string name="lbl_remove_user_content">Fjern konto</string>
     <string name="lbl_remove_users">Dette vil også fjerne alle tilknyttede brukere</string>
     <string name="lbl_manage_servers">Administrere servere</string>
+    <string name="no_network_permissions">Jellyfin krever nettverkstillatelser for å fungere</string>
+    <string name="pref_theme_muted_purple">Nedtonet lilla</string>
+    <string name="lbl_switch_user">Bytt bruker</string>
+    <string name="user_picker_last_user_summary">Bruk den siste aktive brukeren</string>
+    <string name="user_picker_last_user_title">Sist brukte</string>
+    <string name="user_picker_disable_summary">Alltid vis innloggingsskjermen</string>
+    <string name="user_picker_disable_title">Deaktiver</string>
+    <string name="system_user_explanation">Valgt bruker vil bli brukt for systemintegrasjoner som søk</string>
+    <string name="system_user">Systembruker</string>
+    <string name="auto_sign_in">Automatisk innlogging</string>
 </resources>
