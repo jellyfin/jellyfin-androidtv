@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.auth.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.data.service.BlurHashService
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
@@ -56,4 +57,5 @@ val appModule = module {
 	viewModel { NextUpViewModel(get(), get()) }
 
 	single { BackgroundService(get(), get(), get()) }
+	single { BlurHashService(get()) }
 }

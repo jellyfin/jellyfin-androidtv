@@ -1,14 +1,13 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
@@ -20,11 +19,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
+import org.jellyfin.androidtv.data.service.BlurHashService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.util.BlurHashDecoder;
+import org.jellyfin.androidtv.util.GlideUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -341,7 +341,7 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url, @Nullable Drawable placeholder) {
+        protected void updateCardViewImage(@Nullable String url, @NonNull String blurHash, int width, int height) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
@@ -349,13 +349,22 @@ public class CardPresenter extends Presenter {
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mCardView.getMainImageView());
                 } else {
-                    Glide.with(mCardView.getContext())
-                            .load(url)
-                            .error(mDefaultCardImage)
-                            .placeholder(placeholder == null ? mDefaultCardImage : placeholder)
-                            .transition(DrawableTransitionOptions.withCrossFade(200))
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mCardView.getMainImageView());
+                    GlideUtils.blurHashPlaceholder(
+                            Glide.with(mCardView.getContext())
+                                    .load(url)
+                                    .error(mDefaultCardImage)
+                                    .placeholder(mDefaultCardImage)
+                                    .transition(DrawableTransitionOptions.withCrossFade(200))
+                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE),
+                            get(BlurHashService.class),
+                            blurHash,
+                            width,
+                            height,
+                            (requestBuilder) -> {
+                                requestBuilder.into(mCardView.getMainImageView());
+                                return null;
+                            }
+                    );
                 }
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");
@@ -428,32 +437,32 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        BitmapDrawable blurHashDrawable = null;
-// FIXME: This blurhash decoding is happening on the main UI thread and causing serious performance issues on low-end devices
-//        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
-//            HashMap<String, String> blurHashMap;
-//            String imageTag;
-//            if (aspect == ASPECT_RATIO_BANNER) {
-//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
-//                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
-//            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
-//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-//                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getHasPrimaryImage()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-//            } else {
-//                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
-//                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
-//            }
-//
-//            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
-//                String blurHash = blurHashMap.get(imageTag);
-//                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
-//                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
-//                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
-//                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
-//            }
-//        }
+        String blurHash = "";
+        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
+            HashMap<String, String> blurHashMap;
+            String imageTag;
+            if (aspect == ASPECT_RATIO_BANNER) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getHasPrimaryImage()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+            } else {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+            }
 
-        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
+            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null && blurHashMap.get(imageTag) != null) {
+                blurHash = blurHashMap.get(imageTag);
+            }
+        }
+
+        holder.updateCardViewImage(
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()),
+                blurHash,
+                (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                (aspect >= 1) ? 32 : (int) Math.round(32 / aspect)
+        );
     }
 
     @Override
