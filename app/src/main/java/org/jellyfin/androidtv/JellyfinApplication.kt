@@ -1,10 +1,7 @@
 package org.jellyfin.androidtv
 
 import android.content.Context
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.await
+import androidx.work.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.acra.ACRA
@@ -27,6 +24,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 @AcraCore(
@@ -106,7 +104,9 @@ class JellyfinApplication : TvApp() {
 		workManager.enqueueUniquePeriodicWork(
 			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
 			ExistingPeriodicWorkPolicy.REPLACE,
-			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS).build()
+			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
+				.setBackoffCriteria(BackoffPolicy.LINEAR, Duration.ofMinutes(10))
+				.build()
 		).await()
 
 		// Detect auto bitrate
