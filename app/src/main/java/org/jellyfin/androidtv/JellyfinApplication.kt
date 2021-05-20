@@ -24,7 +24,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 @AcraCore(
@@ -105,7 +104,7 @@ class JellyfinApplication : TvApp() {
 			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
 			ExistingPeriodicWorkPolicy.REPLACE,
 			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
-				.setBackoffCriteria(BackoffPolicy.LINEAR, Duration.ofMinutes(10))
+				.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
 				.build()
 		).await()
 
