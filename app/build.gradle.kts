@@ -100,7 +100,7 @@ dependencies {
 	implementation("androidx.viewpager:viewpager:1.0.0")
 
 	// Dependency Injection
-	val koinVersion = "2.2.2"
+	val koinVersion = "2.2.3"
 	implementation("io.insert-koin:koin-android:$koinVersion")
 	implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
 	implementation("io.insert-koin:koin-androidx-fragment:$koinVersion")
