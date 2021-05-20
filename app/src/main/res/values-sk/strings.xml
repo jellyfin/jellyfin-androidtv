@@ -434,7 +434,7 @@
     <string name="login_authenticating">Prebieha overovanie...</string>
     <string name="server_field_empty">Táto adresa nemôže byť prázdna</string>
     <string name="server_connection_failed">Nedá sa pripojiť k serveru: %s</string>
-    <string name="server_connecting">Pripájanie k serveru...</string>
+    <string name="server_connecting">Pripájanie k %s</string>
     <string name="login_help_title">Potrebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadajte adresu servera</string>
     <string name="connect_manually_title">Manuálne pripojenie</string>
@@ -466,4 +466,19 @@
     <string name="lbl_sign_out_content">Vyžaduje prihlásenie pri ďalšom použití</string>
     <string name="connect_title">Pripojiť</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ku ktorému sa môže pripojiť. Aby ste zistili, ako začať s Jellyfinom, prezrite si našu dokumentáciu na docs.jellyfin.org.</string>
+    <string name="no_network_permissions">Jellyfin vyžaduje sieťové povolenia k svojmu korektnému fungovaniu</string>
+    <string name="pref_theme_muted_purple">Tlmená fialová</string>
+    <string name="lbl_switch_user">Zmeniť používateľa</string>
+    <string name="user_picker_last_user_summary">Použiť posledného aktívneho používateľa</string>
+    <string name="user_picker_last_user_title">Naposledy použité</string>
+    <string name="user_picker_disable_summary">Vždy zobraziť prihlasovaciu obrazovku</string>
+    <string name="user_picker_disable_title">Zakázať</string>
+    <string name="system_user_explanation">Vybraný používateľ bude použitý pre systémovú integráciu ako napríklad vyhľadávanie</string>
+    <string name="system_user">Systémový používateľ</string>
+    <string name="auto_sign_in">Automatické prihlásenie</string>
+    <string name="lbl_use_series_thumbnails_description">Použiť seriálové thumbnaily počas zobrazenia epizód</string>
+    <string name="lbl_use_series_thumbnails">Preferovať seriálové thumbnaily</string>
+    <string name="lbl_episode_marks">Iba pri epizódach</string>
+    <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
+    <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
 </resources>
