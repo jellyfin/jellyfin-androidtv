@@ -87,6 +87,7 @@ class ExoPlayerProfile(
 				CodecTypes.AAC,
 				CodecTypes.MP3,
 				CodecTypes.MPA,
+				CodecTypes.FLAC,
 				CodecTypes.WAV,
 				CodecTypes.WMA,
 				CodecTypes.MP2,
