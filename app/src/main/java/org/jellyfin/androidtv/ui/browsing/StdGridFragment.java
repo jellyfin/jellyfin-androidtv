@@ -301,7 +301,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         buildAdapter(rowDef);
 
         if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
-            int autoHeight = getAutoCardHeight();
+            // Use "medium" cards by default
+            int autoHeight = getCardHeight(PosterSize.MED);
             if (autoHeight != mCardHeight) {
                 mCardHeight = autoHeight;
                 setCardHeight(mCardHeight);
@@ -339,21 +340,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
             }
         }
-    }
-
-    protected int getAutoCardHeight() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int screenWidth = Math.round(displayMetrics.widthPixels / displayMetrics.density);
-        if (screenWidth < 1920) {
-            // Screens less than 1080p use large cards
-            return getCardHeight(PosterSize.LARGE);
-        } else if (screenWidth < 3840) {
-            // Screens less than 4K use medium cards
-            return getCardHeight(PosterSize.MED);
-        }
-        // 4k and higher use small cards
-        return getCardHeight(PosterSize.SMALL);
     }
 
     protected ImageButton mSortButton;
