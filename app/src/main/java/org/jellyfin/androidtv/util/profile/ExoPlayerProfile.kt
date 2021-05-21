@@ -31,7 +31,7 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		directPlayProfiles = buildList() {
+		directPlayProfiles = buildList {
 			// Video direct play
 			if (!isLiveTV || isLiveTVDirectPlayEnabled) {
 				add(DirectPlayProfile().apply {

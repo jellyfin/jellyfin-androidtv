@@ -81,8 +81,8 @@ object ProfileHelper {
 				"high",
 				"main",
 				"baseline",
-				"constrained"
-			).joinToString("|") + " baseline"
+				"constrained baseline"
+			).joinToString("|")
 		)
 	}
 
@@ -112,7 +112,7 @@ object ProfileHelper {
 				ProfileCondition(
 					ProfileConditionType.LessThanEqual,
 					ProfileConditionValue.AudioChannels,
-					"$channels"
+					channels.toString()
 				)
 			)
 		}
