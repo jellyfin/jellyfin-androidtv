@@ -11,28 +11,26 @@ import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.androidtv.util.apiclient.getNextUpEpisodes
-import org.jellyfin.androidtv.util.apiclient.getUserViews
 import org.jellyfin.androidtv.util.dp
-import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.drawing.ImageFormat
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.entities.ImageType
-import org.jellyfin.apiclient.model.querying.ItemFields
-import org.jellyfin.apiclient.model.querying.ItemsResult
-import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.androidtv.util.sdk.isUsable
+import org.jellyfin.sdk.api.client.KtorClient
+import org.jellyfin.sdk.api.operations.ImageApi
+import org.jellyfin.sdk.api.operations.TvShowsApi
+import org.jellyfin.sdk.api.operations.UserViewsApi
+import org.jellyfin.sdk.model.api.*
+import org.jellyfin.sdk.model.serializer.toUUID
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.time.ZoneOffset
 
 /**
  * Manages channels on the android tv home screen
@@ -50,11 +48,13 @@ class LeanbackChannelWorker(
 		 */
 		private const val TICKS_IN_MILLISECOND = 10000
 
-		const val SINGLE_UPDATE_REQUEST_NAME = "LeanbackChannelSingleUpdateRequest"
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
-	private val apiClient by inject<ApiClient>()
+	private val apiClient by inject<KtorClient>(systemApiClient)
+	private val userViewsApi by lazy { UserViewsApi(apiClient) }
+	private val imageApi by lazy { ImageApi(apiClient) }
+	private val tvShowsApi by lazy { TvShowsApi(apiClient) }
 	private val userPreferences by inject<UserPreferences>()
 
 	/**
@@ -71,6 +71,7 @@ class LeanbackChannelWorker(
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
 		TvApp.getApplication().currentUser == null -> Result.retry()
+		!apiClient.isUsable -> Result.retry()
 		else -> {
 			// Get next up episodes
 			val nextUpItems = getNextUpItems()
@@ -131,14 +132,18 @@ class LeanbackChannelWorker(
 			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 			.build())
 
-		val response = apiClient.getUserViews() ?: return
+		val user = TvApp.getApplication().currentUser ?: return
+		val response by userViewsApi.getUserViews(user.id.toUUID(), includeHidden = false)
 
 		// Add new items
 		val items = response.items
+			.orEmpty()
 			.filterNot { it.collectionType in ItemRowAdapter.ignoredCollectionTypes }
 			.map { item ->
-				val imageUri = if (item.hasPrimaryImage) Uri.parse(apiClient.GetImageUrl(item, ImageOptions()))
-				else Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
+				val imageUri = when (ImageType.PRIMARY) {
+					in item.imageTags -> Uri.parse(imageApi.getItemImageUrl(item.id, ImageType.PRIMARY))
+					else -> Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
+				}
 
 				PreviewProgram.Builder()
 					.setChannelId(ContentUris.parseId(channelUri))
@@ -147,7 +152,7 @@ class LeanbackChannelWorker(
 					.setPosterArtUri(imageUri)
 					.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
 					.setIntent(Intent(context, StartupActivity::class.java).apply {
-						putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
+						putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 						putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
 					})
 					.build()
@@ -160,43 +165,40 @@ class LeanbackChannelWorker(
 	 * Gets the poster art for an item
 	 * Uses the [preferParentThumb] parameter to fetch the series image when preferred
 	 */
-	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri? {
-		return if (preferParentThumb && this.parentThumbItemId != null) {
-			Uri.parse(apiClient.GetImageUrl(this.seriesId, ImageOptions().apply {
-				format = ImageFormat.Png
-				height = 288
-				width = 512
-				imageType = ImageType.Thumb
-			}))
-		} else {
-			Uri.parse(apiClient.GetImageUrl(this, ImageOptions().apply {
-				format = ImageFormat.Png
-				height = 288
-				width = 512
-			}))
-		}
-	}
+	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
+		preferParentThumb && this.parentThumbItemId != null && seriesId != null -> imageApi.getItemImageUrl(
+			itemId = seriesId!!,
+			imageType = ImageType.THUMB,
+			format = ImageFormat.WEBP,
+			width = 512,
+			height = 288
+		)
+		else -> imageApi.getItemImageUrl(
+			itemId = id,
+			imageType = ImageType.PRIMARY,
+			format = ImageFormat.WEBP,
+			width = 512,
+			height = 288
+		)
+	}.let(Uri::parse)
 
 	/**
 	 * Gets the next up episodes or returns null
 	 */
-	private suspend fun getNextUpItems(): ItemsResult? = withContext(Dispatchers.Default) {
-		// Get user or return if no user is found (not authenticated)
-		val user = TvApp.getApplication().currentUser ?: return@withContext null
-
-		return@withContext apiClient.getNextUpEpisodes(NextUpQuery().apply {
-			userId = user?.id
-			imageTypeLimit = 1
-			limit = 10
-			fields = arrayOf(ItemFields.DateCreated)
-		})
+	private suspend fun getNextUpItems(): BaseItemDtoQueryResult? {
+		return tvShowsApi.getNextUp(
+			userId = TvApp.getApplication().currentUser?.id?.toUUIDOrNull() ?: return null,
+			imageTypeLimit = 1,
+			limit = 10,
+			fields = listOf(ItemFields.DATE_CREATED)
+		).content
 	}
 
 	/**
 	 * Updates the "next up" row with current episodes
 	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
 	 */
-	private suspend fun updateNextUp(nextUpItems: ItemsResult?) = withContext(Dispatchers.Default) {
+	private suspend fun updateNextUp(nextUpItems: BaseItemDtoQueryResult?) {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 		// Get channel
@@ -228,7 +230,7 @@ class LeanbackChannelWorker(
 				.setPosterArtUri(imageUri)
 				.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
 				.setIntent(Intent(context, StartupActivity::class.java).apply {
-					putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
+					putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 				})
 				.build()
 				.toContentValues()
@@ -240,7 +242,7 @@ class LeanbackChannelWorker(
 	 * Does not include movies, music or other types of media
 	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
 	 */
-	private suspend fun updateWatchNext(nextUpItems: ItemsResult?) = withContext(Dispatchers.Default) {
+	private suspend fun updateWatchNext(nextUpItems: BaseItemDtoQueryResult?) {
 		// Delete current items
 		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
 
@@ -261,7 +263,7 @@ class LeanbackChannelWorker(
 	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
-		setInternalProviderId(item.id)
+		setInternalProviderId(item.id.toString())
 		setType(WatchNextPrograms.TYPE_TV_EPISODE)
 		setTitle("${item.seriesName} - ${item.name}")
 
@@ -271,13 +273,14 @@ class LeanbackChannelWorker(
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
 
 		// Use date created or fallback to current time if unavailable
-		setLastEngagementTimeUtcMillis(item.dateCreated?.time ?: System.currentTimeMillis())
+		setLastEngagementTimeUtcMillis(item.dateCreated?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
+			?: System.currentTimeMillis())
 
 		when {
 			// User has started playing the episode
-			item.canResume -> {
+			item.userData?.playbackPositionTicks ?: 0 > 0 -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
-				setLastPlaybackPositionMillis((item.resumePositionTicks / TICKS_IN_MILLISECOND).toInt())
+				setLastPlaybackPositionMillis((item.userData!!.playbackPositionTicks / TICKS_IN_MILLISECOND).toInt())
 			}
 			// First episode of the season
 			item.indexNumber == 1 -> {
@@ -290,13 +293,13 @@ class LeanbackChannelWorker(
 		}
 
 		// Episode runtime has been determined
-		if (item.runTimeTicks != null) {
-			setDurationMillis((item.runTimeTicks / TICKS_IN_MILLISECOND).toInt())
+		item.runTimeTicks?.let { runTimeTicks ->
+			setDurationMillis((runTimeTicks / TICKS_IN_MILLISECOND).toInt())
 		}
 
 		// Set intent to open the episode
 		setIntent(Intent(context, StartupActivity::class.java).apply {
-			putExtra(StartupActivity.EXTRA_ITEM_ID, item.id)
+			putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
 		})
 	}.build()
 }
