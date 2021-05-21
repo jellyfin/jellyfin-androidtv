@@ -68,7 +68,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Display the next up item's thumbnail on the next up screen
 		 */
-		var nextUpThumbnailEnabled = Preference.boolean("next_up_thumbnail_enabled", false)
+		var nextUpThumbnailEnabled = Preference.boolean("next_up_thumbnail_enabled", true)
 
 		/**
 		 * Duration in seconds to subtract from resume time

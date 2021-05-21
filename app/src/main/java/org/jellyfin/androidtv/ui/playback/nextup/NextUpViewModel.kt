@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
@@ -62,9 +63,20 @@ class NextUpViewModel(
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val title = when {
-			(item.indexNumber != null && item.indexNumberEnd != null && item.name != null && item.parentIndexNumber != 0) -> "${item.indexNumber}-${item.indexNumberEnd}. ${item.name}"
-			(item.indexNumber != null && item.name != null && item.parentIndexNumber != 0) -> "${item.indexNumber}. ${item.name}"
-			(item.name != null) -> item.name
+			(item.parentIndexNumber != null && item.parentIndexNumber != 0 && item.indexNumber != null && item.indexNumberEnd != null && item.name != null) ->
+				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)}:${context.getString(R.string.lbl_episode_number, item.indexNumber)}-${item.indexNumberEnd} - ${item.name}"
+			(item.parentIndexNumber != null && item.parentIndexNumber != 0 && item.indexNumber != null && item.name != null) ->
+				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)}:${context.getString(R.string.lbl_episode_number, item.indexNumber)} - ${item.name}"
+			(item.parentIndexNumber != null && item.parentIndexNumber == 0 && item.name != null) ->
+				"${context.getString(R.string.lbl_special)} - ${item.name}"
+			(item.parentIndexNumber != null && item.name != null) ->
+				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)} - ${item.name}"
+			(item.indexNumber != null && item.indexNumberEnd != null && item.name != null) ->
+				"${context.getString(R.string.lbl_episode_number, item.indexNumber)}-${item.indexNumberEnd} - ${item.name}"
+			(item.indexNumber != null && item.name != null) ->
+				"${context.getString(R.string.lbl_episode_number, item.indexNumber)} - ${item.name}"
+			(item.name != null) ->
+				item.name
 			else -> ""
 		}
 
