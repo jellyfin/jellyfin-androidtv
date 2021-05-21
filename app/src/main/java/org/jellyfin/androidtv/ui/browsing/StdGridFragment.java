@@ -50,7 +50,6 @@ import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.CollectionType;
@@ -297,30 +296,22 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         buildAdapter(rowDef);
 
         if (mPosterSizeSetting.equals(PosterSize.AUTO)) {
-            mGridAdapter.GetResultSizeAsync(new Response<Integer>() {
-                @Override
-                public void onResponse(Integer response) {
-                    int autoHeight = getAutoCardHeight(response);
-                    if (autoHeight != mCardHeight) {
-                        mCardHeight = autoHeight;
-                        setCardHeight(mCardHeight);
+            // Use "medium" cards by default
+            int autoHeight = getCardHeight(PosterSize.MED);
+            if (autoHeight != mCardHeight) {
+                mCardHeight = autoHeight;
+                setCardHeight(mCardHeight);
 
-                        setGridSizes();
-                        createGrid();
-                        Timber.d("Auto card height is %d", mCardHeight);
-                        buildAdapter(rowDef);
-                    }
-                    mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
-                    mGridAdapter.Retrieve();
-                    determiningPosterSize = false;
-                }
-            });
-        } else {
-            mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
-            mGridAdapter.Retrieve();
-            determiningPosterSize = false;
+                setGridSizes();
+                createGrid();
+                Timber.d("Auto card height is %d", mCardHeight);
+                buildAdapter(rowDef);
+            }
         }
 
+        mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
+        mGridAdapter.Retrieve();
+        determiningPosterSize = false;
     }
 
     protected int getCardHeight(String heightSetting) {
@@ -344,16 +335,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     return mImageType.equals(ImageType.BANNER) ? SMALL_BANNER : SMALL_CARD;
             }
         }
-    }
-
-    protected int getAutoCardHeight(Integer size) {
-        Timber.d("Result size for auto card height is %d", size);
-        if (size > 35)
-            return getCardHeight(PosterSize.SMALL);
-        else if (size > 10)
-            return getCardHeight(PosterSize.MED);
-        else
-            return getCardHeight(PosterSize.LARGE);
     }
 
     protected ImageButton mSortButton;
@@ -569,17 +550,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     protected void setupRetrieveListeners() {
-        mGridAdapter.setRetrieveStartedListener(new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                showSpinner();
-
-            }
-        });
         mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
             @Override
             public void onResponse() {
-                hideSpinner();
                 setStatusText(mFolder.getName());
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
                 mLetterButton.setVisibility("SortName".equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);

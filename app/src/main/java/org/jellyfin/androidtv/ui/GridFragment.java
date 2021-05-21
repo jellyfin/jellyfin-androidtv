@@ -38,7 +38,6 @@ public class GridFragment extends Fragment {
     protected TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
-    protected FrameLayout mSpinner;
     protected ViewGroup mGridDock;
     protected LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
@@ -274,28 +273,6 @@ public class GridFragment extends Fragment {
         return mOnItemViewClickedListener;
     }
 
-    public void showSpinner() {
-        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSpinner.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    public void hideSpinner() {
-        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSpinner.setVisibility(View.GONE);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -307,7 +284,6 @@ public class GridFragment extends Fragment {
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
-        mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
         mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
 
         // Hide the description because we don't have room for it

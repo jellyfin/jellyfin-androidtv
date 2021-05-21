@@ -12,6 +12,8 @@ import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 
 public class BrowseGridFragment extends StdGridFragment {
+    private final static int CHUNK_SIZE = 50;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class BrowseGridFragment extends StdGridFragment {
                                 ItemFields.ChildCount
                         });
                         albumArtists.setParentId(mParentId);
-                        mRowDef = new BrowseRowDef("", albumArtists, 150, new ChangeTriggerType[] {});
+                        mRowDef = new BrowseRowDef("", albumArtists, CHUNK_SIZE, new ChangeTriggerType[] {});
                         gridLoader.loadGrid(mRowDef);
                         return;
                     }
@@ -70,7 +72,7 @@ public class BrowseGridFragment extends StdGridFragment {
             }
         }
 
-        mRowDef = new BrowseRowDef("", query, 150, false, true);
+        mRowDef = new BrowseRowDef("", query, CHUNK_SIZE, false, true);
 
         gridLoader.loadGrid(mRowDef);
     }
