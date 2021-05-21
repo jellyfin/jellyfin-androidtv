@@ -35,10 +35,11 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
-import org.jellyfin.androidtv.util.ProfileHelper;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
+import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
+import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
@@ -565,11 +566,11 @@ public class MediaManager {
         Long maxBitrate = get(AutoBitrate.class).getBitrate();
         if (maxBitrate != null) options.setMaxBitrate(maxBitrate.intValue());
         options.setMediaSources(item.getMediaSources());
-        DeviceProfile profile = ProfileHelper.getBaseProfile(false);
+        DeviceProfile profile;
         if (DeviceUtils.is60()) {
-            ProfileHelper.setExoOptions(profile, false, true);
+            profile = new ExoPlayerProfile();
         } else {
-            ProfileHelper.setVlcOptions(profile, false);
+            profile = new LibVlcProfile();
         }
         options.setProfile(profile);
         get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient, new Response<StreamInfo>() {
