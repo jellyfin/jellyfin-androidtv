@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,10 +33,9 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.ui.CharSelectedListener;
+import org.jellyfin.androidtv.ui.AlphaPicker;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.ImageButton;
-import org.jellyfin.androidtv.ui.JumpList;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -120,7 +117,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         setGridSizes();
 
-        mJumplistPopup = new JumplistPopup(getActivity());
+        mJumplistPopup = new JumplistPopup();
     }
 
     private void setGridSizes() {
@@ -496,48 +493,42 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     private JumplistPopup mJumplistPopup;
     class JumplistPopup {
 
-        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 900);
-        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 55);
+        private final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
+        private final int HEIGHT = Utils.convertDpToPixel(requireContext(), 55);
 
-        PopupWindow mPopup;
-        Activity mActivity;
-        JumpList mJumplist;
+        private final PopupWindow popupWindow;
+        private final AlphaPicker alphaPicker;
 
-        JumplistPopup(Activity activity) {
-            mActivity = activity;
-            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.empty_popup, null);
-            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
-            mPopup.setFocusable(true);
-            mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInTop);
+        JumplistPopup() {
+            LayoutInflater inflater = LayoutInflater.from(requireContext());
+            View layout = inflater.inflate(R.layout.popup_empty, mGridDock, false);
+            popupWindow = new PopupWindow(layout, WIDTH, HEIGHT, true);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
+            popupWindow.setAnimationStyle(R.style.PopupSlideInTop);
 
-            mJumplist = new JumpList(activity, new CharSelectedListener() {
-                @Override
-                public void onCharSelected(String ch) {
-                    mGridAdapter.setStartLetter(ch);
-                    loadGrid(mRowDef);
-                    dismiss();
-                }
+            alphaPicker = new AlphaPicker(requireContext(), null);
+            alphaPicker.setOnAlphaSelected(letter -> {
+                mGridAdapter.setStartLetter(letter.toString());
+                loadGrid(mRowDef);
+                dismiss();
+                return null;
             });
 
-            mJumplist.setGravity(Gravity.CENTER_HORIZONTAL);
-            FrameLayout root = (FrameLayout) layout.findViewById(R.id.root);
-            root.addView(mJumplist);
-
+            FrameLayout root = layout.findViewById(R.id.empty_popup);
+            root.addView(alphaPicker);
         }
 
         public void show() {
-
-            mPopup.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
-            mJumplist.setFocus(mGridAdapter.getStartLetter());
-
+            popupWindow.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
+            if (mGridAdapter.getStartLetter() != null && !mGridAdapter.getStartLetter().isEmpty()) {
+                alphaPicker.focus(mGridAdapter.getStartLetter().charAt(0));
+            }
         }
 
         public void dismiss() {
-            if (mPopup != null && mPopup.isShowing()) {
-                mPopup.dismiss();
+            if (popupWindow != null && popupWindow.isShowing()) {
+                popupWindow.dismiss();
             }
         }
     }
