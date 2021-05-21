@@ -12,7 +12,6 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.databinding.FragmentAlertAddServerBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
-import org.jellyfin.androidtv.util.toUUID
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AddServerAlertFragment : AlertFragment() {
@@ -69,7 +68,10 @@ class AddServerAlertFragment : AlertFragment() {
 			loginViewModel.addServer(binding.address.text.toString()).observe(viewLifecycleOwner) { state ->
 				when (state) {
 					is ConnectingState -> binding.error.text = getString(R.string.server_connecting, state.address)
-					is UnableToConnectState -> binding.error.text = getString(R.string.server_connection_failed, state.error.message)
+					is UnableToConnectState -> binding.error.text = getString(
+						R.string.server_connection_failed,
+						state.addressCandidates.joinToString(prefix = "\n", separator = "\n")
+					)
 					is ConnectedState -> onClose()
 				}
 			}

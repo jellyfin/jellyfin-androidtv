@@ -15,6 +15,9 @@ import java.util.*
 data class AuthenticationStoreServer(
 	val name: String,
 	val address: String,
+	val version: String? = null,
+	@SerialName("login_disclaimer")  val loginDisclaimer: String? = null,
 	@SerialName("last_used") val lastUsed: Long = Date().time,
+	@SerialName("last_refreshed") val lastRefreshed: Long = Date().time,
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
 )
