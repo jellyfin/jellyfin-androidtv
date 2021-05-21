@@ -44,7 +44,7 @@ public class PlaybackHelper {
                 if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
-                    if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
+                    if (mainItem.getSeriesId() != null && mainItem.getId() != null && TvApp.getApplication().getCurrentUser() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
                         episodeQuery.setSeriesId(mainItem.getSeriesId());
                         episodeQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
@@ -63,13 +63,18 @@ public class PlaybackHelper {
                             @Override
                             public void onResponse(ItemsResult response) {
                                 if (response.getTotalRecordCount() > 0) {
+                                    // TODO: Finding the main item should be possible in the query using StartItemId, but it is not currently supported.
+                                    // With StartItemId added, the limit could also be included in the query.
                                     boolean foundMainItem = false;
+                                    final int limit = 150; // guard against too many items - account for episodes shorter than 5 min
+                                    int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
                                         if (foundMainItem) {
-                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                            if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < limit) {
                                                 items.add(item);
+                                                numAdded++;
                                             } else {
-                                                //stop adding when we hit a missing one
+                                                //stop adding when we hit a missing one or we have reached the limit
                                                 break;
                                             }
                                         } else if (item.getId() != null && item.getId().equals(mainItem.getId())) {
@@ -81,7 +86,10 @@ public class PlaybackHelper {
                             }
                         });
                     } else {
-                        Timber.i("Unable to add subsequent episodes due to lack of series or episode data.");
+                        if (TvApp.getApplication().getCurrentUser() == null)
+                            Timber.i("Unable to add subsequent episodes due to lack of current user.");
+                        else
+                            Timber.i("Unable to add subsequent episodes due to lack of series or episode data.");
                         outerResponse.onResponse(items);
                     }
                 } else {
