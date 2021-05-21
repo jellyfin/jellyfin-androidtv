@@ -19,6 +19,7 @@ class AlphaPicker(
 	init {
 		isFocusable = false
 		isFocusableInTouchMode = false
+		isHorizontalScrollBarEnabled = false
 
 		val layout = LinearLayout(context)
 
