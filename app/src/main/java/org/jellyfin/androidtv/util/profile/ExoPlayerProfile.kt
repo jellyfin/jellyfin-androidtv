@@ -4,7 +4,14 @@ import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.profile.ProfileHelper.H264_LEVEL_4_1
+import org.jellyfin.androidtv.util.profile.ProfileHelper.H264_LEVEL_5_1
+import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -15,6 +22,7 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionType
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 
+@OptIn(ExperimentalStdlibApi::class)
 class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
@@ -23,10 +31,10 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		directPlayProfiles = listOfNotNull(
+		directPlayProfiles = buildList() {
 			// Video direct play
 			if (!isLiveTV || isLiveTVDirectPlayEnabled) {
-				DirectPlayProfile().apply {
+				add(DirectPlayProfile().apply {
 					type = DlnaProfileType.Video
 
 					container = listOfNotNull(
@@ -72,34 +80,25 @@ class ExoPlayerProfile(
 							if (isDtsEnabled) CodecTypes.DTS else null
 						).joinToString(",")
 					}
-				}
-			} else {
-				null
-			},
-			// Audio direct play
-			DirectPlayProfile().apply {
-				type = DlnaProfileType.Audio
-
-				container = arrayOf(
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.MPA,
-					CodecTypes.WAV,
-					CodecTypes.WMA,
-					CodecTypes.MP2,
-					ContainerTypes.OGG,
-					ContainerTypes.OGA,
-					ContainerTypes.WEBMA,
-					CodecTypes.APE,
-					CodecTypes.OPUS
-				).joinToString(",")
-			},
-			// Photo direct play
-			DirectPlayProfile().apply {
-				type = DlnaProfileType.Photo
-				container = "jpg,jpeg,png,gif"
+				})
 			}
-		).toTypedArray()
+			// Audio direct play
+			add(audioDirectPlayProfile(
+				CodecTypes.AAC,
+				CodecTypes.MP3,
+				CodecTypes.MPA,
+				CodecTypes.WAV,
+				CodecTypes.WMA,
+				CodecTypes.MP2,
+				ContainerTypes.OGG,
+				ContainerTypes.OGA,
+				ContainerTypes.WEBMA,
+				CodecTypes.APE,
+				CodecTypes.OPUS
+			))
+			// Photo direct play
+			add(photoDirectPlayProfile)
+		}.toTypedArray()
 
 		codecProfiles = arrayOf(
 			// H264 profile
@@ -107,16 +106,8 @@ class ExoPlayerProfile(
 				type = CodecType.Video
 				codec = CodecTypes.H264
 				conditions = arrayOf(
-					ProfileCondition(
-						ProfileConditionType.EqualsAny,
-						ProfileConditionValue.VideoProfile,
-						"high|main|baseline|constrained baseline"
-					),
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.VideoLevel,
-						if (DeviceUtils.isFireTvStickGen1()) "41" else "51"
-					)
+					h264VideoProfileCondition,
+					h264VideoLevelProfileCondition
 				)
 			},
 			// H264 ref frames profile
@@ -160,16 +151,7 @@ class ExoPlayerProfile(
 			// HEVC profile
 			deviceHevcCodecProfile,
 			// Audio channel profile
-			CodecProfile().apply {
-				type = CodecType.VideoAudio
-				conditions = arrayOf(
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.AudioChannels,
-						"6"
-					)
-				)
-			}
+			maxAudioChannelsCodecProfile(channels = 6)
 		)
 
 		subtitleProfiles = arrayOf(

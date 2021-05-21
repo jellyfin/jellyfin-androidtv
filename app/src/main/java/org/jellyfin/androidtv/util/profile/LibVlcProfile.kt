@@ -4,7 +4,12 @@ import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
@@ -66,28 +71,21 @@ class LibVlcProfile(
 				).joinToString(",")
 			},
 			// Audio direct play
-			DirectPlayProfile().apply {
-				type = DlnaProfileType.Audio
-
-				container = arrayOf(
-					CodecTypes.FLAC,
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.MPA,
-					CodecTypes.WAV,
-					CodecTypes.WMA,
-					CodecTypes.MP2,
-					ContainerTypes.OGG,
-					ContainerTypes.OGA,
-					ContainerTypes.WEBMA,
-					CodecTypes.APE
-				).joinToString(",")
-			},
+			audioDirectPlayProfile(
+				CodecTypes.FLAC,
+				CodecTypes.AAC,
+				CodecTypes.MP3,
+				CodecTypes.MPA,
+				CodecTypes.WAV,
+				CodecTypes.WMA,
+				CodecTypes.MP2,
+				ContainerTypes.OGG,
+				ContainerTypes.OGA,
+				ContainerTypes.WEBMA,
+				CodecTypes.APE
+			),
 			// Photo direct play
-			DirectPlayProfile().apply {
-				type = DlnaProfileType.Photo
-				container = "jpg,jpeg,png,gif"
-			}
+			photoDirectPlayProfile
 		)
 
 		codecProfiles = arrayOf(
@@ -98,16 +96,8 @@ class LibVlcProfile(
 				type = CodecType.Video
 				codec = CodecTypes.H264
 				conditions = arrayOf(
-					ProfileCondition(
-						ProfileConditionType.EqualsAny,
-						ProfileConditionValue.VideoProfile,
-						"high|main|baseline|constrained baseline"
-					),
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.VideoLevel,
-						if (DeviceUtils.isFireTvStickGen1()) "41" else "51"
-					),
+					h264VideoProfileCondition,
+					h264VideoLevelProfileCondition,
 					ProfileCondition(
 						ProfileConditionType.GreaterThanEqual,
 						ProfileConditionValue.RefFrames,
@@ -116,16 +106,7 @@ class LibVlcProfile(
 				)
 			},
 			// Audio channel profile
-			CodecProfile().apply {
-				type = CodecType.VideoAudio
-				conditions = arrayOf(
-					ProfileCondition(
-						ProfileConditionType.LessThanEqual,
-						ProfileConditionValue.AudioChannels,
-						"8"
-					)
-				)
-			}
+			maxAudioChannelsCodecProfile(channels = 8)
 		)
 
 		subtitleProfiles = arrayOf(
