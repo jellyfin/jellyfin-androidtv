@@ -142,15 +142,16 @@ class ServerRepositoryImpl(
 			val api = BrandingApi(jellyfin.createApi(chosenRecommendation.address))
 			val branding by api.getBrandingOptions()
 
+			val id = systemInfo.id!!.toUUID()
 			authenticationRepository.saveServer(
-				id = systemInfo.id!!.toUUID(),
+				id = id,
 				name = systemInfo.serverName ?: "Jellyfin Server",
 				address = chosenRecommendation.address,
 				version = systemInfo.version,
 				loginDisclaimer = branding.loginDisclaimer,
 			)
 
-			emit(ConnectedState(systemInfo))
+			emit(ConnectedState(id, systemInfo))
 		} else {
 			// No great or good recommendations, only add bad recommendations
 			emit(UnableToConnectState(addressCandidates))
