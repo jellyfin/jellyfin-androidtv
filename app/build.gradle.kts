@@ -68,7 +68,11 @@ android {
 dependencies {
 	// Jellyfin
 	implementation("org.jellyfin.apiclient:android:0.7.9")
-	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.6")
+	val sdkVersion = when (getProperty("sdk.useSnapshot")?.toBoolean()) {
+		true -> "latest-SNAPSHOT"
+		else -> "1.0.0-beta.6"
+	}
+	implementation("org.jellyfin.sdk:jellyfin-platform-android:$sdkVersion")
 
 	// Kotlin
 	val kotlinxCoroutinesVersion = "1.4.3"

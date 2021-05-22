@@ -5,8 +5,8 @@ buildscript {
 	}
 
 	dependencies {
-		val kotlinVersion: String by project
-		classpath("com.android.tools.build:gradle:4.2.0")
+		val kotlinVersion = getProperty("kotlin.version")
+		classpath("com.android.tools.build:gradle:4.2.1")
 		classpath(kotlin("gradle-plugin", kotlinVersion))
 		classpath(kotlin("serialization", kotlinVersion))
 	}
@@ -17,6 +17,12 @@ allprojects {
 	repositories {
 		mavenCentral()
 		google()
+		maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+			content {
+				// Only allow SDK snapshots
+				includeVersionByRegex("org\\.jellyfin\\.sdk", ".*", "latest-SNAPSHOT")
+			}
+		}
 		jcenter()
 	}
 }
