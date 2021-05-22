@@ -26,14 +26,21 @@
         <item name="android:maxHeight">5sp</item>
     </style>
 
-    <style name="PopupSlideInTop">
+    <style name="WindowAnimation"></style>
+
+    <style name="WindowAnimation.SlideTop">
         <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
         <item name="android:windowExitAnimation">@anim/abc_slide_out_top</item>
     </style>
 
-    <style name="PopupSlideInRight">
-        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    <style name="WindowAnimation.SlideRight">
+        <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
+    </style>
+
+    <style name="WindowAnimation.Fade">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
     <style name="Button.Default" parent="android:Widget.Button">
