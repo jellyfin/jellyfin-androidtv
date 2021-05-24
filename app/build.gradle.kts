@@ -70,7 +70,7 @@ dependencies {
 	implementation("org.jellyfin.apiclient:android:0.7.9")
 	val sdkVersion = when (getProperty("sdk.useSnapshot")?.toBoolean()) {
 		true -> "latest-SNAPSHOT"
-		else -> "1.0.0-beta.6"
+		else -> "1.0.0-beta.7"
 	}
 	implementation("org.jellyfin.sdk:jellyfin-platform-android:$sdkVersion")
 
