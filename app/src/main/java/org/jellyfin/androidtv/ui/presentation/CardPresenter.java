@@ -1,7 +1,8 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -13,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,7 +27,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.util.BlurHashDecoder;
+import org.jellyfin.androidtv.util.BlurHashUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -38,8 +41,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 5.414;
@@ -78,12 +79,14 @@ public class CardPresenter extends Presenter {
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
+        private final LifecycleOwner lifecycleOwner;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, LifecycleOwner lifecycleOwner) {
             super(view);
 
             mCardView = (MyImageCardView) view;
             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+            this.lifecycleOwner = lifecycleOwner;
         }
 
         public int getCardHeight() {
@@ -341,21 +344,31 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url, @Nullable Drawable placeholder) {
+        protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
-                            .load(mDefaultCardImage)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mCardView.getMainImageView());
+                        .load(mDefaultCardImage)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .into(mCardView.getMainImageView());
                 } else {
-                    Glide.with(mCardView.getContext())
-                            .load(url)
-                            .error(mDefaultCardImage)
-                            .placeholder(placeholder)
-                            .transition(DrawableTransitionOptions.withCrossFade(200))
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mCardView.getMainImageView());
+                    BlurHashUtils.createBlurHashDrawable(
+                        lifecycleOwner,
+                        blurHash,
+                        (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                        (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
+                        bitmap -> {
+                            Glide.with(mCardView.getContext())
+                                .load(url)
+                                .error(mDefaultCardImage)
+                                .placeholder(bitmap != null ? new BitmapDrawable(mCardView.getResources(), bitmap) : mDefaultCardImage)
+                                .transition(DrawableTransitionOptions.withCrossFade(200))
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .into(mCardView.getMainImageView());
+
+                            return null;
+                        }
+                    );
                 }
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");
@@ -385,7 +398,7 @@ public class CardPresenter extends Presenter {
         @ColorInt int color = typedValue.data;
         cardView.setBackgroundColor(color);
 
-        return new ViewHolder(cardView);
+        return new ViewHolder(cardView, ViewTreeLifecycleOwner.get(parent));
     }
 
     @Override
@@ -428,7 +441,7 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        BitmapDrawable blurHashDrawable = null;
+        String blurHash = null;
         if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
             HashMap<String, String> blurHashMap;
             String imageTag;
@@ -443,16 +456,15 @@ public class CardPresenter extends Presenter {
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
             }
 
-            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null) {
-                String blurHash = blurHashMap.get(imageTag);
-                int width = (aspect > 1) ? (int) Math.round(32 * aspect) : 32;
-                int height = (aspect >= 1) ? 32 : (int) Math.round(32 / aspect);
-                Bitmap blurHashBitmap = BlurHashDecoder.INSTANCE.decode(blurHash, width, height, 1, true);
-                blurHashDrawable = new BitmapDrawable(holder.mCardView.getContext().getResources(), blurHashBitmap);
+            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null && blurHashMap.get(imageTag) != null) {
+                blurHash = blurHashMap.get(imageTag);
             }
         }
 
-        holder.updateCardViewImage(rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()), blurHashDrawable);
+        holder.updateCardViewImage(
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()),
+                blurHash
+        );
     }
 
     @Override
