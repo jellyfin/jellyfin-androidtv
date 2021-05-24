@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -11,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -18,12 +23,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
-import org.jellyfin.androidtv.data.service.BlurHashService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.util.GlideUtils;
+import org.jellyfin.androidtv.util.BlurHashUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -37,8 +41,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 5.414;
@@ -77,12 +79,14 @@ public class CardPresenter extends Presenter {
         private BaseRowItem mItem;
         private MyImageCardView mCardView;
         private Drawable mDefaultCardImage;
+        private final LifecycleOwner lifecycleOwner;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, LifecycleOwner lifecycleOwner) {
             super(view);
 
             mCardView = (MyImageCardView) view;
             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+            this.lifecycleOwner = lifecycleOwner;
         }
 
         public int getCardHeight() {
@@ -344,25 +348,26 @@ public class CardPresenter extends Presenter {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
-                            .load(mDefaultCardImage)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mCardView.getMainImageView());
+                        .load(mDefaultCardImage)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .into(mCardView.getMainImageView());
                 } else {
-                    GlideUtils.blurHashPlaceholder(
+                    BlurHashUtils.createBlurHashDrawable(
+                        lifecycleOwner,
+                        blurHash,
+                        (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                        (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
+                        bitmap -> {
                             Glide.with(mCardView.getContext())
-                                    .load(url)
-                                    .error(mDefaultCardImage)
-                                    .placeholder(mDefaultCardImage)
-                                    .transition(DrawableTransitionOptions.withCrossFade(200))
-                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE),
-                            get(BlurHashService.class),
-                            blurHash,
-                            (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
-                            (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
-                            (requestBuilder) -> {
-                                requestBuilder.into(mCardView.getMainImageView());
-                                return null;
-                            }
+                                .load(url)
+                                .error(mDefaultCardImage)
+                                .placeholder(bitmap != null ? new BitmapDrawable(mCardView.getResources(), bitmap) : mDefaultCardImage)
+                                .transition(DrawableTransitionOptions.withCrossFade(200))
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .into(mCardView.getMainImageView());
+
+                            return null;
+                        }
                     );
                 }
             } catch (IllegalArgumentException e) {
@@ -393,7 +398,7 @@ public class CardPresenter extends Presenter {
         @ColorInt int color = typedValue.data;
         cardView.setBackgroundColor(color);
 
-        return new ViewHolder(cardView);
+        return new ViewHolder(cardView, ViewTreeLifecycleOwner.get(parent));
     }
 
     @Override
