@@ -7,12 +7,12 @@ import org.jellyfin.androidtv.data.service.BlurHashService
 
 fun RequestBuilder<Drawable>.blurHashPlaceholder(
 	blurHashService: BlurHashService,
-	blurHash: String,
+	blurHash: String?,
 	width: Int,
 	height: Int,
 	response: (requestBuilder: RequestBuilder<Drawable>) -> Unit
 ) {
-	if (blurHash.isNotEmpty() && width != 0 && height != 0) {
+	if (!blurHash.isNullOrEmpty() && width != 0 && height != 0) {
 		blurHashService.decodeBlurHashDrawable(
 			blurHash,
 			width,

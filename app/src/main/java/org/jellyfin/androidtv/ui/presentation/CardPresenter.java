@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
@@ -341,7 +340,7 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        protected void updateCardViewImage(@Nullable String url, @NonNull String blurHash) {
+        protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
@@ -437,7 +436,7 @@ public class CardPresenter extends Presenter {
             }
         }
 
-        String blurHash = "";
+        String blurHash = null;
         if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
             HashMap<String, String> blurHashMap;
             String imageTag;
