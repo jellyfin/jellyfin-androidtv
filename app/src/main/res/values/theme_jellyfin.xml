@@ -44,6 +44,11 @@
         <!-- Dim level of non-focus grid items -->
         <item name="overlayDimDimmedLevel">30%</item>
 
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/button_default_normal_background</item>
+        <item name="controlIconForegroundActive">@color/jellyfin_blue</item>
+        <item name="controlIconForegroundInactive">@color/button_default_highlight_background</item>
+
         <!-- Tile colors -->
         <item name="tile_settings_bg">#359AB8</item>
         <item name="tile_edit_bg">#4b41ae</item>

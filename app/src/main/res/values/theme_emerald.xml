@@ -15,6 +15,11 @@
         <item name="progressSecondary">@color/theme_emerald_dark</item>
         <item name="toolbarBackground">@color/theme_emerald_black</item>
 
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/theme_emerald_black</item>
+        <item name="controlIconForegroundActive">@color/theme_emerald_light</item>
+        <item name="controlIconForegroundInactive">@color/theme_emerald_dark</item>
+
         <!-- Tile colors -->
         <item name="tile_settings_bg">@color/theme_emerald_light</item>
         <item name="tile_edit_bg">@color/theme_emerald_light</item>
