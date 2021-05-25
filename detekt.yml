@@ -15,3 +15,5 @@ style:
     values: [ 'STOPSHIP:' ]
   ReturnCount:
     max: 6
+  WildcardImport:
+    active: false
