@@ -21,9 +21,13 @@ import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
 import org.jellyfin.sdk.Jellyfin as JellyfinSdk
+
+val userApiClient = named("userApiClient")
+val systemApiClient = named("systemApiClient")
 
 val appModule = module {
 	// New SDK
@@ -35,6 +39,16 @@ val appModule = module {
 			// Add client info
 			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)
 		}
+	}
+
+	single(userApiClient) {
+		// Create an empty API instance, the actual values are set by the SessionRepository
+		get<JellyfinSdk>().createApi()
+	}
+
+	single(systemApiClient) {
+		// Create an empty API instance, the actual values are set by the SessionRepository
+		get<JellyfinSdk>().createApi()
 	}
 
 	// Old apiclient

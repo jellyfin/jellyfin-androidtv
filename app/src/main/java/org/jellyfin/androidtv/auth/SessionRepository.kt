@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
+import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 import java.util.*
@@ -32,6 +33,9 @@ class SessionRepositoryImpl(
 	private val authenticationPreferences: AuthenticationPreferences,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val apiBinder: ApiBinder,
+	private val authenticationStore: AuthenticationStore,
+	private val userApiClient: KtorClient,
+	private val systemApiClient: KtorClient,
 ) : SessionRepository {
 	private val _currentSession = MutableLiveData<Session?>()
 	override val currentSession: LiveData<Session?> get() = _currentSession
@@ -59,9 +63,9 @@ class SessionRepositoryImpl(
 		val userId = authenticationPreferences[AuthenticationPreferences.systemUserId].toUUIDOrNull()
 
 		when (behavior) {
-			DISABLED -> _currentSystemSession.postValue(null)
-			LAST_USER -> _currentSystemSession.postValue(createLastUserSession())
-			SPECIFIC_USER -> _currentSystemSession.postValue(createUserSession(userId))
+			DISABLED -> setCurrentSystemSession(null)
+			LAST_USER -> setCurrentSystemSession(createLastUserSession())
+			SPECIFIC_USER -> setCurrentSystemSession(createUserSession(userId))
 		}
 	}
 
@@ -93,15 +97,26 @@ class SessionRepositoryImpl(
 		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
 		val systemUserBehavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
-		if (includeSystemUser && systemUserBehavior == LAST_USER) _currentSystemSession.postValue(session)
+		if (includeSystemUser && systemUserBehavior == LAST_USER) setCurrentSystemSession(session)
 
 		// Update session after binding the apiclient settings
 		apiBinder.updateSession(session) { success ->
 			Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
-			if (success) _currentSession.postValue(session)
-			else _currentSession.postValue(null)
+			if (success) {
+				userApiClient.applySession(session)
+				_currentSession.postValue(session)
+			} else {
+				userApiClient.applySession(null)
+				_currentSession.postValue(null)
+			}
 		}
+	}
+
+	private fun setCurrentSystemSession(session: Session?) {
+		_currentSystemSession.postValue(session)
+
+		systemApiClient.applySession(session)
 	}
 
 	private fun createLastUserSession(): Session? {
@@ -120,5 +135,17 @@ class SessionRepositoryImpl(
 			serverId = account.server,
 			accessToken = account.accessToken
 		)
+	}
+
+	private fun KtorClient.applySession(session: Session?) {
+		if (session == null) {
+			baseUrl = null
+			accessToken = null
+		} else {
+			val server = authenticationStore.getServer(session.serverId)
+				?: return applySession(null)
+			baseUrl = server.address
+			accessToken = session.accessToken
+		}
 	}
 }
