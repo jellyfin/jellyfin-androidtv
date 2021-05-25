@@ -113,7 +113,7 @@ class HomeFragmentHelper(
 	}
 
 	companion object {
-		// Maximum ammount of items loaded for a row
+		// Maximum amount of items loaded for a row
 		private const val ITEM_LIMIT_RESUME = 50
 		private const val ITEM_LIMIT_RECORDINGS = 40
 		private const val ITEM_LIMIT_NEXT_UP = 50
