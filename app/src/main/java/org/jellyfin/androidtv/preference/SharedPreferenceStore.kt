@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import timber.log.Timber
 
 /**
- * Basis for preference stores. Provides functions for delegated properties and migration functionality.
+ * Implementation of the [PreferenceStore] using Android shared preferences.
  *
  * Preferences are added as properties and look like this:
  * ```kotlin
@@ -26,8 +26,8 @@ abstract class SharedPreferenceStore(
 	/**
 	 * SharedPreferences to read from and write to
 	 */
-	protected val sharedPreferences: SharedPreferences
-) {
+	protected val sharedPreferences: SharedPreferences,
+) : PreferenceStore {
 	// Internal helpers
 	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
 		val editor = sharedPreferences.edit()
@@ -38,7 +38,7 @@ abstract class SharedPreferenceStore(
 	// Getters and setters
 	// Primitive types
 	@Suppress("UNCHECKED_CAST")
-	operator fun <T : Preference<V>, V : Any> get(preference: T): V {
+	override operator fun <T : Preference<V>, V : Any> get(preference: T): V {
 		return when (preference.type) {
 			Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int) as V
 			Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long) as V
@@ -49,7 +49,7 @@ abstract class SharedPreferenceStore(
 		}
 	}
 
-	operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
+	override operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
 		when (preference.type) {
 			Int::class -> putInt(preference.key, value as Int)
 			Long::class -> putLong(preference.key, value as Long)
@@ -62,7 +62,7 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Enums
-	operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+	override operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
 		val stringValue = sharedPreferences.getString(preference.key, null)
 
 		return if (stringValue == null) preference.defaultValue
@@ -70,20 +70,20 @@ abstract class SharedPreferenceStore(
 			?: preference.defaultValue
 	}
 
-	operator fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
+	override operator fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
 		putString(preference.key, value.toString())
 	}
 
 	// Additional mutations
-	fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
+	override fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
 		return preference.defaultValue
 	}
 
-	fun <T : Preference<V>, V : Any> reset(preference: T) {
+	override fun <T : Preference<V>, V : Any> reset(preference: T) {
 		this[preference] = getDefaultValue(preference)
 	}
 
-	fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
+	override fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
 		remove(preference.key)
 	}
 
