@@ -30,7 +30,7 @@ public class SelectAudioAction extends CustomAction {
 
         List<MediaStream> audioTracks = get(PlaybackManager.class).getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
         Integer currentAudioIndex = playbackController.getAudioStreamIndex();
-        if (!playbackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
+        if (!playbackController.isNativeMode() && currentAudioIndex != null && currentAudioIndex > audioTracks.size()) {
             //VLC has translated this to an ID - we need to translate back to our index positionally
             currentAudioIndex = playbackController.translateVlcAudioId(currentAudioIndex);
         }

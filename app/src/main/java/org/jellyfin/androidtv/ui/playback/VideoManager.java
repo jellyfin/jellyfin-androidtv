@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Nullable;
+
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Player;
@@ -293,7 +295,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public void setVideoPath(String path) {
+    public void setVideoPath(@Nullable String path) {
+        if (path == null) {
+            Timber.w("Video path is null cannot continue");
+            return;
+        }
         Timber.i("Video path set to: %s", path);
 
         if (nativeMode) {
@@ -319,8 +325,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!nativeMode && mVlcPlayer != null) mVlcPlayer.setSpuTrack(-1);
     }
 
-    public boolean setSubtitleTrack(int index, List<MediaStream> allStreams) {
-        if (!nativeMode) {
+    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode && allStreams != null) {
             //find the relative order of our sub index within the sub tracks in VLC
             int vlcIndex = 1; // start at 1 to account for "disabled"
             for (MediaStream stream : allStreams) {
