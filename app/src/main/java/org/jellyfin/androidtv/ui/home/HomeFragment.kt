@@ -96,7 +96,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 			HomeSectionType.RESUME_AUDIO -> rows.add(helper.loadResumeAudio())
 			HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
 			HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-			HomeSectionType.LIVE_TV -> if (TvApp.getApplication().currentUser!!.policy.enableLiveTvAccess && includeLiveTvRows) {
+			HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
 				rows.add(liveTVRow)
 				rows.add(helper.loadOnNow())
 			}
@@ -109,24 +109,27 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 			// Update the views before creating rows
 			views = callApi<ItemsResult> { apiClient.GetUserViews(TvApp.getApplication().currentUser!!.id, it) }
 
-			// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
-			// If we can retrieve one live TV recommendation, then we should display the rows
-			callApi<ItemsResult> {
-				apiClient.GetRecommendedLiveTvProgramsAsync(
-					RecommendedProgramQuery().apply {
-						userId = TvApp.getApplication().currentUser!!.id
-						enableTotalRecordCount = false
-						fields = arrayOf(
-							ItemFields.ChannelInfo,
-							ItemFields.PrimaryImageAspectRatio
-						)
-						imageTypeLimit = 1
-						isAiring = true
-						limit = 1
-					},
-					it
-				)
-			}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
+			// Check for live TV support
+			if (TvApp.getApplication().currentUser!!.policy.enableLiveTvAccess) {
+				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
+				// If we can retrieve one live TV recommendation, then we should display the rows
+				callApi<ItemsResult> {
+					apiClient.GetRecommendedLiveTvProgramsAsync(
+						RecommendedProgramQuery().apply {
+							userId = TvApp.getApplication().currentUser!!.id
+							enableTotalRecordCount = false
+							fields = arrayOf(
+								ItemFields.ChannelInfo,
+								ItemFields.PrimaryImageAspectRatio
+							)
+							imageTypeLimit = 1
+							isAiring = true
+							limit = 1
+						},
+						it
+					)
+				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
+			}
 
 			// Start out with default sections
 			val homesections = DEFAULT_SECTIONS.toMutableMap()
