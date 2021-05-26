@@ -10,7 +10,7 @@
     <color name="transparent">#00000000</color>
 
     <!-- Semi-Transparent Blacks -->
-    <color name="black_transparent_dark">#CC000000</color>
+    <color name="black_transparent_dark">#E6000000</color>
     <color name="black_opaque">#AA000000</color>
     <color name="black_transparent">#97000000</color>
     <color name="black_transparent_light">#74000000</color>
