@@ -32,17 +32,10 @@ import timber.log.Timber;
 public class StreamBuilder
 {
     private ILogger _logger;
-    private ITranscoderSupport _transcoderSupport;
-
-    public StreamBuilder(ITranscoderSupport transcoderSupport, ILogger logger)
-    {
-        _transcoderSupport = transcoderSupport;
-        _logger = logger;
-    }
 
     public StreamBuilder(ILogger logger)
     {
-        this(new FullTranscoderSupport(), logger);
+        _logger = logger;
     }
 
     public final StreamInfo BuildAudioItem(AudioOptions options)
@@ -218,12 +211,8 @@ public class StreamBuilder
         {
             if (i.getType() == playlistItem.getMediaType() && i.getContext() == options.getContext())
             {
-                String tempVar2 = i.getAudioCodec();
-                if (_transcoderSupport.CanEncodeToAudioCodec((tempVar2 != null) ? tempVar2 : i.getContainer()))
-                {
-                    transcodingProfile = i;
-                    break;
-                }
+                transcodingProfile = i;
+                break;
             }
         }
 
