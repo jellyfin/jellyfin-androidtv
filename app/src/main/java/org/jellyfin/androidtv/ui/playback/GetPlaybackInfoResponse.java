@@ -4,7 +4,6 @@ import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
-
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.QueryStringDictionary;
 import org.jellyfin.apiclient.interaction.Response;
@@ -101,10 +100,41 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         streamInfo.setAllMediaSources(playbackInfo.getMediaSources());
         streamInfo.setStartPositionTicks(startPositionTicks);
 
-        if (options.getEnableDirectPlay() && mediaSourceInfo.getSupportsDirectPlay() && canDirectPlay(mediaSourceInfo)){
-            streamInfo.setPlayMethod(PlayMethod.DirectPlay);
-            streamInfo.setContainer(mediaSourceInfo.getContainer());
-            streamInfo.setMediaUrl(mediaSourceInfo.getPath());
+        if (options.getEnableDirectPlay() && mediaSourceInfo.getSupportsDirectPlay()){
+            if (canDirectPlay(mediaSourceInfo)) {
+                streamInfo.setPlayMethod(PlayMethod.DirectPlay);
+                streamInfo.setContainer(mediaSourceInfo.getContainer());
+                streamInfo.setMediaUrl(mediaSourceInfo.getPath());
+            } else {
+                String outputContainer = mediaSourceInfo.getContainer();
+                if (outputContainer == null){
+                    outputContainer = "";
+                }
+                outputContainer = outputContainer.toLowerCase();
+
+                streamInfo.setPlayMethod(PlayMethod.DirectPlay);
+                streamInfo.setContainer(mediaSourceInfo.getContainer());
+
+                QueryStringDictionary dict = new QueryStringDictionary();
+                dict.put("Static", "true");
+                dict.put("MediaSourceId", mediaSourceInfo.getId());
+                dict.put("DeviceId", apiClient.getDeviceId());
+                dict.put("api_key", apiClient.getAccessToken());
+
+                if (mediaSourceInfo.getETag() != null && mediaSourceInfo.getETag().length() > 0){
+                    dict.put("Tag", mediaSourceInfo.getETag());
+                }
+
+                if (mediaSourceInfo.getLiveStreamId() != null && mediaSourceInfo.getLiveStreamId().length() > 0){
+                    dict.put("LiveStreamId", mediaSourceInfo.getLiveStreamId());
+                }
+
+                String handler = isVideo ? "Videos" : "Audio";
+                String mediaUrl = apiClient.GetApiUrl(handler + "/"+options.getItemId()+"/stream." + outputContainer, dict);
+                //mediaUrl += seekParam;
+
+                streamInfo.setMediaUrl(mediaUrl);
+            }
         } else if (options.getEnableDirectStream() && mediaSourceInfo.getSupportsDirectStream()){
             String outputContainer = mediaSourceInfo.getContainer();
             if (outputContainer == null){
