@@ -987,7 +987,9 @@ public class PlaybackController {
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
-
+                    if (hasNextItem() && currentTime >= mVideoManager.getDuration() - 90*1000) {
+                        mFragment.showNextUp(getNextItem().getId());
+                    }
                     ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {

@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -38,6 +39,8 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 
 import com.bumptech.glide.Glide;
 
@@ -60,6 +63,9 @@ import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment;
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpState;
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
@@ -83,6 +89,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.koin.androidx.viewmodel.compat.SharedViewModelCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +99,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
+import static org.koin.androidx.viewmodel.compat.ViewModelCompat.viewModel;
 import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -127,6 +135,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private BaseItemDto mSelectedProgram;
     private RelativeLayout mSelectedProgramView;
     private boolean mGuideVisible = false;
+    private boolean mNextUpVisible = false;
     private Calendar mCurrentGuideStart;
     private Calendar mCurrentGuideEnd;
     private long mCurrentLocalGuideStart;
@@ -168,8 +177,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private int currentSubtitleIndex = 0;
     private long lastSubtitlePositionMs = 0;
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
-    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private final Lazy<NextUpViewModel> nextUpViewModel = SharedViewModelCompat.sharedViewModel(this, NextUpViewModel.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -209,8 +219,33 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 leanbackOverlayFragment.hideOverlay();
             }
         };
+
+        nextUpViewModel.getValue().getState().observe(this, nextUpState -> {
+            switch (nextUpState) {
+                case PLAY_NEXT:
+                {
+                    mPlaybackController.stop();
+                    mPlaybackController.mItems.remove(0);
+                    mPlaybackController.play(0);
+                    mNextUpVisible = false;
+                    getParentFragmentManager().popBackStack();
+                }
+                break;
+                case CLOSE:
+                {
+                    finish();
+                }
+                break;
+                default:
+                {
+                    Timber.d("Whoops");
+                }
+                break;
+            }
+        });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1398,15 +1433,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void showNextUp(String id) {
-        // Set to "modified" so the queue won't be cleared
-        mediaManager.getValue().setVideoQueueModified(true);
+        if (!mNextUpVisible) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .add(android.R.id.content, new NextUpFragment())
+                    .commit();
 
-        Intent intent = new Intent(getActivity(), NextUpActivity.class);
-        intent.putExtra(NextUpActivity.EXTRA_ID, id);
-        startActivity(intent);
-        mPlaybackController.clearFragment();
-        mPlaybackController.removePreviousQueueItems();
-        finish();
+            nextUpViewModel.getValue().setItemId(id);
+            mNextUpVisible = true;
+        }
     }
 
     public void addManualSubtitles(@Nullable SubtitleTrackInfo info) {
