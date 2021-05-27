@@ -68,17 +68,21 @@ class AuthenticationRepositoryImpl(
 	 *
 	 * @return Whether the user information can be retrieved.
 	 */
-	private suspend fun setActiveSession(user: User, server: Server) {
-		// Update last use in store
-		authenticationStore.getServer(server.id)?.let { storedServer ->
-			authenticationStore.putServer(server.id, storedServer.copy(lastUsed = Date().time))
+	private suspend fun setActiveSession(user: User, server: Server): Boolean {
+		val authenticated = sessionRepository.switchCurrentSession(user.id)
+
+		if (authenticated) {
+			// Update last use in store
+			authenticationStore.getServer(server.id)?.let { storedServer ->
+				authenticationStore.putServer(server.id, storedServer.copy(lastUsed = Date().time))
+			}
+
+			authenticationStore.getUser(server.id, user.id)?.let { storedUser ->
+				authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
+			}
 		}
 
-		authenticationStore.getUser(server.id, user.id)?.let { storedUser ->
-			authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
-		}
-
-		sessionRepository.switchCurrentSession(user.id)
+		return authenticated
 	}
 
 	@OptIn(ExperimentalCoroutinesApi::class)
@@ -102,9 +106,16 @@ class AuthenticationRepositoryImpl(
 		val account = accountManagerHelper.getAccount(user.id)
 		when {
 			// Access token found, proceed with sign in
-			account?.accessToken != null -> {
-				setActiveSession(user, server)
-				emit(AuthenticatedState)
+			account?.accessToken != null -> when {
+				// Update session
+				setActiveSession(user, server) -> emit(AuthenticatedState)
+				// Login failed
+				else -> when {
+					// No password required - try login
+					!user.requirePassword -> emitAll(login(server, user.name))
+					// Require new sign in
+					else -> emit(RequireSignInState)
+				}
 			}
 			// User is known to not require a password, try a sign in
 			!user.requirePassword -> emitAll(login(server, user.name))
