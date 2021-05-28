@@ -22,6 +22,8 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
+import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
+import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
@@ -36,6 +38,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	// Data
 	private val rows = mutableListOf<HomeFragmentRow>()
 	private var views: ItemsResult? = null
+	private var includeLiveTvRows: Boolean = false
 
 	// Special rows
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
@@ -93,7 +96,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 			HomeSectionType.RESUME_AUDIO -> rows.add(helper.loadResumeAudio())
 			HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
 			HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-			HomeSectionType.LIVE_TV -> if (TvApp.getApplication().currentUser!!.policy.enableLiveTvAccess) {
+			HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
 				rows.add(liveTVRow)
 				rows.add(helper.loadOnNow())
 			}
@@ -103,8 +106,9 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 	override fun setupQueries(rowLoader: IRowLoader) {
 		lifecycleScope.launch(Dispatchers.IO) {
+			val currentUser = TvApp.getApplication().currentUser!!
 			// Update the views before creating rows
-			views = callApi<ItemsResult> { apiClient.GetUserViews(TvApp.getApplication().currentUser!!.id, it) }
+			views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
 
 			// Start out with default sections
 			val homesections = DEFAULT_SECTIONS.toMutableMap()
@@ -130,10 +134,28 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 				Timber.e(exception, "Unable to retrieve home sections")
 			}
 
+			// Check for live TV support
+			if (homesections.containsValue(HomeSectionType.LIVE_TV) && currentUser.policy.enableLiveTvAccess) {
+				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
+				// If we can retrieve one live TV recommendation, then we should display the rows
+				callApi<ItemsResult> {
+					apiClient.GetRecommendedLiveTvProgramsAsync(
+						RecommendedProgramQuery().apply {
+							userId = currentUser.id
+							enableTotalRecordCount = false
+							imageTypeLimit = 1
+							isAiring = true
+							limit = 1
+						},
+						it
+					)
+				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
+			}
+
 			// Make sure the rows are empty
 			rows.clear()
 
-			// Check for couroutine cancellation
+			// Check for coroutine cancellation
 			if (!isActive) return@launch
 
 			// Actually add the sections
