@@ -106,22 +106,19 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 	override fun setupQueries(rowLoader: IRowLoader) {
 		lifecycleScope.launch(Dispatchers.IO) {
+			val currentUser = TvApp.getApplication().currentUser!!
 			// Update the views before creating rows
-			views = callApi<ItemsResult> { apiClient.GetUserViews(TvApp.getApplication().currentUser!!.id, it) }
+			views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
 
 			// Check for live TV support
-			if (TvApp.getApplication().currentUser!!.policy.enableLiveTvAccess) {
+			if (currentUser.policy.enableLiveTvAccess) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				callApi<ItemsResult> {
 					apiClient.GetRecommendedLiveTvProgramsAsync(
 						RecommendedProgramQuery().apply {
-							userId = TvApp.getApplication().currentUser!!.id
+							userId = currentUser.id
 							enableTotalRecordCount = false
-							fields = arrayOf(
-								ItemFields.ChannelInfo,
-								ItemFields.PrimaryImageAspectRatio
-							)
 							imageTypeLimit = 1
 							isAiring = true
 							limit = 1
