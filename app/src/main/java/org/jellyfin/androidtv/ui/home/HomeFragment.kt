@@ -110,24 +110,6 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 			// Update the views before creating rows
 			views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
 
-			// Check for live TV support
-			if (currentUser.policy.enableLiveTvAccess) {
-				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
-				// If we can retrieve one live TV recommendation, then we should display the rows
-				callApi<ItemsResult> {
-					apiClient.GetRecommendedLiveTvProgramsAsync(
-						RecommendedProgramQuery().apply {
-							userId = currentUser.id
-							enableTotalRecordCount = false
-							imageTypeLimit = 1
-							isAiring = true
-							limit = 1
-						},
-						it
-					)
-				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
-			}
-
 			// Start out with default sections
 			val homesections = DEFAULT_SECTIONS.toMutableMap()
 
@@ -150,6 +132,24 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 				}
 			} catch (exception: Exception) {
 				Timber.e(exception, "Unable to retrieve home sections")
+			}
+
+			// Check for live TV support
+			if (homesections.containsValue(HomeSectionType.LIVE_TV) && currentUser.policy.enableLiveTvAccess) {
+				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
+				// If we can retrieve one live TV recommendation, then we should display the rows
+				callApi<ItemsResult> {
+					apiClient.GetRecommendedLiveTvProgramsAsync(
+						RecommendedProgramQuery().apply {
+							userId = currentUser.id
+							enableTotalRecordCount = false
+							imageTypeLimit = 1
+							isAiring = true
+							limit = 1
+						},
+						it
+					)
+				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
 			}
 
 			// Make sure the rows are empty
