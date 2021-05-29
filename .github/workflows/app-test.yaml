@@ -16,7 +16,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: adopt
           java-version: 11
       - name: Setup Gradle cache
         uses: actions/cache@v2.1.5

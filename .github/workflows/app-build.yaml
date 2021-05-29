@@ -1,14 +1,13 @@
-name: App Lint
+name: App Build
 
 on:
   push:
     branches:
       - master
-      - release-*
   pull_request:
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
@@ -27,10 +26,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Run detekt and lint task
-        run: ./gradlew --build-cache --no-daemon --info detekt lint
-      - name: Upload SARIF files
-        uses: github/codeql-action/upload-sarif@v1
-        if: ${{ always() }}
+      - name: Assemble debug APKs
+        run: ./gradlew --build-cache --no-daemon --info assembleDebug
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
         with:
-          sarif_file: .
+          name: build-artifacts
+          retention-days: 14
+          if-no-files-found: error
+          path: app/build/outputs/apk/debug/*.apk
