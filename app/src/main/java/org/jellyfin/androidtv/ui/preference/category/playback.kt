@@ -47,7 +47,8 @@ fun OptionsScreen.playbackCategory(
 		setTitle(R.string.pref_next_up_enabled_title)
 		setContent(R.string.pref_next_up_enabled_summary)
 		bind(userPreferences, UserPreferences.nextUpEnabled)
-		depends { userPreferences[UserPreferences.mediaQueuingEnabled] }
+		depends { userPreferences[UserPreferences.mediaQueuingEnabled]
+			&& userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 	}
 
 	seekbar {
@@ -60,7 +61,8 @@ fun OptionsScreen.playbackCategory(
 			override fun display(value: Int) = "${value / 1000}s"
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
-		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
+		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && (userPreferences[UserPreferences.nextUpEnabled]
+			|| userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL) }
 	}
 
 	list {
