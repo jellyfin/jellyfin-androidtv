@@ -24,15 +24,16 @@ class NextUpActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 		val preferredVideoPlayer = userPreferences[UserPreferences.videoPlayer]
 		val chosenVideoPlayer = systemPreferences[SystemPreferences.chosenPlayer]
+		val usingExternalPlayer = preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
+			|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
+			&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL)
 
 		// Observe state
 		viewModel.state.observe(this) { state ->
 			when (state) {
 				// Open next item
 				NextUpState.PLAY_NEXT -> {
-					when (preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
-						|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
-						&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL)) {
+					when (usingExternalPlayer) {
 						true -> startActivity(Intent(this, ExternalPlayerActivity::class.java))
 						false -> startActivity(Intent(this, PlaybackOverlayActivity::class.java))
 					}
@@ -40,12 +41,8 @@ class NextUpActivity : FragmentActivity() {
 				}
 				// Close activity
 				NextUpState.CLOSE -> {
-					if ((preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
-							|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
-							&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL))
-						&& !mediaManager.isVideoQueueModified) {
-							mediaManager.clearVideoQueue()
-					}
+					if (usingExternalPlayer && !mediaManager.isVideoQueueModified)
+						mediaManager.clearVideoQueue()
 					finish()
 				}
 				// Unknown state
