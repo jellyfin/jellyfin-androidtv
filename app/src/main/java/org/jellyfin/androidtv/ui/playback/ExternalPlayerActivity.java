@@ -115,7 +115,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                playNext();
+                                mItemsToPlay.remove(0);
+                                finish();
                             }
                         })
                         .show();
@@ -190,11 +191,15 @@ public class ExternalPlayerActivity extends FragmentActivity {
             // Set to "modified" so the queue won't be cleared
             mediaManager.getValue().setVideoQueueModified(true);
 
-            Intent intent = new Intent(this, NextUpActivity.class);
-            intent.putExtra("id", mItemsToPlay.get(mCurrentNdx).getId());
-            startActivity(intent);
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled())) {
+                Intent intent = new Intent(this, NextUpActivity.class);
+                intent.putExtra("id", mItemsToPlay.get(mCurrentNdx).getId());
+                startActivity(intent);
+                finish();
+            } else {
+                launchExternalPlayer(0);
+            }
         }
-        finish();
     }
 
     protected void launchExternalPlayer(int ndx) {

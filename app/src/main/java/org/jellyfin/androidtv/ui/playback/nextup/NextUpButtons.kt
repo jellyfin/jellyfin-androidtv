@@ -9,9 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatButton
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -40,16 +38,7 @@ class NextUpButtons(
 	}
 
 	fun startTimer() {
-		// Duration must be positive if using an external player to ensure there is time to cancel playback
-		val preferredVideoPlayer = get<UserPreferences>()[UserPreferences.videoPlayer]
-		val chosenVideoPlayer = get<SystemPreferences>()[SystemPreferences.chosenPlayer]
-		val userDuration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
-		val duration = when (preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
-			|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
-			&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL)) {
-			true -> maxOf(userDuration, 1000 * 1)
-			false -> userDuration
-		}
+		val duration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
 
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()
