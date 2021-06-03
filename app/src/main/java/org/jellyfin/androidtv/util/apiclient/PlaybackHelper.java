@@ -34,6 +34,8 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackHelper {
+    private static final int limit = 150; // guard against too many items - account for episodes shorter than 5 min
+
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
@@ -66,7 +68,6 @@ public class PlaybackHelper {
                                     // TODO: Finding the main item should be possible in the query using StartItemId, but it is not currently supported.
                                     // With StartItemId added, the limit could also be included in the query.
                                     boolean foundMainItem = false;
-                                    final int limit = 150; // guard against too many items - account for episodes shorter than 5 min
                                     int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
                                         if (foundMainItem) {
@@ -107,7 +108,7 @@ public class PlaybackHelper {
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(50); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
@@ -134,7 +135,7 @@ public class PlaybackHelper {
                 query.setMediaTypes(new String[]{"Audio"});
                 query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(150); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Genres,
@@ -159,7 +160,7 @@ public class PlaybackHelper {
                 query.setIsVirtualUnaired(false);
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
                 query.setRecursive(true);
-                query.setLimit(150); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
