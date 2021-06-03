@@ -62,7 +62,8 @@ fun OptionsScreen.playbackCategory(
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && (userPreferences[UserPreferences.nextUpEnabled]
-			|| userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL) }
+			|| userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL
+			|| userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.CHOOSE) }
 	}
 
 	list {

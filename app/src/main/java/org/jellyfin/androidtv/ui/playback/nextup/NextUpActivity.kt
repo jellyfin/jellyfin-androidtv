@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
@@ -16,17 +17,22 @@ class NextUpActivity : FragmentActivity() {
 	private val viewModel: NextUpViewModel by viewModel()
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
+	private val systemPreferences: SystemPreferences by inject()
 	private val mediaManager: MediaManager by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		val preferredVideoPlayer = userPreferences[UserPreferences.videoPlayer]
+		val chosenVideoPlayer = systemPreferences[SystemPreferences.chosenPlayer]
 
 		// Observe state
 		viewModel.state.observe(this) { state ->
 			when (state) {
 				// Open next item
 				NextUpState.PLAY_NEXT -> {
-					when (userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL) {
+					when (preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
+						|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
+						&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL)) {
 						true -> startActivity(Intent(this, ExternalPlayerActivity::class.java))
 						false -> startActivity(Intent(this, PlaybackOverlayActivity::class.java))
 					}
@@ -34,7 +40,9 @@ class NextUpActivity : FragmentActivity() {
 				}
 				// Close activity
 				NextUpState.CLOSE -> {
-					if (userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL
+					if ((preferredVideoPlayer == PreferredVideoPlayer.EXTERNAL
+							|| (preferredVideoPlayer == PreferredVideoPlayer.CHOOSE
+							&& chosenVideoPlayer == PreferredVideoPlayer.EXTERNAL))
 						&& !mediaManager.isVideoQueueModified) {
 							mediaManager.clearVideoQueue()
 					}
