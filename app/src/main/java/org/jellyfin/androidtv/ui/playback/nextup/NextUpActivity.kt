@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
-import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +17,6 @@ class NextUpActivity : FragmentActivity() {
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
 	private val systemPreferences: SystemPreferences by inject()
-	private val mediaManager: MediaManager by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -40,11 +38,7 @@ class NextUpActivity : FragmentActivity() {
 					finish()
 				}
 				// Close activity
-				NextUpState.CLOSE -> {
-					if (usingExternalPlayer && !mediaManager.isVideoQueueModified)
-						mediaManager.clearVideoQueue()
-					finish()
-				}
+				NextUpState.CLOSE -> finish()
 				// Unknown state
 				else -> Unit
 			}
