@@ -198,8 +198,9 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
                 Intent intent = new Intent(this, NextUpActivity.class);
                 intent.putExtra("id", mItemsToPlay.get(mCurrentNdx).getId());
+                intent.putExtra("usingExternalPlayer", true);
                 startActivity(intent);
-                finish();
+                finishAfterTransition();
             } else {
                 launchExternalPlayer(0);
             }
