@@ -83,6 +83,7 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
@@ -597,6 +598,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 personMovies.setPersonIds(new String[] {mBaseItem.getId()});
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
+                personMovies.setSortBy(new String[] {ItemSortBy.SortName});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, TvApp.getApplication().getString(R.string.lbl_movies));
 
@@ -609,9 +611,24 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
-                personSeries.setIncludeItemTypes(new String[] {"Series", "Episode"});
+                personSeries.setIncludeItemTypes(new String[] {"Series"});
+                personSeries.setSortBy(new String[] {ItemSortBy.SortName});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, TvApp.getApplication().getString(R.string.lbl_tv_series));
+
+                ItemQuery personEpisodes = new ItemQuery();
+                personEpisodes.setFields(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.DisplayPreferencesId,
+                        ItemFields.ChildCount
+                });
+                personEpisodes.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
+                personEpisodes.setRecursive(true);
+                personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
+                personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
+                ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(personEpisodes, 100, false, new CardPresenter(), adapter);
+                addItemRow(adapter, personEpisodesAdapter, 2, TvApp.getApplication().getString(R.string.lbl_episodes));
 
                 break;
             case MusicArtist:
