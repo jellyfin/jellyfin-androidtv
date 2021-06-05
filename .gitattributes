@@ -3,5 +3,4 @@
 *.java text eol=lf
 *.xml text eol=lf
 
-CONTRIBUTORS.md merge=union
 app/src/main/res/values*/strings.xml merge=union
