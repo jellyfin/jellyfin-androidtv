@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class NextUpViewModel(
 	private val context: Context,
@@ -26,7 +26,7 @@ class NextUpViewModel(
 	val item: LiveData<NextUpItemData?> = _item
 	private val _state = MutableLiveData(NextUpState.INITIALIZED)
 	val state: LiveData<NextUpState> = _state
-	private val userPreferences by KoinJavaComponent.inject(UserPreferences::class.java)
+	private val userPreferences by inject(UserPreferences::class.java)
 
 	fun setItemId(id: String?) = viewModelScope.launch {
 		if (id == null) {
@@ -62,23 +62,23 @@ class NextUpViewModel(
 		val thumbnail = if (nextUpThumbnailEnabled) apiClient.GetImageUrl(item, ImageOptions()) else null
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
-		val title = when {
-			(item.parentIndexNumber != null && item.parentIndexNumber != 0 && item.indexNumber != null && item.indexNumberEnd != null && item.name != null) ->
-				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)}:${context.getString(R.string.lbl_episode_number, item.indexNumber)}-${item.indexNumberEnd} - ${item.name}"
-			(item.parentIndexNumber != null && item.parentIndexNumber != 0 && item.indexNumber != null && item.name != null) ->
-				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)}:${context.getString(R.string.lbl_episode_number, item.indexNumber)} - ${item.name}"
-			(item.parentIndexNumber != null && item.parentIndexNumber == 0 && item.name != null) ->
-				"${context.getString(R.string.lbl_special)} - ${item.name}"
-			(item.parentIndexNumber != null && item.name != null) ->
-				"${context.getString(R.string.lbl_season_number, item.parentIndexNumber)} - ${item.name}"
-			(item.indexNumber != null && item.indexNumberEnd != null && item.name != null) ->
-				"${context.getString(R.string.lbl_episode_number, item.indexNumber)}-${item.indexNumberEnd} - ${item.name}"
-			(item.indexNumber != null && item.name != null) ->
-				"${context.getString(R.string.lbl_episode_number, item.indexNumber)} - ${item.name}"
-			(item.name != null) ->
-				item.name
-			else -> ""
+		val seasonNumber = when (item.parentIndexNumber != null && item.parentIndexNumber != 0) {
+			true -> context.getString(R.string.lbl_season_number, item.parentIndexNumber)
+			false -> null
 		}
+		val episodeNumber = when {
+			(item.parentIndexNumber == 0) ->
+				context.getString(R.string.lbl_special)
+			(item.indexNumber != null && item.indexNumberEnd != null) ->
+				"${context.getString(R.string.lbl_episode_number, item.indexNumber)}–${item.indexNumberEnd}"
+			(item.indexNumber != null) ->
+				context.getString(R.string.lbl_episode_number, item.indexNumber)
+			else -> null
+		}
+		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
+		val title = listOfNotNull(seasonEpisodeNumbers, item.name)
+			.filterNot{ it.isEmpty() }
+			.joinToString(" — ")
 
 		NextUpItemData(
 			item,
