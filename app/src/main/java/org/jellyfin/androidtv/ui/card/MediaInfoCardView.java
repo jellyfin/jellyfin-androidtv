@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.presentation;
+package org.jellyfin.androidtv.ui.card;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -15,17 +15,17 @@ import org.jellyfin.apiclient.model.entities.MediaStreamType;
 
 import java.text.NumberFormat;
 
-public class MyInfoCardView extends FrameLayout {
+public class MediaInfoCardView extends FrameLayout {
     private LinearLayout mInfoLayout;
     private TextView mTitle;
     private Context mContext;
 
-    public MyInfoCardView(Context context) {
+    public MediaInfoCardView(Context context) {
         super(context);
         mContext = context;
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.media_info_card, this);
+        View v = inflater.inflate(R.layout.view_card_media_info, this);
         mInfoLayout = (LinearLayout) v.findViewById(R.id.infoLayout1);
         mTitle = (TextView) v.findViewById(R.id.infoCardTitle);
 

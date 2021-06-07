@@ -1,4 +1,6 @@
-package org.jellyfin.androidtv.ui.presentation;
+package org.jellyfin.androidtv.ui.card;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,19 +17,17 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
-import static org.koin.java.KoinJavaComponent.get;
-
-public class MyChannelCardView extends FrameLayout {
+public class ChannelCardView extends FrameLayout {
     private TextView mChannelName;
     private TextView mProgramName;
     private TextView mTimeSlot;
     private ProgressBar mProgress;
 
-    public MyChannelCardView(Context context) {
+    public ChannelCardView(Context context) {
         super(context);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.quick_channel_card, this);
+        View v = inflater.inflate(R.layout.view_card_channel, this);
         mChannelName = (TextView) v.findViewById(R.id.name);
         mProgramName = (TextView) v.findViewById(R.id.program);
         mTimeSlot = (TextView) v.findViewById(R.id.time);

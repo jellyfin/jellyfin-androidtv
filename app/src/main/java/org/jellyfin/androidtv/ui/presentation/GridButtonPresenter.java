@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.GridButton;
+import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
 
 public class GridButtonPresenter extends Presenter {
 
@@ -34,11 +35,11 @@ public class GridButtonPresenter extends Presenter {
 
     class ViewHolder extends Presenter.ViewHolder {
         private GridButton gridButton;
-        private final MyImageCardView cardView;
+        private final LegacyImageCardView cardView;
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (MyImageCardView) view;
+            cardView = (LegacyImageCardView) view;
         }
 
         public void setItem(GridButton m, int width, int height) {
@@ -66,7 +67,7 @@ public class GridButtonPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
+        LegacyImageCardView cardView = new LegacyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
 

@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
+import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.BlurHashUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -77,14 +78,14 @@ public class CardPresenter extends Presenter {
         private int cardHeight = 280;
 
         private BaseRowItem mItem;
-        private MyImageCardView mCardView;
+        private LegacyImageCardView mCardView;
         private Drawable mDefaultCardImage;
         private final LifecycleOwner lifecycleOwner;
 
         public ViewHolder(View view, LifecycleOwner lifecycleOwner) {
             super(view);
 
-            mCardView = (MyImageCardView) view;
+            mCardView = (LegacyImageCardView) view;
             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
             this.lifecycleOwner = lifecycleOwner;
         }
@@ -388,7 +389,7 @@ public class CardPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
+        LegacyImageCardView cardView = new LegacyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
 
