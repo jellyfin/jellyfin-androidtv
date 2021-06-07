@@ -27,7 +27,7 @@ import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.presentation.IPositionablePresenter;
+import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -451,7 +451,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void setPosition(int pos) {
-        ((IPositionablePresenter) (getParent().getPresenter(this))).setPosition(pos);
+        Presenter presenter = getParent().getPresenter(this);
+        if (presenter instanceof PositionableListRowPresenter) {
+            ((PositionableListRowPresenter) presenter).setPosition(pos);
+        }
     }
 
     public @Nullable String getStartLetter() {
