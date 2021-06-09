@@ -2,20 +2,19 @@ package org.jellyfin.androidtv.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
 import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 data class Session(
 	val userId: UUID,
 	val serverId: UUID,
-	val accessToken: String
+	val accessToken: String,
 )
 
 interface SessionRepository {
@@ -25,7 +24,7 @@ interface SessionRepository {
 	fun restoreDefaultSession()
 	fun restoreDefaultSystemSession()
 
-	fun switchCurrentSession(userId: UUID)
+	suspend fun switchCurrentSession(userId: UUID): Boolean
 	fun destroyCurrentSession()
 }
 
@@ -50,9 +49,9 @@ class SessionRepositoryImpl(
 		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
 
 		when (behavior) {
-			DISABLED -> setCurrentSessionSync(null, false)
-			LAST_USER -> setCurrentSessionSync(createLastUserSession(), false)
-			SPECIFIC_USER -> setCurrentSessionSync(createUserSession(userId), false)
+			DISABLED -> setCurrentSession(null, false)
+			LAST_USER -> setCurrentSession(createLastUserSession(), false)
+			SPECIFIC_USER -> setCurrentSession(createUserSession(userId), false)
 		}
 	}
 
@@ -69,16 +68,20 @@ class SessionRepositoryImpl(
 		}
 	}
 
-	override fun switchCurrentSession(userId: UUID) {
+	override suspend fun switchCurrentSession(userId: UUID): Boolean {
 		Timber.d("Switching current session to user ${userId}")
 
 		val session = createUserSession(userId)
 		if (session == null) {
 			Timber.d("Could not switch to non-existing session for user ${userId}")
-			return
+			return false
 		}
 
-		setCurrentSession(session, true)
+		return suspendCoroutine<Boolean> { continuation ->
+			setCurrentSession(session, true) { success ->
+				continuation.resume(success)
+			}
+		}
 	}
 
 	override fun destroyCurrentSession() {
@@ -87,13 +90,7 @@ class SessionRepositoryImpl(
 		setCurrentSession(null, false)
 	}
 
-	private fun setCurrentSessionSync(session: Session?, includeSystemUser: Boolean) = runBlocking {
-		withContext(Dispatchers.IO) {
-			setCurrentSession(session, includeSystemUser)
-		}
-	}
-
-	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean) {
+	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
 		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
 		val systemUserBehavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
@@ -110,6 +107,8 @@ class SessionRepositoryImpl(
 				userApiClient.applySession(null)
 				_currentSession.postValue(null)
 			}
+
+			callback?.invoke(success)
 		}
 	}
 
