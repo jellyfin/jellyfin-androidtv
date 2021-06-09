@@ -16,6 +16,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
@@ -33,6 +34,8 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackHelper {
+    private static final int limit = 150; // guard against too many items - account for episodes shorter than 5 min
+
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
@@ -43,13 +46,13 @@ public class PlaybackHelper {
                 if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
-                    if (mainItem.getSeasonId() != null && mainItem.getIndexNumber() != null) {
-                        query.setParentId(mainItem.getSeasonId());
-                        query.setIsVirtualUnaired(false);
-                        query.setMinIndexNumber(mainItem.getIndexNumber() + 1);
-                        query.setSortBy(new String[] {ItemSortBy.SortName});
-                        query.setIncludeItemTypes(new String[]{"Episode"});
-                        query.setFields(new ItemFields[] {
+                    if (mainItem.getSeriesId() != null && mainItem.getId() != null && TvApp.getApplication().getCurrentUser() != null) {
+                        EpisodeQuery episodeQuery = new EpisodeQuery();
+                        episodeQuery.setSeriesId(mainItem.getSeriesId());
+                        episodeQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        episodeQuery.setIsVirtualUnaired(false);
+                        episodeQuery.setIsMissing(false);
+                        episodeQuery.setFields(new ItemFields[] {
                                 ItemFields.MediaSources,
                                 ItemFields.MediaStreams,
                                 ItemFields.Path,
@@ -58,19 +61,25 @@ public class PlaybackHelper {
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ChildCount
                         });
-                        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                        get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                        get(ApiClient.class).GetEpisodesAsync(episodeQuery, new Response<ItemsResult>() {
                             @Override
                             public void onResponse(ItemsResult response) {
                                 if (response.getTotalRecordCount() > 0) {
+                                    // TODO: Finding the main item should be possible in the query using StartItemId, but it is not currently supported.
+                                    // With StartItemId added, the limit could also be included in the query.
+                                    boolean foundMainItem = false;
+                                    int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
-                                        if (item.getIndexNumber() > mainItem.getIndexNumber()) {
-                                            if (!LocationType.Virtual.equals(item.getLocationType())) {
+                                        if (foundMainItem) {
+                                            if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < limit) {
                                                 items.add(item);
+                                                numAdded++;
                                             } else {
-                                                //stop adding when we hit a missing one
+                                                //stop adding when we hit a missing one or we have reached the limit
                                                 break;
                                             }
+                                        } else if (item.getId() != null && item.getId().equals(mainItem.getId())) {
+                                            foundMainItem = true;
                                         }
                                     }
                                 }
@@ -78,7 +87,10 @@ public class PlaybackHelper {
                             }
                         });
                     } else {
-                        Timber.i("Unable to add subsequent episodes due to lack of season or episode data.");
+                        if (TvApp.getApplication().getCurrentUser() == null)
+                            Timber.i("Unable to add subsequent episodes due to lack of current user.");
+                        else
+                            Timber.i("Unable to add subsequent episodes due to lack of series or episode data.");
                         outerResponse.onResponse(items);
                     }
                 } else {
@@ -96,7 +108,7 @@ public class PlaybackHelper {
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(50); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
@@ -123,7 +135,7 @@ public class PlaybackHelper {
                 query.setMediaTypes(new String[]{"Audio"});
                 query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(150); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Genres,
@@ -148,7 +160,7 @@ public class PlaybackHelper {
                 query.setIsVirtualUnaired(false);
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
                 query.setRecursive(true);
-                query.setLimit(150); // guard against too many items
+                query.setLimit(limit); // guard against too many items
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
