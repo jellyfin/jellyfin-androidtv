@@ -41,6 +41,7 @@ public class PlaybackHelper {
         final UserDto currentUser = TvApp.getApplication().getCurrentUser();
         if (currentUser == null) {
             Timber.e("Unable to get items to play; current user is null");
+            outerResponse.onError(new Exception("Current user is null"));
             return;
         }
 
