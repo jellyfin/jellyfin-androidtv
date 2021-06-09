@@ -1,14 +1,13 @@
-name: App Test
+name: App Build
 
 on:
   push:
     branches:
       - master
-      - release-*
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
@@ -19,7 +18,7 @@ jobs:
           distribution: adopt
           java-version: 11
       - name: Setup Gradle cache
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.5
         with:
           path: |
             ~/.gradle/caches
@@ -27,5 +26,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Run test task
-        run: ./gradlew --build-cache --no-daemon --info test
+      - name: Assemble debug APKs
+        run: ./gradlew --build-cache --no-daemon --info assembleDebug
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          retention-days: 14
+          if-no-files-found: error
+          path: app/build/outputs/apk/debug/*.apk

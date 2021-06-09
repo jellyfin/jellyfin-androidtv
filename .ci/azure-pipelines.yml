@@ -11,11 +11,6 @@ trigger:
     include:
     - '*'
 
-pr:
-  branches:
-    include:
-    - '*'
-
 jobs:
 - job: Build
   displayName: 'Build'
@@ -27,16 +22,6 @@ jobs:
   - script: 'echo "##vso[task.setvariable variable=JELLYFIN_VERSION]$(git describe --tags)"'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
     displayName: 'Set Version Variable'
-
-  - task: Gradle@2
-    displayName: 'Build Debug'
-    inputs:
-      gradleWrapperFile: 'gradlew'
-      tasks: 'assembleDebug'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      sonarQubeRunAnalysis: false
 
   - task: Gradle@2
     displayName: 'Build Release'
