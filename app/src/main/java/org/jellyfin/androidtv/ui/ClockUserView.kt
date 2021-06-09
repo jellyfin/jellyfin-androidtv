@@ -20,7 +20,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 @KoinApiExtension
-class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), KoinComponent {
+class ClockUserView @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes), KoinComponent {
 	private val binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), this, true)
 
 	init {
@@ -36,13 +41,13 @@ class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
 		val currentUser = TvApp.getApplication().currentUser
 
 		if (currentUser != null && !isInEditMode) {
-			binding.userName.text = currentUser.name
-			binding.userName.isVisible = true
+			binding.username.text = currentUser.name
+			binding.username.isVisible = true
 
 			if (currentUser.primaryImageTag != null) {
 				Glide.with(context)
 					.load(ImageUtils.getPrimaryImageUrl(currentUser, get()))
-					.error(R.drawable.ic_user)
+					.placeholder(R.drawable.ic_user)
 					.centerInside()
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 					.into(binding.userImage)
@@ -51,7 +56,7 @@ class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
 			}
 			binding.userImage.isVisible = true
 		} else {
-			binding.userName.isVisible = false
+			binding.username.isVisible = false
 			binding.userImage.isVisible = false
 		}
 	}
