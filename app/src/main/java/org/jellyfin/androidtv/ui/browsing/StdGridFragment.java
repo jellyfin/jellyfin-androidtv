@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -60,9 +63,6 @@ import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class StdGridFragment extends GridFragment implements IGridLoader {
     protected String MainTitle;
@@ -486,7 +486,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             popupWindow = new PopupWindow(layout, WIDTH, HEIGHT, true);
             popupWindow.setOutsideTouchable(true);
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            popupWindow.setAnimationStyle(R.style.PopupSlideInTop);
+            popupWindow.setAnimationStyle(R.style.WindowAnimation_SlideTop);
 
             alphaPicker = new AlphaPicker(requireContext(), null);
             alphaPicker.setOnAlphaSelected(letter -> {

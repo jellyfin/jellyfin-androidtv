@@ -18,5 +18,8 @@
         <attr name="cardRounding" format="dimension" />
         <attr name="buttonRounding" format="dimension" />
         <attr name="accentShape" format="reference" />
+        <attr name="controlIconBackground" format="reference|color" />
+        <attr name="controlIconForegroundActive" format="reference|color" />
+        <attr name="controlIconForegroundInactive" format="reference|color" />
     </declare-styleable>
 </resources>

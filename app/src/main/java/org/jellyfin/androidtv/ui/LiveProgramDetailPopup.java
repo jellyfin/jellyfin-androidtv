@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,9 +40,6 @@ import java.util.Date;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
-
 public class LiveProgramDetailPopup {
     private final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
 
@@ -76,7 +76,7 @@ public class LiveProgramDetailPopup {
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-        mPopup.setAnimationStyle(R.style.PopupSlideInTop);
+        mPopup.setAnimationStyle(R.style.WindowAnimation_SlideTop);
         mDTitle = layout.findViewById(R.id.title);
         mDSummary = layout.findViewById(R.id.summary);
         mDRecordInfo = layout.findViewById(R.id.recordLine);

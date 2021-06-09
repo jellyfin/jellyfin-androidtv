@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.livetv;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,9 +68,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
@@ -486,7 +486,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
             mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mPopup.setAnimationStyle(R.style.WindowAnimation_SlideRight);
             mMovies = layout.findViewById(R.id.movies);
             mSeries = layout.findViewById(R.id.series);
             mNews = layout.findViewById(R.id.news);
@@ -572,7 +572,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
             mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mPopup.setAnimationStyle(R.style.WindowAnimation_SlideRight);
             mHd = layout.findViewById(R.id.hd);
             mRepeat = layout.findViewById(R.id.repeat);
             mLive = layout.findViewById(R.id.live);

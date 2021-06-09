@@ -1,35 +1,46 @@
 package org.jellyfin.androidtv.ui
 
 import android.content.Context
-import android.content.Intent
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.PopupWindow
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.ui.itemdetail.ExpandedTextActivity
-import org.jellyfin.androidtv.util.getActivity
+import org.jellyfin.androidtv.databinding.PopupExpandableTextViewBinding
 
 class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
+	private val popupContentBinding = PopupExpandableTextViewBinding.inflate(
+		LayoutInflater.from(context),
+		null,
+		false
+	)
+	private val popup = PopupWindow(
+		popupContentBinding.root,
+		ViewGroup.LayoutParams.MATCH_PARENT,
+		ViewGroup.LayoutParams.MATCH_PARENT,
+		true
+	).apply {
+		animationStyle = R.style.WindowAnimation_Fade
+	}
+
 	init {
 		background = ContextCompat.getDrawable(context, R.drawable.expanded_text)
-		transitionName = ExpandedTextActivity.TRANSITION_NAME
+
+		popupContentBinding.scrollContainer.setOnClickListener { popup.dismiss() }
 
 		setOnClickListener {
-			val activity = context.getActivity() ?: return@setOnClickListener
+			// Update text
+			popupContentBinding.content.text = this@ExpandableTextView.text
 
-			val intent = Intent(TvApp.getApplication(), ExpandedTextActivity::class.java).apply {
-				putExtra(ExpandedTextActivity.EXTRA_TEXT, text.toString())
-			}
+			// Show popup
+			popup.showAtLocation(rootView, Gravity.CENTER, 0, 0)
+			popup.setOutsideTouchable(true)
 
-			val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-				activity,
-				this,
-				ExpandedTextActivity.TRANSITION_NAME
-			)
-
-			activity.startActivity(intent, options.toBundle())
+			// Focus on scroll view
+			popupContentBinding.scrollContainer.requestFocus()
 		}
 	}
 

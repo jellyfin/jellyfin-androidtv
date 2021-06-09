@@ -165,10 +165,6 @@
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
 
         <activity
-            android:name=".ui.itemdetail.ExpandedTextActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
             android:name=".ui.playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />

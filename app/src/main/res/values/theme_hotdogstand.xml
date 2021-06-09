@@ -20,6 +20,11 @@
         <item name="progressSecondary">@color/theme_hotdog_yellow</item>
         <item name="toolbarBackground">@color/theme_hotdog_black</item>
 
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/theme_hotdog_yellow</item>
+        <item name="controlIconForegroundActive">@color/theme_hotdog_red</item>
+        <item name="controlIconForegroundInactive">@color/grey</item>
+
         <!-- Tile colors -->
         <item name="tile_settings_bg">@color/theme_hotdog_black</item>
         <item name="tile_edit_bg">@color/theme_hotdog_black</item>
