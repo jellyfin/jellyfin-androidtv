@@ -1,0 +1,63 @@
+package org.jellyfin.androidtv.ui
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.RelativeLayout
+import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.databinding.ClockUserBugBinding
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.jellyfin.androidtv.util.ImageUtils
+import org.jellyfin.androidtv.util.getActivity
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+
+@KoinApiExtension
+class ClockUserView @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes), KoinComponent {
+	private val binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), this, true)
+
+	init {
+		val showClock = get<UserPreferences>()[UserPreferences.clockBehavior]
+
+		binding.clock.isVisible = when (showClock) {
+			ClockBehavior.ALWAYS -> true
+			ClockBehavior.NEVER -> false
+			ClockBehavior.IN_VIDEO -> context.getActivity() is PlaybackOverlayActivity
+			ClockBehavior.IN_MENUS -> context.getActivity() !is PlaybackOverlayActivity
+		}
+
+		val currentUser = TvApp.getApplication().currentUser
+
+		if (currentUser != null && !isInEditMode) {
+			binding.username.text = currentUser.name
+			binding.username.isVisible = true
+
+			if (currentUser.primaryImageTag != null) {
+				Glide.with(context)
+					.load(ImageUtils.getPrimaryImageUrl(currentUser, get()))
+					.placeholder(R.drawable.ic_user)
+					.centerInside()
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.into(binding.userImage)
+			} else {
+				binding.userImage.setImageResource(R.drawable.ic_user)
+			}
+			binding.userImage.isVisible = true
+		} else {
+			binding.username.isVisible = false
+			binding.userImage.isVisible = false
+		}
+	}
+}
