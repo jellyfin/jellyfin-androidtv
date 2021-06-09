@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.presentation;
+package org.jellyfin.androidtv.ui.card;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,7 +13,7 @@ import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.databinding.ImageCardViewBinding;
+import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -22,13 +22,13 @@ import org.jellyfin.androidtv.util.Utils;
  * Modified ImageCard with no fade on the badge
  * A card view with an {@link ImageView} as its main region.
  */
-public class MyImageCardView extends BaseCardView {
-    private ImageCardViewBinding binding = ImageCardViewBinding.inflate(LayoutInflater.from(getContext()), this);
+public class LegacyImageCardView extends BaseCardView {
+    private ViewCardLegacyImageBinding binding = ViewCardLegacyImageBinding.inflate(LayoutInflater.from(getContext()), this);
     private ImageView mBanner;
     private int BANNER_SIZE = Utils.convertDpToPixel(getContext(), 50);
     private int noIconMargin = Utils.convertDpToPixel(getContext(), 5);
 
-    public MyImageCardView(Context context, boolean showInfo) {
+    public LegacyImageCardView(Context context, boolean showInfo) {
         super(context, null, R.attr.imageCardViewStyle);
 
         if (!showInfo) {

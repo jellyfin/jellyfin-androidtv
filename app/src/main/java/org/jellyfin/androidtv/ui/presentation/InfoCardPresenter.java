@@ -5,15 +5,16 @@ import android.view.ViewGroup;
 
 import androidx.leanback.widget.Presenter;
 
+import org.jellyfin.androidtv.ui.card.MediaInfoCardView;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
 public class InfoCardPresenter extends Presenter {
     class ViewHolder extends Presenter.ViewHolder {
-        private MyInfoCardView mInfoCardView;
+        private MediaInfoCardView mInfoCardView;
 
         public ViewHolder(View view) {
             super(view);
-            mInfoCardView = (MyInfoCardView) view;
+            mInfoCardView = (MediaInfoCardView) view;
 
         }
 
@@ -24,7 +25,7 @@ public class InfoCardPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        MyInfoCardView infoView = new MyInfoCardView(parent.getContext());
+        MediaInfoCardView infoView = new MediaInfoCardView(parent.getContext());
 
         infoView.setFocusable(true);
         infoView.setFocusableInTouchMode(true);
