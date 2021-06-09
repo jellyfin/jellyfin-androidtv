@@ -9,7 +9,7 @@
     <issue id="Registered" severity="warning" />
     <issue id="RequiredSize" severity="error" />
     <issue id="UnknownNullness" severity="informational" />
-    <issue id="UnusedIds" severity="warning" />
+    <issue id="UnusedIds" severity="ignore" />
     <issue id="KotlinPropertyAccess" severity="warning" />
     <issue id="LambdaLast" severity="warning" />
     <issue id="ExtraTranslation" severity="warning" />
