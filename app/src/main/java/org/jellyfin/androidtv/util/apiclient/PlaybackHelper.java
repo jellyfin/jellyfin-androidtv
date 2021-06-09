@@ -14,6 +14,7 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
@@ -34,9 +35,16 @@ import timber.log.Timber;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackHelper {
-    private static final int limit = 150; // guard against too many items - account for episodes shorter than 5 min
+    private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
 
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
+        final UserDto currentUser = TvApp.getApplication().getCurrentUser();
+        if (currentUser == null) {
+            Timber.e("Unable to get items to play; current user is null");
+            outerResponse.onError(new Exception("Current user is null"));
+            return;
+        }
+
         final List<BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
 
@@ -46,10 +54,10 @@ public class PlaybackHelper {
                 if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
-                    if (mainItem.getSeriesId() != null && mainItem.getId() != null && TvApp.getApplication().getCurrentUser() != null) {
+                    if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
                         episodeQuery.setSeriesId(mainItem.getSeriesId());
-                        episodeQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        episodeQuery.setUserId(currentUser.getId());
                         episodeQuery.setIsVirtualUnaired(false);
                         episodeQuery.setIsMissing(false);
                         episodeQuery.setFields(new ItemFields[] {
@@ -71,7 +79,7 @@ public class PlaybackHelper {
                                     int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
                                         if (foundMainItem) {
-                                            if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < limit) {
+                                            if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < ITEM_QUERY_LIMIT) {
                                                 items.add(item);
                                                 numAdded++;
                                             } else {
@@ -87,10 +95,7 @@ public class PlaybackHelper {
                             }
                         });
                     } else {
-                        if (TvApp.getApplication().getCurrentUser() == null)
-                            Timber.i("Unable to add subsequent episodes due to lack of current user.");
-                        else
-                            Timber.i("Unable to add subsequent episodes due to lack of series or episode data.");
+                        Timber.i("Unable to add subsequent episodes due to lack of series or episode data.");
                         outerResponse.onResponse(items);
                     }
                 } else {
@@ -108,7 +113,7 @@ public class PlaybackHelper {
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                 query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(limit); // guard against too many items
+                query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
@@ -118,7 +123,7 @@ public class PlaybackHelper {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setUserId(currentUser.getId());
                 get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
@@ -135,13 +140,13 @@ public class PlaybackHelper {
                 query.setMediaTypes(new String[]{"Audio"});
                 query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(limit); // guard against too many items
+                query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Genres,
                         ItemFields.ChildCount
                 });
-                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setUserId(currentUser.getId());
                 query.setArtistIds(new String[]{mainItem.getId()});
                 get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
@@ -160,7 +165,7 @@ public class PlaybackHelper {
                 query.setIsVirtualUnaired(false);
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
                 query.setRecursive(true);
-                query.setLimit(limit); // guard against too many items
+                query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
@@ -169,7 +174,7 @@ public class PlaybackHelper {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                query.setUserId(currentUser.getId());
                 get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
@@ -185,7 +190,7 @@ public class PlaybackHelper {
                 }
 
                 //We retrieve the channel the program is on (which should be the program's parent)
-                get(ApiClient.class).GetItemAsync(mainItem.getParentId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(mainItem.getParentId(), currentUser.getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         // fill in info about the specific program for display
@@ -206,7 +211,7 @@ public class PlaybackHelper {
 
             case TvChannel:
                 // Retrieve full channel info for display
-                get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+                get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), currentUser.getId(), new Response<ChannelInfoDto>() {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
@@ -225,7 +230,7 @@ public class PlaybackHelper {
             default:
                 if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
-                    get(ApiClient.class).GetIntrosAsync(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+                    get(ApiClient.class).GetIntrosAsync(mainItem.getId(), currentUser.getId(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
