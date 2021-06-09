@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserPreferences.Companion.clockBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.ImageUtils
@@ -21,42 +21,38 @@ import org.koin.core.component.get
 
 @KoinApiExtension
 class ClockUserView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), KoinComponent {
-	private var binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), null, false)
+	private val binding: ClockUserBugBinding = ClockUserBugBinding.inflate(LayoutInflater.from(context), this, true)
 
 	init {
-		this.addView(binding.root)
-		val showClock = get<UserPreferences>()[clockBehavior]
+		val showClock = get<UserPreferences>()[UserPreferences.clockBehavior]
 
-		binding.clock.visibility = when (showClock) {
-			ClockBehavior.ALWAYS -> VISIBLE
-			ClockBehavior.NEVER -> GONE
-			ClockBehavior.IN_VIDEO -> {
-				if (context.getActivity() !is PlaybackOverlayActivity) GONE else VISIBLE
-			}
-			ClockBehavior.IN_MENUS -> {
-				if (context.getActivity() is PlaybackOverlayActivity) GONE else VISIBLE
-			}
+		binding.clock.isVisible = when (showClock) {
+			ClockBehavior.ALWAYS -> true
+			ClockBehavior.NEVER -> false
+			ClockBehavior.IN_VIDEO -> context.getActivity() is PlaybackOverlayActivity
+			ClockBehavior.IN_MENUS -> context.getActivity() !is PlaybackOverlayActivity
 		}
 
-		if (TvApp.getApplication().currentUser != null && !isInEditMode) {
-			binding.userName.text = TvApp.getApplication().currentUser!!.name
-			binding.userName.visibility = VISIBLE
+		val currentUser = TvApp.getApplication().currentUser
 
-			if (TvApp.getApplication().currentUser!!.primaryImageTag != null) {
+		if (currentUser != null && !isInEditMode) {
+			binding.userName.text = currentUser.name
+			binding.userName.isVisible = true
+
+			if (currentUser.primaryImageTag != null) {
 				Glide.with(context)
-					.load(ImageUtils.getPrimaryImageUrl(TvApp.getApplication().currentUser, get()))
+					.load(ImageUtils.getPrimaryImageUrl(currentUser, get()))
 					.error(R.drawable.ic_user)
-					.override(30, 30)
 					.centerInside()
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 					.into(binding.userImage)
 			} else {
 				binding.userImage.setImageResource(R.drawable.ic_user)
 			}
-			binding.userImage.visibility = VISIBLE
+			binding.userImage.isVisible = true
 		} else {
-			binding.userName.visibility = GONE
-			binding.userImage.visibility = GONE
+			binding.userName.isVisible = false
+			binding.userImage.isVisible = false
 		}
 	}
 }
