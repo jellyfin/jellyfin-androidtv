@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
@@ -114,7 +115,12 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                playNext();
+                                if (!mediaManager.getValue().isVideoQueueModified()) {
+                                    mediaManager.getValue().clearVideoQueue();
+                                } else {
+                                    mItemsToPlay.remove(0);
+                                }
+                                finish();
                             }
                         })
                         .show();
@@ -186,28 +192,21 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
-            //Must confirm moving to the next item or there is no way to stop playback of all the items
-            new AlertDialog.Builder(this)
-                    .setTitle("Next up is "+mItemsToPlay.get(mCurrentNdx).getName())
-                    .setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            launchExternalPlayer(0);
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
-                            finish();
-                        }
-                    })
-                    .show();
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled())) {
+                // Set to "modified" so the queue won't be cleared
+                mediaManager.getValue().setVideoQueueModified(true);
 
+                Intent intent = new Intent(this, NextUpActivity.class);
+                intent.putExtra(NextUpActivity.EXTRA_ID, mItemsToPlay.get(mCurrentNdx).getId());
+                intent.putExtra(NextUpActivity.EXTRA_USE_EXTERNAL_PLAYER, true);
+                startActivity(intent);
+                finishAfterTransition();
+            } else {
+                launchExternalPlayer(0);
+            }
         } else {
             finish();
         }
-
     }
 
     protected void launchExternalPlayer(int ndx) {
