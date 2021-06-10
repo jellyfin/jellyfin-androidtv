@@ -10,19 +10,24 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NextUpActivity : FragmentActivity() {
+	companion object {
+		const val EXTRA_ID = "id"
+		const val EXTRA_USE_EXTERNAL_PLAYER = "useExternalPlayer"
+	}
+
 	private val viewModel: NextUpViewModel by viewModel()
 	private val backgroundService: BackgroundService by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		val usingExternalPlayer = intent.getBooleanExtra("usingExternalPlayer", false)
+		val useExternalPlayer = intent.getBooleanExtra(EXTRA_USE_EXTERNAL_PLAYER, false)
 
 		// Observe state
 		viewModel.state.observe(this) { state ->
 			when (state) {
 				// Open next item
 				NextUpState.PLAY_NEXT -> {
-					when (usingExternalPlayer) {
+					when (useExternalPlayer) {
 						true -> startActivity(Intent(this, ExternalPlayerActivity::class.java))
 						false -> startActivity(Intent(this, PlaybackOverlayActivity::class.java))
 					}
@@ -45,7 +50,7 @@ class NextUpActivity : FragmentActivity() {
 			.commit()
 
 		// Load item info
-		val id = intent.getStringExtra("id")
+		val id = intent.getStringExtra(EXTRA_ID)
 		viewModel.setItemId(id)
 	}
 }
