@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pref_show_login">Mostrar pantalla de inicio de sesión</string>
-    <string name="pref_login_behavior_title">Comportamiento de Inicio</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="home_title">Inicio</string>
-    <string name="txt_loading">Cargando…</string>
     <string name="loading">Cargando…</string>
     <string name="video_error_unknown_error">No se pudo cargar el video</string>
-    <string name="play">Reproducir</string>
-    <string name="pref_alt_pw_entry">Entrada de contraseña D-Pad personalizada</string>
-    <string name="pref_prompt_pw">Solicitar Contraseña</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="settings_title">Ajustes</string>
-    <string name="pref_auto_login">Inicie sesión automáticamente como este usuario</string>
     <string name="pref_max_bitrate_title">Máximo Transmisión de Bitrate</string>
     <string name="pref_playback">Reproducción</string>
-    <string name="title_activity_select_user">SelecionarActividadUsuario</string>
 </resources>

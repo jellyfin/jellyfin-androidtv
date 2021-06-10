@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Απέτυχε να φορτώσει το βίντεο</string>
-    <string name="txt_loading">Φόρτωση…</string>
-    <string name="title_activity_select_user">Επιλέξτε δραστηριότητα χρήστη</string>
-    <string name="home_title">Home</string>
     <string name="btn_cancel">ακυρώ</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
@@ -19,17 +16,13 @@
     <string name="lbl_enable_cinema_mode">Ενεργοποιήστε τη λειτουργία Κινηματογράφος</string>
     <string name="sum_enable_cinema_mode">Αν ενεργοποιηθεί στο διακομιστή , ενεργοποιήστε εισάγω και προεπισκόπηση πριν από την αναπαραγωγή ταινιών</string>
     <string name="lbl_playlists">Λίστες αναπαραγωγής</string>
-    <string name="msg_added_item_to_queue">"Στοιχείο που προστίθεται στην ουρά στη θέση "</string>
     <string name="msg_items_added">" στοιχεία που προστίθενται"</string>
-    <string name="msg_total_items_in_queue">" συνολικής στοιχεία στην ουρά"</string>
     <string name="lbl_add_to_queue">Προσθήκη στην ουρά</string>
     <string name="lbl_open_artist">Ανοίξτε Καλλιτέχνης</string>
     <string name="lbl_open_album">Ανοίξτε Άλμπουμ</string>
     <string name="lbl_reshuffle_queue">Re ανακάτεμα Ουρά</string>
     <string name="lbl_next_item">επόμενο αντικείμενο</string>
     <string name="lbl_prev_item">προηγούμενο αντικείμενο</string>
-    <string name="lbl_shuffle">Ανάμιξη</string>
-    <string name="msg_reshuffle_audio_queue">Re ανακάτεμα τρέχουσα ουρά ήχου;</string>
     <string name="lbl_up_next_colon">"Αμέσως μετά: "</string>
     <string name="lbl_now_playing">Τώρα παίζει</string>
     <string name="lbl_play_from_here">Αναπαραγωγή από εδώ</string>
@@ -39,9 +32,6 @@
     <string name="lbl_save_as_playlist">Αποθήκευση ως λίστα αναπαραγωγής</string>
     <string name="lbl_delete">Διαγράφω</string>
     <string name="msg_item_added">" αντικείμενο προστέθηκε"</string>
-    <string name="btn_replace_queue">Αντικαταστήστε Ουρά</string>
-    <string name="lbl_items_in_queue">Σε ουρά</string>
-    <string name="msg_replace_or_add_queue_q">Θέλετε να αντικαταστήσετε την τρέχουσα ουρά ή να προσθέσει σε αυτό;</string>
     <string name="lbl_enable_seasonal_themes">Εποχιακά Θέματα</string>
     <string name="desc_seasonal_themes">Αφήστε τα ειδικά χρώματα και τις υποδείξεις σε ορισμένες περιόδους του έτους</string>
     <string name="desc_automatic_fav_songs">Αυτόματη λίστα αναπαραγωγής από τα αγαπημένα τραγούδια και μου άρεσε</string>
@@ -49,14 +39,10 @@
     <string name="lbl_no">Όχι</string>
     <string name="lbl_enter_user_pw">Εισάγετε κωδικό πρόσβασης</string>
     <string name="lbl_enter_user_name">Εισάγετε όνομα χρήστη</string>
-    <string name="lbl_please_wait">Παρακαλώ Περιμένετε</string>
     <string name="lbl_play_trailers">Αναπαραγωγή τρέιλερ</string>
     <string name="lbl_bracket_unknown">&lt;Άγνωστο&gt;</string>
     <string name="lbl_videos">Βίντεο</string>
-    <string name="lbl_select_user">Επιλέξτε Χρήστη</string>
-    <string name="lbl_enter_manually">Χειροκίνητη Εισαγωγή</string>
     <string name="lbl_other_options">Άλλες Επιλογές</string>
-    <string name="lbl_select_server">Επιλέξτε Διακομιστή</string>
     <string name="lbl_directed_by">Σκηνοθετημένο Από</string>
     <string name="lbl_seasons">Σεζόν</string>
     <string name="lbl_series">Σειρές</string>
@@ -83,35 +69,21 @@
     <string name="lbl_suggested">Προτεινόμενα</string>
     <string name="lbl_views">Προβολές</string>
     <string name="lbl_on_now">Παίζουν Τώρα</string>
-    <string name="lbl_latest_movies">Τελευταίες Ταινίες</string>
     <string name="lbl_continue_watching">Συνέχεια Αναπαραγωγής</string>
-    <string name="lbl_library">Βιβλιοθήκη</string>
-    <string name="lbl_logout">Αποσύνδεση</string>
     <string name="lbl_settings">Ρυθμίσεις</string>
     <string name="pref_general">Γενικές</string>
     <string name="chapters">Κεφάλαια</string>
-    <string name="enter_password">Εισάγετε κωδικό πρόσβασης</string>
-    <string name="title_activity_dpad_pw">Εισάγετε κωδικό πρόσβασης</string>
     <string name="pref_authentication_cat">Ταυτοποίηση</string>
     <string name="settings_title">Ρυθμίσεις</string>
-    <string name="pref_auto_login">Αυτόματη σύνδεση ως αυτός ο χρήστης</string>
     <string name="pref_playback">Αναπαραγωγή</string>
-    <string name="pref_show_login">Εμφάνιση οθόνης σύνδεσης</string>
-    <string name="pref_login_behavior_title">Συμπεριφορά Εκκίνησης</string>
     <string name="loading">Φόρτωση…</string>
-    <string name="play">Αναπαραγωγή</string>
     <string name="lbl_yes">Ναι</string>
-    <string name="msg_little_longer">Αυτό διαρκεί λίγο περισσότερο από το αναμενόμενο ...</string>
     <string name="lbl_trailer">"Τρέιλερ "</string>
     <string name="msg_access_restricted">Η πρόσβαση είναι περιορισμένη αυτήν τη στιγμή</string>
     <string name="msg_video_playback_error">"Σφάλμα Αναπαραγωγής Βίντεο - "</string>
     <string name="lbl_none">Κανένα</string>
     <string name="lbl_recordings">Εγγραφές</string>
     <string name="lbl_people">Ανθρωποι</string>
-    <string name="lbl_tv">TV</string>
-    <string name="lbl_login_as">"Συνδεθείτε ως "</string>
-    <string name="lbl_to_change_paren">" στην αλλαγή)"</string>
-    <string name="lbl_paren_login_as">" (συνδεθείτε ως "</string>
     <string name="lbl_last_played">"Τελευταία Φορά "</string>
     <string name="lbl_ends">Τελειώνει</string>
     <string name="lbl_min">" ελάχ"</string>
@@ -136,13 +108,7 @@
     <string name="lbl_coming_up">Προσεχώς</string>
     <string name="msg_not_implemented">" δεν εφαρμόζεται"</string>
     <string name="lbl_by_letter">Με επιστολή</string>
-    <string name="lbl_next_up_tv">Επόμενη τηλεόραση</string>
     <string name="lbl_next_up">Επόμενο</string>
-    <string name="dpad_pw_cancel">* Κρατήστε πατημένο το κουμπί «κάτω» για 1 δευτερόλεπτο και αφήστε το εάν έχετε κωδικό άλφα ή χρειάζεστε πληκτρολόγιο για είσοδο</string>
-    <string name="dpad_entry_desc">Χρησιμοποιήστε το D-Pad στο τηλεχειριστήριό σας για να εισαγάγετε έναν αριθμητικό κωδικό πρόσβασης. Κάντε κλικ σε ένα κουμπί για τον πρώτο αναφερόμενο αριθμό ή κάντε διπλό κλικ για το δεύτερο. Με ένα κλικ «πάνω» για 1 ή διπλό κλικ στην «επιλογή» για 5. Κρατήστε πατημένο για 1 δευτερόλεπτο και αφήστε το κουμπί «επιλογή» όταν τελειώσετε ή το αριστερό κουμπί για να ξεκινήσετε ξανά.</string>
-    <string name="pref_alt_pw_entry_desc">Αριθμητική καταχώριση κωδικού πρόσβασης χρησιμοποιώντας μόνο τα πλήκτρα D-Pad</string>
-    <string name="pref_alt_pw_entry">Προσαρμοσμένη Kαταχώριση Kωδικού Pρόσβασης D-Pad</string>
-    <string name="pref_prompt_pw">Προτροπή για κωδικό πρόσβασης</string>
     <string name="pref_max_bitrate_title">Μέγιστο ρυθμό ροής</string>
     <string name="lbl_dislike">Δεν μου αρέσει</string>
     <string name="lbl_like">Αρέσει</string>
@@ -152,7 +118,6 @@
     <string name="lbl_remove_favorite">Κατάργηση αγαπημένου</string>
     <string name="lbl_mark_played">Επισήμανση αναπαραγωγής</string>
     <string name="lbl_mark_unplayed">Επισήμανση χωρίς αναπαραγωγή</string>
-    <string name="lbl_confirm_mark_watched">Αυτό θα επισημάνει όλο το περιεχόμενο ως έχει παιχτεί. Είστε ΠΟΛΥ σίγουροι;</string>
     <string name="lbl_play_first_unwatched">Παίξτε πρώτα χωρίς παρακολούθηση</string>
     <string name="lbl_search_hint">Αναζήτηση κειμένου (επιλέξτε πληκτρολόγιο)</string>
     <string name="sum_tv_queuing">Προσθέστε το υπόλοιπο της σεζόν στην ουρά κατά την αναπαραγωγή ενός επεισοδίου</string>
@@ -172,11 +137,7 @@
     <string name="lbl_enter_server_address">Εισαγάγετε την διεύθυνση του διακομιστή</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ή https://myserver.com</string>
     <string name="lbl_version">"Έκδοση "</string>
-    <string name="msg_invalid_id_pw">Μη έγκυρο αναγνωριστικό χρήστη ή κωδικός πρόσβασης</string>
-    <string name="msg_error_signin">Παρουσιάστηκε σφάλμα κατά τη σύνδεση με τα αποθηκευμένα διαπιστευτήριά σας.</string>
-    <string name="msg_error_server_version">Μη υποστηριζόμενη έκδοση διακομιστή. Η έκδοση του διακομιστή πρέπει να είναι %1$s ή μεταγενέστερη.</string>
     <string name="msg_error_server_unavailable">Ο διακομιστής δεν είναι διαθέσιμος</string>
-    <string name="msg_error_connecting_server">Σφάλμα σύνδεσης με τον διακομιστή</string>
     <string name="lbl_current_queue">Τώρα στην ουρά</string>
     <string name="btn_got_it">Το κατάλαβα</string>
     <string name="msg_external_path">Το χαρακτηριστικό αυτό θα λειτουργήσει μόνο αν έχετε ρυθμίσει σωστά την βιβλιοθήκη σας στον διακομιστή με τοποθεσίες δικτύου ή με αντικατάσταση τοποθεσίας και το πρόγραμμα-πελάτης που χρησιμοποιείτε μπορεί να έχει πρόσβαση στις τοποθεσίες αυτές άμεσα.</string>
@@ -187,8 +148,6 @@
     <string name="desc_bitstream_ac3">Απαιτεί υλικό με τις δυνατότητες αυτές</string>
     <string name="lbl_bitstream_ac3">Bitstream ήχου Dolby Digital</string>
     <string name="lbl_new_premieres">Νέες πρεμιέρες</string>
-    <string name="lbl_forget">Παράλειψη</string>
-    <string name="lbl_switch_server">Εναλλαγή διακομιστή</string>
     <string name="lbl_warning">Προειδοποίηση</string>
     <string name="lbl_live_tv_guide">Πρόγραμμα ζωντανής τηλεόρασης</string>
     <string name="lbl_no_recordings">Δεν υπάρχουν εγγραφές</string>
@@ -199,11 +158,8 @@
     <string name="lbl_filters">Φίλτρα</string>
     <string name="btn_clear_all">Εκκαθάριση όλων</string>
     <string name="btn_filter">Φίλτρα</string>
-    <string name="btn_stop">Σταμάτησε</string>
-    <string name="btn_start_now">Ξεκίνησε τώρα</string>
     <string name="lbl_ended">ΟΛΟΚΛΗΡΩΘΗΚΕ</string>
     <string name="lbl__continuing">ΣΥΝΕΧΙΖΕΤΑΙ</string>
-    <string name="lbl_season">Σεζόν</string>
     <string name="lbl_display_preferences">Προτιμήσεις προβολής</string>
     <string name="btn_done">Ολοκληρώθηκε</string>
     <string name="lbl_starting_with">ξεκινώντας με τα στοιχεία που το όνομα τους ξεκινά με</string>
@@ -217,9 +173,7 @@
     <string name="lbl_all_items">Όλα τα αντικείμενα</string>
     <string name="lbl_showing">Προβάλλεται</string>
     <string name="desc_debug">Παροχή έξτρα πληροφοριών για αποσφαλμάτωση</string>
-    <string name="desc_info_panel">Εμφάνισε ένα πίνακα με πληροφορίες για το τρέχον αντικείμενο για οθόνες χωρίς αναλυτικές πληροφορίες</string>
     <string name="lbl_enable_debug">Επιλογές αποσφαλμάτωσης</string>
-    <string name="lbl_show_info_panel">Εμφάνιση πίνακα πληροφοριών</string>
     <string name="lbl_goto_series">Πήγαινει στη Σειρά</string>
     <string name="lbl_audio_output">Έξοδος ήχου</string>
     <string name="pref_audio_compat">Μετατροπή σε Stereo</string>
@@ -240,7 +194,6 @@
     <string name="lbl_today">Σήμερα</string>
     <string name="lbl_load_channels">"Φόρτωση καναλιών "</string>
     <string name="msg_no_playable_items">Δεν βρέθηκαν στοιχεία για αναπαραγωγή</string>
-    <string name="lbl_confirm_mark_unwatched">Αυτή η ενέργεια θα σημειώσει για όλο το περιεχόμενο ότι δεν έχει αναπαραχθεί. Είστε ΠΡΑΓΜΑΤΙΚΑ σίγουρος;</string>
     <string name="pref_next_up_enabled_summary">Προεπισκόπιση του επομένου στη λίστα πριν την αναπαραγωγή</string>
     <string name="watch_now">Δείτε τώρα</string>
     <string name="pref_next_up_timeout_title">Χρόνος πριν την έναρξη αναπαραγωγής του επομένου</string>
@@ -253,8 +206,6 @@
     <string name="lbl_my_media">Τα μέσα μου</string>
     <string name="lbl_audio_delay">Καθυστέρηση ήχου</string>
     <string name="lbl_unwatched">Δεν προβλήθηκε</string>
-    <string name="pref_external_live_tv_summary">Απαιτεί μια κατάλληλη εφαρμογή για αναπαραγωγή ζωντανών ροών</string>
-    <string name="pref_external_live_tv_title">Χρήση εξωτερικού προγράμματος αναπαραγωγής για την Live TV</string>
     <string name="lbl_song_title">Τίτλος τραγουδιού</string>
     <string name="lbl_album_name">Όνομα φακέλου</string>
     <string name="lbl_next_episode">Επόμενο επισόδιο</string>
@@ -289,14 +240,11 @@
     <string name="lbl_sports">Αθλητικά</string>
     <string name="no_program_data">&lt;Δεν υπάρχουν διαθέσιμα δεδομένα προγράμματος&gt;</string>
     <string name="msg_record_entire_series">Εγγραφή ολόκληρης της σειράς;</string>
-    <string name="pref_live_tv_mode_desc">Μεταβείτε απευθείας στο κανάλι live TV που παίξατε τελευταία</string>
     <string name="lbl_select_date">Επιλέξτε Ημερομηνία</string>
     <string name="lbl_in_x_days">Σε %d μέρες</string>
     <string name="desc_premieres">Εμφάνιση μίας σειράς από νέα πιλοτικά επισόδια για οποιαδήποτε σειρά παρακολουθείτε</string>
     <string name="lbl_show_premieres">Εμφάνιζε τις πρεμιέρες σεζόν κατά την περιήγηση</string>
     <string name="lbl_refresh_switching">Εναλλαγή ρυθμού ανανέωσης</string>
-    <string name="desc_use_vlc_livetv">Χρήση του VLC για την απευθείας αναμαετάδοση live TV όποτε είναι διαθέσιμο</string>
-    <string name="lbl_use_vlc_livetv">Προσπάθεια χρήσης του VLC για την Live TV</string>
     <string name="lbl_open">Ανοιχτό</string>
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
     <string name="lbl_clear_queue">Καθαρισμός ουράς</string>
@@ -309,8 +257,6 @@
     <string name="pref_enable_acra">Αποστολή αναφορών σφαλμάτων στους προγραμματιστές</string>
     <string name="pref_acra_category">Αναφορά σφαλμάτων</string>
     <string name="pref_use_direct_path_summary">Περάστε τη διαδρομή του συστήματος αρχείων αντί της διεύθυνσης URL ροής</string>
-    <string name="title_activity_expanded_text">Δραστηριότητα διευρυμένου κειμένου</string>
-    <string name="pref_live_tv_mode">Λειτουργία Live TV</string>
     <string name="lbl_subtitle_track">Επιλέξτε αρχείο υποτίτλων</string>
     <string name="lbl_audio_track">Επιλέξτε αρχείο ήχου</string>
     <string name="lbl_pause">Παύση</string>
@@ -340,7 +286,6 @@
     <string name="pref_theme_emerald">Κλασσικό Σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος Εικόνας</string>
     <string name="lbl_image_type">Τύπος Εικόνας</string>
-    <string name="lbl_default_view">Προεπιλεγμένη Προβολή</string>
     <string name="lbl_start_favorites">Βάλε τα Αγαπημένα στην Αρχή</string>
     <string name="lbl_colored_backgrounds">Χρωματική Κωδικοποίηση Φόντου</string>
     <string name="lbl_hd_programs">Προγράμματα HD</string>
@@ -351,9 +296,6 @@
     <string name="lbl_news">Νέα</string>
     <string name="lbl_tv_filter_status">για τις επόμενες %1$d ώρες</string>
     <string name="lbl_tv_channel_status">%1$d από %2$d κανάλια</string>
-    <string name="lbl_latest_tv_shows">Πρόσφατες Τηλεοπτικές Σειρές</string>
-    <string name="title_suggestions_halloween">Καλό Halloween!</string>
-    <string name="lbl_suggestions">Προτάσεις</string>
     <string name="acra_dialog_text">Θέλεις να στείλεις μία αναφορά σφάλματος στους προγραμματιστές;
 \n
 \nΗ πληροφορίες θα σταλούν σε τρίτο (traceport.com).

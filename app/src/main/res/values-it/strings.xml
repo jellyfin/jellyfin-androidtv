@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Caricamento video fallito</string>
-    <string name="txt_loading">Caricamento…</string>
-    <string name="title_activity_select_user">Schermata di selezione utente</string>
-    <string name="home_title">Home</string>
     <string name="btn_cancel">Annulla</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="pref_login_behavior_title">Comportamento all\'avvio</string>
-    <string name="pref_show_login">Mostra schermata di accesso</string>
     <string name="pref_playback">Riproduzione</string>
     <string name="pref_max_bitrate_title">Qualità massima di trasmissione</string>
-    <string name="pref_auto_login">Accedi automaticamente con questo utente</string>
     <string name="settings_title">Impostazioni</string>
-    <string name="pref_prompt_pw">Richiedi la password</string>
-    <string name="title_activity_dpad_pw">Inserisci Password</string>
-    <string name="enter_password">Inserisci Password</string>
-    <string name="dpad_entry_desc">Usa il D-Pad sul tuo telecomando per inserira una password numerica. Un click singolo per il primo numero in lista o doppio per il secondo. Es. : Click singolo con \"su\" per l\'1 o doppio click con \"seleziona\" per il 5. Tieni premuto per un secondo il tasto \"seleziona\" e poi rilascialo per concludere o il tasto \"sinistra\" per ricominciare.</string>
-    <string name="dpad_pw_cancel">* Tieni premuto il tasto \"giù\" per 1 secondo e poi rilascialo se hai una password alpha o se hai bisogno una tastiera per l\'immissione</string>
     <string name="chapters">Capitoli</string>
     <string name="pref_general">Generale</string>
     <string name="lbl_settings">Impostazioni</string>
-    <string name="lbl_logout">Esci</string>
-    <string name="lbl_library">Libreria</string>
     <string name="lbl_continue_watching">Continua a guardare</string>
-    <string name="lbl_latest_movies">Ultimi film</string>
     <string name="lbl_next_up">Prossimo</string>
-    <string name="lbl_next_up_tv">Prossimo in TV</string>
     <string name="lbl_on_now">In onda ora</string>
     <string name="lbl_views">Viste</string>
     <string name="lbl_by_letter">Per lettera</string>
@@ -66,26 +51,15 @@
     <string name="lbl_ends">Finisce</string>
     <string name="lbl_directed_by">Diretto Da</string>
     <string name="lbl_last_played">"Riprodotto l'ultima volta "</string>
-    <string name="lbl_select_server">Seleziona un server</string>
     <string name="lbl_other_options">Altre Opzioni</string>
-    <string name="lbl_enter_manually">Inserisci manualmente</string>
-    <string name="lbl_select_user">Seleziona un Utente</string>
-    <string name="lbl_paren_login_as">" (entra come "</string>
-    <string name="lbl_to_change_paren">" per cambiare)"</string>
-    <string name="lbl_login_as">"Entra come "</string>
-    <string name="lbl_tv">TV</string>
     <string name="lbl_people">Persone</string>
     <string name="lbl_none">Nessuno</string>
     <string name="msg_video_playback_error">"Errore di riproduzione video - "</string>
     <string name="lbl_bracket_unknown">&lt;Sconosciuto&gt;</string>
     <string name="msg_access_restricted">Accesso ristretto in questo momento</string>
     <string name="lbl_trailer">"Trailer "</string>
-    <string name="lbl_please_wait">Prego attendere</string>
-    <string name="msg_little_longer">Ci sta impiegando un po più del previsto...</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Si</string>
-    <string name="msg_error_connecting_server">Errore nel contattare il server</string>
-    <string name="msg_invalid_id_pw">ID Utente o password non validi</string>
     <string name="lbl_version">"Versione: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://ilmioserver.com</string>
     <string name="lbl_enter_server_address">Inserisci l\'indirizzo del server</string>
@@ -111,9 +85,7 @@
     <string name="lbl_episodes">Episodi</string>
     <string name="lbl_enable_cinema_mode">Abilita la modalità cinema</string>
     <string name="sum_enable_cinema_mode">Se abilitato sul server, abilita \"intro\" e anteprime prima dell\'inizio della riproduzione del film</string>
-    <string name="msg_added_item_to_queue">"Elemento aggiunto in coda in posizione "</string>
     <string name="msg_items_added">" elementi aggiunti"</string>
-    <string name="msg_total_items_in_queue">" totale elementi in coda"</string>
     <string name="lbl_add_to_queue">Aggiungi alla coda</string>
     <string name="lbl_open_artist">Apri Artista</string>
     <string name="lbl_open_album">Apri Album</string>
@@ -128,11 +100,7 @@
     <string name="lbl_save_as_playlist">Salva come una Playlist</string>
     <string name="lbl_delete">Elimina</string>
     <string name="msg_item_added">" elemento aggiunto"</string>
-    <string name="btn_replace_queue">Sostituisci Coda</string>
-    <string name="lbl_items_in_queue">Elementi in Coda</string>
-    <string name="msg_replace_or_add_queue_q">Preferisci sostituire o aggiungere alla coda?</string>
     <string name="lbl_enable_debug">Opzioni di debug</string>
-    <string name="lbl_show_info_panel">Mostra pannello delle informazioni</string>
     <string name="lbl_goto_series">Vai alla serie</string>
     <string name="lbl_audio_output">Uscita audio</string>
     <string name="msg_cancel_entire_series">Sei sicuro di voler cancellare l\'INTERA SERIE\?</string>
@@ -145,7 +113,6 @@
     <string name="lbl_today">Oggi</string>
     <string name="lbl_load_channels">"Carica canali "</string>
     <string name="lbl_unwatched">Non visto</string>
-    <string name="lbl_confirm_mark_unwatched">Questo segnerà il contenuto come non riprodotto. Sei VERAMENTE sicuro\?</string>
     <string name="lbl_remove_dislike">Rimuovi Non mi piace</string>
     <string name="lbl_unlike">Non mi piace più</string>
     <string name="lbl_now_playing_track">%s di %s</string>
@@ -153,7 +120,6 @@
     <string name="lbl_remove_favorite">Rimuovi preferito</string>
     <string name="lbl_mark_played">Segna come visto</string>
     <string name="lbl_mark_unplayed">Segna come non visto</string>
-    <string name="lbl_confirm_mark_watched">Questo segnerà tutto il contenuto come già visto. Sei VERAMENTE sicuro\?</string>
     <string name="msg_error_server_unavailable">Server non raggiungibile</string>
     <string name="lbl_enter_user_pw">Inserisci password</string>
     <string name="lbl_enter_user_name">Inserisci nome utente</string>
@@ -169,10 +135,7 @@
     <string name="lbl_cancel_recording">Cancella registrazione</string>
     <string name="lbl_search">Cerca</string>
     <string name="lbl_status">%s/%s</string>
-    <string name="pref_alt_pw_entry_desc">Inserimento PIN usando solo tasti del D-Pad</string>
     <string name="loading">Caricamento…</string>
-    <string name="play">Riproduci</string>
-    <string name="lbl_shuffle">Casuale</string>
     <string name="lbl_warning">Attenzione</string>
     <string name="lbl_playlists">Playlist</string>
     <string name="lbl_programs">Programmi</string>
@@ -189,11 +152,8 @@
     <string name="lbl_filters">Filtri</string>
     <string name="btn_clear_all">Cancella Tutti</string>
     <string name="btn_filter">Filtro</string>
-    <string name="btn_stop">Stop</string>
-    <string name="btn_start_now">Inizia Ora</string>
     <string name="lbl_ended">FINITO</string>
     <string name="lbl__continuing">CONTINUA</string>
-    <string name="lbl_season">Stagione</string>
     <string name="lbl_display_preferences">Mostra Preferenze</string>
     <string name="btn_done">Finito</string>
     <string name="lbl_starting_with">inizia da quelli il cui nome inizia con</string>
@@ -207,7 +167,6 @@
     <string name="lbl_all_items">Tutti gli Oggetti</string>
     <string name="lbl_showing">Mostra</string>
     <string name="desc_debug">Provvedi extra informazioni per il debugging</string>
-    <string name="desc_info_panel">Mostra un pannello con dettagli dell\'oggetto corrente per immagini senza informazioni dettagliate</string>
     <string name="pref_audio_compat">Downmix a Stereo</string>
     <string name="pref_audio_direct">Diretto</string>
     <string name="msg_remote_already_playing">Richiesta di riproduzione remota ignorata. Per favore, prima ferma la riproduzione corrente.</string>
@@ -224,17 +183,11 @@
     <string name="lbl_now_playing_album">da %s</string>
     <string name="lbl_play_first_unwatched">Guarda il primo non guardato</string>
     <string name="lbl_search_hint">Cerca testo (seleziona per utilizzare la tastiera)</string>
-    <string name="msg_error_signin">Si è verificato un errore loggando con le proprie credenziali salvate.</string>
-    <string name="msg_error_server_version">Versione del server non supportata. La versione del server deve essere %1$s o superiore.</string>
     <string name="lbl_play_trailers">Riproduci Trailers</string>
-    <string name="pref_alt_pw_entry">Password personalizzata per pad direzionale</string>
     <string name="pref_authentication_cat">Autenticazione</string>
     <string name="lbl_up_next_colon">"Prossima: "</string>
-    <string name="msg_reshuffle_audio_queue">Metti in casuale l\'attuale coda audio\?</string>
     <string name="lbl_show_premieres">Mostra le anteprime di stagione mentre navighi</string>
     <string name="lbl_refresh_switching">Cambio della frequenza di aggiornamento</string>
-    <string name="desc_use_vlc_livetv">Usa VLC per lo streaming diretto della TV in diretta, quando disponibile</string>
-    <string name="lbl_use_vlc_livetv">Tenta di utilizzare VLC per la TV in diretta</string>
     <string name="lbl_show_backdrop">Mostra lo sfondo durante la navigazione</string>
     <string name="lbl_open">Aperto</string>
     <string name="lbl_play_next_up">Riproduci la prossima</string>
@@ -250,8 +203,6 @@
     <string name="desc_bitstream_ac3">Richiede hardware idoneo</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Nuove premier</string>
-    <string name="lbl_forget">Dimentica</string>
-    <string name="lbl_switch_server">Cambia Server</string>
     <string name="desc_automatic_fav_songs">Playlists automatiche di canzoni preferite e piaciute</string>
     <string name="desc_seasonal_themes">Mostra colori e suggerimenti speciali in certi momenti dell\'anno</string>
     <string name="lbl_live">In diretta</string>
@@ -264,8 +215,6 @@
     <string name="no_program_data">&lt;Nessun dato disponibile per il programma&gt;</string>
     <string name="msg_record_entire_series">Registra l\'intera serie\?</string>
     <string name="lbl_just_this_once">Solo questa volta</string>
-    <string name="pref_live_tv_mode_desc">Vai direttamente all\'ultimo canale riprodotto della TV in diretta</string>
-    <string name="pref_live_tv_mode">Modalità TV in diretta</string>
     <string name="lbl_select_date">Seleziona data</string>
     <string name="lbl_in_x_days">Tra %d giorni</string>
     <string name="lbl_bitstream_dts">Audio DTS</string>
@@ -289,8 +238,6 @@
     <string name="pref_acra_category">Crash Reporting</string>
     <string name="pref_use_direct_path_summary">Passa il filepath del file system al posto dell\'URL dello streaming</string>
     <string name="pref_use_direct_path_title">Passa il filepath diretto per il riproduttore esterno</string>
-    <string name="pref_external_live_tv_summary">Richiede una app in grado di riprodurre live stream</string>
-    <string name="pref_external_live_tv_title">Usa riproduttore esterno per la TV in diretta</string>
     <string name="lbl_song_title">Titolo brano</string>
     <string name="lbl_album_name">Nome Album</string>
     <string name="lbl_next_episode">Prossimo episodio</string>
@@ -304,7 +251,6 @@
     <string name="lbl_sort_by">Ordina per</string>
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_guest_stars">Guest Stars</string>
-    <string name="title_activity_expanded_text">ExpandedTextActivity</string>
     <string name="pref_acra_alwaysaccept_disabled">Una conferma sarà mostrata prima dell\'invio dei crash report</string>
     <string name="pref_acra_alwaysaccept_enabled">I crash report saranno inviati senza richiederlo</string>
     <string name="pref_acra_alwaysaccept">Invia i crash report senza richiederlo</string>
@@ -333,19 +279,10 @@
     <string name="lbl_my_media">I miei media</string>
     <string name="lbl_image_size">Dimensione dell\'immagine</string>
     <string name="lbl_image_type">Tipo di immagine</string>
-    <string name="lbl_default_view">Vista di default</string>
     <string name="lbl_hd_programs">Programmi in HD</string>
     <string name="lbl_repeat_episodes">Ripeti episodi</string>
     <string name="lbl_new_episodes">Nuovi episodi</string>
     <string name="lbl_audio_delay">Ritardo audio</string>
-    <string name="lbl_latest_tv_shows">Show TV recenti</string>
-    <string name="desc_suggestions_holiday">Prova qualche nostro suggerimento per le vacanze</string>
-    <string name="title_suggestions_holiday">Buon Natale!</string>
-    <string name="lbl_suggestions_holiday">Suggerimenti natalizi</string>
-    <string name="desc_suggestions_halloween">Prova qualche nostro suggerimento inquietante</string>
-    <string name="title_suggestions_halloween">Buon Halloween!</string>
-    <string name="lbl_suggestions_halloween">Suggerimenti inquietanti</string>
-    <string name="lbl_suggestions">Suggerimenti</string>
     <string name="acra_dialog_text">Vuoi inviare una segnalazione del malfunzionamento agli sviluppatori\?
 \n
 \nLa segnalazione avverrà tramite un servizio di terze parti (tracepot.com).
@@ -389,8 +326,6 @@
     <string name="episode_missing">Episodio mancante</string>
     <string name="clear_expanded">Cancellare la coda di riproduzione\?</string>
     <string name="lbl_clear">Cancella</string>
-    <string name="password_prompt_message">Inserisci la password per %1$s</string>
-    <string name="password_prompt">Inserisci password</string>
     <string name="mark_watched_message">Il contenuto non sembra essere stato riprodotto per intero. Segnare come visto\?</string>
     <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
     <string name="lbl_audio_track">Seleziona traccia audio</string>
@@ -445,7 +380,6 @@
     <string name="lbl_users">Utenti</string>
     <string name="lbl_user_server">%1$s su %2$s</string>
     <string name="lbl_user_last_used">Utilizzato l\'ultima volta il %1$s alle %2$s</string>
-    <string name="lbl_remove_user">Rimuovi %1$s</string>
     <string name="lbl_remove_server">Rimuovi server</string>
     <string name="lbl_sign_out_content">Richiede il login al prossimo utilizzo</string>
     <string name="lbl_remove_user_content">Rimuovi account</string>
