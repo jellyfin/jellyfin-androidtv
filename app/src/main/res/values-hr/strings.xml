@@ -269,7 +269,6 @@
     <string name="pref_about_title">O</string>
     <string name="pref_video_player_choose">Uvijek pitaj</string>
     <string name="pref_video_player_external">Vanjska aplikacija</string>
-    <string name="pref_video_player_exoplayer"/>
     <string name="pref_video_player_auto">Automatski odaberi</string>
     <string name="pref_theme_emerald">Klasični Smaragd</string>
     <string name="pref_theme_dark">Tamno (Zadano)</string>
@@ -330,7 +329,6 @@
     <string name="lbl_sort_by">Sortiraj po</string>
     <string name="lbl_premiere">Premijera</string>
     <string name="lbl_guest_stars">Gostujuće uloge</string>
-    <string name="title_activity_expanded_text"/>
     <string name="lbl_on_schedule">Po rasporedu</string>
     <string name="lbl_hours">Sati</string>
     <string name="lbl_minute">Minuta</string>

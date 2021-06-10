@@ -338,7 +338,6 @@
     <string name="lbl_add_server">Προσθήκη Διακομιστή</string>
     <string name="play_with">Αναπαραγωγή με</string>
     <string name="pref_video_player_choose">Να ερωτούμαι πάντα</string>
-    <string name="pref_video_player_exoplayer"/>
     <string name="pref_theme_emerald">Κλασσικό Σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος Εικόνας</string>
     <string name="lbl_image_type">Τύπος Εικόνας</string>
