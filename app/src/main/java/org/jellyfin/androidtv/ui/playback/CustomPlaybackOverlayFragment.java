@@ -1397,7 +1397,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mediaManager.getValue().setVideoQueueModified(true);
 
         Intent intent = new Intent(getActivity(), NextUpActivity.class);
-        intent.putExtra("id", id);
+        intent.putExtra(NextUpActivity.EXTRA_ID, id);
         startActivity(intent);
         mPlaybackController.clearFragment();
         mPlaybackController.removePreviousQueueItems();

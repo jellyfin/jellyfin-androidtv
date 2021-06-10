@@ -197,8 +197,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 mediaManager.getValue().setVideoQueueModified(true);
 
                 Intent intent = new Intent(this, NextUpActivity.class);
-                intent.putExtra("id", mItemsToPlay.get(mCurrentNdx).getId());
-                intent.putExtra("useExternalPlayer", true);
+                intent.putExtra(NextUpActivity.EXTRA_ID, mItemsToPlay.get(mCurrentNdx).getId());
+                intent.putExtra(NextUpActivity.EXTRA_USE_EXTERNAL_PLAYER, true);
                 startActivity(intent);
                 finishAfterTransition();
             } else {
