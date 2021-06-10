@@ -476,4 +476,6 @@
     <string name="lbl_use_series_thumbnails">Voorkeur voor serie miniaturen</string>
     <string name="lbl_episode_marks">Alleen bij afleveringen</string>
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
+    <string name="no_network_permissions">Jellyfin heeft netwerkpermissies nodig om te functioneren</string>
+    <string name="lbl_switch_user">Wijzig gebruiker</string>
 </resources>
