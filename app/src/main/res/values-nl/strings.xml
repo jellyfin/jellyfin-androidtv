@@ -52,10 +52,10 @@
     <string name="lbl_seasons">Seizoenen</string>
     <string name="lbl_upcoming">Straks</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs">Duurt:</string>
+    <string name="lbl_runs">Duurt</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Eindigt</string>
-    <string name="lbl_directed_by">Geregisseerd door:</string>
+    <string name="lbl_directed_by">Geregisseerd door</string>
     <string name="lbl_last_played">"Laatst afgespeeld: "</string>
     <string name="lbl_other_options">Andere opties</string>
     <string name="lbl_people">Mensen</string>
