@@ -12,8 +12,8 @@
 <a href="https://github.com/jellyfin/jellyfin-androidtv/releases">
 <img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-androidtv.svg"/>
 </a>
-<a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-androidtv/">
-<img alt="Translation Status" src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-androidtv/svg-badge.svg"/>
+<a href="https://translate.jellyfin.org/projects/jellyfin-android/jellyfin-androidtv/">
+<img alt="Translation Status" src="https://translate.jellyfin.org/widgets/jellyfin-android/-/jellyfin-androidtv/svg-badge.svg"/>
 </a>
 <br/>
 <a href="https://opencollective.com/jellyfin">
@@ -46,11 +46,11 @@ issue so we can discuss the implementation before you start.
 ## Translating
 
 Translations can be improved very easily from our
-[Weblate](https://translate.jellyfin.org/projects/jellyfin/jellyfin-androidtv) instance.
+[Weblate](https://translate.jellyfin.org/projects/jellyfin-android/jellyfin-androidtv) instance.
 Look through the following graphic to see if your native language could use some work!
 
-<a href="https://translate.jellyfin.org/engage/jellyfin/">
-<img alt="Detailed Translation Status" src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-androidtv/multi-auto.svg"/>
+<a href="https://translate.jellyfin.org/engage/jellyfin-android/">
+<img alt="Detailed Translation Status" src="https://translate.jellyfin.org/widgets/jellyfin-android/-/jellyfin-androidtv/multi-auto.svg"/>
 </a>
 
 ## Build Process
