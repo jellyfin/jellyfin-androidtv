@@ -353,7 +353,6 @@
     <string name="btn_got_it">Razumem</string>
     <string name="lbl_subtitle_track">Izberi sled podnapisov</string>
     <string name="lbl_audio_track">Izberite zvočni posnetek</string>
-    <string name="lbl_audio_capabilitites">Zvočne zmogljivosti</string>
     <string name="lbl_vertical_stretch">Vertikalni razteg</string>
     <string name="lbl_horizontal_stretch">Horizontalni razteg</string>
     <string name="lbl_zoom">Povečava</string>
@@ -372,7 +371,6 @@
     <string name="lbl_show_backdrop">Prikaži ozadje med brskanjem</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
-    <string name="btn_set_compatible_audio">Nastavi pretvorbo v stereo zdaj</string>
     <string name="msg_audio_warning">Aplikacija podpira neposredno pretakanje določenih več kanalnih zvočnih formatov. V primeru da vaša naprava teh formatov ne podpira pri predvajanju določenih vsebin ne boste slišali zvoka. To lahko popravite s spreminjanjem nastavitve Pretvori v stereo.</string>
     <string name="pref_acra_syslog_disabled">Sistemski dnevniki ne bodo vključeni v poročilu o napaki</string>
     <string name="pref_acra_syslog_enabled">&lt;Sistemski dnevniki bodo vključeni v poročilu o napaki</string>

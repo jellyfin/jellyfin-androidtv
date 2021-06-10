@@ -180,7 +180,6 @@
     <string name="lbl_current_queue">Τώρα στην ουρά</string>
     <string name="btn_got_it">Το κατάλαβα</string>
     <string name="msg_external_path">Το χαρακτηριστικό αυτό θα λειτουργήσει μόνο αν έχετε ρυθμίσει σωστά την βιβλιοθήκη σας στον διακομιστή με τοποθεσίες δικτύου ή με αντικατάσταση τοποθεσίας και το πρόγραμμα-πελάτης που χρησιμοποιείτε μπορεί να έχει πρόσβαση στις τοποθεσίες αυτές άμεσα.</string>
-    <string name="msg_audio_warning">Η εφαρμογή αυτή έχει τη δυνατότητα να διαμοιράζει άμεσα συγκεκριμμένους τύπους πολυκάναλου ήχου. Αν το υλικό της συσκευής σας δεν υποστηρίζει αυτούς τους τύπους ήχου, μπορεί να μην ακούτε ήχο όταν αναπαράγετε συγκεκριμμένα αντικείμενα. Αυτό μπορεί να διορθωθεί αλλάζοντας την μέθοδο σε \'Downmix\' στις ρυθμίσεις.</string>
     <string name="lbl_audio_capabilitites">Δυνατότητες ήχου</string>
     <string name="lbl_vertical_stretch">Κάθετο τέντωμα</string>
     <string name="lbl_horizontal_stretch">Οριζόντιο τέντωμα</string>
@@ -303,7 +302,6 @@
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
     <string name="lbl_clear_queue">Καθαρισμός ουράς</string>
     <string name="desc_current_video_queue">Αρχεία βίντεο σε σειρά αναπαραγωγής αυτή την στιγμή</string>
-    <string name="btn_set_compatible_audio">Ορίστε \"downmix\" τώρα</string>
     <string name="lbl_remove_dislike">Αφαίρεση Αντιπάθειας</string>
     <string name="lbl_unlike">Διαφορετικά</string>
     <string name="pref_acra_alwaysaccept">Υποβολή αναφορών σφαλμάτων χωρίς προτροπή</string>
@@ -340,7 +338,7 @@
     <string name="lbl_add_server">Προσθήκη Διακομιστή</string>
     <string name="play_with">Αναπαραγωγή με</string>
     <string name="pref_video_player_choose">Να ερωτούμαι πάντα</string>
-    <string name="pref_video_player_exoplayer"></string>
+    <string name="pref_video_player_exoplayer"/>
     <string name="pref_theme_emerald">Κλασσικό Σμαραγδί</string>
     <string name="lbl_image_size">Μέγεθος Εικόνας</string>
     <string name="lbl_image_type">Τύπος Εικόνας</string>

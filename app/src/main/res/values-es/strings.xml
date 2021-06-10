@@ -238,10 +238,8 @@
     <string name="lbl_clear_queue">Limpiar cola</string>
     <string name="desc_current_video_queue">Elementos de video actualmente en cola para reproducir</string>
     <string name="lbl_current_queue">Cola actual</string>
-    <string name="btn_set_compatible_audio">Establecer downmix ahora</string>
     <string name="btn_got_it">Entendido</string>
     <string name="msg_external_path">Esta característica solo funcionará si ha configurado correctamente su biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que está utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
-    <string name="msg_audio_warning">Esta aplicación tiene la capacidad de transmitir directamente ciertos formatos de audio multicanal. Si su hardware no admite estos formatos, es posible que no escuche ningún sonido al reproducir ciertos elementos. Esto se puede solucionar cambiando el modo de audio a \'downmix\' en la configuración.</string>
     <string name="lbl_vertical_stretch">Estiramiento vertical</string>
     <string name="lbl_horizontal_stretch">Estiramiento horizontal</string>
     <string name="lbl_zoom">Agrandar</string>
@@ -295,7 +293,6 @@
     <string name="lbl_premier_date">Fecha de estreno</string>
     <string name="msg_error_signin">Se produjo un error al iniciar la sesión con sus credenciales guardadas.</string>
     <string name="lbl_series_recordings">Grabaciones de Series</string>
-    <string name="lbl_audio_capabilitites">Capacidades de Audio</string>
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_from">desde</string>

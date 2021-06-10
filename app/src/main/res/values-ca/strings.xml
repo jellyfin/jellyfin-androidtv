@@ -259,13 +259,10 @@
     <string name="lbl_clear_queue">Esborrar cua</string>
     <string name="desc_current_video_queue">Els elements de vídeo actualment estan a la cua per reproduir-se</string>
     <string name="lbl_current_queue">Cua actual</string>
-    <string name="btn_set_compatible_audio">Estableix downmix ara</string>
     <string name="btn_got_it">Ho tinc</string>
     <string name="msg_external_path">Aquesta funció només funcionarà si heu configurat correctament la biblioteca al servidor amb camins de xarxa o substitució de camins i el client que utilitzeu pot accedir directament a aquestes ubicacions a través de la xarxa.</string>
-    <string name="msg_audio_warning">Aquesta aplicació té la possibilitat de transmetre en directe determinats formats d’àudio multicanal. Si el vostre hardware no admet aquests formats, és possible que no escolteu cap so en reproduir determinats elements. Això es pot solucionar canviant el mode d\'àudio a \"downmix\" a la configuració.</string>
     <string name="lbl_subtitle_track">Selecciona la pista de subtítols</string>
     <string name="lbl_audio_track">Seleccioneu la pista d\'àudio</string>
-    <string name="lbl_audio_capabilitites">Capacitats d\'àudio</string>
     <string name="lbl_vertical_stretch">Estirar verticalment</string>
     <string name="lbl_horizontal_stretch">Estirar horitzontalment</string>
     <string name="lbl_image_type">Tipus de imatge</string>

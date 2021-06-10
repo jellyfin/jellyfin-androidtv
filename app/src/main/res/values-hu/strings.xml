@@ -172,7 +172,6 @@
     <string name="lbl_show_backdrop">Háttér mutatása böngészéskor</string>
     <string name="desc_current_video_queue">Jelenleg várakozásban levő videók</string>
     <string name="msg_external_path">Ez a funkció csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
-    <string name="msg_audio_warning">Ez az app képes bizonos többcsatornás hangformátumok élő vételére. Ha a hardvered nem támogatja ezeket a formátumokat, akkor bizonyos lejátszási elemeknél nem lesz hang. Ez a jelenség javítható, ha a beállításokban a hangmód \"lekeverésre\" van állítva.</string>
     <string name="msg_replace_or_add_queue_q">Szeretnéd lecsererélni a jelenlegi lejátszási listát vagy inkább hozzáadod\?</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
     <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés libVLC-hez</string>
@@ -279,9 +278,7 @@
     <string name="lbl_play_next_up">Következő lejátszása</string>
     <string name="lbl_clear_queue">Várakozási lista törlése</string>
     <string name="lbl_current_queue">Jelenlegi várakozási lista</string>
-    <string name="btn_set_compatible_audio">Keverés beállítása</string>
     <string name="btn_got_it">Rendben</string>
-    <string name="lbl_audio_capabilitites">Hangképességek</string>
     <string name="lbl_vertical_stretch">Vertikális nyújtás</string>
     <string name="lbl_horizontal_stretch">Horizontális nyújtás</string>
     <string name="lbl_zoom">Nagyítás</string>

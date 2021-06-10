@@ -243,10 +243,8 @@
     <string name="lbl_use_vlc_livetv">Probeer VLC te gebruiken voor Live TV</string>
     <string name="lbl_show_backdrop">Achtergrond weergeven tijdens het browsen</string>
     <string name="desc_current_video_queue">Videobestanden momenteel in de afspeelwachtrij</string>
-    <string name="btn_set_compatible_audio">Downmix nu instellen</string>
     <string name="btn_got_it">Duidelijk</string>
     <string name="msg_external_path">Deze functie werkt alleen als u uw bibliotheek correct hebt ingesteld op de server met netwerkpaden of padvervanging en de cliënt die u gebruikt rechtstreeks toegang heeft tot deze locaties via het netwerk.</string>
-    <string name="msg_audio_warning">Deze app heeft de mogelijkheid om bepaalde multi-channel audioformaten direct te streamen. Als uw hardware deze indelingen niet ondersteunt, hoort u mogelijk geen geluid bij het afspelen van bepaalde bestanden. Dit kan worden opgelost door de audiomodus te veranderen naar \'Stereo\' in de instellingen.</string>
     <string name="lbl_audio_capabilitites">Audiomogelijkheden</string>
     <string name="lbl_vertical_stretch">Verticale uitrekking</string>
     <string name="lbl_horizontal_stretch">Horizontale uitrekking</string>

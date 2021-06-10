@@ -257,10 +257,7 @@
     <string name="lbl_clear_queue">Ryd afspilnings kø</string>
     <string name="desc_current_video_queue">Videofiler i afpilnings kø</string>
     <string name="msg_external_path">Denne funktion virker kun hvis du har opsat dit biblotek på serveren, med en netværks sti eller en erstatnings sti, og at din klient kan afspille direkte fra disse lokationer over dit netværk.</string>
-    <string name="msg_audio_warning">Denne applikation har mulighederne for at direkte afspille forskellige lyd formater, hvis dit hardware understøtter det.
-\nDu kan komme ud for at der ingen lyd er på forskellige elementer, dette kan fikses ved at ændre dine lydindstillinger til \'downmix\' inde i indstillinger.</string>
     <string name="lbl_current_queue">Nuværende Kø</string>
-    <string name="btn_set_compatible_audio">Aktiver Downmix nu</string>
     <string name="lbl_audio_capabilitites">Lydfærdigheder</string>
     <string name="lbl_bitstream_ac3">Dolby Digital Audio bitstream</string>
     <string name="desc_automatic_fav_songs">Automatisk spilleliste med foretrukne og favorit sange</string>

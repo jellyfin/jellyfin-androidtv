@@ -228,7 +228,6 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
-    <string name="msg_audio_warning">Esta aplicação tem a capacidade de enviar o fluxo audio sem descodificação . Se o seu equipamento não suporta esses formatos, pode não ouvir som quando tocar em certos itens. Isso pode ser resolvido ao mudar o audio para \'downmix\' nas definições.</string>
     <string name="lbl_audio_capabilitites">Capacidades Audio</string>
     <string name="lbl_vertical_stretch">Esticar Verticalmente</string>
     <string name="lbl_horizontal_stretch">Esticar horizontalmente</string>
@@ -322,7 +321,6 @@
     <string name="lbl_clear_queue">Limpar Fila</string>
     <string name="desc_current_video_queue">Lista dos vídeos que estão atualmente na fila para reprodução</string>
     <string name="lbl_current_queue">Fila atual</string>
-    <string name="btn_set_compatible_audio">Defenir \'downmix\' agora</string>
     <string name="btn_got_it">Entendido</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>

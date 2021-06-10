@@ -277,13 +277,10 @@
     <string name="lbl_clear_queue">Очистите ред</string>
     <string name="desc_current_video_queue">Видео ставке су тренутно у реду за репродукцију</string>
     <string name="lbl_current_queue">Тренутни ред</string>
-    <string name="btn_set_compatible_audio">Подесите downmix сада</string>
     <string name="btn_got_it">Разумем</string>
     <string name="msg_external_path">Ова функција ће функционисати само ако сте правилно поставили библиотеку на серверу са мрежним путањама или заменом путање, а клијент који користите може директно приступити тим локацијама преко мреже.</string>
-    <string name="msg_audio_warning">Ова апликација има могућност директног преноса одређених вишеканалних аудио формата. Ако ваш хардвер не подржава ове формате, можда нећете чути звук током репродукције одређених ставки. То се може поправити променом аудио режима на „downmix“ у подешавањима.</string>
     <string name="lbl_subtitle_track">Изаберите запис титла</string>
     <string name="lbl_audio_track">Изаберите аудио запис</string>
-    <string name="lbl_audio_capabilitites">Аудио могућности</string>
     <string name="lbl_vertical_stretch">Вертикално развлачење</string>
     <string name="lbl_horizontal_stretch">Хоризонтално развлачење</string>
     <string name="lbl_zoom">Зум</string>

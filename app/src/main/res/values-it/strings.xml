@@ -241,10 +241,8 @@
     <string name="lbl_clear_queue">Svuota coda</string>
     <string name="desc_current_video_queue">Elementi video attualmente in coda per la riproduzione</string>
     <string name="lbl_current_queue">Coda corrente</string>
-    <string name="btn_set_compatible_audio">Imposta il downmix adesso</string>
     <string name="btn_got_it">Capito</string>
     <string name="msg_external_path">Questa funzionalità funziona solo se hai impostato correttamente la tua libreria sul server con percorsi di rete o path substitution, e solo se il client che stai utilizzando può accedere direttamente a queste risorse attraverso la rete.</string>
-    <string name="msg_audio_warning">Questa app può fare streaming diretto di alcuni formati audio multicanale. Se il tuo hardware non supporta questi formati, potresti non sentire nulla durante la riproduzione di certi elementi. Tale problematica può essere sistemata cambiando la modalità audio in \'downmix\' nelle impostazioni.</string>
     <string name="lbl_audio_capabilitites">Capacità Audio</string>
     <string name="lbl_vertical_stretch">Allungamento verticale</string>
     <string name="lbl_horizontal_stretch">Allungamento orizzontale</string>

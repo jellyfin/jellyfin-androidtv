@@ -308,7 +308,6 @@
     <string name="lbl_play_next_up">Atskaņot Nākamo</string>
     <string name="desc_current_video_queue">Video vienumi pašlaik ierindoti atskaņošanai</string>
     <string name="msg_external_path">Šī funkcija strādās tikai tad, ja tev serverī ir pareizi uzstādīta bibliotēka ar tīkla ceļiem, vai ceļu substitūcijām, un klients, ko tu izmanto spēj tieši piekļūt šīm vietām caur tīklu.</string>
-    <string name="msg_audio_warning">Šai lietotnei ir iespēja tieši straumēt noteiktus vairāk-kanālu audio formātus. Ja tavai aparatūrai nav atbalsta šiem formātiem, atskaņojot noteiktus vienumus var nebūt skaņas. To var salabot nomainot audio režīmu uz \'downmix\' iestatījumos.</string>
     <string name="lbl_audio_capabilitites">Audio Iespējas</string>
     <string name="lbl_new_premieres">Jaunās Pirmizrādes</string>
     <string name="lbl_programs">Programmas</string>
@@ -338,7 +337,6 @@
     <string name="pref_acra_syslog_enabled">Sistēmas logi tiks ievietoti kļūdas ziņojumos</string>
     <string name="pref_use_direct_path_title">Padot Tiešo Ceļu ārējam atskaņotājam</string>
     <string name="title_activity_expanded_text">PaplašinātāTekstaAktivitāte</string>
-    <string name="btn_set_compatible_audio">Uzstādīt lejup-miksēšanu tagad</string>
     <string name="lbl_goto_now_playing">Pāriet uz Pašlaik Atskaņoto</string>
     <string name="lbl_reshuffle_queue">Atkārtoti Jaukt Rindu</string>
     <string name="lbl_showing">Rāda</string>

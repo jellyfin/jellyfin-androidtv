@@ -86,9 +86,7 @@
     <string name="lbl_clear_queue">Hapus Antrian</string>
     <string name="desc_current_video_queue">Item video saat ini sedang dalam antrean untuk diputar</string>
     <string name="lbl_current_queue">Antrian Saat Ini</string>
-    <string name="btn_set_compatible_audio">Setel downmix sekarang</string>
     <string name="btn_got_it">Mengerti</string>
-    <string name="msg_audio_warning">Aplikasi ini memiliki kemampuan untuk streaming langsung format audio multi-saluran tertentu. Jika perangkat keras Anda tidak mendukung format ini, Anda mungkin tidak mendengar suara saat memutar item tertentu. Ini dapat diperbaiki dengan mengubah mode audio menjadi \'downmix\' di pengaturan.</string>
     <string name="lbl_audio_capabilitites">Kemampuan Audio</string>
     <string name="lbl_zoom">Perbesar</string>
     <string name="lbl_normal">Normal</string>

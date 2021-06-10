@@ -284,10 +284,8 @@
     <string name="lbl_clear_queue">Xóa hàng đợi</string>
     <string name="desc_current_video_queue">Các mục video hiện được xếp hàng đợi để phát lại</string>
     <string name="lbl_current_queue">Hàng đợi hiện tại</string>
-    <string name="btn_set_compatible_audio">Đặt downmix ngay bây giờ</string>
     <string name="btn_got_it">Hiểu rồi</string>
     <string name="msg_external_path">Tính năng này sẽ chỉ hoạt động nếu bạn đã thiết lập đúng thư viện của mình trên máy chủ với các đường dẫn mạng hoặc thay thế đường dẫn và ứng dụng khách bạn đang sử dụng có thể truy cập trực tiếp các vị trí này qua mạng.</string>
-    <string name="msg_audio_warning">Ứng dụng này có khả năng phát trực tiếp các định dạng âm thanh đa kênh nhất định. Nếu phần cứng của bạn không hỗ trợ các định dạng này, bạn có thể không nghe thấy âm thanh khi phát các mục nhất định. Điều này có thể được khắc phục bằng cách thay đổi chế độ âm thanh thành \'downmix\' trong cài đặt.</string>
     <string name="lbl_audio_capabilitites">Khả năng âm thanh</string>
     <string name="lbl_vertical_stretch">Căng dọc</string>
     <string name="lbl_horizontal_stretch">Căng ngang</string>

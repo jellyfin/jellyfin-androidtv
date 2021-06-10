@@ -120,10 +120,8 @@
     <string name="lbl_clear_queue">Rensa kö</string>
     <string name="desc_current_video_queue">Video är för närvarande köad för uppspelning</string>
     <string name="lbl_current_queue">Nuvarande kö</string>
-    <string name="btn_set_compatible_audio">Sätt nermix nu</string>
     <string name="btn_got_it">Uppfattat</string>
     <string name="msg_external_path">Denna funktion kommer bara att fungera om du har ställt in korrekt i ditt bibliotek på servern med nätverks sökvägar eller sökvägs utbyte och klienten du använder kan komma åt dessa över nätverket.</string>
-    <string name="msg_audio_warning">Denna app har möjlighet att direkt strömma vissa multi-kanal ljud format. Om din hårdvara inte stödjer dessa format, hör du kanske inget ljud när du spelar vissa. Detta kan fixas genom att ändra ljud läge till \'nermixning\' i inställningar.</string>
     <string name="lbl_audio_capabilitites">Ljud Kapabilitet</string>
     <string name="lbl_vertical_stretch">Vertikal sträckning</string>
     <string name="lbl_horizontal_stretch">Horisontell sträckning</string>

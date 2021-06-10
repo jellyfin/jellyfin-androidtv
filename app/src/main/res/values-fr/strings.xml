@@ -224,7 +224,6 @@
     <string name="lbl_switch_server">Changer de serveur</string>
     <string name="lbl_kids">Enfants</string>
     <string name="btn_got_it">Ok</string>
-    <string name="btn_set_compatible_audio">Définir mixage maintenant</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
     <string name="desc_current_video_queue">éléments vidéo actuellement en file d\'attente pour la lecture</string>
     <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
@@ -232,7 +231,6 @@
     <string name="lbl_all_episodes">Tous les épisodes</string>
     <string name="lbl_all_recordings">Tous les enregistrements</string>
     <string name="lbl_any_channel">Toutes les chaînes</string>
-    <string name="lbl_audio_capabilitites">Caractéristiques audio</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
@@ -251,7 +249,6 @@
     <string name="lbl_vertical_stretch">Étirement vertical</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="loading">Chargement …</string>
-    <string name="msg_audio_warning">Cette application a la possibilité de lire le flux de certains formats audio multi-canaux. Si votre matériel ne prend pas en charge ces formats, vous pouvez n\'entendre aucun son lors de la lecture de certains éléments. Si cela se produit, réglez le mode audio à «Downmix» dans les paramètres de lecture de l\'application.</string>
     <string name="play">Jouer</string>
     <string name="lbl_at_any_time">tout le temps</string>
     <string name="lbl_episode_not_record">Cet épisode ne sera pas enregistré</string>

@@ -204,10 +204,8 @@
     <string name="lbl_clear_queue">清除队列</string>
     <string name="desc_current_video_queue">当前正在排队等待播放的视频项</string>
     <string name="lbl_current_queue">当前队列</string>
-    <string name="btn_set_compatible_audio">现在设置downmix</string>
     <string name="btn_got_it">得到它</string>
     <string name="msg_external_path">只有在使用网络路径或路径替换在服务器上正确设置了库，并且使用的客户机可以通过网络直接访问这些位置时，此功能才会起作用。</string>
-    <string name="msg_audio_warning">这个应用程序有能力直接流某些多通道音频格式。如果您的硬件不支持这些格式，您可能在播放某些项目时听不到任何声音。这可以通过在设置中将音频模式更改为“downmix”来修复。</string>
     <string name="lbl_audio_capabilitites">音频功能</string>
     <string name="lbl_vertical_stretch">垂直延伸</string>
     <string name="lbl_horizontal_stretch">横向拉伸</string>

@@ -28,13 +28,10 @@
     <string name="lbl_clear_queue">Kuyruğu Temizle</string>
     <string name="desc_current_video_queue">Oynatmak için şuan kuyruğa alınan video öğeleri</string>
     <string name="lbl_current_queue">Mevcut Sıra</string>
-    <string name="btn_set_compatible_audio">Düşürmeyi şuan ayarla</string>
     <string name="btn_got_it">Anladım</string>
     <string name="msg_external_path">Bu özellik, yalnızca kütüphanenizi sunucuda ağ yolları veya yol konumu ile doğru bir şekilde kurduysanız ve kullandığınız istemci bu konumlara ağ üzerinden doğrudan erişebiliyorsa çalışacaktır.</string>
-    <string name="msg_audio_warning">Bu uygulama, belirli çok kanallı ses formatlarını yönlendirme özelliğine sahiptir. Donanımınız bu formatları desteklemiyorsa, belirli öğeleri çalarken hiç ses duymayabilirsiniz. Bu, ses modunu ayarlarda \"düşür\" olarak değiştirerek düzeltilebilir.</string>
     <string name="lbl_subtitle_track">Altyazı parçası seç</string>
     <string name="lbl_audio_track">Ses parçası seç</string>
-    <string name="lbl_audio_capabilitites">Ses Kapasiteleri</string>
     <string name="lbl_vertical_stretch">Dikey Uzatma</string>
     <string name="lbl_horizontal_stretch">Yatay Uzatma</string>
     <string name="lbl_zoom">Yakınlaşma</string>

@@ -238,10 +238,8 @@
     <string name="lbl_use_vlc_livetv">Spróbuj użyć VLC do Live TV</string>
     <string name="lbl_show_backdrop">Pokaż tło podczas przeglądania</string>
     <string name="lbl_open">Otwórz</string>
-    <string name="btn_set_compatible_audio">Ustaw teraz downmix</string>
     <string name="btn_got_it">Rozumiem</string>
     <string name="msg_external_path">Ta funkcja będzie działać tylko wtedy, gdy poprawnie skonfigurujesz swoją bibliotekę na serwerze ze ścieżkami sieciowymi lub zastępowaniem ścieżek, a klient, którego używasz, będzie mógł uzyskać bezpośredni dostęp do tych lokalizacji przez sieć.</string>
-    <string name="msg_audio_warning">Ta aplikacja ma możliwość bezpośredniego przesyłania strumieniowego niektórych wielokanałowych formatów audio. Jeśli Twój sprzęt nie obsługuje tych formatów, podczas odtwarzania niektórych elementów możesz nie słyszeć dźwięku. Można to naprawić, zmieniając tryb audio na „downmix” w ustawieniach.</string>
     <string name="lbl_audio_capabilitites">Możliwości audio</string>
     <string name="lbl_zoom">Powiększenie</string>
     <string name="desc_bitstream_ac3">Wymaga odpowiedniego sprzętu</string>

@@ -225,10 +225,8 @@
     <string name="lbl_clear_queue">Vymazat frontu</string>
     <string name="desc_current_video_queue">Položky videa aktuálně zařazené do fronty pro přehrání</string>
     <string name="lbl_current_queue">Aktuální fronta</string>
-    <string name="btn_set_compatible_audio">Nastavit downmix nyní</string>
     <string name="btn_got_it">Beru na vědomí</string>
     <string name="msg_external_path">Tato volba bude fungovat pouze v případě správného nastavení knihovny na serveru se síťovými cestami nebo nahrazením cest a Vámi používaný klient má přímý přístup k těmto síťovým umístěním.</string>
-    <string name="msg_audio_warning">Tato aplikace je schopná napřímo streamovat určité vícekanálové formáty zvuku. V případě, že Váš hardware tyto formáty nepodporuje, je možné, že neuslyšíte žádný zvuk při přehrávání určitých položek. Toto může být vyřešeno změnou v nastavení zvukového režimu na \"downmix\".</string>
     <string name="lbl_audio_capabilitites">Možnosti zvuku</string>
     <string name="lbl_vertical_stretch">Svislé roztáhnutí</string>
     <string name="lbl_horizontal_stretch">Vodorovné roztáhnutí</string>

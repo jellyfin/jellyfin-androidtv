@@ -305,10 +305,8 @@
     <string name="lbl_clear_queue">வரிசையை அழி</string>
     <string name="desc_current_video_queue">வீடியோ உருப்படிகள் தற்போது பிளேபேக்கிற்கு வரிசையில் நிற்கின்றன</string>
     <string name="lbl_current_queue">தற்போதைய வரிசை</string>
-    <string name="btn_set_compatible_audio">இப்போது டவுன்மிக்ஸ் அமைக்கவும்</string>
     <string name="btn_got_it">அறிந்துகொண்டேன்</string>
     <string name="msg_external_path">நெட்வொர்க் பாதைகள் அல்லது பாதை மாற்றீடு மூலம் சேவையகத்தில் உங்கள் நூலகத்தை சரியாக அமைத்திருந்தால் மட்டுமே இந்த அம்சம் செயல்படும், மேலும் நீங்கள் பயன்படுத்தும் கிளையன்ட் இந்த இடங்களை நேரடியாக பிணையத்தில் அணுக முடியும்.</string>
-    <string name="msg_audio_warning">இந்த பயன்பாடு சில மல்டி-சேனல் ஆடியோ வடிவங்களை நேரடியாக ஸ்ட்ரீம் செய்யும் திறனைக் கொண்டுள்ளது. உங்கள் வன்பொருள் இந்த வடிவங்களை ஆதரிக்கவில்லை என்றால், சில உருப்படிகளை இயக்கும்போது உங்களுக்கு எந்த சத்தமும் கேட்காது. அமைப்புகளில் ஆடியோ பயன்முறையை \'டவுன்மிக்ஸ்\' என மாற்றுவதன் மூலம் இதை சரிசெய்ய முடியும்.</string>
     <string name="lbl_audio_capabilitites">ஆடியோ திறன்கள்</string>
     <string name="lbl_vertical_stretch">செங்குத்து நீட்சி</string>
     <string name="lbl_horizontal_stretch">கிடைமட்ட நீட்சி</string>

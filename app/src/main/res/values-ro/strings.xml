@@ -213,10 +213,8 @@
     <string name="lbl_clear_queue">Golește coada</string>
     <string name="desc_current_video_queue">Articolele video în prezent în coadă pentru redare</string>
     <string name="lbl_current_queue">Coada curentă</string>
-    <string name="btn_set_compatible_audio">Configurează downmix acum</string>
     <string name="btn_got_it">Am înțeles</string>
     <string name="msg_external_path">Această caracteristică va funcționa numai dacă ați configurat corect biblioteca pe server cu căi de rețea sau înlocuire a căilor și clientul pe care îl utilizați poate accesa direct aceste locații prin rețea.</string>
-    <string name="msg_audio_warning">Această aplicație are posibilitatea de a direcționa fluxul anumitor formate audio cu mai multe canale. Dacă hardware-ul dvs. nu acceptă aceste formate, este posibil să auziți niciun sunet atunci când redați anumite articole. Acest lucru poate fi remediat prin schimbarea modului audio în „downmix” în setări.</string>
     <string name="lbl_audio_capabilitites">Capabilități Audio</string>
     <string name="lbl_vertical_stretch">Întinde pe verticală</string>
     <string name="lbl_horizontal_stretch">Întinde pe orizontală</string>

@@ -324,10 +324,8 @@
     <string name="lbl_clear_queue">대기열 비우기</string>
     <string name="desc_current_video_queue">현재 재생 대기중인 비디오 항목</string>
     <string name="lbl_current_queue">현재 대기열</string>
-    <string name="btn_set_compatible_audio">다운믹스 설정</string>
     <string name="btn_got_it">확인</string>
     <string name="msg_external_path">이 기능은 네트워크 경로 또는 대체 경로를 사용하여 서버에 라이브러리를 올바르게 설정하고 사용중인 클라이언트가 네트워크를 통해 이러한 위치에 직접 액세스 할 수 있는 경우에만 작동합니다.</string>
-    <string name="msg_audio_warning">이 앱에는 특정 다중 채널 오디오 형식을 직접 스트리밍 할 수 있는 기능이 있습니다. 하드웨어가 이러한 형식을 지원하지 않는 경우 특정 항목을 재생할 때 소리가 들리지 않을 수 있습니다. 설정에서 오디오 모드를 \'다운 믹스\'로 변경하면 이 문제를 해결할 수 있습니다.</string>
     <string name="lbl_vertical_stretch">수직 늘리기</string>
     <string name="lbl_horizontal_stretch">수평 늘리기</string>
     <string name="desc_automatic_fav_songs">좋아하는 노래와 선호하는 노래의 자동 재생목록</string>
@@ -396,7 +394,6 @@
     <string name="lbl_just_this_once">이번한번만</string>
     <string name="lbl_show_premieres">탐색중 재생</string>
     <string name="lbl_refresh_switching">새로고침 비율 변경</string>
-    <string name="lbl_audio_capabilitites">오디오 기능</string>
     <string name="desc_bitstream_ac3">사용 가능한 장치가 필요합니다</string>
     <string name="lbl_new_premieres">신규 시사</string>
     <string name="msg_total_items_in_queue">" 대기열의 모든 항목"</string>

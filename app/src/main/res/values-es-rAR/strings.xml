@@ -284,13 +284,10 @@
     <string name="lbl_clear_queue">Limpiar cola</string>
     <string name="desc_current_video_queue">Elementos de video actualmente en cola para reproducción</string>
     <string name="lbl_current_queue">Cola actual</string>
-    <string name="btn_set_compatible_audio">Establecer mezcla ahora</string>
     <string name="btn_got_it">Hecho</string>
     <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
-    <string name="msg_audio_warning">Esta aplicación tiene la habilidad de hacer transmisión directa de ciertos formatos de audio multicanal. Si tu hardware no soporta estos formatos, es posible que no escuches el audio al reproducir algunos elementos. Esto puede solucionarse cambiado el modo de audio a «mezclar» en la configuración.</string>
     <string name="lbl_subtitle_track">Seleccionar subtitulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
-    <string name="lbl_audio_capabilitites">Capacidades de audio</string>
     <string name="lbl_vertical_stretch">Estiramiento vertical</string>
     <string name="lbl_horizontal_stretch">Estiramiento horizontal</string>
     <string name="lbl_zoom">Zoom</string>
