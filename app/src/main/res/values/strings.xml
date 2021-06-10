@@ -198,7 +198,7 @@
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
     <string name="pref_live_tv_cat">Live TV</string>
-    <string name="msg_error_live_stream">Error streaming live TV.  Will re-try...</string>
+    <string name="msg_error_live_stream">Error streaming live TV. Will re-try...</string>
     <string name="lbl_direct_stream_live">Direct Stream Live TV</string>
     <string name="lbl_programs">Programs</string>
     <string name="lbl_albums">Albums</string>
@@ -391,7 +391,7 @@
     <string name="msg_live_tv_next">Load next %1$d hours?"</string>
     <string name="msg_live_tv_prev">Load prev %1$d hours?"</string>
     <string name="seek_error">Unable to seek</string>
-    <string name="player_error">Player error encountered.  Will re-try...</string>
+    <string name="player_error">Player error encountered. Will re-try...</string>
     <string name="too_many_errors">Too many errors. Giving up</string>
     <string name="subtitle_error">Unable to select subtitle</string>
     <string name="msg_no_items">No items to play</string>
