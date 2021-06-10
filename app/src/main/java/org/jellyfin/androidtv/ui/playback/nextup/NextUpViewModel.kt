@@ -69,15 +69,16 @@ class NextUpViewModel(
 		val episodeNumber = when {
 			(item.parentIndexNumber == 0) ->
 				context.getString(R.string.lbl_special)
-			(item.indexNumber != null && item.indexNumberEnd != null) ->
-				"${context.getString(R.string.lbl_episode_number, item.indexNumber)}–${item.indexNumberEnd}"
 			(item.indexNumber != null) ->
-				context.getString(R.string.lbl_episode_number, item.indexNumber)
+				listOfNotNull(
+					context.getString(R.string.lbl_episode_number, item.indexNumber),
+					item.indexNumberEnd?.toString()
+				).joinToString("–")
 			else -> null
 		}
 		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
 		val title = listOfNotNull(seasonEpisodeNumbers, item.name)
-			.filterNot{ it.isEmpty() }
+			.filter { it.isNotEmpty() }
 			.joinToString(" — ")
 
 		NextUpItemData(

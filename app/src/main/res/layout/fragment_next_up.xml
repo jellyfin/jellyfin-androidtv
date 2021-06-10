@@ -10,8 +10,8 @@
         android:id="@+id/logo"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginTop="31.5dp"
+        android:layout_marginStart="56dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,24 +23,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="48dp"
-        android:paddingTop="27dp"
-        android:paddingEnd="48dp"
-        android:paddingBottom="27dp"
+        android:paddingStart="56dp"
+        android:paddingTop="31.5dp"
+        android:paddingEnd="56dp"
+        android:paddingBottom="31.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/image"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/image_container"
             android:layout_width="wrap_content"
-            android:layout_height="175dp"
-            android:adjustViewBounds="true"
-            android:maxWidth="400dp"
+            android:layout_height="145dp"
+            app:cardCornerRadius="?attr/cardRounding"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginEnd="0dp"
-            tools:src="@drawable/app_logo" />
+            app:layout_goneMarginEnd="0dp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:maxWidth="400dp"
+                tools:src="@drawable/app_logo" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/nextup"
@@ -48,18 +56,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="4"
             android:text="@string/lbl_next_up"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/title" />
+            app:layout_constraintBottom_toTopOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/title"
             style="@style/TextAppearance.Leanback.DetailsDescriptionSubtitle"
-            android:layout_width="0dp"
+            android:layout_width="325dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="2"
             android:paddingBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:shadowColor="@color/black"
+            android:shadowRadius="4"
+            android:lineSpacingMultiplier="1.15"
             app:layout_constraintBottom_toTopOf="@id/fragment_next_up_buttons"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Episode title" />
 
         <org.jellyfin.androidtv.ui.playback.nextup.NextUpButtons
