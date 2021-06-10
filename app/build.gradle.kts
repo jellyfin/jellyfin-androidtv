@@ -15,6 +15,7 @@ android {
 		// Release version
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
+		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
 	}
 
 	buildFeatures {
@@ -31,18 +32,26 @@ android {
 	}
 
 	buildTypes {
-		getByName("release") {
+		val release by getting {
 			isMinifyEnabled = false
-			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
 			// Add applicationId as string for XML resources
 			resValue("string", "app_id", "org.jellyfin.androidtv")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
+
+			signingConfig = createReleaseSigningConfig()?.let { config ->
+				signingConfigs.create("release") {
+					storeFile = config.storeFile
+					storePassword = config.storePassword
+					keyAlias = config.keyAlias
+					keyPassword = config.keyPassword
+				}
+			}
 		}
 
-		getByName("debug") {
+		val debug by getting {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
 
@@ -53,15 +62,15 @@ android {
 			resValue("string", "app_name", "@string/app_name_debug")
 		}
 	}
+}
 
-	applicationVariants.all {
-		val variant = this
-		variant.outputs.all {
-			val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-			output.outputFileName = output.outputFileName
-				.replace("app-", "jellyfin-androidtv_")
-				.replace(".apk", "_v${variant.versionName}.apk")
-		}
+val versionTxt by tasks.registering {
+	val path = buildDir.resolve("version.txt")
+
+	doLast {
+		val versionString = "v${android.defaultConfig.versionName}=${android.defaultConfig.versionCode}"
+		logger.info("Writing [$versionString] to $path")
+		path.writeText("$versionString\n")
 	}
 }
 
