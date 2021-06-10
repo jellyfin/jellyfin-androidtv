@@ -230,7 +230,6 @@
     <string name="lbl_zoom">Ūlğaitu</string>
     <string name="lbl_horizontal_stretch">Köldeneñ sozu</string>
     <string name="lbl_vertical_stretch">Tıgıneñ sozu</string>
-    <string name="msg_audio_warning">Būl qoldanbada keibır köp arnaly dybys pışımderın tıkelei taratu mümkındıgı bar. Sızdıŋ jabdyq osy pışımderdı qoldamaityn bolsa, keibır tarmaqtardy oinatqanda, dybys estılmeuı mümkın. Eger būl oryn alsa, parametrlerde Dybys rejımın «tömendetıp aralastyru» küiıne ornatyŋyz.</string>
     <string name="btn_got_it">Tüsınıktı</string>
     <string name="lbl_current_queue">Ağymdyq kezek</string>
     <string name="desc_current_video_queue">Beine tarmaqtar oinatu üşın qazırgı uaqytta kezekte</string>

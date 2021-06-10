@@ -228,7 +228,6 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
-    <string name="lbl_audio_capabilitites">Capacidades Audio</string>
     <string name="lbl_vertical_stretch">Esticar Verticalmente</string>
     <string name="lbl_horizontal_stretch">Esticar horizontalmente</string>
     <string name="lbl_zoom">Aumentar</string>

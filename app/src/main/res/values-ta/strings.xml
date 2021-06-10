@@ -307,7 +307,6 @@
     <string name="lbl_current_queue">தற்போதைய வரிசை</string>
     <string name="btn_got_it">அறிந்துகொண்டேன்</string>
     <string name="msg_external_path">நெட்வொர்க் பாதைகள் அல்லது பாதை மாற்றீடு மூலம் சேவையகத்தில் உங்கள் நூலகத்தை சரியாக அமைத்திருந்தால் மட்டுமே இந்த அம்சம் செயல்படும், மேலும் நீங்கள் பயன்படுத்தும் கிளையன்ட் இந்த இடங்களை நேரடியாக பிணையத்தில் அணுக முடியும்.</string>
-    <string name="lbl_audio_capabilitites">ஆடியோ திறன்கள்</string>
     <string name="lbl_vertical_stretch">செங்குத்து நீட்சி</string>
     <string name="lbl_horizontal_stretch">கிடைமட்ட நீட்சி</string>
     <string name="lbl_zoom">பெரிதாக்கு</string>

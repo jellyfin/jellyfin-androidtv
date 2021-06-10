@@ -232,7 +232,6 @@
     <string name="lbl_zoom">Масштабированный</string>
     <string name="lbl_horizontal_stretch">Горизонтальное растяжение</string>
     <string name="lbl_vertical_stretch">Вертикальное растяжение</string>
-    <string name="msg_audio_warning">Приложение может транслировать напрямую некоторые многоканальные звуковые форматы. Если оборудование не поддерживает эти форматы, вы не сможете слышать звук при воспроизведении некоторых элементов. Это исправляется изменением параметра Режим аудио на \"понижающее микширование\".</string>
     <string name="btn_got_it">Понятно</string>
     <string name="lbl_current_queue">Текущая очередь</string>
     <string name="desc_current_video_queue">Видео элементы в настоящее время находятся в очереди для воспроизведения</string>

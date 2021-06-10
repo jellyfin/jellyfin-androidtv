@@ -258,7 +258,6 @@
     <string name="desc_current_video_queue">Videofiler i afpilnings kø</string>
     <string name="msg_external_path">Denne funktion virker kun hvis du har opsat dit biblotek på serveren, med en netværks sti eller en erstatnings sti, og at din klient kan afspille direkte fra disse lokationer over dit netværk.</string>
     <string name="lbl_current_queue">Nuværende Kø</string>
-    <string name="lbl_audio_capabilitites">Lydfærdigheder</string>
     <string name="lbl_bitstream_ac3">Dolby Digital Audio bitstream</string>
     <string name="desc_automatic_fav_songs">Automatisk spilleliste med foretrukne og favorit sange</string>
     <string name="desc_seasonal_themes">Vis særlige farver, og foreslag på bestemte tider af året</string>

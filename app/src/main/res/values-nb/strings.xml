@@ -283,7 +283,6 @@
     <string name="lbl_current_queue">Nåværende kø</string>
     <string name="btn_got_it">Den er grei</string>
     <string name="msg_external_path">Denne funksjonen vil kun virke dersom du har satt opp biblioteket på serveren riktig med nettverksplasseringer eller filbaneerstatning og klienten du bruker kan få direkte tilgang til disse plasseringene over nettverket.</string>
-    <string name="lbl_audio_capabilitites">Lydavspillingsevne</string>
     <string name="lbl_vertical_stretch">Vertikal utstrekning</string>
     <string name="lbl_horizontal_stretch">Horisontal utstrekning</string>
     <string name="lbl_zoom">Zoom</string>

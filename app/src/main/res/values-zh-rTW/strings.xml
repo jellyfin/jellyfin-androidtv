@@ -304,7 +304,6 @@
     <string name="desc_automatic_fav_songs">自動播放列表的喜愛和喜歡的歌曲</string>
     <string name="lbl_new_premieres">新的首映</string>
     <string name="desc_bitstream_ac3">需要有能力的硬體</string>
-    <string name="msg_audio_warning">這個應用程式有能力直接流某些多通道音訊格式。如果您的硬體不支持這些格式，您可能在播放某些項目時聽不到任何聲音。這可以透過在設置中將音訊模式更改為「downmix」來修復。</string>
     <string name="msg_external_path">只有在使用網路路徑或路徑替換且在伺服器上正確設置媒體庫，並使用的客戶機可以透過網路直接訪問這位址時，此功能才會生效。</string>
     <string name="desc_current_video_queue">目前正在佇列等待播放的影片項目</string>
     <string name="lbl_play_next_up">播放下一個</string>

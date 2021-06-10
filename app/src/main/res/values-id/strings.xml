@@ -87,7 +87,6 @@
     <string name="desc_current_video_queue">Item video saat ini sedang dalam antrean untuk diputar</string>
     <string name="lbl_current_queue">Antrian Saat Ini</string>
     <string name="btn_got_it">Mengerti</string>
-    <string name="lbl_audio_capabilitites">Kemampuan Audio</string>
     <string name="lbl_zoom">Perbesar</string>
     <string name="lbl_normal">Normal</string>
     <string name="desc_bitstream_ac3">Membutuhkan perangkat keras yang mumpuni</string>

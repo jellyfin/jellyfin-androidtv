@@ -180,7 +180,6 @@
     <string name="lbl_current_queue">Τώρα στην ουρά</string>
     <string name="btn_got_it">Το κατάλαβα</string>
     <string name="msg_external_path">Το χαρακτηριστικό αυτό θα λειτουργήσει μόνο αν έχετε ρυθμίσει σωστά την βιβλιοθήκη σας στον διακομιστή με τοποθεσίες δικτύου ή με αντικατάσταση τοποθεσίας και το πρόγραμμα-πελάτης που χρησιμοποιείτε μπορεί να έχει πρόσβαση στις τοποθεσίες αυτές άμεσα.</string>
-    <string name="lbl_audio_capabilitites">Δυνατότητες ήχου</string>
     <string name="lbl_vertical_stretch">Κάθετο τέντωμα</string>
     <string name="lbl_horizontal_stretch">Οριζόντιο τέντωμα</string>
     <string name="lbl_zoom">Μεγέθυνση</string>

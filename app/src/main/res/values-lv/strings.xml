@@ -308,7 +308,6 @@
     <string name="lbl_play_next_up">Atskaņot Nākamo</string>
     <string name="desc_current_video_queue">Video vienumi pašlaik ierindoti atskaņošanai</string>
     <string name="msg_external_path">Šī funkcija strādās tikai tad, ja tev serverī ir pareizi uzstādīta bibliotēka ar tīkla ceļiem, vai ceļu substitūcijām, un klients, ko tu izmanto spēj tieši piekļūt šīm vietām caur tīklu.</string>
-    <string name="lbl_audio_capabilitites">Audio Iespējas</string>
     <string name="lbl_new_premieres">Jaunās Pirmizrādes</string>
     <string name="lbl_programs">Programmas</string>
     <string name="lbl_direct_stream_live">Tieši Straumēt Tiešraides TV</string>

@@ -230,7 +230,6 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_horizontal_stretch">Alargamento Horizontal</string>
     <string name="lbl_vertical_stretch">Alargamento Vertical</string>
-    <string name="msg_audio_warning">Este app pode fazer o stream direto de certos formatos de áudio multi-canais. Se seu hardware não suporta estes formatos, você pode ficar sem ouvir o som ao reproduzir alguns itens. Isto pode ser corrigido alterando o modo de áudio para \'downmix\' nas configurações.</string>
     <string name="btn_got_it">Entendi</string>
     <string name="lbl_current_queue">Fila Atual</string>
     <string name="desc_current_video_queue">Itens de vídeo estão enfileirados para reprodução</string>

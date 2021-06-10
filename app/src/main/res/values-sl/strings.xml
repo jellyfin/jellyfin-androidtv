@@ -371,7 +371,6 @@
     <string name="lbl_show_backdrop">Prikaži ozadje med brskanjem</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
-    <string name="msg_audio_warning">Aplikacija podpira neposredno pretakanje določenih več kanalnih zvočnih formatov. V primeru da vaša naprava teh formatov ne podpira pri predvajanju določenih vsebin ne boste slišali zvoka. To lahko popravite s spreminjanjem nastavitve Pretvori v stereo.</string>
     <string name="pref_acra_syslog_disabled">Sistemski dnevniki ne bodo vključeni v poročilu o napaki</string>
     <string name="pref_acra_syslog_enabled">&lt;Sistemski dnevniki bodo vključeni v poročilu o napaki</string>
     <string name="pref_acra_syslog">Vključi sistemske dnevnike v poročilu o napaki. Te lahko vsebujejo zasebne podatke drugih aplikacij če so bile zapisane v dnevnik ob času napake.</string>

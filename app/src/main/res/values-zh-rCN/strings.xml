@@ -206,7 +206,6 @@
     <string name="lbl_current_queue">当前队列</string>
     <string name="btn_got_it">得到它</string>
     <string name="msg_external_path">只有在使用网络路径或路径替换在服务器上正确设置了库，并且使用的客户机可以通过网络直接访问这些位置时，此功能才会起作用。</string>
-    <string name="lbl_audio_capabilitites">音频功能</string>
     <string name="lbl_vertical_stretch">垂直延伸</string>
     <string name="lbl_horizontal_stretch">横向拉伸</string>
     <string name="lbl_zoom">变焦</string>

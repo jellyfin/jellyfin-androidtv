@@ -230,7 +230,6 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_horizontal_stretch">Estiramiento horizontal</string>
     <string name="lbl_vertical_stretch">Estiramiento vertical</string>
-    <string name="msg_audio_warning">Esta aplicación tiene la habilidad de hacer transmisión directa de ciertos formatos de audio multicanal. Si tu hardware no soporta estos formatos, es posible que no escuches el audio al reproducir algunos elementos. Esto puede solucionarse cambiado el modo de audio a «downmix» en la configuración.</string>
     <string name="btn_got_it">Hecho</string>
     <string name="lbl_current_queue">Cola actual</string>
     <string name="desc_current_video_queue">Elementos de video actualmente en cola para reproducción</string>
