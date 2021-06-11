@@ -200,7 +200,7 @@
     <string name="sum_enable_cinema_mode">Pokud je povoleno na serveru, zobrazovat úvodníky a náhledy před přehráváním filmu</string>
     <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
     <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu...</string>
-    <string name="lbl_now_playing_album">z %s</string>
+    <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%s z %s</string>
     <string name="msg_error_server_unavailable">Server nedostupný</string>
     <string name="lbl_watched">Zhlédnuto</string>
@@ -216,7 +216,7 @@
     <string name="lbl_next_episode">Další epizoda</string>
     <string name="lbl_previous_episode">Předchozí epizoda</string>
     <string name="lbl_more_like_this">Více takovýchto</string>
-    <string name="lbl_resume_from">Přehrát od %s</string>
+    <string name="lbl_resume_from">Přehrát od %1$s</string>
     <string name="lbl_resume_preroll">Obnovit pozici přehrávání</string>
     <string name="lbl_guide_option_number">Číslo kanálu</string>
     <string name="lbl_guide_option_played">Naposledy přehrávané</string>
@@ -365,7 +365,7 @@
     <string name="login_invalid_credentials">Neplatné uživatelské jméno nebo heslo</string>
     <string name="login_authenticating">Ověřování uživatele…</string>
     <string name="server_field_empty">Adresa nesmí být prázdná</string>
-    <string name="server_connection_failed">Nelze se připojit k serveru: %s</string>
+    <string name="server_connection_failed">Nelze se připojit k serveru: %1$s</string>
     <string name="server_connecting">Připojování k %s</string>
     <string name="connect_title">Připojit</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ke kterému se může připojit. Chcete-li zjistit, jak začít Jellyfin používat, podívejte se na dokumentaci na docs.jellyfin.org.</string>
@@ -412,4 +412,5 @@
     <string name="lbl_switch_user">Přepnout uživatele</string>
     <string name="no_network_permissions">Jellyfin ke svému fungování potřebuje povolení k přístupu k síti</string>
     <string name="pref_theme_muted_purple">Nevtíravá fialová</string>
+    <string name="press_to_close">Stisknutím zavřete</string>
 </resources>
