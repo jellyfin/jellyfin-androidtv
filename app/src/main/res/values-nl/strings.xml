@@ -205,7 +205,7 @@
     <string name="lbl_bitstream_ac3">Dolby Digital audio bitstreamen</string>
     <string name="lbl_new_premieres">Nieuwe premières</string>
     <string name="lbl_warning">Waarschuwing</string>
-    <string name="lbl_now_playing_album">van %s</string>
+    <string name="lbl_now_playing_album">van %1$s</string>
     <string name="lbl_now_playing_track">%s van %s</string>
     <string name="msg_error_server_unavailable">Server niet beschikbaar</string>
     <string name="lbl_status">%s / %s</string>
@@ -238,7 +238,7 @@
     <string name="lbl_new_only">Alleen nieuwe resultaten</string>
     <string name="lbl_song_title">Titel van het nummer</string>
     <string name="lbl_more_like_this">Meer zoals dit</string>
-    <string name="lbl_resume_from">Hervat vanaf %s</string>
+    <string name="lbl_resume_from">Hervat vanaf %1$s</string>
     <string name="lbl_resume_preroll">Hervat pre-roll</string>
     <string name="lbl_guide_option_number">Kanaalnummer</string>
     <string name="lbl_guide_option_played">Laatst afgespeeld</string>
@@ -366,7 +366,7 @@
     <string name="login_server_unavailable">Server niet bereikbaar</string>
     <string name="login_invalid_credentials">Ongeldige gebruikersnaam en/of wachtwoord</string>
     <string name="server_field_empty">Het adres kan niet leeg zijn</string>
-    <string name="server_connection_failed">Kan niet verbinden met server: %s</string>
+    <string name="server_connection_failed">Kan niet verbinden met server: %1$s</string>
     <string name="pref_developer_link">Ontwikkelaar opties</string>
     <string name="image_size_large">Groot</string>
     <string name="image_size_medium">Gemiddeld</string>
@@ -409,4 +409,8 @@
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerkpermissies nodig om te functioneren</string>
     <string name="lbl_switch_user">Wijzig gebruiker</string>
+    <string name="pref_theme_muted_purple">Muted Purple</string>
+    <string name="lbl_hide_unwatched_count">Verberg niet bekeken aantal</string>
+    <string name="pref_watched_indicator">Laat bekeken indicatoren zien</string>
+    <string name="press_to_close">Druk om te sluiten</string>
 </resources>
