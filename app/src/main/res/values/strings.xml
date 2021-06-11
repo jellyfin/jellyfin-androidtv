@@ -411,4 +411,5 @@
     <string name="pref_theme_muted_purple">Muted Purple</string>
     <string name="no_network_permissions">Jellyfin requires network permissions to function</string>
     <string name="press_to_close">Press to close</string>
+    <string name="lbl_skip">Skip</string>
 </resources>

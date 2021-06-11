@@ -78,6 +78,7 @@ public class MediaManager {
     private boolean audioInitialized;
     private boolean nativeMode = false;
     private boolean videoQueueModified = false;
+    private boolean videoQueueShuffled = false;
 
     private List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -819,5 +820,13 @@ public class MediaManager {
     public void clearVideoQueue() {
         mCurrentVideoQueue = new ArrayList<>();
         videoQueueModified = false;
+    }
+
+    public boolean isVideoQueueShuffled() {
+        return videoQueueShuffled;
+    }
+
+    public void setVideoQueueShuffled(boolean videoQueueShuffled) {
+        this.videoQueueShuffled = videoQueueShuffled;
     }
 }

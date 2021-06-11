@@ -41,6 +41,10 @@ class NextUpViewModel(
 		_state.postValue(NextUpState.PLAY_NEXT)
 	}
 
+	fun skip() {
+		_state.postValue(NextUpState.SKIP)
+	}
+
 	fun close() {
 		_state.postValue(NextUpState.CLOSE)
 	}

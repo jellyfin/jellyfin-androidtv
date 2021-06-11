@@ -957,6 +957,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            mediaManager.getValue().setVideoQueueShuffled(true);
                             play(mBaseItem, 0, true);
                         }
                     });

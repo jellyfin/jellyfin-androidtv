@@ -722,6 +722,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onDestroy();
         if (mPlaybackController != null && mPlaybackController.hasFragment()) {
             mPlaybackController.removePreviousQueueItems();
+            mediaManager.getValue().setVideoQueueShuffled(false);
         }
     }
 

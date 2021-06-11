@@ -120,6 +120,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                                 } else {
                                     mItemsToPlay.remove(0);
                                 }
+                                mediaManager.getValue().setVideoQueueShuffled(false);
                                 finish();
                             }
                         })
@@ -134,6 +135,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 playNext();
             } else {
                 mItemsToPlay.remove(0);
+                mediaManager.getValue().setVideoQueueShuffled(false);
                 finish();
             }
         }

@@ -34,6 +34,7 @@ class NextUpFragment : Fragment() {
 
 		binding.fragmentNextUpButtons.apply {
 			setPlayNextListener(viewModel::playNext)
+			setSkipListener(viewModel::skip)
 			setCancelListener(viewModel::close)
 		}
 

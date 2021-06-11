@@ -550,6 +550,7 @@ public class ItemListActivity extends FragmentActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
+                            mediaManager.getValue().setVideoQueueShuffled(true);
                             if (mBaseItem.getId().equals(VIDEO_QUEUE)
                                     || mBaseItem.getId().equals(FAV_SONGS)
                                     || mBaseItem.getBaseItemType() == BaseItemType.Playlist

@@ -7,12 +7,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import android.widget.Space
 import androidx.appcompat.widget.AppCompatButton
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.koin.core.component.inject
 
 @KoinApiExtension
 class NextUpButtons(
@@ -23,6 +26,7 @@ class NextUpButtons(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
+	private val mediaManager: MediaManager by inject()
 	private var countdownTimer: CountDownTimer? = null
 	private val view = View.inflate(context, R.layout.fragment_next_up_buttons, null)
 
@@ -34,6 +38,12 @@ class NextUpButtons(
 
 			// Add initial focus
 			requestFocus()
+		}
+
+		// Show skip button if episodes are shuffled
+		if (mediaManager.isVideoQueueShuffled && mediaManager.currentVideoQueue.size > 1) {
+			view.findViewById<Button>(R.id.fragment_next_up_buttons_skip).visibility = VISIBLE
+			view.findViewById<Space>(R.id.fragment_next_up_buttons_skip_space).visibility = VISIBLE
 		}
 	}
 
@@ -71,6 +81,13 @@ class NextUpButtons(
 
 	fun setPlayNextListener(listener: (() -> Unit)?) {
 		val button = view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next)
+
+		if (listener == null) button.setOnClickListener(null)
+		else button.setOnClickListener { listener() }
+	}
+
+	fun setSkipListener(listener: () -> Unit) {
+		val button = view.findViewById<Button>(R.id.fragment_next_up_buttons_skip)
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }
