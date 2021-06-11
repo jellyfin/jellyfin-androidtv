@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingHorizontal="@dimen/activity_horizontal_margin"
-    android:paddingVertical="@dimen/activity_vertical_margin">
+    android:paddingHorizontal="@dimen/overscan_horizontal"
+    android:paddingBottom="@dimen/overscan_vertical">
 
     <TextView
         android:id="@+id/title"
