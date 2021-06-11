@@ -57,10 +57,12 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val nextUpExtended = userPreferences[UserPreferences.nextUpEnabled] == NextUpBehavior.EXTENDED
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val thumbnail = if (nextUpExtended) apiClient.GetImageUrl(item, ImageOptions()) else null
+		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior] == NextUpBehavior.EXTENDED) {
+			true -> apiClient.GetImageUrl(item, ImageOptions())
+			false -> null
+		}
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val seasonNumber = when (item.parentIndexNumber != null && item.parentIndexNumber != 0) {

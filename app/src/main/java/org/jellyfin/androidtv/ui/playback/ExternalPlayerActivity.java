@@ -193,7 +193,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) != NextUpBehavior.DISABLED) {
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED) {
                 // Set to "modified" so the queue won't be cleared
                 mediaManager.getValue().setVideoQueueModified(true);
 
