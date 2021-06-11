@@ -130,7 +130,7 @@
     <string name="lbl_load_channels">"Műsorok betöltése "</string>
     <string name="lbl_unwatched">Nem lejátszott</string>
     <string name="msg_no_playable_items">Nince lejátszható elem</string>
-    <string name="lbl_now_playing_album">- %s</string>
+    <string name="lbl_now_playing_album">%1$s -tól</string>
     <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik:</string>
     <string name="lbl_on">Ekkor:</string>
     <string name="lbl_resume_preroll">Késleltetett lejátszás</string>
@@ -188,7 +188,7 @@
     <string name="lbl_album_name">Albumcím</string>
     <string name="lbl_next_episode">Következő epizód</string>
     <string name="lbl_previous_episode">Előző epizód</string>
-    <string name="lbl_resume_from">Lejátszás %s-tól</string>
+    <string name="lbl_resume_from">Lejátszás %1$s -tól</string>
     <string name="lbl_guide_option_number">Csatorna száma</string>
     <string name="lbl_guide_option_played">Legutóbb játszott</string>
     <string name="lbl_show_indicators">Indikátorok mutatása:</string>
@@ -365,7 +365,7 @@
     <string name="login_invalid_credentials">Hibás felhasználónév és/vagy jelszó</string>
     <string name="login_authenticating">Hitelesítés...</string>
     <string name="server_field_empty">Az elérhetőség nem lehet üres</string>
-    <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %s</string>
+    <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %1$s</string>
     <string name="server_connecting">Csatlakozás a következőhöz: %s</string>
     <string name="connect_title">Csatlakozás</string>
     <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen a Jellyfin használatának megkezdéséhez.</string>
