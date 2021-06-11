@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
@@ -1085,7 +1086,8 @@ public class PlaybackController {
 
             BaseItemDto curItem = getCurrentlyPlayingItem();
 
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled()) != NextUpBehavior.DISABLED
+                && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mediaManager.getValue().setCurrentVideoQueue(mItems);

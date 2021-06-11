@@ -57,18 +57,13 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable the next up screen or not
 		 */
-		var nextUpEnabled = Preference.boolean("next_up_enabled", true)
+		var nextUpEnabled = Preference.enum("next_up_enabled", NextUpBehavior.EXTENDED)
 
 		/**
 		 * Next up timeout before playing next item
 		 * Stored in milliseconds
 		 */
 		var nextUpTimeout = Preference.int("next_up_timeout", 1000 * 7)
-
-		/**
-		 * Display the next up item's thumbnail on the next up screen
-		 */
-		var nextUpThumbnailEnabled = Preference.boolean("next_up_thumbnail_enabled", true)
 
 		/**
 		 * Duration in seconds to subtract from resume time

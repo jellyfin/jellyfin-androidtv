@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.ImageOptions
@@ -56,10 +57,10 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val nextUpThumbnailEnabled = userPreferences[UserPreferences.nextUpThumbnailEnabled]
+		val nextUpExtended = userPreferences[UserPreferences.nextUpEnabled] == NextUpBehavior.EXTENDED
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val thumbnail = if (nextUpThumbnailEnabled) apiClient.GetImageUrl(item, ImageOptions()) else null
+		val thumbnail = if (nextUpExtended) apiClient.GetImageUrl(item, ImageOptions()) else null
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
 		val seasonNumber = when (item.parentIndexNumber != null && item.parentIndexNumber != 0) {
