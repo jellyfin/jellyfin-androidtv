@@ -205,7 +205,7 @@
     <string name="lbl_next_episode">Nächste Episode</string>
     <string name="lbl_previous_episode">Vorherige Episode</string>
     <string name="lbl_more_like_this">Ähnliches</string>
-    <string name="lbl_resume_from">Weiterschauen ab %s</string>
+    <string name="lbl_resume_from">Weiterschauen ab %1$s</string>
     <string name="lbl_resume_preroll">Rücksprung vor dem Weiterschauen</string>
     <string name="lbl_guide_option_number">Kanalnummer</string>
     <string name="lbl_guide_option_played">Zuletzt wiedergegeben</string>
@@ -240,7 +240,7 @@
     <string name="lbl_in_x_days">In %d Tagen</string>
     <string name="msg_external_path">Diese Funktion wird nur dann funktionieren, wenn die Bibliothek auf dem Server korrekt mit Netzwerkpfaden oder Pfadsubstitutionen eingerichtet wurde und der verwendete Client direkt über das Netzwerk auf diese zugreifen kann.</string>
     <string name="lbl_warning">Warnung</string>
-    <string name="lbl_now_playing_album">von %s</string>
+    <string name="lbl_now_playing_album">von %1$s</string>
     <string name="lbl_now_playing_track">%s von %s</string>
     <string name="msg_error_server_unavailable">Server nicht erreichbar</string>
     <string name="lbl_watched">Angesehen</string>
@@ -365,7 +365,7 @@
     <string name="login_invalid_credentials">Falscher Nutzername und/oder Passwort</string>
     <string name="login_authenticating">Authentifizierung...</string>
     <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
-    <string name="server_connection_failed">Verbindung zum Server nicht möglich: %s</string>
+    <string name="server_connection_failed">Verbindung zum Server nicht möglich: %1$s</string>
     <string name="server_connecting">Verbinden mit %s</string>
     <string name="connect_title">Verbinden</string>
     <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
@@ -412,4 +412,5 @@
     <string name="lbl_switch_user">Benutzer wechseln</string>
     <string name="no_network_permissions">Jellyfin benötigt zum Funktionieren Netzwerkberechtigungen</string>
     <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
+    <string name="press_to_close">Zum Schließen klicken</string>
 </resources>
