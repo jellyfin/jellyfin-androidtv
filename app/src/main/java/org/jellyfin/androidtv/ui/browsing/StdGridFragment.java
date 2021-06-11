@@ -4,6 +4,7 @@ import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Intent;
+import android.graphics.BlendMode;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -38,7 +40,6 @@ import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.AlphaPicker;
 import org.jellyfin.androidtv.ui.GridFragment;
-import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -362,9 +363,13 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
-        int size = Utils.convertDpToPixel(getActivity(), 24);
+        int size = Utils.convertDpToPixel(requireContext(), 26);
 
-        mSortButton = new ImageButton(getActivity(), R.drawable.ic_sort, size, new View.OnClickListener() {
+        mSortButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        mSortButton.setImageResource(R.drawable.ic_sort);
+        mSortButton.setMaxHeight(size);
+        mSortButton.setAdjustViewBounds(true);
+        mSortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Create sort menu
@@ -394,7 +399,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         toolBar.addView(mSortButton);
 
         if (mRowDef.getQueryType() == QueryType.Items) {
-            mUnwatchedButton = new ImageButton(getActivity(), mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch, size, new View.OnClickListener() {
+            mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+            mUnwatchedButton.setImageTintBlendMode(BlendMode.DST);
+            mUnwatchedButton.setImageResource(mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch);
+            mUnwatchedButton.setMaxHeight(size);
+            mUnwatchedButton.setAdjustViewBounds(true);
+            mUnwatchedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FilterOptions filters = mGridAdapter.getFilters();
@@ -417,7 +427,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             toolBar.addView(mUnwatchedButton);
         }
 
-        mFavoriteButton =new ImageButton(getActivity(), mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart, size, new View.OnClickListener() {
+        mFavoriteButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        mFavoriteButton.setImageTintBlendMode(BlendMode.DST);
+        mFavoriteButton.setImageResource(mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+        mFavoriteButton.setMaxHeight(size);
+        mFavoriteButton.setAdjustViewBounds(true);
+        mFavoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilterOptions filters = mGridAdapter.getFilters();
@@ -438,7 +453,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mFavoriteButton.setContentDescription(getString(R.string.lbl_favorite));
         toolBar.addView(mFavoriteButton);
 
-        mLetterButton = new ImageButton(getActivity(), R.drawable.ic_jump_letter, size, new View.OnClickListener() {
+        mLetterButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        mLetterButton.setImageResource(R.drawable.ic_jump_letter);
+        mLetterButton.setMaxHeight(size);
+        mLetterButton.setAdjustViewBounds(true);
+        mLetterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Open letter jump popup
@@ -448,7 +467,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mLetterButton.setContentDescription(getString(R.string.lbl_by_letter));
         toolBar.addView(mLetterButton);
 
-        mSearchButton = new ImageButton(getActivity(), R.drawable.ic_search, size, new View.OnClickListener() {
+        mSearchButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        mSearchButton.setImageResource(R.drawable.ic_search);
+        mSearchButton.setMaxHeight(size);
+        mSearchButton.setAdjustViewBounds(true);
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
@@ -460,7 +483,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mSearchButton.setContentDescription(getString(R.string.lbl_search));
         toolBar.addView(mSearchButton);
 
-        mSettingsButton = new ImageButton(getActivity(), R.drawable.ic_settings, size, new View.OnClickListener() {
+        mSettingsButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
+        mSettingsButton.setImageResource(R.drawable.ic_settings);
+        mSettingsButton.setMaxHeight(size);
+        mSettingsButton.setAdjustViewBounds(true);
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent settingsIntent = new Intent(getActivity(), PreferencesActivity.class);
