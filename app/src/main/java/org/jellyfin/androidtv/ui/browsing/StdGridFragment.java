@@ -191,23 +191,28 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        if (mImageType != mDisplayPrefs.getCustomPrefs().get("ImageType") || mPosterSizeSetting != mDisplayPrefs.getCustomPrefs().get("PosterSize") || mGridDirection != mDisplayPrefs.getCustomPrefs().get("GridDirection")) {
-            mImageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
-            mPosterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
-            mGridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
+        String imageType = mDisplayPrefs.getCustomPrefs().get("ImageType");
+        if (imageType == null) imageType = ImageType.DEFAULT;
+        String posterSizeSetting = mDisplayPrefs.getCustomPrefs().get("PosterSize");
+        if (posterSizeSetting == null) posterSizeSetting = PosterSize.AUTO;
+        String gridDirection = mDisplayPrefs.getCustomPrefs().get("GridDirection");
+        if (gridDirection == null) gridDirection = GridDirection.HORIZONTAL.name();
 
-            // Set defaults
-            if (mImageType == null) mImageType = ImageType.DEFAULT;
-            if (mPosterSizeSetting == null) mPosterSizeSetting = PosterSize.AUTO;
-            if (mGridDirection == null) mGridDirection = GridDirection.HORIZONTAL.name();
+        if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection) {
+            mImageType = imageType;
+            mPosterSizeSetting = posterSizeSetting;
+            mGridDirection = gridDirection;
 
-            if (mGridDirection.equals(GridDirection.VERTICAL.name()))
+            if (mGridDirection.equals(GridDirection.VERTICAL.name()) && (getGridPresenter() == null || !(getGridPresenter() instanceof VerticalGridPresenter)))
                 setGridPresenter(new VerticalGridPresenter());
-            else
+            else if (mGridDirection.equals(GridDirection.HORIZONTAL.name()) && (getGridPresenter() == null || !(getGridPresenter() instanceof HorizontalGridPresenter)))
                 setGridPresenter(new HorizontalGridPresenter());
 
-            mCardHeight = getCardHeight(mPosterSizeSetting);
-            setCardHeight(mCardHeight);
+            int cardHeight = getCardHeight(mPosterSizeSetting);
+            if (mCardHeight != cardHeight) {
+                mCardHeight = cardHeight;
+                setCardHeight(mCardHeight);
+            }
 
             setGridSizes();
             createGrid();
