@@ -42,7 +42,7 @@
     <string name="lbl_sort_by">Ordenar por</string>
     <string name="lbl_show_indicators">Mostrar indicadores para</string>
     <string name="lbl_resume_preroll">Reanudar Pre-Roll</string>
-    <string name="lbl_resume_from">Reanudar desde %s</string>
+    <string name="lbl_resume_from">Reanudar desde %1$s</string>
     <string name="lbl_more_like_this">Más como esto</string>
     <string name="lbl_previous_episode">Episodio anterior</string>
     <string name="btn_cancel">Cancelar</string>
@@ -92,7 +92,7 @@
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
     <string name="lbl_now_playing_track">%s de %s</string>
-    <string name="lbl_now_playing_album">de %s</string>
+    <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_like">Me gusta</string>
     <string name="lbl_today">Hoy</string>
     <string name="lbl_tomorrow">Mañana</string>
@@ -345,7 +345,7 @@
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválida</string>
     <string name="login_authenticating">Autenticando ...</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
-    <string name="server_connection_failed">Incapaz de conectar al servidor: %s</string>
+    <string name="server_connection_failed">Incapaz de conectar al servidor: %1$s</string>
     <string name="server_connecting">Conectando a%s</string>
     <string name="pref_clock_display_playback">Durante la reproducción</string>
     <string name="pref_clock_display_browsing">Mientras navega</string>
@@ -412,4 +412,5 @@
     <string name="lbl_switch_user">Cambiar usuario</string>
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
     <string name="pref_theme_muted_purple">Purpura apagado</string>
+    <string name="press_to_close">Presione para Cerrar</string>
 </resources>
