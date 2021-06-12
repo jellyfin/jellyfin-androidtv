@@ -23,7 +23,12 @@ allprojects {
 				includeVersionByRegex("org\\.jellyfin\\.sdk", ".*", ".*-SNAPSHOT")
 			}
 		}
-		jcenter()
+		maven("https://jitpack.io") {
+			content {
+				// Only allow legacy apiclient
+				includeVersionByRegex("com.github.jellyfin.jellyfin-sdk-kotlin", ".*", "v0.7.10")
+			}
+		}
 	}
 }
 
