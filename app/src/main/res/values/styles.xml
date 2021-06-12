@@ -53,6 +53,16 @@
         <item name="android:minHeight">0dp</item>
     </style>
 
+    <style name="Button.Icon" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_icon_back</item>
+        <item name="android:tint">@drawable/button_icon_tint</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:minHeight">4dp</item>
+    </style>
+
     <style name="Widget.Jellyfin.BrowseHeaders" parent="Widget.Leanback.Headers.VerticalGridView">
         <item name="android:background">@drawable/noise</item>
     </style>

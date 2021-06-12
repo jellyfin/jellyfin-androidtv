@@ -26,9 +26,7 @@
         <item name="controlIconForegroundInactive">@color/grey</item>
 
         <!-- Tile colors -->
-        <item name="tile_settings_bg">@color/theme_hotdog_black</item>
         <item name="tile_edit_bg">@color/theme_hotdog_black</item>
-        <item name="tile_switch_user_bg">@color/theme_hotdog_black</item>
         <item name="tile_search_bg">@color/theme_hotdog_black</item>
         <item name="tile_suggestions_bg">@color/theme_hotdog_black</item>
         <item name="tile_actors_bg">@color/theme_hotdog_black</item>

@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.ui.home
 
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.Presenter
-import androidx.leanback.widget.Row
-import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
-import org.jellyfin.androidtv.ui.browsing.StdBrowseFragment
+import org.jellyfin.androidtv.ui.browsing.StdRowsFragment
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
@@ -23,14 +23,13 @@ import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
-import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
 
-class HomeFragment : StdBrowseFragment(), AudioEventListener {
+class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
 	private val mediaManager by inject<MediaManager>()
 	private val helper by lazy { HomeFragmentHelper(requireContext()) }
@@ -43,7 +42,6 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	// Special rows
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
 	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get()) }
-	private val footer by lazy { HomeFragmentFooterRow(requireActivity(), get()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		// Create adapter/presenter and set it to parent
@@ -55,6 +53,13 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 
 		// Subscribe to Audio messages
 		mediaManager.addAudioEventListener(this)
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		// Make sure to focus the cards instead of the toolbar
+		ViewCompat.setFocusedByDefault(view, true)
 	}
 
 	override fun onResume() {
@@ -81,10 +86,7 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 	override fun setupEventListeners() {
 		super.setupEventListeners()
 
-		mClickedListener.registerListener { itemViewHolder: Presenter.ViewHolder, item: Any, rowViewHolder: RowPresenter.ViewHolder, row: Row ->
-			liveTVRow.onItemClicked(itemViewHolder, item, rowViewHolder, row)
-			footer.onItemClicked(itemViewHolder, item, rowViewHolder, row)
-		}
+		mClickedListener.registerListener(liveTVRow::onItemClicked)
 	}
 
 	fun addSection(type: HomeSectionType) {
@@ -166,7 +168,9 @@ class HomeFragment : StdBrowseFragment(), AudioEventListener {
 				// Add rows in order
 				nowPlaying.addToRowsAdapter(mCardPresenter, mRowsAdapter)
 				for (row in rows) row.addToRowsAdapter(mCardPresenter, mRowsAdapter)
-				footer.addToRowsAdapter(mCardPresenter, mRowsAdapter)
+
+				// Manually set focus if focusedByDefault is not available
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) view?.requestFocus()
 			}
 		}
 	}

@@ -9,7 +9,6 @@
     <attr name="tile_port_video_bg" format="color" />
     <attr name="tile_port_video_queue_bg" format="color" />
     <attr name="tile_search_bg" format="color" />
-    <attr name="tile_settings_bg" format="color" />
     <attr name="tile_suggestions_bg" format="color" />
     <attr name="tile_actors_bg" format="color" />
     <attr name="tile_artists_bg" format="color" />
@@ -22,7 +21,6 @@
     <attr name="tile_land_series_timer_bg" format="color" />
     <attr name="tile_land_tv_bg" format="color" />
     <attr name="tile_letters_bg" format="color" />
-    <attr name="tile_switch_user_bg" format="color" />
     <attr name="tile_port_folder_bg" format="color" />
     <attr name="tile_port_grid_bg" format="color" />
     <attr name="tile_port_guide_bg" format="color" />

@@ -7,11 +7,20 @@ import androidx.fragment.app.FragmentActivity;
 import org.jellyfin.androidtv.constant.CustomMessage;
 
 import kotlin.Deprecated;
+import kotlin.ReplaceWith;
 
-@Deprecated(message = "Use FragmentActivity instead")
+@Deprecated(message = "Use FragmentActivity instead", replaceWith = @ReplaceWith(expression = "FragmentActivity", imports = {}))
 public abstract class BaseActivity extends FragmentActivity {
     private IKeyListener keyListener;
     private IMessageListener messageListener;
+
+    public BaseActivity() {
+        super();
+    }
+
+    public BaseActivity(int fragmentContentView) {
+        super(fragmentContentView);
+    }
 
     public void registerKeyListener(IKeyListener listener) {
         keyListener = listener;
