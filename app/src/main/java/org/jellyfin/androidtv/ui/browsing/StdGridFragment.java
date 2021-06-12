@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Intent;
-import android.graphics.BlendMode;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -400,8 +399,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         if (mRowDef.getQueryType() == QueryType.Items) {
             mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
-            mUnwatchedButton.setImageTintBlendMode(BlendMode.DST);
-            mUnwatchedButton.setImageResource(mGridAdapter.getFilters().isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch);
+            mUnwatchedButton.setImageResource(R.drawable.ic_unwatch);
+            mUnwatchedButton.setActivated(mGridAdapter.getFilters().isUnwatchedOnly());
             mUnwatchedButton.setMaxHeight(size);
             mUnwatchedButton.setAdjustViewBounds(true);
             mUnwatchedButton.setOnClickListener(new View.OnClickListener() {
@@ -418,9 +417,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     } else {
                         mGridAdapter.Retrieve();
                     }
-                    mUnwatchedButton.setImageResource(filters.isUnwatchedOnly() ? R.drawable.ic_unwatch_red : R.drawable.ic_unwatch);
-
-
+                    mUnwatchedButton.setActivated(filters.isUnwatchedOnly());
                 }
             });
             mUnwatchedButton.setContentDescription(getString(R.string.lbl_unwatched));
@@ -428,8 +425,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         }
 
         mFavoriteButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
-        mFavoriteButton.setImageTintBlendMode(BlendMode.DST);
-        mFavoriteButton.setImageResource(mGridAdapter.getFilters().isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+        mFavoriteButton.setImageResource(R.drawable.ic_heart);
+        mFavoriteButton.setActivated(mGridAdapter.getFilters().isFavoriteOnly());
         mFavoriteButton.setMaxHeight(size);
         mFavoriteButton.setAdjustViewBounds(true);
         mFavoriteButton.setOnClickListener(new View.OnClickListener() {
@@ -446,7 +443,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 } else {
                     mGridAdapter.Retrieve();
                 }
-                mFavoriteButton.setImageResource(filters.isFavoriteOnly() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+                mFavoriteButton.setActivated(filters.isFavoriteOnly());
 
             }
         });

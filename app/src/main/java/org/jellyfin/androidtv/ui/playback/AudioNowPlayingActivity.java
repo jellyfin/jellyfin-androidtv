@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.BlendMode;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -166,7 +165,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
-        mRepeatButton.setImageTintBlendMode(BlendMode.DST);
         mShuffleButton = findViewById(R.id.shuffleBtn);
         mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
@@ -408,7 +406,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     mPlayPauseButton.setImageResource(R.drawable.ic_pause);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
                 }
-                mRepeatButton.setImageResource(mediaManager.getValue().isRepeatMode() ? R.drawable.ic_loop_red : R.drawable.ic_loop);
+                mRepeatButton.setActivated(mediaManager.getValue().isRepeatMode());
                 mSaveButton.setEnabled(mediaManager.getValue().getCurrentAudioQueueSize() > 1);
                 mPrevButton.setEnabled(mediaManager.getValue().hasPrevAudioItem());
                 mNextButton.setEnabled(mediaManager.getValue().hasNextAudioItem());
