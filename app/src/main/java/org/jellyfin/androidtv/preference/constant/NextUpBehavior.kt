@@ -19,6 +19,6 @@ enum class NextUpBehavior {
 	/**
 	 * Disable the Next Up screen
 	 */
-	@EnumDisplayOptions(R.string.lbl_disabled)
+	@EnumDisplayOptions(R.string.lbl_never)
 	DISABLED
 }

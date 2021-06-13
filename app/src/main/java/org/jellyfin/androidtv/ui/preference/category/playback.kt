@@ -45,7 +45,7 @@ fun OptionsScreen.playbackCategory(
 	}
 
 	enum<NextUpBehavior> {
-		setTitle(R.string.pref_next_up_enabled_title)
+		setTitle(R.string.pref_next_up_behavior_title)
 		bind(userPreferences, UserPreferences.nextUpBehavior)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] }
 	}
