@@ -425,6 +425,7 @@
     <string name="lbl_special">Special</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">Enabled, extended</string>
     <string name="lbl_next_up_minimal">Enabled, minimal</string>
     <string name="lbl_disabled">Disabled</string>

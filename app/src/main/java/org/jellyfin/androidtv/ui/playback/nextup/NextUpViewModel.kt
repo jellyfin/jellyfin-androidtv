@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
+import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.koin.java.KoinJavaComponent.inject
 
@@ -59,30 +60,37 @@ class NextUpViewModel(
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
 		val item = apiClient.getItem(id) ?: return@withContext null
 
-		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior] == NextUpBehavior.EXTENDED) {
-			true -> apiClient.GetImageUrl(item, ImageOptions())
-			false -> null
+		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior]) {
+			NextUpBehavior.EXTENDED -> apiClient.GetImageUrl(item, ImageOptions())
+			else -> null
 		}
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
 
-		val seasonNumber = when (item.parentIndexNumber != null && item.parentIndexNumber != 0) {
+		val seasonNumber = when (item.baseItemType == BaseItemType.Episode && item.parentIndexNumber != null
+			&& item.parentIndexNumber != 0) {
 			true -> context.getString(R.string.lbl_season_number, item.parentIndexNumber)
 			false -> null
 		}
 		val episodeNumber = when {
+			(item.baseItemType != BaseItemType.Episode) ->
+				item.indexNumber?.toString()
 			(item.parentIndexNumber == 0) ->
 				context.getString(R.string.lbl_special)
+			(item.indexNumber != null && item.indexNumberEnd != null) ->
+				context.getString(R.string.lbl_episode_range, item.indexNumber, item.indexNumberEnd)
 			(item.indexNumber != null) ->
-				listOfNotNull(
-					context.getString(R.string.lbl_episode_number, item.indexNumber),
-					item.indexNumberEnd?.toString()
-				).joinToString("–")
+				context.getString(R.string.lbl_episode_number, item.indexNumber)
 			else -> null
 		}
 		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
+
+		val nameSeparator = when (item.baseItemType) {
+			BaseItemType.Episode -> " — "
+			else -> ". "
+		}
 		val title = listOfNotNull(seasonEpisodeNumbers, item.name)
 			.filter { it.isNotEmpty() }
-			.joinToString(" — ")
+			.joinToString(nameSeparator)
 
 		NextUpItemData(
 			item,
