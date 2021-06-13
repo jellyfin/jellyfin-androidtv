@@ -23,12 +23,17 @@ allprojects {
 				includeVersionByRegex("org\\.jellyfin\\.sdk", ".*", ".*-SNAPSHOT")
 			}
 		}
-		jcenter()
+		maven("https://jitpack.io") {
+			content {
+				// Only allow legacy apiclient
+				includeVersionByRegex("com.github.jellyfin.jellyfin-sdk-kotlin", ".*", "v0.7.10")
+			}
+		}
 	}
 }
 
 plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.16.0")
+	id("io.gitlab.arturbosch.detekt").version("1.17.1")
 }
 
 // Detekt configuration

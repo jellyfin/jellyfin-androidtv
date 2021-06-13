@@ -76,7 +76,7 @@ val versionTxt by tasks.registering {
 
 dependencies {
 	// Jellyfin
-	implementation("org.jellyfin.apiclient:android:0.7.9")
+	implementation("com.github.jellyfin.jellyfin-sdk-kotlin:android:v0.7.10")
 	val sdkVersion = when (getProperty("sdk.useSnapshot")?.toBoolean()) {
 		true -> "master-SNAPSHOT"
 		else -> "1.0.0-beta.7"
