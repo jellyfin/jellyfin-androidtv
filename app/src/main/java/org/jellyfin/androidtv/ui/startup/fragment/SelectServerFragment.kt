@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.collect
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.databinding.FragmentSelectServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
@@ -39,7 +40,7 @@ class SelectServerFragment : Fragment() {
 		val serverDivider = SpacingItemDecoration(0, 8)
 
 		// Stored servers
-		val storedServerAdapter = ServerAdapter { server ->
+		val storedServerAdapter = ServerAdapter { (_, server) ->
 			requireActivity()
 				.supportFragmentManager
 				.commit {
@@ -61,19 +62,34 @@ class SelectServerFragment : Fragment() {
 		// Discovery
 		binding.discoveryServers.setHasFixedSize(true)
 		binding.discoveryServers.addItemDecoration(serverDivider)
-		val discoveryServerAdapter = ServerAdapter { server ->
-			requireActivity()
-				.supportFragmentManager
-				.commit {
-					replace<AddServerAlertFragment>(
-						R.id.content_view,
-						null,
-						bundleOf(
-							AddServerAlertFragment.ARG_SERVER_ADDRESS to server.address
+		val discoveryServerAdapter = ServerAdapter { (_, server) ->
+			loginViewModel.addServer(server.address).observe(viewLifecycleOwner) { state ->
+				if (state is ConnectedState) {
+					parentFragmentManager.commit {
+						replace<StartupToolbarFragment>(R.id.content_view)
+						add<ServerFragment>(
+							R.id.content_view,
+							null,
+							bundleOf(
+								ServerFragment.ARG_SERVER_ID to state.id.toString()
+							)
 						)
-					)
-					addToBackStack(null)
+					}
+				} else {
+					items = items.map {
+						if (it.server.id == server.id) StatefulServer(state, it.server)
+						else it
+					}
+
+					// Show error as toast
+					if (state is UnableToConnectState) {
+						Toast.makeText(requireContext(), getString(
+							R.string.server_connection_failed,
+							state.addressCandidates.joinToString(prefix = "\n", separator = "\n")
+						), Toast.LENGTH_LONG).show()
+					}
 				}
+			}
 		}
 		binding.discoveryServers.adapter = discoveryServerAdapter
 
@@ -83,7 +99,7 @@ class SelectServerFragment : Fragment() {
 			binding.discoveryServers.isFocusable = false
 
 			loginViewModel.storedServers.observe(viewLifecycleOwner) { servers ->
-				storedServerAdapter.items = servers
+				storedServerAdapter.items = servers.map { StatefulServer(server = it) }
 
 				binding.storedServersTitle.isVisible = servers.any()
 				binding.storedServers.isVisible = servers.any()
@@ -93,7 +109,7 @@ class SelectServerFragment : Fragment() {
 			}
 
 			loginViewModel.discoveredServers.collect { server ->
-				discoveryServerAdapter.items += server
+				discoveryServerAdapter.items += StatefulServer(server = server)
 
 				binding.discoveryServers.isFocusable = true
 			}
@@ -133,8 +149,10 @@ class SelectServerFragment : Fragment() {
 	}
 
 	class ServerAdapter(
-		var serverClickListener: (server: Server) -> Unit = {},
-	) : ListAdapter<Server, ServerAdapter.ViewHolder>() {
+		var serverClickListener: ServerAdapter.(statefulServer: StatefulServer) -> Unit = {},
+	) : ListAdapter<StatefulServer, ServerAdapter.ViewHolder>() {
+		override fun areItemsTheSame(old: StatefulServer, new: StatefulServer): Boolean = new.server == old.server
+
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 			val view = ServerButtonView(parent.context).apply {
 				layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -142,15 +160,23 @@ class SelectServerFragment : Fragment() {
 			return ViewHolder(view)
 		}
 
-		override fun onBindViewHolder(holder: ViewHolder, server: Server) = with(holder.serverButtonView) {
+		override fun onBindViewHolder(holder: ViewHolder, statefulServer: StatefulServer) = with(holder.serverButtonView) {
+			val (serverState, server) = statefulServer
+
 			// Set data
 			name = server.name
 			address = server.address
 			version = server.version
 
+			state = when (serverState) {
+				is ConnectingState -> ServerButtonView.State.CONNECTING
+				is UnableToConnectState -> ServerButtonView.State.ERROR
+				else -> ServerButtonView.State.DEFAULT
+			}
+
 			// Set actions
 			setOnClickListener {
-				serverClickListener.invoke(server)
+				serverClickListener(statefulServer)
 			}
 		}
 
@@ -158,4 +184,6 @@ class SelectServerFragment : Fragment() {
 			val serverButtonView: ServerButtonView,
 		) : RecyclerView.ViewHolder(serverButtonView)
 	}
+
+	data class StatefulServer(val state: ServerAdditionState? = null, val server: Server)
 }

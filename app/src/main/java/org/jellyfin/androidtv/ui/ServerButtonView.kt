@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewButtonServerBinding
 
 class ServerButtonView @JvmOverloads constructor(
@@ -37,4 +40,35 @@ class ServerButtonView @JvmOverloads constructor(
 		set(value) {
 			binding.serverVersion.text = value
 		}
+
+
+	private var _state: State = State.DEFAULT
+	var state: State
+		get() = _state
+		set(value) {
+			_state = value
+
+			when (_state) {
+				State.DEFAULT -> {
+					binding.iconDefault.isVisible = true
+					binding.iconDefault.setImageResource(R.drawable.ic_cloud)
+					binding.iconProgress.isVisible = false
+				}
+				State.CONNECTING -> {
+					binding.iconDefault.isInvisible = true
+					binding.iconProgress.isVisible = true
+				}
+				State.ERROR -> {
+					binding.iconDefault.isVisible = true
+					binding.iconDefault.setImageResource(R.drawable.ic_error)
+					binding.iconProgress.isVisible = false
+				}
+			}
+		}
+
+	enum class State {
+		DEFAULT,
+		CONNECTING,
+		ERROR
+	}
 }
