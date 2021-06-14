@@ -8,10 +8,15 @@ comments:
   CommentOverPrivateProperty:
     active: false
 
+complexity:
+  # Some classes, especially repositories, can become big
+  TooManyFunctions:
+    thresholdInInterfaces: 15
+    thresholdInClasses: 15
 
 style:
+  # Allow TODO and FIXME comments
   ForbiddenComment:
-    # Allow TODO and FIXME
     values: [ 'STOPSHIP:' ]
   ReturnCount:
     max: 6

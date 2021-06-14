@@ -116,7 +116,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		// Create intent
 		val intent = when {
-			// Item is requedted
+			// Item is requested
 			itemId != null -> when {
 				// Item is a user view - need to get info from API and create the intent
 				// using the ItemLauncher
