@@ -39,7 +39,7 @@ class ServerFragment : Fragment() {
 		val server = serverIdArgument?.let(loginViewModel::getServer)
 
 		if (server == null) {
-			navigateFragment<SelectServerFragment>(keepToolbar = true)
+			navigateFragment<SelectServerFragment>(keepToolbar = true, keepHistory = false)
 			return null
 		}
 
@@ -110,7 +110,11 @@ class ServerFragment : Fragment() {
 		}
 	}
 
-	private inline fun <reified F : Fragment> navigateFragment(args: Bundle = bundleOf(), keepToolbar: Boolean = false) {
+	private inline fun <reified F : Fragment> navigateFragment(
+		args: Bundle = bundleOf(),
+		keepToolbar: Boolean = false,
+		keepHistory: Boolean = true,
+	) {
 		requireActivity()
 			.supportFragmentManager
 			.commit {
@@ -121,7 +125,7 @@ class ServerFragment : Fragment() {
 					replace<F>(R.id.content_view, null, args)
 				}
 
-				addToBackStack(null)
+				if (keepHistory) addToBackStack(null)
 			}
 	}
 
