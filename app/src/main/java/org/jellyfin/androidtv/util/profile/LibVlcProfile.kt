@@ -97,12 +97,7 @@ class LibVlcProfile(
 				codec = CodecTypes.H264
 				conditions = arrayOf(
 					h264VideoProfileCondition,
-					h264VideoLevelProfileCondition,
-					ProfileCondition(
-						ProfileConditionType.GreaterThanEqual,
-						ProfileConditionValue.RefFrames,
-						"2"
-					)
+					h264VideoLevelProfileCondition
 				)
 			},
 			// Audio channel profile
