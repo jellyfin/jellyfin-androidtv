@@ -14,6 +14,7 @@ class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
 	private lateinit var binding: FragmentNextUpBinding
 	private val backgroundService: BackgroundService by inject()
+	private var timerStarted = false
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
@@ -40,7 +41,11 @@ class NextUpFragment : Fragment() {
 	override fun onStart() {
 		super.onStart()
 
-		binding.fragmentNextUpButtons.startTimer()
+		if (!timerStarted) {
+			binding.fragmentNextUpButtons.startTimer()
+
+			timerStarted = true
+		}
 	}
 
 	override fun onPause() {
