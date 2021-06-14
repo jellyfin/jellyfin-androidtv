@@ -1,8 +1,7 @@
 package org.jellyfin.androidtv.ui.startup.preference
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.AccountManagerHelper
-import org.jellyfin.androidtv.auth.AuthenticationStore
+import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
@@ -13,8 +12,7 @@ import java.util.*
 
 class EditUserScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()
-	private val accountManagerHelper by inject<AccountManagerHelper>()
-	private val authenticationStore by inject<AuthenticationStore>()
+	private val authenticationRepository by inject<AuthenticationRepository>()
 
 	override val screen by lazyOptionsScreen {
 		val serverUUID = requireArguments().get(ARG_SERVER_UUID)
@@ -23,8 +21,7 @@ class EditUserScreen : OptionsFragment() {
 		if (serverUUID !is UUID || userUUID !is UUID) return@lazyOptionsScreen
 
 		val server = loginViewModel.getServer(serverUUID) ?: return@lazyOptionsScreen
-		val user = authenticationStore.getUser(server.id, userUUID) ?: return@lazyOptionsScreen
-		val account = accountManagerHelper.getAccount(userUUID)
+		val user = authenticationRepository.getUser(server.id, userUUID) ?: return@lazyOptionsScreen
 
 		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
 
@@ -36,12 +33,12 @@ class EditUserScreen : OptionsFragment() {
 				icon = R.drawable.ic_logout
 
 				onActivate = {
-					if (account != null) accountManagerHelper.removeAccount(account)
+					authenticationRepository.logout(user)
 				}
 
 				// Disable action when access token is not set (already signed out)
 				depends {
-					accountManagerHelper.getAccount(userUUID)?.accessToken != null
+					user.accessToken != null
 				}
 			}
 
@@ -52,7 +49,7 @@ class EditUserScreen : OptionsFragment() {
 				icon = R.drawable.ic_delete
 
 				onActivate = {
-					authenticationStore.removeUser(serverUUID, userUUID)
+					authenticationRepository.removeUser(user)
 					parentFragmentManager.popBackStack()
 				}
 			}

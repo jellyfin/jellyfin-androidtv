@@ -19,10 +19,13 @@ import java.util.*
 interface AuthenticationRepository {
 	fun getServers(): List<Server>
 	fun getUsers(server: UUID): List<PrivateUser>?
+	fun getUser(server: UUID, user: UUID): PrivateUser?
 	fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?)
 	fun authenticateUser(user: User): Flow<LoginState>
 	fun authenticateUser(user: User, server: Server): Flow<LoginState>
 	fun login(server: Server, username: String, password: String = ""): Flow<LoginState>
+	fun logout(user: User)
+	fun removeUser(user: User)
 	fun getUserImageUrl(server: Server, user: User): String?
 }
 
@@ -47,19 +50,34 @@ class AuthenticationRepositoryImpl(
 		)
 	}.sortedWith(serverComparator)
 
+	private fun mapUser(
+		serverId: UUID,
+		userId: UUID,
+		userInfo: AuthenticationStoreUser,
+		authInfo: AccountManagerAccount?,
+	) = PrivateUser(
+		id = authInfo?.id ?: userId,
+		serverId = authInfo?.server ?: serverId,
+		name = userInfo.name,
+		accessToken = authInfo?.accessToken,
+		requirePassword = userInfo.requirePassword,
+		imageTag = userInfo.imageTag,
+		lastUsed = userInfo.lastUsed,
+	)
+
 	override fun getUsers(server: UUID): List<PrivateUser>? =
 		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
 			accountManagerHelper.getAccount(userId).let { authInfo ->
-				PrivateUser(
-					id = userId,
-					serverId = authInfo?.server ?: server, name = userInfo.name,
-					accessToken = authInfo?.accessToken,
-					requirePassword = userInfo.requirePassword,
-					imageTag = userInfo.imageTag,
-					lastUsed = userInfo.lastUsed,
-				)
+				mapUser(server, userId, userInfo, authInfo)
 			}
 		}?.sortedWith(userComparator)
+
+	override fun getUser(server: UUID, user: UUID): PrivateUser? {
+		val userInfo = authenticationStore.getUser(server, user) ?: return null
+		val authInfo = accountManagerHelper.getAccount(user) ?: return null
+
+		return mapUser(server, user, userInfo, authInfo)
+	}
 
 	override fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?) {
 		val current = authenticationStore.getServer(id)
@@ -185,6 +203,15 @@ class AuthenticationRepositoryImpl(
 		)
 		setActiveSession(user, server)
 		emit(AuthenticatedState)
+	}
+
+	override fun logout(user: User) {
+		accountManagerHelper.getAccount(user.id)?.let(accountManagerHelper::removeAccount)
+	}
+
+	override fun removeUser(user: User) {
+		authenticationStore.removeUser(user.serverId, user.id)
+		logout(user)
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? {
