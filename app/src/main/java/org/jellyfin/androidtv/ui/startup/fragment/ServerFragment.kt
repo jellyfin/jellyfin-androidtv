@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
+import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
@@ -91,6 +92,7 @@ class ServerFragment : Fragment() {
 		binding.loginDisclaimer.text = server.loginDisclaimer
 
 		binding.serverButton.apply {
+			state = ServerButtonView.State.EDIT
 			name = server.name
 			address = server.address
 			version = server.version

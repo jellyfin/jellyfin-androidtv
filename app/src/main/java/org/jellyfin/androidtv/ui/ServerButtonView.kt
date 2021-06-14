@@ -51,7 +51,12 @@ class ServerButtonView @JvmOverloads constructor(
 			when (_state) {
 				State.DEFAULT -> {
 					binding.iconDefault.isVisible = true
-					binding.iconDefault.setImageResource(R.drawable.ic_cloud)
+					binding.iconDefault.setImageResource(R.drawable.ic_house)
+					binding.iconProgress.isVisible = false
+				}
+				State.EDIT -> {
+					binding.iconDefault.isVisible = true
+					binding.iconDefault.setImageResource(R.drawable.ic_house_edit)
 					binding.iconProgress.isVisible = false
 				}
 				State.CONNECTING -> {
@@ -68,6 +73,7 @@ class ServerButtonView @JvmOverloads constructor(
 
 	enum class State {
 		DEFAULT,
+		EDIT,
 		CONNECTING,
 		ERROR
 	}

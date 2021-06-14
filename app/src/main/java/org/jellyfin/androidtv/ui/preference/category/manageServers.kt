@@ -15,7 +15,7 @@ fun OptionsScreen.manageServersCategory(
 	authenticationRepository.getServers().forEach { server ->
 		link {
 			title = server.name
-			icon = R.drawable.ic_cloud
+			icon = R.drawable.ic_house
 			content = server.address
 			withFragment<EditServerScreen>(bundleOf(
 				EditServerScreen.ARG_SERVER_UUID to server.id

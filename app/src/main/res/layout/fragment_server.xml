@@ -78,6 +78,7 @@
         android:id="@+id/login_disclaimer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:gravity="center"
         android:maxLines="3"
         android:padding="8dp"
