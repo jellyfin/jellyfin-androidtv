@@ -73,12 +73,14 @@ class DefaultCardView @JvmOverloads constructor(
 
 		val scale = if (gainFocus) SCALE_FOCUSED else SCALE_DEFAULT
 
-		animate().apply {
-			scaleX(scale)
-			scaleY(scale)
-			duration = ANIMATION_DURATION
-			withLayer()
-		}.start()
+		post {
+			animate().apply {
+				scaleX(scale)
+				scaleY(scale)
+				duration = ANIMATION_DURATION
+				withLayer()
+			}
+		}
 	}
 
 	@Suppress("MagicNumber")
