@@ -110,7 +110,7 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
 	implementation("androidx.lifecycle:lifecycle-service:$androidxLifecycleVersion")
 	implementation("androidx.window:window:1.0.0-alpha05")
-	implementation("androidx.viewpager:viewpager:1.0.0")
+	implementation("androidx.cardview:cardview:1.0.0")
 
 	// Dependency Injection
 	val koinVersion = "2.2.3"

@@ -11,7 +11,7 @@
 
     <item
         android:bottom="124dp"
-        android:drawable="@drawable/ic_cloud"
+        android:drawable="@drawable/ic_house"
         android:left="60dp"
         android:right="60dp"
         android:top="124dp" />

@@ -411,4 +411,11 @@
     <string name="pref_theme_muted_purple">Muted Purple</string>
     <string name="no_network_permissions">Jellyfin requires network permissions to function</string>
     <string name="press_to_close">Press to close</string>
+    <string name="saved_servers">Saved servers</string>
+    <string name="welcome_title">Welcome to Jellyfin!</string>
+    <string name="welcome_content">Connect to your server to get started.</string>
+    <string name="server_unsupported">Server needs to be updated. Current version is %s but app requires %s or newer</string>
+    <string name="no_user_warning">We couldn\'t find any users!\nAdd a new user by pressing the \"Add user\" button.</string>
+    <string name="who_is_watching">Who\'s watching?</string>
+    <string name="add_user">Add user</string>
 </resources>

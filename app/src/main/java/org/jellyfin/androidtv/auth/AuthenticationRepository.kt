@@ -19,10 +19,13 @@ import java.util.*
 interface AuthenticationRepository {
 	fun getServers(): List<Server>
 	fun getUsers(server: UUID): List<PrivateUser>?
+	fun getUser(server: UUID, user: UUID): PrivateUser?
 	fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?)
 	fun authenticateUser(user: User): Flow<LoginState>
 	fun authenticateUser(user: User, server: Server): Flow<LoginState>
 	fun login(server: Server, username: String, password: String = ""): Flow<LoginState>
+	fun logout(user: User)
+	fun removeUser(user: User)
 	fun getUserImageUrl(server: Server, user: User): String?
 }
 
@@ -37,22 +40,44 @@ class AuthenticationRepositoryImpl(
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
 
 	override fun getServers() = authenticationStore.getServers().map { (id, info) ->
-		Server(id, info.name, info.address, Date(info.lastUsed))
+		Server(
+			id = id,
+			name = info.name,
+			address = info.address,
+			version = info.version,
+			loginDisclaimer = info.loginDisclaimer,
+			dateLastAccessed = Date(info.lastUsed),
+		)
 	}.sortedWith(serverComparator)
+
+	private fun mapUser(
+		serverId: UUID,
+		userId: UUID,
+		userInfo: AuthenticationStoreUser,
+		authInfo: AccountManagerAccount?,
+	) = PrivateUser(
+		id = authInfo?.id ?: userId,
+		serverId = authInfo?.server ?: serverId,
+		name = userInfo.name,
+		accessToken = authInfo?.accessToken,
+		requirePassword = userInfo.requirePassword,
+		imageTag = userInfo.imageTag,
+		lastUsed = userInfo.lastUsed,
+	)
 
 	override fun getUsers(server: UUID): List<PrivateUser>? =
 		authenticationStore.getUsers(server)?.mapNotNull { (userId, userInfo) ->
 			accountManagerHelper.getAccount(userId).let { authInfo ->
-				PrivateUser(
-					id = userId,
-					serverId = authInfo?.server ?: server, name = userInfo.name,
-					accessToken = authInfo?.accessToken,
-					requirePassword = userInfo.requirePassword,
-					imageTag = userInfo.imageTag,
-					lastUsed = userInfo.lastUsed,
-				)
+				mapUser(server, userId, userInfo, authInfo)
 			}
 		}?.sortedWith(userComparator)
+
+	override fun getUser(server: UUID, user: UUID): PrivateUser? {
+		val userInfo = authenticationStore.getUser(server, user) ?: return null
+		val authInfo = accountManagerHelper.getAccount(user) ?: return null
+
+		return mapUser(server, user, userInfo, authInfo)
+	}
 
 	override fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?) {
 		val current = authenticationStore.getServer(id)
@@ -91,10 +116,18 @@ class AuthenticationRepositoryImpl(
 		emit(AuthenticatingState)
 
 		val server = authenticationStore.getServer(user.serverId)?.let {
-			Server(user.serverId, it.name, it.address, Date(it.lastUsed))
+			Server(
+				id = user.serverId,
+				name = it.name,
+				address = it.address,
+				version = it.version,
+				loginDisclaimer = it.loginDisclaimer,
+				dateLastAccessed = Date(it.lastUsed),
+			)
 		}
 
 		if (server == null) emit(RequireSignInState)
+		else if (!server.versionSupported) emit(ServerVersionNotSupported(server))
 		else emitAll(authenticateUser(user, server))
 	}
 
@@ -105,6 +138,7 @@ class AuthenticationRepositoryImpl(
 
 		val account = accountManagerHelper.getAccount(user.id)
 		when {
+			!server.versionSupported -> emit(ServerVersionNotSupported(server))
 			// Access token found, proceed with sign in
 			account?.accessToken != null -> when {
 				// Update session
@@ -126,6 +160,11 @@ class AuthenticationRepositoryImpl(
 
 	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun login(server: Server, username: String, password: String) = flow {
+		if (!server.versionSupported) {
+			emit(ServerVersionNotSupported(server))
+			return@flow
+		}
+
 		val result = try {
 			callApi<AuthenticationResult> { callback ->
 				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
@@ -164,6 +203,15 @@ class AuthenticationRepositoryImpl(
 		)
 		setActiveSession(user, server)
 		emit(AuthenticatedState)
+	}
+
+	override fun logout(user: User) {
+		accountManagerHelper.getAccount(user.id)?.let(accountManagerHelper::removeAccount)
+	}
+
+	override fun removeUser(user: User) {
+		authenticationStore.removeUser(user.serverId, user.id)
+		logout(user)
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? {

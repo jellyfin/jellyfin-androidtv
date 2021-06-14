@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.ConnectedState
@@ -24,13 +23,6 @@ class LoginViewModel(
 	val storedServers: LiveData<List<Server>>
 		get() = _storedServers
 
-	init {
-		// Initial values
-		viewModelScope.launch {
-			_storedServers.postValue(serverRepository.getStoredServers())
-		}
-	}
-
 	fun getServer(id: UUID) = serverRepository.getStoredServers()
 		.find { it.id == id }
 
@@ -39,7 +31,7 @@ class LoginViewModel(
 	fun addServer(address: String) = liveData {
 		serverRepository.addServer(address).onEach {
 			// Reload stored servers when new server is added
-			if (it is ConnectedState) _storedServers.postValue(serverRepository.getStoredServers())
+			if (it is ConnectedState) reloadServers()
 
 			emit(it)
 		}.collect()
@@ -57,4 +49,14 @@ class LoginViewModel(
 	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
 
 	fun getUserImage(server: Server, user: User): String? = authenticationRepository.getUserImageUrl(server, user)
+
+	fun reloadServers() {
+		_storedServers.postValue(serverRepository.getStoredServers())
+	}
+
+	fun getLastServer(): Server? = serverRepository.getStoredServers()
+		.sortedByDescending { it.dateLastAccessed }
+		.firstOrNull()
+
+	suspend fun updateServer(server: Server): Boolean = serverRepository.refreshServerInfo(server)
 }
