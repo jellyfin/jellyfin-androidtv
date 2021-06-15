@@ -20,6 +20,9 @@
         <item name="controlIconForegroundActive">@color/theme_emerald_light</item>
         <item name="controlIconForegroundInactive">@color/theme_emerald_dark</item>
 
+        <!-- QR drawables -->
+        <item name="qrForeground">@color/theme_emerald_dark</item>
+
         <!-- Tile colors -->
         <item name="tile_edit_bg">@color/theme_emerald_light</item>
         <item name="tile_search_bg">@color/theme_emerald_light</item>

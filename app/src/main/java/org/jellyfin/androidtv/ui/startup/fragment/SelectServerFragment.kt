@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.startup.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,6 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.databinding.FragmentSelectServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
-import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -101,11 +98,14 @@ class SelectServerFragment : Fragment() {
 			loginViewModel.storedServers.observe(viewLifecycleOwner) { servers ->
 				storedServerAdapter.items = servers.map { StatefulServer(server = it) }
 
-				binding.storedServersTitle.isVisible = servers.any()
-				binding.storedServers.isVisible = servers.any()
-				binding.storedServers.isFocusable = servers.any()
+				binding.storedServersTitle.isVisible = servers.isNotEmpty()
+				binding.storedServers.isVisible = servers.isNotEmpty()
+				binding.storedServers.isFocusable = servers.isNotEmpty()
 				binding.welcomeTitle.isVisible = servers.isEmpty()
 				binding.welcomeContent.isVisible = servers.isEmpty()
+
+				// Make sure focus is properly set when no servers exist
+				if (servers.isEmpty()) binding.enterServerAddress.requestFocus()
 			}
 
 			loginViewModel.discoveredServers.collect { server ->
@@ -125,11 +125,6 @@ class SelectServerFragment : Fragment() {
 				addToBackStack(null)
 				replace<AddServerAlertFragment>(R.id.content_view)
 			}
-		}
-		binding.manageServers.setOnClickListener {
-			val intent = Intent(requireActivity(), PreferencesActivity::class.java)
-			intent.putExtra(PreferencesActivity.EXTRA_SCREEN, AuthPreferencesScreen::class.qualifiedName)
-			startActivity(intent)
 		}
 
 		// App info

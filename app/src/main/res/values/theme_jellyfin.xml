@@ -49,6 +49,10 @@
         <item name="controlIconForegroundActive">@color/jellyfin_blue</item>
         <item name="controlIconForegroundInactive">@color/button_default_highlight_background</item>
 
+        <!-- QR drawables -->
+        <item name="qrBackground">@color/white</item>
+        <item name="qrForeground">@color/black</item>
+
         <!-- Tile colors -->
         <item name="tile_edit_bg">#4b41ae</item>
         <item name="tile_search_bg">#3486BD</item>
