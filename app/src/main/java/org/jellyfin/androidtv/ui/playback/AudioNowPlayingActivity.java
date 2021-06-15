@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -28,10 +31,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -46,8 +47,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
     private TextView mGenreRow;
@@ -130,37 +129,26 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
-        mPlayPauseButton.setSecondaryImage(R.drawable.ic_pause);
-        mPlayPauseButton.setPrimaryImage(R.drawable.ic_play);
-        TextView helpView = findViewById(R.id.buttonTip);
         mPrevButton = findViewById(R.id.prevBtn);
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
-        mPrevButton.setHelpView(helpView);
-        mPrevButton.setHelpText(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().prevAudioItem();
             }
         });
-        mPrevButton.setGotFocusListener(mainAreaFocusListener);
+        mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
         mNextButton = findViewById(R.id.nextBtn);
         mNextButton.setContentDescription(getString(R.string.lbl_next_item));
-        mNextButton.setHelpView(helpView);
-        mNextButton.setHelpText(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().nextAudioItem();
             }
         });
-        mNextButton.setGotFocusListener(mainAreaFocusListener);
+        mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
         mRepeatButton = findViewById(R.id.repeatBtn);
         mRepeatButton.setContentDescription(getString(R.string.lbl_repeat));
-        mRepeatButton.setHelpView(helpView);
-        mRepeatButton.setHelpText(getString(R.string.lbl_repeat));
-        mRepeatButton.setPrimaryImage(R.drawable.ic_loop);
-        mRepeatButton.setSecondaryImage(R.drawable.ic_loop_red);
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,30 +158,24 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mSaveButton = findViewById(R.id.saveBtn);
         mSaveButton.setContentDescription(getString(R.string.lbl_save_as_playlist));
-        mSaveButton.setHelpView(helpView);
-        mSaveButton.setHelpText(getString(R.string.lbl_save_as_playlist));
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().saveAudioQueue(mActivity);
             }
         });
-        mRepeatButton.setGotFocusListener(mainAreaFocusListener);
+        mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
         mShuffleButton = findViewById(R.id.shuffleBtn);
         mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
-        mShuffleButton.setHelpView(helpView);
-        mShuffleButton.setHelpText(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mediaManager.getValue().shuffleAudioQueue();
+                mediaManager.getValue().shuffleAudioQueue();
             }
         });
-        mShuffleButton.setGotFocusListener(mainAreaFocusListener);
+        mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
         mAlbumButton = findViewById(R.id.albumBtn);
         mAlbumButton.setContentDescription(getString(R.string.lbl_open_album));
-        mAlbumButton.setHelpView(helpView);
-        mAlbumButton.setHelpText(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,11 +184,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 mActivity.startActivity(album);
             }
         });
-        mAlbumButton.setGotFocusListener(mainAreaFocusListener);
+        mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
         mArtistButton = findViewById(R.id.artistBtn);
         mArtistButton.setContentDescription(getString(R.string.lbl_open_artist));
-        mArtistButton.setHelpView(helpView);
-        mArtistButton.setHelpText(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,7 +198,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 }
             }
         });
-        mArtistButton.setGotFocusListener(mainAreaFocusListener);
+        mArtistButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mCurrentProgress = findViewById(R.id.playerProgress);
         mCurrentPos = findViewById(R.id.currentPos);
@@ -366,9 +346,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         }
     };
 
-    private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
+    private View.OnFocusChangeListener mainAreaFocusListener = new View.OnFocusChangeListener() {
         @Override
-        public void gotFocus(View v) {
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (!hasFocus) return;
+
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
             //also re-position queue to current in case they scrolled around
@@ -418,13 +400,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
             public void run() {
                 mPoster.setKeepScreenOn(playing);
                 if (!playing) {
-                    mPlayPauseButton.setState(ImageButton.STATE_PRIMARY);
+                    mPlayPauseButton.setImageResource(R.drawable.ic_play);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
                 } else {
-                    mPlayPauseButton.setState(ImageButton.STATE_SECONDARY);
+                    mPlayPauseButton.setImageResource(R.drawable.ic_pause);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
                 }
-                mRepeatButton.setState(mediaManager.getValue().isRepeatMode() ? ImageButton.STATE_SECONDARY : ImageButton.STATE_PRIMARY);
+                mRepeatButton.setActivated(mediaManager.getValue().isRepeatMode());
                 mSaveButton.setEnabled(mediaManager.getValue().getCurrentAudioQueueSize() > 1);
                 mPrevButton.setEnabled(mediaManager.getValue().hasPrevAudioItem());
                 mNextButton.setEnabled(mediaManager.getValue().hasNextAudioItem());

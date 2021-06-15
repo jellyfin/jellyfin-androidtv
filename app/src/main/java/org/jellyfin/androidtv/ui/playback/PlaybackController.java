@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +21,6 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.ui.ImageButton;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -51,9 +53,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class PlaybackController {
     // Frequency to report playback progress
@@ -324,7 +323,7 @@ public class PlaybackController {
                 if (mVideoManager.isNativeMode()) mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
-                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
+                    mFragment.setPlayPauseActionState(0);
                 }
                 startReportLoop();
                 break;
@@ -429,7 +428,7 @@ public class PlaybackController {
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
-                    mFragment.setPlayPauseActionState(ImageButton.STATE_SECONDARY);
+                    mFragment.setPlayPauseActionState(0);
                     mFragment.setFadingEnabled(true);
                     mFragment.setCurrentTime(position);
                 }
@@ -799,7 +798,7 @@ public class PlaybackController {
         mVideoManager.pause();
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
-            mFragment.setPlayPauseActionState(ImageButton.STATE_PRIMARY);
+            mFragment.setPlayPauseActionState(0);
         }
 
         stopReportLoop();
