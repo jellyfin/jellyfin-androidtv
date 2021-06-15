@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
+import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ImageOptions
 import org.koin.java.KoinJavaComponent.inject
@@ -57,6 +58,35 @@ class NextUpViewModel(
 		null
 	}
 
+	private fun BaseItemDto.getTitle(): String {
+		val seasonNumber = when {
+			this.baseItemType == BaseItemType.Episode
+				&& this.parentIndexNumber != null
+				&& this.parentIndexNumber != 0 ->
+				context.getString(R.string.lbl_season_number, this.parentIndexNumber)
+			else -> null
+		}
+		val episodeNumber = when {
+			this.baseItemType != BaseItemType.Episode -> this.indexNumber?.toString()
+			this.parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
+			this.indexNumber != null -> when {
+				this.indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, this.indexNumber, this.indexNumberEnd)
+				else -> context.getString(R.string.lbl_episode_number, this.indexNumber)
+			}
+			else -> null
+		}
+		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
+
+		val nameSeparator = when (this.baseItemType) {
+			BaseItemType.Episode -> " — "
+			else -> ". "
+		}
+
+		return listOfNotNull(seasonEpisodeNumbers, this.name)
+			.filter { it.isNotEmpty() }
+			.joinToString(nameSeparator)
+	}
+
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
 		val item = apiClient.getItem(id) ?: return@withContext null
 
@@ -65,32 +95,7 @@ class NextUpViewModel(
 			else -> null
 		}
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
-
-		val seasonNumber = when (item.baseItemType == BaseItemType.Episode && item.parentIndexNumber != null
-			&& item.parentIndexNumber != 0) {
-			true -> context.getString(R.string.lbl_season_number, item.parentIndexNumber)
-			false -> null
-		}
-		val episodeNumber = when {
-			(item.baseItemType != BaseItemType.Episode) ->
-				item.indexNumber?.toString()
-			(item.parentIndexNumber == 0) ->
-				context.getString(R.string.lbl_special)
-			(item.indexNumber != null && item.indexNumberEnd != null) ->
-				context.getString(R.string.lbl_episode_range, item.indexNumber, item.indexNumberEnd)
-			(item.indexNumber != null) ->
-				context.getString(R.string.lbl_episode_number, item.indexNumber)
-			else -> null
-		}
-		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
-
-		val nameSeparator = when (item.baseItemType) {
-			BaseItemType.Episode -> " — "
-			else -> ". "
-		}
-		val title = listOfNotNull(seasonEpisodeNumbers, item.name)
-			.filter { it.isNotEmpty() }
-			.joinToString(nameSeparator)
+		val title = item.getTitle()
 
 		NextUpItemData(
 			item,
