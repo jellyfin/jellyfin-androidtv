@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentToolbarStartupBinding
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
@@ -17,7 +20,10 @@ class StartupToolbarFragment : Fragment() {
 		binding = FragmentToolbarStartupBinding.inflate(inflater, container, false)
 
 		binding.help.setOnClickListener {
-			// TODO: What do
+			parentFragmentManager.commit {
+				addToBackStack(null)
+				replace<ConnectHelpAlertFragment>(R.id.content_view)
+			}
 		}
 
 		binding.settings.setOnClickListener {

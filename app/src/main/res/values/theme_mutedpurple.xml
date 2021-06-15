@@ -14,6 +14,9 @@
         <!-- Control icons -->
         <item name="controlIconForegroundActive">@color/theme_muted_purple_accent</item>
 
+        <!-- QR drawables -->
+        <item name="qrForeground">@color/theme_muted_purple_accent</item>
+
         <!-- Rounding Values -->
         <item name="cardRounding">5dp</item>
         <item name="buttonRounding">7dp</item>
