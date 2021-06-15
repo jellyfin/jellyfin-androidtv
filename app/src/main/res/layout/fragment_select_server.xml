@@ -26,7 +26,6 @@
             android:id="@+id/stored_servers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/view_button_server" />
@@ -45,6 +44,25 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/welcome_content" />
+
+        <Button
+            android:id="@+id/enter_server_address"
+            style="@style/Button.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/connect_manually_by_address" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,64 +97,18 @@
         <TextView
             android:id="@+id/discovery_none_found"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="32dp"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:gravity="top|center"
             android:text="@string/discovered_servers_empty"
             android:visibility="gone" />
-    </LinearLayout>
-
-    <Space
-        android:layout_width="16dp"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/connect_manually_title"
-            style="@style/Widget.Jellyfin.Row.Header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/connect_manually_title" />
-
-        <Button
-            android:id="@+id/enter_server_address"
-            style="@style/Button.Default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/connect_manually_by_address" />
-
-        <Button
-            android:id="@+id/manage_servers"
-            style="@style/Button.Default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/lbl_manage_servers" />
-
-        <TextView
-            android:id="@+id/help_title"
-            style="@style/Widget.Jellyfin.Row.Header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/login_help_title" />
-
-        <TextView
-            android:id="@+id/help_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login_help_description" />
 
         <TextView
             android:id="@+id/app_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginTop="6dp"
             android:textColor="@color/lb_grey"
             tools:text="App version" />
