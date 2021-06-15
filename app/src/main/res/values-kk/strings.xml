@@ -199,7 +199,7 @@
     <string name="lbl_bitstream_dts">DTS dybysty tasymaldau</string>
     <string name="lbl_album_name">Älbom aty</string>
     <string name="lbl_more_like_this">Osy siaqty köbırek</string>
-    <string name="lbl_resume_from">%s bastap jalğastyru</string>
+    <string name="lbl_resume_from">%1$s bastap jalğastyru</string>
     <string name="lbl_guide_option_number">Arna nömırı</string>
     <string name="lbl_show_indicators">Mynau üşın belgılerdı körsetu</string>
     <string name="lbl_sort_by">Sūryptau täsılı</string>
@@ -223,7 +223,7 @@
     <string name="lbl_kids">Balalyq</string>
     <string name="lbl_sports">Sport</string>
     <string name="lbl_in_x_days">%d künde</string>
-    <string name="lbl_now_playing_album">%s ışınen</string>
+    <string name="lbl_now_playing_album">%1$s ışınen</string>
     <string name="lbl_now_playing_track">%s — %s ışınen</string>
     <string name="lbl_watched">Qaralğan</string>
     <string name="lbl_favorite">Tañdauly</string>
@@ -318,7 +318,7 @@
     <string name="login_invalid_credentials">Jaramsyz paidalanuşy aty/paröl</string>
     <string name="login_authenticating">Tüpnūsqalyq rastauda…</string>
     <string name="server_field_empty">Mekenjaiy bos boluy mümkın emes</string>
-    <string name="server_connection_failed">Serverge qosylu mümkın emes: %s</string>
+    <string name="server_connection_failed">Serverge qosylu mümkın emes: %1$s</string>
     <string name="server_connecting">%s üşın qosyluda</string>
     <string name="pref_clock_display_playback">Oinatu kezınde</string>
     <string name="pref_clock_display_browsing">Şarlau kezınde</string>
@@ -412,4 +412,13 @@
     <string name="lbl_switch_user">Paidalanuşyny auystyru</string>
     <string name="no_network_permissions">Jellyfin jūmys ısteu üşın jelılık rūqsattar qajet</string>
     <string name="pref_theme_muted_purple">Bäseñdetılgen küreñ</string>
+    <string name="no_user_warning">Bırde-bır paidalanuşy tabylmady!
+\n«Paidalanuşyny üsteu» tüimeşıgın basa jaña paidalanuşyny üsteñız.</string>
+    <string name="server_unsupported">Server jañartyluy qajet. Ağymdyq nūsqasy — %s, bıraq qoldanba %s nūsqasyn, nemese jañalauyn qajet etedı</string>
+    <string name="welcome_content">Bastau üşın serverıñızge qosylyñyz.</string>
+    <string name="add_user">Paidalanuşy üsteu</string>
+    <string name="who_is_watching">Kım qaraidy\?</string>
+    <string name="welcome_title">Jellyfin-ge qoş keldıñız!</string>
+    <string name="saved_servers">Saqtalğan serverler</string>
+    <string name="press_to_close">Jabu üşın basyñyz</string>
 </resources>
