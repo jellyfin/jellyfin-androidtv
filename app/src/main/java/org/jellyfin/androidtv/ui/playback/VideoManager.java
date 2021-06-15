@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -40,8 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public final static int ZOOM_NORMAL = 0;
@@ -219,6 +219,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void start() {
         if (nativeMode) {
+            if (mExoPlayer == null) {
+                Timber.e("mExoPlayer should not be null!!");
+                mActivity.finish();
+                return;
+            }
             mExoPlayer.setPlayWhenReady(true);
             mExoPlayerView.setKeepScreenOn(true);
             normalWidth = mExoPlayerView.getLayoutParams().width;
