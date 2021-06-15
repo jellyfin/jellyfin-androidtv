@@ -412,4 +412,13 @@
     <string name="lbl_use_series_thumbnails_description">Usar las miniaturas de las series mientras se muestran los episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de las series</string>
     <string name="image_type_banner">Banner</string>
+    <string name="add_user">Agregar usuario</string>
+    <string name="who_is_watching">¿Quién está mirando\?</string>
+    <string name="no_user_warning">¡No hemos podido encontrar ningún usuario!
+\nAñade un nuevo usuario pulsando el botón \"Añadir usuario\".</string>
+    <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %s pero la aplicación requiere %s o más reciente</string>
+    <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
+    <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
+    <string name="saved_servers">Servidores guardados</string>
+    <string name="press_to_close">Presione para cerrar</string>
 </resources>
