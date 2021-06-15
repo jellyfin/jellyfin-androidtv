@@ -413,4 +413,12 @@
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
     <string name="pref_theme_muted_purple">Purpura apagado</string>
     <string name="press_to_close">Presione para Cerrar</string>
+    <string name="add_user">Agregar usuario</string>
+    <string name="who_is_watching">¿Quién está mirando\?</string>
+    <string name="no_user_warning">¡No hemos podido encontrar ningún usuario!
+\nAñade un nuevo usuario pulsando el botón \"Añadir usuario\".</string>
+    <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %s pero la aplicación requiere %s o más reciente</string>
+    <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
+    <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
+    <string name="saved_servers">Servidores guardados</string>
 </resources>
