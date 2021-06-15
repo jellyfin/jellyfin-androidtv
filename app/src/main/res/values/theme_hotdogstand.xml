@@ -26,8 +26,8 @@
         <item name="controlIconForegroundInactive">@color/grey</item>
 
         <!-- QR drawables -->
-        <item name="qrBackground">@color/theme_hotdog_red</item>
-        <item name="qrForeground">@color/theme_hotdog_yellow</item>
+        <item name="qrBackground">@color/theme_hotdog_yellow</item>
+        <item name="qrForeground">@color/theme_hotdog_red</item>
 
         <!-- Tile colors -->
         <item name="tile_edit_bg">@color/theme_hotdog_black</item>
