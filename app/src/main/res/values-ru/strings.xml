@@ -203,7 +203,7 @@
     <string name="lbl_album_name">Название альбома</string>
     <string name="lbl_next_episode">Следующий эпизод</string>
     <string name="lbl_previous_episode">Предыдущий эпизод</string>
-    <string name="lbl_resume_from">Возобновить с %s</string>
+    <string name="lbl_resume_from">Возобновить с %1$s</string>
     <string name="lbl_guide_option_number">Номер канала</string>
     <string name="lbl_show_indicators">Показывать индикаторы для</string>
     <string name="lbl_sort_by">Сортировать по</string>
@@ -227,7 +227,7 @@
     <string name="lbl_select_date">Выбор даты</string>
     <string name="lbl_in_x_days">За %d дней</string>
     <string name="lbl_warning">Внимание</string>
-    <string name="lbl_now_playing_album">из %s</string>
+    <string name="lbl_now_playing_album">из %1$s</string>
     <string name="lbl_now_playing_track">%s из %s</string>
     <string name="lbl_watched">Просмотренное</string>
     <string name="lbl_series">Серия</string>
@@ -365,7 +365,7 @@
     <string name="login_invalid_credentials">Неверные имя пользователя и/или пароль</string>
     <string name="login_authenticating">Аутентификация...</string>
     <string name="server_field_empty">Адрес не может быть пустым</string>
-    <string name="server_connection_failed">Невозможно подключиться к серверу: %s</string>
+    <string name="server_connection_failed">Невозможно подключиться к серверу: %1$s</string>
     <string name="server_connecting">Подключение к %s</string>
     <string name="enable_smart_view">Включить умный экран</string>
     <string name="lbl_sign_out">Выйти</string>
@@ -412,4 +412,13 @@
     <string name="lbl_switch_user">Поменять пользователя</string>
     <string name="no_network_permissions">Jellyfin требуются сетевые разрешения для работы</string>
     <string name="pref_theme_muted_purple">Приглушённый пурпурный</string>
+    <string name="add_user">Добавить пользователя</string>
+    <string name="who_is_watching">Кто смотрит\?</string>
+    <string name="no_user_warning">Мы не смогли найти ни одного пользователя!
+\nДобавьте нового пользователя, нажав кнопку «Добавить пользователя».</string>
+    <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %s, но приложению требуется версия %s или новее</string>
+    <string name="welcome_content">Подключитесь к своему серверу, чтобы начать.</string>
+    <string name="welcome_title">Начало работы в Jellyfin</string>
+    <string name="saved_servers">Сохранённые серверы</string>
+    <string name="press_to_close">Нажать для закрытия</string>
 </resources>
