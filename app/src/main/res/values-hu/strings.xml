@@ -413,4 +413,12 @@
     <string name="no_network_permissions">A Jellyfin működéséhez hálózati engedélyekre van szükség</string>
     <string name="pref_theme_muted_purple">Néma lila</string>
     <string name="press_to_close">Nyomja meg a bezáráshoz</string>
+    <string name="add_user">Felhasználó hozzáadása</string>
+    <string name="who_is_watching">Ki figyel\?</string>
+    <string name="no_user_warning">Nem találtunk felhasználókat!
+\nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gomb megnyomásával.</string>
+    <string name="server_unsupported">A szervert frissíteni kell. Az aktuális verzió %s , de a működéshez %s vagy újabb szükséges</string>
+    <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
+    <string name="welcome_title">Üdvözöljük a Jellyfinben!</string>
+    <string name="saved_servers">Elmentett szerverek</string>
 </resources>
