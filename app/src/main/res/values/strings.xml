@@ -418,10 +418,6 @@
     <string name="who_is_watching">Who\'s watching?</string>
     <string name="add_user">Add user</string>
     <string name="help">Help</string>
-    <string name = "pref_next_up_full_title">Show Next Up thumbnail and description</string>
-    <string name = "pref_next_up_full_summary">Display the thumbnail and description on the Next Up screen</string>
-    <string name="pref_next_up_thumbnail_title">Show Next Up thumbnail</string>
-    <string name="pref_next_up_thumbnail_summary">Display the item\'s thumbnail on the Next Up screen</string>
     <string name="lbl_special">Special</string>
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_episode_number">E%1$d</string>
