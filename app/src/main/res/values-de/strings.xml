@@ -413,4 +413,12 @@
     <string name="no_network_permissions">Jellyfin benötigt zum Funktionieren Netzwerkberechtigungen</string>
     <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
     <string name="press_to_close">Zum Schließen klicken</string>
+    <string name="add_user">Benutzer hinzufügen</string>
+    <string name="who_is_watching">Wer schaut zu\?</string>
+    <string name="no_user_warning">Wir konnten keine Benutzer finden!
+\nFügen Sie einen neuen Benutzer hinzu, indem Sie auf die Schaltfläche \"Benutzer hinzufügen\" drücken.</string>
+    <string name="server_unsupported">Der Server muss aktualisiert werden. Die derzeitige Version ist %s, aber die App benötigt %s oder neuer</string>
+    <string name="welcome_content">Verbinden Sie sich mit Ihrem Server, um loszulegen.</string>
+    <string name="welcome_title">Willkommen bei Jellyfin!</string>
+    <string name="saved_servers">Gespeicherte Server</string>
 </resources>
