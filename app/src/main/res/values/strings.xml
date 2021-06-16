@@ -73,11 +73,8 @@
     <string name="lbl_bracket_unknown">Unknown</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Play Trailer(s)</string>
-    <string name="lbl_enter_user_name">Enter username</string>
-    <string name="lbl_enter_user_pw">Enter password</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Yes</string>
-    <string name="msg_error_server_unavailable">Server unavailable</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_enter_server_address">Enter Server Address</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
@@ -336,7 +333,7 @@
     <string name="play_with_exo_player">Play with ExoPlayer</string>
     <string name="play_with_external_app">Play with external app</string>
     <string name="play_with">Play with</string>
-    <string name="lbl_sign_in">Please Sign In</string>
+    <string name="lbl_sign_in">Please sign in</string>
     <string name="lbl_playback_control_ends">Ends at %1$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_stars">Stars</string>
@@ -484,4 +481,14 @@
     <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
     <string name="home_section_resume_book">Continue reading</string>
+    <string name="action_login">Sign in</string>
+    <string name="action_use_password">Use a password</string>
+    <string name="action_use_quickconnect">Use QuickConnect</string>
+    <string name="input_username">Username</string>
+    <string name="input_password">Password</string>
+    <string name="login_connect_to">Connecting to %1$s</string>
+    <string name="login_other_options">Other options:</string>
+    <string name="login_quickconnect_step_1">1. Open the Jellyfin app on your phone or webbrowser, and sign in with your account</string>
+    <string name="login_quickconnect_step_2">2. Open the user menu and go to the Quick Connect page</string>
+    <string name="login_quickconnect_step_3">3. Enter the following code:</string>
 </resources>

@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.model.AutomaticAuthenticateMethod
-import org.jellyfin.androidtv.auth.model.CredentialAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.PrivateUser
 import org.jellyfin.androidtv.auth.model.Server
@@ -19,7 +18,7 @@ import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import java.util.UUID
 
-class LoginViewModel(
+class StartupViewModel(
 	private val serverRepository: ServerRepository,
 	private val serverUserRepository: ServerUserRepository,
 	private val authenticationRepository: AuthenticationRepository,
@@ -62,9 +61,6 @@ class LoginViewModel(
 
 	fun authenticate(server: Server, user: User): Flow<LoginState> =
 		authenticationRepository.authenticate(server, AutomaticAuthenticateMethod(user))
-
-	fun login(server: Server, username: String, password: String): Flow<LoginState> =
-		authenticationRepository.authenticate(server, CredentialAuthenticateMethod(username, password))
 
 	fun getUserImage(server: Server, user: User): String? =
 		authenticationRepository.getUserImageUrl(server, user)

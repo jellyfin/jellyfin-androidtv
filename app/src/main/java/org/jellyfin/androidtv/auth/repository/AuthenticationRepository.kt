@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.auth.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
@@ -12,6 +13,7 @@ import org.jellyfin.androidtv.auth.model.AutomaticAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.CredentialAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.PrivateUser
+import org.jellyfin.androidtv.auth.model.QuickConnectAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.RequireSignInState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
@@ -25,9 +27,11 @@ import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
+import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
+import org.jellyfin.sdk.model.api.AuthenticationResult
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
@@ -58,6 +62,7 @@ class AuthenticationRepositoryImpl(
 		return when (method) {
 			is AutomaticAuthenticateMethod -> authenticateAutomatic(server, method.user)
 			is CredentialAuthenticateMethod -> authenticateCredential(server, method.username, method.password)
+			is QuickConnectAuthenticateMethod -> authenticateQuickConnect(server, method.secret)
 		}
 	}
 
@@ -87,6 +92,24 @@ class AuthenticationRepositoryImpl(
 			return@flow
 		}
 
+		emitAll(authenticateAuthenticationResult(server, result))
+	}
+
+	private fun authenticateQuickConnect(server: Server, secret: String) = flow {
+		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo)
+		val result = try {
+			val response = api.userApi.authenticateWithQuickConnect(secret)
+			response.content
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to sign in with Quick Connect secret")
+			emit(RequireSignInState)
+			return@flow
+		}
+
+		emitAll(authenticateAuthenticationResult(server, result))
+	}
+
+	private fun authenticateAuthenticationResult(server: Server, result: AuthenticationResult) = flow {
 		val accessToken = result.accessToken ?:return@flow emit(RequireSignInState)
 		val userInfo = result.user ?: return@flow emit(RequireSignInState)
 		val user = PrivateUser(

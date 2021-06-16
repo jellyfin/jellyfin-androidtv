@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/input_fade_duration" android:exitFadeDuration="@integer/input_fade_duration">
+    <item android:color="@color/input_default_normal_text" android:state_enabled="true" android:state_focused="false" />
+    <item android:color="@color/input_default_disabled_text" android:state_enabled="false" />
+    <item android:color="@color/input_default_highlight_text" android:state_enabled="true" android:state_focused="true" />
+</selector>

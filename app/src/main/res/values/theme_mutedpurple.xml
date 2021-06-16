@@ -22,6 +22,7 @@
         <!-- Rounding Values -->
         <item name="cardRounding">5dp</item>
         <item name="buttonRounding">7dp</item>
+        <item name="inputRounding">7dp</item>
 
         <!-- Watched Indicator Shape -->
         <item name="accentShape">@drawable/square_accent</item>

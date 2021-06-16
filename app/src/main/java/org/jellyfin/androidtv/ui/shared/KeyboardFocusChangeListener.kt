@@ -7,11 +7,11 @@ import org.jellyfin.androidtv.util.DeviceUtils
 
 class KeyboardFocusChangeListener : View.OnFocusChangeListener {
 	override fun onFocusChange(view: View, hasFocus: Boolean) {
-		view.context.getSystemService<InputMethodManager>()?.apply {
-			if (!hasFocus) hideSoftInputFromWindow(view.windowToken, 0)
-			// The Fire OS on-screen keyboard blocks virtually all content on screen,
-			// so require manually opening the keyboard there
-			else if (!DeviceUtils.isFireTv()) showSoftInput(view, 0)
-		}
+		val inputMethodManager = view.context.getSystemService<InputMethodManager>() ?: return
+
+		// The Fire OS on-screen keyboard blocks virtually all content on screen,
+		// so require manually opening the keyboard there
+		if (hasFocus && !DeviceUtils.isFireTv()) inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+		else if (!hasFocus) inputMethodManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
 	}
 }

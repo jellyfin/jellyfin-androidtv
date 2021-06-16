@@ -45,7 +45,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 		const val EXTRA_HIDE_SPLASH = "HideSplash"
 	}
 
-	private val loginViewModel: LoginViewModel by viewModel()
+	private val startupViewModel: StartupViewModel by viewModel()
 	private val apiClient: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
 	private val sessionRepository: SessionRepository by inject()
@@ -93,7 +93,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 					mediaManager.clearAudioQueue()
 					mediaManager.clearVideoQueue()
 
-					val server = loginViewModel.getLastServer()
+					val server = startupViewModel.getLastServer()
 					if (server != null) showServer(server.id)
 					else showServerSelection()
 				}

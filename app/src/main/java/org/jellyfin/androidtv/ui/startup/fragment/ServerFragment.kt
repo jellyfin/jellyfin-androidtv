@@ -29,7 +29,7 @@ import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -41,14 +41,14 @@ class ServerFragment : Fragment() {
 		const val ARG_SERVER_ID = "server_id"
 	}
 
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by sharedViewModel()
 	private val markdownRenderer: MarkdownRenderer by inject()
 	private lateinit var binding: FragmentServerBinding
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val server = serverIdArgument?.let(loginViewModel::getServer)
+		val server = serverIdArgument?.let(startupViewModel::getServer)
 
 		if (server == null) {
 			navigateFragment<SelectServerFragment>(keepToolbar = true, keepHistory = false)
@@ -57,18 +57,20 @@ class ServerFragment : Fragment() {
 
 		binding = FragmentServerBinding.inflate(inflater, container, false)
 
-		val userAdapter = UserAdapter(requireContext(), server, loginViewModel)
+		val userAdapter = UserAdapter(requireContext(), server, startupViewModel)
 		userAdapter.onItemPressed = { user ->
 			lifecycleScope.launch {
-				loginViewModel.authenticate(server, user).collect { state ->
+				startupViewModel.authenticate(server, user).collect { state ->
 					when (state) {
 						// Ignored states
 						AuthenticatingState -> Unit
 						AuthenticatedState -> Unit
 						// Actions
-						RequireSignInState -> navigateFragment<UserLoginAlertFragment>(bundleOf(
-							UserLoginAlertFragment.ARG_SERVER_ID to server.id.toString(),
-							UserLoginAlertFragment.ARG_USERNAME to user.name,
+						RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
+							UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
+							UserLoginFragment.ARG_USERNAME to user.name,
+							// FIXME: Server does not allow Quick Connect for a specific username
+							UserLoginFragment.ARG_SKIP_QUICKCONNECT to true,
 						))
 						// Errors
 						ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
@@ -85,7 +87,7 @@ class ServerFragment : Fragment() {
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				loginViewModel.users.collect { users ->
+				startupViewModel.users.collect { users ->
 					userAdapter.items = users
 
 					binding.users.isFocusable = users.any()
@@ -95,13 +97,13 @@ class ServerFragment : Fragment() {
 			}
 		}
 
-		loginViewModel.loadUsers(server)
+		startupViewModel.loadUsers(server)
 
 		onServerChange(server)
 
 		lifecycleScope.launchWhenCreated {
-			val updated = loginViewModel.updateServer(server)
-			if (updated) loginViewModel.getServer(server.id)?.let(::onServerChange)
+			val updated = startupViewModel.updateServer(server)
+			if (updated) startupViewModel.getServer(server.id)?.let(::onServerChange)
 		}
 
 		return binding.root
@@ -118,10 +120,10 @@ class ServerFragment : Fragment() {
 		}
 
 		binding.addUserButton.setOnClickListener {
-			navigateFragment<UserLoginAlertFragment>(
+			navigateFragment<UserLoginFragment>(
 				args = bundleOf(
-					UserLoginAlertFragment.ARG_SERVER_ID to server.id.toString(),
-					UserLoginAlertFragment.ARG_USERNAME to null
+					UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
+					UserLoginFragment.ARG_USERNAME to null
 				)
 			)
 		}
@@ -153,17 +155,17 @@ class ServerFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		loginViewModel.reloadServers()
+		startupViewModel.reloadServers()
 
-		val server = serverIdArgument?.let(loginViewModel::getServer)
-		if (server != null) loginViewModel.loadUsers(server)
+		val server = serverIdArgument?.let(startupViewModel::getServer)
+		if (server != null) startupViewModel.loadUsers(server)
 		else navigateFragment<SelectServerFragment>(keepToolbar = true)
 	}
 
 	private class UserAdapter(
 		private val context: Context,
 		private val server: Server,
-		private val loginViewModel: LoginViewModel,
+		private val startupViewModel: StartupViewModel,
 	) : ListAdapter<User, UserAdapter.ViewHolder>() {
 		var onItemPressed: (User) -> Unit = {}
 
@@ -179,7 +181,7 @@ class ServerFragment : Fragment() {
 
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
 			holder.cardView.title = user.name
-			holder.cardView.setImage(loginViewModel.getUserImage(server, user), R.drawable.tile_port_user)
+			holder.cardView.setImage(startupViewModel.getUserImage(server, user), R.drawable.tile_port_user)
 
 			holder.cardView.setOnClickListener {
 				onItemPressed(user)

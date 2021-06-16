@@ -17,8 +17,12 @@
         <!-- Theme Attributes -->
         <attr name="cardRounding" format="dimension" />
         <attr name="buttonRounding" format="dimension" />
+        <attr name="inputRounding" format="dimension" />
         <attr name="buttonDefaultNormalBackground" format="reference|color" />
         <attr name="buttonDefaultHighlightBackground" format="reference|color" />
+        <attr name="inputDefaultHighlightBackground" format="reference|color" />
+        <attr name="inputDefaultStrokeWidth" format="dimension" />
+        <attr name="inputDefaultStrokeColor" format="reference|color" />
         <attr name="accentShape" format="reference" />
         <attr name="controlIconBackground" format="reference|color" />
         <attr name="controlIconForegroundActive" format="reference|color" />

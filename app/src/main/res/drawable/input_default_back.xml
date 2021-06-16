@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/input_fade_duration" android:exitFadeDuration="@integer/input_fade_duration">
+    <item android:state_enabled="true" android:state_focused="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/inputRounding" />
+            <stroke android:width="?attr/inputDefaultStrokeWidth" android:color="?attr/inputDefaultStrokeColor" />
+        </shape>
+    </item>
+    <item android:state_enabled="false" android:state_focused="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/inputRounding" />
+            <stroke android:width="?attr/inputDefaultStrokeWidth" android:color="?attr/inputDefaultStrokeColor" />
+            <solid android:color="@color/input_default_disabled_background" />
+        </shape>
+    </item>
+    <item android:state_enabled="true" android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/inputRounding" />
+            <stroke android:width="?attr/inputDefaultStrokeWidth" android:color="?attr/inputDefaultStrokeColor" />
+            <solid android:color="?attr/inputDefaultHighlightBackground" />
+        </shape>
+    </item>
+</selector>

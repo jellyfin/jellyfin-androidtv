@@ -6,13 +6,13 @@ import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.UUID
 
 class EditUserScreen : OptionsFragment() {
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by sharedViewModel()
 	private val authenticationRepository by inject<AuthenticationRepository>()
 	private val serverUserRepository: ServerUserRepository by inject()
 
@@ -22,7 +22,7 @@ class EditUserScreen : OptionsFragment() {
 
 		if (serverUUID !is UUID || userUUID !is UUID) return@optionsScreen
 
-		val server = loginViewModel.getServer(serverUUID) ?: return@optionsScreen
+		val server = startupViewModel.getServer(serverUUID) ?: return@optionsScreen
 		val user = serverUserRepository.getStoredServerUsers(server).find { it.id == userUUID } ?: return@optionsScreen
 
 		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
