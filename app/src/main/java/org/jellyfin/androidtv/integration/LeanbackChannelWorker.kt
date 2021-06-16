@@ -12,7 +12,6 @@ import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
@@ -25,8 +24,6 @@ import org.jellyfin.sdk.api.operations.ImageApi
 import org.jellyfin.sdk.api.operations.TvShowsApi
 import org.jellyfin.sdk.api.operations.UserViewsApi
 import org.jellyfin.sdk.model.api.*
-import org.jellyfin.sdk.model.serializer.toUUID
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -70,7 +67,6 @@ class LeanbackChannelWorker(
 		// Fail when not supported
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
-		TvApp.getApplication().currentUser == null -> Result.retry()
 		!apiClient.isUsable -> Result.retry()
 		else -> {
 			// Get next up episodes
@@ -132,8 +128,7 @@ class LeanbackChannelWorker(
 			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 			.build())
 
-		val user = TvApp.getApplication().currentUser ?: return
-		val response by userViewsApi.getUserViews(user.id.toUUID(), includeHidden = false)
+		val response by userViewsApi.getUserViews(includeHidden = false)
 
 		// Add new items
 		val items = response.items
@@ -187,7 +182,7 @@ class LeanbackChannelWorker(
 	 */
 	private suspend fun getNextUpItems(): BaseItemDtoQueryResult? {
 		return tvShowsApi.getNextUp(
-			userId = TvApp.getApplication().currentUser?.id?.toUUIDOrNull() ?: return null,
+			userId = apiClient.userId,
 			imageTypeLimit = 1,
 			limit = 10,
 			fields = listOf(ItemFields.DATE_CREATED)

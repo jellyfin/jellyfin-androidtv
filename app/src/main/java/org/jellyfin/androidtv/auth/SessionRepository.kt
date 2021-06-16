@@ -140,11 +140,13 @@ class SessionRepositoryImpl(
 		if (session == null) {
 			baseUrl = null
 			accessToken = null
+			userId = null
 		} else {
 			val server = authenticationStore.getServer(session.serverId)
 				?: return applySession(null)
 			baseUrl = server.address
 			accessToken = session.accessToken
+			userId = session.userId
 		}
 	}
 }
