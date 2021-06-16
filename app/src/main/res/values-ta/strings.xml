@@ -160,7 +160,6 @@
     <string name="pref_device_model">சாதன மாதிரி</string>
     <string name="pref_app_theme">பயன்பாட்டு தீம்</string>
     <string name="pref_libvlc_audio_delay_title">VLC க்கான இயல்புநிலை ஆடியோ தாமதம்</string>
-    <string name="pref_next_up_enabled_title">அடுத்தது திரையை இயக்கு</string>
     <string name="pref_next_up_enabled_summary">இயக்குவதற்கு முன் அடுத்த வரிசை உருப்படியை முன்னோட்டமிடுகிறது</string>
     <string name="watch_now">இப்பொழுது பார்</string>
     <string name="pref_next_up_timeout_title">அடுத்த டைமர் காலம்</string>

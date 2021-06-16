@@ -7,7 +7,6 @@
     <string name="pref_audio_track_button">Tombol trek audio</string>
     <string name="pref_button_remapping_category">Pemetaan Tombol</string>
     <string name="lbl_unknown_key">Tidak diketahui (%1s)</string>
-    <string name="pref_next_up_enabled_summary">Pratinjau item antrian berikutnya sebelum dimulai</string>
     <string name="watch_now">Menonton sekarang</string>
     <string name="pref_next_up_timeout_title">Durasi timer Berikutnya</string>
     <string name="pref_next_up_timeout_summary">Berapa lama menunggu sebelum memainkan item berikutnya</string>
@@ -293,7 +292,6 @@
     <string name="grid_direction_vertical">Vertikal (eksperimental)</string>
     <string name="grid_direction_horizontal">Horisontal</string>
     <string name="grid_direction">Arah kisi</string>
-    <string name="pref_next_up_enabled_title">Aktifkan layar Next Up</string>
     <string name="pref_media_player">Pemutar media pilihan</string>
     <string name="lbl_premieres">Premiere</string>
     <string name="lbl_audio_delay">Penundaan Audio</string>

@@ -289,7 +289,6 @@
     <string name="pref_video_player_vlc">libVLC （VLC解码器）</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默认音频延迟</string>
-    <string name="pref_next_up_enabled_summary">播放前预览下一个队列中的项目</string>
     <string name="pref_next_up_enabled_title">允许播放下一个画面</string>
     <string name="pref_app_theme">应用程序主题</string>
     <string name="pref_theme_emerald">经典翡翠色</string>

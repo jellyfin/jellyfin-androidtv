@@ -302,7 +302,6 @@
     <string name="pref_device_model">Mẫu thiết bị</string>
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
     <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho libVLC</string>
-    <string name="pref_next_up_enabled_title">Bật màn hình Tiếp theo</string>
     <string name="pref_next_up_enabled_summary">Xem trước mục được xếp hàng tiếp theo trước khi phát</string>
     <string name="watch_now">Xem bây giờ</string>
     <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ Tiếp theo</string>

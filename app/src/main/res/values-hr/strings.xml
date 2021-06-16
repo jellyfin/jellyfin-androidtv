@@ -220,7 +220,6 @@
     <string name="pref_device_model">Model uređaja</string>
     <string name="pref_app_theme">Tema Aplikacije</string>
     <string name="pref_libvlc_audio_delay_title">Zadano kašnjenje zvuka za libVLC</string>
-    <string name="pref_next_up_enabled_title">Omogući prikaz iduće stavke</string>
     <string name="pref_next_up_enabled_summary">Prikaže iduću stavku u redu prije reprodukcije</string>
     <string name="watch_now">Gledaj sada</string>
     <string name="pref_next_up_timeout_title">Trajanje timera reprodukcije iduće stavke</string>

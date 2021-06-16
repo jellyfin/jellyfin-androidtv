@@ -135,7 +135,6 @@
     <string name="pref_device_model">Модел уређаја</string>
     <string name="pref_app_theme">Тема апликације</string>
     <string name="pref_libvlc_audio_delay_title">Подразумевано кашњење звука за libVLC</string>
-    <string name="pref_next_up_enabled_title">Омогући екран следеће у реду</string>
     <string name="pref_next_up_enabled_summary">Прегледа следећу ставку у реду пре репродукције</string>
     <string name="watch_now">Гледај сада</string>
     <string name="pref_next_up_timeout_title">Трајање тајмера за следеће снимање</string>

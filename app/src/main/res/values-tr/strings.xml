@@ -282,7 +282,6 @@
     <string name="pref_device_model">Cihaz Modeli</string>
     <string name="pref_app_theme">Uygulama Teması</string>
     <string name="pref_libvlc_audio_delay_title">libVLC için varsayılan Ses Gecikmesi</string>
-    <string name="pref_next_up_enabled_title">Sıradaki ekranını etkinleştir</string>
     <string name="pref_next_up_enabled_summary">Oynatmadan önce sıradaki bir sonraki öğeyi önizler</string>
     <string name="watch_now">Şimdi izle</string>
     <string name="pref_next_up_timeout_title">Sıradaki zamanlayıcı süresi</string>

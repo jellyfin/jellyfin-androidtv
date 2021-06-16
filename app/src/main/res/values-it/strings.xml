@@ -266,7 +266,6 @@
     <string name="lbl_new_only">Solo Nuovi</string>
     <string name="lbl_news">Novità</string>
     <string name="pref_app_theme">Tema</string>
-    <string name="pref_next_up_enabled_summary">Anteprima dell\'elemento successivo</string>
     <string name="watch_now">Guarda ora</string>
     <string name="pref_next_up_timeout_summary">Tempo da aspettare prima di riprodurre il contenuto successivo</string>
     <string name="pref_media_player">Media Player preferito</string>
@@ -292,7 +291,6 @@
     <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
     <string name="pref_about_title">Informazioni</string>
     <string name="pref_libvlc_audio_delay_title">Ritardo audio di default di libVLC</string>
-    <string name="pref_next_up_enabled_title">Abilita ritardo prima del video successivo</string>
     <string name="pref_next_up_timeout_title">Ritardo video successivo</string>
     <string name="grid_direction_horizontal">Orizzontale</string>
     <string name="grid_direction_vertical">Verticale (sperimentale)</string>

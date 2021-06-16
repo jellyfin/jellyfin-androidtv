@@ -353,7 +353,6 @@
     <string name="pref_device_model">Model de dispositiu</string>
     <string name="pref_app_theme">Tema de l\'aplicació</string>
     <string name="pref_libvlc_audio_delay_title">Retard d\'àudio per defecte per a libVLC</string>
-    <string name="pref_next_up_enabled_title">Activa la pantalla Següent</string>
     <string name="pref_next_up_enabled_summary">Previsualitza el següent element a la cua abans de reproduir</string>
     <string name="watch_now">Veure ara</string>
     <string name="pref_next_up_timeout_title">Duració del següent temporitzador</string>

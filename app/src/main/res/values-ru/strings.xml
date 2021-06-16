@@ -283,11 +283,9 @@
     <string name="pref_acra_enabled">Вам будет предложено отправлять отчёты о сбоях</string>
     <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
     <string name="pref_acra_category">Отчёт о сбое</string>
-    <string name="pref_next_up_enabled_summary">Предпросмотр следующего элемента в очереди прежде воспроизведения</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка перед воспроизведениеми следующего элемента</string>
     <string name="pref_libvlc_audio_delay_title">Задержка по умолчанию аудио для libVLC</string>
-    <string name="pref_next_up_enabled_title">Включить экран Очередное</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О приложении</string>

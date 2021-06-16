@@ -288,7 +288,6 @@
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Live-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
-    <string name="pref_next_up_enabled_title">Aktivera Nästa skärm</string>
     <string name="pref_next_up_enabled_summary">Förhandsvisar nästa köade innan spelar</string>
     <string name="pref_libvlc_audio_delay_title">Standard Ljud Fördröjning för libVLC</string>
     <string name="pref_theme_dark">Mörk (Standard)</string>

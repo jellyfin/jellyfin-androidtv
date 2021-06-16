@@ -255,7 +255,6 @@
     <string name="pref_acra_category">Reporte de error</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
     <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
-    <string name="pref_next_up_enabled_title">Habilitar la pantalla «A continuación»</string>
     <string name="pref_next_up_enabled_summary">Previsualiza el siguiente elemento de la cola antes de reproducirlo</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de A continuación</string>

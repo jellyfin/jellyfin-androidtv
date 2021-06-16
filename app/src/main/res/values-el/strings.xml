@@ -194,7 +194,6 @@
     <string name="lbl_today">Σήμερα</string>
     <string name="lbl_load_channels">"Φόρτωση καναλιών "</string>
     <string name="msg_no_playable_items">Δεν βρέθηκαν στοιχεία για αναπαραγωγή</string>
-    <string name="pref_next_up_enabled_summary">Προεπισκόπιση του επομένου στη λίστα πριν την αναπαραγωγή</string>
     <string name="watch_now">Δείτε τώρα</string>
     <string name="pref_next_up_timeout_title">Χρόνος πριν την έναρξη αναπαραγωγής του επομένου</string>
     <string name="pref_next_up_timeout_summary">Χρόνος αναμονής πριν την αναπαραγωγή του επόμενου στοιχείου</string>

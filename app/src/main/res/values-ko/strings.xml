@@ -197,7 +197,6 @@
     <string name="lbl_never">안 함</string>
     <string name="msg_error_server_unavailable">서버 연결 불가능</string>
     <string name="pref_libvlc_audio_delay_title">libVLC 기본 오디오 지연</string>
-    <string name="pref_next_up_enabled_title">다음 화면 활성화</string>
     <string name="watch_now">지금 재생</string>
     <string name="pref_next_up_timeout_title">다음 타이머 시간</string>
     <string name="pref_next_up_timeout_summary">다음 편 재생 대기 시간</string>
@@ -248,7 +247,6 @@
     <string name="grid_direction">격자 방향</string>
     <string name="pref_device_model">디바이스 모델</string>
     <string name="pref_app_theme">앱 테마</string>
-    <string name="pref_next_up_enabled_summary">재생 전 대기열 중인 다음 편 미리 보기</string>
     <string name="pref_video_player_choose">항상 묻기</string>
     <string name="lbl_news">신규</string>
     <string name="lbl_tv_filter_status">다음 %1$d 시간 동안</string>

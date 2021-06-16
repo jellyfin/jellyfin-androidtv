@@ -233,7 +233,6 @@
     <string name="pref_device_model">Model urządzenia</string>
     <string name="pref_app_theme">Motyw aplikacji</string>
     <string name="pref_libvlc_audio_delay_title">Domyślne opóźnienie dźwięku dla libVLC</string>
-    <string name="pref_next_up_enabled_summary">Wyświetla podgląd następnej pozycji w kolejce przed rozpoczęciem odtwarzania</string>
     <string name="watch_now">Oglądaj teraz</string>
     <string name="pref_next_up_timeout_summary">Jak długo należy czekać przed odtworzeniem następnej pozycji</string>
     <string name="pref_media_player">Preferowany odtwarzacz multimedialny</string>
@@ -298,7 +297,6 @@
     <string name="lbl_series_settings">Ustawienia seriali</string>
     <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
-    <string name="pref_next_up_enabled_title">Włącz ekran kolejnego odcinka</string>
     <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
     <string name="pref_video_player_vlc">Odtwarzacz VLC</string>
     <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>

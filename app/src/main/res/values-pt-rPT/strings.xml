@@ -279,7 +279,6 @@
     <string name="pref_device_model">Modelo do Dispositivo</string>
     <string name="pref_app_theme">Tema da Aplicação</string>
     <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
-    <string name="pref_next_up_enabled_title">Ativar ecrã \"A Seguir\"</string>
     <string name="pref_next_up_enabled_summary">Prevê o próximo item na fila antes de reproduzir</string>
     <string name="pref_next_up_timeout_title">Duração do temporizador \"A seguir\"</string>
     <string name="pref_theme_emerald">Esmeralda Clássica</string>

@@ -289,7 +289,6 @@
     <string name="watch_now">Se nå</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid det skal gå før neste element spilles av</string>
     <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for libVLC</string>
-    <string name="pref_next_up_enabled_summary">Forhåndsviser neste element i køen før avspilling</string>
     <string name="pref_next_up_enabled_title">Aktiver Neste-skjermen</string>
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">App-tema</string>

@@ -263,7 +263,6 @@
     <string name="msg_error_server_unavailable">Server qoljetımdı emes</string>
     <string name="pref_authentication_cat">Tüpnūsqalyq rastama</string>
     <string name="pref_libvlc_audio_delay_title">libVLC üşın dybystyñ ädepkı kıdırısı</string>
-    <string name="pref_next_up_enabled_title">Qazır köru ekranyn qosu</string>
     <string name="watch_now">Qazır köru</string>
     <string name="pref_next_up_timeout_title">Kezektı taimerınıñ ūzaqtyğy</string>
     <string name="pref_media_player">Tasyğyşderekterdıñ tañdauly oinatqyşy</string>
@@ -352,7 +351,6 @@
     <string name="delete_warning">Būl %1$s tasyğyşhanadan BİRJOLATA JOİYLADY. ÖTE senımdısız be\?</string>
     <string name="clear_expanded">Ağymdağy beine kezegın tazartu kerek pe\?</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
-    <string name="pref_next_up_enabled_summary">Oiynatu aldynda kezekte tūrğan kelesı tarmaqty aldyn-ala qarau</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
     <string name="pref_acra_syslog_disabled">Jüielık juūrnaldar apattyq esepter ışıne qosylmaidy</string>
     <string name="pref_acra_syslog_enabled">Jüielık juūrnaldar apattyq esepter ışıne qosylady</string>

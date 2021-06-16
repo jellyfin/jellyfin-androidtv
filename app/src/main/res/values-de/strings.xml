@@ -287,7 +287,6 @@
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
     <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
-    <string name="pref_next_up_enabled_title">Aktiviere Vorschau des nächsten Titels</string>
     <string name="pref_next_up_enabled_summary">Vorschau anzeigen, bevor der nächste Inhalt abgespielt wird</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>

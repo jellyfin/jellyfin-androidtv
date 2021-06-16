@@ -277,14 +277,12 @@
     <string name="pref_acra_category">Crashrapportage</string>
     <string name="pref_acra_syslog_disabled">Systeemlogboeken worden niet toegevoegd aan crashrapportages</string>
     <string name="pref_acra_syslog_enabled">Systeemlogboeken worden toegevoegd aan crashrapportages</string>
-    <string name="pref_next_up_enabled_summary">Laat de volgende in de wachtrij zien voor het afspelen</string>
     <string name="watch_now">Nu kijken</string>
     <string name="pref_next_up_timeout_summary">Hoelang wachten voordat het volgende item wordt afgespeeld</string>
     <string name="pref_media_player">Voorkeurs-mediaspeler</string>
     <string name="pref_about_title">Over</string>
     <string name="pref_app_theme">App-thema</string>
     <string name="pref_libvlc_audio_delay_title">Standaard geluidsvertraging voor libVLC</string>
-    <string name="pref_next_up_enabled_title">\'Volgende item\' scherm inschakelen</string>
     <string name="pref_next_up_timeout_title">Tijdsduur timer \'volgende item\'</string>
     <string name="pref_theme_emerald">Klassiek smaragd</string>
     <string name="pref_theme_dark">Donker (Standaard)</string>

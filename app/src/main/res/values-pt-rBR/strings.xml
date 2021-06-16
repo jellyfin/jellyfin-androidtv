@@ -263,7 +263,6 @@
     <string name="lbl_news">Notícias</string>
     <string name="lbl_colored_backgrounds">Cores de Fundo por Código</string>
     <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
-    <string name="pref_next_up_enabled_title">Habilitar tela \'A seguir\'</string>
     <string name="pref_next_up_enabled_summary">Visualizar o próximo item da fila antes de reproduzir</string>
     <string name="watch_now">Assista agora</string>
     <string name="pref_next_up_timeout_title">duração do timer do A seguir</string>

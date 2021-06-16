@@ -140,7 +140,6 @@
     <string name="msg_external_path">Ez a funkció csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
     <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés libVLC-hez</string>
-    <string name="pref_next_up_enabled_title">Következő lejátszása képernyő engedélyezése</string>
     <string name="pref_next_up_enabled_summary">Következő elem előnézete lejátszás előtt</string>
     <string name="watch_now">Megnézés</string>
     <string name="pref_next_up_timeout_title">Következő lejátszása számláló időtartama</string>

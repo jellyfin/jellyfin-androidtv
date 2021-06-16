@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_libvlc_audio_delay_title">Noklusējuma audio aizkave priekš libVLC</string>
-    <string name="pref_next_up_enabled_title">Iespējot Nākamais ekrānu</string>
     <string name="watch_now">Skatīties tagad</string>
     <string name="pref_next_up_timeout_title">Nākamais taimera ilgums</string>
     <string name="pref_next_up_timeout_summary">Cik ilgi gaidīt pirms nākamā vienuma atskaņošanas</string>
@@ -240,7 +239,6 @@
     <string name="pref_max_bitrate_title">Maksimālais Straumēšanas Bitu-pārraides ātrums</string>
     <string name="lbl_tv_queuing">Ierindot visas Nākamās Epizodes</string>
     <string name="lbl_tune_to_channel">Pāriet uz Kanālu</string>
-    <string name="pref_next_up_enabled_summary">Priekškata nākamo ierindoto vienumu pirms atskaņošanas</string>
     <string name="lbl_start_favorites">Novietot Favorītus Sākumā</string>
     <string name="lbl_audio_delay">Audio Aizkave</string>
     <string name="pref_use_direct_path_summary">Padot failu sistēmas ceļu straumēšanas URL vietā</string>
