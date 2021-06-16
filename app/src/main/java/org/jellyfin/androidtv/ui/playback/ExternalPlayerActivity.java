@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
@@ -192,7 +193,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpEnabled())) {
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED) {
                 // Set to "modified" so the queue won't be cleared
                 mediaManager.getValue().setVideoQueueModified(true);
 

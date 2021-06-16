@@ -294,8 +294,7 @@
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
     <string name="pref_next_up_timeout_title">Next Up timer duration</string>
     <string name="watch_now">Watch now</string>
-    <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
-    <string name="pref_next_up_enabled_title">Enable Next Up screen</string>
+    <string name="pref_next_up_behavior_title">Show next video info</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
     <string name="pref_app_theme">App Theme</string>
     <string name="pref_device_model">Device Model</string>
@@ -419,4 +418,10 @@
     <string name="who_is_watching">Who\'s watching?</string>
     <string name="add_user">Add user</string>
     <string name="help">Help</string>
+    <string name="lbl_special">Special</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_next_up_extended">With thumbnail</string>
+    <string name="lbl_next_up_minimal">Without thumbnail</string>
 </resources>

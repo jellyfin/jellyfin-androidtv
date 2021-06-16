@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
-import org.jellyfin.androidtv.util.toHtmlSpanned
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -15,6 +14,7 @@ class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
 	private lateinit var binding: FragmentNextUpBinding
 	private val backgroundService: BackgroundService by inject()
+	private var timerStarted = false
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
@@ -27,9 +27,7 @@ class NextUpFragment : Fragment() {
 
 			binding.logo.setImageBitmap(data.logo)
 			binding.image.setImageBitmap(data.thumbnail)
-
 			binding.title.text = data.title
-			binding.description.text = data.description?.toHtmlSpanned()
 		}
 
 		binding.fragmentNextUpButtons.apply {
@@ -40,10 +38,14 @@ class NextUpFragment : Fragment() {
 		return binding.root
 	}
 
-	override fun onResume() {
-		super.onResume()
+	override fun onStart() {
+		super.onStart()
 
-		binding.fragmentNextUpButtons.startTimer()
+		if (!timerStarted) {
+			binding.fragmentNextUpButtons.startTimer()
+
+			timerStarted = true
+		}
 	}
 
 	override fun onPause() {

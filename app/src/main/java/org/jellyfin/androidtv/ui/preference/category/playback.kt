@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.*
@@ -43,10 +44,9 @@ fun OptionsScreen.playbackCategory(
 		bind(userPreferences, UserPreferences.mediaQueuingEnabled)
 	}
 
-	checkbox {
-		setTitle(R.string.pref_next_up_enabled_title)
-		setContent(R.string.pref_next_up_enabled_summary)
-		bind(userPreferences, UserPreferences.nextUpEnabled)
+	enum<NextUpBehavior> {
+		setTitle(R.string.pref_next_up_behavior_title)
+		bind(userPreferences, UserPreferences.nextUpBehavior)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] }
 	}
 
@@ -60,7 +60,8 @@ fun OptionsScreen.playbackCategory(
 			override fun display(value: Int) = "${value / 1000}s"
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
-		depends { userPreferences[UserPreferences.mediaQueuingEnabled] && userPreferences[UserPreferences.nextUpEnabled] }
+		depends { userPreferences[UserPreferences.mediaQueuingEnabled]
+			&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED }
 	}
 
 	list {

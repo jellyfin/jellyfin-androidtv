@@ -57,7 +57,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable the next up screen or not
 		 */
-		var nextUpEnabled = Preference.boolean("next_up_enabled", true)
+		var nextUpBehavior = Preference.enum("next_up_behavior", NextUpBehavior.EXTENDED)
 
 		/**
 		 * Next up timeout before playing next item
