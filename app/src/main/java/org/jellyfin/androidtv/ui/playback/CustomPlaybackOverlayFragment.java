@@ -727,14 +727,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onPause() {
         super.onPause();
-        mPlaybackController.pause();
 
-        // in case we come back
         setPlayPauseActionState(0);
 
         // give back audio focus
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
-        Timber.d("Fragment pausing. IsFinishing: %b", mActivity.isFinishing());
     }
 
     public void show() {
