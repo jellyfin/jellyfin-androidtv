@@ -734,6 +734,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         mAudioManager.abandonAudioFocus(mAudioFocusChanged);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mPlaybackController.stop();
+    }
+
     public void show() {
         hideInfo();
         mTopPanel.startAnimation(slideDown);
