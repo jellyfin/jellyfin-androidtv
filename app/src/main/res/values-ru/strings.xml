@@ -376,7 +376,7 @@
     <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
     <string name="lbl_remove_user_content">Изъять учётную запись</string>
     <string name="lbl_manage_servers">Управление серверами</string>
-    <string name="login_help_description">Jellyfin требует подключения к серверу. Посетите нашу документацию на docs.jellyfin.org, чтобы начать работу с Jellyfin.</string>
+    <string name="login_help_description">Jellyfin требуется подключение к серверу. Просмотрите нашу документацию на docs.jellyfin.org, или сканируйте QR-код, чтобы начать работу с Jellyfin.</string>
     <string name="enable_smart_view_description">Умный экран показывает соответствующие элементы вместо сетки</string>
     <string name="lbl_remove_users">Это также изымет всех связанных пользователей</string>
     <string name="connect_title">Соединиться</string>
@@ -419,4 +419,12 @@
     <string name="welcome_title">Начало работы в Jellyfin</string>
     <string name="saved_servers">Сохранённые серверы</string>
     <string name="press_to_close">Нажать для закрытия</string>
+    <string name="lbl_next_up_minimal">Без эскиза</string>
+    <string name="lbl_next_up_extended">С эскизом</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Спецэпизоды</string>
+    <string name="help">Справка</string>
+    <string name="pref_next_up_behavior_title">Показать инфо о следующем видео</string>
 </resources>
