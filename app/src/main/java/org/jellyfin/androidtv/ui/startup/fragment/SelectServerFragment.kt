@@ -26,14 +26,14 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.databinding.FragmentSelectServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SelectServerFragment : Fragment() {
 	private lateinit var binding: FragmentSelectServerBinding
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by sharedViewModel()
 
 	@Suppress("LongMethod")
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +68,7 @@ class SelectServerFragment : Fragment() {
 		binding.discoveryServers.addItemDecoration(serverDivider)
 		val discoveryServerAdapter = ServerAdapter { (_, server) ->
 			viewLifecycleOwner.lifecycleScope.launch {
-				loginViewModel.addServer(server.address).collect { state ->
+				startupViewModel.addServer(server.address).collect { state ->
 					if (state is ConnectedState) {
 						parentFragmentManager.commit {
 							replace<StartupToolbarFragment>(R.id.content_view)
@@ -108,7 +108,7 @@ class SelectServerFragment : Fragment() {
 				binding.discoveryServers.isFocusable = false
 
 				launch {
-					loginViewModel.storedServers.collect { servers ->
+					startupViewModel.storedServers.collect { servers ->
 						storedServerAdapter.items = servers.map { StatefulServer(server = it) }
 
 						binding.storedServersTitle.isVisible = servers.isNotEmpty()
@@ -123,7 +123,7 @@ class SelectServerFragment : Fragment() {
 				}
 
 				launch {
-					loginViewModel.discoveredServers.collect { servers ->
+					startupViewModel.discoveredServers.collect { servers ->
 						discoveryServerAdapter.items = servers.map { StatefulServer(server = it) }
 
 						binding.discoveryServers.isFocusable = servers.any()
@@ -157,7 +157,7 @@ class SelectServerFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		loginViewModel.reloadServers()
+		startupViewModel.reloadServers()
 	}
 
 	class ServerAdapter(

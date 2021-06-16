@@ -18,7 +18,7 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.databinding.FragmentAlertAddServerBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -27,7 +27,7 @@ class AddServerAlertFragment : AlertFragment() {
 		const val ARG_SERVER_ADDRESS = "server_address"
 	}
 
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by sharedViewModel()
 	private lateinit var binding: FragmentAlertAddServerBinding
 
 	private val serverAddressArgument get() = arguments?.getString(ARG_SERVER_ADDRESS)?.ifBlank { null }
@@ -74,7 +74,7 @@ class AddServerAlertFragment : AlertFragment() {
 	override fun onConfirm(): Boolean {
 		if (binding.address.text.isNotBlank()) {
 			viewLifecycleOwner.lifecycleScope.launch {
-				loginViewModel.addServer(binding.address.text.toString()).collect { state ->
+				startupViewModel.addServer(binding.address.text.toString()).collect { state ->
 					when (state) {
 						is ConnectingState -> binding.error.text = getString(R.string.server_connecting, state.address)
 						is UnableToConnectState -> binding.error.text = getString(

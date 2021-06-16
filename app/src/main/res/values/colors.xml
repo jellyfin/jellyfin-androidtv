@@ -50,6 +50,14 @@
     <color name="button_default_highlight_text">#444444</color>
     <color name="button_default_activated_text">#CC3333</color>
 
+    <!-- input_default -->
+    <color name="input_default_stroke">#B3747474</color>
+    <color name="input_default_disabled_background">#33747474</color>
+    <color name="input_default_highlight_background">#DDDDDD</color>
+    <color name="input_default_normal_text">#DDDDDD</color>
+    <color name="input_default_disabled_text">#686868</color>
+    <color name="input_default_highlight_text">#444444</color>
+
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
 

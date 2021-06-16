@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.DateFormat
@@ -15,7 +15,7 @@ import java.util.Date
 import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
-	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by sharedViewModel()
 	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val rebuildOnResume = true
@@ -24,7 +24,7 @@ class EditServerScreen : OptionsFragment() {
 		val serverUUID = requireArguments().get(ARG_SERVER_UUID) as? UUID
 			?: return@optionsScreen
 
-		val server = loginViewModel.getServer(serverUUID) ?: return@optionsScreen
+		val server = startupViewModel.getServer(serverUUID) ?: return@optionsScreen
 		val users = serverUserRepository.getStoredServerUsers(server)
 
 		title = server.name
@@ -62,7 +62,7 @@ class EditServerScreen : OptionsFragment() {
 				setContent(R.string.lbl_remove_users)
 				icon = R.drawable.ic_delete
 				onActivate = {
-					loginViewModel.deleteServer(serverUUID)
+					startupViewModel.deleteServer(serverUUID)
 
 					parentFragmentManager.popBackStack()
 				}

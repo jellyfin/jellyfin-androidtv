@@ -11,7 +11,8 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
-import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
@@ -80,7 +81,8 @@ val appModule = module {
 	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
 
-	viewModel { LoginViewModel(get(), get(), get(), get()) }
+	viewModel { StartupViewModel(get(), get(), get(), get()) }
+	viewModel { UserLoginViewModel(get(), get(), get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 
 	single { BackgroundService(get(), get(), get()) }

@@ -105,7 +105,7 @@
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
