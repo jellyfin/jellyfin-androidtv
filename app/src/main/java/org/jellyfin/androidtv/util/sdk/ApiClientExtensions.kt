@@ -4,7 +4,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 
 
 /**
- * Check if both the [baseUrl] and [accessToken] are not null.
+ * Check if the [baseUrl], [accessToken] and [userId] are not null.
  */
 val ApiClient.isUsable
-	get() = baseUrl != null && accessToken != null
+	get() = baseUrl != null && accessToken != null && userId != null
