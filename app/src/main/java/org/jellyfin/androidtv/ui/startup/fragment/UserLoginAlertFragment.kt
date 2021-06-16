@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.model.AuthenticatedState
-import org.jellyfin.androidtv.auth.model.AuthenticatingState
-import org.jellyfin.androidtv.auth.model.RequireSignInState
-import org.jellyfin.androidtv.auth.model.ServerUnavailableState
+import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.databinding.FragmentAlertUserLoginBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
@@ -87,6 +85,11 @@ class UserLoginAlertFragment : AlertFragment() {
 				binding.password.text.toString()
 			).observe(viewLifecycleOwner) { state ->
 				when (state) {
+					is ServerVersionNotSupported -> binding.error.setText(getString(
+						R.string.server_unsupported,
+						state.server.version,
+						ServerRepository.minimumServerVersion.toString()
+					))
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
 					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
 					ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
