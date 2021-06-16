@@ -41,23 +41,20 @@ class ClockUserView @JvmOverloads constructor(
 		val currentUser = TvApp.getApplication().currentUser
 
 		if (currentUser != null && !isInEditMode) {
-			binding.username.text = currentUser.name
-			binding.username.isVisible = true
-
 			if (currentUser.primaryImageTag != null) {
 				Glide.with(context)
 					.load(ImageUtils.getPrimaryImageUrl(currentUser, get()))
 					.placeholder(R.drawable.ic_user)
 					.centerInside()
+					.circleCrop()
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-					.into(binding.userImage)
+					.into(binding.clockUserImage)
 			} else {
-				binding.userImage.setImageResource(R.drawable.ic_user)
+				binding.clockUserImage.setImageResource(R.drawable.ic_user)
 			}
-			binding.userImage.isVisible = true
+			binding.clockUserImage.isVisible = true
 		} else {
-			binding.username.isVisible = false
-			binding.userImage.isVisible = false
+			binding.clockUserImage.isVisible = false
 		}
 	}
 }

@@ -232,13 +232,8 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
 
         // and add the clock element
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ClockUserView userClock = new ClockUserView(getActivity(), null);
         mClock = userClock.findViewById(R.id.clock);
-        layoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
-        layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 40);
-        layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
-        userClock.setLayoutParams(layoutParams);
         root.addView(userClock);
     }
 
