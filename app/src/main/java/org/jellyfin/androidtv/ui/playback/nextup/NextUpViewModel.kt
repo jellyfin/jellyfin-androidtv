@@ -19,17 +19,16 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.koin.java.KoinJavaComponent.inject
 
 class NextUpViewModel(
 	private val context: Context,
-	private val apiClient: ApiClient
+	private val apiClient: ApiClient,
+	private val userPreferences: UserPreferences
 ) : ViewModel() {
 	private val _item = MutableLiveData<NextUpItemData?>()
 	val item: LiveData<NextUpItemData?> = _item
 	private val _state = MutableLiveData(NextUpState.INITIALIZED)
 	val state: LiveData<NextUpState> = _state
-	private val userPreferences by inject(UserPreferences::class.java)
 
 	fun setItemId(id: String?) = viewModelScope.launch {
 		if (id == null) {
@@ -60,29 +59,29 @@ class NextUpViewModel(
 
 	private fun BaseItemDto.getTitle(): String {
 		val seasonNumber = when {
-			this.baseItemType == BaseItemType.Episode
-				&& this.parentIndexNumber != null
-				&& this.parentIndexNumber != 0 ->
-				context.getString(R.string.lbl_season_number, this.parentIndexNumber)
+			baseItemType == BaseItemType.Episode
+				&& parentIndexNumber != null
+				&& parentIndexNumber != 0 ->
+				context.getString(R.string.lbl_season_number, parentIndexNumber)
 			else -> null
 		}
 		val episodeNumber = when {
-			this.baseItemType != BaseItemType.Episode -> this.indexNumber?.toString()
-			this.parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
-			this.indexNumber != null -> when {
-				this.indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, this.indexNumber, this.indexNumberEnd)
-				else -> context.getString(R.string.lbl_episode_number, this.indexNumber)
+			baseItemType != BaseItemType.Episode -> indexNumber?.toString()
+			parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
+			indexNumber != null -> when {
+				indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd)
+				else -> context.getString(R.string.lbl_episode_number, indexNumber)
 			}
 			else -> null
 		}
 		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
 
-		val nameSeparator = when (this.baseItemType) {
+		val nameSeparator = when (baseItemType) {
 			BaseItemType.Episode -> " — "
 			else -> ". "
 		}
 
-		return listOfNotNull(seasonEpisodeNumbers, this.name)
+		return listOfNotNull(seasonEpisodeNumbers, name)
 			.filter { it.isNotEmpty() }
 			.joinToString(nameSeparator)
 	}
