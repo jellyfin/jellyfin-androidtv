@@ -13,7 +13,7 @@
     <string name="lbl_unlike">Bỏ Thích</string>
     <string name="lbl_dislike">Không thích</string>
     <string name="lbl_like">Thích</string>
-    <string name="lbl_now_playing_album">từ %s</string>
+    <string name="lbl_now_playing_album">từ %1$s</string>
     <string name="lbl_now_playing_track">%s của %s</string>
     <string name="lbl_add_favorite">Thêm Yêu Thích</string>
     <string name="lbl_remove_favorite">Xóa Yêu Thích</string>
@@ -188,7 +188,7 @@
     <string name="lbl_next_episode">Tập kế tiếp</string>
     <string name="lbl_previous_episode">Tập trước</string>
     <string name="lbl_more_like_this">Thêm nữa như thế này</string>
-    <string name="lbl_resume_from">Tiếp tục từ %s</string>
+    <string name="lbl_resume_from">Tiếp tục từ %1$s</string>
     <string name="lbl_guide_option_number">Số kênh</string>
     <string name="lbl_guide_option_played">Lần Phát Cuối</string>
     <string name="lbl_show_indicators">Hiển thị các chỉ số cho</string>
@@ -302,7 +302,6 @@
     <string name="pref_device_model">Mẫu thiết bị</string>
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
     <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho libVLC</string>
-    <string name="pref_next_up_enabled_summary">Xem trước mục được xếp hàng tiếp theo trước khi phát</string>
     <string name="watch_now">Xem bây giờ</string>
     <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ Tiếp theo</string>
     <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi phát mục tiếp theo</string>
@@ -364,7 +363,7 @@
     <string name="login_invalid_credentials">Tên đăng nhập và / hoặc mật khẩu không hợp lệ</string>
     <string name="login_authenticating">Đang xác thực...</string>
     <string name="server_field_empty">Địa chỉ không được để trống</string>
-    <string name="server_connection_failed">Không thể kết nối đến máy chủ: %s</string>
+    <string name="server_connection_failed">Không thể kết nối đến máy chủ: %1$s</string>
     <string name="server_connecting">‎Đang kết nối tới ‎%s</string>
     <string name="connect_title">Kết nối</string>
     <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org để bắt đầu với Jellyfin.</string>
