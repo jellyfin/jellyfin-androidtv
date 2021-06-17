@@ -53,7 +53,7 @@
     <string name="lbl_next_episode">Наступний Епізод</string>
     <string name="lbl_previous_episode">Попередній Епізод</string>
     <string name="lbl_more_like_this">Більше Схожого</string>
-    <string name="lbl_resume_from">Продовжити з %s</string>
+    <string name="lbl_resume_from">Продовжити з %1$s</string>
     <string name="lbl_guide_option_number">Номер Каналу</string>
     <string name="lbl_guide_option_played">Останні Відтворення</string>
     <string name="lbl_show_indicators">Показати Позначки Для</string>
