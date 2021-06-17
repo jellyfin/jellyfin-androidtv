@@ -140,7 +140,6 @@
     <string name="msg_external_path">Ez a funkció csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
     <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés libVLC-hez</string>
-    <string name="pref_next_up_enabled_summary">Következő elem előnézete lejátszás előtt</string>
     <string name="watch_now">Megnézés</string>
     <string name="pref_next_up_timeout_title">Következő lejátszása számláló időtartama</string>
     <string name="pref_next_up_timeout_summary">Ennyi időt várjon a következő elem lejátszása előtt</string>
@@ -367,7 +366,7 @@
     <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %1$s</string>
     <string name="server_connecting">Csatlakozás a következőhöz: %s</string>
     <string name="connect_title">Csatlakozás</string>
-    <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen a Jellyfin használatának megkezdéséhez.</string>
+    <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen, vagy olvassa be a QR-kódot a Jellyfin használatának megkezdéséhez.</string>
     <string name="login_help_title">Kell segítség\?</string>
     <string name="connect_manually_by_address">Szerver címének megadása</string>
     <string name="connect_manually_title">Manuális csatlakozás</string>
@@ -420,4 +419,12 @@
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
     <string name="welcome_title">Üdvözöljük a Jellyfinben!</string>
     <string name="saved_servers">Elmentett szerverek</string>
+    <string name="lbl_next_up_minimal">Bélyegkép nélkül</string>
+    <string name="lbl_next_up_extended">Bélyegképpel</string>
+    <string name="lbl_episode_range">E%1$d-%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Speciális</string>
+    <string name="help">Segítség</string>
+    <string name="pref_next_up_behavior_title">A következő videó információ megjelenítése</string>
 </resources>
