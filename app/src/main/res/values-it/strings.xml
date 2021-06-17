@@ -180,7 +180,7 @@
     <string name="msg_no_playable_items">Nessun oggetto eseguibile</string>
     <string name="lbl_dislike">Non piaciuto</string>
     <string name="lbl_like">Piaciuto</string>
-    <string name="lbl_now_playing_album">da %s</string>
+    <string name="lbl_now_playing_album">da %1$s</string>
     <string name="lbl_play_first_unwatched">Guarda il primo non guardato</string>
     <string name="lbl_search_hint">Cerca testo (seleziona per utilizzare la tastiera)</string>
     <string name="lbl_play_trailers">Riproduci Trailers</string>
@@ -243,7 +243,7 @@
     <string name="lbl_next_episode">Prossimo episodio</string>
     <string name="lbl_previous_episode">Episodio precedente</string>
     <string name="lbl_more_like_this">Simili a questo</string>
-    <string name="lbl_resume_from">Riprendi dal %s</string>
+    <string name="lbl_resume_from">Riprendi dal %1$s</string>
     <string name="lbl_resume_preroll">Riprendi il Pre-Roll</string>
     <string name="lbl_guide_option_number">Numero del canale</string>
     <string name="lbl_guide_option_played">Ultimo riprodotto</string>
@@ -339,7 +339,7 @@
     <string name="login_invalid_credentials">Username e/o password non validi</string>
     <string name="login_authenticating">Autenticazione...</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
-    <string name="server_connection_failed">Impossibile connettersi al server: %s</string>
+    <string name="server_connection_failed">Impossibile connettersi al server: %1$s</string>
     <string name="server_connecting">Connessione al server %s</string>
     <string name="pref_clock_display_playback">Durante la riproduzione</string>
     <string name="pref_clock_display_browsing">Durante la navigazione</string>
