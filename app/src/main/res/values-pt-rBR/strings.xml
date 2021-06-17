@@ -203,7 +203,7 @@
     <string name="lbl_next_episode">Próximo Episódio</string>
     <string name="lbl_previous_episode">Episódio Anterior</string>
     <string name="lbl_more_like_this">Mais Disso</string>
-    <string name="lbl_resume_from">Retomar de %s</string>
+    <string name="lbl_resume_from">Retomar de %1$s</string>
     <string name="lbl_guide_option_number">Número do Canal</string>
     <string name="lbl_guide_option_played">Reproduzidos Recentemente</string>
     <string name="lbl_show_indicators">Exibir Indicadores para</string>
@@ -237,7 +237,7 @@
     <string name="lbl_in_x_days">Em %d dias</string>
     <string name="msg_external_path">Esse recurso só funcionará se você tiver configurado corretamente sua biblioteca no servidor com locais de rede ou locais alternativos e o cliente que você está usando possui permissão de acesso a esses locais pela rede.</string>
     <string name="lbl_warning">Aviso</string>
-    <string name="lbl_now_playing_album">de %s</string>
+    <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="lbl_watched">Assistido</string>
     <string name="lbl_favorite">Favorito</string>
@@ -263,7 +263,6 @@
     <string name="lbl_news">Notícias</string>
     <string name="lbl_colored_backgrounds">Cores de Fundo por Código</string>
     <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
-    <string name="pref_next_up_enabled_summary">Visualizar o próximo item da fila antes de reproduzir</string>
     <string name="watch_now">Assista agora</string>
     <string name="pref_next_up_timeout_title">duração do timer do A seguir</string>
     <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de iniciar o próximo item</string>
@@ -357,7 +356,7 @@
     <string name="login_invalid_credentials">Nome de usuário e/ou senha inválida</string>
     <string name="login_authenticating">Autenticando...</string>
     <string name="server_field_empty">O endereço não pode estar vazio</string>
-    <string name="server_connection_failed">Incapaz de conectar ao servidor: %s</string>
+    <string name="server_connection_failed">Incapaz de conectar ao servidor: %1$s</string>
     <string name="server_connecting">Conectando a %s</string>
     <string name="pref_clock_display_playback">Durante a reprodução</string>
     <string name="pref_clock_display_browsing">Durante a navegação</string>
