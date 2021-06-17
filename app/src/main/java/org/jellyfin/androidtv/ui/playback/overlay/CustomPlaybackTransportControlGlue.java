@@ -100,17 +100,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     protected PlaybackRowPresenter onCreateRowPresenter() {
-        final AbstractDetailsDescriptionPresenter detailsPresenter =
-                new AbstractDetailsDescriptionPresenter() {
-                    @Override
-                    protected void onBindDescription(ViewHolder viewHolder, Object obj) {
-                        PlaybackTransportControlGlue glue = (PlaybackTransportControlGlue) obj;
-                        viewHolder.getTitle().setText(glue.getTitle());
-                        viewHolder.getSubtitle().setText(glue.getSubtitle());
-                    }
-                };
-
-        PlaybackTransportRowPresenter rowPresenter = new PlaybackTransportRowPresenter() {
+        return new PlaybackTransportRowPresenter() {
             @Override
             protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
@@ -159,8 +149,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 vh.setOnKeyListener(null);
             }
         };
-        rowPresenter.setDescriptionPresenter(detailsPresenter);
-        return rowPresenter;
     }
 
     private void initActions(Context context) {
