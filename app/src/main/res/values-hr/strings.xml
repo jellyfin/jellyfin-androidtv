@@ -137,7 +137,7 @@
     <string name="lbl_unlike">Ukloni \"sviđa mi se\"</string>
     <string name="lbl_dislike">Ne sviđa mi se</string>
     <string name="lbl_like">Sviđa mi se</string>
-    <string name="lbl_now_playing_album">od %s</string>
+    <string name="lbl_now_playing_album">od %1$s</string>
     <string name="lbl_now_playing_track">%s od %s</string>
     <string name="lbl_add_favorite">Dodaj kao omiljeni</string>
     <string name="lbl_remove_favorite">Ukloni omiljene</string>
@@ -220,7 +220,6 @@
     <string name="pref_device_model">Model uređaja</string>
     <string name="pref_app_theme">Tema Aplikacije</string>
     <string name="pref_libvlc_audio_delay_title">Zadano kašnjenje zvuka za libVLC</string>
-    <string name="pref_next_up_enabled_summary">Prikaže iduću stavku u redu prije reprodukcije</string>
     <string name="watch_now">Gledaj sada</string>
     <string name="pref_next_up_timeout_title">Trajanje timera reprodukcije iduće stavke</string>
     <string name="pref_next_up_timeout_summary">Koliko čekati prije reproduciranja sljedeće stavke</string>
@@ -269,7 +268,7 @@
     <string name="lbl_next_episode">Sljedeća epizona</string>
     <string name="lbl_previous_episode">Prethodna epizona</string>
     <string name="lbl_more_like_this">Više sličnih stavki</string>
-    <string name="lbl_resume_from">Nastavi od %s</string>
+    <string name="lbl_resume_from">Nastavi od %1$s</string>
     <string name="lbl_resume_preroll">Nastavi uvodnu reklamu</string>
     <string name="lbl_guide_option_number">Broj kanala</string>
     <string name="lbl_guide_option_played">Zadnje reproducirano</string>
