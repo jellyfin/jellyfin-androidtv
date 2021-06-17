@@ -93,7 +93,7 @@
     <string name="lbl_mark_played">Тоглосон гэж тэмдэглэсэн</string>
     <string name="lbl_remove_favorite">Дуртай зүйлийг устгана уу</string>
     <string name="lbl_add_favorite">Дуртай зүйл нэмэх</string>
-    <string name="lbl_now_playing_album">- %s</string>
+    <string name="lbl_now_playing_album">- %1$s</string>
     <string name="msg_no_playable_items">Тоглуулах боломжтой зүйл байхгүй байна</string>
     <string name="lbl_unwatched">Саналгүй</string>
     <string name="lbl_load_channels">"Сувгуудыг ачаалах "</string>
