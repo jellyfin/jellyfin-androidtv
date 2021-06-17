@@ -148,7 +148,6 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
     <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
-    <string name="pref_next_up_enabled_summary">Previsualiza el siguiente elemento de la cola antes de reproducirlo</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_about_title">Acerca de</string>
@@ -370,7 +369,7 @@
     <string name="lbl_hide_unwatched_count">Ocultar recuento de no vistos</string>
     <string name="pref_watched_indicator">Mostrar indicadores observados</string>
     <string name="connect_title">Conectar</string>
-    <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org para comenzar con Jellyfin.</string>
+    <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org o escanee el código QR para comenzar con Jellyfin.</string>
     <string name="login_help_title">¿Necesitas ayuda\?</string>
     <string name="connect_manually_by_address">Ingrese la dirección del servidor</string>
     <string name="connect_manually_title">Conectar manualmente</string>
@@ -420,4 +419,12 @@
     <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
     <string name="saved_servers">Servidores guardados</string>
+    <string name="lbl_next_up_minimal">Sin Miniaturas</string>
+    <string name="lbl_next_up_extended">Con Miniaturas</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Especial</string>
+    <string name="help">Ayuda</string>
+    <string name="pref_next_up_behavior_title">Mostrar información del próximo vídeo</string>
 </resources>
