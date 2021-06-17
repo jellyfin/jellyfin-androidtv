@@ -123,7 +123,7 @@
     <string name="lbl_goto_series">Gå til Serier</string>
     <string name="lbl_audio_output">Lydudgang</string>
     <string name="pref_audio_direct">Direkte</string>
-    <string name="lbl_now_playing_album">fra %s</string>
+    <string name="lbl_now_playing_album">fra %1$s</string>
     <string name="lbl_now_playing_track">%s af %s</string>
     <string name="msg_error_server_unavailable">Serveren er ikke tilgængelig</string>
     <string name="lbl_recordings">Optagelser</string>
@@ -215,7 +215,7 @@
     <string name="lbl_next_episode">Næste Episode</string>
     <string name="lbl_previous_episode">Forrige Episode</string>
     <string name="lbl_more_like_this">Mere ligesom dette</string>
-    <string name="lbl_resume_from">Genoptag fra %s</string>
+    <string name="lbl_resume_from">Genoptag fra %1$s</string>
     <string name="lbl_guide_option_number">Kanal nummer</string>
     <string name="lbl_guide_option_played">Sidst afspillet</string>
     <string name="lbl_sort_by">Sorter efter</string>
@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Ugyldigt brugernavn og/eller adgangskode</string>
     <string name="login_authenticating">Verificerer...</string>
     <string name="server_field_empty">Addressen må ikke være tom</string>
-    <string name="server_connection_failed">Kan ikke forbinde til serveren:%s</string>
+    <string name="server_connection_failed">Kan ikke forbinde til serveren: %1$s</string>
     <string name="server_connecting">Forbinder til server...</string>
     <string name="pref_clock_display_playback">Under afspilning</string>
     <string name="pref_clock_display_browsing">Imens du søger</string>
