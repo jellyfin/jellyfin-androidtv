@@ -147,7 +147,7 @@
     <string name="lbl_unlike">Odstrani Všeč mi je</string>
     <string name="lbl_dislike">Ni mi všeč</string>
     <string name="lbl_like">Všeč mi je</string>
-    <string name="lbl_now_playing_album">od %s</string>
+    <string name="lbl_now_playing_album">od %1$s</string>
     <string name="lbl_now_playing_track">%s od %s</string>
     <string name="lbl_add_favorite">Dodaj priljubljeno</string>
     <string name="lbl_remove_favorite">Odstrani priljubljeno</string>
@@ -261,7 +261,7 @@
     <string name="lbl_album_name">Ime albuma</string>
     <string name="lbl_next_episode">Naslednja epizoda</string>
     <string name="lbl_previous_episode">Prejšnja epizoda</string>
-    <string name="lbl_resume_from">Nadaljuj od %s</string>
+    <string name="lbl_resume_from">Nadaljuj od %1$s</string>
     <string name="lbl_guide_option_number">Številka kanala</string>
     <string name="lbl_guide_option_played">Zadnje predvajano</string>
     <string name="lbl_sort_by">Uredi po</string>
