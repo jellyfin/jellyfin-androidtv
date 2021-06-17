@@ -48,7 +48,10 @@ public class BaseItemUtils {
     public static String getFullName(BaseItemDto item) {
         switch (item.getBaseItemType()) {
             case Episode:
-                return item.getSeriesName() + (item.getParentIndexNumber() != null ? " S" + item.getParentIndexNumber() : "") + (item.getIndexNumber() != null ? " E" + item.getIndexNumber() : "") + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "");
+                return item.getSeriesName()
+                    + (item.getParentIndexNumber() != null ? " " + TvApp.getApplication().getString(R.string.lbl_season_number, item.getParentIndexNumber()) : "")
+                    + (item.getIndexNumberEnd() != null && item.getIndexNumber() != null ? " " + TvApp.getApplication().getString(R.string.lbl_episode_range, item.getIndexNumber(), item.getIndexNumberEnd())
+                    : item.getIndexNumber() != null ? " " + TvApp.getApplication().getString(R.string.lbl_episode_number, item.getIndexNumber()) : "");
             case Audio:
             case MusicAlbum:
                 // we actually want the artist name if available
