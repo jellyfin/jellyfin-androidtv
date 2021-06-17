@@ -395,8 +395,8 @@
     <string name="image_type_banner">Баннер</string>
     <string name="image_type_thumbnail">Эскиз</string>
     <string name="image_type_default">По умолчанию</string>
-    <string name="lbl_use_series_thumbnails_description">Использовать эскизы сериалов при отображении эпизодов</string>
-    <string name="lbl_use_series_thumbnails">Предпочитать эскизы сериалов</string>
+    <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
+    <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
     <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
@@ -416,11 +416,11 @@
 \nДобавьте нового пользователя, нажав кнопку «Добавить пользователя».</string>
     <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %s, но приложению требуется версия %s или новее</string>
     <string name="welcome_content">Подключитесь к своему серверу, чтобы начать.</string>
-    <string name="welcome_title">Начало работы в Jellyfin</string>
+    <string name="welcome_title">Начало работы в Jellyfin!</string>
     <string name="saved_servers">Сохранённые серверы</string>
     <string name="press_to_close">Нажать для закрытия</string>
-    <string name="lbl_next_up_minimal">Без эскиза</string>
-    <string name="lbl_next_up_extended">С эскизом</string>
+    <string name="lbl_next_up_minimal">Без бегунка</string>
+    <string name="lbl_next_up_extended">С бегунком</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
