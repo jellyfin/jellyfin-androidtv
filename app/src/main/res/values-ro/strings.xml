@@ -121,7 +121,7 @@
     <string name="lbl_next_episode">Episodul Următor</string>
     <string name="lbl_previous_episode">Episodul Anterior</string>
     <string name="lbl_more_like_this">Mai multe ca acesta</string>
-    <string name="lbl_resume_from">Reluați de la %s</string>
+    <string name="lbl_resume_from">Reluați de la %1$s</string>
     <string name="lbl_resume_preroll">Reluați pre-rularea</string>
     <string name="lbl_guide_option_number">Număr canal</string>
     <string name="lbl_guide_option_played">Ultima Vizionare</string>
@@ -230,7 +230,7 @@
     <string name="lbl_remove_dislike">Eliminați Neplăcut</string>
     <string name="lbl_unlike">Neplăcut</string>
     <string name="lbl_dislike">Neplăcut</string>
-    <string name="lbl_now_playing_album">de la %s</string>
+    <string name="lbl_now_playing_album">de la %1$s</string>
     <string name="lbl_now_playing_track">%s a %s</string>
     <string name="lbl_add_favorite">Adaugă Favorit</string>
     <string name="lbl_remove_favorite">Eliminați Favorit</string>
@@ -286,7 +286,6 @@
     <string name="pref_media_player">Media Player preferat</string>
     <string name="pref_about_title">Despre</string>
     <string name="pref_libvlc_audio_delay_title">Întârziere audio implicită pentru libVLC</string>
-    <string name="pref_next_up_enabled_summary">Previzualizează următorul element din listă înainte de a reda</string>
     <string name="watch_now">Vizionează acum</string>
     <string name="pref_next_up_timeout_title">Durata mesajului: Urmează</string>
     <string name="pref_next_up_timeout_summary">Cât timp să aștepți înainte de a reda următorul articol</string>
@@ -357,7 +356,7 @@
     <string name="login_invalid_credentials">Nume de utilizator și/sau parolă greșite</string>
     <string name="login_authenticating">Se autentifică...</string>
     <string name="server_field_empty">Adresa nu poate fi vidă</string>
-    <string name="server_connection_failed">Imposibil de conectat la server: %s</string>
+    <string name="server_connection_failed">Imposibil de conectat la server: %1$s</string>
     <string name="server_connecting">Conectare la server...</string>
     <string name="pref_clock_display_playback">În timpul redării</string>
     <string name="pref_clock_display_browsing">În timp ce navigați</string>
