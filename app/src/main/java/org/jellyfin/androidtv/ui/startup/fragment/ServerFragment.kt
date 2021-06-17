@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
-import org.jellyfin.androidtv.util.sdk.asText
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -62,7 +61,7 @@ class ServerFragment : Fragment() {
 					ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
 					is ServerVersionNotSupported -> Toast.makeText(
 						context,
-						getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.asText()),
+						getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),
 						Toast.LENGTH_LONG
 					).show()
 				}
