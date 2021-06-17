@@ -177,7 +177,7 @@
     <string name="lbl_unlike">A diferència de</string>
     <string name="lbl_dislike">No m\'agrada</string>
     <string name="lbl_like">Com</string>
-    <string name="lbl_now_playing_album">des de %s</string>
+    <string name="lbl_now_playing_album">des de %1$s</string>
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="lbl_add_favorite">Afegir favorit</string>
     <string name="lbl_remove_favorite">Eliminar favorit</string>
@@ -250,7 +250,7 @@
     <string name="lbl_next_episode">Pròxim episodi</string>
     <string name="lbl_previous_episode">Episodi anterior</string>
     <string name="lbl_more_like_this">Més com això</string>
-    <string name="lbl_resume_from">Reprèn de %s</string>
+    <string name="lbl_resume_from">Reprèn de %1$s</string>
     <string name="lbl_resume_preroll">Reprendre el rodatge previ</string>
     <string name="lbl_guide_option_number">Número de canal</string>
     <string name="lbl_guide_option_played">Última reproducció</string>
@@ -293,7 +293,7 @@
     <string name="login_server_unavailable">No es pot connectar al servidor</string>
     <string name="login_authenticating">S\'està autenticant ...</string>
     <string name="server_field_empty">L\'adreça no pot estar buida</string>
-    <string name="server_connection_failed">No es pot connectar al servidor: %s</string>
+    <string name="server_connection_failed">No es pot connectar al servidor: %1$s</string>
     <string name="server_connecting">Connectant al servidor...</string>
     <string name="pref_clock_display_playback">Durant la reproducció</string>
     <string name="pref_clock_display_browsing">Mentre navega</string>
@@ -353,7 +353,6 @@
     <string name="pref_device_model">Model de dispositiu</string>
     <string name="pref_app_theme">Tema de l\'aplicació</string>
     <string name="pref_libvlc_audio_delay_title">Retard d\'àudio per defecte per a libVLC</string>
-    <string name="pref_next_up_enabled_summary">Previsualitza el següent element a la cua abans de reproduir</string>
     <string name="watch_now">Veure ara</string>
     <string name="pref_next_up_timeout_title">Duració del següent temporitzador</string>
     <string name="pref_next_up_timeout_summary">Quant d\'espera abans de reproduir l\'element següent</string>
