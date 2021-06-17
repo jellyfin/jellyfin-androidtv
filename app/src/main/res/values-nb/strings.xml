@@ -187,7 +187,7 @@
     <string name="lbl_next_episode">Neste episode</string>
     <string name="lbl_previous_episode">Forrige episode</string>
     <string name="lbl_more_like_this">Mer som dette</string>
-    <string name="lbl_resume_from">Fortsett fra %s</string>
+    <string name="lbl_resume_from">Fortsett fra %1$s</string>
     <string name="lbl_resume_preroll">Fortsett forvideo</string>
     <string name="lbl_guide_option_number">Kanalnummer</string>
     <string name="lbl_guide_option_played">Sist avspilt</string>
@@ -242,7 +242,7 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital-lyd</string>
     <string name="lbl_new_premieres">Nye premierer</string>
     <string name="lbl_warning">Advarsel</string>
-    <string name="lbl_now_playing_album">fra %s</string>
+    <string name="lbl_now_playing_album">fra %1$s</string>
     <string name="lbl_now_playing_track">%s av %s</string>
     <string name="lbl_watched">Sett</string>
     <string name="lbl_favorite">Favoritt</string>
@@ -289,7 +289,6 @@
     <string name="watch_now">Se nå</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid det skal gå før neste element spilles av</string>
     <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for libVLC</string>
-    <string name="pref_next_up_enabled_title">Aktiver Neste-skjermen</string>
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">App-tema</string>
     <string name="pref_theme_dark">Mørk (Standard)</string>
@@ -344,7 +343,7 @@
     <string name="login_invalid_credentials">Ugyldig brukernavn og/eller passord</string>
     <string name="login_authenticating">Autentiserer...</string>
     <string name="server_field_empty">Adressen kan ikke være tom</string>
-    <string name="server_connection_failed">Kan ikke koble til serveren: %s</string>
+    <string name="server_connection_failed">Kan ikke koble til serveren: %1$s</string>
     <string name="server_connecting">Kobler til %s</string>
     <string name="pref_clock_display_playback">Under avspilling</string>
     <string name="pref_clock_display_browsing">Når du blar</string>
