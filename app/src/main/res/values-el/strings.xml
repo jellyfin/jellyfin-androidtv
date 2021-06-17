@@ -112,7 +112,7 @@
     <string name="pref_max_bitrate_title">Μέγιστο ρυθμό ροής</string>
     <string name="lbl_dislike">Δεν μου αρέσει</string>
     <string name="lbl_like">Αρέσει</string>
-    <string name="lbl_now_playing_album">απο %s</string>
+    <string name="lbl_now_playing_album">απο %1$s</string>
     <string name="lbl_now_playing_track">%s απο %s</string>
     <string name="lbl_add_favorite">Προσθήκη αγαπημένου</string>
     <string name="lbl_remove_favorite">Κατάργηση αγαπημένου</string>
@@ -210,7 +210,7 @@
     <string name="lbl_next_episode">Επόμενο επισόδιο</string>
     <string name="lbl_previous_episode">Προηγούμενο επισόδιο</string>
     <string name="lbl_more_like_this">Περισσότερα σαν αυτό</string>
-    <string name="lbl_resume_from">Συνέχιση από %s</string>
+    <string name="lbl_resume_from">Συνέχιση από %1$s</string>
     <string name="lbl_guide_option_number">Αριθμός καναλιού</string>
     <string name="lbl_guide_option_played">Έπαιξε τελευταία</string>
     <string name="lbl_show_indicators">Εμφάνιση δεικτών για</string>
@@ -268,7 +268,7 @@
     <string name="login_server_unavailable">Δεν είναι δυνατή η σύνδεση με τον διακομιστή</string>
     <string name="login_authenticating">Έλεγχος ταυτότητας...</string>
     <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
-    <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %s</string>
+    <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %1$s</string>
     <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή...</string>
     <string name="pref_clock_display_playback">Κατά την αναπαραγωγή</string>
     <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
