@@ -13,7 +13,7 @@
     <string name="lbl_next_episode">Next Episode</string>
     <string name="lbl_previous_episode">Previous Episode</string>
     <string name="lbl_more_like_this">More Like This</string>
-    <string name="lbl_resume_from">Resume from %s</string>
+    <string name="lbl_resume_from">Resume from %1$s</string>
     <string name="lbl_resume_preroll">Resume Pre-Roll</string>
     <string name="lbl_guide_option_number">Channel Number</string>
     <string name="lbl_guide_option_played">Last Played</string>
@@ -92,7 +92,7 @@
     <string name="lbl_unlike">Unlike</string>
     <string name="lbl_dislike">Dislike</string>
     <string name="lbl_like">Like</string>
-    <string name="lbl_now_playing_album">from %s</string>
+    <string name="lbl_now_playing_album">from %1$s</string>
     <string name="lbl_mark_played">Mark Played</string>
     <string name="lbl_play_first_unwatched">Play First Unwatched</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
@@ -286,7 +286,6 @@
     <string name="pref_acra_alwaysaccept">Submit crash reports without prompting</string>
     <string name="pref_acra_disabled">Crash reports will not be submitted</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
-    <string name="pref_next_up_enabled_summary">Previews the next queued item before playing</string>
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_timeout_title">Next Up timer duration</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
@@ -363,7 +362,7 @@
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_invalid_credentials">Invalid username and/or password</string>
     <string name="server_field_empty">The address cannot be empty</string>
-    <string name="server_connection_failed">Unable to connect to server: %s</string>
+    <string name="server_connection_failed">Unable to connect to server: %1$s</string>
     <string name="server_connecting">Connecting to server...</string>
     <string name="login_authenticating">Authenticating...</string>
     <string name="login_help_title">Need help\?</string>
