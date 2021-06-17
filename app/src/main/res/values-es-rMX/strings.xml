@@ -210,7 +210,7 @@
     <string name="lbl_next_episode">Siguiente episodio</string>
     <string name="lbl_previous_episode">Episodio anterior</string>
     <string name="lbl_more_like_this">Más como esto</string>
-    <string name="lbl_resume_from">Reanudar desde %s</string>
+    <string name="lbl_resume_from">Reanudar desde %1$s</string>
     <string name="lbl_resume_preroll">Reanudar Pre-Roll</string>
     <string name="lbl_guide_option_number">Número de canal</string>
     <string name="lbl_guide_option_played">Última reproducción</string>
@@ -240,7 +240,7 @@
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
     <string name="lbl_in_x_days">En %d días</string>
     <string name="lbl_warning">Advertencia</string>
-    <string name="lbl_now_playing_album">de %s</string>
+    <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_series">Series</string>
@@ -255,7 +255,6 @@
     <string name="pref_acra_category">Reporte de error</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
     <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
-    <string name="pref_next_up_enabled_summary">Previsualiza el siguiente elemento de la cola antes de reproducirlo</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de A continuación</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
@@ -373,7 +372,7 @@
     <string name="login_invalid_credentials">Usuario y/o contraseña inválidos</string>
     <string name="login_authenticating">Autenticando...</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
-    <string name="server_connection_failed">No fue posible conectar el servidor: %s</string>
+    <string name="server_connection_failed">No fue posible conectar el servidor: %1$s</string>
     <string name="server_connecting">Conectando a %s</string>
     <string name="pref_clock_display_playback">Durante reproducción</string>
     <string name="pref_clock_display_browsing">Mientras navega</string>
