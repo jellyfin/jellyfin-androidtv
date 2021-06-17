@@ -120,7 +120,7 @@
     <string name="lbl_unlike">Beğenme</string>
     <string name="lbl_dislike">Nefret Et</string>
     <string name="lbl_like">Beğen</string>
-    <string name="lbl_now_playing_album">%s</string>
+    <string name="lbl_now_playing_album">%1$s</string>
     <string name="lbl_now_playing_track">%s - %s</string>
     <string name="lbl_add_favorite">Favori Ekle</string>
     <string name="lbl_remove_favorite">Favori Sil</string>
@@ -282,7 +282,6 @@
     <string name="pref_device_model">Cihaz Modeli</string>
     <string name="pref_app_theme">Uygulama Teması</string>
     <string name="pref_libvlc_audio_delay_title">libVLC için varsayılan Ses Gecikmesi</string>
-    <string name="pref_next_up_enabled_summary">Oynatmadan önce sıradaki bir sonraki öğeyi önizler</string>
     <string name="watch_now">Şimdi izle</string>
     <string name="pref_next_up_timeout_title">Sıradaki zamanlayıcı süresi</string>
     <string name="pref_next_up_timeout_summary">Bir sonraki öğeyi çalmadan önce bekleme süresi</string>
@@ -331,7 +330,7 @@
     <string name="lbl_next_episode">Sonraki Bölüm</string>
     <string name="lbl_previous_episode">Önceki Bölüm</string>
     <string name="lbl_more_like_this">Bunu Gibi Daha Fazla</string>
-    <string name="lbl_resume_from">%s\'dan Devam Et</string>
+    <string name="lbl_resume_from">%1$s\'dan Devam Et</string>
     <string name="lbl_resume_preroll">Ön Gösterimi Devam Ettir</string>
     <string name="lbl_guide_option_number">Kanal Numarası</string>
     <string name="lbl_guide_option_played">Son Oynatılan</string>
@@ -355,7 +354,7 @@
     <string name="login_server_unavailable">Sunucuya bağlanılamadı</string>
     <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya şifre</string>
     <string name="server_field_empty">Adres boş olamaz</string>
-    <string name="server_connection_failed">Sunucuya bağlanılamadı: %s</string>
+    <string name="server_connection_failed">Sunucuya bağlanılamadı: %1$s</string>
     <string name="server_connecting">Sunucuya bağlanılıyor...</string>
     <string name="pref_clock_display_playback">Oynatma sırasında</string>
     <string name="lbl_always">Her zaman</string>
