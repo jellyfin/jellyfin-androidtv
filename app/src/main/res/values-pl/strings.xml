@@ -92,7 +92,7 @@
     <string name="lbl_unlike">Już nie lubię</string>
     <string name="lbl_dislike">NIe lubię</string>
     <string name="lbl_like">Lubię</string>
-    <string name="lbl_now_playing_album">z %s</string>
+    <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%s z %s</string>
     <string name="lbl_add_favorite">Dodaj do Ulubionych</string>
     <string name="lbl_remove_favorite">Usuń z Ulubionych</string>
@@ -276,7 +276,7 @@
     <string name="lbl_next_episode">Następny odcinek</string>
     <string name="lbl_previous_episode">Poprzedni odcinek</string>
     <string name="lbl_more_like_this">Więcej podobnych do</string>
-    <string name="lbl_resume_from">Wznów od %s</string>
+    <string name="lbl_resume_from">Wznów od %1$s</string>
     <string name="lbl_guide_option_number">Numer kanału</string>
     <string name="lbl_guide_option_played">Ostatnio odtwarzany</string>
     <string name="lbl_show_indicators">Pokaż wskaźniki dla</string>
@@ -355,7 +355,7 @@
     <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
     <string name="login_authenticating">Uwierzytelnianie...</string>
     <string name="server_field_empty">Adres nie może być pusty</string>
-    <string name="server_connection_failed">Nie można połączyć się z serwerem: %s</string>
+    <string name="server_connection_failed">Nie można połączyć się z serwerem: %1$s</string>
     <string name="server_connecting">Łączenie z %s</string>
     <string name="pref_clock_display_playback">Podczas odtwarzania</string>
     <string name="pref_clock_display_browsing">Podczas przeglądania</string>
