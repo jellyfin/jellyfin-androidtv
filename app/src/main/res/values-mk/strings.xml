@@ -56,7 +56,7 @@
     <string name="btn_cancel">Откажете</string>
     <string name="loading">Вчитување …</string>
     <string name="video_error_unknown_error">Неуспешно пуштање на видео</string>
-    <string name="lbl_now_playing_album">from %s</string>
+    <string name="lbl_now_playing_album">from %1$s</string>
     <string name="lbl_now_playing_track">%s of %s</string>
     <string name="lbl_add_favorite">Додади во Омилени</string>
     <string name="lbl_remove_favorite">Отстрани Омилено</string>
