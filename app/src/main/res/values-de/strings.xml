@@ -287,7 +287,6 @@
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
     <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
-    <string name="pref_next_up_enabled_summary">Vorschau anzeigen, bevor der nächste Inhalt abgespielt wird</string>
     <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>
     <string name="pref_app_theme">Thema</string>
@@ -367,7 +366,7 @@
     <string name="server_connection_failed">Verbindung zum Server nicht möglich: %1$s</string>
     <string name="server_connecting">Verbinden mit %s</string>
     <string name="connect_title">Verbinden</string>
-    <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
+    <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org oder scannen Sie den QR-Code, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
     <string name="login_help_title">Benötigen Sie Hilfe\?</string>
     <string name="connect_manually_by_address">Server-Adresse eingeben</string>
     <string name="connect_manually_title">Manuell verbinden</string>
@@ -420,4 +419,12 @@
     <string name="welcome_content">Verbinden Sie sich mit Ihrem Server, um loszulegen.</string>
     <string name="welcome_title">Willkommen bei Jellyfin!</string>
     <string name="saved_servers">Gespeicherte Server</string>
+    <string name="lbl_next_up_minimal">Ohne Vorschaubild</string>
+    <string name="lbl_next_up_extended">Mit Vorschaubild</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Zusatzmaterial</string>
+    <string name="help">Hilfe</string>
+    <string name="pref_next_up_behavior_title">Zeige Informationen zum nächsten Video</string>
 </resources>
