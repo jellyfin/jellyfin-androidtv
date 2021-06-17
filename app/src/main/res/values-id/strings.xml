@@ -43,7 +43,7 @@
     <string name="lbl_album_name">Nama album</string>
     <string name="lbl_next_episode">Episode selanjutnya</string>
     <string name="lbl_previous_episode">Episode sebelumnya</string>
-    <string name="lbl_resume_from">Lanjutkan dari %s</string>
+    <string name="lbl_resume_from">Lanjutkan dari %1$s</string>
     <string name="lbl_guest_stars">Bintang tamu</string>
     <string name="lbl_on_schedule">Sesuai jadwal</string>
     <string name="lbl_hours">Jam</string>
@@ -125,7 +125,7 @@
     <string name="lbl_unlike">batalkan suka</string>
     <string name="lbl_dislike">Tidak suka</string>
     <string name="lbl_like">Suka</string>
-    <string name="lbl_now_playing_album">dari %s</string>
+    <string name="lbl_now_playing_album">dari %1$s</string>
     <string name="lbl_now_playing_track">%s dari %s</string>
     <string name="lbl_add_favorite">Tambah favorit</string>
     <string name="lbl_remove_favorite">Hapus Favorit</string>
