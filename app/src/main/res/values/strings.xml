@@ -424,4 +424,8 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">With thumbnail</string>
     <string name="lbl_next_up_minimal">Without thumbnail</string>
+    <string name="lbl_starting">Starting</string>
+    <string name="lbl_early">Early</string>
+    <string name="lbl_and_ending">And Ending</string>
+    <string name="lbl_after_schedule">After Schedule</string>
 </resources>

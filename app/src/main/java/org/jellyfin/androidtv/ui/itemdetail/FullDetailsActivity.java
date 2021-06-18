@@ -189,7 +189,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse(SeriesTimerInfoDto response) {
                             mSeriesTimerInfo = response;
-                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mActivity, mSeriesTimerInfo));
+                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, mActivity));
                             mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
                         }
                     });
@@ -363,7 +363,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
             item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
-            item.setOverview(BaseItemUtils.getSeriesOverview(this, mSeriesTimerInfo));
+            item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, this));
 
             setBaseItem(item);
         } else {

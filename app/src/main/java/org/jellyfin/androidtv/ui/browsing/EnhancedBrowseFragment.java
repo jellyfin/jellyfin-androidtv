@@ -527,7 +527,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             mCurrentRow = (ListRow) row;
             mInfoRow.removeAllViews();
 
-            mTitle.setText(rowItem.getName());
+            mTitle.setText(rowItem.getName(requireContext()));
 
             String summary = rowItem.getSummary(requireContext());
             if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));

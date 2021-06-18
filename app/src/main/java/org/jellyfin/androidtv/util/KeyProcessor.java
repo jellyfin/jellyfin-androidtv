@@ -167,7 +167,7 @@ public class KeyProcessor {
                 break;
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_BUTTON_Y:
-                Timber.d("Menu for: %s", rowItem.getFullName());
+                Timber.d("Menu for: %s", rowItem.getFullName(mCurrentActivity));
 
                 //Create a contextual menu based on item
                 switch (rowItem.getItemType()) {

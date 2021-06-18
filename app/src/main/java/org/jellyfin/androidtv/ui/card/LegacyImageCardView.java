@@ -100,25 +100,25 @@ public class LegacyImageCardView extends BaseCardView {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
                 case Photo:
-                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName());
+                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_camera);
                     break;
                 case PhotoAlbum:
-                    binding.overlayText.setText(item.getFullName());
+                    binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_photos);
                     break;
                 case Video:
-                    binding.overlayText.setText(item.getFullName());
+                    binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_movie);
                     break;
                 case Playlist:
                 case MusicArtist:
                 case Person:
-                    binding.overlayText.setText(item.getFullName());
+                    binding.overlayText.setText(item.getFullName(getContext()));
                     hideIcon();
                     break;
                 default:
-                    binding.overlayText.setText(item.getFullName());
+                    binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(item.isFolder() ? R.drawable.ic_folder : R.drawable.blank30x30);
                     break;
             }

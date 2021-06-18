@@ -415,7 +415,7 @@ public class CardPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
-        holder.mCardView.setTitleText(rowItem.getCardName());
+        holder.mCardView.setTitleText(rowItem.getCardName(holder.mCardView.getContext()));
         holder.mCardView.setContentText(rowItem.getSubText(holder.mCardView.getContext()));
         if (ImageType.DEFAULT.equals(mImageType)) {
             holder.mCardView.setOverlayInfo(rowItem);

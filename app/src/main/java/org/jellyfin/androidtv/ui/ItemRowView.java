@@ -103,7 +103,7 @@ public class ItemRowView extends FrameLayout {
                 }
                 break;
             default:
-                String series = item.getSeriesName() != null ? BaseItemUtils.getFullName(item) : null;
+                String series = item.getSeriesName() != null ? BaseItemUtils.getFullName(item, mContext) : null;
                 if (!TextUtils.isEmpty(series)) {
                     mItemName.setText(series);
                     mExtraName.setText(item.getName());

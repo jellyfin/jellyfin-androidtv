@@ -126,7 +126,7 @@ public class GridFragment extends Fragment {
 
     public void setItem(BaseRowItem item) {
         if (item != null) {
-            mTitleView.setText(item.getFullName());
+            mTitleView.setText(item.getFullName(requireContext()));
             InfoLayoutHelper.addInfoRow(getActivity(), item, mInfoRow, true, true);
         } else {
             mTitleView.setText("");

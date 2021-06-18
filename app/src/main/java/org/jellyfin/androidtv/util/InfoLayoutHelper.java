@@ -179,7 +179,7 @@ public class InfoLayoutHelper {
     private static void addProgramInfo(@NonNull Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramSubText(activity, item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(item, activity)+"  ");
         layout.addView(name);
 
         if (BaseItemUtils.isNew(item)) {
