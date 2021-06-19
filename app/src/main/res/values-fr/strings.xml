@@ -289,7 +289,6 @@
     <string name="pref_video_player_external">Application externe</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_libvlc_audio_delay_title">Délais audio par défaut de la bibliothèque libVLC</string>
-    <string name="pref_next_up_enabled_summary">Prévisualiser l\'élément suivant dans la liste de lecture avant de le jouer</string>
     <string name="pref_app_theme">Thème de l\'application</string>
     <string name="pref_theme_dark">Sombre (Défaut)</string>
     <string name="pref_theme_emerald">Émeraude Classique</string>
@@ -411,4 +410,21 @@
     <string name="lbl_switch_user">Changer l\'utilisateur</string>
     <string name="no_network_permissions">Jelelyfin a besoin des permissions réseau pour fonctionner</string>
     <string name="pref_theme_muted_purple">Violet atténué</string>
+    <string name="lbl_next_up_minimal">Sans vignette</string>
+    <string name="lbl_next_up_extended">Avec vignette</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Spécial</string>
+    <string name="help">Aide</string>
+    <string name="add_user">Ajouter utilisateur</string>
+    <string name="who_is_watching">Qui regarde \?</string>
+    <string name="no_user_warning">Nous n\'avons trouvé aucun utilisateur !
+\nAjoutez un nouvel utilisateur en appuyant sur le bouton \"Ajouter utilisateur\".</string>
+    <string name="server_unsupported">Le serveur doit être mis à jour. La version actuelle est %s mais l\'app nécessite %s ou une version plus récente</string>
+    <string name="welcome_content">Connectez-vous à votre serveur pour commencer.</string>
+    <string name="welcome_title">Bienvenue sur Jellyfin !</string>
+    <string name="saved_servers">Serveurs sauvegardés</string>
+    <string name="press_to_close">Appuyer pour fermer</string>
+    <string name="pref_next_up_behavior_title">Afficher les infos de la prochaine vidéo</string>
 </resources>
