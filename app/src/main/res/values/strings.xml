@@ -424,8 +424,12 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">With thumbnail</string>
     <string name="lbl_next_up_minimal">Without thumbnail</string>
-    <string name="lbl_starting">Starting</string>
-    <string name="lbl_early">Early</string>
-    <string name="lbl_and_ending">And Ending</string>
-    <string name="lbl_after_schedule">After Schedule</string>
+    <string name="lbl_starting_early_ending_after">Starting %1$s Early And Ending %2$s After Schedule</string>
+    <string name="lbl_starting_early_ending_on_schedule">Starting %1$s Early And Ending On Schedule</string>
+    <string name="lbl_starting_on_schedule_ending_after">Starting On Schedule And Ending %1$s After Schedule</string>
+    <string name="lbl_start_end_on_schedule">Starting On Schedule And Ending On Schedule</string>
+    <string name="lbl_record_only_new">Will Record Only New Episodes</string>
+    <string name="lbl_record_all">Will Record All Episodes</string>
+    <string name="lbl_on_any_channel">On Any Channel</string>
+    <string name="lbl_on_channel">On %1$s</string>
 </resources>

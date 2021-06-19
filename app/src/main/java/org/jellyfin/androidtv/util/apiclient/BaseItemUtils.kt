@@ -169,19 +169,15 @@ fun BaseItemDto.isNew() = Utils.isTrue(isSeries)
 	&& !Utils.isTrue(isRepeat)
 
 fun SeriesTimerInfoDto.getSeriesOverview(context: Context) = buildString {
-	append(context.getString(R.string.msg_will_record))
-	append(" ")
-	when {
-		Utils.isTrue(recordNewOnly) -> append(context.getString(R.string.lbl_only_new_episodes))
-		else -> append(context.getString(R.string.lbl_all_episodes))
+	when{
+		Utils.isTrue(recordNewOnly) -> append(context.getString(R.string.lbl_record_only_new))
+		else -> append(context.getString(R.string.lbl_record_all))
 	}
 
 	append("\n")
-	append(context.getString(R.string.lbl_on))
-	append(" ")
 	when {
-		Utils.isTrue(recordAnyChannel) -> append(context.getString(R.string.lbl_any_channel))
-		else -> append(channelName)
+		Utils.isTrue(recordAnyChannel) -> append(context.getString(R.string.lbl_on_any_channel))
+		else -> append(context.getString(R.string.lbl_on_channel, channelName))
 	}
 
 	append("\n")
@@ -192,25 +188,30 @@ fun SeriesTimerInfoDto.getSeriesOverview(context: Context) = buildString {
 	}
 
 	append("\n")
-	append(context.getString(R.string.lbl_starting))
 	when {
-		prePaddingSeconds > 0 -> {
-			append(TimeUtils.formatSeconds(context, prePaddingSeconds))
-			append(" ")
-			append(context.getString(R.string.lbl_early))
+		prePaddingSeconds > 0 -> when {
+			postPaddingSeconds > 0 -> append(
+				context.getString(
+					R.string.lbl_starting_early_ending_after,
+					TimeUtils.formatSeconds(context, prePaddingSeconds),
+					TimeUtils.formatSeconds(context, postPaddingSeconds)
+				)
+			)
+			else -> append(
+				context.getString(
+					R.string.lbl_starting_early_ending_on_schedule,
+					TimeUtils.formatSeconds(context, prePaddingSeconds)
+				)
+			)
 		}
-		else -> append(context.getString(R.string.lbl_on_schedule))
-	}
-
-	append(" ")
-	append(context.getString(R.string.lbl_and_ending))
-	append(" ")
-	when {
-		postPaddingSeconds > 0 -> {
-			append(TimeUtils.formatSeconds(context, postPaddingSeconds))
-			append(" ")
-			append(context.getString(R.string.lbl_after_schedule))
+		else -> when {
+			postPaddingSeconds > 0 -> append(
+				context.getString(
+					R.string.lbl_starting_on_schedule_ending_after,
+					TimeUtils.formatSeconds(context, postPaddingSeconds)
+				)
+			)
+			else -> append(context.getString(R.string.lbl_start_end_on_schedule))
 		}
-		else -> append(context.getString(R.string.lbl_on_schedule))
 	}
 }
