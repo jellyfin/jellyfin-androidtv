@@ -57,6 +57,35 @@ fun BaseItemDto.getFullName(context: Context) = when (baseItemType) {
 	else -> name.orEmpty()
 }
 
+fun BaseItemDto.getDisplayName(context: Context): String {
+	val seasonNumber = when {
+		baseItemType == BaseItemType.Episode
+			&& parentIndexNumber != null
+			&& parentIndexNumber != 0 ->
+			context.getString(R.string.lbl_season_number, parentIndexNumber)
+		else -> null
+	}
+	val episodeNumber = when {
+		baseItemType != BaseItemType.Episode -> indexNumber?.toString()
+		parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
+		indexNumber != null -> when {
+			indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd)
+			else -> context.getString(R.string.lbl_episode_number, indexNumber)
+		}
+		else -> null
+	}
+	val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
+
+	val nameSeparator = when (baseItemType) {
+		BaseItemType.Episode -> " — "
+		else -> ". "
+	}
+
+	return listOfNotNull(seasonEpisodeNumbers, name)
+		.filter { it.isNotEmpty() }
+		.joinToString(nameSeparator)
+}
+
 fun BaseItemDto.getSubName(context: Context) = when (baseItemType) {
 	BaseItemType.Episode -> when {
 		locationType == LocationType.Virtual && premiereDate != null ->
