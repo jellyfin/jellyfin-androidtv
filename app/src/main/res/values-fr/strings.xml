@@ -374,7 +374,7 @@
     <string name="lbl_hide_unwatched_count">Masquer le décompte des éléments non visionnés</string>
     <string name="pref_watched_indicator">Afficher les indicateurs de visionnage</string>
     <string name="connect_title">Connexion</string>
-    <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org pour commencer à utiliser Jellyfin.</string>
+    <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org ou scannez le QR code pour commencer à utiliser Jellyfin.</string>
     <string name="login_help_title">Besoin d\'aide  \?</string>
     <string name="connect_manually_by_address">Entrez l\'adresse du serveur</string>
     <string name="connect_manually_title">Connexion manuelle</string>
