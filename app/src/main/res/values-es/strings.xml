@@ -419,4 +419,12 @@
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
     <string name="saved_servers">Servidores guardados</string>
     <string name="press_to_close">Presione para cerrar</string>
+    <string name="lbl_next_up_minimal">Sin miniatura</string>
+    <string name="lbl_next_up_extended">Con miniatura</string>
+    <string name="lbl_episode_range">E%1$d-%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">T%1$d</string>
+    <string name="lbl_special">Especial</string>
+    <string name="help">Ayuda</string>
+    <string name="pref_next_up_behavior_title">Mostrar la información del siguiente vídeo</string>
 </resources>
