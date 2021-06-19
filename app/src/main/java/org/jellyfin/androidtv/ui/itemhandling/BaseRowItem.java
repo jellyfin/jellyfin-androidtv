@@ -344,7 +344,7 @@ public class BaseRowItem {
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
 
-        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
+        return context.getString(R.string.lbl_bracket_unknown);
     }
 
     public String getName(Context context) {
@@ -371,7 +371,7 @@ public class BaseRowItem {
                 return seriesTimerInfo.getName();
         }
 
-        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
+        return context.getString(R.string.lbl_bracket_unknown);
     }
 
     public String getItemId() {
@@ -423,7 +423,7 @@ public class BaseRowItem {
                                 + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
-                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
+                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : context.getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
             case SeriesTimer:

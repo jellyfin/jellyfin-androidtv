@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -219,9 +218,9 @@ public class InfoLayoutHelper {
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
         if (item.getIndexNumber() != null) {
-            String text = (item.getParentIndexNumber() != null ? TvApp.getApplication().getString(R.string.lbl_season_number, item.getParentIndexNumber()) : "")
-                + (item.getIndexNumberEnd() != null && item.getIndexNumber() != null ? " " + TvApp.getApplication().getString(R.string.lbl_episode_range, item.getIndexNumber(), item.getIndexNumberEnd())
-                : item.getIndexNumber() != null ? " " + TvApp.getApplication().getString(R.string.lbl_episode_number, item.getIndexNumber()) : "")
+            String text = (item.getParentIndexNumber() != null ? activity.getString(R.string.lbl_season_number, item.getParentIndexNumber()) : "")
+                + (item.getIndexNumberEnd() != null && item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_range, item.getIndexNumber(), item.getIndexNumberEnd())
+                : item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_number, item.getIndexNumber()) : "")
                 + "  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
