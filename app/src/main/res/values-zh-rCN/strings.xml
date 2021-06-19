@@ -81,7 +81,7 @@
     <string name="lbl_unlike">不像</string>
     <string name="lbl_dislike">不喜欢</string>
     <string name="lbl_like">喜欢</string>
-    <string name="lbl_now_playing_album">来自 %s</string>
+    <string name="lbl_now_playing_album">来自 %1$s</string>
     <string name="lbl_now_playing_track">%s 中的 %s</string>
     <string name="lbl_add_favorite">添加我的最爱</string>
     <string name="lbl_remove_favorite">移除我的最爱</string>
@@ -122,7 +122,7 @@
     <string name="lbl_next_episode">下一个事件</string>
     <string name="lbl_previous_episode">先前的事件</string>
     <string name="lbl_more_like_this">更多像这个的</string>
-    <string name="lbl_resume_from">%s 的简介</string>
+    <string name="lbl_resume_from">自%1$s恢复</string>
     <string name="lbl_guide_option_number">通道编号</string>
     <string name="lbl_guide_option_played">最后播放</string>
     <string name="lbl_show_indicators">显示指标</string>
@@ -289,7 +289,6 @@
     <string name="pref_video_player_vlc">libVLC （VLC解码器）</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默认音频延迟</string>
-    <string name="pref_next_up_enabled_title">允许播放下一个画面</string>
     <string name="pref_app_theme">应用程序主题</string>
     <string name="pref_theme_emerald">经典翡翠色</string>
     <string name="pref_theme_dark">暗黑</string>
@@ -364,12 +363,12 @@
     <string name="login_invalid_credentials">无效的用户名或密码</string>
     <string name="login_authenticating">验证中 ……</string>
     <string name="server_field_empty">地址栏不能为空</string>
-    <string name="server_connection_failed">无法连接到服务器：%s</string>
+    <string name="server_connection_failed">无法连接到服务器：%1$s</string>
     <string name="server_connecting">正在连接服务器 %s</string>
     <string name="lbl_user_server">%1$s 于 %2$s</string>
     <string name="lbl_user_last_used">上次在 %1$s 于 %2$s 使用</string>
     <string name="connect_title">连接</string>
-    <string name="login_help_description">Jellyfin需要服务器进行连接。 请访问docs.jellyfin.org上的文档，以开始使用Jellyfin。</string>
+    <string name="login_help_description">Jellyfin需要服务器进行连接。 请访问docs.jellyfin.org或扫描二维码来阅读相关文档，以开始使用Jellyfin。</string>
     <string name="login_help_title">需要帮助？</string>
     <string name="connect_manually_by_address">输入服务器地址</string>
     <string name="connect_manually_title">手动连接</string>
@@ -411,4 +410,14 @@
     <string name="lbl_switch_user">切换用户</string>
     <string name="no_network_permissions">Jellyfin需要网络权限才能运行</string>
     <string name="pref_theme_muted_purple">淡紫色</string>
+    <string name="lbl_episode_number">第%1$d集</string>
+    <string name="lbl_season_number">第%1$d季</string>
+    <string name="add_user">新建用户</string>
+    <string name="help">帮助</string>
+    <string name="server_unsupported">服务端需要更新. 当前版本为 %s 但应用需要版本 %s 以上</string>
+    <string name="welcome_content">请连接您的服务器以开始使用。</string>
+    <string name="welcome_title">欢迎来到Jellyfin!</string>
+    <string name="saved_servers">已保存的服务器</string>
+    <string name="press_to_close">点击关闭</string>
+    <string name="pref_next_up_behavior_title">显示下一个视频信息</string>
 </resources>
