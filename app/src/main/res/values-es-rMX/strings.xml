@@ -240,7 +240,7 @@
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
     <string name="lbl_in_x_days">En %d días</string>
     <string name="lbl_warning">Advertencia</string>
-    <string name="lbl_now_playing_album">de %1$s</string>
+    <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_now_playing_track">%s de %s</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_series">Series</string>
@@ -397,7 +397,7 @@
     <string name="lbl_hide_unwatched_count">Ocultar contador de contenido sin ver</string>
     <string name="pref_watched_indicator">Mostrar indicadores de contenido visto</string>
     <string name="connect_title">Conectar</string>
-    <string name="login_help_description">Jellyfin requiere un servidor al cual conectarse. Visite nuestra documentación en docs.jellyfin.org para comenzar a utilizar Jellyfin.</string>
+    <string name="login_help_description">Jellyfin requiere de un servidor al cual conectarse. Visita nuestra documentación en docs.jellyfin.org o escanea el código QR para comenzar a usar Jellyfin.</string>
     <string name="login_help_title">¿Necesita ayuda\?</string>
     <string name="connect_manually_by_address">Introducir dirección del servidor</string>
     <string name="connect_manually_title">Conectar de forma manual</string>
@@ -410,4 +410,21 @@
     <string name="image_size_medium">Mediano</string>
     <string name="image_size_small">Pequeño</string>
     <string name="image_size_auto">Por defecto</string>
+    <string name="no_user_warning">¡No se han encontrado usuarios!
+\nAgrega un nuevo usuario presionando el botón de \"Agregar usuario\".</string>
+    <string name="welcome_content">Conéctate a tu servidor para comenzar.</string>
+    <string name="lbl_next_up_minimal">Sin miniatura</string>
+    <string name="lbl_next_up_extended">Con miniatura</string>
+    <string name="lbl_episode_range">E%1$d-%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">T%1$d</string>
+    <string name="lbl_special">Especial</string>
+    <string name="help">Ayuda</string>
+    <string name="add_user">Agregar usuario</string>
+    <string name="who_is_watching">¿Quién está viendo\?</string>
+    <string name="server_unsupported">Este servidor necesita ser actualizado. La versión actual es %s pero la app requiere %s o superior</string>
+    <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
+    <string name="saved_servers">Servidores guardados</string>
+    <string name="press_to_close">Presione para cerrar</string>
+    <string name="pref_next_up_behavior_title">Mostrar información del siguiente video</string>
 </resources>
