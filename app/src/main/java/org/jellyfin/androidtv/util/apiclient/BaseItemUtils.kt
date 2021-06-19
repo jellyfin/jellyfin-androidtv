@@ -88,20 +88,26 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 
 fun BaseItemDto.getSubName(context: Context) = when (baseItemType) {
 	BaseItemType.Episode -> when {
-		locationType == LocationType.Virtual && premiereDate != null ->
-			"$name (" + TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(premiereDate)) + ")"
+		locationType == LocationType.Virtual && name != null && premiereDate != null ->
+			context.getString(
+				R.string.lbl_name_date,
+				name,
+				TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(premiereDate))
+			)
 		else -> name.orEmpty()
 	}
 	BaseItemType.Season -> when {
-		childCount != null && childCount > 0 -> "$childCount " + context.getString(R.string.lbl_episodes)
+		childCount != null && childCount > 0 -> when {
+			childCount > 1 -> context.getString(R.string.lbl_num_episodes, childCount)
+			else -> context.getString(R.string.lbl_one_episode)
+		}
 		else -> ""
 	}
 	BaseItemType.MusicAlbum -> when {
-		childCount != null && childCount > 0 ->
-			"$childCount " + when {
-				childCount > 1 -> context.getString(R.string.lbl_songs)
-				else -> context.getString(R.string.lbl_song)
-			}
+		childCount != null && childCount > 0 -> when {
+			childCount > 1 -> context.getString(R.string.lbl_num_songs, childCount)
+			else -> context.getString(R.string.lbl_one_song)
+		}
 		else -> ""
 	}
 	BaseItemType.Audio -> name.orEmpty()
@@ -135,9 +141,11 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 
 	// Add the start and end time
 	val dateFormat = DateFormat.getTimeFormat(TvApp.getApplication())
-	append(dateFormat.format(startTime.time))
-	append("-")
-	append(dateFormat.format(TimeUtils.convertToLocalDate(endDate)))
+	append(context.getString(
+		R.string.lbl_time_range,
+		dateFormat.format(startTime.time),
+		dateFormat.format(TimeUtils.convertToLocalDate(endDate))
+	))
 }
 
 fun BaseItemDto.getFirstPerson(searchedType: PersonType) =
