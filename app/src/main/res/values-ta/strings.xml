@@ -16,7 +16,7 @@
     <string name="lbl_unlike">விருப்பத்தை நீக்க</string>
     <string name="lbl_dislike">விரும்பவில்லை</string>
     <string name="lbl_like">விரும்பு</string>
-    <string name="lbl_now_playing_album">%s இலிருந்து</string>
+    <string name="lbl_now_playing_album">%1$s இலிருந்து</string>
     <string name="lbl_now_playing_track">%s இன் %s</string>
     <string name="lbl_add_favorite">பிடித்தவைச் சேர்க்கவும்</string>
     <string name="lbl_remove_favorite">பிடித்ததை அகற்று</string>
@@ -160,7 +160,6 @@
     <string name="pref_device_model">சாதன மாதிரி</string>
     <string name="pref_app_theme">பயன்பாட்டு தீம்</string>
     <string name="pref_libvlc_audio_delay_title">VLC க்கான இயல்புநிலை ஆடியோ தாமதம்</string>
-    <string name="pref_next_up_enabled_summary">இயக்குவதற்கு முன் அடுத்த வரிசை உருப்படியை முன்னோட்டமிடுகிறது</string>
     <string name="watch_now">இப்பொழுது பார்</string>
     <string name="pref_next_up_timeout_title">அடுத்த டைமர் காலம்</string>
     <string name="pref_next_up_timeout_summary">அடுத்த உருப்படியை இயக்குவதற்கு முன்பு எவ்வளவு நேரம் காத்திருக்க வேண்டும்</string>
@@ -208,7 +207,7 @@
     <string name="lbl_next_episode">அடுத்த அத்தியாயம்</string>
     <string name="lbl_previous_episode">முந்தைய அத்தியாயம்</string>
     <string name="lbl_more_like_this">இது போன்றது</string>
-    <string name="lbl_resume_from">%s இலிருந்து மீண்டும் தொடங்குங்கள்</string>
+    <string name="lbl_resume_from">%1$s இலிருந்து மீண்டும் தொடங்குங்கள்</string>
     <string name="lbl_resume_preroll">முன் ரோலை மீண்டும் தொடங்குங்கள்</string>
     <string name="lbl_guide_option_number">சேனல் எண்</string>
     <string name="lbl_guide_option_played">கடைசியாக இயக்கப்பட்டது</string>
@@ -364,10 +363,10 @@
     <string name="login_invalid_credentials">தவறான பயனர்பெயர் மற்றும் / அல்லது கடவுச்சொல்</string>
     <string name="login_authenticating">அங்கீகரிக்கிறது ...</string>
     <string name="server_field_empty">முகவரி காலியாக இருக்க முடியாது</string>
-    <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %s</string>
+    <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %1$s</string>
     <string name="server_connecting">%s உடன் இணைக்கிறது</string>
     <string name="connect_title">இணைக்கவும்</string>
-    <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. ஜெல்லிஃபினுடன் தொடங்க எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும்.</string>
+    <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும் அல்லது ஜெல்லிஃபினுடன் தொடங்க QR குறியீட்டை ஸ்கேன் செய்யவும்.</string>
     <string name="login_help_title">உதவி தேவை\?</string>
     <string name="connect_manually_by_address">சேவையக முகவரியை உள்ளிடவும்</string>
     <string name="connect_manually_title">கைமுறையாக இணைக்கவும்</string>
@@ -411,4 +410,21 @@
     <string name="lbl_switch_user">பயன்பாட்டாளர் மாற்றம்</string>
     <string name="no_network_permissions">ஜெல்லிஃபின் செயல்பட பிணைய அனுமதிகள் தேவை</string>
     <string name="pref_theme_muted_purple">முடக்கிய ஊதா</string>
+    <string name="lbl_next_up_minimal">சிறுபடம் இல்லாமல்</string>
+    <string name="lbl_next_up_extended">சிறுபடத்துடன்</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">சிறப்பு</string>
+    <string name="help">உதவி</string>
+    <string name="add_user">பயனரைச் சேர்க்கவும்</string>
+    <string name="who_is_watching">யார் பார்க்கிறார்கள்\?</string>
+    <string name="no_user_warning">எங்களால் எந்த பயனர்களையும் கண்டுபிடிக்க முடியவில்லை!
+\n\"பயனரைச் சேர்\" பொத்தானை அழுத்துவதன் மூலம் புதிய பயனரைச் சேர்க்கவும்.</string>
+    <string name="server_unsupported">சேவையகத்தைப் புதுப்பிக்க வேண்டும். தற்போதைய பதிப்பு %s ஆனால் பயன்பாட்டிற்கு %s அல்லது புதியது தேவைப்படுகிறது</string>
+    <string name="welcome_content">தொடங்க உங்கள் சேவையகத்துடன் இணைக்கவும்.</string>
+    <string name="welcome_title">ஜெல்லிஃபினுக்கு வருக!</string>
+    <string name="saved_servers">சேமிக்கப்பட்ட சேவையகங்கள்</string>
+    <string name="press_to_close">மூட அழுத்தவும்</string>
+    <string name="pref_next_up_behavior_title">அடுத்த வீடியோ தகவலைக் காட்டு</string>
 </resources>
