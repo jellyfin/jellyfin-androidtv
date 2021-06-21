@@ -5,11 +5,9 @@ package org.jellyfin.androidtv.util.apiclient
 import android.content.Context
 import android.text.format.DateFormat
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
@@ -34,19 +32,13 @@ fun BaseItemDto?.canPlay() = this != null
 	&& baseItemType != BaseItemType.SeriesTimer
 	&& (!isFolderItem || childCount == null || childCount > 0)
 
-fun BaseItemDto.getFullName(context: Context) = when (baseItemType) {
+fun BaseItemDto.getFullName(context: Context): String? = when (baseItemType) {
 	BaseItemType.Episode -> listOfNotNull(
 		seriesName,
-		when {
-			parentIndexNumber != null -> context.getString(R.string.lbl_season_number, parentIndexNumber)
-			else -> null
-		},
-		when {
-			indexNumber != null -> when {
-				indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd)
-				else -> context.getString(R.string.lbl_episode_number, indexNumber)
-			}
-			else -> null
+		parentIndexNumber?.let { context.getString(R.string.lbl_season_number, it) },
+		indexNumber?.let { start ->
+			indexNumberEnd?.let { end -> context.getString(R.string.lbl_episode_range, start, end) }
+				?: context.getString(R.string.lbl_episode_number, start)
 		}
 	).filter { it.isNotEmpty() }.joinToString(" ")
 	// we actually want the artist name if available
@@ -54,7 +46,7 @@ fun BaseItemDto.getFullName(context: Context) = when (baseItemType) {
 	BaseItemType.MusicAlbum -> listOfNotNull(albumArtist, name)
 		.filter { it.isNotEmpty() }
 		.joinToString(" - ")
-	else -> name.orEmpty()
+	else -> name
 }
 
 fun BaseItemDto.getDisplayName(context: Context): String {
@@ -68,11 +60,10 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 	val episodeNumber = when {
 		baseItemType != BaseItemType.Episode -> indexNumber?.toString()
 		parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
-		indexNumber != null -> when {
-			indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd)
-			else -> context.getString(R.string.lbl_episode_number, indexNumber)
+		else -> indexNumber?.let { start ->
+			indexNumberEnd?.let { end -> context.getString(R.string.lbl_episode_range, start, end) }
+				?: context.getString(R.string.lbl_episode_number, start)
 		}
-		else -> null
 	}
 	val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
 
@@ -86,7 +77,7 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 		.joinToString(nameSeparator)
 }
 
-fun BaseItemDto.getSubName(context: Context) = when (baseItemType) {
+fun BaseItemDto.getSubName(context: Context): String? = when (baseItemType) {
 	BaseItemType.Episode -> when {
 		locationType == LocationType.Virtual && name != null && premiereDate != null ->
 			context.getString(
@@ -94,7 +85,7 @@ fun BaseItemDto.getSubName(context: Context) = when (baseItemType) {
 				name,
 				TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(premiereDate))
 			)
-		else -> name.orEmpty()
+		else -> name
 	}
 	BaseItemType.Season -> when {
 		childCount != null && childCount > 0 -> when {
@@ -110,37 +101,29 @@ fun BaseItemDto.getSubName(context: Context) = when (baseItemType) {
 		}
 		else -> ""
 	}
-	BaseItemType.Audio -> name.orEmpty()
-	else -> officialRating.orEmpty()
+	BaseItemType.Audio -> name
+	else -> officialRating
 }
 
-fun BaseItemDto.getProgramUnknownChannelName() =
-	TvManager.getChannel(TvManager.getAllChannelsIndex(channelId)).name.orEmpty()
+fun BaseItemDto.getProgramUnknownChannelName(): String? =
+	TvManager.getChannel(TvManager.getAllChannelsIndex(channelId)).name
 
 fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	// Add the channel name if set
-	if (channelName != null) {
-		append(channelName)
-		append(" - ")
-	}
+	channelName?.let { append(channelName, " - ") }
 
 	// Add the episode title if set
-	if (episodeTitle != null) {
-		append(episodeTitle)
-		append(" ")
-	}
+	episodeTitle?.let { append(episodeTitle, " ") }
 
 	val startTime = Calendar.getInstance()
 	startTime.time = TimeUtils.convertToLocalDate(startDate)
 
 	// If the start time is on a different day, add the date
-	if (startTime[Calendar.DAY_OF_YEAR] != Calendar.getInstance()[Calendar.DAY_OF_YEAR]) {
-		append(TimeUtils.getFriendlyDate(context, startTime.time))
-		append(" ")
-	}
+	if (startTime[Calendar.DAY_OF_YEAR] != Calendar.getInstance()[Calendar.DAY_OF_YEAR])
+		append(TimeUtils.getFriendlyDate(context, startTime.time), " ")
 
 	// Add the start and end time
-	val dateFormat = DateFormat.getTimeFormat(TvApp.getApplication())
+	val dateFormat = DateFormat.getTimeFormat(context)
 	append(context.getString(
 		R.string.lbl_time_range,
 		dateFormat.format(startTime.time),
@@ -151,51 +134,35 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 fun BaseItemDto.getFirstPerson(searchedType: PersonType) =
 	people?.find { it.personType == searchedType }
 
-fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> {
-	val chapterItems = mutableListOf<ChapterItemInfo>()
-	val options = ImageOptions().apply {
-		imageType = ImageType.Chapter
-	}
-	chapters.mapIndexed { i, dto ->
-		val chapter = ChapterItemInfo().apply {
-			itemId = id
-			name = dto.name
-			startPositionTicks = dto.startPositionTicks
+fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> = chapters.mapIndexed { i, dto ->
+	ChapterItemInfo().apply {
+		itemId = id
+		name = dto.name
+		startPositionTicks = dto.startPositionTicks
+		imagePath = when {
+			dto.hasImage -> get(ApiClient::class.java).GetImageUrl(id, ImageOptions().apply {
+				imageType = ImageType.Chapter
+				tag = dto.imageTag
+				imageIndex = i
+			})
+			else -> null
 		}
-		if (dto.hasImage) {
-			options.tag = dto.imageTag
-			options.imageIndex = i
-			chapter.imagePath = get(ApiClient::class.java).GetImageUrl(id, options)
-		}
-		chapterItems.add(chapter)
 	}
-	return chapterItems
 }
 
-fun BaseItemDto.isNew() = Utils.isTrue(isSeries)
-	&& !Utils.isTrue(isNews)
-	&& !Utils.isTrue(isRepeat)
+fun BaseItemDto.isNew() = isSeries == true && isNews != true && isRepeat != true
 
 fun SeriesTimerInfoDto.getSeriesOverview(context: Context) = buildString {
-	when{
-		Utils.isTrue(recordNewOnly) -> append(context.getString(R.string.lbl_record_only_new))
-		else -> append(context.getString(R.string.lbl_record_all))
-	}
+	if (recordNewOnly) appendLine(context.getString(R.string.lbl_record_only_new))
+	else appendLine(context.getString(R.string.lbl_record_all))
 
-	append("\n")
-	when {
-		Utils.isTrue(recordAnyChannel) -> append(context.getString(R.string.lbl_on_any_channel))
-		else -> append(context.getString(R.string.lbl_on_channel, channelName))
-	}
+	if (recordAnyChannel) appendLine(context.getString(R.string.lbl_on_any_channel))
+	else appendLine(context.getString(R.string.lbl_on_channel, channelName))
 
-	append("\n")
 	append(dayPattern)
-	if (Utils.isTrue(recordAnyTime)) {
-		append(" ")
-		append(context.getString(R.string.lbl_at_any_time))
-	}
+	if (recordAnyTime) append(" ", context.getString(R.string.lbl_at_any_time))
 
-	append("\n")
+	appendLine()
 	when {
 		prePaddingSeconds > 0 -> when {
 			postPaddingSeconds > 0 -> append(
