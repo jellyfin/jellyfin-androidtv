@@ -371,7 +371,7 @@
     <string name="lbl_server">Сервер</string>
     <string name="lbl_users">Пользователи</string>
     <string name="lbl_user_server">%1$s на %2$s</string>
-    <string name="lbl_user_last_used">Последний раз использовано на %1$s в %2$s</string>
+    <string name="lbl_user_last_used">Крайнее пользование - %1$s в %2$s</string>
     <string name="lbl_remove_server">Изъять сервер</string>
     <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
     <string name="lbl_remove_user_content">Изъять учётную запись</string>
@@ -401,7 +401,7 @@
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
     <string name="user_picker_last_user_summary">Использовать последнего активного пользователя</string>
-    <string name="user_picker_last_user_title">Последний использованный</string>
+    <string name="user_picker_last_user_title">Крайнее пользование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
     <string name="system_user_explanation">Выбранный пользователь будет использован для системной интеграции, такой как поиск</string>
