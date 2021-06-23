@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.ui.livetv;
 
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -68,6 +64,9 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
@@ -999,7 +998,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                     .load(url)
                     .override(imageSize, imageSize)
                     .centerInside()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(mImage);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {

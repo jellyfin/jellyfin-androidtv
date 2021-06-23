@@ -2,6 +2,7 @@ plugins {
 	id("com.android.application")
 	kotlin("android")
 	kotlin("plugin.serialization")
+	kotlin("kapt")
 }
 
 android {
@@ -126,7 +127,9 @@ dependencies {
 	implementation("org.videolan.android:libvlc-all:3.3.14")
 
 	// Image utility
-	implementation("com.github.bumptech.glide:glide:4.12.0")
+	val glideVersion = "4.12.0"
+	implementation("com.github.bumptech.glide:glide:$glideVersion")
+	kapt("com.github.bumptech.glide:compiler:$glideVersion")
 	implementation("com.flaviofaria:kenburnsview:1.0.7")
 
 	// Crash Reporting

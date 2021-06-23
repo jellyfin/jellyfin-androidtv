@@ -10,7 +10,6 @@ import androidx.annotation.DrawableRes;
 import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -51,7 +50,6 @@ public class GridButtonPresenter extends Presenter {
                 Glide.with(cardView.getContext())
                         .load(gridButton.getImageUrl())
                         .error(gridButton.getImageRes())
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(cardView.getMainImageView());
             }
         }

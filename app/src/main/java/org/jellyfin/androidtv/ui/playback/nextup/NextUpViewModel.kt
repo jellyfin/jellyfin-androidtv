@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,7 +51,11 @@ class NextUpViewModel(
 	}
 
 	private fun safelyLoadBitmap(url: String): Bitmap? = try {
-		Glide.with(context).asBitmap().load(url).diskCacheStrategy(DiskCacheStrategy.RESOURCE).submit().get()
+		Glide.with(context)
+			.asBitmap()
+			.load(url)
+			.submit()
+			.get()
 	} catch (e: Exception) {
 		null
 	}
