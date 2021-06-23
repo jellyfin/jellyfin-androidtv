@@ -186,7 +186,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         guideAction = new GuideAction(context, this);
         guideAction.setLabels(new String[]{context.getString(R.string.lbl_live_tv_guide)});
         recordAction = new RecordAction(context, this);
-        recordAction.setLabels(new String[]{context.getString(R.string.lbl_record)});
+        recordAction.setLabels(new String[]{
+                context.getString(R.string.lbl_record),
+                context.getString(R.string.lbl_cancel_recording)
+        });
     }
 
     @Override
