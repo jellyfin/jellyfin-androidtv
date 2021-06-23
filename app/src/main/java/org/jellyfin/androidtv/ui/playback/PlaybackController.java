@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ContainerTypes;
@@ -175,7 +177,7 @@ public class PlaybackController {
     public boolean canSeek() {return !isLiveTv;}
     public boolean isLiveTv() { return isLiveTv; }
     public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
-    public Integer getAudioStreamIndex() {
+    public @Nullable Integer getAudioStreamIndex() {
         return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
     }
     public List<SubtitleStreamInfo> getSubtitleStreams() { return mSubtitleStreams; }
@@ -638,7 +640,6 @@ public class PlaybackController {
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
 
         mFragment.updateDisplay();
-        String path = response.getMediaUrl();
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
         if (!mVideoManager.isNativeMode() &&
@@ -656,7 +657,7 @@ public class PlaybackController {
             mVideoManager.setAudioMode();
         }
 
-        mVideoManager.setVideoPath(path);
+        mVideoManager.setVideoPath(response.getMediaUrl());
         mVideoManager.setVideoTrack(response.getMediaSource());
 
         //wait a beat before attempting to start so the player surface is fully initialized and video is ready

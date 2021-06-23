@@ -38,7 +38,7 @@ class ClockUserView @JvmOverloads constructor(
 			ClockBehavior.IN_MENUS -> context.getActivity() !is PlaybackOverlayActivity
 		}
 
-		val currentUser = TvApp.getApplication().currentUser
+		val currentUser = TvApp.getApplication()?.currentUser
 
 		if (currentUser != null && !isInEditMode) {
 			if (currentUser.primaryImageTag != null) {

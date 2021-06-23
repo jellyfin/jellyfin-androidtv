@@ -41,7 +41,7 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 		}
 
-		val playbackController = TvApp.getApplication().playbackController
+		val playbackController = TvApp.getApplication()?.playbackController
 
 		when (keyCode) {
 			KeyEvent.KEYCODE_MEDIA_PLAY -> playbackController?.play(0)

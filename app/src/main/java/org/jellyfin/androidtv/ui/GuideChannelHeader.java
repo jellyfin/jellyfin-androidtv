@@ -26,10 +26,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class GuideChannelHeader extends RelativeLayout {
-    final int IMAGE_WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 50);
-    final int IMAGE_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 30);
-    final int HEADER_WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 160);
-
     private ImageView mChannelImage;
     private ImageView mFavImage;
     private ChannelInfoDto mChannel;
@@ -47,7 +43,8 @@ public class GuideChannelHeader extends RelativeLayout {
         mTvGuide = tvGuide;
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.channel_header, this, false);
-        v.setLayoutParams(new AbsListView.LayoutParams(HEADER_WIDTH, LiveTvGuideActivity.ROW_HEIGHT));
+        int headerWidth = Utils.convertDpToPixel(context, 160);
+        v.setLayoutParams(new AbsListView.LayoutParams(headerWidth, LiveTvGuideActivity.ROW_HEIGHT));
         this.addView(v);
         this.setFocusable(true);
         ((TextView) findViewById(R.id.channelName)).setText(channel.getName());
@@ -60,9 +57,12 @@ public class GuideChannelHeader extends RelativeLayout {
     }
 
     public void loadImage() {
+        int imageWidth = Utils.convertDpToPixel(mContext, 50);
+        int imageHeight = Utils.convertDpToPixel(mContext, 30);
+
         Glide.with(mContext)
                 .load(ImageUtils.getPrimaryImageUrl(mChannel, get(ApiClient.class)))
-                .override(IMAGE_WIDTH, IMAGE_HEIGHT)
+                .override(imageWidth, imageHeight)
                 .centerInside()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(mChannelImage);
@@ -82,11 +82,11 @@ public class GuideChannelHeader extends RelativeLayout {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(Utils.getThemeColor(getContext(), android.R.attr.colorAccent));
+            setBackgroundColor(Utils.getThemeColor(mContext, android.R.attr.colorAccent));
 
             mTvGuide.setSelectedProgram(this);
         } else {
-            setBackground(ContextCompat.getDrawable(getContext(), R.drawable.light_border));
+            setBackground(ContextCompat.getDrawable(mContext, R.drawable.light_border));
         }
     }
 

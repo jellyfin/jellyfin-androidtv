@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.util.Utils;
 
 public class AudioDelayPopup {
@@ -21,8 +20,8 @@ public class AudioDelayPopup {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.audio_delay_popup, null);
 
-        int width = Utils.convertDpToPixel(TvApp.getApplication(), 240);
-        int height = Utils.convertDpToPixel(TvApp.getApplication(), 130);
+        int width = Utils.convertDpToPixel(context, 240);
+        int height = Utils.convertDpToPixel(context, 130);
 
         mPopup = new PopupWindow(layout, width, height);
         mPopup.setFocusable(true);

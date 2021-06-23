@@ -21,7 +21,7 @@ class AuthenticatedUserCallbacks : AbstractActivityLifecycleCallbacks() {
 			is org.acra.dialog.CrashReportDialog -> return
 			// All other activities should have a current user
 			else -> {
-				TvApp.getApplication().apply {
+				TvApp.getApplication()?.apply {
 					if (currentUser == null) {
 						Timber.w("Current user is null, bouncing to StartupActivity")
 						activity.startActivity(Intent(this, StartupActivity::class.java))

@@ -17,7 +17,7 @@ class HomeFragmentLatestRow(
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		// Get configuration (to find excluded items)
-		val configuration = TvApp.getApplication().currentUser!!.configuration
+		val configuration = TvApp.getApplication()!!.currentUser!!.configuration
 
 		// Create a list of views to include
 		val latestItemsExcludes = configuration.latestItemsExcludes

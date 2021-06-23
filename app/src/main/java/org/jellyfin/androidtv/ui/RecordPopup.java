@@ -39,9 +39,6 @@ import kotlin.Lazy;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class RecordPopup {
-    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
-    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 330);
-
     PopupWindow mPopup;
     String mProgramId;
     SeriesTimerInfoDto mCurrentOptions;
@@ -79,7 +76,8 @@ public class RecordPopup {
         mPosTop = top;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.new_program_record_popup, null);
-        mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
+        int popupHeight = Utils.convertDpToPixel(activity, 330);
+        mPopup = new PopupWindow(layout, width, popupHeight);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
@@ -206,7 +204,7 @@ public class RecordPopup {
         mPostPadding.setSelection(getPaddingNdx(current.getPostPaddingSeconds()));
 
         if (recordSeries) {
-            mPopup.setHeight(SERIES_HEIGHT);
+            mPopup.setHeight(Utils.convertDpToPixel(context, 420));
             mSeriesOptions.setVisibility(View.VISIBLE);
 
             // and other options
@@ -215,7 +213,7 @@ public class RecordPopup {
             mAnyTime.setChecked(current.getRecordAnyTime());
 
         } else {
-            mPopup.setHeight(NORMAL_HEIGHT);
+            mPopup.setHeight(Utils.convertDpToPixel(context, 330));
             mSeriesOptions.setVisibility(View.GONE);
         }
 

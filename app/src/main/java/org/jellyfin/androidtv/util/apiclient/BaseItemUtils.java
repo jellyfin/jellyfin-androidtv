@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.util.apiclient;
 import android.content.Context;
 import android.text.format.DateFormat;
 
+import androidx.annotation.Nullable;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
@@ -34,8 +36,8 @@ public class BaseItemUtils {
                 || item.getBaseItemType() == BaseItemType.LiveTvChannel;
     }
 
-    public static boolean canPlay(BaseItemDto item) {
-        return item.getPlayAccess().equals(PlayAccess.Full)
+    public static boolean canPlay(@Nullable BaseItemDto item) {
+        return item != null && item.getPlayAccess().equals(PlayAccess.Full)
                 && ((item.getIsPlaceHolder() == null || !item.getIsPlaceHolder())
                 && (item.getBaseItemType() != BaseItemType.Episode || !item.getLocationType().equals(LocationType.Virtual)))
                 && (item.getBaseItemType() != BaseItemType.Person)

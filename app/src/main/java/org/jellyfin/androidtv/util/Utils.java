@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -44,11 +46,11 @@ public class Utils {
         Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
     }
 
-    public static int convertDpToPixel(Context ctx, int dp) {
+    public static int convertDpToPixel(@NonNull Context ctx, int dp) {
         return convertDpToPixel(ctx, (float) dp);
     }
 
-    public static int convertDpToPixel(Context ctx, float dp) {
+    public static int convertDpToPixel(@NonNull Context ctx, float dp) {
         float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
@@ -149,7 +151,7 @@ public class Utils {
         return new PopupMenu(context, view, gravity);
     }
 
-    public static int getThemeColor(Context context, int resourceId) {
+    public static int getThemeColor(@NonNull Context context, int resourceId) {
         TypedArray styledAttributes = context.getTheme()
                 .obtainStyledAttributes(new int[]{resourceId});
         int themeColor = styledAttributes.getColor(0, 0);
