@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
@@ -47,7 +46,6 @@ class ClockUserView @JvmOverloads constructor(
 					.placeholder(R.drawable.ic_user)
 					.centerInside()
 					.circleCrop()
-					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 					.into(binding.clockUserImage)
 			} else {
 				binding.clockUserImage.setImageResource(R.drawable.ic_user)

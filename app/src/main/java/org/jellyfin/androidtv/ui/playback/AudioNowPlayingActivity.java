@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +26,6 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
@@ -47,6 +44,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
     private TextView mGenreRow;
@@ -374,7 +373,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 .error(R.drawable.ic_album)
                 .override(posterWidth, posterHeight)
                 .centerInside()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(mPoster);
     }
 

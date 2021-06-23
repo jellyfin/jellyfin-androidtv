@@ -27,7 +27,6 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -447,7 +446,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 Bitmap poster = Glide.with(mActivity)
                         .asBitmap()
                         .load(primaryImageUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .submit()
                         .get();
                 mDetailsOverviewRow.setImageBitmap(mActivity, poster);
@@ -457,7 +455,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 int width = Utils.convertDpToPixel(mActivity, 100);
                 if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
                     String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], apiClient.getValue(), height);
-                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Glide.with(mActivity).asBitmap().load(studioImageUrl).override(width, height).centerInside().diskCacheStrategy(DiskCacheStrategy.RESOURCE).submit().get());
+                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(
+                            mActivity,
+                            Glide.with(mActivity)
+                                    .asBitmap()
+                                    .load(studioImageUrl)
+                                    .override(width, height)
+                                    .centerInside()
+                                    .submit()
+                                    .get()
+                    );
                 } else {
                     if (item.getSeriesStudio() != null) {
                         String studioImageUrl = null;
@@ -469,7 +476,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         } catch (UnsupportedEncodingException e) {
                             Timber.e(e, "Unsupported encoding");
                         }
-                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(mActivity, Glide.with(mActivity).asBitmap().load(studioImageUrl).override(width, height).centerInside().diskCacheStrategy(DiskCacheStrategy.RESOURCE).submit().get());
+                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(
+                                mActivity,
+                                Glide.with(mActivity)
+                                        .asBitmap()
+                                        .load(studioImageUrl)
+                                        .override(width, height)
+                                        .centerInside()
+                                        .submit()
+                                        .get()
+                        );
 
                     }
                 }

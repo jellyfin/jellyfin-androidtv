@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,7 +16,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
@@ -42,6 +39,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 5.414;
@@ -350,7 +349,6 @@ public class CardPresenter extends Presenter {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
                         .load(mDefaultCardImage)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(mCardView.getMainImageView());
                 } else {
                     BlurHashUtils.createBlurHashDrawable(
@@ -364,7 +362,6 @@ public class CardPresenter extends Presenter {
                                 .error(mDefaultCardImage)
                                 .placeholder(bitmap != null ? new BitmapDrawable(mCardView.getResources(), bitmap) : mDefaultCardImage)
                                 .transition(DrawableTransitionOptions.withCrossFade(200))
-                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                 .into(mCardView.getMainImageView());
 
                             return null;
