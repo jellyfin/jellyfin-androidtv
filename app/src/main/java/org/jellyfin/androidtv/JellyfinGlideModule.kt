@@ -10,14 +10,13 @@ import com.bumptech.glide.request.RequestOptions
 
 @GlideModule
 class JellyfinGlideModule : AppGlideModule() {
-	override fun applyOptions(context: Context, builder: GlideBuilder) {
-		builder.setDefaultRequestOptions(
+	override fun applyOptions(context: Context, builder: GlideBuilder): Unit = with(builder) {
+		setDefaultRequestOptions(
 			// Set default disk cache strategy
-			RequestOptions()
-				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+			RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 		)
 
 		// Silence image load errors
-		builder.setLogLevel(Log.ERROR)
+		setLogLevel(Log.ERROR)
 	}
 }
