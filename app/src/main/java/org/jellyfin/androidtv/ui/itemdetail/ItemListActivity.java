@@ -121,7 +121,7 @@ public class ItemListActivity extends FragmentActivity {
         //adjust left frame
         RelativeLayout leftFrame = (RelativeLayout) findViewById(R.id.leftFrame);
         ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
-        params.width = Utils.convertDpToPixel(TvApp.getApplication(),100);
+        params.width = Utils.convertDpToPixel(this,100);
 
 
         mMetrics = new DisplayMetrics();

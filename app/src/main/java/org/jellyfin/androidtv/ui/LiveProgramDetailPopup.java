@@ -41,8 +41,6 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class LiveProgramDetailPopup {
-    private final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
-
     private PopupWindow mPopup;
     private BaseItemDto mProgram;
     private ProgramGridCell mSelectedProgramView;
@@ -72,7 +70,8 @@ public class LiveProgramDetailPopup {
         mTuneAction = tuneAction;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.program_detail_popup, null);
-        mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
+        int popupHeight = Utils.convertDpToPixel(activity, 400);
+        mPopup = new PopupWindow(layout, width, popupHeight);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss

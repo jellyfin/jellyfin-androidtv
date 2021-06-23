@@ -34,7 +34,6 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
     private int mBackgroundColor = 0;
     private boolean isLast;
     private boolean isFirst;
-    private final int IND_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 10);
 
     public ProgramGridCell(Context context, ILiveTvGuide activity, BaseItemDto program, boolean keyListen) {
         super(context);

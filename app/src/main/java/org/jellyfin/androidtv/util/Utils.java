@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.BuildConfig;
@@ -46,12 +47,12 @@ public class Utils {
         Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
     }
 
-    public static int convertDpToPixel(@Nullable Context ctx, int dp) {
+    public static int convertDpToPixel(@NonNull Context ctx, int dp) {
         return convertDpToPixel(ctx, (float) dp);
     }
 
-    public static int convertDpToPixel(@Nullable Context ctx, float dp) {
-        float density = ctx == null ? 1 : ctx.getResources().getDisplayMetrics().density;
+    public static int convertDpToPixel(@NonNull Context ctx, float dp) {
+        float density = ctx.getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
 
