@@ -50,25 +50,25 @@ public class GridFragment extends Fragment {
     private int mSelectedPosition = -1;
     private int mCardHeight;
 
-    protected int SMALL_CARD = Utils.convertDpToPixel(requireContext(), 116);
-    protected int MED_CARD = Utils.convertDpToPixel(requireContext(), 175);
-    protected int LARGE_CARD = Utils.convertDpToPixel(requireContext(), 210);
-    protected int SMALL_BANNER = Utils.convertDpToPixel(requireContext(), 58);
-    protected int MED_BANNER = Utils.convertDpToPixel(requireContext(), 88);
-    protected int LARGE_BANNER = Utils.convertDpToPixel(requireContext(), 105);
+    protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
+    protected int LARGE_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 210);
+    protected int SMALL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 58);
+    protected int MED_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 88);
+    protected int LARGE_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 105);
 
-    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(requireContext(), 116);
-    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(requireContext(), 171);
-    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(requireContext(), 202);
-    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(requireContext(), 114);
-    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(requireContext(), 163);
-    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(requireContext(), 206);
-    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(requireContext(), 116);
-    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(requireContext(), 155);
-    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(requireContext(), 210);
-    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(requireContext(), 51);
-    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(requireContext(), 77);
-    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(requireContext(), 118);
+    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 171);
+    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 202);
+    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 114);
+    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 163);
+    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 206);
+    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 155);
+    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 210);
+    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 51);
+    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 77);
+    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 118);
 
     /**
      * Sets the grid presenter.
