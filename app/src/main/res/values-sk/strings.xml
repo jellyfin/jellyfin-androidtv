@@ -289,7 +289,6 @@
     <string name="watch_now">Pozerať teraz</string>
     <string name="pref_next_up_timeout_summary">Dĺžka čakania pred prehratím ďalšej položky</string>
     <string name="pref_libvlc_audio_delay_title">Predvolené zvukové oneskorenie pre libVLC</string>
-    <string name="pref_next_up_enabled_summary">Náhľad nasledujúcej položky z fronty pred prehrávaním</string>
     <string name="pref_app_theme">Téma aplikácie</string>
     <string name="pref_theme_emerald">Klasická emeraldová</string>
     <string name="pref_theme_dark">Tmavá (predvolená)</string>

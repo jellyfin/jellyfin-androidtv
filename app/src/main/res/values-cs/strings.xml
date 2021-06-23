@@ -285,7 +285,6 @@
     <string name="pref_acra_category">Hlášení chyb</string>
     <string name="pref_about_title">Obsah</string>
     <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro libVLC</string>
-    <string name="pref_next_up_enabled_summary">Před přehráním zobrazí náhled příští položky ve frontě</string>
     <string name="watch_now">Sledovat nyní</string>
     <string name="pref_next_up_timeout_title">Časový limit pro následující položku</string>
     <string name="pref_next_up_timeout_summary">Jak dlouho počkat před přehráním další položky</string>

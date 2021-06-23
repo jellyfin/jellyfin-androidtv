@@ -289,7 +289,6 @@
     <string name="pref_video_player_exoplayer">ExoPlayer （系統播放器）</string>
     <string name="pref_video_player_vlc">libVLC （VLC解碼器）</string>
     <string name="pref_next_up_timeout_title">自動播放倒數計時時長</string>
-    <string name="pref_next_up_enabled_title">允許播放下一個畫面</string>
     <string name="pref_libvlc_audio_delay_title">libVLC的默認音訊延遲</string>
     <string name="pref_theme_emerald">經典翡翠色</string>
     <string name="lbl_show_premieres">瀏覽時顯示該劇集首播</string>
