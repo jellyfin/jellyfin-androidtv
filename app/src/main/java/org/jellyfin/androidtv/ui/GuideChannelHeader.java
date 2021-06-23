@@ -82,11 +82,11 @@ public class GuideChannelHeader extends RelativeLayout {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 
         if (gainFocus) {
-            setBackgroundColor(Utils.getThemeColor(getContext(), android.R.attr.colorAccent));
+            setBackgroundColor(Utils.getThemeColor(mContext, android.R.attr.colorAccent));
 
             mTvGuide.setSelectedProgram(this);
         } else {
-            setBackground(ContextCompat.getDrawable(getContext(), R.drawable.light_border));
+            setBackground(ContextCompat.getDrawable(mContext, R.drawable.light_border));
         }
     }
 

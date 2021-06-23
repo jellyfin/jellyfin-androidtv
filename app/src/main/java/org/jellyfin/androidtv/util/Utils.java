@@ -8,7 +8,6 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.BuildConfig;
 import org.jellyfin.androidtv.R;
@@ -152,11 +151,7 @@ public class Utils {
         return new PopupMenu(context, view, gravity);
     }
 
-    public static int getThemeColor(@Nullable Context context, int resourceId) {
-        if (context == null) {
-            return 0;
-        }
-
+    public static int getThemeColor(@NonNull Context context, int resourceId) {
         TypedArray styledAttributes = context.getTheme()
                 .obtainStyledAttributes(new int[]{resourceId});
         int themeColor = styledAttributes.getColor(0, 0);
