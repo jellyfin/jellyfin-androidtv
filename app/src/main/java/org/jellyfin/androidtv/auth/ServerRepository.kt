@@ -104,6 +104,8 @@ class ServerRepositoryImpl(
 			.forEach { user ->
 				if (users.none { it.id == user.id })
 					users.add(user)
+				else
+					users[users.indexOfFirst { it.id == user.id }] = user
 			}
 
 		emit(users.toList())

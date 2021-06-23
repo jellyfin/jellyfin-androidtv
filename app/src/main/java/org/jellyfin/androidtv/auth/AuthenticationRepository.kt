@@ -103,7 +103,12 @@ class AuthenticationRepositoryImpl(
 			}
 
 			authenticationStore.getUser(server.id, user.id)?.let { storedUser ->
-				authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
+				authenticationStore.putUser(server.id, user.id, storedUser.copy(
+					name = user.name,
+					requirePassword = user.requirePassword,
+					imageTag = user.imageTag,
+					lastUsed = Date().time
+				))
 			}
 		}
 
@@ -183,10 +188,12 @@ class AuthenticationRepositoryImpl(
 		val updatedUser = currentUser?.copy(
 			name = result.user.name,
 			lastUsed = Date().time,
-			requirePassword = result.user.hasPassword
+			requirePassword = result.user.hasPassword,
+			imageTag = result.user.primaryImageTag
 		) ?: AuthenticationStoreUser(
 			name = result.user.name,
-			requirePassword = result.user.hasPassword
+			requirePassword = result.user.hasPassword,
+			imageTag = result.user.primaryImageTag
 		)
 
 		authenticationStore.putUser(server.id, userId, updatedUser)
