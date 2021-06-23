@@ -665,7 +665,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     public void switchChannel(String id, boolean hideGuide) {
-        if (id == null) return;
+        if (Utils.isEmpty(id)) return;
         if (mPlaybackController.getCurrentlyPlayingItem().getId().equals(id)) {
             // same channel, just dismiss overlay
             if (hideGuide)
