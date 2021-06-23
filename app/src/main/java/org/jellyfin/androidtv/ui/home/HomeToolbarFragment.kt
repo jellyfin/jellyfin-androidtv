@@ -30,7 +30,7 @@ class HomeToolbarFragment : Fragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentToolbarHomeBinding.inflate(inflater, container, false)
 
-		TvApp.getApplication().currentUserLiveData.observe(viewLifecycleOwner) { currentUser ->
+		TvApp.getApplication()!!.currentUserLiveData.observe(viewLifecycleOwner) { currentUser ->
 			val image = currentUser?.let { ImageUtils.getPrimaryImageUrl(it, apiClient) }
 			setUserImage(image)
 		}
@@ -80,7 +80,7 @@ class HomeToolbarFragment : Fragment() {
 
 	private fun switchUser() {
 		// Stop observer so the current image is kept during the transition
-		TvApp.getApplication().currentUserLiveData.removeObservers(viewLifecycleOwner)
+		TvApp.getApplication()?.currentUserLiveData?.removeObservers(viewLifecycleOwner)
 
 		sessionRepository.destroyCurrentSession()
 

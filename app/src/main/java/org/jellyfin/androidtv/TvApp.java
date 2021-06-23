@@ -57,6 +57,7 @@ public class TvApp extends Application {
         app = this;
     }
 
+    @Nullable
     public static TvApp getApplication() {
         return app;
     }

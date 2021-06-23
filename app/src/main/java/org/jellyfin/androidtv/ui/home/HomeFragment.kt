@@ -108,7 +108,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 
 	override fun setupQueries(rowLoader: IRowLoader) {
 		lifecycleScope.launch(Dispatchers.IO) {
-			val currentUser = TvApp.getApplication().currentUser!!
+			val currentUser = TvApp.getApplication()!!.currentUser!!
 			// Update the views before creating rows
 			views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
 
@@ -118,7 +118,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			try {
 				// Get display preferences
 				val prefs = callApi<DisplayPreferences> {
-					TvApp.getApplication().getDisplayPrefsAsync("usersettings", "emby", it)
+					TvApp.getApplication()?.getDisplayPrefsAsync("usersettings", "emby", it)
 				}.customPrefs
 
 				// Add sections from preferences

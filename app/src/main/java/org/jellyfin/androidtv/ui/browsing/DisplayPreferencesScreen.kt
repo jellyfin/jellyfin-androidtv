@@ -21,14 +21,14 @@ class DisplayPreferencesScreen : OptionsFragment() {
 	// Requires the caller of this view to pre-cache the display preferences
 	private val displayPreferences by lazy {
 		Timber.d("Loading cached display preferences with id $preferencesId")
-		TvApp.getApplication().getCachedDisplayPrefs(preferencesId)
+		TvApp.getApplication()!!.getCachedDisplayPrefs(preferencesId)
 	}
 
 	override fun onStop() {
 		super.onStop()
 
 		Timber.d("Saving cached display preferences with id $preferencesId")
-		TvApp.getApplication().updateDisplayPrefs(displayPreferences)
+		TvApp.getApplication()!!.updateDisplayPrefs(displayPreferences)
 	}
 
 	override val screen by lazyOptionsScreen {

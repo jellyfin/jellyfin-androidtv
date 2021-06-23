@@ -28,7 +28,7 @@ class HomeFragmentLiveTVRow(
 		adapter.add(GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, activity.getString(R.string.lbl_live_tv_guide), R.drawable.tile_port_guide))
 		// Live TV Recordings button
 		adapter.add(GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, activity.getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record))
-		if (TvApp.getApplication().canManageRecordings()) {
+		if (TvApp.getApplication()?.canManageRecordings() == true) {
 			// Recording Schedule button
 			adapter.add(GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, activity.getString(R.string.lbl_schedule), R.drawable.tile_port_time))
 			// Recording Series button

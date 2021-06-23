@@ -62,7 +62,7 @@ class HomeFragmentHelper(
 				ItemFields.ChildCount
 			)
 
-			userId = TvApp.getApplication().currentUser!!.id
+			userId = TvApp.getApplication()!!.currentUser!!.id
 			enableImages = true
 			limit = ITEM_LIMIT_RECORDINGS
 		}
@@ -72,7 +72,7 @@ class HomeFragmentHelper(
 
 	fun loadNextUp(): HomeFragmentRow {
 		val query = NextUpQuery().apply {
-			userId = TvApp.getApplication().currentUser!!.id
+			userId = TvApp.getApplication()!!.currentUser!!.id
 			imageTypeLimit = 1
 			limit = ITEM_LIMIT_NEXT_UP
 			fields = arrayOf(
@@ -94,7 +94,7 @@ class HomeFragmentHelper(
 				ItemFields.ChannelInfo,
 				ItemFields.ChildCount
 			)
-			userId = TvApp.getApplication().currentUser!!.id
+			userId = TvApp.getApplication()!!.currentUser!!.id
 			imageTypeLimit = 1
 			enableTotalRecordCount = false
 			limit = ITEM_LIMIT_ON_NOW
