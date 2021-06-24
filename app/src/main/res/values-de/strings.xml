@@ -218,7 +218,6 @@
     <string name="lbl_hour">Stunde</string>
     <string name="lbl_minutes">Minuten</string>
     <string name="lbl_seconds">Sekunden</string>
-    <string name="lbl_any_channel">Beliebiger Kanal</string>
     <string name="lbl_series_recordings">Aufnahmen von Serien</string>
     <string name="lbl_save">Speichern</string>
     <string name="msg_settings_updated">Einstellungen aktualisiert</string>
@@ -426,4 +425,18 @@
     <string name="lbl_special">Zusatzmaterial</string>
     <string name="help">Hilfe</string>
     <string name="pref_next_up_behavior_title">Zeige Informationen zum nächsten Video</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 Song</string>
+    <string name="lbl_num_songs">%1$d Songs</string>
+    <string name="lbl_one_episode">1 Episode</string>
+    <string name="lbl_num_episodes">%1$d Episoden</string>
+    <string name="lbl_on_channel">Auf %1$s</string>
+    <string name="lbl_on_any_channel">Auf jedem Kanal</string>
+    <string name="lbl_record_all">Zeichnet alle Episoden auf</string>
+    <string name="lbl_record_only_new">Zeichnet nur neue Episoden auf</string>
+    <string name="lbl_start_end_on_schedule">Planmäßig beginnen und planmäßig enden</string>
+    <string name="lbl_starting_on_schedule_ending_after">Startet nach Plan und endet %1$s nach Zeitplan</string>
+    <string name="lbl_starting_early_ending_after">Beginnt %1$s früher und endet %2$s nach Plan</string>
+    <string name="lbl_starting_early_ending_on_schedule">Startet %1$s früher und endet nach Plan</string>
 </resources>
