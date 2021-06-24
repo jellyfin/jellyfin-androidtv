@@ -279,7 +279,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
     private void refreshCurrentItem() {
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
-            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName());
+            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {

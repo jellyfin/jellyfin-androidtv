@@ -309,23 +309,23 @@ public class BaseRowItem {
         return false;
     }
 
-    public String getCardName() {
+    public String getCardName(Context context) {
         switch (type) {
             case BaseItem:
                 if (baseItem.getBaseItemType() == BaseItemType.Audio) {
                     return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
                 }
             default:
-                return getFullName();
+                return getFullName(context);
         }
     }
 
-    public String getFullName() {
+    public String getFullName(Context context) {
         switch (type) {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return BaseItemUtils.getFullName(baseItem);
+                return BaseItemUtils.getFullName(baseItem, context);
             case Person:
                 return person.getName();
             case Chapter:
@@ -344,15 +344,15 @@ public class BaseRowItem {
                 return (searchHint.getSeries() != null ? searchHint.getSeries() + " - " : "") + searchHint.getName();
         }
 
-        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
+        return context.getString(R.string.lbl_bracket_unknown);
     }
 
-    public String getName() {
+    public String getName(Context context) {
         switch (type) {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return baseItem.getBaseItemType() == BaseItemType.Audio ? getFullName() : baseItem.getName();
+                return baseItem.getBaseItemType() == BaseItemType.Audio ? getFullName(context) : baseItem.getName();
             case Person:
                 return person.getName();
             case Server:
@@ -371,7 +371,7 @@ public class BaseRowItem {
                 return seriesTimerInfo.getName();
         }
 
-        return TvApp.getApplication().getString(R.string.lbl_bracket_unknown);
+        return context.getString(R.string.lbl_bracket_unknown);
     }
 
     public String getItemId() {
@@ -404,7 +404,7 @@ public class BaseRowItem {
     public String getSubText(Context context) {
         switch (type) {
             case BaseItem:
-                return BaseItemUtils.getSubName(context, baseItem);
+                return BaseItemUtils.getSubName(baseItem, context);
             case Person:
                 return person.getRole();
             case Chapter:
@@ -423,7 +423,7 @@ public class BaseRowItem {
                                 + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
-                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : TvApp.getApplication().getString(R.string.lbl_never);
+                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : context.getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
             case SeriesTimer:
@@ -455,7 +455,7 @@ public class BaseRowItem {
             case GridButton:
                 break;
             case SeriesTimer:
-                return BaseItemUtils.getSeriesOverview(context, seriesTimerInfo);
+                return BaseItemUtils.getSeriesOverview(seriesTimerInfo, context);
         }
 
         return "";

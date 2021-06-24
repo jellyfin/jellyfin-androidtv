@@ -231,8 +231,6 @@
     <string name="msg_settings_updated">Settings updated</string>
     <string name="lbl_save">Save</string>
     <string name="lbl_series_recordings">Series Recordings</string>
-    <string name="lbl_any_channel">Any Channel</string>
-    <string name="lbl_all_episodes">All Episodes</string>
     <string name="lbl_at_any_time">At Any Time</string>
     <string name="lbl_seconds">Seconds</string>
     <string name="lbl_minutes">Minutes</string>
@@ -424,4 +422,18 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_next_up_extended">With thumbnail</string>
     <string name="lbl_next_up_minimal">Without thumbnail</string>
+    <string name="lbl_starting_early_ending_after">Starting %1$s Early And Ending %2$s After Schedule</string>
+    <string name="lbl_starting_early_ending_on_schedule">Starting %1$s Early And Ending On Schedule</string>
+    <string name="lbl_starting_on_schedule_ending_after">Starting On Schedule And Ending %1$s After Schedule</string>
+    <string name="lbl_start_end_on_schedule">Starting On Schedule And Ending On Schedule</string>
+    <string name="lbl_record_only_new">Will Record Only New Episodes</string>
+    <string name="lbl_record_all">Will Record All Episodes</string>
+    <string name="lbl_on_any_channel">On Any Channel</string>
+    <string name="lbl_on_channel">On %1$s</string>
+    <string name="lbl_num_episodes">%1$d Episodes</string>
+    <string name="lbl_one_episode">1 Episode</string>
+    <string name="lbl_num_songs">%1$d Songs</string>
+    <string name="lbl_one_song">1 Song</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
 </resources>

@@ -10,13 +10,11 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.util.apiclient.getDisplayName
 import org.jellyfin.androidtv.util.apiclient.getItem
 import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.dto.ImageOptions
 
 class NextUpViewModel(
@@ -60,35 +58,6 @@ class NextUpViewModel(
 		null
 	}
 
-	private fun BaseItemDto.getTitle(): String {
-		val seasonNumber = when {
-			baseItemType == BaseItemType.Episode
-				&& parentIndexNumber != null
-				&& parentIndexNumber != 0 ->
-				context.getString(R.string.lbl_season_number, parentIndexNumber)
-			else -> null
-		}
-		val episodeNumber = when {
-			baseItemType != BaseItemType.Episode -> indexNumber?.toString()
-			parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
-			indexNumber != null -> when {
-				indexNumberEnd != null -> context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd)
-				else -> context.getString(R.string.lbl_episode_number, indexNumber)
-			}
-			else -> null
-		}
-		val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
-
-		val nameSeparator = when (baseItemType) {
-			BaseItemType.Episode -> " — "
-			else -> ". "
-		}
-
-		return listOfNotNull(seasonEpisodeNumbers, name)
-			.filter { it.isNotEmpty() }
-			.joinToString(nameSeparator)
-	}
-
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
 		val item = apiClient.getItem(id) ?: return@withContext null
 
@@ -97,7 +66,7 @@ class NextUpViewModel(
 			else -> null
 		}
 		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
-		val title = item.getTitle()
+		val title = item.getDisplayName(context)
 
 		NextUpItemData(
 			item,

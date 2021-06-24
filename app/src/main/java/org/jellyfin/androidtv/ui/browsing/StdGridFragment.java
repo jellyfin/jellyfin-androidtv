@@ -613,7 +613,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
                 && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
-            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName());
+            Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
@@ -665,7 +665,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 backgroundService.getValue().clearBackgrounds();
             } else {
                 mCurrentItem = (BaseRowItem)item;
-                mTitleView.setText(mCurrentItem.getName());
+                mTitleView.setText(mCurrentItem.getName(requireContext()));
                 mInfoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, 400);
 

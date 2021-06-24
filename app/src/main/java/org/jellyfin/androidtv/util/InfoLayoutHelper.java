@@ -178,7 +178,7 @@ public class InfoLayoutHelper {
     private static void addProgramInfo(@NonNull Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramSubText(activity, item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(item, activity)+"  ");
         layout.addView(name);
 
         if (BaseItemUtils.isNew(item)) {
@@ -218,7 +218,10 @@ public class InfoLayoutHelper {
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
         if (item.getIndexNumber() != null) {
-            String text = (item.getParentIndexNumber() != null ? "S"+item.getParentIndexNumber() : "") +" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
+            String text = (item.getParentIndexNumber() != null ? activity.getString(R.string.lbl_season_number, item.getParentIndexNumber()) : "")
+                + (item.getIndexNumberEnd() != null && item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_range, item.getIndexNumber(), item.getIndexNumberEnd())
+                : item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_number, item.getIndexNumber()) : "")
+                + "  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
