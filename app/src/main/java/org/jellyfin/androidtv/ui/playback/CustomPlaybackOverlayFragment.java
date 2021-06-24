@@ -1295,7 +1295,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             // Update the title and subtitle
             if (current.getBaseItemType() == BaseItemType.Episode) {
                 binding.itemTitle.setText(current.getSeriesName());
-                binding.itemSubtitle.setText(BaseItemUtils.getFullName(current, requireContext()));
+                binding.itemSubtitle.setText(BaseItemUtils.getDisplayName(current, requireContext()));
             } else {
                 binding.itemTitle.setText(current.getName());
             }
