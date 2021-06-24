@@ -200,7 +200,6 @@
     <string name="lbl_minutes">Perc</string>
     <string name="lbl_seconds">Másodperc</string>
     <string name="lbl_at_any_time">bármikor</string>
-    <string name="lbl_any_channel">Bármelyik csatorna</string>
     <string name="lbl_series_recordings">Filmsorozat felvételek</string>
     <string name="lbl_save">Mentés</string>
     <string name="msg_settings_updated">Beállítások frissítve</string>
@@ -426,4 +425,18 @@
     <string name="lbl_special">Speciális</string>
     <string name="help">Segítség</string>
     <string name="pref_next_up_behavior_title">A következő videó információ megjelenítése</string>
+    <string name="lbl_time_range">%1$s-%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 Dal</string>
+    <string name="lbl_num_songs">%1$d Dalok</string>
+    <string name="lbl_one_episode">1 Epizód</string>
+    <string name="lbl_num_episodes">%1$d Epizódok</string>
+    <string name="lbl_on_channel">A %1$s</string>
+    <string name="lbl_on_any_channel">Bármely csatornán</string>
+    <string name="lbl_record_all">Összes rész rögzítése</string>
+    <string name="lbl_record_only_new">Csak új epizódokat rögzítsen</string>
+    <string name="lbl_start_end_on_schedule">Menetrend szerint indul, és menetrend szerint végződik</string>
+    <string name="lbl_starting_on_schedule_ending_after">Menetrend szerint indul, és %1$s -al a menetrend után lesz vége</string>
+    <string name="lbl_starting_early_ending_on_schedule">%1$s -kor kezdődik, és időben véget ér</string>
+    <string name="lbl_starting_early_ending_after">Kezdés %1$s korai és befejezés %2$s ütemezés után</string>
 </resources>
