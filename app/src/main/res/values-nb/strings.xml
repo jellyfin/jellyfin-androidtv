@@ -202,7 +202,6 @@
     <string name="lbl_minutes">Minutter</string>
     <string name="lbl_seconds">Sekunder</string>
     <string name="lbl_at_any_time">Når som helst</string>
-    <string name="lbl_all_episodes">Alle episoder</string>
     <string name="lbl_any_channel">Alle kanaler</string>
     <string name="lbl_series_recordings">Serieopptak</string>
     <string name="lbl_save">Lagre</string>

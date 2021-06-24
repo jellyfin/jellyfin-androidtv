@@ -163,7 +163,6 @@
     <string name="msg_settings_updated">설정 업데이트됨</string>
     <string name="lbl_save">저장</string>
     <string name="lbl_series_recordings">시리즈 노고하</string>
-    <string name="lbl_all_episodes">모든 에피소드</string>
     <string name="lbl_seconds">초</string>
     <string name="lbl_minutes">분</string>
     <string name="lbl_hour">시간</string>
@@ -325,7 +324,6 @@
     <string name="lbl_guest_stars">특별출연</string>
     <string name="lbl_on_schedule">예정한 시간에</string>
     <string name="lbl_at_any_time">아무때나</string>
-    <string name="lbl_any_channel">아무 채널</string>
     <string name="lbl_just_this_once">이번한번만</string>
     <string name="lbl_show_premieres">탐색중 재생</string>
     <string name="lbl_refresh_switching">새로고침 비율 변경</string>

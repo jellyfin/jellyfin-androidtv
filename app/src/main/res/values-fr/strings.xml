@@ -184,9 +184,7 @@
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
     <string name="desc_current_video_queue">éléments vidéo actuellement en file d\'attente pour la lecture</string>
     <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
-    <string name="lbl_all_episodes">Tous les épisodes</string>
     <string name="lbl_all_recordings">Tous les enregistrements</string>
-    <string name="lbl_any_channel">Toutes les chaînes</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>

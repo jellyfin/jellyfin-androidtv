@@ -223,7 +223,6 @@
     <string name="msg_settings_updated">已更新設定</string>
     <string name="lbl_save">保存</string>
     <string name="lbl_series_recordings">系列記錄</string>
-    <string name="lbl_any_channel">任意通道</string>
     <string name="lbl_all_episodes">所有事件</string>
     <string name="lbl_at_any_time">隨時</string>
     <string name="lbl_seconds">秒</string>

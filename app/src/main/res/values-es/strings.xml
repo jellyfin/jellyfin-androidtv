@@ -171,7 +171,6 @@
     <string name="lbl_minutes">Minutos</string>
     <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
-    <string name="lbl_all_episodes">Todos los episodios</string>
     <string name="lbl_any_channel">Cualquier canal</string>
     <string name="lbl_save">Guardar</string>
     <string name="msg_settings_updated">Ajustes actualizados</string>

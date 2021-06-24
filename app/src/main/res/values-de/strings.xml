@@ -218,7 +218,6 @@
     <string name="lbl_hour">Stunde</string>
     <string name="lbl_minutes">Minuten</string>
     <string name="lbl_seconds">Sekunden</string>
-    <string name="lbl_all_episodes">Alle Episoden</string>
     <string name="lbl_any_channel">Beliebiger Kanal</string>
     <string name="lbl_series_recordings">Aufnahmen von Serien</string>
     <string name="lbl_save">Speichern</string>

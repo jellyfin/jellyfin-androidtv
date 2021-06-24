@@ -26,7 +26,6 @@
     <string name="lbl_hour">Tunti</string>
     <string name="lbl_minutes">Minuuttia</string>
     <string name="lbl_seconds">Sekuntia</string>
-    <string name="lbl_all_episodes">Kaikki Jaksot</string>
     <string name="lbl_any_channel">Mikä tahansa kanava</string>
     <string name="lbl_series_recordings">Sarjojen tallenteet</string>
     <string name="lbl_save">Tallenna</string>

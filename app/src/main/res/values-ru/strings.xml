@@ -211,7 +211,6 @@
     <string name="lbl_guest_stars">Приглашённые актёры</string>
     <string name="lbl_on_schedule">По расписанию</string>
     <string name="lbl_at_any_time">В любое время</string>
-    <string name="lbl_all_episodes">Все эпизоды</string>
     <string name="lbl_any_channel">Любой канал</string>
     <string name="lbl_save">Сохранить</string>
     <string name="msg_settings_updated">Параметры обновлены</string>

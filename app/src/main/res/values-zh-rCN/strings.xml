@@ -136,7 +136,6 @@
     <string name="lbl_minutes">分钟</string>
     <string name="lbl_seconds">秒</string>
     <string name="lbl_at_any_time">随时</string>
-    <string name="lbl_all_episodes">所有事件</string>
     <string name="lbl_any_channel">任意通道</string>
     <string name="lbl_series_recordings">系列记录</string>
     <string name="lbl_save">保存</string>

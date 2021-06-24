@@ -200,7 +200,6 @@
     <string name="lbl_minutes">Perc</string>
     <string name="lbl_seconds">Másodperc</string>
     <string name="lbl_at_any_time">bármikor</string>
-    <string name="lbl_all_episodes">Minden epizód</string>
     <string name="lbl_any_channel">Bármelyik csatorna</string>
     <string name="lbl_series_recordings">Filmsorozat felvételek</string>
     <string name="lbl_save">Mentés</string>

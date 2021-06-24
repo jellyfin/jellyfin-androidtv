@@ -225,7 +225,6 @@
     <string name="lbl_minutes">Minutos</string>
     <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
-    <string name="lbl_all_episodes">Todos los episodios</string>
     <string name="lbl_any_channel">Cualquier canal</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="msg_settings_updated">Configuraciones actualizadas</string>

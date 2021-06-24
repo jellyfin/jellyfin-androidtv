@@ -211,7 +211,6 @@
     <string name="lbl_hour">sağ</string>
     <string name="lbl_minutes">min</string>
     <string name="lbl_seconds">s</string>
-    <string name="lbl_all_episodes">Barlyq telebölımder</string>
     <string name="lbl_series_recordings">Telehikaia jazbalary</string>
     <string name="lbl_save">Saqtau</string>
     <string name="msg_settings_updated">Parametrler jañartyldy</string>
@@ -251,7 +250,6 @@
     <string name="lbl_resume_preroll">Jalğastyru üşın oralu</string>
     <string name="lbl_guide_option_played">Soñğy oinatylğan</string>
     <string name="lbl_at_any_time">Qaisybır uaqytta</string>
-    <string name="lbl_any_channel">Qaisybır arnadan</string>
     <string name="lbl_episode_not_record">Būl körsetım JAZYLMAIDY</string>
     <string name="lbl_all_recordings">Barlyq jazbalar</string>
     <string name="lbl_recent_recordings">Eñ keiıñgı jazbalar</string>
