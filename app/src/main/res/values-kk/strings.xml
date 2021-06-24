@@ -425,4 +425,18 @@
     <string name="lbl_special">Arnaiy</string>
     <string name="help">Anyqtama</string>
     <string name="pref_next_up_behavior_title">Kelesı beine aqparyn körsetu</string>
+    <string name="lbl_time_range">%1$s—%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 äuen</string>
+    <string name="lbl_num_songs">%1$d äuen</string>
+    <string name="lbl_one_episode">1 telebölım</string>
+    <string name="lbl_num_episodes">%1$d telebölim</string>
+    <string name="lbl_on_channel">%1$s kezinde</string>
+    <string name="lbl_on_any_channel">Kezkelgen arnadan</string>
+    <string name="lbl_record_all">Barlyq telebölımderdı jazady</string>
+    <string name="lbl_record_only_new">Tek jaña telebölımderdı jazady</string>
+    <string name="lbl_start_end_on_schedule">Keste boiynşa bastalady jäne keste boiynşa aiaqtalady</string>
+    <string name="lbl_starting_on_schedule_ending_after">Keste boiynşa bastalady jäne kestedegi %1$s kezinen keiınrek aiaqtalady</string>
+    <string name="lbl_starting_early_ending_on_schedule">%1$s kezinen erterek bastalady jäne keste boiynşa aiaqtalady</string>
+    <string name="lbl_starting_early_ending_after">%1$s kezinen erterek bastalady jäne kestedegı %2$s kezinen keiınrek aiaqtalady</string>
 </resources>
