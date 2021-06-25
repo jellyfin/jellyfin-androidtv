@@ -211,7 +211,6 @@
     <string name="lbl_guest_stars">Приглашённые актёры</string>
     <string name="lbl_on_schedule">По расписанию</string>
     <string name="lbl_at_any_time">В любое время</string>
-    <string name="lbl_any_channel">Любой канал</string>
     <string name="lbl_save">Сохранить</string>
     <string name="msg_settings_updated">Параметры обновлены</string>
     <string name="lbl_series_settings">Параметры серии</string>
@@ -426,4 +425,18 @@
     <string name="lbl_special">Спецэпизоды</string>
     <string name="help">Справка</string>
     <string name="pref_next_up_behavior_title">Показать инфо о следующем видео</string>
+    <string name="lbl_time_range">%1$s—%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 композиция</string>
+    <string name="lbl_num_songs">%1$d композиц(ии/ий)</string>
+    <string name="lbl_one_episode">1 эпизод</string>
+    <string name="lbl_num_episodes">%1$d эпизод(а/ов)</string>
+    <string name="lbl_on_channel">В %1$s</string>
+    <string name="lbl_on_any_channel">С любого канала</string>
+    <string name="lbl_record_all">Записываются все эпизоды</string>
+    <string name="lbl_record_only_new">Записываются только новые эпизоды</string>
+    <string name="lbl_start_end_on_schedule">Начало по расписанию и окончание по расписанию</string>
+    <string name="lbl_starting_on_schedule_ending_after">Начало по расписанию и окончание %1$s позже расписания</string>
+    <string name="lbl_starting_early_ending_on_schedule">Начало ранее %1$s и окончание по расписанию</string>
+    <string name="lbl_starting_early_ending_after">Начало ранее %1$s и окончание позднее %2$s по расписанию</string>
 </resources>
