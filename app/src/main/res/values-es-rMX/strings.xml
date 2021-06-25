@@ -225,7 +225,6 @@
     <string name="lbl_minutes">Minutos</string>
     <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
-    <string name="lbl_any_channel">Cualquier canal</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="msg_settings_updated">Configuraciones actualizadas</string>
     <string name="lbl_series_settings">Configuraciones de series</string>
@@ -426,4 +425,18 @@
     <string name="saved_servers">Servidores guardados</string>
     <string name="press_to_close">Presione para cerrar</string>
     <string name="pref_next_up_behavior_title">Mostrar información del siguiente video</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 canción</string>
+    <string name="lbl_num_songs">%1$d canciones</string>
+    <string name="lbl_one_episode">1 Episodio</string>
+    <string name="lbl_num_episodes">%1$d episodios</string>
+    <string name="lbl_on_channel">En %1$s</string>
+    <string name="lbl_on_any_channel">En cualquier canal</string>
+    <string name="lbl_record_all">Grabará todos los episodios</string>
+    <string name="lbl_record_only_new">Grabará solo nuevos episodios</string>
+    <string name="lbl_start_end_on_schedule">Comenzar y finalizar en programación</string>
+    <string name="lbl_starting_on_schedule_ending_after">Comenzar en programación y finalizar %1$s después del programa</string>
+    <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s antes y finalizar en programación</string>
+    <string name="lbl_starting_early_ending_after">Comenzar %1$s antes y finalizar %2$s después de la programación</string>
 </resources>
