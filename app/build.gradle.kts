@@ -76,13 +76,18 @@ val versionTxt by tasks.registering {
 }
 
 dependencies {
-	// Jellyfin
+	// Jellyfin apiclient
 	implementation("com.github.jellyfin.jellyfin-sdk-kotlin:android:v0.7.10")
-	val sdkVersion = when (getProperty("sdk.useSnapshot")?.toBoolean()) {
-		true -> "master-SNAPSHOT"
-		else -> "1.0.0-beta.8"
+	// Jellyfin SDK
+	val sdkVersion = findProperty("sdk.version")?.toString()
+	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.8") {
+		// Change version if desired
+		when (sdkVersion) {
+			"local" -> version { strictly("latest-SNAPSHOT") }
+			"snapshot" -> version { strictly("master-SNAPSHOT") }
+			"unstable-snapshot" -> version { strictly("openapi-unstable-SNAPSHOT") }
+		}
 	}
-	implementation("org.jellyfin.sdk:jellyfin-platform-android:$sdkVersion")
 
 	// Kotlin
 	val kotlinxCoroutinesVersion = "1.4.3"

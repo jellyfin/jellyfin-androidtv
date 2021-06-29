@@ -17,12 +17,19 @@ allprojects {
 	repositories {
 		mavenCentral()
 		google()
-		maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+		// Jellyfin SDK
+		mavenLocal {
 			content {
-				// Only allow SDK snapshots
-				includeVersionByRegex("org\\.jellyfin\\.sdk", ".*", ".*-SNAPSHOT")
+				includeVersionByRegex("org.jellyfin.sdk", ".*", "latest-SNAPSHOT")
 			}
 		}
+		maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+			content {
+				includeVersionByRegex("org.jellyfin.sdk", ".*", "master-SNAPSHOT")
+				includeVersionByRegex("org.jellyfin.sdk", ".*", "openapi-unstable-SNAPSHOT")
+			}
+		}
+		// Jellyfin apiclient
 		maven("https://jitpack.io") {
 			content {
 				// Only allow legacy apiclient
