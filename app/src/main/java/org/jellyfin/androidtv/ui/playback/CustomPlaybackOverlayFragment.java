@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +44,6 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
-import org.jellyfin.androidtv.ui.AudioDelayPopup;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -1284,7 +1282,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void updateDisplay() {
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
-        if (current != null && !requireActivity().isFinishing()) {
+        if (current != null && getActivity() != null && !getActivity().isFinishing()) {
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
             leanbackOverlayFragment.recordingStateChanged();
@@ -1302,7 +1300,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             // Update the logo
             String imageUrl = ImageUtils.getLogoImageUrl(current, apiClient.getValue(), 440, false);
             if (imageUrl != null) {
-                Glide.with(requireActivity())
+                Glide.with(requireContext())
                         .load(imageUrl)
                         .centerInside()
                         .into(binding.itemLogo);

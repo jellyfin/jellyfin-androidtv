@@ -74,31 +74,24 @@
             android:orientation="horizontal" />
     </FrameLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topPanel"
         android:layout_width="fill_parent"
         android:layout_height="155dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_gravity="center_horizontal|top"
         android:clickable="false"
         android:visibility="invisible">
 
-        <org.jellyfin.androidtv.ui.ClockUserView
-            android:id="@+id/textClock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end|top"
-            android:layout_marginTop="20sp"
-            android:layout_marginEnd="40sp" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/item_info"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textClock"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="40sp"
-            android:layout_marginTop="10sp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/textClock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/item_logo"
@@ -123,5 +116,12 @@
                 tools:text="Subtitle" />
 
         </LinearLayout>
-    </RelativeLayout>
+
+        <org.jellyfin.androidtv.ui.ClockUserView
+            android:id="@+id/textClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
