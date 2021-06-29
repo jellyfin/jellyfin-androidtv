@@ -55,7 +55,6 @@ class ApiBinder(
 			userId = session.userId.toString()
 			accessToken = session.accessToken
 		})
-		api.ensureWebSocket()
 
 		// Update currentUser DTO
 		val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
@@ -74,6 +73,10 @@ class ApiBinder(
 				));
 			}, callback)
 		}
+
+		// Connect to WebSocket AFTER HTTP connection confirmed working
+		// to catch exceptions not catchable with the legacy websocket client
+		api.ensureWebSocket()
 
 		return true
 	}
