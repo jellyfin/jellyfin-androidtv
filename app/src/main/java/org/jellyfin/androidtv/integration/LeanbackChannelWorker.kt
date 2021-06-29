@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.work.CoroutineWorker
@@ -135,10 +136,10 @@ class LeanbackChannelWorker(
 			.orEmpty()
 			.filterNot { it.collectionType in ItemRowAdapter.ignoredCollectionTypes }
 			.map { item ->
-				val imageUri = when (ImageType.PRIMARY) {
-					in item.imageTags -> Uri.parse(imageApi.getItemImageUrl(item.id, ImageType.PRIMARY))
-					else -> Uri.parse(ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv))
-				}
+				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
+					imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()
+				else
+					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv).toUri()
 
 				PreviewProgram.Builder()
 					.setChannelId(ContentUris.parseId(channelUri))
