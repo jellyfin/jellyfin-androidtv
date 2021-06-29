@@ -50,5 +50,5 @@
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
 
-    <color name="background_filter">#8B000000</color>
+    <color name="background_filter">#CC101010</color>
 </resources>
