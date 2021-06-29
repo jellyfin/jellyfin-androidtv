@@ -202,7 +202,6 @@
     <string name="lbl_minutes">Phút</string>
     <string name="lbl_seconds">Giây</string>
     <string name="lbl_at_any_time">Bất cứ lúc nào</string>
-    <string name="lbl_any_channel">Bất Kỳ Kênh</string>
     <string name="lbl_series_recordings">Bản Ghi Loạt Phim Bộ</string>
     <string name="lbl_save">Lưu</string>
     <string name="msg_settings_updated">Cài đặt đã cập nhật</string>
@@ -365,7 +364,7 @@
     <string name="server_connection_failed">Không thể kết nối đến máy chủ: %1$s</string>
     <string name="server_connecting">‎Đang kết nối tới ‎%s</string>
     <string name="connect_title">Kết nối</string>
-    <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org để bắt đầu với Jellyfin.</string>
+    <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org hoặc quét mã QR để bắt đầu với Jellyfin.</string>
     <string name="login_help_title">Cần giúp đỡ\?</string>
     <string name="connect_manually_by_address">Nhập địa chỉ máy chủ</string>
     <string name="connect_manually_title">Kết nối thủ công</string>
@@ -408,4 +407,36 @@
     <string name="auto_sign_in">Đăng nhập tự động</string>
     <string name="lbl_switch_user">‎Chuyển người dùng‎</string>
     <string name="no_network_permissions">Jellyfin yêu cầu quyền mạng để hoạt động</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_one_song">1 Bài hát</string>
+    <string name="lbl_num_songs">%1$d Bài hát</string>
+    <string name="lbl_one_episode">1 Tập</string>
+    <string name="lbl_num_episodes">%1$d Tập</string>
+    <string name="lbl_on_channel">Trên %1$s</string>
+    <string name="lbl_on_any_channel">Trên bất kỳ kênh nào</string>
+    <string name="lbl_record_all">Sẽ ghi lại tất cả các tập</string>
+    <string name="lbl_record_only_new">Sẽ chỉ ghi các tập mới</string>
+    <string name="lbl_start_end_on_schedule">Bắt đầu theo lịch trình và kết thúc đúng lịch trình</string>
+    <string name="lbl_starting_on_schedule_ending_after">Bắt đầu theo lịch trình và kết thúc %1$s sau lịch biểu</string>
+    <string name="lbl_starting_early_ending_on_schedule">Bắt đầu %1$s Sớm Và Kết thúc đúng lịch trình</string>
+    <string name="lbl_starting_early_ending_after">Bắt đầu %1$s Sớm Và Kết thúc %2$s Sau lịch trình</string>
+    <string name="lbl_next_up_minimal">Không có hình thu nhỏ</string>
+    <string name="lbl_next_up_extended">Có hình thu nhỏ</string>
+    <string name="lbl_special">Đặc biệt</string>
+    <string name="help">Giúp</string>
+    <string name="add_user">Thêm người dùng</string>
+    <string name="who_is_watching">Ai đang xem\?</string>
+    <string name="no_user_warning">Chúng tôi không tìm thấy bất kỳ người dùng nào!
+\nThêm người dùng mới bằng cách nhấn nút \"Thêm người dùng\".</string>
+    <string name="server_unsupported">Máy chủ cần được cập nhật. Phiên bản hiện tại là %s nhưng ứng dụng yêu cầu %s hoặc mới hơn</string>
+    <string name="welcome_content">Kết nối với máy chủ của bạn để bắt đầu.</string>
+    <string name="welcome_title">Chào mừng bạn đến với Jellyfin!</string>
+    <string name="saved_servers">Máy chủ đã lưu</string>
+    <string name="press_to_close">Nhấn để đóng</string>
+    <string name="pref_theme_muted_purple">Tím Im Lặng</string>
+    <string name="pref_next_up_behavior_title">Hiển thị thông tin video tiếp theo</string>
 </resources>
