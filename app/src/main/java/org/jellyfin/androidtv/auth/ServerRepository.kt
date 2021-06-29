@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.sdk.toPublicUser
 import org.jellyfin.androidtv.util.sdk.toServer
 import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.operations.BrandingApi
 import org.jellyfin.sdk.api.operations.SystemApi
 import org.jellyfin.sdk.api.operations.UserApi
@@ -51,9 +52,14 @@ class ServerRepositoryImpl(
 		val client = jellyfin.createApi(server.address)
 		val userApi = UserApi(client)
 
-		val users by userApi.getPublicUsers()
+		return try {
+			val users by userApi.getPublicUsers()
+			users.mapNotNull(UserDto::toPublicUser)
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to retrieve public users")
 
-		return users.mapNotNull(UserDto::toPublicUser)
+			emptyList()
+		}
 	}
 
 	public override suspend fun refreshServerInfo(server: Server): Boolean {
@@ -64,17 +70,23 @@ class ServerRepositoryImpl(
 		// Only update every 10 minutes
 		if (now - serverInfo.lastRefreshed < 600000) return false
 
-		val client = jellyfin.createApi(server.address)
-		// Get login disclaimer
-		val branding by BrandingApi(client).getBrandingOptions()
-		val systemInfo by SystemApi(client).getPublicSystemInfo()
+		return try {
+			val client = jellyfin.createApi(server.address)
+			// Get login disclaimer
+			val branding by BrandingApi(client).getBrandingOptions()
+			val systemInfo by SystemApi(client).getPublicSystemInfo()
 
-		return authenticationStore.putServer(server.id, serverInfo.copy(
-			name = systemInfo.serverName ?: serverInfo.name,
-			version = systemInfo.version ?: serverInfo.version,
-			loginDisclaimer = branding.loginDisclaimer ?: serverInfo.loginDisclaimer,
-			lastRefreshed = now
-		))
+			authenticationStore.putServer(server.id, serverInfo.copy(
+				name = systemInfo.serverName ?: serverInfo.name,
+				version = systemInfo.version ?: serverInfo.version,
+				loginDisclaimer = branding.loginDisclaimer ?: serverInfo.loginDisclaimer,
+				lastRefreshed = now
+			))
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to update server")
+
+			false
+		}
 	}
 
 	private fun getServerStoredUsers(server: Server): List<PrivateUser> = authenticationRepository
