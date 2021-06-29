@@ -169,7 +169,6 @@
     <string name="lbl_minutes">minút/y</string>
     <string name="lbl_seconds">sekúnd/y</string>
     <string name="lbl_at_any_time">Kedykoľvek</string>
-    <string name="lbl_any_channel">Akýkoľvek kanál</string>
     <string name="lbl_series_recordings">Nahrávky sérií</string>
     <string name="lbl_save">Uložiť</string>
     <string name="msg_settings_updated">Nastavenia aktualizované</string>
@@ -393,7 +392,7 @@
     <string name="lbl_manage_servers">Spravovať servery</string>
     <string name="lbl_sign_out_content">Vyžaduje prihlásenie pri ďalšom použití</string>
     <string name="connect_title">Pripojiť</string>
-    <string name="login_help_description">Jellyfin vyžaduje server, ku ktorému sa môže pripojiť. Aby ste zistili, ako začať s Jellyfinom, prezrite si našu dokumentáciu na docs.jellyfin.org.</string>
+    <string name="login_help_description">Jellyfin vyžaduje server, ku ktorému sa môže pripojiť. Aby ste zistili, ako začať s Jellyfinom, prezrite si našu dokumentáciu na docs.jellyfin.org alebo nasnímajte QR kód.</string>
     <string name="no_network_permissions">Jellyfin vyžaduje sieťové povolenia k svojmu korektnému fungovaniu</string>
     <string name="pref_theme_muted_purple">Tlmená fialová</string>
     <string name="lbl_switch_user">Zmeniť používateľa</string>
@@ -410,4 +409,34 @@
     <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>
+    <string name="server_unsupported">Server je nutné aktualizovať. Súčasná verzia je %s a aplikácia vyžaduje verziu %s alebo novšiu</string>
+    <string name="lbl_starting_on_schedule_ending_after">Začína načas a končí o %1$s neskôr</string>
+    <string name="lbl_start_end_on_schedule">Začína načas a končí načas</string>
+    <string name="lbl_starting_early_ending_on_schedule">Začína o %1$s skôr a končí načas</string>
+    <string name="lbl_starting_early_ending_after">Začína o %1$s skôr a končí o %2$s neskôr</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 skladba</string>
+    <string name="lbl_num_songs">%1$d skladieb</string>
+    <string name="lbl_one_episode">1 epizóda</string>
+    <string name="lbl_num_episodes">%1$d epizód</string>
+    <string name="lbl_on_channel">Na %1$s</string>
+    <string name="lbl_on_any_channel">Na akomkoľvek kanáli</string>
+    <string name="lbl_record_all">Budú sa nahrávať všetky epizódy</string>
+    <string name="lbl_record_only_new">Budú sa nahrávať iba nové epizódy</string>
+    <string name="lbl_next_up_minimal">Bez thumbnailu</string>
+    <string name="lbl_next_up_extended">S thumbnailom</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Špeciál</string>
+    <string name="help">Pomoc</string>
+    <string name="add_user">Pridať používateľa</string>
+    <string name="who_is_watching">Kto práve pozerá\?</string>
+    <string name="no_user_warning">Nemohli sme nájsť žiadneho používateľa!
+\nPridajte nového používateľa stlačením tlačidla \"Pridať používateľa\".</string>
+    <string name="welcome_content">Začnite pripojením sa k vašemu serveru.</string>
+    <string name="welcome_title">Vitajte v Jellyfine!</string>
+    <string name="saved_servers">Uložené servery</string>
+    <string name="pref_next_up_behavior_title">Zobraziť informácie nasledujúceho videa</string>
 </resources>
