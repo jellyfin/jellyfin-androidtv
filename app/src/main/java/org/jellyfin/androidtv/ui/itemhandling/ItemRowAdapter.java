@@ -118,6 +118,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private boolean preferParentThumb = false;
     private boolean staticHeight = false;
+    private boolean homeSection = false;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -176,6 +177,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.queryType = queryType;
     }
 
+    public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType, boolean homeSection) {
+        this(query, chunkSize, preferParentThumb, staticHeight, presenter, parent, queryType);
+        this.homeSection = homeSection;
+    }
+
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
         super(presenter);
         mParent = parent;
@@ -217,6 +223,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.staticHeight = true;
     }
 
+    public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent, boolean homeSection) {
+        this(query, preferParentThumb, presenter,parent);
+        this.homeSection = homeSection;
+    }
+
     public ItemRowAdapter(SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
@@ -232,6 +243,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         staticHeight = true;
+    }
+
+    public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent, boolean homeSection) {
+        this(query, preferParentThumb, presenter, parent);
+        this.homeSection = homeSection;
     }
 
     public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
@@ -370,6 +386,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
+    }
+
+    public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent, boolean homeSection) {
+        this(query, presenter, parent);
+        this.homeSection = homeSection;
     }
 
     public ItemRowAdapter(Presenter presenter, ArrayObjectAdapter parent) {
@@ -816,7 +837,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
                         if (!ignoreTypeList.contains(item.getCollectionType())) {
-                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
+                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight, homeSection));
                         }
                     }
                     totalItems = response.getTotalRecordCount();
@@ -941,7 +962,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response.getItems()) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight(), homeSection));
 
                     }
                     setItemsLoaded(i);
@@ -1048,7 +1069,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
                     for (BaseItemDto item : response) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
+                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight(), homeSection));
                     }
                     setItemsLoaded(i);
                     if (i == 0) {
@@ -1157,7 +1178,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     }
                     int i = 0;
                     for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight, homeSection));
                     }
                     totalItems = response.getTotalRecordCount();
                     setItemsLoaded(itemsLoaded + i);

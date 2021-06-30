@@ -451,3 +451,7 @@
     <string name="license_author">Author</string>
     <string name="license_license">License</string>
 </resources>
+    <string name="lbl_season_number_full">Season %1$d</string>
+    <string name="lbl_episode_number_full">Episode %1$d</string>
+    <string name="lbl_episode_range_full">Episodes %1$d–%2$d</string>
+</resources>

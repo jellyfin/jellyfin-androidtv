@@ -13,6 +13,10 @@ public class PositionableListRowPresenter extends CustomListRowPresenter {
         setShadowEnabled(false);
     }
 
+    public PositionableListRowPresenter(boolean homeSection) {
+        super(homeSection);
+    }
+
     public PositionableListRowPresenter(Integer padding) {
         super(padding);
         setShadowEnabled(false);

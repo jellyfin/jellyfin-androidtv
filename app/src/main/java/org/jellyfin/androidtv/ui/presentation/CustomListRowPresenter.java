@@ -2,15 +2,21 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.graphics.drawable.Drawable;
 
+import androidx.leanback.widget.BaseGridView;
 import androidx.leanback.widget.ListRowPresenter;
+import androidx.leanback.widget.ListRowView;
 import androidx.leanback.widget.RowPresenter;
 
 import android.view.View;
+import android.view.ViewGroup;
+
+import org.jellyfin.androidtv.R;
 
 public class CustomListRowPresenter extends ListRowPresenter {
     private View viewHolder;
     private Integer topPadding;
     private Drawable backgroundDrawable;
+    private boolean homeSection = false;
 
     public CustomListRowPresenter() {
         super();
@@ -23,6 +29,13 @@ public class CustomListRowPresenter extends ListRowPresenter {
         this.topPadding = topPadding;
 
         setHeaderPresenter(new CustomRowHeaderPresenter());
+    }
+
+    public CustomListRowPresenter(boolean homeSection) {
+        super();
+        this.homeSection = homeSection;
+
+        setHeaderPresenter(new CustomRowHeaderPresenter(homeSection));
     }
 
     public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
@@ -56,5 +69,19 @@ public class CustomListRowPresenter extends ListRowPresenter {
         if (backgroundDrawable != null) {
             viewHolder.setBackground(backgroundDrawable);
         }
+    }
+
+    @Override
+    protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
+        RowPresenter.ViewHolder viewHolder = super.createRowViewHolder(parent);
+
+        if (homeSection) {
+            ((ListRowView) viewHolder.view).getGridView().setWindowAlignment(BaseGridView.WINDOW_ALIGN_LOW_EDGE);
+            ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffsetPercent(0f);
+            ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffset(parent.getResources().getDimensionPixelSize(R.dimen.lb_browse_padding_start));
+            ((ListRowView) viewHolder.view).getGridView().setItemAlignmentOffsetPercent(0f);
+        }
+
+        return viewHolder;
     }
 }

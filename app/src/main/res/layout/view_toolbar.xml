@@ -4,66 +4,151 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_root"
     android:layout_width="match_parent"
-    android:layout_height="95dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/toolbar_start"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="27dp"
-        android:gravity="start"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/toolbar_content"
-        app:layout_constraintStart_toStartOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/toolbar_logo"
+        <LinearLayout
+            android:id="@+id/toolbar_start"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/app_logo" />
-    </LinearLayout>
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginBottom="27dp"
+            android:gravity="start"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/toolbar_content"
+            app:layout_constraintStart_toStartOf="parent">
 
-    <LinearLayout
-        android:id="@+id/toolbar_content"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="27dp"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:paddingStart="24dp"
-        app:layout_constraintEnd_toStartOf="@id/toolbar_end"
-        app:layout_constraintStart_toEndOf="@id/toolbar_start"
-        tools:ignore="RtlSymmetry" />
+            <ImageView
+                android:id="@+id/toolbar_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/toolbar_end"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="27dp"
-        android:gravity="end"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/toolbar_content">
-
-        <TextClock
-            android:id="@+id/toolbar_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-light"
-            android:format12Hour="h:mm"
-            android:format24Hour="k:mm"
+        <LinearLayout
+            android:id="@+id/toolbar_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="27dp"
+            android:layout_marginBottom="27dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
             android:paddingStart="24dp"
+            app:layout_constraintEnd_toStartOf="@id/toolbar_end"
+            app:layout_constraintStart_toEndOf="@id/toolbar_start"
+            tools:ignore="RtlSymmetry" />
+
+        <LinearLayout
+            android:id="@+id/toolbar_end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="27dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/toolbar_content">
+
+            <TextClock
+                android:id="@+id/toolbar_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="sans-serif-light"
+                android:format12Hour="h:mm"
+                android:format24Hour="k:mm"
+                android:paddingStart="24dp"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry"
+                tools:text="13:37" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/item_info"
+        android:layout_width="300dp"
+        android:layout_height="360dp"
+        android:layout_marginStart="40dp"
+        android:orientation="vertical"
+        android:paddingTop="80dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/item_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:adjustViewBounds="true"
+            android:gravity="bottom"
+            android:maxWidth="300dp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:maxLines="2"
+            android:paddingBottom="4dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/numbers_row"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="bottom"
+            android:paddingTop="2dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            tools:text="Season x Episode x" />
+
+        <TextView
+            android:id="@+id/item_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="5"
+            android:paddingTop="5dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="Episode Title" />
+
+        <TextView
+            android:id="@+id/home_row_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            tools:text="13:37"
+            tools:text="Row Header"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

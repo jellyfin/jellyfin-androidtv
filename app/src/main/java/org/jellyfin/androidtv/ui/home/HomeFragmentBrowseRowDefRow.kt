@@ -21,11 +21,11 @@ class HomeFragmentBrowseRowDefRow(
 
 		// Some of these members are probably never used and could be removed
 		val rowAdapter = when (browseRowDef.queryType) {
-			QueryType.NextUp -> ItemRowAdapter(browseRowDef.nextUpQuery, preferParentThumb, cardPresenter, rowsAdapter)
-			QueryType.LatestItems -> ItemRowAdapter(browseRowDef.latestItemsQuery, preferParentThumb, cardPresenter, rowsAdapter)
+			QueryType.NextUp -> ItemRowAdapter(browseRowDef.nextUpQuery, preferParentThumb, cardPresenter, rowsAdapter, true)
+			QueryType.LatestItems -> ItemRowAdapter(browseRowDef.latestItemsQuery, preferParentThumb, cardPresenter, rowsAdapter, true)
 			QueryType.Season -> ItemRowAdapter(browseRowDef.seasonQuery, cardPresenter, rowsAdapter)
 			QueryType.Upcoming -> ItemRowAdapter(browseRowDef.upcomingQuery, cardPresenter, rowsAdapter)
-			QueryType.Views -> ItemRowAdapter(ViewQuery(), cardPresenter, rowsAdapter)
+			QueryType.Views -> ItemRowAdapter(ViewQuery(), cardPresenter, rowsAdapter, true)
 			QueryType.SimilarSeries -> ItemRowAdapter(browseRowDef.similarQuery, QueryType.SimilarSeries, cardPresenter, rowsAdapter)
 			QueryType.SimilarMovies -> ItemRowAdapter(browseRowDef.similarQuery, QueryType.SimilarMovies, cardPresenter, rowsAdapter)
 			QueryType.Persons -> ItemRowAdapter(browseRowDef.personsQuery, browseRowDef.chunkSize, cardPresenter, rowsAdapter)
@@ -33,7 +33,7 @@ class HomeFragmentBrowseRowDefRow(
 			QueryType.LiveTvProgram -> ItemRowAdapter(browseRowDef.programQuery, cardPresenter, rowsAdapter)
 			QueryType.LiveTvRecording -> ItemRowAdapter(browseRowDef.recordingQuery, browseRowDef.chunkSize, cardPresenter, rowsAdapter)
 			QueryType.LiveTvRecordingGroup -> ItemRowAdapter(browseRowDef.recordingGroupQuery, cardPresenter, rowsAdapter)
-			else -> ItemRowAdapter(browseRowDef.query, browseRowDef.chunkSize, browseRowDef.preferParentThumb, browseRowDef.isStaticHeight, cardPresenter, rowsAdapter, browseRowDef.queryType)
+			else -> ItemRowAdapter(browseRowDef.query, browseRowDef.chunkSize, preferParentThumb, browseRowDef.isStaticHeight, cardPresenter, rowsAdapter, browseRowDef.queryType, true)
 		}
 
 		rowAdapter.setReRetrieveTriggers(browseRowDef.changeTriggers)
