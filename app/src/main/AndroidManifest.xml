@@ -59,6 +59,17 @@
                 android:resource="@xml/authenticator" />
         </service>
 
+        <service
+            android:name=".integration.dream.LibraryDreamService"
+            android:exported="true"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".ui.browsing.MainActivity"
             android:screenOrientation="landscape" />
