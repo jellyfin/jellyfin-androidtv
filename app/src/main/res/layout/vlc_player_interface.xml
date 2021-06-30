@@ -78,44 +78,45 @@
         android:id="@+id/topPanel"
         android:layout_width="fill_parent"
         android:layout_height="155dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="40dp"
         android:layout_gravity="center_horizontal|top"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="20dp"
         android:clickable="false"
         android:visibility="invisible">
 
-        <LinearLayout
-            android:id="@+id/item_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+        <ImageView
+            android:id="@+id/item_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
             app:layout_constraintEnd_toStartOf="@id/textClock"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" />
 
-            <ImageView
-                android:id="@+id/item_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp" />
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toStartOf="@id/textClock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_logo"
+            app:layout_constraintHorizontal_bias="0.0"
+            tools:text="Title" />
 
-            <TextView
-                android:id="@+id/item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                tools:text="Title" />
-
-            <TextView
-                android:id="@+id/item_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                tools:text="Subtitle" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/item_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/textClock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            tools:text="Subtitle" />
 
         <org.jellyfin.androidtv.ui.ClockUserView
             android:id="@+id/textClock"
