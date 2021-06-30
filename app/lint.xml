@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <lint>
+    <issue id="BinaryOperationInTimber" severity="error" />
     <issue id="ConvertToWebp" severity="warning" />
+    <issue id="DuplicateStrings" severity="ignore" />
     <issue id="EasterEgg" severity="fatal" />
+    <issue id="ExtraTranslation" severity="warning" />
+    <issue id="FragmentTagUsage" severity="error" />
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="KotlinPropertyAccess" severity="warning" />
+    <issue id="LambdaLast" severity="warning" />
+    <issue id="LogNotTimber" severity="error" />
     <issue id="MangledCRLF" severity="warning" />
     <issue id="NegativeMargin" severity="warning" />
     <issue id="NoHardKeywords" severity="warning" />
     <issue id="Registered" severity="warning" />
     <issue id="RequiredSize" severity="error" />
+    <issue id="Typos" severity="ignore" />
     <issue id="UnknownNullness" severity="informational" />
     <issue id="UnusedIds" severity="ignore" />
-    <issue id="KotlinPropertyAccess" severity="warning" />
-    <issue id="LambdaLast" severity="warning" />
-    <issue id="ExtraTranslation" severity="warning" />
-    <issue id="LogNotTimber" severity="error" />
-    <issue id="BinaryOperationInTimber" severity="error" />
-    <issue id="FragmentTagUsage" severity="error" />
-    <issue id="GradleDependency" severity="ignore" />
-    <issue id="DuplicateStrings" severity="ignore" />
-    <issue id="Typos" severity="ignore" />
 </lint>
