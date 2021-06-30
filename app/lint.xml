@@ -17,4 +17,5 @@
     <issue id="FragmentTagUsage" severity="error" />
     <issue id="GradleDependency" severity="ignore" />
     <issue id="DuplicateStrings" severity="ignore" />
+    <issue id="Typos" severity="ignore" />
 </lint>
