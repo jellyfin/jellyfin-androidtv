@@ -13,7 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class NextUpFragment : Fragment() {
 	private val viewModel: NextUpViewModel by sharedViewModel()
 	private lateinit var binding: FragmentNextUpBinding
-	private val backgroundService: BackgroundService by inject()
+	//private val backgroundService: BackgroundService by inject()
 	private var timerStarted = false
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,7 +23,7 @@ class NextUpFragment : Fragment() {
 			// No data, keep current
 			if (data == null) return@observe
 
-			backgroundService.setBackground(data.baseItem)
+			//backgroundService.setBackground(data.baseItem)
 
 			binding.logo.setImageBitmap(data.logo)
 			binding.image.setImageBitmap(data.thumbnail)
