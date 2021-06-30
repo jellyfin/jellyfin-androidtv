@@ -227,11 +227,7 @@ public class ImageUtils {
         return apiClient.GetImageUrl(itemId, options);
     }
 
-    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
-        return getLogoImageUrl(item, apiClient, 440);
-    }
-
-    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth) {
+    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth, boolean useSeriesFallback) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
             options.setMaxWidth(maxWidth);
@@ -242,7 +238,7 @@ public class ImageUtils {
             } else if (item.getParentLogoImageTag() != null) {
                 options.setTag(item.getParentLogoImageTag());
                 return apiClient.GetImageUrl(item.getParentLogoItemId(), options);
-            } else if (item.getSeriesId() != null) {
+            } else if (useSeriesFallback && item.getSeriesId() != null) {
                 options.setTag(null);
                 return apiClient.GetImageUrl(item.getSeriesId(), options);
             }

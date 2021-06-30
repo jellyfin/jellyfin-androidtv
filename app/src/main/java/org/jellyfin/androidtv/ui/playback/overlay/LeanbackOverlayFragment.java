@@ -70,9 +70,6 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         if (currentlyPlayingItem == null) return;
 
-        playerGlue.setTitle(currentlyPlayingItem.getName());
-        if (currentlyPlayingItem.getBaseItemType() == BaseItemType.Episode)
-            playerGlue.setSubtitle(BaseItemUtils.getFullName(currentlyPlayingItem, requireContext()));
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
