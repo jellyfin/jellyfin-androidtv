@@ -227,7 +227,6 @@
     <string name="lbl_minutes">Minutter</string>
     <string name="lbl_seconds">Sekunder</string>
     <string name="lbl_at_any_time">På alle tidspunkter</string>
-    <string name="lbl_any_channel">Enhver kanal</string>
     <string name="lbl_series_recordings">Serieoptagelser</string>
     <string name="lbl_save">Gem</string>
     <string name="msg_settings_updated">Indstillinger opdateret</string>

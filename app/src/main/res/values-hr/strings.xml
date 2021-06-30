@@ -283,7 +283,6 @@
     <string name="lbl_minutes">Minute</string>
     <string name="lbl_seconds">Sekunde</string>
     <string name="lbl_at_any_time">Bilo kada</string>
-    <string name="lbl_any_channel">Bilo koji kanal</string>
     <string name="lbl_series_recordings">Snimci serija</string>
     <string name="lbl_save">Spremi</string>
     <string name="msg_settings_updated">Postavke ažurirane</string>

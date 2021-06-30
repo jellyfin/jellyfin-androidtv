@@ -178,7 +178,6 @@
     <string name="lbl_series_settings">シリーズ設定</string>
     <string name="msg_settings_updated">設定を更新しました</string>
     <string name="lbl_save">保存</string>
-    <string name="lbl_all_episodes">全てのエピソード</string>
     <string name="lbl_at_any_time">随時</string>
     <string name="lbl_seconds">秒</string>
     <string name="lbl_minutes">分</string>

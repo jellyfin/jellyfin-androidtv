@@ -200,7 +200,6 @@
     <string name="lbl_minutes">Минуте</string>
     <string name="lbl_seconds">Секунде</string>
     <string name="lbl_at_any_time">Било када</string>
-    <string name="lbl_any_channel">Било који канал</string>
     <string name="lbl_series_recordings">Снимци серија</string>
     <string name="lbl_save">Сачувај</string>
     <string name="msg_settings_updated">Подешавања су ажурирана</string>

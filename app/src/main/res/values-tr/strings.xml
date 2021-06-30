@@ -345,7 +345,6 @@
     <string name="lbl_minutes">Dakika</string>
     <string name="lbl_seconds">Saniye</string>
     <string name="lbl_at_any_time">Herhangi bir Zamanda</string>
-    <string name="lbl_any_channel">Herhangi bir Kanal</string>
     <string name="lbl_series_recordings">Seri Kayıtları</string>
     <string name="lbl_save">Kaydet</string>
     <string name="msg_settings_updated">Ayarlar güncellendi</string>

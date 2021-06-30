@@ -136,7 +136,6 @@
     <string name="lbl_minutes">Minute</string>
     <string name="lbl_seconds">Secunde</string>
     <string name="lbl_at_any_time">Oricând</string>
-    <string name="lbl_any_channel">Orice Canal</string>
     <string name="lbl_series_recordings">Înregistrările Serialului</string>
     <string name="lbl_save">Salvează</string>
     <string name="msg_settings_updated">Setări actualizate</string>

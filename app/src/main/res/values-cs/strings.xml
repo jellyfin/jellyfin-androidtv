@@ -231,7 +231,6 @@
     <string name="lbl_minutes">minut</string>
     <string name="lbl_seconds">vteřin</string>
     <string name="lbl_at_any_time">Kdykoli</string>
-    <string name="lbl_any_channel">Jakýkoli kanál</string>
     <string name="lbl_series_recordings">Nahrávky sérií</string>
     <string name="lbl_save">Uložit</string>
     <string name="msg_settings_updated">Nastavení aktualizováno</string>

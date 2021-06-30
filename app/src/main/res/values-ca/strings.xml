@@ -265,7 +265,6 @@
     <string name="lbl_minutes">Minuts</string>
     <string name="lbl_seconds">Segons</string>
     <string name="lbl_at_any_time">A qualsevol hora</string>
-    <string name="lbl_any_channel">Qualsevol canal</string>
     <string name="lbl_series_recordings">Gravacions Sèries</string>
     <string name="lbl_save">Desa</string>
     <string name="msg_settings_updated">S\'ha actualitzat la configuració</string>

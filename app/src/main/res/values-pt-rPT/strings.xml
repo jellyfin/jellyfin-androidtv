@@ -238,7 +238,6 @@
     <string name="lbl_minutes">Minutos</string>
     <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">A qualquer momento</string>
-    <string name="lbl_any_channel">Qualquer canal</string>
     <string name="lbl_series_recordings">Séries gravando</string>
     <string name="lbl_save">Guardar</string>
     <string name="msg_settings_updated">Definições actualizadas</string>

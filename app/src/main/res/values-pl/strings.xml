@@ -290,7 +290,6 @@
     <string name="lbl_minutes">Minuty</string>
     <string name="lbl_seconds">Sekundy</string>
     <string name="lbl_at_any_time">Kiedykolwiek</string>
-    <string name="lbl_any_channel">Jakikolwiek kanał</string>
     <string name="lbl_save">Zapisz</string>
     <string name="msg_settings_updated">Ustawienia zaktualizowane</string>
     <string name="lbl_series_settings">Ustawienia seriali</string>

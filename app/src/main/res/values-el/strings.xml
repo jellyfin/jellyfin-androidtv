@@ -223,7 +223,6 @@
     <string name="lbl_minutes">Λεπτά</string>
     <string name="lbl_seconds">Δευτερόλεπτα</string>
     <string name="lbl_at_any_time">Σε οποιαδήποτε ώρα</string>
-    <string name="lbl_any_channel">Οποιοδήποτε κανάλι</string>
     <string name="lbl_series_recordings">Εγγραφές σειρών</string>
     <string name="lbl_save">Αποθήκευση</string>
     <string name="msg_settings_updated">Οι ρυθμίσεις ενημερώθηκαν</string>

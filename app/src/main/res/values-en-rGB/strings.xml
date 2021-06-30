@@ -21,7 +21,6 @@
     <string name="lbl_sort_by">Sort by</string>
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_guest_stars">Guest Stars</string>
-    <string name="lbl_any_channel">Any Channel</string>
     <string name="lbl_series_recordings">Series Recordings</string>
     <string name="lbl_save">Save</string>
     <string name="msg_settings_updated">Settings updated</string>
