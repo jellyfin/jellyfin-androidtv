@@ -16,7 +16,7 @@ public class CustomListRowPresenter extends ListRowPresenter {
     private View viewHolder;
     private Integer topPadding;
     private Drawable backgroundDrawable;
-    private boolean homeSection = false;
+    private boolean homeHeaderEnabled = false;
 
     public CustomListRowPresenter() {
         super();
@@ -31,11 +31,11 @@ public class CustomListRowPresenter extends ListRowPresenter {
         setHeaderPresenter(new CustomRowHeaderPresenter());
     }
 
-    public CustomListRowPresenter(boolean homeSection) {
+    public CustomListRowPresenter(boolean homeHeaderEnabled) {
         super();
-        this.homeSection = homeSection;
+        this.homeHeaderEnabled = homeHeaderEnabled;
 
-        setHeaderPresenter(new CustomRowHeaderPresenter(homeSection));
+        setHeaderPresenter(new CustomRowHeaderPresenter(homeHeaderEnabled));
     }
 
     public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
@@ -75,7 +75,7 @@ public class CustomListRowPresenter extends ListRowPresenter {
     protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
         RowPresenter.ViewHolder viewHolder = super.createRowViewHolder(parent);
 
-        if (homeSection) {
+        if (homeHeaderEnabled) {
             ((ListRowView) viewHolder.view).getGridView().setWindowAlignment(BaseGridView.WINDOW_ALIGN_LOW_EDGE);
             ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffsetPercent(0f);
             ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffset(parent.getResources().getDimensionPixelSize(R.dimen.lb_browse_padding_start));

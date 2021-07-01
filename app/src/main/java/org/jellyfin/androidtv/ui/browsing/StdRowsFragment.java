@@ -71,6 +71,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
 
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     public StdRowsFragment() {
 
@@ -287,7 +288,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
 
             backgroundService.getValue().setBackground(baseItem);
 
-            if (homeSection) {
+            if (homeSection && userPreferences.getValue().get(UserPreferences.Companion.getHomeHeaderEnabled())) {
                 LinearLayout itemInfoView = mActivity.findViewById(R.id.item_info);
                 itemInfoView.setVisibility(View.VISIBLE);
 
@@ -335,7 +336,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                         : String.valueOf(baseItem.getProductionYear()) : baseItem.getOfficialRating() != null ? baseItem.getOfficialRating() : "";
                 }
                 if (rowItem.getBaseItemType() != BaseItemType.UserView && rowItem.getBaseItemType() != BaseItemType.CollectionFolder) {
-                    RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+                    RatingType ratingType = userPreferences.getValue().get(UserPreferences.Companion.getDefaultRatingType());
                     if (ratingType == RatingType.RATING_TOMATOES && baseItem.getCriticRating() != null) {
                         Drawable badge = baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(requireContext(), R.drawable.ic_rt_fresh)
                             : ContextCompat.getDrawable(requireContext(), R.drawable.ic_rt_rotten);

@@ -180,6 +180,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
+
+		/**
+		 * Enable home header for focused home screen item
+		 */
+		var homeHeaderEnabled = Preference.boolean("pref_enable_home_header", false)
 	}
 
 	init {

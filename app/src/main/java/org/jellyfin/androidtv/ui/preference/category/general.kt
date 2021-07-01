@@ -53,6 +53,12 @@ fun OptionsScreen.generalCategory(
 	}
 
 	checkbox {
+		setTitle(R.string.lbl_enable_home_header)
+		setContent(R.string.lbl_enable_home_header_description)
+		bind(userPreferences, UserPreferences.homeHeaderEnabled)
+	}
+
+	checkbox {
 		setTitle(R.string.lbl_enable_seasonal_themes)
 		setContent(R.string.desc_seasonal_themes)
 		bind(userPreferences, UserPreferences.seasonalGreetingsEnabled)

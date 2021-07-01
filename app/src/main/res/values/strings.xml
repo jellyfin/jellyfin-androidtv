@@ -454,4 +454,6 @@
     <string name="lbl_season_number_full">Season %1$d</string>
     <string name="lbl_episode_number_full">Episode %1$d</string>
     <string name="lbl_episode_range_full">Episodes %1$d–%2$d</string>
+    <string name="lbl_enable_home_header">Show home screen header</string>
+    <string name="lbl_enable_home_header_description">Display item details above home screen rows</string>
 </resources>

@@ -13,8 +13,9 @@ public class PositionableListRowPresenter extends CustomListRowPresenter {
         setShadowEnabled(false);
     }
 
-    public PositionableListRowPresenter(boolean homeSection) {
-        super(homeSection);
+    public PositionableListRowPresenter(boolean homeHeaderEnabled) {
+        super(homeHeaderEnabled);
+        setShadowEnabled(false);
     }
 
     public PositionableListRowPresenter(Integer padding) {
