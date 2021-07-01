@@ -334,6 +334,10 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 } else {
                     numbersString = baseItem.getProductionYear() != null ? baseItem.getOfficialRating() != null ? baseItem.getProductionYear() + " • " + baseItem.getOfficialRating()
                         : String.valueOf(baseItem.getProductionYear()) : baseItem.getOfficialRating() != null ? baseItem.getOfficialRating() : "";
+                    if (rowItem.getBaseItemType() == BaseItemType.MusicAlbum) {
+                        if (!numbersString.isEmpty()) numbersString += " • ";
+                        numbersString += rowItem.getSubText(requireContext());
+                    }
                 }
                 if (rowItem.getBaseItemType() != BaseItemType.UserView && rowItem.getBaseItemType() != BaseItemType.CollectionFolder) {
                     RatingType ratingType = userPreferences.getValue().get(UserPreferences.Companion.getDefaultRatingType());
