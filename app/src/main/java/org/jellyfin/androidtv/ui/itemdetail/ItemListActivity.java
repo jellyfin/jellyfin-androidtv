@@ -270,7 +270,7 @@ public class ItemListActivity extends FragmentActivity {
     };
 
     private void showMenu(final ItemRowView row, boolean showOpen) {
-        PopupMenu menu = Utils.createPopupMenu(this, row != null? row : getCurrentFocus(), Gravity.RIGHT);
+        PopupMenu menu = new PopupMenu(this, row != null? row : getCurrentFocus(), Gravity.RIGHT);
         int order = 0;
         if (showOpen) {
             MenuItem open = menu.getMenu().add(0, 0, order++, R.string.lbl_open);

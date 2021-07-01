@@ -147,10 +147,6 @@ public class Utils {
         return Math.min(autoRate != null && factor == 0 ? autoRate.intValue() : ((int) factor * 100000), 100000000);
     }
 
-    public static PopupMenu createPopupMenu(Context context, View view, int gravity) {
-        return new PopupMenu(context, view, gravity);
-    }
-
     public static int getThemeColor(@NonNull Context context, int resourceId) {
         TypedArray styledAttributes = context.getTheme()
                 .obtainStyledAttributes(new int[]{resourceId});

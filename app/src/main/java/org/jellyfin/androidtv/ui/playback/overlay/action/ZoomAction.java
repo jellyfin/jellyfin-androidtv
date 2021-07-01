@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.VideoManager;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
-import org.jellyfin.androidtv.util.Utils;
 
 public class ZoomAction extends CustomAction {
 
@@ -22,7 +21,7 @@ public class ZoomAction extends CustomAction {
 
     @Override
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
-        PopupMenu zoomMenu = Utils.createPopupMenu(context, view, Gravity.RIGHT);
+        PopupMenu zoomMenu = new PopupMenu(context, view, Gravity.RIGHT);
         zoomMenu.getMenu().add(0, VideoManager.ZOOM_NORMAL, VideoManager.ZOOM_NORMAL, context.getString(R.string.lbl_normal)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_NORMAL);
         zoomMenu.getMenu().add(0, VideoManager.ZOOM_VERTICAL, VideoManager.ZOOM_VERTICAL, context.getString(R.string.lbl_vertical_stretch)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_VERTICAL);
         zoomMenu.getMenu().add(0, VideoManager.ZOOM_HORIZONTAL, VideoManager.ZOOM_HORIZONTAL, context.getString(R.string.lbl_horizontal_stretch)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_HORIZONTAL);

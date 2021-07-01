@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -63,6 +60,9 @@ import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
+
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StdGridFragment extends GridFragment implements IGridLoader {
     protected String MainTitle;
@@ -372,7 +372,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             @Override
             public void onClick(View v) {
                 //Create sort menu
-                PopupMenu sortMenu = Utils.createPopupMenu(getActivity(), getToolBar(), Gravity.RIGHT);
+                PopupMenu sortMenu = new PopupMenu(getActivity(), getToolBar(), Gravity.RIGHT);
                 for (Integer key : sortOptions.keySet()) {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
