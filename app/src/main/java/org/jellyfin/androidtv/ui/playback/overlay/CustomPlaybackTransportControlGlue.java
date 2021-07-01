@@ -270,7 +270,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             leanbackOverlayFragment.setFading(false);
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == adjustAudioDelayAction) {
-            leanbackOverlayFragment.hideOverlay();
+            leanbackOverlayFragment.setFading(false);
             adjustAudioDelayAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == zoomAction) {
             leanbackOverlayFragment.setFading(false);

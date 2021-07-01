@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import androidx.annotation.Nullable;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -34,13 +36,18 @@ public class AudioDelayPopup {
         mDelaySpinner.setOnChangeListener(listener);
     }
 
+    @Nullable
+    public PopupWindow getPopupWindow() {
+        return mPopup;
+    }
+
     public boolean isShowing() {
         return (mPopup != null && mPopup.isShowing());
     }
 
     public void show(long value) {
         mDelaySpinner.setValue(value);
-        mPopup.showAtLocation(mAnchor, Gravity.CENTER_VERTICAL, mAnchor.getRight() - 60, mAnchor.getTop());
+        mPopup.showAsDropDown(mAnchor, 0, 0, Gravity.END);
     }
 
     public void dismiss() {
