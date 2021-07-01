@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.R;
 
 public class NumberSpinner extends FrameLayout {
     long mValue = 0;
-    long mIncrement = 100;
+    long mIncrement = 10;
     TextView mTextValue;
     ValueChangedListener<Long> mValueChangedListener;
 
