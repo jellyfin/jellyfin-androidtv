@@ -456,4 +456,6 @@
     <string name="lbl_episode_range_full">Episodes %1$d–%2$d</string>
     <string name="lbl_enable_home_header">Show home screen header</string>
     <string name="lbl_enable_home_header_description">Display item details above home screen rows</string>
+    <string name="lbl_enable_home_thumbnails">Prefer thumbnails on home screen</string>
+    <string name="lbl_enable_home_thumbnails_description">Use thumbnails when displaying series and movies</string>
 </resources>

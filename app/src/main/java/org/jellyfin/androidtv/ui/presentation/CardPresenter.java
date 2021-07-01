@@ -50,7 +50,8 @@ public class CardPresenter extends Presenter {
     private boolean mShowInfo = true;
 
     private boolean isUserView = false;
-    private boolean isHomeItem = false;
+    private boolean homeHeaderEnabled = false;
+    private boolean homeThumbnailsEnabled = false;
 
     public CardPresenter() {
         super();
@@ -99,7 +100,9 @@ public class CardPresenter extends Presenter {
         public void setItem(BaseRowItem m, ImageType imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             isUserView = false;
-            isHomeItem = mItem.isHomeItem();
+            homeHeaderEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeHeaderEnabled());
+            homeThumbnailsEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
+                && mItem.getBaseItemType() != null && (mItem.getBaseItemType() == BaseItemType.Series || mItem.getBaseItemType() == BaseItemType.Movie);
             switch (mItem.getItemType()) {
 
                 case BaseItem:
@@ -108,7 +111,7 @@ public class CardPresenter extends Presenter {
                     boolean showProgress = false;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
-                    } else if (imageType.equals(ImageType.THUMB) || isHomeItem) {
+                    } else if (imageType.equals(ImageType.THUMB) || homeThumbnailsEnabled) {
                         aspect = ImageUtils.ASPECT_RATIO_16_9;
                     } else {
                         aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
@@ -138,7 +141,7 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
-                            if (imageType.equals(ImageType.DEFAULT) && !isHomeItem) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT) && !homeThumbnailsEnabled) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
@@ -158,7 +161,7 @@ public class CardPresenter extends Presenter {
                             }
                             showProgress = true;
                             //Always show info for episodes
-                            if (!isHomeItem) mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
+                            if (!homeHeaderEnabled) mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case CollectionFolder:
                         case UserView:
@@ -188,7 +191,7 @@ public class CardPresenter extends Presenter {
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT) && !isHomeItem) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT) && !homeThumbnailsEnabled) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:
@@ -416,7 +419,7 @@ public class CardPresenter extends Presenter {
         String subText = rowItem.getSubText(holder.mCardView.getContext());
         holder.mCardView.setTitleText(cardName);
         holder.mCardView.setContentText(subText);
-        if (ImageType.DEFAULT.equals(mImageType) && !isHomeItem) {
+        if (ImageType.DEFAULT.equals(mImageType) && !homeHeaderEnabled) {
             holder.mCardView.setOverlayInfo(rowItem);
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
@@ -450,7 +453,7 @@ public class CardPresenter extends Presenter {
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-                imageTag = ((rowItem.getPreferParentThumb() && (!isHomeItem || rowItem.getBaseItemType() == BaseItemType.Episode)) || !rowItem.getBaseItem().getHasPrimaryImage())
+                imageTag = ((rowItem.getPreferParentThumb() && (!homeThumbnailsEnabled || rowItem.getBaseItemType() == BaseItemType.Episode)) || !rowItem.getBaseItem().getHasPrimaryImage())
                     ? rowItem.getBaseItem().getParentThumbImageTag()
                     : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
             } else {
