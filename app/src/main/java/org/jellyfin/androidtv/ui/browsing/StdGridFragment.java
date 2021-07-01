@@ -372,7 +372,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             @Override
             public void onClick(View v) {
                 //Create sort menu
-                PopupMenu sortMenu = new PopupMenu(getActivity(), getToolBar(), Gravity.RIGHT);
+                PopupMenu sortMenu = new PopupMenu(getActivity(), getToolBar(), Gravity.END);
                 for (Integer key : sortOptions.keySet()) {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);

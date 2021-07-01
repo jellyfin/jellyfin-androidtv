@@ -220,7 +220,7 @@ public class KeyProcessor {
 
     private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
         BaseItemDto item = rowItem.getBaseItem();
-        PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
+        PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
         if (rowItem instanceof AudioQueueItem) {
@@ -305,7 +305,7 @@ public class KeyProcessor {
     }
 
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
-        PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.RIGHT);
+        PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
         if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
