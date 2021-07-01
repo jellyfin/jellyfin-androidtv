@@ -2,10 +2,7 @@ package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
-import org.jellyfin.androidtv.util.profile.ProfileHelper.H264_LEVEL_4_1
-import org.jellyfin.androidtv.util.profile.ProfileHelper.H264_LEVEL_5_1
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition

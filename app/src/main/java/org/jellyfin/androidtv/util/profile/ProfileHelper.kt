@@ -18,8 +18,9 @@ import timber.log.Timber
 
 object ProfileHelper {
 	// H264 codec levels https://en.wikipedia.org/wiki/Advanced_Video_Coding#Levels
-	const val H264_LEVEL_4_1 = "41"
-	const val H264_LEVEL_5_1 = "51"
+	private const val H264_LEVEL_4_1 = "41"
+	private const val H264_LEVEL_5_1 = "51"
+	private const val H264_LEVEL_5_2 = "52"
 
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
@@ -69,7 +70,12 @@ object ProfileHelper {
 		ProfileCondition(
 			ProfileConditionType.LessThanEqual,
 			ProfileConditionValue.VideoLevel,
-			if (DeviceUtils.isFireTvStickGen1()) H264_LEVEL_4_1 else H264_LEVEL_5_1
+			when {
+				// https://developer.amazon.com/docs/fire-tv/device-specifications.html
+				DeviceUtils.isFireTvStick4k() -> H264_LEVEL_5_2
+				DeviceUtils.isFireTv() -> H264_LEVEL_4_1
+				else -> H264_LEVEL_5_1
+			}
 		)
 	}
 

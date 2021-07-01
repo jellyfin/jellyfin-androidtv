@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
@@ -15,9 +14,6 @@ import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
-import org.jellyfin.apiclient.model.dlna.ProfileCondition
-import org.jellyfin.apiclient.model.dlna.ProfileConditionType
-import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 
 class LibVlcProfile(
