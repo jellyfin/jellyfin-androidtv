@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.core.view.updateLayoutParams
 import com.bumptech.glide.Glide
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewCardDefaultBinding
 import kotlin.math.roundToInt
 
@@ -19,9 +20,7 @@ class DefaultCardView @JvmOverloads constructor(
 	defStyleRes: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 	companion object {
-		const val ANIMATION_DURATION = 200L // 200ms
-		const val SCALE_DEFAULT = 1.0f // 100%
-		const val SCALE_FOCUSED = 1.15f // 115%
+		const val ANIMATION_DURATION = 150L // 150ms
 	}
 
 	init {
@@ -71,7 +70,8 @@ class DefaultCardView @JvmOverloads constructor(
 	override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
 		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
 
-		val scale = if (gainFocus) SCALE_FOCUSED else SCALE_DEFAULT
+		val scaleRes = if (gainFocus) R.fraction.card_scale_focus else R.fraction.card_scale_default
+		val scale = resources.getFraction(scaleRes, 1, 1)
 
 		post {
 			animate().apply {
