@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.preference
 
+import kotlinx.coroutines.runBlocking
+
 interface AsyncPreferenceStore : PreferenceStore {
 	val shouldUpdate: Boolean
 
@@ -39,4 +41,14 @@ interface AsyncPreferenceStore : PreferenceStore {
 
 		return commit()
 	}
+
+	/**
+	 * Compatability with old Java classes.
+	 */
+	fun updateBlocking() = runBlocking { update() }
+
+	/**
+	 * Compatability with old Java classes.
+	 */
+	fun commitBlocking() = runBlocking { commit() }
 }
