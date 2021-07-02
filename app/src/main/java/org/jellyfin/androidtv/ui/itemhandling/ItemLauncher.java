@@ -32,7 +32,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
@@ -178,20 +177,13 @@ public class ItemLauncher {
 
                 // or generic handling
                 if (baseItem.getIsFolderItem()) {
-                    // open generic folder browsing - but need display prefs
-                    TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                        @Override
-                        public void onResponse(DisplayPreferences response) {
-                            Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                            if (noHistory) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            }
+                    Intent intent = new Intent(activity, GenericGridActivity.class);
+                    intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                    if (noHistory) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    }
 
-                            activity.startActivity(intent);
-
-                        }
-                    });
+                    activity.startActivity(intent);
                 } else {
                     switch (rowItem.getSelectAction()) {
 

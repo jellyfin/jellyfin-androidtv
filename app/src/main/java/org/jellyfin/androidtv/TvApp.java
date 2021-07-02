@@ -102,30 +102,25 @@ public class TvApp extends Application {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
-    public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
+    public void updateDisplayPrefs(DisplayPreferences preferences) {
         displayPrefsCache.put(String.format("%s.%s", app, preferences.getId()), preferences);
-        apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
-        Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
+        apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new EmptyResponse());
+        Timber.d("Display prefs updated for %s", preferences.getId());
     }
 
-    public void getDisplayPrefsAsync(String key, Response<DisplayPreferences> response) {
-        getDisplayPrefsAsync(key, DISPLAY_PREFS_APP_NAME, response);
-    }
-
-    public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
+    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
         String cacheKey = String.format("%s.%s", app, key);
 
         if (displayPrefsCache.containsKey(cacheKey)) {
             Timber.d("Display prefs loaded from cache %s", cacheKey);
             outerResponse.onResponse(displayPrefsCache.get(cacheKey));
         } else {
-            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>() {
+            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
                 @Override
                 public void onResponse(DisplayPreferences response) {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null)
                         response.setCustomPrefs(new HashMap<String, String>());
-
                     displayPrefsCache.put(cacheKey, response);
                     Timber.d("Display prefs loaded and saved in cache %s", cacheKey);
                     outerResponse.onResponse(response);

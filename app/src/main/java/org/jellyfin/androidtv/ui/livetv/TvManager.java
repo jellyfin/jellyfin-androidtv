@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.livetv;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -153,7 +155,7 @@ public class TvManager {
         current.put("guide-indicator-premiere", String.valueOf(newPrefs.showPremiereIndicator));
         current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
 
-        TvApp.getApplication().updateDisplayPrefs(TvApp.DISPLAY_PREFS_APP_NAME, displayPrefs);
+        TvApp.getApplication().updateDisplayPrefs(displayPrefs);
         allChannels = null; //force a re-fetch
     }
 
@@ -172,7 +174,7 @@ public class TvManager {
     }
 
     private static void getLiveTvPrefs(final EmptyResponse outerResponse) {
-        TvApp.getApplication().getDisplayPrefsAsync("usersettings", TvApp.DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
+        TvApp.getApplication().getDisplayPrefsAsync("usersettings", new Response<DisplayPreferences>() {
             @Override
             public void onResponse(DisplayPreferences response) {
                 displayPrefs = response;
