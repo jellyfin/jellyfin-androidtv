@@ -89,18 +89,18 @@ abstract class DisplayPreferencesStore(
 	override fun <T : Preference<V>, V : Any> delete(preference: T) {
 		cachedPreferences.remove(preference.key)
 	}
-}
 
-/**
- * Create an empty [DisplayPreferencesDto] with default values.
- */
-private fun DisplayPreferencesDto.Companion.empty() = DisplayPreferencesDto(
-	primaryImageHeight = 0,
-	primaryImageWidth = 0,
-	rememberIndexing = false,
-	scrollDirection = ScrollDirection.HORIZONTAL,
-	rememberSorting = false,
-	showBackdrop = false,
-	showSidebar = false,
-	sortOrder = SortOrder.ASCENDING
-)
+	/**
+	 * Create an empty [DisplayPreferencesDto] with default values.
+	 */
+	private fun DisplayPreferencesDto.Companion.empty() = DisplayPreferencesDto(
+		primaryImageHeight = 0,
+		primaryImageWidth = 0,
+		rememberIndexing = false,
+		scrollDirection = ScrollDirection.HORIZONTAL,
+		rememberSorting = false,
+		showBackdrop = false,
+		showSidebar = false,
+		sortOrder = SortOrder.ASCENDING
+	)
+}
