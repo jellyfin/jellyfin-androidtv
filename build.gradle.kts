@@ -1,56 +1,29 @@
-buildscript {
-	repositories {
-		mavenCentral()
-		google()
-	}
-
-	dependencies {
-		val kotlinVersion = getProperty("kotlin.version")
-		classpath("com.android.tools.build:gradle:4.2.1")
-		classpath(kotlin("gradle-plugin", kotlinVersion))
-		classpath(kotlin("serialization", kotlinVersion))
-	}
+plugins {
+	id("io.gitlab.arturbosch.detekt").version(Plugins.Versions.detekt)
 }
 
 allprojects {
-	// Dependencies
-	repositories {
-		mavenCentral()
-		google()
-		// Jellyfin SDK
-		mavenLocal {
-			content {
-				includeVersionByRegex("org.jellyfin.sdk", ".*", "latest-SNAPSHOT")
-			}
-		}
-		maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-			content {
-				includeVersionByRegex("org.jellyfin.sdk", ".*", "master-SNAPSHOT")
-				includeVersionByRegex("org.jellyfin.sdk", ".*", "openapi-unstable-SNAPSHOT")
-			}
-		}
-		// Jellyfin apiclient
-		maven("https://jitpack.io") {
-			content {
-				// Only allow legacy apiclient
-				includeVersionByRegex("com.github.jellyfin.jellyfin-sdk-kotlin", ".*", "v0.7.10")
-			}
-		}
+	repositories.defaultRepositories()
+}
+
+buildscript {
+	repositories.defaultRepositories()
+
+	dependencies {
+		classpath(Plugins.androidBuildTools)
+		classpath(Plugins.kotlin)
 	}
 }
 
-plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.17.1")
-}
 
 // Detekt configuration
 subprojects {
-	plugins.apply("io.gitlab.arturbosch.detekt")
+	apply<io.gitlab.arturbosch.detekt.DetektPlugin>()
 
 	detekt {
 		buildUponDefaultConfig = true
 		ignoreFailures = true
-		config = files("$rootDir/detekt.yml")
+		config = files("$rootDir/detekt.yaml")
 		basePath = rootDir.absolutePath
 
 		reports {
