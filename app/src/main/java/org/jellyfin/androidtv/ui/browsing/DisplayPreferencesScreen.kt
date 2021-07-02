@@ -4,7 +4,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.constant.PosterSize
-import org.jellyfin.androidtv.preference.LibraryDisplayPreferences
+import org.jellyfin.androidtv.preference.LibraryPreferences
 import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
@@ -15,8 +15,8 @@ import org.koin.android.ext.android.inject
 
 class DisplayPreferencesScreen : OptionsFragment() {
 	private val preferencesRepository: PreferencesRepository by inject()
-	private val libraryPreferences: LibraryDisplayPreferences by lazy {
-		preferencesRepository.getLibraryDisplayPreferences(preferencesId!!)
+	private val libraryPreferences: LibraryPreferences by lazy {
+		preferencesRepository.getLibraryPreferences(preferencesId!!)
 	}
 
 	private val preferencesId by lazy { requireArguments().getString(ARG_PREFERENCES_ID) }
@@ -31,15 +31,15 @@ class DisplayPreferencesScreen : OptionsFragment() {
 		category {
 			enum<PosterSize> {
 				setTitle(R.string.lbl_image_size)
-				bind(libraryPreferences, LibraryDisplayPreferences.posterSize)
+				bind(libraryPreferences, LibraryPreferences.posterSize)
 			}
 			enum<ImageType> {
 				setTitle(R.string.lbl_image_type)
-				bind(libraryPreferences, LibraryDisplayPreferences.imageType)
+				bind(libraryPreferences, LibraryPreferences.imageType)
 			}
 			enum<GridDirection> {
 				setTitle(R.string.grid_direction)
-				bind(libraryPreferences, LibraryDisplayPreferences.gridDirection)
+				bind(libraryPreferences, LibraryPreferences.gridDirection)
 			}
 
 			if (allowViewSelection) {
@@ -48,7 +48,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 					contentOn = requireContext().getString(R.string.enable_smart_view_description)
 					contentOff = contentOn
 
-					bind(libraryPreferences, LibraryDisplayPreferences.enableSmartScreen)
+					bind(libraryPreferences, LibraryPreferences.enableSmartScreen)
 				}
 			}
 		}

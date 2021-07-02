@@ -8,7 +8,7 @@ import org.jellyfin.apiclient.model.entities.SortOrder
 import org.jellyfin.sdk.api.operations.DisplayPreferencesApi
 import java.util.*
 
-class LibraryDisplayPreferences(
+class LibraryPreferences(
 	displayPreferencesId: String,
 	userId: UUID,
 	displayPreferencesApi: DisplayPreferencesApi,

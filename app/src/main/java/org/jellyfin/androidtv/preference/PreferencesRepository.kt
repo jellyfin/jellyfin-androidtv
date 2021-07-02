@@ -12,10 +12,10 @@ class PreferencesRepository(
 	private val sessionRepository: SessionRepository,
 	private val apiClient: KtorClient,
 ) {
-	private val libraryPreferences = mutableMapOf<String, LibraryDisplayPreferences>()
+	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
-	public fun getLibraryDisplayPreferences(preferencesId: String): LibraryDisplayPreferences {
-		val store = libraryPreferences[preferencesId] ?: LibraryDisplayPreferences(
+	public fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
+		val store = libraryPreferences[preferencesId] ?: LibraryPreferences(
 			preferencesId,
 			sessionRepository.currentSession.value!!.userId,
 			DisplayPreferencesApi(apiClient)
@@ -23,7 +23,7 @@ class PreferencesRepository(
 
 		libraryPreferences[preferencesId] = store
 
-		// FIXME: Make [getLibraryDisplayPreferences] suspended when usages are converted to Kotlin
+		// FIXME: Make [getLibraryPreferences] suspended when usages are converted to Kotlin
 		if (store.shouldUpdate) store.updateBlocking()
 
 		return store
