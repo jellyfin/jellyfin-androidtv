@@ -36,6 +36,18 @@ abstract class DisplayPreferencesStore(
 		return true
 	}
 
+	/**
+	 * Clear local copy of display preferences and require an update for new modifications.
+	 */
+	fun clearCache(): Boolean {
+		if (displayPreferencesDto == null) return false
+
+		displayPreferencesDto = null
+		cachedPreferences.clear()
+
+		return true
+	}
+
 	override suspend fun update(): Boolean {
 		try {
 			val result by displayPreferencesApi.getDisplayPreferences(

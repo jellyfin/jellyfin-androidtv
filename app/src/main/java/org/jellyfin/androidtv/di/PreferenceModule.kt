@@ -6,7 +6,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val preferenceModule = module {
-	single { PreferencesRepository(get(userApiClient)) }
+	single { PreferencesRepository(get(userApiClient), get()) }
 
 	single { LiveTvPreferences(DisplayPreferencesApi(get(userApiClient))) }
 	single { AuthenticationPreferences(androidApplication()) }
