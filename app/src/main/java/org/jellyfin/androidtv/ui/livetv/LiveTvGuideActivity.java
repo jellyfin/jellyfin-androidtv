@@ -34,7 +34,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.model.LiveTvPrefs;
+import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
@@ -114,6 +114,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private Handler mHandler = new Handler();
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<LiveTvPreferences> liveTvPreferences = inject(LiveTvPreferences.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -580,17 +581,19 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mSaveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LiveTvPrefs prefs = TvManager.getPrefs();
-                    prefs.showHDIndicator = mHd.isChecked();
-                    prefs.showPremiereIndicator = mPremiere.isChecked();
-                    prefs.showNewIndicator = mNew.isChecked();
-                    prefs.favsAtTop = mFavTop.isChecked();
-                    prefs.colorCodeGuide = mColorCode.isChecked();
-                    prefs.showRepeatIndicator = mRepeat.isChecked();
-                    prefs.channelOrder = mCurrentSort;
-                    prefs.showLiveIndicator = mLive.isChecked();
+                    LiveTvPreferences prefs = liveTvPreferences.getValue();
 
-                    TvManager.updatePrefs(prefs);
+                    prefs.set(LiveTvPreferences.Companion.getShowHDIndicator(), mHd.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getShowPremiereIndicator(), mPremiere.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getShowNewIndicator(), mNew.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getFavsAtTop(), mFavTop.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getColorCodeGuide(), mColorCode.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getShowRepeatIndicator(), mRepeat.isChecked());
+                    prefs.set(LiveTvPreferences.Companion.getChannelOrder(), mCurrentSort);
+                    prefs.set(LiveTvPreferences.Companion.getShowLiveIndicator(), mLive.isChecked());
+                    prefs.commitBlocking();
+
+                    TvManager.clearCache();
 
                     load();
                     mPopup.dismiss();
@@ -625,17 +628,17 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         }
 
         public void show() {
-            LiveTvPrefs prefs = TvManager.getPrefs();
+            LiveTvPreferences prefs = liveTvPreferences.getValue();
 
-            mHd.setChecked(prefs.showHDIndicator);
-            mRepeat.setChecked(prefs.showRepeatIndicator);
-            mLive.setChecked(prefs.showLiveIndicator);
-            mFavTop.setChecked(prefs.favsAtTop);
-            mNew.setChecked(prefs.showNewIndicator);
-            mRepeat.setChecked(prefs.showRepeatIndicator);
-            mColorCode.setChecked(prefs.colorCodeGuide);
-            mPremiere.setChecked(prefs.showPremiereIndicator);
-            mSortBy.setSelection(prefs.channelOrder.equals("DatePlayed") ? 0 : 1);
+            mHd.setChecked(prefs.get(LiveTvPreferences.Companion.getShowHDIndicator()));
+            mRepeat.setChecked(prefs.get(LiveTvPreferences.Companion.getShowRepeatIndicator()));
+            mLive.setChecked(prefs.get(LiveTvPreferences.Companion.getShowLiveIndicator()));
+            mFavTop.setChecked(prefs.get(LiveTvPreferences.Companion.getFavsAtTop()));
+            mNew.setChecked(prefs.get(LiveTvPreferences.Companion.getShowNewIndicator()));
+            mRepeat.setChecked(prefs.get(LiveTvPreferences.Companion.getShowRepeatIndicator()));
+            mColorCode.setChecked(prefs.get(LiveTvPreferences.Companion.getColorCodeGuide()));
+            mPremiere.setChecked(prefs.get(LiveTvPreferences.Companion.getShowPremiereIndicator()));
+            mSortBy.setSelection(prefs.get(LiveTvPreferences.Companion.getChannelOrder()).equals("DatePlayed") ? 0 : 1);
 
             mPopup.showAtLocation(mTimelineScroller, Gravity.NO_GRAVITY, mTimelineScroller.getRight(), mSummary.getTop()-20);
         }

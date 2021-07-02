@@ -15,18 +15,13 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
-
-import java.util.HashMap;
 
 import kotlin.Lazy;
-import timber.log.Timber;
 
 public class TvApp extends Application {
-    public static final String DISPLAY_PREFS_APP_NAME = "ATV";
-
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
     public static final int VIDEO_QUEUE_OPTION_ID = 3000;
@@ -39,7 +34,7 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
 
     private Activity currentActivity;
-
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
@@ -97,41 +92,6 @@ public class TvApp extends Application {
     public boolean canManageRecordings() {
         UserDto currentUser = getCurrentUser();
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
-    }
-
-    /**
-     * @deprecated Use new DisplayPreferencesStore class.
-     */
-    @Deprecated
-    public void updateDisplayPrefs(DisplayPreferences preferences) {
-        apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new EmptyResponse());
-        Timber.d("Display prefs updated for %s", preferences.getId());
-    }
-
-    /**
-     * @deprecated Use new DisplayPreferencesStore class.
-     */
-    @Deprecated
-    public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
-        apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
-            @Override
-            public void onResponse(DisplayPreferences response) {
-                if (response.getCustomPrefs() == null)
-                    response.setCustomPrefs(new HashMap<String, String>());
-                Timber.d("Display prefs loaded %s", key);
-                outerResponse.onResponse(response);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                //Continue with defaults
-                Timber.e(exception, "Unable to load display prefs ");
-                DisplayPreferences prefs = new DisplayPreferences();
-                prefs.setId(key);
-                prefs.setCustomPrefs(new HashMap<String, String>());
-                outerResponse.onResponse(prefs);
-            }
-        });
     }
 
     @Nullable
