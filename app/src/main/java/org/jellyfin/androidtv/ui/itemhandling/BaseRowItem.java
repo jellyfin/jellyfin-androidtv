@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
@@ -32,8 +34,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class BaseRowItem {
     private int index;
@@ -223,15 +223,15 @@ public class BaseRowItem {
         }
     }
 
-    public String getImageUrl(Context context, String imageType, int maxHeight) {
+    public String getImageUrl(Context context, org.jellyfin.androidtv.constant.ImageType imageType, int maxHeight) {
         switch (type) {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
-                    case org.jellyfin.androidtv.constant.ImageType.BANNER:
+                    case BANNER:
                         return ImageUtils.getBannerImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
-                    case org.jellyfin.androidtv.constant.ImageType.THUMB:
+                    case THUMB:
                         return ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
                     default:
                         return getPrimaryImageUrl(context, maxHeight);
