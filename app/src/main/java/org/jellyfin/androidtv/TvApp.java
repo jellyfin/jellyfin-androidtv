@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.Activity;
 import android.app.Application;
 
@@ -26,8 +28,6 @@ import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class TvApp extends Application {
     public static final String DISPLAY_PREFS_APP_NAME = "ATV";
@@ -127,15 +127,6 @@ public class TvApp extends Application {
     public boolean canManageRecordings() {
         UserDto currentUser = getCurrentUser();
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
-    }
-
-    @NonNull
-    public DisplayPreferences getCachedDisplayPrefs(String key) {
-        return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
-    }
-
-    public void updateDisplayPrefs(DisplayPreferences preferences) {
-        updateDisplayPrefs("ATV", preferences);
     }
 
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {

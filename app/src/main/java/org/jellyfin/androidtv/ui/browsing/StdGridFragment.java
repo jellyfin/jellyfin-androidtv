@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import static org.jellyfin.androidtv.TvApp.getApplication;
 import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -58,10 +57,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.CollectionType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
-
-import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -85,7 +81,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected String mParentId;
     protected BaseItemDto mFolder;
-    protected DisplayPreferences mDisplayPrefs;
     protected LibraryDisplayPreferences libraryPreferences;
 
     private int mCardHeight = SMALL_CARD;
@@ -102,7 +97,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mFolder = get(GsonJsonSerializer.class).DeserializeFromString(requireActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();
-        mDisplayPrefs = getApplication().getCachedDisplayPrefs(mFolder.getDisplayPreferencesId()); //These should have already been loaded
         libraryPreferences = preferencesRepository.getValue().getLibraryDisplayPreferences(mFolder.getDisplayPreferencesId());
         mPosterSizeSetting = libraryPreferences.get(LibraryDisplayPreferences.Companion.getPosterSize());
         mImageType = libraryPreferences.get(LibraryDisplayPreferences.Companion.getImageType());
@@ -287,8 +281,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         }
 
         FilterOptions filters = new FilterOptions();
-        filters.setFavoriteOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("FavoriteOnly")));
-        filters.setUnwatchedOnly(Boolean.parseBoolean(mDisplayPrefs.getCustomPrefs().get("UnwatchedOnly")));
+        filters.setFavoriteOnly(libraryPreferences.get(LibraryDisplayPreferences.Companion.getFilterFavoritesOnly()));
+        filters.setUnwatchedOnly(libraryPreferences.get(LibraryDisplayPreferences.Companion.getFilterUnwatchedOnly()));
 
         setupRetrieveListeners();
         mGridAdapter.setFilters(filters);
@@ -313,7 +307,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             }
         }
 
-        mGridAdapter.setSortBy(getSortOption(mDisplayPrefs.getSortBy()));
+        mGridAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryDisplayPreferences.Companion.getSortBy())));
         mGridAdapter.Retrieve();
         determiningPosterSize = false;
     }
@@ -349,13 +343,11 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected ImageButton mLetterButton;
 
     protected void updateDisplayPrefs() {
-        if (mDisplayPrefs.getCustomPrefs() == null)
-            mDisplayPrefs.setCustomPrefs(new HashMap<String, String>());
-        mDisplayPrefs.getCustomPrefs().put("UnwatchedOnly", mGridAdapter.getFilters().isUnwatchedOnly() ? "true" : "false");
-        mDisplayPrefs.getCustomPrefs().put("FavoriteOnly", mGridAdapter.getFilters().isFavoriteOnly() ? "true" : "false");
-        mDisplayPrefs.setSortBy(mGridAdapter.getSortBy());
-        mDisplayPrefs.setSortOrder(getSortOption(mGridAdapter.getSortBy()).order);
-        getApplication().updateDisplayPrefs(mDisplayPrefs);
+        libraryPreferences.set(LibraryDisplayPreferences.Companion.getFilterFavoritesOnly(), mGridAdapter.getFilters().isFavoriteOnly());
+        libraryPreferences.set(LibraryDisplayPreferences.Companion.getFilterUnwatchedOnly(), mGridAdapter.getFilters().isUnwatchedOnly());
+        libraryPreferences.set(LibraryDisplayPreferences.Companion.getSortBy(), mGridAdapter.getSortBy());
+        libraryPreferences.set(LibraryDisplayPreferences.Companion.getSortOrder(), getSortOption(mGridAdapter.getSortBy()).order);
+        libraryPreferences.commitBlocking();
     }
 
     protected void addTools() {
@@ -376,7 +368,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
                     MenuItem item = sortMenu.getMenu().add(0, key, key, option.name);
-                    if (option.value.equals(mDisplayPrefs.getSortBy())) item.setChecked(true);
+                    if (option.value.equals(libraryPreferences.get(LibraryDisplayPreferences.Companion.getSortBy()))) item.setChecked(true);
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
