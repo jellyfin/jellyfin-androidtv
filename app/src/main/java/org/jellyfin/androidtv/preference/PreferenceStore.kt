@@ -13,10 +13,14 @@ interface PreferenceStore {
 	operator fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V)
 
 	// store.getDefaultValue(Preference.x)
-	fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V
+	fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
+		return preference.defaultValue
+	}
 
 	// store.reset(Preference.x)
-	fun <T : Preference<V>, V : Any> reset(preference: T)
+	fun <T : Preference<V>, V : Any> reset(preference: T) {
+		this[preference] = getDefaultValue(preference)
+	}
 
 	// store.delete(Preference.x)
 	fun <T : Preference<V>, V : Any> delete(preference: T)
