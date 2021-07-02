@@ -6,11 +6,9 @@ import org.jellyfin.sdk.model.api.DisplayPreferencesDto
 import org.jellyfin.sdk.model.api.ScrollDirection
 import org.jellyfin.sdk.model.api.SortOrder
 import timber.log.Timber
-import java.util.*
 
 abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
-	protected var userId: UUID,
 	protected var app: String = "jellyfin-androidtv",
 	private val displayPreferencesApi: DisplayPreferencesApi,
 ) : AsyncPreferenceStore {
@@ -23,11 +21,15 @@ abstract class DisplayPreferencesStore(
 		if (displayPreferencesDto == null) return false
 
 		try {
-			displayPreferencesApi.updateDisplayPreferences(displayPreferencesId, userId, app, displayPreferencesDto!!.copy(
-				customPrefs = cachedPreferences
-			))
+			displayPreferencesApi.updateDisplayPreferences(
+				displayPreferencesId = displayPreferencesId,
+				client = app,
+				data = displayPreferencesDto!!.copy(
+					customPrefs = cachedPreferences
+				)
+			)
 		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to save displaypreferences. (displayPreferencesId=$displayPreferencesId, userId=$userId, app=$app)")
+			Timber.e(err, "Unable to save displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)")
 			return false
 		}
 
@@ -36,13 +38,16 @@ abstract class DisplayPreferencesStore(
 
 	override suspend fun update(): Boolean {
 		try {
-			val result by displayPreferencesApi.getDisplayPreferences(displayPreferencesId, userId, app)
+			val result by displayPreferencesApi.getDisplayPreferences(
+				displayPreferencesId = displayPreferencesId,
+				client = app
+			)
 			displayPreferencesDto = result
 			cachedPreferences = result.customPrefs?.toMutableMap() ?: cachedPreferences
 
 			return true
 		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, userId=$userId, app=$app)")
+			Timber.e(err, "Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)")
 
 			if (displayPreferencesDto == null) {
 				Timber.i("Creating an empty DisplayPreferencesDto for next commit.")
