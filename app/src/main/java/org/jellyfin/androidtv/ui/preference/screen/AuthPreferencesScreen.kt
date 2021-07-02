@@ -16,9 +16,7 @@ class AuthPreferencesScreen : OptionsFragment() {
 	private val authenticationPreferences: AuthenticationPreferences by inject()
 	private val sessionRepository: SessionRepository by inject()
 
-	init {
-		rebuildOnResume = true
-	}
+	override val rebuildOnResume = true
 
 	override val screen get() = optionsScreen {
 		setTitle(R.string.pref_authentication_cat)
