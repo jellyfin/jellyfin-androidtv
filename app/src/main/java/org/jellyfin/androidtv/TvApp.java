@@ -38,8 +38,6 @@ public class TvApp extends Application {
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
 
-    private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
-
     private Activity currentActivity;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
@@ -71,7 +69,6 @@ public class TvApp extends Application {
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser.postValue(currentUser);
         TvManager.clearCache();
-        this.displayPrefsCache = new HashMap<>();
     }
 
     /**
@@ -102,42 +99,39 @@ public class TvApp extends Application {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
+    /**
+     * @deprecated Use new DisplayPreferencesStore class.
+     */
+    @Deprecated
     public void updateDisplayPrefs(DisplayPreferences preferences) {
-        displayPrefsCache.put(String.format("%s.%s", app, preferences.getId()), preferences);
         apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new EmptyResponse());
         Timber.d("Display prefs updated for %s", preferences.getId());
     }
 
+    /**
+     * @deprecated Use new DisplayPreferencesStore class.
+     */
+    @Deprecated
     public void getDisplayPrefsAsync(final String key, final Response<DisplayPreferences> outerResponse) {
-        String cacheKey = String.format("%s.%s", app, key);
+        apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
+            @Override
+            public void onResponse(DisplayPreferences response) {
+                if (response.getCustomPrefs() == null)
+                    response.setCustomPrefs(new HashMap<String, String>());
+                Timber.d("Display prefs loaded %s", key);
+                outerResponse.onResponse(response);
+            }
 
-        if (displayPrefsCache.containsKey(cacheKey)) {
-            Timber.d("Display prefs loaded from cache %s", cacheKey);
-            outerResponse.onResponse(displayPrefsCache.get(cacheKey));
-        } else {
-            apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
-                @Override
-                public void onResponse(DisplayPreferences response) {
-                    if (response.getSortBy() == null) response.setSortBy("SortName");
-                    if (response.getCustomPrefs() == null)
-                        response.setCustomPrefs(new HashMap<String, String>());
-                    displayPrefsCache.put(cacheKey, response);
-                    Timber.d("Display prefs loaded and saved in cache %s", cacheKey);
-                    outerResponse.onResponse(response);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    //Continue with defaults
-                    Timber.e(exception, "Unable to load display prefs ");
-                    DisplayPreferences prefs = new DisplayPreferences();
-                    prefs.setId(key);
-                    prefs.setSortBy("SortName");
-                    prefs.setCustomPrefs(new HashMap<String, String>());
-                    outerResponse.onResponse(prefs);
-                }
-            });
-        }
+            @Override
+            public void onError(Exception exception) {
+                //Continue with defaults
+                Timber.e(exception, "Unable to load display prefs ");
+                DisplayPreferences prefs = new DisplayPreferences();
+                prefs.setId(key);
+                prefs.setCustomPrefs(new HashMap<String, String>());
+                outerResponse.onResponse(prefs);
+            }
+        });
     }
 
     @Nullable
