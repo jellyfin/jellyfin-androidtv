@@ -102,21 +102,6 @@ public class TvApp extends Application {
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
-    @NonNull
-    public DisplayPreferences getCachedDisplayPrefs(String key) {
-        return getCachedDisplayPrefs(key, DISPLAY_PREFS_APP_NAME);
-    }
-
-    @NonNull
-    public DisplayPreferences getCachedDisplayPrefs(String key, String app) {
-        String cacheKey = String.format("%s.%s", app, key);
-        return displayPrefsCache.containsKey(cacheKey) ? displayPrefsCache.get(cacheKey) : new DisplayPreferences();
-    }
-
-    public void updateDisplayPrefs(DisplayPreferences preferences) {
-        updateDisplayPrefs("ATV", preferences);
-    }
-
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
         displayPrefsCache.put(String.format("%s.%s", app, preferences.getId()), preferences);
         apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());

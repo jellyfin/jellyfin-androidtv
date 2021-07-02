@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -151,10 +150,10 @@ public class GridFragment extends Fragment {
         sortOptions.put(0, new SortOption(TvApp.getApplication().getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
         sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
         sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
-        sortOptions.put(3,new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
-        sortOptions.put(4,new SortOption(TvApp.getApplication().getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
+        sortOptions.put(3, new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
+        sortOptions.put(4, new SortOption(TvApp.getApplication().getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
         sortOptions.put(5,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
-        sortOptions.put(6,new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
+        sortOptions.put(6, new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
     }
 
     protected String getSortFriendlyName(String value) {
