@@ -9,13 +9,14 @@ import kotlin.collections.set
  */
 class PreferencesRepository(
 	private val apiClient: KtorClient,
+	private val liveTvPreferences: LiveTvPreferences,
 ) {
+	private val displayPreferencesApi = DisplayPreferencesApi(apiClient)
 	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
-	// TODO issues when user(id) changes
 	public fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
 		val store = libraryPreferences[preferencesId]
-			?: LibraryPreferences(preferencesId, DisplayPreferencesApi(apiClient))
+			?: LibraryPreferences(preferencesId, displayPreferencesApi)
 
 		libraryPreferences[preferencesId] = store
 
@@ -23,5 +24,10 @@ class PreferencesRepository(
 		if (store.shouldUpdate) store.updateBlocking()
 
 		return store
+	}
+
+	public fun onSessionChanged() {
+		liveTvPreferences.clearCache()
+		libraryPreferences.clear()
 	}
 }

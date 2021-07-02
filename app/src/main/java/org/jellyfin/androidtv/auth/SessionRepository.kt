@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
 import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -35,6 +36,7 @@ class SessionRepositoryImpl(
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: KtorClient,
 	private val systemApiClient: KtorClient,
+	private val preferencesRepository: PreferencesRepository,
 ) : SessionRepository {
 	private val _currentSession = MutableLiveData<Session?>()
 	override val currentSession: LiveData<Session?> get() = _currentSession
@@ -115,11 +117,13 @@ class SessionRepositoryImpl(
 			if (success) {
 				userApiClient.applySession(session)
 				_currentSession.postValue(session)
+				preferencesRepository.onSessionChanged()
 			} else {
 				userApiClient.applySession(null)
 				_currentSession.postValue(null)
 			}
 
+			preferencesRepository.onSessionChanged()
 			callback?.invoke(success)
 		}
 	}

@@ -14,7 +14,7 @@ val authModule = module {
 		AuthenticationRepositoryImpl(get(), get(), get(), get(), get(), get(userApiClient), get())
 	}
 	single<SessionRepository> {
-		SessionRepositoryImpl(get(), get(), get(), get(), get(userApiClient), get(systemApiClient))
+		SessionRepositoryImpl(get(), get(), get(), get(), get(userApiClient), get(systemApiClient), get())
 	}
 	single { LegacyAccountMigration(androidContext(), get(), get(), get()) }
 	single { ApiBinder(androidApplication() as JellyfinApplication, get(), get(), get()) }
