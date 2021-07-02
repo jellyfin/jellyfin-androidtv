@@ -38,16 +38,14 @@ abstract class SharedPreferenceStore(
 	// Getters and setters
 	// Primitive types
 	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Preference<V>, V : Any> get(preference: T): V {
-		return when (preference.type) {
-			Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int) as V
-			Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long) as V
-			Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean) as V
-			String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String) as V
+	override operator fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
+		Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int)
+		Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long)
+		Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean)
+		String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String)
 
-			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-		}
-	}
+		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
+	} as V
 
 	override operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
 		when (preference.type) {
@@ -75,14 +73,6 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Additional mutations
-	override fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
-		return preference.defaultValue
-	}
-
-	override fun <T : Preference<V>, V : Any> reset(preference: T) {
-		this[preference] = getDefaultValue(preference)
-	}
-
 	override fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
 		remove(preference.key)
 	}
