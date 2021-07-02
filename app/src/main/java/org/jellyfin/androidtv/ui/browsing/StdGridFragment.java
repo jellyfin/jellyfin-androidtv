@@ -36,7 +36,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.preference.LibraryDisplayPreferences;
+import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.AlphaPicker;
 import org.jellyfin.androidtv.ui.GridFragment;
@@ -83,7 +83,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     protected UUID mParentId;
     protected BaseItemDto mFolder;
-    protected LibraryDisplayPreferences libraryPreferences;
+    protected LibraryPreferences libraryPreferences;
 
     private int mCardHeight = SMALL_CARD;
 
@@ -99,10 +99,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), requireActivity().getIntent().getStringExtra(Extras.Folder));
         mParentId = mFolder.getId();
         MainTitle = mFolder.getName();
-        libraryPreferences = preferencesRepository.getValue().getLibraryDisplayPreferences(mFolder.getDisplayPreferencesId());
-        mPosterSizeSetting = libraryPreferences.get(LibraryDisplayPreferences.Companion.getPosterSize());
-        mImageType = libraryPreferences.get(LibraryDisplayPreferences.Companion.getImageType());
-        mGridDirection = libraryPreferences.get(LibraryDisplayPreferences.Companion.getGridDirection());
+        libraryPreferences = preferencesRepository.getValue().getLibraryPreferences(mFolder.getDisplayPreferencesId());
+        mPosterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
+        mImageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
+        mGridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
         
         if (mGridDirection.equals(GridDirection.VERTICAL))
             setGridPresenter(new VerticalGridPresenter());
@@ -189,9 +189,9 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onResume() {
         super.onResume();
 
-        PosterSize posterSizeSetting = libraryPreferences.get(LibraryDisplayPreferences.Companion.getPosterSize());
-        ImageType imageType = libraryPreferences.get(LibraryDisplayPreferences.Companion.getImageType());
-        GridDirection gridDirection = libraryPreferences.get(LibraryDisplayPreferences.Companion.getGridDirection());
+        PosterSize posterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
+        ImageType imageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
+        GridDirection gridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
 
         if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection) {
             mImageType = imageType;
@@ -283,8 +283,8 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         }
 
         FilterOptions filters = new FilterOptions();
-        filters.setFavoriteOnly(libraryPreferences.get(LibraryDisplayPreferences.Companion.getFilterFavoritesOnly()));
-        filters.setUnwatchedOnly(libraryPreferences.get(LibraryDisplayPreferences.Companion.getFilterUnwatchedOnly()));
+        filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
+        filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
 
         setupRetrieveListeners();
         mGridAdapter.setFilters(filters);
@@ -309,7 +309,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             }
         }
 
-        mGridAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryDisplayPreferences.Companion.getSortBy())));
+        mGridAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
         mGridAdapter.Retrieve();
         determiningPosterSize = false;
     }
@@ -345,10 +345,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected ImageButton mLetterButton;
 
     protected void updateDisplayPrefs() {
-        libraryPreferences.set(LibraryDisplayPreferences.Companion.getFilterFavoritesOnly(), mGridAdapter.getFilters().isFavoriteOnly());
-        libraryPreferences.set(LibraryDisplayPreferences.Companion.getFilterUnwatchedOnly(), mGridAdapter.getFilters().isUnwatchedOnly());
-        libraryPreferences.set(LibraryDisplayPreferences.Companion.getSortBy(), mGridAdapter.getSortBy());
-        libraryPreferences.set(LibraryDisplayPreferences.Companion.getSortOrder(), getSortOption(mGridAdapter.getSortBy()).order);
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mGridAdapter.getFilters().isFavoriteOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mGridAdapter.getFilters().isUnwatchedOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mGridAdapter.getSortBy());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mGridAdapter.getSortBy()).order);
         libraryPreferences.commitBlocking();
     }
 
@@ -370,7 +370,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
                     MenuItem item = sortMenu.getMenu().add(0, key, key, option.name);
-                    if (option.value.equals(libraryPreferences.get(LibraryDisplayPreferences.Companion.getSortBy()))) item.setChecked(true);
+                    if (option.value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy()))) item.setChecked(true);
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

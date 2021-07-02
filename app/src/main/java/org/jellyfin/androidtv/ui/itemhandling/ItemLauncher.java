@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
-import org.jellyfin.androidtv.preference.LibraryDisplayPreferences;
+import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
@@ -58,8 +58,8 @@ public class ItemLauncher {
         switch (baseItem.getCollectionType()) {
             case "movies":
             case "tvshows":
-                LibraryDisplayPreferences displayPreferences = get(PreferencesRepository.class).getLibraryDisplayPreferences(baseItem.getDisplayPreferencesId());
-                boolean enableSmartScreen = displayPreferences.get(LibraryDisplayPreferences.Companion.getEnableSmartScreen());
+                LibraryPreferences displayPreferences = get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
+                boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
                 if (!enableSmartScreen) {
                     // open grid browsing
                     intent = new Intent(context, GenericGridActivity.class);
