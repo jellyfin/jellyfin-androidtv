@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -26,6 +27,10 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
@@ -372,12 +377,25 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 // Load the logo
                 String imageUrl = ImageUtils.getLogoImageUrl(baseItem, apiClient.getValue(), 0, false);
                 if (imageUrl != null) {
-                    Glide.with(requireContext())
-                        .load(imageUrl)
-                        .into(itemLogoView);
-                    itemLogoView.setContentDescription(baseItem.getName());
                     itemLogoView.setVisibility(View.VISIBLE);
                     itemTitleView.setVisibility(View.GONE);
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                itemLogoView.setVisibility(View.GONE);
+                                itemTitleView.setVisibility(View.VISIBLE);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                itemLogoView.setContentDescription(baseItem.getName());
+                                return false;
+                            }
+                        })
+                        .into(itemLogoView);
                 } else {
                     itemLogoView.setVisibility(View.GONE);
                     itemTitleView.setVisibility(View.VISIBLE);
