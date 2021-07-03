@@ -51,7 +51,6 @@ public class CardPresenter extends Presenter {
 
     private boolean isUserView = false;
     private boolean homeHeaderEnabled = false;
-    private boolean homeThumbnailsEnabled = false;
 
     public CardPresenter() {
         super();
@@ -101,7 +100,7 @@ public class CardPresenter extends Presenter {
             mItem = m;
             isUserView = false;
             homeHeaderEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeHeaderEnabled());
-            homeThumbnailsEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
+            boolean homeThumbnailsEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
                 && mItem.getBaseItemType() != null && (mItem.getBaseItemType() == BaseItemType.Series || mItem.getBaseItemType() == BaseItemType.Movie);
             switch (mItem.getItemType()) {
 
@@ -451,7 +450,7 @@ public class CardPresenter extends Presenter {
                 imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
                 blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-                imageTag = ((rowItem.getPreferParentThumb() && (!homeThumbnailsEnabled || rowItem.getBaseItemType() == BaseItemType.Episode)) || !rowItem.getBaseItem().getHasPrimaryImage())
+                imageTag = (rowItem.getPreferParentThumb() && rowItem.getBaseItemType() == BaseItemType.Episode) || !rowItem.getBaseItem().getHasPrimaryImage()
                     ? rowItem.getBaseItem().getParentThumbImageTag()
                     : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
             } else {
