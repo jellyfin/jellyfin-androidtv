@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,10 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -1300,13 +1305,26 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             // Update the logo
             String imageUrl = ImageUtils.getLogoImageUrl(current, apiClient.getValue(), 440, false);
             if (imageUrl != null) {
-                Glide.with(requireContext())
-                        .load(imageUrl)
-                        .centerInside()
-                        .into(binding.itemLogo);
-                binding.itemLogo.setContentDescription(current.getName());
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
+                Glide.with(requireContext())
+                    .load(imageUrl)
+                    .centerInside()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            binding.itemLogo.setContentDescription(current.getName());
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            binding.itemLogo.setVisibility(View.GONE);
+                            binding.itemTitle.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    })
+                    .into(binding.itemLogo);
             } else {
                 binding.itemLogo.setVisibility(View.GONE);
                 binding.itemTitle.setVisibility(View.VISIBLE);
