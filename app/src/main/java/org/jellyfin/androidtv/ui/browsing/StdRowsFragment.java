@@ -300,43 +300,40 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 TextView numbersView = mActivity.findViewById(R.id.numbers_row);
                 TextView itemSubtitleView = mActivity.findViewById(R.id.item_subtitle);
 
-                String itemTitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getSeriesName() : rowItem.getBaseItemType() == BaseItemType.CollectionFolder || rowItem.getBaseItemType() == BaseItemType.UserView ? "" : rowItem.getCardName(requireContext());
+                String itemTitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getSeriesName()
+                    : rowItem.getBaseItemType() == BaseItemType.CollectionFolder || rowItem.getBaseItemType() == BaseItemType.UserView ? ""
+                    : rowItem.getCardName(requireContext());
+
                 String subtitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getName()
                     : baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0 ? baseItem.getTaglines().get(0)
                     : baseItem.getShortOverview() != null ? baseItem.getShortOverview()
                     : baseItem.getOverview() != null ? baseItem.getOverview() : "";
 
-                String numbersString;
-                SpannableStringBuilder numbersSpannableString = null;
+                SpannableStringBuilder numbersString = new SpannableStringBuilder();
                 if (rowItem.getBaseItemType() == BaseItemType.Episode) {
                     if (baseItem.getParentIndexNumber() != null) {
-                        if (baseItem.getParentIndexNumber() == 0) {
-                            numbersString = requireContext().getString(R.string.lbl_special);
-                        } else {
-                            numbersString = requireContext().getString(R.string.lbl_season_number_full, baseItem.getParentIndexNumber());
-                            if (baseItem.getIndexNumber() != null) {
-                                if (baseItem.getIndexNumberEnd() != null) {
-                                    numbersString += " • " + requireContext().getString(R.string.lbl_episode_range_full, baseItem.getIndexNumber(), baseItem.getIndexNumberEnd());
-                                } else {
-                                    numbersString += " • " + requireContext().getString(R.string.lbl_episode_number_full, baseItem.getIndexNumber());
-                                }
-                            }
-                        }
-                    } else if (baseItem.getIndexNumber() != null) {
-                        if (baseItem.getIndexNumberEnd() != null) {
-                            numbersString = requireContext().getString(R.string.lbl_episode_range_full, baseItem.getIndexNumber(), baseItem.getIndexNumberEnd());
-                        } else {
-                            numbersString = requireContext().getString(R.string.lbl_episode_number_full, baseItem.getIndexNumber());
-                        }
-                    } else {
-                        numbersString = "";
+                        if (baseItem.getParentIndexNumber() == 0)
+                            numbersString.append(requireContext().getString(R.string.lbl_special));
+                        else
+                            numbersString.append(requireContext().getString(R.string.lbl_season_number_full, baseItem.getParentIndexNumber()));
+                    }
+                    if (baseItem.getIndexNumber() != null && (baseItem.getParentIndexNumber() == null || baseItem.getParentIndexNumber() != 0)) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        if (baseItem.getIndexNumberEnd() != null)
+                            numbersString.append(requireContext().getString(R.string.lbl_episode_range_full, baseItem.getIndexNumber(), baseItem.getIndexNumberEnd()));
+                        else
+                            numbersString.append(requireContext().getString(R.string.lbl_episode_number_full, baseItem.getIndexNumber()));
                     }
                 } else {
-                    numbersString = baseItem.getProductionYear() != null ? baseItem.getOfficialRating() != null ? baseItem.getProductionYear() + " • " + baseItem.getOfficialRating()
-                        : String.valueOf(baseItem.getProductionYear()) : baseItem.getOfficialRating() != null ? baseItem.getOfficialRating() : "";
-                    if (rowItem.getBaseItemType() == BaseItemType.MusicAlbum) {
-                        if (!numbersString.isEmpty()) numbersString += " • ";
-                        numbersString += rowItem.getSubText(requireContext());
+                    if (baseItem.getProductionYear() != null)
+                        numbersString.append(baseItem.getProductionYear().toString());
+                    if (baseItem.getOfficialRating() != null) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        numbersString.append(baseItem.getOfficialRating());
+                    }
+                    if (rowItem.getBaseItemType() == BaseItemType.MusicAlbum && baseItem.getChildCount() != null && baseItem.getChildCount() > 0) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        numbersString.append(rowItem.getSubText(requireContext()));
                     }
                 }
                 if (rowItem.getBaseItemType() != BaseItemType.UserView && rowItem.getBaseItemType() != BaseItemType.CollectionFolder) {
@@ -347,32 +344,25 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                         if (badge != null) {
                             badge.setBounds(0, 0, numbersView.getLineHeight() + 3, numbersView.getLineHeight() + 3);
                             ImageSpan imageSpan = new ImageSpan(badge);
-                            if (!numbersString.isEmpty()) numbersString += "   ";
-                            numbersSpannableString = new SpannableStringBuilder(numbersString);
-                            numbersSpannableString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
-                            numbersSpannableString.append(" ").append(Integer.toString(Math.round(baseItem.getCriticRating()))).append("%");
+                            if (numbersString.length() > 0) numbersString.append("   ");
+                            numbersString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
+                            numbersString.append(" ").append(Integer.toString(Math.round(baseItem.getCriticRating()))).append("%");
                         }
                     } else if (ratingType == RatingType.RATING_STARS && baseItem.getCommunityRating() != null) {
                         Drawable badge = ContextCompat.getDrawable(requireContext(), R.drawable.ic_star);
                         if (badge != null) {
                             badge.setBounds(0, 0, numbersView.getLineHeight() + 3, numbersView.getLineHeight() + 3);
                             ImageSpan imageSpan = new ImageSpan(badge);
-                            if (!numbersString.isEmpty()) numbersString += "   ";
-                            numbersSpannableString = new SpannableStringBuilder(numbersString);
-                            numbersSpannableString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
-                            numbersSpannableString.append(baseItem.getCommunityRating().toString());
+                            if (numbersString.length() > 0) numbersString.append("   ");
+                            numbersString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
+                            numbersString.append(" ").append(baseItem.getCommunityRating().toString());
                         }
                     }
                 }
 
                 // Load the title and subtitles
                 itemTitleView.setText(itemTitle);
-
-                if (numbersSpannableString != null)
-                    numbersView.setText(numbersSpannableString);
-                else
-                    numbersView.setText(numbersString);
-
+                numbersView.setText(numbersString);
                 itemSubtitleView.setText(subtitle);
                 if (rowItem.getBaseItemType() == BaseItemType.Episode || (baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0))
                     itemSubtitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
