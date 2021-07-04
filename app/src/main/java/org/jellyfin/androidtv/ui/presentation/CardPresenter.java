@@ -1,7 +1,8 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.content.res.Resources;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
@@ -39,8 +40,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 5.414;
@@ -360,7 +359,7 @@ public class CardPresenter extends Presenter {
                             Glide.with(mCardView.getContext())
                                 .load(url)
                                 .error(mDefaultCardImage)
-                                .placeholder(bitmap != null ? new BitmapDrawable(mCardView.getResources(), bitmap) : mDefaultCardImage)
+                                .thumbnail(Glide.with(mCardView.getContext()).load(bitmap != null ? bitmap : mDefaultCardImage).centerCrop())
                                 .transition(DrawableTransitionOptions.withCrossFade(200))
                                 .into(mCardView.getMainImageView());
 
