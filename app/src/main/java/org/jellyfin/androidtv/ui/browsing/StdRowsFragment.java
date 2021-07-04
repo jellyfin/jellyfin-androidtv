@@ -306,10 +306,12 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 TextView itemSubtitleView = mActivity.findViewById(R.id.item_subtitle);
 
                 String itemTitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getSeriesName()
+                    : rowItem.getBaseItemType() == BaseItemType.MusicAlbum ? baseItem.getName()
                     : rowItem.getBaseItemType() == BaseItemType.CollectionFolder || rowItem.getBaseItemType() == BaseItemType.UserView ? ""
                     : rowItem.getCardName(requireContext());
 
                 String subtitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getName()
+                    : rowItem.getBaseItemType() == BaseItemType.MusicAlbum ? baseItem.getAlbumArtist()
                     : baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0 ? baseItem.getTaglines().get(0)
                     : baseItem.getShortOverview() != null ? baseItem.getShortOverview()
                     : baseItem.getOverview() != null ? baseItem.getOverview() : "";
@@ -369,7 +371,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 itemTitleView.setText(itemTitle);
                 numbersView.setText(numbersString);
                 itemSubtitleView.setText(subtitle);
-                if (rowItem.getBaseItemType() == BaseItemType.Episode || (baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0))
+                if (rowItem.getBaseItemType() == BaseItemType.Episode || rowItem.getBaseItemType() == BaseItemType.MusicAlbum || (baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0))
                     itemSubtitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 else
                     itemSubtitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
