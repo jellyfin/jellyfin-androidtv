@@ -383,15 +383,15 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                         .load(imageUrl)
                         .listener(new RequestListener<Drawable>() {
                             @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                itemLogoView.setVisibility(View.GONE);
-                                itemTitleView.setVisibility(View.VISIBLE);
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                itemLogoView.setContentDescription(baseItem.getName());
                                 return false;
                             }
 
                             @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                itemLogoView.setContentDescription(baseItem.getName());
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                itemLogoView.setVisibility(View.GONE);
+                                itemTitleView.setVisibility(View.VISIBLE);
                                 return false;
                             }
                         })
