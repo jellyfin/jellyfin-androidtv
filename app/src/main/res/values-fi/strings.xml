@@ -194,4 +194,18 @@
     <string name="msg_access_restricted">Pääsy rajoitettu</string>
     <string name="msg_video_playback_error">"Toistovirhe "</string>
     <string name="lbl_pause">Keskeytä</string>
+    <string name="lbl_enable_debug">Debug asetukset</string>
+    <string name="lbl_goto_series">Mene sarjaan</string>
+    <string name="pref_audio_compat">Downmix stereoon</string>
+    <string name="msg_remote_already_playing">Etä toisto pyyntö sivuutettu. Pysäytä nykyinen esine ensin.</string>
+    <string name="msg_cancel_entire_series">Haluatko varmasti poistaa tämän KOKO SARJAN\?</string>
+    <string name="lbl_repeat_options">Toisto asetukset</string>
+    <string name="lbl_record_any_time">Nauhoita koska vaan</string>
+    <string name="lbl_record_any_channel">Nauhoita millä tahansa kanavalla</string>
+    <string name="lbl_similar_items_library">Samankaltaisia esineitä kirjastossasi</string>
+    <string name="lbl_end_padding">Lopeta pehmustaminen</string>
+    <string name="lbl_begin_padding">Aloita pehmustaminen</string>
+    <string name="msg_will_record">Nauhoitetaan</string>
+    <string name="msg_recording_now">Nauhoittaa nyt</string>
+    <string name="lbl_tune_to_channel">Vaihda kanavalle</string>
 </resources>
