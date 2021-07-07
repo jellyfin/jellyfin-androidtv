@@ -80,7 +80,7 @@ dependencies {
 	implementation("com.github.jellyfin.jellyfin-sdk-kotlin:android:v0.7.10")
 	// Jellyfin SDK
 	val sdkVersion = findProperty("sdk.version")?.toString()
-	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0-beta.8") {
+	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0") {
 		// Change version if desired
 		when (sdkVersion) {
 			"local" -> version { strictly("latest-SNAPSHOT") }
