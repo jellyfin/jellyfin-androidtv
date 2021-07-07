@@ -425,4 +425,18 @@
     <string name="saved_servers">Serveurs sauvegardés</string>
     <string name="press_to_close">Appuyer pour fermer</string>
     <string name="pref_next_up_behavior_title">Afficher les infos de la prochaine vidéo</string>
+    <string name="lbl_starting_early_ending_after">Commence %1$s plus tôt et termine %2$s après l\'heure prévue</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 chanson</string>
+    <string name="lbl_num_songs">%1$d chansons</string>
+    <string name="lbl_one_episode">1 épisode</string>
+    <string name="lbl_num_episodes">%1$d épisodes</string>
+    <string name="lbl_on_channel">Sur %1$s</string>
+    <string name="lbl_on_any_channel">Sur n\'importe quelle chaîne</string>
+    <string name="lbl_record_all">Enregistrera tous les épisodes</string>
+    <string name="lbl_record_only_new">N\'enregistrera que les nouveaux épisodes</string>
+    <string name="lbl_start_end_on_schedule">Commence et termine à temps</string>
+    <string name="lbl_starting_on_schedule_ending_after">Commence à temps, et termine %1$s après l\'heure prévue</string>
+    <string name="lbl_starting_early_ending_on_schedule">Commence %1$s plus tôt et termine à l\'heure prévue</string>
 </resources>
