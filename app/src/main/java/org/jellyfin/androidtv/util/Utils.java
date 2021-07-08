@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.util;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
-import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,8 +19,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 /**
  * A collection of utility methods, all static.
@@ -143,8 +141,12 @@ public class Utils {
     public static int getMaxBitrate() {
         String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         Long autoRate = get(AutoBitrate.class).getBitrate();
+        if (maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null) {
+            return (int) autoRate.longValue();
+        }
+
         float factor = Float.parseFloat(maxRate) * 10;
-        return Math.min(autoRate != null && factor == 0 ? autoRate.intValue() : ((int) factor * 100000), 100000000);
+        return Math.min((int) factor * 100000, 100000000);
     }
 
     public static int getThemeColor(@NonNull Context context, int resourceId) {

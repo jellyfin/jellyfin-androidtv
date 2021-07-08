@@ -4,5 +4,5 @@ import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.dsl.module
 
 val utilsModule = module {
-	single { AutoBitrate(get()) }
+	single { AutoBitrate(get(userApiClient)) }
 }

@@ -17,6 +17,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
+		/**
+		 * The value used for automatic detection in [maxBitrate].
+		 */
+		const val MAX_BITRATE_AUTO = "0"
+
 		/* Display */
 		/**
 		 * Select the app theme
