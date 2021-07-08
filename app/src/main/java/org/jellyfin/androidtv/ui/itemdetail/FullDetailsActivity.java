@@ -42,6 +42,7 @@ import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
@@ -224,7 +225,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     protected void onResume() {
         super.onResume();
 
-        startClock();
+        ClockBehavior clockBehavior = userPreferences.getValue().get(UserPreferences.Companion.getClockBehavior());
+        if (clockBehavior == ClockBehavior.ALWAYS || clockBehavior == ClockBehavior.IN_MENUS) {
+            startClock();
+        }
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
         if (dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
@@ -434,7 +438,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                     if ((item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0) || item.getOriginalRunTimeTicks() != null) {
                         mDetailsOverviewRow.setInfoItem2(new InfoItem(getString(R.string.lbl_runs), getRunTime()));
-                        mDetailsOverviewRow.setInfoItem3(new InfoItem(getString(R.string.lbl_ends), getEndTime()));
+                        ClockBehavior clockBehavior = userPreferences.getValue().get(UserPreferences.Companion.getClockBehavior());
+                        if (clockBehavior == ClockBehavior.ALWAYS || clockBehavior == ClockBehavior.IN_MENUS) {
+                            mDetailsOverviewRow.setInfoItem3(new InfoItem(getString(R.string.lbl_ends), getEndTime()));
+                        } else {
+                            mDetailsOverviewRow.setInfoItem3(new InfoItem());
+                        }
                     } else {
                         mDetailsOverviewRow.setInfoItem2(new InfoItem());
                         mDetailsOverviewRow.setInfoItem3(new InfoItem());
