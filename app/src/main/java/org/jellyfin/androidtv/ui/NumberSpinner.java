@@ -34,8 +34,7 @@ public class NumberSpinner extends FrameLayout {
 
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.number_spinner, null, false);
-        this.addView(v);
+        View v = inflater.inflate(R.layout.number_spinner, this, true);
         if (!isInEditMode()) {
             mTextValue = (TextView) v.findViewById(R.id.txtValue);
             (v.findViewById(R.id.btnIncrease)).setOnClickListener(new OnClickListener() {

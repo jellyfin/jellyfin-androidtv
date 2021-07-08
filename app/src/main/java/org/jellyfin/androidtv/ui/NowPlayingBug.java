@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -25,9 +28,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
-
 public class NowPlayingBug extends FrameLayout {
     ImageView npIcon;
     TextView npDesc;
@@ -49,8 +49,7 @@ public class NowPlayingBug extends FrameLayout {
     private void init(Context context) {
         this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.now_playing_bug, null, false);
-        this.addView(v);
+        View v = inflater.inflate(R.layout.now_playing_bug, this, true);
         if (!isInEditMode()) {
             npIcon = (ImageView)v.findViewById(R.id.npIcon);
             npDesc = ((TextView) v.findViewById(R.id.npDesc));
