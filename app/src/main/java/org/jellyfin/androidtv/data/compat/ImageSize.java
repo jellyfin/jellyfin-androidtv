@@ -43,7 +43,7 @@ public final class ImageSize {
     }
 
     public boolean equals(ImageSize size) {
-        return (new Double(getWidth())).equals(size.getWidth()) && (new Double(getHeight())).equals(size.getHeight());
+        return (Double.valueOf(getWidth())).equals(size.getWidth()) && (Double.valueOf(getHeight())).equals(size.getHeight());
     }
 
     @Override
