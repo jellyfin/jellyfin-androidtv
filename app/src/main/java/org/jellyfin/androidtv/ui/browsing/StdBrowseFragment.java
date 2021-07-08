@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,9 +54,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     protected String MainTitle;
@@ -232,8 +232,13 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         ViewGroup root = (ViewGroup) getActivity().findViewById(android.R.id.content);
 
         // and add the clock element
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ClockUserView userClock = new ClockUserView(getActivity(), null);
         mClock = userClock.findViewById(R.id.clock);
+        layoutParams.gravity = Gravity.TOP | Gravity.RIGHT;
+        layoutParams.rightMargin = Utils.convertDpToPixel(getActivity(), 40);
+        layoutParams.topMargin = Utils.convertDpToPixel(getActivity(), 20);
+        userClock.setLayoutParams(layoutParams);
         root.addView(userClock);
     }
 
