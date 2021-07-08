@@ -50,9 +50,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 		/* Playback - General*/
 		/**
-		 * Maximum bitrate in megabit for playback. A value of 0 means "auto".
+		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
+		 * the bitrate should be automatically detected.
 		 */
-		var maxBitrate = Preference.string("pref_max_bitrate", "0")
+		var maxBitrate = Preference.string("pref_max_bitrate", "100")
 
 		/**
 		 * Auto-play next item
