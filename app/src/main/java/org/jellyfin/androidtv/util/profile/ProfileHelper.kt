@@ -92,6 +92,21 @@ object ProfileHelper {
 		)
 	}
 
+	val max1080pProfileConditions by lazy {
+		arrayOf(
+			ProfileCondition(
+				ProfileConditionType.LessThanEqual,
+				ProfileConditionValue.Width,
+				"1920"
+			),
+			ProfileCondition(
+				ProfileConditionType.LessThanEqual,
+				ProfileConditionValue.Height,
+				"1080"
+			)
+		)
+	}
+
 	val photoDirectPlayProfile by lazy {
 		DirectPlayProfile().apply {
 			type = DlnaProfileType.Photo

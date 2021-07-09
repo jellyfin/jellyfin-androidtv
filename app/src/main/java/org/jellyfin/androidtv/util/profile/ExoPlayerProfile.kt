@@ -2,11 +2,13 @@ package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
+import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
+import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditions
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
@@ -98,18 +100,19 @@ class ExoPlayerProfile(
 			add(photoDirectPlayProfile)
 		}.toTypedArray()
 
-		codecProfiles = arrayOf(
+		codecProfiles = buildList {
 			// H264 profile
-			CodecProfile().apply {
+			add(CodecProfile().apply {
 				type = CodecType.Video
 				codec = CodecTypes.H264
-				conditions = arrayOf(
-					h264VideoProfileCondition,
-					h264VideoLevelProfileCondition
-				)
-			},
+				conditions = buildList {
+					add(h264VideoProfileCondition)
+					add(h264VideoLevelProfileCondition)
+					if (!DeviceUtils.has4kVideoSupport()) addAll(max1080pProfileConditions)
+				}.toTypedArray()
+			})
 			// H264 ref frames profile
-			CodecProfile().apply {
+			add(CodecProfile().apply {
 				type = CodecType.Video
 				codec = CodecTypes.H264
 				conditions = arrayOf(
@@ -126,9 +129,9 @@ class ExoPlayerProfile(
 						"1200"
 					)
 				)
-			},
+			})
 			// H264 ref frames profile
-			CodecProfile().apply {
+			add(CodecProfile().apply {
 				type = CodecType.Video
 				codec = CodecTypes.H264
 				conditions = arrayOf(
@@ -145,12 +148,19 @@ class ExoPlayerProfile(
 						"1900"
 					)
 				)
-			},
+			})
 			// HEVC profile
-			deviceHevcCodecProfile,
+			add(deviceHevcCodecProfile)
+			// Limit video resolution support for older devices
+			if (!DeviceUtils.has4kVideoSupport()) {
+				add(CodecProfile().apply {
+					type = CodecType.Video
+					conditions = max1080pProfileConditions
+				})
+			}
 			// Audio channel profile
-			maxAudioChannelsCodecProfile(channels = 6)
-		)
+			add(maxAudioChannelsCodecProfile(channels = 6))
+		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
 			subtitleProfile("srt", SubtitleDeliveryMethod.External),
