@@ -1,7 +1,7 @@
 plugins {
 	id("com.android.application")
 	kotlin("android")
-	kotlin("plugin.serialization")
+	kotlin("plugin.serialization") version Plugins.Versions.kotlin
 	kotlin("kapt")
 }
 
@@ -19,17 +19,15 @@ android {
 		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
 	}
 
+	sourceSets["main"].java.srcDirs("src/main/kotlin")
+	sourceSets["test"].java.srcDirs("src/test/kotlin")
+
 	buildFeatures {
 		viewBinding = true
 	}
 
 	compileOptions {
 		isCoreLibraryDesugaringEnabled = true
-	}
-
-	lintOptions {
-		isAbortOnError = false
-		sarifReport = true
 	}
 
 	buildTypes {
@@ -41,15 +39,6 @@ android {
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
-
-			signingConfig = createReleaseSigningConfig()?.let { config ->
-				signingConfigs.create("release") {
-					storeFile = config.storeFile
-					storePassword = config.storePassword
-					keyAlias = config.keyAlias
-					keyPassword = config.keyPassword
-				}
-			}
 		}
 
 		val debug by getting {
@@ -62,6 +51,12 @@ android {
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
 		}
+	}
+
+	lintOptions {
+		lintConfig = file("$rootDir/android-lint.xml")
+		isAbortOnError = false
+		sarifReport = true
 	}
 }
 
@@ -76,12 +71,11 @@ val versionTxt by tasks.registering {
 }
 
 dependencies {
-	// Jellyfin apiclient
-	implementation("com.github.jellyfin.jellyfin-sdk-kotlin:android:v0.7.10")
-	// Jellyfin SDK
-	val sdkVersion = findProperty("sdk.version")?.toString()
-	implementation("org.jellyfin.sdk:jellyfin-platform-android:1.0.0") {
+	// Jellyfin apiclient & SDK
+	implementation(libs.jellyfin.apiclient)
+	implementation(libs.jellyfin.sdk) {
 		// Change version if desired
+		val sdkVersion = findProperty("sdk.version")?.toString()
 		when (sdkVersion) {
 			"local" -> version { strictly("latest-SNAPSHOT") }
 			"snapshot" -> version { strictly("master-SNAPSHOT") }
@@ -90,71 +84,55 @@ dependencies {
 	}
 
 	// Kotlin
-	val kotlinxCoroutinesVersion = "1.4.3"
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")
-
-	val kotlinxSerializationVersion = "1.1.0"
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+	implementation(libs.kotlinx.coroutines)
+	implementation(libs.kotlinx.serialization.json)
 
 	// Android(x)
-	implementation("androidx.core:core-ktx:1.3.2")
-	implementation("androidx.activity:activity-ktx:1.2.2")
-	implementation("androidx.fragment:fragment-ktx:1.3.2")
-	val androidxLeanbackVersion = "1.1.0-beta01"
-	implementation("androidx.leanback:leanback:${androidxLeanbackVersion}")
-	implementation("androidx.leanback:leanback-preference:${androidxLeanbackVersion}")
-	val androidxPreferenceVersion = "1.1.1"
-	implementation("androidx.preference:preference-ktx:$androidxPreferenceVersion")
-	implementation("androidx.appcompat:appcompat:1.2.0")
-	implementation("androidx.tvprovider:tvprovider:1.1.0-alpha01")
-	implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-	implementation("androidx.recyclerview:recyclerview:1.1.0")
-	implementation("androidx.work:work-runtime-ktx:2.5.0")
-	val androidxLifecycleVersion = "2.3.1"
-	implementation("androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion")
-	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion")
-	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion")
-	implementation("androidx.lifecycle:lifecycle-service:$androidxLifecycleVersion")
-	implementation("androidx.window:window:1.0.0-alpha05")
-	implementation("androidx.cardview:cardview:1.0.0")
+	implementation(libs.androidx.core)
+	implementation(libs.androidx.activity)
+	implementation(libs.androidx.fragment)
+	implementation(libs.androidx.leanback.core)
+	implementation(libs.androidx.leanback.preference)
+	implementation(libs.androidx.preference)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.tvprovider)
+	implementation(libs.androidx.constraintlayout)
+	implementation(libs.androidx.recyclerview)
+	implementation(libs.androidx.work.runtime)
+	implementation(libs.bundles.androidx.lifecycle)
+	implementation(libs.androidx.window)
+	implementation(libs.androidx.cardview)
 
 	// Dependency Injection
-	val koinVersion = "2.2.3"
-	implementation("io.insert-koin:koin-android:$koinVersion")
-	implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
-	implementation("io.insert-koin:koin-androidx-fragment:$koinVersion")
+	implementation(libs.bundles.koin)
 
 	// GSON
-	implementation("com.google.code.gson:gson:2.8.6")
+	implementation(libs.gson)
 
 	// Media players
-	implementation("com.google.android.exoplayer:exoplayer:2.14.0")
-	implementation("org.videolan.android:libvlc-all:3.3.14")
+	implementation(libs.exoplayer)
+	implementation(libs.libvlc)
 
 	// Image utility
-	val glideVersion = "4.12.0"
-	implementation("com.github.bumptech.glide:glide:$glideVersion")
-	kapt("com.github.bumptech.glide:compiler:$glideVersion")
-	implementation("com.flaviofaria:kenburnsview:1.0.7")
+	implementation(libs.glide.core)
+	kapt(libs.glide.compiler)
+	implementation(libs.kenburnsview)
 
 	// Crash Reporting
-	val acraVersion = "5.7.0"
-	implementation("ch.acra:acra-http:$acraVersion")
-	implementation("ch.acra:acra-dialog:$acraVersion")
-	implementation("ch.acra:acra-limiter:$acraVersion")
+	implementation(libs.bundles.acra)
 
 	// Logging
-	implementation("com.jakewharton.timber:timber:4.7.1")
-	implementation("uk.uuid.slf4j:slf4j-android:1.7.30-0")
+	implementation(libs.timber)
+	implementation(libs.slf4j.android)
 
 	// Debugging
 	if (getProperty("leakcanary.enable")?.toBoolean() == true)
-		debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
+		debugImplementation(libs.leakcanary)
 
 	// Compatibility (desugaring)
-	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
-	testImplementation("junit:junit:4.13.1")
-	testImplementation("org.mockito:mockito-core:3.2.4")
+	testImplementation(libs.junit)
+	testImplementation(libs.mockito)
 }
