@@ -142,11 +142,10 @@ public class Utils {
         String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         Long autoRate = get(AutoBitrate.class).getBitrate();
         if (maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null) {
-            return (int) autoRate.longValue();
+            return autoRate.intValue();
+        } else {
+            return (int) (Float.parseFloat(maxRate) * 1_000_000);
         }
-
-        float factor = Float.parseFloat(maxRate) * 10;
-        return Math.min((int) factor * 100000, 100000000);
     }
 
     public static int getThemeColor(@NonNull Context context, int resourceId) {
