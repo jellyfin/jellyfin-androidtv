@@ -1011,7 +1011,7 @@ public class PlaybackController {
                 }
 
                 if (mPlaybackState != PlaybackState.PAUSED) {
-                    // Playback was stopped, don't report progress anymore
+                    // Playback is not paused anymore, stop reporting
                     return;
                 }
 
