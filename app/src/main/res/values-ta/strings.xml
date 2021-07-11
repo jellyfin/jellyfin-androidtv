@@ -425,4 +425,18 @@
     <string name="saved_servers">சேமிக்கப்பட்ட சேவையகங்கள்</string>
     <string name="press_to_close">மூட அழுத்தவும்</string>
     <string name="pref_next_up_behavior_title">அடுத்த வீடியோ தகவலைக் காட்டு</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 பாடல்</string>
+    <string name="lbl_num_songs">%1$d பாடல்கள்</string>
+    <string name="lbl_one_episode">1 அத்தியாயம்</string>
+    <string name="lbl_num_episodes">%1$d அத்தியாயங்கள்</string>
+    <string name="lbl_on_channel">%1$s இல்</string>
+    <string name="lbl_on_any_channel">எந்த சேனலிலும்</string>
+    <string name="lbl_record_all">அனைத்து அத்தியாயங்களையும் பதிவு செய்யும்</string>
+    <string name="lbl_record_only_new">புதிய அத்தியாயங்களை மட்டுமே பதிவு செய்யும்</string>
+    <string name="lbl_start_end_on_schedule">அட்டவணையில் தொடங்கி அட்டவணையில் முடிவடைகிறது</string>
+    <string name="lbl_starting_on_schedule_ending_after">அட்டவணையில் தொடங்கி %1$s அட்டவணைக்குப் பிறகு முடிவடைகிறது</string>
+    <string name="lbl_starting_early_ending_on_schedule">%1$s ஆரம்ப மற்றும் அட்டவணையில் முடிவடைகிறத</string>
+    <string name="lbl_starting_early_ending_after">%1$s ஆரம்பம் மற்றும் அட்டவணைக்குப் பிறகு %2$s முடிவடைகிறது</string>
 </resources>
