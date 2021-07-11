@@ -63,7 +63,8 @@ val appModule = module {
 	}
 
 	single<IDevice> {
-		AndroidDevice.fromContext(androidApplication())
+		val sdkInfo = get<JellyfinSdk>().deviceInfo!!
+		AndroidDevice(sdkInfo.id, sdkInfo.name)
 	}
 
 	single {
