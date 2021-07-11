@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="lbl_latest">ഏറ്റവും പുതിയ</string>
+    <string name="msg_not_implemented">" നടപ്പിലാക്കാത്ത"</string>
+    <string name="lbl_search">തിരയുക</string>
+    <string name="lbl_performers">പ്രകടനം നടത്തുന്നവർ</string>
+    <string name="lbl_suggested">നിർദ്ദേശിച്ചു</string>
+    <string name="lbl_by_letter">കത്തിലൂടെ</string>
+    <string name="lbl_views">കാഴ്‌ചകൾ</string>
+    <string name="lbl_on_now">ഇപ്പോൾ</string>
+    <string name="lbl_next_up">അടുത്തത്</string>
+    <string name="lbl_continue_watching">കാണുന്നത് തുടരുക</string>
+    <string name="lbl_settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="pref_general">ജനറൽ</string>
+    <string name="chapters">അധ്യായങ്ങൾ</string>
+    <string name="pref_authentication_cat">പ്രാമാണീകരണം</string>
+    <string name="settings_title">ക്രമീകരണങ്ങൾ</string>
+    <string name="pref_max_bitrate_title">മാക്സ് സ്ട്രീമിംഗ് ബിട്രേറ്റ്</string>
+    <string name="pref_playback">പ്ലേബാക്ക്</string>
+    <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="btn_cancel">റദ്ദാക്കുക</string>
+    <string name="loading">ലോഡിംഗ്…</string>
+    <string name="video_error_unknown_error">വീഡിയോ ലോഡുചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു</string>
+</resources>
