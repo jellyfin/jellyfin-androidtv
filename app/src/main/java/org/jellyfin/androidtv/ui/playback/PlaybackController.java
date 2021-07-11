@@ -1010,8 +1010,8 @@ public class PlaybackController {
                     return;
                 }
 
-                if (mPlaybackState != PlaybackState.PLAYING) {
-                    // Playback was stopped, don't report progress anymore
+                if (mPlaybackState != PlaybackState.PAUSED) {
+                    // Playback is not paused anymore, stop reporting
                     return;
                 }
 
