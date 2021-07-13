@@ -11,7 +11,7 @@ acra = "5.7.0"
 # Jellyfin apiclient
 jellyfin-apiclient = { module = "com.github.jellyfin.jellyfin-sdk-kotlin:android", version = "v0.7.10" }
 # Jellyfin SDK
-jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-platform-android", version = "1.0.0" }
+jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-platform-android", version = "1.0.1" }
 
 # Kotlin
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
