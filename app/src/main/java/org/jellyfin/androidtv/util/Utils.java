@@ -141,7 +141,7 @@ public class Utils {
     public static int getMaxBitrate() {
         String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         Long autoRate = get(AutoBitrate.class).getBitrate();
-        if (maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null) {
+        if (maxRate.equals(UserPreferences.MAX_BITRATE_AUTO) && autoRate != null) {
             return autoRate.intValue();
         } else {
             return (int) (Float.parseFloat(maxRate) * 1_000_000);
