@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
@@ -13,7 +14,8 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 fun OptionsScreen.authenticationCategory(
 	authenticationRepository: AuthenticationRepository,
-	authenticationPreferences: AuthenticationPreferences
+	authenticationPreferences: AuthenticationPreferences,
+	sessionRepository: SessionRepository,
 ) = category {
 	setTitle(R.string.lbl_settings)
 
@@ -38,7 +40,10 @@ fun OptionsScreen.authenticationCategory(
 				authenticationPreferences,
 				AuthenticationPreferences.systemUserBehavior,
 				AuthenticationPreferences.systemUserId
-			)
+			) {
+				// Update current system session
+				sessionRepository.restoreDefaultSystemSession()
+			}
 		}
 	}
 }
@@ -50,6 +55,7 @@ private fun OptionsBinder.Builder<UserSelection>.from(
 	authenticationPreferences: AuthenticationPreferences,
 	userBehaviorPreference: Preference<UserSelectBehavior>,
 	userIdPreference: Preference<String>,
+	onSet: ((UserSelection) -> Unit)? = null,
 ) {
 	get {
 		UserSelection(
@@ -61,6 +67,8 @@ private fun OptionsBinder.Builder<UserSelection>.from(
 	set {
 		authenticationPreferences[userBehaviorPreference] = it.behavior
 		authenticationPreferences[userIdPreference] = it.userId?.toString().orEmpty()
+
+		onSet?.invoke(it)
 	}
 
 	default {
