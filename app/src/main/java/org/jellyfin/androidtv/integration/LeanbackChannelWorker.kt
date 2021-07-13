@@ -31,9 +31,9 @@ import org.koin.core.component.inject
 import java.time.ZoneOffset
 
 /**
- * Manages channels on the android tv home screen
+ * Manages channels on the android tv home screen.
  *
- * More info: https://developer.android.com/training/tv/discovery/recommendations-channel
+ * More info: https://developer.android.com/training/tv/discovery/recommendations-channel.
  */
 @KoinApiExtension
 class LeanbackChannelWorker(
@@ -42,7 +42,7 @@ class LeanbackChannelWorker(
 ) : CoroutineWorker(context, workerParams), KoinComponent {
 	companion object {
 		/**
-		 * Amount of ticks found in a millisecond, used for calculation
+		 * Amount of ticks found in a millisecond, used for calculation.
 		 */
 		private const val TICKS_IN_MILLISECOND = 10000
 
@@ -56,13 +56,16 @@ class LeanbackChannelWorker(
 	private val userPreferences by inject<UserPreferences>()
 
 	/**
-	 * Check if the app can use Leanback features and is API level 26 or higher
+	 * Check if the app can use Leanback features and is API level 26 or higher.
 	 */
-	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-		&& context.packageManager.hasSystemFeature("android.software.leanback")
+	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+		// Check for leanback support
+		context.packageManager.hasSystemFeature("android.software.leanback")
+		// Check for "android.media.tv" provider to workaround a false-positive in the previous check
+		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
 
 	/**
-	 * Update all channels for the currently authenticated user
+	 * Update all channels for the currently authenticated user.
 	 */
 	override suspend fun doWork(): Result = when {
 		// Fail when not supported
@@ -87,9 +90,9 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Get the uri for a channel or create it if it doesn't exist.
-	 * Uses the [settings] parameter to update or create the channel.
-	 * The [name] parameter is used to store the id and should be unique.
+	 * Get the uri for a channel or create it if it doesn't exist. Uses the [settings] parameter to
+	 * update or create the channel. The [name] parameter is used to store the id and should be
+	 * unique.
 	 */
 	private fun getChannelUri(name: String, settings: Channel): Uri {
 		val store = context.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
@@ -119,7 +122,7 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Updates the "my media" row with current media libraries
+	 * Updates the "my media" row with current media libraries.
 	 */
 	private suspend fun updateMyMedia() {
 		// Get channel
@@ -158,8 +161,8 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Gets the poster art for an item
-	 * Uses the [preferParentThumb] parameter to fetch the series image when preferred
+	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
+	 * image when preferred.
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
 		preferParentThumb && this.parentThumbItemId != null && seriesId != null -> imageApi.getItemImageUrl(
@@ -179,7 +182,7 @@ class LeanbackChannelWorker(
 	}.let(Uri::parse)
 
 	/**
-	 * Gets the next up episodes or returns null
+	 * Gets the next up episodes or returns null.
 	 */
 	private suspend fun getNextUpItems(): BaseItemDtoQueryResult? {
 		return tvShowsApi.getNextUp(
@@ -191,8 +194,8 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Updates the "next up" row with current episodes
-	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
+	 * Updates the "next up" row with current episodes. Uses the [nextUpItems] parameter to store
+	 * items returned by a NextUpQuery().
 	 */
 	private suspend fun updateNextUp(nextUpItems: BaseItemDtoQueryResult?) {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
@@ -234,9 +237,9 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Updates the "watch next" row with new and unfinished episodes
-	 * Does not include movies, music or other types of media
-	 * Uses the [nextUpItems] parameter to store items returned by a NextUpQuery()
+	 * Updates the "watch next" row with new and unfinished episodes. Does not include movies, music
+	 * or other types of media. Uses the [nextUpItems] parameter to store items returned by a
+	 * NextUpQuery().
 	 */
 	private suspend fun updateWatchNext(nextUpItems: BaseItemDtoQueryResult?) {
 		// Delete current items
@@ -252,9 +255,7 @@ class LeanbackChannelWorker(
 	}
 
 	/**
-	 * Convert [BaseItemDto] to [WatchNextProgram]
-	 *
-	 * Assumes the item type is "episode"
+	 * Convert [BaseItemDto] to [WatchNextProgram]. Assumes the item type is "episode".
 	 */
 	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
