@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -33,7 +35,6 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.util.AutoBitrate;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
@@ -55,8 +56,6 @@ import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class MediaManager {
     private ItemRowAdapter mCurrentMediaAdapter;
@@ -563,8 +562,8 @@ public class MediaManager {
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
-        Long maxBitrate = get(AutoBitrate.class).getBitrate();
-        if (maxBitrate != null) options.setMaxBitrate(maxBitrate.intValue());
+        Integer maxBitrate = Utils.getMaxBitrate();
+        if (maxBitrate != null) options.setMaxBitrate(maxBitrate);
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile;
         if (DeviceUtils.is60()) {
