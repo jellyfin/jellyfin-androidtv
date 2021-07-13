@@ -47,8 +47,8 @@ class DisplayPreferencesScreen : OptionsFragment() {
 				)
 
 				bind {
-					get { displayPreferences.getCustomPrefs().get("PosterSize") ?: PosterSize.AUTO }
-					set { displayPreferences.getCustomPrefs().set("PosterSize", it) }
+					get { displayPreferences.customPrefs["PosterSize"] ?: PosterSize.AUTO }
+					set { displayPreferences.customPrefs["PosterSize"] = it }
 					default { PosterSize.AUTO }
 				}
 			}
@@ -61,16 +61,16 @@ class DisplayPreferencesScreen : OptionsFragment() {
 				)
 
 				bind {
-					get { displayPreferences.getCustomPrefs().get("ImageType") ?: ImageType.DEFAULT }
-					set { displayPreferences.getCustomPrefs().set("ImageType", it) }
+					get { displayPreferences.customPrefs["ImageType"] ?: ImageType.DEFAULT }
+					set { displayPreferences.customPrefs["ImageType"] = it }
 					default { ImageType.DEFAULT }
 				}
 			}
 			enum<GridDirection> {
 				setTitle(R.string.grid_direction)
 				bind {
-					get { GridDirection.getGridDirection(displayPreferences.getCustomPrefs().get("GridDirection")) ?: GridDirection.HORIZONTAL }
-					set { displayPreferences.getCustomPrefs().set("GridDirection", it.name) }
+					get { GridDirection.getGridDirection(displayPreferences.customPrefs["GridDirection"]) ?: GridDirection.HORIZONTAL }
+					set { displayPreferences.customPrefs["GridDirection"] = it.name }
 					default { GridDirection.HORIZONTAL }
 				}
 			}
@@ -82,8 +82,8 @@ class DisplayPreferencesScreen : OptionsFragment() {
 					contentOff = contentOn
 
 					bind {
-						get { displayPreferences.getCustomPrefs().get("DefaultView") ?: ViewType.SMART == ViewType.SMART }
-						set { displayPreferences.getCustomPrefs().set("DefaultView", if (it) ViewType.SMART else ViewType.GRID) }
+						get { displayPreferences.customPrefs["DefaultView"] ?: ViewType.SMART == ViewType.SMART }
+						set { displayPreferences.customPrefs["DefaultView"] = if (it) ViewType.SMART else ViewType.GRID }
 						default { true }
 					}
 				}
