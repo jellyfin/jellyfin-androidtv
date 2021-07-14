@@ -205,7 +205,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
     protected void setupUIElements() {
         if (ShowBadge)
-            setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo_transparent));
+            setBadgeDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.app_logo));
 
         setTitle(MainTitle); // Badge, when set, takes precedent over title
         setHeadersState(HEADERS_DISABLED);

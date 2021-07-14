@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="18dp"
+        android:drawable="@drawable/app_icon_foreground"
+        android:end="18dp"
+        android:start="18dp"
+        android:top="18dp"></item>
+</layer-list>
