@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,19 +53,14 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected FragmentActivity mActivity;
@@ -375,40 +373,27 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
-                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                            @Override
-                            public void onResponse(DisplayPreferences response) {
-                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                                requireActivity().startActivity(folderIntent);
-                            }
-                        });
+                        Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
+                        folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        requireActivity().startActivity(folderIntent);
                         break;
 
                     case ALBUMS:
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AL");
-                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                            @Override
-                            public void onResponse(DisplayPreferences response) {
-                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                                folderIntent.putExtra(Extras.IncludeType, "MusicAlbum");
-                                requireActivity().startActivity(folderIntent);
-                            }
-                        });
+
+                        Intent albumsIntent = new Intent(getActivity(), GenericGridActivity.class);
+                        albumsIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        albumsIntent.putExtra(Extras.IncludeType, "MusicAlbum");
+                        requireActivity().startActivity(albumsIntent);
                         break;
 
                     case ARTISTS:
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
-                        TvApp.getApplication().getDisplayPrefsAsync(mFolder.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                            @Override
-                            public void onResponse(DisplayPreferences response) {
-                                Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                                folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                                folderIntent.putExtra(Extras.IncludeType, "AlbumArtist");
-                                requireActivity().startActivity(folderIntent);
-                            }
-                        });
+
+                        Intent artistsIntent = new Intent(getActivity(), GenericGridActivity.class);
+                        artistsIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        artistsIntent.putExtra(Extras.IncludeType, "AlbumArtist");
+                        requireActivity().startActivity(artistsIntent);
                         break;
 
                     case BY_LETTER:
