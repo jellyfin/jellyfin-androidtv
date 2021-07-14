@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
 import org.jellyfin.androidtv.ui.browsing.StdRowsFragment
@@ -29,9 +30,10 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
 
-class HomeFragment : StdRowsFragment(), AudioEventListener {
+class HomeFragment : StdRowsFragment(true), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
 	private val mediaManager by inject<MediaManager>()
+	private val userPreferences by inject<UserPreferences>()
 	private val helper by lazy { HomeFragmentHelper(requireContext()) }
 
 	// Data
@@ -44,9 +46,10 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		val homeHeaderEnabled = userPreferences[UserPreferences.homeHeaderEnabled]
 		// Create adapter/presenter and set it to parent
-		mRowsAdapter = ArrayObjectAdapter(PositionableListRowPresenter())
-		mCardPresenter = CardPresenter()
+		mRowsAdapter = ArrayObjectAdapter(PositionableListRowPresenter(homeHeaderEnabled))
+		mCardPresenter = if (homeHeaderEnabled) CardPresenter(false, 246) else CardPresenter()
 		adapter = mRowsAdapter
 
 		super.onCreate(savedInstanceState)

@@ -1,9 +1,19 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
+import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -14,11 +24,20 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+
+import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -27,8 +46,11 @@ import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 import java.util.ArrayList;
@@ -50,8 +72,19 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     protected boolean justLoaded = true;
+    protected boolean homeSection = false;
 
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+
+    public StdRowsFragment() {
+
+    }
+
+    public StdRowsFragment(boolean homeSection) {
+        this.homeSection = homeSection;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -250,6 +283,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
 
             mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
+            BaseItemDto baseItem = rowItem.getBaseItem();
 
             if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
                 //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
@@ -257,7 +291,118 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }
 
-            backgroundService.getValue().setBackground(rowItem.getBaseItem());
+            backgroundService.getValue().setBackground(baseItem);
+
+            if (homeSection && userPreferences.getValue().get(UserPreferences.Companion.getHomeHeaderEnabled())) {
+                LinearLayout itemInfoView = mActivity.findViewById(R.id.item_info);
+                itemInfoView.setVisibility(View.VISIBLE);
+
+                TextView rowHeader = mActivity.findViewById(R.id.home_row_header);
+                rowHeader.setText(row.getHeaderItem().getName());
+
+                ImageView itemLogoView = mActivity.findViewById(R.id.item_logo);
+                TextView itemTitleView = mActivity.findViewById(R.id.item_title);
+                TextView numbersView = mActivity.findViewById(R.id.numbers_row);
+                TextView itemSubtitleView = mActivity.findViewById(R.id.item_subtitle);
+
+                String itemTitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getSeriesName()
+                    : rowItem.getBaseItemType() == BaseItemType.MusicAlbum ? baseItem.getName()
+                    : rowItem.getBaseItemType() == BaseItemType.CollectionFolder || rowItem.getBaseItemType() == BaseItemType.UserView ? ""
+                    : rowItem.getCardName(requireContext());
+
+                String subtitle = rowItem.getBaseItemType() == BaseItemType.Episode ? baseItem.getName()
+                    : rowItem.getBaseItemType() == BaseItemType.MusicAlbum ? baseItem.getAlbumArtist()
+                    : baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0 ? baseItem.getTaglines().get(0)
+                    : baseItem.getShortOverview() != null ? baseItem.getShortOverview()
+                    : baseItem.getOverview() != null ? baseItem.getOverview() : "";
+
+                SpannableStringBuilder numbersString = new SpannableStringBuilder();
+                if (rowItem.getBaseItemType() == BaseItemType.Episode) {
+                    if (baseItem.getParentIndexNumber() != null) {
+                        if (baseItem.getParentIndexNumber() == 0)
+                            numbersString.append(requireContext().getString(R.string.lbl_special));
+                        else
+                            numbersString.append(requireContext().getString(R.string.lbl_season_number_full, baseItem.getParentIndexNumber()));
+                    }
+                    if (baseItem.getIndexNumber() != null && (baseItem.getParentIndexNumber() == null || baseItem.getParentIndexNumber() != 0)) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        if (baseItem.getIndexNumberEnd() != null)
+                            numbersString.append(requireContext().getString(R.string.lbl_episode_range_full, baseItem.getIndexNumber(), baseItem.getIndexNumberEnd()));
+                        else
+                            numbersString.append(requireContext().getString(R.string.lbl_episode_number_full, baseItem.getIndexNumber()));
+                    }
+                } else {
+                    if (baseItem.getProductionYear() != null)
+                        numbersString.append(baseItem.getProductionYear().toString());
+                    if (baseItem.getOfficialRating() != null) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        numbersString.append(baseItem.getOfficialRating());
+                    }
+                    if (rowItem.getBaseItemType() == BaseItemType.MusicAlbum && baseItem.getChildCount() != null && baseItem.getChildCount() > 0) {
+                        if (numbersString.length() > 0) numbersString.append(" • ");
+                        numbersString.append(rowItem.getSubText(requireContext()));
+                    }
+                }
+                if (rowItem.getBaseItemType() != BaseItemType.UserView && rowItem.getBaseItemType() != BaseItemType.CollectionFolder) {
+                    RatingType ratingType = userPreferences.getValue().get(UserPreferences.Companion.getDefaultRatingType());
+                    if (ratingType == RatingType.RATING_TOMATOES && baseItem.getCriticRating() != null) {
+                        Drawable badge = baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(requireContext(), R.drawable.ic_rt_fresh)
+                            : ContextCompat.getDrawable(requireContext(), R.drawable.ic_rt_rotten);
+                        if (badge != null) {
+                            badge.setBounds(0, 0, numbersView.getLineHeight() + 3, numbersView.getLineHeight() + 3);
+                            ImageSpan imageSpan = new ImageSpan(badge);
+                            if (numbersString.length() > 0) numbersString.append("   ");
+                            numbersString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
+                            numbersString.append(" ").append(Integer.toString(Math.round(baseItem.getCriticRating()))).append("%");
+                        }
+                    } else if (ratingType == RatingType.RATING_STARS && baseItem.getCommunityRating() != null) {
+                        Drawable badge = ContextCompat.getDrawable(requireContext(), R.drawable.ic_star);
+                        if (badge != null) {
+                            badge.setBounds(0, 0, numbersView.getLineHeight() + 3, numbersView.getLineHeight() + 3);
+                            ImageSpan imageSpan = new ImageSpan(badge);
+                            if (numbersString.length() > 0) numbersString.append("   ");
+                            numbersString.setSpan(imageSpan, numbersString.length() - 1, numbersString.length(), 0);
+                            numbersString.append(" ").append(baseItem.getCommunityRating().toString());
+                        }
+                    }
+                }
+
+                // Load the title and subtitles
+                itemTitleView.setText(itemTitle);
+                numbersView.setText(numbersString);
+                itemSubtitleView.setText(subtitle);
+                if (rowItem.getBaseItemType() == BaseItemType.Episode || rowItem.getBaseItemType() == BaseItemType.MusicAlbum || (baseItem.getTaglines() != null && baseItem.getTaglines().size() > 0))
+                    itemSubtitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                else
+                    itemSubtitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+
+                // Load the logo
+                String imageUrl = ImageUtils.getLogoImageUrl(baseItem, apiClient.getValue(), 0, false);
+                if (imageUrl != null) {
+                    itemLogoView.setVisibility(View.VISIBLE);
+                    itemTitleView.setVisibility(View.GONE);
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                itemLogoView.setContentDescription(baseItem.getName());
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                itemLogoView.setVisibility(View.GONE);
+                                itemTitleView.setVisibility(View.VISIBLE);
+                                return false;
+                            }
+                        })
+                        .into(itemLogoView);
+                } else {
+                    itemLogoView.setVisibility(View.GONE);
+                    itemTitleView.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 }

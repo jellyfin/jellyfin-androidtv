@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -33,6 +34,7 @@ import java.util.Date;
 
 import kotlin.Lazy;
 
+import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class BaseRowItem {
@@ -51,6 +53,7 @@ public class BaseRowItem {
     protected boolean staticHeight = false;
     private SelectAction selectAction = SelectAction.ShowDetails;
     private boolean isPlaying;
+    private boolean homeItem = false;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
@@ -62,6 +65,11 @@ public class BaseRowItem {
         this(index, item, preferParentThumb, staticHeight, SelectAction.ShowDetails);
     }
 
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, boolean homeItem) {
+        this(index, item, preferParentThumb, staticHeight);
+        this.homeItem = homeItem;
+    }
+
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
@@ -69,6 +77,11 @@ public class BaseRowItem {
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
+    }
+
+    public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction, boolean homeItem) {
+        this(index, item, preferParentThumb, staticHeight, selectAction);
+        this.homeItem = homeItem;
     }
 
     public BaseRowItem(int index, ChannelInfoDto channel) {
@@ -246,7 +259,10 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
+                return homeItem && get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
+                    && getBaseItemType() != null && (getBaseItemType() == BaseItemType.Series || getBaseItemType() == BaseItemType.Movie)
+                    ? ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight)
+                    : ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
             case Person:
                 return ImageUtils.getPrimaryImageUrl(person, apiClient.getValue(), maxHeight);
             case User:
@@ -583,6 +599,10 @@ public class BaseRowItem {
 
     public void setIsPlaying(boolean value) {
         isPlaying = value;
+    }
+
+    public boolean isHomeItem() {
+        return homeItem;
     }
 
     public enum ItemType {
