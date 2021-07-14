@@ -61,18 +61,17 @@ public class ItemLauncher {
                 switch (baseItem.getCollectionType()) {
                     case "movies":
                     case "tvshows":
-                    case "music":
                         Timber.d("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
-                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
-                            // open grid browsing
-                            intent = new Intent(context, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                        } else {
+                        if (ViewType.SMART.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open user view browsing
                             intent = new Intent(context, UserViewActivity.class);
-                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                        } else {
+                            // open grid browsing
+                            intent = new Intent(context, GenericGridActivity.class);
                         }
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         break;
+                    case "music":
                     case "livetv":
                         // open user view browsing
                         intent = new Intent(context, UserViewActivity.class);
