@@ -82,9 +82,9 @@ class DisplayPreferencesScreen : OptionsFragment() {
 					contentOff = contentOn
 
 					bind {
-						get { displayPreferences.customPrefs["DefaultView"] ?: ViewType.SMART == ViewType.SMART }
+						get { displayPreferences.customPrefs["DefaultView"] ?: ViewType.GRID == ViewType.SMART }
 						set { displayPreferences.customPrefs["DefaultView"] = if (it) ViewType.SMART else ViewType.GRID }
-						default { true }
+						default { false }
 					}
 				}
 			}
