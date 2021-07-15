@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.auth
 
 import org.jellyfin.apiclient.interaction.device.IDevice
+import org.jellyfin.sdk.model.DeviceInfo
 import java.security.MessageDigest
 
 /**
@@ -20,4 +21,9 @@ class AuthenticationDevice(
 	}
 
 	override val deviceName = parent.deviceName
+
+	fun toDeviceInfo() = DeviceInfo(
+		id = deviceId,
+		name = deviceName
+	)
 }
