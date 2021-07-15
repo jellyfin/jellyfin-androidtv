@@ -103,12 +103,7 @@ class AuthenticationRepositoryImpl(
 			}
 
 			authenticationStore.getUser(server.id, user.id)?.let { storedUser ->
-				authenticationStore.putUser(server.id, user.id, storedUser.copy(
-					name = user.name,
-					requirePassword = user.requirePassword,
-					imageTag = user.imageTag,
-					lastUsed = Date().time
-				))
+				authenticationStore.putUser(server.id, user.id, storedUser.copy(lastUsed = Date().time))
 			}
 		}
 

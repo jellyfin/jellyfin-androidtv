@@ -102,10 +102,13 @@ class ServerRepositoryImpl(
 		getServerPublicUsers(server)
 			.sortedBy { it.name }
 			.forEach { user ->
-				if (users.none { it.id == user.id })
-					users.add(user)
-				else
-					users[users.indexOfFirst { it.id == user.id }] = user
+				val index = users.indexOfFirst { it.id == user.id }
+				if (index == -1) users.add(user)
+				else users[index] = (users[index] as PrivateUser).copy(
+					name = user.name,
+					requirePassword = user.requirePassword,
+					imageTag = user.imageTag
+				)
 			}
 
 		emit(users.toList())
