@@ -246,7 +246,7 @@ class AuthenticationRepositoryImpl(
 		val api = jellyfin.createApi(baseUrl = server.address)
 		val imageApi = ImageApi(api)
 
-		return imageApi.getUserImageUrl(
+		return if (user.imageTag == null) null else imageApi.getUserImageUrl(
 			userId = user.id,
 			tag = user.imageTag,
 			imageType = ImageType.PRIMARY,
