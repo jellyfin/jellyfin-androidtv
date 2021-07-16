@@ -15,11 +15,10 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class ItemListView extends FrameLayout {
     Context mContext;
@@ -88,7 +87,7 @@ public class ItemListView extends FrameLayout {
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         String[] ids = new String[mItemIds.size()];
         query.setIds(mItemIds.toArray(ids));
-        get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null) {

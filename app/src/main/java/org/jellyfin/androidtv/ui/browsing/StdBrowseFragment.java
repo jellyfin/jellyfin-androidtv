@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Intent;
@@ -48,6 +47,7 @@ import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +95,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     public void onResume() {
         super.onResume();
 
-        ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
+        ClockBehavior showClock = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
 
         if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_MENUS)
             mClock.setVisibility(View.VISIBLE);
@@ -103,7 +103,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             mClock.setVisibility(View.GONE);
 
         //React to deletion
-        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter)mCurrentRow.getAdapter()).remove(mCurrentItem);
             dataRefreshService.setLastDeletedItemId(null);

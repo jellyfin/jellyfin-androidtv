@@ -11,8 +11,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
-
-import static org.koin.java.KoinJavaComponent.get;
+import org.koin.java.KoinJavaComponent;
 
 public class ByGenreFragment extends CustomViewFragment {
     @Override
@@ -30,7 +29,7 @@ public class ByGenreFragment extends CustomViewFragment {
             if (includeType != null) genres.setIncludeItemTypes(new String[]{includeType});
             genres.setRecursive(true);
             genres.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            get(ApiClient.class).GetGenresAsync(genres, new Response<ItemsResult>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetGenresAsync(genres, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     for (BaseItemDto genre : response.getItems()) {

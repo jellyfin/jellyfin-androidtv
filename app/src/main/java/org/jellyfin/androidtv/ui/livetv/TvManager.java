@@ -36,6 +36,7 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +51,6 @@ import java.util.TimeZone;
 
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 public class TvManager {
     private static List<ChannelInfoDto> allChannels;
     private static String[] channelIds;
@@ -64,11 +63,11 @@ public class TvManager {
     private static LiveTvPrefs prefs = new LiveTvPrefs();
 
     public static String getLastLiveTvChannel() {
-        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
+        return KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
     }
 
     public static void setLastLiveTvChannel(String id) {
-        SystemPreferences systemPreferences = get(SystemPreferences.class);
+        SystemPreferences systemPreferences = KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class);
         systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
         systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
@@ -76,7 +75,7 @@ public class TvManager {
     }
 
     public static String getPrevLiveTvChannel() {
-        return get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel());
+        return KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvPrevChannel());
     }
 
     public static List<ChannelInfoDto> getAllChannels() {
@@ -200,7 +199,7 @@ public class TvManager {
         query.setSortOrder("DatePlayed".equals(prefs.channelOrder) ? SortOrder.Descending : null);
         query.setSortBy(new String[] {"DatePlayed".equals(prefs.channelOrder) ? "DatePlayed" : "SortName"});
         Timber.d("*** About to load channels");
-        get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(final ChannelInfoDtoResult response) {
                 Timber.d("*** channel query response");
@@ -284,7 +283,7 @@ public class TvManager {
 
             Timber.d("*** About to get programs");
 
-            get(ApiClient.class).GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvProgramsAsync(query, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     Timber.d("*** About to build dictionary");
@@ -397,7 +396,7 @@ public class TvManager {
     }
 
     public static void getScheduleRowsAsync(Context context, TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
-        get(ApiClient.class).GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
                 List<BaseItemDto> currentTimers = new ArrayList<>();
