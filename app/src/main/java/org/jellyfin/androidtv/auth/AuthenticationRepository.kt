@@ -8,11 +8,13 @@ import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName;
 import org.jellyfin.sdk.api.operations.ImageApi
 import org.jellyfin.sdk.api.operations.UserApi
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
 import java.util.*
 
@@ -35,6 +37,7 @@ class AuthenticationRepositoryImpl(
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
+	private val userApiClient: KtorClient,
 ) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
@@ -142,7 +145,30 @@ class AuthenticationRepositoryImpl(
 			// Access token found, proceed with sign in
 			account?.accessToken != null -> when {
 				// Update session
-				setActiveSession(user, server) -> emit(AuthenticatedState)
+				setActiveSession(user, server) -> {
+					// Update stored user
+					try {
+						val response = UserApi(userApiClient).getCurrentUser()
+						val userInfo = response.content
+						val currentUser = authenticationStore.getUser(server.id, user.id)
+
+						val updatedUser = currentUser?.copy(
+							name = userInfo.name!!,
+							requirePassword = userInfo.hasPassword,
+							imageTag = userInfo.primaryImageTag
+						) ?: AuthenticationStoreUser(
+							name = userInfo.name!!,
+							requirePassword = userInfo.hasPassword,
+							imageTag = userInfo.primaryImageTag
+						)
+						authenticationStore.putUser(server.id, user.id, updatedUser)
+						accountManagerHelper.putAccount(AccountManagerAccount(user.id, server.id, updatedUser.name, account.accessToken))
+					} catch(err: ApiClientException) {
+						Timber.e(err, "Unable to get current user data")
+					}
+
+					emit(AuthenticatedState)
+				}
 				// Login failed
 				else -> when {
 					// No password required - try login
