@@ -64,6 +64,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.MediaUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;

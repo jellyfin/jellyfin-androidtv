@@ -971,14 +971,14 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
-        ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 if (mPlaybackState == PlaybackState.PLAYING) {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
-                    ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
+                    ReportingHelper.reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
                 if (mPlaybackState != PlaybackState.UNDEFINED && mPlaybackState != PlaybackState.IDLE) {
                     mHandler.postDelayed(this, PROGRESS_REPORTING_INTERVAL);
@@ -989,7 +989,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
-        ReportingHelper.reportProgress(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1010,7 +1010,7 @@ public class PlaybackController {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
-                ReportingHelper.reportProgress(currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
+                ReportingHelper.reportProgress(PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
                 mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };

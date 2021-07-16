@@ -182,7 +182,10 @@ public class MediaManager {
 
         //Report progress to server every 5 secs
         if (System.currentTimeMillis() > lastProgressReport + 5000) {
-            ReportingHelper.reportProgress(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
+
+            // FIXME: Don't use the getApplication method..
+            PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
+            ReportingHelper.reportProgress(playbackController, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
         }
 

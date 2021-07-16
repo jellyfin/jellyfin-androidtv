@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.MediaUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;

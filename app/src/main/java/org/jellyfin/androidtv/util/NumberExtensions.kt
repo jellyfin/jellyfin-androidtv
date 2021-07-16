@@ -1,9 +1,8 @@
 package org.jellyfin.androidtv.util
 
-import org.jellyfin.androidtv.TvApp
+import android.content.Context
 
 /**
  * Current (pixel) value as display pixels
  */
-val Int.dp: Int
-	get() = Utils.convertDpToPixel(TvApp.getApplication()!!, this)
+fun Int.dp(context: Context): Int = Utils.convertDpToPixel(context, this)

@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +14,12 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
 public class RemoteControlReceiver extends BroadcastReceiver {
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //TvApp.getApplication().getLogger().Debug("****** In remote receiver. ");
+        //Timber.d("****** In remote receiver. ");
         if ((TvApp.getApplication().getCurrentActivity() == null || !(TvApp.getApplication().getCurrentActivity() instanceof AudioNowPlayingActivity )) && mediaManager.getValue().isPlayingAudio()) {
             //Respond to media button presses
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {

@@ -9,6 +9,7 @@ import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.SessionRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -33,6 +34,7 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
+import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -498,8 +500,9 @@ public class KeyProcessor {
     }
 
     private static void toggleLikes(Boolean likes) {
+        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
         if (likes == null) {
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).ClearUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<UserItemDataDto>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).ClearUserItemRatingAsync(mCurrentItemId, userId.toString(), new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     if (mCurrentActivity instanceof BaseActivity)
@@ -514,7 +517,7 @@ public class KeyProcessor {
             });
 
         } else {
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateUserItemRatingAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId(), likes, new Response<UserItemDataDto>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateUserItemRatingAsync(mCurrentItemId, userId.toString(), likes, new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     if (mCurrentActivity instanceof BaseActivity)
