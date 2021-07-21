@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="256dp"
+                android:height="384dp" />
+            <solid android:color="?attr/tile_port_guide_bg" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="124dp"
+        android:drawable="@drawable/ic_tv_guide"
+        android:left="60dp"
+        android:right="60dp"
+        android:top="124dp" />
+</layer-list>

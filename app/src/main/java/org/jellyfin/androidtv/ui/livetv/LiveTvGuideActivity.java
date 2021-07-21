@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.LiveTvPrefs;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
@@ -70,7 +71,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
-    private static final int IMAGE_SIZE = Utils.convertDpToPixel(TvApp.getApplication(), 150);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
     public static final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
     public static final int PAGE_SIZE = 75;
@@ -110,7 +110,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
     private long mLastFocusChanged;
-    private boolean mLoadLastChannel;
 
     private Handler mHandler = new Handler();
 
@@ -219,9 +218,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
             }
         });
-
-        //auto launch channel if indicated
-        mLoadLastChannel = getIntent().getBooleanExtra("loadLast", false);
     }
 
     private int getGuideHours() {
@@ -270,17 +266,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     protected void onResume() {
         super.onResume();
 
-        if (mLoadLastChannel) {
-            mLoadLastChannel = false;
-            String channel = TvManager.getLastLiveTvChannel();
-            if (TvManager.getAllChannelsIndex(channel) != -1) {
-                PlaybackHelper.retrieveAndPlay(channel, false, this);
-            } else {
-                doLoad();
-            }
-        } else {
-            doLoad();
-        }
+        doLoad();
     }
 
     protected void doLoad() {
@@ -372,7 +358,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    Utils.beep();
                     PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
                     return true;
                 }
@@ -417,7 +402,8 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
-                    TvApp.getApplication().dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
+                    DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                    dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                 }
             });
         }
@@ -474,10 +460,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private FilterPopup mFilterPopup;
     class FilterPopup {
-
-        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 250);
-        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 400);
-
         PopupWindow mPopup;
         LiveTvGuideActivity mActivity;
         CheckBox mMovies;
@@ -494,11 +476,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mActivity = activity;
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.guide_filter_popup, null);
-            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
+            int popupWidth = Utils.convertDpToPixel(activity, 250);
+            int popupHeight = Utils.convertDpToPixel(activity, 400);
+            mPopup = new PopupWindow(layout, popupWidth, popupHeight);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
             mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mPopup.setAnimationStyle(R.style.WindowAnimation_SlideRight);
             mMovies = layout.findViewById(R.id.movies);
             mSeries = layout.findViewById(R.id.series);
             mNews = layout.findViewById(R.id.news);
@@ -557,10 +541,6 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
     private OptionsPopup mOptionsPopup;
     class OptionsPopup {
-
-        final int WIDTH = Utils.convertDpToPixel(TvApp.getApplication(), 300);
-        final int HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 460);
-
         PopupWindow mPopup;
         LiveTvGuideActivity mActivity;
         CheckBox mHd;
@@ -580,11 +560,13 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
             mActivity = activity;
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.guide_options_popup, null);
-            mPopup = new PopupWindow(layout, WIDTH, HEIGHT);
+            int popupWidth = Utils.convertDpToPixel(activity, 300);
+            int popupHeight = Utils.convertDpToPixel(activity, 460);
+            mPopup = new PopupWindow(layout, popupWidth, popupHeight);
             mPopup.setFocusable(true);
             mPopup.setOutsideTouchable(true);
             mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.PopupSlideInRight);
+            mPopup.setAnimationStyle(R.style.WindowAnimation_SlideRight);
             mHd = layout.findViewById(R.id.hd);
             mRepeat = layout.findViewById(R.id.repeat);
             mLive = layout.findViewById(R.id.live);
@@ -953,7 +935,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(TimeUtils.getFriendlyDate(mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(this, mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * PIXELS_PER_MINUTE;
@@ -1009,9 +991,14 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
 
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
-            Glide.with(mActivity).load(url).override(IMAGE_SIZE, IMAGE_SIZE).centerInside().into(mImage);
+            int imageSize = Utils.convertDpToPixel(this, 150);
+            Glide.with(mActivity)
+                    .load(url)
+                    .override(imageSize, imageSize)
+                    .centerInside()
+                    .into(mImage);
 
             if (Utils.isTrue(mSelectedProgram.getIsNews())) {
                 mBackdrop.setImageResource(R.drawable.banner_news);

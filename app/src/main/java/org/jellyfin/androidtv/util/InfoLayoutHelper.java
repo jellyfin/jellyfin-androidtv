@@ -1,16 +1,20 @@
 package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexboxLayout;
+import androidx.annotation.NonNull;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.ClockBehavior;
+import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
@@ -19,14 +23,14 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
-    private static int BTMARGIN = Utils.convertDpToPixel(TvApp.getApplication(), -2);
 
     public static void addInfoRow(Activity activity, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
@@ -39,6 +43,7 @@ public class InfoLayoutHelper {
                 break;
         }
     }
+
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
@@ -49,7 +54,10 @@ public class InfoLayoutHelper {
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        addCriticInfo(activity, item, layout);
+        RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+        if (ratingType != RatingType.RATING_HIDDEN) {
+            addCriticInfo(activity, item, layout);
+        }
         switch (item.getBaseItemType()) {
             case Episode:
                 addSeasonEpisode(activity, item, layout);
@@ -168,21 +176,21 @@ public class InfoLayoutHelper {
         layout.addView(name);
     }
 
-    private static void addProgramInfo(Activity activity, BaseItemDto item, LinearLayout layout) {
+    private static void addProgramInfo(@NonNull Activity activity, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(activity);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramSubText(item)+"  ");
+        name.setText(BaseItemUtils.getProgramSubText(item, activity)+"  ");
         layout.addView(name);
 
         if (BaseItemUtils.isNew(item)) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(activity, layout, "  ");
         } else if (Utils.isTrue(item.getIsSeries()) && !Utils.isTrue(item.getIsNews())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
         }
         if (Utils.isTrue(item.getIsLive())) {
-            addBlockText(activity, layout, TvApp.getApplication().getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(activity, layout, activity.getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
             addSpacer(activity, layout, "  ");
 
         }
@@ -192,12 +200,16 @@ public class InfoLayoutHelper {
         layout.removeAllViews();
         TextView text = new TextView(activity);
         text.setTextSize(textSize);
-        text.setText(item.getSubText() + " ");
+        text.setText(item.getSubText(activity) + " ");
         layout.addView(text);
 
     }
 
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeEndtime) {
+        ClockBehavior clockBehavior = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
+        if (clockBehavior != ClockBehavior.ALWAYS && clockBehavior != ClockBehavior.IN_MENUS) {
+            includeEndtime = false;
+        }
         Long runtime = Utils.getSafeValue(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
@@ -211,7 +223,10 @@ public class InfoLayoutHelper {
 
     private static void addSeasonEpisode(Activity activity, BaseItemDto item, LinearLayout layout) {
         if (item.getIndexNumber() != null) {
-            String text = (item.getParentIndexNumber() != null ? "S"+item.getParentIndexNumber() : "") +" E"+item.getIndexNumber() + (item.getIndexNumberEnd() != null ? "-" + item.getIndexNumberEnd() : "")+"  ";
+            String text = (item.getParentIndexNumber() != null ? activity.getString(R.string.lbl_season_number, item.getParentIndexNumber()) : "")
+                + (item.getIndexNumberEnd() != null && item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_range, item.getIndexNumber(), item.getIndexNumberEnd())
+                : item.getIndexNumber() != null ? " " + activity.getString(R.string.lbl_episode_number, item.getIndexNumber()) : "")
+                + "  ";
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
@@ -226,7 +241,7 @@ public class InfoLayoutHelper {
         boolean hasSomething = false;
         if (item.getCommunityRating() != null) {
             ImageView star = new ImageView(activity);
-            star.setImageResource(R.drawable.star);
+            star.setImageResource(R.drawable.ic_star);
             star.setLayoutParams(imageParams);
             layout.addView(star);
 
@@ -242,9 +257,9 @@ public class InfoLayoutHelper {
             ImageView tomato = new ImageView(activity);
             tomato.setLayoutParams(imageParams);
             if (item.getCriticRating() > 59) {
-                tomato.setImageResource(R.drawable.fresh);
+                tomato.setImageResource(R.drawable.ic_rt_fresh);
             } else {
-                tomato.setImageResource(R.drawable.rotten);
+                tomato.setImageResource(R.drawable.ic_rt_rotten);
             }
 
             layout.addView(tomato);
@@ -260,19 +275,19 @@ public class InfoLayoutHelper {
         if (hasSomething) addSpacer(activity, layout, "  ");
     }
 
-    private static void addDate(Activity activity, BaseItemDto item, LinearLayout layout) {
-        TextView date = new TextView(activity);
+    private static void addDate(@NonNull Context context, BaseItemDto item, LinearLayout layout) {
+        TextView date = new TextView(context);
         date.setTextSize(textSize);
         switch (item.getBaseItemType()) {
             case Person:
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
-                    sb.append(TvApp.getApplication().getString(R.string.lbl_born));
-                    sb.append(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
+                    sb.append(context.getString(R.string.lbl_born));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     sb.append("  |  Died ");
-                    sb.append(new SimpleDateFormat("d MMM y").format(item.getEndDate()));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     sb.append(" (");
                     sb.append(TimeUtils.numYears(item.getPremiereDate(), item.getEndDate()));
                     sb.append(")");
@@ -290,28 +305,28 @@ public class InfoLayoutHelper {
             case Program:
             case TvChannel:
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getStartDate()))
-                            + "-"+ android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getEndDate())));
+                    date.setText(DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(item.getStartDate()))
+                            + "-"+ DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(item.getEndDate())));
                     layout.addView(date);
-                    addSpacer(activity, layout, "    ");
+                    addSpacer(context, layout, "    ");
                 }
                 break;
             case Series:
                 if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 }
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(new SimpleDateFormat("d MMM y").format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
+                    date.setText(DateFormat.getMediumDateFormat(context).format(TimeUtils.convertToLocalDate(item.getPremiereDate())));
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
                     date.setText(item.getProductionYear().toString());
                     layout.addView(date);
-                    addSpacer(activity, layout, "  ");
+                    addSpacer(context, layout, "  ");
                 }
                 break;
         }
@@ -381,26 +396,17 @@ public class InfoLayoutHelper {
         view.setText(" " + text + " ");
         view.setBackgroundResource(backgroundRes);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        params.setMargins(0,BTMARGIN,0,0);
+        params.setMargins(0,Utils.convertDpToPixel(activity, -2),0,0);
         view.setLayoutParams(params);
         layout.addView(view);
-
     }
 
-    private static void addSpacer(Activity activity, LinearLayout layout, String sp) {
-        addSpacer(activity, layout, sp, textSize);
+    private static void addSpacer(Context context, LinearLayout layout, String sp) {
+        addSpacer(context, layout, sp, textSize);
     }
 
-    public static void addSpacer(Activity activity, LinearLayout layout, String sp, int size) {
-        TextView mSpacer = new TextView(activity);
-        mSpacer.setTextSize(size);
-        mSpacer.setText(sp);
-        layout.addView(mSpacer);
-
-    }
-
-    public static void addSpacer(Activity activity, FlexboxLayout layout, String sp, int size) {
-        TextView mSpacer = new TextView(activity);
+    public static void addSpacer(Context context, LinearLayout layout, String sp, int size) {
+        TextView mSpacer = new TextView(context);
         mSpacer.setTextSize(size);
         mSpacer.setText(sp);
         layout.addView(mSpacer);

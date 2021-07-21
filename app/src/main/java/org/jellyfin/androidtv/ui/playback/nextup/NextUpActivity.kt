@@ -1,83 +1,56 @@
 package org.jellyfin.androidtv.ui.playback.nextup
 
-import android.graphics.Bitmap
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.leanback.app.BackgroundManager
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.util.apiclient.getItem
-import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import timber.log.Timber
+import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
+import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NextUpActivity : FragmentActivity(), KoinComponent {
-	private lateinit var fragment: NextUpFragment
-	private val apiClient: ApiClient by inject()
+class NextUpActivity : FragmentActivity() {
+	companion object {
+		const val EXTRA_ID = "id"
+		const val EXTRA_USE_EXTERNAL_PLAYER = "useExternalPlayer"
+	}
+
+	private val viewModel: NextUpViewModel by viewModel()
+	private val backgroundService: BackgroundService by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		val useExternalPlayer = intent.getBooleanExtra(EXTRA_USE_EXTERNAL_PLAYER, false)
 
-		val id = intent.getStringExtra("id")
-		if (id == null) {
-			Timber.e("No id found in bundle at onCreate().")
-			finish()
-			return
+		// Observe state
+		viewModel.state.observe(this) { state ->
+			when (state) {
+				// Open next item
+				NextUpState.PLAY_NEXT -> {
+					when (useExternalPlayer) {
+						true -> startActivity(Intent(this, ExternalPlayerActivity::class.java))
+						false -> startActivity(Intent(this, PlaybackOverlayActivity::class.java))
+					}
+					finish()
+				}
+				// Close activity
+				NextUpState.CLOSE -> finish()
+				// Unknown state
+				else -> Unit
+			}
 		}
 
 		// Add background manager
-		BackgroundManager.getInstance(this).attach(window)
+		backgroundService.attach(this)
+
+		// Add fragment
+		supportFragmentManager
+			.beginTransaction()
+			.add(android.R.id.content, NextUpFragment())
+			.commit()
 
 		// Load item info
-		GlobalScope.launch(Dispatchers.Main) {
-			val data = loadItemData(id)
-
-			if (data == null) {
-				Timber.e("Unable to load data at onCreate().")
-				finish()
-				return@launch
-			}
-
-			// Create fragment
-			fragment = NextUpFragment(data)
-			supportFragmentManager
-				.beginTransaction()
-				.add(android.R.id.content, fragment)
-				.commit()
-		}
-	}
-
-	private fun safelyLoadBitmap(url: String): Bitmap? = try {
-		Glide.with(this).asBitmap().load(url).submit().get()
-	} catch (e: Exception) {
-		null
-	}
-
-	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val item = apiClient.getItem(id) ?: return@withContext null
-
-		val backdrop = apiClient.GetBackdropImageUrls(item, ImageOptions()).firstOrNull()
-		val thumbnail = apiClient.GetImageUrl(item, ImageOptions())
-		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
-
-		val title = if (item.indexNumber != null && item.name != null)
-			"${item.indexNumber}. ${item.name}"
-		else if (item.name != null)
-			item.name
-		else ""
-
-		NextUpItemData(
-			item.id,
-			title,
-			item.overview,
-			backdrop?.let { safelyLoadBitmap(it) },
-			thumbnail?.let { safelyLoadBitmap(it) },
-			logo?.let { safelyLoadBitmap(it) }
-		)
+		val id = intent.getStringExtra(EXTRA_ID)
+		viewModel.setItemId(id)
 	}
 }

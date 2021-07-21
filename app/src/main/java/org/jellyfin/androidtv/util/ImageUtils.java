@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv.util;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.res.Resources;
 
 import androidx.annotation.AnyRes;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
@@ -29,7 +29,7 @@ public class ImageUtils {
     public static final double ASPECT_RATIO_16_9 = 1.779;
     public static final double ASPECT_RATIO_7_9 = .777777777;
 
-    private static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
+    public static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
 
     private static final List<BaseItemType> THUMB_FALLBACK_TYPES = Collections.singletonList(BaseItemType.Episode);
     private static final List<BaseItemType> PROGRESS_INDICATOR_TYPES = Arrays.asList(BaseItemType.Episode, BaseItemType.Movie, BaseItemType.MusicVideo, BaseItemType.Video);
@@ -121,9 +121,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(itemId, options);
     }
 
-    public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getBannerImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasBanner()) {
-            return getPrimaryImageUrl(item, apiClient, false, maxHeight);
+            return getPrimaryImageUrl(context, item, apiClient, false, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -144,9 +144,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getThumbImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasThumb()) {
-            return getPrimaryImageUrl(item, apiClient, true, maxHeight);
+            return getPrimaryImageUrl(context, item, apiClient, true, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -155,13 +155,13 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(item, apiClient, false, preferParentThumb, false, maxHeight);
+    public static String getPrimaryImageUrl(Context context, BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
+        return getPrimaryImageUrl(context, item, apiClient, false, preferParentThumb, false, maxHeight);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+    public static String getPrimaryImageUrl(Context context, BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
         if (item.getBaseItemType() == BaseItemType.SeriesTimer) {
-            return getResourceUrl(R.drawable.tile_land_series_timer);
+            return getResourceUrl(context, R.drawable.tile_land_series_timer);
         }
 
         ImageOptions options = new ImageOptions();
@@ -227,11 +227,7 @@ public class ImageUtils {
         return apiClient.GetImageUrl(itemId, options);
     }
 
-    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient) {
-        return getLogoImageUrl(item, apiClient, 440);
-    }
-
-    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth) {
+    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth, boolean useSeriesFallback) {
         if (item != null) {
             ImageOptions options = new ImageOptions();
             options.setMaxWidth(maxWidth);
@@ -242,7 +238,7 @@ public class ImageUtils {
             } else if (item.getParentLogoImageTag() != null) {
                 options.setTag(item.getParentLogoImageTag());
                 return apiClient.GetImageUrl(item.getParentLogoItemId(), options);
-            } else if (item.getSeriesId() != null) {
+            } else if (useSeriesFallback && item.getSeriesId() != null) {
                 options.setTag(null);
                 return apiClient.GetImageUrl(item.getSeriesId(), options);
             }
@@ -279,8 +275,8 @@ public class ImageUtils {
      * @param resourceId The id of the image resource
      * @return The URL of the image resource
      */
-    public static String getResourceUrl(@AnyRes int resourceId) {
-        Resources resources = TvApp.getApplication().getApplicationContext().getResources();
+    public static String getResourceUrl(Context context, @AnyRes int resourceId) {
+        Resources resources = context.getResources();
 
         return String.format("%s://%s/%s/%s", ContentResolver.SCHEME_ANDROID_RESOURCE, resources.getResourcePackageName(resourceId), resources.getResourceTypeName(resourceId), resources.getResourceEntryName(resourceId));
     }

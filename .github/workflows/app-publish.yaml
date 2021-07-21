@@ -1,0 +1,67 @@
+name: App Publish
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    if: ${{ github.repository == 'jellyfin/jellyfin-androidtv' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+      - name: Set JELLYFIN_VERSION
+        run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
+      - name: Assemble release files
+        run: ./gradlew --no-daemon --info assemble versionTxt
+      - name: Sign proprietary APK
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Prepare release archive
+        run: |
+          mkdir -p build/jellyfin-publish
+          mv app/build/outputs/apk/*/jellyfin-androidtv-*-debug.apk build/jellyfin-publish/
+          mv app/build/outputs/apk/*/jellyfin-androidtv-*-release-unsigned.apk build/jellyfin-publish/
+          mv ${{ steps.sign.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.apk
+          mv app/build/version.txt build/jellyfin-publish/
+      - name: Upload release archive to GitHub release
+        uses: alexellis/upload-assets@0.3.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["build/jellyfin-publish/*"]'
+      - name: Upload release archive to repo.jellyfin.org
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -vrptz
+          path: build/jellyfin-publish/
+          remote_path: /srv/repository/releases/client/androidtv/versions/v${{ env.JELLYFIN_VERSION }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+      - name: Update repo.jellyfin.org symlinks
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          envs: JELLYFIN_VERSION
+          script_stop: true
+          script: |
+            cd /srv/repository/releases/client/androidtv;
+            rm -rf *.apk version.txt;
+            ln -s versions/v${JELLYFIN_VERSION}/jellyfin-androidtv-v${JELLYFIN_VERSION}-*.apk .;
+            ln -s versions/v${JELLYFIN_VERSION}/version.txt .;

@@ -1,39 +1,56 @@
 package org.jellyfin.androidtv.ui.presentation;
 
+import static org.koin.java.KoinJavaComponent.get;
+
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.BaseCardView;
 import androidx.leanback.widget.Presenter;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ImageType;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.RatingType;
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
+import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.BlurHashUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import timber.log.Timber;
 
 public class CardPresenter extends Presenter {
-    private static final String TAG = "CardPresenter";
     private static final double ASPECT_RATIO_BANNER = 5.414;
 
     private int mStaticHeight = 300;
     private String mImageType = ImageType.DEFAULT;
+    private double aspect;
 
     private boolean mShowInfo = true;
+
+    private boolean isUserView = false;
 
     public CardPresenter() {
         super();
@@ -54,19 +71,21 @@ public class CardPresenter extends Presenter {
         mStaticHeight = staticHeight;
     }
 
-    static class ViewHolder extends Presenter.ViewHolder {
+    class ViewHolder extends Presenter.ViewHolder {
         private int cardWidth = 230;
         private int cardHeight = 280;
 
         private BaseRowItem mItem;
-        private MyImageCardView mCardView;
+        private LegacyImageCardView mCardView;
         private Drawable mDefaultCardImage;
+        private final LifecycleOwner lifecycleOwner;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, LifecycleOwner lifecycleOwner) {
             super(view);
 
-            mCardView = (MyImageCardView) view;
+            mCardView = (LegacyImageCardView) view;
             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+            this.lifecycleOwner = lifecycleOwner;
         }
 
         public int getCardHeight() {
@@ -79,13 +98,13 @@ public class CardPresenter extends Presenter {
 
         public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
+            isUserView = false;
             switch (mItem.getItemType()) {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
                     boolean showWatched = true;
                     boolean showProgress = false;
-                    double aspect;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
                     } else if (imageType.equals(ImageType.THUMB)) {
@@ -118,10 +137,12 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
+                            aspect = ImageUtils.ASPECT_RATIO_16_9;
                             switch (itemDto.getLocationType()) {
                                 case FileSystem:
                                     break;
@@ -139,9 +160,12 @@ public class CardPresenter extends Presenter {
                             mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                             break;
                         case CollectionFolder:
+                        case UserView:
                             // Force the aspect ratio to 16x9 because the server is returning the wrong value of 1
+                            // When this is fixed we should still force 16x9 if an image is not set to be consistent
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
+                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_folder);
+                            isUserView = true;
                             break;
                         case Folder:
                         case MovieGenreFolder:
@@ -149,7 +173,6 @@ public class CardPresenter extends Presenter {
                         case MovieGenre:
                         case Genre:
                         case MusicGenre:
-                        case UserView:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);
                             break;
                         case Photo:
@@ -164,10 +187,12 @@ public class CardPresenter extends Presenter {
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                     }
                     cardHeight = !m.isStaticHeight() ? (aspect > 1 ? lHeight : pHeight) : sHeight;
@@ -183,10 +208,17 @@ public class CardPresenter extends Presenter {
                     }
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null) {
+                        WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
                         if (userData.getPlayed()) {
-                            mCardView.setUnwatchedCount(0);
+                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getBaseItemType() == BaseItemType.Episode))
+                                mCardView.setUnwatchedCount(0);
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         } else if (userData.getUnplayedItemCount() != null) {
-                            mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            if (showIndicator == WatchedIndicatorBehavior.ALWAYS)
+                                mCardView.setUnwatchedCount(userData.getUnplayedItemCount());
+                            else
+                                mCardView.setUnwatchedCount(-1);
                         }
                     }
 
@@ -311,56 +343,59 @@ public class CardPresenter extends Presenter {
             return mItem;
         }
 
-        public MyImageCardView getCardView() {
-            return mCardView;
-        }
-
-        protected void updateCardViewImage(String url) {
+        protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
-                            .load("nothing")
-                            .fitCenter()
-                            .error(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
+                        .load(mDefaultCardImage)
+                        .into(mCardView.getMainImageView());
                 } else {
+                    BlurHashUtils.createBlurHashDrawable(
+                        lifecycleOwner,
+                        blurHash,
+                        (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                        (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
+                        bitmap -> {
+                            Glide.with(mCardView.getContext())
+                                .load(url)
+                                .error(mDefaultCardImage)
+                                .thumbnail(Glide.with(mCardView.getContext()).load(bitmap != null ? bitmap : mDefaultCardImage).centerCrop())
+                                .transition(DrawableTransitionOptions.withCrossFade(200))
+                                .into(mCardView.getMainImageView());
 
-                    Glide.with(mCardView.getContext())
-                            .asBitmap()
-                            .load(url)
-                            .override(cardWidth, cardHeight)
-                            .error(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
+                            return null;
+                        }
+                    );
                 }
             } catch (IllegalArgumentException e) {
                 Timber.i("Image load aborted due to activity closing");
             }
         }
 
-        protected void resetCardViewImage() {
+        protected void resetCardView() {
             mCardView.clearBanner();
             mCardView.setUnwatchedCount(-1);
             mCardView.setProgress(0);
+            mCardView.setRating(null);
+            mCardView.setBadgeImage(null);
 
-            try {
-                Glide.with(mCardView.getContext())
-                        .load(ContextCompat.getDrawable(mCardView.getContext(), R.drawable.loading))
-                        .fitCenter()
-                        .error(mDefaultCardImage)
-                        .into(mCardView.getMainImageView());
-            } catch (IllegalArgumentException e) {
-                Timber.i("Image reset aborted due to activity closing");
-            }
+            mCardView.getMainImageView().setImageDrawable(null);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        MyImageCardView cardView = new MyImageCardView(parent.getContext(), mShowInfo);
+        LegacyImageCardView cardView = new LegacyImageCardView(parent.getContext(), mShowInfo);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
-        cardView.setBackgroundColor(TvApp.getApplication().getResources().getColor(R.color.lb_basic_card_info_bg_color));
-        return new ViewHolder(cardView);
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = parent.getContext().getTheme();
+        theme.resolveAttribute(R.attr.cardViewBackground, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        cardView.setBackgroundColor(color);
+
+        return new ViewHolder(cardView, ViewTreeLifecycleOwner.get(parent));
     }
 
     @Override
@@ -376,8 +411,8 @@ public class CardPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
 
-        holder.mCardView.setTitleText(rowItem.getCardName());
-        holder.mCardView.setContentText(rowItem.getSubText());
+        holder.mCardView.setTitleText(rowItem.getCardName(holder.mCardView.getContext()));
+        holder.mCardView.setContentText(rowItem.getSubText(holder.mCardView.getContext()));
         if (ImageType.DEFAULT.equals(mImageType)) {
             holder.mCardView.setOverlayInfo(rowItem);
         }
@@ -386,19 +421,52 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);
-            Drawable badge = rowItem.getBadgeImage();
-            if (badge != null) {
-                ((ViewHolder) viewHolder).mCardView.setBadgeImage(badge);
+
+            if (holder.getItem().getBaseItemType() != BaseItemType.UserView) {
+                RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+                if (ratingType == RatingType.RATING_TOMATOES) {
+                    Drawable badge = rowItem.getBadgeImage();
+                    holder.mCardView.setRating(null);
+                    if (badge != null) {
+                        holder.mCardView.setBadgeImage(badge);
+                    }
+                } else if (ratingType == RatingType.RATING_STARS &&
+                        rowItem.getBaseItem() != null && rowItem.getBaseItem().getCommunityRating() != null) {
+                    holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
+                    holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
+                }
             }
         }
 
-        ((ViewHolder) viewHolder).updateCardViewImage(rowItem.getImageUrl(mImageType, ((ViewHolder) viewHolder).getCardHeight()));
+        String blurHash = null;
+        if (rowItem.getBaseItem() != null && rowItem.getBaseItem().getImageBlurHashes() != null) {
+            HashMap<String, String> blurHashMap;
+            String imageTag;
+            if (aspect == ASPECT_RATIO_BANNER) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+            } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemType.Episode || !rowItem.getBaseItem().getHasPrimaryImage() || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getHasPrimaryImage()) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+            } else {
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+            }
+
+            if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null && blurHashMap.get(imageTag) != null) {
+                blurHash = blurHashMap.get(imageTag);
+            }
+        }
+
+        holder.updateCardViewImage(
+                rowItem.getImageUrl(holder.mCardView.getContext(), mImageType, holder.getCardHeight()),
+                blurHash
+        );
     }
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        //Get the image out of there so won't be there if recycled
-        ((ViewHolder) viewHolder).resetCardViewImage();
+        ((ViewHolder) viewHolder).resetCardView();
     }
 
     @Override

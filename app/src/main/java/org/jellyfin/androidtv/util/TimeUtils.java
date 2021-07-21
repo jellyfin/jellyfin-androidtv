@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.util;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -56,10 +56,10 @@ public class TimeUtils {
         }
     }
 
-    public static String formatSeconds(int seconds) {
+    public static String formatSeconds(Context context, int seconds) {
         // Seconds
         if (seconds < SECS_PER_MIN) {
-            return seconds + " " + TvApp.getApplication().getString(R.string.lbl_seconds);
+            return seconds + " " + context.getString(R.string.lbl_seconds);
         }
 
         StringBuilder builder = new StringBuilder();
@@ -68,9 +68,9 @@ public class TimeUtils {
             builder.append(seconds / SECS_PER_MIN)
                     .append(" ");
             if (seconds < 2 * SECS_PER_MIN) {
-                builder.append(TvApp.getApplication().getString(R.string.lbl_minute));
+                builder.append(context.getString(R.string.lbl_minute));
             } else {
-                builder.append(TvApp.getApplication().getString(R.string.lbl_minutes));
+                builder.append(context.getString(R.string.lbl_minutes));
             }
             return builder.toString();
         }
@@ -79,9 +79,9 @@ public class TimeUtils {
         builder.append(seconds / SECS_PER_HR)
                 .append(" ");
         if (seconds < 2 * SECS_PER_HR) {
-            builder.append(TvApp.getApplication().getString(R.string.lbl_hour));
+            builder.append(context.getString(R.string.lbl_hour));
         } else {
-            builder.append(TvApp.getApplication().getString(R.string.lbl_hours));
+            builder.append(context.getString(R.string.lbl_hours));
         }
         return builder.toString();
     }
@@ -141,29 +141,29 @@ public class TimeUtils {
         return age;
     }
 
-    public static String getFriendlyDate(Date date) {
-        return getFriendlyDate(date, false);
+    public static String getFriendlyDate(Context context, Date date) {
+        return getFriendlyDate(context, date, false);
     }
 
-    public static String getFriendlyDate(Date date, boolean relative) {
+    public static String getFriendlyDate(Context context, Date date, boolean relative) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         Calendar now = Calendar.getInstance();
         if (cal.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
-                return TvApp.getApplication().getString(R.string.lbl_today);
+                return context.getString(R.string.lbl_today);
             }
             if (cal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR) + 1) {
-                return TvApp.getApplication().getString(R.string.lbl_tomorrow);
+                return context.getString(R.string.lbl_tomorrow);
             }
             if (cal.get(Calendar.DAY_OF_YEAR) < now.get(Calendar.DAY_OF_YEAR) + 7 && cal.get(Calendar.DAY_OF_YEAR) > now.get(Calendar.DAY_OF_YEAR)) {
                 return cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
             }
             if (relative) {
-                return TvApp.getApplication().getString(R.string.lbl_in_x_days, cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
+                return context.getString(R.string.lbl_in_x_days, cal.get(Calendar.DAY_OF_YEAR) - now.get(Calendar.DAY_OF_YEAR));
             }
         }
 
-        return DateFormat.getDateFormat(TvApp.getApplication()).format(date);
+        return DateFormat.getDateFormat(context).format(date);
     }
 }

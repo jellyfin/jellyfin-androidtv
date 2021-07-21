@@ -2,10 +2,10 @@ package org.jellyfin.androidtv.ui.preference.dsl
 
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.preference.ListPreference
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.preference.Preference
-import org.jellyfin.androidtv.preference.SharedPreferenceStore
+import org.jellyfin.androidtv.preference.PreferenceStore
+import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import java.util.*
 
 class OptionsItemEnum<T : Enum<T>>(
@@ -18,15 +18,13 @@ class OptionsItemEnum<T : Enum<T>>(
 
 	// Add exact copy of the OptionsItemMutable.bind function so the correct
 	// store getter and setter will be used.
-	override fun bind(store: SharedPreferenceStore, preference: Preference<T>) = bind {
+	override fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
 		get { store[preference] }
 		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }
 	}
 
-	private fun getValueByString(value: String) = clazz.enumConstants?.first { it.name == value }
-
-	private fun getEntries(): Map<String, String> {
+	private fun getEntries(): Map<T, String> {
 		return clazz.enumConstants?.mapNotNull { entry ->
 			val options = clazz
 				.getDeclaredField(entry.name)
@@ -36,9 +34,9 @@ class OptionsItemEnum<T : Enum<T>>(
 				// Options set but entry is hidden
 				options?.hidden == true -> null
 				// Options not set or name not set
-				options == null || options.name == -1 -> Pair(entry.name, entry.name)
+				options == null || options.name == -1 -> Pair(entry, entry.name)
 				// Options set and name set
-				else -> Pair(entry.name, context.getString(options.name))
+				else -> Pair(entry, context.getString(options.name))
 			}
 		}?.toMap().orEmpty()
 	}
@@ -46,20 +44,21 @@ class OptionsItemEnum<T : Enum<T>>(
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val entries = getEntries()
 
-		val pref = ListPreference(context).also {
+		val pref = RichListPreference<T>(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
-			it.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
-			it.entryValues = entries.keys.toTypedArray()
-			it.entries = entries.values.toTypedArray()
-			it.value = binder.get().toString()
+			it.dialogTitle = title
+			it.summaryProvider = RichListPreference.SimpleSummaryProvider.instance
+			it.setItems(entries)
+			it.value = binder.get()
 			it.setOnPreferenceChangeListener { _, newValue ->
-				binder.set(getValueByString(newValue as String) ?: binder.default())
-				it.value = binder.get().toString()
+				@Suppress("UNCHECKED_CAST")
+				binder.set(newValue as? T ?: binder.default())
+				it.value = binder.get()
 				container()
 
 				// Always return false because we save it

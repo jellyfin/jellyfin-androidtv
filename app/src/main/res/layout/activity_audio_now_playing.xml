@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backdrop_overlay"/>
+        android:layout_height="match_parent" />
 
     <TextView
+        android:id="@+id/artistTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/artistTitle"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"
-        android:textSize="40sp"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_marginStart="40sp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="160sp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:maxLines="1"
         android:text="@string/lbl_artists"
-        android:fontFamily="sans-serif-light" />
+        android:textSize="40sp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/genreRow"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/genreRow"
-        android:divider="@drawable/whitedivider"
-        android:minHeight="22sp"
         android:layout_below="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="10dp"
+        android:minHeight="22sp" />
 
     <ScrollView
+        android:id="@+id/mainScroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainScroller"
         android:layout_below="@+id/genreRow"
         android:layout_marginTop="10dp"
         android:scrollbars="none">
@@ -61,34 +58,34 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_song_title"
                         android:id="@+id/song"
-                        android:textSize="24sp"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:fontFamily="sans-serif-light" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/lbl_album_name"
+                        android:ellipsize="marquee"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:text="@string/lbl_song_title"
+                        android:textSize="24sp" />
+
+                    <TextView
                         android:id="@+id/album"
-                        android:textSize="18sp"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:fontFamily="sans-serif-light" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        tools:text="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:text="@string/lbl_album_name"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:id="@+id/track"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="sans-serif-light"
                         android:textSize="18sp"
-                        android:fontFamily="sans-serif-light" />
+                        tools:text="1" />
 
                 </LinearLayout>
 
@@ -134,112 +131,76 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:id="@+id/buttonRow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonRow"
-                    android:minHeight="35sp"
-                    android:showDividers="middle"
-                    android:divider="@drawable/blank20x20"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_vertical"
                     android:layout_below="@+id/progress"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:alpha="0.8">
+                    android:alpha="0.8"
+                    android:divider="@drawable/blank20x20"
+                    android:gravity="center_vertical"
+                    android:minHeight="35sp"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
 
-                    <view
-                        android:layout_width="28sp"
-                        android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                    <ImageButton
                         android:id="@+id/prevBtn"
-                        android:src="@drawable/ic_previous"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_previous" />
+
+                    <ImageButton
                         android:id="@+id/playPauseBtn"
-                        android:src="@drawable/ic_pause"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_pause" />
+
+                    <ImageButton
                         android:id="@+id/nextBtn"
-                        android:src="@drawable/ic_next"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_next" />
+
+                    <ImageButton
                         android:id="@+id/repeatBtn"
-                        android:src="@drawable/ic_loop"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_loop" />
+
+                    <ImageButton
                         android:id="@+id/shuffleBtn"
-                        android:src="@drawable/ic_shuffle"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_shuffle" />
+
+                    <ImageButton
                         android:id="@+id/saveBtn"
-                        android:src="@drawable/ic_save"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_save" />
+
+                    <ImageButton
                         android:id="@+id/albumBtn"
-                        android:src="@drawable/ic_album"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
-
-                    <view
+                        style="@style/Button.Icon"
                         android:layout_width="28sp"
                         android:layout_height="28sp"
-                        class="org.jellyfin.androidtv.ui.ImageButton"
+                        android:src="@drawable/ic_album" />
+
+                    <ImageButton
                         android:id="@+id/artistBtn"
-                        android:src="@drawable/ic_user"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:focusableInTouchMode="true" />
+                        style="@style/Button.Icon"
+                        android:layout_width="28sp"
+                        android:layout_height="28sp"
+                        android:src="@drawable/ic_user" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonTip"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:layout_below="@+id/buttonRow"
-                    android:layout_centerHorizontal="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_marginTop="10sp" />
-
             </RelativeLayout>
 
             <ImageView
@@ -250,113 +211,112 @@
                 android:layout_marginEnd="60dp" />
 
             <FrameLayout
+                android:id="@+id/rowsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_alignParentBottom="false"
-                android:id="@+id/rowsFragment"
                 android:layout_below="@+id/detailArea"
+                android:layout_alignParentBottom="false"
                 android:layout_marginTop="30dp" />
 
             <TextView
+                android:id="@+id/counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="0 | 0"
-                android:id="@+id/counter"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="25sp"
-                android:fontFamily="sans-serif-light" />
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="viewEnd"
+                android:textSize="18sp"
+                tools:text="0 | 0" />
 
         </RelativeLayout>
 
     </ScrollView>
 
     <org.jellyfin.androidtv.ui.ClockUserView
+        android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/clock"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
-        android:layout_marginEnd="40sp"
-        android:alpha="0.8"
-        android:layout_marginTop="20sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="40sp" />
 
     <RelativeLayout
+        android:id="@+id/ssInfoArea"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/ssInfoArea"
         android:alpha="0"
         android:background="@drawable/top_fade"
         android:paddingStart="50dp"
-        android:paddingEnd="50dp"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        android:paddingEnd="50dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="0:43 / 4:00"
             android:id="@+id/ssTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:alpha="0.3"
+            android:fontFamily="sans-serif-light"
+            android:textAlignment="viewEnd"
             android:textSize="44sp"
-            android:layout_alignParentEnd="true"
-            android:textAlignment="viewEnd"
-            android:alpha="0.3"
-            android:fontFamily="sans-serif-light" />
+            tools:text="0:43 / 4:00" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Album / Song"
             android:id="@+id/ssAlbumSong"
-            android:textSize="26sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/ssTime"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_alignParentEnd="true"
-            android:textAlignment="viewEnd"
             android:alpha="0.3"
-            android:fontFamily="sans-serif-light" />
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            android:textSize="26sp"
+            tools:text="Album / Song" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="2 of 23"
             android:id="@+id/ssQueueStatus"
-            android:textSize="22sp"
-            android:layout_toStartOf="@+id/ssUpNext"
-            android:layout_below="@+id/ssAlbumSong"
-            android:textAlignment="viewEnd"
-            android:alpha="0.3"
-            android:fontFamily="sans-serif-light" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="up next: xxxxxxx"
-            android:id="@+id/ssUpNext"
-            android:textSize="22sp"
             android:layout_below="@+id/ssAlbumSong"
+            android:layout_toStartOf="@+id/ssUpNext"
+            android:alpha="0.3"
+            android:fontFamily="sans-serif-light"
+            android:textAlignment="viewEnd"
+            android:textSize="22sp"
+            tools:text="2 of 23" />
+
+        <TextView
+            android:id="@+id/ssUpNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ssAlbumSong"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="15dp"
             android:alpha="0.3"
             android:ellipsize="end"
-            android:layout_alignParentEnd="true"
-            android:textAlignment="viewEnd"
+            android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:fontFamily="sans-serif-light" />
+            android:textAlignment="viewEnd"
+            android:textSize="22sp"
+            tools:text="up next: xxxxxxx" />
 
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/artistLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/artistLogo"
-        android:layout_alignTop="@+id/artistTitle"
         android:layout_alignStart="@+id/artistTitle"
-        android:alpha="0.3"
+        android:layout_alignTop="@+id/artistTitle"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="false"
-        android:layout_marginTop="10dp" />
+        android:alpha="0.3" />
 
 </RelativeLayout>

@@ -1,10 +1,15 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <!-- StartupActivity vertical margins -->
-    <dimen name="startup_vertical_margin">96dp</dimen>
+    <dimen name="overscan_horizontal">27dp</dimen>
+    <dimen name="overscan_vertical">48dp</dimen>
 
     <dimen name="lb_settings_pane_width">500dp</dimen>
+
+    <fraction name="card_scale_default">100%</fraction>
+    <fraction name="card_scale_focus">115%</fraction>
+
+    <!-- Set leanback card scale values -->
+    <fraction name="lb_focus_zoom_factor_small">@fraction/card_scale_focus</fraction>
+    <fraction name="lb_focus_zoom_factor_xsmall">@fraction/card_scale_focus</fraction>
+    <fraction name="lb_focus_zoom_factor_medium">@fraction/card_scale_focus</fraction>
+    <fraction name="lb_focus_zoom_factor_large">@fraction/card_scale_focus</fraction>
 </resources>

@@ -1,15 +1,19 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
+
+import androidx.core.util.Consumer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.ViewType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
 import org.jellyfin.androidtv.ui.browsing.CollectionActivity;
@@ -23,13 +27,11 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -41,14 +43,12 @@ import java.util.List;
 
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 public class ItemLauncher {
     public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void launchUserView(final BaseItemDto baseItem, final Activity context, final boolean finishParent) {
+    public static void createUserViewIntent(final BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
         //We need to get display prefs...
         TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
             @Override
@@ -57,49 +57,52 @@ public class ItemLauncher {
                     baseItem.setCollectionType("unknown");
                 }
                 Timber.d("**** Collection type: %s", baseItem.getCollectionType());
+                Intent intent;
                 switch (baseItem.getCollectionType()) {
                     case "movies":
                     case "tvshows":
-                    case "music":
                         Timber.d("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
-                        if (ViewType.GRID.equals(response.getCustomPrefs().get("DefaultView"))) {
-                            // open grid browsing
-                            Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                            folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                            context.startActivity(folderIntent);
-                            if (finishParent) context.finish();
-
-                        } else {
+                        if (ViewType.SMART.equals(response.getCustomPrefs().get("DefaultView"))) {
                             // open user view browsing
-                            Intent intent = new Intent(context, UserViewActivity.class);
-                            intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-
-                            context.startActivity(intent);
-                            if (finishParent) context.finish();
+                            intent = new Intent(context, UserViewActivity.class);
+                        } else {
+                            // open grid browsing
+                            intent = new Intent(context, GenericGridActivity.class);
                         }
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                         break;
+                    case "music":
                     case "livetv":
                         // open user view browsing
-                        Intent intent = new Intent(context, UserViewActivity.class);
+                        intent = new Intent(context, UserViewActivity.class);
                         intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-
-                        context.startActivity(intent);
-                        if (finishParent) context.finish();
                         break;
                     default:
                         // open generic folder browsing
-                        Intent folderIntent = new Intent(context, GenericGridActivity.class);
-                        folderIntent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                        context.startActivity(folderIntent);
-                        if (finishParent) context.finish();
+                        intent = new Intent(context, GenericGridActivity.class);
+                        intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
                 }
+
+                callback.accept(intent);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception);
+                callback.accept(null);
             }
         });
     }
 
+    public static void launchUserView(final BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
+        createUserViewIntent(baseItem, activity, intent -> {
+            activity.startActivity(intent);
+            if (finishParent) activity.finishAfterTransition();
+        });
+    }
+
     public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
-        final TvApp application = TvApp.getApplication();
-        MediaManager.setCurrentMediaAdapter(adapter);
+        get(MediaManager.class).setCurrentMediaAdapter(adapter);
 
         switch (rowItem.getItemType()) {
 
@@ -145,7 +148,7 @@ public class ItemLauncher {
 
                     case Audio:
                         //produce item menu
-                        KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
+                        KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, activity);
                         return;
 
                     case Season:
@@ -174,7 +177,7 @@ public class ItemLauncher {
 
                     case Photo:
                         // open photo player
-                        MediaManager.setCurrentMediaPosition(pos);
+                        get(MediaManager.class).setCurrentMediaPosition(pos);
                         Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
 
                         activity.startActivity(photoIntent);
@@ -216,8 +219,8 @@ public class ItemLauncher {
                                 PlaybackHelper.getItemsToPlay(baseItem, baseItem.getBaseItemType() == BaseItemType.Movie, false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(baseItem.getBaseItemType()));
-                                        MediaManager.setCurrentVideoQueue(response);
+                                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(baseItem.getBaseItemType()));
+                                        get(MediaManager.class).setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
                                     }
@@ -243,13 +246,13 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                get(ApiClient.class).GetItemAsync(chapter.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(chapter.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
-                        MediaManager.setCurrentVideoQueue(items);
-                        Intent intent = new Intent(activity, application.getPlaybackActivityClass(response.getBaseItemType()));
+                        get(MediaManager.class).setCurrentVideoQueue(items);
+                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
@@ -257,26 +260,11 @@ public class ItemLauncher {
                 });
 
                 break;
-            case Server:
-                //Log in to selected server
-                get(ApiClient.class).ChangeServerLocation(rowItem.getServerInfo().getAddress());
-                AuthenticationHelper.enterManualUser(activity);
-                break;
-
-            case User:
-                final UserDto user = rowItem.getUser();
-                if (user.getHasPassword()) {
-                    Utils.processPasswordEntry(activity, user);
-
-                } else {
-                    AuthenticationHelper.loginUser(user.getName(), "", get(ApiClient.class), activity);
-                }
-                break;
 
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
                 //Retrieve full item for display and playback
-                get(ApiClient.class).GetItemAsync(hint.getItemId(), application.getCurrentUser().getId(), new Response<BaseItemDto>() {
+                get(ApiClient.class).GetItemAsync(hint.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
@@ -339,7 +327,7 @@ public class ItemLauncher {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
-                                    MediaManager.setCurrentVideoQueue(items);
+                                    get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
 
@@ -361,8 +349,8 @@ public class ItemLauncher {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 // TODO Check whether this usage of BaseItemType.valueOf is okay.
-                                Intent intent = new Intent(activity, application.getPlaybackActivityClass(BaseItemType.valueOf(channel.getType())));
-                                MediaManager.setCurrentVideoQueue(response);
+                                Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(BaseItemType.valueOf(channel.getType())));
+                                get(MediaManager.class).setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
 
@@ -388,10 +376,10 @@ public class ItemLauncher {
                             get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Intent intent = new Intent(activity, application.getPlaybackActivityClass(rowItem.getBaseItemType()));
+                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(rowItem.getBaseItemType()));
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    MediaManager.setCurrentVideoQueue(items);
+                                    get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
                                 }
@@ -434,7 +422,7 @@ public class ItemLauncher {
                         Intent queueIntent = new Intent(activity, ItemListActivity.class);
                         queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
                         //Resume first item if needed
-                        List<BaseItemDto> items = MediaManager.getCurrentVideoQueue();
+                        List<BaseItemDto> items = get(MediaManager.class).getCurrentVideoQueue();
                         if (items != null) {
                             BaseItemDto first = items.size() > 0 ? items.get(0) : null;
                             if (first != null && first.getUserData() != null) {

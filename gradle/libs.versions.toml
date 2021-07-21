@@ -1,0 +1,91 @@
+[versions]
+kotlinx-coroutines = "1.4.3"
+kotlinx-serialization = "1.1.0"
+androidx-leanback = "1.1.0-beta01"
+androidx-lifecycle = "2.3.1"
+koin = "2.2.3"
+glide = "4.12.0"
+acra = "5.7.0"
+
+[libraries]
+# Jellyfin apiclient
+jellyfin-apiclient = { module = "com.github.jellyfin.jellyfin-sdk-kotlin:android", version = "v0.7.10" }
+# Jellyfin SDK
+jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-platform-android", version = "1.0.1" }
+
+# Kotlin
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Android(x)
+androidx-core = { module = "androidx.core:core-ktx", version = "1.3.2" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.2.2" }
+androidx-fragment = { module = "androidx.fragment:fragment-ktx", version = "1.3.2" }
+androidx-leanback-core = { module = "androidx.leanback:leanback", version.ref = "androidx-leanback" }
+androidx-leanback-preference = { module = "androidx.leanback:leanback-preference", version.ref = "androidx-leanback" }
+androidx-preference = { module = "androidx.preference:preference-ktx", version = "1.1.1" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.2.0" }
+androidx-tvprovider = { module = "androidx.tvprovider:tvprovider", version = "1.1.0-alpha01" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.0.4" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.1.0" }
+androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version = "2.5.0" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
+androidx-window = { module = "androidx.window:window", version = "1.0.0-alpha05" }
+androidx-cardview = { module = "androidx.cardview:cardview", version = "1.0.0" }
+
+# Dependency Injection
+koin-android-core = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-android-viewmodel = { module = "io.insert-koin:koin-androidx-viewmodel", version.ref = "koin" }
+koin-android-fragment = { module = "io.insert-koin:koin-androidx-fragment", version.ref = "koin" }
+
+# GSON
+gson = { module = "com.google.code.gson:gson", version = "2.8.6" }
+
+# Media players
+exoplayer = { module = "com.google.android.exoplayer:exoplayer", version = "2.14.0" }
+libvlc = { module = "org.videolan.android:libvlc-all", version = "3.3.14" }
+
+# Image utility
+glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+kenburnsview = { module = "com.flaviofaria:kenburnsview", version = "1.0.7" }
+
+# Crash Reporting
+acra-http = { module = "ch.acra:acra-http", version.ref = "acra" }
+acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acra" }
+acra-limiter = { module = "ch.acra:acra-limiter", version.ref = "acra" }
+
+# Logging
+timber = { module = "com.jakewharton.timber:timber", version = "4.7.1" }
+slf4j-android = { module = "uk.uuid.slf4j:slf4j-android", version = "1.7.30-0" }
+
+# Debugging
+leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version = "2.6" }
+
+# Compatibility (desugaring)
+android-desugar = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
+
+# Testing
+junit = { module = "junit:junit", version = "4.13.1" }
+mockito = { module = "org.mockito:mockito-core", version = "3.2.4" }
+
+[bundles]
+androidx-lifecycle = [
+    "androidx-lifecycle-runtime",
+    "androidx-lifecycle-viewmodel",
+    "androidx-lifecycle-livedata",
+    "androidx-lifecycle-service",
+]
+koin = [
+    "koin-android-core",
+    "koin-android-viewmodel",
+    "koin-android-fragment",
+]
+acra = [
+    "acra-http",
+    "acra-dialog",
+    "acra-limiter",
+]

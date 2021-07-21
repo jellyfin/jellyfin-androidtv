@@ -9,18 +9,20 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.leanback.app.BackgroundManager;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.util.ProfileHelper;
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
+import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -39,7 +41,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 public class ExternalPlayerActivity extends FragmentActivity {
 
     List<BaseItemDto> mItemsToPlay;
-    TvApp mApplication = TvApp.getApplication();
     int mCurrentNdx = 0;
     StreamInfo mCurrentStreamInfo;
 
@@ -53,17 +54,19 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        BackgroundManager.getInstance(this).attach(getWindow());
+        backgroundService.getValue().attach(this);
 
-        mItemsToPlay = MediaManager.getCurrentVideoQueue();
+        mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
 
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(mApplication, mApplication.getString(R.string.msg_no_playable_items));
+            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
             finish();
             return;
         }
@@ -113,7 +116,12 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                playNext();
+                                if (!mediaManager.getValue().isVideoQueueModified()) {
+                                    mediaManager.getValue().clearVideoQueue();
+                                } else {
+                                    mItemsToPlay.remove(0);
+                                }
+                                finish();
                             }
                         })
                         .show();
@@ -133,7 +141,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void handlePlayerError() {
-        if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
+        if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.no_player)
@@ -179,34 +187,27 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void markPlayed(String itemId) {
-        apiClient.getValue().MarkPlayedAsync(itemId, mApplication.getCurrentUser().getId(), null, new Response<UserItemDataDto>());
+        apiClient.getValue().MarkPlayedAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>());
     }
 
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
-            //Must confirm moving to the next item or there is no way to stop playback of all the items
-            new AlertDialog.Builder(this)
-                    .setTitle("Next up is "+mItemsToPlay.get(mCurrentNdx).getName())
-                    .setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            launchExternalPlayer(0);
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!MediaManager.isVideoQueueModified()) MediaManager.clearVideoQueue();
-                            finish();
-                        }
-                    })
-                    .show();
+            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED) {
+                // Set to "modified" so the queue won't be cleared
+                mediaManager.getValue().setVideoQueueModified(true);
 
+                Intent intent = new Intent(this, NextUpActivity.class);
+                intent.putExtra(NextUpActivity.EXTRA_ID, mItemsToPlay.get(mCurrentNdx).getId());
+                intent.putExtra(NextUpActivity.EXTRA_USE_EXTERNAL_PLAYER, true);
+                startActivity(intent);
+                finishAfterTransition();
+            } else {
+                launchExternalPlayer(0);
+            }
         } else {
             finish();
         }
-
     }
 
     protected void launchExternalPlayer(int ndx) {
@@ -230,7 +231,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 options.setItemId(item.getId());
                 options.setMediaSources(item.getMediaSources());
                 options.setMaxBitrate(Utils.getMaxBitrate());
-                options.setProfile(ProfileHelper.getExternalProfile());
+                options.setProfile(new ExternalPlayerProfile());
 
                 // Get playback info for each player and then decide on which one to use
                 get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), false, apiClient.getValue(), new Response<StreamInfo>() {

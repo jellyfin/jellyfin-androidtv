@@ -25,28 +25,16 @@
     <string name="lbl_by_letter">Pagal raidę</string>
     <string name="lbl_views">Peržiūros</string>
     <string name="lbl_on_now">Šiuo metu rodoma</string>
-    <string name="lbl_next_up_tv">Toliau per TV</string>
     <string name="lbl_next_up">Toliau</string>
-    <string name="lbl_latest_movies">Naujausi Filmai</string>
     <string name="lbl_continue_watching">Tęsti Žiūrėjimą</string>
-    <string name="lbl_library">Mediateka</string>
-    <string name="lbl_logout">Atsijungti</string>
     <string name="lbl_settings">Nustatymai</string>
     <string name="pref_general">Pagrindinis</string>
     <string name="chapters">Skyriai</string>
-    <string name="enter_password">Įvesti slaptažodį</string>
-    <string name="title_activity_dpad_pw">Įvesti slaptažodį</string>
-    <string name="pref_prompt_pw">Prašyti suvesti slaptažodį</string>
     <string name="pref_authentication_cat">Autentifikacija</string>
     <string name="settings_title">Nustatymai</string>
-    <string name="pref_auto_login">Prisijungti automatiškai</string>
-    <string name="pref_show_login">Rodyti prisijungimo langą</string>
     <string name="btn_cancel">Atšaukti</string>
-    <string name="home_title">Pradžia</string>
-    <string name="txt_loading">Kraunasi…</string>
     <string name="loading">Kraunasi…</string>
     <string name="video_error_unknown_error">Nepavyko paleisti vaizdo įrašo</string>
-    <string name="play">Leisti</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="msg_unable_to_cancel">Nepavyko atšaukti įrašymo</string>
     <string name="msg_recording_cancelled">Įrašymas Atšauktas</string>
@@ -58,5 +46,4 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_max_bitrate_title">Maksimali transliacijos sparta</string>
     <string name="pref_playback">Grojimas</string>
-    <string name="pref_login_behavior_title">Užkrovimo Elgsena</string>
 </resources>

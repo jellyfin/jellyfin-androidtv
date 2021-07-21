@@ -7,28 +7,26 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Semi-Transparent Blacks -->
+    <color name="black_transparent_dark">#E6000000</color>
     <color name="black_opaque">#AA000000</color>
     <color name="black_transparent">#97000000</color>
     <color name="black_transparent_light">#74000000</color>
 
+    <!-- Progressbar Background -->
+    <color name="grey_transparent">#CC4b4b4b</color>
+
     <!-- Gradients -->
-    <color name="dark_green_gradient_start" >#c306610a</color>
-    <color name="dark_green_gradient_end" >#c3064d07</color>
+    <color name="dark_green_gradient_start">#c306610a</color>
+    <color name="dark_green_gradient_end">#c3064d07</color>
     <color name="gray_gradient_start">#898989</color>
     <color name="gray_gradient_end">#4b4b4b</color>
     <color name="green_gradient_start">#044b13</color>
     <color name="green_gradient_end">#085c04</color>
     <color name="red_gradient_start">#7c0b09</color>
     <color name="red_gradient_end">#900d10</color>
-    <color name="halloween_start">#8d5100</color>
-    <color name="halloween_end">#643c00</color>
-    <color name="holiday_start">#8d001b</color>
-    <color name="holiday_end">#640001</color>
-
-    <!-- Backdrop Overlay Background Color -->
-    <color name="backdrop_overlay">#93000000</color>
 
     <!-- Live TV Colors -->
     <color name="channel_scroller_bg">#201b1c</color>
@@ -42,10 +40,15 @@
 
     <!-- button_default -->
     <color name="button_default_normal_background">#B3747474</color>
+    <color name="button_default_disabled_background">#33747474</color>
     <color name="button_default_highlight_background">#E6CCCCCC</color>
-    <color name="button_default_normal_text">#FFCCCCCC</color>
+    <color name="button_default_normal_text">#DDDDDD</color>
+    <color name="button_default_disabled_text">#686868</color>
     <color name="button_default_highlight_text">#444444</color>
+    <color name="button_default_activated_text">#CC3333</color>
 
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
+
+    <color name="background_filter">#CC101010</color>
 </resources>

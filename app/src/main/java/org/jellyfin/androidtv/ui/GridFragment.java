@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.data.model.FilterOptions;
-import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
-import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.entities.SortOrder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.fragment.app.Fragment;
 import androidx.leanback.widget.BaseGridView;
@@ -33,14 +19,25 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
 
-public class GridFragment extends Fragment {
-    private static final String TAG = "HorizontalGridFragment";
-    private static boolean DEBUG = false;
+import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.data.model.FilterOptions;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
+import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import timber.log.Timber;
+
+public class GridFragment extends Fragment {
     protected TextView mTitleView;
     private TextView mStatusText;
     private TextView mCounter;
-    protected FrameLayout mSpinner;
     protected ViewGroup mGridDock;
     protected LinearLayout mInfoRow;
     protected LinearLayout mToolBar;
@@ -51,6 +48,7 @@ public class GridFragment extends Fragment {
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
     private OnItemViewClickedListener mOnItemViewClickedListener;
     private int mSelectedPosition = -1;
+    private int mCardHeight;
 
     protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
     protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
@@ -58,6 +56,19 @@ public class GridFragment extends Fragment {
     protected int SMALL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 58);
     protected int MED_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 88);
     protected int LARGE_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 105);
+
+    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 171);
+    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 202);
+    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 114);
+    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 163);
+    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 206);
+    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 116);
+    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 155);
+    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 210);
+    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 51);
+    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 77);
+    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 118);
 
     /**
      * Sets the grid presenter.
@@ -110,12 +121,12 @@ public class GridFragment extends Fragment {
     }
 
     public int getGridHeight() {
-        return Utils.convertDpToPixel(TvApp.getApplication(), 400);
+        return Utils.convertDpToPixel(requireContext(), 400);
     }
 
     public void setItem(BaseRowItem item) {
         if (item != null) {
-            mTitleView.setText(item.getFullName());
+            mTitleView.setText(item.getFullName(requireContext()));
             InfoLayoutHelper.addInfoRow(getActivity(), item, mInfoRow, true, true);
         } else {
             mTitleView.setText("");
@@ -189,11 +200,33 @@ public class GridFragment extends Fragment {
                 public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                            RowPresenter.ViewHolder rowViewHolder, Row row) {
                     int position = mGridView.getSelectedPosition();
-                    if (DEBUG) Log.v(TAG, "row selected position " + position);
+                    Timber.d("row selected position %s", position);
                     onRowSelected(position);
                     if (mOnItemViewSelectedListener != null && position >= 0) {
                         mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
                                 rowViewHolder, row);
+                    }
+                    if (mGridPresenter instanceof VerticalGridPresenter) {
+                        if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 11.4);
+                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 25.95);
+                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 3) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 40.5);
+                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent(15);
+                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent(36);
+                        } else if (mCardHeight == SMALL_VERTICAL_SQUARE && position >= ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 49.3);
+                            mGridView.setWindowAlignmentOffset(0);
+                        } else if (position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
+                            mGridView.setWindowAlignmentOffsetPercent((float) 5.1);
+                            mGridView.setWindowAlignmentOffset((int) Math.round(mCardHeight * 0.5));
+                        } else {
+                            mGridView.setWindowAlignmentOffsetPercent(50);
+                            mGridView.setWindowAlignmentOffset(0);
+                        }
                     }
                 }
             };
@@ -240,28 +273,6 @@ public class GridFragment extends Fragment {
         return mOnItemViewClickedListener;
     }
 
-    public void showSpinner() {
-        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSpinner.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    public void hideSpinner() {
-        if (getActivity() == null || getActivity().isFinishing() || mSpinner == null) return;
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSpinner.setVisibility(View.GONE);
-            }
-        });
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -273,7 +284,6 @@ public class GridFragment extends Fragment {
         mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
         mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
         mCounter = (TextView) root.findViewById(R.id.counter);
-        mSpinner = (FrameLayout) root.findViewById(R.id.spinner);
         mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
 
         // Hide the description because we don't have room for it
@@ -335,5 +345,9 @@ public class GridFragment extends Fragment {
                 mGridView.setSelectedPosition(mSelectedPosition);
             }
         }
+    }
+
+    protected void setCardHeight(int height) {
+        mCardHeight = height;
     }
 }

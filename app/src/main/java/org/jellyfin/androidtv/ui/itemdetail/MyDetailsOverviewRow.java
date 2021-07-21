@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import androidx.annotation.IntRange;
 import androidx.leanback.widget.Row;
 import android.view.View;
 
@@ -22,6 +24,7 @@ public class MyDetailsOverviewRow extends Row {
     private String mSummary;
     private String mSummaryTitle;
     private String mSummarySubTitle;
+    private int mProgress;
     private InfoItem mInfoItem1;
     private InfoItem mInfoItem2;
     private InfoItem mInfoItem3;
@@ -40,6 +43,14 @@ public class MyDetailsOverviewRow extends Row {
 
     public void setSummary(String mSummary) {
         this.mSummary = mSummary;
+    }
+
+    public void setProgress(@IntRange(from = 0, to = 100) int progress) {
+        this.mProgress = progress;
+    }
+
+    public int getProgress() {
+        return mProgress;
     }
 
     public String getSummaryTitle() {

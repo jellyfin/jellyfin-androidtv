@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/backdrop_overlay">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,15 +11,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/infoRow"
         android:layout_marginTop="15dp" />
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/spinner"
-        android:background="@color/black_transparent"
-        android:visibility="gone">
-
-    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +21,6 @@
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:textSize="32sp"
-        android:shadowColor="#ff000000"
         android:layout_toLeftOf="@+id/npBug"
         android:layout_marginRight="10sp"
         android:maxLines="1"
@@ -80,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/statusText"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
         android:layout_alignBottom="@+id/counter"
@@ -92,8 +81,7 @@
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
         android:layout_marginRight="40sp"
-        android:layout_alignParentEnd="true"
-        android:alpha=".9" />
+        android:layout_alignParentEnd="true" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"

@@ -39,9 +39,6 @@ import kotlin.Lazy;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class RecordPopup {
-    final int SERIES_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 420);
-    final int NORMAL_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 330);
-
     PopupWindow mPopup;
     String mProgramId;
     SeriesTimerInfoDto mCurrentOptions;
@@ -79,7 +76,8 @@ public class RecordPopup {
         mPosTop = top;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.new_program_record_popup, null);
-        mPopup = new PopupWindow(layout, width, NORMAL_HEIGHT);
+        int popupHeight = Utils.convertDpToPixel(activity, 330);
+        mPopup = new PopupWindow(layout, width, popupHeight);
         mPopup.setFocusable(true);
         mPopup.setOutsideTouchable(true);
         mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
@@ -190,7 +188,7 @@ public class RecordPopup {
         return (mPopup != null && mPopup.isShowing());
     }
 
-    public void setContent(BaseItemDto program, SeriesTimerInfoDto current, IRecordingIndicatorView selectedView, boolean recordSeries) {
+    public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, IRecordingIndicatorView selectedView, boolean recordSeries) {
         mProgramId = program.getId();
         mCurrentOptions = current;
         mRecordSeries = recordSeries;
@@ -199,14 +197,14 @@ public class RecordPopup {
         mDTitle.setText(program.getName());
 
         // build timeline info
-        setTimelineRow(mDTimeline, program);
+        setTimelineRow(context, mDTimeline, program);
 
         // set defaults
         mPrePadding.setSelection(getPaddingNdx(current.getPrePaddingSeconds()));
         mPostPadding.setSelection(getPaddingNdx(current.getPostPaddingSeconds()));
 
         if (recordSeries) {
-            mPopup.setHeight(SERIES_HEIGHT);
+            mPopup.setHeight(Utils.convertDpToPixel(context, 420));
             mSeriesOptions.setVisibility(View.VISIBLE);
 
             // and other options
@@ -215,7 +213,7 @@ public class RecordPopup {
             mAnyTime.setChecked(current.getRecordAnyTime());
 
         } else {
-            mPopup.setHeight(NORMAL_HEIGHT);
+            mPopup.setHeight(Utils.convertDpToPixel(context, 330));
             mSeriesOptions.setVisibility(View.GONE);
         }
 
@@ -239,7 +237,7 @@ public class RecordPopup {
         if (mPopup != null && mPopup.isShowing()) mPopup.dismiss();
     }
 
-    private void setTimelineRow(LinearLayout timelineRow, BaseItemDto program) {
+    private void setTimelineRow(Context context, LinearLayout timelineRow, BaseItemDto program) {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
@@ -253,7 +251,7 @@ public class RecordPopup {
         channel.setTextColor(mActivity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(mActivity);
-        datetime.setText(TimeUtils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(TimeUtils.getFriendlyDate(context, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(mActivity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }

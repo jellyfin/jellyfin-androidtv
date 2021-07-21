@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="JellyfinTheme">
+        <!-- Toolbar Attributes -->
+        <attr name="toolbarBackground" format="reference|color" />
         <!-- Header Text Color -->
         <attr name="headerTextColor" format="reference|color" />
         <!-- Progress Bar Attributes -->
@@ -9,5 +11,18 @@
         <attr name="progressSecondary" format="reference|color" />
         <!-- Popup Window Attributes -->
         <attr name="popupWindowBackground" format="reference|color" />
+        <!-- CardView Attributes -->
+        <attr name="cardImageBackground" format="reference|color" />
+        <attr name="cardViewBackground" format="reference|color" />
+        <!-- Theme Attributes -->
+        <attr name="cardRounding" format="dimension" />
+        <attr name="buttonRounding" format="dimension" />
+        <attr name="accentShape" format="reference" />
+        <attr name="controlIconBackground" format="reference|color" />
+        <attr name="controlIconForegroundActive" format="reference|color" />
+        <attr name="controlIconForegroundInactive" format="reference|color" />
+        <!-- QR drawables -->
+        <attr name="qrBackground" format="color" />
+        <attr name="qrForeground" format="color" />
     </declare-styleable>
 </resources>

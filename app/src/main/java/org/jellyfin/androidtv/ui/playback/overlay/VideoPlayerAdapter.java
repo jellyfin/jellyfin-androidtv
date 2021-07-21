@@ -56,7 +56,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getDuration() {
-        return getCurrentlyPlayingItem().getRunTimeTicks() != null ?
+        return getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null ?
                 getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
     }
 
@@ -121,9 +121,8 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     boolean canRecordLiveTv() {
         BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
-        TvApp application = TvApp.getApplication();
         return currentlyPlayingItem.getCurrentProgram() != null
-                && application.canManageRecordings();
+                && TvApp.getApplication().canManageRecordings();
     }
 
     void toggleRecording() {

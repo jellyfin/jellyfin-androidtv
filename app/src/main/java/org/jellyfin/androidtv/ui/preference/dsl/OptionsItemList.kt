@@ -23,6 +23,7 @@ class OptionsItemList(
 			it.isEnabled = dependencyCheckFun() && enabled
 			it.isVisible = visible
 			it.title = title
+			it.dialogTitle = title
 			it.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
 			it.entryValues = entries.keys.toTypedArray()
 			it.entries = entries.values.toTypedArray()

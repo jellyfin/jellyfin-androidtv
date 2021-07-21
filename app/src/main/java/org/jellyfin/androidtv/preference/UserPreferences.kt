@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.acra.ACRA
 import org.jellyfin.androidtv.preference.constant.*
+import org.jellyfin.androidtv.util.DeviceUtils
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -16,22 +17,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {
-		/* Authentication */
 		/**
-		 * Behavior for login when starting the app.
-		 * **note**: Make sure to update the stored credentials when changing to AUTO_LOGIN
+		 * The value used for automatic detection in [maxBitrate].
 		 */
-		var loginBehavior = Preference.enum("login_behavior", LoginBehavior.SHOW_LOGIN)
-
-		/**
-		 * Ask for password when starting the app
-		 */
-		var passwordPromptEnabled = Preference.boolean("pref_auto_pw_prompt", false)
-
-		/**
-		 * Use login using pin (when set)
-		 */
-		var passwordDPadEnabled = Preference.boolean("pref_alt_pw_entry", false)
+		const val MAX_BITRATE_AUTO = "0"
 
 		/* Display */
 		/**
@@ -43,11 +32,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable background images while browsing
 		 */
 		var backdropEnabled = Preference.boolean("pref_show_backdrop", true)
-
-		/**
-		 * Preferred direction of grids, will not be used for **all** grids
-		 */
-		var gridDirection = Preference.enum("grid_direction", GridDirection.HORIZONTAL)
 
 		/**
 		 * Show premieres on home screen
@@ -66,9 +50,10 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 		/* Playback - General*/
 		/**
-		 * Maximum bitrate in megabit for playback. A value of 0 means "auto".
+		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
+		 * the bitrate should be automatically detected.
 		 */
-		var maxBitrate = Preference.string("pref_max_bitrate", "0")
+		var maxBitrate = Preference.string("pref_max_bitrate", "100")
 
 		/**
 		 * Auto-play next item
@@ -78,7 +63,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable the next up screen or not
 		 */
-		var nextUpEnabled = Preference.boolean("next_up_enabled", true)
+		var nextUpBehavior = Preference.enum("next_up_behavior", NextUpBehavior.EXTENDED)
 
 		/**
 		 * Next up timeout before playing next item
@@ -126,7 +111,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", true)
+		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
 
 		/**
 		 * Default audio delay in milliseconds for libVLC
@@ -134,11 +119,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var libVLCAudioDelay = Preference.int("libvlc_audio_delay", 0)
 
 		/* Live TV */
-		/**
-		 * Open live tv when opening the app
-		 */
-		var liveTvMode = Preference.boolean("pref_live_tv_mode", false)
-
 		/**
 		 * Use direct play
 		 */
@@ -174,6 +154,26 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Include system logs in crash reports
 		 */
 		var acraIncludeSystemLogs = Preference.boolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
+
+		/**
+		 * When to show the clock.
+		 */
+		var clockBehavior = Preference.enum("pref_clock_behavior", ClockBehavior.ALWAYS)
+
+		/**
+		 * Set which ratings provider should show on MyImageCardViews
+		 */
+		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
+
+		/**
+		 * Set when watched indicators should show on MyImageCardViews
+		 */
+		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
+
+		/**
+		 * Enable series thumbnails in home screen rows
+		 */
+		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
 	}
 
 	init {
@@ -191,9 +191,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			// Migrate to audio behavior enum
 			putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
-			// Migrate to login behavior enum
-			putEnum("login_behavior", if (it.getString("pref_login_behavior", "0") == "1") LoginBehavior.AUTO_LOGIN else LoginBehavior.SHOW_LOGIN)
-
 			// Migrate live tv player to use enum
 			putEnum("live_tv_video_player",
 				when {
@@ -206,6 +203,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		// Change audio delay type from long to int
 		migration(toVersion = 4) {
 			putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
+		}
+
+		// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
+		migration(toVersion = 5) {
+			if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
 		}
 	}
 }

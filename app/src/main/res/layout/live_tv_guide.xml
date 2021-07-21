@@ -94,8 +94,7 @@
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
         android:layout_marginRight="40sp"
-        android:layout_alignParentEnd="true"
-        android:alpha=".8" />
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="150sp"

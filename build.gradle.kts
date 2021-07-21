@@ -1,35 +1,33 @@
-buildscript {
-	repositories {
-		jcenter()
-		google()
-	}
-
-	dependencies {
-		val kotlinVersion: String by project
-		classpath("com.android.tools.build:gradle:4.0.1")
-		classpath(kotlin("gradle-plugin", kotlinVersion))
-	}
+plugins {
+	id("io.gitlab.arturbosch.detekt").version(Plugins.Versions.detekt)
 }
 
 allprojects {
-	// Dependencies
-	repositories {
-		jcenter()
-		google()
+	repositories.defaultRepositories()
+}
+
+buildscript {
+	repositories.defaultRepositories()
+
+	dependencies {
+		classpath(Plugins.androidBuildTools)
+		classpath(Plugins.kotlin)
 	}
 }
 
-plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.9.1")
-}
 
 // Detekt configuration
 subprojects {
-	plugins.apply("io.gitlab.arturbosch.detekt")
+	apply<io.gitlab.arturbosch.detekt.DetektPlugin>()
 
 	detekt {
 		buildUponDefaultConfig = true
 		ignoreFailures = true
-		config = files("$rootDir/detekt.yml")
+		config = files("$rootDir/detekt.yaml")
+		basePath = rootDir.absolutePath
+
+		reports {
+			sarif.enabled = true
+		}
 	}
 }

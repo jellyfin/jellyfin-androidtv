@@ -9,11 +9,6 @@
         <item name="android:textColor">?attr/headerTextColor</item>
     </style>
 
-    <style name="spaced_buttons">
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
-    </style>
-
     <style name="player_progress" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_bar</item>
         <item name="android:minHeight">5sp</item>
@@ -26,27 +21,42 @@
         <item name="android:maxHeight">5sp</item>
     </style>
 
-    <style name="PopupSlideInTop">
+    <style name="WindowAnimation"></style>
+
+    <style name="WindowAnimation.SlideTop">
         <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
         <item name="android:windowExitAnimation">@anim/abc_slide_out_top</item>
     </style>
 
-    <style name="PopupSlideInRight">
-        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    <style name="WindowAnimation.SlideRight">
+        <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_right_out</item>
+    </style>
+
+    <style name="WindowAnimation.Fade">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
     <style name="Button.Default" parent="android:Widget.Button">
         <item name="android:background">@drawable/button_default_back</item>
         <item name="android:textColor">@drawable/button_default_text</item>
+        <item name="drawableTint">@drawable/button_icon_tint</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingStart">16dp</item>
+        <item name="android:drawablePadding">8dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:minHeight">0dp</item>
     </style>
 
-    <style name="Widget.Jellyfin.BrowseHeaders" parent="Widget.Leanback.Headers.VerticalGridView">
-        <item name="android:background">@drawable/noise</item>
+    <style name="Button.Icon" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_icon_back</item>
+        <item name="android:tint">@drawable/button_icon_tint</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:minHeight">4dp</item>
     </style>
 </resources>

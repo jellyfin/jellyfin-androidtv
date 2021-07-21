@@ -17,6 +17,12 @@ enum class AppTheme {
 	EMERALD,
 
 	/**
+	 * A theme with a more muted accent color, inspired by CTalvio's Monochromic CSS theme for Jellyfin Web
+	 */
+	@EnumDisplayOptions(R.string.pref_theme_muted_purple)
+	MUTED_PURPLE,
+
+	/**
 	 * Theme inspired by Win 3.1's "hot dog stand"
 	 */
 	@EnumDisplayOptions(hidden = true)

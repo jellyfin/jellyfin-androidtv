@@ -1,76 +1,77 @@
 package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.data.model.LogonCredentials
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.LoginBehavior
+import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.preference.Preference
+import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.checkbox
-import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.util.apiclient.AuthenticationHelper
-import org.jellyfin.apiclient.interaction.ApiClient
-import timber.log.Timber
-import java.io.IOException
+import org.jellyfin.androidtv.ui.preference.dsl.userPicker
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 fun OptionsScreen.authenticationCategory(
-	userPreferences: UserPreferences,
-	apiClient: ApiClient
+	authenticationRepository: AuthenticationRepository,
+	authenticationPreferences: AuthenticationPreferences,
+	sessionRepository: SessionRepository,
 ) = category {
-	setTitle(R.string.pref_authentication_cat)
+	setTitle(R.string.lbl_settings)
 
-	enum<LoginBehavior> {
-		setTitle(R.string.pref_login_behavior_title)
+	userPicker(authenticationRepository) {
+		setTitle(R.string.auto_sign_in)
+
 		bind {
-			set {
-				if (it == LoginBehavior.AUTO_LOGIN) {
-					try {
-						val credentials = LogonCredentials(apiClient.serverInfo, TvApp.getApplication().currentUser)
-						AuthenticationHelper.saveLoginCredentials(credentials, TvApp.CREDENTIALS_PATH)
-					} catch (e: IOException) {
-						Timber.e(e, "Unable to save logon credentials")
-					}
-				}
+			from(
+				authenticationPreferences,
+				AuthenticationPreferences.autoLoginUserBehavior,
+				AuthenticationPreferences.autoLoginUserId
+			)
+		}
+	}
 
-				userPreferences[UserPreferences.loginBehavior] = it
+	userPicker(authenticationRepository) {
+		setTitle(R.string.system_user)
+		setDialogMessage(R.string.system_user_explanation)
+
+		bind {
+			from(
+				authenticationPreferences,
+				AuthenticationPreferences.systemUserBehavior,
+				AuthenticationPreferences.systemUserId
+			) {
+				// Update current system session
+				sessionRepository.restoreDefaultSystemSession()
 			}
-			get { userPreferences[UserPreferences.loginBehavior] }
-			default { userPreferences.getDefaultValue(UserPreferences.loginBehavior) }
-		}
-		depends {
-			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
-
-			// Auto login is disabled
-			userPreferences[UserPreferences.loginBehavior] != LoginBehavior.AUTO_LOGIN
-				// Or configured user is set to current user
-				|| configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
 		}
 	}
+}
 
-	checkbox {
-		setTitle(R.string.pref_prompt_pw)
-		bind(userPreferences, UserPreferences.passwordPromptEnabled)
-		depends {
-			val configuredAutoCredentials = TvApp.getApplication().configuredAutoCredentials
-
-			// Auto login is enabled
-			userPreferences[UserPreferences.loginBehavior] == LoginBehavior.AUTO_LOGIN
-				// Configured user is set to current user
-				&& configuredAutoCredentials.userDto.id == TvApp.getApplication().currentUser.id
-				// Configured user contains a password
-				&& configuredAutoCredentials.userDto.hasPassword
-		}
+/**
+ * Helper function to bind two preferences to a user picker.
+ */
+private fun OptionsBinder.Builder<UserSelection>.from(
+	authenticationPreferences: AuthenticationPreferences,
+	userBehaviorPreference: Preference<UserSelectBehavior>,
+	userIdPreference: Preference<String>,
+	onSet: ((UserSelection) -> Unit)? = null,
+) {
+	get {
+		UserSelection(
+			authenticationPreferences[userBehaviorPreference],
+			authenticationPreferences[userIdPreference].toUUIDOrNull()
+		)
 	}
 
-	checkbox {
-		setTitle(R.string.pref_alt_pw_entry)
-		setContent(R.string.pref_alt_pw_entry_desc)
-		bind(userPreferences, UserPreferences.passwordDPadEnabled)
+	set {
+		authenticationPreferences[userBehaviorPreference] = it.behavior
+		authenticationPreferences[userIdPreference] = it.userId?.toString().orEmpty()
+
+		onSet?.invoke(it)
 	}
 
-	checkbox {
-		setTitle(R.string.pref_live_tv_mode)
-		setContent(R.string.pref_live_tv_mode_desc)
-		bind(userPreferences, UserPreferences.liveTvMode)
+	default {
+		UserSelection(UserSelectBehavior.LAST_USER, null)
 	}
 }

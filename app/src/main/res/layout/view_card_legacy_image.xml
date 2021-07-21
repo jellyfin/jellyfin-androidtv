@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright (C) 2014 The Android Open Source Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+     MODIFIED to add Jellyfin specifics
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lb="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="androidx.leanback.widget.BaseCardView">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/main_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_card_image_background"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            lb:layout_viewType="main"
+            tools:src="@drawable/app_logo" />
+
+        <ImageView
+            android:id="@+id/favIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignEnd="@+id/main_image"
+            android:layout_alignBottom="@+id/resumeProgress"
+            android:layout_marginBottom="2dp"
+            android:alpha="0.8"
+            android:src="@drawable/ic_heart_red"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/resumeProgress"
+            style="@style/overlay_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/main_image"
+            android:layout_marginBottom="5dp"
+            android:max="100"
+            android:maxHeight="5sp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/watchedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/main_image"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="end"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/watched"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="?attr/accentShape" />
+
+            <TextView
+                android:id="@+id/unwatchedCount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignStart="@+id/watched"
+                android:layout_alignTop="@+id/watched"
+                android:layout_alignEnd="@+id/watched"
+                android:layout_alignBottom="@+id/watched"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="11sp"
+                android:visibility="invisible"
+                tools:text="5"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checkMark"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_alignStart="@+id/watched"
+                android:layout_alignTop="@+id/watched"
+                android:layout_alignEnd="@+id/watched"
+                android:layout_alignBottom="@+id/watched"
+                android:src="@drawable/ic_watch" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/name_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/main_image"
+            android:layout_alignEnd="@id/main_image"
+            android:layout_alignBottom="@id/main_image"
+            android:background="@color/black_transparent_light"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_folder" />
+
+            <TextView
+                android:id="@+id/overlay_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/icon"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="25dp"
+                android:layout_toEndOf="@+id/icon"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="16sp"
+                tools:text="overlay text" />
+
+            <TextView
+                android:id="@+id/overlay_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <androidx.leanback.widget.NonOverlappingFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        lb:layout_viewType="info">
+
+        <RelativeLayout
+            android:id="@+id/info_field"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lb_basic_card_info_height"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="2dp"
+            android:paddingTop="@dimen/lb_basic_card_info_padding_top"
+            android:paddingRight="2dp"
+            android:paddingBottom="@dimen/lb_basic_card_info_padding_bottom">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif-condensed"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/lb_basic_card_title_text_color"
+                android:textSize="@dimen/lb_basic_card_title_text_size"
+                tools:text="Title text" />
+
+            <TextView
+                android:id="@+id/content_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
+                android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
+                android:layout_toStartOf="@+id/badge_layout"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif-condensed"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/lb_basic_card_title_text_color"
+                android:textSize="@dimen/lb_basic_card_content_text_size"
+                tools:text="Content text" />
+
+            <LinearLayout
+                android:id="@+id/badge_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/extra_badge"
+                    android:layout_width="@dimen/lb_basic_card_info_badge_size"
+                    android:layout_height="@dimen/lb_basic_card_info_badge_size"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/badge_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
+                    android:layout_marginBottom="@dimen/lb_basic_card_info_text_margin"
+                    android:fontFamily="sans-serif-condensed"
+                    android:singleLine="true"
+                    android:textColor="@color/lb_basic_card_title_text_color"
+                    android:textSize="@dimen/lb_basic_card_content_text_size"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.leanback.widget.NonOverlappingFrameLayout>
+
+</merge>

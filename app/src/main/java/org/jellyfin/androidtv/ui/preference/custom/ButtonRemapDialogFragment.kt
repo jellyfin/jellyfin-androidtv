@@ -3,11 +3,12 @@ package org.jellyfin.androidtv.ui.preference.custom
 import android.os.Bundle
 import android.view.*
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
-import kotlinx.android.synthetic.main.button_remap_preference.*
-import kotlinx.android.synthetic.main.button_remap_preference.view.*
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.databinding.PreferenceButtonRemapBinding
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
+	private lateinit var binding: PreferenceButtonRemapBinding
+
 	private var dialogTitle: CharSequence? = null
 	private var dialogMessage: CharSequence? = null
 	private var keyCode: Int = 0
@@ -30,7 +31,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		else {
 			this.keyCode = keyCode
 			setKeyCodeText()
-			requireView().buttonSave.isEnabled = this.keyCode != originalKeyCode
+			binding.buttonSave.isEnabled = this.keyCode != originalKeyCode
 			true
 		}
 	}
@@ -65,7 +66,9 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val styledContext = ContextThemeWrapper(activity, R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		return styledInflater.inflate(R.layout.button_remap_preference, container, false)
+		binding = PreferenceButtonRemapBinding.inflate(styledInflater, container, false)
+
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,30 +76,39 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		val buttonRemapPreference = preference as ButtonRemapPreference
 
-		decor_title.text = preference.title
-		message.visibility = View.VISIBLE
-		message.text = getString(R.string.pref_button_remapping_description)
-
-		buttonSave.setOnClickListener { _ ->
-			buttonRemapPreference.keyCode = keyCode
-			parentFragmentManager.popBackStack()
+		binding.decorTitle.text = preference.title
+		binding.message.apply {
+			visibility = View.VISIBLE
+			text = getString(R.string.pref_button_remapping_description)
 		}
-		buttonSave.isEnabled = false
-		buttonSave.setOnKeyListener(checkKeys)
 
-		buttonReset.setOnClickListener { _ ->
-			setKeyCodeText()
-			buttonRemapPreference.keyCode = buttonRemapPreference.defaultKeyCode
-			parentFragmentManager.popBackStack()
+		binding.buttonSave.apply {
+			setOnClickListener { _ ->
+				buttonRemapPreference.keyCode = keyCode
+				parentFragmentManager.popBackStack()
+			}
+
+			isEnabled = false
+			setOnKeyListener(checkKeys)
 		}
-		buttonReset.setOnKeyListener(checkKeys)
-		buttonReset.requestFocus()
+
+		binding.buttonReset.apply {
+			setOnClickListener { _ ->
+				setKeyCodeText()
+				buttonRemapPreference.keyCode = buttonRemapPreference.defaultKeyCode
+				parentFragmentManager.popBackStack()
+			}
+
+			setOnKeyListener(checkKeys)
+			requestFocus()
+		}
 
 		setKeyCodeText()
 	}
 
 	private fun setKeyCodeText() {
-		textViewKeyCode.text = ButtonRemapPreference.ButtonRemapSummaryProvider.instance.getKeycodeName(requireContext(), keyCode)
+		val provider = ButtonRemapPreference.ButtonRemapSummaryProvider.instance
+		binding.textViewKeyCode.text = provider.getKeycodeName(requireContext(), keyCode)
 	}
 
 	companion object {

@@ -4,8 +4,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backdrop_overlay" />
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,8 +19,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="40sp"
-        android:alpha=".8" />
+        android:layout_marginEnd="40sp" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"

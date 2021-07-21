@@ -33,7 +33,7 @@ public class ClosedCaptionsAction extends CustomAction {
             return;
         }
         List<SubtitleStreamInfo> subtitles = playbackController.getSubtitleStreams();
-        PopupMenu subMenu = Utils.createPopupMenu(context, view, Gravity.END);
+        PopupMenu subMenu = new PopupMenu(context, view, Gravity.END);
         MenuItem none = subMenu.getMenu().add(0, -1, 0, context.getString(R.string.lbl_none));
         int currentSubIndex = playbackController.getSubtitleStreamIndex();
         if (currentSubIndex < 0) none.setChecked(true);

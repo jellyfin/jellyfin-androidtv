@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -20,8 +22,16 @@ import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ListRow;
 
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class TextSearchFragment extends Fragment implements TextWatcher, TextView.OnEditorActionListener {
+    protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
+
     private SearchProvider searchProvider;
+
+    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,8 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        backgroundService.getValue().attach(requireActivity());
+
         // Add event listeners
         EditText searchBar = getActivity().findViewById(R.id.search_bar);
         searchBar.addTextChangedListener(this);
@@ -47,6 +59,16 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
         // Set up result fragment
         RowsSupportFragment rowsSupportFragment = (RowsSupportFragment) getChildFragmentManager().findFragmentById(R.id.results_frame);
         rowsSupportFragment.setAdapter(searchProvider.getResultsAdapter());
+
+        rowsSupportFragment.setOnItemViewSelectedListener(mSelectedListener);
+        mSelectedListener.registerListener((itemViewHolder, item, rowViewHolder, row) -> {
+            if (!(item instanceof BaseRowItem)) {
+                backgroundService.getValue().clearBackgrounds();
+            } else {
+                BaseRowItem rowItem = (BaseRowItem) item;
+                backgroundService.getValue().setBackground(rowItem.getSearchHint());
+            }
+        });
 
         // Create click listener
         rowsSupportFragment.setOnItemViewClickedListener((itemViewHolder, item, rowViewHolder, row) -> {

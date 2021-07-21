@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="logo_gradient_start">#AA5CC3</color>
+    <color name="logo_gradient_stop">#00A4DC</color>
+    <color name="logo_background">#000B25</color>
+    <color name="logo_text">#FFFFFF</color>
+</resources>

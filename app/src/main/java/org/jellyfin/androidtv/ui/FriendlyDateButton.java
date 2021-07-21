@@ -27,7 +27,7 @@ public class FriendlyDateButton extends FrameLayout {
         dateVal = thisDate;
         Date date = new Date(thisDate);
 
-        ((TextView)v.findViewById(R.id.friendlyName)).setText(TimeUtils.getFriendlyDate(date, true));
+        ((TextView)v.findViewById(R.id.friendlyName)).setText(TimeUtils.getFriendlyDate(context, date, true));
         ((TextView)v.findViewById(R.id.date)).setText(android.text.format.DateFormat.getDateFormat(context).format(date));
 
     }

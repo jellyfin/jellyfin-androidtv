@@ -158,7 +158,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
             @Override
             public void onError(Exception exception) {
-                    Utils.showToast(mApplication, exception.getLocalizedMessage());
+                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                     }
 
         });
@@ -166,12 +166,12 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), mApplication.getString(R.string.lbl_views));
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time));
-        gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer));
+        gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null));
+        gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer, null));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 }

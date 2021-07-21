@@ -3,15 +3,17 @@ package org.jellyfin.androidtv;
 import android.app.Activity;
 import android.app.Application;
 
-import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.model.LogonCredentials;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -27,10 +29,8 @@ import timber.log.Timber;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-
 public class TvApp extends Application {
     public static final String DISPLAY_PREFS_APP_NAME = "ATV";
-    public static final String CREDENTIALS_PATH = "org.jellyfin.androidtv.login.json";
 
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
     public static final int LIVE_TV_RECORDINGS_OPTION_ID = 2000;
@@ -39,19 +39,13 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static TvApp app;
-    private UserDto currentUser;
+    private MediatorLiveData<UserDto> currentUser = new MediatorLiveData<UserDto>();
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
 
-    private int autoBitrate;
-
     private HashMap<String, DisplayPreferences> displayPrefsCache = new HashMap<>();
 
-    public final DataRefreshService dataRefreshService = new DataRefreshService();
-
-    private BaseActivity currentActivity;
-
-    private LogonCredentials configuredAutoCredentials;
+    private Activity currentActivity;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -63,19 +57,25 @@ public class TvApp extends Application {
         app = this;
     }
 
+    @Nullable
     public static TvApp getApplication() {
         return app;
     }
 
+    @Deprecated
+    @Nullable
     public UserDto getCurrentUser() {
-        if (currentUser == null) {
-            Timber.e("Called getCurrentUser() but value was null.");
-        }
+        return currentUser.getValue();
+    }
+
+    @Deprecated
+    public LiveData<UserDto> getCurrentUserLiveData() {
         return currentUser;
     }
 
+    @Deprecated
     public void setCurrentUser(UserDto currentUser) {
-        this.currentUser = currentUser;
+        this.currentUser.postValue(currentUser);
         TvManager.clearCache();
         this.displayPrefsCache = new HashMap<>();
     }
@@ -84,28 +84,22 @@ public class TvApp extends Application {
      * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
      */
     @Deprecated
-    public BaseActivity getCurrentActivity() {
+    @Nullable
+    public Activity getCurrentActivity() {
         return currentActivity;
     }
 
-    public void setCurrentActivity(BaseActivity activity) {
+    public void setCurrentActivity(Activity activity) {
         currentActivity = activity;
     }
 
+    @Nullable
     public PlaybackController getPlaybackController() {
         return playbackController;
     }
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
-    }
-
-    public LogonCredentials getConfiguredAutoCredentials() {
-        return configuredAutoCredentials;
-    }
-
-    public void setConfiguredAutoCredentials(LogonCredentials configuredAutoCredentials) {
-        this.configuredAutoCredentials = configuredAutoCredentials;
     }
 
     public boolean useExternalPlayer(BaseItemType itemType) {
@@ -124,14 +118,18 @@ public class TvApp extends Application {
         }
     }
 
+    @NonNull
     public Class<? extends Activity> getPlaybackActivityClass(BaseItemType itemType) {
         return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
+    @NonNull
     public boolean canManageRecordings() {
+        UserDto currentUser = getCurrentUser();
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();
     }
 
+    @NonNull
     public DisplayPreferences getCachedDisplayPrefs(String key) {
         return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
     }
@@ -181,21 +179,7 @@ public class TvApp extends Application {
         }
     }
 
-
-    public int getAutoBitrate() {
-        return autoBitrate;
-    }
-
-    public void determineAutoBitrate() {
-        apiClient.getValue().detectBitrate(new Response<Long>() {
-            @Override
-            public void onResponse(Long response) {
-                autoBitrate = response.intValue();
-                Timber.i("Auto bitrate set to: %d", autoBitrate);
-            }
-        });
-    }
-
+    @Nullable
     public BaseItemDto getLastPlayedItem() {
         return lastPlayedItem;
     }

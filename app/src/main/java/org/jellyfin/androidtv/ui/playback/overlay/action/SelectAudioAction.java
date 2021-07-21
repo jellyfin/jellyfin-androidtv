@@ -11,7 +11,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
 import java.util.List;
@@ -30,12 +29,12 @@ public class SelectAudioAction extends CustomAction {
 
         List<MediaStream> audioTracks = get(PlaybackManager.class).getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
         Integer currentAudioIndex = playbackController.getAudioStreamIndex();
-        if (!playbackController.isNativeMode() && currentAudioIndex > audioTracks.size()) {
+        if (!playbackController.isNativeMode() && currentAudioIndex != null && currentAudioIndex > audioTracks.size()) {
             //VLC has translated this to an ID - we need to translate back to our index positionally
             currentAudioIndex = playbackController.translateVlcAudioId(currentAudioIndex);
         }
 
-        PopupMenu audioMenu = Utils.createPopupMenu(context, view, Gravity.END);
+        PopupMenu audioMenu = new PopupMenu(context, view, Gravity.END);
         for (MediaStream audio : audioTracks) {
             MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
             if (currentAudioIndex != null && currentAudioIndex == audio.getIndex())

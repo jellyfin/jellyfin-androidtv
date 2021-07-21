@@ -44,10 +44,12 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
                     similar.setFields(new ItemFields[] {
                             ItemFields.PrimaryImageAspectRatio,
                             ItemFields.Overview,
-                            ItemFields.ChildCount
+                            ItemFields.ChildCount,
+                            ItemFields.MediaStreams,
+                            ItemFields.MediaSources
                     });
                     similar.setLimit(7);
-                    mRows.add(new BrowseRowDef(mApplication.getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
+                    mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_because_you_watched)+item.getName(), similar, QueryType.SimilarMovies));
                 }
 
                 rowLoader.loadRows(mRows);

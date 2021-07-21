@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/backdrop_overlay">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,7 +11,6 @@
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:textSize="32sp"
-        android:shadowColor="#ff000000"
         android:layout_toLeftOf="@+id/npBug"
         android:layout_marginRight="10sp"
         android:maxLines="1"
@@ -56,8 +54,7 @@
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
         android:layout_marginRight="40sp"
-        android:layout_alignParentEnd="true"
-        android:alpha=".9" />
+        android:layout_alignParentEnd="true" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"

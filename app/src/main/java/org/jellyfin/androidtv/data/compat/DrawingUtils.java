@@ -10,52 +10,6 @@ public final class DrawingUtils {
     /**
      * Resizes a set of dimensions
      *
-     * @param currentWidth  Width of the current.
-     * @param currentHeight Height of the current.
-     * @param scaleFactor   The scale factor.
-     * @return ImageSize.
-     */
-    public static ImageSize Scale(double currentWidth, double currentHeight, double scaleFactor) {
-        ImageSize tempVar = new ImageSize();
-        tempVar.setWidth(currentWidth);
-        tempVar.setHeight(currentHeight);
-        return Scale(tempVar.clone(), scaleFactor);
-    }
-
-    /**
-     * Resizes a set of dimensions
-     *
-     * @param size        The size.
-     * @param scaleFactor The scale factor.
-     * @return ImageSize.
-     */
-    public static ImageSize Scale(ImageSize size, double scaleFactor) {
-        double newWidth = size.getWidth() * scaleFactor;
-
-        return Resize(size.getWidth(), size.getHeight(), newWidth, null, null, null);
-    }
-
-    /**
-     * Resizes a set of dimensions
-     *
-     * @param currentWidth  Width of the current.
-     * @param currentHeight Height of the current.
-     * @param width         The width.
-     * @param height        The height.
-     * @param maxWidth      A max fixed width, if desired
-     * @param maxHeight     A max fixed height, if desired
-     * @return ImageSize.
-     */
-    public static ImageSize Resize(double currentWidth, double currentHeight, Double width, Double height, Double maxWidth, Double maxHeight) {
-        ImageSize tempVar = new ImageSize();
-        tempVar.setWidth(currentWidth);
-        tempVar.setHeight(currentHeight);
-        return Resize(tempVar.clone(), width, height, maxWidth, maxHeight);
-    }
-
-    /**
-     * Resizes a set of dimensions
-     *
      * @param size      The original size object
      * @param width     A new fixed width, if desired
      * @param height    A new fixed height, if desired

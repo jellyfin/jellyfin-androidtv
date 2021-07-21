@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Jellyfin" parent="Theme.Leanback">
+        <!-- Colors -->
+        <item name="android:colorPrimary">@color/grey</item>
+        <item name="android:colorPrimaryDark">@color/grey</item>
+        <item name="android:colorAccent">@color/jellyfin_blue</item>
+        <!-- Background resource or color -->
+        <item name="android:windowBackground">@color/not_quite_black</item>
+        <!-- Background color for popup windows -->
+        <item name="popupWindowBackground">@color/not_quite_black</item>
+        <!-- Background color for CardViews -->
+        <item name="cardImageBackground">@color/grey</item>
+        <item name="cardViewBackground">@android:color/transparent</item>
+        <!-- Search FAB color -->
+        <item name="defaultSearchColor">@color/jellyfin_blue</item>
+        <!-- Default (non-active) button color -->
+        <item name="android:colorButtonNormal">@color/grey</item>
+        <!-- Toolbar background color -->
+        <item name="toolbarBackground">@color/not_quite_black</item>
+        <!-- Header text color -->
+        <item name="headerTextColor">@color/white</item>
+
+        <!-- Progress Bar -->
+        <item name="progressBackground">@color/grey_transparent</item>
+        <item name="progressPrimary">@color/jellyfin_blue</item>
+        <item name="progressSecondary">@color/jellyfin_purple</item>
+
+        <!-- Custom Styles for Elements -->
+        <item name="android:datePickerStyle">@style/DatePickerCustom</item>
+        <item name="rowHeaderStyle">@style/Widget.Jellyfin.Row.Header</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
+
+        <!-- Rounding Values -->
+        <item name="cardRounding">4dp</item>
+        <item name="buttonRounding">4dp</item>
+
+        <!-- Watched Indicator Shape -->
+        <item name="accentShape">@drawable/circle_accent</item>
+
+        <!-- Dim level of non-focus grid items -->
+        <item name="overlayDimDimmedLevel">30%</item>
+
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/button_default_normal_background</item>
+        <item name="controlIconForegroundActive">@color/jellyfin_blue</item>
+        <item name="controlIconForegroundInactive">@color/button_default_highlight_background</item>
+
+        <!-- QR drawables -->
+        <item name="qrBackground">@color/white</item>
+        <item name="qrForeground">@color/black</item>
+
+        <!-- Tile colors -->
+        <item name="tile_edit_bg">#4b41ae</item>
+        <item name="tile_search_bg">#3486BD</item>
+        <item name="tile_suggestions_bg">#DFCD41</item>
+        <item name="tile_actors_bg">#720826</item>
+        <item name="tile_artists_bg">#4A3F87</item>
+        <item name="tile_audio_bg">#253D63</item>
+        <item name="tile_chapter_bg">#007F7F</item>
+        <item name="tile_genres_bg">#0B4B08</item>
+        <item name="tile_letters_bg">#1D0472</item>
+        <item name="tile_land_folder_bg">#003C68</item>
+        <item name="tile_land_photo_bg">#224982</item>
+        <item name="tile_land_series_timer_bg">#014A7F</item>
+        <item name="tile_land_tv_bg">#145A98</item>
+        <item name="tile_port_server_bg">#145A98</item>
+        <item name="tile_port_time_bg">#145A99</item>
+        <item name="tile_port_tv_bg">#014A7F</item>
+        <item name="tile_port_video_bg">#006309</item>
+        <item name="tile_port_video_queue_bg">#006853</item>
+        <item name="tile_port_folder_bg">#003C68</item>
+        <item name="tile_port_grid_bg">#3486BD</item>
+        <item name="tile_port_guide_bg">#132DA1</item>
+        <item name="tile_port_person_bg">#7E0001</item>
+        <item name="tile_port_record_bg">#101777</item>
+        <item name="tile_port_series_timer_bg">#014A7F</item>
+    </style>
+
+    <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

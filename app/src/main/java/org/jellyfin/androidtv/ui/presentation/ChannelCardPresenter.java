@@ -3,17 +3,18 @@ package org.jellyfin.androidtv.ui.presentation;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-
 import androidx.leanback.widget.Presenter;
 
+import org.jellyfin.androidtv.ui.card.ChannelCardView;
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+
 public class ChannelCardPresenter extends Presenter {
-    static class ViewHolder extends Presenter.ViewHolder {
-        private MyChannelCardView mCardView;
+    class ViewHolder extends Presenter.ViewHolder {
+        private ChannelCardView mCardView;
 
         public ViewHolder(View view) {
             super(view);
-            mCardView = (MyChannelCardView) view;
+            mCardView = (ChannelCardView) view;
         }
 
         public void setItem(ChannelInfoDto item) {
@@ -23,7 +24,7 @@ public class ChannelCardPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-        MyChannelCardView view = new MyChannelCardView(parent.getContext());
+        ChannelCardView view = new ChannelCardView(parent.getContext());
 
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/button_fade_duration" android:exitFadeDuration="@integer/button_fade_duration">
+    <item android:color="@color/button_default_normal_text" android:state_activated="false" android:state_enabled="true" android:state_focused="false" />
+    <item android:color="@color/button_default_disabled_text" android:state_enabled="false" />
+    <item android:color="@color/button_default_highlight_text" android:state_activated="false" android:state_enabled="true" android:state_focused="true" />
+    <item android:color="@color/button_default_activated_text" android:state_activated="true" android:state_enabled="true" />
+</selector>

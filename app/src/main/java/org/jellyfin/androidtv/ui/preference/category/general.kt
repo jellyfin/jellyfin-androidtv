@@ -3,7 +3,9 @@ package org.jellyfin.androidtv.ui.preference.category
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
-import org.jellyfin.androidtv.preference.constant.GridDirection
+import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.RatingType
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
@@ -29,20 +31,30 @@ fun OptionsScreen.generalCategory(
 		bind(userPreferences, UserPreferences.premieresEnabled)
 	}
 
-	enum<GridDirection> {
-		setTitle(R.string.grid_direction)
-		bind(userPreferences, UserPreferences.gridDirection)
+	enum<ClockBehavior> {
+		setTitle(R.string.pref_clock_display)
+		bind(userPreferences, UserPreferences.clockBehavior)
+	}
+
+	enum<RatingType> {
+		setTitle(R.string.pref_default_rating)
+		bind(userPreferences, UserPreferences.defaultRatingType)
+	}
+
+	enum<WatchedIndicatorBehavior> {
+		setTitle(R.string.pref_watched_indicator)
+		bind(userPreferences, UserPreferences.watchedIndicatorBehavior)
+	}
+
+	checkbox {
+		setTitle(R.string.lbl_use_series_thumbnails)
+		setContent(R.string.lbl_use_series_thumbnails_description)
+		bind(userPreferences, UserPreferences.seriesThumbnailsEnabled)
 	}
 
 	checkbox {
 		setTitle(R.string.lbl_enable_seasonal_themes)
 		setContent(R.string.desc_seasonal_themes)
 		bind(userPreferences, UserPreferences.seasonalGreetingsEnabled)
-	}
-
-	checkbox {
-		setTitle(R.string.lbl_enable_debug)
-		setContent(R.string.desc_debug)
-		bind(userPreferences, UserPreferences.debuggingEnabled)
 	}
 }

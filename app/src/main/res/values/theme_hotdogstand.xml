@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="theme_hotdog_yellow">#FFFF00</color>
+    <color name="theme_hotdog_red">#FF0000</color>
+    <color name="theme_hotdog_black">#000000</color>
+    <color name="theme_hotdog_grey">#c6c6c6</color>
+
+    <style name="Theme.Jellyfin.HotDogStand" parent="Theme.Jellyfin">
+        <item name="android:colorPrimary">@color/theme_hotdog_yellow</item>
+        <item name="android:colorPrimaryDark">@color/theme_hotdog_yellow</item>
+        <item name="android:colorAccent">@color/theme_hotdog_red</item>
+        <item name="android:colorButtonNormal">@color/theme_hotdog_grey</item>
+        <item name="headerTextColor">@color/theme_hotdog_black</item>
+        <item name="android:windowBackground">@color/theme_hotdog_red</item>
+        <item name="popupWindowBackground">@color/theme_hotdog_black</item>
+        <item name="defaultSearchColor">@color/theme_hotdog_black</item>
+        <item name="progressBackground">@color/theme_hotdog_black</item>
+        <item name="progressPrimary">@color/theme_hotdog_red</item>
+        <item name="progressSecondary">@color/theme_hotdog_yellow</item>
+        <item name="toolbarBackground">@color/theme_hotdog_black</item>
+
+        <!-- Control icons -->
+        <item name="controlIconBackground">@color/theme_hotdog_yellow</item>
+        <item name="controlIconForegroundActive">@color/theme_hotdog_red</item>
+        <item name="controlIconForegroundInactive">@color/grey</item>
+
+        <!-- QR drawables -->
+        <item name="qrBackground">@color/theme_hotdog_yellow</item>
+        <item name="qrForeground">@color/theme_hotdog_red</item>
+
+        <!-- Tile colors -->
+        <item name="tile_edit_bg">@color/theme_hotdog_black</item>
+        <item name="tile_search_bg">@color/theme_hotdog_black</item>
+        <item name="tile_suggestions_bg">@color/theme_hotdog_black</item>
+        <item name="tile_actors_bg">@color/theme_hotdog_black</item>
+        <item name="tile_artists_bg">@color/theme_hotdog_black</item>
+        <item name="tile_audio_bg">@color/theme_hotdog_black</item>
+        <item name="tile_chapter_bg">@color/theme_hotdog_black</item>
+        <item name="tile_genres_bg">@color/theme_hotdog_black</item>
+        <item name="tile_letters_bg">@color/theme_hotdog_black</item>
+        <item name="tile_land_folder_bg">@color/theme_hotdog_black</item>
+        <item name="tile_land_photo_bg">@color/theme_hotdog_black</item>
+        <item name="tile_land_series_timer_bg">@color/theme_hotdog_black</item>
+        <item name="tile_land_tv_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_server_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_time_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_tv_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_video_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_video_queue_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_folder_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_grid_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_guide_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_person_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_record_bg">@color/theme_hotdog_black</item>
+        <item name="tile_port_series_timer_bg">@color/theme_hotdog_black</item>
+    </style>
+</resources>

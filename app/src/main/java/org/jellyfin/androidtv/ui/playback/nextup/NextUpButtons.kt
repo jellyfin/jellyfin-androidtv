@@ -4,14 +4,23 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.fragment_next_up_buttons.view.*
+import android.widget.ProgressBar
+import androidx.appcompat.widget.AppCompatButton
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyle: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
+@KoinApiExtension
+class NextUpButtons(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyle: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
 	private var countdownTimer: CountDownTimer? = null
@@ -19,7 +28,7 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 
 	init {
 		addView(view)
-		view.fragment_next_up_buttons_play_next.apply {
+		view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next).apply {
 			// Stop timer when unfocused
 			setOnFocusChangeListener { _, focused -> if (!focused) stopTimer() }
 
@@ -37,13 +46,15 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 		// Create timer
 		countdownTimer = object : CountDownTimer(duration, 1) {
 			override fun onTick(millisUntilFinished: Long) {
-				fragment_next_up_buttons_play_next_progress.max = duration.toInt()
-				fragment_next_up_buttons_play_next_progress.progress = (duration - millisUntilFinished).toInt()
+				view.findViewById<ProgressBar>(R.id.fragment_next_up_buttons_play_next_progress).apply {
+					max = duration.toInt()
+					progress = (duration - millisUntilFinished).toInt()
+				}
 			}
 
 			override fun onFinish() {
 				// Perform a click so the event handler will activate
-				view.fragment_next_up_buttons_play_next.performClick()
+				view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next).performClick()
 			}
 		}.start()
 	}
@@ -52,19 +63,21 @@ class NextUpButtons(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 		countdownTimer?.cancel()
 
 		// Hide progress bar
-		fragment_next_up_buttons_play_next_progress.max = 0
-		fragment_next_up_buttons_play_next_progress.progress = 0
+		view.findViewById<ProgressBar>(R.id.fragment_next_up_buttons_play_next_progress).apply {
+			max = 0
+			progress = 0
+		}
 	}
 
 	fun setPlayNextListener(listener: (() -> Unit)?) {
-		val button = view.fragment_next_up_buttons_play_next
+		val button = view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next)
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }
 	}
 
 	fun setCancelListener(listener: () -> Unit) {
-		val button = view.fragment_next_up_buttons_cancel
+		val button = view.findViewById<Button>(R.id.fragment_next_up_buttons_cancel)
 
 		if (listener == null) button.setOnClickListener(null)
 		else button.setOnClickListener { listener() }

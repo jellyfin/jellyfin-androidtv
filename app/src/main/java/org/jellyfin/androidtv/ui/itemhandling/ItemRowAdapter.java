@@ -1,7 +1,10 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Handler;
 
+import androidx.annotation.Nullable;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -13,6 +16,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -23,7 +27,7 @@ import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.presentation.IPositionablePresenter;
+import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -57,6 +61,7 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -66,8 +71,6 @@ import java.util.TimeZone;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class ItemRowAdapter extends ArrayObjectAdapter {
     private ItemQuery mQuery;
@@ -117,6 +120,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private boolean staticHeight = false;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     public boolean isCurrentlyRetrieving() {
         synchronized (currentlyRetrievingSemaphore) {
@@ -170,7 +174,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setLimit(chunkSize);
         }
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
@@ -185,7 +188,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mQuery.setLimit(chunkSize);
         }
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
@@ -203,7 +205,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mArtistsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.AlbumArtists;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -214,7 +215,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -222,7 +222,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSeriesTimerQuery = query;
         queryType = QueryType.SeriesTimer;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
@@ -232,7 +231,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
+        staticHeight = true;
     }
 
     public ItemRowAdapter(BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
@@ -277,7 +276,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSpecialsQuery = query;
         queryType = QueryType.Specials;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -285,7 +283,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTrailersQuery = query;
         queryType = QueryType.Trailers;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(LiveTvChannelQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -297,7 +294,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mTvChannelQuery.setLimit(chunkSize);
         }
         queryType = QueryType.LiveTvChannel;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecommendedProgramQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -306,7 +302,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mTvProgramQuery = query;
         queryType = QueryType.LiveTvProgram;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -316,7 +311,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -324,7 +318,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mTvRecordingGroupQuery = query;
         queryType = QueryType.LiveTvRecordingGroup;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -333,7 +326,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSimilarQuery = query;
         mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         this.queryType = queryType;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -342,7 +334,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mUpcomingQuery = query;
         mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Upcoming;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SeasonQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -351,7 +342,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSeasonQuery = query;
         mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         queryType = QueryType.Season;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(PersonsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
@@ -364,7 +354,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             mPersonsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.Persons;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(SearchQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -374,7 +363,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
         mSearchQuery.setLimit(50);
         queryType = QueryType.Search;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -382,7 +370,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
-        add(new BaseRowItem(new GridButton(0, TvApp.getApplication().getString(R.string.lbl_loading_elipses), R.drawable.loading)));
     }
 
     public ItemRowAdapter(Presenter presenter, ArrayObjectAdapter parent) {
@@ -464,10 +451,13 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void setPosition(int pos) {
-        ((IPositionablePresenter) (getParent().getPresenter(this))).setPosition(pos);
+        Presenter presenter = getParent().getPresenter(this);
+        if (presenter instanceof PositionableListRowPresenter) {
+            ((PositionableListRowPresenter) presenter).setPosition(pos);
+        }
     }
 
-    public String getStartLetter() {
+    public @Nullable String getStartLetter() {
         return mQuery != null ? mQuery.getNameStartsWithOrGreater() : null;
     }
 
@@ -583,26 +573,26 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         }
 
         boolean retrieve = false;
-        TvApp app = TvApp.getApplication();
+        DataRefreshService dataRefreshService = KoinJavaComponent.get(DataRefreshService.class);
         for (ChangeTriggerType trigger : reRetrieveTriggers) {
             switch (trigger) {
                 case LibraryUpdated:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastLibraryChange();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastLibraryChange();
                     break;
                 case MoviePlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastMoviePlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMoviePlayback();
                     break;
                 case TvPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastTvPlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastTvPlayback();
                     break;
                 case MusicPlayback:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastMusicPlayback();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastMusicPlayback();
                     break;
                 case FavoriteUpdate:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastFavoriteUpdate();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastFavoriteUpdate();
                     break;
                 case VideoQueueChange:
-                    retrieve |= lastFullRetrieve.getTimeInMillis() < app.dataRefreshService.getLastVideoQueueChange();
+                    retrieve |= lastFullRetrieve.getTimeInMillis() < dataRefreshService.getLastVideoQueueChange();
                     break;
                 case GuideNeedsLoad:
                     Calendar start = new GregorianCalendar(TimeZone.getTimeZone("Z"));
@@ -810,8 +800,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         notifyRetrieveFinished();
     }
 
-    private static String[] ignoreTypes = new String[]{"books", "games"};
-    private static List<String> ignoreTypeList = Arrays.asList(ignoreTypes);
+    public static String[] ignoredCollectionTypes = new String[]{ "books", "games", "folders" };
+    private static List<String> ignoreTypeList = Arrays.asList(ignoredCollectionTypes);
 
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
@@ -1003,7 +993,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveAudioPlaylists(final ItemQuery query) {
         //Add specialized playlists first
         clear();
-        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.favorites));
+        add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.favorites, null));
         itemsLoaded = 1;
         retrieve(query);
     }
@@ -1011,9 +1001,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveContinueWatching(final ItemQuery query) {
         //Add current video queue first if there
         clear();
-        if (MediaManager.hasVideoQueueItems()) {
+        if (mediaManager.getValue().hasVideoQueueItems()) {
             Timber.d("Adding video queue...");
-            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.tile_port_video_queue)));
+            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.tile_port_video_queue, null)));
             itemsLoaded = 1;
         }
         retrieve(query);
@@ -1398,14 +1388,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null)));
                         i++;
                         if (TvApp.getApplication().canManageRecordings()) {
                             // and schedule
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null)));
                             i++;
                             // and series
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer, null)));
                             i++;
                         }
                     }

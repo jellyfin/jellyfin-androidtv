@@ -17,7 +17,6 @@ public class RecordAction extends CustomAction {
         super(context, customPlaybackTransportControlGlue);
         Drawable recordInactive = ContextCompat.getDrawable(context, R.drawable.ic_record);
         Drawable recordActive = ContextCompat.getDrawable(context, R.drawable.ic_record_red);
-        setIndex(INDEX_INACTIVE);
         setDrawables(new Drawable[]{recordInactive, recordActive});
     }
 }

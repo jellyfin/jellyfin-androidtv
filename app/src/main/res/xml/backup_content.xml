@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include
+        domain="file"
+        path="authentication_store.json" />
+
+    <include
+        domain="sharedpref"
+        path="org.jellyfin.androidtv_preferences" />
+    <include
+        domain="sharedpref"
+        path="org.jellyfin.androidtv.debug_preferences" />
+    <include
+        domain="sharedpref"
+        path="systemprefs" />
+</full-backup-content>

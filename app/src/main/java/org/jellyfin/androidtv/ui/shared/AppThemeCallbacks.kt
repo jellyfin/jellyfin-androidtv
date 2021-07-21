@@ -1,34 +1,17 @@
 package org.jellyfin.androidtv.ui.shared
 
 import android.app.Activity
-import android.app.Application
 import android.os.Bundle
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
-class AppThemeCallbacks : Application.ActivityLifecycleCallbacks, KoinComponent {
+class AppThemeCallbacks(
+	private val userPreferences: UserPreferences
+) : AbstractActivityLifecycleCallbacks() {
 	private var lastTheme: AppTheme? = null
 	private var lastPreferencesTheme: AppTheme? = null
-	private val userPreferences: UserPreferences by inject()
-
-	override fun onActivityPaused(activity: Activity) {
-	}
-
-	override fun onActivityStarted(activity: Activity) {
-	}
-
-	override fun onActivityDestroyed(activity: Activity) {
-	}
-
-	override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-	}
-
-	override fun onActivityStopped(activity: Activity) {
-	}
 
 	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 		userPreferences[UserPreferences.appTheme].let {

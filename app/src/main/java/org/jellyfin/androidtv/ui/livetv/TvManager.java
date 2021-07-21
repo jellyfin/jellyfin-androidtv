@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.livetv;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.text.format.DateUtils;
 import android.widget.LinearLayout;
@@ -360,7 +361,7 @@ public class TvManager {
         channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(activity);
-        datetime.setText(TimeUtils.getFriendlyDate(local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
+        datetime.setText(TimeUtils.getFriendlyDate(activity, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }
@@ -395,7 +396,7 @@ public class TvManager {
         return null;
     }
 
-    public static void getScheduleRowsAsync(TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
+    public static void getScheduleRowsAsync(Context context, TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
         get(ApiClient.class).GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
@@ -407,7 +408,7 @@ public class TvManager {
                     if (thisDay != currentDay) {
                         if (currentDay > 0 && currentTimers.size() > 0) {
                             //Add the last set of timers as a row
-                            addRow(currentTimers, presenter, rowAdapter);
+                            addRow(context, currentTimers, presenter, rowAdapter);
                             currentTimers.clear();
                         }
                         currentDay = thisDay;
@@ -430,7 +431,7 @@ public class TvManager {
 
                 }
 
-                if (currentTimers.size() > 0) addRow(currentTimers, presenter, rowAdapter);
+                if (currentTimers.size() > 0) addRow(context, currentTimers, presenter, rowAdapter);
 
                 outerResponse.onResponse(rowAdapter.size());
             }
@@ -445,10 +446,10 @@ public class TvManager {
 
     }
 
-    private static void addRow(List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
+    private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
         ItemRowAdapter scheduledAdapter = new ItemRowAdapter(timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
-        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
+        ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);
 
     }

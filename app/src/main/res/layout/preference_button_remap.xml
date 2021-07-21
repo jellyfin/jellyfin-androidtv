@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground"
+    android:elevation="@dimen/lb_preference_decor_elevation"
+    android:orientation="vertical"
+    android:transitionGroup="false">
+
+    <FrameLayout
+        android:id="@+id/decor_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/defaultBrandColor"
+        android:elevation="@dimen/lb_preference_decor_title_container_elevation"
+        android:transitionGroup="false"
+        >
+        <TextView
+            android:id="@+id/decor_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/titleTextStyle" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/subtitleTextStyle"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textViewKeyCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/subtitleTextStyle"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/buttonSave"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/lbl_save" />
+
+            <Button
+                android:id="@+id/buttonReset"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/lbl_Reset" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="@+id/search_bar" />
 
     <!-- Fragment showing search results -->
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/results_frame"
         android:name="androidx.leanback.app.RowsSupportFragment"
         android:layout_width="0dp"

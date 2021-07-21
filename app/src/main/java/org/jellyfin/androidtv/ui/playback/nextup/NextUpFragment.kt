@@ -1,49 +1,56 @@
 package org.jellyfin.androidtv.ui.playback.nextup
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.leanback.app.BackgroundManager
-import kotlinx.android.synthetic.main.fragment_next_up.*
-import kotlinx.android.synthetic.main.fragment_next_up.view.*
-import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
-import org.jellyfin.androidtv.util.toHtmlSpanned
+import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class NextUpFragment(private val data: NextUpItemData) : Fragment() {
+class NextUpFragment : Fragment() {
+	private val viewModel: NextUpViewModel by sharedViewModel()
+	private lateinit var binding: FragmentNextUpBinding
+	private val backgroundService: BackgroundService by inject()
+	private var timerStarted = false
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_next_up, container, false).apply {
-			BackgroundManager.getInstance(activity).setBitmap(data.backdrop)
+		binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
-			logo.setImageBitmap(data.logo)
-			image.setImageBitmap(data.thumbnail)
-			title.text = data.title
-			description.text = data.description?.toHtmlSpanned()
+		viewModel.item.observe(viewLifecycleOwner) { data ->
+			// No data, keep current
+			if (data == null) return@observe
 
-			fragment_next_up_buttons.apply {
-				setPlayNextListener {
-					startActivity(Intent(activity, PlaybackOverlayActivity::class.java))
-					activity?.finish()
-				}
-				setCancelListener {
-					activity?.finish()
-				}
-			}
+			backgroundService.setBackground(data.baseItem)
+
+			binding.logo.setImageBitmap(data.logo)
+			binding.image.setImageBitmap(data.thumbnail)
+			binding.title.text = data.title
 		}
+
+		binding.fragmentNextUpButtons.apply {
+			setPlayNextListener(viewModel::playNext)
+			setCancelListener(viewModel::close)
+		}
+
+		return binding.root
 	}
 
-	override fun onResume() {
-		super.onResume()
+	override fun onStart() {
+		super.onStart()
 
-		fragment_next_up_buttons.startTimer()
+		if (!timerStarted) {
+			binding.fragmentNextUpButtons.startTimer()
+
+			timerStarted = true
+		}
 	}
 
 	override fun onPause() {
 		super.onPause()
 
-		fragment_next_up_buttons.stopTimer()
+		binding.fragmentNextUpButtons.stopTimer()
 	}
 }

@@ -7,7 +7,9 @@ import androidx.leanback.app.PlaybackSupportFragment;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
@@ -22,8 +24,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         setBackgroundType(BG_LIGHT);
 
-        TvApp application = TvApp.getApplication();
-        PlaybackController playbackController = application.getPlaybackController();
+        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
 
         playerAdapter = new VideoPlayerAdapter(playbackController);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController, this);
@@ -67,7 +68,8 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     public void mediaInfoChanged() {
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
-        playerGlue.setTitle(currentlyPlayingItem.getName());
+        if (currentlyPlayingItem == null) return;
+
         playerGlue.invalidatePlaybackControls();
         playerGlue.setSeekEnabled(playerAdapter.canSeek());
         playerGlue.setSeekProvider(playerAdapter.canSeek() ? new CustomSeekProvider(playerAdapter) : null);
@@ -83,6 +85,10 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     public void onPause() {
         super.onPause();
         playerAdapter.getMasterOverlayFragment().onPause();
+    }
+
+    public CustomPlaybackTransportControlGlue getPlayerGlue() {
+        return playerGlue;
     }
 
     public void onFullyInitialized() {

@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.R;
 
 public class NumberSpinner extends FrameLayout {
     long mValue = 0;
-    long mIncrement = 100;
+    long mIncrement = 10;
     TextView mTextValue;
     ValueChangedListener<Long> mValueChangedListener;
 
@@ -34,8 +34,7 @@ public class NumberSpinner extends FrameLayout {
 
     private void init(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.number_spinner, null, false);
-        this.addView(v);
+        View v = inflater.inflate(R.layout.number_spinner, this, true);
         if (!isInEditMode()) {
             mTextValue = (TextView) v.findViewById(R.id.txtValue);
             (v.findViewById(R.id.btnIncrease)).setOnClickListener(new OnClickListener() {
