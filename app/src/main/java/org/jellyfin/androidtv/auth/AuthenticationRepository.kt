@@ -148,8 +148,7 @@ class AuthenticationRepositoryImpl(
 				setActiveSession(user, server) -> {
 					// Update stored user
 					try {
-						val response = UserApi(userApiClient).getCurrentUser()
-						val userInfo = response.content
+						val userInfo by UserApi(userApiClient).getCurrentUser()
 						val currentUser = authenticationStore.getUser(server.id, user.id)
 
 						val updatedUser = currentUser?.copy(
@@ -163,11 +162,12 @@ class AuthenticationRepositoryImpl(
 						)
 						authenticationStore.putUser(server.id, user.id, updatedUser)
 						accountManagerHelper.putAccount(AccountManagerAccount(user.id, server.id, updatedUser.name, account.accessToken))
+
+						emit(AuthenticatedState)
 					} catch(err: ApiClientException) {
 						Timber.e(err, "Unable to get current user data")
+						emit(RequireSignInState)
 					}
-
-					emit(AuthenticatedState)
 				}
 				// Login failed
 				else -> when {
@@ -246,11 +246,13 @@ class AuthenticationRepositoryImpl(
 		val api = jellyfin.createApi(baseUrl = server.address)
 		val imageApi = ImageApi(api)
 
-		return if (user.imageTag == null) null else imageApi.getUserImageUrl(
-			userId = user.id,
-			tag = user.imageTag,
-			imageType = ImageType.PRIMARY,
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
-		)
+		return user.imageTag?.let { imageTag ->
+			imageApi.getUserImageUrl(
+				userId = user.id,
+				tag = imageTag,
+				imageType = ImageType.PRIMARY,
+				maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
+			)
+		}
 	}
 }

@@ -104,11 +104,15 @@ class ServerRepositoryImpl(
 			.forEach { user ->
 				val index = users.indexOfFirst { it.id == user.id }
 				if (index == -1) users.add(user)
-				else users[index] = (users[index] as PrivateUser).copy(
-					name = user.name,
-					requirePassword = user.requirePassword,
-					imageTag = user.imageTag
-				)
+				else {
+					val currentUser = users[index]
+					if (currentUser is PublicUser) users[index] = user
+					else if (currentUser is PrivateUser) users[index] = currentUser.copy(
+						name = user.name,
+						requirePassword = user.requirePassword,
+						imageTag = user.imageTag
+					)
+				}
 			}
 
 		emit(users.toList())
