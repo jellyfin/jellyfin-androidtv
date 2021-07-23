@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.apiclient.Jellyfin
 import org.jellyfin.apiclient.interaction.device.IDevice
-import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.entities.ImageType
-import org.jellyfin.apiclient.model.users.AuthenticationResult
-import org.jellyfin.sdk.model.serializer.toUUID
+import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.client.KtorClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.authenticateUserByName;
+import org.jellyfin.sdk.api.operations.ImageApi
+import org.jellyfin.sdk.api.operations.UserApi
+import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
 import java.util.*
 
@@ -35,6 +37,7 @@ class AuthenticationRepositoryImpl(
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
+	private val userApiClient: KtorClient,
 ) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
@@ -142,7 +145,30 @@ class AuthenticationRepositoryImpl(
 			// Access token found, proceed with sign in
 			account?.accessToken != null -> when {
 				// Update session
-				setActiveSession(user, server) -> emit(AuthenticatedState)
+				setActiveSession(user, server) -> {
+					// Update stored user
+					try {
+						val userInfo by UserApi(userApiClient).getCurrentUser()
+						val currentUser = authenticationStore.getUser(server.id, user.id)
+
+						val updatedUser = currentUser?.copy(
+							name = userInfo.name!!,
+							requirePassword = userInfo.hasPassword,
+							imageTag = userInfo.primaryImageTag
+						) ?: AuthenticationStoreUser(
+							name = userInfo.name!!,
+							requirePassword = userInfo.hasPassword,
+							imageTag = userInfo.primaryImageTag
+						)
+						authenticationStore.putUser(server.id, user.id, updatedUser)
+						accountManagerHelper.putAccount(AccountManagerAccount(user.id, server.id, updatedUser.name, account.accessToken))
+
+						emit(AuthenticatedState)
+					} catch(err: ApiClientException) {
+						Timber.e(err, "Unable to get current user data")
+						emit(RequireSignInState)
+					}
+				}
 				// Login failed
 				else -> when {
 					// No password required - try login
@@ -165,28 +191,30 @@ class AuthenticationRepositoryImpl(
 			return@flow
 		}
 
+		val api = jellyfin.createApi(server.address, deviceInfo = AuthenticationDevice(device, username).toDeviceInfo())
+		val userApi = UserApi(api)
 		val result = try {
-			callApi<AuthenticationResult> { callback ->
-				val api = jellyfin.createApi(server.address, device = AuthenticationDevice(device, username))
-				api.AuthenticateUserAsync(username, password, callback)
-			}
-
-			// Supress because com.android.volley.AuthFailureError is not exposed by the apiclient
-		} catch (@Suppress("TooGenericExceptionCaught") err: Exception) {
+			val response = userApi.authenticateUserByName(username, password)
+			response.content
+		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to sign in as $username")
 			emit(RequireSignInState)
 			return@flow
 		}
 
-		val userId = result.user.id.toUUID()
+		val userInfo = result.user ?: return@flow emit(RequireSignInState)
+
+		val userId = userInfo.id
 		val currentUser = authenticationStore.getUser(server.id, userId)
 		val updatedUser = currentUser?.copy(
-			name = result.user.name,
+			name = userInfo.name!!,
 			lastUsed = Date().time,
-			requirePassword = result.user.hasPassword
+			requirePassword = userInfo.hasPassword,
+			imageTag = userInfo.primaryImageTag
 		) ?: AuthenticationStoreUser(
-			name = result.user.name,
-			requirePassword = result.user.hasPassword
+			name = userInfo.name!!,
+			requirePassword = userInfo.hasPassword,
+			imageTag = userInfo.primaryImageTag
 		)
 
 		authenticationStore.putUser(server.id, userId, updatedUser)
@@ -197,8 +225,8 @@ class AuthenticationRepositoryImpl(
 			serverId = server.id,
 			name = updatedUser.name,
 			accessToken = result.accessToken,
-			requirePassword = result.user.hasPassword,
-			imageTag = result.user.primaryImageTag,
+			requirePassword = userInfo.hasPassword,
+			imageTag = userInfo.primaryImageTag,
 			lastUsed = Date().time,
 		)
 		setActiveSession(user, server)
@@ -215,11 +243,16 @@ class AuthenticationRepositoryImpl(
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? {
-		val apiClient = jellyfin.createApi(serverAddress = server.address, device = device)
-		return apiClient.GetUserImageUrl(user.id.toString(), ImageOptions().apply {
-			tag = user.imageTag
-			imageType = ImageType.Primary
-			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
-		})
+		val api = jellyfin.createApi(baseUrl = server.address)
+		val imageApi = ImageApi(api)
+
+		return user.imageTag?.let { imageTag ->
+			imageApi.getUserImageUrl(
+				userId = user.id,
+				tag = imageTag,
+				imageType = ImageType.PRIMARY,
+				maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
+			)
+		}
 	}
 }
