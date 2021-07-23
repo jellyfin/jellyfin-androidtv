@@ -105,13 +105,14 @@ class ServerRepositoryImpl(
 				val index = users.indexOfFirst { it.id == user.id }
 				if (index == -1) users.add(user)
 				else {
-					val currentUser = users[index]
-					if (currentUser is PublicUser) users[index] = user
-					else if (currentUser is PrivateUser) users[index] = currentUser.copy(
-						name = user.name,
-						requirePassword = user.requirePassword,
-						imageTag = user.imageTag
-					)
+					users[index] = when(val currentUser = users[index]) {
+						is PublicUser -> user
+						is PrivateUser -> currentUser.copy(
+							name = user.name,
+							requirePassword = user.requirePassword,
+							imageTag = user.imageTag
+						)
+					}
 				}
 			}
 
