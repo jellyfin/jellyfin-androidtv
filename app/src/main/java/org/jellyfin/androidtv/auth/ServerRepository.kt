@@ -68,7 +68,7 @@ class ServerRepositoryImpl(
 		val now = Date().time
 
 		// Only update every 10 minutes
-		if (now - serverInfo.lastRefreshed < 600000) return false
+		if (now - serverInfo.lastRefreshed < 600000 && serverInfo.version != null) return false
 
 		return try {
 			val client = jellyfin.createApi(server.address)
