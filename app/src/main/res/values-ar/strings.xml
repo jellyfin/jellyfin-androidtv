@@ -149,4 +149,19 @@
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جاري التحميل…</string>
     <string name="video_error_unknown_error">لم يتمكن البرنامج من تحميل الفيديو</string>
+    <string name="desc_seasonal_themes">عرض واقتراح ألوان مختلفة في أوقات معينة من السنة</string>
+    <string name="lbl_enable_seasonal_themes">سمات موسمية</string>
+    <string name="msg_item_added">" عنصر تمت إضافته"</string>
+    <string name="lbl_delete">احذف</string>
+    <string name="lbl_save_as_playlist">احفظ كقائمة تشغيل</string>
+    <string name="lbl_goto_now_playing">اذهب إلى ما يعرض الآن</string>
+    <string name="lbl_remove_from_queue">أزل من القائمة</string>
+    <string name="lbl_play_from_here">شغل بدءاً من هنا</string>
+    <string name="lbl_now_playing">يعرض الآن</string>
+    <string name="lbl_up_next_colon">"التالي: "</string>
+    <string name="lbl_prev_item">العنصر السابق</string>
+    <string name="lbl_next_item">العنصر التالي</string>
+    <string name="lbl_reshuffle_queue">إعادة الخلط</string>
+    <string name="lbl_open_album">صفحة الألبوم</string>
+    <string name="lbl_open_artist">صفحة المطرب</string>
 </resources>
