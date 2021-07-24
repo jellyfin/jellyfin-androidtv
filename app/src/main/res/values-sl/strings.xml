@@ -345,4 +345,6 @@
     <string name="pref_next_up_behavior_title">Prikaži informacije o naslednjem videu</string>
     <string name="pref_next_up_timeout_title">Trajanje obvestila Sledi</string>
     <string name="lbl_colored_backgrounds">Barvno kodirana ozadja</string>
+    <string name="like_clearing_error">Napaka pri odstranjevanju statusa všeč mi je</string>
+    <string name="favorite_error">Napaka pri nastavljanju statusa priljubljeno</string>
 </resources>
