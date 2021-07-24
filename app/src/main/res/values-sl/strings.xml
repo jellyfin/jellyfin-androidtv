@@ -78,8 +78,8 @@
     <string name="lbl_by_letter">Po abecedi</string>
     <string name="lbl_views">Ogledi</string>
     <string name="lbl_on_now">Sedaj</string>
-    <string name="lbl_next_up">Naslednji</string>
-    <string name="lbl_continue_watching">Nadaljuj z ogledom</string>
+    <string name="lbl_next_up">Sledi</string>
+    <string name="lbl_continue_watching">Nadaljuj ogled</string>
     <string name="lbl_settings">Nastavitve</string>
     <string name="pref_general">Splošno</string>
     <string name="chapters">Poglavja</string>
@@ -87,7 +87,7 @@
     <string name="pref_max_bitrate_title">Max pretočna bitna hitrost</string>
     <string name="pref_playback">Predvajanje</string>
     <string name="btn_cancel">Prekliči</string>
-    <string name="loading">Nalagam…</string>
+    <string name="loading">Nalaganje…</string>
     <string name="video_error_unknown_error">Napaka pri nalaganju videa</string>
     <string name="lbl_play_from_here">Predvajaj od tukaj</string>
     <string name="lbl_now_playing">Trenutno se predvaja</string>
@@ -214,8 +214,8 @@
     <string name="mark_watched">Označi kot ogledano</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
-    <string name="bitrate_auto">Avtomatsko</string>
-    <string name="lbl_Reset">Ponastavitev</string>
+    <string name="bitrate_auto">Samodejno</string>
+    <string name="lbl_Reset">Ponastavi</string>
     <string name="pref_button_remapping_description">Pritisni kateri koli gumb TV daljinca za določitev</string>
     <string name="pref_subtitle_track_button">Gumb sledi podnapisov</string>
     <string name="pref_audio_track_button">Gumb zvočne sledi</string>
@@ -264,7 +264,7 @@
     <string name="lbl_resume_from">Nadaljuj od %1$s</string>
     <string name="lbl_guide_option_number">Številka kanala</string>
     <string name="lbl_guide_option_played">Zadnje predvajano</string>
-    <string name="lbl_sort_by">Uredi po</string>
+    <string name="lbl_sort_by">Razvrsti po</string>
     <string name="lbl_premiere">Premiera</string>
     <string name="lbl_guest_stars">Posebni gostje</string>
     <string name="lbl_on_schedule">Na urniku</string>
@@ -330,4 +330,19 @@
 \nPodatki bodo poslani tretji stranki (tracepot.com).
 \n
 \nTo sporočilo lahko onemogočite v razdelku Poročanje o sesutjih v nastavitvah aplikacije Jellyfin.</string>
+    <string name="playing_error">Napaka pri pridobivanju statusa predvajanja</string>
+    <string name="msg_added_to_video">%1$s dodan v čakalno vrsto. Konec: %2$s</string>
+    <string name="msg_queue_saved">Čakalna vrsta shranjena kot seznam predvajanja: %1$s</string>
+    <string name="seek_error">Iskanje ni mogoče</string>
+    <string name="msg_live_tv_next">Prenesi naslednjih %1$d ur\?</string>
+    <string name="msg_live_tv_prev">Prenesi prejšnjih %1$d ur\?</string>
+    <string name="lbl_load_guide_data">Naloži podatke TV vodiča</string>
+    <string name="episode_missing_message_2">Ta epizoda manjka v vaši knjižnici. Predvajanje se bo ustavilo.</string>
+    <string name="episode_missing_message">Ta epizoda manjka v vaši knjižnici. Jo želite preskočiti in nadaljevati z naslednjo\?</string>
+    <string name="no_player_message">Zdi se da ni nameščena ni nobena aplikacija za predvajanje videa. Ta možnost zahteva nameščeno aplikacijo tretje osebe za predvajanje videa.</string>
+    <string name="mark_watched_message">Vsebina ni bila gledana do konca. Označim kot ogledano\?</string>
+    <string name="pref_libvlc_audio_delay_title">Privzeta zakasnitev zvoka za libVLC</string>
+    <string name="pref_next_up_behavior_title">Prikaži informacije o naslednjem videu</string>
+    <string name="pref_next_up_timeout_title">Trajanje obvestila Sledi</string>
+    <string name="lbl_colored_backgrounds">Barvno kodirana ozadja</string>
 </resources>
