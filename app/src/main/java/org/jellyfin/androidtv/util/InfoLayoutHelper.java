@@ -338,15 +338,20 @@ public class InfoLayoutHelper {
             addBlockText(activity, layout, item.getOfficialRating());
             addSpacer(activity, layout, "  ");
         }
-        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null) {
+        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null && item.getMediaStreams().get(0).getHeight() != null) {
             int width = item.getMediaStreams().get(0).getWidth();
-            if (width > 2000) {
-                addBlockText(activity, layout, "4K");
-            }else if (width > 1910) {
-                addBlockText(activity, layout, "1080");
-            } else if (width > 1270) {
+            int height = item.getMediaStreams().get(0).getHeight();
+            if (width <= 960 && height <= 576) {
+                addBlockText(activity, layout, activity.getString(R.string.lbl_sd));
+            } else if (width <= 1280 && height <= 962) {
                 addBlockText(activity, layout, "720");
-            } else addBlockText(activity, layout, activity.getString(R.string.lbl_sd));
+            } else if (width <= 1920 && height <= 1440) {
+                addBlockText(activity, layout, "1080");
+            } else if (width <= 4096 && height <= 3072) {
+                addBlockText(activity, layout, "4K");
+            } else {
+                addBlockText(activity, layout, "8K");
+            }
 
             addSpacer(activity, layout, "  ");
         }
