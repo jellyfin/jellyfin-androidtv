@@ -213,7 +213,7 @@ public class InfoLayoutHelper {
         Long runtime = Utils.getSafeValue(item.getRunTimeTicks(), item.getOriginalRunTimeTicks());
         if (runtime != null && runtime > 0) {
             long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getCanResume() ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
-            String text = runtime / 600000000 + activity.getString(R.string.lbl_min) + (endTime > 0 ? " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  " : "  ");
+            String text = (int) Math.ceil((double) runtime / 600000000) + activity.getString(R.string.lbl_min) + (endTime > 0 ? " (" + activity.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(activity).format(new Date(endTime)) + ")  " : "  ");
             TextView time = new TextView(activity);
             time.setTextSize(textSize);
             time.setText(text);
