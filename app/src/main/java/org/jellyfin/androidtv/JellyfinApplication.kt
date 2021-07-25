@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.work.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.acra.ACRA
-import org.acra.annotation.AcraCore
-import org.acra.annotation.AcraDialog
-import org.acra.annotation.AcraHttpSender
-import org.acra.annotation.AcraLimiter
+import org.acra.config.dialog
+import org.acra.config.httpSender
+import org.acra.config.limiter
+import org.acra.data.StringFormat
+import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.di.*
@@ -24,19 +24,6 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 
-@AcraCore(
-	buildConfigClass = BuildConfig::class
-)
-@AcraHttpSender(
-	uri = "https://collector.tracepot.com/a2eda9d9",
-	httpMethod = HttpSender.Method.POST
-)
-@AcraDialog(
-	resTitle = R.string.acra_dialog_title,
-	resText = R.string.acra_dialog_text,
-	resTheme = R.style.Theme_Jellyfin
-)
-@AcraLimiter
 @Suppress("unused")
 class JellyfinApplication : TvApp() {
 	@OptIn(KoinExperimentalAPI::class)
@@ -112,6 +99,22 @@ class JellyfinApplication : TvApp() {
 	override fun attachBaseContext(base: Context?) {
 		super.attachBaseContext(base)
 
-		ACRA.init(this)
+		initAcra {
+			buildConfigClass = BuildConfig::class.java
+			reportFormat = StringFormat.JSON
+
+			httpSender {
+				uri = "https://collector.tracepot.com/a2eda9d9"
+				httpMethod = HttpSender.Method.POST
+			}
+
+			dialog {
+				withResTitle(R.string.acra_dialog_title)
+				withResText(R.string.acra_dialog_text)
+				withResTheme(R.style.Theme_Jellyfin)
+			}
+
+			limiter {}
+		}
 	}
 }
