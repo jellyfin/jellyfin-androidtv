@@ -10,6 +10,7 @@ import kotlinx.serialization.modules.contextual
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
+import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.androidtv.util.serializer.UUIDSerializer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
@@ -17,7 +18,8 @@ import timber.log.Timber
 class LegacyAccountMigration(
 	private val context: Context,
 	private val authenticationStore: AuthenticationStore,
-	private val accountManagerHelper: AccountManagerHelper
+	private val accountManagerHelper: AccountManagerHelper,
+	private val systemPreferences: SystemPreferences,
 ) {
 	companion object {
 		const val LEGACY_CREDENTIAL_FILE = "org.jellyfin.androidtv.login.json"
@@ -26,7 +28,7 @@ class LegacyAccountMigration(
 	suspend fun migrate() {
 		val path = context.filesDir.resolve(LEGACY_CREDENTIAL_FILE)
 
-		if (path.exists()) {
+		if (path.exists() && !systemPreferences[SystemPreferences.legacyCredentialsMigrated]) {
 			Timber.d("Starting migration of legacy credentials from $path")
 			val json = Json {
 				serializersModule = SerializersModule {
@@ -42,6 +44,7 @@ class LegacyAccountMigration(
 			if (serverId != null) {
 				val serverName = server["Name"]?.jsonPrimitive?.content
 				val serverAddress = server["Address"]?.jsonPrimitive?.content
+				val serverVersion = server["Version"]?.jsonPrimitive?.content
 
 				if (!authenticationStore.containsServer(serverId)) {
 					Timber.i("Migrating server $serverId")
@@ -51,7 +54,7 @@ class LegacyAccountMigration(
 							name = serverName ?: "",
 							address = serverAddress ?: "",
 							loginDisclaimer = null,
-							version = null,
+							version = serverVersion,
 						)
 					)
 				}
@@ -62,6 +65,7 @@ class LegacyAccountMigration(
 					val name = user["Name"]?.jsonPrimitive?.content ?: userId.toString()
 					val requirePassword = user["HasPassword"]?.jsonPrimitive?.booleanOrNull ?: true
 					val imageTag = user["PrimaryImageTag"]?.jsonPrimitive?.content
+					val accessToken = user["AccessToken"]?.jsonPrimitive?.content ?: server["AccessToken"]?.jsonPrimitive?.content
 
 					authenticationStore.putUser(
 						server = serverId,
@@ -76,7 +80,7 @@ class LegacyAccountMigration(
 						id = userId,
 						server = serverId,
 						name = name,
-						accessToken = user["AccessToken"]?.jsonPrimitive?.content?.let {
+						accessToken = accessToken?.let {
 							// Convert empty string to null
 							if (it.isBlank()) null
 							else it
@@ -84,6 +88,8 @@ class LegacyAccountMigration(
 					))
 				}
 			}
+
+			systemPreferences[SystemPreferences.legacyCredentialsMigrated] = true
 		} else {
 			Timber.d("Skipping migration of legacy credentials from $path (file does not exist)")
 		}

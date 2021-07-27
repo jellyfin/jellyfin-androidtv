@@ -68,7 +68,7 @@ class ServerRepositoryImpl(
 		val now = Date().time
 
 		// Only update every 10 minutes
-		if (now - serverInfo.lastRefreshed < 600000) return false
+		if (now - serverInfo.lastRefreshed < 600000 && serverInfo.version != null) return false
 
 		return try {
 			val client = jellyfin.createApi(server.address)
@@ -102,8 +102,18 @@ class ServerRepositoryImpl(
 		getServerPublicUsers(server)
 			.sortedBy { it.name }
 			.forEach { user ->
-				if (users.none { it.id == user.id })
-					users.add(user)
+				val index = users.indexOfFirst { it.id == user.id }
+				if (index == -1) users.add(user)
+				else {
+					users[index] = when(val currentUser = users[index]) {
+						is PublicUser -> user
+						is PrivateUser -> currentUser.copy(
+							name = user.name,
+							requirePassword = user.requirePassword,
+							imageTag = user.imageTag
+						)
+					}
+				}
 			}
 
 		emit(users.toList())

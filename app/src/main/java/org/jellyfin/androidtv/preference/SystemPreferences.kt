@@ -55,9 +55,15 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		val liveTvGuideFilterSports = Preference.boolean("guide_filter_sports", false)
 
+		// Other persistent variables
 		/**
 		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
 		 */
 		var chosenPlayer = Preference.enum("chosen_player", PreferredVideoPlayer.VLC)
+
+		/**
+		 * Stores whether the legacy credentials (0.11<=) where migrated to the new format (0.12>=)
+		 */
+		var legacyCredentialsMigrated = Preference.boolean("legacy_credentials_migrated", false)
 	}
 }
