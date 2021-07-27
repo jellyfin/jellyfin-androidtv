@@ -148,6 +148,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private long resumePosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,6 +252,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()) {
                                             mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
+                                            resumePosition =  (response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
                                         }
                                         if (resumeVisible) {
                                             mResumeButton.requestFocus();
@@ -1412,7 +1414,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             } else {
                                 Intent intent = new Intent(FullDetailsActivity.this, ExternalPlayerActivity.class);
                                 mediaManager.getValue().setCurrentVideoQueue(response);
-                                intent.putExtra("Position", 0);
+                                intent.putExtra("Position", resumePosition);
                                 startActivity(intent);
                             }
                         }

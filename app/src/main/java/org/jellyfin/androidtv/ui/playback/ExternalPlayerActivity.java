@@ -83,7 +83,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         long playerFinishedTime = System.currentTimeMillis();
         Timber.d("Returned from player... %d", resultCode);
-        //MX Player will return position
+        //MX Player will return position - MPV also does the same
         int pos = data != null ? data.getIntExtra("position", 0) : 0;
         if (pos > 0) Timber.i("Player returned position: %d", pos);
         Long reportPos = (long) pos * 10000;
@@ -245,6 +245,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         String url = response.getMediaUrl();
                         //And request an activity to play it
                         startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
+
                     }
 
                     @Override
@@ -286,7 +287,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void startExternalActivity(String path, String container) {
         Intent external = new Intent(Intent.ACTION_VIEW);
         external.setDataAndType(Uri.parse(path), "video/"+container);
-
+        external.setPackage("is.xyz.mpv");
         BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
 
         //These parms are for MX Player
@@ -296,6 +297,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             external.putExtra("title", item.getName());
         }
         //End MX Player
+
 
         Timber.i("Starting external playback of path: %s and mime: video/%s",path,container);
 
