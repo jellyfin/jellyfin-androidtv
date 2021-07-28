@@ -408,4 +408,25 @@
     <string name="system_user_explanation">Valgt bruker vil bli brukt for systemintegrasjoner som søk</string>
     <string name="system_user">Systembruker</string>
     <string name="auto_sign_in">Automatisk innlogging</string>
+    <string name="lbl_one_song">1 Sang</string>
+    <string name="lbl_one_episode">1 Episode</string>
+    <string name="lbl_num_episodes">%1$d Episoder</string>
+    <string name="lbl_on_channel">På %1$s</string>
+    <string name="lbl_record_all">Tar opp alle episoder</string>
+    <string name="lbl_record_only_new">Tar bare opp nye episoder</string>
+    <string name="lbl_episode_range">E%1$d-%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Spesial</string>
+    <string name="help">Hjelp</string>
+    <string name="who_is_watching">Hvem ser på\?</string>
+    <string name="no_user_warning">Kunne ikke finne noen brukere!
+\nLegg til ny bruker ved å trykke på \"Legg til bruker\" knappen.</string>
+    <string name="add_user">Legg til bruker</string>
+    <string name="server_unsupported">Serveren må oppdateres. Nåværende versjon er %s men appen trenger %s eller nyere</string>
+    <string name="welcome_content">Koble til serveren din for å starte.</string>
+    <string name="welcome_title">Velkommen til Jellyfin!</string>
+    <string name="saved_servers">Lagrede servere</string>
+    <string name="press_to_close">Trykk for å lukke</string>
+    <string name="pref_next_up_behavior_title">Vis info om neste video</string>
 </resources>
