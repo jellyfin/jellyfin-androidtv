@@ -19,14 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.window.WindowManager
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.apiclient.interaction.ApiClient
@@ -40,7 +33,7 @@ import java.util.concurrent.ExecutionException
 class BackgroundService(
 	private val context: Context,
 	private val apiClient: ApiClient,
-	private val userPreferences: UserPreferences
+	private val userPreferences: UserPreferences,
 ) {
 	companion object {
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
@@ -106,7 +99,7 @@ class BackgroundService(
 		backgroundDrawable.setDrawableByLayerId(R.id.background_static, windowBackground)
 
 		// Store size of window manager for this activity
-		windowSize = WindowManager(activity).currentWindowMetrics.bounds.let {
+		windowSize = WindowManager(activity).getCurrentWindowMetrics().bounds.let {
 			Size(it.right, it.bottom)
 		}
 
