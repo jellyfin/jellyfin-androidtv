@@ -39,14 +39,14 @@
     <string name="msg_unable_to_create_recording">无法录制</string>
     <string name="msg_recording_cancelled">录制已取消</string>
     <string name="msg_unable_to_cancel">无法取消录制</string>
-    <string name="lbl_cast_crew">人员表</string>
+    <string name="lbl_cast_crew">演员/工作人员</string>
     <string name="lbl_chapters">章节</string>
     <string name="lbl_specials">特典</string>
     <string name="lbl_trailers">预告</string>
     <string name="lbl_seasons">剧季</string>
     <string name="lbl_upcoming">即将上映</string>
     <string name="lbl_sd">标清</string>
-    <string name="lbl_runs">运行</string>
+    <string name="lbl_runs">时长</string>
     <string name="lbl_min">" 分钟"</string>
     <string name="lbl_ends">结束</string>
     <string name="lbl_directed_by">导演</string>
