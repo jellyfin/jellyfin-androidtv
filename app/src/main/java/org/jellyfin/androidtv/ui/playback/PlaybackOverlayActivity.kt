@@ -5,6 +5,9 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.ui.shared.BaseActivity
 
@@ -20,6 +23,13 @@ class PlaybackOverlayActivity : BaseActivity() {
 		// Workaround for Sony Bravia devices that show a "grey" background on HDR videos
 		// Note: Should NOT be applied to the decorView as this introduces artifacts
 		window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+		// Hide system bars
+		WindowCompat.setDecorFitsSystemWindows(window, false)
+		WindowInsetsControllerCompat(window, findViewById(android.R.id.content)).apply {
+			hide(WindowInsetsCompat.Type.systemBars())
+			systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+		}
 
 		supportFragmentManager
 			.beginTransaction()
