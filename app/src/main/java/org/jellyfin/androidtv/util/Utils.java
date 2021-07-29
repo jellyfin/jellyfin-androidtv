@@ -111,33 +111,6 @@ public class Utils {
         return join(separator, Arrays.asList(items));
     }
 
-    public static boolean versionGreaterThanOrEqual(String firstVersion, String secondVersion) {
-        try {
-            String[] firstVersionComponents = firstVersion.split("[.]");
-            String[] secondVersionComponents = secondVersion.split("[.]");
-            int firstLength = firstVersionComponents.length;
-            int secondLength = secondVersionComponents.length;
-            int firstMajor = firstLength > 0 ? Integer.parseInt(firstVersionComponents[0]) : 0;
-            int secondMajor = secondLength > 0 ? Integer.parseInt(secondVersionComponents[0]) : 0;
-            int firstMinor = firstLength > 1 ? Integer.parseInt(firstVersionComponents[1]) : 0;
-            int secondMinor = secondLength > 1 ? Integer.parseInt(secondVersionComponents[1]) : 0;
-            int firstBuild = firstLength > 2 ? Integer.parseInt(firstVersionComponents[2]) : 0;
-            int secondBuild = secondLength > 0 ? Integer.parseInt(secondVersionComponents[2]) : 0;
-            int firstRelease = firstLength > 3 ? Integer.parseInt(firstVersionComponents[3]) : 0;
-            int secondRelease = secondLength > 3 ? Integer.parseInt(secondVersionComponents[3]) : 0;
-
-            if (firstMajor < secondMajor) return false;
-            if (firstMajor == secondMajor && firstMinor < secondMinor) return false;
-            if (firstMajor == secondMajor && firstMinor == secondMinor && firstBuild < secondBuild) return false;
-            if (firstMajor == secondMajor && firstMinor == secondMinor && firstBuild == secondBuild && firstRelease < secondRelease) return false;
-
-            return true;
-        } catch (Exception e) {
-            Timber.e(e);
-            return false;
-        }
-    }
-
     public static int getMaxBitrate() {
         String maxRate = get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
         Long autoRate = get(AutoBitrate.class).getBitrate();
