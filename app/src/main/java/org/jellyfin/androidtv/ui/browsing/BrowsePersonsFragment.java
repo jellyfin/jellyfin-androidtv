@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.PersonsQuery;
@@ -17,7 +16,7 @@ public class BrowsePersonsFragment extends CustomViewFragment {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             PersonsQuery numbers = new PersonsQuery();
-            numbers.setParentId(mFolder.getId());
+            numbers.setParentId(mFolder.getId().toString());
             numbers.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
             numbers.setNameLessThan("A");
@@ -27,7 +26,7 @@ public class BrowsePersonsFragment extends CustomViewFragment {
             //Then all the defined letters
             for (Character letter : letters.toCharArray()) {
                 PersonsQuery letterQuery = new PersonsQuery();
-                letterQuery.setParentId(mFolder.getId());
+                letterQuery.setParentId(mFolder.getId().toString());
                 letterQuery.setSortBy(new String[]{ItemSortBy.SortName});
                 if (includeType != null) letterQuery.setIncludeItemTypes(new String[]{includeType});
                 letterQuery.setNameStartsWith(letter.toString());

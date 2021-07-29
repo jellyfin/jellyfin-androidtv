@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.browsing;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
-
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
@@ -17,7 +16,7 @@ public class ByLetterFragment extends CustomViewFragment {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             StdItemQuery numbers = new StdItemQuery();
-            numbers.setParentId(mFolder.getId());
+            numbers.setParentId(mFolder.getId().toString());
             numbers.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
             numbers.setNameLessThan(letters.substring(0,1));
@@ -27,7 +26,7 @@ public class ByLetterFragment extends CustomViewFragment {
             //Then all the defined letters
             for (Character letter : letters.toCharArray()) {
                 StdItemQuery letterQuery = new StdItemQuery();
-                letterQuery.setParentId(mFolder.getId());
+                letterQuery.setParentId(mFolder.getId().toString());
                 letterQuery.setSortBy(new String[]{ItemSortBy.SortName});
                 if (includeType != null) letterQuery.setIncludeItemTypes(new String[]{includeType});
                 letterQuery.setNameStartsWith(letter.toString());

@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.ui.home
 import android.app.Activity
 import android.content.Intent
 import androidx.leanback.widget.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.Extras
@@ -13,12 +15,11 @@ import org.jellyfin.androidtv.ui.browsing.UserViewActivity
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer
+import org.jellyfin.sdk.model.api.BaseItemDto
+import java.util.*
 
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
-	private val serializer: GsonJsonSerializer
 ) : HomeFragmentRow, OnItemViewClickedListener {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
@@ -52,11 +53,11 @@ class HomeFragmentLiveTVRow(
 					Intent(activity, BrowseRecordingsActivity::class.java).apply {
 						putExtra(
 							Extras.Folder,
-							serializer.SerializeToString(
-								BaseItemDto().apply {
-									id = ""
+							Json.encodeToString(
+								BaseItemDto(
+									id = UUID(0L, 0L),
 									name = activity.getString(R.string.lbl_recorded_tv)
-								}
+								)
 							))
 					}
 				)
@@ -71,12 +72,12 @@ class HomeFragmentLiveTVRow(
 					Intent(activity, UserViewActivity::class.java).apply {
 						putExtra(
 							Extras.Folder,
-							serializer.SerializeToString(
-								BaseItemDto().apply {
-									id = "SERIESTIMERS"
+							Json.encodeToString(
+								BaseItemDto(
+									id = UUID(0L, 0L),
+									name = activity.getString(R.string.lbl_series_recordings),
 									collectionType = "SeriesTimers"
-									name = activity.getString(R.string.lbl_series_recordings)
-								}
+								)
 							)
 						)
 					}

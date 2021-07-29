@@ -24,10 +24,18 @@ import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.entities.DisplayPreferences
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.querying.ItemsResult
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
+import kotlin.collections.List
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
+import kotlin.collections.isNullOrEmpty
+import kotlin.collections.mapOf
+import kotlin.collections.mutableListOf
+import kotlin.collections.set
+import kotlin.collections.toMutableMap
 
 class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
@@ -41,7 +49,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 
 	// Special rows
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
-	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), get()) }
+	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity()) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		// Create adapter/presenter and set it to parent
