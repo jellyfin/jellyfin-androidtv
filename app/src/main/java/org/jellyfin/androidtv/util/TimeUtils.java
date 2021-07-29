@@ -27,14 +27,6 @@ public class TimeUtils {
         return Math.round(seconds * MILLIS_PER_SEC);
     }
 
-    public static long minutesToMillis(double minutes) {
-        return Math.round(minutes * MILLIS_PER_MIN);
-    }
-
-    public static long hoursToMillis(double hours) {
-        return Math.round(hours * MILLIS_PER_HR);
-    }
-
     /**
      * Formats time in milliseconds to hh:mm:ss string format.
      *
