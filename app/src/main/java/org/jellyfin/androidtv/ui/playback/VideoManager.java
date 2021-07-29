@@ -31,7 +31,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -80,7 +79,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
-    private boolean hasSubtitlesSurface = false;
     private PlaybackListener errorListener;
     private PlaybackListener completionListener;
     private PlaybackListener preparedListener;
@@ -92,13 +90,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
         mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
-        if (DeviceUtils.is50()) {
-            mSubtitlesSurface.setZOrderMediaOverlay(true);
-            mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-            hasSubtitlesSurface = true;
-        } else {
-            mSubtitlesSurface.setVisibility(View.GONE);
-        }
+        mSubtitlesSurface.setZOrderMediaOverlay(true);
+        mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
             @Override
@@ -499,7 +492,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             //setup surface
             mVlcPlayer.getVLCVout().detachViews();
             mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-            if (hasSubtitlesSurface) mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
+            mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
             mVlcPlayer.getVLCVout().attachViews(this);
             Timber.d("Surface attached");
             mSurfaceReady = true;
@@ -627,7 +620,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         normalWidth = lp.width;
         normalHeight = lp.height;
         mSurfaceView.setLayoutParams(lp);
-        if (hasSubtitlesSurface) mSubtitlesSurface.setLayoutParams(lp);
+        mSubtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         if (mSurfaceFrame != null) {
@@ -640,7 +633,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         Timber.d("Surface sized %d x %d ", lp.width, lp.height);
         mSurfaceView.invalidate();
-        if (hasSubtitlesSurface) mSubtitlesSurface.invalidate();
+        mSubtitlesSurface.invalidate();
     }
 
     public void setOnErrorListener(final PlaybackListener listener) {
