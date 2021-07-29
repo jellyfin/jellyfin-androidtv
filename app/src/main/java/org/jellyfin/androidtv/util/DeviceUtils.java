@@ -44,10 +44,6 @@ public class DeviceUtils {
         ).contains(Build.MODEL);
     }
 
-    public static boolean is50() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
     public static boolean is60() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
