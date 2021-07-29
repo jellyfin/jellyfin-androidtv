@@ -5,7 +5,7 @@ androidx-leanback = "1.1.0-beta01"
 androidx-lifecycle = "2.3.1"
 koin = "2.2.3"
 glide = "4.12.0"
-acra = "5.7.0"
+acra = "5.8.4"
 
 [libraries]
 # Jellyfin apiclient
