@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
@@ -59,6 +60,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private FrameLayout mSurfaceFrame;
     private SimpleExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private AspectRatioFrameLayout mAspectRatioFrameLayout;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
@@ -145,20 +147,17 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mZoomMode = mode;
         switch (mode) {
             case ZOOM_NORMAL:
-                mExoPlayerView.setScaleY(1);
-                mExoPlayerView.setScaleX(1);
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
             case ZOOM_VERTICAL:
                 mExoPlayerView.setScaleX(1);
                 mExoPlayerView.setScaleY(1.33f);
                 break;
             case ZOOM_HORIZONTAL:
-                mExoPlayerView.setScaleY(1);
-                mExoPlayerView.setScaleX(1.33f);
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FILL);
                 break;
             case ZOOM_FULL:
-                mExoPlayerView.setScaleX(1.33f);
-                mExoPlayerView.setScaleY(1.33f);
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_ZOOM);
                 break;
 
         }
