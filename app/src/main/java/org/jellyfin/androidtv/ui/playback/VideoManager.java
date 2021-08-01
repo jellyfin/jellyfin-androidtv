@@ -46,12 +46,11 @@ import java.util.List;
 import timber.log.Timber;
 
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
-    public final static int ZOOM_NORMAL = 0;
-    public final static int ZOOM_VERTICAL = 1;
-    public final static int ZOOM_HORIZONTAL = 2;
-    public final static int ZOOM_FULL = 3;
+    public final static int ZOOM_FIT = 0;
+    public final static int ZOOM_AUTO_CROP = 1;
+    public final static int ZOOM_STRETCH = 2;
 
-    private int mZoomMode = ZOOM_NORMAL;
+    private int mZoomMode = ZOOM_FIT;
 
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
@@ -146,20 +145,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setZoom(int mode) {
         mZoomMode = mode;
         switch (mode) {
-            case ZOOM_NORMAL:
+            case ZOOM_FIT:
                 mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
-            case ZOOM_VERTICAL:
-                mExoPlayerView.setScaleX(1);
-                mExoPlayerView.setScaleY(1.33f);
-                break;
-            case ZOOM_HORIZONTAL:
-                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FILL);
-                break;
-            case ZOOM_FULL:
+            case ZOOM_AUTO_CROP:
                 mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_ZOOM);
                 break;
-
+            case ZOOM_STRETCH:
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FILL);
+                break;
         }
     }
 
