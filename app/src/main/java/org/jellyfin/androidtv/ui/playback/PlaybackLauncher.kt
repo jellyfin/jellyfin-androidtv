@@ -31,3 +31,9 @@ class GarbagePlaybackLauncher(
 		else -> PlaybackOverlayActivity::class.java
 	}
 }
+
+// TODO: Move to playback module
+class RewritePlaybackLauncher : PlaybackLauncher {
+	override fun useExternalPlayer(itemType: BaseItemType?) = false
+	override fun getPlaybackActivityClass(itemType: BaseItemType?) = TODO("Not yet implemented")
+}
