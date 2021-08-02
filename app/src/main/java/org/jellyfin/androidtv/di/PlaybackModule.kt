@@ -20,7 +20,7 @@ val playbackModule = module {
 
 	factory {
 		val preferences = get<UserPreferences>()
-		val useRewrite = preferences[UserPreferences.playbackRewriteEnabled] && BuildConfig.DEBUG
+		val useRewrite = preferences[UserPreferences.playbackRewriteEnabled] && BuildConfig.DEVELOPMENT
 
 		// TODO Inject PlaybackLauncher for playback rewrite here
 		if (useRewrite) RewritePlaybackLauncher()

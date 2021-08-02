@@ -24,7 +24,7 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 			}
 
 			// Only show in debug mode
-			if (BuildConfig.DEBUG) {
+			if (BuildConfig.DEVELOPMENT) {
 				checkbox {
 					setTitle(R.string.enable_playback_module_title)
 					setContent(R.string.enable_playback_module_description)
