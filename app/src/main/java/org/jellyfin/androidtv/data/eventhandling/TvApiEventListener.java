@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.data.eventhandling;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
@@ -33,8 +36,6 @@ import org.jellyfin.apiclient.model.session.SessionInfoDto;
 import java.util.Arrays;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class TvApiEventListener extends ApiEventListener {
     private final DataRefreshService dataRefreshService;
@@ -179,8 +180,9 @@ public class TvApiEventListener extends ApiEventListener {
                         //peek at first item to see what type it is
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
+                                Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(response.getItems()[0].getBaseItemType());
                                 mediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
-                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), TvApp.getApplication().getPlaybackActivityClass(response.getItems()[0].getBaseItemType()));
+                                Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), activity);
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                 break;
                             case "Audio":

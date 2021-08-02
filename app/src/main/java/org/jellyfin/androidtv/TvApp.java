@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.Activity;
 import android.app.Application;
 
@@ -8,17 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 
@@ -26,8 +23,6 @@ import java.util.HashMap;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class TvApp extends Application {
     public static final String DISPLAY_PREFS_APP_NAME = "ATV";
@@ -48,7 +43,6 @@ public class TvApp extends Application {
     private Activity currentActivity;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
-    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     public void onCreate() {
@@ -100,27 +94,6 @@ public class TvApp extends Application {
 
     public void setPlaybackController(PlaybackController playbackController) {
         this.playbackController = playbackController;
-    }
-
-    public boolean useExternalPlayer(BaseItemType itemType) {
-        switch (itemType) {
-            case Movie:
-            case Episode:
-            case Video:
-            case Series:
-            case Recording:
-                return userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
-            case TvChannel:
-            case Program:
-                return userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) == PreferredVideoPlayer.EXTERNAL;
-            default:
-                return false;
-        }
-    }
-
-    @NonNull
-    public Class<? extends Activity> getPlaybackActivityClass(BaseItemType itemType) {
-        return useExternalPlayer(itemType) ? ExternalPlayerActivity.class : PlaybackOverlayActivity.class;
     }
 
     @NonNull

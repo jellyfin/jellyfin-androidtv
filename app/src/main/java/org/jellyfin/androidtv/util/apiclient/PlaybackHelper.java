@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util.apiclient;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -31,8 +34,6 @@ import java.util.Collections;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class PlaybackHelper {
     private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
@@ -228,7 +229,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !TvApp.getApplication().useExternalPlayer(mainItem.getBaseItemType()) && get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !get(PlaybackLauncher.class).useExternalPlayer(mainItem.getBaseItemType()) && get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
                     get(ApiClient.class).GetIntrosAsync(mainItem.getId(), currentUser.getId(), new Response<ItemsResult>() {
                         @Override
@@ -274,7 +275,8 @@ public class PlaybackHelper {
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
-                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
+                            Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
+                            Intent intent = new Intent(activity, newActivity);
                             get(MediaManager.class).setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
@@ -289,7 +291,8 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(item.getBaseItemType()));
+                        Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
+                        Intent intent = new Intent(activity, newActivity);
                         get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
