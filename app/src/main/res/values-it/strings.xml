@@ -241,7 +241,7 @@
     <string name="lbl_next_episode">Prossimo episodio</string>
     <string name="lbl_previous_episode">Episodio precedente</string>
     <string name="lbl_more_like_this">Simili a questo</string>
-    <string name="lbl_resume_from">Riprendi dal %1$s</string>
+    <string name="lbl_resume_from">Riprendi da %1$s</string>
     <string name="lbl_resume_preroll">Riprendi il Pre-Roll</string>
     <string name="lbl_guide_option_number">Numero del canale</string>
     <string name="lbl_guide_option_played">Ultimo riprodotto</string>
@@ -383,7 +383,7 @@
     <string name="lbl_manage_servers">Gestisci i server</string>
     <string name="pref_default_rating">Tipo di rating preferito</string>
     <string name="connect_title">Connetti</string>
-    <string name="login_help_description">Jellyfin ha bisogno di un server a cui connettersi. Visita la nostra documentazione su docs.jellyfin.org per iniziare con Jellyfin.</string>
+    <string name="login_help_description">Jellyfin ha bisogno di un server a cui connettersi. Visita la nostra documentazione su docs.jellyfin.org o scansiona il codice QR per iniziare con Jellyfin.</string>
     <string name="login_help_title">Hai bisogno d\'aiuto\?</string>
     <string name="connect_manually_by_address">Inserisci l\'indirizzo del server</string>
     <string name="connect_manually_title">Connetti manualmente</string>
@@ -407,4 +407,35 @@
     <string name="auto_sign_in">Login automatico</string>
     <string name="lbl_switch_user">Cambia utente</string>
     <string name="no_network_permissions">Jellyfin richiede i permessi di rete per funzionare</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">1 Brano</string>
+    <string name="lbl_num_songs">%1$d Brani</string>
+    <string name="lbl_one_episode">1 Episodio</string>
+    <string name="lbl_num_episodes">%1$d Episodi</string>
+    <string name="lbl_on_channel">Su %1$s</string>
+    <string name="lbl_on_any_channel">Su Qualsiasi Canale</string>
+    <string name="lbl_record_all">Registrerò Tutti Gli Episodi</string>
+    <string name="lbl_record_only_new">Registrerò solo nuovi episodi</string>
+    <string name="lbl_starting_on_schedule_ending_after">Iniziando In Orario E Finendo %1$s Dopo l\'Orario</string>
+    <string name="lbl_starting_early_ending_on_schedule">Iniziando %1$s in Anticipo e Finendo In Orario</string>
+    <string name="lbl_starting_early_ending_after">Iniziando %1$s in Anticipo e Finendo %2$s Dopo il Programma</string>
+    <string name="lbl_next_up_minimal">Senza copertina</string>
+    <string name="lbl_next_up_extended">Con copertina</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Speciale</string>
+    <string name="help">Aiuto</string>
+    <string name="add_user">Aggiungi utente</string>
+    <string name="who_is_watching">Chi sta guardando\?</string>
+    <string name="no_user_warning">Non abbiamo trovato nessun utente!
+\nAggiungi un nuovo utente premendo il pulsante \"Aggiungi utente\".</string>
+    <string name="server_unsupported">Il server deve essere aggiornato. La versione attuale è %s ma l\'applicazione richiede %s o più recente</string>
+    <string name="welcome_content">Connettiti al tuo server per incominciare.</string>
+    <string name="welcome_title">Benvenuto su Jellyfin!</string>
+    <string name="saved_servers">Server salvati</string>
+    <string name="press_to_close">Premi per chiudere</string>
+    <string name="pref_theme_muted_purple">Viola tenue</string>
+    <string name="pref_next_up_behavior_title">Mostra le info del prossimo video</string>
 </resources>
