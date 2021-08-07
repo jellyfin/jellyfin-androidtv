@@ -31,7 +31,7 @@ fun Project.getVersionName(fallback: String = "0.0.0-dev.1") =
  * 2.0.0         ->  2000099
  * 99.99.99-rc.1 -> 99999901
  */
-fun getVersionCode(versionName: String): Int? {
+fun getVersionCode(versionName: String): Int {
 	// Split to core and pre release parts with a default for pre release (null)
 	val (versionCore, versionPreRelease) =
 		when (val index = versionName.indexOf('-')) {

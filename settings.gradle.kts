@@ -3,3 +3,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 
 // Application
 include(":app")
+
+// Modules
+include(":playback")
