@@ -46,7 +46,7 @@ class ApiBinder(
 			return false
 		}
 
-		api.setDevice(AuthenticationDevice(device, session.userId.toString()))
+		api.device = AuthenticationDevice(device, session.userId.toString())
 		api.SetAuthenticationInfo(session.accessToken, session.userId.toString())
 		api.EnableAutomaticNetworking(ServerInfo().apply {
 			id = session.serverId.toString()
@@ -62,15 +62,12 @@ class ApiBinder(
 
 		callApiEmpty { callback ->
 			api.ReportCapabilities(ClientCapabilities().apply {
-				setPlayableMediaTypes(arrayListOf(MediaType.Video.toString(), MediaType.Audio.toString()));
-				setSupportsMediaControl(true);
-				setSupportedCommands(arrayListOf(
+				playableMediaTypes = arrayListOf(MediaType.Video, MediaType.Audio)
+				supportsMediaControl = true
+				supportedCommands = arrayListOf(
 					GeneralCommandType.DisplayContent.toString(),
-					GeneralCommandType.Mute.toString(),
-					GeneralCommandType.Unmute.toString(),
-					GeneralCommandType.ToggleMute.toString(),
-					GeneralCommandType.DisplayContent.toString(),
-				));
+					GeneralCommandType.DisplayMessage.toString(),
+				)
 			}, callback)
 		}
 
