@@ -185,10 +185,8 @@
     <string name="lbl_current_queue">Aktuální fronta</string>
     <string name="btn_got_it">Beru na vědomí</string>
     <string name="msg_external_path">Tato volba bude fungovat pouze v případě správného nastavení knihovny na serveru se síťovými cestami nebo nahrazením cest a Vámi používaný klient má přímý přístup k těmto síťovým umístěním.</string>
-    <string name="lbl_vertical_stretch">Svislé roztáhnutí</string>
     <string name="lbl_horizontal_stretch">Vodorovné roztáhnutí</string>
     <string name="lbl_zoom">Přiblížení</string>
-    <string name="lbl_normal">Běžný</string>
     <string name="desc_bitstream_ac3">Vyžaduje výkonný hardware</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nové premiéry</string>

@@ -231,10 +231,8 @@
     <string name="lbl_current_queue">Hàng đợi hiện tại</string>
     <string name="btn_got_it">Hiểu rồi</string>
     <string name="msg_external_path">Tính năng này sẽ chỉ hoạt động nếu bạn đã thiết lập đúng thư viện của mình trên máy chủ với các đường dẫn mạng hoặc thay thế đường dẫn và ứng dụng khách bạn đang sử dụng có thể truy cập trực tiếp các vị trí này qua mạng.</string>
-    <string name="lbl_vertical_stretch">Căng dọc</string>
     <string name="lbl_horizontal_stretch">Căng ngang</string>
     <string name="lbl_zoom">Thu Phóng</string>
-    <string name="lbl_normal">Bình thường</string>
     <string name="desc_bitstream_ac3">Yêu cầu phần cứng có khả năng</string>
     <string name="lbl_bitstream_ac3">Âm thanh kỹ thuật số Dolby Bitstream</string>
     <string name="lbl_new_premieres">Công chiếu mới</string>

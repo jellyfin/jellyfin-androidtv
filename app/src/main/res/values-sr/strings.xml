@@ -232,10 +232,8 @@
     <string name="msg_external_path">Ова функција ће функционисати само ако сте правилно поставили библиотеку на серверу са мрежним путањама или заменом путање, а клијент који користите може директно приступити тим локацијама преко мреже.</string>
     <string name="lbl_subtitle_track">Изаберите запис титла</string>
     <string name="lbl_audio_track">Изаберите аудио запис</string>
-    <string name="lbl_vertical_stretch">Вертикално развлачење</string>
     <string name="lbl_horizontal_stretch">Хоризонтално развлачење</string>
     <string name="lbl_zoom">Зум</string>
-    <string name="lbl_normal">Нормално</string>
     <string name="desc_bitstream_ac3">Захтева способан хардвер</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital звук</string>
     <string name="lbl_new_premieres">Нове премијере</string>

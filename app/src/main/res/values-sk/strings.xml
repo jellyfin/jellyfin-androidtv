@@ -198,10 +198,8 @@
     <string name="desc_current_video_queue">Video položky súčasne čakajúce vo fronte na prehrávanie</string>
     <string name="lbl_current_queue">Aktuálna fronta</string>
     <string name="btn_got_it">Rozumiem</string>
-    <string name="lbl_vertical_stretch">Zvislé roztiahnutie</string>
     <string name="lbl_horizontal_stretch">Vodorovné roztiahnutie</string>
     <string name="lbl_zoom">Priblíženie</string>
-    <string name="lbl_normal">Normálny</string>
     <string name="desc_bitstream_ac3">Vyžaduje schopný hardvér</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nové premiéry</string>

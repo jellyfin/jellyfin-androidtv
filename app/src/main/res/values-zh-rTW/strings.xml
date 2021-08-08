@@ -111,10 +111,8 @@
     <string name="lbl_clear_queue">清除佇列</string>
     <string name="lbl_current_queue">目前佇列</string>
     <string name="btn_got_it">得到</string>
-    <string name="lbl_vertical_stretch">垂直延伸</string>
     <string name="lbl_horizontal_stretch">橫向拉伸</string>
     <string name="lbl_zoom">變焦</string>
-    <string name="lbl_normal">正常</string>
     <string name="lbl_bitstream_ac3">比特流杜比數位音訊</string>
     <string name="lbl_delete">刪除</string>
     <string name="lbl_save_as_playlist">作為播放列表保存</string>

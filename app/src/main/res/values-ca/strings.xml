@@ -87,7 +87,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://myserver.com</string>
     <string name="lbl_version">"Versió "</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="lbl_normal">Normal</string>
     <string name="desc_bitstream_ac3">Requereix hardware compatible</string>
     <string name="lbl_bitstream_ac3">Transmissió directa d\'àudio Dolby Digital</string>
     <string name="lbl_new_premieres">Noves estrenes</string>
@@ -212,7 +211,6 @@
     <string name="msg_external_path">Aquesta funció només funcionarà si heu configurat correctament la biblioteca al servidor amb camins de xarxa o substitució de camins i el client que utilitzeu pot accedir directament a aquestes ubicacions a través de la xarxa.</string>
     <string name="lbl_subtitle_track">Selecciona la pista de subtítols</string>
     <string name="lbl_audio_track">Seleccioneu la pista d\'àudio</string>
-    <string name="lbl_vertical_stretch">Estirar verticalment</string>
     <string name="lbl_horizontal_stretch">Estirar horitzontalment</string>
     <string name="lbl_image_type">Tipus de imatge</string>
     <string name="lbl_start_favorites">Posar Favorits al inici</string>

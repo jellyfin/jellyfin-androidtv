@@ -159,7 +159,6 @@
     <string name="lbl_save_as_playlist">プレイリストとして保存</string>
     <string name="lbl_delete">削除</string>
     <string name="msg_item_added">" 項目を追加しました"</string>
-    <string name="lbl_normal">正常</string>
     <string name="lbl_zoom">拡大</string>
     <string name="btn_got_it">分かりました</string>
     <string name="lbl_clear_queue">キューをクリア</string>
@@ -216,7 +215,6 @@
     <string name="lbl_in_x_days">%d 日で</string>
     <string name="lbl_refresh_switching">リフレッシュレート切り替え中</string>
     <string name="lbl_current_queue">現在のキュー</string>
-    <string name="lbl_vertical_stretch">垂直伸縮</string>
     <string name="lbl_horizontal_stretch">水平伸縮</string>
     <string name="lbl_bitstream_ac3">ビットストリームドルビーデジタル・オーディオ</string>
     <string name="lbl_new_premieres">新しいプレミア</string>

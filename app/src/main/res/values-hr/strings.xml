@@ -314,10 +314,8 @@
     <string name="msg_external_path">Ova značajka će raditi samo ako ste pravilno namjestili biblioteku na poslužitelju sa mrežnim putevima ili zamjenom puteva i ako klijent kojeg koristite može izravno pristupiti tip lokacijama preko mreže.</string>
     <string name="lbl_subtitle_track">Odaberi zapis titlova</string>
     <string name="lbl_audio_track">Odaberi zvučni zapis</string>
-    <string name="lbl_vertical_stretch">Okomito rastezanje</string>
     <string name="lbl_horizontal_stretch">Vodoravno rastezanje</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="lbl_normal">Normalno</string>
     <string name="desc_bitstream_ac3">Zahtijeva podržan hardver</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nove Premijere</string>

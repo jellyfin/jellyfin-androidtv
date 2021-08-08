@@ -74,7 +74,6 @@
     <string name="lbl_current_queue">Antrian Saat Ini</string>
     <string name="btn_got_it">Mengerti</string>
     <string name="lbl_zoom">Perbesar</string>
-    <string name="lbl_normal">Normal</string>
     <string name="desc_bitstream_ac3">Membutuhkan perangkat keras yang mumpuni</string>
     <string name="desc_automatic_fav_songs">Daftar putar otomatis dari lagu favorit dan disukai</string>
     <string name="desc_seasonal_themes">Tampilkan warna dan saran khusus pada waktu-waktu tertentu dalam setahun</string>
@@ -265,7 +264,6 @@
     <string name="btn_cancel">Membatalkan</string>
     <string name="lbl_refresh_switching">Refresh Rate Switching</string>
     <string name="lbl_play_next_up">Mainkan selanjutnya</string>
-    <string name="lbl_vertical_stretch">Peregangan Vertikal</string>
     <string name="lbl_horizontal_stretch">Peregangan Horizontal</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Premiere Baru</string>

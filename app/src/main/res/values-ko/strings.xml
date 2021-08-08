@@ -213,7 +213,6 @@
     <string name="lbl_start_favorites">즐겨찾기를 처음에 배치하기</string>
     <string name="lbl_by_letter">글자 순</string>
     <string name="lbl_views">시청</string>
-    <string name="lbl_normal">일반</string>
     <string name="audio_error">오디오 %1$s 재생할 수 없음</string>
     <string name="acra_dialog_title">알 수 없는 오류!.</string>
     <string name="play_with_external_app">외부 플레이어 앱으로 재생</string>
@@ -274,7 +273,6 @@
     <string name="lbl_current_queue">현재 대기열</string>
     <string name="btn_got_it">확인</string>
     <string name="msg_external_path">이 기능은 네트워크 경로 또는 대체 경로를 사용하여 서버에 라이브러리를 올바르게 설정하고 사용중인 클라이언트가 네트워크를 통해 이러한 위치에 직접 액세스 할 수 있는 경우에만 작동합니다.</string>
-    <string name="lbl_vertical_stretch">수직 늘리기</string>
     <string name="lbl_horizontal_stretch">수평 늘리기</string>
     <string name="desc_automatic_fav_songs">좋아하는 노래와 선호하는 노래의 자동 재생목록</string>
     <string name="desc_seasonal_themes">연중 특정 시간에 특별한 색상과 제안을 표시합니다</string>

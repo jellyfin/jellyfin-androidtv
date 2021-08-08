@@ -98,10 +98,8 @@
     <string name="lbl_current_queue">Nuvarande kö</string>
     <string name="btn_got_it">Uppfattat</string>
     <string name="msg_external_path">Denna funktion kommer bara att fungera om du har ställt in korrekt i ditt bibliotek på servern med nätverks sökvägar eller sökvägs utbyte och klienten du använder kan komma åt dessa över nätverket.</string>
-    <string name="lbl_vertical_stretch">Vertikal sträckning</string>
     <string name="lbl_horizontal_stretch">Horisontell sträckning</string>
     <string name="lbl_zoom">Zoom</string>
-    <string name="lbl_normal">Normal</string>
     <string name="desc_bitstream_ac3">Kräver kapabel hårdvara</string>
     <string name="lbl_bitstream_ac3">Bitström Dolby Digital ljud</string>
     <string name="lbl_new_premieres">Nya premiärer</string>

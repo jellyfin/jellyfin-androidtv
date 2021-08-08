@@ -72,10 +72,8 @@
     <string name="lbl_clear_queue">Notīrīt Rindu</string>
     <string name="lbl_current_queue">Pašreizējā Rinda</string>
     <string name="btn_got_it">Sapratu</string>
-    <string name="lbl_vertical_stretch">Vertikāli Izstiepts</string>
     <string name="lbl_horizontal_stretch">Horizontāli Izstiepts</string>
     <string name="lbl_zoom">Pietuvināts</string>
-    <string name="lbl_normal">Normāls</string>
     <string name="desc_bitstream_ac3">Vajadzīga atbalstoša aparatūra</string>
     <string name="lbl_bitstream_ac3">Bit-straumēt Dolby Digital audio</string>
     <string name="desc_seasonal_themes">Rādīt speciālas krāsas un ieteikumus noteiktos gada laikos</string>

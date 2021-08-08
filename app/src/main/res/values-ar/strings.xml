@@ -289,10 +289,8 @@
     <string name="msg_external_path">لن تعمل هذه الميزة إلا إذا قمت بإعداد مكتبتك بشكل صحيح على الخادم باستخدام مسارات الشبكة أو استبدال المسار ويمكن للعميل الذي تستخدمه الوصول مباشرة إلى هذه المواقع عبر الشبكة.</string>
     <string name="lbl_subtitle_track">اختر مسار الترجمة</string>
     <string name="lbl_audio_track">اختر المسار الصوتي</string>
-    <string name="lbl_vertical_stretch">تمدد عمودي</string>
     <string name="lbl_horizontal_stretch">تمدد أفقي</string>
     <string name="lbl_zoom">تكبير</string>
-    <string name="lbl_normal">طبيعي</string>
     <string name="desc_bitstream_ac3">يتطلب أجهزة مدعومة</string>
     <string name="lbl_bitstream_ac3">صوت Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">عروض أولية جديدة</string>

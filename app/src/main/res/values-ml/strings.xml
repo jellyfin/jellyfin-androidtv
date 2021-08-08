@@ -233,10 +233,8 @@
     <string name="msg_external_path">നെറ്റ്‌വർക്ക് പാതകളോ പാത്ത് പകരക്കാരനോ ഉപയോഗിച്ച് സെർവറിൽ നിങ്ങളുടെ ലൈബ്രറി ശരിയായി സജ്ജീകരിച്ചിട്ടുണ്ടെങ്കിൽ മാത്രമേ ഈ സവിശേഷത പ്രവർത്തിക്കൂ, നിങ്ങൾ ഉപയോഗിക്കുന്ന ക്ലയന്റിന് നെറ്റ്‌വർക്കിലൂടെ ഈ ലൊക്കേഷനുകൾ നേരിട്ട് ആക്‌സസ് ചെയ്യാൻ കഴിയും.</string>
     <string name="lbl_subtitle_track">സബ്ടൈറ്റിൽ ട്രാക്ക് തിരഞ്ഞെടുക്കുക</string>
     <string name="lbl_audio_track">ഓഡിയോ ട്രാക്ക് തിരഞ്ഞെടുക്കുക</string>
-    <string name="lbl_vertical_stretch">ലംബ സ്ട്രെച്ച്</string>
     <string name="lbl_horizontal_stretch">തിരശ്ചീന സ്ട്രെച്ച്</string>
     <string name="lbl_zoom">സൂം ചെയ്യുക</string>
-    <string name="lbl_normal">സാധാരണ</string>
     <string name="desc_bitstream_ac3">കഴിവുള്ള ഹാർഡ്‌വെയർ ആവശ്യമാണ്</string>
     <string name="lbl_bitstream_ac3">ബിറ്റ്സ്ട്രീം ഡോൾബി ഡിജിറ്റൽ ഓഡിയോ</string>
     <string name="lbl_new_premieres">പുതിയ പ്രീമിയറുകൾ</string>
