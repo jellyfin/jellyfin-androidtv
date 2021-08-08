@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Gravity;
@@ -18,6 +20,7 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
@@ -33,8 +36,6 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class KeyProcessor {
 
@@ -153,7 +154,8 @@ public class KeyProcessor {
                         if (rowItem.getGridButton().getId() == TvApp.VIDEO_QUEUE_OPTION_ID) {
                             //Queue already there - just kick off playback
                             BaseItemType itemType = get(MediaManager.class).getCurrentVideoQueue().size() > 0 ? get(MediaManager.class).getCurrentVideoQueue().get(0).getBaseItemType() : null;
-                            Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(itemType));
+                            Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
+                            Intent intent = new Intent(activity, newActivity);
                             activity.startActivity(intent);
                         }
                         break;

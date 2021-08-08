@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
+import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -53,6 +56,7 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
@@ -103,9 +107,6 @@ import java.util.concurrent.ExecutionException;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
 
@@ -1566,7 +1567,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
                     mediaManager.getValue().playNow(response);
                 } else {
-                    Intent intent = new Intent(FullDetailsActivity.this, TvApp.getApplication().getPlaybackActivityClass(item.getBaseItemType()));
+                    Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
+                    Intent intent = new Intent(FullDetailsActivity.this, activity);
                     mediaManager.getValue().setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
                     startActivity(intent);
@@ -1578,7 +1580,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        Intent intent = new Intent(this, TvApp.getApplication().getPlaybackActivityClass(items[0].getBaseItemType()));
+        Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(items[0].getBaseItemType());
+        Intent intent = new Intent(this, activity);
         if (shuffle) Collections.shuffle(itemsToPlay);
         mediaManager.getValue().setCurrentVideoQueue(itemsToPlay);
         intent.putExtra("Position", pos);

@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
@@ -219,7 +220,8 @@ public class ItemLauncher {
                                 PlaybackHelper.getItemsToPlay(baseItem, baseItem.getBaseItemType() == BaseItemType.Movie, false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(baseItem.getBaseItemType()));
+                                        Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(baseItem.getBaseItemType());
+                                        Intent intent = new Intent(activity, newActivity);
                                         get(MediaManager.class).setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
                                         activity.startActivity(intent);
@@ -252,7 +254,8 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         get(MediaManager.class).setCurrentVideoQueue(items);
-                        Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
+                        Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(response.getBaseItemType());
+                        Intent intent = new Intent(activity, newActivity);
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
                         activity.startActivity(intent);
@@ -326,7 +329,8 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(response.getBaseItemType()));
+                                    Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(response.getBaseItemType());
+                                    Intent intent = new Intent(activity, newActivity);
                                     get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
                                     activity.startActivity(intent);
@@ -349,7 +353,8 @@ public class ItemLauncher {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 // TODO Check whether this usage of BaseItemType.valueOf is okay.
-                                Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(BaseItemType.valueOf(channel.getType())));
+                                Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(BaseItemType.valueOf(channel.getType()));
+                                Intent intent = new Intent(activity, newActivity);
                                 get(MediaManager.class).setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
                                 activity.startActivity(intent);
@@ -376,7 +381,8 @@ public class ItemLauncher {
                             get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Intent intent = new Intent(activity, TvApp.getApplication().getPlaybackActivityClass(rowItem.getBaseItemType()));
+                                    Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(rowItem.getBaseItemType());
+                                    Intent intent = new Intent(activity, newActivity);
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     get(MediaManager.class).setCurrentVideoQueue(items);

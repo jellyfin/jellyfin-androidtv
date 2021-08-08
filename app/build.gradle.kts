@@ -39,6 +39,8 @@ android {
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
+
+			buildConfigField("boolean", "DEVELOPMENT", "false")
 		}
 
 		val debug by getting {
@@ -50,6 +52,8 @@ android {
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
+
+			buildConfigField("boolean", "DEVELOPMENT", (defaultConfig.versionCode!! < 100).toString())
 		}
 	}
 

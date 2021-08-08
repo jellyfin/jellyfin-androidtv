@@ -43,11 +43,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var seasonalGreetingsEnabled = Preference.boolean("pref_enable_themes", true)
 
-		/**
-		 * Show additional debug information
-		 */
-		var debuggingEnabled = Preference.boolean("pref_enable_debug", false)
-
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
@@ -138,6 +133,17 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Shortcut used for changing the subtitle track
 		 */
 		var shortcutSubtitleTrack = Preference.int("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
+
+		/* Developer options */
+		/**
+		 * Show additional debug information
+		 */
+		var debuggingEnabled = Preference.boolean("pref_enable_debug", false)
+
+		/**
+		 * Use playback rewrite module
+		 */
+		var playbackRewriteEnabled = Preference.boolean("playback_new", false)
 
 		/* ACRA */
 		/**
