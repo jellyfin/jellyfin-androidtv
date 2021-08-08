@@ -20,6 +20,7 @@ import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
@@ -61,6 +62,7 @@ class JellyfinApplication : TvApp() {
 	suspend fun onSessionStart() {
 		val workManager by inject<WorkManager>()
 		val autoBitrate by inject<AutoBitrate>()
+		val socketListener by inject<SocketHandler>()
 
 		// Cancel all current workers
 		workManager.cancelAllWork().await()
@@ -76,6 +78,8 @@ class JellyfinApplication : TvApp() {
 
 		// Detect auto bitrate
 		GlobalScope.launch(Dispatchers.IO) { autoBitrate.detect() }
+
+		socketListener.updateSession()
 	}
 
 	override fun attachBaseContext(base: Context?) {

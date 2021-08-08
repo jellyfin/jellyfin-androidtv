@@ -1058,7 +1058,8 @@ public class PlaybackController {
         }
     }
 
-    public void endPlayback() {
+    public void endPlayback(Boolean closeActivity) {
+        if (closeActivity) mFragment.getActivity().finish();
         stop();
         removePreviousQueueItems();
         if (mVideoManager != null)
@@ -1066,6 +1067,10 @@ public class PlaybackController {
         mFragment = null;
         mVideoManager = null;
         resetPlayerErrors();
+    }
+
+    public void endPlayback(){
+        endPlayback(false);
     }
 
     private void resetPlayerErrors() {

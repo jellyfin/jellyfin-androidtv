@@ -4,7 +4,7 @@ import androidx.work.WorkManager
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.ServerRepositoryImpl
-import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
+import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
+import org.jellyfin.apiclient.interaction.ApiEventListener
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.sdk.android.androidDevice
@@ -52,6 +53,8 @@ val appModule = module {
 		get<JellyfinSdk>().createApi()
 	}
 
+	single { SocketHandler(get(), get(userApiClient), get(), get()) }
+
 	single(systemApiClient) {
 		// Create an empty API instance, the actual values are set by the SessionRepository
 		get<JellyfinSdk>().createApi()
@@ -71,7 +74,7 @@ val appModule = module {
 	single {
 		get<JellyfinApiClient>().createApi(
 			device = get<DeviceInfo>(defaultDeviceInfo).legacy(),
-			eventListener = TvApiEventListener(get(), get())
+			eventListener = ApiEventListener()
 		)
 	}
 

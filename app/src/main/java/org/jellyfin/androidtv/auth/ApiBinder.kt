@@ -5,14 +5,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.androidtv.util.apiclient.callApiEmpty
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
-import org.jellyfin.apiclient.model.entities.MediaType
-import org.jellyfin.apiclient.model.session.ClientCapabilities
-import org.jellyfin.apiclient.model.session.GeneralCommandType
 import org.jellyfin.sdk.model.DeviceInfo
 import timber.log.Timber
 
@@ -60,21 +56,6 @@ class ApiBinder(
 		// Update currentUser DTO
 		val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
 		application.currentUser = user
-
-		callApiEmpty { callback ->
-			api.ReportCapabilities(ClientCapabilities().apply {
-				playableMediaTypes = arrayListOf(MediaType.Video, MediaType.Audio)
-				supportsMediaControl = true
-				supportedCommands = arrayListOf(
-					GeneralCommandType.DisplayContent.toString(),
-					GeneralCommandType.DisplayMessage.toString(),
-				)
-			}, callback)
-		}
-
-		// Connect to WebSocket AFTER HTTP connection confirmed working
-		// to catch exceptions not catchable with the legacy websocket client
-		api.ensureWebSocket()
 
 		return true
 	}
