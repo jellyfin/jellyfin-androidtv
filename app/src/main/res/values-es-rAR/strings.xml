@@ -237,7 +237,6 @@
     <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
     <string name="lbl_subtitle_track">Seleccionar subtitulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
-    <string name="lbl_horizontal_stretch">Estiramiento horizontal</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
     <string name="lbl_bitstream_ac3">Transmisión directa de audio Dolby Digital</string>

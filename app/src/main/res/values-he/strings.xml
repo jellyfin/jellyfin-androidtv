@@ -5,7 +5,6 @@
     <string name="msg_external_path">פעולה זו תעבוד רק אם הספרייה הוגדרה עם מיקומי רשת או עם החלפות מיקומים והמכונה שמריצה את הניגון מסוגלת לגשת ישירות למיקומי הרשת המוגדרים.</string>
     <string name="lbl_subtitle_track">בחר כתוביות</string>
     <string name="lbl_audio_track">בחר רצועת שמע</string>
-    <string name="lbl_horizontal_stretch">מתיחה לרוחב</string>
     <string name="lbl_zoom">הגדלה</string>
     <string name="desc_bitstream_ac3">דורש חומרה מתאימה</string>
     <string name="lbl_bitstream_ac3">שמע בדולבי דיגיטל</string>

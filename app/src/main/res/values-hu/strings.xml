@@ -225,7 +225,6 @@
     <string name="lbl_clear_queue">Várakozási lista törlése</string>
     <string name="lbl_current_queue">Jelenlegi várakozási lista</string>
     <string name="btn_got_it">Rendben</string>
-    <string name="lbl_horizontal_stretch">Horizontális nyújtás</string>
     <string name="lbl_zoom">Nagyítás</string>
     <string name="lbl_new_premieres">Új bemutatók</string>
     <string name="desc_automatic_fav_songs">A kedvenc és kedvelésre megjelölt zenékből álló automata lejátszási lista</string>

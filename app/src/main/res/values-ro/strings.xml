@@ -166,7 +166,6 @@
     <string name="lbl_current_queue">Coada curentă</string>
     <string name="btn_got_it">Am înțeles</string>
     <string name="msg_external_path">Această caracteristică va funcționa numai dacă ați configurat corect biblioteca pe server cu căi de rețea sau înlocuire a căilor și clientul pe care îl utilizați poate accesa direct aceste locații prin rețea.</string>
-    <string name="lbl_horizontal_stretch">Întinde pe orizontală</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Necesită un hardware capabil</string>
     <string name="lbl_bitstream_ac3">Stream audio Dolby Digital</string>

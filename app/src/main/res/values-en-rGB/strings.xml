@@ -118,7 +118,6 @@
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_show_premieres">Show season premieres while browsing</string>
     <string name="lbl_refresh_switching">Refresh Rate Switching</string>
-    <string name="lbl_horizontal_stretch">Horizontal Stretch</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="desc_automatic_fav_songs">Automatic playlist of favourite and liked songs</string>

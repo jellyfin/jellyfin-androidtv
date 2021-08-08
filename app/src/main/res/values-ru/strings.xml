@@ -184,7 +184,6 @@
     <string name="lbl_bitstream_ac3">Транслировать аудио Dolby Digital</string>
     <string name="desc_bitstream_ac3">Требуется поддерживающее оборудование</string>
     <string name="lbl_zoom">Масштабированный</string>
-    <string name="lbl_vertical_stretch">Вертикальное растяжение</string>
     <string name="btn_got_it">Понятно</string>
     <string name="lbl_current_queue">Текущая очередь</string>
     <string name="desc_current_video_queue">Видео элементы в настоящее время находятся в очереди для воспроизведения</string>

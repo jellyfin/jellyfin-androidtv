@@ -295,7 +295,6 @@
     <string name="btn_got_it">Razumem</string>
     <string name="lbl_subtitle_track">Izberi sled podnapisov</string>
     <string name="lbl_audio_track">Izberite zvočni posnetek</string>
-    <string name="lbl_horizontal_stretch">Horizontalni razteg</string>
     <string name="lbl_zoom">Povečava</string>
     <string name="desc_bitstream_ac3">Zahteva zmogljivo strojno opremo</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>

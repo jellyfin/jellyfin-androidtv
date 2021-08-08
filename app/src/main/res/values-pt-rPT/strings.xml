@@ -184,7 +184,6 @@
     <string name="lbl_status">%s / %s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
-    <string name="lbl_horizontal_stretch">Esticar horizontalmente</string>
     <string name="lbl_zoom">Aumentar</string>
     <string name="desc_bitstream_ac3">Necessita material adequado</string>
     <string name="lbl_bitstream_ac3">Fluxo Dolby Digital audio</string>

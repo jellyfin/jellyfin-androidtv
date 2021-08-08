@@ -198,7 +198,6 @@
     <string name="lbl_current_queue">Cola actual</string>
     <string name="btn_got_it">Entendido</string>
     <string name="msg_external_path">Esta característica solo funcionará si ha configurado correctamente su biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que está utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
-    <string name="lbl_horizontal_stretch">Estiramiento horizontal</string>
     <string name="lbl_zoom">Agrandar</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
     <string name="lbl_new_premieres">Estrenos nuevos</string>
