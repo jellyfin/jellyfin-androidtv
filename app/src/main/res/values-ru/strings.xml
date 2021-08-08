@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Начало по расписанию и окончание %1$s позже расписания</string>
     <string name="lbl_starting_early_ending_on_schedule">Начало ранее %1$s и окончание по расписанию</string>
     <string name="lbl_starting_early_ending_after">Начало ранее %1$s и окончание позднее %2$s по расписанию</string>
+    <string name="enable_playback_module_description">Это экспериментальная функция. Поддержка не предоставляется.</string>
+    <string name="enable_playback_module_title">Включить новый модуль воспроизведения</string>
+    <string name="lbl_fit">Нормальный</string>
+    <string name="lbl_stretch">Растяжение</string>
+    <string name="lbl_auto_crop">Автообрезка</string>
 </resources>
