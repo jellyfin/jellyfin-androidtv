@@ -128,7 +128,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 				itemIsUserView -> callApi<BaseItemDto?> {
 					apiClient.GetItemAsync(itemId, apiClient.currentUserId, it)
 				}?.let { item ->
-					suspendCoroutine<Intent?> { continuation ->
+					suspendCoroutine { continuation ->
 						ItemLauncher.createUserViewIntent(item, this) { intent ->
 							continuation.resume(intent)
 						}
@@ -143,6 +143,10 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			else -> null
 		} ?: Intent(this, MainActivity::class.java)
 
+
+		// Clear navigation history
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)
+		Timber.d("Opening next activity $intent")
 		startActivity(intent)
 		finishAfterTransition()
 	}
