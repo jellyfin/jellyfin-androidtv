@@ -436,4 +436,9 @@
     <string name="welcome_title">Vítejte v Jellyfin!</string>
     <string name="saved_servers">Uložené servery</string>
     <string name="pref_next_up_behavior_title">Zobrazit informace o dalším videu</string>
+    <string name="enable_playback_module_description">Toto je experimentální funkce bez jakékoliv podpory.</string>
+    <string name="enable_playback_module_title">Povolit nový přehrávací modul</string>
+    <string name="lbl_fit">Normální</string>
+    <string name="lbl_stretch">Roztáhnout</string>
+    <string name="lbl_auto_crop">Automatický ořez</string>
 </resources>
