@@ -22,10 +22,9 @@ public class ZoomAction extends CustomAction {
     @Override
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
         PopupMenu zoomMenu = new PopupMenu(context, view, Gravity.END);
-        zoomMenu.getMenu().add(0, VideoManager.ZOOM_NORMAL, VideoManager.ZOOM_NORMAL, context.getString(R.string.lbl_normal)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_NORMAL);
-        zoomMenu.getMenu().add(0, VideoManager.ZOOM_VERTICAL, VideoManager.ZOOM_VERTICAL, context.getString(R.string.lbl_vertical_stretch)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_VERTICAL);
-        zoomMenu.getMenu().add(0, VideoManager.ZOOM_HORIZONTAL, VideoManager.ZOOM_HORIZONTAL, context.getString(R.string.lbl_horizontal_stretch)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_HORIZONTAL);
-        zoomMenu.getMenu().add(0, VideoManager.ZOOM_FULL, VideoManager.ZOOM_FULL, context.getString(R.string.lbl_zoom)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_FULL);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_AUTO_CROP, VideoManager.ZOOM_AUTO_CROP, context.getString(R.string.lbl_auto_crop)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_AUTO_CROP);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_FIT, VideoManager.ZOOM_FIT, context.getString(R.string.lbl_fit)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_FIT);
+        zoomMenu.getMenu().add(0, VideoManager.ZOOM_STRETCH, VideoManager.ZOOM_STRETCH, context.getString(R.string.lbl_stretch)).setChecked(playbackController.getZoomMode() == VideoManager.ZOOM_STRETCH);
 
         zoomMenu.getMenu().setGroupCheckable(0, true, false);
         zoomMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {

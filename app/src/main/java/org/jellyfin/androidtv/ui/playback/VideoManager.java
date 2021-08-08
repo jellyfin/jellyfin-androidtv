@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
@@ -45,12 +46,11 @@ import java.util.List;
 import timber.log.Timber;
 
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
-    public final static int ZOOM_NORMAL = 0;
-    public final static int ZOOM_VERTICAL = 1;
-    public final static int ZOOM_HORIZONTAL = 2;
-    public final static int ZOOM_FULL = 3;
+    public final static int ZOOM_FIT = 0;
+    public final static int ZOOM_AUTO_CROP = 1;
+    public final static int ZOOM_STRETCH = 2;
 
-    private int mZoomMode = ZOOM_NORMAL;
+    private int mZoomMode = ZOOM_FIT;
 
     private PlaybackOverlayActivity mActivity;
     private SurfaceHolder mSurfaceHolder;
@@ -59,6 +59,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private FrameLayout mSurfaceFrame;
     private SimpleExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
+    private AspectRatioFrameLayout mAspectRatioFrameLayout;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
@@ -144,23 +145,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setZoom(int mode) {
         mZoomMode = mode;
         switch (mode) {
-            case ZOOM_NORMAL:
-                mExoPlayerView.setScaleY(1);
-                mExoPlayerView.setScaleX(1);
+            case ZOOM_FIT:
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
-            case ZOOM_VERTICAL:
-                mExoPlayerView.setScaleX(1);
-                mExoPlayerView.setScaleY(1.33f);
+            case ZOOM_AUTO_CROP:
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_ZOOM);
                 break;
-            case ZOOM_HORIZONTAL:
-                mExoPlayerView.setScaleY(1);
-                mExoPlayerView.setScaleX(1.33f);
+            case ZOOM_STRETCH:
+                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FILL);
                 break;
-            case ZOOM_FULL:
-                mExoPlayerView.setScaleX(1.33f);
-                mExoPlayerView.setScaleY(1.33f);
-                break;
-
         }
     }
 
