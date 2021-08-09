@@ -44,7 +44,7 @@ jobs:
         with:
           asset_paths: '["build/jellyfin-publish/*"]'
       - name: Upload release archive to repo.jellyfin.org
-        uses: burnett01/rsync-deployments@4.1
+        uses: burnett01/rsync-deployments@5.0
         with:
           switches: -vrptz
           path: build/jellyfin-publish/
