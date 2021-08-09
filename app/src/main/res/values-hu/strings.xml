@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Menetrend szerint indul, és %1$s -al a menetrend után lesz vége</string>
     <string name="lbl_starting_early_ending_on_schedule">%1$s -kor kezdődik, és időben véget ér</string>
     <string name="lbl_starting_early_ending_after">Kezdés %1$s korai és befejezés %2$s ütemezés után</string>
+    <string name="enable_playback_module_description">Ez egy kísérleti funkció. Nem nyújt támogatást.</string>
+    <string name="enable_playback_module_title">Új lejátszómodul engedélyezése</string>
+    <string name="lbl_fit">Normál</string>
+    <string name="lbl_stretch">Kinyújtás</string>
+    <string name="lbl_auto_crop">Automatikus vágás</string>
 </resources>
