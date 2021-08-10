@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">从计划时间开始到%1$s结束</string>
     <string name="lbl_starting_early_ending_on_schedule">从%1$s开始到计划时间结束</string>
     <string name="lbl_starting_early_ending_after">从%1$s开始，到%2$s结束</string>
+    <string name="lbl_stretch">拉伸</string>
+    <string name="enable_playback_module_description">这是一个实验性功能。 不提供支持。</string>
+    <string name="enable_playback_module_title">启用新的播放模块</string>
+    <string name="lbl_fit">正常</string>
+    <string name="lbl_auto_crop">自动裁剪</string>
 </resources>
