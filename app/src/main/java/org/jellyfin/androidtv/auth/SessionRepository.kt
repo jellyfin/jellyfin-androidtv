@@ -95,7 +95,7 @@ class SessionRepositoryImpl(
 
 	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
 		// No change in session - don't switch
-		if (currentSession.value?.userId == session?.userId) return
+		if (session != null && currentSession.value?.userId == session.userId) return
 
 		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
@@ -120,7 +120,7 @@ class SessionRepositoryImpl(
 
 	private fun setCurrentSystemSession(session: Session?) {
 		// No change in session - don't switch
-		if (currentSession.value?.userId == session?.userId) return
+		if (session != null && currentSession.value?.userId == session.userId) return
 
 		_currentSystemSession.postValue(session)
 
