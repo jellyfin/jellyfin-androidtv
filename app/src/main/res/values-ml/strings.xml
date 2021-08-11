@@ -407,4 +407,9 @@
     <string name="lbl_coming_up">വരുന്നു</string>
     <string name="lbl_favorites">പ്രിയങ്കരങ്ങൾ</string>
     <string name="lbl_by_name">പേരുകൊണ്ട്</string>
+    <string name="enable_playback_module_description">ഇതൊരു പരീക്ഷണാത്മക സവിശേഷതയാണ്. ഒരു പിന്തുണയും നൽകിയിട്ടില്ല.</string>
+    <string name="enable_playback_module_title">പുതിയ പ്ലേബാക്ക് മൊഡ്യൂൾ പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="lbl_fit">സാധാരണ</string>
+    <string name="lbl_stretch">വലിച്ചുനീട്ടുക</string>
+    <string name="lbl_auto_crop">ഓട്ടോ ക്രോപ്പ്</string>
 </resources>
