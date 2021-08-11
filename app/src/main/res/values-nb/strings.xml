@@ -366,7 +366,7 @@
     <string name="lbl_hide_unwatched_count">Skjul ukjent antall</string>
     <string name="pref_watched_indicator">Vis overvåkede indikatorer</string>
     <string name="connect_title">Koble til</string>
-    <string name="login_help_description">Jellyfin krever en server å koble seg til. Gå til dokumentasjonen vår på docs.jellyfin.org for å komme i gang med Jellyfin.</string>
+    <string name="login_help_description">Jellyfin krever en tjener å koble seg til. Gå til dokumentasjonen vår på docs.jellyfin.org eller skann QR-koden for å komme i gang med Jellyfin.</string>
     <string name="login_help_title">Trenger du hjelp\?</string>
     <string name="connect_manually_by_address">Skriv inn serveradresse</string>
     <string name="connect_manually_title">Koble til manuelt</string>
@@ -426,4 +426,13 @@
     <string name="saved_servers">Lagrede servere</string>
     <string name="press_to_close">Trykk for å lukke</string>
     <string name="pref_next_up_behavior_title">Vis info om neste video</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="enable_playback_module_description">Dette er en eksperimentell funksjon. Det gis ingen støtte.</string>
+    <string name="enable_playback_module_title">Skru på ny avspillingsmodul</string>
+    <string name="lbl_num_songs">%1$d Sanger</string>
+    <string name="lbl_on_any_channel">På hvilken som helst kanal</string>
+    <string name="lbl_next_up_minimal">Uten miniatyrbilde</string>
+    <string name="lbl_next_up_extended">Med miniatyrbilde</string>
+    <string name="lbl_stretch">Strekk</string>
+    <string name="lbl_auto_crop">Automatisk Beskjæring</string>
 </resources>
