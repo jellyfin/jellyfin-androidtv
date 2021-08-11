@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Startet nach Plan und endet %1$s nach Zeitplan</string>
     <string name="lbl_starting_early_ending_after">Beginnt %1$s früher und endet %2$s nach Plan</string>
     <string name="lbl_starting_early_ending_on_schedule">Startet %1$s früher und endet nach Plan</string>
+    <string name="enable_playback_module_description">Dies ist eine experimentelle Funktion. Es wird keine Unterstützung angeboten.</string>
+    <string name="enable_playback_module_title">Neues Wiedergabemodul aktivieren</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Strecken</string>
+    <string name="lbl_auto_crop">Automatisches Zuschneiden</string>
 </resources>
