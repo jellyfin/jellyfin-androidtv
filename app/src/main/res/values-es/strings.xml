@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Comenzar en programación y finalizar %1$s después del horario</string>
     <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s antes y finalizar en el horario</string>
     <string name="lbl_starting_early_ending_after">Comenzar %1$s antes y finalizar %2$s después del horario</string>
+    <string name="enable_playback_module_description">Ésta es una característica experimental. No tiene soporte.</string>
+    <string name="enable_playback_module_title">Habilitar nuevo reproductor</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Estirar</string>
+    <string name="lbl_auto_crop">Ajuste automático</string>
 </resources>
