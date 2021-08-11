@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Comenzar en Horario y Finalizar %1$s después de la hora</string>
     <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s Antes y Finalizar en Horario</string>
     <string name="lbl_starting_early_ending_after">Comenzar %1$s Antes y Finalizar %2$s después del horario</string>
+    <string name="enable_playback_module_description">Ésta característica es experimental. No tiene soporte.</string>
+    <string name="enable_playback_module_title">Habilitar nuevo modulo de reproducción</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Estirar</string>
+    <string name="lbl_auto_crop">Auto-ajuste</string>
 </resources>
