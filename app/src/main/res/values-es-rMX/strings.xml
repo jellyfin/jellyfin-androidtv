@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Fallo al cargar el video</string>
+    <string name="video_error_unknown_error">Error al cargar el video</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reproducción</string>
@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">Comenzar en programación y finalizar %1$s después del programa</string>
     <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s antes y finalizar en programación</string>
     <string name="lbl_starting_early_ending_after">Comenzar %1$s antes y finalizar %2$s después de la programación</string>
+    <string name="enable_playback_module_description">Ésta característica es experimental. No tiene soporte.</string>
+    <string name="enable_playback_module_title">Habilitar nuevo modulo de reproducción</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Estirar</string>
+    <string name="lbl_auto_crop">Auto-ajuste</string>
 </resources>
