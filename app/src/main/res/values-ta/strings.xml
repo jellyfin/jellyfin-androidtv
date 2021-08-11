@@ -436,4 +436,9 @@
     <string name="lbl_starting_on_schedule_ending_after">அட்டவணையில் தொடங்கி %1$s அட்டவணைக்குப் பிறகு முடிவடைகிறது</string>
     <string name="lbl_starting_early_ending_on_schedule">%1$s ஆரம்ப மற்றும் அட்டவணையில் முடிவடைகிறத</string>
     <string name="lbl_starting_early_ending_after">%1$s ஆரம்பம் மற்றும் அட்டவணைக்குப் பிறகு %2$s முடிவடைகிறது</string>
+    <string name="enable_playback_module_description">இது ஒரு சோதனை அம்சம். எந்த ஆதரவும் வழங்கப்படவில்லை.</string>
+    <string name="enable_playback_module_title">புதிய பின்னணி தொகுதியை இயக்கவும்</string>
+    <string name="lbl_fit">சாதாரண</string>
+    <string name="lbl_stretch">நீட்டு</string>
+    <string name="lbl_auto_crop">தானாக படத்தை செதுக்கவும்</string>
 </resources>
