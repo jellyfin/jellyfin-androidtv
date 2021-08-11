@@ -436,4 +436,9 @@
     <string name="press_to_close">Nhấn để đóng</string>
     <string name="pref_theme_muted_purple">Tím Im Lặng</string>
     <string name="pref_next_up_behavior_title">Hiển thị thông tin video tiếp theo</string>
+    <string name="enable_playback_module_description">Đây là một tính năng thử nghiệm. Không có hỗ trợ nào được cung cấp.</string>
+    <string name="enable_playback_module_title">Bật mô-đun phát lại mới</string>
+    <string name="lbl_fit">Bình thường</string>
+    <string name="lbl_stretch">Căng ra</string>
+    <string name="lbl_auto_crop">Tự Động Cắt</string>
 </resources>
