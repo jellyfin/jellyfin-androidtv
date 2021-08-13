@@ -1,6 +1,10 @@
 package org.jellyfin.androidtv
 
 import android.content.Context
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,7 +29,7 @@ import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : TvApp() {
+class JellyfinApplication : TvApp(), LifecycleObserver {
 	@OptIn(KoinExperimentalAPI::class)
 	override fun onCreate() {
 		super.onCreate()
@@ -64,11 +68,20 @@ class JellyfinApplication : TvApp() {
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 
-		// Restore session
-		get<SessionRepository>().apply {
-			restoreDefaultSession()
-			restoreDefaultSystemSession()
-		}
+		ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+
+		// Restore system session
+		get<SessionRepository>().restoreDefaultSystemSession()
+	}
+
+	/**
+	 * Called by the Process Lifecycle when the app is activated in the foreground (activity opened).
+	 */
+	@OnLifecycleEvent(Lifecycle.Event.ON_START)
+	fun onActivate() {
+		Timber.i("Process Lifecycle started")
+
+		get<SessionRepository>().restoreDefaultSession()
 	}
 
 	/**

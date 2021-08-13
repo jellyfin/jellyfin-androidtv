@@ -73,11 +73,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			serverRepository.migrateLegacyCredentials()
 		}
 
-		// Always restore the default session when starting from launcher
-		if (intent.action == Intent.ACTION_MAIN) {
-			sessionRepository.restoreDefaultSession()
-		}
-
 		// Ensure basic permissions
 		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
 	}
