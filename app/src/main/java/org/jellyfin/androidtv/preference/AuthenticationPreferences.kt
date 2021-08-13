@@ -15,6 +15,7 @@ class AuthenticationPreferences(context: Context) : SharedPreferenceStore(
 		val systemUserId = Preference.string("system_user_id", "")
 
 		val sortBy = Preference.enum("sort_by", AuthenticationSortBy.LAST_USE)
+		val alwaysAuthenticate = Preference.boolean("always_authenticate", false)
 
 		/**
 		 * Do not set directly, use [SessionRepository] instead.

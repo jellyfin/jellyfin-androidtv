@@ -5,16 +5,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.client.extensions.authenticateUserByName;
+import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.operations.ImageApi
 import org.jellyfin.sdk.api.operations.UserApi
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
 import java.util.*
 
@@ -38,6 +38,7 @@ class AuthenticationRepositoryImpl(
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: KtorClient,
+	private val authenticationPreferences: AuthenticationPreferences,
 ) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
@@ -143,7 +144,7 @@ class AuthenticationRepositoryImpl(
 		when {
 			!server.versionSupported -> emit(ServerVersionNotSupported(server))
 			// Access token found, proceed with sign in
-			account?.accessToken != null -> when {
+			!authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate] && account?.accessToken != null -> when {
 				// Update session
 				setActiveSession(user, server) -> {
 					// Update stored user

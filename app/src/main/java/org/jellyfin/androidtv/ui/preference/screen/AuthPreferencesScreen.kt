@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.ui.preference.category.authenticationAdvancedCategory
 import org.jellyfin.androidtv.ui.preference.category.authenticationCategory
 import org.jellyfin.androidtv.ui.preference.category.manageServersCategory
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
@@ -24,5 +25,6 @@ class AuthPreferencesScreen : OptionsFragment() {
 
 		authenticationCategory(authenticationRepository, authenticationPreferences, sessionRepository)
 		manageServersCategory(authenticationRepository)
+		authenticationAdvancedCategory(authenticationPreferences, sessionRepository)
 	}
 }

@@ -7,11 +7,8 @@ import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
-import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
+import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
-import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.ui.preference.dsl.userPicker
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 fun OptionsScreen.authenticationCategory(
@@ -31,6 +28,10 @@ fun OptionsScreen.authenticationCategory(
 				AuthenticationPreferences.autoLoginUserId
 			)
 		}
+
+		depends {
+			!authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]
+		}
 	}
 
 	userPicker(authenticationRepository) {
@@ -47,11 +48,35 @@ fun OptionsScreen.authenticationCategory(
 				sessionRepository.restoreDefaultSystemSession()
 			}
 		}
+
+		depends {
+			!authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]
+		}
 	}
 
 	enum<AuthenticationSortBy> {
 		setTitle(R.string.lbl_sort_by)
 		bind(authenticationPreferences, AuthenticationPreferences.sortBy)
+	}
+}
+
+
+fun OptionsScreen.authenticationAdvancedCategory(
+	authenticationPreferences: AuthenticationPreferences,
+	sessionRepository: SessionRepository,
+) {
+	// Disallow changing the "always authenticate" option from the login screen
+	// because that would allow a kid to disable the function to access a parent's account
+	if (sessionRepository.currentSession.value == null) return
+
+	category {
+		setTitle(R.string.advanced_settings)
+
+		checkbox {
+			setTitle(R.string.always_authenticate)
+			setContent(R.string.always_authenticate_description)
+			bind(authenticationPreferences, AuthenticationPreferences.alwaysAuthenticate)
+		}
 	}
 }
 
