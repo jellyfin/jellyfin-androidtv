@@ -69,13 +69,14 @@ class ServerFragment : Fragment() {
 		}
 		binding.users.adapter = userAdapter
 
-		loginViewModel.getUsers(server).observe(viewLifecycleOwner) { users ->
+		loginViewModel.users.observe(viewLifecycleOwner) { users ->
 			userAdapter.items = users
 
 			binding.users.isFocusable = users.any()
 			binding.noUsersWarning.isVisible = users.isEmpty()
 			binding.root.requestFocus()
 		}
+		loginViewModel.loadUsers(server)
 
 		onServerChange(server)
 
@@ -134,6 +135,9 @@ class ServerFragment : Fragment() {
 		super.onResume()
 
 		loginViewModel.reloadServers()
+
+		val server = serverIdArgument?.let(loginViewModel::getServer)
+		if (server != null) loginViewModel.loadUsers(server)
 	}
 
 	private class UserAdapter(

@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.category
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
@@ -9,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.userPicker
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
@@ -45,6 +47,11 @@ fun OptionsScreen.authenticationCategory(
 				sessionRepository.restoreDefaultSystemSession()
 			}
 		}
+	}
+
+	enum<AuthenticationSortBy> {
+		setTitle(R.string.lbl_sort_by)
+		bind(authenticationPreferences, AuthenticationPreferences.sortBy)
 	}
 }
 

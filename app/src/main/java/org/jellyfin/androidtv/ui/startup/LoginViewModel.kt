@@ -5,16 +5,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.User
+import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import java.util.*
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,
 	private val authenticationRepository: AuthenticationRepository,
+	private val authenticationPreferences: AuthenticationPreferences,
 ) : ViewModel() {
 	val discoveredServers: Flow<Server>
 		get() = serverRepository.getDiscoveryServers()
@@ -23,10 +26,24 @@ class LoginViewModel(
 	val storedServers: LiveData<List<Server>>
 		get() = _storedServers
 
+	private val _users = MediatorLiveData<List<User>>()
+	val users: LiveData<List<User>>
+		get() = _users
+
 	fun getServer(id: UUID) = serverRepository.getStoredServers()
 		.find { it.id == id }
 
-	fun getUsers(server: Server) = serverRepository.getServerUsers(server)
+	fun loadUsers(server: Server) {
+		val source = serverRepository.getServerUsers(server).map { users ->
+			if (authenticationPreferences[AuthenticationPreferences.sortBy] == AuthenticationSortBy.ALPHABETICAL)
+				users.sortedBy { user -> user.name }
+			else users
+		}
+
+		_users.addSource(source) {
+			_users.value = source.value
+		}
+	}
 
 	fun addServer(address: String) = liveData {
 		serverRepository.addServer(address).onEach {
@@ -44,19 +61,28 @@ class LoginViewModel(
 		if (removed) _storedServers.postValue(serverRepository.getStoredServers())
 	}
 
-	fun authenticate(user: User, server: Server): LiveData<LoginState> = authenticationRepository.authenticateUser(user, server).asLiveData()
+	fun authenticate(user: User, server: Server): LiveData<LoginState> =
+		authenticationRepository.authenticateUser(user, server).asLiveData()
 
-	fun login(server: Server, username: String, password: String): LiveData<LoginState> = authenticationRepository.login(server, username, password).asLiveData()
+	fun login(server: Server, username: String, password: String): LiveData<LoginState> =
+		authenticationRepository.login(server, username, password).asLiveData()
 
-	fun getUserImage(server: Server, user: User): String? = authenticationRepository.getUserImageUrl(server, user)
+	fun getUserImage(server: Server, user: User): String? =
+		authenticationRepository.getUserImageUrl(server, user)
 
 	fun reloadServers() {
-		_storedServers.postValue(serverRepository.getStoredServers())
+		val servers = serverRepository.getStoredServers().let { servers ->
+			if (authenticationPreferences[AuthenticationPreferences.sortBy] == AuthenticationSortBy.ALPHABETICAL)
+				servers.sortedBy { it.name + it.address }
+			else servers
+		}
+
+		_storedServers.postValue(servers)
 	}
 
-	fun getLastServer(): Server? = serverRepository.getStoredServers()
-		.sortedByDescending { it.dateLastAccessed }
-		.firstOrNull()
+	fun getLastServer(): Server? =
+		serverRepository.getStoredServers().maxByOrNull { it.dateLastAccessed }
 
-	suspend fun updateServer(server: Server): Boolean = serverRepository.refreshServerInfo(server)
+	suspend fun updateServer(server: Server): Boolean =
+		serverRepository.refreshServerInfo(server)
 }
