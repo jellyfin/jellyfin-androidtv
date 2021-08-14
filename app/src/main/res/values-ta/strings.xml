@@ -441,4 +441,6 @@
     <string name="lbl_fit">சாதாரண</string>
     <string name="lbl_stretch">நீட்டு</string>
     <string name="lbl_auto_crop">தானாக படத்தை செதுக்கவும்</string>
+    <string name="alphabetical">அகரவரிசை</string>
+    <string name="last_use">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
 </resources>
