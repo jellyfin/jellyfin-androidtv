@@ -404,4 +404,15 @@
     <string name="image_type_banner">Banner</string>
     <string name="lbl_user_server">%1$s på %2$s</string>
     <string name="pref_next_up_behavior_title">Visa nästa videos info</string>
+    <string name="lbl_special">Special</string>
+    <string name="help">Hjälp</string>
+    <string name="add_user">Lägg till användare</string>
+    <string name="who_is_watching">Vem tittar\?</string>
+    <string name="no_user_warning">Vi hittade inga användare!
+\nLägg till en användare genom att trycka på \"Lägg till användare\".</string>
+    <string name="server_unsupported">Servern behöver uppdateras. Nuvarande version är %s men appen kräver %s eller nyare</string>
+    <string name="welcome_content">Anslut till din server för att börja.</string>
+    <string name="welcome_title">Välkommen till Jellyfin!</string>
+    <string name="saved_servers">Sparade servrar</string>
+    <string name="press_to_close">Tryck för att stänga</string>
 </resources>
