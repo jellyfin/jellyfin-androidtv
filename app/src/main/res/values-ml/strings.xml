@@ -412,4 +412,6 @@
     <string name="lbl_fit">സാധാരണ</string>
     <string name="lbl_stretch">വലിച്ചുനീട്ടുക</string>
     <string name="lbl_auto_crop">ഓട്ടോ ക്രോപ്പ്</string>
+    <string name="alphabetical">അക്ഷരമാല</string>
+    <string name="last_use">ഏറ്റവും സമീപകാലത്ത് ഉപയോഗിച്ചത്</string>
 </resources>
