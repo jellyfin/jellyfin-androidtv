@@ -43,6 +43,7 @@ import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
@@ -90,13 +91,6 @@ public class PlaybackController {
     private Runnable mReportLoop;
     private Handler mHandler;
 
-    private long lastFF = 0;
-    private long lastRewind = 0;
-
-    private long startTime = 0;
-    private int baseSkip = 5000;
-    private int speedMultiplier = 1;
-
     private long mStartPosition = 0;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime;
@@ -133,7 +127,7 @@ public class PlaybackController {
     }
 
     public boolean hasFragment() {
-        return mFragment != null ? true : false;
+        return mFragment != null;
     }
 
     public void init(VideoManager mgr) {
@@ -859,6 +853,26 @@ public class PlaybackController {
 
     }
 
+    public void fastForward() {
+        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
+                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
+
+        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipForwardLength") != null ?
+                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipForwardLength")) : 30000;
+
+        skip(skipMS);
+    }
+
+    public void rewind() {
+        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
+                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
+
+        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipBackwardLength") != null ?
+                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipBackwardLength")) : 10000;
+
+        skip(-skipMS);
+    }
+
     public void seek(final long pos) {
         Timber.d("Seeking to %d", pos);
         Timber.d("Container: %s", mCurrentStreamInfo.getContainer());
@@ -893,40 +907,16 @@ public class PlaybackController {
     }
 
     private long currentSkipPos = 0;
-    private Runnable skipRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (!isPlaying()) return; // in case we completed since this was requested
+    private final Runnable skipRunnable = () -> {
+        if (!isPlaying()) return; // in case we completed since this was requested
 
-            startReportLoop();
+        if (!getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
+            seek(currentSkipPos);
+            currentSkipPos = 0;
+            updateProgress = true; // re-enable true progress updates
         }
+        startReportLoop();
     };
-
-    public void rewind() {
-        long curTime = System.currentTimeMillis();
-        if (curTime - lastRewind > 2000) {
-            startTime = curTime;
-            speedMultiplier = 1;
-        }
-        speedMultiplier = ((int)(curTime - startTime) / 4000) + 1;
-        if (speedMultiplier > 6)
-            speedMultiplier = 6;
-        skip(-(baseSkip*speedMultiplier));
-        lastRewind = curTime;
-    }
-
-    public void fastForward() {
-        long curTime = System.currentTimeMillis();
-        if (curTime - lastFF > 2000) {
-            startTime = curTime;
-            speedMultiplier = 1;
-        }
-        speedMultiplier = ((int)(curTime - startTime) / 4000) + 1;
-        if (speedMultiplier > 6)
-            speedMultiplier = 6;
-        skip((baseSkip*speedMultiplier));
-        lastFF = curTime;
-    }
 
     public void skip(int msec) {
         if (isPlaying() && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
@@ -939,9 +929,11 @@ public class PlaybackController {
             Timber.d("Duration reported as: %s current pos: %s",mVideoManager.getDuration(), mVideoManager.getCurrentPosition());
             if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
             mFragment.setCurrentTime(currentSkipPos);
-            seek(currentSkipPos);
-            currentSkipPos = 0;
-            updateProgress = true; // re-enable true progress updates
+            if (getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
+                seek(currentSkipPos);
+                currentSkipPos = 0;
+                updateProgress = true; // re-enable true progress updates
+            }
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
