@@ -441,4 +441,6 @@
     <string name="lbl_fit">Нормальный</string>
     <string name="lbl_stretch">Растяжение</string>
     <string name="lbl_auto_crop">Автообрезка</string>
+    <string name="alphabetical">Алфавитный</string>
+    <string name="last_use">Крайнее пользование</string>
 </resources>
