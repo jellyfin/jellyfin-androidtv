@@ -264,7 +264,7 @@
     <string name="login_authenticating">Έλεγχος ταυτότητας...</string>
     <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
     <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %1$s</string>
-    <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή...</string>
+    <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή: %1$s...</string>
     <string name="pref_clock_display_playback">Κατά την αναπαραγωγή</string>
     <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
     <string name="lbl_always">Πάντα</string>

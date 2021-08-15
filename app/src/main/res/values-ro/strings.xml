@@ -352,7 +352,7 @@
     <string name="login_authenticating">Se autentifică...</string>
     <string name="server_field_empty">Adresa nu poate fi vidă</string>
     <string name="server_connection_failed">Imposibil de conectat la server: %1$s</string>
-    <string name="server_connecting">Conectare la server...</string>
+    <string name="server_connecting">Conectare la server: %1$s...</string>
     <string name="pref_clock_display_playback">În timpul redării</string>
     <string name="pref_clock_display_browsing">În timp ce navigați</string>
     <string name="lbl_always">Mereu</string>

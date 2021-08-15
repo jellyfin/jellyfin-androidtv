@@ -350,5 +350,5 @@
     <string name="login_invalid_credentials">Neispravno korisničko ime i/ili lozinka</string>
     <string name="login_authenticating">Autentifikacija...</string>
     <string name="server_field_empty">Adresa ne može biti prazna</string>
-    <string name="server_connecting">Spajanje na server...</string>
+    <string name="server_connecting">Spajanje na server: %1$s...</string>
 </resources>

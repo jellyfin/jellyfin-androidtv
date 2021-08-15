@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-	compileSdkVersion(30)
+	compileSdk = 30
 
 	defaultConfig {
 		// Android version targets
-		minSdkVersion(21)
-		targetSdkVersion(30)
+		minSdk = 21
+		targetSdk = 30
 
 		// Release version
 		versionName = project.getVersionName()
@@ -57,10 +57,11 @@ android {
 		}
 	}
 
-	lintOptions {
+	lint {
 		lintConfig = file("$rootDir/android-lint.xml")
 		isAbortOnError = false
 		sarifReport = true
+		isCheckDependencies = true
 	}
 }
 

@@ -359,7 +359,7 @@
     <string name="login_authenticating">Аутентификација...</string>
     <string name="server_field_empty">Адреса не може да буде празна</string>
     <string name="server_connection_failed">Немогуће је повезати се са сервером: %1$s</string>
-    <string name="server_connecting">Повезујем се на сервер...</string>
+    <string name="server_connecting">Повезујем се на сервер: %1$s...</string>
     <string name="lbl_use_series_thumbnails_description">Користите сличице при приказивању епизода</string>
     <string name="user_picker_last_user_summary">Користи последњег активног корисника</string>
     <string name="user_picker_last_user_title">Недавно коришћени</string>

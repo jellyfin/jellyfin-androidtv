@@ -350,7 +350,7 @@
     <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya şifre</string>
     <string name="server_field_empty">Adres boş olamaz</string>
     <string name="server_connection_failed">Sunucuya bağlanılamadı: %1$s</string>
-    <string name="server_connecting">Sunucuya bağlanılıyor...</string>
+    <string name="server_connecting">Sunucuya bağlanılıyor: %1$s...</string>
     <string name="pref_clock_display_playback">Oynatma sırasında</string>
     <string name="lbl_always">Her zaman</string>
 </resources>

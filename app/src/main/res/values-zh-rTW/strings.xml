@@ -343,7 +343,7 @@
     <string name="login_authenticating">驗證中...</string>
     <string name="server_field_empty">地址不能留空</string>
     <string name="server_connection_failed">無法連接至伺服器： %s</string>
-    <string name="server_connecting">正在與伺服器連接...</string>
+    <string name="server_connecting">正在與伺服器連接: %1$s...</string>
     <string name="pref_clock_display_playback">在播放時</string>
     <string name="pref_clock_display_browsing">在瀏覽時</string>
     <string name="lbl_always">永遠</string>
