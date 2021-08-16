@@ -443,4 +443,7 @@
     <string name="lbl_auto_crop">Automatický ořez</string>
     <string name="alphabetical">Abecedně</string>
     <string name="last_use">Naposledy použité</string>
+    <string name="advanced_settings">Nastavení (pokročilé)</string>
+    <string name="always_authenticate_description">Zapnutím této funkce bude vypnuto automatické přihlášení</string>
+    <string name="always_authenticate">Vždy vyžadovat přihlášení</string>
 </resources>
