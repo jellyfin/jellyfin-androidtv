@@ -443,4 +443,7 @@
     <string name="lbl_auto_crop">Автообрезка</string>
     <string name="alphabetical">Алфавитный</string>
     <string name="last_use">Крайнее пользование</string>
+    <string name="advanced_settings">Параметры (расширенные)</string>
+    <string name="always_authenticate_description">Включение этой функции отключает автоматический вход в систему</string>
+    <string name="always_authenticate">Всегда запрашивать учётные данные</string>
 </resources>
