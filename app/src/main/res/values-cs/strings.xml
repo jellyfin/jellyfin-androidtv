@@ -441,4 +441,6 @@
     <string name="lbl_fit">Normální</string>
     <string name="lbl_stretch">Roztáhnout</string>
     <string name="lbl_auto_crop">Automatický ořez</string>
+    <string name="alphabetical">Abecedně</string>
+    <string name="last_use">Naposledy použité</string>
 </resources>
