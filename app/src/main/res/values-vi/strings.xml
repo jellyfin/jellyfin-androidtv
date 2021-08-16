@@ -441,4 +441,6 @@
     <string name="lbl_fit">Bình thường</string>
     <string name="lbl_stretch">Căng ra</string>
     <string name="lbl_auto_crop">Tự Động Cắt</string>
+    <string name="alphabetical">Bảng chữ cái</string>
+    <string name="last_use">Được dùng gần đây nhất</string>
 </resources>
