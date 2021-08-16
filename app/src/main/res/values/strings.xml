@@ -440,4 +440,7 @@
     <string name="enable_playback_module_description">This is an experimental feature. No support is provided.</string>
     <string name="last_use">Most recently used</string>
     <string name="alphabetical">Alphabetical</string>
+    <string name="always_authenticate">Always ask for credentials</string>
+    <string name="always_authenticate_description">Enabling this function disables auto sign in</string>
+    <string name="advanced_settings">Settings (advanced)</string>
 </resources>

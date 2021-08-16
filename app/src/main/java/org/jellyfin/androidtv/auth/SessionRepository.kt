@@ -45,6 +45,8 @@ class SessionRepositoryImpl(
 	override fun restoreDefaultSession() {
 		Timber.d("Restoring default session")
 
+		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return setCurrentSession(null, false)
+
 		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
 		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
 
@@ -57,6 +59,8 @@ class SessionRepositoryImpl(
 
 	override fun restoreDefaultSystemSession() {
 		Timber.d("Restoring default system session")
+
+		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return setCurrentSession(null, false)
 
 		val behavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
 		val userId = authenticationPreferences[AuthenticationPreferences.systemUserId].toUUIDOrNull()
