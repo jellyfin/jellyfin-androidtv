@@ -443,4 +443,7 @@
     <string name="lbl_auto_crop">Avtomatty qiyp alu</string>
     <string name="alphabetical">Älıpbi boiynşa</string>
     <string name="last_use">Eñ soñğy paidalanylğan</string>
+    <string name="advanced_settings">Parametrler (keñeitılgen)</string>
+    <string name="always_authenticate_description">Būl mümkındıktı qosu avtomatty kırudi öşıredı</string>
+    <string name="always_authenticate">Ärqaşan tirkelgı derekterın sūrau</string>
 </resources>
