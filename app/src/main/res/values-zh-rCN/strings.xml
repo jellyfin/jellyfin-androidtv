@@ -441,4 +441,9 @@
     <string name="enable_playback_module_title">启用新的播放模块</string>
     <string name="lbl_fit">正常</string>
     <string name="lbl_auto_crop">自动裁剪</string>
+    <string name="advanced_settings">设置（高级）</string>
+    <string name="always_authenticate_description">启用此功能禁用自动登录</string>
+    <string name="always_authenticate">总是要求凭据</string>
+    <string name="alphabetical">按字母顺序</string>
+    <string name="last_use">最近使用</string>
 </resources>
