@@ -441,4 +441,9 @@
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Estirar</string>
     <string name="lbl_auto_crop">Ajuste automático</string>
+    <string name="advanced_settings">Preferencias (Avanzado)</string>
+    <string name="always_authenticate_description">Habilitar ésto deshabilitará el inicio de sesión automático</string>
+    <string name="always_authenticate">Siempre pedir credenciales</string>
+    <string name="alphabetical">Alfabético</string>
+    <string name="last_use">Más reciente usado</string>
 </resources>
