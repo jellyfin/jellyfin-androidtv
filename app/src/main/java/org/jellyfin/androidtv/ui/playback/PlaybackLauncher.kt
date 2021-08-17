@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback
 import android.app.Activity
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackForwardingActivity
 import org.jellyfin.apiclient.model.dto.BaseItemType
 
 interface PlaybackLauncher {
@@ -32,8 +33,7 @@ class GarbagePlaybackLauncher(
 	}
 }
 
-// TODO: Move to playback module
 class RewritePlaybackLauncher : PlaybackLauncher {
 	override fun useExternalPlayer(itemType: BaseItemType?) = false
-	override fun getPlaybackActivityClass(itemType: BaseItemType?) = TODO("Not yet implemented")
+	override fun getPlaybackActivityClass(itemType: BaseItemType?) = PlaybackForwardingActivity::class.java
 }
