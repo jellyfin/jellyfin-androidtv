@@ -33,5 +33,4 @@ public class CodecTypes {
     public static final String MPEG4 = "mpeg4";
     public static final String VP8 = "vp8";
     public static final String VP9 = "vp9";
-    public static final String VPX = "vpx";
 }
