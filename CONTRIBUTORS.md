@@ -9,6 +9,7 @@
  - [AndreasGB](https://github.com/andreasgb)
  - [joern-h](https://github.com/joern-h)
  - [Niels van Velzen](https://github.com/nielsvanvelzen)
+ - [GodTamIt](https://github.com/GodTamIt)
 
 # Emby Contributors
 
