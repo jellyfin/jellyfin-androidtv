@@ -24,8 +24,8 @@ import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.text.TextOutput;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
@@ -472,6 +472,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             options.add("--audio-desync");
             options.add(String.valueOf(get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
+            options.add("--vout=android-display");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);
             Timber.i("Network buffer set to %d", buffer);
