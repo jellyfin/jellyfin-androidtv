@@ -443,4 +443,7 @@
     <string name="lbl_auto_crop">Tự Động Cắt</string>
     <string name="alphabetical">Bảng chữ cái</string>
     <string name="last_use">Được dùng gần đây nhất</string>
+    <string name="advanced_settings">Cài đặt (nâng cao)</string>
+    <string name="always_authenticate_description">Bật chức năng này sẽ tắt tự động đăng nhập</string>
+    <string name="always_authenticate">Luôn hỏi thông tin xác thực</string>
 </resources>
