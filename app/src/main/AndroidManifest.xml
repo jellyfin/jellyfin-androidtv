@@ -167,5 +167,8 @@
             android:name=".ui.playback.nextup.NextUpActivity"
             android:noHistory="true"
             android:screenOrientation="landscape" />
+
+        <!-- Playback Rewrite - Temporary -->
+        <activity android:name=".ui.playback.rewrite.PlaybackForwardingActivity" />
     </application>
 </manifest>
