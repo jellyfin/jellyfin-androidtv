@@ -56,11 +56,12 @@
         android:layout_height="wrap_content"
         tools:text="0 | 0"
         android:id="@+id/counter"
-        android:layout_alignEnd="@+id/clock"
         android:textAlignment="viewEnd"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="13sp"
+        android:layout_marginEnd="60sp"
         android:fontFamily="sans-serif-light" />
 
     <TextView
@@ -70,7 +71,8 @@
         android:textSize="12sp"
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
-        android:layout_alignBottom="@+id/counter"
+        android:layout_alignTop="@+id/counter"
+        android:layout_marginTop="6sp"
         android:fontFamily="sans-serif-light" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
