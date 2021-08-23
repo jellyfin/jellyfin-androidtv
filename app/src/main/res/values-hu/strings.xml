@@ -441,4 +441,9 @@
     <string name="lbl_fit">Normál</string>
     <string name="lbl_stretch">Kinyújtás</string>
     <string name="lbl_auto_crop">Automatikus vágás</string>
+    <string name="advanced_settings">Beállítások (speciális)</string>
+    <string name="always_authenticate_description">Ennek a funkciónak az engedélyezése letiltja az automatikus bejelentkezést</string>
+    <string name="always_authenticate">Mindig kérjen hitelesítő adatokat</string>
+    <string name="alphabetical">ABC-sorrend</string>
+    <string name="last_use">Legutóbb használt</string>
 </resources>
