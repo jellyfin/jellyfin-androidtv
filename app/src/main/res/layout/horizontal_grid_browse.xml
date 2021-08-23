@@ -21,7 +21,7 @@
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:textSize="32sp"
-        android:layout_toLeftOf="@+id/npBug"
+        android:layout_toLeftOf="@+id/toolBar"
         android:layout_marginRight="10sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -39,17 +39,15 @@
         android:layout_toLeftOf="@+id/clock"/>
 
     <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
         android:id="@+id/toolBar"
         android:orientation="horizontal"
         android:gravity="bottom|right"
         android:alpha=".75"
-        android:paddingLeft="15dp"
         android:layout_toLeftOf="@+id/clock"
-        android:layout_alignBottom="@+id/clock"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="-4dp"
+        android:layout_alignTop="@+id/title"
+        android:layout_marginTop="2.5dp"
         android:showDividers="middle"
         android:dividerPadding="4dp" />
 
@@ -80,7 +78,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
-        android:layout_marginRight="40sp"
+        android:layout_marginEnd="40sp"
+        android:layout_marginStart="8sp"
         android:layout_alignParentEnd="true" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
@@ -88,9 +87,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
         android:layout_alignParentTop="false"
-        android:layout_toStartOf="@+id/clock"
-        android:layout_alignTop="@+id/clock"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/title"
+        android:layout_marginRight="55sp"
+        android:layout_marginTop="-1sp" />
 
 </RelativeLayout>
