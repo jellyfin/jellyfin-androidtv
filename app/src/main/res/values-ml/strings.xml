@@ -414,4 +414,7 @@
     <string name="lbl_auto_crop">ഓട്ടോ ക്രോപ്പ്</string>
     <string name="alphabetical">അക്ഷരമാല</string>
     <string name="last_use">ഏറ്റവും സമീപകാലത്ത് ഉപയോഗിച്ചത്</string>
+    <string name="advanced_settings">ക്രമീകരണങ്ങൾ (വിപുലമായത്)</string>
+    <string name="always_authenticate_description">ഈ പ്രവർത്തനം പ്രവർത്തനക്ഷമമാക്കുന്നത് യാന്ത്രിക സൈൻ ഇൻ പ്രവർത്തനരഹിതമാക്കുന്നു</string>
+    <string name="always_authenticate">എപ്പോഴും ക്രെഡൻഷ്യലുകൾ ചോദിക്കുക</string>
 </resources>
