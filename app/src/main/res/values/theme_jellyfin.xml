@@ -77,6 +77,7 @@
         <item name="tile_port_person_bg">#7E0001</item>
         <item name="tile_port_record_bg">#101777</item>
         <item name="tile_port_series_timer_bg">#014A7F</item>
+        <item name="tile_port_user_bg">#7E0001</item>
     </style>
 
     <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">

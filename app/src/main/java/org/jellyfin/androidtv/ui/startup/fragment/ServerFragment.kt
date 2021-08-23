@@ -159,7 +159,7 @@ class ServerFragment : Fragment() {
 
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
 			holder.cardView.title = user.name
-			holder.cardView.setImage(loginViewModel.getUserImage(server, user), R.drawable.tile_port_person)
+			holder.cardView.setImage(loginViewModel.getUserImage(server, user), R.drawable.tile_port_user)
 
 			holder.cardView.setOnClickListener {
 				onItemPressed(user)

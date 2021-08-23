@@ -23,5 +23,9 @@
 
         <!-- Watched Indicator Shape -->
         <item name="accentShape">@drawable/square_accent</item>
+
+        <!-- Tile colors -->
+        <item name="tile_port_person_bg">#212121</item>
+        <item name="tile_port_user_bg">#384873</item>
     </style>
 </resources>
