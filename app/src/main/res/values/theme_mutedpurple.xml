@@ -10,6 +10,7 @@
         <item name="defaultSearchColor">@color/theme_muted_purple_accent</item>
         <item name="progressPrimary">@color/theme_muted_purple_accent</item>
         <item name="android:colorButtonNormal">@color/light_grey_transparent</item>
+        <item name="button_default_normal_background">@color/light_grey_transparent</item>
 
         <!-- Control icons -->
         <item name="controlIconForegroundActive">@color/theme_muted_purple_accent</item>

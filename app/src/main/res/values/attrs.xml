@@ -21,6 +21,7 @@
         <attr name="controlIconBackground" format="reference|color" />
         <attr name="controlIconForegroundActive" format="reference|color" />
         <attr name="controlIconForegroundInactive" format="reference|color" />
+        <attr name="button_default_normal_background" format="reference|color" />
         <!-- QR drawables -->
         <attr name="qrBackground" format="color" />
         <attr name="qrForeground" format="color" />
