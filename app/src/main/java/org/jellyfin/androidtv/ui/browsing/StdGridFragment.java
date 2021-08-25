@@ -362,7 +362,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected void addTools() {
         //Add tools
         LinearLayout toolBar = getToolBar();
-        int size = Utils.convertDpToPixel(requireContext(), 41);
+        int size = Utils.convertDpToPixel(requireContext(), 26);
 
         mSortButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mSortButton.setImageResource(R.drawable.ic_sort);

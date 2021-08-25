@@ -21,7 +21,7 @@
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:textSize="32sp"
-        android:layout_toLeftOf="@+id/toolBar"
+        android:layout_toLeftOf="@+id/npBug"
         android:layout_marginRight="10sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -39,15 +39,15 @@
         android:layout_toLeftOf="@+id/clock"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="41dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:id="@+id/toolBar"
         android:orientation="horizontal"
         android:gravity="bottom|right"
         android:alpha=".75"
-        android:layout_toLeftOf="@+id/clock"
-        android:layout_alignTop="@+id/title"
-        android:layout_marginTop="2.5dp"
+        android:layout_below="@+id/title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="59dp"
         android:showDividers="middle"
         android:dividerPadding="4dp" />
 
@@ -88,10 +88,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/title"
-        android:layout_marginRight="55sp"
-        android:layout_marginTop="-1sp" />
+        android:layout_toStartOf="@+id/clock"
+        android:layout_alignTop="@+id/clock"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="15dp" />
 
 </RelativeLayout>
