@@ -24,4 +24,5 @@
     <attr name="tile_port_folder_bg" format="color" />
     <attr name="tile_port_grid_bg" format="color" />
     <attr name="tile_port_guide_bg" format="color" />
+    <attr name="tile_port_user_bg" format="color" />
 </resources>
