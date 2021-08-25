@@ -12,20 +12,12 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditio
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
-import org.jellyfin.apiclient.model.dlna.CodecProfile
-import org.jellyfin.apiclient.model.dlna.CodecType
-import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
-import org.jellyfin.apiclient.model.dlna.DlnaProfileType
-import org.jellyfin.apiclient.model.dlna.ProfileCondition
-import org.jellyfin.apiclient.model.dlna.ProfileConditionType
-import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
-import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
+import org.jellyfin.apiclient.model.dlna.*
 
 @OptIn(ExperimentalStdlibApi::class)
 class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
-	isDtsEnabled: Boolean = true
 ) : BaseProfile() {
 	init {
 		name = "AndroidTV-ExoPlayer"
@@ -75,8 +67,8 @@ class ExoPlayerProfile(
 							CodecTypes.AAC_LATM,
 							CodecTypes.MP3,
 							CodecTypes.MP2,
-							if (isDtsEnabled) CodecTypes.DCA else null,
-							if (isDtsEnabled) CodecTypes.DTS else null
+							CodecTypes.DCA,
+							CodecTypes.DTS,
 						).joinToString(",")
 					}
 				})

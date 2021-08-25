@@ -408,8 +408,7 @@ public class PlaybackController {
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     internalProfile = new ExoPlayerProfile(
                         isLiveTv,
-                        userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                        true
+                        userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
                     );
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
@@ -546,8 +545,7 @@ public class PlaybackController {
                                 final DeviceProfile save = internalOptions.getProfile();
                                 DeviceProfile newProfile = new ExoPlayerProfile(
                                     isLiveTv,
-                                    userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                                    true
+                                    userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
                                 );
                                 if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
