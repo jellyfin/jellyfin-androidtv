@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
         android:ellipsize="marquee"
+        android:layerType="hardware"
         android:marqueeRepeatLimit="marquee_forever"
         android:padding="4dp"
         android:singleLine="true"
