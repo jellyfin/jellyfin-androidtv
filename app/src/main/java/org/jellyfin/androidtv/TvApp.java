@@ -104,7 +104,13 @@ public class TvApp extends Application {
 
     @NonNull
     public DisplayPreferences getCachedDisplayPrefs(String key) {
-        return displayPrefsCache.containsKey(key) ? displayPrefsCache.get(key) : new DisplayPreferences();
+        return getCachedDisplayPrefs(key, DISPLAY_PREFS_APP_NAME);
+    }
+
+    @NonNull
+    public DisplayPreferences getCachedDisplayPrefs(String key, String app) {
+        String cacheKey = String.format("%s.%s", app, key);
+        return displayPrefsCache.containsKey(cacheKey) ? displayPrefsCache.get(cacheKey) : new DisplayPreferences();
     }
 
     public void updateDisplayPrefs(DisplayPreferences preferences) {
@@ -112,7 +118,7 @@ public class TvApp extends Application {
     }
 
     public void updateDisplayPrefs(String app, DisplayPreferences preferences) {
-        displayPrefsCache.put(preferences.getId(), preferences);
+        displayPrefsCache.put(String.format("%s.%s", app, preferences.getId()), preferences);
         apiClient.getValue().UpdateDisplayPreferencesAsync(preferences, getCurrentUser().getId(), app, new EmptyResponse());
         Timber.d("Display prefs updated for %s isFavorite: %s", preferences.getId(), preferences.getCustomPrefs().get("FavoriteOnly"));
     }
@@ -122,9 +128,11 @@ public class TvApp extends Application {
     }
 
     public void getDisplayPrefsAsync(final String key, String app, final Response<DisplayPreferences> outerResponse) {
-        if (displayPrefsCache.containsKey(key)) {
-            Timber.d("Display prefs loaded from cache %s", key);
-            outerResponse.onResponse(displayPrefsCache.get(key));
+        String cacheKey = String.format("%s.%s", app, key);
+
+        if (displayPrefsCache.containsKey(cacheKey)) {
+            Timber.d("Display prefs loaded from cache %s", cacheKey);
+            outerResponse.onResponse(displayPrefsCache.get(cacheKey));
         } else {
             apiClient.getValue().GetDisplayPreferencesAsync(key, getCurrentUser().getId(), app, new Response<DisplayPreferences>() {
                 @Override
@@ -132,9 +140,9 @@ public class TvApp extends Application {
                     if (response.getSortBy() == null) response.setSortBy("SortName");
                     if (response.getCustomPrefs() == null)
                         response.setCustomPrefs(new HashMap<String, String>());
-                    if (app.equals(TvApp.DISPLAY_PREFS_APP_NAME))
-                        displayPrefsCache.put(key, response);
-                    Timber.d("Display prefs loaded and saved in cache %s", key);
+
+                    displayPrefsCache.put(cacheKey, response);
+                    Timber.d("Display prefs loaded and saved in cache %s", cacheKey);
                     outerResponse.onResponse(response);
                 }
 
