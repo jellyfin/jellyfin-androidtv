@@ -39,6 +39,7 @@ public class VlcEventHandler implements org.videolan.libvlc.MediaPlayer.EventLis
                 break;
             case Event.EncounteredError:
                 if (onErrorListener != null) onErrorListener.onEvent();
+                break;
             case Event.Paused:
             case Event.Stopped:
             default:
