@@ -95,7 +95,7 @@ fun OptionsScreen.playbackCategory(
 	enum<AudioBehavior> {
 		setTitle(R.string.lbl_audio_output)
 		bind(userPreferences, UserPreferences.audioBehaviour)
-		depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL && !DeviceUtils.isFireTv() }
+		depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 	}
 
 	checkbox {

@@ -137,6 +137,6 @@ public class Utils {
             return true;
         }
 
-        return DeviceUtils.isFireTv() || get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
+        return get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 }
