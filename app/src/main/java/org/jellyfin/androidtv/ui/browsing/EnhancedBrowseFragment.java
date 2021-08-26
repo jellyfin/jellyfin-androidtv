@@ -38,6 +38,7 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
@@ -483,6 +484,11 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, serializer.getValue().SerializeToString(folder));
                         mActivity.startActivity(recordings);
+                        break;
+
+                    case TvApp.LIVE_TV_GUIDE_OPTION_ID:
+                        Intent guide = new Intent(mActivity, LiveTvGuideActivity.class);
+                        mActivity.startActivity(guide);
                         break;
 
                     default:
