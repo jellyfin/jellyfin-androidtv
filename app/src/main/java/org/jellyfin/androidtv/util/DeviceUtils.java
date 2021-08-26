@@ -5,6 +5,9 @@ import android.os.Build;
 import java.util.Arrays;
 
 public class DeviceUtils {
+    // Chromecast with Google TV
+    private static final String CHROMECAST_GOOGLE_TV = "Chromecast";
+
     private static final String FIRE_TV_PREFIX = "AFT";
     // Fire TV Stick Models
     private static final String FIRE_STICK_MODEL_GEN_1 = "AFTM";
@@ -19,6 +22,10 @@ public class DeviceUtils {
     private static final String FIRE_TV_MODEL_GEN_1 = "AFTB";
     private static final String FIRE_TV_MODEL_GEN_2 = "AFTS";
     private static final String FIRE_TV_MODEL_GEN_3 = "AFTN";
+
+    public static boolean isChromecastWithGoogleTV() {
+        return Build.MODEL.equals(CHROMECAST_GOOGLE_TV);
+    }
 
     public static boolean isFireTv() {
         return Build.MODEL.startsWith(FIRE_TV_PREFIX);
