@@ -73,7 +73,7 @@ class ExternalPlayerProfile : DeviceProfile() {
 			subtitleProfile("ass", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("pbssub", SubtitleDeliveryMethod.Embed),
+			subtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),

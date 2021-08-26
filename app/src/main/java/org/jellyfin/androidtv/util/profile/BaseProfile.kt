@@ -41,7 +41,7 @@ open class BaseProfile : DeviceProfile() {
 			subtitleProfile("ass", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("pbssub", SubtitleDeliveryMethod.Encode),
+			subtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("dvdsub", SubtitleDeliveryMethod.External),
 			subtitleProfile("vtt", SubtitleDeliveryMethod.External),
 			subtitleProfile("sub", SubtitleDeliveryMethod.External),
