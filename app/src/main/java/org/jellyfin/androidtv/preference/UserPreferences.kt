@@ -4,7 +4,14 @@ import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
 import org.acra.ACRA
-import org.jellyfin.androidtv.preference.constant.*
+import org.jellyfin.androidtv.preference.constant.AppTheme
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.androidtv.preference.constant.RatingType
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
+import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
 import org.jellyfin.androidtv.util.DeviceUtils
 
 /**
@@ -96,7 +103,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Preferred behavior for audio streaming.
 		 */
-		var audioBehaviour = Preference.enum("audio_behavior", AudioBehavior.DIRECT_STREAM)
+		var audioBehaviour = Preference.enum("audio_behavior", defaultAudioBehavior)
 
 		/**
 		 * Enable DTS
