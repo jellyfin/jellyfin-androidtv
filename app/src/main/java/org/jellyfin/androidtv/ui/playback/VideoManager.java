@@ -472,7 +472,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             options.add("--audio-desync");
             options.add(String.valueOf(get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
-            options.add("--vout=android-display");
+            options.add("--vout=android-opaque,android-display");
 
             mLibVLC = new LibVLC(TvApp.getApplication(), options);
             Timber.i("Network buffer set to %d", buffer);
