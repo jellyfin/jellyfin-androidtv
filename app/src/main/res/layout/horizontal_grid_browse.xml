@@ -10,7 +10,7 @@
         android:id="@+id/rowsFragment"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/infoRow"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="13dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_height="20sp"
         android:layout_below="@+id/title"
         android:layout_alignStart="@+id/title"
-        android:layout_marginTop="3sp"
+        android:layout_marginTop="5sp"
         android:id="@+id/infoRow"
         android:layout_toLeftOf="@+id/clock"/>
 
@@ -48,6 +48,7 @@
         android:layout_below="@+id/title"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="59dp"
+        android:layout_marginTop="4dp"
         android:showDividers="middle"
         android:dividerPadding="4dp" />
 
