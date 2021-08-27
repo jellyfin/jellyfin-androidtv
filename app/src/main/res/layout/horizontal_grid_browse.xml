@@ -10,7 +10,7 @@
         android:id="@+id/rowsFragment"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/infoRow"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="13dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,22 +34,21 @@
         android:layout_height="20sp"
         android:layout_below="@+id/title"
         android:layout_alignStart="@+id/title"
-        android:layout_marginTop="3sp"
+        android:layout_marginTop="5sp"
         android:id="@+id/infoRow"
         android:layout_toLeftOf="@+id/clock"/>
 
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:id="@+id/toolBar"
         android:orientation="horizontal"
         android:gravity="bottom|right"
         android:alpha=".75"
-        android:paddingLeft="15dp"
-        android:layout_toLeftOf="@+id/clock"
-        android:layout_alignBottom="@+id/clock"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="-4dp"
+        android:layout_below="@+id/title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="59dp"
+        android:layout_marginTop="4dp"
         android:showDividers="middle"
         android:dividerPadding="4dp" />
 
@@ -58,11 +57,12 @@
         android:layout_height="wrap_content"
         tools:text="0 | 0"
         android:id="@+id/counter"
-        android:layout_alignEnd="@+id/clock"
         android:textAlignment="viewEnd"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="13sp"
+        android:layout_marginEnd="60sp"
         android:fontFamily="sans-serif-light" />
 
     <TextView
@@ -72,7 +72,8 @@
         android:textSize="12sp"
         android:alpha=".6"
         android:layout_alignLeft="@+id/title"
-        android:layout_alignBottom="@+id/counter"
+        android:layout_alignTop="@+id/counter"
+        android:layout_marginTop="6sp"
         android:fontFamily="sans-serif-light" />
 
     <org.jellyfin.androidtv.ui.ClockUserView
@@ -80,17 +81,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
-        android:layout_marginRight="40sp"
+        android:layout_marginEnd="40sp"
+        android:layout_marginStart="8sp"
         android:layout_alignParentEnd="true" />
 
     <org.jellyfin.androidtv.ui.NowPlayingBug
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
-        android:layout_alignParentTop="false"
         android:layout_toStartOf="@+id/clock"
         android:layout_alignTop="@+id/clock"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="15dp" />
 
 </RelativeLayout>
