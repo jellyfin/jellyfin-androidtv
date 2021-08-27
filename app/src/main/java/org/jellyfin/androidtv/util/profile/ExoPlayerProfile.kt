@@ -161,7 +161,7 @@ class ExoPlayerProfile(
 			subtitleProfile("ass", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("pbssub", SubtitleDeliveryMethod.Encode),
+			subtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("dvdsub", SubtitleDeliveryMethod.Encode),
 			subtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),
