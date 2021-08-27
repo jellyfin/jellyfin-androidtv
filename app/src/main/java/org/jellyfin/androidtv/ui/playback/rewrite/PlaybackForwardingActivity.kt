@@ -13,8 +13,13 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.util.*
 
 class PlaybackForwardingActivity : FragmentActivity() {
+	companion object {
+		const val EXTRA_ITEM_ID: String = "item_id"
+	}
+
 	private val mediaManager by inject<MediaManager>()
 	private val userLibraryApi by lazy {
 		UserLibraryApi(get(userApiClient))
@@ -24,13 +29,13 @@ class PlaybackForwardingActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 
 		// Try find the item id
-		val itemId = findItem()?.id?.toUUIDOrNull()
+		val itemId = findItemId()
 
 		if (itemId == null) {
 			Toast.makeText(
-				this,
-				"Could not find item to play (itemId=null)",
-				Toast.LENGTH_LONG
+					this,
+					"Could not find item to play (itemId=null)",
+					Toast.LENGTH_LONG
 			).show()
 			finishAfterTransition()
 			return
@@ -42,9 +47,9 @@ class PlaybackForwardingActivity : FragmentActivity() {
 
 			// Log info
 			Toast.makeText(
-				this@PlaybackForwardingActivity,
-				"Found item of type ${item.type} - ${item.name} (${item.id}",
-				Toast.LENGTH_LONG
+					this@PlaybackForwardingActivity,
+					"Found item of type ${item.type} - ${item.name} (${item.id}",
+					Toast.LENGTH_LONG
 			).show()
 			Timber.i(item.toString())
 
@@ -53,17 +58,19 @@ class PlaybackForwardingActivity : FragmentActivity() {
 		}
 	}
 
-	private fun findItem(): BaseItemDto? {
+	private fun findItemId(): UUID? {
+		val extra = intent.getStringExtra(EXTRA_ITEM_ID)?.toUUIDOrNull()
+
 		var first: BaseItemDto? = null
 		var best: BaseItemDto? = null
 
-		for (item in mediaManager.currentVideoQueue) {
+		for (item in mediaManager.currentVideoQueue ?: emptyList()) {
 			if (first == null) first = item
 			if (best == null && item.baseItemType !== BaseItemType.Trailer) best = item
 
 			if (first != null && best != null) break
 		}
 
-		return best ?: first
+		return extra ?: best?.id?.toUUIDOrNull() ?: first?.id?.toUUIDOrNull()
 	}
 }

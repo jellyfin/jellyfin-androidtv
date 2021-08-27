@@ -993,7 +993,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     TextUnderButton imix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PlaybackHelper.playInstantMix(mBaseItem.getId());
+                            PlaybackHelper.playInstantMix(FullDetailsActivity.this, mBaseItem);
                         }
                     });
                     mDetailsOverviewRow.addAction(imix);
@@ -1564,6 +1564,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
+                PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+                if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, item)) return;
+
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
                     mediaManager.getValue().playNow(response);
                 } else {
