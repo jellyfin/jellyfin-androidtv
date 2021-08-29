@@ -166,7 +166,8 @@ class LeanbackChannelWorker(
 	 * image when preferred.
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
-		preferParentThumb && parentThumbItemId?.toUUIDOrNull() != null -> imageApi.getItemImageUrl(
+		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
+			&& parentThumbItemId?.toUUIDOrNull() != null -> imageApi.getItemImageUrl(
 			itemId = parentThumbItemId!!.toUUIDOrNull()!!,
 			imageType = ImageType.THUMB,
 			format = ImageFormat.WEBP,
