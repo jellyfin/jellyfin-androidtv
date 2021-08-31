@@ -25,6 +25,7 @@ import org.jellyfin.sdk.api.operations.ImageApi
 import org.jellyfin.sdk.api.operations.TvShowsApi
 import org.jellyfin.sdk.api.operations.UserViewsApi
 import org.jellyfin.sdk.model.api.*
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -165,8 +166,9 @@ class LeanbackChannelWorker(
 	 * image when preferred.
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
-		preferParentThumb && this.parentThumbItemId != null && seriesId != null -> imageApi.getItemImageUrl(
-			itemId = seriesId!!,
+		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
+			&& parentThumbItemId?.toUUIDOrNull() != null -> imageApi.getItemImageUrl(
+			itemId = parentThumbItemId!!.toUUIDOrNull()!!,
 			imageType = ImageType.THUMB,
 			format = ImageFormat.WEBP,
 			width = 512,
