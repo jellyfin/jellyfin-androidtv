@@ -18,14 +18,6 @@ jobs:
         with:
           distribution: adopt
           java-version: 11
-      - name: Setup Gradle cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache: gradle
       - name: Run test task
         run: ./gradlew --build-cache --no-daemon --info test
