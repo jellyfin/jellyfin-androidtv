@@ -443,4 +443,7 @@
     <string name="lbl_fit">Normálne</string>
     <string name="lbl_stretch">Roztiahnuť</string>
     <string name="lbl_auto_crop">Automaticky orezať</string>
+    <string name="advanced_settings">Nastavenia (pokročilé)</string>
+    <string name="always_authenticate_description">Povolením tejto funkcie zakážete automatické prihlasovanie</string>
+    <string name="always_authenticate">Vždy vyžadovať prihlasovacie údaje</string>
 </resources>
