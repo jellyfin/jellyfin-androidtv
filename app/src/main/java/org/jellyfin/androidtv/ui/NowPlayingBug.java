@@ -130,7 +130,6 @@ public class NowPlayingBug extends FrameLayout {
         Glide.with(context)
                 .load(ImageUtils.getPrimaryImageUrl(item, get(ApiClient.class)))
                 .error(R.drawable.ic_album)
-                .override(35, 35)
                 .centerInside()
                 .into(npIcon);
         currentDuration = TimeUtils.formatMillis(item.getRunTimeTicks() != null ? item.getRunTimeTicks() / 10000 : 0);

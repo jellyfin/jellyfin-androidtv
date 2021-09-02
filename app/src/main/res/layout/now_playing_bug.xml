@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:maxWidth="250dp"
     android:padding="5dp">
 
     <ImageView
+        android:id="@+id/npIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:id="@+id/npIcon"
         android:src="@drawable/ic_album"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/npStatus"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentStart="false"
-        android:layout_marginLeft="10sp"
-        android:maxLines="1"
-        android:layout_toRightOf="@+id/npIcon"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-light" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/npDesc"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentStart="false"
-        android:layout_marginLeft="5sp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="sans-serif-light"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_below="@+id/npIcon"
-        android:gravity="center"
-        android:layout_alignRight="@+id/npStatus"
-        android:fontFamily="sans-serif-light" />
+        app:layout_constraintBottom_toTopOf="@id/npDesc"
+        app:layout_constraintStart_toEndOf="@id/npIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="00:00 / 99:99" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/npDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/npIcon"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/npIcon"
+        app:layout_constraintTop_toBottomOf="@id/npStatus"
+        tools:text="Ozzy Osbourne" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
