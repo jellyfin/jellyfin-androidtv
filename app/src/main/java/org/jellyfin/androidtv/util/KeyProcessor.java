@@ -437,7 +437,7 @@ public class KeyProcessor {
                     get(MediaManager.class).playFrom(mCurrentRowItemNdx);
                     return true;
                 case MENU_INSTANT_MIX:
-                    PlaybackHelper.playInstantMix(mCurrentItemId);
+                    PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);
                     return true;
             }
 

@@ -177,6 +177,9 @@ public class TvApiEventListener extends ApiEventListener {
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (response.getItems() != null && response.getItems().length > 0) {
+                        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+                        if (playbackLauncher.interceptPlayRequest(TvApp.getApplication(), response.getItems()[0])) return;
+
                         //peek at first item to see what type it is
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":

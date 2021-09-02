@@ -261,6 +261,9 @@ public class PlaybackHelper {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
+        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        if (playbackLauncher.interceptPlayRequest(activity, item)) return;
+
         getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
@@ -275,7 +278,7 @@ public class PlaybackHelper {
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
-                            Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
+                            Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
                             Intent intent = new Intent(activity, newActivity);
                             get(MediaManager.class).setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
@@ -291,7 +294,7 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        Class newActivity = get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
+                        Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getBaseItemType());
                         Intent intent = new Intent(activity, newActivity);
                         get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
@@ -332,14 +335,18 @@ public class PlaybackHelper {
         });
     }
 
-    public static void playInstantMix(String seedId) {
+    public static void playInstantMix(Context context, BaseItemDto item) {
+        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        if (playbackLauncher.interceptPlayRequest(context, item)) return;
+
+        String seedId = item.getId();
         getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
                     get(MediaManager.class).playNow(Arrays.asList(response));
                 } else {
-                    Utils.showToast(TvApp.getApplication(), R.string.msg_no_playable_items);
+                    Utils.showToast(context, R.string.msg_no_playable_items);
                 }
             }
         });

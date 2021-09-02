@@ -321,7 +321,7 @@ public class ItemListActivity extends FragmentActivity {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackHelper.playInstantMix(row.getItem().getId());
+                    PlaybackHelper.playInstantMix(ItemListActivity.this, row.getItem());
                     return true;
                 }
             });
@@ -511,6 +511,9 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void play(List<BaseItemDto> items) {
+        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
+
         if ("Video".equals(mBaseItem.getMediaType())) {
             Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
             Intent intent = new Intent(mActivity, activity);
@@ -576,7 +579,7 @@ public class ItemListActivity extends FragmentActivity {
             TextUnderButton mix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    PlaybackHelper.playInstantMix(mBaseItem.getId());
+                    PlaybackHelper.playInstantMix(ItemListActivity.this, mBaseItem);
                 }
             });
             mButtonRow.addView(mix);
