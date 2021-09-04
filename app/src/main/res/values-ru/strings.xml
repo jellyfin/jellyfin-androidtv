@@ -171,7 +171,7 @@
     <string name="lbl_up_next_colon">"Очередное: "</string>
     <string name="lbl_now_playing">Воспроизводится</string>
     <string name="lbl_play_from_here">Воспроизвести отсюда</string>
-    <string name="lbl_remove_from_queue">Изъять из очереди</string>
+    <string name="lbl_remove_from_queue">Удалить из очереди</string>
     <string name="lbl_goto_now_playing">Перейти к воспроизводящемуся</string>
     <string name="lbl_instant_mix">Автомикс</string>
     <string name="lbl_save_as_playlist">Сохранить как плей-лист</string>
@@ -362,14 +362,14 @@
     <string name="server_connecting">Подключение к %s</string>
     <string name="enable_smart_view">Включить умный экран</string>
     <string name="lbl_sign_out">Выйти</string>
-    <string name="lbl_remove">Изъять</string>
+    <string name="lbl_remove">Удалить</string>
     <string name="lbl_server">Сервер</string>
     <string name="lbl_users">Пользователи</string>
     <string name="lbl_user_server">%1$s на %2$s</string>
     <string name="lbl_user_last_used">Крайнее пользование - %1$s в %2$s</string>
     <string name="lbl_remove_server">Изъять сервер</string>
     <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
-    <string name="lbl_remove_user_content">Изъять учётную запись</string>
+    <string name="lbl_remove_user_content">Удалить учётную запись</string>
     <string name="lbl_manage_servers">Управление серверами</string>
     <string name="login_help_description">Jellyfin требуется подключение к серверу. Просмотрите нашу документацию на docs.jellyfin.org, или сканируйте QR-код, чтобы начать работу с Jellyfin.</string>
     <string name="enable_smart_view_description">Умный экран показывает соответствующие элементы вместо сетки</string>
