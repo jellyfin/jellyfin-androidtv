@@ -436,4 +436,13 @@
     <string name="lbl_start_end_on_schedule">Commence et termine à temps</string>
     <string name="lbl_starting_on_schedule_ending_after">Commence à temps, et termine %1$s après l\'heure prévue</string>
     <string name="lbl_starting_early_ending_on_schedule">Commence %1$s plus tôt et termine à l\'heure prévue</string>
+    <string name="advanced_settings">Paramètres (avancés)</string>
+    <string name="always_authenticate_description">L\'activation de cette fonctionnalité désactive l\'authentification automatique</string>
+    <string name="always_authenticate">Toujours demander pour les identifiants</string>
+    <string name="alphabetical">Alphabétique</string>
+    <string name="last_use">Utilisés récemment</string>
+    <string name="enable_playback_module_description">Il s\'agit d\'une fonctionnalité expérimentale. Aucun support n\'est fournit.</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Étirer</string>
+    <string name="lbl_auto_crop">Recadrage automatique</string>
 </resources>
