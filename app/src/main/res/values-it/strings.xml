@@ -435,4 +435,11 @@
     <string name="press_to_close">Premi per chiudere</string>
     <string name="pref_theme_muted_purple">Viola tenue</string>
     <string name="pref_next_up_behavior_title">Mostra le info del prossimo video</string>
+    <string name="advanced_settings">Impostazioni (avanzate)</string>
+    <string name="always_authenticate_description">Abilitando questa funzione verrà disabilitato l\'autologin</string>
+    <string name="always_authenticate">Chiedi sempre le credenziali</string>
+    <string name="alphabetical">Alfabetico</string>
+    <string name="enable_playback_module_description">Questa è una funzione sperimentale. Nessun supporto viene fornito.</string>
+    <string name="lbl_fit">Normale</string>
+    <string name="lbl_auto_crop">Auto Ritaglio</string>
 </resources>
