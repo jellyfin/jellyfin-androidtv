@@ -449,7 +449,7 @@ public class PlaybackController {
             if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 Timber.i("Using internal player for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), false);
@@ -466,7 +466,7 @@ public class PlaybackController {
             } else {
                 //VLC
                 Timber.i("Using VLC for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200));
@@ -484,11 +484,11 @@ public class PlaybackController {
             }
         } else {
             // Get playback info for each player and then decide on which one to use
-            playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(final StreamInfo vlcResponse) {
                     Timber.i("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                    playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
+                    playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
                             Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
@@ -551,7 +551,7 @@ public class PlaybackController {
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
-                                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, false, apiClient.getValue(), new Response<StreamInfo>() {
+                                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                                     @Override
                                     public void onResponse(StreamInfo response) {
                                         //re-set this

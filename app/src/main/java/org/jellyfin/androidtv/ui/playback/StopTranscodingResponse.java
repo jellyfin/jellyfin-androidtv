@@ -31,7 +31,7 @@ public class StopTranscodingResponse extends EmptyResponse {
     }
 
     private void onAny() {
-        playbackManager.getVideoStreamInfo(serverId, (VideoOptions) options, startPositionTicks, false, apiClient, response);
+        playbackManager.getVideoStreamInfo(serverId, (VideoOptions) options, startPositionTicks, apiClient, response);
     }
 
     @Override
