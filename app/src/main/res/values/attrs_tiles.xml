@@ -16,6 +16,7 @@
     <attr name="tile_genres_bg" format="color" />
     <attr name="tile_land_folder_bg" format="color" />
     <attr name="tile_land_photo_bg" format="color" />
+    <attr name="tile_land_series_timer_bg" format="color" />
     <attr name="tile_land_tv_bg" format="color" />
     <attr name="tile_letters_bg" format="color" />
     <attr name="tile_port_folder_bg" format="color" />

@@ -65,6 +65,7 @@
         <item name="tile_land_photo_bg">@color/indigo_dye</item>
         <item name="tile_port_video_queue_bg">@color/indigo_dye</item>
         <item name="tile_port_folder_bg">@color/indigo_dye</item>
+        <item name="tile_land_series_timer_bg">@color/indigo_dye</item>
 
         <item name="tile_audio_bg">@color/midnight_blue</item>
         <item name="tile_artists_bg">@color/spanish_blue</item>
