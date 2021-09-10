@@ -105,7 +105,7 @@ class LeanbackChannelWorker(
 	 * update or create the channel. The [name] parameter is used to store the id and should be
 	 * unique.
 	 */
-	private fun getChannelUri(name: String, settings: Channel): Uri {
+	private fun getChannelUri(name: String, settings: Channel, default: Boolean = false): Uri {
 		val store = context.getSharedPreferences("leanback_channels", Context.MODE_PRIVATE)
 
 		val uri = if (store.contains(name)) {
@@ -117,11 +117,11 @@ class LeanbackChannelWorker(
 			// Create new channel and save uri
 			context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, settings.toContentValues())!!.also { uri ->
 				store.edit().putString(name, uri.toString()).apply()
+				if (default) {
+					// Set as default row to display (we can request one row to automatically be added to the home screen)
+					TvContractCompat.requestChannelBrowsable(context, ContentUris.parseId(uri))
+				}
 			}
-
-			// Set as default row to display (we can request one row to automatically be added to the home screen)
-			// Should be enabled when we add a row that we want to display by default
-			// TvContractCompat.requestChannelBrowsable(application, ContentUris.parseId(uri))
 		}
 
 		// Update logo
@@ -141,7 +141,7 @@ class LeanbackChannelWorker(
 			.setType(TvContractCompat.Channels.TYPE_PREVIEW)
 			.setDisplayName(context.getString(R.string.lbl_my_media))
 			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-			.build())
+			.build(), default = true)
 
 		val response by userViewsApi.getUserViews(includeHidden = false)
 
