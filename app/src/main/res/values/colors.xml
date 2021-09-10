@@ -2,6 +2,9 @@
     <!-- Base Colors -->
     <color name="jellyfin_blue">#00a4dc</color>
     <color name="jellyfin_purple">#aa5cc3</color>
+    <color name="midnight_blue">#031A6B</color>
+    <color name="indigo_dye">#033860</color>
+    <color name="spanish_blue">#1E76BA</color>
     <color name="grey">#303030</color>
     <color name="not_quite_black">#101010</color>
     <color name="black">#000000</color>

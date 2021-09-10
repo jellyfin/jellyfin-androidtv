@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="tile_port_person_bg" format="color" />
-    <attr name="tile_port_record_bg" format="color" />
     <attr name="tile_port_series_timer_bg" format="color" />
     <attr name="tile_port_server_bg" format="color" />
     <attr name="tile_port_time_bg" format="color" />
@@ -14,7 +13,6 @@
     <attr name="tile_artists_bg" format="color" />
     <attr name="tile_audio_bg" format="color" />
     <attr name="tile_chapter_bg" format="color" />
-    <attr name="tile_edit_bg" format="color" />
     <attr name="tile_genres_bg" format="color" />
     <attr name="tile_land_folder_bg" format="color" />
     <attr name="tile_land_photo_bg" format="color" />
