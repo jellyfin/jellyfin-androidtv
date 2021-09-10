@@ -143,6 +143,7 @@
     <string name="lbl_date_added">Date Added</string>
     <string name="lbl_premier_date">Premier Date</string>
     <string name="lbl_critic_rating">Critic Rating</string>
+    <string name="lbl_community_rating">Community Rating</string>
     <string name="lbl_rating">Rating</string>
     <string name="lbl_starting_with">beginning with those whose name starts with</string>
     <string name="btn_done">Done</string>
