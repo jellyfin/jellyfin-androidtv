@@ -12,6 +12,9 @@ import androidx.tvprovider.media.tv.*
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -20,11 +23,17 @@ import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
+import org.jellyfin.apiclient.model.dto.BaseItemType
+import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.api.operations.ImageApi
+import org.jellyfin.sdk.api.operations.ItemsApi
 import org.jellyfin.sdk.api.operations.TvShowsApi
 import org.jellyfin.sdk.api.operations.UserViewsApi
-import org.jellyfin.sdk.model.api.*
+import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.ImageFormat
+import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
@@ -54,6 +63,7 @@ class LeanbackChannelWorker(
 	private val userViewsApi by lazy { UserViewsApi(apiClient) }
 	private val imageApi by lazy { ImageApi(apiClient) }
 	private val tvShowsApi by lazy { TvShowsApi(apiClient) }
+	private val itemsApi by lazy { ItemsApi(apiClient) }
 	private val userPreferences by inject<UserPreferences>()
 
 	/**
@@ -75,7 +85,7 @@ class LeanbackChannelWorker(
 		!apiClient.isUsable -> Result.retry()
 		else -> {
 			// Get next up episodes
-			val nextUpItems = getNextUpItems()
+			val (resumeItems, nextUpItems) = getNextUpItems()
 
 			// Delete current items from the My Media and Next Up channels
 			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
@@ -83,7 +93,7 @@ class LeanbackChannelWorker(
 			// Update various channels
 			updateMyMedia()
 			updateNextUp(nextUpItems)
-			updateWatchNext(nextUpItems)
+			updateWatchNext(resumeItems + nextUpItems)
 
 			// Success!
 			Result.success()
@@ -184,22 +194,42 @@ class LeanbackChannelWorker(
 	}.let(Uri::parse)
 
 	/**
-	 * Gets the next up episodes or returns null.
+	 * Gets the resume and next up episodes. The returned pair contains two lists:
+	 * 1. resume items
+	 * 2. next up items
 	 */
-	private suspend fun getNextUpItems(): BaseItemDtoQueryResult? {
-		return tvShowsApi.getNextUp(
-			userId = apiClient.userId,
-			imageTypeLimit = 1,
-			limit = 10,
-			fields = listOf(ItemFields.DATE_CREATED)
-		).content
+	private suspend fun getNextUpItems(): Pair<List<BaseItemDto>, List<BaseItemDto>> = withContext(Dispatchers.IO) {
+		val resume = async {
+			itemsApi.getResumeItems(
+				userId = apiClient.userId!!,
+				fields = listOf(ItemFields.DATE_CREATED),
+				imageTypeLimit = 1,
+				limit = 10,
+				mediaTypes = listOf(MediaType.Video)
+			).content.items.orEmpty().filter { item ->
+				// Movies are not supported right now
+				item.type.equals(BaseItemType.Episode.toString(), true)
+			}
+		}
+
+		val nextup = async {
+			tvShowsApi.getNextUp(
+				userId = apiClient.userId,
+				imageTypeLimit = 1,
+				limit = 10,
+				fields = listOf(ItemFields.DATE_CREATED),
+			).content.items.orEmpty()
+		}
+
+		// Concat
+		Pair(resume.await(), nextup.await())
 	}
 
 	/**
 	 * Updates the "next up" row with current episodes. Uses the [nextUpItems] parameter to store
 	 * items returned by a NextUpQuery().
 	 */
-	private suspend fun updateNextUp(nextUpItems: BaseItemDtoQueryResult?) {
+	private fun updateNextUp(nextUpItems: List<BaseItemDto>) {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 		// Get channel
@@ -210,7 +240,7 @@ class LeanbackChannelWorker(
 			.build())
 
 		// Add new items
-		nextUpItems?.items?.map { item ->
+		nextUpItems.map { item ->
 			val imageUri = item.getPosterArtImageUrl(preferParentThumb)
 
 			val seasonString = item.parentIndexNumber?.toString().orEmpty()
@@ -235,7 +265,7 @@ class LeanbackChannelWorker(
 				})
 				.build()
 				.toContentValues()
-		}?.let { context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, it.toTypedArray()) }
+		}.let { context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, it.toTypedArray()) }
 	}
 
 	/**
@@ -243,17 +273,15 @@ class LeanbackChannelWorker(
 	 * or other types of media. Uses the [nextUpItems] parameter to store items returned by a
 	 * NextUpQuery().
 	 */
-	private suspend fun updateWatchNext(nextUpItems: BaseItemDtoQueryResult?) {
+	private fun updateWatchNext(nextUpItems: List<BaseItemDto>) {
 		// Delete current items
 		context.contentResolver.delete(WatchNextPrograms.CONTENT_URI, null, null)
 
 		// Add new items
-		nextUpItems?.items?.let { items ->
-			context.contentResolver.bulkInsert(
-				WatchNextPrograms.CONTENT_URI,
-				items.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }.toTypedArray()
-			)
-		}
+		context.contentResolver.bulkInsert(
+			WatchNextPrograms.CONTENT_URI,
+			nextUpItems.map { item -> getBaseItemAsWatchNextProgram(item).toContentValues() }.toTypedArray()
+		)
 	}
 
 	/**
@@ -272,24 +300,24 @@ class LeanbackChannelWorker(
 		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
 
 		// Use date created or fallback to current time if unavailable
-		setLastEngagementTimeUtcMillis(item.dateCreated?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
-			?: System.currentTimeMillis())
+		var engagement = item.dateCreated
 
 		when {
 			// User has started playing the episode
 			item.userData?.playbackPositionTicks ?: 0 > 0 -> {
 				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 				setLastPlaybackPositionMillis((item.userData!!.playbackPositionTicks / TICKS_IN_MILLISECOND).toInt())
+				// Use last played date to prioritze
+				engagement = item.userData?.lastPlayedDate
 			}
 			// First episode of the season
-			item.indexNumber == 1 -> {
-				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
-			}
+			item.indexNumber == 1 -> setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEW)
 			// Default
-			else -> {
-				setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
-			}
+			else -> setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_NEXT)
 		}
+
+		setLastEngagementTimeUtcMillis(engagement?.toInstant(ZoneOffset.UTC)?.toEpochMilli()
+			?: System.currentTimeMillis())
 
 		// Episode runtime has been determined
 		item.runTimeTicks?.let { runTimeTicks ->
