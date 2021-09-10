@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util.apiclient;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
@@ -13,15 +15,13 @@ import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
 import timber.log.Timber;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
             PlaybackStopInfo info = new PlaybackStopInfo();
             info.setItemId(item.getId());
             info.setPositionTicks(pos);
-            get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, get(ApiClient.class).getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), false, get(ApiClient.class), new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, get(ApiClient.class).getServerInfo().getId(), TvApp.getApplication().getCurrentUser().getId(), get(ApiClient.class), new EmptyResponse());
 
             DataRefreshService dataRefreshService = get(DataRefreshService.class);
             dataRefreshService.setLastPlayback(System.currentTimeMillis());
@@ -40,7 +40,7 @@ public class ReportingHelper {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId());
         startInfo.setPositionTicks(pos);
-        get(PlaybackManager.class).reportPlaybackStart(startInfo, false, get(ApiClient.class), new EmptyResponse());
+        get(PlaybackManager.class).reportPlaybackStart(startInfo, get(ApiClient.class), new EmptyResponse());
         Timber.i("Playback of %s started.", item.getName());
     }
 
@@ -56,7 +56,7 @@ public class ReportingHelper {
                 info.setAudioStreamIndex(TvApp.getApplication().getPlaybackController().getAudioStreamIndex());
                 info.setSubtitleStreamIndex(TvApp.getApplication().getPlaybackController().getSubtitleStreamIndex());
             }
-            get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, false, get(ApiClient.class), new EmptyResponse());
+            get(PlaybackManager.class).reportPlaybackProgress(info, currentStreamInfo, get(ApiClient.class), new EmptyResponse());
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Reimplementation of the PlaybackManager class from the apiclient with local item support removed.
+ *
  * @deprecated
  */
 @Deprecated
@@ -73,49 +74,39 @@ public class PlaybackManager {
         }
     }
 
-    public void getAudioStreamInfo(String serverId, AudioOptions options, Long startPositionTicks, boolean isOffline, ApiClient apiClient, Response<StreamInfo> response) {
+    public void getAudioStreamInfo(String serverId, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
         Normalize(options);
-        StreamBuilder streamBuilder = new StreamBuilder(logger);
 
-        if (!isOffline) {
-            PlaybackInfoRequest request = new PlaybackInfoRequest();
-            request.setId(options.getItemId());
-            request.setUserId(apiClient.getCurrentUserId());
-            request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
-            request.setMediaSourceId(options.getMediaSourceId());
-            request.setStartTimeTicks(startPositionTicks);
-            request.setDeviceProfile(options.getProfile());
-            request.setMaxAudioChannels(options.getMaxAudioChannels());
+        PlaybackInfoRequest request = new PlaybackInfoRequest();
+        request.setId(options.getItemId());
+        request.setUserId(apiClient.getCurrentUserId());
+        request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
+        request.setMediaSourceId(options.getMediaSourceId());
+        request.setStartTimeTicks(startPositionTicks);
+        request.setDeviceProfile(options.getProfile());
+        request.setMaxAudioChannels(options.getMaxAudioChannels());
 
-            apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, false, startPositionTicks));
-            return;
-        }
-
-        SendResponse(response, streamBuilder.BuildAudioItem(options));
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, false, startPositionTicks));
     }
 
-    public void getVideoStreamInfo(final String serverId, final VideoOptions options, Long startPositionTicks, boolean isOffline, ApiClient apiClient, final Response<StreamInfo> response) {
+    public void getVideoStreamInfo(final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         Normalize(options);
 
-        if (!isOffline) {
-            PlaybackInfoRequest request = new PlaybackInfoRequest();
-            request.setId(options.getItemId());
-            request.setUserId(apiClient.getCurrentUserId());
-            request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
-            request.setMediaSourceId(options.getMediaSourceId());
-            request.setAudioStreamIndex(options.getAudioStreamIndex());
-            request.setSubtitleStreamIndex(options.getSubtitleStreamIndex());
-            request.setStartTimeTicks(startPositionTicks);
-            request.setDeviceProfile(options.getProfile());
-            request.setEnableDirectStream(options.getEnableDirectStream());
-            request.setEnableDirectPlay(options.getEnableDirectPlay());
-            request.setMaxAudioChannels(options.getMaxAudioChannels());
+        PlaybackInfoRequest request = new PlaybackInfoRequest();
+        request.setId(options.getItemId());
+        request.setUserId(apiClient.getCurrentUserId());
+        request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
+        request.setMediaSourceId(options.getMediaSourceId());
+        request.setAudioStreamIndex(options.getAudioStreamIndex());
+        request.setSubtitleStreamIndex(options.getSubtitleStreamIndex());
+        request.setStartTimeTicks(startPositionTicks);
+        request.setDeviceProfile(options.getProfile());
+        request.setEnableDirectStream(options.getEnableDirectStream());
+        request.setEnableDirectPlay(options.getEnableDirectPlay());
+        request.setMaxAudioChannels(options.getMaxAudioChannels());
 
-            apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, true, startPositionTicks));
-            return;
-        }
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, true, startPositionTicks));
 
-        SendResponse(response, getVideoStreamInfoInternal(serverId, options));
     }
 
     public void changeVideoStream(final StreamInfo currentStreamInfo, final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
@@ -132,16 +123,11 @@ public class PlaybackManager {
         return streamBuilder.BuildVideoItem(options);
     }
 
-    public void reportPlaybackStart(PlaybackStartInfo info, boolean isOffline, ApiClient apiClient, EmptyResponse response) {
-        if (!isOffline) {
-            apiClient.ReportPlaybackStartAsync(info, response);
-            return;
-        }
-
-        response.onResponse();
+    public void reportPlaybackStart(PlaybackStartInfo info, ApiClient apiClient, EmptyResponse response) {
+        apiClient.ReportPlaybackStartAsync(info, response);
     }
 
-    public void reportPlaybackProgress(PlaybackProgressInfo info, final StreamInfo streamInfo, boolean isOffline, ApiClient apiClient, EmptyResponse response) {
+    public void reportPlaybackProgress(PlaybackProgressInfo info, final StreamInfo streamInfo, ApiClient apiClient, EmptyResponse response) {
         MediaSourceInfo mediaSource = streamInfo.getMediaSource();
 
         if (mediaSource != null) {
@@ -150,20 +136,10 @@ public class PlaybackManager {
 
         info.setPlaySessionId(streamInfo.getPlaySessionId());
 
-        if (!isOffline) {
-            apiClient.ReportPlaybackProgressAsync(info, response);
-            return;
-        }
-
-        response.onResponse();
+        apiClient.ReportPlaybackProgressAsync(info, response);
     }
 
-    public void reportPlaybackStopped(PlaybackStopInfo info, final StreamInfo streamInfo, final String serverId, String userId, boolean isOffline, final ApiClient apiClient, final EmptyResponse response) {
-        if (isOffline) {
-            response.onResponse();
-            return;
-        }
-
+    public void reportPlaybackStopped(PlaybackStopInfo info, final StreamInfo streamInfo, final String serverId, String userId, final ApiClient apiClient, final EmptyResponse response) {
         MediaSourceInfo mediaSource = streamInfo.getMediaSource();
 
         if (mediaSource != null) {
