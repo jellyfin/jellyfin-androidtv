@@ -227,7 +227,7 @@
     <string name="lbl_directed_by">Regisserad av</string>
     <string name="lbl_ends">Slutar</string>
     <string name="lbl_min">" min"</string>
-    <string name="lbl_runs">Går</string>
+    <string name="lbl_runs">Speltid</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_watched">Sett</string>
     <string name="lbl_favorite">Favorit</string>
