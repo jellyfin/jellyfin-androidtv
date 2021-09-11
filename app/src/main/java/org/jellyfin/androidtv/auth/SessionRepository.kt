@@ -45,13 +45,13 @@ class SessionRepositoryImpl(
 	override fun restoreDefaultSession() {
 		Timber.d("Restoring default session")
 
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return setCurrentSession(null, false)
+		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
 
 		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
 		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
 
 		when (behavior) {
-			DISABLED -> setCurrentSession(null, false)
+			DISABLED -> destroyCurrentSession()
 			LAST_USER -> setCurrentSession(createLastUserSession(), false)
 			SPECIFIC_USER -> setCurrentSession(createUserSession(userId), false)
 		}
@@ -94,7 +94,9 @@ class SessionRepositoryImpl(
 	override fun destroyCurrentSession() {
 		Timber.d("Destroying current session")
 
-		setCurrentSession(null, false)
+		_currentSession.value = null
+		userApiClient.applySession(null)
+		apiBinder.updateSession(null) { }
 	}
 
 	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
