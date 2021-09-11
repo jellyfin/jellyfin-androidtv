@@ -73,8 +73,10 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			serverRepository.migrateLegacyCredentials()
 		}
 
-		// Ensure basic permissions
-		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
+		lifecycleScope.launchWhenStarted {
+			// Ensure basic permissions
+			networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
+		}
 	}
 
 	private fun onPermissionsGranted() {
