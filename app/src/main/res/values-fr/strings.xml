@@ -195,7 +195,7 @@
     <string name="lbl_refresh_switching">Fréquence de rafraîchissement automatique</string>
     <string name="lbl_series">Séries</string>
     <string name="lbl_show_backdrop">Afficher les fonds pendant la navigation</string>
-    <string name="lbl_show_premieres">Afficher le premier épisode des saisons lors de la navigation</string>
+    <string name="lbl_show_premieres">Afficher le 1er épisode des saisons lors de la navigation</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="loading">Chargement …</string>
     <string name="lbl_at_any_time">tout le temps</string>
@@ -445,4 +445,5 @@
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Étirer</string>
     <string name="lbl_auto_crop">Recadrage automatique</string>
+    <string name="enable_playback_module_title">Activer le nouveau module de lecture</string>
 </resources>
