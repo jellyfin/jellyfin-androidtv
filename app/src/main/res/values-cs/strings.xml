@@ -446,4 +446,5 @@
     <string name="advanced_settings">Nastavení (pokročilé)</string>
     <string name="always_authenticate_description">Zapnutím této funkce bude vypnuto automatické přihlášení</string>
     <string name="always_authenticate">Vždy vyžadovat přihlášení</string>
+    <string name="lbl_community_rating">Uživatelské hodnocení</string>
 </resources>
