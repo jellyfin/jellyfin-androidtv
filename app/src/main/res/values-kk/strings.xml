@@ -446,4 +446,5 @@
     <string name="advanced_settings">Parametrler (keñeitılgen)</string>
     <string name="always_authenticate_description">Būl mümkındıktı qosu avtomatty kırudi öşıredı</string>
     <string name="always_authenticate">Ärqaşan tirkelgı derekterın sūrau</string>
+    <string name="lbl_community_rating">Qauym bağalauy</string>
 </resources>
