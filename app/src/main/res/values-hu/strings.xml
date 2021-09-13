@@ -446,4 +446,5 @@
     <string name="always_authenticate">Mindig kérjen hitelesítő adatokat</string>
     <string name="alphabetical">ABC-sorrend</string>
     <string name="last_use">Legutóbb használt</string>
+    <string name="lbl_community_rating">Közösségi Értékelés</string>
 </resources>
