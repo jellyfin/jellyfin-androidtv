@@ -446,4 +446,5 @@
     <string name="always_authenticate">Siempre pedir credenciales</string>
     <string name="alphabetical">Alfabético</string>
     <string name="last_use">Más reciente usado</string>
+    <string name="lbl_community_rating">Calificación de la comunidad</string>
 </resources>
