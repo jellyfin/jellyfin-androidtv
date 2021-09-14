@@ -446,4 +446,5 @@
     <string name="advanced_settings">Cài đặt (nâng cao)</string>
     <string name="always_authenticate_description">Bật chức năng này sẽ tắt tự động đăng nhập</string>
     <string name="always_authenticate">Luôn hỏi thông tin xác thực</string>
+    <string name="lbl_community_rating">Xếp Hạng Cộng Đồng</string>
 </resources>
