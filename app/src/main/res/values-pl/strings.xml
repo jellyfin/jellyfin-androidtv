@@ -62,7 +62,7 @@
     <string name="lbl_views">Odtworzeń</string>
     <string name="lbl_on_now">Teraz</string>
     <string name="lbl_next_up">Następne</string>
-    <string name="lbl_continue_watching">Kontynuuj ogladanie</string>
+    <string name="lbl_continue_watching">Kontynuuj Oglądanie</string>
     <string name="lbl_settings">Ustawienia</string>
     <string name="pref_general">Główne</string>
     <string name="chapters">Rozdziały</string>
@@ -107,7 +107,7 @@
     <string name="lbl_warning">Ostrzeżenie</string>
     <string name="lbl_playlists">Playlisty</string>
     <string name="sum_enable_cinema_mode">Wnosi możliwość odtwarzania zwiastunów i informacji wprowadzających przez seansem, o ile są udostępnione przez serwer</string>
-    <string name="lbl_enable_cinema_mode">Tryb kinowy</string>
+    <string name="lbl_enable_cinema_mode">Tryb Kinowy</string>
     <string name="lbl_episodes">Odcinki</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_songs">Utwory</string>
@@ -123,7 +123,7 @@
     <string name="msg_unable_load_subs">Nie można wczytać napisów</string>
     <string name="msg_subtitles_loading">Wczytuję napisy...</string>
     <string name="lbl_filters">Filtry</string>
-    <string name="btn_clear_all">Wyczyść</string>
+    <string name="btn_clear_all">Wyczyść Wszystko</string>
     <string name="btn_filter">Filtr</string>
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Właściwości</string>
@@ -131,7 +131,7 @@
     <string name="lbl_rating">Ocena</string>
     <string name="lbl_critic_rating">Ocena krytyków</string>
     <string name="lbl_premier_date">Data premiery</string>
-    <string name="lbl_date_added">Data dodania</string>
+    <string name="lbl_date_added">Data Dodania</string>
     <string name="lbl_name">Nazwa</string>
     <string name="lbl_sorted_by">sortowanie</string>
     <string name="lbl_all_items">Wszystkie</string>
@@ -147,7 +147,7 @@
     <string name="lbl_on">Włącz</string>
     <string name="lbl_tomorrow">Jutro</string>
     <string name="lbl_today">Dziś</string>
-    <string name="lbl_load_channels">"Wczytaj kanały "</string>
+    <string name="lbl_load_channels">"Wczytaj Kanały "</string>
     <string name="lbl_unwatched">Nieobejrzane</string>
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
     <string name="lbl_remove_dislike">Usuń Nie podoba mi się</string>
@@ -157,13 +157,13 @@
     <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
     <string name="lbl_remove_from_queue">Usuń z kolejki</string>
-    <string name="lbl_now_playing">Obecnie odtwarzane</string>
+    <string name="lbl_now_playing">Obecnie Odtwarzane</string>
     <string name="lbl_up_next_colon">"Następne: "</string>
     <string name="lbl_prev_item">Poprzedni element</string>
     <string name="lbl_next_item">Następny element</string>
     <string name="lbl_reshuffle_queue">Przemieszaj kolejkę</string>
-    <string name="lbl_open_album">Pokaż album</string>
-    <string name="lbl_open_artist">Pokaż artystę</string>
+    <string name="lbl_open_album">Pokaż Album</string>
+    <string name="lbl_open_artist">Pokaż Artystę</string>
     <string name="lbl_add_to_queue">Dodaj do kolejki</string>
     <string name="msg_items_added">" przedmiotów dodanych"</string>
     <string name="lbl_recorded_tv">Nagrania TV</string>
@@ -193,10 +193,10 @@
     <string name="lbl_bitstream_ac3">Dźwięk w technologii Bitstream Dolby Digital</string>
     <string name="desc_automatic_fav_songs">Automatyczna lista ulubionych i lubianych piosenek</string>
     <string name="desc_seasonal_themes">Wyświetlaj specjalne kolory i sugestie w określonych porach roku</string>
-    <string name="lbl_enable_seasonal_themes">Motywy sezonowe</string>
+    <string name="lbl_enable_seasonal_themes">Motywy Sezonowe</string>
     <string name="msg_item_added">" pozycja dodana"</string>
-    <string name="lbl_instant_mix">Szybka składanka</string>
-    <string name="lbl_play_from_here">Odtwarzaj stąd</string>
+    <string name="lbl_instant_mix">Szybka Składanka</string>
+    <string name="lbl_play_from_here">Odtwarzaj Stąd</string>
     <string name="lbl_direct_stream_live">Bezpośredni strumień Live TV</string>
     <string name="lbl__continuing">KONTYNUACJA</string>
     <string name="lbl_showing">Seans</string>
@@ -204,10 +204,10 @@
     <string name="lbl_goto_series">Przejdź do serii</string>
     <string name="pref_audio_direct">Bezpośredni</string>
     <string name="msg_cancel_entire_series">Czy na pewno chcesz anulować CAŁĄ SERIĘ\?</string>
-    <string name="lbl_repeat_options">Opcje powtarzania</string>
+    <string name="lbl_repeat_options">Opcje Powtarzania</string>
     <string name="lbl_record_any_time">Nagrywaj w dowolnym momencie</string>
     <string name="lbl_record_any_channel">Nagrywaj na dowolnym kanale</string>
-    <string name="lbl_end_padding">Kończenie wypełniania</string>
+    <string name="lbl_end_padding">Kończenie Wypełniania</string>
     <string name="lbl_begin_padding">Rozpocznij wypełnianie</string>
     <string name="lbl_schedule">Harmonogram</string>
     <string name="lbl_live">Na żywo</string>
@@ -436,4 +436,15 @@
     <string name="saved_servers">Zapisane serwery</string>
     <string name="press_to_close">Naciśnij aby zamknąć</string>
     <string name="pref_next_up_behavior_title">Pokaż informacje o następnym wideo</string>
+    <string name="advanced_settings">Ustawienia (zaawansowane)</string>
+    <string name="always_authenticate_description">Włączenie tej funkcji wyłącza automatyczne logowanie</string>
+    <string name="always_authenticate">Zawsze pytaj o poświadczenia</string>
+    <string name="alphabetical">Alfabetycznie</string>
+    <string name="last_use">Ostatnio używane</string>
+    <string name="enable_playback_module_description">Jest to funkcja eksperymentalna. Nie jest zapewnione żadne wsparcie.</string>
+    <string name="enable_playback_module_title">Włącz nowy moduł odtwarzania</string>
+    <string name="lbl_fit">Normalny</string>
+    <string name="lbl_stretch">Rozciągnij</string>
+    <string name="lbl_auto_crop">Automatyczne Przycinanie</string>
+    <string name="lbl_community_rating">Ocena Społeczności</string>
 </resources>
