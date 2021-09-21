@@ -229,7 +229,7 @@
     <string name="pref_audio_direct">直接</string>
     <string name="msg_remote_already_playing">远程播放请求被忽略。请先停止当前项目。</string>
     <string name="lbl_repeat_options">重复的选项</string>
-    <string name="lbl_only_new_episodes">仅新剧集</string>
+    <string name="lbl_only_new_episodes">仅新集数</string>
     <string name="lbl_record_any_time">在任何时候记录</string>
     <string name="lbl_record_any_channel">在任何通道上录音</string>
     <string name="lbl_similar_items_library">您库中的类似项</string>
@@ -446,4 +446,5 @@
     <string name="always_authenticate">总是要求凭据</string>
     <string name="alphabetical">按字母顺序</string>
     <string name="last_use">最近使用</string>
+    <string name="lbl_community_rating">社区评分</string>
 </resources>
