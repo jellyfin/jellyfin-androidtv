@@ -445,4 +445,6 @@
     <string name="advanced_settings">Ajustes (avanzados)</string>
     <string name="always_authenticate_description">Al activar esta función se desactiva el inicio de sesión automático</string>
     <string name="always_authenticate">Pedir siempre las credenciales</string>
+    <string name="last_use">Más reciente usado</string>
+    <string name="lbl_community_rating">Calificación de la comunidad</string>
 </resources>
