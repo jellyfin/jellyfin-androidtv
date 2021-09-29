@@ -443,4 +443,8 @@
     <string name="lbl_fit">Normaal</string>
     <string name="lbl_stretch">Strekken</string>
     <string name="lbl_auto_crop">Automatisch bijsnijden</string>
+    <string name="lbl_start_end_on_schedule">Begint op schema en eindigt op schema</string>
+    <string name="lbl_starting_on_schedule_ending_after">Begint volgens schema en eindigt %1$s na schema</string>
+    <string name="lbl_starting_early_ending_on_schedule">Begint %1$s eerder en eindigt op schema</string>
+    <string name="lbl_starting_early_ending_after">Begint %1$s eerder en eindigt %2$s na schema</string>
 </resources>
