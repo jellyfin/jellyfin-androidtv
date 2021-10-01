@@ -2,7 +2,7 @@
 <resources>
     <string name="lbl_loading_elipses">Ładowanie....</string>
     <string name="lbl_ok">Ok</string>
-    <string name="lbl_valid_server_address">Podaj adres serwera (IP or domain/machine name)</string>
+    <string name="lbl_valid_server_address">Podaj adres serwera (IP lub domena/nazwa serwera)</string>
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
     <string name="lbl_version">"Wersja "</string>
     <string name="msg_error_server_unavailable">Serwer niedostępny</string>
@@ -129,8 +129,8 @@
     <string name="lbl_display_preferences">Właściwości</string>
     <string name="btn_done">Gotowe</string>
     <string name="lbl_rating">Ocena</string>
-    <string name="lbl_critic_rating">Ocena krytyków</string>
-    <string name="lbl_premier_date">Data premiery</string>
+    <string name="lbl_critic_rating">Ocena Krytyków</string>
+    <string name="lbl_premier_date">Data Premiery</string>
     <string name="lbl_date_added">Data Dodania</string>
     <string name="lbl_name">Nazwa</string>
     <string name="lbl_sorted_by">sortowanie</string>
@@ -147,7 +147,7 @@
     <string name="lbl_on">Włącz</string>
     <string name="lbl_tomorrow">Jutro</string>
     <string name="lbl_today">Dziś</string>
-    <string name="lbl_load_channels">"Wczytaj Kanały "</string>
+    <string name="lbl_load_channels">"Wczytaj kanały "</string>
     <string name="lbl_unwatched">Nieobejrzane</string>
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
     <string name="lbl_remove_dislike">Usuń Nie podoba mi się</string>
@@ -238,7 +238,7 @@
     <string name="pref_video_player_auto">Wybór automatyczny</string>
     <string name="pref_theme_emerald">Klasyczny szmaragd</string>
     <string name="pref_theme_dark">Ciemny (Domyślny)</string>
-    <string name="lbl_my_media">Moje media</string>
+    <string name="lbl_my_media">Moje Media</string>
     <string name="lbl_image_size">Wielkość obrazu</string>
     <string name="lbl_image_type">Typ obrazu</string>
     <string name="lbl_start_favorites">Umieść ulubione na początku</string>
@@ -359,7 +359,7 @@
     <string name="pref_default_rating">Domyślny typ oceny</string>
     <string name="lbl_tomatoes">Pomidory</string>
     <string name="lbl_stars">Gwiazdy</string>
-    <string name="lbl_playback_control_ends">Koniec za %1$s</string>
+    <string name="lbl_playback_control_ends">Koniec o %1$s</string>
     <string name="connect_title">Połączenie</string>
     <string name="login_help_description">Jellyfin wymaga serwera do połączenia. Odwiedź naszą dokumentację na docs.jellyfin.org, lub zeskanuj kod QR aby rozpocząć pracę z Jellyfin.</string>
     <string name="login_help_title">Potrzebuję pomocy\?</string>
