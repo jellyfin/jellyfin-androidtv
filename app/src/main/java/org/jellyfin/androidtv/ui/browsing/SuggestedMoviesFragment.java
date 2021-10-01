@@ -14,8 +14,7 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
-
-import static org.koin.java.KoinJavaComponent.get;
+import org.koin.java.KoinJavaComponent;
 
 public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
     @Override
@@ -35,7 +34,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
         lastPlayed.setLimit(8);
         lastPlayed.setRecursive(true);
 
-        get(ApiClient.class).GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 for (BaseItemDto item : response.getItems()) {

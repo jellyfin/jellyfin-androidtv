@@ -3,7 +3,7 @@ kotlinx-coroutines = "1.4.3"
 kotlinx-serialization = "1.1.0"
 androidx-leanback = "1.1.0-beta01"
 androidx-lifecycle = "2.3.1"
-koin = "2.2.3"
+koin = "3.1.2"
 glide = "4.12.0"
 acra = "5.8.4"
 
@@ -39,8 +39,8 @@ androidx-cardview = { module = "androidx.cardview:cardview", version = "1.0.0" }
 
 # Dependency Injection
 koin-android-core = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-android-viewmodel = { module = "io.insert-koin:koin-androidx-viewmodel", version.ref = "koin" }
-koin-android-fragment = { module = "io.insert-koin:koin-androidx-fragment", version.ref = "koin" }
+koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
+koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 
 # GSON
 gson = { module = "com.google.code.gson:gson", version = "2.8.6" }
@@ -83,8 +83,8 @@ androidx-lifecycle = [
 ]
 koin = [
     "koin-android-core",
-    "koin-android-viewmodel",
-    "koin-android-fragment",
+    "koin-android-compat",
+    "koin-androidx-workmanager",
 ]
 acra = [
     "acra-http",

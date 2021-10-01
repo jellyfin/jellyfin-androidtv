@@ -17,7 +17,7 @@ class HomeFragmentBrowseRowDefRow(
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(browseRowDef.headerText)
-		val preferParentThumb = get(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
+		val preferParentThumb = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
 
 		// Some of these members are probably never used and could be removed
 		val rowAdapter = when (browseRowDef.queryType) {

@@ -140,7 +140,7 @@ fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> = chapters.mapIndexed
 		name = dto.name
 		startPositionTicks = dto.startPositionTicks
 		imagePath = when {
-			dto.hasImage -> get(ApiClient::class.java).GetImageUrl(id, ImageOptions().apply {
+			dto.hasImage -> get<ApiClient>(ApiClient::class.java).GetImageUrl(id, ImageOptions().apply {
 				imageType = ImageType.Chapter
 				tag = dto.imageTag
 				imageIndex = i

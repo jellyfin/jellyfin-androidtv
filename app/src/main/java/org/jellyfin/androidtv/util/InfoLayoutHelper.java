@@ -22,11 +22,10 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.SeriesStatus;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class InfoLayoutHelper {
 
@@ -54,7 +53,7 @@ public class InfoLayoutHelper {
     }
 
     public static void addInfoRow(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
-        RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+        RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
         if (ratingType != RatingType.RATING_HIDDEN) {
             addCriticInfo(activity, item, layout);
         }
@@ -206,7 +205,7 @@ public class InfoLayoutHelper {
     }
 
     private static void addRuntime(Activity activity, BaseItemDto item, LinearLayout layout, boolean includeEndtime) {
-        ClockBehavior clockBehavior = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
+        ClockBehavior clockBehavior = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
         if (clockBehavior != ClockBehavior.ALWAYS && clockBehavior != ClockBehavior.IN_MENUS) {
             includeEndtime = false;
         }

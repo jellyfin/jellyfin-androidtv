@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.card;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -14,6 +12,7 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 public class ChannelCardView extends FrameLayout {
     private ViewCardChannelBinding binding = ViewCardChannelBinding.inflate(LayoutInflater.from(getContext()), this, true);
@@ -28,7 +27,7 @@ public class ChannelCardView extends FrameLayout {
         if (program != null) {
             if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
                 //need to update program
-                get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getCurrentProgram() != null)

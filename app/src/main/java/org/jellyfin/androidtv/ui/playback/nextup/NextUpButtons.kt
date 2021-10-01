@@ -10,11 +10,9 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatButton
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-@KoinApiExtension
 class NextUpButtons(
 	context: Context,
 	attrs: AttributeSet? = null,

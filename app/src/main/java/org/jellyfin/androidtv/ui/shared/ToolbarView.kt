@@ -22,7 +22,7 @@ class ToolbarView @JvmOverloads constructor(
 	private val binding = ViewToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
 	init {
-		val clockBehavior = get(UserPreferences::class.java)[UserPreferences.clockBehavior]
+		val clockBehavior = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.clockBehavior]
 		binding.toolbarClock.isVisible = clockBehavior != ClockBehavior.NEVER && clockBehavior != ClockBehavior.IN_VIDEO
 
 		val style = context.theme.obtainStyledAttributes(attrs, R.styleable.JellyfinTheme, defStyleAttr, defStyleRes)

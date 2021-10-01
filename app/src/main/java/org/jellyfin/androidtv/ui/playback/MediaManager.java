@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -47,6 +45,7 @@ import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
+import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 
@@ -355,11 +354,11 @@ public class MediaManager {
                         request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
                         request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
-                        get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
+                        KoinJavaComponent.<ApiClient>get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
                                 Toast.makeText(activity, activity.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
-                                DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                                 dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
 
@@ -409,7 +408,7 @@ public class MediaManager {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
-        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         Activity currentActivity = TvApp.getApplication().getCurrentActivity();
         if (mCurrentVideoQueue.size() == 1 && currentActivity != null && currentActivity instanceof BaseActivity) {
@@ -558,7 +557,7 @@ public class MediaManager {
     private void playInternal(final BaseItemDto item, final int pos) {
         if (!ensureInitialized()) return;
         ensureAudioFocus();
-        final ApiClient apiClient = get(ApiClient.class);
+        final ApiClient apiClient = KoinJavaComponent.<ApiClient>get(ApiClient.class);
         AudioOptions options = new AudioOptions();
         options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
@@ -572,7 +571,7 @@ public class MediaManager {
             profile = new LibVlcProfile();
         }
         options.setProfile(profile);
-        get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
+        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
@@ -600,7 +599,7 @@ public class MediaManager {
                 }
 
                 updateCurrentAudioItemPlaying(true);
-                DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                 dataRefreshService.setLastMusicPlayback(System.currentTimeMillis());
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.annotation.TargetApi;
@@ -51,6 +50,7 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1044,7 +1044,7 @@ public class PlaybackController {
     }
 
     public void removePreviousQueueItems() {
-        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
         if (isLiveTv || !mediaManager.getValue().isVideoQueueModified()) {
             mediaManager.getValue().clearVideoQueue();
