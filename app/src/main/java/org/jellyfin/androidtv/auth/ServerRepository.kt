@@ -31,7 +31,7 @@ interface ServerRepository {
 	suspend fun refreshServerInfo(server: Server): Boolean
 
 	companion object {
-		val minimumServerVersion = Jellyfin.minimumVersion
+		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
 	}
 }
 
