@@ -407,7 +407,7 @@
     <string name="pref_theme_muted_purple">Bäseñdetılgen küreñ</string>
     <string name="no_user_warning">Bırde-bır paidalanuşy tabylmady!
 \n«Paidalanuşyny üsteu» tüimeşıgın basa jaña paidalanuşyny üsteñız.</string>
-    <string name="server_unsupported">Server jañartyluy qajet. Ağymdyq nūsqasy — %s, bıraq qoldanba %s nūsqasyn, nemese jañalauyn qajet etedı</string>
+    <string name="server_unsupported">Server jañartyluy qajet. Ağymdyq nūsqasy — %1$s, bıraq qoldanba %2$s nūsqasyn, nemese jañalauyn qajet etedı</string>
     <string name="welcome_content">Bastau üşın serverıñızge qosylyñyz.</string>
     <string name="add_user">Paidalanuşy üsteu</string>
     <string name="who_is_watching">Kım qaraidy\?</string>
