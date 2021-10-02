@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv;
 
-import static org.koin.java.KoinJavaComponent.inject;
-
 import android.app.Activity;
 import android.app.Application;
 
@@ -12,14 +10,8 @@ import androidx.lifecycle.MediatorLiveData;
 
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
-
-import kotlin.Lazy;
 
 public class TvApp extends Application {
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
@@ -34,8 +26,6 @@ public class TvApp extends Application {
     private PlaybackController playbackController;
 
     private Activity currentActivity;
-    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     public void onCreate() {

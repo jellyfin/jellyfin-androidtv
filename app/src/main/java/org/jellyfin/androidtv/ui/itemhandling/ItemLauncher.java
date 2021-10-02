@@ -57,12 +57,12 @@ public class ItemLauncher {
         switch (baseItem.getCollectionType()) {
             case "movies":
             case "tvshows":
-                LibraryPreferences displayPreferences = get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
+                LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
                 if (!enableSmartScreen) {
                     // open grid browsing
                     intent = new Intent(context, GenericGridActivity.class);
-                    intent.putExtra(Extras.Folder, get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                    intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
                 } else {
                     // open user view browsing
                     intent = new Intent(context, UserViewActivity.class);

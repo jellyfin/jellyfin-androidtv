@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import static org.jellyfin.androidtv.TvApp.getApplication;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Intent;
