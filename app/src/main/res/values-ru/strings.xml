@@ -409,7 +409,7 @@
     <string name="who_is_watching">Кто смотрит\?</string>
     <string name="no_user_warning">Мы не смогли найти ни одного пользователя!
 \nДобавьте нового пользователя, нажав кнопку «Добавить пользователя».</string>
-    <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %s, но приложению требуется версия %s или новее</string>
+    <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %1$s, но приложению требуется версия %2$s или новее</string>
     <string name="welcome_content">Подключитесь к своему серверу, чтобы начать.</string>
     <string name="welcome_title">Начало работы в Jellyfin!</string>
     <string name="saved_servers">Сохранённые серверы</string>
