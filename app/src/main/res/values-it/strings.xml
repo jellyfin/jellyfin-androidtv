@@ -343,7 +343,6 @@
     <string name="lbl_stars">Stelle</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
-    <string name="lbl_manual_login">Login Manuale</string>
     <string name="lbl_add_server">Aggiungi Server</string>
     <string name="lbl_deleted">%1$s Rimosso</string>
     <string name="like_setting_error">Erroro durante il salvataggio dello stato di Like</string>
@@ -379,11 +378,9 @@
     <string name="lbl_remove_users">Questo rimuoverà tutti gli utenti associati</string>
     <string name="lbl_manage_servers">Gestisci i server</string>
     <string name="pref_default_rating">Tipo di rating preferito</string>
-    <string name="connect_title">Connetti</string>
     <string name="login_help_description">Jellyfin ha bisogno di un server a cui connettersi. Visita la nostra documentazione su docs.jellyfin.org o scansiona il codice QR per iniziare con Jellyfin.</string>
     <string name="login_help_title">Hai bisogno d\'aiuto\?</string>
     <string name="connect_manually_by_address">Inserisci l\'indirizzo del server</string>
-    <string name="connect_manually_title">Connetti manualmente</string>
     <string name="discovered_servers_empty">Nessun server trovato nella rete locale.</string>
     <string name="discovered_servers_title">Server trovati</string>
     <string name="lbl_hidden">Nascosto</string>

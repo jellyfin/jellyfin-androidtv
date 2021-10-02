@@ -72,11 +72,9 @@
     <string name="lbl_episode_marks">എപ്പിസോഡുകളിൽ മാത്രം</string>
     <string name="lbl_hide_unwatched_count">കാണാത്ത എണ്ണം മറയ്‌ക്കുക</string>
     <string name="pref_watched_indicator">കണ്ട സൂചകങ്ങൾ കാണിക്കുക</string>
-    <string name="connect_title">ബന്ധിപ്പിക്കുക</string>
     <string name="login_help_description">കണക്റ്റുചെയ്യാൻ ജെല്ലിഫിന് ഒരു സെർവർ ആവശ്യമാണ്. Docs.jellyfin.org- ലെ ഞങ്ങളുടെ ഡോക്യുമെന്റേഷൻ സന്ദർശിക്കുക അല്ലെങ്കിൽ ജെല്ലിഫിൻ ഉപയോഗിച്ച് ആരംഭിക്കുന്നതിന് QR കോഡ് സ്കാൻ ചെയ്യുക.</string>
     <string name="login_help_title">സഹായം ആവശ്യമുണ്ട്\?</string>
     <string name="connect_manually_by_address">സെർവർ വിലാസം നൽകുക</string>
-    <string name="connect_manually_title">സ്വമേധയാ കണക്റ്റുചെയ്യുക</string>
     <string name="discovered_servers_empty">പ്രാദേശിക നെറ്റ്‌വർക്കിൽ സെർവറുകളൊന്നും കണ്ടെത്തിയില്ല.</string>
     <string name="discovered_servers_title">കണ്ടെത്തിയ സെർവറുകൾ</string>
     <string name="lbl_hidden">മറച്ചിരിക്കുന്നു</string>
@@ -111,9 +109,7 @@
     <string name="pref_default_rating">സ്ഥിരസ്ഥിതി റേറ്റിംഗ് തരം</string>
     <string name="lbl_stars">നക്ഷത്രങ്ങൾ</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_manual_login">സ്വമേധയാലുള്ള ലോഗിൻ</string>
     <string name="lbl_sign_in">സൈൻ ഇൻ ചെയ്യുക</string>
-    <string name="lbl_add_server">സെർവർ ചേർക്കുക</string>
     <string name="play_with">കളിക്കുക</string>
     <string name="play_with_external_app">ബാഹ്യ അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്ലേ ചെയ്യുക</string>
     <string name="play_with_exo_player">ExoPlayer ഉപയോഗിച്ച് കളിക്കുക</string>

@@ -348,9 +348,7 @@
     <string name="lbl_tomatoes">Tomater</string>
     <string name="lbl_stars">Stjerner</string>
     <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
-    <string name="lbl_manual_login">Manuell pålogging</string>
     <string name="lbl_sign_in">Vennligst logg inn</string>
-    <string name="lbl_add_server">Legg til server</string>
     <string name="play_with">Spill med</string>
     <string name="play_with_external_app">Spill med ekstern app</string>
     <string name="play_with_exo_player">Spill med ExoPlayer</string>
@@ -365,11 +363,9 @@
     <string name="lbl_episode_marks">Bare på episoder</string>
     <string name="lbl_hide_unwatched_count">Skjul ukjent antall</string>
     <string name="pref_watched_indicator">Vis overvåkede indikatorer</string>
-    <string name="connect_title">Koble til</string>
     <string name="login_help_description">Jellyfin krever en tjener å koble seg til. Gå til dokumentasjonen vår på docs.jellyfin.org eller skann QR-koden for å komme i gang med Jellyfin.</string>
     <string name="login_help_title">Trenger du hjelp\?</string>
     <string name="connect_manually_by_address">Skriv inn serveradresse</string>
-    <string name="connect_manually_title">Koble til manuelt</string>
     <string name="discovered_servers_empty">Ingen servere funnet i det lokale nettverket.</string>
     <string name="discovered_servers_title">Oppdagede servere</string>
     <string name="lbl_hidden">Skjult</string>

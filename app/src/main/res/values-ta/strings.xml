@@ -341,9 +341,7 @@
     <string name="lbl_audio_track">ஆடியோ டிராக்கைத் தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_pause">இடைநிறுத்தம்</string>
     <string name="lbl_playback_control_ends">%1$s இல் முடிகிறது</string>
-    <string name="lbl_manual_login">கையேடு உள்நுழைவு</string>
     <string name="lbl_sign_in">உள்நுழைக</string>
-    <string name="lbl_add_server">சேவையகத்தைச் சேர்க்கவும்</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">இயல்புநிலை மதிப்பீட்டு வகை</string>
     <string name="lbl_tomatoes">தக்காளி</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">முகவரி காலியாக இருக்க முடியாது</string>
     <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %1$s</string>
     <string name="server_connecting">%s உடன் இணைக்கிறது</string>
-    <string name="connect_title">இணைக்கவும்</string>
     <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும் அல்லது ஜெல்லிஃபினுடன் தொடங்க QR குறியீட்டை ஸ்கேன் செய்யவும்.</string>
     <string name="login_help_title">உதவி தேவை\?</string>
     <string name="connect_manually_by_address">சேவையக முகவரியை உள்ளிடவும்</string>
-    <string name="connect_manually_title">கைமுறையாக இணைக்கவும்</string>
     <string name="discovered_servers_empty">உள்ளூர் பிணையத்தில் எந்த சேவையகங்களும் கண்டுபிடிக்கப்படவில்லை.</string>
     <string name="discovered_servers_title">கண்டுபிடிக்கப்பட்ட சேவையகங்கள்</string>
     <string name="lbl_hidden">மறைக்கப்பட்டுள்ளது</string>

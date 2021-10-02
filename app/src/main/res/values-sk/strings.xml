@@ -306,9 +306,7 @@
     <string name="lbl_pause">Pozastaviť</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Končí o %1$s</string>
-    <string name="lbl_manual_login">Manuálne prihlásenie</string>
     <string name="lbl_sign_in">Prosím, prihláste sa</string>
-    <string name="lbl_add_server">Pridať server</string>
     <string name="play_with">Prehrať s</string>
     <string name="play_with_external_app">Prehrať pomocou externej aplikácie</string>
     <string name="play_with_exo_player">Prehrať pomocou ExoPlayer</string>
@@ -362,7 +360,6 @@
     <string name="server_connecting">Pripájanie k %s</string>
     <string name="login_help_title">Potrebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadajte adresu servera</string>
-    <string name="connect_manually_title">Manuálne pripojenie</string>
     <string name="discovered_servers_empty">Žiadne servery neboli nájdené na lokálnej sieti.</string>
     <string name="discovered_servers_title">Objavené servery</string>
     <string name="lbl_hidden">Skryté</string>
@@ -388,7 +385,6 @@
     <string name="lbl_remove_users">Týmto odstránite aj všetkých pridružených používateľov</string>
     <string name="lbl_manage_servers">Spravovať servery</string>
     <string name="lbl_sign_out_content">Vyžaduje prihlásenie pri ďalšom použití</string>
-    <string name="connect_title">Pripojiť</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ku ktorému sa môže pripojiť. Aby ste zistili, ako začať s Jellyfinom, prezrite si našu dokumentáciu na docs.jellyfin.org alebo nasnímajte QR kód.</string>
     <string name="no_network_permissions">Jellyfin vyžaduje sieťové povolenia k svojmu korektnému fungovaniu</string>
     <string name="pref_theme_muted_purple">Tlmená fialová</string>

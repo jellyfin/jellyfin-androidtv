@@ -366,10 +366,8 @@
     <string name="auto_sign_in">تسجيل دخول تلقائي</string>
     <string name="lbl_episode_marks">في الحلقات فقط</string>
     <string name="pref_watched_indicator">إظهار علامة تمت مشاهدته</string>
-    <string name="connect_title">إتصل</string>
     <string name="login_help_title">تريد مساعدة؟</string>
     <string name="connect_manually_by_address">أدخل عنوان الخادم</string>
-    <string name="connect_manually_title">إتصال يدوي</string>
     <string name="discovered_servers_empty">لم يتم العثور عن خوادم على الشبكة.</string>
     <string name="discovered_servers_title">الخوادم المكتشفة</string>
     <string name="lbl_hidden">مخفي</string>
@@ -404,9 +402,7 @@
     <string name="pref_default_rating">نوع التقييم التلقائي</string>
     <string name="lbl_stars">نجوم</string>
     <string name="lbl_playback_control_ends">ينتهي عند %1$s</string>
-    <string name="lbl_manual_login">تسجيل دخول يدوي</string>
     <string name="lbl_sign_in">الرجاء تسجيل الدخول</string>
-    <string name="lbl_add_server">إضافة خادم</string>
     <string name="play_with">تشغيل بواسطة</string>
     <string name="play_with_external_app">تشغيل بواسطة برنامج خارجي</string>
     <string name="play_with_exo_player">تشغيل بواسطة ExoPlayer</string>

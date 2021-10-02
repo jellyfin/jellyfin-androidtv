@@ -170,9 +170,7 @@
     <string name="lbl_tomatoes">Rajčice</string>
     <string name="lbl_stars">Zvijezde</string>
     <string name="lbl_playback_control_ends">Završava u %1$s</string>
-    <string name="lbl_manual_login">Ručna prijava</string>
     <string name="lbl_sign_in">Prijavi se</string>
-    <string name="lbl_add_server">Dodaj poslužitelj</string>
     <string name="play_with">Reproduciraj sa</string>
     <string name="play_with_external_app">Reproduciraj sa vanjskom aplikacijom</string>
     <string name="play_with_exo_player">Reproduciraj sa ExoPlayer</string>
@@ -386,7 +384,6 @@
     <string name="connect_manually_by_address">Unesi adresu poslužitelja</string>
     <string name="lbl_hide_unwatched_count">Sakrij nepregledan broj</string>
     <string name="pref_watched_indicator">Prikaži pokazatelj gledanja</string>
-    <string name="connect_manually_title">Povežite ručno</string>
     <string name="discovered_servers_empty">Na lokalnoj mreži nisu pronađeni poslužitelji.</string>
     <string name="discovered_servers_title">Otkriveni poslužitelji</string>
     <string name="lbl_hidden">Skriveno</string>
@@ -436,7 +433,6 @@
     <string name="user_picker_disable_summary">Uvijek prikaži ekran za prijavu</string>
     <string name="user_picker_disable_title">Onemogući</string>
     <string name="saved_servers">Spremljeni poslužitelji</string>
-    <string name="connect_title">Povežite</string>
     <string name="login_help_description">Jellyfin zahtijeva poslužitelj za povezivanje. Posjetite našu dokumentaciju na docs.jellyfin.org ili skenirajte QR kôd za početak rada s Jellyfinom.</string>
     <string name="login_help_title">Trebate pomoć\?</string>
     <string name="lbl_sign_out">Odjava</string>

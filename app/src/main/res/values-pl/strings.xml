@@ -334,9 +334,7 @@
     <string name="mark_watched">Oznacz jako obejrzane</string>
     <string name="lbl_pause">Zatrzymaj</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_manual_login">Logowanie ręczne</string>
     <string name="lbl_sign_in">Zaloguj się</string>
-    <string name="lbl_add_server">Dodaj serwer</string>
     <string name="play_with">Odtwarzaj przy użyciu</string>
     <string name="play_with_external_app">Odtwarzaj w zewnętrznej aplikacji</string>
     <string name="play_with_exo_player">Odtwarzaj w ExoPlayer</string>
@@ -360,11 +358,9 @@
     <string name="lbl_tomatoes">Pomidory</string>
     <string name="lbl_stars">Gwiazdy</string>
     <string name="lbl_playback_control_ends">Koniec o %1$s</string>
-    <string name="connect_title">Połączenie</string>
     <string name="login_help_description">Jellyfin wymaga serwera do połączenia. Odwiedź naszą dokumentację na docs.jellyfin.org, lub zeskanuj kod QR aby rozpocząć pracę z Jellyfin.</string>
     <string name="login_help_title">Potrzebuję pomocy\?</string>
     <string name="connect_manually_by_address">Wprowadź adres serwera</string>
-    <string name="connect_manually_title">Połącz ręcznie</string>
     <string name="discovered_servers_empty">Nie wykryto serwerów w sieci lokalnej.</string>
     <string name="discovered_servers_title">Wykryte serwery</string>
     <string name="lbl_hidden">Ukryte</string>

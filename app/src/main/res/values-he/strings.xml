@@ -263,9 +263,7 @@
     <string name="lbl_bitstream_dts">שמע ב DTS</string>
     <string name="desc_premieres">מראה שורה של פיילוטים לפרקים חדשים עבור הסדרה שנצפית</string>
     <string name="lbl_playback_control_ends">מסתיים ב %1$s</string>
-    <string name="lbl_manual_login">כניסה ידנית</string>
     <string name="lbl_sign_in">נדרשת כניסה למערכת</string>
-    <string name="lbl_add_server">הוסף שרת</string>
     <string name="play_with">נגן בעזרת</string>
     <string name="play_with_external_app">נגן בנגן חיצונה</string>
     <string name="play_with_exo_player">נגן בעזרת ExoPlayer</string>
@@ -375,11 +373,9 @@
     <string name="lbl_episode_marks">רק על פרקים</string>
     <string name="lbl_hide_unwatched_count">הסתר את ספירת התכנים שלא נצפו</string>
     <string name="pref_watched_indicator">סמן תכנים שנצפו</string>
-    <string name="connect_title">התחבר</string>
     <string name="login_help_description">Jellyfin (ג\'ליפין) לא יכולה לפעול בלי שרת. בקר במדריך שלנו בdocs.jellyfin.org כדי להתחיל להשתמש בתוכנה.</string>
     <string name="login_help_title">צריך עזרה\?</string>
     <string name="connect_manually_by_address">הכנס את כתובת השרת</string>
-    <string name="connect_manually_title">התחבר באופן ידני</string>
     <string name="discovered_servers_empty">לא נמצאו שרתים ברשת המקומית.</string>
     <string name="discovered_servers_title">שרתים שגילית</string>
     <string name="lbl_hidden">מוסתר</string>

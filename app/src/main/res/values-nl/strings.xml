@@ -340,10 +340,8 @@
     <string name="seek_error">Kan niet zoeken</string>
     <string name="lbl_load_guide_data">Laad gids data</string>
     <string name="mark_watched_message">Het item lijkt niet volledig afgespeeld te zijn. Markeren als bekeken\?</string>
-    <string name="lbl_add_server">Server Toevoegen</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Eindigt op %1$s</string>
-    <string name="lbl_manual_login">Handmatige Login</string>
     <string name="lbl_sign_in">Log alstublieft in</string>
     <string name="pref_clock_display_playback">Tijdens het afspelen</string>
     <string name="pref_clock_display_browsing">Tijdens het bladeren</string>
@@ -380,11 +378,9 @@
     <string name="lbl_remove_user_content">Verwijder account</string>
     <string name="lbl_remove_users">Dit zal ook alle gerelateerde gebruikers verwijderen</string>
     <string name="lbl_manage_servers">Beheer servers</string>
-    <string name="connect_title">Verbinden</string>
     <string name="login_help_description">Jellyfin heeft een server nodig om mee te verbinden. Lees onze documentatie op docs.jellyfin.org of scan de QR-code over hoe te beginnen met Jellyfin.</string>
     <string name="login_help_title">Hulp nodig\?</string>
     <string name="connect_manually_by_address">Server adres opgeven</string>
-    <string name="connect_manually_title">Handmatig verbinden</string>
     <string name="discovered_servers_empty">Geen servers gevonden op het lokale netwerk.</string>
     <string name="discovered_servers_title">Gevonden servers</string>
     <string name="lbl_hidden">Verborgen</string>

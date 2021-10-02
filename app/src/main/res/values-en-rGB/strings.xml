@@ -335,9 +335,7 @@
     <string name="pref_video_player_choose">Always ask</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Ends at %1$s</string>
-    <string name="lbl_manual_login">Manual Login</string>
     <string name="lbl_sign_in">Please Sign In</string>
-    <string name="lbl_add_server">Add Server</string>
     <string name="play_with">Play with</string>
     <string name="play_with_external_app">Play with external app</string>
     <string name="play_with_exo_player">Play with ExoPlayer</string>
@@ -373,10 +371,8 @@
     <string name="lbl_episode_marks">On episodes only</string>
     <string name="lbl_hide_unwatched_count">Hide unwatched count</string>
     <string name="pref_watched_indicator">Show watched indicators</string>
-    <string name="connect_title">Connect</string>
     <string name="login_help_description">Jellyfin requires a server to connect with. Visit our documentation at docs.jellyfin.org to get started with Jellyfin.</string>
     <string name="connect_manually_by_address">Enter server address</string>
-    <string name="connect_manually_title">Connect manually</string>
     <string name="discovered_servers_empty">No servers found on local network.</string>
     <string name="discovered_servers_title">Discovered servers</string>
     <string name="lbl_hidden">Hidden</string>

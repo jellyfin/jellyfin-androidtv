@@ -299,9 +299,7 @@
     <string name="lbl_stars">Estrelles</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Acaba a %1$s</string>
-    <string name="lbl_manual_login">Inici de sessió manual</string>
     <string name="lbl_sign_in">Inicieu la sessió</string>
-    <string name="lbl_add_server">Afegir servidor</string>
     <string name="play_with">Reproduir amb</string>
     <string name="play_with_external_app">Reproduir amb una aplicació externa</string>
     <string name="play_with_exo_player">Reproduir amb ExoPlayer</string>

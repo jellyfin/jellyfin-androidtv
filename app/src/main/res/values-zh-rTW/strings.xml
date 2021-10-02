@@ -306,11 +306,9 @@
     <string name="lbl_episode_marks">只在集數顯示</string>
     <string name="lbl_hide_unwatched_count">隱藏未觀看數</string>
     <string name="pref_watched_indicator">顯示已觀看指示</string>
-    <string name="connect_title">連接</string>
     <string name="login_help_description">Jellyfin 需要可以連接的伺服器。在 docs.jellyfin.org 上閱讀文件以了解如何使用 Jellyfin。</string>
     <string name="login_help_title">需要幫助嗎？</string>
     <string name="connect_manually_by_address">輸入伺服器地址</string>
-    <string name="connect_manually_title">手動連接</string>
     <string name="discovered_servers_empty">在區域網路中找不到伺服器。</string>
     <string name="discovered_servers_title">已發現的伺服器</string>
     <string name="lbl_hidden">隱藏</string>
@@ -353,9 +351,7 @@
     <string name="lbl_stars">星數</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">在 %1$s 結束</string>
-    <string name="lbl_manual_login">手動登入</string>
     <string name="lbl_sign_in">請登入</string>
-    <string name="lbl_add_server">新增伺服器</string>
     <string name="play_with">使用指定的播放器</string>
     <string name="play_with_external_app">使用外部播放器</string>
     <string name="play_with_exo_player">用 ExoPlayer 播放</string>

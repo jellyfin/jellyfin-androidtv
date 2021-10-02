@@ -333,9 +333,7 @@
     <string name="mark_watched_message">Úgy tűnik hogy nem lett teljes hosszában lejátszva. Megjelöljük megtekintettként\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>
-    <string name="lbl_manual_login">Manuális bejelentkezés</string>
     <string name="lbl_sign_in">Kérlek, jelentkezz be</string>
-    <string name="lbl_add_server">Szerver hozzáadása</string>
     <string name="play_with">Lejátszani vele</string>
     <string name="play_with_external_app">Lejátszás külső alkalmazással</string>
     <string name="play_with_exo_player">Lejátszás ExoPlayer-el</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">Az elérhetőség nem lehet üres</string>
     <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %1$s</string>
     <string name="server_connecting">Csatlakozás a következőhöz: %s</string>
-    <string name="connect_title">Csatlakozás</string>
     <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen, vagy olvassa be a QR-kódot a Jellyfin használatának megkezdéséhez.</string>
     <string name="login_help_title">Kell segítség\?</string>
     <string name="connect_manually_by_address">Szerver címének megadása</string>
-    <string name="connect_manually_title">Manuális csatlakozás</string>
     <string name="discovered_servers_empty">Nem található szerverek a helyi hálózaton.</string>
     <string name="discovered_servers_title">Felfedezett szerverek</string>
     <string name="lbl_hidden">Rejtett</string>

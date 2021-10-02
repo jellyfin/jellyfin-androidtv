@@ -340,9 +340,7 @@
     <string name="lbl_subtitle_track">Välj undertext</string>
     <string name="lbl_audio_track">Välj ljudspår</string>
     <string name="lbl_pause">Pausa</string>
-    <string name="lbl_manual_login">Manuell inloggning</string>
     <string name="lbl_sign_in">Logga in</string>
-    <string name="lbl_add_server">Lägg till server</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_authentication_link">Autentiseringsalternativ</string>
     <string name="login_username_field_empty">Användarnamn får inte vara tomt</string>
@@ -364,11 +362,9 @@
     <string name="lbl_episode_marks">Endast på avsnitt</string>
     <string name="pref_watched_indicator">Visa indikator för antal tittade</string>
     <string name="lbl_hide_unwatched_count">Dölj antal otittade</string>
-    <string name="connect_title">Anslut</string>
     <string name="login_help_description">Jellyfin behöver en server att ansluta till. Besök vår dokumentation på docs.jellyfin.org eller skanna QR-koden för att komma igång med Jellyfin.</string>
     <string name="login_help_title">Behöver du hjälp\?</string>
     <string name="connect_manually_by_address">Ange serveraddress</string>
-    <string name="connect_manually_title">Anslut manuellt</string>
     <string name="discovered_servers_empty">Inga servrar hittades på det lokala nätverket.</string>
     <string name="discovered_servers_title">Upptäckta servrar</string>
     <string name="lbl_hidden">Dold</string>

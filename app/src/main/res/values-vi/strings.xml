@@ -342,9 +342,7 @@
     <string name="lbl_on">Bật</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Kết thúc lúc %1$s</string>
-    <string name="lbl_manual_login">Đang Nhập Thủ Công</string>
     <string name="lbl_sign_in">Hãy Đăng Nhập</string>
-    <string name="lbl_add_server">Thêm Máy Chủ</string>
     <string name="pref_default_rating">Kiểu xếp hạng mặc định</string>
     <string name="lbl_tomatoes">Cà chua</string>
     <string name="lbl_stars">Ngôi sao</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">Địa chỉ không được để trống</string>
     <string name="server_connection_failed">Không thể kết nối đến máy chủ: %1$s</string>
     <string name="server_connecting">‎Đang kết nối tới ‎%s</string>
-    <string name="connect_title">Kết nối</string>
     <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org hoặc quét mã QR để bắt đầu với Jellyfin.</string>
     <string name="login_help_title">Cần giúp đỡ\?</string>
     <string name="connect_manually_by_address">Nhập địa chỉ máy chủ</string>
-    <string name="connect_manually_title">Kết nối thủ công</string>
     <string name="discovered_servers_empty">Không tìm thấy máy chủ trên mạng cục bộ.</string>
     <string name="discovered_servers_title">Máy chủ được phát hiện</string>
     <string name="lbl_hidden">Ẩn</string>

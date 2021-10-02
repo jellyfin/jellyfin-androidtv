@@ -302,9 +302,7 @@
     <string name="bitrate_auto">Auto</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
-    <string name="lbl_manual_login">Manuel Log Ind</string>
     <string name="lbl_sign_in">Log Venligst Ind</string>
-    <string name="lbl_add_server">Tilføj server</string>
     <string name="play_with">Afspil med</string>
     <string name="play_with_external_app">Afspil med ekstern app</string>
     <string name="play_with_exo_player">Afspil med ExoPlayer</string>
@@ -364,11 +362,9 @@
     <string name="lbl_episode_marks">Kun på afsnit</string>
     <string name="lbl_hide_unwatched_count">Skjul antal usete</string>
     <string name="pref_watched_indicator">Vis indikatorer for set</string>
-    <string name="connect_title">Forbind</string>
     <string name="login_help_description">Jellyfin kræver en server at forbinde med. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
     <string name="login_help_title">Behøver du hjælp\?</string>
     <string name="connect_manually_by_address">Indtast server adresse</string>
-    <string name="connect_manually_title">Forbind manuelt</string>
     <string name="discovered_servers_empty">Ingen servere fundet på lokalt netværk.</string>
     <string name="discovered_servers_title">Fundne servere</string>
     <string name="lbl_hidden">Skjult</string>

@@ -190,9 +190,7 @@
     <string name="lbl_items">Elementi</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Konec ob %1$s</string>
-    <string name="lbl_manual_login">Ročni vpis</string>
     <string name="lbl_sign_in">Prosim vpišite se</string>
-    <string name="lbl_add_server">Dodaj strežnik</string>
     <string name="play_with">Predvajaj z</string>
     <string name="play_with_external_app">Predvajaj z zunanjo aplikacijo</string>
     <string name="play_with_exo_player">Predvajaj z ExoPlayer</string>

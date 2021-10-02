@@ -88,9 +88,7 @@
     <string name="lbl_suggested">Sugerido</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finaliza a las %1$s</string>
-    <string name="lbl_manual_login">Inicio de sesión manual</string>
     <string name="lbl_sign_in">Por favor, inicie sesion</string>
-    <string name="lbl_add_server">Agregar Servidor</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reporoducir con ExoPlayer</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">La dirección no puede estar vacía</string>
     <string name="server_connection_failed">No se puede conectar al servidor: %1$s</string>
     <string name="server_connecting">Conectando a %s</string>
-    <string name="connect_title">Conectar</string>
     <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org o escanee el código QR para comenzar con Jellyfin.</string>
     <string name="login_help_title">Necesita Ayuda\?</string>
     <string name="connect_manually_by_address">Ingrese dirección del servidor</string>
-    <string name="connect_manually_title">Conectar Manualmente</string>
     <string name="discovered_servers_empty">No se encontraron Servidores en la Red Local.</string>
     <string name="discovered_servers_title">Servidores Encontrados</string>
     <string name="lbl_hidden">Oculto</string>

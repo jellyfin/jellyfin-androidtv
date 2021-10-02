@@ -229,9 +229,7 @@
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_from">,</string>
     <string name="lbl_playback_control_ends">Bitiş zamanı %1$s</string>
-    <string name="lbl_manual_login">Elle Giriş Yap</string>
     <string name="lbl_sign_in">Lütfen Giriş Yapın</string>
-    <string name="lbl_add_server">Sunucu Ekle</string>
     <string name="play_with">Şununla oynat</string>
     <string name="play_with_external_app">Dış bir uygulama ile oynat</string>
     <string name="play_with_exo_player">ExoPlayer ile oynat</string>

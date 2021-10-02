@@ -342,9 +342,7 @@
     <string name="msg_added_to_video">%1$s 已添加到视频队列。播放结束时间: %2$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">结束于 %1$s</string>
-    <string name="lbl_manual_login">手动登录</string>
     <string name="lbl_sign_in">请登录</string>
-    <string name="lbl_add_server">添加服务器</string>
     <string name="pref_clock_display_playback">在播放时</string>
     <string name="pref_clock_display_browsing">在浏览时</string>
     <string name="lbl_always">总是</string>
@@ -362,11 +360,9 @@
     <string name="server_connecting">正在连接服务器 %s</string>
     <string name="lbl_user_server">%1$s 于 %2$s</string>
     <string name="lbl_user_last_used">上次在 %1$s 于 %2$s 使用</string>
-    <string name="connect_title">连接</string>
     <string name="login_help_description">Jellyfin需要服务器进行连接。 请访问docs.jellyfin.org或扫描二维码来阅读相关文档，以开始使用Jellyfin。</string>
     <string name="login_help_title">需要帮助？</string>
     <string name="connect_manually_by_address">输入服务器地址</string>
-    <string name="connect_manually_title">手动连接</string>
     <string name="discovered_servers_empty">在本地网络上未发现服务器。</string>
     <string name="discovered_servers_title">发现服务器</string>
     <string name="lbl_hidden">隐藏</string>

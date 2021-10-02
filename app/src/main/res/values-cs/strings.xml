@@ -341,9 +341,7 @@
     <string name="lbl_audio_track">Vybrat zvukovou stopu</string>
     <string name="lbl_pause">Pozastavit</string>
     <string name="lbl_playback_control_ends">Končí v %1$s</string>
-    <string name="lbl_manual_login">Ruční přihlášení</string>
     <string name="lbl_sign_in">Prosím přihlaste se</string>
-    <string name="lbl_add_server">Přidat server</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">Výchozí typ hodnocení</string>
     <string name="lbl_tomatoes">Rajčata</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">Adresa nesmí být prázdná</string>
     <string name="server_connection_failed">Nelze se připojit k serveru: %1$s</string>
     <string name="server_connecting">Připojování k %1$s</string>
-    <string name="connect_title">Připojit</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ke kterému se může připojit. Chcete-li zjistit, jak začít Jellyfin používat, podívejte se na dokumentaci na docs.jellyfin.org nebo naskenujte QR kód.</string>
     <string name="login_help_title">Potřebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadejte adresu serveru</string>
-    <string name="connect_manually_title">Ruční připojení</string>
     <string name="discovered_servers_empty">Na místní síti nebyly nalezeny žádné servery.</string>
     <string name="discovered_servers_title">Nalezené servery</string>
     <string name="lbl_hidden">Skryté</string>

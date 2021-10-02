@@ -346,9 +346,7 @@
     <string name="lbl_stars">Estrelas</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina em %1$s</string>
-    <string name="lbl_manual_login">Login Manual</string>
     <string name="lbl_sign_in">Por Favor Registe-se</string>
-    <string name="lbl_add_server">Adicionar Servidor</string>
     <string name="play_with">Reproduzir com</string>
     <string name="play_with_external_app">Reproduzir com uma app externa</string>
     <string name="play_with_exo_player">Reproduzir com ExoPlayer</string>
@@ -375,11 +373,9 @@
     <string name="lbl_episode_marks">Apenas em episódios</string>
     <string name="lbl_hide_unwatched_count">Esconder contagem de não assistidos</string>
     <string name="pref_watched_indicator">Mostra indicadores de assistido</string>
-    <string name="connect_title">Ligar</string>
     <string name="login_help_description">O Jellyfin precisa de um servidor para se ligar. Visita a nossa documentação em docs.jellyfin.org para começar com o Jellyfin.</string>
     <string name="login_help_title">Precisa de ajuda\?</string>
     <string name="connect_manually_by_address">Introduzir email</string>
-    <string name="connect_manually_title">Ligar manualmente</string>
     <string name="discovered_servers_empty">Servidores não encontrados na rede local.</string>
     <string name="discovered_servers_title">Servidores encontrados</string>
     <string name="lbl_hidden">Escondido</string>

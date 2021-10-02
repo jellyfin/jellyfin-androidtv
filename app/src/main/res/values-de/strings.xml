@@ -341,9 +341,7 @@
     <string name="lbl_audio_track">Audiospur auswählen</string>
     <string name="lbl_pause">Pause</string>
     <string name="lbl_playback_control_ends">Endet um %1$s</string>
-    <string name="lbl_manual_login">Manuelle Anmeldung</string>
     <string name="lbl_sign_in">Bitte anmelden</string>
-    <string name="lbl_add_server">Server hinzufügen</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">Standard Bewertung</string>
     <string name="lbl_tomatoes">Tomaten</string>
@@ -360,11 +358,9 @@
     <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
     <string name="server_connection_failed">Verbindung zum Server nicht möglich: %1$s</string>
     <string name="server_connecting">Verbinden mit %s</string>
-    <string name="connect_title">Verbinden</string>
     <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org oder scannen Sie den QR-Code, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
     <string name="login_help_title">Benötigen Sie Hilfe\?</string>
     <string name="connect_manually_by_address">Server-Adresse eingeben</string>
-    <string name="connect_manually_title">Manuell verbinden</string>
     <string name="discovered_servers_empty">Es wurden keine Server im lokalen Netzwerk gefunden.</string>
     <string name="discovered_servers_title">Gefundene Server</string>
     <string name="lbl_hidden">Versteckt</string>

@@ -341,9 +341,7 @@
     <string name="lbl_audio_track">Choisir la piste audio</string>
     <string name="lbl_pause">Pause</string>
     <string name="lbl_playback_control_ends">Se termine à %1$s</string>
-    <string name="lbl_manual_login">Connexion manuelle</string>
     <string name="lbl_sign_in">Veuillez vous connecter</string>
-    <string name="lbl_add_server">Ajouter un serveur</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">Type d\'évaluation par défaut</string>
     <string name="pref_clock_display_playback">Pendant la lecture</string>
@@ -368,11 +366,9 @@
     <string name="lbl_episode_marks">Uniquement pour les épisodes</string>
     <string name="lbl_hide_unwatched_count">Masquer le décompte des éléments non visionnés</string>
     <string name="pref_watched_indicator">Afficher les indicateurs de visionnage</string>
-    <string name="connect_title">Connexion</string>
     <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org ou scannez le QR code pour commencer à utiliser Jellyfin.</string>
     <string name="login_help_title">Besoin d\'aide  \?</string>
     <string name="connect_manually_by_address">Entrez l\'adresse du serveur</string>
-    <string name="connect_manually_title">Connexion manuelle</string>
     <string name="discovered_servers_empty">Aucun serveur n\'a été découvert sur le réseau local.</string>
     <string name="discovered_servers_title">Serveurs découverts</string>
     <string name="lbl_hidden">Caché</string>

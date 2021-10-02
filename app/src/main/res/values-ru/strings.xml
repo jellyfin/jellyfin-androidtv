@@ -342,9 +342,7 @@
     <string name="lbl_pause">Пауза</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Конец в %1$s</string>
-    <string name="lbl_manual_login">Войти вручную</string>
     <string name="lbl_sign_in">Войдите</string>
-    <string name="lbl_add_server">Добавить сервер</string>
     <string name="pref_default_rating">Тип оценки по умолчанию</string>
     <string name="lbl_tomatoes">Томаты</string>
     <string name="lbl_stars">Звёзды</string>
@@ -374,10 +372,8 @@
     <string name="login_help_description">Jellyfin требуется подключение к серверу. Просмотрите нашу документацию на docs.jellyfin.org, или сканируйте QR-код, чтобы начать работу с Jellyfin.</string>
     <string name="enable_smart_view_description">Умный экран показывает соответствующие элементы вместо сетки</string>
     <string name="lbl_remove_users">Это также изымет всех связанных пользователей</string>
-    <string name="connect_title">Соединиться</string>
     <string name="login_help_title">Нужна помощь\?</string>
     <string name="connect_manually_by_address">Ввод адреса сервера</string>
-    <string name="connect_manually_title">Соединение вручную</string>
     <string name="discovered_servers_empty">В локальной сети серверов не найдено.</string>
     <string name="discovered_servers_title">Обнаруженные серверы</string>
     <string name="lbl_hidden">Скрытый</string>
