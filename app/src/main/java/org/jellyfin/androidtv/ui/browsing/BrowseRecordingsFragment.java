@@ -24,13 +24,12 @@ import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     @Override
@@ -117,7 +116,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     private void addNext24Timers() {
         final TimerQuery scheduled = new TimerQuery();
         final long ticks24 = 1000 * 60 * 60 * 24;
-        get(ApiClient.class).GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
                 List<BaseItemDto> nearTimers = new ArrayList<>();

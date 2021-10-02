@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.data.eventhandling;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +30,7 @@ import org.jellyfin.apiclient.model.session.MessageCommand;
 import org.jellyfin.apiclient.model.session.PlayRequest;
 import org.jellyfin.apiclient.model.session.PlaystateRequest;
 import org.jellyfin.apiclient.model.session.SessionInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 
@@ -173,17 +172,17 @@ public class TvApiEventListener extends ApiEventListener {
                     ItemFields.ChildCount
             });
             query.setIds(command.getItemIds());
-            get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (response.getItems() != null && response.getItems().length > 0) {
-                        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+                        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                         if (playbackLauncher.interceptPlayRequest(TvApp.getApplication(), response.getItems()[0])) return;
 
                         //peek at first item to see what type it is
                         switch (response.getItems()[0].getMediaType()) {
                             case "Video":
-                                Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(response.getItems()[0].getBaseItemType());
+                                Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(response.getItems()[0].getBaseItemType());
                                 mediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
                                 Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), activity);
                                 TvApp.getApplication().getCurrentActivity().startActivity(intent);

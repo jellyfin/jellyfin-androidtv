@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
@@ -60,6 +59,7 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -511,11 +511,11 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void play(List<BaseItemDto> items) {
-        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
 
         if ("Video".equals(mBaseItem.getMediaType())) {
-            Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
+            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
             Intent intent = new Intent(mActivity, activity);
             //Resume first item if needed
             BaseItemDto first = items.size() > 0 ? items.get(0) : null;

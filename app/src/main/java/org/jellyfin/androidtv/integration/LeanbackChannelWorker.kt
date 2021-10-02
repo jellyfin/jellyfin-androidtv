@@ -26,7 +26,6 @@ import org.jellyfin.sdk.api.operations.TvShowsApi
 import org.jellyfin.sdk.api.operations.UserViewsApi
 import org.jellyfin.sdk.model.api.*
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.time.ZoneOffset
@@ -36,7 +35,6 @@ import java.time.ZoneOffset
  *
  * More info: https://developer.android.com/training/tv/discovery/recommendations-channel.
  */
-@KoinApiExtension
 class LeanbackChannelWorker(
 	private val context: Context,
 	workerParams: WorkerParameters,

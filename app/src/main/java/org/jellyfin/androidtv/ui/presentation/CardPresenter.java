@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -35,6 +33,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -208,7 +207,7 @@ public class CardPresenter extends Presenter {
                     }
                     UserItemDataDto userData = itemDto.getUserData();
                     if (showWatched && userData != null) {
-                        WatchedIndicatorBehavior showIndicator = get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
+                        WatchedIndicatorBehavior showIndicator = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
                         if (userData.getPlayed()) {
                             if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getBaseItemType() == BaseItemType.Episode))
                                 mCardView.setUnwatchedCount(0);
@@ -423,7 +422,7 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setPlayingIndicator(false);
 
             if (holder.getItem().getBaseItemType() != BaseItemType.UserView) {
-                RatingType ratingType = get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
+                RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
                 if (ratingType == RatingType.RATING_TOMATOES) {
                     Drawable badge = rowItem.getBadgeImage();
                     holder.mCardView.setRating(null);

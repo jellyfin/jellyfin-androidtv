@@ -35,10 +35,9 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAc
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
-
-import static org.koin.java.KoinJavaComponent.get;
 
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
@@ -111,7 +110,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
                 RowPresenter.ViewHolder vh = super.createRowViewHolder(parent);
 
-                ClockBehavior showClock = get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
+                ClockBehavior showClock = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getClockBehavior());
 
                 if (showClock == ClockBehavior.ALWAYS || showClock == ClockBehavior.IN_VIDEO) {
                     Context context = parent.getContext();
@@ -395,10 +394,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
+        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
-        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
+        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
             selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
         }
         return super.onKey(v, keyCode, event);

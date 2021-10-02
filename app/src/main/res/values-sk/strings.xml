@@ -446,4 +446,5 @@
     <string name="advanced_settings">Nastavenia (pokročilé)</string>
     <string name="always_authenticate_description">Povolením tejto funkcie zakážete automatické prihlasovanie</string>
     <string name="always_authenticate">Vždy vyžadovať prihlasovacie údaje</string>
+    <string name="lbl_community_rating">Hodnotenie komunity</string>
 </resources>

@@ -417,4 +417,5 @@
     <string name="advanced_settings">ക്രമീകരണങ്ങൾ (വിപുലമായത്)</string>
     <string name="always_authenticate_description">ഈ പ്രവർത്തനം പ്രവർത്തനക്ഷമമാക്കുന്നത് യാന്ത്രിക സൈൻ ഇൻ പ്രവർത്തനരഹിതമാക്കുന്നു</string>
     <string name="always_authenticate">എപ്പോഴും ക്രെഡൻഷ്യലുകൾ ചോദിക്കുക</string>
+    <string name="lbl_community_rating">സാമൂഹിക വിലയിരുത്തൽ</string>
 </resources>

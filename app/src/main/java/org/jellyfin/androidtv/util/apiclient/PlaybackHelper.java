@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +25,7 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,8 +51,8 @@ public class PlaybackHelper {
         switch (mainItem.getBaseItemType()) {
             case Episode:
                 items.add(mainItem);
-                if (get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
-                    get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
+                if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
@@ -70,7 +69,7 @@ public class PlaybackHelper {
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ChildCount
                         });
-                        get(ApiClient.class).GetEpisodesAsync(episodeQuery, new Response<ItemsResult>() {
+                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetEpisodesAsync(episodeQuery, new Response<ItemsResult>() {
                             @Override
                             public void onResponse(ItemsResult response) {
                                 if (response.getTotalRecordCount() > 0) {
@@ -125,7 +124,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(currentUser.getId());
-                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         Collections.addAll(items, response.getItems());
@@ -149,7 +148,7 @@ public class PlaybackHelper {
                 });
                 query.setUserId(currentUser.getId());
                 query.setArtistIds(new String[]{mainItem.getId()});
-                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(Arrays.asList(response.getItems()));
@@ -176,7 +175,7 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(currentUser.getId());
-                get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
                         outerResponse.onResponse(Arrays.asList(response.getItems()));
@@ -191,7 +190,7 @@ public class PlaybackHelper {
                 }
 
                 //We retrieve the channel the program is on (which should be the program's parent)
-                get(ApiClient.class).GetItemAsync(mainItem.getParentId(), currentUser.getId(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mainItem.getParentId(), currentUser.getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         // fill in info about the specific program for display
@@ -212,7 +211,7 @@ public class PlaybackHelper {
 
             case TvChannel:
                 // Retrieve full channel info for display
-                get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), currentUser.getId(), new Response<ChannelInfoDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), currentUser.getId(), new Response<ChannelInfoDto>() {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
@@ -229,9 +228,9 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !get(PlaybackLauncher.class).useExternalPlayer(mainItem.getBaseItemType()) && get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(mainItem.getBaseItemType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
-                    get(ApiClient.class).GetIntrosAsync(mainItem.getId(), currentUser.getId(), new Response<ItemsResult>() {
+                    KoinJavaComponent.<ApiClient>get(ApiClient.class).GetIntrosAsync(mainItem.getId(), currentUser.getId(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
@@ -261,7 +260,7 @@ public class PlaybackHelper {
     }
 
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
-        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
         getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
@@ -270,17 +269,17 @@ public class PlaybackHelper {
                 switch (item.getBaseItemType()) {
                     case MusicAlbum:
                     case MusicArtist:
-                        get(MediaManager.class).playNow(response);
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response);
                         break;
                     case Playlist:
                         if ("Audio".equals(item.getMediaType())) {
-                            get(MediaManager.class).playNow(response);
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response);
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
                             Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
                             Intent intent = new Intent(activity, newActivity);
-                            get(MediaManager.class).setCurrentVideoQueue(response);
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                             intent.putExtra("Position", pos);
                             if (!(activity instanceof Activity))
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -289,14 +288,14 @@ public class PlaybackHelper {
                         break;
                     case Audio:
                         if (response.size() > 0) {
-                            get(MediaManager.class).playNow(response.get(0));
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response.get(0));
                         }
                         break;
 
                     default:
                         Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getBaseItemType());
                         Intent intent = new Intent(activity, newActivity);
-                        get(MediaManager.class).setCurrentVideoQueue(response);
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
                         if (!(activity instanceof Activity))
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -312,7 +311,7 @@ public class PlaybackHelper {
 
     private static int getResumePreroll() {
         try {
-            return Integer.parseInt(get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+            return Integer.parseInt(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;
@@ -320,7 +319,7 @@ public class PlaybackHelper {
     }
 
     public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
-        get(ApiClient.class).GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;
@@ -336,7 +335,7 @@ public class PlaybackHelper {
     }
 
     public static void playInstantMix(Context context, BaseItemDto item) {
-        PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(context, item)) return;
 
         String seedId = item.getId();
@@ -344,7 +343,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    get(MediaManager.class).playNow(Arrays.asList(response));
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(Arrays.asList(response));
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }
@@ -361,7 +360,7 @@ public class PlaybackHelper {
                 ItemFields.Genres,
                 ItemFields.ChildCount
         });
-        get(ApiClient.class).GetInstantMixFromItem(query, new Response<ItemsResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetInstantMixFromItem(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 outerResponse.onResponse(response.getItems());
@@ -378,7 +377,7 @@ public class PlaybackHelper {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
-            get(ApiClient.class).GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetAdditionalParts(mainItem.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
                     Collections.addAll(items, response.getItems());

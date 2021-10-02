@@ -442,4 +442,5 @@
     <string name="enable_playback_module_description">Questa è una funzione sperimentale. Nessun supporto viene fornito.</string>
     <string name="lbl_fit">Normale</string>
     <string name="lbl_auto_crop">Auto Ritaglio</string>
+    <string name="lbl_community_rating">Valutazione della comunità</string>
 </resources>

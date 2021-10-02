@@ -77,7 +77,7 @@
     <string name="lbl_valid_server_address">Zadejte prosím adresu serveru (IP nebo doména/název stroje)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Narozen "</string>
-    <string name="lbl_loading_elipses">Načítá se...</string>
+    <string name="lbl_loading_elipses">Načítá se…</string>
     <string name="msg_playback_not_allowed">Přehrávání v této době není povoleno</string>
     <string name="msg_playback_restricted">Správce má omezenou přehrávání této položky v této době</string>
     <string name="msg_playback_incompatible">Nelze přehrát tento video formát</string>
@@ -140,7 +140,7 @@
     <string name="btn_filter">Filtr</string>
     <string name="btn_clear_all">Smazat vše</string>
     <string name="lbl_filters">Filtry</string>
-    <string name="msg_subtitles_loading">Načítají se titulky...</string>
+    <string name="msg_subtitles_loading">Načítají se titulky…</string>
     <string name="msg_unable_load_subs">Nelze načíst titulky</string>
     <string name="msg_burn_sub_warning">Vypálení titulků může trvat několik minut. Čekejte, prosím…</string>
     <string name="lbl_recording">Nahrávání</string>
@@ -196,14 +196,14 @@
     <string name="lbl_warning">Varování</string>
     <string name="sum_enable_cinema_mode">Pokud je povoleno na serveru, zobrazovat úvodníky a náhledy před přehráváním filmu</string>
     <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
-    <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu...</string>
+    <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu…</string>
     <string name="lbl_now_playing_album">z %1$s</string>
-    <string name="lbl_now_playing_track">%s z %s</string>
+    <string name="lbl_now_playing_track">%1$s z %2$s</string>
     <string name="msg_error_server_unavailable">Server nedostupný</string>
     <string name="lbl_watched">Zhlédnuto</string>
     <string name="lbl_favorite">Oblíbené</string>
     <string name="lbl_series">Seriály</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Ověření</string>
     <string name="loading">Načítání…</string>
     <string name="pref_use_direct_path_summary">Přímé přehrávání namísto streamování</string>
@@ -359,7 +359,7 @@
     <string name="login_authenticating">Ověřování uživatele…</string>
     <string name="server_field_empty">Adresa nesmí být prázdná</string>
     <string name="server_connection_failed">Nelze se připojit k serveru: %1$s</string>
-    <string name="server_connecting">Připojování k %s</string>
+    <string name="server_connecting">Připojování k %1$s</string>
     <string name="connect_title">Připojit</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ke kterému se může připojit. Chcete-li zjistit, jak začít Jellyfin používat, podívejte se na dokumentaci na docs.jellyfin.org nebo naskenujte QR kód.</string>
     <string name="login_help_title">Potřebujete pomoc\?</string>
@@ -431,7 +431,7 @@
     <string name="who_is_watching">Kdo se bude dívat\?</string>
     <string name="no_user_warning">Nebyli nalezení žádné uživatelé!
 \nNov0ho uživatele přidejte stisknutím tlačítka \"Přidat uživatele\".</string>
-    <string name="server_unsupported">Server je nutné aktualizovat. Aktuální verze je %s, ale aplikace vyžaduje verzi %s nebo novější</string>
+    <string name="server_unsupported">Server je nutné aktualizovat. Aktuální verze je %1$s, ale aplikace vyžaduje verzi %2$s nebo novější</string>
     <string name="welcome_content">Začněte připojením k serveru.</string>
     <string name="welcome_title">Vítejte v Jellyfin!</string>
     <string name="saved_servers">Uložené servery</string>

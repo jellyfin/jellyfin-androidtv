@@ -14,11 +14,9 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.getActivity
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-@KoinApiExtension
 class ClockUserView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,

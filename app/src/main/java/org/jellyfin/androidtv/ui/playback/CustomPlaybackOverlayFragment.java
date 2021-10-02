@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -87,6 +89,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -95,9 +98,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
     private VlcPlayerInterfaceBinding binding;
@@ -463,7 +463,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
-                    DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                    DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                     dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                 }
             });

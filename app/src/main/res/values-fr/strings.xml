@@ -239,9 +239,9 @@
     <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_watched">Vu</string>
     <string name="lbl_warning">Avertissement</string>
-    <string name="lbl_now_playing_track">%s de %s</string>
+    <string name="lbl_now_playing_track">%1$s sur %2$s</string>
     <string name="msg_error_server_unavailable">Serveur indisponible</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Identification</string>
     <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>
     <string name="lbl_favorite">Préféré</string>
@@ -316,7 +316,7 @@
     <string name="mark_watched_message">L\'entrée ne semble pas avoir été jouée autant longtemps que sa durée. Marquer comme vu \?</string>
     <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
     <string name="msg_added_to_video">%1$s ajouté à la liste de lecture. Prend fin : %2$s</string>
-    <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer...</string>
+    <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer…</string>
     <string name="seek_error">Impossible de chercher</string>
     <string name="msg_live_tv_prev">Charger les précédentes %1$d heures \?</string>
     <string name="msg_live_tv_next">Charger les prochaines %1$d heures \?</string>
@@ -356,10 +356,10 @@
     <string name="login_username_field_empty">Le nom d\'utilisateur ne peut pas être vide</string>
     <string name="login_server_unavailable">Impossible de se connecter au serveur</string>
     <string name="login_invalid_credentials">Nom d\'utilisateur ou mot de passe incorrect</string>
-    <string name="login_authenticating">Authentification ...</string>
+    <string name="login_authenticating">Authentification…</string>
     <string name="server_field_empty">L\'adresse ne peut pas être vide</string>
     <string name="server_connection_failed">Impossible de se connecter au serveur : %1$s</string>
-    <string name="server_connecting">Connexion vers %s</string>
+    <string name="server_connecting">Connexion vers %1$s</string>
     <string name="lbl_remove_user_content">Supprimer le compte</string>
     <string name="lbl_remove_users">Cela supprimera également les utilisateurs associés</string>
     <string name="lbl_manage_servers">Gérer les serveurs</string>
@@ -416,7 +416,7 @@
     <string name="who_is_watching">Qui regarde \?</string>
     <string name="no_user_warning">Nous n\'avons trouvé aucun utilisateur !
 \nAjoutez un nouvel utilisateur en appuyant sur le bouton \"Ajouter utilisateur\".</string>
-    <string name="server_unsupported">Le serveur doit être mis à jour. La version actuelle est %s mais l\'app nécessite %s ou une version plus récente</string>
+    <string name="server_unsupported">Le serveur doit être mis à jour. La version actuelle est %1$smais l\'app nécessite %2$s ou une version plus récente</string>
     <string name="welcome_content">Connectez-vous à votre serveur pour commencer.</string>
     <string name="welcome_title">Bienvenue sur Jellyfin !</string>
     <string name="saved_servers">Serveurs sauvegardés</string>

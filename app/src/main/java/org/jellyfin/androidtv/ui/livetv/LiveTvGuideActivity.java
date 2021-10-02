@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.livetv;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,6 +57,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +67,6 @@ import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
@@ -402,7 +402,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
-                    DataRefreshService dataRefreshService = get(DataRefreshService.class);
+                    DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                     dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
                 }
             });
@@ -962,7 +962,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         @Override
         public void run() {
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mSelectedProgram = response;
@@ -992,7 +992,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
 
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
-            String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, get(ApiClient.class));
+            String url = ImageUtils.getPrimaryImageUrl(mSelectedProgram, KoinJavaComponent.<ApiClient>get(ApiClient.class));
             int imageSize = Utils.convertDpToPixel(this, 150);
             Glide.with(mActivity)
                     .load(url)

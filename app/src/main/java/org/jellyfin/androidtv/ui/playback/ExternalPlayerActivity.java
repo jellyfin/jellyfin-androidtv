@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.AlertDialog;
@@ -32,6 +31,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
 
@@ -234,13 +234,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 options.setProfile(new ExternalPlayerProfile());
 
                 // Get playback info for each player and then decide on which one to use
-                get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
+                KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;
 
                         //Construct a static URL to sent to player
-                        //String url = get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
+                        //String url = KoinJavaComponent.<ApiClient>get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
                         String url = response.getMediaUrl();
                         //And request an activity to play it

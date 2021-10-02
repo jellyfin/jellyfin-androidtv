@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import static org.koin.java.KoinJavaComponent.get;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -36,6 +34,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IVLCVout;
@@ -470,7 +469,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
             options.add("--audio-desync");
-            options.add(String.valueOf(get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
+            options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
             options.add("--vout=android-opaque,android-display");
 

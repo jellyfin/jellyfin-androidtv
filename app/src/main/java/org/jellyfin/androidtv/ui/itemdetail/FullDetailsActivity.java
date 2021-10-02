@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
-import static org.koin.java.KoinJavaComponent.get;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
@@ -96,6 +95,7 @@ import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.koin.java.KoinJavaComponent;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -221,7 +221,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private int getResumePreroll() {
         try {
-            return Integer.parseInt(get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
+            return Integer.parseInt(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getResumeSubtractDuration())) * 1000;
         } catch (Exception e) {
             Timber.e(e, "Unable to parse resume preroll");
             return 0;
@@ -773,7 +773,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addInfoRows(ArrayObjectAdapter adapter) {
-        if (get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
+        if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
                 if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
                     HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
@@ -1617,13 +1617,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
-                PlaybackLauncher playbackLauncher = get(PlaybackLauncher.class);
+                PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                 if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, item)) return;
 
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
                     mediaManager.getValue().playNow(response);
                 } else {
-                    Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
+                    Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
                     Intent intent = new Intent(FullDetailsActivity.this, activity);
                     mediaManager.getValue().setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
@@ -1636,7 +1636,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        Class activity = get(PlaybackLauncher.class).getPlaybackActivityClass(items[0].getBaseItemType());
+        Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(items[0].getBaseItemType());
         Intent intent = new Intent(this, activity);
         if (shuffle) Collections.shuffle(itemsToPlay);
         mediaManager.getValue().setCurrentVideoQueue(itemsToPlay);

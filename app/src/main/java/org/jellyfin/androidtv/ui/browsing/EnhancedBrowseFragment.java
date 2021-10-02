@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,14 +58,12 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected FragmentActivity mActivity;
@@ -188,7 +188,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         super.onResume();
 
         // React to deletion
-        DataRefreshService dataRefreshService = get(DataRefreshService.class);
+        DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
         if (getActivity() != null && !getActivity().isFinishing() && mCurrentRow != null && mCurrentItem != null && mCurrentItem.getItemId() != null && mCurrentItem.getItemId().equals(dataRefreshService.getLastDeletedItemId())) {
             ((ItemRowAdapter) mCurrentRow.getAdapter()).remove(mCurrentItem);
             dataRefreshService.setLastDeletedItemId(null);
