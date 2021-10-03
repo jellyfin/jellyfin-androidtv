@@ -66,7 +66,7 @@
     <string name="lbl_valid_server_address">请输入服务器地址 (IP, 域名, 或机器名)</string>
     <string name="lbl_ok">确定</string>
     <string name="lbl_born">"生日 "</string>
-    <string name="lbl_loading_elipses">正在载入...</string>
+    <string name="lbl_loading_elipses">正在载入…</string>
     <string name="msg_playback_not_allowed">此时不能回放</string>
     <string name="msg_playback_restricted">现在管理员不允许播放此项目</string>
     <string name="msg_playback_incompatible">无法播放这个视频格式</string>
@@ -82,7 +82,7 @@
     <string name="lbl_dislike">不喜欢</string>
     <string name="lbl_like">喜欢</string>
     <string name="lbl_now_playing_album">来自 %1$s</string>
-    <string name="lbl_now_playing_track">%s 中的 %s</string>
+    <string name="lbl_now_playing_track">%1$s 中的 %2$s</string>
     <string name="lbl_add_favorite">添加我的最爱</string>
     <string name="lbl_remove_favorite">移除我的最爱</string>
     <string name="lbl_mark_played">标记已播放</string>
@@ -187,7 +187,7 @@
     <string name="lbl_open_artist">查看艺术家</string>
     <string name="lbl_add_to_queue">加入到队列</string>
     <string name="msg_items_added">" 项目已添加"</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_warning">警告</string>
     <string name="lbl_playlists">播放列表</string>
     <string name="sum_enable_cinema_mode">在服务器播放电影之前显示简介和预览</string>
@@ -357,7 +357,7 @@
     <string name="login_authenticating">验证中 ……</string>
     <string name="server_field_empty">地址栏不能为空</string>
     <string name="server_connection_failed">无法连接到服务器：%1$s</string>
-    <string name="server_connecting">正在连接服务器 %s</string>
+    <string name="server_connecting">正在连接服务器 %1$s</string>
     <string name="lbl_user_server">%1$s 于 %2$s</string>
     <string name="lbl_user_last_used">上次在 %1$s 于 %2$s 使用</string>
     <string name="login_help_description">Jellyfin需要服务器进行连接。 请访问docs.jellyfin.org或扫描二维码来阅读相关文档，以开始使用Jellyfin。</string>
@@ -405,7 +405,7 @@
     <string name="lbl_season_number">第%1$d季</string>
     <string name="add_user">新建用户</string>
     <string name="help">帮助</string>
-    <string name="server_unsupported">服务端需要更新. 当前版本为 %s 但应用需要版本 %s 以上</string>
+    <string name="server_unsupported">服务端需要更新. 当前版本为 %1$s 但应用需要版本 %2$s 以上</string>
     <string name="welcome_content">请连接您的服务器以开始使用。</string>
     <string name="welcome_title">欢迎来到Jellyfin!</string>
     <string name="saved_servers">已保存的服务器</string>
