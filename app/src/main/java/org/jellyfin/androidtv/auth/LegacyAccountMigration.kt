@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.androidtv.preference.SystemPreferences
-import org.jellyfin.androidtv.util.serializer.UUIDSerializer
+import org.jellyfin.sdk.model.serializer.UUIDSerializer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 
@@ -32,7 +32,7 @@ class LegacyAccountMigration(
 			Timber.d("Starting migration of legacy credentials from $path")
 			val json = Json {
 				serializersModule = SerializersModule {
-					contextual(UUIDSerializer)
+					contextual(UUIDSerializer())
 				}
 				ignoreUnknownKeys = true
 			}

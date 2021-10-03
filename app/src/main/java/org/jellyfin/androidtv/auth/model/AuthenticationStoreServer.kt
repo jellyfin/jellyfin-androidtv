@@ -5,7 +5,7 @@ package org.jellyfin.androidtv.auth.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import org.jellyfin.androidtv.util.serializer.UUIDSerializer
+import org.jellyfin.sdk.model.serializer.UUIDSerializer
 import java.util.*
 
 /**
