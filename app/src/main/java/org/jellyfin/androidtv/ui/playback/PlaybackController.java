@@ -79,6 +79,7 @@ public class PlaybackController {
     private StreamInfo mCurrentStreamInfo;
     private List<SubtitleStreamInfo> mSubtitleStreams;
 
+    @Nullable
     private IPlaybackOverlayFragment mFragment;
     private Boolean spinnerOff = false;
 
@@ -227,7 +228,8 @@ public class PlaybackController {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
             stop();
-            mFragment.finish();
+
+            if (mFragment != null) mFragment.finish();
         }
     }
 
@@ -631,7 +633,7 @@ public class PlaybackController {
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
 
-        mFragment.updateDisplay();
+        if (mFragment != null) mFragment.updateDisplay();
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
         if (!mVideoManager.isNativeMode() &&
@@ -711,7 +713,7 @@ public class PlaybackController {
                 play(mCurrentPosition);
                 burningSubs = false;
             } else {
-                mFragment.addManualSubtitles(null);
+                if (mFragment != null) mFragment.addManualSubtitles(null);
                 mVideoManager.disableSubs();
             }
             return;
@@ -741,7 +743,7 @@ public class PlaybackController {
                     break;
                 case Embed:
                     if (!mVideoManager.isNativeMode()) {
-                        mFragment.addManualSubtitles(null); // in case these were on
+                        if (mFragment != null) mFragment.addManualSubtitles(null); // in case these were on
                         if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
                             // error selecting internal subs
                             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
@@ -750,9 +752,9 @@ public class PlaybackController {
                     }
                     // not using vlc - fall through to external handling
                 case External:
-                    mFragment.addManualSubtitles(null);
+                    if (mFragment != null) mFragment.addManualSubtitles(null);
                     mVideoManager.disableSubs();
-                    mFragment.showSubLoadingMsg(true);
+                    if (mFragment != null) mFragment.showSubLoadingMsg(true);
                     stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
                     stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
                     apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
@@ -762,11 +764,11 @@ public class PlaybackController {
 
                             if (info != null) {
                                 Timber.d("Adding json subtitle track to player");
-                                mFragment.addManualSubtitles(info);
+                                if (mFragment != null) mFragment.addManualSubtitles(info);
                             } else {
                                 Timber.e("Empty subtitle result");
                                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                                mFragment.showSubLoadingMsg(false);
+                                if (mFragment != null) mFragment.showSubLoadingMsg(false);
                             }
                         }
 
@@ -774,7 +776,7 @@ public class PlaybackController {
                         public void onError(Exception ex) {
                             Timber.e(ex, "Error downloading subtitles");
                             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                            mFragment.showSubLoadingMsg(false);
+                            if (mFragment != null) mFragment.showSubLoadingMsg(false);
                         }
 
                     });
@@ -926,7 +928,7 @@ public class PlaybackController {
             if (currentSkipPos < 0) currentSkipPos = 0;
             Timber.d("Duration reported as: %s current pos: %s",mVideoManager.getDuration(), mVideoManager.getCurrentPosition());
             if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
-            mFragment.setCurrentTime(currentSkipPos);
+            if (mFragment != null) mFragment.setCurrentTime(currentSkipPos);
             if (getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
                 seek(currentSkipPos);
                 currentSkipPos = 0;
@@ -954,7 +956,7 @@ public class PlaybackController {
                         channel.setCurrentProgram(program);
                         mCurrentProgramEndTime = channel.getEndDate() != null ? TimeUtils.convertToLocalDate(channel.getEndDate()).getTime() : 0;
                         mCurrentProgramStartTime = channel.getPremiereDate() != null ? TimeUtils.convertToLocalDate(channel.getPremiereDate()).getTime() : 0;
-                        mFragment.updateDisplay();
+                        if (mFragment != null) mFragment.updateDisplay();
                     }
                 }
             });
@@ -1006,7 +1008,7 @@ public class PlaybackController {
                 }
 
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
-                if (isLiveTv && !directStreamLiveTv) {
+                if (isLiveTv && !directStreamLiveTv && mFragment != null) {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
@@ -1082,7 +1084,7 @@ public class PlaybackController {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mediaManager.getValue().setCurrentVideoQueue(mItems);
-                mFragment.showNextUp(nextItem.getId());
+                if (mFragment != null) mFragment.showNextUp(nextItem.getId());
             } else {
                 mCurrentIndex++;
                 play(0);
@@ -1090,7 +1092,7 @@ public class PlaybackController {
         } else {
             // exit activity
             Timber.d("Last item completed. Finishing activity.");
-            mFragment.finish();
+            if (mFragment != null) mFragment.finish();
         }
     }
 
@@ -1106,7 +1108,7 @@ public class PlaybackController {
                     Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_error_live_stream));
                     directStreamLiveTv = false;
                     PlaybackHelper.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, TvApp.getApplication());
-                    mFragment.finish();
+                    if (mFragment != null) mFragment.finish();
                 } else {
                     String msg = TvApp.getApplication().getString(R.string.video_error_unknown_error);
                     Timber.e("Playback error - %s", msg);
@@ -1188,10 +1190,10 @@ public class PlaybackController {
                             updateTvProgramInfo();
                         }
                         final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition();
-                        mFragment.setCurrentTime(currentTime);
+                        if (mFragment != null) mFragment.setCurrentTime(currentTime);
                         //if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
                         mCurrentPosition = currentTime;
-                        mFragment.updateSubtitles(currentTime);
+                        if (mFragment != null) mFragment.updateSubtitles(currentTime);
                     }
 
                     updateProgress = continueUpdate;
