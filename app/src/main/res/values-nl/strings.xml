@@ -77,7 +77,7 @@
     <string name="lbl_valid_server_address">Vul het serveradres in (IP-adres of domein-/servernaam)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
-    <string name="lbl_loading_elipses">Laden...</string>
+    <string name="lbl_loading_elipses">Laden…</string>
     <string name="msg_playback_not_allowed">Afspelen op dit moment niet toegestaan</string>
     <string name="msg_playback_restricted">De beheerder heeft afspelen van dit item tot bepaalde tijdstippen beperkt</string>
     <string name="msg_playback_incompatible">Kan dit videoformaat niet afspelen</string>
@@ -140,9 +140,9 @@
     <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Alles wissen</string>
     <string name="lbl_filters">Filters</string>
-    <string name="msg_subtitles_loading">Ondertiteling wordt geladen...</string>
+    <string name="msg_subtitles_loading">Ondertiteling wordt geladen…</string>
     <string name="msg_unable_load_subs">Ondertiteling kan niet worden geladen</string>
-    <string name="msg_burn_sub_warning">Ingebrande ondertiteling kan enkele minuten duren, even geduld...</string>
+    <string name="msg_burn_sub_warning">Ingebrande ondertiteling kan enkele minuten duren, even geduld…</string>
     <string name="lbl_recording">Opnemen</string>
     <string name="lbl_no_recordings">Geen opnames beschikbaar</string>
     <string name="lbl_live_tv_guide">Live TV-gids</string>
