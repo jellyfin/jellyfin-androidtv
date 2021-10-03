@@ -148,7 +148,7 @@
     <string name="lbl_live_tv_guide">Live TV-gids</string>
     <string name="lbl_recorded_tv">TV-opnamen</string>
     <string name="pref_live_tv_cat">Live TV</string>
-    <string name="msg_error_live_stream">Fout bij afspelen Live TV. Bezig met opnieuw proberen...</string>
+    <string name="msg_error_live_stream">Fout bij afspelen Live TV. Bezig met opnieuw proberen…</string>
     <string name="lbl_direct_stream_live">Direct streamen Live TV</string>
     <string name="lbl_programs">Programma\'s</string>
     <string name="lbl_albums">Albums</string>
@@ -203,9 +203,9 @@
     <string name="lbl_new_premieres">Nieuwe premières</string>
     <string name="lbl_warning">Waarschuwing</string>
     <string name="lbl_now_playing_album">van %1$s</string>
-    <string name="lbl_now_playing_track">%s van %s</string>
+    <string name="lbl_now_playing_track">%1$s van %2$s</string>
     <string name="msg_error_server_unavailable">Server niet beschikbaar</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_audio_delay">Audiovertraging</string>
     <string name="lbl_news">Nieuws</string>
     <string name="lbl_album_name">Albumnaam</string>
@@ -304,7 +304,7 @@
     <string name="pref_video_player_choose">Altijd vragen</string>
     <string name="lbl_tv_filter_status">voor de volgende %1$d uur</string>
     <string name="lbl_tv_channel_status">%1$d van %2$d kanalen</string>
-    <string name="player_error">Speler heeft errors gekregen. Zal opnieuw proberen...</string>
+    <string name="player_error">Speler heeft errors gekregen. Zal opnieuw proberen…</string>
     <string name="lbl_clear">Leegmaken</string>
     <string name="play_with">Speel af met</string>
     <string name="play_with_external_app">Speel af met een extern programma</string>
@@ -350,8 +350,8 @@
     <string name="pref_default_rating">Standaard beoordelingstype</string>
     <string name="lbl_tomatoes">Tomaten</string>
     <string name="lbl_stars">Sterren</string>
-    <string name="login_authenticating">Aanmelden...</string>
-    <string name="server_connecting">Verbinden met %s</string>
+    <string name="login_authenticating">Aanmelden…</string>
+    <string name="server_connecting">Verbinden met %1$s</string>
     <string name="pref_authentication_link">Aanmeldopties</string>
     <string name="login_username_field_empty">Gebruikersnaam mag niet leeg zijn</string>
     <string name="login_server_unavailable">Server niet bereikbaar</string>
