@@ -7,7 +7,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
-import org.jellyfin.androidtv.util.serializer.UUIDSerializer
+import org.jellyfin.sdk.model.serializer.UUIDSerializer
 import timber.log.Timber
 import java.util.*
 
@@ -27,7 +27,7 @@ class AuthenticationStore(
 	private val json = Json {
 		encodeDefaults = true
 		serializersModule = SerializersModule {
-			contextual(UUIDSerializer)
+			contextual(UUIDSerializer())
 		}
 		ignoreUnknownKeys = true
 	}
