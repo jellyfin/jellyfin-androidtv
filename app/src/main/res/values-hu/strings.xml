@@ -44,13 +44,13 @@
     <string name="lbl_by_name">Név alapján</string>
     <string name="lbl_latest">Legújabb</string>
     <string name="msg_not_implemented">" nem implementált"</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_by_letter">Betű szerint</string>
     <string name="lbl_empty">Üres</string>
     <string name="lbl_never">Soha</string>
     <string name="msg_playback_incompatible">Nem sikerült lejátszani ezt a videó formátumot</string>
     <string name="msg_playback_not_allowed">Lejátszás jelenleg nem engedélyezve</string>
-    <string name="lbl_loading_elipses">Betöltés...</string>
+    <string name="lbl_loading_elipses">Betöltés…</string>
     <string name="lbl_born">"Született "</string>
     <string name="lbl_ok">Rendben</string>
     <string name="lbl_valid_server_address">Kérlek írd be a szerver címét (IP cím vagy tartomány/eszköz név)</string>
@@ -95,7 +95,7 @@
     <string name="lbl_unlike">Nem tetszik</string>
     <string name="lbl_dislike">Nem tetszik</string>
     <string name="lbl_like">Tetszik</string>
-    <string name="lbl_now_playing_track">%s / %s</string>
+    <string name="lbl_now_playing_track">%1$s / %2$s</string>
     <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
     <string name="lbl_remove_favorite">Eltávolítás a kedvencek közül</string>
     <string name="lbl_mark_played">Lejátszottnak megjelölés</string>
@@ -258,15 +258,15 @@
     <string name="lbl_albums">Albumok</string>
     <string name="lbl_programs">Műsorok</string>
     <string name="lbl_direct_stream_live">Élő TV adás vétele</string>
-    <string name="msg_error_live_stream">Hiba történt az élő TV adása közben. Újrapróbálkozás...</string>
+    <string name="msg_error_live_stream">Hiba történt az élő TV adása közben. Újrapróbálkozás…</string>
     <string name="pref_live_tv_cat">Élő TV</string>
     <string name="lbl_recorded_tv">Felvett TV-k</string>
     <string name="lbl_live_tv_guide">Élő TV-újság</string>
     <string name="lbl_no_recordings">Nincs elérhető felvétel</string>
     <string name="lbl_recording">Felvétel</string>
-    <string name="msg_burn_sub_warning">Beégetett feliratok egy ideig eltarthatnak. Légy türelemmel...</string>
+    <string name="msg_burn_sub_warning">Beégetett feliratok egy ideig eltarthatnak. Légy türelemmel…</string>
     <string name="msg_unable_load_subs">Feliratok betöltése sikertelen</string>
-    <string name="msg_subtitles_loading">Feliratok betöltése...</string>
+    <string name="msg_subtitles_loading">Feliratok betöltése…</string>
     <string name="lbl_filters">Szűrők</string>
     <string name="btn_clear_all">Mind törlése</string>
     <string name="lbl_ended">VÉGET ÉRT</string>
@@ -320,7 +320,7 @@
     <string name="msg_no_items">Nincsen lejátszható elem(ek)</string>
     <string name="subtitle_error">Nem lehet kiválasztani a feliratot</string>
     <string name="too_many_errors">Túl sok hiba. Feladom</string>
-    <string name="player_error">Lejátszási hiba történt. Újrapróbálkozás...</string>
+    <string name="player_error">Lejátszási hiba történt. Újrapróbálkozás…</string>
     <string name="seek_error">Nem lehet keresni</string>
     <string name="msg_live_tv_prev">Betöltöd az előző %1$d órát\?</string>
     <string name="msg_live_tv_next">Betöltöd a következő %1$d órát\?</string>
@@ -354,10 +354,10 @@
     <string name="login_username_field_empty">Felhasználónév nem lehet üres</string>
     <string name="login_server_unavailable">Nem sikerült csatlakozni a szerverhez</string>
     <string name="login_invalid_credentials">Hibás felhasználónév és/vagy jelszó</string>
-    <string name="login_authenticating">Hitelesítés...</string>
+    <string name="login_authenticating">Hitelesítés…</string>
     <string name="server_field_empty">Az elérhetőség nem lehet üres</string>
     <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %1$s</string>
-    <string name="server_connecting">Csatlakozás a következőhöz: %s</string>
+    <string name="server_connecting">Csatlakozás a következőhöz: %1$s</string>
     <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen, vagy olvassa be a QR-kódot a Jellyfin használatának megkezdéséhez.</string>
     <string name="login_help_title">Kell segítség\?</string>
     <string name="connect_manually_by_address">Szerver címének megadása</string>
@@ -406,7 +406,7 @@
     <string name="who_is_watching">Ki figyel\?</string>
     <string name="no_user_warning">Nem találtunk felhasználókat!
 \nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gomb megnyomásával.</string>
-    <string name="server_unsupported">A szervert frissíteni kell. Az aktuális verzió %s , de a működéshez %s vagy újabb szükséges</string>
+    <string name="server_unsupported">A szervert frissíteni kell. Az aktuális verzió %1$s , de a működéshez %2$s vagy újabb szükséges</string>
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
     <string name="welcome_title">Üdvözöljük a Jellyfinben!</string>
     <string name="saved_servers">Elmentett szerverek</string>
