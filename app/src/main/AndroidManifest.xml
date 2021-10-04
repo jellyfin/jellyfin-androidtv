@@ -59,7 +59,9 @@
                 android:resource="@xml/authenticator" />
         </service>
 
-        <receiver android:name=".util.RemoteControlReceiver">
+        <receiver
+            android:name=".util.RemoteControlReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -70,6 +72,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.startup.StartupActivity"
+            android:exported="true"
             android:noHistory="true"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize">
@@ -123,6 +126,7 @@
 
         <activity
             android:name=".ui.search.SearchActivity"
+            android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
