@@ -3,10 +3,9 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
-
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -32,8 +31,8 @@ public class BrowseGridFragment extends StdGridFragment {
                 ItemFields.MediaSources,
                 ItemFields.MediaStreams
         });
-        query.setParentId(mParentId);
-        if (mFolder.getBaseItemType() == BaseItemType.UserView || mFolder.getBaseItemType() == BaseItemType.CollectionFolder) {
+        query.setParentId(mParentId.toString());
+        if (mFolder.getType().equalsIgnoreCase(BaseItemType.UserView.toString()) || mFolder.getType().equalsIgnoreCase(BaseItemType.CollectionFolder.toString())) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
             switch (type) {
                 case "movies":
@@ -61,7 +60,7 @@ public class BrowseGridFragment extends StdGridFragment {
                                 ItemFields.ItemCounts,
                                 ItemFields.ChildCount
                         });
-                        albumArtists.setParentId(mParentId);
+                        albumArtists.setParentId(mParentId.toString());
                         mRowDef = new BrowseRowDef("", albumArtists, CHUNK_SIZE, new ChangeTriggerType[] {});
                         gridLoader.loadGrid(mRowDef);
                         return;

@@ -17,12 +17,9 @@ import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
-import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
+import kotlinx.serialization.json.Json;
 
 public class BrowseFolderFragment extends StdBrowseFragment {
 
@@ -35,11 +32,9 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     protected String itemTypeString;
     protected boolean showViews = true;
 
-    private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mFolder = serializer.getValue().DeserializeFromString(getActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
+        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getActivity().getIntent().getStringExtra(Extras.Folder));
         if (MainTitle == null) MainTitle = mFolder.getName();
         ShowBadge = false;
         if (mFolder.getCollectionType() != null) {
@@ -94,28 +89,28 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                 switch (((GridButton) item).getId()) {
                     case BY_LETTER:
                         Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        intent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
                         intent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(intent);
                         break;
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        genreIntent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
                         genreIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(genreIntent);
                         break;
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
                         break;
                     case PERSONS:
                         Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        personIntent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(personIntent);
