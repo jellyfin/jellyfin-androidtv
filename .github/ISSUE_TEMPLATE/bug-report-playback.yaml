@@ -1,0 +1,83 @@
+name: Media playback bug report
+description: Create a bug reprot related to media playback
+labels:
+  - bug
+  - playback
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear and concise description of the bug, including steps to reproduce it and the normally expected behavior.
+        You can also attach screenshots or screen recordings to help explain your issue.
+      placeholder: |
+        1. Go to …
+        2. Click on …
+        3. Scroll down to …
+        4. See error / the app crashes
+
+        Instead, I expect …
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Please paste your client logs (logcat) here, *NOT* server logs (in most cases).
+        Learn how to capture those logcats [here](https://wiki.lineageos.org/logcat.html).
+        Make sure that they don't contain any sensitive information like server URL, auth tokens or passwords.
+      placeholder: Paste logs…
+      render: shell
+  - type: textarea
+    id: logs-ffmpeg
+    attributes:
+      label: FFmpeg logs
+      description: |
+        Please paste your FFmpeg logs here. You can find these by going to the dashboard of your Jellyfin server.
+      placeholder: Paste logs…
+      render: shell
+  - type: textarea
+    id: mediainfo
+    attributes:
+      label: Media info of the file
+      description: |
+        Please share the media information for the file causing issues. You can use a variety of tools to retrieve this information.
+        - Use ffprobe (`ffprobe ./file.mp4`)
+        - Use the Media Info tool (set to text format, download here: https://mediaarea.net/en/MediaInfo)
+        - Copy the media info from the web interface
+      placeholder: Paste media info…
+      render: shell
+  - type: input
+    id: app-version
+    attributes:
+      label: Application version
+      description: The version of the installed Jellyfin Android TV app.
+      placeholder: 0.12.0
+    validations:
+      required: true
+  - type: input
+    id: device-info
+    attributes:
+      label: Device information
+      description: Manufacturer and model
+      placeholder: Nvidia Shield, Amazon Fire TV Stick
+    validations:
+      required: true
+  - type: input
+    id: android-version
+    attributes:
+      label: Android version
+      description: Version of the OS and other information (e.g. custom ROM / OEM skin)
+      placeholder: Android 10
+    validations:
+      required: true
+  - type: input
+    id: server-version
+    attributes:
+      label: Jellyfin server version
+      description: If on unstable, please specify the commit hash.
+      placeholder: 10.7.7
+    validations:
+      required: true
