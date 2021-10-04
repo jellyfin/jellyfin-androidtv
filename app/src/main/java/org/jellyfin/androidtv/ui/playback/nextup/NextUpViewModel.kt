@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.util.apiclient.getDisplayName
@@ -20,7 +21,8 @@ import org.jellyfin.apiclient.model.dto.ImageOptions
 class NextUpViewModel(
 	private val context: Context,
 	private val apiClient: ApiClient,
-	private val userPreferences: UserPreferences
+	private val userPreferences: UserPreferences,
+	private val sessionRepository: SessionRepository,
 ) : ViewModel() {
 	private val _item = MutableLiveData<NextUpItemData?>()
 	val item: LiveData<NextUpItemData?> = _item
@@ -59,7 +61,8 @@ class NextUpViewModel(
 	}
 
 	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val item = apiClient.getItem(id) ?: return@withContext null
+		val userId = sessionRepository.currentSession.value?.userId ?: return@withContext null
+		val item = apiClient.getItem(id, userId) ?: return@withContext null
 
 		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior]) {
 			NextUpBehavior.EXTENDED -> apiClient.GetImageUrl(item, ImageOptions())

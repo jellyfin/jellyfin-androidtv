@@ -114,7 +114,7 @@ class LeanbackChannelWorker(
 
 		// Update logo
 		ResourcesCompat.getDrawable(context.resources, R.drawable.app_icon, null)?.let {
-			ChannelLogoUtils.storeChannelLogo(context, ContentUris.parseId(uri), it.toBitmap(80.dp, 80.dp))
+			ChannelLogoUtils.storeChannelLogo(context, ContentUris.parseId(uri), it.toBitmap(80.dp(context), 80.dp(context)))
 		}
 
 		return uri

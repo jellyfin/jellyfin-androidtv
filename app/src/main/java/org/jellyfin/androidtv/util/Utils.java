@@ -130,6 +130,7 @@ public class Utils {
     }
 
     public static boolean downMixAudio() {
+        // FIXME: Require context
         AudioManager am = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (am.isBluetoothA2dpOn()) {
             Timber.i("Downmixing audio due to wired headset");

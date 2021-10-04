@@ -169,11 +169,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void startReportLoop() {
-        ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
+        // FIXME: Don't use the getApplication method..
+        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
+        ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                ReportingHelper.reportProgress(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
+                ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
                 mHandler.postDelayed(this, 15000);
             }
         };
