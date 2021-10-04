@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Απέτυχε να φορτώσει το βίντεο</string>
-    <string name="btn_cancel">ακυρώ</string>
+    <string name="btn_cancel">Ακύρωση</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά ...</string>
@@ -207,7 +207,7 @@
     <string name="lbl_next_episode">Επόμενο επισόδιο</string>
     <string name="lbl_previous_episode">Προηγούμενο επισόδιο</string>
     <string name="lbl_more_like_this">Περισσότερα σαν αυτό</string>
-    <string name="lbl_resume_from">Συνέχιση από %1$s</string>
+    <string name="lbl_resume_from">Συνέχιση από%1$s</string>
     <string name="lbl_guide_option_number">Αριθμός καναλιού</string>
     <string name="lbl_guide_option_played">Έπαιξε τελευταία</string>
     <string name="lbl_show_indicators">Εμφάνιση δεικτών για</string>
@@ -301,4 +301,19 @@
     <string name="pref_acra_alwaysaccept_enabled">Οι αναφορές σφαλμάτων θα υποβάλλoνται χωρίς υπενθύμιση</string>
     <string name="lbl_bitstream_dts">Ήχος Bitstream DTS</string>
     <string name="lbl_recorded_tv">Εγγραφές TV</string>
+    <string name="bitrate_auto">Αυτόματο</string>
+    <string name="lbl_Reset">Επαναφορά</string>
+    <string name="pref_button_remapping_description">Πατήστε οποιδήποτε κουμπί του τηλεχειριστηρίου για να το αναθέσετε</string>
+    <string name="grid_direction_horizontal">Οριζόντιο</string>
+    <string name="pref_button_remapping_category">Αναδιοργάνωση Κουμπιών</string>
+    <string name="lbl_unknown_key">\'Αγνωστο (%1s)</string>
+    <string name="grid_direction_vertical">Κάθετο (πειραματικό)</string>
+    <string name="pref_device_model">Μοντέλο Συσκευής</string>
+    <string name="pref_libvlc_audio_delay_title">Προεπιλεγμένη Καθυστέρηση \'Ηχου για το libVLC</string>
+    <string name="pref_next_up_behavior_title">Εμφάνιση πληροφοριών επόμενου βίντεο</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="lbl_repeat_episodes">Επανάληψη Επεισοδίων</string>
+    <string name="lbl_show_backdrop">Εμφάνιση Φόντου Κατά την Αναζήτηση</string>
+    <string name="lbl_community_rating">Βαθμολογία Κοινού</string>
 </resources>
