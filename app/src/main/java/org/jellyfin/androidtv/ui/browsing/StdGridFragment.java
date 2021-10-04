@@ -472,7 +472,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putExtra("MusicOnly", "music".equals(mFolder.getCollectionType()) || mFolder.getType() == BaseItemType.MusicAlbum.toString() || mFolder.getType() == BaseItemType.MusicArtist.toString());
+                intent.putExtra("MusicOnly", "music".equals(mFolder.getCollectionType()) || mFolder.getType().equalsIgnoreCase(BaseItemType.MusicAlbum.toString()) || mFolder.getType().equalsIgnoreCase(BaseItemType.MusicArtist.toString()));
 
                 startActivity(intent);
             }
