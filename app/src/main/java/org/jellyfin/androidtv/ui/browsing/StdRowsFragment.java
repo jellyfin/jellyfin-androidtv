@@ -397,6 +397,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                                 return false;
                             }
                         })
+                        .override(Target.SIZE_ORIGINAL)
                         .into(itemLogoView);
                 } else {
                     itemLogoView.setVisibility(View.GONE);
