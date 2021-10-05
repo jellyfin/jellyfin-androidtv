@@ -14,9 +14,5 @@ enum class GridDirection {
 	 * Vertical.
 	 */
 	@EnumDisplayOptions(R.string.grid_direction_vertical)
-	VERTICAL;
-
-	companion object {
-		fun getGridDirection(direction: String?) = values().firstOrNull { it.name == direction }
-	}
+	VERTICAL,
 }

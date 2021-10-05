@@ -1,7 +1,24 @@
-package org.jellyfin.androidtv.constant;
+package org.jellyfin.androidtv.constant
 
-public enum ImageType {
-    DEFAULT,
-    THUMB,
-    BANNER
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+
+enum class ImageType {
+	/**
+	 * Default.
+	 */
+	@EnumDisplayOptions(R.string.image_type_default)
+	DEFAULT,
+
+	/**
+	 * Thumbnail.
+	 */
+	@EnumDisplayOptions(R.string.image_type_thumbnail)
+	THUMB,
+
+	/**
+	 * Banner.
+	 */
+	@EnumDisplayOptions(R.string.image_type_banner)
+	BANNER
 }
