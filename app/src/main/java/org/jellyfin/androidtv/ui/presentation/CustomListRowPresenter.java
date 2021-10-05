@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.presentation;
 import android.graphics.drawable.Drawable;
 
 import androidx.leanback.widget.BaseGridView;
+import androidx.leanback.widget.HorizontalGridView;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.ListRowView;
 import androidx.leanback.widget.RowPresenter;
@@ -74,12 +75,13 @@ public class CustomListRowPresenter extends ListRowPresenter {
     @Override
     protected RowPresenter.ViewHolder createRowViewHolder(ViewGroup parent) {
         RowPresenter.ViewHolder viewHolder = super.createRowViewHolder(parent);
+        HorizontalGridView gridView = ((ListRowView) viewHolder.view).getGridView();
 
         if (homeHeaderEnabled) {
-            ((ListRowView) viewHolder.view).getGridView().setWindowAlignment(BaseGridView.WINDOW_ALIGN_LOW_EDGE);
-            ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffsetPercent(0f);
-            ((ListRowView) viewHolder.view).getGridView().setWindowAlignmentOffset(parent.getResources().getDimensionPixelSize(R.dimen.lb_browse_padding_start));
-            ((ListRowView) viewHolder.view).getGridView().setItemAlignmentOffsetPercent(0f);
+            gridView.setWindowAlignment(BaseGridView.WINDOW_ALIGN_LOW_EDGE);
+            gridView.setWindowAlignmentOffsetPercent(0f);
+            gridView.setWindowAlignmentOffset(parent.getResources().getDimensionPixelSize(R.dimen.lb_browse_padding_start));
+            gridView.setItemAlignmentOffsetPercent(0f);
         }
 
         return viewHolder;
