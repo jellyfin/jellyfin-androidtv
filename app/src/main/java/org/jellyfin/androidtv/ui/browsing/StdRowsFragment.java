@@ -54,9 +54,11 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.entities.SeriesStatus;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -332,8 +334,21 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                             numbersString.append(requireContext().getString(R.string.lbl_episode_number_full, baseItem.getIndexNumber()));
                     }
                 } else {
-                    if (baseItem.getProductionYear() != null)
-                        numbersString.append(baseItem.getProductionYear().toString());
+                    if (baseItem.getProductionYear() != null) {
+                        if (baseItem.getEndDate() != null) {
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(baseItem.getEndDate());
+                            if (baseItem.getProductionYear() != cal.get(Calendar.YEAR)) {
+                                numbersString.append(requireContext().getString(R.string.lbl_num_range, baseItem.getProductionYear(), cal.get(Calendar.YEAR)));
+                            } else {
+                                numbersString.append(baseItem.getProductionYear().toString());
+                            }
+                        } else if (rowItem.getBaseItemType() == BaseItemType.Series && baseItem.getSeriesStatus() == SeriesStatus.Continuing) {
+                            numbersString.append(requireContext().getString(R.string.lbl_year_to_present, baseItem.getProductionYear()));
+                        } else {
+                            numbersString.append(baseItem.getProductionYear().toString());
+                        }
+                    }
                     if (baseItem.getOfficialRating() != null && !baseItem.getOfficialRating().isEmpty()) {
                         if (numbersString.length() > 0) numbersString.append(" • ");
                         numbersString.append(baseItem.getOfficialRating());
