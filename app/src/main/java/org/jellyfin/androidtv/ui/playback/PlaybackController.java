@@ -867,8 +867,8 @@ public class PlaybackController {
         DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
                 TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
 
-        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipBackwardLength") != null ?
-                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipBackwardLength")) : 10000;
+        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipBackLength") != null ?
+                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipBackLength")) : 10000;
 
         skip(-skipMS);
     }
