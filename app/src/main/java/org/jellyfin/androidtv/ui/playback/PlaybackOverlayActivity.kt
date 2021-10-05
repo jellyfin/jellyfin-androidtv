@@ -43,7 +43,7 @@ class PlaybackOverlayActivity : BaseActivity() {
 			return true
 
 		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			val frag = supportFragmentManager.fragments.get(0)
+			val frag = supportFragmentManager.fragments[0]
 			if (frag is CustomPlaybackOverlayFragment) {
 				frag.onKeyUp(keyCode, event)
 				return true
@@ -78,7 +78,7 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
 		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			val frag = supportFragmentManager.fragments.get(0)
+			val frag = supportFragmentManager.fragments[0]
 			if (frag is CustomPlaybackOverlayFragment) {
 				frag.onKeyLongPress(keyCode, event)
 				return true

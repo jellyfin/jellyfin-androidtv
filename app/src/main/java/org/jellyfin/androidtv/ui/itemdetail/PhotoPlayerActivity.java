@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,8 +43,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class PhotoPlayerActivity extends FragmentActivity {
     BaseItemDto currentPhoto;

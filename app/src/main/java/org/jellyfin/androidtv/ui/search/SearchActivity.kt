@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.search
 
-import android.R
 import android.os.Bundle
 import android.speech.SpeechRecognizer
 import androidx.fragment.app.FragmentActivity
@@ -22,7 +21,7 @@ class SearchActivity : FragmentActivity() {
 		// Add fragment
 		supportFragmentManager
 			.beginTransaction()
-			.replace(R.id.content, searchFragment)
+			.replace(android.R.id.content, searchFragment)
 			.commit()
 	}
 

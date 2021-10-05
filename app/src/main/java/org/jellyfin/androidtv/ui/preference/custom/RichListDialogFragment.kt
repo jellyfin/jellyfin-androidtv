@@ -63,8 +63,8 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 
 		// Items
 		val verticalGridView = binding.list
-		verticalGridView.setWindowAlignment(VerticalGridView.WINDOW_ALIGN_BOTH_EDGE)
-		verticalGridView.setAdapter(adapter)
+		verticalGridView.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
+		verticalGridView.adapter = adapter
 		verticalGridView.requestFocus()
 
 		return binding.root

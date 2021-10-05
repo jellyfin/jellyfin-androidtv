@@ -816,10 +816,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 long endTimeTicks = mBaseItem.getBaseItemType() == BaseItemType.Program && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
-                    return android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
-                } else {
-                    return android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
                 }
+                return android.text.format.DateFormat.getTimeFormat(this).format(new Date(endTimeTicks));
             }
 
         }

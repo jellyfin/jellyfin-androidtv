@@ -14,6 +14,8 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -222,7 +224,7 @@ public class MediaManager {
                     }
 
                     @Override
-                    public void onPlayerError(ExoPlaybackException error) {
+                    public void onPlayerError(@NonNull ExoPlaybackException error) {
                         stopProgressLoop();
                     }
                 });

@@ -1,12 +1,14 @@
 package org.jellyfin.androidtv.ui.livetv;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
+import androidx.annotation.NonNull;
+
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class GuideFilters {
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
@@ -56,6 +58,7 @@ public class GuideFilters {
         setPremiere(false);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return any() ? "Content filtered. Showing channels with " + getFilterString() : "Showing all programs ";

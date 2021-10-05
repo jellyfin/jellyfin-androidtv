@@ -37,7 +37,7 @@ class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatText
 
 			// Show popup
 			popup.showAtLocation(rootView, Gravity.CENTER, 0, 0)
-			popup.setOutsideTouchable(true)
+			popup.isOutsideTouchable = true
 
 			// Focus on scroll view
 			popupContentBinding.scrollContainer.requestFocus()

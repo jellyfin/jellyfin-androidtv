@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.search;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,8 +25,6 @@ import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ListRow;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class TextSearchFragment extends Fragment implements TextWatcher, TextView.OnEditorActionListener {
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
