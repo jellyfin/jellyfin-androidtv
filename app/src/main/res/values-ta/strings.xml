@@ -17,7 +17,7 @@
     <string name="lbl_dislike">விரும்பவில்லை</string>
     <string name="lbl_like">விரும்பு</string>
     <string name="lbl_now_playing_album">%1$s இலிருந்து</string>
-    <string name="lbl_now_playing_track">%s இன் %s</string>
+    <string name="lbl_now_playing_track">%1$s இன் %2$s</string>
     <string name="lbl_add_favorite">பிடித்தவைச் சேர்க்கவும்</string>
     <string name="lbl_remove_favorite">பிடித்ததை அகற்று</string>
     <string name="lbl_mark_played">இயக்கப்பட்டதாக குறிக்கவும்</string>
@@ -34,7 +34,7 @@
     <string name="msg_playback_incompatible">இந்த வீடியோ வடிவமைப்பை இயக்க முடியாது</string>
     <string name="msg_playback_restricted">இந்த நேரத்தில் இந்த உருப்படியின் இயக்கத்தை நிர்வாகி தடைசெய்துள்ளார்</string>
     <string name="msg_playback_not_allowed">இந்த நேரத்தில் இயக்க அனுமதிக்கப்படவில்லை</string>
-    <string name="lbl_loading_elipses">ஏற்றுகிறது ...</string>
+    <string name="lbl_loading_elipses">ஏற்றுகிறது…</string>
     <string name="lbl_born">"பிறந்த "</string>
     <string name="lbl_ok">சரி</string>
     <string name="lbl_valid_server_address">சேவையக முகவரியை உள்ளிடவும் (ஐபி அல்லது டொமைன் / இயந்திர பெயர்)</string>
@@ -101,7 +101,7 @@
     <string name="lbl_search">தேடு</string>
     <string name="lbl_performers">கலைஞர்கள்</string>
     <string name="lbl_genres">வகைகள்</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">பரிந்துரைக்கப்படுகிறது</string>
     <string name="lbl_by_letter">எழுத்தின் மூலம்</string>
     <string name="lbl_views">காட்சிகள்</string>
@@ -129,7 +129,7 @@
     <string name="msg_no_items">இயக்க உருப்படிகள் இல்லை</string>
     <string name="subtitle_error">வசனத்தைத் தேர்ந்தெடுக்க முடியவில்லை</string>
     <string name="too_many_errors">பல பிழைகள். விடப்பட்டது</string>
-    <string name="player_error">பிளேயர் பிழை ஏற்பட்டது. மீண்டும் முயற்சி ...</string>
+    <string name="player_error">பிளேயர் பிழை ஏற்பட்டது. மீண்டும் முயற்சி…</string>
     <string name="seek_error">தேட முடியவில்லை</string>
     <string name="msg_live_tv_prev">முந்தைய %1$d மணிநேரத்தை ஏற்றவா\?</string>
     <string name="msg_live_tv_next">அடுத்த %1$d மணிநேரத்தை ஏற்றவா\?</string>
@@ -287,15 +287,15 @@
     <string name="lbl_albums">ஆல்பங்கள்</string>
     <string name="lbl_programs">நிகழ்ச்சிகள்</string>
     <string name="lbl_direct_stream_live">நேரடி ஸ்ட்ரீம் தொலைக்காட்சி</string>
-    <string name="msg_error_live_stream">நேரடி தொலைக்காட்சியை ஸ்ட்ரீமிங் செய்வதில் பிழை. மீண்டும் முயற்சிக்கிறது...</string>
+    <string name="msg_error_live_stream">நேரடி தொலைக்காட்சியை ஸ்ட்ரீமிங் செய்வதில் பிழை. மீண்டும் முயற்சிக்கிறது…</string>
     <string name="pref_live_tv_cat">நேரடி தொலைக்காட்சி</string>
     <string name="lbl_recorded_tv">பதிவு செய்யப்பட்ட தொலைக்காட்சி</string>
     <string name="lbl_live_tv_guide">நேரடி தொலைக்காட்சி வழிகாட்டி</string>
     <string name="lbl_no_recordings">பதிவுகள் எதுவும் கிடைக்கவில்லை</string>
     <string name="lbl_recording">பதிவு</string>
-    <string name="msg_burn_sub_warning">வசன வரிகள் பதிக்க சில நிமிடங்கள் ஆகலாம். தயவுசெய்து காத்திருக்கவும்...</string>
+    <string name="msg_burn_sub_warning">வசன வரிகள் பதிக்க சில நிமிடங்கள் ஆகலாம். தயவுசெய்து காத்திருக்கவும்…</string>
     <string name="msg_unable_load_subs">வசனத்தை ஏற்ற முடியவில்லை</string>
-    <string name="msg_subtitles_loading">வசன வரிகள் ஏற்றுதல் ...</string>
+    <string name="msg_subtitles_loading">வசன வரிகள் ஏற்றுதல்…</string>
     <string name="lbl_filters">வடிப்பான்கள்</string>
     <string name="btn_clear_all">அனைத்தையும் அழி</string>
     <string name="btn_filter">வடிகட்டு</string>
@@ -354,10 +354,10 @@
     <string name="login_username_field_empty">பயனர்பெயர் காலியாக இருக்க முடியாது</string>
     <string name="login_server_unavailable">சேவையகத்துடன் இணைக்க முடியவில்லை</string>
     <string name="login_invalid_credentials">தவறான பயனர்பெயர் மற்றும் / அல்லது கடவுச்சொல்</string>
-    <string name="login_authenticating">அங்கீகரிக்கிறது ...</string>
+    <string name="login_authenticating">அங்கீகரிக்கிறது…</string>
     <string name="server_field_empty">முகவரி காலியாக இருக்க முடியாது</string>
     <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %1$s</string>
-    <string name="server_connecting">%s உடன் இணைக்கிறது</string>
+    <string name="server_connecting">%1$s உடன் இணைக்கிறது</string>
     <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும் அல்லது ஜெல்லிஃபினுடன் தொடங்க QR குறியீட்டை ஸ்கேன் செய்யவும்.</string>
     <string name="login_help_title">உதவி தேவை\?</string>
     <string name="connect_manually_by_address">சேவையக முகவரியை உள்ளிடவும்</string>
