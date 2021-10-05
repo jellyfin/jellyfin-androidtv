@@ -334,7 +334,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 } else {
                     if (baseItem.getProductionYear() != null)
                         numbersString.append(baseItem.getProductionYear().toString());
-                    if (baseItem.getOfficialRating() != null) {
+                    if (baseItem.getOfficialRating() != null && !baseItem.getOfficialRating().isEmpty()) {
                         if (numbersString.length() > 0) numbersString.append(" • ");
                         numbersString.append(baseItem.getOfficialRating());
                     }
