@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
@@ -117,13 +118,15 @@ class SessionRepositoryImpl(
 			if (success) {
 				userApiClient.applySession(session)
 				_currentSession.postValue(session)
-				preferencesRepository.onSessionChanged()
 			} else {
 				userApiClient.applySession(null)
 				_currentSession.postValue(null)
 			}
 
-			preferencesRepository.onSessionChanged()
+			runBlocking {
+				preferencesRepository.onSessionChanged()
+			}
+
 			callback?.invoke(success)
 		}
 	}

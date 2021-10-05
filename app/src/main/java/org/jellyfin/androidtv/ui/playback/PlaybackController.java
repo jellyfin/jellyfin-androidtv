@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
@@ -853,25 +854,13 @@ public class PlaybackController {
     }
 
     public void fastForward() {
-        // TODO
-//        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
-//                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
-//
-//        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipForwardLength") != null ?
-//                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipForwardLength")) : 30000;
-//
-//        skip(skipMS);
+        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+        skip(prefs.get(UserSettingPreferences.Companion.getSkipForwardLength()));
     }
 
     public void rewind() {
-        // TODO
-//        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
-//                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
-//
-//        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipBackwardLength") != null ?
-//                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipBackwardLength")) : 10000;
-//
-//        skip(-skipMS);
+        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+        skip(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
     public void seek(final long pos) {

@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.preference
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.jellyfin.sdk.api.client.KtorClient
 import org.jellyfin.sdk.api.operations.DisplayPreferencesApi
 import kotlin.collections.set
@@ -10,11 +13,12 @@ import kotlin.collections.set
 class PreferencesRepository(
 	private val apiClient: KtorClient,
 	private val liveTvPreferences: LiveTvPreferences,
+	private val userSettingPreferences: UserSettingPreferences,
 ) {
 	private val displayPreferencesApi = DisplayPreferencesApi(apiClient)
 	private val libraryPreferences = mutableMapOf<String, LibraryPreferences>()
 
-	public fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
+	fun getLibraryPreferences(preferencesId: String): LibraryPreferences {
 		val store = libraryPreferences[preferencesId]
 			?: LibraryPreferences(preferencesId, displayPreferencesApi)
 
@@ -26,8 +30,12 @@ class PreferencesRepository(
 		return store
 	}
 
-	public fun onSessionChanged() {
-		liveTvPreferences.clearCache()
+	suspend fun onSessionChanged() = coroutineScope {
+		awaitAll(
+			async { liveTvPreferences.update() },
+			async { userSettingPreferences.update() },
+		)
+
 		libraryPreferences.clear()
 	}
 }
