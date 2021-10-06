@@ -193,7 +193,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = VlcPlayerInterfaceBinding.inflate(inflater, container, false);
 
         // inject the RowsSupportFragment in the popup container

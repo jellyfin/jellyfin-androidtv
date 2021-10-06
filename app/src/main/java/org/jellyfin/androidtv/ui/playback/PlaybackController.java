@@ -110,7 +110,7 @@ public class PlaybackController {
     private Display.Mode[] mDisplayModes;
     private boolean refreshRateSwitchingEnabled;
 
-    public PlaybackController(List<BaseItemDto> items, @Nullable IPlaybackOverlayFragment fragment) {
+    public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
         mHandler = new Handler();
