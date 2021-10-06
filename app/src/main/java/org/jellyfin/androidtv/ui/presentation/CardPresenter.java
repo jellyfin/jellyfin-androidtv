@@ -99,8 +99,8 @@ public class CardPresenter extends Presenter {
         public void setItem(BaseRowItem m, ImageType imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             isUserView = false;
-            homeHeaderEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeHeaderEnabled());
-            boolean homeThumbnailsEnabled = mItem.isHomeItem() && get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
+            homeHeaderEnabled = mItem.isHomeItem() && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getHomeHeaderEnabled());
+            boolean homeThumbnailsEnabled = mItem.isHomeItem() && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
                 && mItem.getBaseItemType() != null && (mItem.getBaseItemType() == BaseItemType.Series || mItem.getBaseItemType() == BaseItemType.Movie);
             switch (mItem.getItemType()) {
 
