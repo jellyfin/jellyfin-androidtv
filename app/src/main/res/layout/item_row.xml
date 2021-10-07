@@ -15,16 +15,16 @@
         android:textSize="18sp" />
 
     <TextView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        tools:text="Track"
         android:id="@+id/indexNo"
-        android:layout_centerVertical="true"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:gravity="center"
         android:minWidth="20dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="Track" />
 
     <LinearLayout
         android:layout_width="wrap_content"

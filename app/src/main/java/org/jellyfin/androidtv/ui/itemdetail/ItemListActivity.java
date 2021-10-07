@@ -425,7 +425,7 @@ public class ItemListActivity extends FragmentActivity {
                             ItemFields.Chapters,
                             ItemFields.ChildCount
                     });
-                    playlistSongs.setLimit(150);
+                    playlistSongs.setLimit(mBaseItem.getRecursiveItemCount());
                     apiClient.getValue().GetPlaylistItems(playlistSongs, itemResponse);
                     break;
             }
