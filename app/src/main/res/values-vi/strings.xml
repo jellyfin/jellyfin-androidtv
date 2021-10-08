@@ -14,7 +14,7 @@
     <string name="lbl_dislike">Không thích</string>
     <string name="lbl_like">Thích</string>
     <string name="lbl_now_playing_album">từ %1$s</string>
-    <string name="lbl_now_playing_track">%s của %s</string>
+    <string name="lbl_now_playing_track">%1$s của %2$s</string>
     <string name="lbl_add_favorite">Thêm Yêu Thích</string>
     <string name="lbl_remove_favorite">Xóa Yêu Thích</string>
     <string name="lbl_mark_played">Đánh dấu đã phát</string>
@@ -31,7 +31,7 @@
     <string name="msg_playback_incompatible">Không thể phát định dạng video này</string>
     <string name="msg_playback_restricted">Quản trị viên đã hạn chế phát lại mục này vào lúc này</string>
     <string name="msg_playback_not_allowed">Không được phép phát lại vào lúc này</string>
-    <string name="lbl_loading_elipses">Đang tải...</string>
+    <string name="lbl_loading_elipses">Đang tải…</string>
     <string name="lbl_born">"Sinh "</string>
     <string name="lbl_ok">Đồng Ý</string>
     <string name="lbl_valid_server_address">Vui lòng nhập địa chỉ máy chủ (IP hoặc tên miền / tên máy)</string>
@@ -96,7 +96,7 @@
     <string name="lbl_search">Tìm kiếm</string>
     <string name="lbl_performers">Người biểu diễn</string>
     <string name="lbl_genres">Thể loại</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Được Đề Xuất</string>
     <string name="lbl_by_letter">Theo Ký Tự</string>
     <string name="lbl_views">Lượt xem</string>
@@ -116,22 +116,22 @@
     <string name="video_error_unknown_error">Không tải được video</string>
     <string name="lbl_warning">Cảnh báo</string>
     <string name="lbl_playlists">Danh sách phát</string>
-    <string name="sum_enable_cinema_mode">Hiển thị phần giới thiệu và bản xem trước trước khi phát lại phim khi được máy chủ bật</string>
+    <string name="sum_enable_cinema_mode">Hiển thị phần giới thiệu và bản xem thử trước khi phát lại phim khi được máy chủ bật</string>
     <string name="lbl_enable_cinema_mode">Chế độ rạp chiếu phim</string>
     <string name="lbl_episodes">Tập</string>
     <string name="lbl_songs">Bài hát</string>
     <string name="lbl_song">Bài hát</string>
     <string name="lbl_artists">Nghệ Sĩ</string>
     <string name="lbl_programs">Chương Trình</string>
-    <string name="msg_error_live_stream">Lỗi khi phát truyền hình trực tiếp. Sẽ thử lại...</string>
+    <string name="msg_error_live_stream">Lỗi khi phát truyền hình trực tiếp. Sẽ thử lại…</string>
     <string name="pref_live_tv_cat">Truyền hình trực tiếp</string>
     <string name="lbl_recorded_tv">Đã ghi lại TV</string>
     <string name="lbl_live_tv_guide">Hướng dẫn truyền hình trực tiếp</string>
     <string name="lbl_no_recordings">Không có bản ghi nào</string>
     <string name="lbl_recording">Ghi</string>
-    <string name="msg_burn_sub_warning">Quá trình ghi phụ đề có thể mất vài phút. Xin hãy kiên nhẫn ...</string>
+    <string name="msg_burn_sub_warning">Quá trình ghi phụ đề có thể mất vài phút. Hãy kiên nhẫn…</string>
     <string name="msg_unable_load_subs">Không thể tải phụ đề</string>
-    <string name="msg_subtitles_loading">Đang tải phụ đề ...</string>
+    <string name="msg_subtitles_loading">Đang tải phụ đề…</string>
     <string name="lbl_filters">Bộ lọc</string>
     <string name="btn_clear_all">Xóa Hết</string>
     <string name="btn_filter">Bộ lọc</string>
@@ -270,7 +270,7 @@
     <string name="msg_no_items">Không có mục nào để phát</string>
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
-    <string name="player_error">Đã gặp lỗi trình phát. Sẽ thử lại ...</string>
+    <string name="player_error">Đã gặp lỗi trình phát. Sẽ thử lại…</string>
     <string name="msg_live_tv_prev">Tải %1$d giờ trước đó\?</string>
     <string name="msg_live_tv_next">Tải %1$d giờ tiếp theo\?</string>
     <string name="lbl_load_guide_data">Tải dữ liệu hướng dẫn</string>
@@ -354,10 +354,10 @@
     <string name="login_username_field_empty">Tên người dùng không được để trống</string>
     <string name="login_server_unavailable">Không thể kết nối đến máy chủ</string>
     <string name="login_invalid_credentials">Tên đăng nhập và / hoặc mật khẩu không hợp lệ</string>
-    <string name="login_authenticating">Đang xác thực...</string>
+    <string name="login_authenticating">Đang xác thực…</string>
     <string name="server_field_empty">Địa chỉ không được để trống</string>
     <string name="server_connection_failed">Không thể kết nối đến máy chủ: %1$s</string>
-    <string name="server_connecting">‎Đang kết nối tới ‎%s</string>
+    <string name="server_connecting">‎Đang kết nối tới ‎%1$s</string>
     <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org hoặc quét mã QR để bắt đầu với Jellyfin.</string>
     <string name="login_help_title">Cần giúp đỡ\?</string>
     <string name="connect_manually_by_address">Nhập địa chỉ máy chủ</string>
@@ -425,7 +425,7 @@
     <string name="who_is_watching">Ai đang xem\?</string>
     <string name="no_user_warning">Chúng tôi không tìm thấy bất kỳ người dùng nào!
 \nThêm người dùng mới bằng cách nhấn nút \"Thêm người dùng\".</string>
-    <string name="server_unsupported">Máy chủ cần được cập nhật. Phiên bản hiện tại là %s nhưng ứng dụng yêu cầu %s hoặc mới hơn</string>
+    <string name="server_unsupported">Máy chủ cần được cập nhật. Phiên bản hiện tại là %1$s nhưng ứng dụng yêu cầu %2$s hoặc mới hơn</string>
     <string name="welcome_content">Kết nối với máy chủ của bạn để bắt đầu.</string>
     <string name="welcome_title">Chào mừng bạn đến với Jellyfin!</string>
     <string name="saved_servers">Máy chủ đã lưu</string>
