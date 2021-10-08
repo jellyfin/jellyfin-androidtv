@@ -77,7 +77,7 @@
     <string name="lbl_valid_server_address">Bitte geben Sie die Server-Adresse ein (IP oder Domain/Server Name)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
-    <string name="lbl_loading_elipses">Laden...</string>
+    <string name="lbl_loading_elipses">Laden…</string>
     <string name="msg_playback_not_allowed">Wiedergabe derzeit nicht erlaubt</string>
     <string name="msg_playback_restricted">Der Administrator hat die Wiedergabe dieses Elements derzeit eingeschränkt</string>
     <string name="msg_playback_incompatible">Video-Format kann nicht wiedergegeben werden</string>
@@ -140,15 +140,15 @@
     <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Lösche alle</string>
     <string name="lbl_filters">Filter</string>
-    <string name="msg_subtitles_loading">Lade Untertitel...</string>
+    <string name="msg_subtitles_loading">Lade Untertitel…</string>
     <string name="msg_unable_load_subs">Untertitel konnten nicht geladen werden</string>
-    <string name="msg_burn_sub_warning">Eingebrannte Untertitel benötigen ein paar Minuten. Einen Moment bitte...</string>
+    <string name="msg_burn_sub_warning">Eingebrannte Untertitel benötigen ein paar Minuten. Einen Moment bitte…</string>
     <string name="lbl_recording">Aufnahme</string>
     <string name="lbl_no_recordings">Keine Aufnahmen verfügbar</string>
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
     <string name="lbl_recorded_tv">TV Aufnahmen</string>
     <string name="pref_live_tv_cat">Live-TV</string>
-    <string name="msg_error_live_stream">Fehler beim Live-TV-Stream. Versuche erneut....</string>
+    <string name="msg_error_live_stream">Fehler beim Live-TV-Stream. Versuche erneut.…</string>
     <string name="lbl_direct_stream_live">Live TV direkt streamen</string>
     <string name="lbl_programs">Programme</string>
     <string name="lbl_albums">Alben</string>
@@ -236,12 +236,12 @@
     <string name="msg_external_path">Diese Funktion wird nur dann funktionieren, wenn die Bibliothek auf dem Server korrekt mit Netzwerkpfaden oder Pfadsubstitutionen eingerichtet wurde und der verwendete Client direkt über das Netzwerk auf diese zugreifen kann.</string>
     <string name="lbl_warning">Warnung</string>
     <string name="lbl_now_playing_album">von %1$s</string>
-    <string name="lbl_now_playing_track">%s von %s</string>
+    <string name="lbl_now_playing_track">%1$s von %2$s</string>
     <string name="msg_error_server_unavailable">Server nicht erreichbar</string>
     <string name="lbl_watched">Angesehen</string>
     <string name="lbl_favorite">Favorit</string>
     <string name="lbl_series">Serien</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Authentifizierung</string>
     <string name="loading">Laden…</string>
     <string name="lbl_at_any_time">Jederzeit</string>
@@ -314,7 +314,7 @@
     <string name="msg_no_items">Keine Elemente zum Spielen</string>
     <string name="subtitle_error">Untertitel können nicht ausgewählt werden</string>
     <string name="too_many_errors">Zu viele Fehler. Es wird aufgegeben</string>
-    <string name="player_error">Player-Fehler aufgetreten. Wird erneut versucht...</string>
+    <string name="player_error">Player-Fehler aufgetreten. Wird erneut versucht…</string>
     <string name="seek_error">Nicht in der Lage zu suchen</string>
     <string name="msg_live_tv_prev">Vorherige %1$d Stunden laden\?</string>
     <string name="msg_live_tv_next">Nächste %1$d Stunden laden\?</string>
@@ -354,10 +354,10 @@
     <string name="login_username_field_empty">Nutzername darf nicht leer sein</string>
     <string name="login_server_unavailable">Verbindung zum Server nicht möglich</string>
     <string name="login_invalid_credentials">Falscher Nutzername und/oder Passwort</string>
-    <string name="login_authenticating">Authentifizierung...</string>
+    <string name="login_authenticating">Authentifizierung…</string>
     <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
     <string name="server_connection_failed">Verbindung zum Server nicht möglich: %1$s</string>
-    <string name="server_connecting">Verbinden mit %s</string>
+    <string name="server_connecting">Verbinden mit %1$s</string>
     <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org oder scannen Sie den QR-Code, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
     <string name="login_help_title">Benötigen Sie Hilfe\?</string>
     <string name="connect_manually_by_address">Server-Adresse eingeben</string>
@@ -406,7 +406,7 @@
     <string name="who_is_watching">Wer schaut zu\?</string>
     <string name="no_user_warning">Wir konnten keine Benutzer finden!
 \nFügen Sie einen neuen Benutzer hinzu, indem Sie auf die Schaltfläche \"Benutzer hinzufügen\" drücken.</string>
-    <string name="server_unsupported">Der Server muss aktualisiert werden. Die derzeitige Version ist %s, aber die App benötigt %s oder neuer</string>
+    <string name="server_unsupported">Der Server muss aktualisiert werden. Die derzeitige Version ist %1$s, aber die App benötigt %2$s oder neuer</string>
     <string name="welcome_content">Verbinden Sie sich mit Ihrem Server, um loszulegen.</string>
     <string name="welcome_title">Willkommen bei Jellyfin!</string>
     <string name="saved_servers">Gespeicherte Server</string>
