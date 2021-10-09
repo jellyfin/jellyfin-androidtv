@@ -219,7 +219,8 @@ class AuthenticationRepositoryImpl(
 		)
 
 		authenticationStore.putUser(server.id, userId, updatedUser)
-		accountManagerHelper.putAccount(AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken))
+		val accountManagerAccount = AccountManagerAccount(userId, server.id, updatedUser.name, result.accessToken)
+		accountManagerHelper.putAccount(accountManagerAccount)
 
 		val user = PrivateUser(
 			id = userId,
@@ -230,8 +231,15 @@ class AuthenticationRepositoryImpl(
 			imageTag = userInfo.primaryImageTag,
 			lastUsed = Date().time,
 		)
-		setActiveSession(user, server)
-		emit(AuthenticatedState)
+
+		// We just added the account so it should activate properly although in rare cases it doesn't.
+		// this is often caused by issues in the platforms account manager
+		if (setActiveSession(user, server)) emit(AuthenticatedState)
+		else {
+			// Try to remove the account and ask for sign in
+			accountManagerHelper.removeAccount(accountManagerAccount)
+			emit(RequireSignInState)
+		}
 	}
 
 	override fun logout(user: User) {
