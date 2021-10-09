@@ -1229,6 +1229,14 @@ public class PlaybackController {
         return mVideoManager.translateVlcAudioId(vlcId);
     }
 
+    public float getPlaybackSpeed() {
+        return mVideoManager.getPlaybackSpeed();
+    }
+
+    public void setPlaybackSpeed(float speed) {
+        mVideoManager.setPlaybackSpeed(speed);
+    }
+
     /**
      * List of various states that we can be in
      */

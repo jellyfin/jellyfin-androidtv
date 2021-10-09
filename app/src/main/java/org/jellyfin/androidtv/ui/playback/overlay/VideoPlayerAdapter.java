@@ -148,4 +148,12 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         List<ChapterInfoDto> chapters = item.getChapters();
         return chapters != null && chapters.size() > 0;
     }
+
+    public float getPlaybackSpeed() {
+        return playbackController.getPlaybackSpeed();
+    }
+
+    public void setPlaybackSpeed(float speed) {
+        playbackController.setPlaybackSpeed(speed);
+    }
 }

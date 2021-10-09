@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -716,5 +717,22 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             ourIndex++;
         }
         return ourIndex;
+    }
+
+    public float getPlaybackSpeed() {
+        if (nativeMode) {
+            PlaybackParameters params = mExoPlayer.getPlaybackParameters();
+            return params.speed;
+        } else {
+            return mVlcPlayer.getRate();
+        }
+    }
+
+    public void setPlaybackSpeed(float speed) {
+        if (nativeMode) {
+            mExoPlayer.setPlaybackSpeed(speed);
+        } else {
+            mVlcPlayer.setRate(speed);
+        }
     }
 }

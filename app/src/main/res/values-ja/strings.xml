@@ -252,4 +252,5 @@
     <string name="lbl_audio_track">オーディオトラックを選択</string>
     <string name="desc_automatic_fav_songs">お気に入りの曲と好きな曲の自動プレイリスト</string>
     <string name="desc_seasonal_themes">一年の特定の時期に特別な色や助言を表示する</string>
+    <string name="lbl_playback_speed">再生速度</string>
 </resources>

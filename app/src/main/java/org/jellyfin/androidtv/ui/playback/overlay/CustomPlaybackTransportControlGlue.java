@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.action.AdjustAudioDelayAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.AdjustPlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChannelBarChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChapterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ClosedCaptionsAction;
@@ -51,6 +52,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
     private ChapterAction chapterAction;
+    private AdjustPlaybackSpeedAction adjustPlaybackSpeedAction;
 
     // TV actions
     private PreviousLiveTvChannelAction previousLiveTvChannelAction;
@@ -169,6 +171,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
+        adjustPlaybackSpeedAction = new AdjustPlaybackSpeedAction(context, this);
+        adjustPlaybackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         zoomAction = new ZoomAction(context, this);
         zoomAction.setLabels(new String[]{context.getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
@@ -246,6 +250,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else {
             secondaryActionsAdapter.add(zoomAction);
         }
+
+        secondaryActionsAdapter.add(adjustPlaybackSpeedAction);
     }
 
     @Override
@@ -296,6 +302,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == recordAction) {
             playerAdapter.toggleRecording();
             // Icon will be updated via callback recordingStateChanged
+        } else if (action == adjustPlaybackSpeedAction) {
+            leanbackOverlayFragment.setFading(false);
+            adjustPlaybackSpeedAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         }
     }
 
