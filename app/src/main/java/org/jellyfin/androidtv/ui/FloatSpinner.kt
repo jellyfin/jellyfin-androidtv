@@ -8,12 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.databinding.NumberSpinnerBinding
 
 class FloatSpinner : FrameLayout {
     var mValue = 1f
     var mIncrement = .1f
-    var mTextValue: TextView? = null
     var mValueChangedListener: ValueChangedListener<Float>? = null
+	private lateinit var binding: NumberSpinnerBinding;
 
     constructor(context: Context, listener: ValueChangedListener<Float>?) : super(context) {
         mValueChangedListener = listener
@@ -30,13 +31,10 @@ class FloatSpinner : FrameLayout {
 
     private fun init(context: Context) {
         val inflater = LayoutInflater.from(context)
-        val v = inflater.inflate(R.layout.number_spinner, this, true)
+		binding = NumberSpinnerBinding.inflate(inflater, this, true)
         if (!isInEditMode) {
-            mTextValue = v.findViewById<View>(R.id.txtValue) as TextView
-            v.findViewById<View>(R.id.btnIncrease)
-                .setOnClickListener { value = mValue + mIncrement }
-            v.findViewById<View>(R.id.btnDecrease)
-                .setOnClickListener { value = mValue - mIncrement }
+        	binding.btnIncrease.setOnClickListener { value = mValue + mIncrement }
+        	binding.btnDecrease.setOnClickListener { value = mValue - mIncrement }
         }
     }
 
@@ -48,7 +46,7 @@ class FloatSpinner : FrameLayout {
         get() = mValue
         set(value) {
             mValue = value
-            mTextValue!!.text = String.format(resources.configuration.locale, "%.1f", mValue)
+			binding.txtValue.text = String.format(resources.configuration.locale, "%.1f", mValue)
             if (mValueChangedListener != null) {
                 mValueChangedListener!!.onValueChanged(value)
             }
