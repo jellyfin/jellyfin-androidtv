@@ -144,7 +144,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
     private BaseItemDto mBaseItem;
 
-    private java.util.ArrayList<MediaSourceInfo> versions;
+    private ArrayList<MediaSourceInfo> versions;
     private int selectedVersionId = 0;
 
 
