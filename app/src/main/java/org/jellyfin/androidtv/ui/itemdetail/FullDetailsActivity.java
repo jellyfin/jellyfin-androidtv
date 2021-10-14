@@ -1009,7 +1009,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
         //Video versions button
         if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1){
-            TextUnderButton versionsButton = new TextUnderButton(this, R.drawable.ic_guide, buttonSize, getString(R.string.lbl_select_version), new View.OnClickListener() {
+            TextUnderButton versionsButton = new TextUnderButton(this, R.drawable.ic_guide, buttonSize, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(versions!=null){
@@ -1024,33 +1024,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         });
                     }
                 }
-
-                private void addVersionsMenu(View v) {
-                    PopupMenu more = new PopupMenu(getApplicationContext(), v, Gravity.END);
-
-                    for (int i = 0; i< versions.size();i++) {
-                        MenuItem item = more.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
-                        item.setChecked(i == selectedVersionId);
-                    }
-                    more.getMenu().setGroupCheckable(0,true,false);
-                    more.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            selectedVersionId = menuItem.getItemId();
-                            apiClient.getValue().GetItemAsync(versions.get(selectedVersionId).getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
-                                @Override
-                                public void onResponse(BaseItemDto response) {
-                                    mBaseItem = response;
-                                }
-                            });
-                            return true;
-                        }
-                    });
-                    more.show();
-
-                }
             });
-            versionsButton.setVisibility(View.VISIBLE);
             mDetailsOverviewRow.addAction(versionsButton);
         }
 
@@ -1381,6 +1355,31 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
         if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
+
+    }
+
+    private void addVersionsMenu(View v) {
+        PopupMenu more = new PopupMenu(getApplicationContext(), v, Gravity.END);
+
+        for (int i = 0; i< versions.size();i++) {
+            MenuItem item = more.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
+            item.setChecked(i == selectedVersionId);
+        }
+        more.getMenu().setGroupCheckable(0,true,false);
+        more.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                selectedVersionId = menuItem.getItemId();
+                apiClient.getValue().GetItemAsync(versions.get(selectedVersionId).getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        mBaseItem = response;
+                    }
+                });
+                return true;
+            }
+        });
+        more.show();
 
     }
 
