@@ -66,7 +66,7 @@
     <string name="lbl_valid_server_address">Por favor introduzca una dirección del servidor válida</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nació "</string>
-    <string name="lbl_loading_elipses">Cargando...</string>
+    <string name="lbl_loading_elipses">Cargando…</string>
     <string name="msg_playback_not_allowed">En este momento la reproducción no está permitida</string>
     <string name="msg_playback_restricted">En este momento el administrador ha restringido la reproducción de este elemento</string>
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video</string>
@@ -148,8 +148,8 @@
     <string name="lbl_date_added">Añadido el</string>
     <string name="lbl_name">Nombre</string>
     <string name="lbl_sorted_by">ordenado por</string>
-    <string name="lbl_now_playing_track">%s de %s</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_now_playing_track">%1$s de %2$s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_use_direct_path_summary">Pase la ruta del sistema de archivos en lugar de transmitir URL</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa para reproductor externo</string>
     <string name="lbl_song_title">Título de la canción</string>
@@ -218,15 +218,15 @@
     <string name="lbl_reshuffle_queue">Remezclar cola</string>
     <string name="sum_enable_cinema_mode">Mostrar intros y vistas previas antes de la reproducción de las películas cuando el servidor las habilite</string>
     <string name="lbl_direct_stream_live">Transmisión directa de televisión en vivo</string>
-    <string name="msg_error_live_stream">Error al transmitir la televisión en vivo. Se volverá a intentar...</string>
+    <string name="msg_error_live_stream">Error al transmitir la televisión en vivo. Se volverá a intentar…</string>
     <string name="pref_live_tv_cat">Televisión en directo</string>
     <string name="lbl_recorded_tv">TV grabada</string>
     <string name="lbl_live_tv_guide">Guía de TV en vivo</string>
     <string name="lbl_no_recordings">No hay grabaciones disponibles</string>
     <string name="lbl_recording">Grabación</string>
-    <string name="msg_burn_sub_warning">El grabado de los subtítulos puede tomar unos minutos. Por favor, sea paciente...</string>
+    <string name="msg_burn_sub_warning">El grabado de los subtítulos puede tomar unos minutos. Por favor, sea paciente…</string>
     <string name="msg_unable_load_subs">No se puede cargar el subtítulo</string>
-    <string name="msg_subtitles_loading">Cargando subtítulos...</string>
+    <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="lbl_filters">Filtros</string>
     <string name="btn_clear_all">Limpiar todo</string>
     <string name="btn_filter">Filtrar</string>
@@ -314,7 +314,7 @@
     <string name="msg_queue_saved">Lista de reproducción actual guardada como: %1$s</string>
     <string name="msg_no_items">No hay elementos para reproducir</string>
     <string name="too_many_errors">Demasiados errores. Deteniendo la reproducción</string>
-    <string name="player_error">Se ha encontrado un error en el reproductor. Reintentando...</string>
+    <string name="player_error">Se ha encontrado un error en el reproductor. Re-intentando…</string>
     <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">¿Desea cargar las siguientes %1$d horas\?</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
@@ -354,10 +354,10 @@
     <string name="login_username_field_empty">El usuario no puede estar vacío</string>
     <string name="login_server_unavailable">Imposible conectar con el servidor</string>
     <string name="login_invalid_credentials">Usuario y/o contraseña inválidos</string>
-    <string name="login_authenticating">Autenticando...</string>
+    <string name="login_authenticating">Autenticando…</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
     <string name="server_connection_failed">Imposible conectar con el servidor: %1$s</string>
-    <string name="server_connecting">Conectando con %s</string>
+    <string name="server_connecting">Conectando con %1$s</string>
     <string name="lbl_episode_marks">Solo en episodios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contador de \"no visto\"</string>
     <string name="pref_watched_indicator">Mostrar indicadores de \"ya visto\"</string>
@@ -405,7 +405,7 @@
     <string name="who_is_watching">¿Quién está mirando\?</string>
     <string name="no_user_warning">¡No hemos podido encontrar ningún usuario!
 \nAñade un nuevo usuario pulsando el botón \"Añadir usuario\".</string>
-    <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %s pero la aplicación requiere %s o más reciente</string>
+    <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %1$s pero la aplicación requiere %2$s o más reciente</string>
     <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
     <string name="saved_servers">Servidores guardados</string>
