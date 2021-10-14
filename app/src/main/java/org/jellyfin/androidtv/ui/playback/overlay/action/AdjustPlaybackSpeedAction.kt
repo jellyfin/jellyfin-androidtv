@@ -6,12 +6,11 @@ import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControl
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.jellyfin.androidtv.ui.PlaybackSpeedPopup
-import org.jellyfin.androidtv.ui.ValueChangedListener
 import org.jellyfin.androidtv.R
 
 class AdjustPlaybackSpeedAction(
-    context: Context?,
-    customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue?
+    context: Context,
+    customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
     override fun handleClickAction(
         playbackController: PlaybackController,
@@ -19,15 +18,11 @@ class AdjustPlaybackSpeedAction(
         context: Context,
         view: View
     ) {
-        val audioDelayPopup =
-            PlaybackSpeedPopup(context, view, object : ValueChangedListener<Float>() {
-                override fun onValueChanged(value: Float) {
-                    playbackController.playbackSpeed = value
-                }
-            })
-        val popupWindow = audioDelayPopup.popupWindow
-        popupWindow?.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
-        audioDelayPopup.show(playbackController.playbackSpeed)
+        val playbackSpeedPopup = PlaybackSpeedPopup(context, view) { value: Float ->
+			playbackController.playbackSpeed = value
+		}
+		playbackSpeedPopup.popupWindow?.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+        playbackSpeedPopup.show(playbackController.playbackSpeed)
     }
 
     init {

@@ -10,49 +10,35 @@ import android.widget.TextView
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.NumberSpinnerBinding
 
-class FloatSpinner : FrameLayout {
-    var mValue = 1f
-    var mIncrement = .1f
-    var mValueChangedListener: ValueChangedListener<Float>? = null
-	private lateinit var binding: NumberSpinnerBinding;
+class FloatSpinner @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	private var changeListener: ((value: Float) -> Unit)? = null
+) : FrameLayout(context, attrs) {
+    private var currentValue = 1f
+    private var increment = .1f
+	private val binding: NumberSpinnerBinding = NumberSpinnerBinding.inflate(LayoutInflater.from(context), this, true)
 
-    constructor(context: Context, listener: ValueChangedListener<Float>?) : super(context) {
-        mValueChangedListener = listener
-        init(context)
-    }
-
-    constructor(context: Context) : super(context) {
-        init(context)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context)
-    }
-
-    private fun init(context: Context) {
-        val inflater = LayoutInflater.from(context)
-		binding = NumberSpinnerBinding.inflate(inflater, this, true)
+    init {
         if (!isInEditMode) {
-        	binding.btnIncrease.setOnClickListener { value = mValue + mIncrement }
-        	binding.btnDecrease.setOnClickListener { value = mValue - mIncrement }
+        	binding.btnIncrease.setOnClickListener { value = currentValue + increment }
+        	binding.btnDecrease.setOnClickListener { value = currentValue - increment }
         }
     }
 
-    fun setOnChangeListener(listener: ValueChangedListener<Float>?) {
-        mValueChangedListener = listener
+    fun setOnChangeListener(listener: ((value: Float) -> Unit)?) {
+		changeListener = listener
     }
 
     var value: Float
-        get() = mValue
+        get() = currentValue
         set(value) {
-            mValue = value
-			binding.txtValue.text = String.format(resources.configuration.locale, "%.1f", mValue)
-            if (mValueChangedListener != null) {
-                mValueChangedListener!!.onValueChanged(value)
-            }
+			currentValue = value
+			binding.txtValue.text = String.format(resources.configuration.locale, "%.1f", currentValue)
+			changeListener?.invoke(value)
         }
 
     fun setIncrement(value: Float) {
-        mIncrement = value
+        increment = value
     }
 }
