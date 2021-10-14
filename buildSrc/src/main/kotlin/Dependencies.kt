@@ -32,8 +32,10 @@ object Plugins {
 		const val kotlin = "1.5.10"
 		const val detekt = "1.17.1"
 		const val androidBuildTools = "7.0.2"
+		const val aboutlibraries = "8.9.3"
 	}
 
 	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 	const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidBuildTools}"
+	const val aboutLibraries = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:${Versions.aboutlibraries}"
 }
