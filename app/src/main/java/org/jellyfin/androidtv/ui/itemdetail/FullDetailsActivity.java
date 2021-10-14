@@ -1008,7 +1008,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
         }
         //Video versions button
-        if(mBaseItem.getMediaSources()!= null && mBaseItem.getMediaSources().size()>1){
+        if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1){
             TextUnderButton versionsButton = new TextUnderButton(this, R.drawable.ic_guide, buttonSize, getString(R.string.lbl_select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
