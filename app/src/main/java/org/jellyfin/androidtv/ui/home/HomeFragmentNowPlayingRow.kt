@@ -21,7 +21,7 @@ class HomeFragmentNowPlayingRow(
 	private fun add(rowsAdapter: ArrayObjectAdapter) {
 		if (row != null) return
 
-		row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.getManagedAudioQueue())
+		row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.managedAudioQueue)
 		rowsAdapter.add(0, row)
 	}
 
@@ -33,7 +33,7 @@ class HomeFragmentNowPlayingRow(
 	}
 
 	fun update(rowsAdapter: ArrayObjectAdapter) {
-		if (mediaManager.isPlayingAudio()) add(rowsAdapter)
+		if (mediaManager.isPlayingAudio) add(rowsAdapter)
 		else remove(rowsAdapter)
 	}
 }

@@ -124,7 +124,7 @@ class BackgroundService(
 		return mapIndexed { index, tag ->
 			apiClient.GetImageUrl(itemId, ImageOptions().apply {
 				imageType = ImageType.Backdrop
-				setImageIndex(index)
+				imageIndex = index
 				setTag(tag)
 			})
 		}

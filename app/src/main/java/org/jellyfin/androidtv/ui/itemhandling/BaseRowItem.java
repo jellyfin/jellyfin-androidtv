@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
@@ -32,8 +34,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class BaseRowItem {
     private int index;

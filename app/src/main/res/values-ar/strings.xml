@@ -352,7 +352,7 @@
     <string name="who_is_watching">من يشاهد؟</string>
     <string name="no_user_warning">لم نستطع العثور على أي مستخدم!
 \nأضف مستخدم جديد بالضغط على زر \"إضافة مستخدم\".</string>
-    <string name="server_unsupported">الخادم يحتاج إلى تحديث. النسخة الحالية %s لكن البرنامج يحتاج إلى النسخة %s أو احدث منها</string>
+    <string name="server_unsupported">الخادم يحتاج إلى تحديث. النسخة الحالية %1$s لكن البرنامج يحتاج إلى النسخة %2$s أو احدث منها</string>
     <string name="welcome_content">إتصل بخادمك للبدأ.</string>
     <string name="welcome_title">مرحبا الى jellyfin!</string>
     <string name="saved_servers">الخوادم المحفوظة</string>

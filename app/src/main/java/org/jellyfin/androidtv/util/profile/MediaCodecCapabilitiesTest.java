@@ -1,18 +1,18 @@
 package org.jellyfin.androidtv.util.profile;
 
-import android.media.MediaCodecInfo;
-import android.media.MediaCodecList;
-
-import org.jellyfin.androidtv.util.MediaUtils;
-
-import timber.log.Timber;
-
 import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level10;
 import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level45;
 import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel5;
 import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
+
+import android.media.MediaCodecInfo;
+import android.media.MediaCodecList;
+
+import org.jellyfin.androidtv.util.MediaUtils;
+
+import timber.log.Timber;
 
 public class MediaCodecCapabilitiesTest  {
     private static final String TAG = "MediaCodecCapabilitiesTest";

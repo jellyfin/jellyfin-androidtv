@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import java.util.*
