@@ -3,6 +3,7 @@ plugins {
 	kotlin("android")
 	kotlin("plugin.serialization") version Plugins.Versions.kotlin
 	kotlin("kapt")
+	id("com.mikepenz.aboutlibraries.plugin")
 }
 
 android {
@@ -126,6 +127,9 @@ dependencies {
 
 	// Crash Reporting
 	implementation(libs.bundles.acra)
+
+	// Licenses
+	implementation(libs.aboutlibraries)
 
 	// Logging
 	implementation(libs.timber)

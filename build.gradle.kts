@@ -12,6 +12,7 @@ buildscript {
 	dependencies {
 		classpath(Plugins.androidBuildTools)
 		classpath(Plugins.kotlin)
+		classpath(Plugins.aboutLibraries)
 	}
 }
 

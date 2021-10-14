@@ -4,6 +4,8 @@ import android.os.Build
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.info
+import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.screen.LicensesScreen
 import org.jellyfin.androidtv.util.Utils
 
 fun OptionsScreen.aboutCategory() = category {
@@ -17,5 +19,11 @@ fun OptionsScreen.aboutCategory() = category {
 	info {
 		setTitle(R.string.pref_device_model)
 		content = "${Build.MANUFACTURER} ${Build.MODEL}"
+	}
+
+	link {
+		setTitle(R.string.licenses_link)
+		setContent(R.string.licenses_link_description)
+		withFragment<LicensesScreen>()
 	}
 }
