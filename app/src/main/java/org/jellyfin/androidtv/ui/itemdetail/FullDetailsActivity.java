@@ -1015,13 +1015,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     if(versions!=null){
                         addVersionsMenu(v);
                     }else{
-                        apiClient.getValue().GetItemAsync(mItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
-                            @Override
-                            public void onResponse(BaseItemDto response) {
-                                versions = response.getMediaSources();
-                                addVersionsMenu(v);
-                            }
-                        });
+                        versions = mBaseItem.getMediaSources();
+                        addVersionsMenu(v);
                     }
                 }
             });
