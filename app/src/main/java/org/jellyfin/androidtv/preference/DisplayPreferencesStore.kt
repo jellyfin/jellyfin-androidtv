@@ -1,7 +1,8 @@
 package org.jellyfin.androidtv.preference
 
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.operations.DisplayPreferencesApi
+import org.jellyfin.sdk.api.client.extensions.displayPreferencesApi
 import org.jellyfin.sdk.model.api.DisplayPreferencesDto
 import org.jellyfin.sdk.model.api.ScrollDirection
 import org.jellyfin.sdk.model.api.SortOrder
@@ -10,7 +11,7 @@ import timber.log.Timber
 abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
 	protected var app: String = "jellyfin-androidtv",
-	private val displayPreferencesApi: DisplayPreferencesApi,
+	private val api: ApiClient,
 ) : AsyncPreferenceStore {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
 	private var cachedPreferences: MutableMap<String, String> = mutableMapOf()
@@ -21,7 +22,7 @@ abstract class DisplayPreferencesStore(
 		if (displayPreferencesDto == null) return false
 
 		try {
-			displayPreferencesApi.updateDisplayPreferences(
+			api.displayPreferencesApi.updateDisplayPreferences(
 				displayPreferencesId = displayPreferencesId,
 				client = app,
 				data = displayPreferencesDto!!.copy(
@@ -50,7 +51,7 @@ abstract class DisplayPreferencesStore(
 
 	override suspend fun update(): Boolean {
 		try {
-			val result by displayPreferencesApi.getDisplayPreferences(
+			val result by api.displayPreferencesApi.getDisplayPreferences(
 				displayPreferencesId = displayPreferencesId,
 				client = app
 			)

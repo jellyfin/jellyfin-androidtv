@@ -16,7 +16,7 @@ import org.jellyfin.apiclient.interaction.AndroidDevice
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
-import org.jellyfin.sdk.android
+import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -32,9 +32,8 @@ val systemApiClient = named("systemApiClient")
 val appModule = module {
 	// New SDK
 	single {
-		JellyfinSdk {
-			// Set deviceInfo and discovery provider
-			android(androidContext())
+		createJellyfin {
+			context = androidContext()
 
 			// Add client info
 			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)

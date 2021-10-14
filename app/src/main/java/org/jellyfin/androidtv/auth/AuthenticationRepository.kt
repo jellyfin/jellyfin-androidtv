@@ -9,11 +9,11 @@ import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.sdk.Jellyfin
-import org.jellyfin.sdk.api.client.KtorClient
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
-import org.jellyfin.sdk.api.operations.ImageApi
-import org.jellyfin.sdk.api.operations.UserApi
+import org.jellyfin.sdk.api.client.extensions.imageApi
+import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.api.ImageType
 import timber.log.Timber
 import java.util.*
@@ -37,7 +37,7 @@ class AuthenticationRepositoryImpl(
 	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
-	private val userApiClient: KtorClient,
+	private val userApiClient: ApiClient,
 	private val authenticationPreferences: AuthenticationPreferences,
 ) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
@@ -149,7 +149,7 @@ class AuthenticationRepositoryImpl(
 				setActiveSession(user, server) -> {
 					// Update stored user
 					try {
-						val userInfo by UserApi(userApiClient).getCurrentUser()
+						val userInfo by userApiClient.userApi.getCurrentUser()
 						val currentUser = authenticationStore.getUser(server.id, user.id)
 
 						val updatedUser = currentUser?.copy(
@@ -165,7 +165,7 @@ class AuthenticationRepositoryImpl(
 						accountManagerHelper.putAccount(AccountManagerAccount(user.id, server.id, updatedUser.name, account.accessToken))
 
 						emit(AuthenticatedState)
-					} catch(err: ApiClientException) {
+					} catch (err: ApiClientException) {
 						Timber.e(err, "Unable to get current user data")
 						emit(RequireSignInState)
 					}
@@ -193,9 +193,8 @@ class AuthenticationRepositoryImpl(
 		}
 
 		val api = jellyfin.createApi(server.address, deviceInfo = AuthenticationDevice(device, username).toDeviceInfo())
-		val userApi = UserApi(api)
 		val result = try {
-			val response = userApi.authenticateUserByName(username, password)
+			val response = api.userApi.authenticateUserByName(username, password)
 			response.content
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to sign in as $username")
@@ -252,11 +251,8 @@ class AuthenticationRepositoryImpl(
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? {
-		val api = jellyfin.createApi(baseUrl = server.address)
-		val imageApi = ImageApi(api)
-
 		return user.imageTag?.let { imageTag ->
-			imageApi.getUserImageUrl(
+			jellyfin.createApi(baseUrl = server.address).imageApi.getUserImageUrl(
 				userId = user.id,
 				tag = imageTag,
 				imageType = ImageType.PRIMARY,

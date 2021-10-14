@@ -8,9 +8,9 @@ import org.jellyfin.androidtv.di.userApiClient
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
-import org.jellyfin.sdk.api.operations.UserLibraryApi
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
@@ -21,9 +21,7 @@ class PlaybackForwardingActivity : FragmentActivity() {
 	}
 
 	private val mediaManager by inject<MediaManager>()
-	private val userLibraryApi by lazy {
-		UserLibraryApi(get(userApiClient))
-	}
+	private val api by inject<ApiClient>(userApiClient)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -43,7 +41,7 @@ class PlaybackForwardingActivity : FragmentActivity() {
 
 		lifecycleScope.launchWhenCreated {
 			// Get fresh info from API in SDK format
-			val item by userLibraryApi.getItem(itemId = itemId)
+			val item by api.userLibraryApi.getItem(itemId = itemId)
 
 			// Log info
 			Toast.makeText(
