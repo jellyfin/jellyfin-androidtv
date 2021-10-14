@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.search;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Bundle;
 
 import androidx.leanback.app.SearchSupportFragment;
@@ -12,8 +14,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class LeanbackSearchFragment extends SearchSupportFragment {
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();

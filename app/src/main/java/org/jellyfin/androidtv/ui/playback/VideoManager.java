@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -105,7 +106,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
             @Override
-            public void onPlayerError(ExoPlaybackException error) {
+            public void onPlayerError(@NonNull ExoPlaybackException error) {
                 Timber.e("***** Got error from player");
                 if (errorListener != null) errorListener.onEvent();
                 stopProgressLoop();

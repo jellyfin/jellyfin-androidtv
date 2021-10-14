@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,8 +37,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 import kotlin.Lazy;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class RecordPopup {
     PopupWindow mPopup;

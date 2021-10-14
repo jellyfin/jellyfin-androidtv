@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,8 +46,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 import timber.log.Timber;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class AudioNowPlayingActivity extends BaseActivity {
     private TextView mGenreRow;

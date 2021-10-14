@@ -5,7 +5,6 @@ import android.os.Handler;
 
 import androidx.leanback.app.SearchSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.ObjectAdapter;
 
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
