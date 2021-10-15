@@ -445,6 +445,7 @@
     <string name="licenses_link_description">View the licenses of the libraries used by the Jellyfin app</string>
     <string name="license_description">Description</string>
     <string name="license_version">Version</string>
+    <string name="license_artifact">Artifact</string>
     <string name="license_website">Website</string>
     <string name="license_repository">Repository</string>
     <string name="license_author">Author</string>
