@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -29,6 +30,9 @@ class StartupToolbarFragment : Fragment() {
 		binding.settings.setOnClickListener {
 			val intent = Intent(requireActivity(), PreferencesActivity::class.java)
 			intent.putExtra(PreferencesActivity.EXTRA_SCREEN, AuthPreferencesScreen::class.qualifiedName)
+			intent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, bundleOf(
+				AuthPreferencesScreen.ARG_SHOW_ABOUT to true
+			))
 			startActivity(intent)
 		}
 

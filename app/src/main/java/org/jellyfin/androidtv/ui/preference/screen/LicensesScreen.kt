@@ -28,6 +28,7 @@ class LicensesScreen : OptionsFragment() {
 			buildList {
 				if (lib.libraryDescription.isNotBlank()) add(getString(R.string.license_description) to lib.libraryDescription)
 				if (lib.libraryVersion.isNotBlank()) add(getString(R.string.license_version) to lib.libraryVersion)
+				if (lib.libraryArtifactId.isNotBlank()) add(getString(R.string.license_artifact) to lib.libraryArtifactId)
 				if (lib.libraryWebsite.isNotBlank()) add(getString(R.string.license_website) to lib.libraryWebsite)
 				if (lib.repositoryLink.isNotBlank()) add(getString(R.string.license_repository) to lib.repositoryLink)
 				if (lib.author.isNotBlank()) add(getString(R.string.license_author) to lib.author)
