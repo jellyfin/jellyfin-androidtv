@@ -443,4 +443,5 @@
     <string name="always_authenticate_description">Включение этой функции отключает автоматический вход в систему</string>
     <string name="always_authenticate">Всегда запрашивать учётные данные</string>
     <string name="lbl_community_rating">Общественная оценка</string>
+    <string name="select_version">Версия</string>
 </resources>
