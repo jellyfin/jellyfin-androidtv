@@ -145,8 +145,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private BaseItemDto mBaseItem;
 
     private ArrayList<MediaSourceInfo> versions;
-    private int selectedVersionId = 0;
-
+    private int selectedVersionPopupIndex = 0;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
@@ -1012,9 +1011,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             TextUnderButton versionsButton = new TextUnderButton(this, R.drawable.ic_guide, buttonSize, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(versions!=null){
+                    if (versions != null ) {
                         addVersionsMenu(v);
-                    }else{
+                    } else {
                         versions = mBaseItem.getMediaSources();
                         addVersionsMenu(v);
                     }
@@ -1354,18 +1353,19 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addVersionsMenu(View v) {
-        PopupMenu more = new PopupMenu(getApplicationContext(), v, Gravity.END);
+        PopupMenu menu = new PopupMenu(this, v, Gravity.END);
 
-        for (int i = 0; i< versions.size();i++) {
-            MenuItem item = more.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
-            item.setChecked(i == selectedVersionId);
+        for (int i = 0; i< versions.size(); i++) {
+            MenuItem item = menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
+            item.setChecked(i == selectedVersionPopupIndex);
         }
-        more.getMenu().setGroupCheckable(0,true,false);
-        more.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+        menu.getMenu().setGroupCheckable(0,true,false);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                selectedVersionId = menuItem.getItemId();
-                apiClient.getValue().GetItemAsync(versions.get(selectedVersionId).getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                selectedVersionPopupIndex = menuItem.getItemId();
+                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mBaseItem = response;
@@ -1374,8 +1374,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 return true;
             }
         });
-        more.show();
 
+        menu.show();
     }
 
     int collapsedOptions = 0 ;
