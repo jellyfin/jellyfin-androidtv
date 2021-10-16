@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +35,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
-import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
@@ -300,7 +298,6 @@ public class MediaManager {
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
                     stopAudio();
-                    mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     //resumeAudio();
@@ -553,9 +550,6 @@ public class MediaManager {
             return false;
         }
 
-        //Register a media button receiver so that all media button presses will come to us and not another app
-        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
-        //TODO implement conditional logic for api 21+
         return true;
     }
 
@@ -724,9 +718,6 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
-            //UnRegister a media button receiver
-            mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
-
         }
     }
 
@@ -743,10 +734,7 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
-            //UnRegister a media button receiver
-            mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
             lastProgressReport = System.currentTimeMillis();
-
         }
     }
 

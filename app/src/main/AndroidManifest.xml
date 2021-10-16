@@ -59,17 +59,10 @@
                 android:resource="@xml/authenticator" />
         </service>
 
-        <receiver
-            android:name=".util.RemoteControlReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".ui.browsing.MainActivity"
             android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.startup.StartupActivity"
             android:exported="true"
