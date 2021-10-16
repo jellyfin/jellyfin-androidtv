@@ -46,7 +46,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
-import org.jellyfin.androidtv.ui.search.SearchActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
@@ -337,7 +336,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     protected ImageButton mSortButton;
-    protected ImageButton mSearchButton;
     protected ImageButton mSettingsButton;
     protected ImageButton mUnwatchedButton;
     protected ImageButton mFavoriteButton;
@@ -455,22 +453,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         });
         mLetterButton.setContentDescription(getString(R.string.lbl_by_letter));
         toolBar.addView(mLetterButton);
-
-        mSearchButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
-        mSearchButton.setImageResource(R.drawable.ic_search);
-        mSearchButton.setMaxHeight(size);
-        mSearchButton.setAdjustViewBounds(true);
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putExtra("MusicOnly", "music".equals(mFolder.getCollectionType()) || mFolder.getType().equalsIgnoreCase(BaseItemType.MusicAlbum.toString()) || mFolder.getType().equalsIgnoreCase(BaseItemType.MusicArtist.toString()));
-
-                startActivity(intent);
-            }
-        });
-        mSearchButton.setContentDescription(getString(R.string.lbl_search));
-        toolBar.addView(mSearchButton);
 
         mSettingsButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mSettingsButton.setImageResource(R.drawable.ic_settings);
