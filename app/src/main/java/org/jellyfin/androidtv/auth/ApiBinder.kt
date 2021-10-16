@@ -51,7 +51,7 @@ class ApiBinder(
 		api.EnableAutomaticNetworking(ServerInfo().apply {
 			id = session.serverId.toString()
 			name = server.name
-			address = server.address
+			address = server.address.removeSuffix("/")
 			userId = session.userId.toString()
 			accessToken = session.accessToken
 		})
