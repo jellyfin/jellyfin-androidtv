@@ -13,16 +13,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.leanback.app.RowsSupportFragment;
+import androidx.leanback.widget.ListRow;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ListRow;
 
 import kotlin.Lazy;
 
@@ -37,7 +37,7 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        searchProvider = new SearchProvider(getContext(), getActivity().getIntent().getBooleanExtra("MusicOnly", false));
+        searchProvider = new SearchProvider(getContext());
     }
 
     @Override

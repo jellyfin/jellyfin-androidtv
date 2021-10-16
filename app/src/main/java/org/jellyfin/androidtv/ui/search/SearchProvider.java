@@ -17,9 +17,9 @@ public class SearchProvider implements SearchSupportFragment.SearchResultProvide
     private SearchRunnable mDelayedLoad;
     private String lastQuery;
 
-    SearchProvider(Context context, boolean musicOnly) {
+    SearchProvider(Context context) {
         mRowsAdapter = new ArrayObjectAdapter(new CustomListRowPresenter());
-        mDelayedLoad = new SearchRunnable(context, mRowsAdapter, musicOnly);
+        mDelayedLoad = new SearchRunnable(context, mRowsAdapter);
     }
 
     @Override
