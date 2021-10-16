@@ -524,7 +524,7 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
             if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
             else mSummary.setText(null);
 
-            InfoLayoutHelper.addInfoRow(mActivity, rowItem, mInfoRow, true, true);
+            InfoLayoutHelper.addInfoRow(requireContext(), rowItem, mInfoRow, true, true);
 
             ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
             adapter.loadMoreItemsIfNeeded(rowItem.getIndex());

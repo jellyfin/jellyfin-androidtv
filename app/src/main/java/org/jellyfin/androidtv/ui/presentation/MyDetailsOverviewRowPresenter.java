@@ -92,7 +92,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         ViewHolder vh = (ViewHolder) holder;
 
         setTitle(row.getItem().getName());
-        InfoLayoutHelper.addInfoRow(TvApp.getApplication().getCurrentActivity(), row.getItem(), vh.mInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(holder.view.getContext(), row.getItem(), vh.mInfoRow, false, false);
         addGenres(vh.mGenreRow, row.getItem());
         setInfo1(row.getInfoItem1());
         setInfo2(row.getInfoItem2());

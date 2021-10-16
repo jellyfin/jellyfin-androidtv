@@ -1029,7 +1029,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         tvGuideBinding.guideTitle.setText(mSelectedProgram.getName());
         tvGuideBinding.summary.setText(mSelectedProgram.getOverview());
         //info row
-        InfoLayoutHelper.addInfoRow(requireActivity(), mSelectedProgram, tvGuideBinding.guideInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), mSelectedProgram, tvGuideBinding.guideInfoRow, false, false);
         if (mSelectedProgram.getId() != null) {
             tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
         }
