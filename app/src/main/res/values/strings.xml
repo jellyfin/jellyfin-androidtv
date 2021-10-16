@@ -442,3 +442,5 @@
     <string name="advanced_settings">Settings (advanced)</string>
     <string name="lbl_playback_speed">Playback Speed</string>
 </resources>
+    <string name="select_version">Version</string>
+</resources>

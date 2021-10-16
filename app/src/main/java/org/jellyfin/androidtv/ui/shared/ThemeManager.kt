@@ -24,7 +24,7 @@ object ThemeManager {
 		}
 
 		if (showAprilFools(activity.get())) {
-			return R.style.Theme_Jellyfin_HotDogStand;
+			return R.style.Theme_Jellyfin_HotDogStand
 		}
 
 		return when (appTheme) {

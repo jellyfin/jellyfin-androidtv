@@ -96,7 +96,6 @@ public class TvApp extends Application {
         this.playbackController = playbackController;
     }
 
-    @NonNull
     public boolean canManageRecordings() {
         UserDto currentUser = getCurrentUser();
         return currentUser != null && currentUser.getPolicy().getEnableLiveTvManagement();

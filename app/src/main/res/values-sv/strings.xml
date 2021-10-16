@@ -7,7 +7,7 @@
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laddar…</string>
     <string name="lbl_direct_stream_live">Direkt Ström Live TV</string>
-    <string name="msg_error_live_stream">Fel vid streaming live TV. Kommer försöka igen...</string>
+    <string name="msg_error_live_stream">Fel vid streaming live TV. Kommer försöka igen…</string>
     <string name="watch_now">Kolla nu</string>
     <string name="pref_next_up_timeout_title">Kommande timer längd</string>
     <string name="pref_next_up_timeout_summary">Hur länge att vänta innan börja spela nästa</string>
@@ -134,9 +134,9 @@
     <string name="lbl_live_tv_guide">Live-tv Guide</string>
     <string name="lbl_no_recordings">Inga inspelningar tillgängliga</string>
     <string name="lbl_recording">Inspelning</string>
-    <string name="msg_burn_sub_warning">Inbrända undertexter kan ta några minuter. Vänligen ha tålamod...</string>
+    <string name="msg_burn_sub_warning">Inbrända undertexter kan ta några minuter. Vänligen ha tålamod…</string>
     <string name="msg_unable_load_subs">Kan inte ladda undertext</string>
-    <string name="msg_subtitles_loading">Undertexter laddas...</string>
+    <string name="msg_subtitles_loading">Undertexter laddas…</string>
     <string name="lbl_filters">Filter</string>
     <string name="btn_clear_all">Rensa alla</string>
     <string name="btn_filter">Filtrera</string>
@@ -184,7 +184,7 @@
     <string name="lbl_dislike">Ogilla</string>
     <string name="lbl_like">Gilla</string>
     <string name="lbl_now_playing_album">från %1$s</string>
-    <string name="lbl_now_playing_track">%s av %s</string>
+    <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_add_favorite">Lägg till favorit</string>
     <string name="lbl_remove_favorite">Ta bort favorit</string>
     <string name="lbl_mark_played">Markera uppspelade</string>
@@ -201,7 +201,7 @@
     <string name="msg_playback_incompatible">Det går inte att spela detta videoformat</string>
     <string name="msg_playback_restricted">Administratorn har begränsat uppspelningen av detta föremål för tillfället</string>
     <string name="msg_playback_not_allowed">Uppspelning inte tillåten just nu</string>
-    <string name="lbl_loading_elipses">Laddar...</string>
+    <string name="lbl_loading_elipses">Laddar…</string>
     <string name="lbl_born">"Född "</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Vänligen ange serveradressen (IP eller domän/maskinnamn)</string>
@@ -268,7 +268,7 @@
     <string name="lbl_search">Sök</string>
     <string name="lbl_performers">Aktörer</string>
     <string name="lbl_genres">Genrer</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Föreslagna</string>
     <string name="lbl_by_letter">Efter bokstav</string>
     <string name="lbl_views">Visningar</string>
@@ -320,7 +320,7 @@
     <string name="msg_added_to_video">%1$s tillagd i videokö. Slutar: %2$s</string>
     <string name="msg_queue_saved">Kö sparad som ny spellista: %1$s</string>
     <string name="too_many_errors">För många fel. Ger upp</string>
-    <string name="player_error">Spelarfel påträffat. Försöker igen...</string>
+    <string name="player_error">Spelarfel påträffat. Försöker igen…</string>
     <string name="msg_live_tv_prev">Ladda föregående %1$d timmar\?</string>
     <string name="msg_live_tv_next">Ladda nästa %1$d timmar\?</string>
     <string name="lbl_load_guide_data">Ladda guide-data</string>
@@ -347,9 +347,9 @@
     <string name="server_field_empty">Adress får inte vara tomt</string>
     <string name="login_server_unavailable">Kunde inte ansluta till server</string>
     <string name="login_invalid_credentials">Ogiltigt användarnamn och/eller lösenord</string>
-    <string name="login_authenticating">Autentiserar...</string>
+    <string name="login_authenticating">Autentiserar…</string>
     <string name="server_connection_failed">Kunde inte ansluta till server: %1$s</string>
-    <string name="server_connecting">Ansluter till server...</string>
+    <string name="server_connecting">Ansluter till %1$s</string>
     <string name="pref_clock_display_playback">Under uppspelning</string>
     <string name="pref_clock_display_browsing">Vid bläddring</string>
     <string name="lbl_always">Alltid</string>
@@ -406,7 +406,7 @@
     <string name="who_is_watching">Vem tittar\?</string>
     <string name="no_user_warning">Vi hittade inga användare!
 \nLägg till en användare genom att trycka på \"Lägg till användare\".</string>
-    <string name="server_unsupported">Servern behöver uppdateras. Nuvarande version är %s men appen kräver %s eller nyare</string>
+    <string name="server_unsupported">Servern behöver uppdateras. Nuvarande version är %1$s men appen kräver %2$s eller nyare</string>
     <string name="welcome_content">Anslut till din server för att börja.</string>
     <string name="welcome_title">Välkommen till Jellyfin!</string>
     <string name="saved_servers">Sparade servrar</string>
