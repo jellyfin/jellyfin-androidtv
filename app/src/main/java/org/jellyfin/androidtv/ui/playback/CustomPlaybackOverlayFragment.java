@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -73,7 +72,6 @@ import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.RemoteControlReceiver;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -664,10 +662,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
             return;
         }
-
-        // register a media button receiver so that all media button presses will come to us and not another app
-        mAudioManager.registerMediaButtonEventReceiver(new ComponentName(TvApp.getApplication().getPackageName(), RemoteControlReceiver.class.getName()));
-        //TODO implement conditional logic for api 21+
 
         if (!mIsVisible) {
             show(); // in case we were paused during video playback
