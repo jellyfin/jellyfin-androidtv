@@ -45,7 +45,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.search.SearchActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.IKeyListener;
 import org.jellyfin.androidtv.ui.shared.IMessageListener;
@@ -76,7 +75,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
     protected static final int GENRES = 1;
     protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
-    protected static final int SEARCH = 5;
     protected static final int GRID = 6;
     protected static final int ALBUMS = 7;
     protected static final int ARTISTS = 8;
@@ -305,7 +303,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                 gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio, null));
                 gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists, null));
                 gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
-                gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search, null));
                 break;
 
             default:
@@ -322,7 +319,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
         gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
         // Disabled because the screen doesn't behave properly
         // gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
-        gridRowAdapter.add(new GridButton(SEARCH, TvApp.getApplication().getString(R.string.lbl_search), R.drawable.tile_search, null));
     }
 
     protected void setupEventListeners() {
@@ -442,13 +438,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         requireActivity().startActivity(personIntent);
-                        break;
-
-                    case SEARCH:
-                        Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
-                        searchIntent.putExtra("MusicOnly", "MusicAlbum".equals(itemTypeString));
-
-                        startActivity(searchIntent);
                         break;
 
                     case FAVSONGS:
