@@ -27,7 +27,7 @@ public class LeanbackSearchFragment extends SearchSupportFragment {
         backgroundService.getValue().attach(requireActivity());
 
         // Create provider
-        SearchProvider searchProvider = new SearchProvider(getContext(), getActivity().getIntent().getBooleanExtra("MusicOnly", false));
+        SearchProvider searchProvider = new SearchProvider(getContext());
         setSearchResultProvider(searchProvider);
 
         // Create click listener
