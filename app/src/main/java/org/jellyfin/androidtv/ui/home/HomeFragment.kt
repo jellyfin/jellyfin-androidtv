@@ -126,7 +126,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			try {
 				// Get display preferences
 				val prefs = callApi<DisplayPreferences> {
-					TvApp.getApplication()?.getDisplayPrefsAsync("usersettings", "emby", it)
+					apiClient.GetDisplayPreferencesAsync("usersettings", currentUser.id, "emby", it)
 				}.customPrefs
 
 				// Add sections from preferences

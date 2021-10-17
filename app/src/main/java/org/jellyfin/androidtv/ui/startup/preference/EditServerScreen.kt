@@ -14,9 +14,7 @@ class EditServerScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()
 	private val authenticationRepository by inject<AuthenticationRepository>()
 
-	init {
-		rebuildOnResume = true
-	}
+	override val rebuildOnResume = true
 
 	override val screen: OptionsScreen
 		get() = optionsScreen {

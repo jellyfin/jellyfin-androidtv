@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
@@ -42,7 +43,6 @@ import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.MediaStreamType;
@@ -854,23 +854,13 @@ public class PlaybackController {
     }
 
     public void fastForward() {
-        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
-                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
-
-        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipForwardLength") != null ?
-                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipForwardLength")) : 30000;
-
-        skip(skipMS);
+        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+        skip(prefs.get(UserSettingPreferences.Companion.getSkipForwardLength()));
     }
 
     public void rewind() {
-        DisplayPreferences cachedPrefs = TvApp.getApplication() != null ?
-                TvApp.getApplication().getCachedDisplayPrefs("usersettings", "emby") : null;
-
-        int skipMS = cachedPrefs != null && cachedPrefs.getCustomPrefs().get("skipBackLength") != null ?
-                Integer.parseInt(cachedPrefs.getCustomPrefs().get("skipBackLength")) : 10000;
-
-        skip(-skipMS);
+        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
+        skip(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
     public void seek(final long pos) {

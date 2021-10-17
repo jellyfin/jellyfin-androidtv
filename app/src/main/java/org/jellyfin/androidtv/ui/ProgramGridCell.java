@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -14,8 +16,8 @@ import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
-import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -69,17 +71,19 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             }
         }
 
-        if (TvManager.getPrefs().showNewIndicator && BaseItemUtils.isNew(program) && (!TvManager.getPrefs().showPremiereIndicator || !Utils.isTrue(program.getIsPremiere()))) {
+        LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
+
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemUtils.isNew(program) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.getIsPremiere()))) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
-        if (TvManager.getPrefs().showPremiereIndicator && Utils.isTrue(program.getIsPremiere())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.getIsPremiere())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
-        if (TvManager.getPrefs().showRepeatIndicator && Utils.isTrue(program.getIsRepeat())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
         }
@@ -89,7 +93,7 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
             InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10);
         }
 
-        if (TvManager.getPrefs().showHDIndicator && Utils.isTrue(program.getIsHD())) {
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.getIsHD())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10);
         }
@@ -113,7 +117,9 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
     }
 
     public void setCellBackground() {
-        if (TvManager.getPrefs().colorCodeGuide) {
+        LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
+
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getColorCodeGuide())) {
             if (Utils.isTrue(mProgram.getIsMovie())) {
                 mBackgroundColor = getResources().getColor(R.color.guide_movie_bg);
             } else if (Utils.isTrue(mProgram.getIsNews())) {

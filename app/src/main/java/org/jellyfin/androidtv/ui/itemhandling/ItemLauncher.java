@@ -10,8 +10,9 @@ import androidx.core.util.Consumer;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
-import org.jellyfin.androidtv.constant.ViewType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
+import org.jellyfin.androidtv.preference.LibraryPreferences;
+import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
 import org.jellyfin.androidtv.ui.browsing.CollectionActivity;
@@ -31,7 +32,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
@@ -49,49 +49,39 @@ public class ItemLauncher {
     }
 
     public static void createUserViewIntent(final BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
-        //We need to get display prefs...
-        TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-            @Override
-            public void onResponse(DisplayPreferences response) {
-                if (baseItem.getCollectionType() == null) {
-                    baseItem.setCollectionType("unknown");
+        if (baseItem.getCollectionType() == null) {
+            baseItem.setCollectionType("unknown");
+        }
+        Timber.d("**** Collection type: %s", baseItem.getCollectionType());
+        Intent intent;
+        switch (baseItem.getCollectionType()) {
+            case "movies":
+            case "tvshows":
+                LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
+                boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
+                if (!enableSmartScreen) {
+                    // open grid browsing
+                    intent = new Intent(context, GenericGridActivity.class);
+                    intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                } else {
+                    // open user view browsing
+                    intent = new Intent(context, UserViewActivity.class);
+                    intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
                 }
-                Timber.d("**** Collection type: %s", baseItem.getCollectionType());
-                Intent intent;
-                switch (baseItem.getCollectionType()) {
-                    case "movies":
-                    case "tvshows":
-                        Timber.d("**** View Type Pref: %s", response.getCustomPrefs().get("DefaultView"));
-                        if (ViewType.SMART.equals(response.getCustomPrefs().get("DefaultView"))) {
-                            // open user view browsing
-                            intent = new Intent(context, UserViewActivity.class);
-                        } else {
-                            // open grid browsing
-                            intent = new Intent(context, GenericGridActivity.class);
-                        }
-                        intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                        break;
-                    case "music":
-                    case "livetv":
-                        // open user view browsing
-                        intent = new Intent(context, UserViewActivity.class);
-                        intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                        break;
-                    default:
-                        // open generic folder browsing
-                        intent = new Intent(context, GenericGridActivity.class);
-                        intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                }
+                break;
+            case "music":
+            case "livetv":
+                // open user view browsing
+                intent = new Intent(context, UserViewActivity.class);
+                intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                break;
+            default:
+                // open generic folder browsing
+                intent = new Intent(context, GenericGridActivity.class);
+                intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
+        }
 
-                callback.accept(intent);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception);
-                callback.accept(null);
-            }
-        });
+        callback.accept(intent);
     }
 
     public static void launchUserView(final BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
@@ -187,20 +177,13 @@ public class ItemLauncher {
 
                 // or generic handling
                 if (baseItem.getIsFolderItem()) {
-                    // open generic folder browsing - but need display prefs
-                    TvApp.getApplication().getDisplayPrefsAsync(baseItem.getDisplayPreferencesId(), new Response<DisplayPreferences>() {
-                        @Override
-                        public void onResponse(DisplayPreferences response) {
-                            Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
-                            if (noHistory) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            }
+                    Intent intent = new Intent(activity, GenericGridActivity.class);
+                    intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
+                    if (noHistory) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    }
 
-                            activity.startActivity(intent);
-
-                        }
-                    });
+                    activity.startActivity(intent);
                 } else {
                     switch (rowItem.getSelectAction()) {
 

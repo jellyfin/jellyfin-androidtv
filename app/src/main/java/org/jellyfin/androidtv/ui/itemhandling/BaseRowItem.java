@@ -223,15 +223,15 @@ public class BaseRowItem {
         }
     }
 
-    public String getImageUrl(Context context, String imageType, int maxHeight) {
+    public String getImageUrl(Context context, org.jellyfin.androidtv.constant.ImageType imageType, int maxHeight) {
         switch (type) {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
                 switch (imageType) {
-                    case org.jellyfin.androidtv.constant.ImageType.BANNER:
+                    case BANNER:
                         return ImageUtils.getBannerImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
-                    case org.jellyfin.androidtv.constant.ImageType.THUMB:
+                    case THUMB:
                         return ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
                     default:
                         return getPrimaryImageUrl(context, maxHeight);

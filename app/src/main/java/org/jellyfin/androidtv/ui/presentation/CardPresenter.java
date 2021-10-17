@@ -44,7 +44,7 @@ public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 5.414;
 
     private int mStaticHeight = 300;
-    private String mImageType = ImageType.DEFAULT;
+    private ImageType mImageType = ImageType.DEFAULT;
     private double aspect;
 
     private boolean mShowInfo = true;
@@ -60,7 +60,7 @@ public class CardPresenter extends Presenter {
         mShowInfo = showInfo;
     }
 
-    public CardPresenter(boolean showInfo, String imageType, int staticHeight) {
+    public CardPresenter(boolean showInfo, ImageType imageType, int staticHeight) {
         this(showInfo, staticHeight);
         mImageType = imageType;
     }
@@ -95,7 +95,7 @@ public class CardPresenter extends Presenter {
             setItem(m, ImageType.DEFAULT, 260, 300, 300);
         }
 
-        public void setItem(BaseRowItem m, String imageType, int lHeight, int pHeight, int sHeight) {
+        public void setItem(BaseRowItem m, ImageType imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             isUserView = false;
             switch (mItem.getItemType()) {

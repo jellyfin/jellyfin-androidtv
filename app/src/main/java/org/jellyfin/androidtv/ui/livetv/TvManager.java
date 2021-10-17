@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.livetv;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -14,7 +16,7 @@ import androidx.leanback.widget.Presenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.data.model.LiveTvPrefs;
+import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -25,7 +27,6 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.DisplayPreferences;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -59,9 +60,6 @@ public class TvManager {
     private static Calendar programNeedLoadTime;
     private static boolean forceReload;
 
-    private static DisplayPreferences displayPrefs;
-    private static LiveTvPrefs prefs = new LiveTvPrefs();
-
     public static String getLastLiveTvChannel() {
         return KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class).get(SystemPreferences.Companion.getLiveTvLastChannel());
     }
@@ -82,16 +80,9 @@ public class TvManager {
         return allChannels;
     }
 
-    public static void resetChannels() {
-        allChannels = null;
-    }
-
-    public static LiveTvPrefs getPrefs() { return prefs; }
-
     public static void clearCache() {
         forceReload = true;
         allChannels = null;
-        displayPrefs = null;
     }
 
     public static void forceReload() {
@@ -127,77 +118,20 @@ public class TvManager {
             Timber.i("*** Channels already loaded - returning %d channels", allChannels.size());
             outerResponse.onResponse(sortChannels());
         } else {
-            if (displayPrefs == null) {
-                getLiveTvPrefs(new EmptyResponse() {
-                    @Override
-                    public void onResponse() {
-                        loadAllChannelsInternal(outerResponse);
-                    }
-                });
-            } else {
-                loadAllChannelsInternal(outerResponse);
-            }
+            loadAllChannelsInternal(outerResponse);
         }
 
-    }
-
-    public static void updatePrefs(LiveTvPrefs newPrefs) {
-        prefs = newPrefs;
-        HashMap<String,String> current = displayPrefs.getCustomPrefs();
-        current.put("livetv-channelorder", newPrefs.channelOrder);
-        current.put("guide-colorcodedbackgrounds", String.valueOf(newPrefs.colorCodeGuide));
-        current.put("livetv-favoritechannelsattop", String.valueOf(newPrefs.favsAtTop));
-        current.put("guide-indicator-hd", String.valueOf(newPrefs.showHDIndicator));
-        current.put("guide-indicator-live", String.valueOf(newPrefs.showLiveIndicator));
-        current.put("guide-indicator-new", String.valueOf(newPrefs.showNewIndicator));
-        current.put("guide-indicator-premiere", String.valueOf(newPrefs.showPremiereIndicator));
-        current.put("guide-indicator-repeat", String.valueOf(newPrefs.showRepeatIndicator));
-
-        TvApp.getApplication().updateDisplayPrefs(TvApp.DISPLAY_PREFS_APP_NAME, displayPrefs);
-        allChannels = null; //force a re-fetch
-    }
-
-    private static void translatePrefs(DisplayPreferences displayPrefs) {
-        HashMap<String,String> customPrefs = displayPrefs.getCustomPrefs();
-        if (customPrefs != null) {
-            prefs.channelOrder = Utils.getSafeValue(customPrefs.get("livetv-channelorder"), "DatePlayed");
-            prefs.colorCodeGuide = Boolean.parseBoolean(customPrefs.get("guide-colorcodedbackgrounds"));
-            prefs.favsAtTop = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("livetv-favoritechannelsattop"),"true"));
-            prefs.showHDIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-hd"));
-            prefs.showLiveIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-live"),"true"));
-            prefs.showNewIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-new"));
-            prefs.showPremiereIndicator = Boolean.parseBoolean(Utils.getSafeValue(customPrefs.get("guide-indicator-premiere"),"true"));
-            prefs.showRepeatIndicator = Boolean.parseBoolean(customPrefs.get("guide-indicator-repeat"));
-        }
-    }
-
-    private static void getLiveTvPrefs(final EmptyResponse outerResponse) {
-        TvApp.getApplication().getDisplayPrefsAsync("usersettings", TvApp.DISPLAY_PREFS_APP_NAME, new Response<DisplayPreferences>() {
-            @Override
-            public void onResponse(DisplayPreferences response) {
-                displayPrefs = response;
-                // Parse out our values
-                translatePrefs(displayPrefs);
-                outerResponse.onResponse();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv prefs");
-                displayPrefs = new DisplayPreferences();
-                displayPrefs.setCustomPrefs(new HashMap<String, String>());
-                outerResponse.onResponse();
-            }
-        });
     }
 
     private static void loadAllChannelsInternal(final Response<Integer> outerResponse) {
+        LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
+
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setAddCurrentProgram(true);
-        if (prefs.favsAtTop) query.setEnableFavoriteSorting(true);
-        query.setSortOrder("DatePlayed".equals(prefs.channelOrder) ? SortOrder.Descending : null);
-        query.setSortBy(new String[] {"DatePlayed".equals(prefs.channelOrder) ? "DatePlayed" : "SortName"});
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) query.setEnableFavoriteSorting(true);
+        query.setSortOrder("DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
+        query.setSortBy(new String[] {"DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? "DatePlayed" : "SortName"});
         Timber.d("*** About to load channels");
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
@@ -230,10 +164,12 @@ public class TvManager {
 
 
     public static int sortChannels() {
+        LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
+
         int ndx = 0;
         if (allChannels != null) {
             //Sort by last played - if selected
-            if ("DatePlayed".equals(prefs.channelOrder)) {
+            if ("DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
                 Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
                     @Override
                     public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
@@ -246,7 +182,7 @@ public class TvManager {
                 }));
             }
 
-            if (prefs.favsAtTop) {
+            if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) {
                 Collections.sort(allChannels, new Comparator<ChannelInfoDto>() {
                     @Override
                     public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
