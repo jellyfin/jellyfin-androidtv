@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
@@ -58,10 +57,8 @@ public class NowPlayingBug extends FrameLayout {
             this.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TvApp.getApplication().getCurrentActivity() != null) {
-                        Intent np = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-                        TvApp.getApplication().getCurrentActivity().startActivity(np);
-                    }
+                    Intent np = new Intent(context, AudioNowPlayingActivity.class);
+                    context.startActivity(np);
                 }
             });
         }
