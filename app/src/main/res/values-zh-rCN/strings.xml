@@ -443,4 +443,5 @@
     <string name="alphabetical">按字母顺序</string>
     <string name="last_use">最近使用</string>
     <string name="lbl_community_rating">社区评分</string>
+    <string name="select_version">版本</string>
 </resources>
