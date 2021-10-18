@@ -3,7 +3,7 @@
     <string name="loading">Загружается…</string>
     <string name="video_error_unknown_error">Не удалось загрузить видео</string>
     <string name="btn_cancel">Отменить</string>
-    <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Воспроизведение</string>
     <string name="pref_max_bitrate_title">Макс. поток. скорость</string>
     <string name="settings_title">Параметры</string>
@@ -417,7 +417,7 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Спецэпизоды</string>
     <string name="help">Справка</string>
-    <string name="pref_next_up_behavior_title">Показать инфо о следующем видео</string>
+    <string name="pref_next_up_behavior_title">Инфо о следующем видео</string>
     <string name="lbl_time_range">%1$s—%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 композиция</string>
