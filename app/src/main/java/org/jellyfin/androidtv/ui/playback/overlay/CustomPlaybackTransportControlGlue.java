@@ -144,7 +144,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             }
 
             @Override
-            protected void onProgressBarClicked (PlaybackTransportRowPresenter.ViewHolder vh) {
+            protected void onProgressBarClicked(PlaybackTransportRowPresenter.ViewHolder vh) {
                 CustomPlaybackTransportControlGlue controlglue = CustomPlaybackTransportControlGlue.this;
                 controlglue.onActionClicked(controlglue.playPauseAction);
             }
