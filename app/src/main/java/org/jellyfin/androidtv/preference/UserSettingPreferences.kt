@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv.preference
 
-import org.jellyfin.sdk.api.operations.DisplayPreferencesApi
+import org.jellyfin.sdk.api.client.ApiClient
 
 class UserSettingPreferences(
-	displayPreferencesApi: DisplayPreferencesApi,
+	api: ApiClient,
 ) : DisplayPreferencesStore(
 	displayPreferencesId = "usersettings",
-	displayPreferencesApi = displayPreferencesApi,
+	api = api,
 	app = "emby",
 ) {
 	companion object {

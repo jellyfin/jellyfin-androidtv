@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
-import org.jellyfin.sdk.api.client.KtorClient
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 import java.util.*
@@ -35,8 +35,8 @@ class SessionRepositoryImpl(
 	private val accountManagerHelper: AccountManagerHelper,
 	private val apiBinder: ApiBinder,
 	private val authenticationStore: AuthenticationStore,
-	private val userApiClient: KtorClient,
-	private val systemApiClient: KtorClient,
+	private val userApiClient: ApiClient,
+	private val systemApiClient: ApiClient,
 	private val preferencesRepository: PreferencesRepository,
 ) : SessionRepository {
 	private val _currentSession = MutableLiveData<Session?>()
@@ -158,7 +158,7 @@ class SessionRepositoryImpl(
 		)
 	}
 
-	private fun KtorClient.applySession(session: Session?) {
+	private fun ApiClient.applySession(session: Session?) {
 		if (session == null) {
 			baseUrl = null
 			accessToken = null

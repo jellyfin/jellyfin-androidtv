@@ -9,9 +9,9 @@ import org.jellyfin.androidtv.util.sdk.toPublicUser
 import org.jellyfin.androidtv.util.sdk.toServer
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.exception.ApiClientException
-import org.jellyfin.sdk.api.operations.BrandingApi
-import org.jellyfin.sdk.api.operations.SystemApi
-import org.jellyfin.sdk.api.operations.UserApi
+import org.jellyfin.sdk.api.client.extensions.brandingApi
+import org.jellyfin.sdk.api.client.extensions.systemApi
+import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
@@ -49,11 +49,10 @@ class ServerRepositoryImpl(
 	}.flowOn(Dispatchers.IO)
 
 	private suspend fun getServerPublicUsers(server: Server): List<PublicUser> {
-		val client = jellyfin.createApi(server.address)
-		val userApi = UserApi(client)
+		val api = jellyfin.createApi(server.address)
 
 		return try {
-			val users by userApi.getPublicUsers()
+			val users by api.userApi.getPublicUsers()
 			users.mapNotNull(UserDto::toPublicUser)
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to retrieve public users")
@@ -71,10 +70,10 @@ class ServerRepositoryImpl(
 		if (now - serverInfo.lastRefreshed < 600000 && serverInfo.version != null) return false
 
 		return try {
-			val client = jellyfin.createApi(server.address)
+			val api = jellyfin.createApi(server.address)
 			// Get login disclaimer
-			val branding by BrandingApi(client).getBrandingOptions()
-			val systemInfo by SystemApi(client).getPublicSystemInfo()
+			val branding by api.brandingApi.getBrandingOptions()
+			val systemInfo by api.systemApi.getPublicSystemInfo()
 
 			authenticationStore.putServer(server.id, serverInfo.copy(
 				name = systemInfo.serverName ?: serverInfo.name,
@@ -160,12 +159,12 @@ class ServerRepositoryImpl(
 		})
 
 		val chosenRecommendation = greatRecommendaton ?: goodRecommendations.firstOrNull()
-		if (chosenRecommendation != null) {
+		if (chosenRecommendation != null && chosenRecommendation.systemInfo.isSuccess) {
 			// Get system info
-			val systemInfo = chosenRecommendation.systemInfo!!
+			val systemInfo = chosenRecommendation.systemInfo.getOrThrow()
 
 			// Get branding info
-			val api = BrandingApi(jellyfin.createApi(chosenRecommendation.address))
+			val api = jellyfin.createApi(chosenRecommendation.address).brandingApi
 			val branding by api.getBrandingOptions()
 
 			val id = systemInfo.id!!.toUUID()

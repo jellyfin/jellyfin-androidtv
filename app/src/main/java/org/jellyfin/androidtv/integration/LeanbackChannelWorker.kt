@@ -25,11 +25,11 @@ import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.entities.MediaType
-import org.jellyfin.sdk.api.client.KtorClient
-import org.jellyfin.sdk.api.operations.ImageApi
-import org.jellyfin.sdk.api.operations.ItemsApi
-import org.jellyfin.sdk.api.operations.TvShowsApi
-import org.jellyfin.sdk.api.operations.UserViewsApi
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.imageApi
+import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.api.client.extensions.tvShowsApi
+import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
@@ -57,11 +57,7 @@ class LeanbackChannelWorker(
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
-	private val apiClient by inject<KtorClient>(systemApiClient)
-	private val userViewsApi by lazy { UserViewsApi(apiClient) }
-	private val imageApi by lazy { ImageApi(apiClient) }
-	private val tvShowsApi by lazy { TvShowsApi(apiClient) }
-	private val itemsApi by lazy { ItemsApi(apiClient) }
+	private val api by inject<ApiClient>(systemApiClient)
 	private val userPreferences by inject<UserPreferences>()
 
 	/**
@@ -80,7 +76,7 @@ class LeanbackChannelWorker(
 		// Fail when not supported
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
-		!apiClient.isUsable -> Result.retry()
+		!api.isUsable -> Result.retry()
 		else -> {
 			// Get next up episodes
 			val (resumeItems, nextUpItems) = getNextUpItems()
@@ -141,7 +137,7 @@ class LeanbackChannelWorker(
 			.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 			.build(), default = true)
 
-		val response by userViewsApi.getUserViews(includeHidden = false)
+		val response by api.userViewsApi.getUserViews(includeHidden = false)
 
 		// Add new items
 		val items = response.items
@@ -149,7 +145,7 @@ class LeanbackChannelWorker(
 			.filterNot { it.collectionType in ItemRowAdapter.ignoredCollectionTypes }
 			.map { item ->
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
-					imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()
+					api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()
 				else
 					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv).toUri()
 
@@ -175,14 +171,14 @@ class LeanbackChannelWorker(
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
 		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
-			&& parentThumbItemId?.toUUIDOrNull() != null -> imageApi.getItemImageUrl(
+			&& parentThumbItemId?.toUUIDOrNull() != null -> api.imageApi.getItemImageUrl(
 			itemId = parentThumbItemId!!.toUUIDOrNull()!!,
 			imageType = ImageType.THUMB,
 			format = ImageFormat.WEBP,
 			width = 512,
 			height = 288
 		)
-		else -> imageApi.getItemImageUrl(
+		else -> api.imageApi.getItemImageUrl(
 			itemId = id,
 			imageType = ImageType.PRIMARY,
 			format = ImageFormat.WEBP,
@@ -198,8 +194,7 @@ class LeanbackChannelWorker(
 	 */
 	private suspend fun getNextUpItems(): Pair<List<BaseItemDto>, List<BaseItemDto>> = withContext(Dispatchers.IO) {
 		val resume = async {
-			itemsApi.getResumeItems(
-				userId = apiClient.userId!!,
+			api.itemsApi.getResumeItems(
 				fields = listOf(ItemFields.DATE_CREATED),
 				imageTypeLimit = 1,
 				limit = 10,
@@ -211,8 +206,8 @@ class LeanbackChannelWorker(
 		}
 
 		val nextup = async {
-			tvShowsApi.getNextUp(
-				userId = apiClient.userId,
+			api.tvShowsApi.getNextUp(
+				userId = api.userId,
 				imageTypeLimit = 1,
 				limit = 10,
 				fields = listOf(ItemFields.DATE_CREATED),

@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv.preference
 
-import org.jellyfin.sdk.api.operations.DisplayPreferencesApi
+import org.jellyfin.sdk.api.client.ApiClient
 
 class LiveTvPreferences(
-	displayPreferencesApi: DisplayPreferencesApi,
+	api: ApiClient,
 ) : DisplayPreferencesStore(
 	displayPreferencesId = "livetv",
-	displayPreferencesApi = displayPreferencesApi
+	api = api,
 ) {
 	companion object {
 		val channelOrder = Preference.string("livetv-channelorder", "DatePlayed")
