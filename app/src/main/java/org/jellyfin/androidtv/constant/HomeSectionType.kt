@@ -1,11 +1,13 @@
 package org.jellyfin.androidtv.constant
 
+import org.jellyfin.androidtv.preference.PreferenceEnum
+
 /**
  * All possible homesections, synced with jellyfin-web
  */
 enum class HomeSectionType(
-	val id: String
-) {
+	override val serializedName: String
+) : PreferenceEnum {
 	LATEST_MEDIA("latestmedia"),
 	LIBRARY_TILES_SMALL("smalllibrarytiles"),
 	LIBRARY_BUTTONS("librarybuttons"),
@@ -14,9 +16,5 @@ enum class HomeSectionType(
 	ACTIVE_RECORDINGS("activerecordings"),
 	NEXT_UP("nextup"),
 	LIVE_TV("livetv"),
-	NONE("none");
-
-	companion object {
-		fun getById(id: String) = values().firstOrNull { it.id == id }
-	}
+	NONE("none"),
 }

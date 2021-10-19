@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
+import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.IRowLoader
 import org.jellyfin.androidtv.ui.browsing.StdRowsFragment
@@ -21,25 +22,15 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.entities.DisplayPreferences
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.util.*
-import kotlin.collections.List
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.forEach
-import kotlin.collections.isNullOrEmpty
-import kotlin.collections.mapOf
-import kotlin.collections.mutableListOf
-import kotlin.collections.set
-import kotlin.collections.toMutableMap
 
 class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
 	private val mediaManager by inject<MediaManager>()
+	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val helper by lazy { HomeFragmentHelper(requireContext()) }
 
 	// Data
@@ -97,55 +88,15 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		mClickedListener.registerListener(liveTVRow::onItemClicked)
 	}
 
-	fun addSection(type: HomeSectionType) {
-		when (type) {
-			HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(views!!))
-			HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(helper.loadLibraryTiles())
-			HomeSectionType.LIBRARY_BUTTONS -> rows.add(helper.loadLibraryTiles())
-			HomeSectionType.RESUME -> rows.add(helper.loadResumeVideo())
-			HomeSectionType.RESUME_AUDIO -> rows.add(helper.loadResumeAudio())
-			HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
-			HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-			HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
-				rows.add(liveTVRow)
-				rows.add(helper.loadOnNow())
-			}
-			HomeSectionType.NONE -> Unit
-		}
-	}
-
 	override fun setupQueries(rowLoader: IRowLoader) {
 		lifecycleScope.launch(Dispatchers.IO) {
 			val currentUser = TvApp.getApplication()!!.currentUser!!
-			// Update the views before creating rows
-			views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
 
 			// Start out with default sections
-			val homesections = DEFAULT_SECTIONS.toMutableMap()
-
-			try {
-				// Get display preferences
-				val prefs = callApi<DisplayPreferences> {
-					apiClient.GetDisplayPreferencesAsync("usersettings", currentUser.id, "emby", it)
-				}.customPrefs
-
-				// Add sections from preferences
-				prefs.forEach { (key, value) ->
-					// Not a homesection key
-					if (!key.startsWith("homesection")) return@forEach
-
-					// Parse data
-					val index = key.removePrefix("homesection").toIntOrNull() ?: return@forEach
-					val type = HomeSectionType.getById(value) ?: return@forEach
-
-					homesections[index] = type
-				}
-			} catch (exception: Exception) {
-				Timber.e(exception, "Unable to retrieve home sections")
-			}
+			val homesections = userSettingPreferences.homesections
 
 			// Check for live TV support
-			if (homesections.containsValue(HomeSectionType.LIVE_TV) && currentUser.policy.enableLiveTvAccess) {
+			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy.enableLiveTvAccess) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				callApi<ItemsResult> {
@@ -162,6 +113,10 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
 			}
 
+			if (homesections.contains(HomeSectionType.LATEST_MEDIA)) {
+				views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
+			}
+
 			// Make sure the rows are empty
 			rows.clear()
 
@@ -169,7 +124,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			if (!isActive) return@launch
 
 			// Actually add the sections
-			homesections.forEach { section -> addSection(section.value) }
+			homesections.forEach(::addSection)
 
 			// Add sections to layout
 			withContext(Dispatchers.Main) {
@@ -183,19 +138,24 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		}
 	}
 
-	override fun loadRows(rows: List<BrowseRowDef>) {
-		// Override to make sure it is ignored because we manage our own rows
+	private fun addSection(type: HomeSectionType) {
+		when (type) {
+			HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(views!!))
+			HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(helper.loadLibraryTiles())
+			HomeSectionType.LIBRARY_BUTTONS -> rows.add(helper.loadLibraryTiles())
+			HomeSectionType.RESUME -> rows.add(helper.loadResumeVideo())
+			HomeSectionType.RESUME_AUDIO -> rows.add(helper.loadResumeAudio())
+			HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
+			HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
+			HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
+				rows.add(liveTVRow)
+				rows.add(helper.loadOnNow())
+			}
+			HomeSectionType.NONE -> Unit
+		}
 	}
 
-	companion object {
-		private val DEFAULT_SECTIONS = mapOf(
-			0 to HomeSectionType.LIBRARY_TILES_SMALL,
-			1 to HomeSectionType.RESUME,
-			2 to HomeSectionType.RESUME_AUDIO,
-			3 to HomeSectionType.LIVE_TV,
-			4 to HomeSectionType.NEXT_UP,
-			5 to HomeSectionType.LATEST_MEDIA,
-			6 to HomeSectionType.NONE
-		)
+	override fun loadRows(rows: List<BrowseRowDef>) {
+		// Override to make sure it is ignored because we manage our own rows
 	}
 }
