@@ -450,4 +450,16 @@
     <string name="license_repository">Repository</string>
     <string name="license_author">Author</string>
     <string name="license_license">License</string>
+    <string name="home_prefs">Home</string>
+    <string name="home_sections">Home sections</string>
+    <string name="home_section_latest_media">Latest media</string>
+    <string name="home_section_library">My media</string>
+    <string name="home_section_library_small">My media (small)</string>
+    <string name="home_section_resume">Continue watching</string>
+    <string name="home_section_resume_audio">Continue listening</string>
+    <string name="home_section_active_recordings">Active recordings</string>
+    <string name="home_section_next_up">Next up</string>
+    <string name="home_section_livetv">Live TV</string>
+    <string name="home_section_none">None</string>
+    <string name="home_section_i">Home section %1$d</string>
 </resources>

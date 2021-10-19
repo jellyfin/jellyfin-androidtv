@@ -95,7 +95,7 @@ abstract class DisplayPreferencesStore(
 	override fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
 		val stringValue = cachedPreferences[preference.key]
 
-		return if (stringValue == null) preference.defaultValue
+		return if (stringValue.isNullOrBlank()) preference.defaultValue
 		else preference.type.java.enumConstants?.find {
 			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
 		} ?: preference.defaultValue
