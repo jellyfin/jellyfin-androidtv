@@ -443,4 +443,5 @@
     <string name="alphabetical">Alfabético</string>
     <string name="last_use">Más reciente usado</string>
     <string name="lbl_community_rating">Calificación de la comunidad</string>
+    <string name="select_version">Versión</string>
 </resources>
