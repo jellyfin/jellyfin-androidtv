@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.preference
 
+import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.sdk.api.client.ApiClient
 
 class UserSettingPreferences(
@@ -12,5 +13,18 @@ class UserSettingPreferences(
 	companion object {
 		val skipBackLength = Preference.int("skipBackLength", 10000)
 		val skipForwardLength = Preference.int("skipForwardLength", 30000)
+
+		val homesection0 = Preference.enum("homesection0", HomeSectionType.LIBRARY_TILES_SMALL)
+		val homesection1 = Preference.enum("homesection1", HomeSectionType.RESUME)
+		val homesection2 = Preference.enum("homesection2", HomeSectionType.RESUME_AUDIO)
+		val homesection3 = Preference.enum("homesection3", HomeSectionType.LIVE_TV)
+		val homesection4 = Preference.enum("homesection4", HomeSectionType.NEXT_UP)
+		val homesection5 = Preference.enum("homesection5", HomeSectionType.LATEST_MEDIA)
+		val homesection6 = Preference.enum("homesection6", HomeSectionType.NONE)
 	}
+
+	val homesections
+		get() = listOf(homesection0, homesection1, homesection2, homesection3, homesection4, homesection5, homesection6)
+			.map(::get)
+			.filterNot { it == HomeSectionType.NONE }
 }
