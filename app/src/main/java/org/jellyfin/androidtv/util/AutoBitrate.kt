@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util
 
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.mediaInfoApi
 import org.jellyfin.sdk.api.extensions.detectBitrate
 import timber.log.Timber
@@ -15,9 +16,12 @@ class AutoBitrate(
 		private set
 
 	suspend fun detect() {
-		val measurement = api.mediaInfoApi.detectBitrate()
-		bitrate = measurement.bitrate
-
-		Timber.i("Auto bitrate set to: %d", bitrate)
+		try {
+			val measurement = api.mediaInfoApi.detectBitrate()
+			bitrate = measurement.bitrate
+			Timber.i("Auto bitrate set to: %d", bitrate)
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Failed to detect bitrate")
+		}
 	}
 }

@@ -6,8 +6,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.acra.config.dialog
 import org.acra.config.httpSender
 import org.acra.config.limiter
@@ -87,6 +89,7 @@ class JellyfinApplication : TvApp(), LifecycleObserver {
 	/**
 	 * Called from the StartupActivity when the user session is started.
 	 */
+	@DelicateCoroutinesApi
 	suspend fun onSessionStart() {
 		val workManager by inject<WorkManager>()
 		val autoBitrate by inject<AutoBitrate>()
@@ -104,9 +107,7 @@ class JellyfinApplication : TvApp(), LifecycleObserver {
 		).await()
 
 		// Detect auto bitrate
-		withContext(Dispatchers.IO) {
-			autoBitrate.detect()
-		}
+		GlobalScope.launch(Dispatchers.IO) { autoBitrate.detect() }
 	}
 
 	override fun attachBaseContext(base: Context?) {
