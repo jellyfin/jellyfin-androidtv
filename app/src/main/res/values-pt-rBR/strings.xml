@@ -443,4 +443,5 @@
     <string name="lbl_stretch">Esticar</string>
     <string name="lbl_auto_crop">Corte Automático</string>
     <string name="lbl_community_rating">Avaliação da comunidade</string>
+    <string name="select_version">Versão</string>
 </resources>
