@@ -443,4 +443,5 @@
     <string name="always_authenticate_description">Die Aktivierung dieser Funktion deaktiviert die automatische Anmeldung</string>
     <string name="always_authenticate">Immer nach Anmeldeinformationen fragen</string>
     <string name="lbl_community_rating">Zuschauerwertung</string>
+    <string name="select_version">Version</string>
 </resources>
