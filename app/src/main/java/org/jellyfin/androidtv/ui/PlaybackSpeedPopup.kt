@@ -34,6 +34,8 @@ class PlaybackSpeedPopup(
 
     init {
 		binding.floatSpinner.setOnChangeListener(changeListener)
+        binding.floatSpinner.minValue = .1f
+        binding.floatSpinner.maxValue = 4f
         val width = Utils.convertDpToPixel(context, 240)
         val height = Utils.convertDpToPixel(context, 130)
         popupWindow = PopupWindow(binding.root, width, height)

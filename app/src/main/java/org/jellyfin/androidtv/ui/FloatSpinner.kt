@@ -13,7 +13,9 @@ import org.jellyfin.androidtv.databinding.NumberSpinnerBinding
 class FloatSpinner @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	private var changeListener: ((value: Float) -> Unit)? = null
+    var minValue: Float? = null,
+    var maxValue: Float? = null,
+	private var changeListener: ((value: Float) -> Unit)? = null,
 ) : FrameLayout(context, attrs) {
     private var currentValue = 1f
     private var increment = .1f
@@ -21,8 +23,20 @@ class FloatSpinner @JvmOverloads constructor(
 
     init {
         if (!isInEditMode) {
-        	binding.btnIncrease.setOnClickListener { value = currentValue + increment }
-        	binding.btnDecrease.setOnClickListener { value = currentValue - increment }
+        	binding.btnIncrease.setOnClickListener {
+                value = if (maxValue == null || currentValue + increment < maxValue!!) {
+                    currentValue + increment
+                } else ({
+                    maxValue
+                })!!
+        	}
+        	binding.btnDecrease.setOnClickListener {
+                value = if (minValue == null || currentValue - increment > minValue!!) {
+                    currentValue - increment
+                } else ({
+                    minValue
+                })!!
+        	}
         }
     }
 
