@@ -1,8 +1,5 @@
 package org.jellyfin.androidtv.preference
 
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import org.jellyfin.sdk.api.client.ApiClient
 import kotlin.collections.set
 
@@ -27,11 +24,11 @@ class PreferencesRepository(
 		return store
 	}
 
-	suspend fun onSessionChanged() = coroutineScope {
-		awaitAll(
-			async { liveTvPreferences.update() },
-			async { userSettingPreferences.update() },
-		)
+	suspend fun onSessionChanged() {
+		// Note: Do not run parallel as the server can't deal with that
+		// Relevant server issue: https://github.com/jellyfin/jellyfin/issues/5261
+		liveTvPreferences.update()
+		userSettingPreferences.update()
 
 		libraryPreferences.clear()
 	}
