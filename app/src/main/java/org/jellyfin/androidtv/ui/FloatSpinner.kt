@@ -26,16 +26,16 @@ class FloatSpinner @JvmOverloads constructor(
         	binding.btnIncrease.setOnClickListener {
                 value = if (maxValue == null || currentValue + increment < maxValue!!) {
                     currentValue + increment
-                } else ({
+                } else {
                     maxValue
-                })!!
+                }!!
         	}
         	binding.btnDecrease.setOnClickListener {
                 value = if (minValue == null || currentValue - increment > minValue!!) {
                     currentValue - increment
-                } else ({
+                } else {
                     minValue
-                })!!
+                }!!
         	}
         }
     }
