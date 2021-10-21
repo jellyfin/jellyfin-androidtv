@@ -29,7 +29,8 @@ public class BrowseGridFragment extends StdGridFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount,
                 ItemFields.MediaSources,
-                ItemFields.MediaStreams
+                ItemFields.MediaStreams,
+                ItemFields.DisplayPreferencesId
         });
         query.setParentId(mParentId.toString());
         if (mFolder.getType().equalsIgnoreCase(BaseItemType.UserView.toString()) || mFolder.getType().equalsIgnoreCase(BaseItemType.CollectionFolder.toString())) {
