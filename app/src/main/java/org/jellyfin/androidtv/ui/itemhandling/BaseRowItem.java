@@ -509,14 +509,6 @@ public class BaseRowItem {
         }
     }
 
-    public String getBackdropImageUrl() {
-        if (type == ItemType.BaseItem) {
-            return ImageUtils.getBackdropImageUrl(baseItem, apiClient.getValue(), true);
-        }
-
-        return null;
-    }
-
     public Drawable getBadgeImage() {
         switch (type) {
             case BaseItem:
