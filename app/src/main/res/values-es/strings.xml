@@ -444,4 +444,13 @@
     <string name="last_use">Más reciente usado</string>
     <string name="lbl_community_rating">Calificación de la comunidad</string>
     <string name="select_version">Versión</string>
+    <string name="license_license">Licencia</string>
+    <string name="license_author">Autor</string>
+    <string name="license_repository">Repositorio</string>
+    <string name="license_website">Web</string>
+    <string name="license_artifact">Artefacto</string>
+    <string name="license_version">Versión</string>
+    <string name="license_description">Descripción</string>
+    <string name="licenses_link_description">Ver las licencias de las librerías usadas por Jellyfin</string>
+    <string name="licenses_link">Licencias</string>
 </resources>
