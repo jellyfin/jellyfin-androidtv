@@ -246,28 +246,6 @@ public class ImageUtils {
         return null;
     }
 
-    public static String getBackdropImageUrl(BaseItemDto item, ApiClient apiClient, boolean random) {
-        if (item != null) {
-            ImageOptions options = new ImageOptions();
-            options.setMaxWidth(1200);
-            options.setImageType(ImageType.Backdrop);
-
-            if (item.getBackdropCount() > 0) {
-                int index = random ? MathUtils.randInt(0, item.getBackdropCount() - 1) : 0;
-                options.setImageIndex(index);
-                options.setTag(item.getBackdropImageTags().get(index));
-                return apiClient.GetImageUrl(item, options);
-            } else if (item.getParentBackdropImageTags() != null && item.getParentBackdropImageTags().size() > 0) {
-                int index = random ? MathUtils.randInt(0, item.getParentBackdropImageTags().size() - 1) : 0;
-                options.setImageIndex(index);
-                options.setTag(item.getParentBackdropImageTags().get(index));
-                return apiClient.GetImageUrl(item.getParentBackdropItemId(), options);
-            }
-        }
-
-        return null;
-    }
-
     /**
      * A utility to return a URL reference to an image resource
      *
