@@ -444,4 +444,13 @@
     <string name="always_authenticate">Всегда запрашивать учётные данные</string>
     <string name="lbl_community_rating">Общественная оценка</string>
     <string name="select_version">Версия</string>
+    <string name="licenses_link_description">Просмотр лицензий библиотек, используемых приложением Jellyfin</string>
+    <string name="license_license">Лицензия</string>
+    <string name="license_author">Автор</string>
+    <string name="license_repository">Репозиторий</string>
+    <string name="license_website">Веб-сайт</string>
+    <string name="license_artifact">Артефакт</string>
+    <string name="license_version">Версия</string>
+    <string name="license_description">Описание</string>
+    <string name="licenses_link">Лицензии</string>
 </resources>
