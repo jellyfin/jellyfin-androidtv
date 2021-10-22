@@ -71,7 +71,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
 
     protected static final int BY_LETTER = 0;
     protected static final int GENRES = 1;
-    protected static final int PERSONS = 3;
     protected static final int SUGGESTED = 4;
     protected static final int GRID = 6;
     protected static final int ALBUMS = 7;
@@ -417,15 +416,6 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         requireActivity().startActivity(suggIntent);
-                        break;
-
-                    case PERSONS:
-                        Intent personIntent = new Intent(getActivity(), GroupedItemsActivity.class);
-                        personIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.PERSON.toString());
-                        personIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                        personIntent.putExtra(Extras.IncludeType, itemTypeString);
-
-                        requireActivity().startActivity(personIntent);
                         break;
 
                     case FAVSONGS:

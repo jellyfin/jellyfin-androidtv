@@ -13,7 +13,6 @@ class GroupedItemsActivity : FragmentActivity() {
 
 		supportFragmentManager.commit {
 			when (groupingType) {
-				GroupingType.PERSON -> replace<BrowsePersonsFragment>(android.R.id.content)
 				GroupingType.GENRE -> replace<ByGenreFragment>(android.R.id.content)
 				GroupingType.LETTER -> replace<ByLetterFragment>(android.R.id.content)
 			}
@@ -21,7 +20,6 @@ class GroupedItemsActivity : FragmentActivity() {
 	}
 
 	enum class GroupingType {
-		PERSON,
 		GENRE,
 		LETTER,
 	}
