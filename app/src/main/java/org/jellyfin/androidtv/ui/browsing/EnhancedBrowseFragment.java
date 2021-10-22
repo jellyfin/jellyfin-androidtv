@@ -388,23 +388,25 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
 
                         Intent artistsIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        artistsIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                        artistsIntent.putExtra(Extras.IncludeType, "AlbumArtist");
+                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, "AlbumArtist");
                         requireActivity().startActivity(artistsIntent);
                         break;
 
                     case BY_LETTER:
-                        Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                        intent.putExtra(Extras.IncludeType, itemTypeString);
+                        Intent letterIntent = new Intent(getActivity(), GroupedItemsActivity.class);
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.LETTER.toString());
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
-                        requireActivity().startActivity(intent);
+                        requireActivity().startActivity(letterIntent);
                         break;
 
                     case GENRES:
-                        Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
-                        genreIntent.putExtra(Extras.IncludeType, itemTypeString);
+                        Intent genreIntent = new Intent(getActivity(), GroupedItemsActivity.class);
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.GENRE.toString());
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
                         requireActivity().startActivity(genreIntent);
                         break;
@@ -418,7 +420,8 @@ public class EnhancedBrowseFragment extends Fragment implements IRowLoader {
                         break;
 
                     case PERSONS:
-                        Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
+                        Intent personIntent = new Intent(getActivity(), GroupedItemsActivity.class);
+                        personIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.PERSON.toString());
                         personIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
                         personIntent.putExtra(Extras.IncludeType, itemTypeString);
 

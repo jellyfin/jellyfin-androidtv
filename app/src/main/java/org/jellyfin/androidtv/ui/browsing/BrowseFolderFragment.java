@@ -88,18 +88,20 @@ public class BrowseFolderFragment extends StdBrowseFragment {
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case BY_LETTER:
-                        Intent intent = new Intent(getActivity(), ByLetterActivity.class);
-                        intent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
-                        intent.putExtra(Extras.IncludeType, itemTypeString);
+                        Intent letterIntent = new Intent(getActivity(), GroupedItemsActivity.class);
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.LETTER.toString());
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
-                        getActivity().startActivity(intent);
+                        requireActivity().startActivity(letterIntent);
                         break;
                     case GENRES:
-                        Intent genreIntent = new Intent(getActivity(), ByGenreActivity.class);
-                        genreIntent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
-                        genreIntent.putExtra(Extras.IncludeType, itemTypeString);
+                        Intent genreIntent = new Intent(getActivity(), GroupedItemsActivity.class);
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.GENRE.toString());
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
-                        getActivity().startActivity(genreIntent);
+                        requireActivity().startActivity(genreIntent);
                         break;
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
@@ -107,13 +109,6 @@ public class BrowseFolderFragment extends StdBrowseFragment {
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         getActivity().startActivity(suggIntent);
-                        break;
-                    case PERSONS:
-                        Intent personIntent = new Intent(getActivity(), BrowsePersonsActivity.class);
-                        personIntent.putExtra(Extras.Folder, Json.Default.encodeToString(BaseItemDto.Companion.serializer(), mFolder));
-                        personIntent.putExtra(Extras.IncludeType, itemTypeString);
-
-                        getActivity().startActivity(personIntent);
                         break;
                     default:
                         Toast.makeText(getActivity(), item.toString() + TvApp.getApplication().getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();

@@ -2,8 +2,6 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import android.os.Bundle;
 
-import org.jellyfin.androidtv.constant.Extras;
-
 import timber.log.Timber;
 
 public class CustomViewFragment extends BrowseFolderFragment {
@@ -11,7 +9,7 @@ public class CustomViewFragment extends BrowseFolderFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
+        includeType = getActivity().getIntent().getStringExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE);
         Timber.d("Item type: %s", includeType);
         showViews = false;
 
