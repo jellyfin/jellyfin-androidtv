@@ -91,7 +91,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
-    private boolean mApplyAlpha = true;
 
     private long lastUserInteraction;
     private boolean ssActive;
@@ -238,8 +237,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadItem();
-        if (mBaseItem != null && (mBaseItem.getBackdropCount() > 1 || (mBaseItem.getParentBackdropImageTags() != null && mBaseItem.getParentBackdropImageTags().size() > 1)))
-            rotateBackdrops();
+        rotateBackdrops();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
         //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
@@ -476,11 +474,14 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mBackdropLoop = new Runnable() {
             @Override
             public void run() {
-                backgroundService.getValue().setBackground(mBaseItem);
+                if (mBaseItem != null && (mBaseItem.getBackdropCount() > 1 || (mBaseItem.getParentBackdropImageTags() != null && mBaseItem.getParentBackdropImageTags().size() > 1)))
+                    backgroundService.getValue().setBackground(mBaseItem);
+
                 //manage our "screen saver" too
                 if (mediaManager.getValue().isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
                     startScreenSaver();
                 }
+
                 mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
             }
         };
@@ -498,7 +499,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
-        mApplyAlpha = false;
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mScrollView, "alpha", 1f, 0f);
         fadeOut.setDuration(1000);
         fadeOut.start();
@@ -511,7 +511,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     protected void stopScreenSaver() {
-        mApplyAlpha = true;
         mLogoImage.setVisibility(View.GONE);
         mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
