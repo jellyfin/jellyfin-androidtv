@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import kotlinx.serialization.json.Json;
@@ -17,7 +16,7 @@ public class BrowseFolderFragment extends StdBrowseFragment {
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = requireActivity().getIntent();
 
-        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), intent.getStringExtra(Extras.Folder));
+        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), intent.getStringExtra(GroupedItemsActivity.EXTRA_FOLDER));
         includeType = intent.getStringExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE);
         MainTitle = mFolder.getName();
         ShowBadge = false;
