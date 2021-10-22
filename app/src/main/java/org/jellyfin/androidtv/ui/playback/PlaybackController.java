@@ -869,8 +869,6 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            // tell the server that the current position is the seeked position. I don't know if this line is needed in addition to the line that updates mCurrentPosition
-            ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), pos * 10000, false);
             // update mCurrentPosition because when play() is called after seeking it uses its value
             mCurrentPosition = pos;
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
@@ -888,11 +886,15 @@ public class PlaybackController {
                 }
             });
         } else {
+            long oldposition = mCurrentPosition;
+            mCurrentPosition = pos;
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
+                mCurrentPosition = oldposition;
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else if (mVideoManager.seekTo(pos) >= 0) {
             } else {
+                mCurrentPosition = oldposition;
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             }
 
