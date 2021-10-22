@@ -117,14 +117,11 @@ class SessionRepositoryImpl(
 
 			if (success) {
 				userApiClient.applySession(session)
+				runBlocking { preferencesRepository.onSessionChanged() }
 				_currentSession.postValue(session)
 			} else {
 				userApiClient.applySession(null)
 				_currentSession.postValue(null)
-			}
-
-			runBlocking {
-				preferencesRepository.onSessionChanged()
 			}
 
 			callback?.invoke(success)
