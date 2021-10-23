@@ -954,7 +954,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         } else { //here playButton is only a play button
             if (BaseItemUtils.canPlay(mBaseItem)) {
                 mDetailsOverviewRow.addAction(mResumeButton);
-                boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+                // hide mresume button by default when its used for nextup, which it always is for series. the button can be made visible later once its verified that there are nextup items
+                boolean resumeButtonVisible = !(mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) && mBaseItem.getCanResume();
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
                 playButton = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
