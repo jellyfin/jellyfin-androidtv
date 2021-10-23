@@ -14,7 +14,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import org.jellyfin.androidtv.databinding.FragmentItemPreviewBinding
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ItemPreviewFragment : Fragment() {
@@ -39,8 +38,8 @@ class ItemPreviewFragment : Fragment() {
 			binding.homeRowHeader.text = data.rowHeader
 
 			when {
-				data.baseItem.baseItemType == BaseItemType.Episode
-					|| data.baseItem.baseItemType == BaseItemType.MusicAlbum
+				data.baseItem.type == "Episode"
+					|| data.baseItem.type == "MusicAlbum"
 					|| !data.baseItem.taglines.isNullOrEmpty() -> binding.subtitle.setTextSize(
 					TypedValue.COMPLEX_UNIT_SP,
 					16F
