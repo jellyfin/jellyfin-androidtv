@@ -68,7 +68,7 @@ class ItemPreviewViewModel(
 		)
 	}
 
-	private fun BaseRowItem.loadTitle() : String = when (baseItemType) {
+	private fun BaseRowItem.loadTitle() = when (baseItemType) {
 		BaseItemType.Episode -> baseItem.seriesName
 		BaseItemType.MusicAlbum -> baseItem.albumArtist
 		BaseItemType.CollectionFolder,
@@ -76,7 +76,7 @@ class ItemPreviewViewModel(
 		else -> getCardName(context)
 	}
 
-	private fun BaseItemDto.loadSubtitle() : String? = when {
+	private fun BaseItemDto.loadSubtitle() = when {
 		type == "Episode" -> name
 		type == "MusicAlbum" -> name
 		!taglines.isNullOrEmpty() -> taglines!![0]
@@ -85,129 +85,115 @@ class ItemPreviewViewModel(
 	}
 
 	private fun BaseItemDto.loadNumbersString() : SpannableStringBuilder {
-		val numbersString = SpannableStringBuilder()
+		val numbersString = when (type) {
+			"Episode" -> loadSeasonEpisodeNumbers()
+			else -> loadAdditionalInfo()
+		}
+		val numbersSpannableString = SpannableStringBuilder(numbersString)
+		if (type != "UserView" && type != "CollectionFolder") numbersSpannableString.addRating(this)
+		return numbersSpannableString
+	}
 
-		if (type == "Episode") {
-			if (parentIndexNumber != null) {
-				if (parentIndexNumber == 0)
-					numbersString.append(context.getString(R.string.lbl_special))
-				else
-					numbersString.append(
-						context.getString(
-							R.string.season_number_full,
-							parentIndexNumber
-						)
-					)
-			}
-			if (indexNumber != null
-				&& (parentIndexNumber == null || parentIndexNumber != 0)) {
-				if (numbersString.isNotEmpty()) numbersString.append(" • ")
-
-				if (indexNumberEnd != null)
-					numbersString.append(
-						context.getString(
-							R.string.episode_range_full,
-							indexNumber,
-							indexNumberEnd
-						)
-					)
-				else
-					numbersString.append(
-						context.getString(
-							R.string.episode_number_full,
-							indexNumber
-						)
-					)
-			}
-		} else {
-			if (productionYear != null) {
-				if (endDate != null) {
-					val cal = Calendar.getInstance()
-					cal.time = Date.from(endDate!!.toInstant(ZoneOffset.UTC))
-					if (productionYear != cal.get(Calendar.YEAR)) {
-						numbersString.append(
-							context.getString(
-								R.string.num_range,
-								productionYear,
-								cal.get(Calendar.YEAR)
-							)
-						)
-					} else {
-						numbersString.append(productionYear.toString())
-					}
-				} else if (type == "Series" && status == "Continuing") {
-					numbersString.append(
-						context.getString(
-							R.string.year_to_present,
-							productionYear
-						)
-					)
-				} else {
-					numbersString.append(productionYear.toString())
-				}
-			}
-			if (!officialRating.isNullOrEmpty()) {
-				if (numbersString.isNotEmpty()) numbersString.append(" • ")
-				numbersString.append(officialRating)
-			}
-			if (type == "MusicAlbum" && childCount != null && childCount!! > 0) {
-				if (numbersString.isNotEmpty()) numbersString.append(" • ")
-				numbersString.append(
-					when {
-						childCount!! > 1 -> context.getString(R.string.lbl_num_songs, childCount)
-						else -> context.getString(R.string.lbl_one_song)
-					}
+	private fun BaseItemDto.loadSeasonEpisodeNumbers() = buildString {
+		if (parentIndexNumber != null) {
+			if (parentIndexNumber == 0) append(context.getString(R.string.lbl_special))
+			else append(context.getString(R.string.season_number_full, parentIndexNumber))
+		}
+		if (indexNumber != null && (parentIndexNumber == null || parentIndexNumber != 0)) {
+			if (isNotEmpty()) append(" • ")
+			if (indexNumberEnd != null) append(
+				context.getString(
+					R.string.episode_range_full,
+					indexNumber,
+					indexNumberEnd
 				)
-			}
+			)
+			else append(context.getString(R.string.episode_number_full, indexNumber))
 		}
+	}
 
-		if (type != "UserView" && type != "CollectionFolder") {
-			val ratingType = userPreferences[UserPreferences.defaultRatingType]
-			if (ratingType == RatingType.RATING_TOMATOES && criticRating != null) {
-				val badge = if (criticRating!! > 59)
-					ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh)
-				else
-					ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten)
-				if (badge != null) {
-					badge.setBounds(
-						0,
-						0,
-						33,
-						33
+	private fun BaseItemDto.loadAdditionalInfo() = buildString {
+		if (productionYear != null) {
+			if (endDate != null) {
+				val cal = Calendar.getInstance()
+				cal.time = Date.from(endDate!!.toInstant(ZoneOffset.UTC))
+				if (productionYear != cal.get(Calendar.YEAR)) append(
+					context.getString(
+						R.string.num_range,
+						productionYear,
+						cal.get(Calendar.YEAR)
 					)
-					val imageSpan = ImageSpan(badge)
-					if (numbersString.isNotEmpty()) numbersString.append("   ")
-					numbersString.setSpan(
-						imageSpan,
-						numbersString.length - 1,
-						numbersString.length,
-						0
-					)
-					numbersString.append(" ")
-						.append((criticRating!!).roundToInt().toString())
-						.append("%")
-				}
-			} else if (ratingType == RatingType.RATING_STARS && communityRating != null) {
-				val badge = ContextCompat.getDrawable(context, R.drawable.ic_star)
-				if (badge != null) {
-					badge.setBounds(
-						0,
-						0,
-						30,
-						30
-					)
-					val imageSpan = ImageSpan(badge)
-					if (numbersString.isNotEmpty()) numbersString.append("   ")
-					numbersString.setSpan(
-						imageSpan,
-						numbersString.length - 1,
-						numbersString.length,
-						0
-					)
-					numbersString.append(" ").append(communityRating.toString())
-				}
+				)
+				else append(productionYear.toString())
+			} else if (type == "Series" && status == "Continuing") {
+				append(context.getString(R.string.year_to_present, productionYear))
+			} else {
+				append(productionYear.toString())
 			}
 		}
-		return numbersString
+		if (!officialRating.isNullOrEmpty()) {
+			if (isNotEmpty()) append(" • ")
+			append(officialRating)
+		}
+		if (type == "MusicAlbum" && childCount != null && childCount!! > 0) {
+			if (isNotEmpty()) append(" • ")
+			append(
+				when {
+					childCount!! > 1 -> context.getString(R.string.lbl_num_songs, childCount)
+					else -> context.getString(R.string.lbl_one_song)
+				}
+			)
+		}
+	}
+
+	private fun SpannableStringBuilder.addRating(item: BaseItemDto) : SpannableStringBuilder {
+		val ratingType = userPreferences[UserPreferences.defaultRatingType]
+		val lineHeight = 30
+
+		if (ratingType == RatingType.RATING_TOMATOES && item.criticRating != null) {
+			val badge = if (item.criticRating!! > 59)
+				ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh)
+			else
+				ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten)
+			if (badge != null) {
+				badge.setBounds(
+					0,
+					0,
+					lineHeight,
+					lineHeight
+				)
+				val imageSpan = ImageSpan(badge)
+				if (isNotEmpty()) append("   ")
+				setSpan(
+					imageSpan,
+					length - 1,
+					length,
+					0
+				)
+				append(" ")
+					.append((item.criticRating!!).roundToInt().toString())
+					.append("%")
+			}
+		} else if (ratingType == RatingType.RATING_STARS && item.communityRating != null) {
+			val badge = ContextCompat.getDrawable(context, R.drawable.ic_star)
+			if (badge != null) {
+				badge.setBounds(
+					0,
+					0,
+					lineHeight + 3,
+					lineHeight + 3
+				)
+				val imageSpan = ImageSpan(badge)
+				if (isNotEmpty()) append("   ")
+				setSpan(
+					imageSpan,
+					length - 1,
+					length,
+					0
+				)
+				append(" ").append(item.communityRating.toString())
+			}
+		}
+		return this
 	}
 }
