@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -29,7 +28,6 @@ import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
-import org.koin.java.KoinJavaComponent;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -259,10 +257,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return homeItem && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
-                    && getBaseItemType() != null && (getBaseItemType() == BaseItemType.Series || getBaseItemType() == BaseItemType.Movie)
-                    ? ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight)
-                    : ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
             case Person:
                 return ImageUtils.getPrimaryImageUrl(person, apiClient.getValue(), maxHeight);
             case User:

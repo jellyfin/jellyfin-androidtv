@@ -100,8 +100,6 @@ public class CardPresenter extends Presenter {
             mItem = m;
             isUserView = false;
             homeHeaderEnabled = mItem.isHomeItem() && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getHomeHeaderEnabled());
-            boolean homeThumbnailsEnabled = mItem.isHomeItem() && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getHomeThumbnailsEnabled())
-                && mItem.getBaseItemType() != null && (mItem.getBaseItemType() == BaseItemType.Series || mItem.getBaseItemType() == BaseItemType.Movie);
             switch (mItem.getItemType()) {
 
                 case BaseItem:
@@ -110,7 +108,7 @@ public class CardPresenter extends Presenter {
                     boolean showProgress = false;
                     if (imageType.equals(ImageType.BANNER)) {
                         aspect = ASPECT_RATIO_BANNER;
-                    } else if (imageType.equals(ImageType.THUMB) || homeThumbnailsEnabled) {
+                    } else if (imageType.equals(ImageType.THUMB)) {
                         aspect = ImageUtils.ASPECT_RATIO_16_9;
                     } else {
                         aspect = Utils.getSafeValue(ImageUtils.getImageAspectRatio(itemDto, m.getPreferParentThumb()), ImageUtils.ASPECT_RATIO_7_9);
@@ -140,7 +138,7 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
-                            if (imageType.equals(ImageType.DEFAULT) && !homeThumbnailsEnabled) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
@@ -190,7 +188,7 @@ public class CardPresenter extends Presenter {
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT) && !homeThumbnailsEnabled) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:

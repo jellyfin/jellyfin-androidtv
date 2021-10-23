@@ -185,11 +185,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable home header for focused home screen item
 		 */
 		var homeHeaderEnabled = Preference.boolean("home_header_enabled", false)
-
-		/**
-		 * Use thumbnails for TV shows and movies in home screen rows
-		 */
-		var homeThumbnailsEnabled = Preference.boolean("home_thumbnails_enabled", false)
 	}
 
 	init {
