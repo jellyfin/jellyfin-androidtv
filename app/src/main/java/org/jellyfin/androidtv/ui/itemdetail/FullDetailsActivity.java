@@ -253,14 +253,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 if (!isFinishing()) {
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
-                                        boolean resumeVisible = !(mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) && mBaseItem.getCanResume();
+                                        boolean resumeVisible = mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer || mBaseItem.getCanResume();
+                                        //mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
+                                        mResumeButton.setEnabled(resumeVisible);
+
                                         if (response.getCanResume()) {
                                             mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
-                                        }
-                                        if (resumeVisible) {
                                             mResumeButton.requestFocus();
                                         }
+
                                         showNextUpButton();
                                         showMoreButtonIfNeeded();
                                     }
@@ -908,8 +910,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 @Override
                 public void onResponse(ItemsResult response) {
                     if (response.getItems().length > 0) {
-                        mResumeButton.setVisibility(View.VISIBLE);
+                        mResumeButton.setEnabled(true);
                         mResumeButton.requestFocus();
+                    }
+                    else {
+                        mResumeButton.setVisibility(View.GONE);
                     }
                 }
 
@@ -981,8 +986,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             if (BaseItemUtils.canPlay(mBaseItem)) {
                 mDetailsOverviewRow.addAction(mResumeButton);
                 // hide mresume button by default when its used for nextup, which it always is for series. the button can be made visible later once its verified that there are nextup items
-                boolean resumeButtonVisible = !(mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) && mBaseItem.getCanResume();
+                boolean resumeButtonVisible = mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer || mBaseItem.getCanResume();
+                //mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
+                mResumeButton.setEnabled(resumeButtonVisible);
 
                 playButton = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                     @Override
@@ -993,7 +1000,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 mDetailsOverviewRow.addAction(playButton);
 
-                if (resumeButtonVisible) {
+                if (mBaseItem.getCanResume()) {
                     mResumeButton.requestFocus();
                 } else {
                     playButton.requestFocus();
