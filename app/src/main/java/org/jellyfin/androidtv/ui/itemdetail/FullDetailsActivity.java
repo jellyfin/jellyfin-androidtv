@@ -253,7 +253,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                 if (!isFinishing()) {
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
-                                        boolean resumeVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
+                                        boolean resumeVisible = !(mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) && mBaseItem.getCanResume(); //(mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()) {
                                             mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
@@ -261,6 +261,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         if (resumeVisible) {
                                             mResumeButton.requestFocus();
                                         }
+                                        showNextUpButton();
                                         showMoreButtonIfNeeded();
                                     }
                                     updatePlayedDate();
@@ -895,6 +896,31 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     private TextUnderButton moreButton;
     private TextUnderButton playButton = null;
 
+
+    // query for nextup items and make the mresumebutton visible if there are
+    private void showNextUpButton() {
+        if (mBaseItem.getBaseItemType() == BaseItemType.Series) {
+            //play next up
+            NextUpQuery nextUpQuery = new NextUpQuery();
+            nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            nextUpQuery.setSeriesId(mBaseItem.getId());
+            apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getItems().length > 0) {
+                        mResumeButton.setVisibility(View.VISIBLE);
+                        mResumeButton.requestFocus();
+                    }
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Timber.e(exception, "Error getting next up for series");
+                }
+            });
+        }
+    }
+
     private void addButtons(int buttonSize) {
         String buttonLabel;
         if (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
@@ -1349,6 +1375,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mDetailsOverviewRow.addAction(moreButton);
         if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
 
+        showNextUpButton();
     }
 
     private void addVersionsMenu(View v) {
