@@ -91,7 +91,7 @@ class ItemPreviewViewModel(
 				else
 					numbersString.append(
 						context.getString(
-							R.string.lbl_season_number_full,
+							R.string.season_number_full,
 							baseItem.parentIndexNumber
 						)
 					)
@@ -103,7 +103,7 @@ class ItemPreviewViewModel(
 				if (baseItem.indexNumberEnd != null)
 					numbersString.append(
 						context.getString(
-							R.string.lbl_episode_range_full,
+							R.string.episode_range_full,
 							baseItem.indexNumber,
 							baseItem.indexNumberEnd
 						)
@@ -111,7 +111,7 @@ class ItemPreviewViewModel(
 				else
 					numbersString.append(
 						context.getString(
-							R.string.lbl_episode_number_full,
+							R.string.episode_number_full,
 							baseItem.indexNumber
 						)
 					)
@@ -124,7 +124,7 @@ class ItemPreviewViewModel(
 					if (baseItem.productionYear != cal.get(Calendar.YEAR)) {
 						numbersString.append(
 							context.getString(
-								R.string.lbl_num_range,
+								R.string.num_range,
 								baseItem.productionYear,
 								cal.get(Calendar.YEAR)
 							)
@@ -136,7 +136,7 @@ class ItemPreviewViewModel(
 					&& baseItem.seriesStatus == SeriesStatus.Continuing) {
 					numbersString.append(
 						context.getString(
-							R.string.lbl_year_to_present,
+							R.string.year_to_present,
 							baseItem.productionYear
 						)
 					)
