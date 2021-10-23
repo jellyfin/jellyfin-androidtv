@@ -443,4 +443,13 @@
     <string name="always_authenticate_description">Bật chức năng này sẽ tắt tự động đăng nhập</string>
     <string name="always_authenticate">Luôn hỏi thông tin xác thực</string>
     <string name="lbl_community_rating">Xếp Hạng Cộng Đồng</string>
+    <string name="license_license">Giấy phép</string>
+    <string name="license_author">Tác giả</string>
+    <string name="license_repository">Kho</string>
+    <string name="license_artifact">Đồ tạo tác</string>
+    <string name="license_version">Phiên bản</string>
+    <string name="license_description">Mô tả</string>
+    <string name="licenses_link_description">Xem giấy phép của các thư viện được ứng dụng Jellyfin sử dụng</string>
+    <string name="licenses_link">Giấy phép</string>
+    <string name="select_version">Phiên bản</string>
 </resources>
