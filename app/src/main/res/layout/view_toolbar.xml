@@ -4,151 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/toolbar_start"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="27dp"
-            android:layout_marginBottom="27dp"
-            android:gravity="start"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/toolbar_content"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/toolbar_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/app_logo" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/toolbar_content"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="27dp"
-            android:layout_marginBottom="27dp"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
-            app:layout_constraintEnd_toStartOf="@id/toolbar_end"
-            app:layout_constraintStart_toEndOf="@id/toolbar_start"
-            tools:ignore="RtlSymmetry" />
-
-        <LinearLayout
-            android:id="@+id/toolbar_end"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="27dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="27dp"
-            android:gravity="end"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/toolbar_content">
-
-            <TextClock
-                android:id="@+id/toolbar_clock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-light"
-                android:format12Hour="h:mm"
-                android:format24Hour="k:mm"
-                android:paddingStart="24dp"
-                android:textSize="20sp"
-                tools:ignore="RtlSymmetry"
-                tools:text="13:37" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_height="95dp">
 
     <LinearLayout
-        android:id="@+id/item_info"
-        android:layout_width="300dp"
-        android:layout_height="282dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="78dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/toolbar_start"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="27dp"
+        android:gravity="start"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/toolbar_content"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/item_logo"
+            android:id="@+id/toolbar_logo"
             android:layout_width="wrap_content"
-            android:layout_height="130dp"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:gravity="bottom"
-            android:maxWidth="300dp" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/app_logo" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/item_title"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
-            android:gravity="bottom"
-            android:maxLines="4"
-            android:shadowColor="@color/black"
-            android:shadowRadius="2"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            tools:text="Title" />
+    <LinearLayout
+        android:id="@+id/toolbar_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="27dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        app:layout_constraintEnd_toStartOf="@id/toolbar_end"
+        app:layout_constraintStart_toEndOf="@id/toolbar_start"
+        tools:ignore="RtlSymmetry" />
 
-        <TextView
-            android:id="@+id/numbers_row"
+    <LinearLayout
+        android:id="@+id/toolbar_end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="27dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toolbar_content">
+
+        <TextClock
+            android:id="@+id/toolbar_clock"
             android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_marginTop="8dp"
-            android:gravity="bottom"
-            android:shadowColor="@color/black"
-            android:shadowRadius="2"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            tools:text="Season x Episode x" />
-
-        <TextView
-            android:id="@+id/item_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="5"
-            android:shadowColor="@color/black"
-            android:shadowRadius="2"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:text="Episode Title" />
-
-        <TextView
-            android:id="@+id/home_row_header"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-condensed"
-            android:shadowColor="@color/black"
-            android:shadowRadius="2"
-            android:singleLine="true"
-            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-light"
+            android:format12Hour="h:mm"
+            android:format24Hour="k:mm"
+            android:paddingStart="24dp"
             android:textSize="20sp"
-            tools:text="Row Header"
+            tools:text="13:37"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

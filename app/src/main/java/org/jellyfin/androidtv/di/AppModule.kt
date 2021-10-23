@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.auth.ServerRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.TvApiEventListener
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.ui.itempreview.ItemPreviewViewModel
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
@@ -82,6 +83,7 @@ val appModule = module {
 
 	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get(), get()) }
 
+	viewModel { ItemPreviewViewModel(get(), get(), get()) }
 	viewModel { LoginViewModel(get(), get(), get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 
