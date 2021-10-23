@@ -260,10 +260,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                                         if (response.getCanResume()) {
                                             mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
-                                            mResumeButton.requestFocus();
                                         }
-
-                                        showNextUpButton();
+                                        else {
+                                            mResumeButton.setText(getString(R.string.lbl_play_next_up));
+                                        }
+                                        ChoosePrimaryButton(response.getCanResume());
                                         showMoreButtonIfNeeded();
                                     }
                                     updatePlayedDate();
@@ -900,7 +901,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
 
     // query for nextup items and make the mresumebutton visible if there are
-    private void showNextUpButton() {
+    private void ChoosePrimaryButton(boolean canResume) {
+
         if (mBaseItem.getBaseItemType() == BaseItemType.Series) {
             //play next up
             NextUpQuery nextUpQuery = new NextUpQuery();
@@ -915,6 +917,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     }
                     else {
                         mResumeButton.setVisibility(View.GONE);
+                        playButton.requestFocus();
                     }
                 }
 
@@ -923,6 +926,12 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     Timber.e(exception, "Error getting next up for series");
                 }
             });
+        }
+        else if (canResume) {
+            mResumeButton.requestFocus();
+        }
+        else {
+            playButton.requestFocus();
         }
     }
 
@@ -999,12 +1008,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 });
 
                 mDetailsOverviewRow.addAction(playButton);
-
-                if (mBaseItem.getCanResume()) {
-                    mResumeButton.requestFocus();
-                } else {
-                    playButton.requestFocus();
-                }
 
                 if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
                     queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
@@ -1382,7 +1385,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         mDetailsOverviewRow.addAction(moreButton);
         if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
 
-        showNextUpButton();
+        ChoosePrimaryButton(mBaseItem.getCanResume());
     }
 
     private void addVersionsMenu(View v) {
