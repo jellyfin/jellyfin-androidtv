@@ -145,7 +145,7 @@ public class ImageUtils {
 
     public static String getThumbImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasThumb()) {
-            return item.getHasBackdrop() ? getBackdropImageUrl(item, apiClient, false) : getPrimaryImageUrl(context, item, apiClient, true, maxHeight);
+            return getPrimaryImageUrl(context, item, apiClient, true, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
