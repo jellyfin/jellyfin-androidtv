@@ -886,20 +886,19 @@ public class PlaybackController {
                 }
             });
         } else {
-            long oldposition = mCurrentPosition;
-            mCurrentPosition = pos;
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
-                mCurrentPosition = oldposition;
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
-            } else if (mVideoManager.seekTo(pos) >= 0) {
             } else {
-                mCurrentPosition = oldposition;
-                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                long oldposition = mCurrentPosition;
+                mCurrentPosition = pos;
+
+                if (mVideoManager.seekTo(pos) < 0) {
+                    mCurrentPosition = oldposition;
+                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                }
             }
-
         }
-
     }
 
     private long currentSkipPos = 0;
