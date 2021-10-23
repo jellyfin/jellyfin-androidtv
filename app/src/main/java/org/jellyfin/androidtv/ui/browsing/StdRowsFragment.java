@@ -266,7 +266,6 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
 
             mCurrentRow = (ListRow) row;
             BaseRowItem rowItem = (BaseRowItem) item;
-            BaseItemDto baseItem = rowItem.getBaseItem();
 
             if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
                 //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
@@ -274,7 +273,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }
 
-            backgroundService.getValue().setBackground(baseItem);
+            backgroundService.getValue().setBackground(rowItem.getBaseItem());
 
             if (homeSection && userPreferences.getValue().get(UserPreferences.Companion.getHomeHeaderEnabled())) {
                 ItemPreviewViewModel viewModel = new ViewModelProvider(requireActivity()).get(ItemPreviewViewModel.class);
