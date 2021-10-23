@@ -33,7 +33,7 @@ class HomeFragmentBrowseRowDefRow(
 			QueryType.LiveTvProgram -> ItemRowAdapter(browseRowDef.programQuery, cardPresenter, rowsAdapter)
 			QueryType.LiveTvRecording -> ItemRowAdapter(browseRowDef.recordingQuery, browseRowDef.chunkSize, cardPresenter, rowsAdapter)
 			QueryType.LiveTvRecordingGroup -> ItemRowAdapter(browseRowDef.recordingGroupQuery, cardPresenter, rowsAdapter)
-			else -> ItemRowAdapter(browseRowDef.query, browseRowDef.chunkSize, preferParentThumb, browseRowDef.isStaticHeight, cardPresenter, rowsAdapter, browseRowDef.queryType, true)
+			else -> ItemRowAdapter(browseRowDef.query, browseRowDef.chunkSize, browseRowDef.preferParentThumb, browseRowDef.isStaticHeight, cardPresenter, rowsAdapter, browseRowDef.queryType, true)
 		}
 
 		rowAdapter.setReRetrieveTriggers(browseRowDef.changeTriggers)
