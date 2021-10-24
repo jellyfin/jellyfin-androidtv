@@ -23,7 +23,7 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.debuggingEnabled)
 			}
 
-			// Only show in debug mode
+			// Only show in development mode
 			if (BuildConfig.DEVELOPMENT) {
 				checkbox {
 					setTitle(R.string.enable_playback_module_title)

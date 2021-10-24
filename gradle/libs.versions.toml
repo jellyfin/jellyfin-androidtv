@@ -1,5 +1,5 @@
 [versions]
-kotlinx-coroutines = "1.4.3"
+kotlinx-coroutines = "1.5.2"
 kotlinx-serialization = "1.1.0"
 androidx-leanback = "1.1.0-beta01"
 androidx-lifecycle = "2.3.1"
@@ -7,6 +7,7 @@ koin = "3.1.2"
 glide = "4.12.0"
 acra = "5.8.4"
 aboutlibraries = "8.9.3"
+androidx-media2 = "1.2.0"
 
 [libraries]
 # Jellyfin apiclient
@@ -16,6 +17,7 @@ jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-core", version = "1.1.0" }
 
 # Kotlin
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 # Android(x)
@@ -37,6 +39,7 @@ androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", 
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-window = { module = "androidx.window:window", version = "1.0.0-alpha09" }
 androidx-cardview = { module = "androidx.cardview:cardview", version = "1.0.0" }
+androidx-media2-session = { module = "androidx.media2:media2-session", version = "androidx-media2"}
 
 # Dependency Injection
 koin-android-core = { module = "io.insert-koin:koin-android", version.ref = "koin" }
