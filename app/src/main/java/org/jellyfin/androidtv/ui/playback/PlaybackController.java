@@ -869,6 +869,8 @@ public class PlaybackController {
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
+            // update mCurrentPosition because when play() is called after seeking it uses its value
+            mCurrentPosition = pos;
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
@@ -887,13 +889,16 @@ public class PlaybackController {
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
-            } else if (mVideoManager.seekTo(pos) >= 0) {
             } else {
-                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                long oldposition = mCurrentPosition;
+                mCurrentPosition = pos;
+
+                if (mVideoManager.seekTo(pos) < 0) {
+                    mCurrentPosition = oldposition;
+                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                }
             }
-
         }
-
     }
 
     private long currentSkipPos = 0;
