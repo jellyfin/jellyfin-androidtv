@@ -55,6 +55,7 @@ class LegacyAccountMigration(
 							address = serverAddress ?: "",
 							loginDisclaimer = null,
 							version = serverVersion,
+							lastRefreshed = 0,
 						)
 					)
 				}
