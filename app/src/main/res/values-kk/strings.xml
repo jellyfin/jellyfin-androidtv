@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="video_error_unknown_error">Beine jükteu sätsız</string>
     <string name="btn_cancel">Boldyrmau</string>
-    <string name="byletter_letters">AÄBCDEFGĞHİIJKLMNÑOÖPQRSŞTUŪÜVWXYZ</string>
+    <string name="byletter_letters">AÄBDEFGĞHİIJKLMNÑOÖPQRSŞTUŪÜVYZ</string>
     <string name="pref_playback">Oinatu</string>
     <string name="pref_max_bitrate_title">Ağynmen tasymaldau eñ köp qarqyny</string>
     <string name="settings_title">Parametrler</string>
