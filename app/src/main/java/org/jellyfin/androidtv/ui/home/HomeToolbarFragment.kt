@@ -1,17 +1,18 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.databinding.FragmentToolbarHomeBinding
@@ -40,7 +41,7 @@ class HomeToolbarFragment : Fragment() {
 			activity?.startActivity(settingsIntent)
 		}
 
-		binding.switchUsersContainer.setOnClickListener {
+		binding.switchUsers.setOnClickListener {
 			switchUser()
 		}
 
@@ -55,25 +56,23 @@ class HomeToolbarFragment : Fragment() {
 	private fun setUserImage(image: String?) {
 		Glide.with(requireContext())
 			.load(image)
+			.placeholder(R.drawable.ic_switch_users)
 			.centerInside()
 			.circleCrop()
-			.into(object : CustomViewTarget<ImageButton, Drawable>(binding.switchUsersImage) {
+			.into(object : CustomViewTarget<ImageButton, Drawable>(binding.switchUsers) {
 				override fun onLoadFailed(errorDrawable: Drawable?) {
-					binding.switchUsersImage.isVisible = false
-					binding.switchUsersIcon.isVisible = true
-					binding.switchUsersImage.setImageDrawable(null)
+					binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
+					binding.switchUsers.setImageDrawable(errorDrawable)
 				}
 
 				override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-					binding.switchUsersImage.isVisible = true
-					binding.switchUsersIcon.isVisible = false
-					binding.switchUsersImage.setImageDrawable(resource)
+					binding.switchUsers.imageTintMode = null
+					binding.switchUsers.setImageDrawable(resource)
 				}
 
 				override fun onResourceCleared(placeholder: Drawable?) {
-					binding.switchUsersImage.isVisible = false
-					binding.switchUsersIcon.isVisible = true
-					binding.switchUsersImage.setImageDrawable(null)
+					binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
+					binding.switchUsers.setImageDrawable(placeholder)
 				}
 			})
 	}
