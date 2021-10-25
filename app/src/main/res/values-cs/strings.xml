@@ -444,4 +444,13 @@
     <string name="always_authenticate">Vždy vyžadovat přihlášení</string>
     <string name="lbl_community_rating">Uživatelské hodnocení</string>
     <string name="select_version">Verze</string>
+    <string name="license_license">Licence</string>
+    <string name="license_author">Autor</string>
+    <string name="license_repository">Repozitář</string>
+    <string name="license_website">Webová stránka</string>
+    <string name="license_artifact">Artefakt</string>
+    <string name="license_version">Verze</string>
+    <string name="license_description">Popis</string>
+    <string name="licenses_link_description">Zobrazit licence knihoven používaných aplikací Jellyfin</string>
+    <string name="licenses_link">Licence</string>
 </resources>
