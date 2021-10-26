@@ -67,7 +67,7 @@
     <string name="msg_playback_incompatible">এই ভিডিও ফরম্যাট প্লে করা যাবে না</string>
     <string name="msg_playback_restricted">প্রশাসক এই বার এই আইটেমটির প্লেব্যাক সীমাবদ্ধ করেছেন</string>
     <string name="msg_playback_not_allowed">প্লেব্যাক নোটগুলি এখন অনেক বেশি</string>
-    <string name="lbl_loading_elipses">লোডিং...</string>
+    <string name="lbl_loading_elipses">লোডিং…</string>
     <string name="lbl_ok">বেশ</string>
     <string name="lbl_valid_server_address">অনুগ্ৰহ করে সার্ভারের ঠিকানা প্রবেশ করুন (আইপি বা ডোমেন / মেশিনের নাম)</string>
     <string name="lbl_enter_server_address">সার্ভারের ঠিকানা লিখুন</string>
