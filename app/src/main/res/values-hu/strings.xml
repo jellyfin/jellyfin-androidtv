@@ -131,8 +131,8 @@
     <string name="lbl_unwatched">Nem lejátszott</string>
     <string name="msg_no_playable_items">Nince lejátszható elem</string>
     <string name="lbl_now_playing_album">%1$s -tól</string>
-    <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik:</string>
-    <string name="lbl_on">Ekkor:</string>
+    <string name="lbl_starting_with">Kezdve azokkal, amelyeknek a neve ezzel kezdődik</string>
+    <string name="lbl_on">Ekkor</string>
     <string name="lbl_resume_preroll">Késleltetett lejátszás</string>
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
     <string name="lbl_show_backdrop">Háttér mutatása böngészéskor</string>
@@ -189,7 +189,7 @@
     <string name="lbl_resume_from">Lejátszás %1$s -tól</string>
     <string name="lbl_guide_option_number">Csatorna száma</string>
     <string name="lbl_guide_option_played">Legutóbb játszott</string>
-    <string name="lbl_show_indicators">Indikátorok mutatása:</string>
+    <string name="lbl_show_indicators">Indikátorok mutatása</string>
     <string name="lbl_sort_by">Rendezés</string>
     <string name="lbl_premiere">Premier</string>
     <string name="lbl_guest_stars">Vendégsztárok</string>
@@ -278,10 +278,10 @@
     <string name="lbl_premier_date">Megjelenési dátum</string>
     <string name="lbl_date_added">Hozzáadás dátuma</string>
     <string name="lbl_name">Név</string>
-    <string name="lbl_from">ettől:</string>
-    <string name="lbl_sorted_by">rendezve:</string>
+    <string name="lbl_from">ettől</string>
+    <string name="lbl_sorted_by">rendezve</string>
     <string name="lbl_all_items">Minden elem</string>
-    <string name="lbl_showing">Mutat:</string>
+    <string name="lbl_showing">Mutat</string>
     <string name="desc_debug">Hibakereséssel kapcsolatos további információk mutatása</string>
     <string name="lbl_enable_debug">Hibakeresési lehetőségek</string>
     <string name="lbl_goto_series">Ugrás a sorozatokhoz</string>
