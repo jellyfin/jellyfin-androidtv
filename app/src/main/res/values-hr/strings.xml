@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="lbl_never">Nikada</string>
-    <string name="lbl_loading_elipses">Učitavam...</string>
+    <string name="lbl_loading_elipses">Učitavam…</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Unesi adresu poslužitelja</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ili https://myserver.com</string>
@@ -82,15 +82,15 @@
     <string name="video_error_unknown_error">Neuspješno učitavanje videozapisa</string>
     <string name="lbl_programs">Programi</string>
     <string name="lbl_direct_stream_live">Direktna reprodukcija TV programa</string>
-    <string name="msg_error_live_stream">Greška pri reprodukciji TV programa. Pokušati ćemo ponovo...</string>
+    <string name="msg_error_live_stream">Greška pri reprodukciji TV programa. Pokušati ćemo ponovo…</string>
     <string name="pref_live_tv_cat">TV uživo</string>
     <string name="lbl_recorded_tv">Snimljen TV program</string>
     <string name="lbl_live_tv_guide">TV raspored</string>
     <string name="lbl_no_recordings">Nema dostupnih snimki</string>
     <string name="lbl_recording">Snima se</string>
-    <string name="msg_burn_sub_warning">Podnapisi spojeni sa videom mogu uzeti nekoliko minuta. Budite strpljivi...</string>
+    <string name="msg_burn_sub_warning">Podnapisi spojeni sa videom mogu uzeti nekoliko minuta. Budite strpljivi…</string>
     <string name="msg_unable_load_subs">Nije moguće učitati podnapis</string>
-    <string name="msg_subtitles_loading">Podnapisi se učitavaju...</string>
+    <string name="msg_subtitles_loading">Podnapisi se učitavaju…</string>
     <string name="lbl_filters">Filteri</string>
     <string name="btn_clear_all">Ukloni sve</string>
     <string name="btn_filter">Filter</string>
@@ -189,7 +189,7 @@
     <string name="msg_no_items">Nema stavki za reprodukciju</string>
     <string name="subtitle_error">Nije moguće odabrati titl</string>
     <string name="too_many_errors">Previše grešaka. Odustajem</string>
-    <string name="player_error">Greška u izvođaču. Pokušat ću ponovno...</string>
+    <string name="player_error">Greška u izvođaču. Pokušat ću ponovno…</string>
     <string name="seek_error">Nije moguće pretraživati</string>
     <string name="msg_live_tv_prev">Učitaj prethodnih %1$d sati\?</string>
     <string name="msg_live_tv_next">Učitaj sljedećih %1$d sati\?</string>
@@ -346,7 +346,7 @@
     <string name="lbl_pause">Pauza</string>
     <string name="login_username_field_empty">Korisničko ime ne može biti prazno</string>
     <string name="login_invalid_credentials">Neispravno korisničko ime i/ili lozinka</string>
-    <string name="login_authenticating">Autentifikacija...</string>
+    <string name="login_authenticating">Autentifikacija…</string>
     <string name="server_field_empty">Adresa ne može biti prazna</string>
     <string name="server_connecting">Spajanje na server...</string>
     <string name="pref_next_up_behavior_title">Prikaži informacije o idućem videu</string>
