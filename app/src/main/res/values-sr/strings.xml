@@ -102,7 +102,7 @@
     <string name="msg_no_items">Нема ставки за репродукцију</string>
     <string name="subtitle_error">Није могуће одабрати титл</string>
     <string name="too_many_errors">Превише грешака. Одустајем</string>
-    <string name="player_error">Дошло је до грешке плејера. Покушаћу поново ...</string>
+    <string name="player_error">Дошло је до грешке плејера. Покушаћу поново…</string>
     <string name="seek_error">Немогућа је претрага</string>
     <string name="msg_live_tv_prev">Учитај претходних %1$d сати\?</string>
     <string name="msg_live_tv_next">Учитај следећих %1$d сати\?</string>
@@ -265,15 +265,15 @@
     <string name="lbl_albums">Албуми</string>
     <string name="lbl_programs">Програми</string>
     <string name="lbl_direct_stream_live">Директни пренос ТВ уживо</string>
-    <string name="msg_error_live_stream">Грешка при стримовању ТВ-а уживо. Покушаћу поново ...</string>
+    <string name="msg_error_live_stream">Грешка при стримовању ТВ-а уживо. Покушаћу поново…</string>
     <string name="pref_live_tv_cat">ТВ уживо</string>
     <string name="lbl_recorded_tv">Снимљен ТВ програм</string>
     <string name="lbl_live_tv_guide">ТВ водич уживо</string>
     <string name="lbl_no_recordings">Нема доступних снимака</string>
     <string name="lbl_recording">Снима се</string>
-    <string name="msg_burn_sub_warning">Спајање титлова са видеом може потрајати пар минута. Будите стрпљиви...</string>
+    <string name="msg_burn_sub_warning">Спајање титлова са видеом може потрајати пар минута. Будите стрпљиви…</string>
     <string name="msg_unable_load_subs">Није могуће учитати титл</string>
-    <string name="msg_subtitles_loading">Учитавам титлове...</string>
+    <string name="msg_subtitles_loading">Учитавам титлове…</string>
     <string name="lbl_filters">Филтери</string>
     <string name="btn_clear_all">Уклони све</string>
     <string name="btn_filter">Филтер</string>
@@ -338,7 +338,7 @@
     <string name="msg_playback_incompatible">Није могуће репродуковати овај видео формат</string>
     <string name="msg_playback_restricted">Администратор је тренутно ограничио репродукцију ове ставке</string>
     <string name="msg_playback_not_allowed">Репродукција тренутно није дозвољена</string>
-    <string name="lbl_loading_elipses">Учитавање...</string>
+    <string name="lbl_loading_elipses">Учитавање…</string>
     <string name="lbl_born">"Рођен "</string>
     <string name="lbl_ok">У реду</string>
     <string name="lbl_valid_server_address">Унесите адресу сервера (ИП или назив домена / машине)</string>
@@ -354,7 +354,7 @@
     <string name="login_username_field_empty">Корисничко име не може бити празно</string>
     <string name="login_server_unavailable">Немогуће је повезати се са сервером</string>
     <string name="login_invalid_credentials">Неважеће корисничко име и/или лозинка</string>
-    <string name="login_authenticating">Аутентификација...</string>
+    <string name="login_authenticating">Аутентификација…</string>
     <string name="server_field_empty">Адреса не може да буде празна</string>
     <string name="server_connection_failed">Немогуће је повезати се са сервером: %1$s</string>
     <string name="server_connecting">Повезујем се на сервер...</string>
