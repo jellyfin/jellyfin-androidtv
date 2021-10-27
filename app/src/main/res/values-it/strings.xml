@@ -66,7 +66,7 @@
     <string name="lbl_valid_server_address">Per favore inserisci un indirizzo del server (indirizzo IP, dominio o nome computer)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nato "</string>
-    <string name="lbl_loading_elipses">Caricamento...</string>
+    <string name="lbl_loading_elipses">Caricamento…</string>
     <string name="msg_playback_not_allowed">Riproduzione non consentita al momento</string>
     <string name="msg_playback_restricted">L\'amministratore ha limitato la riproduzione di questo elemento</string>
     <string name="msg_playback_incompatible">Impossibile riprodurre questo formato video</string>
@@ -140,15 +140,15 @@
     <string name="lbl_playlists">Playlist</string>
     <string name="lbl_programs">Programmi</string>
     <string name="lbl_direct_stream_live">Diretta Stream TV</string>
-    <string name="msg_error_live_stream">Errore streaming TV diretta. Riprovo...</string>
+    <string name="msg_error_live_stream">Errore streaming TV diretta. Riprovo…</string>
     <string name="pref_live_tv_cat">TV Diretta</string>
     <string name="lbl_recorded_tv">Registrazione TV</string>
     <string name="lbl_live_tv_guide">Guida TV Diretta</string>
     <string name="lbl_no_recordings">Nessuna Registrazione Disponibile</string>
     <string name="lbl_recording">Registrazione</string>
-    <string name="msg_burn_sub_warning">I sottotitoli impressi nel video possono metterci qualche minuto. Per favore, abbi pazienza...</string>
+    <string name="msg_burn_sub_warning">I sottotitoli impressi nel video possono metterci qualche minuto. Per favore, abbi pazienza…</string>
     <string name="msg_unable_load_subs">Impossibile caricare i sottotitoli</string>
-    <string name="msg_subtitles_loading">Caricamento sottotitoli...</string>
+    <string name="msg_subtitles_loading">Caricamento sottotitoli…</string>
     <string name="lbl_filters">Filtri</string>
     <string name="btn_clear_all">Cancella Tutti</string>
     <string name="btn_filter">Filtro</string>
@@ -332,7 +332,7 @@
     <string name="login_username_field_empty">Lo Username non può essere vuoto</string>
     <string name="login_server_unavailable">Impossibile connettersi al server</string>
     <string name="login_invalid_credentials">Username e/o password non validi</string>
-    <string name="login_authenticating">Autenticazione...</string>
+    <string name="login_authenticating">Autenticazione…</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
     <string name="server_connection_failed">Impossibile connettersi al server: %1$s</string>
     <string name="server_connecting">Connessione al server %s</string>
@@ -350,7 +350,7 @@
     <string name="playing_error">Errore durante il salvataggio dello stato di Visto</string>
     <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
     <string name="msg_queue_saved">Coda salvata come nuova playlist: %1$s</string>
-    <string name="player_error">Errore nel Player. Riprovo...</string>
+    <string name="player_error">Errore nel Player. Riprovo…</string>
     <string name="msg_live_tv_prev">Carico le precedenti %1$d ore\?</string>
     <string name="msg_live_tv_next">Carico le prossime %1$d ore\?</string>
     <string name="episode_missing_message_2">Quest\'episodio manca nella tua libreria. La riproduzione verrà interrotta.</string>
