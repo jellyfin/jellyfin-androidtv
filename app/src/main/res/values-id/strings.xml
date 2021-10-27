@@ -140,7 +140,7 @@
     <string name="msg_playback_incompatible">Tidak dapat memutar format video ini</string>
     <string name="msg_playback_restricted">Administrator telah membatasi pemutaran item ini saat ini</string>
     <string name="msg_playback_not_allowed">Pemutaran tidak diperbolehkan saat ini</string>
-    <string name="lbl_loading_elipses">Memuat...</string>
+    <string name="lbl_loading_elipses">Memuat…</string>
     <string name="lbl_version">"Versi "</string>
     <string name="msg_video_playback_error">"Kesalahan Pemutaran Video - "</string>
     <string name="lbl_none">Tidak ada</string>
@@ -159,7 +159,7 @@
     <string name="msg_unable_to_cancel">Tidak dapat membatalkan rekaman</string>
     <string name="lbl_performers">Peforma</string>
     <string name="lbl_direct_stream_live">Streaming Langsung Live TV</string>
-    <string name="msg_error_live_stream">Terjadi kesalahan saat streaming Live TV. Akan mencoba kembali ...</string>
+    <string name="msg_error_live_stream">Terjadi kesalahan saat streaming Live TV. Akan mencoba kembali…</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="lbl_live_tv_guide">Panduan Live TV</string>
     <string name="pref_acra_enabled">Anda akan diminta untuk mengirimkan laporan kerusakan</string>
@@ -182,7 +182,7 @@
     <string name="pref_libvlc_audio_delay_title">Penundaan Audio Default untuk libVLC</string>
     <string name="pref_subtitle_track_button">Tombol trek subtitle</string>
     <string name="msg_unable_load_subs">Tidak dapat memuat subtitle</string>
-    <string name="msg_subtitles_loading">Subtitel dimuat ...</string>
+    <string name="msg_subtitles_loading">Subtitel dimuat…</string>
     <string name="lbl_filters">Filters</string>
     <string name="btn_clear_all">Bersihkan semua</string>
     <string name="bitrate_auto">Otomatis</string>
@@ -269,7 +269,7 @@
     <string name="lbl_instant_mix">Mix Instan</string>
     <string name="lbl_goto_now_playing">Pergi ke Sedang dimainkan</string>
     <string name="lbl_recorded_tv">TV yang direkam</string>
-    <string name="msg_burn_sub_warning">Membakar subtitle dapat memakan waktu beberapa menit. Harap bersabar...</string>
+    <string name="msg_burn_sub_warning">Membakar subtitle dapat memakan waktu beberapa menit. Harap bersabar…</string>
     <string name="lbl_starting_with">dimulai dengan yang namanya dimulai dengan</string>
     <string name="lbl_showing">Menampilkan</string>
     <string name="pref_audio_direct">Langsung</string>
