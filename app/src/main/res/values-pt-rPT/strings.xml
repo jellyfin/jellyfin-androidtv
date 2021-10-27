@@ -78,7 +78,7 @@
     <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascido "</string>
-    <string name="lbl_loading_elipses">A Carregar...</string>
+    <string name="lbl_loading_elipses">A Carregar…</string>
     <string name="msg_playback_not_allowed">Reprodução não permitida de momento</string>
     <string name="msg_playback_restricted">O administrador restringiu a reprodução deste item de momento</string>
     <string name="msg_playback_incompatible">Não é possível reproduzir este formato de vídeo</string>
@@ -142,15 +142,15 @@
     <string name="btn_filter">Filtro</string>
     <string name="btn_clear_all">Limpar Tudo</string>
     <string name="lbl_filters">Filtros</string>
-    <string name="msg_subtitles_loading">A Carregar as Legendas...</string>
+    <string name="msg_subtitles_loading">A Carregar as Legendas…</string>
     <string name="msg_unable_load_subs">Não foi possível carregar as legendas</string>
-    <string name="msg_burn_sub_warning">Legendas embutidas podem demorar alguns minutos. Por favor, aguarde...</string>
+    <string name="msg_burn_sub_warning">Legendas embutidas podem demorar alguns minutos. Por favor, aguarde…</string>
     <string name="lbl_recording">A Gravar</string>
     <string name="lbl_no_recordings">Sem Gravações Disponíveis</string>
     <string name="lbl_live_tv_guide">Guia TV</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
     <string name="pref_live_tv_cat">TV ao Vivo</string>
-    <string name="msg_error_live_stream">Erro de reprodução da TV ao vivo. Tentará novamente...</string>
+    <string name="msg_error_live_stream">Erro de reprodução da TV ao vivo. Tentará novamente…</string>
     <string name="lbl_direct_stream_live">Stream direto da TV ao vivo</string>
     <string name="lbl_programs">Programas</string>
     <string name="lbl_albums">Álbuns</string>
@@ -315,7 +315,7 @@
     <string name="msg_no_items">Sem itens para reproduzir</string>
     <string name="subtitle_error">Impossível selecionar legendas</string>
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
-    <string name="player_error">Erro no reprodutor. A retentar...</string>
+    <string name="player_error">Erro no reprodutor. A retentar…</string>
     <string name="seek_error">Impossível saltar</string>
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
@@ -333,7 +333,7 @@
     <string name="login_username_field_empty">O nome de usuário não pode ser vazio</string>
     <string name="login_server_unavailable">Não foi possível ligar ao servidor</string>
     <string name="login_invalid_credentials">Nome do utilizador e/ou palavra-passe inválido/s</string>
-    <string name="login_authenticating">A autenticar...</string>
+    <string name="login_authenticating">A autenticar…</string>
     <string name="server_field_empty">O campo do endereçõ não pode ser vazio</string>
     <string name="server_connection_failed">Não foi possível ligar ao servidor: %1$s</string>
     <string name="server_connecting">A ligar a %s</string>
