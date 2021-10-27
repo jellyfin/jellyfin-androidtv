@@ -10,7 +10,7 @@
     <string name="msg_playback_incompatible">Nemorem predvajati formata tega videa</string>
     <string name="msg_playback_restricted">Administrator je omejil predvajanje te vsebine</string>
     <string name="msg_playback_not_allowed">Predvajanje ni dovoljeno v tem trenutku</string>
-    <string name="lbl_loading_elipses">Nalaganje...</string>
+    <string name="lbl_loading_elipses">Nalaganje…</string>
     <string name="lbl_born">"Rojen "</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Prosim vnesi naslov strežnika (IP ali domena/ime naprave)</string>
@@ -104,7 +104,7 @@
     <string name="lbl_albums">Albumi</string>
     <string name="lbl_programs">Programi</string>
     <string name="lbl_direct_stream_live">Neposredno pretakaj TV v živo</string>
-    <string name="msg_error_live_stream">Napaka pri pretakanju TV v živo. Poskušamo znova...</string>
+    <string name="msg_error_live_stream">Napaka pri pretakanju TV v živo. Poskušamo znova…</string>
     <string name="pref_live_tv_cat">TV v živo</string>
     <string name="lbl_recorded_tv">Posneta TV</string>
     <string name="lbl_live_tv_guide">Vodič TV v živo</string>
@@ -116,7 +116,7 @@
     <string name="btn_filter">Filter</string>
     <string name="lbl_ended">ZAKLJUČENO</string>
     <string name="lbl__continuing">SE NADALJUJE</string>
-    <string name="msg_subtitles_loading">Podnapisi se nalagajo...</string>
+    <string name="msg_subtitles_loading">Podnapisi se nalagajo…</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_more_like_this">Podobno</string>
     <string name="lbl_just_this_once">Samo tokrat</string>
@@ -173,7 +173,7 @@
     <string name="lbl_open_album">Odpri album</string>
     <string name="lbl_open_artist">Odpri ustvarjalca</string>
     <string name="msg_items_added">" dodani elementi"</string>
-    <string name="msg_burn_sub_warning">Vdelava podnapisov vzame nekaj minut. Prosimo, počakajte ...</string>
+    <string name="msg_burn_sub_warning">Vdelava podnapisov vzame nekaj minut. Prosimo, počakajte…</string>
     <string name="lbl_display_preferences">Nastavitve prikaza</string>
     <string name="btn_done">Opravljeno</string>
     <string name="lbl_starting_with">začenjam z imeni, ki se začnejo na</string>
