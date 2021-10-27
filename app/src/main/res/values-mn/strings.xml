@@ -76,7 +76,7 @@
     <string name="lbl_enter_server_address">Серверийн хаяг оруулна уу</string>
     <string name="lbl_valid_server_address">Серверийн хаягийг оруулна уу (IP эсвэл домэйн / нэр)</string>
     <string name="lbl_born">"Эхэлсэн "</string>
-    <string name="lbl_loading_elipses">Дуудаж байна...</string>
+    <string name="lbl_loading_elipses">Дуудаж байна…</string>
     <string name="msg_playback_not_allowed">Яг одоогоор тоглуулах боломжгүй байна</string>
     <string name="msg_playback_restricted">Админ одоогоор энэ зүйлийг дахин тоглуулахыг хязгаарласан байна</string>
     <string name="msg_playback_incompatible">Энэ видео форматыг тоглуулах боломжгүй байна</string>
@@ -130,13 +130,13 @@
     <string name="btn_filter">Шүүлтүүр</string>
     <string name="btn_clear_all">Бүгдийг арилгах</string>
     <string name="lbl_filters">Шүүлтүүрүүд</string>
-    <string name="msg_subtitles_loading">Хадмалуудыг ачаалж байна ...</string>
+    <string name="msg_subtitles_loading">Хадмалуудыг ачаалж байна…</string>
     <string name="msg_unable_load_subs">Хадмал орчуулгыг ачаалах боломжгүй байна</string>
     <string name="lbl_recording">Бичлэг хийж байна</string>
     <string name="lbl_no_recordings">Ямар ч бичлэг байхгүй байна</string>
     <string name="lbl_live_tv_guide">Хөтөлбөр</string>
     <string name="lbl_recorded_tv">Бичигдсэн ТВ</string>
-    <string name="msg_error_live_stream">Шууд ТВ цацахад алдаа гарлаа. Дахин оролдоно уу ...</string>
+    <string name="msg_error_live_stream">Шууд ТВ цацахад алдаа гарлаа. Дахин оролдоно уу…</string>
     <string name="lbl_direct_stream_live">Шууд дамжуулалт шууд ТВ</string>
     <string name="lbl_albums">Цомог</string>
     <string name="lbl_artists">Жүжигчин</string>
