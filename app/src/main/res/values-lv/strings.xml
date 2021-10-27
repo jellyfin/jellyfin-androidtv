@@ -100,14 +100,14 @@
     <string name="lbl_song">Dziesma</string>
     <string name="lbl_artists">Izpildītāji</string>
     <string name="lbl_albums">Albumi</string>
-    <string name="msg_error_live_stream">Kļūda straumējot tiešsaistes TV. Atkārtosim...</string>
+    <string name="msg_error_live_stream">Kļūda straumējot tiešsaistes TV. Atkārtosim…</string>
     <string name="pref_live_tv_cat">Tiešsaistes TV</string>
     <string name="lbl_recorded_tv">Ierakstītais TV</string>
     <string name="lbl_live_tv_guide">Tiešsaistes TV Ceļvedis</string>
     <string name="lbl_no_recordings">Nav Pieejami Ieraksti</string>
     <string name="lbl_recording">Ieraksta</string>
     <string name="msg_unable_load_subs">Neizdevās ielādēt subtitrus</string>
-    <string name="msg_subtitles_loading">Subtitri lādējas...</string>
+    <string name="msg_subtitles_loading">Subtitri lādējas…</string>
     <string name="lbl_filters">Filtri</string>
     <string name="btn_clear_all">Notīrīt Visu</string>
     <string name="btn_filter">Filtrēt</string>
@@ -150,7 +150,7 @@
     <string name="msg_playback_incompatible">Nevar atskaņot šo video formātu</string>
     <string name="msg_playback_restricted">Administrātors ir ierobežojis atskaņošanu šim vienumam šajā brīdī</string>
     <string name="msg_playback_not_allowed">Atskaņošana nav atļauta šajā brīdī</string>
-    <string name="lbl_loading_elipses">Lādējas...</string>
+    <string name="lbl_loading_elipses">Lādējas…</string>
     <string name="lbl_born">"Dzimis "</string>
     <string name="lbl_ok">Labi</string>
     <string name="lbl_valid_server_address">Lūdzu ievadi servera adresi (IP vai domēnu/datora nosaukumu)</string>
@@ -247,7 +247,7 @@
     <string name="lbl_new_premieres">Jaunās Pirmizrādes</string>
     <string name="lbl_programs">Programmas</string>
     <string name="lbl_direct_stream_live">Tieši Straumēt Tiešraides TV</string>
-    <string name="msg_burn_sub_warning">Iededzinātie subtitri var aizņemt pāris minūtes. Lūdzu esiet pacietīgi...</string>
+    <string name="msg_burn_sub_warning">Iededzinātie subtitri var aizņemt pāris minūtes. Lūdzu esiet pacietīgi…</string>
     <string name="lbl_ended">BEIDZĀS</string>
     <string name="lbl__continuing">TURPINA</string>
     <string name="lbl_only_new_episodes">Tikai Jaunas Epizodes</string>
