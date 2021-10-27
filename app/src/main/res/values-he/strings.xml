@@ -40,15 +40,15 @@
     <string name="lbl_albums">אלבומים</string>
     <string name="lbl_programs">תכניות</string>
     <string name="lbl_direct_stream_live">שידור ישיר של טלויזיה</string>
-    <string name="msg_error_live_stream">בעיה בשידור טלויזיה. מנסה שנית...</string>
+    <string name="msg_error_live_stream">בעיה בשידור טלויזיה. מנסה שנית…</string>
     <string name="pref_live_tv_cat">טלויזיה חיה</string>
     <string name="lbl_recorded_tv">הקלטות</string>
     <string name="lbl_live_tv_guide">לוח שידורים</string>
     <string name="lbl_no_recordings">אין הקלטות</string>
     <string name="lbl_recording">מקליט</string>
-    <string name="msg_burn_sub_warning">צריבת כתוביות לוקחת מספר דקות. נא המתן...</string>
+    <string name="msg_burn_sub_warning">צריבת כתוביות לוקחת מספר דקות. נא המתן…</string>
     <string name="msg_unable_load_subs">לא מסוגל לטעון כתוביות</string>
-    <string name="msg_subtitles_loading">כתובית נטענת...</string>
+    <string name="msg_subtitles_loading">כתובית נטענת…</string>
     <string name="lbl_filters">מסננים</string>
     <string name="btn_clear_all">נקה הכל</string>
     <string name="btn_filter">מסנן</string>
@@ -113,7 +113,7 @@
     <string name="msg_playback_incompatible">פורמט הוידאו לא ניתן לניגון</string>
     <string name="msg_playback_restricted">מנהל המערכת הגביל את ההפעלה של סרט זה</string>
     <string name="msg_playback_not_allowed">נגינה לא מאופשרת בזמן זה</string>
-    <string name="lbl_loading_elipses">טוען...</string>
+    <string name="lbl_loading_elipses">טוען…</string>
     <string name="lbl_born">"שנת לידה "</string>
     <string name="lbl_ok">ok</string>
     <string name="lbl_valid_server_address">הכנס שם שרת (IP או שם מכונה)</string>
@@ -282,7 +282,7 @@
     <string name="msg_no_items">אין מה לנגן</string>
     <string name="subtitle_error">לא ניתן לבחור כתובית</string>
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
-    <string name="player_error">בעיית נגן. מנסה שנית...</string>
+    <string name="player_error">בעיית נגן. מנסה שנית…</string>
     <string name="seek_error">לא ניתן לדלג</string>
     <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות\?</string>
     <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות\?</string>
@@ -356,7 +356,7 @@
     <string name="login_username_field_empty">שם משתמש לא יכול להיות ריק</string>
     <string name="login_server_unavailable">לא מצליח להתחבר לשרת</string>
     <string name="login_invalid_credentials">שם משתמש ו/או סיסמה שגויים</string>
-    <string name="login_authenticating">מאמת...</string>
+    <string name="login_authenticating">מאמת…</string>
     <string name="server_field_empty">הכתובת אינה יכולה להיות ריקה</string>
     <string name="no_network_permissions">Jellyfin צריכה הרשאות רשת כדי לפעול</string>
     <string name="pref_theme_muted_purple">סגול מושתק</string>
