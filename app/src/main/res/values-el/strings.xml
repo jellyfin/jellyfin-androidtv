@@ -4,7 +4,7 @@
     <string name="btn_cancel">Ακύρωση</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
-    <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά ...</string>
+    <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά…</string>
     <string name="lbl_direct_stream_live">Άμεση ρεύμα ζωντανά τηλεόραση</string>
     <string name="lbl_programs">προγράμμα</string>
     <string name="lbl_albums">Άλμπουμ</string>
@@ -130,7 +130,7 @@
     <string name="msg_playback_incompatible">Δεν είναι δυνατή η αναπαραγωγή αυτής της μορφής βίντεο</string>
     <string name="msg_playback_restricted">Ο διαχειριστής έχει περιορίσει την αναπαραγωγή αυτού του στοιχείου αυτήν τη στιγμή</string>
     <string name="msg_playback_not_allowed">Δεν επιτρέπεται η αναπαραγωγή αυτή τη στιγμή</string>
-    <string name="lbl_loading_elipses">Φόρτωση...</string>
+    <string name="lbl_loading_elipses">Φόρτωση…</string>
     <string name="lbl_born">"Γέννηση "</string>
     <string name="lbl_ok">Εντάξει</string>
     <string name="lbl_valid_server_address">Εισαγάγετε την διεύθυνση του διακομιστή (IP ή τομέα / όνομα μηχανήματος)</string>
@@ -149,9 +149,9 @@
     <string name="lbl_live_tv_guide">Πρόγραμμα ζωντανής τηλεόρασης</string>
     <string name="lbl_no_recordings">Δεν υπάρχουν εγγραφές</string>
     <string name="lbl_recording">Γίνεται καταγραφή</string>
-    <string name="msg_burn_sub_warning">Η ενσωμάτωση υποτίτλων στο βίντεο μπορεί να κρατήσει μερικά λεπτά. Παρακαλώ περιμένετε...</string>
+    <string name="msg_burn_sub_warning">Η ενσωμάτωση υποτίτλων στο βίντεο μπορεί να κρατήσει μερικά λεπτά. Παρακαλώ περιμένετε…</string>
     <string name="msg_unable_load_subs">Δεν μπορεί να φορτωθεί ο υπότιτλος</string>
-    <string name="msg_subtitles_loading">Φόρτωση υποτίτλων...</string>
+    <string name="msg_subtitles_loading">Φόρτωση υποτίτλων…</string>
     <string name="lbl_filters">Φίλτρα</string>
     <string name="btn_clear_all">Εκκαθάριση όλων</string>
     <string name="btn_filter">Φίλτρα</string>
@@ -261,7 +261,7 @@
     <string name="play_with_exo_player">Αναπαραγωγή με ExoPlayer</string>
     <string name="pref_authentication_link">Επιλογές Πιστοποίησης</string>
     <string name="login_server_unavailable">Δεν είναι δυνατή η σύνδεση με τον διακομιστή</string>
-    <string name="login_authenticating">Έλεγχος ταυτότητας...</string>
+    <string name="login_authenticating">Έλεγχος ταυτότητας…</string>
     <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
     <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %1$s</string>
     <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή...</string>
