@@ -75,7 +75,7 @@
     <string name="lbl_valid_server_address">Venligst indtast serveradressen (IP eller domæne/servernavn)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Født "</string>
-    <string name="lbl_loading_elipses">Indlæser...</string>
+    <string name="lbl_loading_elipses">Indlæser…</string>
     <string name="msg_playback_not_allowed">Afspilning ikke tilladt på nuværende tidspunkt</string>
     <string name="msg_playback_restricted">Administratoren har begrænset afspilningen af denne genstand på nuværende tidspunkt</string>
     <string name="msg_playback_incompatible">Kan ikke afspille dette video format</string>
@@ -159,15 +159,15 @@
     <string name="lbl_artists">Kunstnere</string>
     <string name="lbl_programs">Programmer</string>
     <string name="lbl_direct_stream_live">Stream direkte Live TV</string>
-    <string name="msg_error_live_stream">Fejl ved streaming af live TV. Prøver igen...</string>
+    <string name="msg_error_live_stream">Fejl ved streaming af live TV. Prøver igen…</string>
     <string name="pref_live_tv_cat">Live-TV</string>
     <string name="lbl_recorded_tv">Optaget TV</string>
     <string name="lbl_live_tv_guide">Tv-guide</string>
     <string name="lbl_no_recordings">Ingen optagelser tilgængelige</string>
     <string name="lbl_recording">Optager</string>
-    <string name="msg_burn_sub_warning">Indbrænding af undertekster kan take et par minutter. Vent venligst...</string>
+    <string name="msg_burn_sub_warning">Indbrænding af undertekster kan take et par minutter. Vent venligst…</string>
     <string name="msg_unable_load_subs">Underteksterne kan ikke indlæses</string>
-    <string name="msg_subtitles_loading">Indlæser undertekster...</string>
+    <string name="msg_subtitles_loading">Indlæser undertekster…</string>
     <string name="lbl_filters">Filtrer</string>
     <string name="btn_clear_all">Slet alt</string>
     <string name="btn_filter">Filter</string>
@@ -347,7 +347,7 @@
     <string name="login_username_field_empty">Brugernavnet må ikke være tomt</string>
     <string name="login_server_unavailable">Kan ikke forbinde til serveren</string>
     <string name="login_invalid_credentials">Ugyldigt brugernavn og/eller adgangskode</string>
-    <string name="login_authenticating">Verificerer...</string>
+    <string name="login_authenticating">Verificerer…</string>
     <string name="server_field_empty">Addressen må ikke være tom</string>
     <string name="server_connection_failed">Kan ikke forbinde til serveren: %1$s</string>
     <string name="server_connecting">Forbinder til server...</string>
