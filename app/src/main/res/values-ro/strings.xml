@@ -173,15 +173,15 @@
     <string name="lbl_warning">Atenție</string>
     <string name="lbl_programs">Programe</string>
     <string name="lbl_direct_stream_live">Direct Stream TV live</string>
-    <string name="msg_error_live_stream">A apărut o eroare în transmisia TV în direct. Voi încerca din nou...</string>
+    <string name="msg_error_live_stream">A apărut o eroare în transmisia TV în direct. Voi încerca din nou…</string>
     <string name="pref_live_tv_cat">TV în Direct</string>
     <string name="lbl_recorded_tv">Înregistrări TV</string>
     <string name="lbl_live_tv_guide">Ghid TV Live</string>
     <string name="lbl_no_recordings">Nici o înregistrare disponibilă</string>
     <string name="lbl_recording">Înregistrare</string>
-    <string name="msg_burn_sub_warning">Subtitrările incluse pot dura câteva minute. Vă rugăm așteptați...</string>
+    <string name="msg_burn_sub_warning">Subtitrările incluse pot dura câteva minute. Vă rugăm așteptați…</string>
     <string name="msg_unable_load_subs">Nu s-a putut încărca subtitrarea</string>
-    <string name="msg_subtitles_loading">Se încarcă subtitrarea...</string>
+    <string name="msg_subtitles_loading">Se încarcă subtitrarea…</string>
     <string name="lbl_filters">Filtre</string>
     <string name="btn_clear_all">Curăță Tot</string>
     <string name="btn_filter">Filtru</string>
@@ -243,7 +243,7 @@
     <string name="msg_playback_incompatible">Acest format video nu poate fi redat</string>
     <string name="msg_playback_restricted">Administratorul a restricționat redarea acestui articol în acest moment</string>
     <string name="msg_playback_not_allowed">Redarea nu este permisă în acest moment</string>
-    <string name="lbl_loading_elipses">Se încarcă...</string>
+    <string name="lbl_loading_elipses">Se încarcă…</string>
     <string name="lbl_born">"Născut "</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Vă rugăm să introduceți adresa serverului (IP sau nume de domeniu / mașină)</string>
@@ -303,7 +303,7 @@
     <string name="msg_no_items">Nu există articole de redat</string>
     <string name="subtitle_error">Imposibil de selectat subtitrarea</string>
     <string name="too_many_errors">Prea multe erori. Renunț</string>
-    <string name="player_error">Eroare la redare întâlnită. Voi încerca din nou ...</string>
+    <string name="player_error">Eroare la redare întâlnită. Voi încerca din nou…</string>
     <string name="seek_error">Imposibil de căutat</string>
     <string name="msg_live_tv_prev">Încărcați anterior %1$d ore\?</string>
     <string name="msg_live_tv_next">Încărcați următoarele %1$d ore\?</string>
@@ -347,7 +347,7 @@
     <string name="login_username_field_empty">Numele de utilizator nu poate fi vid</string>
     <string name="login_server_unavailable">Nu s-a putut conecta la server</string>
     <string name="login_invalid_credentials">Nume de utilizator și/sau parolă greșite</string>
-    <string name="login_authenticating">Se autentifică...</string>
+    <string name="login_authenticating">Se autentifică…</string>
     <string name="server_field_empty">Adresa nu poate fi vidă</string>
     <string name="server_connection_failed">Imposibil de conectat la server: %1$s</string>
     <string name="server_connecting">Conectare la server...</string>
