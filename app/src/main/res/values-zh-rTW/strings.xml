@@ -70,7 +70,7 @@
     <string name="lbl_no_items">沒有項目</string>
     <string name="lbl_empty">空項</string>
     <string name="lbl_never">從不</string>
-    <string name="lbl_loading_elipses">讀取中...</string>
+    <string name="lbl_loading_elipses">讀取中…</string>
     <string name="lbl_valid_server_address">請輸入伺服器地址（IP、域名或主機名稱）</string>
     <string name="lbl_enter_server_address">輸入伺服器位址</string>
     <string name="lbl_version">"版本 "</string>
@@ -338,7 +338,7 @@
     <string name="login_username_field_empty">使用者名稱不能留空</string>
     <string name="login_server_unavailable">無法連接伺服器</string>
     <string name="login_invalid_credentials">無效的使用者名稱和/或密碼</string>
-    <string name="login_authenticating">驗證中...</string>
+    <string name="login_authenticating">驗證中…</string>
     <string name="server_field_empty">地址不能留空</string>
     <string name="server_connection_failed">無法連接至伺服器： %s</string>
     <string name="server_connecting">正在與伺服器連接...</string>
@@ -370,7 +370,7 @@
     <string name="msg_no_items">無項目可供播放</string>
     <string name="subtitle_error">無法選擇字幕</string>
     <string name="too_many_errors">出現過多錯誤，放棄重試</string>
-    <string name="player_error">播放器發生錯誤。即將重試...</string>
+    <string name="player_error">播放器發生錯誤。即將重試…</string>
     <string name="seek_error">無法預覽</string>
     <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？</string>
     <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？</string>
