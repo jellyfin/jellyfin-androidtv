@@ -66,7 +66,7 @@
     <string name="sum_tv_queuing">Додади го остатокот од сезоната во редицата при гледање на епизода</string>
     <string name="lbl_empty">Празно</string>
     <string name="lbl_never">Никогаш</string>
-    <string name="lbl_loading_elipses">Се вчитува...</string>
+    <string name="lbl_loading_elipses">Се вчитува…</string>
     <string name="lbl_born">"Роден "</string>
     <string name="lbl_ok">OK</string>
     <string name="lbl_valid_server_address">Ве молиме внесете ја адресата на серверот (IP адреса или доменско име)</string>
