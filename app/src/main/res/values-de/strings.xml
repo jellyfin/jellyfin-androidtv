@@ -444,4 +444,13 @@
     <string name="always_authenticate">Immer nach Anmeldeinformationen fragen</string>
     <string name="lbl_community_rating">Zuschauerwertung</string>
     <string name="select_version">Version</string>
+    <string name="license_license">Lizenz</string>
+    <string name="license_author">Autor</string>
+    <string name="license_repository">Repository</string>
+    <string name="license_website">Webseite</string>
+    <string name="license_artifact">Artefakt</string>
+    <string name="license_version">Version</string>
+    <string name="license_description">Beschreibung</string>
+    <string name="licenses_link_description">Zeigt die Lizenzen der von der Jellyfin App verwendeten Bibliotheken an</string>
+    <string name="licenses_link">Lizenzen</string>
 </resources>
