@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lbl_loading_elipses">Ładowanie....</string>
+    <string name="lbl_loading_elipses">Ładowanie…</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Podaj adres serwera (IP lub domena/nazwa serwera)</string>
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
@@ -115,13 +115,13 @@
     <string name="lbl_artists">Artyści</string>
     <string name="lbl_albums">Albumy</string>
     <string name="lbl_programs">Programy</string>
-    <string name="msg_error_live_stream">Błąd przesyłania TV. Ponawianie...</string>
+    <string name="msg_error_live_stream">Błąd przesyłania TV. Ponawianie…</string>
     <string name="pref_live_tv_cat">Telewizja</string>
     <string name="lbl_live_tv_guide">Przewodnik TV</string>
     <string name="lbl_no_recordings">Brak nagrań</string>
     <string name="lbl_recording">Nagrywanie</string>
     <string name="msg_unable_load_subs">Nie można wczytać napisów</string>
-    <string name="msg_subtitles_loading">Wczytuję napisy...</string>
+    <string name="msg_subtitles_loading">Wczytuję napisy…</string>
     <string name="lbl_filters">Filtry</string>
     <string name="btn_clear_all">Wyczyść Wszystko</string>
     <string name="btn_filter">Filtr</string>
@@ -167,7 +167,7 @@
     <string name="lbl_add_to_queue">Dodaj do kolejki</string>
     <string name="msg_items_added">" przedmiotów dodanych"</string>
     <string name="lbl_recorded_tv">Nagrania TV</string>
-    <string name="msg_burn_sub_warning">Wypalenie napisów może zająć kilka minut. Proszę o cierpliwość...</string>
+    <string name="msg_burn_sub_warning">Wypalenie napisów może zająć kilka minut. Proszę o cierpliwość…</string>
     <string name="lbl_starting_with">Zaczynając od tych, których nazwa zaczyna się od</string>
     <string name="lbl_from">od</string>
     <string name="lbl_clear_queue">Wyczyść kolejkę</string>
@@ -315,7 +315,7 @@
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
-    <string name="player_error">Błąd odtwarzacza. Próbuje ponownie...</string>
+    <string name="player_error">Błąd odtwarzacza. Próbuje ponownie…</string>
     <string name="seek_error">Niemożliwe do odnalezienia</string>
     <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
     <string name="msg_live_tv_next">Załaduj następne %1$d godzin\?</string>
@@ -346,7 +346,7 @@
     <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
     <string name="login_server_unavailable">Niemożna połączyć z serwerem</string>
     <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
-    <string name="login_authenticating">Uwierzytelnianie...</string>
+    <string name="login_authenticating">Uwierzytelnianie…</string>
     <string name="server_field_empty">Adres nie może być pusty</string>
     <string name="server_connection_failed">Nie można połączyć się z serwerem: %1$s</string>
     <string name="server_connecting">Łączenie z %s</string>
