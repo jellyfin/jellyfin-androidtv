@@ -50,7 +50,7 @@
     <string name="lbl_no_recordings">Ei tallennuksia saatavilla</string>
     <string name="lbl_recording">Tallennetaan</string>
     <string name="msg_unable_load_subs">Tekstityksiä ei voitu ladata</string>
-    <string name="msg_subtitles_loading">Ladataan tekstityksiä...</string>
+    <string name="msg_subtitles_loading">Ladataan tekstityksiä…</string>
     <string name="btn_clear_all">Tyhjennä kaikki</string>
     <string name="pref_audio_direct">Suora</string>
     <string name="lbl_only_new_episodes">Vain uudet jaksot</string>
@@ -70,7 +70,7 @@
     <string name="lbl_empty">Tyhjä</string>
     <string name="lbl_no_items">Ei kohteita</string>
     <string name="lbl_never">Ei koskaan</string>
-    <string name="lbl_loading_elipses">Ladataan...</string>
+    <string name="lbl_loading_elipses">Ladataan…</string>
     <string name="lbl_born">"Syntynyt "</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Anna palvelimen osoite</string>
