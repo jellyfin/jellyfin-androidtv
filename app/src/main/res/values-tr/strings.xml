@@ -63,15 +63,15 @@
     <string name="lbl_albums">Albümler</string>
     <string name="lbl_programs">Programlar</string>
     <string name="lbl_direct_stream_live">Doğrudan Canlı TV Akışı</string>
-    <string name="msg_error_live_stream">Canlı TV akışı hatası. Yeniden denenecek...</string>
+    <string name="msg_error_live_stream">Canlı TV akışı hatası. Yeniden denenecek…</string>
     <string name="pref_live_tv_cat">Canlı TV</string>
     <string name="lbl_recorded_tv">Kaydedilmiş TV</string>
     <string name="lbl_live_tv_guide">Canlı TV Rehberi</string>
     <string name="lbl_no_recordings">Mevcut Kayıt Yok</string>
     <string name="lbl_recording">Kaydediliyor</string>
-    <string name="msg_burn_sub_warning">İşlenmiş altyazılar zaman alabilir. Lütfen sabırlı olun...</string>
+    <string name="msg_burn_sub_warning">İşlenmiş altyazılar zaman alabilir. Lütfen sabırlı olun…</string>
     <string name="msg_unable_load_subs">Altyazı yüklenemedi</string>
-    <string name="msg_subtitles_loading">Altyazılar yükleniyor...</string>
+    <string name="msg_subtitles_loading">Altyazılar yükleniyor…</string>
     <string name="lbl_filters">Filtreler</string>
     <string name="btn_clear_all">Hepsini Temizle</string>
     <string name="btn_filter">Filtre</string>
@@ -135,7 +135,7 @@
     <string name="msg_playback_incompatible">Bu video formatı oynatılamıyor</string>
     <string name="msg_playback_restricted">Yönetici şu anda bu öğenin oynatılmasını kısıtladı</string>
     <string name="msg_playback_not_allowed">Oynatmaya şuan izin verilmiyor</string>
-    <string name="lbl_loading_elipses">Yükleniyor...</string>
+    <string name="lbl_loading_elipses">Yükleniyor…</string>
     <string name="lbl_born">"Doğum "</string>
     <string name="lbl_ok">Tamam</string>
     <string name="lbl_valid_server_address">Lütfen sunucu adresi girin (IP yada alan/makine adı)</string>
@@ -248,7 +248,7 @@
     <string name="msg_no_items">Oynatıclacak öğe bulunmuyor</string>
     <string name="subtitle_error">Altyazı seçilemedi</string>
     <string name="too_many_errors">Çok fazla hata. Bırakılıyor</string>
-    <string name="player_error">Oynatıcı hatasıyla karşılaşıldı. Yeniden denenecek ...</string>
+    <string name="player_error">Oynatıcı hatasıyla karşılaşıldı. Yeniden denenecek…</string>
     <string name="seek_error">Gezinilemiyor</string>
     <string name="msg_live_tv_prev">Önceki %1$d saati yükle\?</string>
     <string name="msg_live_tv_next">Sıradaki %1$d saati yükle\?</string>
