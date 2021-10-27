@@ -103,7 +103,7 @@
     <string name="msg_playback_incompatible">Cannot play this video format</string>
     <string name="msg_playback_restricted">The administrator has restricted playback of this item at this time</string>
     <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
-    <string name="lbl_loading_elipses">Loading...</string>
+    <string name="lbl_loading_elipses">Loading…</string>
     <string name="msg_error_server_unavailable">Server unavailable</string>
     <string name="lbl_on_schedule">On Schedule</string>
     <string name="lbl_hours">Hours</string>
@@ -143,15 +143,15 @@
     <string name="lbl_albums">Albums</string>
     <string name="lbl_programs">Programs</string>
     <string name="lbl_direct_stream_live">Direct Stream Live TV</string>
-    <string name="msg_error_live_stream">Error streaming live TV. Will re-try...</string>
+    <string name="msg_error_live_stream">Error streaming live TV. Will re-try…</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_recording">Recording</string>
-    <string name="msg_burn_sub_warning">Burned in subs can take a few minutes. Please be patient...</string>
+    <string name="msg_burn_sub_warning">Burned in subs can take a few minutes. Please be patient…</string>
     <string name="msg_unable_load_subs">Unable to load subtitle</string>
-    <string name="msg_subtitles_loading">Subtitles loading...</string>
+    <string name="msg_subtitles_loading">Subtitles loading…</string>
     <string name="lbl_display_preferences">Display Preferences</string>
     <string name="lbl_rating">Rating</string>
     <string name="lbl_critic_rating">Critic Rating</string>
@@ -314,7 +314,7 @@
     <string name="msg_no_items">No items to play</string>
     <string name="subtitle_error">Unable to select subtitle</string>
     <string name="too_many_errors">Too many errors. Giving up</string>
-    <string name="player_error">Player error encountered. Will re-try...</string>
+    <string name="player_error">Player error encountered. Will re-try…</string>
     <string name="seek_error">Unable to seek</string>
     <string name="msg_live_tv_prev">Load prev %1$d hours\?</string>
     <string name="msg_live_tv_next">Load next %1$d hours\?</string>
@@ -357,7 +357,7 @@
     <string name="server_field_empty">The address cannot be empty</string>
     <string name="server_connection_failed">Unable to connect to server: %1$s</string>
     <string name="server_connecting">Connecting to server...</string>
-    <string name="login_authenticating">Authenticating...</string>
+    <string name="login_authenticating">Authenticating…</string>
     <string name="login_help_title">Need help\?</string>
     <string name="user_picker_last_user_summary">Use the last active user</string>
     <string name="user_picker_last_user_title">Most recently used</string>
