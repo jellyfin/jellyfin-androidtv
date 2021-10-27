@@ -304,7 +304,7 @@
     <string name="play_with_external_app">Воспроизвести во внешнем приложении</string>
     <string name="play_with_exo_player">Воспроизвести в ExoPlayer</string>
     <string name="play_with_vlc">Воспроизвести с libVLC</string>
-    <string name="just_one">Только в этот раз</string>
+    <string name="just_one">Только этот один</string>
     <string name="turn_off">Отключить эту опцию</string>
     <string name="lbl_deleted">%1$s удалено</string>
     <string name="like_setting_error">Ошибка задания статуса \"Нравится\"</string>
@@ -316,7 +316,7 @@
     <string name="subtitle_error">Невозможно выбрать субтитры</string>
     <string name="too_many_errors">Слишком много ошибок. Отказ от попыток</string>
     <string name="player_error">Произошла ошибка проигрывателя. Повторная попытка…</string>
-    <string name="seek_error">Невозможно найти</string>
+    <string name="seek_error">Невозможно искать</string>
     <string name="msg_live_tv_prev">Загрузить предыдующие %1$d часов\?</string>
     <string name="msg_live_tv_next">Загрузить следующие %1$d часов\?</string>
     <string name="lbl_load_guide_data">Загрузить данные телегида</string>
@@ -400,7 +400,7 @@
     <string name="auto_sign_in">Автоматический вход</string>
     <string name="lbl_switch_user">Сменить пользователя</string>
     <string name="no_network_permissions">Jellyfin требуются сетевые разрешения для работы</string>
-    <string name="pref_theme_muted_purple">Приглушённый пурпурный</string>
+    <string name="pref_theme_muted_purple">Тускло-пурпурная</string>
     <string name="add_user">Добавить пользователя</string>
     <string name="who_is_watching">Кто смотрит\?</string>
     <string name="no_user_warning">Мы не смогли найти ни одного пользователя!
