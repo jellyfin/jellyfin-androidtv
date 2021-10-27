@@ -138,7 +138,7 @@
     <string name="btn_filter">フィルター</string>
     <string name="btn_clear_all">全てをクリア</string>
     <string name="lbl_filters">フィルター</string>
-    <string name="msg_subtitles_loading">字幕を読み込み中...</string>
+    <string name="msg_subtitles_loading">字幕を読み込み中…</string>
     <string name="lbl_recording">録画中</string>
     <string name="pref_live_tv_cat">ライブテレビ</string>
     <string name="lbl_albums">アルバム</string>
@@ -227,7 +227,7 @@
     <string name="lbl_artists">アーティスト</string>
     <string name="lbl_programs">プログラム</string>
     <string name="lbl_direct_stream_live">ライブTV直接ストリーム</string>
-    <string name="msg_error_live_stream">ライブTVストリーミングエラー。再試行します...</string>
+    <string name="msg_error_live_stream">ライブTVストリーミングエラー。再試行します…</string>
     <string name="lbl_recorded_tv">録画されたTV</string>
     <string name="lbl_live_tv_guide">ライブTVガイド</string>
     <string name="msg_unable_load_subs">字幕のロードが出来ません</string>
@@ -243,7 +243,7 @@
     <string name="lbl_record_any_channel">任意のチャンネルで録音</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
-    <string name="msg_burn_sub_warning">付属字幕は数分がかかれます。ちょっと待ってください...</string>
+    <string name="msg_burn_sub_warning">付属字幕は数分がかかれます。ちょっと待ってください…</string>
     <string name="pref_use_direct_path_title">外部プレーヤーにダイレクトパスを給う</string>
     <string name="lbl_more_like_this">このように</string>
     <string name="lbl_resume_preroll">プレロールを再開する</string>
