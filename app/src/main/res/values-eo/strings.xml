@@ -419,4 +419,38 @@
     <string name="no_program_data">&lt;Neniu \"Program Data\" Disponeblaj&gt;</string>
     <string name="lbl_show_backdrop">Montri Dorsbildon dum Foliumado</string>
     <string name="lbl_bitstream_ac3">Bitfluo de Dolby Digital aŭdio</string>
+    <string name="licenses_link_description">Rigardi la permesilojn de la kodotekoj uzataj de la Jellyfin-apo</string>
+    <string name="always_authenticate_description">Ebligi ĉi tiun funkcion malebligas aŭtomatan ensaluton</string>
+    <string name="enable_playback_module_description">Ĉi tio estas eksperimenta funkcio. Neniu subteno estas provizita.</string>
+    <string name="lbl_start_end_on_schedule">Komencanta laŭ Horaro kaj Finonta laŭ Horaro</string>
+    <string name="lbl_starting_on_schedule_ending_after">Komencanta laŭ Horaro kaj Finonta %1$s poste Horaro</string>
+    <string name="lbl_starting_early_ending_on_schedule">Komencanta %1$s frue kaj Finonta laŭ Horaro</string>
+    <string name="lbl_starting_early_ending_after">Komencanta %1$s frue kaj Finonta %2$s poste Horaro</string>
+    <string name="no_user_warning">Ni ne povis trovi ajnajn uzantojn!
+\nAldoni novan uzanton premante la butonon \"Aldoni uzanton\".</string>
+    <string name="server_unsupported">Servilo devas esti ĝisdatigita. Nuna versio estas %1$s sed la apo bezonas %2$s aŭ pli novan</string>
+    <string name="welcome_content">Konekti al via servilo por komenci.</string>
+    <string name="login_help_description">Jellyfin bezonas servilon por konektiĝi. Viziti nian dokumentaron ĉe docs.jellyfin.org aŭ skani la QR-kodon por komenci kun Jellyfin.</string>
+    <string name="enable_smart_view_description">Inteligenta ekrano montras koncernajn aĵojn anstataŭ krado</string>
+    <string name="lbl_remove_users">Ĉi tio ankaŭ forigos ĉiujn asocigitajn uzantojn</string>
+    <string name="episode_missing_message_2">Ĉi tiu epizodo mankas el via plurmediteko. Ludado estos haltata.</string>
+    <string name="episode_missing_message">Ĉi tiu epizodo mankas el via plurmediteko. Ĉu vi ŝatus preterlasi ĝin kaj daŭrigi al la sekva\?</string>
+    <string name="delete_warning">Ĉi tio PERMANENTE FORIGOS %1$s el via plurmediteko. Ĉu vi TRE certas\?</string>
+    <string name="no_player_message">Ŝajnas, ke vi ne havas instalitan apon pri videokapabla. Ĉi tiu opcio bezonas, ke vi instali eksteran aplikaĵon por ludadi videoenhavon.</string>
+    <string name="mark_watched_message">La aĵo ne ŝajnis ludi tiel longe kiel ĝia daŭro. Marki spektita\?</string>
+    <string name="pref_button_remapping_description">Premi ajnan butonon de la TV-teleregilo por asigni ĝin</string>
+    <string name="pref_next_up_timeout_summary">Kiom longe atendi antaŭ ludi la sekvan aĵon</string>
+    <string name="acra_dialog_text">Ĉu vi ŝatus sendi kraŝraporton al la programistoj\?
+\n
+\nĈi tiu informo estos sendita al tria partio (tracepot.com).
+\n
+\nĈi tiu invito povas esti malŝaltita en la sekcio pri Kraŝa Raportado en la Parametroj de la Jellyfin-apo.</string>
+    <string name="pref_acra_syslog_disabled">Sistemaj ĵurnaloj NE estos inkluzivitaj en kraŝraportoj</string>
+    <string name="pref_acra_syslog_enabled">Sistemaj ĵurnaloj estos inkluzivitaj en kraŝraportoj</string>
+    <string name="pref_acra_syslog">Inkluzivi sistemajn ĵurnalojn en kraŝraportoj. Ĉi tio povas inkluzivi privatajn datumojn de aliaj aplikaĵoj se ĝi estis ĵurnalita dum la kraŝo.</string>
+    <string name="pref_acra_alwaysaccept_disabled">Dialogo estos montrata antaŭ sendi ajnan kraŝraporton</string>
+    <string name="pref_acra_enabled">Oni petos vin sendi kraŝraportojn</string>
+    <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
+    <string name="desc_premieres">Montri vicon de novaj pilotaj epizodoj por iu ajn serio, kiun vi spektas</string>
+    <string name="msg_external_path">Ĉi tiu rimedo nur funkcios se vi konvene starigis vian plurmeditekon sur la servilo kun retaj serĉvojoj aŭ serĉvoja anstataŭigo kaj la kliento, kiun vi uzas, povas rekte aliri ĉi tiujn lokojn per la reto.</string>
 </resources>
