@@ -57,7 +57,7 @@
     <string name="lbl_latest">Posljednje</string>
     <string name="lbl_search">Traži</string>
     <string name="lbl_genres">Žanrovi</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Preporučeno</string>
     <string name="lbl_by_letter">Prema slovu</string>
     <string name="lbl_next_up">Slijedi</string>
@@ -138,7 +138,7 @@
     <string name="lbl_dislike">Ne sviđa mi se</string>
     <string name="lbl_like">Sviđa mi se</string>
     <string name="lbl_now_playing_album">od %1$s</string>
-    <string name="lbl_now_playing_track">%s od %s</string>
+    <string name="lbl_now_playing_track">%1$s od %2$s</string>
     <string name="lbl_add_favorite">Dodaj u omiljene</string>
     <string name="lbl_remove_favorite">Ukloni iz omiljenih</string>
     <string name="lbl_mark_played">Označi da je reproducirano</string>
@@ -348,7 +348,7 @@
     <string name="login_invalid_credentials">Neispravno korisničko ime i/ili lozinka</string>
     <string name="login_authenticating">Autentifikacija…</string>
     <string name="server_field_empty">Adresa ne može biti prazna</string>
-    <string name="server_connecting">Spajanje na server...</string>
+    <string name="server_connecting">Spajanje na %1$s</string>
     <string name="pref_next_up_behavior_title">Prikaži informacije o idućem videu</string>
     <string name="image_type_banner">Pano</string>
     <string name="watch_count_overflow">99+</string>
@@ -424,7 +424,7 @@
     <string name="who_is_watching">Tko gleda\?</string>
     <string name="no_user_warning">Ne mogu pronaći korisnike!
 \nDodajte novog korisnika pritiskom na gumb \"Dodaj korisnika\".</string>
-    <string name="server_unsupported">Poslužitelj je potrebno ažurirati. Trenutna verzija je %s, ali aplikacija zahtijeva %s ili noviju</string>
+    <string name="server_unsupported">Poslužitelj je potrebno ažurirati. Trenutna verzija je %1$s, ali aplikacija zahtijeva %2$s ili noviju</string>
     <string name="welcome_content">Za početak se povežite s poslužiteljem.</string>
     <string name="welcome_title">Dobro došli u Jellyfin!</string>
     <string name="press_to_close">Pritisni za zatvaranje</string>
