@@ -172,7 +172,7 @@
     <string name="lbl_directed_by">Ohjaaja</string>
     <string name="lbl_watched">Katsottu</string>
     <string name="lbl_cast_crew">Näyttelijät/Henkilökunta</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Ehdotetut</string>
     <string name="lbl_by_letter">Nimen mukaan</string>
     <string name="lbl_views">Näyttökerrat</string>
