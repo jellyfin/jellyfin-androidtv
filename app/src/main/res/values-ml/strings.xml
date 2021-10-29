@@ -309,7 +309,7 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="no_user_warning">ഞങ്ങൾക്ക് ഒരു ഉപയോക്താക്കളെയും കണ്ടെത്താൻ കഴിഞ്ഞില്ല!
 \n\"ഉപയോക്താവ് ചേർക്കുക\" ബട്ടൺ അമർത്തി ഒരു പുതിയ ഉപയോക്താവിനെ ചേർക്കുക.</string>
-    <string name="server_unsupported">സെർവർ അപ്‌ഡേറ്റുചെയ്യേണ്ടതുണ്ട്. നിലവിലെ പതിപ്പ് %s ആണെങ്കിലും അപ്ലിക്കേഷന് %s അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്</string>
+    <string name="server_unsupported">സെർവർ അപ്‌ഡേറ്റുചെയ്യേണ്ടതുണ്ട്. നിലവിലെ പതിപ്പ് %1$s ആണെങ്കിലും അപ്ലിക്കേഷന് %2$s അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്</string>
     <string name="lbl_user_server">%2$s ന് %1$s</string>
     <string name="lbl_user_last_used">%2$s ന് %1$s ൽ അവസാനമായി ഉപയോഗിച്ചു</string>
     <string name="lbl_similar_items_library">നിങ്ങളുടെ ലൈബ്രറിയിലെ സമാന ഇനങ്ങൾ</string>
