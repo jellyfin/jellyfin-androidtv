@@ -109,6 +109,7 @@ dependencies {
 	implementation(libs.bundles.androidx.lifecycle)
 	implementation(libs.androidx.window)
 	implementation(libs.androidx.cardview)
+	implementation(libs.androidx.startup)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)
