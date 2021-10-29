@@ -29,7 +29,7 @@
     <string name="lbl_by_name">名稱</string>
     <string name="lbl_latest">最新上映</string>
     <string name="lbl_search">搜索</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">推薦欣賞</string>
     <string name="lbl_by_letter">字母</string>
     <string name="lbl_views">觀看次數</string>
@@ -52,8 +52,8 @@
     <string name="lbl_play">播放</string>
     <string name="lbl_play_all">全部播放</string>
     <string name="lbl_other">其它</string>
-    <string name="lbl_now_playing_track">%s 之 %s</string>
-    <string name="lbl_now_playing_album">來自 %s</string>
+    <string name="lbl_now_playing_track">%1$s 之 %2$s</string>
+    <string name="lbl_now_playing_album">來自 %1$s</string>
     <string name="msg_no_playable_items">沒有可播放的項目</string>
     <string name="lbl_tomorrow">明天</string>
     <string name="lbl_today">今天</string>
@@ -140,7 +140,7 @@
     <string name="lbl_next_episode">下一集</string>
     <string name="lbl_previous_episode">上一集</string>
     <string name="lbl_more_like_this">類似這個的</string>
-    <string name="lbl_resume_from">%s 的簡介</string>
+    <string name="lbl_resume_from">%1$s 的簡介</string>
     <string name="lbl_sort_by">排序按照</string>
     <string name="lbl_guest_stars">訪客的星星</string>
     <string name="lbl_hours">小時</string>
@@ -340,8 +340,8 @@
     <string name="login_invalid_credentials">無效的使用者名稱和/或密碼</string>
     <string name="login_authenticating">驗證中…</string>
     <string name="server_field_empty">地址不能留空</string>
-    <string name="server_connection_failed">無法連接至伺服器： %s</string>
-    <string name="server_connecting">正在與伺服器連接...</string>
+    <string name="server_connection_failed">無法連接至伺服器：%1$s</string>
+    <string name="server_connecting">正在與伺服器%1$s</string>
     <string name="pref_clock_display_playback">在播放時</string>
     <string name="pref_clock_display_browsing">在瀏覽時</string>
     <string name="lbl_always">永遠</string>
