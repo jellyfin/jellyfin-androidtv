@@ -118,7 +118,7 @@
     <string name="lbl_dislike">Nefret Et</string>
     <string name="lbl_like">Beğen</string>
     <string name="lbl_now_playing_album">%1$s</string>
-    <string name="lbl_now_playing_track">%s - %s</string>
+    <string name="lbl_now_playing_track">%1$s - %2$s</string>
     <string name="lbl_add_favorite">Favori Ekle</string>
     <string name="lbl_remove_favorite">Favori Sil</string>
     <string name="lbl_mark_played">Oynatıldı İşaretle</string>
@@ -203,7 +203,7 @@
     <string name="lbl_search">Arama</string>
     <string name="lbl_performers">Oyuncular</string>
     <string name="lbl_genres">Türler</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Önerilen</string>
     <string name="lbl_by_letter">Harfe Göre</string>
     <string name="lbl_views">Görüntüleme</string>
@@ -348,7 +348,7 @@
     <string name="login_invalid_credentials">Geçersiz kullanıcı adı veya şifre</string>
     <string name="server_field_empty">Adres boş olamaz</string>
     <string name="server_connection_failed">Sunucuya bağlanılamadı: %1$s</string>
-    <string name="server_connecting">Sunucuya bağlanılıyor...</string>
+    <string name="server_connecting">%1$s-ya bağlanılıyor</string>
     <string name="pref_clock_display_playback">Oynatma sırasında</string>
     <string name="lbl_always">Her zaman</string>
 </resources>
