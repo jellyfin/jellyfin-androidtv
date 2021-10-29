@@ -226,7 +226,7 @@
     <string name="lbl_unlike">Neplăcut</string>
     <string name="lbl_dislike">Neplăcut</string>
     <string name="lbl_now_playing_album">de la %1$s</string>
-    <string name="lbl_now_playing_track">%s a %s</string>
+    <string name="lbl_now_playing_track">%1$s a %2$s</string>
     <string name="lbl_add_favorite">Adaugă Favorit</string>
     <string name="lbl_remove_favorite">Eliminați Favorit</string>
     <string name="lbl_mark_played">Marcați ca vizionat</string>
@@ -256,7 +256,7 @@
     <string name="lbl_enter_user_pw">Introduceți parola utilizatorului</string>
     <string name="lbl_enter_user_name">Introduceti numele de utilizator</string>
     <string name="lbl_play_trailers">Rulează Trailer(e)</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_video_player_external">Aplicație externă</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
@@ -350,7 +350,7 @@
     <string name="login_authenticating">Se autentifică…</string>
     <string name="server_field_empty">Adresa nu poate fi vidă</string>
     <string name="server_connection_failed">Imposibil de conectat la server: %1$s</string>
-    <string name="server_connecting">Conectare la server...</string>
+    <string name="server_connecting">Conectare la %1$s</string>
     <string name="pref_clock_display_playback">În timpul redării</string>
     <string name="pref_clock_display_browsing">În timp ce navigați</string>
     <string name="lbl_always">Mereu</string>
