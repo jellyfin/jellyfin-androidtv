@@ -65,7 +65,7 @@
     <string name="lbl_search">Αναζήτηση</string>
     <string name="lbl_performers">Καλλιτέχνες</string>
     <string name="lbl_genres">Είδη</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Προτεινόμενα</string>
     <string name="lbl_views">Προβολές</string>
     <string name="lbl_on_now">Παίζουν Τώρα</string>
@@ -113,7 +113,7 @@
     <string name="lbl_dislike">Δεν μου αρέσει</string>
     <string name="lbl_like">Αρέσει</string>
     <string name="lbl_now_playing_album">απο %1$s</string>
-    <string name="lbl_now_playing_track">%s απο %s</string>
+    <string name="lbl_now_playing_track">%1$s απο %2$s</string>
     <string name="lbl_add_favorite">Προσθήκη αγαπημένου</string>
     <string name="lbl_remove_favorite">Κατάργηση αγαπημένου</string>
     <string name="lbl_mark_played">Επισήμανση αναπαραγωγής</string>
@@ -264,7 +264,7 @@
     <string name="login_authenticating">Έλεγχος ταυτότητας…</string>
     <string name="server_field_empty">Η διεύθυνση δε μπορεί να είναι κενή</string>
     <string name="server_connection_failed">Αδύνατη η σύνδεση με τον διακομιστή: %1$s</string>
-    <string name="server_connecting">Γίνεται σύνδεση στον διακομιστή...</string>
+    <string name="server_connecting">Γίνεται σύνδεση στον %1$s</string>
     <string name="pref_clock_display_playback">Κατά την αναπαραγωγή</string>
     <string name="pref_clock_display_browsing">Κατά την περιήγηση</string>
     <string name="lbl_always">Πάντα</string>
