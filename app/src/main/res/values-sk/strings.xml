@@ -61,7 +61,7 @@
     <string name="lbl_dislike">Nepáči sa mi to</string>
     <string name="lbl_like">Páči sa mi to</string>
     <string name="lbl_now_playing_album">z %1$s</string>
-    <string name="lbl_now_playing_track">%s z %s</string>
+    <string name="lbl_now_playing_track">%1$s z %2$s</string>
     <string name="lbl_add_favorite">Pridať k obľúbeným</string>
     <string name="lbl_remove_favorite">Odstrániť z obľúbených</string>
     <string name="lbl_search_hint">Hľadaný text (vyberte pre klávesnicu)</string>
@@ -126,7 +126,7 @@
     <string name="lbl_coming_up">Už čoskoro</string>
     <string name="msg_not_implemented">" nie je implementované"</string>
     <string name="lbl_performers">Účinkujúci</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Odporúčané</string>
     <string name="lbl_by_letter">Po písmenách</string>
     <string name="lbl_views">Zobrazenie</string>
@@ -357,7 +357,7 @@
     <string name="login_authenticating">Prebieha overovanie…</string>
     <string name="server_field_empty">Táto adresa nemôže byť prázdna</string>
     <string name="server_connection_failed">Nedá sa pripojiť k serveru: %1$s</string>
-    <string name="server_connecting">Pripájanie k %s</string>
+    <string name="server_connecting">Pripájanie k %1$s</string>
     <string name="login_help_title">Potrebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadajte adresu servera</string>
     <string name="discovered_servers_empty">Žiadne servery neboli nájdené na lokálnej sieti.</string>
@@ -402,7 +402,7 @@
     <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>
-    <string name="server_unsupported">Server je nutné aktualizovať. Súčasná verzia je %s a aplikácia vyžaduje verziu %s alebo novšiu</string>
+    <string name="server_unsupported">Server je nutné aktualizovať. Súčasná verzia je %1$s a aplikácia vyžaduje verziu %2$s alebo novšiu</string>
     <string name="lbl_starting_on_schedule_ending_after">Začína načas a končí o %1$s neskôr</string>
     <string name="lbl_start_end_on_schedule">Začína načas a končí načas</string>
     <string name="lbl_starting_early_ending_on_schedule">Začína o %1$s skôr a končí načas</string>
