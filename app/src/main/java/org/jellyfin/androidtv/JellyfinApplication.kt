@@ -34,9 +34,6 @@ class JellyfinApplication : TvApp(), LifecycleObserver {
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 
 		ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-
-		// Restore system session
-		get<SessionRepository>().restoreDefaultSystemSession()
 	}
 
 	/**
