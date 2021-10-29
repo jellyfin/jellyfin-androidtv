@@ -238,10 +238,10 @@
     <string name="lbl_new_premieres">Nye premierer</string>
     <string name="lbl_warning">Advarsel</string>
     <string name="lbl_now_playing_album">fra %1$s</string>
-    <string name="lbl_now_playing_track">%s av %s</string>
+    <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_watched">Sett</string>
     <string name="lbl_favorite">Favoritt</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Autentisering</string>
     <string name="loading">Laster inn…</string>
     <string name="lbl_image_size">Bildestørrelse</string>
@@ -339,7 +339,7 @@
     <string name="login_authenticating">Autentiserer…</string>
     <string name="server_field_empty">Adressen kan ikke være tom</string>
     <string name="server_connection_failed">Kan ikke koble til serveren: %1$s</string>
-    <string name="server_connecting">Kobler til %s</string>
+    <string name="server_connecting">Kobler til %1$s</string>
     <string name="pref_clock_display_playback">Under avspilling</string>
     <string name="pref_clock_display_browsing">Når du blar</string>
     <string name="lbl_always">Alltid</string>
@@ -416,7 +416,7 @@
     <string name="no_user_warning">Kunne ikke finne noen brukere!
 \nLegg til ny bruker ved å trykke på \"Legg til bruker\" knappen.</string>
     <string name="add_user">Legg til bruker</string>
-    <string name="server_unsupported">Serveren må oppdateres. Nåværende versjon er %s men appen trenger %s eller nyere</string>
+    <string name="server_unsupported">Serveren må oppdateres. Nåværende versjon er %1$s men appen trenger %2$s eller nyere</string>
     <string name="welcome_content">Koble til serveren din for å starte.</string>
     <string name="welcome_title">Velkommen til Jellyfin!</string>
     <string name="saved_servers">Lagrede servere</string>
