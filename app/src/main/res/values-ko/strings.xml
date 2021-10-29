@@ -13,7 +13,7 @@
     <string name="lbl_settings">설정</string>
     <string name="lbl_continue_watching">계속 시청하기</string>
     <string name="lbl_next_up">다음</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">장르</string>
     <string name="lbl_search">검색</string>
     <string name="lbl_favorites">즐겨찾기</string>
@@ -190,7 +190,7 @@
     <string name="msg_remote_already_playing">원격 재생 요청 무시됨. 현재 재생중인 항목을 먼저 중지하십시오.</string>
     <string name="lbl_record_any_channel">아무 채널에서나 기록하기</string>
     <string name="lbl_program_ended">방송 종료됨</string>
-    <string name="lbl_now_playing_track">%s(%s)</string>
+    <string name="lbl_now_playing_track">%1$s(%2$s)</string>
     <string name="sum_tv_queuing">에피소드를 재생할 때 남은 시즌 대기열에 추가</string>
     <string name="lbl_tv_queuing">모든 후속 에피소드 대기열에 추가</string>
     <string name="lbl_never">안 함</string>
@@ -314,7 +314,7 @@
     <string name="pref_use_direct_path_summary">스트리밍 URL 대신 내부 경로로 전달하기</string>
     <string name="pref_use_direct_path_title">외부 플레이어로 경로 전달</string>
     <string name="lbl_more_like_this">이와 유사한</string>
-    <string name="lbl_resume_from">%s에서 재시작</string>
+    <string name="lbl_resume_from">%1$s에서 재시작</string>
     <string name="lbl_resume_preroll">사전재생 재개</string>
     <string name="lbl_show_indicators">지표 보이기</string>
     <string name="lbl_premiere">시사</string>
@@ -334,7 +334,7 @@
     <string name="lbl_from">(으)로부터</string>
     <string name="lbl_record_any_time">아무때나 녹화하기</string>
     <string name="lbl_tune_to_channel">채널변경</string>
-    <string name="lbl_now_playing_album">(으)로부터 %s</string>
+    <string name="lbl_now_playing_album">(으)로부터 %1$s</string>
     <string name="lbl_born">"생성 "</string>
     <string name="lbl_subtitle_track">자막을 선택하십시오</string>
     <string name="lbl_audio_track">오디오 트랙을 선택하십시오</string>
