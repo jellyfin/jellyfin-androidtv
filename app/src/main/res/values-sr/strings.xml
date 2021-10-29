@@ -43,7 +43,7 @@
     <string name="lbl_search">Претрага</string>
     <string name="lbl_performers">Извођачи</string>
     <string name="lbl_genres">Жанрови</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Препоручено</string>
     <string name="lbl_by_letter">По слову</string>
     <string name="lbl_views">Прегледи</string>
@@ -321,7 +321,7 @@
     <string name="lbl_dislike">Не свиђа ми се</string>
     <string name="lbl_like">Свиђа ми се</string>
     <string name="lbl_now_playing_album">од %1$s</string>
-    <string name="lbl_now_playing_track">%s од %s</string>
+    <string name="lbl_now_playing_track">%1$s од %2$s</string>
     <string name="lbl_add_favorite">Додај као омиљено</string>
     <string name="lbl_remove_favorite">Уклони омиљено</string>
     <string name="lbl_mark_played">Означи као погледано</string>
@@ -357,7 +357,7 @@
     <string name="login_authenticating">Аутентификација…</string>
     <string name="server_field_empty">Адреса не може да буде празна</string>
     <string name="server_connection_failed">Немогуће је повезати се са сервером: %1$s</string>
-    <string name="server_connecting">Повезујем се на сервер...</string>
+    <string name="server_connecting">Повезујем се на %1$s</string>
     <string name="lbl_use_series_thumbnails_description">Користите сличице при приказивању епизода</string>
     <string name="user_picker_last_user_summary">Користи последњег активног корисника</string>
     <string name="user_picker_last_user_title">Недавно коришћени</string>
