@@ -17,7 +17,7 @@
     <string name="lbl_views">再生数</string>
     <string name="lbl_by_letter">アルファベット順</string>
     <string name="lbl_suggested">おすすめ</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">ジャンル</string>
     <string name="lbl_performers">出演者</string>
     <string name="lbl_search">検索</string>
@@ -100,8 +100,8 @@
     <string name="lbl_mark_played">再生済として登録</string>
     <string name="lbl_remove_favorite">お気に入りから外す</string>
     <string name="lbl_add_favorite">お気に入りに追加</string>
-    <string name="lbl_now_playing_track">%s 中 %s</string>
-    <string name="lbl_now_playing_album">%s から</string>
+    <string name="lbl_now_playing_track">%1$s 中 %2$s</string>
+    <string name="lbl_now_playing_album">%1$s から</string>
     <string name="lbl_like">好き</string>
     <string name="lbl_dislike">嫌い</string>
     <string name="lbl_unlike">好きを解除</string>
@@ -201,7 +201,7 @@
     <string name="lbl_news">ニュース</string>
     <string name="msg_error_server_unavailable">サーバー利用不可</string>
     <string name="pref_use_direct_path_summary">ストリーミングURLの代わりにシステムパスを使用</string>
-    <string name="lbl_resume_from">%s から再開</string>
+    <string name="lbl_resume_from">%1$s から再開</string>
     <string name="lbl_guide_option_number">チャンネル番号</string>
     <string name="lbl_premiere">プレミア</string>
     <string name="lbl_guest_stars">ゲストスター</string>
