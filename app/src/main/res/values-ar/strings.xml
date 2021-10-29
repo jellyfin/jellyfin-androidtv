@@ -127,7 +127,7 @@
     <string name="lbl_other_channels">قنوات أخرى</string>
     <string name="lbl_favorite_channels">القنوات المفضلة</string>
     <string name="lbl_coming_up">التالي</string>
-    <string name="lbl_favorites">المفضلة</string>
+    <string name="lbl_favorites">مفضلات</string>
     <string name="lbl_by_name">بالاسم</string>
     <string name="lbl_latest">الأحدث</string>
     <string name="msg_not_implemented">" غير مفعل"</string>
