@@ -115,7 +115,7 @@
     <string name="lbl_unwatched">Non visto</string>
     <string name="lbl_remove_dislike">Rimuovi Non mi piace</string>
     <string name="lbl_unlike">Non mi piace più</string>
-    <string name="lbl_now_playing_track">%s di %s</string>
+    <string name="lbl_now_playing_track">%1$s di %2$s</string>
     <string name="lbl_add_favorite">Aggiungi Preferito</string>
     <string name="lbl_remove_favorite">Rimuovi Preferito</string>
     <string name="lbl_mark_played">Segna come Visto</string>
@@ -134,7 +134,7 @@
     <string name="lbl_cancel_series">Elimina Serie</string>
     <string name="lbl_cancel_recording">Annulla registrazione</string>
     <string name="lbl_search">Cerca</string>
-    <string name="lbl_status">%s/%s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="loading">Caricamento…</string>
     <string name="lbl_warning">Attenzione</string>
     <string name="lbl_playlists">Playlist</string>
@@ -335,7 +335,7 @@
     <string name="login_authenticating">Autenticazione…</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
     <string name="server_connection_failed">Impossibile connettersi al server: %1$s</string>
-    <string name="server_connecting">Connessione al server %s</string>
+    <string name="server_connecting">Connessione al %1$s</string>
     <string name="pref_clock_display_playback">Durante la riproduzione</string>
     <string name="pref_clock_display_browsing">Durante la navigazione</string>
     <string name="lbl_always">Sempre</string>
@@ -424,7 +424,7 @@
     <string name="who_is_watching">Chi sta guardando\?</string>
     <string name="no_user_warning">Non abbiamo trovato nessun utente!
 \nAggiungi un nuovo utente premendo il pulsante \"Aggiungi utente\".</string>
-    <string name="server_unsupported">Il server deve essere aggiornato. La versione attuale è %s ma l\'applicazione richiede %s o più recente</string>
+    <string name="server_unsupported">Il server deve essere aggiornato. La versione attuale è %1$s ma l\'applicazione richiede %2$s o più recente</string>
     <string name="welcome_content">Connettiti al tuo server per incominciare.</string>
     <string name="welcome_title">Benvenuto su Jellyfin!</string>
     <string name="saved_servers">Server salvati</string>
