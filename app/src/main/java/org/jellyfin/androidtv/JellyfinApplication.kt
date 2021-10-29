@@ -30,10 +30,17 @@ class JellyfinApplication : TvApp(), LifecycleObserver {
 	override fun onCreate() {
 		super.onCreate()
 
-		// Register lifecycle callbacks
-		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
-
+		// Register application lifecycle events
 		ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+	}
+
+	/**
+	 * Called by the Process Lifecycle when the app is created. It is called after [onCreate].
+	 */
+	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+	fun onCreated() {
+		// Register activity lifecycle callbacks
+		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
 	}
 
 	/**
