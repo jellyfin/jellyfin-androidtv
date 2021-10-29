@@ -3,6 +3,7 @@ kotlinx-coroutines = "1.4.3"
 kotlinx-serialization = "1.1.0"
 androidx-leanback = "1.1.0-beta01"
 androidx-lifecycle = "2.3.1"
+androidx-startup = "1.1.0"
 koin = "3.1.2"
 glide = "4.12.0"
 acra = "5.8.4"
@@ -37,6 +38,7 @@ androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", 
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-window = { module = "androidx.window:window", version = "1.0.0-alpha09" }
 androidx-cardview = { module = "androidx.cardview:cardview", version = "1.0.0" }
+androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 
 # Dependency Injection
 koin-android-core = { module = "io.insert-koin:koin-android", version.ref = "koin" }

@@ -17,15 +17,12 @@ import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.SessionRepository
-import org.jellyfin.androidtv.di.*
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
-import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinExperimentalAPI
-import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
@@ -52,20 +49,6 @@ class JellyfinApplication : TvApp(), LifecycleObserver {
 		// Initialize the logging library
 		Timber.plant(DebugTree())
 		Timber.i("Application object created")
-
-		// Dependency Injection
-		startKoin {
-			androidContext(this@JellyfinApplication)
-
-			modules(
-				appModule,
-				authModule,
-				activityLifecycleCallbacksModule,
-				playbackModule,
-				preferenceModule,
-				utilsModule
-			)
-		}
 
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
