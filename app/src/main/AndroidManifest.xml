@@ -76,6 +76,9 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
+                android:name="org.jellyfin.androidtv.LogInitializer"
+                android:value="androidx.startup" />
+            <meta-data
                 android:name="org.jellyfin.androidtv.di.KoinInitializer"
                 android:value="androidx.startup" />
         </provider>

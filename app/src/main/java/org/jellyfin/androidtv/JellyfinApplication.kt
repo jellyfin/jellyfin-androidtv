@@ -22,33 +22,13 @@ import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
-import org.koin.core.KoinExperimentalAPI
 import timber.log.Timber
-import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 class JellyfinApplication : TvApp(), LifecycleObserver {
-	@OptIn(KoinExperimentalAPI::class)
 	override fun onCreate() {
 		super.onCreate()
-
-		// Enable improved logging for leaking resources
-		// https://wh0.github.io/2020/08/12/closeguard.html
-		if (BuildConfig.DEBUG) {
-			try {
-				Class.forName("dalvik.system.CloseGuard")
-					.getMethod("setEnabled", Boolean::class.javaPrimitiveType)
-					.invoke(null, true)
-			} catch (e: ReflectiveOperationException) {
-				@Suppress("TooGenericExceptionThrown")
-				throw RuntimeException(e)
-			}
-		}
-
-		// Initialize the logging library
-		Timber.plant(DebugTree())
-		Timber.i("Application object created")
 
 		// Register lifecycle callbacks
 		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
