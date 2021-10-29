@@ -123,7 +123,7 @@
     <string name="lbl_dislike">Tidak suka</string>
     <string name="lbl_like">Suka</string>
     <string name="lbl_now_playing_album">dari %1$s</string>
-    <string name="lbl_now_playing_track">%s dari %s</string>
+    <string name="lbl_now_playing_track">%1$s dari %2$s</string>
     <string name="lbl_add_favorite">Tambah favorit</string>
     <string name="lbl_remove_favorite">Hapus Favorit</string>
     <string name="lbl_mark_played">Tandai Dimainkan</string>
@@ -246,7 +246,7 @@
     <string name="msg_not_implemented">" tidak diimplementasikan"</string>
     <string name="lbl_search">Cari</string>
     <string name="lbl_genres">Genre</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Disarankan</string>
     <string name="lbl_by_letter">Melalui surat</string>
     <string name="lbl_views">Tampilan</string>
