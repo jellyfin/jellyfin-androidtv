@@ -181,7 +181,7 @@
     <string name="lbl_enable_seasonal_themes">Activar Temas Sazonais</string>
     <string name="desc_seasonal_themes">Permitir cores e sugestões especiais em determinadas alturas do ano</string>
     <string name="desc_automatic_fav_songs">Lista automática das músicas favoritas e preferidas</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
     <string name="lbl_zoom">Aumentar</string>
@@ -190,7 +190,7 @@
     <string name="lbl_new_premieres">Novas Estreias</string>
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_now_playing_album">a partir de %1$s</string>
-    <string name="lbl_now_playing_track">%s de %s</string>
+    <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="msg_error_server_unavailable">Servidor inacessível</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favorito</string>
@@ -336,7 +336,7 @@
     <string name="login_authenticating">A autenticar…</string>
     <string name="server_field_empty">O campo do endereçõ não pode ser vazio</string>
     <string name="server_connection_failed">Não foi possível ligar ao servidor: %1$s</string>
-    <string name="server_connecting">A ligar a %s</string>
+    <string name="server_connecting">A ligar a %1$s</string>
     <string name="pref_clock_display_playback">Durante a reprodução</string>
     <string name="pref_clock_display_browsing">Durante a navegação</string>
     <string name="lbl_always">Sempre</string>
