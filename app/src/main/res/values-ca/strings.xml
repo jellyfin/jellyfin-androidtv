@@ -22,7 +22,7 @@
     <string name="lbl_search">Buscar</string>
     <string name="lbl_performers">Intèrprets</string>
     <string name="lbl_genres">Gèneres</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Suggerit</string>
     <string name="lbl_by_letter">Per Lletra</string>
     <string name="lbl_views">Visites</string>
@@ -177,7 +177,7 @@
     <string name="lbl_dislike">No m\'agrada</string>
     <string name="lbl_like">Com</string>
     <string name="lbl_now_playing_album">des de %1$s</string>
-    <string name="lbl_now_playing_track">%s de %s</string>
+    <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_add_favorite">Afegir favorit</string>
     <string name="lbl_remove_favorite">Eliminar favorit</string>
     <string name="lbl_mark_played">Marcar com a reproduït</string>
@@ -289,7 +289,7 @@
     <string name="login_authenticating">S\'està autenticant…</string>
     <string name="server_field_empty">L\'adreça no pot estar buida</string>
     <string name="server_connection_failed">No es pot connectar al servidor: %1$s</string>
-    <string name="server_connecting">Connectant al servidor</string>
+    <string name="server_connecting">Connectant al %1$s</string>
     <string name="pref_clock_display_playback">Durant la reproducció</string>
     <string name="pref_clock_display_browsing">Mentre navega</string>
     <string name="lbl_always">Sempre</string>
