@@ -81,6 +81,9 @@
             <meta-data
                 android:name="org.jellyfin.androidtv.di.KoinInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="org.jellyfin.androidtv.SessionInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <activity

@@ -7,7 +7,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 
-@Suppress("unused")
 class KoinInitializer : Initializer<KoinApplication> {
 	override fun create(context: Context): KoinApplication = startKoin {
 		androidContext(context)
