@@ -148,7 +148,7 @@
     <string name="lbl_dislike">Ni mi všeč</string>
     <string name="lbl_like">Všeč mi je</string>
     <string name="lbl_now_playing_album">od %1$s</string>
-    <string name="lbl_now_playing_track">%s od %s</string>
+    <string name="lbl_now_playing_track">%1$s od %2$s</string>
     <string name="lbl_add_favorite">Dodaj priljubljeno</string>
     <string name="lbl_remove_favorite">Odstrani priljubljeno</string>
     <string name="lbl_mark_played">Označi kot ogledano</string>
@@ -157,7 +157,7 @@
     <string name="lbl_search_hint">Išči besedilo (izberi za tipkovnico)</string>
     <string name="sum_tv_queuing">Ko predvajate eno epizodo, dodaj preostanek sezone v čakalno vrsto</string>
     <string name="msg_set_to_record">Program nastavljen za snemanje</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="desc_seasonal_themes">Prikazuj posebne barve in priporočila glede na letni čas</string>
     <string name="lbl_enable_seasonal_themes">Sezonske teme</string>
     <string name="msg_item_added">" dodan element"</string>
