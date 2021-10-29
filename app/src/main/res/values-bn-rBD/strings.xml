@@ -34,7 +34,7 @@
     <string name="lbl_search">অনুসন্ধান করুন</string>
     <string name="lbl_performers">অভিনেতারা</string>
     <string name="lbl_genres">ধরন</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">প্রস্তাবিত</string>
     <string name="lbl_by_letter">অক্ষর অনুসারে</string>
     <string name="lbl_views">দেখেছে</string>
