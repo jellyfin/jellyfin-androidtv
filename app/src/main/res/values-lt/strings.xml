@@ -43,7 +43,7 @@
     <string name="lbl_record">Įrašyti</string>
     <string name="lbl_cancel_recording">Atšaukti Įrašymą</string>
     <string name="lbl_shuffle_all">Sumaišyti Visus</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_max_bitrate_title">Maksimali transliacijos sparta</string>
     <string name="pref_playback">Grojimas</string>
 </resources>
