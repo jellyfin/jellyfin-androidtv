@@ -33,7 +33,7 @@
     <string name="lbl_search">Пошук</string>
     <string name="lbl_performers">Виконавці</string>
     <string name="lbl_genres">Жанри</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Рекомендації</string>
     <string name="lbl_by_letter">За алфавітом</string>
     <string name="lbl_views">Перегляди</string>
