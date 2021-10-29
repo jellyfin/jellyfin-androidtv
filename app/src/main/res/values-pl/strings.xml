@@ -93,7 +93,7 @@
     <string name="lbl_dislike">NIe lubię</string>
     <string name="lbl_like">Lubię</string>
     <string name="lbl_now_playing_album">z %1$s</string>
-    <string name="lbl_now_playing_track">%s z %s</string>
+    <string name="lbl_now_playing_track">%1$s z %2$s</string>
     <string name="lbl_add_favorite">Dodaj do Ulubionych</string>
     <string name="lbl_remove_favorite">Usuń z Ulubionych</string>
     <string name="lbl_mark_played">Oznacz jako odtworzone</string>
@@ -103,7 +103,7 @@
     <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 lub https://myserver.com</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_warning">Ostrzeżenie</string>
     <string name="lbl_playlists">Playlisty</string>
     <string name="sum_enable_cinema_mode">Wnosi możliwość odtwarzania zwiastunów i informacji wprowadzających przez seansem, o ile są udostępnione przez serwer</string>
@@ -349,7 +349,7 @@
     <string name="login_authenticating">Uwierzytelnianie…</string>
     <string name="server_field_empty">Adres nie może być pusty</string>
     <string name="server_connection_failed">Nie można połączyć się z serwerem: %1$s</string>
-    <string name="server_connecting">Łączenie z %s</string>
+    <string name="server_connecting">Łączenie z %1$s</string>
     <string name="pref_clock_display_playback">Podczas odtwarzania</string>
     <string name="pref_clock_display_browsing">Podczas przeglądania</string>
     <string name="lbl_always">Zawsze</string>
@@ -426,7 +426,7 @@
     <string name="who_is_watching">Kto ogląda\?</string>
     <string name="no_user_warning">Nie możemy znaleźć użytkowników!
 \nDodaj nowego użytkownika używając przycisku \"Dodaj użytkownika\".</string>
-    <string name="server_unsupported">Serwer musi zostać zaktualizowany. Aktualna wersja to %s a aplikacja wymaga %s lub nowszej</string>
+    <string name="server_unsupported">Serwer musi zostać zaktualizowany. Aktualna wersja to %1$s a aplikacja wymaga %2$s lub nowszej</string>
     <string name="welcome_content">Połącz się z serwerem aby rozpocząć.</string>
     <string name="welcome_title">Witaj w Jellyfin!</string>
     <string name="saved_servers">Zapisane serwery</string>
