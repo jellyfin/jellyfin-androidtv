@@ -162,7 +162,7 @@
     <string name="lbl_enable_debug">Debug Options</string>
     <string name="lbl_repeat_options">Repeat Options</string>
     <string name="lbl_only_new_episodes">Only New Episodes</string>
-    <string name="lbl_now_playing_track">%s of %s</string>
+    <string name="lbl_now_playing_track">%1$s of %2$s</string>
     <string name="lbl_born">"Born "</string>
     <string name="lbl_ok">OK</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
@@ -226,7 +226,7 @@
     <string name="lbl_search">Search</string>
     <string name="lbl_performers">Performers</string>
     <string name="lbl_genres">Genres</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Suggested</string>
     <string name="lbl_by_letter">By Letter</string>
     <string name="lbl_views">Views</string>
@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Invalid username and/or password</string>
     <string name="server_field_empty">The address cannot be empty</string>
     <string name="server_connection_failed">Unable to connect to server: %1$s</string>
-    <string name="server_connecting">Connecting to server...</string>
+    <string name="server_connecting">Connecting to %1$s</string>
     <string name="login_authenticating">Authenticating…</string>
     <string name="login_help_title">Need help\?</string>
     <string name="user_picker_last_user_summary">Use the last active user</string>
