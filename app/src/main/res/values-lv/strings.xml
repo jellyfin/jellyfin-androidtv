@@ -134,7 +134,7 @@
     <string name="lbl_dislike">Nepatīk</string>
     <string name="lbl_like">Patīk</string>
     <string name="lbl_now_playing_album">no %1$s</string>
-    <string name="lbl_now_playing_track">%s no %s</string>
+    <string name="lbl_now_playing_track">%1$s no %2$s</string>
     <string name="lbl_add_favorite">Pievienot Favorītu</string>
     <string name="lbl_remove_favorite">Noņemt Favorītu</string>
     <string name="lbl_mark_played">Atzīmēt Skatītu</string>
@@ -204,7 +204,7 @@
     <string name="lbl_search">Meklēt</string>
     <string name="lbl_performers">Izpildītāji</string>
     <string name="lbl_genres">Žanri</string>
-    <string name="lbl_status">%s / %s</string>
+    <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Ieteiktie</string>
     <string name="lbl_by_letter">Pēc Burta</string>
     <string name="lbl_views">Skatījumi</string>
