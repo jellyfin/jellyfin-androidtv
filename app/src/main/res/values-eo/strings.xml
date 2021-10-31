@@ -142,7 +142,7 @@
     <string name="loading">Ŝarĝas…</string>
     <string name="no_network_permissions">Jellyfin bezonas retajn permesojn por funkcii</string>
     <string name="user_picker_disable_summary">Ĉiam montri la ensalutan ekranon</string>
-    <string name="lbl_use_series_thumbnails_description">Uzi seriajn bildetojn kiam montri epizodojn</string>
+    <string name="lbl_use_series_thumbnails_description">Uzi seriajn avizojn kiam montri epizodojn</string>
     <string name="discovered_servers_empty">Neniuj serviloj troviĝis en loka reto.</string>
     <string name="lbl_user_last_used">Laste uzita sur %1$s je %2$s</string>
     <string name="server_connection_failed">Ne eblas konektiĝi al servilo: %1$s</string>
@@ -237,7 +237,7 @@
     <string name="press_to_close">Premi por fermi</string>
     <string name="user_picker_last_user_title">Plej lastatempe uzata</string>
     <string name="auto_sign_in">Aŭtomata ensaluto</string>
-    <string name="lbl_use_series_thumbnails">Preferi seriajn bildetojn</string>
+    <string name="lbl_use_series_thumbnails">Preferi seriajn avizojn</string>
     <string name="lbl_episode_marks">Nur en epizodoj</string>
     <string name="lbl_hide_unwatched_count">Kaŝi nespektitan kalkulon</string>
     <string name="pref_watched_indicator">Montri spekitajn indikilojn</string>
@@ -280,8 +280,8 @@
     <string name="advanced_settings">Parametroj (altnivelaj)</string>
     <string name="lbl_num_songs">%1$d Kantoj</string>
     <string name="lbl_num_episodes">%1$d Epizodoj</string>
-    <string name="lbl_next_up_minimal">Sen bildeto</string>
-    <string name="lbl_next_up_extended">Kun bildeto</string>
+    <string name="lbl_next_up_minimal">Sen avizo</string>
+    <string name="lbl_next_up_extended">Kun avizo</string>
     <string name="who_is_watching">Kiu spektas\?</string>
     <string name="saved_servers">Savitaj serviloj</string>
     <string name="lbl_switch_user">Ŝanĝi uzanton</string>
