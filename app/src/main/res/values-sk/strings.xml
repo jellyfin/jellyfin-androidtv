@@ -443,4 +443,14 @@
     <string name="always_authenticate_description">Povolením tejto funkcie zakážete automatické prihlasovanie</string>
     <string name="always_authenticate">Vždy vyžadovať prihlasovacie údaje</string>
     <string name="lbl_community_rating">Hodnotenie komunity</string>
+    <string name="license_license">Licencia</string>
+    <string name="license_author">Autor</string>
+    <string name="license_repository">Repozitár</string>
+    <string name="license_website">Webová stránka</string>
+    <string name="license_artifact">Artefakt</string>
+    <string name="license_version">Verzia</string>
+    <string name="license_description">Popis</string>
+    <string name="licenses_link_description">Zobrať licenciu knižníc použivaných aplikáciou Jellyfin</string>
+    <string name="licenses_link">Licencia</string>
+    <string name="select_version">Verzia</string>
 </resources>
