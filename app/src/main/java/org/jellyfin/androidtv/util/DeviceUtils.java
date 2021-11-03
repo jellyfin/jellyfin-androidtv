@@ -22,6 +22,8 @@ public class DeviceUtils {
     private static final String FIRE_TV_MODEL_GEN_1 = "AFTB";
     private static final String FIRE_TV_MODEL_GEN_2 = "AFTS";
     private static final String FIRE_TV_MODEL_GEN_3 = "AFTN";
+    // Nvidia Shield TV Model
+    private static final String SHIELD_TV_MODEL = "SHIELD Android TV";
 
     public static boolean isChromecastWithGoogleTV() {
         return Build.MODEL.equals(CHROMECAST_GOOGLE_TV);
@@ -37,6 +39,10 @@ public class DeviceUtils {
 
     public static boolean isFireTvStick4k() {
         return Build.MODEL.equals(FIRE_STICK_4K_MODEL);
+    }
+
+    public static boolean isShieldTv() {
+        return Build.MODEL.equals(SHIELD_TV_MODEL);
     }
 
     public static boolean has4kVideoSupport() {
