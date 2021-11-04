@@ -36,33 +36,12 @@
             android:layout_width="8dp"
             android:layout_height="0dp" />
 
-        <!-- Only one of the next 2 buttons should be shown at a time -->
-        <FrameLayout
-            android:id="@+id/switch_users_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:descendantFocusability="blocksDescendants"
-            android:focusable="true">
-
-            <ImageButton
-                android:id="@+id/switch_users_icon"
-                style="@style/Button.Icon"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:contentDescription="@string/lbl_switch_user"
-                android:duplicateParentState="true"
-                android:src="@drawable/ic_switch_users" />
-
-            <ImageButton
-                android:id="@+id/switch_users_image"
-                style="@style/Button.Icon"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:contentDescription="@string/lbl_switch_user"
-                android:duplicateParentState="true"
-                android:tint="@null"
-                android:visibility="gone" />
-        </FrameLayout>
+        <ImageButton
+            android:id="@+id/switch_users"
+            style="@style/Button.Icon"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:contentDescription="@string/lbl_switch_user"
+            android:src="@drawable/ic_switch_users" />
     </LinearLayout>
 </org.jellyfin.androidtv.ui.shared.ToolbarView>

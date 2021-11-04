@@ -20,6 +20,7 @@ class ServerButtonView @JvmOverloads constructor(
 
 	init {
 		isFocusable = true
+		isClickable = true
 		descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 	}
 
