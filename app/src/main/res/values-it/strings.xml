@@ -244,7 +244,7 @@
     <string name="lbl_guide_option_played">Ultimo riprodotto</string>
     <string name="lbl_show_indicators">Mostra indicatori per</string>
     <string name="lbl_sort_by">Ordina per</string>
-    <string name="lbl_premiere">Premiere</string>
+    <string name="lbl_premiere">In anteprima</string>
     <string name="lbl_guest_stars">Guest Stars</string>
     <string name="pref_acra_alwaysaccept_disabled">Una conferma sarà mostrata prima dell\'invio dei crash report</string>
     <string name="pref_acra_alwaysaccept_enabled">I crash report saranno inviati senza richiederlo</string>
@@ -344,8 +344,8 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="lbl_deleted">%1$s Rimosso</string>
-    <string name="like_setting_error">Erroro durante il salvataggio dello stato di Like</string>
-    <string name="like_clearing_error">Erroro durante la rimozione dello stato di Like</string>
+    <string name="like_setting_error">Errore durante il salvataggio nei preferiti</string>
+    <string name="like_clearing_error">Errore durante la rimozione dai preferiti</string>
     <string name="favorite_error">Errore durante il salvataggio dello stato di Preferito</string>
     <string name="playing_error">Errore durante il salvataggio dello stato di Visto</string>
     <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
@@ -361,7 +361,7 @@
     <string name="image_size_small">Piccole</string>
     <string name="image_size_auto">Default</string>
     <string name="image_type_banner">Banner</string>
-    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_thumbnail">Miniatura</string>
     <string name="image_type_default">Default</string>
     <string name="enable_smart_view_description">Smart screen mostra contenuti rilevanti invece di una griglia</string>
     <string name="enable_smart_view">Abilita smart screen</string>
@@ -410,9 +410,9 @@
     <string name="lbl_on_any_channel">Su Qualsiasi Canale</string>
     <string name="lbl_record_all">Registrerò Tutti Gli Episodi</string>
     <string name="lbl_record_only_new">Registrerò solo nuovi episodi</string>
-    <string name="lbl_starting_on_schedule_ending_after">Iniziando In Orario E Finendo %1$s Dopo l\'Orario</string>
-    <string name="lbl_starting_early_ending_on_schedule">Iniziando %1$s in Anticipo e Finendo In Orario</string>
-    <string name="lbl_starting_early_ending_after">Iniziando %1$s in Anticipo e Finendo %2$s Dopo il Programma</string>
+    <string name="lbl_starting_on_schedule_ending_after">Avvio In Orario E Termine %1$s Dopo La Programmazione</string>
+    <string name="lbl_starting_early_ending_on_schedule">Avvio %1$s in Anticipo e Termine In Orario</string>
+    <string name="lbl_starting_early_ending_after">Avvio %1$s in Anticipo e Termine %2$s Dopo la Programmazione</string>
     <string name="lbl_next_up_minimal">Senza copertina</string>
     <string name="lbl_next_up_extended">Con copertina</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
@@ -439,4 +439,18 @@
     <string name="lbl_fit">Normale</string>
     <string name="lbl_auto_crop">Auto Ritaglio</string>
     <string name="lbl_community_rating">Valutazione della comunità</string>
+    <string name="license_license">Licenza</string>
+    <string name="license_author">Autore</string>
+    <string name="license_repository">Repository</string>
+    <string name="license_website">Sito web</string>
+    <string name="license_artifact">Artifact</string>
+    <string name="license_version">Versione</string>
+    <string name="license_description">Descrizione</string>
+    <string name="licenses_link_description">Visualizza le licenze delle librerie usate dall\'app Jellyfin</string>
+    <string name="licenses_link">Licenze</string>
+    <string name="select_version">Versione</string>
+    <string name="last_use">Usato di recente</string>
+    <string name="enable_playback_module_title">Abilita nuovo modulo di riproduzione</string>
+    <string name="lbl_start_end_on_schedule">Avvio In Orario E Termine In Orario</string>
+    <string name="lbl_stretch">Allunga</string>
 </resources>
