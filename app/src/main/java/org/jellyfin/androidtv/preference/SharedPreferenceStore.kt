@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.preference
 
 import android.content.SharedPreferences
+import org.jellyfin.androidtv.preference.migrations.MigrationContext
 import timber.log.Timber
 
 /**
@@ -82,34 +83,15 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Migrations
-	/**
-	 * Migration function to upgrade the preferences in older app versions
-	 *
-	 * Migrations should be added to the `init` block of a store and look like this:
-	 * ```kotlin
-	 * migration(toVersion = 1) {
-	 * 	// Get a value
-	 * 	it.getString("example", "default")
-	 * 	// Set a value
-	 * 	setString("example", "new value")
-	 * }
-	 *
-	 * @param toVersion The new version to upgrade to
-	 * @param body Actual migrationb code
-	 */
-	protected fun migration(toVersion: Int, body: MigrationEditor.(SharedPreferences) -> Unit) {
-		// Check if migration should be performed
-		val currentVersion = this[VERSION]
-		if (currentVersion < toVersion) {
-			Timber.i("Migrating a preference store from version $currentVersion to $toVersion")
+	protected fun runMigrations(body: MigrationContext<MigrationEditor, SharedPreferences>.() -> Unit) {
+		val context = MigrationContext<MigrationEditor, SharedPreferences>()
+		context.body()
 
-			// Create a new editor and execute the migration
-			transaction {
-				body(sharedPreferences)
-			}
+		this[VERSION] = context.applyMigrations(this[VERSION]) { migration ->
+			Timber.i("Migrating a preference store to version ${migration.toVersion}")
 
-			// Update current store version
-			this[VERSION] = toVersion
+			// Create a new transaction and execute the migration
+			transaction { migration.body(this, sharedPreferences) }
 		}
 	}
 
@@ -117,6 +99,6 @@ abstract class SharedPreferenceStore(
 		/**
 		 * Version of the preference store. Used for migration.
 		 */
-		val VERSION = Preference.int("store_version", 1)
+		val VERSION = Preference.int("store_version", -1)
 	}
 }
