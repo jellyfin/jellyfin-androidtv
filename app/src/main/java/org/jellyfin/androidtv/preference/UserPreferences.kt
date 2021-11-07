@@ -203,11 +203,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.EXOPLAYER)
 			// Migrate live tv player to use enum
 			putEnum("live_tv_video_player",
-					when {
-						it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
-						it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
-						else -> PreferredVideoPlayer.AUTO
-					})
+				when {
+					it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
+					it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
+					else -> PreferredVideoPlayer.AUTO
+				})
 		}
 
 		// Change audio delay type from long to int
