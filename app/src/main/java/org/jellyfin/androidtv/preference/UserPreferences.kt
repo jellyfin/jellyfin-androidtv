@@ -185,11 +185,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	init {
 		// Migrations
 		// v0.10.x to v0.11.x: Old migrations
+		// this is also used for debug versions
 		migration(toVersion = 2) {
 			// Migrate to video player enum
 			// Note: This is the only time we need to check if the value is not set yet because the version numbers were reset
 			if (!it.contains("video_player"))
-				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
+				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.EXOPLAYER)
 		}
 
 		// v0.11.x to v0.12.x: Migrates from the old way of storing preferences to the current
@@ -197,13 +198,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 			// Migrate to audio behavior enum
 			putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
+			// enforce the use of exoplayer now that its the default because libvlc is buggy
+			if (!it.contains("video_player"))
+				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.EXOPLAYER)
 			// Migrate live tv player to use enum
 			putEnum("live_tv_video_player",
-				when {
-					it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
-					it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
-					else -> PreferredVideoPlayer.AUTO
-				})
+					when {
+						it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
+						it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
+						else -> PreferredVideoPlayer.AUTO
+					})
 		}
 
 		// Change audio delay type from long to int
