@@ -183,37 +183,36 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 	}
 
 	init {
-		// Migrations
-		// v0.10.x to v0.11.x: Old migrations
-		migration(toVersion = 2) {
-			// Migrate to video player enum
-			// Note: This is the only time we need to check if the value is not set yet because the version numbers were reset
-			if (!it.contains("video_player"))
-				putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
-		}
+		// Note: Create a single migration per app version
+		// Note: Migrations are never executed for fresh installs
+		runMigrations {
+			// v0.10.x to v0.11.x
+			migration(toVersion = 2) {
+				// Migrate to video player enum
+				// Note: This is the only time we need to check if the value is not set yet because the version numbers were reset
+				if (!it.contains("video_player"))
+					putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
+			}
 
-		// v0.11.x to v0.12.x: Migrates from the old way of storing preferences to the current
-		migration(toVersion = 3) {
-			// Migrate to audio behavior enum
-			putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
+			// v0.11.x to v0.12.x
+			migration(toVersion = 5) {
+				// Migrate to audio behavior enum
+				putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
-			// Migrate live tv player to use enum
-			putEnum("live_tv_video_player",
-				when {
-					it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
-					it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
-					else -> PreferredVideoPlayer.AUTO
-				})
-		}
+				// Migrate live tv player to use enum
+				putEnum("live_tv_video_player",
+					when {
+						it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
+						it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
+						else -> PreferredVideoPlayer.AUTO
+					})
 
-		// Change audio delay type from long to int
-		migration(toVersion = 4) {
-			putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
-		}
+				// Change audio delay type from long to int
+				putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
 
-		// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
-		migration(toVersion = 5) {
-			if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
+				// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
+				if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
+			}
 		}
 	}
 }
