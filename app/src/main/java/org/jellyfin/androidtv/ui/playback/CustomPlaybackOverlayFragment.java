@@ -584,7 +584,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
-                            mPlaybackController.pause();
+                            mPlaybackController.playPause();
                             return true;
                         }
 

@@ -654,6 +654,11 @@ public class PlaybackController {
         mVideoManager.setVideoPath(response.getMediaUrl());
         mVideoManager.setVideoTrack(response.getMediaSource());
 
+        if ((forceVlc || useVlc) && getPlaybackMethod().equals(PlayMethod.Transcode)) {
+            Timber.i("Setting VLC Stream Start Position to %s", position);
+            mVideoManager.setMetaVLCStreamStartPosition(position);
+        }
+
         //wait a beat before attempting to start so the player surface is fully initialized and video is ready
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -871,6 +876,7 @@ public class PlaybackController {
             mVideoManager.stopPlayback();
             // update mCurrentPosition because when play() is called after seeking it uses its value
             mCurrentPosition = pos;
+            mVideoManager.setMetaVLCStreamStartPosition(pos);
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
