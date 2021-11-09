@@ -180,6 +180,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 return lastExoPlayerPosition;
             } else {
                 long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+                Timber.d("mExoPlayer time got: %s", mExoPlayerCurrentPosition);
                 lastExoPlayerPosition = mExoPlayerCurrentPosition;
                 return mExoPlayerCurrentPosition;
             }
@@ -204,6 +205,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                     mLastTime = mForcedTime = -1;
             }
         }
+        Timber.d("mVlcPlayer time got: %s returned: %s", time, (mForcedTime == -1 ? time : mForcedTime));
         return mForcedTime == -1 ? time : mForcedTime;
     }
 

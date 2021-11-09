@@ -317,6 +317,7 @@ public class PlaybackController {
                 // do nothing
                 break;
             case PAUSED:
+                Timber.d("playback controller - just resuming");
                 // just resume
                 mVideoManager.play();
                 if (mVideoManager.isNativeMode()) mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
@@ -795,17 +796,17 @@ public class PlaybackController {
     }
 
     public void pause() {
+        stopReportLoop();
         mPlaybackState = PlaybackState.PAUSED;
         mVideoManager.pause();
+
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
             mFragment.setPlayPauseActionState(0);
-        }
 
-        stopReportLoop();
+        }
         // start a slower report for pause state to keep session alive
         startPauseReportLoop();
-
     }
 
     public void playPause() {
@@ -1009,11 +1010,19 @@ public class PlaybackController {
                 }
 
                 long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
+
                 if (isLiveTv && !directStreamLiveTv && mFragment != null) {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
 
                 ReportingHelper.reportProgress(PlaybackController.this, currentItem, getCurrentStreamInfo(), currentTime * 10000, true);
+
+                if (mFragment != null) {
+                    mFragment.setCurrentTime(currentTime);
+                    mFragment.updateSubtitles(currentTime);
+                }
+                mCurrentPosition = currentTime;
+                Timber.d("playback controller current postion: %s", mCurrentPosition);
                 mHandler.postDelayed(this, PROGRESS_REPORTING_PAUSE_INTERVAL);
             }
         };
