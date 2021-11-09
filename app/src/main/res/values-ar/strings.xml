@@ -446,4 +446,9 @@
     <string name="lbl_trailers">المقطورات</string>
     <string name="lbl_genres">أنواع</string>
     <string name="lbl_status">%1$s / %2$s</string>
+    <string name="license_version">اصدار</string>
+    <string name="select_version">اصدار</string>
+    <string name="image_type_thumbnail">صورة مصغرة</string>
+    <string name="login_authenticating">تتم المصادقة…</string>
+    <string name="server_connecting">يتم الاتصال ب %1$s</string>
 </resources>
