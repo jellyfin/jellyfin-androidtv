@@ -805,6 +805,7 @@ public class PlaybackController {
             mFragment.setPlayPauseActionState(0);
 
         }
+        Timber.d("pause called at %s", mCurrentPosition);
         // start a slower report for pause state to keep session alive
         startPauseReportLoop();
     }
@@ -840,6 +841,7 @@ public class PlaybackController {
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
         }
+        Timber.d("stop called at %s", mCurrentPosition);
     }
 
     public void next() {
