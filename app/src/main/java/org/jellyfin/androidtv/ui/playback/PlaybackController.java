@@ -807,6 +807,7 @@ public class PlaybackController {
         }
         // start a slower report for pause state to keep session alive
         startPauseReportLoop();
+        Timber.d("Paused Playback");
     }
 
     public void playPause() {
@@ -840,6 +841,7 @@ public class PlaybackController {
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
         }
+        Timber.d("Stopped Playback");
     }
 
     public void next() {
@@ -1222,6 +1224,11 @@ public class PlaybackController {
     }
 
     public long getCurrentPosition() {
+        long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
+
+        if (currentTime != -1) {
+            mCurrentPosition = currentTime;
+        }
         return mCurrentPosition;
     }
 
