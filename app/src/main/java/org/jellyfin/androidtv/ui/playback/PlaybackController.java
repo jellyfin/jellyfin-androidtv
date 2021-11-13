@@ -796,6 +796,11 @@ public class PlaybackController {
     }
 
     public void pause() {
+        Timber.d("pause called at %s", mCurrentPosition);
+        if (mPlaybackState == PlaybackState.PAUSED) {
+            Timber.d("pause called - already paused, ignoring");
+            return ;
+        }
         stopReportLoop();
         mPlaybackState = PlaybackState.PAUSED;
         mVideoManager.pause();
@@ -805,7 +810,6 @@ public class PlaybackController {
             mFragment.setPlayPauseActionState(0);
 
         }
-        Timber.d("pause called at %s", mCurrentPosition);
         // start a slower report for pause state to keep session alive
         startPauseReportLoop();
     }
@@ -824,6 +828,8 @@ public class PlaybackController {
     }
 
     public void stop() {
+        Timber.d("stop called at %s", mCurrentPosition);
+
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
@@ -835,13 +841,17 @@ public class PlaybackController {
                 Timber.e(e);
             }
             Long mbPos = mCurrentPosition * 10000;
+
+            if (getCurrentlyPlayingItem() == null) {
+                Timber.d("stop called - current item is null!");
+            }
             ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
             if (!isLiveTv) {
                 // update the actual items resume point
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
         }
-        Timber.d("stop called at %s", mCurrentPosition);
+
     }
 
     public void next() {
