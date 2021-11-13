@@ -444,4 +444,13 @@
     <string name="last_use">最近使用</string>
     <string name="lbl_community_rating">社区评分</string>
     <string name="select_version">版本</string>
+    <string name="license_license">许可证</string>
+    <string name="license_author">作者</string>
+    <string name="license_repository">存储库</string>
+    <string name="license_website">网址</string>
+    <string name="license_artifact">工作室</string>
+    <string name="license_version">版本</string>
+    <string name="license_description">说明</string>
+    <string name="licenses_link_description">查看Jellyfin应用程序使用的库的许可证</string>
+    <string name="licenses_link">许可证</string>
 </resources>
