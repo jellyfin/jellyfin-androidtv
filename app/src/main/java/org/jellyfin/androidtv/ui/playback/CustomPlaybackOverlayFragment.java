@@ -687,6 +687,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void onStop() {
+        Timber.d("playback overlay fragment - caught onStop");
         super.onStop();
 
         mPlaybackController.stop();

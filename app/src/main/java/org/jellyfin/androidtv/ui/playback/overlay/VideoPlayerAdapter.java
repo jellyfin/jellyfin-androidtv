@@ -12,6 +12,8 @@ import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class VideoPlayerAdapter extends PlayerAdapter {
 
     private final PlaybackController playbackController;
@@ -45,6 +47,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public void seekTo(long positionInMs) {
+        Timber.d("player adapter - caught seekTo %s", positionInMs);
         playbackController.seek(positionInMs);
         updateCurrentPosition();
     }

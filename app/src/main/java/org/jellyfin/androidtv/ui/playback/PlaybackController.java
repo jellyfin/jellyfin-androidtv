@@ -225,6 +225,7 @@ public class PlaybackController {
             play(mCurrentPosition);
 
         } else {
+            Timber.d("Player error encountered - out of retries");
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
             stop();
@@ -311,7 +312,7 @@ public class PlaybackController {
             Timber.i("Negative start requested - adjusting to zero");
             position = 0;
         }
-
+        Timber.d("Play called - current playback state: %s", mPlaybackState);
         switch (mPlaybackState) {
             case PLAYING:
                 // do nothing
@@ -987,6 +988,7 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
+        Timber.d("started playback controller report loop");
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
@@ -1005,11 +1007,13 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
+        Timber.d("started playback controller pause report loop");
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
                 BaseItemDto currentItem = getCurrentlyPlayingItem();
+
                 if (currentItem == null) {
                     // Loop was called while nothing was playing!
                     stopReportLoop();
@@ -1018,6 +1022,7 @@ public class PlaybackController {
 
                 if (mPlaybackState != PlaybackState.PAUSED) {
                     // Playback is not paused anymore, stop reporting
+                    Timber.d("stopping playback controller pause report loop because playback state is: %s", mPlaybackState);
                     return;
                 }
 
@@ -1042,6 +1047,7 @@ public class PlaybackController {
     }
 
     private void stopReportLoop() {
+        Timber.d("stopping playback controller report loop");
         if (mHandler != null && mReportLoop != null) {
             mHandler.removeCallbacks(mReportLoop);
 

@@ -9,6 +9,8 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
+import timber.log.Timber;
+
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
     private PlaybackController playbackController;
@@ -65,6 +67,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     }
 
     public void mediaInfoChanged() {
+        Timber.d("leanback overlay fragment - media info changed");
         BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         if (currentlyPlayingItem == null) return;
 
