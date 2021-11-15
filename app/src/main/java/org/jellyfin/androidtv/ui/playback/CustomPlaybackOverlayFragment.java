@@ -584,6 +584,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
+                            Timber.d("playback overlay fragment - got d pad click to playPause");
                             mPlaybackController.playPause();
                             return true;
                         }
@@ -1281,6 +1282,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void updateDisplay() {
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
         if (current != null && getActivity() != null && !getActivity().isFinishing()) {
+            Timber.d("playback overlay fragment - updating display");
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
             leanbackOverlayFragment.recordingStateChanged();

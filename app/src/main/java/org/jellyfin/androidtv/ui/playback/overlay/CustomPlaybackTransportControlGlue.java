@@ -39,6 +39,8 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
 
+import timber.log.Timber;
+
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
     // Normal playback actions
@@ -145,6 +147,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
             @Override
             protected void onProgressBarClicked(PlaybackTransportRowPresenter.ViewHolder vh) {
+                Timber.d("overlay glue - got progress bar clicked");
                 CustomPlaybackTransportControlGlue controlglue = CustomPlaybackTransportControlGlue.this;
                 controlglue.onActionClicked(controlglue.playPauseAction);
             }
@@ -257,6 +260,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     public void onActionClicked(Action action) {
         if (action == playPauseAction) {
+            Timber.d("overlay glue - got playPause action");
             if (playPauseAction.getIndex() == PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE) {
                 getPlayerAdapter().pause();
                 playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);

@@ -988,6 +988,7 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
+        stopReportLoop();
         Timber.d("started playback controller report loop");
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
@@ -1007,6 +1008,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
+        stopReportLoop();
         Timber.d("started playback controller pause report loop");
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
@@ -1157,6 +1159,7 @@ public class PlaybackController {
                     startReportLoop();
                 }
                 Timber.i("Play method: %s", mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? "Trans" : "Direct");
+                Timber.d("OnPreparedListener - current playback state: %s", mPlaybackState);
 
                 if (mPlaybackState == PlaybackState.PAUSED) {
                     mPlaybackState = PlaybackState.PLAYING;
