@@ -896,6 +896,7 @@ public class PlaybackController {
             if (mVideoManager.getMetaVLCStreamStartPosition() != -1) {
                 mVideoManager.setMetaVLCStreamStartPosition(pos);
             }
+            mPlaybackState = PlaybackState.BUFFERING;
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
@@ -995,7 +996,7 @@ public class PlaybackController {
     private void startReportLoop() {
         stopReportLoop();
         Timber.d("started playback controller report loop");
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        //ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1015,7 +1016,7 @@ public class PlaybackController {
     private void startPauseReportLoop() {
         stopReportLoop();
         Timber.d("started playback controller pause report loop");
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        //ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1157,7 +1158,6 @@ public class PlaybackController {
         mVideoManager.setOnPreparedListener(new PlaybackListener() {
             @Override
             public void onEvent() {
-
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     mPlaybackState = PlaybackState.PLAYING;
                     mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;

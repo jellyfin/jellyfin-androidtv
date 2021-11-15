@@ -304,7 +304,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             try {
                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
 
-                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)));
+                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)), true, true);
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
