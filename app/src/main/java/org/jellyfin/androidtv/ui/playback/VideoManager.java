@@ -662,6 +662,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private PlaybackListener progressListener;
     private Runnable progressLoop;
     private void startProgressLoop() {
+        stopProgressLoop();
         Timber.d("started video manager report loop");
         progressLoop = new Runnable() {
             @Override

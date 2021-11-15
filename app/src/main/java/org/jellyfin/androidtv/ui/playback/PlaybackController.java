@@ -852,7 +852,9 @@ public class PlaybackController {
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
         }
-
+        else {
+            Timber.d("Video is already stopped, ignoring");
+        }
     }
 
     public void next() {
@@ -890,7 +892,10 @@ public class PlaybackController {
             mVideoManager.stopPlayback();
             // update mCurrentPosition because when play() is called after seeking it uses its value
             mCurrentPosition = pos;
-            mVideoManager.setMetaVLCStreamStartPosition(pos);
+
+            if (!(mVideoManager.isNativeMode())) {
+                mVideoManager.setMetaVLCStreamStartPosition(pos);
+            }
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
