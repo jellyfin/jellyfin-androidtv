@@ -162,6 +162,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mMetaVLCStreamStartPosition = value;
     }
 
+    public long getMetaVLCStreamStartPosition() {
+        return mMetaVLCStreamStartPosition;
+    }
+
     public void setMetaDuration(long duration) {
         mMetaDuration = duration;
     }

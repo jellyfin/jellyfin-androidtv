@@ -893,7 +893,7 @@ public class PlaybackController {
             // update mCurrentPosition because when play() is called after seeking it uses its value
             mCurrentPosition = pos;
 
-            if (!(mVideoManager.isNativeMode())) {
+            if (mVideoManager.getMetaVLCStreamStartPosition() != -1) {
                 mVideoManager.setMetaVLCStreamStartPosition(pos);
             }
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
