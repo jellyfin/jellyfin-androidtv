@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.preference.category.*
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.koin.android.ext.android.inject
 
 class UserPreferencesScreen : OptionsFragment() {
@@ -13,12 +14,20 @@ class UserPreferencesScreen : OptionsFragment() {
 	override val screen by lazyOptionsScreen {
 		setTitle(R.string.settings_title)
 
-		// Add all categories using extension functions in the "category" subpackage
-		link {
-			setTitle(R.string.pref_authentication_link)
-			icon = R.drawable.ic_users
-			withFragment<AuthPreferencesScreen>()
+		category {
+			link {
+				setTitle(R.string.pref_authentication_link)
+				icon = R.drawable.ic_users
+				withFragment<AuthPreferencesScreen>()
+			}
+
+			link {
+				setTitle(R.string.home_prefs)
+				icon = R.drawable.ic_house
+				withFragment<HomePreferencesScreen>()
+			}
 		}
+
 		generalCategory(userPreferences)
 		playbackCategory(requireActivity(), userPreferences)
 		liveTvCategory(userPreferences)
