@@ -453,4 +453,16 @@
     <string name="enable_playback_module_title">Abilita nuovo modulo di riproduzione</string>
     <string name="lbl_start_end_on_schedule">Avvio In Orario E Termine In Orario</string>
     <string name="lbl_stretch">Allunga</string>
+    <string name="home_sections">Sezioni pagina iniziale</string>
+    <string name="home_prefs">Pagina iniziale</string>
+    <string name="home_section_i">Pagina iniziale sezione %1$d</string>
+    <string name="home_section_none">Nessuno</string>
+    <string name="home_section_livetv">Diretta TV</string>
+    <string name="home_section_next_up">Prossimo</string>
+    <string name="home_section_active_recordings">Registrazioni attive</string>
+    <string name="home_section_resume_audio">Continua ad ascoltare</string>
+    <string name="home_section_resume">Continua a guardare</string>
+    <string name="home_section_library_small">I miei media (piccolo)</string>
+    <string name="home_section_library">I miei media</string>
+    <string name="home_section_latest_media">Ultimi media</string>
 </resources>
