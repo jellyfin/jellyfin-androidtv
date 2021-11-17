@@ -453,4 +453,16 @@
     <string name="license_description">Leírás</string>
     <string name="licenses_link_description">Tekintse meg a Jellyfin alkalmazás által használt könyvtárak licenszeit</string>
     <string name="licenses_link">Licenszek</string>
+    <string name="home_section_i">Kezdőlap rész %1$d</string>
+    <string name="home_section_none">Egyik sem</string>
+    <string name="home_section_livetv">Élő TV</string>
+    <string name="home_section_next_up">Következő</string>
+    <string name="home_section_active_recordings">Aktív felvételek</string>
+    <string name="home_section_resume_audio">Hallgatás folytatása</string>
+    <string name="home_section_resume">Megtekintés folytatása</string>
+    <string name="home_section_library_small">Médiatáram (kicsi)</string>
+    <string name="home_section_library">Médiatáram</string>
+    <string name="home_section_latest_media">Legújabb média</string>
+    <string name="home_sections">Kezdőoldal szekciók</string>
+    <string name="home_prefs">Kezdőlap</string>
 </resources>
