@@ -305,7 +305,7 @@ public class PlaybackController {
     }
 
     private void play(long position, int transcodedSubtitle) {
-        Timber.d("Play called with pos: %d and sub index: %d", position, transcodedSubtitle);
+        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, transcodedSubtitle);
 
         if (position < 0) {
             Timber.i("Negative start requested - adjusting to zero");
@@ -654,6 +654,12 @@ public class PlaybackController {
         mVideoManager.setVideoPath(response.getMediaUrl());
         mVideoManager.setVideoTrack(response.getMediaSource());
 
+        // save the position where the stream starts. vlc gettime() will return ms since this point, which will be
+        // added to this to get actual position
+        if ((forceVlc || useVlc) && getPlaybackMethod().equals(PlayMethod.Transcode)) {
+            mVideoManager.setMetaVLCStreamStartPosition(position);
+        }
+
         //wait a beat before attempting to start so the player surface is fully initialized and video is ready
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -790,6 +796,7 @@ public class PlaybackController {
     }
 
     public void pause() {
+        Timber.d("pause called at %s", mCurrentPosition);
         mPlaybackState = PlaybackState.PAUSED;
         mVideoManager.pause();
         if (mFragment != null) {
@@ -817,6 +824,7 @@ public class PlaybackController {
     }
 
     public void stop() {
+        Timber.d("stop called at %s", mCurrentPosition);
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
@@ -871,6 +879,11 @@ public class PlaybackController {
             mVideoManager.stopPlayback();
             // update mCurrentPosition because when play() is called after seeking it uses its value
             mCurrentPosition = pos;
+
+            // this value should only NOT be -1 if vlc is being used for transcoding
+            if (mVideoManager.getMetaVLCStreamStartPosition() != -1) {
+                mVideoManager.setMetaVLCStreamStartPosition(pos);
+            }
             playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
