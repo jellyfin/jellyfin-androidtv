@@ -453,4 +453,16 @@
     <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
     <string name="desc_premieres">Montri vicon de novaj pilotaj epizodoj por iu ajn serio, kiun vi spektas</string>
     <string name="msg_external_path">Ĉi tiu rimedo nur funkcios se vi konvene starigis vian plurmeditekon sur la servilo kun retaj serĉvojoj aŭ serĉvoja anstataŭigo kaj la kliento, kiun vi uzas, povas rekte aliri ĉi tiujn lokojn per la reto.</string>
+    <string name="home_section_i">Hejma sekcio %1$d</string>
+    <string name="home_sections">Hejmaj sekcioj</string>
+    <string name="home_section_none">Nenio</string>
+    <string name="home_section_livetv">TV-etero</string>
+    <string name="home_section_next_up">Sekva plue</string>
+    <string name="home_section_active_recordings">Aktivaj Rikordadoj</string>
+    <string name="home_section_resume_audio">Daŭru aŭskulton</string>
+    <string name="home_section_resume">Daŭrigi spektadon</string>
+    <string name="home_section_library_small">Miaj Plurmedioj (malgranda)</string>
+    <string name="home_section_library">Miaj Plurmedioj</string>
+    <string name="home_section_latest_media">Plej Novaj Plurmedioj</string>
+    <string name="home_prefs">Hejmo</string>
 </resources>
