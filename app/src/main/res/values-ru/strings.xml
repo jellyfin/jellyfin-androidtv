@@ -453,4 +453,16 @@
     <string name="license_version">Версия</string>
     <string name="license_description">Описание</string>
     <string name="licenses_link">Лицензии</string>
+    <string name="home_section_i">Главное - раздел %1$d</string>
+    <string name="home_sections">Главное - разделы</string>
+    <string name="home_section_none">Ничего</string>
+    <string name="home_section_livetv">Эфир</string>
+    <string name="home_section_next_up">Очередное</string>
+    <string name="home_section_active_recordings">Активные записи</string>
+    <string name="home_section_resume_audio">Продолжение прослушивания</string>
+    <string name="home_section_resume">Продолжение просмотра</string>
+    <string name="home_section_library_small">Мои медиаданные (компактно)</string>
+    <string name="home_section_library">Мои медиаданные</string>
+    <string name="home_section_latest_media">Крайние медиаданные</string>
+    <string name="home_prefs">Главное</string>
 </resources>
