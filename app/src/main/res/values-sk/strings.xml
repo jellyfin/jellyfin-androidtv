@@ -453,4 +453,16 @@
     <string name="licenses_link_description">Zobrať licenciu knižníc použivaných aplikáciou Jellyfin</string>
     <string name="licenses_link">Licencia</string>
     <string name="select_version">Verzia</string>
+    <string name="home_section_i">Sekcia Domov %1$d</string>
+    <string name="home_section_none">Žiadne</string>
+    <string name="home_section_livetv">Živá TV</string>
+    <string name="home_section_next_up">Nasleduje</string>
+    <string name="home_section_active_recordings">Aktívne nahrávky</string>
+    <string name="home_section_resume_audio">Pokračovať v počúvaní</string>
+    <string name="home_section_resume">Pokračovať v pozeraní</string>
+    <string name="home_section_library_small">Moje médiá (malé)</string>
+    <string name="home_section_library">Moje médiá</string>
+    <string name="home_section_latest_media">Najnovšie médiá</string>
+    <string name="home_sections">Sekcie obrazovky Domov</string>
+    <string name="home_prefs">Domov</string>
 </resources>
