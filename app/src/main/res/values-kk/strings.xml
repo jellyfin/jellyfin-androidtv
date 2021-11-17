@@ -147,7 +147,7 @@
     <string name="lbl_no_recordings">Jazbalar qol jetımdı emes</string>
     <string name="lbl_live_tv_guide">Efirlık telegid</string>
     <string name="lbl_recorded_tv">Jazylğan TD</string>
-    <string name="pref_live_tv_cat">Efirlık TD</string>
+    <string name="pref_live_tv_cat">Efir</string>
     <string name="msg_error_live_stream">Efirlık TD taratu qatesı. Qaitalaimyz…</string>
     <string name="lbl_direct_stream_live">Efirlık TD tıkelei taratu</string>
     <string name="lbl_programs">Berılımder</string>
@@ -453,4 +453,16 @@
     <string name="license_artifact">Artefakt</string>
     <string name="license_description">Sipattama</string>
     <string name="licenses_link">Lisenzialar</string>
+    <string name="home_section_i">Basqynyñ bölımı %1$d</string>
+    <string name="home_sections">Basqynyñ bölımderı</string>
+    <string name="home_section_none">Eşqandai</string>
+    <string name="home_section_livetv">Efir</string>
+    <string name="home_section_next_up">Kezektı</string>
+    <string name="home_section_active_recordings">Belsendı jazbalar</string>
+    <string name="home_section_resume_audio">Tyñdaudy jalğastyru</string>
+    <string name="home_section_resume">Qaraudy jalğastyru</string>
+    <string name="home_section_library_small">Menıñ tasyğyşderekterım (yqşam)</string>
+    <string name="home_section_library">Menıñ tasyğyşderekterım</string>
+    <string name="home_section_latest_media">Eñ keiıngı tasyğyşderekter</string>
+    <string name="home_prefs">Basqy</string>
 </resources>
