@@ -453,4 +453,16 @@
     <string name="license_description">Popis</string>
     <string name="licenses_link_description">Zobrazit licence knihoven používaných aplikací Jellyfin</string>
     <string name="licenses_link">Licence</string>
+    <string name="home_section_i">Sekce Domů %1$d</string>
+    <string name="home_section_none">Nic</string>
+    <string name="home_section_livetv">Živý přenos</string>
+    <string name="home_section_next_up">Další v pořadí</string>
+    <string name="home_section_active_recordings">Aktivní nahrávky</string>
+    <string name="home_section_resume_audio">Pokračovat v poslechu</string>
+    <string name="home_section_resume">Pokračovat ve sledování</string>
+    <string name="home_section_library_small">Moje média (malé)</string>
+    <string name="home_section_library">Moje média</string>
+    <string name="home_section_latest_media">Nejnovější média</string>
+    <string name="home_sections">Sekce Domů</string>
+    <string name="home_prefs">Domů</string>
 </resources>
