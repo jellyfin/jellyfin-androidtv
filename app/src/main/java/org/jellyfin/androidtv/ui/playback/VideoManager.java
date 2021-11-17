@@ -75,6 +75,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private long mForcedTime = -1;
     private long mLastTime = -1;
     private long mMetaDuration = -1;
+    private long mMetaVLCStreamStartPosition = -1;
     private long lastExoPlayerPosition = -1;
 
     private boolean nativeMode = false;
@@ -157,6 +158,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
+    // set by playbackController when a new vlc transcode stream starts, and before seeking
+    public void setMetaVLCStreamStartPosition(long value) {
+        mMetaVLCStreamStartPosition = value;
+    }
+
+    public long getMetaVLCStreamStartPosition() {
+        return mMetaVLCStreamStartPosition;
+    }
+
     public void setMetaDuration(long duration) {
         mMetaDuration = duration;
     }
@@ -183,6 +193,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (mVlcPlayer == null) return 0;
 
         long time = mVlcPlayer.getTime();
+
+        // vlc returns ms from stream start. metaStartPosition + time = actual position
+        time = mMetaVLCStreamStartPosition != -1 ? time + getMetaVLCStreamStartPosition() : time;
         if (mForcedTime != -1 && mLastTime != -1) {
             /* XXX: After a seek, mLibVLC.getTime can return the position before or after
              * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
