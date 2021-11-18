@@ -790,6 +790,11 @@ public class PlaybackController {
     }
 
     public void pause() {
+        // if playback is paused and the seekbar is scrubbed, it will call pause even if already paused
+        if (mPlaybackState == PlaybackState.PAUSED) {
+            Timber.d("already paused, ignoring");
+            return;
+        }
         mPlaybackState = PlaybackState.PAUSED;
         mVideoManager.pause();
         if (mFragment != null) {

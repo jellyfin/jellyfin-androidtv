@@ -584,7 +584,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
-                            mPlaybackController.pause();
+                            // if the player is playing and the overlay is hidden, this will pause
+                            // if the player is paused and then 'back' is pressed to hide the overlay, this will play
+                            mPlaybackController.playPause();
                             return true;
                         }
 
