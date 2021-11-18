@@ -57,11 +57,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
-    private SimpleExoPlayer mExoPlayer;
-    private PlayerView mExoPlayerView;
+    private SimpleExoPlayer mExoPlayer = null;
+    private PlayerView mExoPlayerView = null;
     private AspectRatioFrameLayout mAspectRatioFrameLayout;
     private LibVLC mLibVLC;
-    private org.videolan.libvlc.MediaPlayer mVlcPlayer;
+    private org.videolan.libvlc.MediaPlayer mVlcPlayer = null;
     private Media mCurrentMedia;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
@@ -93,41 +93,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-
-        mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
-            @Override
-            protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
-                // Do not add text renderers since we handle subtitles
-            }
-        }).build();
-
-
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
-        mExoPlayerView.setPlayer(mExoPlayer);
-        mExoPlayer.addListener(new Player.EventListener() {
-            @Override
-            public void onPlayerError(@NonNull ExoPlaybackException error) {
-                Timber.e("***** Got error from player");
-                if (errorListener != null) errorListener.onEvent();
-                stopProgressLoop();
-            }
-
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                // Do not call listener when paused
-                if (playbackState == Player.STATE_READY && playWhenReady) {
-                    if (preparedListener != null) preparedListener.onEvent();
-                    startProgressLoop();
-                } else if (playbackState == Player.STATE_ENDED) {
-                    if (completionListener != null) completionListener.onEvent();
-                    stopProgressLoop();
-                }
-            }
-        });
+        mExoPlayerView.setPlayer(null);
     }
 
-    public void init(int buffer, boolean isInterlaced) {
-        createPlayer(buffer, isInterlaced);
+    public void init(int buffer, boolean isInterlaced, boolean isVlc) {
+        createPlayer(buffer, isInterlaced, isVlc);
     }
 
     public void setNativeMode(boolean value) {
@@ -143,6 +114,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public int getZoomMode() { return mZoomMode; }
 
     public void setZoom(int mode) {
+        if (!nativeMode) {
+            return;
+        }
         mZoomMode = mode;
         switch (mode) {
             case ZOOM_FIT:
@@ -164,8 +138,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public long getDuration() {
         if (nativeMode){
             return mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
-        } else {
+        } else if (mVlcPlayer != null) {
             return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+        }
+        else {
+            return mMetaDuration;
         }
     }
 
@@ -222,7 +199,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 return;
             }
 
-            if (!mVlcPlayer.isPlaying()) {
+            if (mVlcPlayer != null && !mVlcPlayer.isPlaying()) {
                 mVlcPlayer.play();
             }
         }
@@ -232,7 +209,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(true);
             mExoPlayerView.setKeepScreenOn(true);
-        } else {
+        } else if (mVlcPlayer != null) {
             mVlcPlayer.play();
             mSurfaceView.setKeepScreenOn(true);
         }
@@ -242,7 +219,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(false);
             mExoPlayerView.setKeepScreenOn(false);
-        } else {
+        } else if (mVlcPlayer != null) {
             mVlcPlayer.pause();
             mSurfaceView.setKeepScreenOn(false);
         }
@@ -251,7 +228,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void stopPlayback() {
         if (nativeMode) {
             mExoPlayer.stop();
-        } else {
+        } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
         stopProgressLoop();
@@ -298,7 +275,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
-        } else {
+        } else if (mVlcPlayer != null) {
             mSurfaceHolder.setKeepScreenOn(true);
 
             mCurrentMedia = new Media(mLibVLC, Uri.parse(path));
@@ -314,7 +291,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode && allStreams != null) {
+        if (!nativeMode && mVlcPlayer != null && allStreams != null) {
             //find the relative order of our sub index within the sub tracks in VLC
             int vlcIndex = 1; // start at 1 to account for "disabled"
             for (MediaStream stream : allStreams) {
@@ -347,11 +324,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public int getAudioTrack() {
-        return nativeMode ? -1 : mVlcPlayer.getAudioTrack();
+        return nativeMode || mVlcPlayer == null ? -1 : mVlcPlayer.getAudioTrack();
     }
 
     public void setAudioTrack(int ndx, List<MediaStream> allStreams) {
-        if (!nativeMode) {
+        if (!nativeMode && mVlcPlayer != null) {
             //find the relative order of our audio index within the audio tracks in VLC
             int vlcIndex = 1; // start at 1 to account for "disabled"
             for (MediaStream stream : allStreams) {
@@ -408,20 +385,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setCompatibleAudio() {
-        if (!nativeMode) {
+        if (!nativeMode && mVlcPlayer != null) {
             mVlcPlayer.setAudioOutput("opensles_android");
             mVlcPlayer.setAudioOutputDevice("hdmi");
         }
     }
 
     public void setAudioMode() {
-        if (!nativeMode) {
+        if (!nativeMode && mVlcPlayer != null) {
             setVlcAudioOptions();
         }
     }
 
     private void setVlcAudioOptions() {
-        if(!Utils.downMixAudio()) {
+        if(!Utils.downMixAudio() && mVlcPlayer != null) {
             mVlcPlayer.setAudioDigitalOutputEnabled(true);
         } else {
             setCompatibleAudio();
@@ -429,7 +406,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void setVideoTrack(MediaSourceInfo mediaSource) {
-        if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
+        if (!nativeMode && mVlcPlayer != null && mediaSource != null && mediaSource.getMediaStreams() != null) {
             for (MediaStream stream : mediaSource.getMediaStreams()) {
                 if (stream.getType() == MediaStreamType.Video && stream.getIndex() >= 0) {
                     Timber.d("Setting video index to: %d", stream.getIndex());
@@ -441,60 +418,93 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public org.videolan.libvlc.MediaPlayer.TrackDescription[] getSubtitleTracks() {
-        return nativeMode ? null : mVlcPlayer.getSpuTracks();
+        return nativeMode || mVlcPlayer == null ? null : mVlcPlayer.getSpuTracks();
     }
 
     public void destroy() {
         releasePlayer();
     }
 
-    private void createPlayer(int buffer, boolean isInterlaced) {
-        try {
-            // Create a new media player
-            ArrayList<String> options = new ArrayList<>(20);
-            options.add("--network-caching=" + buffer);
-            options.add("--no-audio-time-stretch");
-            options.add("--avcodec-skiploopfilter");
-            options.add("1");
-            options.add("--avcodec-skip-frame");
-            options.add("0");
-            options.add("--avcodec-skip-idct");
-            options.add("0");
-            options.add("--android-display-chroma");
-            options.add("RV32");
-            options.add("--audio-resampler");
-            options.add("soxr");
-            options.add("--stats");
-            if (isInterlaced) {
-                options.add("--video-filter=deinterlace");
-                options.add("--deinterlace-mode=Bob");
-            }
+    private void createPlayer(int buffer, boolean isInterlaced, boolean isVlc) {
+        if (isVlc) {
+            try {
+                // Create a new media player
+                ArrayList<String> options = new ArrayList<>(20);
+                options.add("--network-caching=" + buffer);
+                options.add("--no-audio-time-stretch");
+                options.add("--avcodec-skiploopfilter");
+                options.add("1");
+                options.add("--avcodec-skip-frame");
+                options.add("0");
+                options.add("--avcodec-skip-idct");
+                options.add("0");
+                options.add("--android-display-chroma");
+                options.add("RV32");
+                options.add("--audio-resampler");
+                options.add("soxr");
+                options.add("--stats");
+                if (isInterlaced) {
+                    options.add("--video-filter=deinterlace");
+                    options.add("--deinterlace-mode=Bob");
+                }
 //            options.add("--subsdec-encoding");
 //            options.add("Universal (UTF-8)");
-            options.add("--audio-desync");
-            options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
-            options.add("-v");
-            options.add("--vout=android-opaque,android-display");
+                options.add("--audio-desync");
+                options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
+                options.add("-v");
+                options.add("--vout=android-opaque,android-display");
 
-            mLibVLC = new LibVLC(TvApp.getApplication(), options);
-            Timber.i("Network buffer set to %d", buffer);
+                mLibVLC = new LibVLC(TvApp.getApplication(), options);
+                Timber.i("Network buffer set to %d", buffer);
 
-            mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-            setVlcAudioOptions();
+                mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
+                setVlcAudioOptions();
 
-            mSurfaceHolder.addCallback(mSurfaceCallback);
-            mVlcPlayer.setEventListener(mVlcHandler);
+                mVlcPlayer.setEventListener(mVlcHandler);
 
-            //setup surface
-            mVlcPlayer.getVLCVout().detachViews();
-            mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
-            mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
-            mVlcPlayer.getVLCVout().attachViews(this);
+                //setup surface
+                mVlcPlayer.getVLCVout().detachViews();
+                mVlcPlayer.getVLCVout().setVideoView(mSurfaceView);
+                mVlcPlayer.getVLCVout().setSubtitlesView(mSubtitlesSurface);
+                mVlcPlayer.getVLCVout().attachViews(this);
+                Timber.d("Surface attached");
+                mSurfaceReady = true;
+            } catch (Exception e) {
+                Timber.e(e, "Error creating VLC player");
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
+            }
+        }
+        else {
+            mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
+                @Override
+                protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
+                    // Do not add text renderers since we handle subtitles
+                }
+            }).build();
+
+            mExoPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.addListener(new Player.EventListener() {
+                @Override
+                public void onPlayerError(@NonNull ExoPlaybackException error) {
+                    Timber.e("***** Got error from player");
+                    if (errorListener != null) errorListener.onEvent();
+                    stopProgressLoop();
+                }
+
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    // Do not call listener when paused
+                    if (playbackState == Player.STATE_READY && playWhenReady) {
+                        if (preparedListener != null) preparedListener.onEvent();
+                        startProgressLoop();
+                    } else if (playbackState == Player.STATE_ENDED) {
+                        if (completionListener != null) completionListener.onEvent();
+                        stopProgressLoop();
+                    }
+                }
+            });
             Timber.d("Surface attached");
             mSurfaceReady = true;
-        } catch (Exception e) {
-            Timber.e(e, "Error creating VLC player");
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
         }
     }
 

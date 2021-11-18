@@ -454,9 +454,10 @@ public class PlaybackController {
                 playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
-                        mVideoManager.init(getBufferAmount(), false);
+                        mVideoManager.init(getBufferAmount(), false, false);
                         mCurrentOptions = internalOptions;
                         useVlc = false;
+                        mVideoManager.setNativeMode(true);
                         startItem(item, position, response);
                     }
                     @Override
@@ -471,9 +472,10 @@ public class PlaybackController {
                 playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
-                        mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200));
+                        mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200), true);
                         mCurrentOptions = vlcOptions;
                         useVlc = true;
+                        mVideoManager.setNativeMode(false);
                         startItem(item, position, response);
                     }
                     @Override
@@ -540,7 +542,7 @@ public class PlaybackController {
                             }
 
                             Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");
-                            mVideoManager.init(getBufferAmount(), useDeinterlacing);
+                            mVideoManager.init(getBufferAmount(), useDeinterlacing, useVlc);
                             if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                                 // remove direct play profiles to force the transcode
@@ -559,11 +561,13 @@ public class PlaybackController {
                                         //re-set this
                                         internalOptions.setProfile(save);
                                         mCurrentOptions = internalOptions;
+                                        mVideoManager.setNativeMode(true);
                                         startItem(item, position, response);
                                     }
                                 });
                             } else {
                                 mCurrentOptions = useVlc ? vlcOptions : internalOptions;
+                                mVideoManager.setNativeMode(!useVlc);
                                 startItem(item, position, useVlc ? vlcResponse : internalResponse);
                             }
                         }
@@ -572,6 +576,7 @@ public class PlaybackController {
                         public void onError(Exception exception) {
                             Timber.e(exception, "Unable to get internal stream info");
                             mCurrentOptions = vlcOptions;
+                            mVideoManager.setNativeMode(false);
                             startItem(item, position, vlcResponse);
                         }
                     });
@@ -611,8 +616,10 @@ public class PlaybackController {
         setPlaybackMethod(response.getPlayMethod());
 
         // Force VLC when media is not live TV and the preferred player is VLC
-        boolean forceVlc = !isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
+        //boolean forceVlc = !isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
 
+
+        /*
         if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
             Timber.i("Playing back in VLC.");
             mVideoManager.setNativeMode(false);
@@ -624,6 +631,19 @@ public class PlaybackController {
                 mCurrentStreamInfo.setMaxAudioChannels(2);
             }
         }
+        */
+
+        if (!mVideoManager.isNativeMode()) {
+            Timber.i("Playing back in VLC.");
+        }
+        else {
+            Timber.i("Playing back in native mode.");
+            if (Utils.downMixAudio()) {
+                Timber.i("Setting max audio to 2-channels");
+                mCurrentStreamInfo.setMaxAudioChannels(2);
+            }
+        }
+
 
         // set refresh rate
         if (refreshRateSwitchingEnabled) {
