@@ -181,8 +181,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public long getCurrentPosition() {
         if (nativeMode) {
-            if (mExoPlayer == null) {
-                return lastExoPlayerPosition;
+            if (mExoPlayer == null || !isPlaying()) {
+                return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
             } else {
                 long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
                 lastExoPlayerPosition = mExoPlayerCurrentPosition;
