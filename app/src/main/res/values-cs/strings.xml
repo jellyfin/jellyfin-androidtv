@@ -465,4 +465,6 @@
     <string name="home_section_latest_media">Nejnovější média</string>
     <string name="home_sections">Sekce Domů</string>
     <string name="home_prefs">Domů</string>
+    <string name="searchable_settings_description">Média</string>
+    <string name="searchable_hint">Hledat v Jellyfin</string>
 </resources>
