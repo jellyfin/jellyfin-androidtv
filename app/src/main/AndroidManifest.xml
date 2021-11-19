@@ -74,6 +74,7 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
+            android:initOrder="1000"
             tools:node="merge">
             <meta-data
                 android:name="org.jellyfin.androidtv.LogInitializer"
@@ -85,6 +86,12 @@
                 android:name="org.jellyfin.androidtv.SessionInitializer"
                 android:value="androidx.startup" />
         </provider>
+
+        <provider
+            android:name=".integration.MediaContentProvider"
+            android:authorities="org.jellyfin.androidtv.content"
+            android:exported="true"
+            android:initOrder="10" />
 
         <activity
             android:name=".ui.browsing.MainActivity"
@@ -98,10 +105,15 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEARCH" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
         <activity-alias
@@ -146,12 +158,7 @@
 
         <activity
             android:name=".ui.search.SearchActivity"
-            android:exported="true"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".ui.itemdetail.FullDetailsActivity"

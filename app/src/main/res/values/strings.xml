@@ -462,4 +462,6 @@
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_none">None</string>
     <string name="home_section_i">Home section %1$d</string>
+    <string name="searchable_hint">Search Jellyfin</string>
+    <string name="searchable_settings_description">Media</string>
 </resources>
