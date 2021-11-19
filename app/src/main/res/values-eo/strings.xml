@@ -195,7 +195,7 @@
     <string name="lbl_Reset">Restarigu</string>
     <string name="pref_about_title">Pri</string>
     <string name="pref_video_player_vlc">libVLC</string>
-    <string name="lbl_news">Novaĵoj</string>
+    <string name="lbl_news">Novaj</string>
     <string name="lbl_hours">Horoj</string>
     <string name="lbl_minute">Minuto</string>
     <string name="lbl_hour">Horo</string>
@@ -465,4 +465,6 @@
     <string name="home_section_library">Miaj Plurmedioj</string>
     <string name="home_section_latest_media">Plej Novaj Plurmedioj</string>
     <string name="home_prefs">Hejmo</string>
+    <string name="searchable_hint">Serĉo de Jellyfin</string>
+    <string name="searchable_settings_description">Plurmedio</string>
 </resources>
