@@ -239,7 +239,7 @@
     <string name="lbl_new_episodes">Jaña telebölımder</string>
     <string name="lbl_audio_delay">Dybys kıdıruı</string>
     <string name="lbl_new_only">Tek qana jaña</string>
-    <string name="lbl_news">Jañalyqtar</string>
+    <string name="lbl_news">Jañalar</string>
     <string name="pref_use_direct_path_title">Syrtqy oinatqyş üşın tıkelei şyğaru</string>
     <string name="lbl_song_title">Äuen atauy</string>
     <string name="lbl_next_episode">Kelesı telebölım</string>
@@ -465,4 +465,6 @@
     <string name="home_section_library">Menıñ tasyğyşderekterım</string>
     <string name="home_section_latest_media">Eñ keiıngı tasyğyşderekter</string>
     <string name="home_prefs">Basqy</string>
+    <string name="searchable_hint">Jellyfin ızdeuı</string>
+    <string name="searchable_settings_description">Tasyğyşderekter</string>
 </resources>
