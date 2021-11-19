@@ -465,4 +465,6 @@
     <string name="home_section_library">Мои медиаданные</string>
     <string name="home_section_latest_media">Крайние медиаданные</string>
     <string name="home_prefs">Главное</string>
+    <string name="searchable_settings_description">Медиаданные</string>
+    <string name="searchable_hint">Поиск Jellyfin</string>
 </resources>
