@@ -465,4 +465,6 @@
     <string name="home_section_latest_media">Legújabb média</string>
     <string name="home_sections">Kezdőoldal szekciók</string>
     <string name="home_prefs">Kezdőlap</string>
+    <string name="searchable_settings_description">Média</string>
+    <string name="searchable_hint">Jellyfin keresés</string>
 </resources>
