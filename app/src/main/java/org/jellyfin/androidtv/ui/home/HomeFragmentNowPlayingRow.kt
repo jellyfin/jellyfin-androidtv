@@ -33,7 +33,10 @@ class HomeFragmentNowPlayingRow(
 	}
 
 	fun update(rowsAdapter: ArrayObjectAdapter) {
-		if (mediaManager.isPlayingAudio) add(rowsAdapter)
+		if (mediaManager.isPlayingAudio) {
+			remove(rowsAdapter)
+			add(rowsAdapter)
+		}
 		else remove(rowsAdapter)
 	}
 }
