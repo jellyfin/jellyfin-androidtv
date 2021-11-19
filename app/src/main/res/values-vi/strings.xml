@@ -452,4 +452,13 @@
     <string name="licenses_link_description">Xem giấy phép của các thư viện được ứng dụng Jellyfin sử dụng</string>
     <string name="licenses_link">Giấy phép</string>
     <string name="select_version">Phiên bản</string>
+    <string name="home_section_i">Phần trang chủ %1$d</string>
+    <string name="home_section_resume_audio">Tiếp tục nghe</string>
+    <string name="home_section_resume">Tiếp tục xem</string>
+    <string name="home_section_library_small">Phương tiện của tôi (nhỏ)</string>
+    <string name="home_section_library">Phương tiện của tôi</string>
+    <string name="home_section_latest_media">Phương tiện mới nhất</string>
+    <string name="home_sections">Phần trang chủ</string>
+    <string name="home_prefs">Trang Chủ</string>
+    <string name="license_website">Trang web</string>
 </resources>
