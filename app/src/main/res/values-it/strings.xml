@@ -465,4 +465,6 @@
     <string name="home_section_library_small">I miei media (piccolo)</string>
     <string name="home_section_library">I miei media</string>
     <string name="home_section_latest_media">Ultimi media</string>
+    <string name="searchable_settings_description">Media</string>
+    <string name="searchable_hint">Cerca in Jellyfin</string>
 </resources>
