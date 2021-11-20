@@ -461,4 +461,9 @@
     <string name="home_sections">Phần trang chủ</string>
     <string name="home_prefs">Trang Chủ</string>
     <string name="license_website">Trang web</string>
+    <string name="searchable_settings_description">Phương tiện</string>
+    <string name="searchable_hint">Tìm kiếm Jellyfin</string>
+    <string name="home_section_none">Không có</string>
+    <string name="home_section_livetv">TV Trực Tiếp</string>
+    <string name="home_section_next_up">Tiếp theo</string>
 </resources>
