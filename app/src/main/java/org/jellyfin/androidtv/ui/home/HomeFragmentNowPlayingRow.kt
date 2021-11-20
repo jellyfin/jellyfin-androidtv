@@ -35,9 +35,8 @@ class HomeFragmentNowPlayingRow(
 	fun update(rowsAdapter: ArrayObjectAdapter) {
 		if (mediaManager.isPlayingAudio) {
 			if (row != null) {
-				rowsAdapter.remove(row)
 				row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.managedAudioQueue)
-				rowsAdapter.add(0, row)
+				rowsAdapter.replace(0, row)
 			}
 			else add(rowsAdapter)
 		}
