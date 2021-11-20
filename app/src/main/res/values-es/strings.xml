@@ -453,4 +453,9 @@
     <string name="license_description">Descripción</string>
     <string name="licenses_link_description">Ver las licencias de las librerías usadas por Jellyfin</string>
     <string name="licenses_link">Licencias</string>
+    <string name="home_section_resume">Continuar mirando</string>
+    <string name="searchable_settings_description">Media</string>
+    <string name="home_section_livetv">Television en vivo</string>
+    <string name="home_sections">Secciones de inicio</string>
+    <string name="home_prefs">Inicio</string>
 </resources>
