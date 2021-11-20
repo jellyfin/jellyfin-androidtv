@@ -465,4 +465,6 @@
     <string name="home_section_latest_media">Najnovšie médiá</string>
     <string name="home_sections">Sekcie obrazovky Domov</string>
     <string name="home_prefs">Domov</string>
+    <string name="searchable_settings_description">Médiá</string>
+    <string name="searchable_hint">Hľadať v Jellyfine</string>
 </resources>
