@@ -305,32 +305,27 @@ public class PlaybackController {
     }
 
     // central place to update mCurrentPosition
-    // use getRealTimeProgress for liveTV
-    // use mSeekedPosition while seeking
-    // when videoManager is actually playing reset mSeekedPosition and stop using it
     private void refreshCurrentPosition() {
         long newPos = -1;
 
         if (updateProgress == true) {
             if (isLiveTv && mCurrentProgramStartTime > 0) {
-                Timber.d("PlaybackController - using live-tv time: %s", newPos); // debug - will remove
                 newPos = getRealTimeProgress();
+                // live tv
             }
             else if (mVideoManager != null) {
                 if (!isPlaying() && mSeekedPosition != -1) {
                     newPos = mSeekedPosition;
-                    Timber.d("PlaybackController - using SeekedPos: %s", newPos); // debug - will remove
+                    // use seekedPosition until playback starts
                 }
                 else if (isPlaying()) {
                     newPos = mVideoManager.getCurrentPosition();
                     mSeekedPosition = -1;
-                    Timber.d("PlaybackController - real time: %s", newPos); // debug - will remove
+                    // playback is happening - get current position and reset seekedPosition
                 }
             }
         }
-        else {
-            Timber.d("PlaybackController - keeping original time: %s", mCurrentPosition); // debug - will remove
-        }
+        // use original value if new one isn't available
         mCurrentPosition = newPos != -1 ? newPos : mCurrentPosition;
     }
 
@@ -948,6 +943,8 @@ public class PlaybackController {
                 public void onError(Exception exception) {
                     Utils.showToast(TvApp.getApplication().getCurrentActivity(), R.string.msg_video_playback_error);
                     Timber.e(exception, "Error trying to seek transcoded stream");
+                    // call stop so playback can be retried by the user
+                    stop();
                 }
             });
         } else {
@@ -956,9 +953,30 @@ public class PlaybackController {
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else {
                 // use the same approach to directplay seeking as setOnProgressListener
+                // prevent progress updates
+                // set state to SEEKING
+                // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
+                // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
+                // if seek() is called from skip()
                 mSeekedPosition = pos;
                 updateProgress = false;
-                delayedSeek(mSeekedPosition);
+                mPlaybackState = PlaybackState.SEEKING;
+                if (mVideoManager.seekTo(pos) < 0) {
+                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                    mSeekedPosition = -1;
+                    updateProgress = true;
+                    pause();
+                }
+                else {
+                    mVideoManager.play();
+                    mPlaybackState = PlaybackState.PLAYING;
+                    if (mFragment != null) {
+                        mFragment.setFadingEnabled(true);
+                        mFragment.setPlayPauseActionState(0);
+                    }
+                    updateProgress = true;
+                    startReportLoop();
+                }
             }
         }
     }
@@ -1035,7 +1053,7 @@ public class PlaybackController {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                if (mPlaybackState == PlaybackState.PLAYING) {
+                if (isPlaying()) {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
                     ReportingHelper.reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
@@ -1093,10 +1111,11 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    if (mVideoManager.seekTo(position) < 0)
+                    if (mVideoManager.seekTo(position) < 0) {
                         Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
-
-                    mPlaybackState = PlaybackState.PLAYING;
+                        pause();
+                    }
+                    else { mPlaybackState = PlaybackState.PLAYING; }
                     updateProgress = true;
                 }
             }
@@ -1269,8 +1288,6 @@ public class PlaybackController {
     }
 
     public long getCurrentPosition() {
-        if (!isPlaying() && mSeekedPosition != -1) { Timber.d("PlaybackController - returning SeekedPos: %s", mSeekedPosition); } // debug - will remove
-
         // if not playing and seeking, mCurrentPosition may not be current
         return !isPlaying() && mSeekedPosition != -1 ? mSeekedPosition : mCurrentPosition;
     }
