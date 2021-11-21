@@ -195,7 +195,7 @@ public class PlaybackController {
     public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
 
     public boolean isPlaying() {
-        // since playbackController is so closed tied to videoManager, check if it is playing too since they can fall out of sync
+        // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
         return mPlaybackState == PlaybackState.PLAYING && (mVideoManager == null || mVideoManager.isPlaying());
     }
 
