@@ -193,7 +193,11 @@ public class MediaManager {
 
     private void onComplete() {
         ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
-        nextAudioItem();
+        if (hasNextAudioItem()) {
+            nextAudioItem();
+        } else if (hasAudioQueueItems()) {
+            clearAudioQueue();
+        }
 
         //fire external listener if there
         for (AudioEventListener listener : mAudioEventListeners) {
