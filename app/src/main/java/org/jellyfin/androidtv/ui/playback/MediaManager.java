@@ -195,8 +195,7 @@ public class MediaManager {
         ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
         if (hasNextAudioItem()) {
             nextAudioItem();
-        }
-        else if (hasAudioQueueItems()){
+        } else if (hasAudioQueueItems()) {
             clearAudioQueue();
         }
 
