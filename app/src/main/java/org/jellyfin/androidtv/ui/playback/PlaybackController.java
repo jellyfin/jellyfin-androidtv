@@ -958,12 +958,10 @@ public class PlaybackController {
                 // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
                 // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
                 // if seek() is called from skip()
-                mSeekedPosition = pos;
                 updateProgress = false;
                 mPlaybackState = PlaybackState.SEEKING;
                 if (mVideoManager.seekTo(pos) < 0) {
                     Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
-                    mSeekedPosition = -1;
                     updateProgress = true;
                     pause();
                 }
