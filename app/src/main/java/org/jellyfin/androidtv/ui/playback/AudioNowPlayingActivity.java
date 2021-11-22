@@ -127,6 +127,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
+        mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
         mPrevButton = findViewById(R.id.prevBtn);
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -245,8 +246,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
             @Override
             public void run() {
                 updateButtons(mediaManager.getValue().isPlayingAudio());
+                if (mediaManager.getValue().hasAudioQueueItems()) {
+                    //also re-position queue to current in case they scrolled around
+                    mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+                }
             }
-        }, 1500);
+        }, 1000);
     }
 
     @Override
@@ -336,7 +341,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     public void run() {
                         updateButtons(mediaManager.getValue().isPlayingAudio());
                     }
-                }, 1500);
+                }, 1000);
             } else {
                 finish(); // entire queue removed nothing to do here
             }
@@ -356,8 +361,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
-            //also re-position queue to current in case they scrolled around
-            mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            if (mediaManager.getValue().hasAudioQueueItems()) {
+                //also re-position queue to current in case they scrolled around
+                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            }
         }
     };
 
