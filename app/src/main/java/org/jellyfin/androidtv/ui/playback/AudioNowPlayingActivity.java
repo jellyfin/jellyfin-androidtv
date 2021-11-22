@@ -246,7 +246,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             public void run() {
                 updateButtons(mediaManager.getValue().isPlayingAudio());
             }
-        }, 750);
+        }, 1500);
     }
 
     @Override
@@ -330,7 +330,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         public void onQueueStatusChanged(boolean hasQueue) {
             if (hasQueue) {
                 loadItem();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
+                mLoopHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateButtons(mediaManager.getValue().isPlayingAudio());
+                    }
+                }, 1500);
             } else {
                 finish(); // entire queue removed nothing to do here
             }
