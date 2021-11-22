@@ -453,4 +453,18 @@
     <string name="license_description">说明</string>
     <string name="licenses_link_description">查看Jellyfin应用程序使用的库的许可证</string>
     <string name="licenses_link">许可证</string>
+    <string name="searchable_settings_description">媒体</string>
+    <string name="searchable_hint">搜索 Jellyfin</string>
+    <string name="home_section_i">首页部分 %1$d</string>
+    <string name="home_section_none">从不</string>
+    <string name="home_section_livetv">直播电视</string>
+    <string name="home_section_next_up">即将播放</string>
+    <string name="home_section_active_recordings">活动录音</string>
+    <string name="home_section_resume_audio">继续收听</string>
+    <string name="home_section_resume">继续观看</string>
+    <string name="home_section_library_small">我的媒体（小）</string>
+    <string name="home_section_library">我的媒体</string>
+    <string name="home_section_latest_media">最新媒体</string>
+    <string name="home_sections">首页部分</string>
+    <string name="home_prefs">首页</string>
 </resources>
