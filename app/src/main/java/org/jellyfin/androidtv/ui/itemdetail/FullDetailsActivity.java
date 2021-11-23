@@ -237,7 +237,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
-        if (dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
+        if (TvApp.getApplication().getCurrentUser() != null && dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
