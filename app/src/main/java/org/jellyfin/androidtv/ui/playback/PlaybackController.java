@@ -71,7 +71,7 @@ public class PlaybackController {
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     List<BaseItemDto> mItems;
-    VideoManager mVideoManager = null;
+    VideoManager mVideoManager;
     int mCurrentIndex = 0;
     private long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -415,7 +415,7 @@ public class PlaybackController {
                 startSpinner();
 
                 // undo setting mSeekedPosition for liveTV
-                if (isLiveTv) { mSeekedPosition = -1;  }
+                if (isLiveTv) mSeekedPosition = -1;
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
@@ -1112,8 +1112,9 @@ public class PlaybackController {
                     if (mVideoManager.seekTo(position) < 0) {
                         Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
                         pause();
+                    } else {
+                        mPlaybackState = PlaybackState.PLAYING;
                     }
-                    else { mPlaybackState = PlaybackState.PLAYING; }
                     updateProgress = true;
                 }
             }
