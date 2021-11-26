@@ -61,7 +61,7 @@
     <string name="lbl_people">Personen</string>
     <string name="lbl_videos">Videos</string>
     <string name="lbl_recordings">Aufnahmen</string>
-    <string name="lbl_none">Keine</string>
+    <string name="lbl_none">Keiner</string>
     <string name="msg_video_playback_error">"Video Wiedergabefehler - "</string>
     <string name="lbl_bracket_unknown">&lt;Unbekannt&gt;</string>
     <string name="msg_access_restricted">Zugriff derzeit beschränkt</string>
@@ -456,7 +456,7 @@
     <string name="searchable_settings_description">Medien</string>
     <string name="searchable_hint">Jellyfin durchsuchen</string>
     <string name="home_section_i">Startseitenabschnitt %1$d</string>
-    <string name="home_section_none">Keine</string>
+    <string name="home_section_none">Keiner</string>
     <string name="home_section_livetv">Live TV</string>
     <string name="home_section_next_up">Als Nächstes</string>
     <string name="home_section_active_recordings">Aktive Aufzeichnungen</string>
