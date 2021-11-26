@@ -169,6 +169,10 @@ public class MediaManager {
     }
 
     private void reportProgress() {
+        if (mCurrentAudioItem == null) {
+            stopProgressLoop();
+            return;
+        }
         //Don't need to be too aggressive with these calls - just be sure every second
         if (System.currentTimeMillis() < lastProgressEvent + 750) return;
         lastProgressEvent = System.currentTimeMillis();
@@ -715,13 +719,15 @@ public class MediaManager {
     }
 
     public void stopAudio() {
-        if (mCurrentAudioItem != null && isPlayingAudio()) {
+        if (mCurrentAudioItem != null) {
             stop();
             updateCurrentAudioItemPlaying(false);
-            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
+            stopProgressLoop();
+            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
+            mCurrentAudioItem = null;
         }
     }
 
