@@ -346,7 +346,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     isNewItem = true;
                 }
                 // skip update since button handler will trigger it
-                queueNowplayingUIUpdate(ssActive ? 750 : 0, ssActive || isNewItem ? true : false);
+                queueNowplayingUIUpdate(250, ssActive || isNewItem ? true : false);
             } else if (newState == PlaybackController.PlaybackState.PAUSED || newState == PlaybackController.PlaybackState.IDLE) {
                 // skip update since button handler will trigger it
                 if (!ssActive) updateButtons(false);
