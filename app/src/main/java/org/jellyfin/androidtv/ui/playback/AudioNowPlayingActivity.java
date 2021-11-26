@@ -88,11 +88,14 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private Handler mLoopHandler = new Handler();
     private Runnable mBackdropLoop;
     public static int BACKDROP_ROTATION_INTERVAL = 10000;
+    private static int NOWPLAYING_UI_REFRESH_INTERVAL = 15000;
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
 
     private long lastUserInteraction;
+    private long lastUIRefresh;
+    private boolean shouldRefreshQueue = false;
     private boolean ssActive;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
@@ -133,7 +136,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().prevAudioItem();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().prevAudioItem();
+                }
             }
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -142,7 +149,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().nextAudioItem();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().nextAudioItem();
+                }
             }
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -151,8 +162,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().toggleRepeat();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().toggleRepeat();
+                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                }
             }
         });
         mSaveButton = findViewById(R.id.saveBtn);
@@ -160,7 +175,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().saveAudioQueue(mActivity);
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().saveAudioQueue(mActivity);
+                }
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -169,7 +188,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().shuffleAudioQueue();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().shuffleAudioQueue();
+                }
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -178,9 +201,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent album = new Intent(mActivity, ItemListActivity.class);
-                album.putExtra("ItemId", mBaseItem.getAlbumId());
-                mActivity.startActivity(album);
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    Intent album = new Intent(mActivity, ItemListActivity.class);
+                    album.putExtra("ItemId", mBaseItem.getAlbumId());
+                    mActivity.startActivity(album);
+                }
             }
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -189,11 +216,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+                if (ssActive) {
+                    stopScreenSaver();
+                } else if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
                     artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
                     mActivity.startActivity(artist);
-
                 }
             }
         });
@@ -206,8 +234,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
-                else mediaManager.getValue().resumeAudio();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    if (mediaManager.getValue().isPlayingAudio())
+                        mediaManager.getValue().pauseAudio();
+                    else mediaManager.getValue().resumeAudio();
+                }
             }
         });
 
@@ -239,19 +272,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
         super.onResume();
         loadItem();
         rotateBackdrops();
+        // refresh as soon as the audioEventListener is active
+        queueNowplayingUIUpdate(0,true);
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
-        //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
-        mLoopHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                updateButtons(mediaManager.getValue().isPlayingAudio());
-                if (mediaManager.getValue().hasAudioQueueItems()) {
-                    //also re-position queue to current in case they scrolled around
-                    mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-                }
-            }
-        }, 1000);
     }
 
     @Override
@@ -271,7 +295,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         lastUserInteraction = System.currentTimeMillis();
-
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
@@ -290,16 +313,17 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 mediaManager.getValue().prevAudioItem();
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (ssActive) {
+                if (ssActive && mediaManager.getValue().hasNextAudioItem()) {
                     mediaManager.getValue().nextAudioItem();
                     return true;
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (ssActive) {
+                if (ssActive && mediaManager.getValue().hasPrevAudioItem()) {
                     mediaManager.getValue().prevAudioItem();
                     return true;
                 }
+                break;
         }
 
         if (ssActive) {
@@ -314,13 +338,16 @@ public class AudioNowPlayingActivity extends BaseActivity {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
             Timber.d("**** Got playstate change: %s", newState.toString());
-            if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
-                // new item started
-                loadItem();
-                updateButtons(true);
-                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-            } else {
-                updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
+            if (newState == PlaybackController.PlaybackState.PLAYING) {
+                if (currentItem != mBaseItem) {
+                    // new item started
+                    loadItem();
+                }
+                // skip update since button handler will trigger it
+                queueNowplayingUIUpdate(ssActive ? 750 : 0, ssActive || currentItem != mBaseItem ? true : false);
+            } else if (newState == PlaybackController.PlaybackState.PAUSED || newState == PlaybackController.PlaybackState.IDLE) {
+                // skip update since button handler will trigger it
+                if (!ssActive) updateButtons(false);
                 if (newState == PlaybackController.PlaybackState.IDLE && !mediaManager.getValue().hasNextAudioItem())
                     stopScreenSaver();
             }
@@ -329,19 +356,23 @@ public class AudioNowPlayingActivity extends BaseActivity {
         @Override
         public void onProgress(long pos) {
             setCurrentTime(pos);
+            if (mediaManager != null) {
+                if (System.currentTimeMillis() - lastUIRefresh > NOWPLAYING_UI_REFRESH_INTERVAL) {
+                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                    if (shouldRefreshQueue && mediaManager.getValue().hasAudioQueueItems()) {
+                        mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+                        updateSSInfo();
+                        shouldRefreshQueue = false;
+                    }
+                }
+            }
         }
 
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
             if (hasQueue) {
                 loadItem();
-                //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
-                mLoopHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateButtons(mediaManager.getValue().isPlayingAudio());
-                    }
-                }, 1000);
+                shouldRefreshQueue = true;
             } else {
                 finish(); // entire queue removed nothing to do here
             }
@@ -393,20 +424,20 @@ public class AudioNowPlayingActivity extends BaseActivity {
             updatePoster();
             updateInfo(mBaseItem);
             mDisplayDuration = TimeUtils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
-            // give audio a chance to start playing before updating next info
-            mLoopHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateSSInfo();
-                }
-            }, 750);
+            shouldRefreshQueue = true;
         }
+    }
+
+    private void queueNowplayingUIUpdate(int delay, boolean refreshQueue) {
+        shouldRefreshQueue = refreshQueue;
+        lastUIRefresh = System.currentTimeMillis() - NOWPLAYING_UI_REFRESH_INTERVAL + delay;
     }
 
     private void updateButtons(final boolean playing) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Timber.d("updating buttons");
                 mPoster.setKeepScreenOn(playing);
                 if (!playing) {
                     mPlayPauseButton.setImageResource(R.drawable.ic_play);
@@ -424,7 +455,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
                     mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
                 }
-
+                lastUIRefresh = System.currentTimeMillis();
             }
         });
     }
@@ -467,7 +498,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
+            if (ssActive) {
+                stopScreenSaver();
+            } else {
+                KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
+            }
         }
     }
 
@@ -509,6 +544,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     protected void startScreenSaver() {
+        if (ssActive) return;
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
@@ -524,6 +560,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     protected void stopScreenSaver() {
+        if (!ssActive) return;
         mLogoImage.setVisibility(View.GONE);
         mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
