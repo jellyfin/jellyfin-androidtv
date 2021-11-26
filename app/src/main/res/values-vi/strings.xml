@@ -48,7 +48,7 @@
     <string name="msg_access_restricted">Truy cập bị hạn chế vào lúc này</string>
     <string name="lbl_bracket_unknown">&lt;Không Rõ&gt;</string>
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
-    <string name="lbl_none">Không</string>
+    <string name="lbl_none">Không có</string>
     <string name="lbl_recordings">Ghi lại</string>
     <string name="lbl_videos">Videos</string>
     <string name="lbl_people">Mọi người</string>
