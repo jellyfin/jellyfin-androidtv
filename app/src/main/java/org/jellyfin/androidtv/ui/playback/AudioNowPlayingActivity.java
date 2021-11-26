@@ -273,7 +273,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         loadItem();
         rotateBackdrops();
         // refresh as soon as the audioEventListener is active
-        queueNowplayingUIUpdate(0,true);
+        queueNowplayingUIUpdate(500,true);
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
     }
@@ -345,8 +345,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     loadItem();
                     isNewItem = true;
                 }
-                // skip update since button handler will trigger it
-                queueNowplayingUIUpdate(250, ssActive || isNewItem ? true : false);
+                if (ssActive) {
+                    queueNowplayingUIUpdate(500, true);
+                } else {
+                    updateButtons(true);
+                }
             } else if (newState == PlaybackController.PlaybackState.PAUSED || newState == PlaybackController.PlaybackState.IDLE) {
                 // skip update since button handler will trigger it
                 if (!ssActive) updateButtons(false);
@@ -563,17 +566,22 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
     protected void stopScreenSaver() {
         if (!ssActive) return;
-        mLogoImage.setVisibility(View.GONE);
-        mSSArea.setAlpha(0f);
-        mArtistName.setAlpha(1f);
-        mGenreRow.setVisibility(View.VISIBLE);
-        mClock.setAlpha(1f);
-        mScrollView.setAlpha(1f);
-        ssActive = false;
-        setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
         if (mediaManager.getValue().hasAudioQueueItems()) {
             mPlayPauseButton.requestFocus();
         }
+        mLogoImage.setVisibility(View.GONE);
+        mArtistName.setAlpha(1f);
+        mGenreRow.setVisibility(View.VISIBLE);
+        mClock.setAlpha(1f);
+        setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mSSArea, "alpha", 1f, 0f);
+        fadeOut.setDuration(1000);
+        fadeOut.start();
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mScrollView, "alpha", 0f, 1f);
+        fadeIn.setDuration(1000);
+        fadeIn.start();
+
+        ssActive = false;
     }
 
     protected void updateSSInfo() {
