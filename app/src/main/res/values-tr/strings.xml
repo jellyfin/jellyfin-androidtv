@@ -147,7 +147,7 @@
     <string name="lbl_no">Hayır</string>
     <string name="lbl_enter_user_pw">Kullanıcı şifresi gir</string>
     <string name="lbl_enter_user_name">Kullanıcı adı gir</string>
-    <string name="lbl_play_trailers">Fragman(lar)ı Oynat</string>
+    <string name="lbl_play_trailers">Fragmanları Oynat</string>
     <string name="lbl_trailer">"Fragman "</string>
     <string name="msg_access_restricted">Şuan erişim sınırlı</string>
     <string name="lbl_bracket_unknown">&lt;Bilinmiyor&gt;</string>
@@ -410,7 +410,7 @@
     <string name="who_is_watching">Kim izliyor\?</string>
     <string name="no_user_warning">Herhangi bit kullanıcı bulamadık!
 \n\"Kullanıcı ekle\" butonuna tıklayarak bir kullanıcı ekleyin.</string>
-    <string name="server_unsupported">Sunucunun güncelleştirilmesi gerekiyor. Şu andaki sürüm %1$s. Ancak uygulama %2$s veya daha yeni bir sürüm gerektiriyor.</string>
+    <string name="server_unsupported">Sunucunun güncelleştirilmesi gerekiyor. Şu andaki sürüm %1$s. Ancak uygulama %2$s veya daha yeni bir sürüm gerektiriyor</string>
     <string name="welcome_content">Başlamak için sunucunuza bağlanın.</string>
     <string name="welcome_title">Jellyfin\'e hoşgeldiniz!</string>
     <string name="saved_servers">Kaydedilen sunucular</string>
