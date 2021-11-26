@@ -27,7 +27,7 @@
     <string name="msg_access_restricted">Dostop trenutno omejen</string>
     <string name="lbl_bracket_unknown">&lt;Neznano&gt;</string>
     <string name="msg_video_playback_error">"Napaka pri predvajanju videa "</string>
-    <string name="lbl_none">Ni</string>
+    <string name="lbl_none">Nič</string>
     <string name="lbl_recordings">Posnetki</string>
     <string name="lbl_videos">Videoposnetki</string>
     <string name="lbl_people">Ljudje</string>
