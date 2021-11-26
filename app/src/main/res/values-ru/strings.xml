@@ -67,7 +67,7 @@
     <string name="lbl_bracket_unknown">&lt;Неизвестно&gt;</string>
     <string name="msg_access_restricted">Доступ запрещён в данное время</string>
     <string name="lbl_trailer">"Трейлер "</string>
-    <string name="lbl_play_trailers">Воспр. трейлер(ы)</string>
+    <string name="lbl_play_trailers">Воспр. трейлеры</string>
     <string name="lbl_enter_user_name">Ввести имя пользователя</string>
     <string name="lbl_enter_user_pw">Ввести пароль пользователя</string>
     <string name="lbl_no">Нет</string>
