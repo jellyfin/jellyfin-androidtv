@@ -378,9 +378,9 @@
     <string name="lbl_hidden">Сакривено</string>
     <string name="pref_developer_link_description">Напредне и експерименталне функције</string>
     <string name="pref_developer_link">Опције програмера</string>
-    <string name="image_size_large">Велико</string>
+    <string name="image_size_large">Велике</string>
     <string name="image_size_medium">Средње</string>
-    <string name="image_size_small">Мало</string>
+    <string name="image_size_small">Мале</string>
     <string name="image_size_auto">Уобичајено</string>
     <string name="image_type_banner">Банер</string>
     <string name="image_type_thumbnail">Сличица</string>
