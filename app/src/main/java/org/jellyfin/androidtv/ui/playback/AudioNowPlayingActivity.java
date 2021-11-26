@@ -439,6 +439,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void updateButtons(final boolean playing) {
+        lastUIRefresh = System.currentTimeMillis();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -460,7 +461,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
                     mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
                 }
-                lastUIRefresh = System.currentTimeMillis();
             }
         });
     }
