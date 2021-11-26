@@ -141,6 +141,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 } else {
                     mediaManager.getValue().prevAudioItem();
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -154,6 +155,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 } else {
                     mediaManager.getValue().nextAudioItem();
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -168,6 +170,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     mediaManager.getValue().toggleRepeat();
                     updateButtons(mediaManager.getValue().isPlayingAudio());
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mSaveButton = findViewById(R.id.saveBtn);
@@ -180,6 +183,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 } else {
                     mediaManager.getValue().saveAudioQueue(mActivity);
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -193,6 +197,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 } else {
                     mediaManager.getValue().shuffleAudioQueue();
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -203,6 +208,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             public void onClick(View v) {
                 if (ssActive) {
                     stopScreenSaver();
+                    lastUserInteraction = System.currentTimeMillis();
                 } else {
                     Intent album = new Intent(mActivity, ItemListActivity.class);
                     album.putExtra("ItemId", mBaseItem.getAlbumId());
@@ -218,6 +224,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             public void onClick(View v) {
                 if (ssActive) {
                     stopScreenSaver();
+                    lastUserInteraction = System.currentTimeMillis();
                 } else if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
                     artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
@@ -241,6 +248,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                         mediaManager.getValue().pauseAudio();
                     else mediaManager.getValue().resumeAudio();
                 }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
 
@@ -443,7 +451,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Timber.d("updating buttons");
                 mPoster.setKeepScreenOn(playing);
                 if (!playing) {
                     mPlayPauseButton.setImageResource(R.drawable.ic_play);
@@ -505,6 +512,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (!(item instanceof BaseRowItem)) return;
             if (ssActive) {
                 stopScreenSaver();
+                lastUserInteraction = System.currentTimeMillis();
             } else {
                 KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
             }
