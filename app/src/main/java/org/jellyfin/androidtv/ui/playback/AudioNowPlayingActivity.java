@@ -569,7 +569,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mScrollView.setAlpha(1f);
         ssActive = false;
         setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
-
+        if (mediaManager.getValue().hasAudioQueueItems()) {
+            mPlayPauseButton.requestFocus();
+        }
     }
 
     protected void updateSSInfo() {
