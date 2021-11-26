@@ -580,7 +580,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mScrollView, "alpha", 0f, 1f);
         fadeIn.setDuration(1000);
         fadeIn.start();
-
+        lastUserInteraction = System.currentTimeMillis();
         ssActive = false;
     }
 
