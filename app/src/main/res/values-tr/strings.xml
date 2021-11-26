@@ -152,7 +152,7 @@
     <string name="msg_access_restricted">Şuan erişim sınırlı</string>
     <string name="lbl_bracket_unknown">&lt;Bilinmiyor&gt;</string>
     <string name="msg_video_playback_error">"Video Oynatma hatası "</string>
-    <string name="lbl_none">Hiç</string>
+    <string name="lbl_none">Hiçbiri</string>
     <string name="lbl_recordings">Kayıtlar</string>
     <string name="lbl_videos">Videolar</string>
     <string name="lbl_people">Kişiler</string>
@@ -367,7 +367,7 @@
     <string name="searchable_settings_description">Medya</string>
     <string name="searchable_hint">Jellyfin\'de ara</string>
     <string name="home_section_i">Ana Ekran bölümü %1$d</string>
-    <string name="home_section_none">Yok</string>
+    <string name="home_section_none">Hiçbiri</string>
     <string name="home_section_livetv">Canlı TV</string>
     <string name="home_section_next_up">Sıradaki</string>
     <string name="home_section_active_recordings">Aktif kayıtlar</string>
@@ -437,7 +437,7 @@
     <string name="lbl_hidden">Gizli</string>
     <string name="pref_developer_link_description">Gelişmiş ve deneysel özellikler</string>
     <string name="pref_developer_link">Geliştirici seçenekleri</string>
-    <string name="image_size_large">Büyük</string>
+    <string name="image_size_large">Geniş</string>
     <string name="image_size_medium">Orta</string>
     <string name="image_size_small">Küçük</string>
     <string name="image_size_auto">Varsayılan</string>
