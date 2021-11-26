@@ -354,6 +354,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 if (currentItem != mBaseItem) {
                     // new item started
                     loadItem();
+                    // immediately move the queue row to the current song
+                    // disable queue refresh in onProgress since the queue position is already set
                     if (mAudioQueuePresenter != null && mediaManager.getValue().hasAudioQueueItems()) {
                         mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
                         shouldRefreshQueue = false;
@@ -380,7 +382,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     updateButtons(mediaManager.getValue().isPlayingAudio());
                     if (shouldRefreshQueue && mediaManager.getValue().hasAudioQueueItems()) {
                         mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-                        updateSSInfo();
+                        // start screensaver calls updateSSInfo so only subsequent items need this
+                        if (ssActive) updateSSInfo();
                         shouldRefreshQueue = false;
                     }
                 }
@@ -573,6 +576,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     protected void startScreenSaver() {
         if (ssActive) return;
         dismissPopup();
+        // update ss info since current item may not have ss info if screensaver opens too soon
+        updateSSInfo();
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
