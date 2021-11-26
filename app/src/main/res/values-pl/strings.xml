@@ -14,7 +14,7 @@
     <string name="lbl_trailer">"Zwiastun "</string>
     <string name="lbl_bracket_unknown">&lt;Nieznany&gt;</string>
     <string name="msg_video_playback_error">"Błąd odtwarzania "</string>
-    <string name="lbl_none">Brak</string>
+    <string name="lbl_none">Żadne</string>
     <string name="lbl_recordings">Nagrania</string>
     <string name="lbl_videos">Wideo</string>
     <string name="lbl_people">Ludzie</string>
