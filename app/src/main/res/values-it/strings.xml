@@ -53,7 +53,7 @@
     <string name="lbl_last_played">"Riprodotto l'ultima volta "</string>
     <string name="lbl_other_options">Altre Opzioni</string>
     <string name="lbl_people">Persone</string>
-    <string name="lbl_none">Nessuno</string>
+    <string name="lbl_none">Nessuna</string>
     <string name="msg_video_playback_error">"Errore di riproduzione video - "</string>
     <string name="lbl_bracket_unknown">&lt;Sconosciuto&gt;</string>
     <string name="msg_access_restricted">Accesso ristretto in questo momento</string>
@@ -456,7 +456,7 @@
     <string name="home_sections">Sezioni pagina iniziale</string>
     <string name="home_prefs">Pagina iniziale</string>
     <string name="home_section_i">Pagina iniziale sezione %1$d</string>
-    <string name="home_section_none">Nessuno</string>
+    <string name="home_section_none">Nessuna</string>
     <string name="home_section_livetv">Diretta TV</string>
     <string name="home_section_next_up">Prossimo</string>
     <string name="home_section_active_recordings">Registrazioni attive</string>
