@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -101,6 +102,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+
+    private PopupMenu mPopupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -289,6 +292,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        dismissPopup();
         mPoster.setKeepScreenOn(false);
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
         stopRotate();
@@ -393,6 +397,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         @Override
         public void onQueueReplaced() {
+            dismissPopup();
             mRowsAdapter.remove(mQueueRow);
             addQueue();
         }
@@ -432,6 +437,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void loadItem() {
+        dismissPopup();
         mBaseItem = mediaManager.getValue().getCurrentAudioItem();
         if (mBaseItem != null) {
             updatePoster();
@@ -510,11 +516,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
+            lastUserInteraction = System.currentTimeMillis();
             if (ssActive) {
                 stopScreenSaver();
-                lastUserInteraction = System.currentTimeMillis();
             } else {
-                KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
+                mPopupMenu =  KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
             }
         }
     }
@@ -556,8 +562,16 @@ public class AudioNowPlayingActivity extends BaseActivity {
         }
     }
 
+    private void dismissPopup() {
+        if (mPopupMenu != null) {
+            mPopupMenu.dismiss();
+            mPopupMenu = null;
+        }
+    }
+
     protected void startScreenSaver() {
         if (ssActive) return;
+        dismissPopup();
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
