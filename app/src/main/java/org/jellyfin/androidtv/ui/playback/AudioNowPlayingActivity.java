@@ -351,11 +351,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
             Timber.d("**** Got playstate change: %s", newState.toString());
             if (newState == PlaybackController.PlaybackState.PLAYING) {
-                boolean isNewItem = false;
                 if (currentItem != mBaseItem) {
                     // new item started
                     loadItem();
-                    isNewItem = true;
+                    if (mAudioQueuePresenter != null && mediaManager.getValue().hasAudioQueueItems()) {
+                        mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+                    }
                 }
                 if (ssActive) {
                     queueNowplayingUIUpdate(500, true);
