@@ -356,6 +356,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     loadItem();
                     if (mAudioQueuePresenter != null && mediaManager.getValue().hasAudioQueueItems()) {
                         mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+                        shouldRefreshQueue = false;
                     }
                 }
                 if (ssActive) {
@@ -390,7 +391,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         public void onQueueStatusChanged(boolean hasQueue) {
             if (hasQueue) {
                 loadItem();
-                shouldRefreshQueue = true;
             } else {
                 finish(); // entire queue removed nothing to do here
             }
