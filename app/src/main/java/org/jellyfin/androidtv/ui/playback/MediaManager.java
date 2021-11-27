@@ -73,7 +73,7 @@ public class MediaManager {
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private SimpleExoPlayer mExoPlayer;
     private AudioManager mAudioManager;
-    private boolean audioInitialized;
+    private boolean audioInitialized = false;
     private boolean nativeMode = false;
     private boolean videoQueueModified = false;
 
@@ -93,7 +93,7 @@ public class MediaManager {
     public boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
     public void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
-         this.mCurrentMediaAdapter = currentMediaAdapter;
+        this.mCurrentMediaAdapter = currentMediaAdapter;
     }
 
     public int getCurrentMediaPosition() {
@@ -113,6 +113,10 @@ public class MediaManager {
 
     public boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
     public boolean isRepeatMode() { return mRepeat; }
+
+    public boolean getIsAudioInitialized() {
+        return audioInitialized;
+    }
 
     public ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
     public ItemRowAdapter getManagedAudioQueue() {
@@ -165,10 +169,15 @@ public class MediaManager {
     }
 
     private boolean isPaused() {
-        return nativeMode ? !mExoPlayer.isPlaying() : !mVlcPlayer.isPlaying();
+        // report true if player is null - reporting paused is better than reporting playing if the playing isn't playing
+        return nativeMode ? (mExoPlayer != null ? !mExoPlayer.isPlaying() : true) : (mVlcPlayer != null ? !mVlcPlayer.isPlaying() : true);
     }
 
     private void reportProgress() {
+        if (mCurrentAudioItem == null || !getIsAudioInitialized()) {
+            stopProgressLoop();
+            return;
+        }
         //Don't need to be too aggressive with these calls - just be sure every second
         if (System.currentTimeMillis() < lastProgressEvent + 750) return;
         lastProgressEvent = System.currentTimeMillis();
@@ -184,14 +193,14 @@ public class MediaManager {
         if (System.currentTimeMillis() > lastProgressReport + 5000) {
 
             // FIXME: Don't use the getApplication method..
-            PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
-            ReportingHelper.reportProgress(playbackController, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
+            ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
         }
 
     }
 
     private void onComplete() {
+        stopProgressLoop();
         ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
         if (hasNextAudioItem()) {
             nextAudioItem();
@@ -207,11 +216,27 @@ public class MediaManager {
 
     }
 
+    private void releasePlayer() {
+        if (mVlcPlayer != null) {
+            mVlcPlayer.setEventListener(null);
+            mVlcPlayer.release();
+            mLibVLC.release();
+            mLibVLC = null;
+            mVlcPlayer = null;
+        }
+        if (mExoPlayer != null) {
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+        audioInitialized = false;
+    }
+
     private boolean createPlayer(int buffer) {
         try {
 
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
+                Timber.i("creating audio player using: exoplayer");
                 nativeMode = true;
                 mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication()).build();
                 mExoPlayer.addListener(new Player.EventListener() {
@@ -222,6 +247,8 @@ public class MediaManager {
                         } else if (playbackState == Player.STATE_ENDED) {
                             onComplete();
                             stopProgressLoop();
+                        } else if (playbackState == Player.STATE_IDLE) {
+                            stopProgressLoop();
                         }
                     }
 
@@ -231,6 +258,7 @@ public class MediaManager {
                     }
                 });
             } else {
+                Timber.i("creating audio player using: libVLC");
                 ArrayList<String> options = new ArrayList<>(20);
                 options.add("--network-caching=" + buffer);
                 options.add("--no-audio-time-stretch");
@@ -246,11 +274,20 @@ public class MediaManager {
                     mVlcPlayer.setAudioOutputDevice("hdmi");
                 }
 
+                mVlcHandler.setOnPreparedListener(new PlaybackListener() {
+                    @Override
+                    public void onEvent() {
+                        Timber.i("libVLC onPrepared - starting progress loop");
+                        startProgressLoop();
+                    }
+                });
 
                 mVlcHandler.setOnProgressListener(new PlaybackListener() {
                     @Override
                     public void onEvent() {
-                        reportProgress();
+                        if (!isPlayingAudio()) {
+                            stopProgressLoop();
+                        }
                     }
                 });
 
@@ -264,7 +301,6 @@ public class MediaManager {
                 mVlcPlayer.setEventListener(mVlcHandler);
 
             }
-
         } catch (Exception e) {
             Timber.e(e, "Error creating VLC player");
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
@@ -277,6 +313,8 @@ public class MediaManager {
     private Runnable progressLoop;
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private void startProgressLoop() {
+        stopProgressLoop();
+        Timber.i("starting progress loop");
         progressLoop = new Runnable() {
             @Override
             public void run() {
@@ -289,7 +327,9 @@ public class MediaManager {
 
     private void stopProgressLoop() {
         if (progressLoop != null) {
+            Timber.i("stopping progress loop");
             mHandler.removeCallbacks(progressLoop);
+            progressLoop = null;
         }
     }
 
@@ -710,22 +750,26 @@ public class MediaManager {
     }
 
     private void stop() {
+        if (!getIsAudioInitialized()) return ;
         if (nativeMode) mExoPlayer.stop(true);
         else mVlcPlayer.stop();
     }
 
     public void stopAudio() {
-        if (mCurrentAudioItem != null && isPlayingAudio()) {
+        if (mCurrentAudioItem != null) {
             stop();
             updateCurrentAudioItemPlaying(false);
-            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000);
+            stopProgressLoop();
+            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
+            releasePlayer();
         }
     }
 
     private void pause() {
+        if (!getIsAudioInitialized()) return;
         if (nativeMode) mExoPlayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
@@ -742,8 +786,17 @@ public class MediaManager {
         }
     }
 
+    public void playPauseAudio() {
+        if (isPaused()) {
+            resumeAudio();
+        } else {
+            pauseAudio();
+        }
+    }
+
+
     public void resumeAudio() {
-        if (mCurrentAudioItem != null) {
+        if (mCurrentAudioItem != null && getIsAudioInitialized()) {
             ensureAudioFocus();
             if (nativeMode) mExoPlayer.setPlayWhenReady(true);
             else mVlcPlayer.play();
@@ -754,12 +807,12 @@ public class MediaManager {
             }
         } else if (hasAudioQueueItems()) {
             //play from start
-            playInternal(((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), 0);
+            playInternal(mCurrentAudioItem != null ? mCurrentAudioItem : ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), mCurrentAudioItem != null ? mCurrentAudioQueuePosition : 0);
         }
     }
 
     public void setCurrentMediaPosition(int currentMediaPosition) {
-         this.mCurrentMediaPosition = currentMediaPosition;
+        this.mCurrentMediaPosition = currentMediaPosition;
     }
 
     public BaseRowItem getMediaItem(int pos) {
@@ -767,6 +820,7 @@ public class MediaManager {
     }
 
     public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
+
     public BaseRowItem nextMedia() {
         if (hasNextMediaItem()) {
             mCurrentMediaPosition++;
@@ -800,7 +854,7 @@ public class MediaManager {
     }
 
     public void setCurrentMediaTitle(String currentMediaTitle) {
-         this.currentMediaTitle = currentMediaTitle;
+        this.currentMediaTitle = currentMediaTitle;
     }
 
     public boolean isVideoQueueModified() {
@@ -808,7 +862,7 @@ public class MediaManager {
     }
 
     public void setVideoQueueModified(boolean videoQueueModified) {
-         this.videoQueueModified = videoQueueModified;
+        this.videoQueueModified = videoQueueModified;
     }
 
     public void clearVideoQueue() {
