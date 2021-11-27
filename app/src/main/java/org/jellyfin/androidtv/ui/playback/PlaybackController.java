@@ -1004,7 +1004,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
