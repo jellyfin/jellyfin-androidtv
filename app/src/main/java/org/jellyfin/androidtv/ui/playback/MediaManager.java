@@ -778,11 +778,9 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             pause();
-            ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
-            lastProgressReport = System.currentTimeMillis();
         }
     }
 
