@@ -191,8 +191,8 @@ public class MediaManager {
             listener.onProgress(mCurrentAudioPosition);
         }
 
-        //Report progress to server every 5 secs
-        if (System.currentTimeMillis() > lastProgressReport + 5000) {
+        //Report progress to server every 5 secs if playing, 15 if paused
+        if (System.currentTimeMillis() > lastProgressReport + (isPaused() ? 15000 : 5000)) {
 
             // FIXME: Don't use the getApplication method..
             ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
@@ -780,6 +780,8 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             pause();
+            lastProgressReport = lastProgressEvent = System.currentTimeMillis();
+            ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000, true);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
             }
