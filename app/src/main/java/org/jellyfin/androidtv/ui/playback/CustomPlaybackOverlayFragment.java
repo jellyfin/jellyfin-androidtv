@@ -158,7 +158,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onCreate(savedInstanceState);
 
         // stop any audio that may be playing
-        mediaManager.getValue().stopAudio();
+        mediaManager.getValue().stopAudio(true);
 
         mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager == null) {

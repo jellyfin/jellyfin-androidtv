@@ -114,8 +114,8 @@ public class MediaManager {
     public boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
     public boolean isRepeatMode() { return mRepeat; }
 
-    public boolean getIsAudioInitialized() {
-        return audioInitialized;
+    public boolean getIsAudioPlayerInitialized() {
+        return audioInitialized && (nativeMode ? mExoPlayer != null : mVlcPlayer != null);
     }
 
     public ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
@@ -140,11 +140,12 @@ public class MediaManager {
                 mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
                 mManagedAudioQueue.Retrieve();
             }
-            if (isPlayingAudio()) {
+            if (mManagedAudioQueue.size() > 0 && isPlayingAudio()) {
                 ((BaseRowItem)mManagedAudioQueue.get(0)).setIsPlaying(true);
+            } else if (mManagedAudioQueue.size() < 1) {
+                Timber.d("error creating managed audio queue from size of: %s", mCurrentAudioQueue.size());
             }
         }
-
     }
 
     public void addAudioEventListener(AudioEventListener listener) {
@@ -157,6 +158,7 @@ public class MediaManager {
     }
 
     public boolean initAudio() {
+        Timber.d("initializing audio");
         if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
 
         if (mAudioManager == null) {
@@ -174,7 +176,7 @@ public class MediaManager {
     }
 
     private void reportProgress() {
-        if (mCurrentAudioItem == null || !getIsAudioInitialized()) {
+        if (mCurrentAudioItem == null || !getIsAudioPlayerInitialized()) {
             stopProgressLoop();
             return;
         }
@@ -228,7 +230,6 @@ public class MediaManager {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-        audioInitialized = false;
     }
 
     private boolean createPlayer(int buffer) {
@@ -341,7 +342,7 @@ public class MediaManager {
                     pauseAudio();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    stopAudio();
+                    stopAudio(false);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     //resumeAudio();
@@ -500,7 +501,7 @@ public class MediaManager {
     public void removeFromAudioQueue(int ndx) {
         if (mCurrentAudioQueuePosition == ndx) {
             // current item - stop audio, remove and re-start
-            stopAudio();
+            stopAudio(false);
             if (mManagedAudioQueue != null) {
                 mManagedAudioQueue.remove(mCurrentAudioQueue.get(ndx));
             }
@@ -530,10 +531,10 @@ public class MediaManager {
         }
     }
 
-    public boolean isPlayingAudio() { return audioInitialized && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
+    public boolean isPlayingAudio() { return getIsAudioPlayerInitialized() && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
 
     private boolean ensureInitialized() {
-        if (!audioInitialized) {
+        if (!audioInitialized || !getIsAudioPlayerInitialized()) {
             audioInitialized = initAudio();
         }
 
@@ -579,7 +580,7 @@ public class MediaManager {
     public boolean playFrom(int ndx) {
         if (ndx >= mCurrentAudioQueue.size()) return false;
 
-        if (isPlayingAudio()) stopAudio();
+        if (isPlayingAudio()) stopAudio(false);
 
         mCurrentAudioQueuePosition = ndx-1;
         createManagedAudioQueue();
@@ -599,6 +600,7 @@ public class MediaManager {
 
     private void playInternal(final BaseItemDto item, final int pos) {
         if (!ensureInitialized()) return;
+
         ensureAudioFocus();
         final ApiClient apiClient = KoinJavaComponent.<ApiClient>get(ApiClient.class);
         AudioOptions options = new AudioOptions();
@@ -713,7 +715,7 @@ public class MediaManager {
         }
 
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return -1;
-        stopAudio();
+        stopAudio(false);
         if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 1) {
             //don't remove last item as it causes framework crashes
             mManagedAudioQueue.removeItems(0, 1);
@@ -739,7 +741,7 @@ public class MediaManager {
         }
 
 
-        stopAudio();
+        stopAudio(false);
         int ndx = mCurrentAudioQueuePosition - 1;
         if (mManagedAudioQueue != null) {
             mManagedAudioQueue.add(0, mCurrentAudioQueue.get(ndx));
@@ -750,12 +752,12 @@ public class MediaManager {
     }
 
     private void stop() {
-        if (!getIsAudioInitialized()) return ;
+        if (!getIsAudioPlayerInitialized()) return ;
         if (nativeMode) mExoPlayer.stop(true);
         else mVlcPlayer.stop();
     }
 
-    public void stopAudio() {
+    public void stopAudio(boolean releasePlayer) {
         if (mCurrentAudioItem != null) {
             stop();
             updateCurrentAudioItemPlaying(false);
@@ -764,12 +766,12 @@ public class MediaManager {
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
-            releasePlayer();
+            if (releasePlayer) releasePlayer();
         }
     }
 
     private void pause() {
-        if (!getIsAudioInitialized()) return;
+        if (!getIsAudioPlayerInitialized()) return;
         if (nativeMode) mExoPlayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
@@ -794,7 +796,7 @@ public class MediaManager {
 
 
     public void resumeAudio() {
-        if (mCurrentAudioItem != null && getIsAudioInitialized()) {
+        if (mCurrentAudioItem != null && getIsAudioPlayerInitialized()) {
             ensureAudioFocus();
             if (nativeMode) mExoPlayer.setPlayWhenReady(true);
             else mVlcPlayer.play();

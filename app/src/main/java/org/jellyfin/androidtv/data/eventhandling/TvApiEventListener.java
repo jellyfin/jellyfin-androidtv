@@ -82,8 +82,8 @@ public class TvApiEventListener extends ApiEventListener {
 
         switch (command.getCommand()) {
             case Stop:
-                if (mediaManager.getIsAudioInitialized())
-                    mainThreadHandler.post(() -> mediaManager.stopAudio());
+                if (mediaManager.getIsAudioPlayerInitialized())
+                    mainThreadHandler.post(() -> mediaManager.stopAudio(true));
                 else {
                     Activity currentActivity = TvApp.getApplication().getCurrentActivity();
 
@@ -94,19 +94,19 @@ public class TvApiEventListener extends ApiEventListener {
             case Pause:
             case Unpause:
             case PlayPause:
-                if (mediaManager.getIsAudioInitialized())
+                if (mediaManager.getIsAudioPlayerInitialized())
                     mainThreadHandler.post(() -> mediaManager.playPauseAudio());
                 if(playbackController != null)
                     mainThreadHandler.post(() -> playbackController.playPause());
                 break;
             case NextTrack:
-                if (mediaManager.hasAudioQueueItems())
+                if (mediaManager.getIsAudioPlayerInitialized() && mediaManager.hasAudioQueueItems())
                     mainThreadHandler.post(() -> mediaManager.nextAudioItem());
                 else if(playbackController != null)
                     mainThreadHandler.post(() -> playbackController.next());
                 break;
             case PreviousTrack:
-                if (mediaManager.hasAudioQueueItems())
+                if (mediaManager.getIsAudioPlayerInitialized() && mediaManager.hasAudioQueueItems())
                     mainThreadHandler.post(() -> mediaManager.prevAudioItem());
                 else if(playbackController != null)
                     mainThreadHandler.post(() -> playbackController.prev());
