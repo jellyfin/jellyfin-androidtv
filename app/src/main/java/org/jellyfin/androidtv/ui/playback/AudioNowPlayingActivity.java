@@ -97,6 +97,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private long lastUserInteraction;
     private long lastUIRefresh;
     private boolean shouldRefreshQueue = false;
+    private boolean playerWasRecentlyNull = false;
     private boolean ssActive;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
@@ -286,6 +287,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (!mediaManager.getValue().getIsAudioInitialized()) {
             Timber.d("audio player not initialized - setting buttons to state: not playing");
             updateButtons(false);
+            playerWasRecentlyNull = true;
         } else {
             // refresh as soon as the audioEventListener is active
             queueNowplayingUIUpdate(500,true);
@@ -330,13 +332,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 mediaManager.getValue().prevAudioItem();
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (ssActive && mediaManager.getValue().hasNextAudioItem()) {
+                if (ssActive) {
                     mediaManager.getValue().nextAudioItem();
                     return true;
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (ssActive && mediaManager.getValue().hasPrevAudioItem()) {
+                if (ssActive) {
                     mediaManager.getValue().prevAudioItem();
                     return true;
                 }
@@ -356,9 +358,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
             Timber.d("**** Got playstate change: %s", newState.toString());
             if (newState == PlaybackController.PlaybackState.PLAYING) {
-                if (currentItem != mBaseItem) {
+                if (currentItem != mBaseItem || playerWasRecentlyNull) {
                     // new item started
-                    loadItem();
+                    if (currentItem != mBaseItem) loadItem();
+                    playerWasRecentlyNull = false;
                     // immediately move the queue row to the current song
                     // disable queue refresh in onProgress since the queue position is already set
                     if (mAudioQueuePresenter != null && mediaManager.getValue().hasAudioQueueItems()) {
