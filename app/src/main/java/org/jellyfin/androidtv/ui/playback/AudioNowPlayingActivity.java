@@ -283,8 +283,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         super.onResume();
         loadItem();
         rotateBackdrops();
-        // refresh as soon as the audioEventListener is active
-        queueNowplayingUIUpdate(500,true);
+        if (!mediaManager.getValue().getIsAudioInitialized()) {
+            Timber.d("audio player not initialized - setting buttons to state: not playing");
+            updateButtons(false);
+        } else {
+            // refresh as soon as the audioEventListener is active
+            queueNowplayingUIUpdate(500,true);
+        }
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
     }
@@ -361,6 +366,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                         shouldRefreshQueue = false;
                     }
                 }
+                // if audio player was recently null then playbackStateChange may be fired before all the button states are available
                 if (ssActive) {
                     queueNowplayingUIUpdate(500, true);
                 } else {
