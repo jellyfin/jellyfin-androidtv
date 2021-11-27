@@ -780,7 +780,7 @@ public class MediaManager {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
             pause();
-            lastProgressReport = lastProgressEvent = System.currentTimeMillis();
+            lastProgressReport = System.currentTimeMillis();
             ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000, true);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
@@ -803,7 +803,8 @@ public class MediaManager {
             if (nativeMode) mExoPlayer.setPlayWhenReady(true);
             else mVlcPlayer.play();
             updateCurrentAudioItemPlaying(true);
-            ReportingHelper.reportStart(mCurrentAudioItem, mCurrentAudioPosition * 10000);
+            lastProgressReport = System.currentTimeMillis();
+            ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000, false);
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
             }
