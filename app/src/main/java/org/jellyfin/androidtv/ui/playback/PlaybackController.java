@@ -154,6 +154,10 @@ public class PlaybackController {
         return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }
 
+    public boolean hasInitializedVideoManager() {
+        return mVideoManager != null && mVideoManager.isInitialized() ? true : false;
+    }
+
     public MediaSourceInfo getCurrentMediaSource() {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
             return mCurrentStreamInfo.getMediaSource();
@@ -863,7 +867,16 @@ public class PlaybackController {
     }
 
     public void prev() {
-
+        Timber.d("Prev called.");
+        vlcErrorEncountered = false;
+        exoErrorEncountered = false;
+        if (mCurrentIndex > 0 && mItems.size() > 0) {
+            stop();
+            mCurrentIndex--;
+            Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
+            spinnerOff = false;
+            play(0);
+        }
     }
 
     public void fastForward() {

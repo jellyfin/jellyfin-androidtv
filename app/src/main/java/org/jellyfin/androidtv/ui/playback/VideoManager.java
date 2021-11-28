@@ -127,6 +127,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         });
     }
 
+    public boolean isInitialized() {
+        return mSurfaceReady && (isNativeMode() ? mExoPlayer != null : mVlcPlayer != null);
+    }
+
     public void init(int buffer, boolean isInterlaced) {
         createPlayer(buffer, isInterlaced);
     }

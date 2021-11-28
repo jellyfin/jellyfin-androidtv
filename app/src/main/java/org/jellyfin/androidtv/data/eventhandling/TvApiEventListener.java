@@ -96,33 +96,33 @@ public class TvApiEventListener extends ApiEventListener {
             case PlayPause:
                 if (mediaManager.getIsAudioPlayerInitialized())
                     mainThreadHandler.post(() -> mediaManager.playPauseAudio());
-                if(playbackController != null)
+                else if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
                     mainThreadHandler.post(() -> playbackController.playPause());
                 break;
             case NextTrack:
                 if (mediaManager.getIsAudioPlayerInitialized() && mediaManager.hasAudioQueueItems())
                     mainThreadHandler.post(() -> mediaManager.nextAudioItem());
-                else if(playbackController != null)
+                else if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
                     mainThreadHandler.post(() -> playbackController.next());
                 break;
             case PreviousTrack:
                 if (mediaManager.getIsAudioPlayerInitialized() && mediaManager.hasAudioQueueItems())
                     mainThreadHandler.post(() -> mediaManager.prevAudioItem());
-                else if(playbackController != null)
+                else if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
                     mainThreadHandler.post(() -> playbackController.prev());
                 break;
             case Seek:
-                if(playbackController != null) {
+                if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager()) {
                     long pos = command.getSeekPositionTicks() / 10000;
                     mainThreadHandler.post(() -> playbackController.seek(pos));
                 }
                 break;
             case Rewind:
-                if (playbackController != null)
+                if (playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
                     mainThreadHandler.post(() -> playbackController.skip(-11000));
                 break;
             case FastForward:
-                if (playbackController != null)
+                if (playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
                     mainThreadHandler.post(() -> playbackController.skip(30000));
                 break;
         }
@@ -171,6 +171,8 @@ public class TvApiEventListener extends ApiEventListener {
                     Timber.e("No current activity.  Cannot play");
                     return;
                 }
+                Timber.d("got queue start index: %S", command.getStartIndex());
+                Integer startIndex = command.getStartIndex();
                 StdItemQuery query = new StdItemQuery(new ItemFields[]{
                         ItemFields.MediaSources,
                         ItemFields.ChildCount
@@ -192,7 +194,7 @@ public class TvApiEventListener extends ApiEventListener {
                                     TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                     break;
                                 case "Audio":
-                                    mediaManager.playNow(Arrays.asList(response.getItems()));
+                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex != null ? startIndex.intValue() : 0);
                                     break;
 
                             }

@@ -545,28 +545,40 @@ public class MediaManager {
         return audioInitialized;
     }
 
-    public void playNow(final List<BaseItemDto> items) {
+    public void playNow(final List<BaseItemDto> items, int position) {
         if (!ensureInitialized()) return;
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
 
-        playNowInternal(items);
+        playNowInternal(items, position);
 
         if (fireQueueReplaceEvent)
             fireQueueReplaced();
     }
 
-    private void playNowInternal(List<BaseItemDto> items) {
+    public void playNow(final List<BaseItemDto> items) {
+        if (!ensureInitialized()) return;
+
+        boolean fireQueueReplaceEvent = hasAudioQueueItems();
+
+        playNowInternal(items, 0);
+
+        if (fireQueueReplaceEvent)
+            fireQueueReplaced();
+    }
+
+    private void playNowInternal(List<BaseItemDto> items, int position) {
         createAudioQueue(items);
-        mCurrentAudioQueuePosition = -1;
-        nextAudioItem();
+        if (!(position > 0 && playFrom(position))) {
+            mCurrentAudioQueuePosition = -1;
+            nextAudioItem();
+        }
         if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
             Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
             TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
         } else {
             Toast.makeText(TvApp.getApplication(),items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
         }
-
     }
 
     public void playNow(final BaseItemDto item) {
