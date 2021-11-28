@@ -50,6 +50,7 @@ fun OptionsScreen.playbackCategory(
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled] }
 	}
 
+	// for some reason a timer duration of 0s == 100
 	seekbar {
 		setTitle(R.string.pref_next_up_timeout_title)
 		setContent(R.string.pref_next_up_timeout_summary)
@@ -57,7 +58,7 @@ fun OptionsScreen.playbackCategory(
 		max = 30000
 		increment = 1000
 		valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-			override fun display(value: Int) = "${value / 1000}s"
+			override fun display(value: Int) = if (value == 100) "∞" else "${value / 1000}s"
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled]

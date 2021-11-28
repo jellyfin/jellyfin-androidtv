@@ -42,9 +42,7 @@ class NextUpFragment : Fragment() {
 		super.onStart()
 
 		if (!timerStarted) {
-			binding.fragmentNextUpButtons.startTimer()
-
-			timerStarted = true
+			timerStarted = binding.fragmentNextUpButtons.startTimer()
 		}
 	}
 

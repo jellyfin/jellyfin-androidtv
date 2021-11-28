@@ -35,11 +35,16 @@ class NextUpButtons(
 		}
 	}
 
-	fun startTimer() {
+	fun startTimer(): Boolean {
 		val duration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
 
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()
+
+		// for some reason a timer duration of 0s == 100
+		if (duration == 100L) {
+			return false
+		}
 
 		// Create timer
 		countdownTimer = object : CountDownTimer(duration, 1) {
@@ -55,6 +60,7 @@ class NextUpButtons(
 				view.findViewById<AppCompatButton>(R.id.fragment_next_up_buttons_play_next).performClick()
 			}
 		}.start()
+		return true
 	}
 
 	fun stopTimer() {
