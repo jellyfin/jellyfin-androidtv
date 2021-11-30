@@ -687,7 +687,7 @@ public class MediaManager {
                 * removeFromUnShuffledQueue(int ndx) - updates the original indexes to reflect the removal, and removes the item from the saved queue
 
             # Implementation
-                1) create a fixed size BaseItemDto[] of queue size to be populated with a valid item or null if item was removed from the queue (while shuffled)
+                1) create a fixed size BaseItemDto[] of queue size to be populated with shuffled or unshuffled items
                 2)
                     A) if not shuffled
                         1A) create new queues for saving the original queue state
