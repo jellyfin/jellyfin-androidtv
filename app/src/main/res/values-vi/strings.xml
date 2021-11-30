@@ -466,4 +466,5 @@
     <string name="home_section_none">Không có</string>
     <string name="home_section_livetv">TV Trực Tiếp</string>
     <string name="home_section_next_up">Tiếp theo</string>
+    <string name="home_section_active_recordings">Bản ghi hoạt động</string>
 </resources>
