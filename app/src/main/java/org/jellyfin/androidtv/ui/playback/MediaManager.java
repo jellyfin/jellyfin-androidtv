@@ -733,7 +733,7 @@ public class MediaManager {
         List<BaseItemDto> itemsList = new ArrayList<>();
         for(int i = 0; i < items.length; i++) {
             if (items[i] == getCurrentAudioItem()) {
-                mCurrentAudioQueuePosition = itemsList.size();
+                mCurrentAudioQueuePosition = i;
             }
             itemsList.add(items[i]);
         }
