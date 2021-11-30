@@ -64,7 +64,6 @@ public class MediaManager {
     private ItemRowAdapter mCurrentAudioQueue;
     private ItemRowAdapter mManagedAudioQueue;
 
-    private List<BaseItemDto> mUnShuffledAudioQueue;
     private List<Integer>  mUnShuffledAudioQueueIndexes;
 
     private int mCurrentAudioQueuePosition = -1;
@@ -119,14 +118,13 @@ public class MediaManager {
     public boolean isRepeatMode() { return mRepeat; }
 
     public boolean isShuffleMode() {
-        if (mUnShuffledAudioQueueIndexes != null && mUnShuffledAudioQueue != null) {
+        if (mUnShuffledAudioQueueIndexes != null) {
             return true;
         }
         return false;
     }
 
     private void clearUnShuffledQueue() {
-        mUnShuffledAudioQueue = null;
         mUnShuffledAudioQueueIndexes = null;
     }
 
@@ -653,20 +651,18 @@ public class MediaManager {
 
     private void pushToUnShuffledQueue(BaseItemDto newItem) {
         if (isShuffleMode()) {
-            mUnShuffledAudioQueueIndexes.add(mUnShuffledAudioQueue.size());
-            mUnShuffledAudioQueue.add(newItem);
+            mUnShuffledAudioQueueIndexes.add(mUnShuffledAudioQueueIndexes.size());
         }
     }
 
     private void removeFromUnShuffledQueue(int ndx) {
-        if (hasAudioQueueItems() && isShuffleMode() && ndx < mUnShuffledAudioQueue.size()) {
+        if (hasAudioQueueItems() && isShuffleMode() && ndx < mUnShuffledAudioQueueIndexes.size()) {
             int OriginalNdx = mUnShuffledAudioQueueIndexes.get(ndx);
             for(int i = 0; i < mUnShuffledAudioQueueIndexes.size(); i++) {
                 int oldNdx = mUnShuffledAudioQueueIndexes.get(i);
                 if (oldNdx > OriginalNdx) mUnShuffledAudioQueueIndexes.set(i, --oldNdx);
             }
             mUnShuffledAudioQueueIndexes.remove(ndx);
-            mUnShuffledAudioQueue.remove(OriginalNdx);
         }
     }
 
@@ -677,51 +673,47 @@ public class MediaManager {
             # Shuffle feature
 
             # Dependencies
-                * mUnShuffledAudioQueue - List<BaseItemDto> of the original state of the queue prior to shuffle
                 * mUnShuffledAudioQueueIndexes - List<Integer> shuffled list of the original queue item indexes
 
             # Methods
                 * isShuffleMode()                    - true/false for checking if shuffled
-                * clearUnShuffledQueue()             - set the saved queues to null
-                * pushToUnShuffledQueue()            - push a new item to the saved queue, and push its index to the shuffled queue of original indexes
+                * clearUnShuffledQueue()             - set the saved queue to null
+                * pushToUnShuffledQueue()            - push a new items index to the shuffled queue of original indexes
                 * removeFromUnShuffledQueue(int ndx) - updates the original indexes to reflect the removal, and removes the item from the saved queue
 
             # Implementation
                 1) create a fixed size BaseItemDto[] of queue size to be populated with shuffled or unshuffled items
                 2)
                     A) if not shuffled
-                        1A) create new queues for saving the original queue state
+                        1A) create new queue for saving the original queue state
                         2A) push all but the currently playing item's indexes to the list
                         3A) shuffle the list of indexes then insert the currently playing item's index at pos 0 in the list
                         4A) loop through the shuffled list of indexes and insert the corresponding items into the array
 
                     B) if shuffled
-                        1B) inserts each saved queue item into the array at its original index
+                        1B) inserts each queue item into the array using its original index
 
                 3) create a new list and push all items from the array into the list, and set the current queue position when its found
                 4) create a new queue from the list
 
          */
-        BaseItemDto[] items = new BaseItemDto[isShuffleMode() ? mUnShuffledAudioQueue.size() : mCurrentAudioQueue.size()];
+        BaseItemDto[] items = new BaseItemDto[isShuffleMode() ? mUnShuffledAudioQueueIndexes.size() : mCurrentAudioQueue.size()];
 
         if (isShuffleMode()) {
             Timber.d("queue is already shuffled, restoring original order");
 
             for(int i = 0; i < mUnShuffledAudioQueueIndexes.size(); i++) {
-                items[mUnShuffledAudioQueueIndexes.get(i)] = mUnShuffledAudioQueue.get(mUnShuffledAudioQueueIndexes.get(i));
+                items[mUnShuffledAudioQueueIndexes.get(i)] = ((BaseRowItem) mCurrentAudioQueue.get(i)).getBaseItem();
             }
             mUnShuffledAudioQueueIndexes = null;
-            mUnShuffledAudioQueue = null;
         } else {
             Timber.d("Queue is not shuffled, shuffling");
             mUnShuffledAudioQueueIndexes = new ArrayList<>();
-            mUnShuffledAudioQueue = new ArrayList<>();
 
             for(int i = 0; i < mCurrentAudioQueue.size(); i++) {
                 if (i != getCurrentAudioQueuePosition()) {
                     mUnShuffledAudioQueueIndexes.add(i);
                 }
-                mUnShuffledAudioQueue.add(((BaseRowItem) mCurrentAudioQueue.get(i)).getBaseItem());
             }
             Collections.shuffle(mUnShuffledAudioQueueIndexes);
             mUnShuffledAudioQueueIndexes.add(0, getCurrentAudioQueuePosition());
