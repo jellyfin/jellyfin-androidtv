@@ -659,7 +659,7 @@ public class MediaManager {
     }
 
     private void removeFromUnShuffledQueue(int ndx) {
-        if (hasAudioQueueItems() && isShuffleMode() && ndx < mCurrentAudioQueue.size()) {
+        if (hasAudioQueueItems() && isShuffleMode() && ndx < mUnShuffledAudioQueue.size()) {
             int OriginalNdx = mUnShuffledAudioQueueIndexes.get(ndx);
             for(int i = 0; i < mUnShuffledAudioQueueIndexes.size(); i++) {
                 int oldNdx = mUnShuffledAudioQueueIndexes.get(i);
