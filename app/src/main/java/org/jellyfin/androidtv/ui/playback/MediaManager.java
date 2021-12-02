@@ -693,18 +693,16 @@ public class MediaManager {
             return mCurrentAudioQueuePosition;
         }
 
-        if ( !mRepeat && mCurrentAudioQueuePosition < 1) {
+        if (!mRepeat && mCurrentAudioQueuePosition < 1) {
             //nowhere to go
             return mCurrentAudioQueuePosition;
         }
 
-
-        stopAudio();
-        int ndx = mCurrentAudioQueuePosition - 1;
+        stopAudio(false);
+        int ndx = mCurrentAudioQueuePosition == 0 ? mCurrentAudioQueue.size() - 1 : mCurrentAudioQueuePosition - 1;
         if (mManagedAudioQueue != null) {
             mManagedAudioQueue.add(0, mCurrentAudioQueue.get(ndx));
         }
-        if (ndx < 0) ndx = mCurrentAudioQueue.size() - 1;
         playInternal(getPrevAudioItem(), ndx);
         return ndx;
     }
