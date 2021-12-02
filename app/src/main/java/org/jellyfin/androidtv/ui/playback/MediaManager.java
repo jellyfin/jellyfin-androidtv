@@ -698,7 +698,7 @@ public class MediaManager {
             return mCurrentAudioQueuePosition;
         }
 
-        stopAudio(false);
+        stopAudio();
         int ndx = mCurrentAudioQueuePosition == 0 ? mCurrentAudioQueue.size() - 1 : mCurrentAudioQueuePosition - 1;
         if (mManagedAudioQueue != null) {
             mManagedAudioQueue.add(0, mCurrentAudioQueue.get(ndx));
