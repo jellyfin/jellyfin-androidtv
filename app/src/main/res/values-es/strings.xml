@@ -458,4 +458,11 @@
     <string name="home_section_livetv">Television en vivo</string>
     <string name="home_sections">Secciones de inicio</string>
     <string name="home_prefs">Inicio</string>
+    <string name="searchable_hint">Buscar en Jellyfin</string>
+    <string name="home_section_next_up">A continuación</string>
+    <string name="home_section_active_recordings">Grabaciones activas</string>
+    <string name="home_section_resume_audio">Seguir escuchando</string>
+    <string name="home_section_library_small">Mis contenidos (pequeño)</string>
+    <string name="home_section_latest_media">Últimos contenidos</string>
+    <string name="home_section_library">Mi contenido</string>
 </resources>
