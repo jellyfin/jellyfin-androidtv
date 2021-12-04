@@ -50,7 +50,6 @@
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
     <string name="lbl_none">Không có</string>
     <string name="lbl_recordings">Ghi lại</string>
-    <string name="lbl_videos"></string>
     <string name="lbl_people">Mọi người</string>
     <string name="lbl_other_options">Tùy Chọn Khác</string>
     <string name="lbl_last_played">"Lần Phát Cuối "</string>
@@ -254,7 +253,6 @@
     <string name="lbl_open_artist">Mở Nghệ Sĩ</string>
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
     <string name="msg_items_added">" mục đã được thêm"</string>
-    <string name="lbl_albums"></string>
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
@@ -323,8 +321,7 @@
     <string name="pref_about_title">Thông Tin</string>
     <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
     <string name="lbl_direct_stream_live">Luồng Phát Truyền Hình Trực Tiếp</string>
-    <string name="bitrate_kbit"></string>
-    <string name="bitrate_mbit"></string>
+    <string name="bitrate_mbit"/>
     <string name="lbl_album">Album</string>
     <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
@@ -334,8 +331,7 @@
     <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
     <string name="play_with_exo_player">Phát với ExoPlayer</string>
     <string name="pref_video_player_choose">Luôn luôn hỏi</string>
-    <string name="pref_video_player_vlc"></string>
-    <string name="pref_video_player_exoplayer"></string>
+    <string name="pref_video_player_exoplayer"/>
     <string name="lbl_subtitle_track">Chọn bản phụ đề</string>
     <string name="lbl_audio_track">Chọn bản âm thanh</string>
     <string name="lbl_pause">Tạm dừng</string>
