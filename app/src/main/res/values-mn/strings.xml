@@ -138,8 +138,8 @@
     <string name="lbl_recorded_tv">Бичигдсэн ТВ</string>
     <string name="msg_error_live_stream">Шууд ТВ цацахад алдаа гарлаа. Дахин оролдоно уу…</string>
     <string name="lbl_direct_stream_live">Шууд дамжуулалт шууд ТВ</string>
-    <string name="lbl_albums">Цомог</string>
-    <string name="lbl_artists">Жүжигчин</string>
+    <string name="lbl_albums">Цомгууд</string>
+    <string name="lbl_artists">Зураачуд</string>
     <string name="lbl_song">Дуу</string>
     <string name="lbl_songs">Дуунууд</string>
     <string name="lbl_album">Цомог</string>

@@ -454,8 +454,16 @@
     <string name="licenses_link_description">Ver las licencias de las librerías usadas por Jellyfin</string>
     <string name="licenses_link">Licencias</string>
     <string name="home_section_resume">Continuar mirando</string>
-    <string name="searchable_settings_description">Media</string>
+    <string name="searchable_settings_description">Medios</string>
     <string name="home_section_livetv">Television en vivo</string>
     <string name="home_sections">Secciones de inicio</string>
     <string name="home_prefs">Inicio</string>
+    <string name="searchable_hint">Buscar en Jellyfin</string>
+    <string name="home_section_next_up">A continuación</string>
+    <string name="home_section_active_recordings">Grabaciones activas</string>
+    <string name="home_section_resume_audio">Seguir escuchando</string>
+    <string name="home_section_library_small">Mis contenidos (pequeño)</string>
+    <string name="home_section_latest_media">Últimos contenidos</string>
+    <string name="home_section_library">Mi contenido</string>
+    <string name="home_section_none">Nada</string>
 </resources>

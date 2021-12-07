@@ -20,14 +20,14 @@
     <string name="lbl_ended">إنتهى</string>
     <string name="lbl_display_preferences">خيارات الشاشة</string>
     <string name="btn_done">تم</string>
-    <string name="lbl_starting_with">بدءاً بمن تبدأ أسماؤهم بـ</string>
+    <string name="lbl_starting_with">بدءاً بمن تبدأ أسماؤهم ب</string>
     <string name="lbl_rating">التقييم</string>
     <string name="lbl_critic_rating">تقييم النقاد</string>
     <string name="lbl_premier_date">تاريخ العرض الأول</string>
     <string name="lbl_date_added">تاريخ الإضافة</string>
     <string name="lbl_name">الإسم</string>
     <string name="lbl_from">من</string>
-    <string name="lbl_sorted_by">مرتبة بـ</string>
+    <string name="lbl_sorted_by">مرتبة ب</string>
     <string name="lbl_all_items">جميع العناصر</string>
     <string name="lbl_showing">يعرض الآن</string>
     <string name="desc_debug">أرفق معلومات إضافية من أجل تصحيح الأخطاء</string>
@@ -222,7 +222,7 @@
     <string name="lbl_audio_delay">تأخير الصوت</string>
     <string name="lbl_new_only">الجديد فقط</string>
     <string name="lbl_news">أخبار</string>
-    <string name="lbl_tv_filter_status">لـ %1$d الساعات القادمة</string>
+    <string name="lbl_tv_filter_status">ل %1$d الساعات القادمة</string>
     <string name="lbl_tv_channel_status">%1$d من %2$d قنوات</string>
     <string name="acra_dialog_text">هل ترغب في إرسال تقرير تعطل إلى المطورين؟
 \n
@@ -251,7 +251,7 @@
     <string name="lbl_resume_preroll">استئناف التشغيل المسبق</string>
     <string name="lbl_guide_option_number">رقم القناة</string>
     <string name="lbl_guide_option_played">تم تشغيله موخراً</string>
-    <string name="lbl_show_indicators">عرض مؤشرات لـ</string>
+    <string name="lbl_show_indicators">عرض مؤشرات ل</string>
     <string name="lbl_sort_by">ترتيب حسب</string>
     <string name="lbl_guest_stars">النجوم الضيوف</string>
     <string name="lbl_on_schedule">في الموعد المحدد</string>
@@ -315,7 +315,7 @@
     <string name="lbl_start_end_on_schedule">يبدأ مع الموعد المحدد وينتهي مع الموعد المحدد</string>
     <string name="lbl_starting_on_schedule_ending_after">يبدأ مع الموعد المحدد وينتهي %1$s بعد الموعد المحدد</string>
     <string name="lbl_starting_early_ending_on_schedule">يبدأ %1$s قبل الموعد المحدد وينتهي مع الموعد المحدد</string>
-    <string name="lbl_starting_early_ending_after">يبدأ بـ %1$s قبل الموعد المحدد وينتهي بـ%2$s بعد الموعد المحدد</string>
+    <string name="lbl_starting_early_ending_after">يبدأ ب %1$s قبل الموعد المحدد وينتهي ب%2$s بعد الموعد المحدد</string>
     <string name="lbl_next_up_minimal">بدون الصورة المصغرة</string>
     <string name="lbl_next_up_extended">مع الصورة المصغرة</string>
     <string name="user_picker_last_user_title">آخر ما تم إستخدامه</string>
