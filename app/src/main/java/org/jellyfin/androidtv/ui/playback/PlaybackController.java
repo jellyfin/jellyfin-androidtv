@@ -93,10 +93,13 @@ public class PlaybackController {
     private Handler mHandler;
 
     private long mStartPosition = 0;
+
+    // tmp position used when seeking
+    private long mSeekedPosition = -1;
     private long mCurrentProgramEndTime;
-    private long mCurrentProgramStartTime;
+    private long mCurrentProgramStartTime = 0;
     private long mCurrentTranscodeStartTime;
-    private boolean isLiveTv;
+    private boolean isLiveTv = false;
     private boolean directStreamLiveTv;
     private String liveTvChannelName = "";
     private boolean useVlc;
@@ -192,7 +195,8 @@ public class PlaybackController {
     public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
 
     public boolean isPlaying() {
-        return mPlaybackState == PlaybackState.PLAYING;
+        // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
+        return mPlaybackState == PlaybackState.PLAYING && (mVideoManager == null || mVideoManager.isPlaying());
     }
 
     public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
@@ -300,6 +304,31 @@ public class PlaybackController {
 
     }
 
+    // central place to update mCurrentPosition
+    private void refreshCurrentPosition() {
+        long newPos = -1;
+
+        if (updateProgress == true) {
+            if (isLiveTv && mCurrentProgramStartTime > 0) {
+                newPos = getRealTimeProgress();
+                // live tv
+            }
+            else if (mVideoManager != null) {
+                if (!isPlaying() && mSeekedPosition != -1) {
+                    newPos = mSeekedPosition;
+                    // use seekedPosition until playback starts
+                }
+                else if (isPlaying()) {
+                    newPos = mVideoManager.getCurrentPosition();
+                    mSeekedPosition = -1;
+                    // playback is happening - get current position and reset seekedPosition
+                }
+            }
+        }
+        // use original value if new one isn't available
+        mCurrentPosition = newPos != -1 ? newPos : mCurrentPosition;
+    }
+
     public void play(long position) {
         play(position, -1);
     }
@@ -331,6 +360,10 @@ public class PlaybackController {
                 break;
             case IDLE:
                 // start new playback
+
+                // set mSeekedPosition so the seekbar will not default to 0:00
+                mSeekedPosition = position;
+
                 BaseItemDto item = getCurrentlyPlayingItem();
 
                 // make sure item isn't missing
@@ -380,6 +413,9 @@ public class PlaybackController {
 
                 isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
                 startSpinner();
+
+                // undo setting mSeekedPosition for liveTV
+                if (isLiveTv) mSeekedPosition = -1;
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
@@ -693,6 +729,8 @@ public class PlaybackController {
     public void switchAudioStream(int index) {
         if (!(isPlaying() || isPaused())) return;
 
+        // get current timestamp first
+        refreshCurrentPosition();
         mCurrentOptions.setAudioStreamIndex(index);
         if (mVideoManager.isNativeMode()) {
             startSpinner();
@@ -710,6 +748,8 @@ public class PlaybackController {
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
+        // get current timestamp first
+        refreshCurrentPosition();
         Timber.d("Setting subtitle index to: %d", index);
         mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
 
@@ -877,13 +917,15 @@ public class PlaybackController {
     }
 
     public void seek(final long pos) {
-        Timber.d("Seeking to %d", pos);
+        Timber.d("Seeking from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo.getContainer());
         if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
-            // update mCurrentPosition because when play() is called after seeking it uses its value
-            mCurrentPosition = pos;
+
+            // set seekedPosition so reporting prior to playback starting is not inaccurate
+            mSeekedPosition = pos;
+            mPlaybackState = PlaybackState.BUFFERING;
 
             // this value should only NOT be -1 if vlc is being used for transcoding
             if (mVideoManager.getMetaVLCStreamStartPosition() != -1) {
@@ -901,6 +943,8 @@ public class PlaybackController {
                 public void onError(Exception exception) {
                     Utils.showToast(TvApp.getApplication().getCurrentActivity(), R.string.msg_video_playback_error);
                     Timber.e(exception, "Error trying to seek transcoded stream");
+                    // call stop so playback can be retried by the user
+                    stop();
                 }
             });
         } else {
@@ -908,12 +952,28 @@ public class PlaybackController {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else {
-                long oldposition = mCurrentPosition;
-                mCurrentPosition = pos;
-
+                // use the same approach to directplay seeking as setOnProgressListener
+                // prevent progress updates
+                // set state to SEEKING
+                // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
+                // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
+                // if seek() is called from skip()
+                updateProgress = false;
+                mPlaybackState = PlaybackState.SEEKING;
                 if (mVideoManager.seekTo(pos) < 0) {
-                    mCurrentPosition = oldposition;
                     Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
+                    updateProgress = true;
+                    pause();
+                }
+                else {
+                    mVideoManager.play();
+                    mPlaybackState = PlaybackState.PLAYING;
+                    if (mFragment != null) {
+                        mFragment.setFadingEnabled(true);
+                        mFragment.setPlayPauseActionState(0);
+                    }
+                    updateProgress = true;
+                    startReportLoop();
                 }
             }
         }
@@ -986,11 +1046,12 @@ public class PlaybackController {
     }
 
     private void startReportLoop() {
+        stopReportLoop();
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                if (mPlaybackState == PlaybackState.PLAYING) {
+                if (isPlaying()) {
                     long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
 
                     ReportingHelper.reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
@@ -1048,10 +1109,12 @@ public class PlaybackController {
                     mHandler.postDelayed(this, 25);
                 } else {
                     // do the seek
-                    if (mVideoManager.seekTo(position) < 0)
+                    if (mVideoManager.seekTo(position) < 0) {
                         Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
-
-                    mPlaybackState = PlaybackState.PLAYING;
+                        pause();
+                    } else {
+                        mPlaybackState = PlaybackState.PLAYING;
+                    }
                     updateProgress = true;
                 }
             }
@@ -1198,18 +1261,17 @@ public class PlaybackController {
                         }
                     }
                     if (continueUpdate) {
+                        updateProgress = true;
                         if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                             // crossed fire off an async routine to update the program info
                             updateTvProgramInfo();
                         }
-                        final Long currentTime = isLiveTv && mCurrentProgramStartTime > 0 ? getRealTimeProgress() : mVideoManager.getCurrentPosition();
-                        if (mFragment != null) mFragment.setCurrentTime(currentTime);
-                        //if (isLiveTv && !directStreamLiveTv) mFragment.setSecondaryTime(getRealTimeProgress());
-                        mCurrentPosition = currentTime;
-                        if (mFragment != null) mFragment.updateSubtitles(currentTime);
+                        refreshCurrentPosition();
+                        if (mFragment != null){
+                            mFragment.setCurrentTime(mCurrentPosition);
+                            mFragment.updateSubtitles(mCurrentPosition);
+                        }
                     }
-
-                    updateProgress = continueUpdate;
                 }
             }
         });
@@ -1225,7 +1287,8 @@ public class PlaybackController {
     }
 
     public long getCurrentPosition() {
-        return mCurrentPosition;
+        // if not playing and seeking, mCurrentPosition may not be current
+        return !isPlaying() && mSeekedPosition != -1 ? mSeekedPosition : mCurrentPosition;
     }
 
     public boolean isPaused() {
