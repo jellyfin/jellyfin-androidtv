@@ -20,7 +20,7 @@
     <string name="lbl_performers">Исполнители</string>
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не реализовано"</string>
-    <string name="lbl_latest">Крайние</string>
+    <string name="lbl_latest">Свежие</string>
     <string name="lbl_by_name">По названиям</string>
     <string name="lbl_favorites">Избранное</string>
     <string name="lbl_coming_up">Ожидаемое</string>
@@ -30,11 +30,11 @@
     <string name="lbl_movies">Фильмы</string>
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
-    <string name="lbl_latest_additions">Крайние добавления</string>
+    <string name="lbl_latest_additions">Свежие добавления</string>
     <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
     <string name="lbl_play_all">Воспр. все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
-    <string name="lbl_play">Воспроизвести</string>
+    <string name="lbl_play">Запустить</string>
     <string name="lbl_cancel">Отменить</string>
     <string name="lbl_cancel_recording">Отменить запись</string>
     <string name="lbl_cancel_series">Отменить серии</string>
