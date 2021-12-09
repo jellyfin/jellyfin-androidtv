@@ -185,7 +185,8 @@ public class MediaManager {
     }
 
     private boolean isPaused() {
-        // report true if player is null - reporting paused is better than reporting playing if the playing isn't playing
+        // report true if player is null
+        // allows remote tvApiEventListener to call playPauseAudio() and start playback if playback is stopped
         return nativeMode ? (mExoPlayer != null ? !mExoPlayer.isPlaying() : true) : (mVlcPlayer != null ? !mVlcPlayer.isPlaying() : true);
     }
 
