@@ -119,6 +119,7 @@ public class MediaManager {
 
     public boolean getIsAudioPlayerInitialized() {
         return audioInitialized && (nativeMode ? mExoPlayer != null : mVlcPlayer != null);
+    }
 
     public boolean isShuffleMode() {
         if (mUnShuffledAudioQueueIndexes != null) {
