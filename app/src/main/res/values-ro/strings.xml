@@ -349,7 +349,7 @@
     <string name="login_invalid_credentials">Nume de utilizator și/sau parolă greșite</string>
     <string name="login_authenticating">Se autentifică…</string>
     <string name="server_field_empty">Adresa nu poate fi vidă</string>
-    <string name="server_connection_failed">Imposibil de conectat la server: %1$s</string>
+    <string name="server_connection_failed">Nu pot conecta la server: %1$s</string>
     <string name="server_connecting">Conectare la %1$s</string>
     <string name="pref_clock_display_playback">În timpul redării</string>
     <string name="pref_clock_display_browsing">În timp ce navigați</string>
@@ -373,7 +373,7 @@
     <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org pentru a începe să utilizați Jellyfin.</string>
     <string name="login_help_title">Aveți nevoie de ajutor\?</string>
     <string name="connect_manually_by_address">Introduceți adresa serverului</string>
-    <string name="discovered_servers_empty">Nu au fost descoperite servere în rețeaua locală.</string>
+    <string name="discovered_servers_empty">Nu s-au găsit servere în network-ul locală.</string>
     <string name="discovered_servers_title">Servere descoperite</string>
     <string name="lbl_hidden">Ascuns</string>
     <string name="pref_developer_link_description">Caracteristici avansate și experimentale</string>
@@ -398,4 +398,28 @@
     <string name="lbl_remove_user_content">Ștergeți contul</string>
     <string name="lbl_remove_users">Aceasta va elimina, de asemenea, toți utilizatorii asociați</string>
     <string name="lbl_manage_servers">Administrați serverele</string>
+    <string name="lbl_next_up_minimal">Fără afiș</string>
+    <string name="lbl_next_up_extended">Cu afiș</string>
+    <string name="lbl_episode_range">E%1$d–%2$d</string>
+    <string name="lbl_episode_number">E%1$d</string>
+    <string name="lbl_season_number">S%1$d</string>
+    <string name="lbl_special">Special</string>
+    <string name="help">Ajutor</string>
+    <string name="add_user">Adăugați utilizator</string>
+    <string name="who_is_watching">Cine se uită\?</string>
+    <string name="no_user_warning">Nu se-a găsit niciun utilizator!
+\nAdăugați un utilizator nou apăsând butonul „Adăugați utilizator”.</string>
+    <string name="server_unsupported">Serverul ii trebuie update. Versiunea actuală este %1$s, dar aplicația ii trebe %2$s sau mai nou</string>
+    <string name="welcome_content">Conectați-vă la server pentru a începe.</string>
+    <string name="welcome_title">Bun venit la Jellyfin!</string>
+    <string name="saved_servers">Servere favorite</string>
+    <string name="press_to_close">Apăsați să închizi</string>
+    <string name="no_network_permissions">Jellyfin necesită permisiuni de network pentru a funcționa</string>
+    <string name="pref_theme_muted_purple">Muted Purple</string>
+    <string name="lbl_switch_user">Schimba user-ul</string>
+    <string name="pref_next_up_behavior_title">Afișează informațiile despre următorul video</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Întinde</string>
+    <string name="lbl_auto_crop">Crop auto</string>
+    <string name="lbl_community_rating">Evaluarea comunității</string>
 </resources>
