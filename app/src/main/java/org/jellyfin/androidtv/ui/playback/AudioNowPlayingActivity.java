@@ -171,6 +171,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mediaManager.getValue().shuffleAudioQueue();
+                updateButtons(mediaManager.getValue().isPlayingAudio());
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -409,6 +410,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 mPrevButton.setEnabled(mediaManager.getValue().hasPrevAudioItem());
                 mNextButton.setEnabled(mediaManager.getValue().hasNextAudioItem());
                 mShuffleButton.setEnabled(mediaManager.getValue().getCurrentAudioQueueSize() > 1);
+                mShuffleButton.setActivated(mediaManager.getValue().isShuffleMode());
                 if (mBaseItem != null) {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
                     mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
