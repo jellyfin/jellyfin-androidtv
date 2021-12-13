@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-import android.os.Bundle;
-
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
@@ -13,12 +11,7 @@ import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.koin.java.KoinJavaComponent;
 
-public class ByGenreFragment extends CustomViewFragment {
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
+public class ByGenreFragment extends BrowseFolderFragment {
     @Override
     protected void setupQueries(final IRowLoader rowLoader) {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {

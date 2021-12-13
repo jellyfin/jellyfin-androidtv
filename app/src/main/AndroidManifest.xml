@@ -137,11 +137,7 @@
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".ui.browsing.ByLetterActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.ByGenreActivity"
+            android:name=".ui.browsing.GroupedItemsActivity"
             android:screenOrientation="landscape" />
 
         <activity
@@ -150,10 +146,6 @@
 
         <activity
             android:name=".ui.browsing.SuggestedMoviesActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.BrowsePersonsActivity"
             android:screenOrientation="landscape" />
 
         <activity

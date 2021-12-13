@@ -6,20 +6,18 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
-public class ByLetterFragment extends CustomViewFragment {
-
+public class ByLetterFragment extends BrowseFolderFragment {
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
 
     @Override
     protected void setupQueries(IRowLoader rowLoader) {
-
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             StdItemQuery numbers = new StdItemQuery();
             numbers.setParentId(mFolder.getId().toString());
             numbers.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) numbers.setIncludeItemTypes(new String[]{includeType});
-            numbers.setNameLessThan(letters.substring(0,1));
+            numbers.setNameLessThan(letters.substring(0, 1));
             numbers.setRecursive(true);
             mRows.add(new BrowseRowDef("#", numbers, 40));
 
@@ -37,12 +35,8 @@ public class ByLetterFragment extends CustomViewFragment {
             if (mRows.size() < 2) setHeadersState(HEADERS_DISABLED);
 
             rowLoader.loadRows(mRows);
-
-        }
-        else {
+        } else {
             setHeadersState(HEADERS_DISABLED);
         }
     }
-
-
 }

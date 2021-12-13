@@ -3,9 +3,7 @@ package org.jellyfin.androidtv.ui.browsing;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -25,7 +23,6 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
@@ -38,10 +35,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
-import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -56,7 +49,6 @@ import timber.log.Timber;
 public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
-    protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
@@ -73,8 +65,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         backgroundService.getValue().attach(requireActivity());
 
@@ -111,28 +101,11 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mRowsAdapter != null) {
                 refreshCurrentItem();
-                refreshRows();
             }
 
         } else {
             justLoaded = false;
         }
-    }
-
-    protected void refreshRows() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mActivity == null || mActivity.isFinishing()) return;
-                for (int i = 0; i < mRowsAdapter.size(); i++) {
-                    if (mRowsAdapter.get(i) instanceof ListRow) {
-                        if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter) {
-                            ((ItemRowAdapter) ((ListRow) mRowsAdapter.get(i)).getAdapter()).ReRetrieveIfNeeded();
-                        }
-                    }
-                }
-            }
-        },1500);
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
@@ -246,27 +219,6 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
 
         setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
-
-        if (mActivity != null) {
-            mActivity.registerKeyListener(new IKeyListener() {
-                @Override
-                public boolean onKeyUp(int key, KeyEvent event) {
-                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
-                }
-            });
-
-            mActivity.registerMessageListener(new IMessageListener() {
-                @Override
-                public void onMessageReceived(CustomMessage message) {
-                    switch (message) {
-
-                        case RefreshCurrentItem:
-                            refreshCurrentItem();
-                            break;
-                    }
-                }
-            });
-        }
     }
 
     private void refreshCurrentItem() {
