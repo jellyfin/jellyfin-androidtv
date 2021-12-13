@@ -40,10 +40,14 @@ import timber.log.Timber;
 public class TvApiEventListener extends ApiEventListener {
     private final DataRefreshService dataRefreshService;
     private final MediaManager mediaManager;
+    private final Handler mainThreadHandler;
 
     public TvApiEventListener(DataRefreshService dataRefreshService, MediaManager mediaManager) {
         this.dataRefreshService = dataRefreshService;
         this.mediaManager = mediaManager;
+
+        //handler to interact with the players (exoplayer doesn't allow access from another thread)
+        this.mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -76,9 +80,6 @@ public class TvApiEventListener extends ApiEventListener {
     public void onPlaystateCommand(ApiClient client, PlaystateRequest command) {
         PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
         Timber.d("caught playstate command: %s", command.getCommand());
-
-        //handler to access the players on the main thread
-        Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         switch (command.getCommand()) {
             case Stop:
@@ -132,8 +133,6 @@ public class TvApiEventListener extends ApiEventListener {
     public void onBrowseCommand(ApiClient client, BrowseRequest command) {
         Timber.d("Browse command received");
 
-        //handler to access the players on the main thread
-        Handler mainThreadHandler = new Handler(Looper.getMainLooper());
         mainThreadHandler.post(() -> {
             if (TvApp.getApplication().getCurrentActivity() == null ||
                     (TvApp.getApplication().getPlaybackController() != null && (TvApp.getApplication().getPlaybackController().isPlaying() || TvApp.getApplication().getPlaybackController().isPaused()))) {
@@ -152,9 +151,6 @@ public class TvApiEventListener extends ApiEventListener {
 
     @Override
     public void onPlayCommand(ApiClient client, PlayRequest command) {
-        //handler to access the players on the main thread
-        Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-
         mainThreadHandler.post(() -> {
             if (TvApp.getApplication().getPlaybackController() != null && (TvApp.getApplication().getPlaybackController().isPlaying() || TvApp.getApplication().getPlaybackController().isPaused())) {
                 TvApp.getApplication().getCurrentActivity().runOnUiThread(new Runnable() {
