@@ -169,7 +169,7 @@ public class TvApiEventListener extends ApiEventListener {
                     return;
                 }
                 int startIndex = command.getStartIndex() == null ? 0 : command.getStartIndex().intValue();
-                int startPosition = command.getStartPositionTicks() == null || command.getStartPositionTicks().longValue() == 0 ? 0 : new Long(command.getStartPositionTicks() / 10000L).intValue();
+                int startPosition = command.getStartPositionTicks() == null || command.getStartPositionTicks().longValue() == 0 ? 0 : Long.valueOf(command.getStartPositionTicks() / 10000L).intValue();
                 Timber.d("got queue start index: %s position %s", startIndex, startPosition);
                 StdItemQuery query = new StdItemQuery(new ItemFields[]{
                         ItemFields.MediaSources,
