@@ -1143,15 +1143,18 @@ public class PlaybackController {
         }
 
         if (mCurrentIndex < 0) return;
-        for (int i = 0; i < mCurrentIndex; i++) {
-            mItems.remove(0);
+
+        // removing from mItems doesn't work properly when using remote control - modify via mediaManager instead
+        for (int i = 0; i < mCurrentIndex && i < mediaManager.getValue().getCurrentVideoQueue().size(); i++) {
+            mediaManager.getValue().getCurrentVideoQueue().remove(0);
         }
 
         //Now - look at last item played and, if beyond default resume point, remove it too
         Long duration = mCurrentStreamInfo != null ? mCurrentStreamInfo.getRunTimeTicks() : null;
-        if (duration != null && mItems.size() > 0) {
-            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mItems.remove(0);
-        } else if (duration == null) mItems.remove(0);
+        if (duration != null && mediaManager.getValue().getCurrentVideoQueue().size() > 0) {
+            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mediaManager.getValue().getCurrentVideoQueue().remove(0);
+        } else if (duration == null) mediaManager.getValue().getCurrentVideoQueue().remove(0);
+        setItems(mediaManager.getValue().getCurrentVideoQueue());
     }
 
     private void itemComplete() {

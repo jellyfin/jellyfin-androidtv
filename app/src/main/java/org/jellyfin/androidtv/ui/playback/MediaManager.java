@@ -103,7 +103,20 @@ public class MediaManager {
         return mCurrentMediaPosition;
     }
 
-    public void setCurrentVideoQueue(List<BaseItemDto> items) { mCurrentVideoQueue = items; }
+    public void setCurrentVideoQueue(List<BaseItemDto> items) {
+        if (items == null) {
+            clearVideoQueue();
+            return;
+        }
+
+        // protect against items secretly being an Arrays.asList(), which are fixed-size
+        List<BaseItemDto> newMutableItems = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++){
+            newMutableItems.add(items.get(i));
+        }
+        mCurrentVideoQueue = newMutableItems;
+    }
+
     public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
