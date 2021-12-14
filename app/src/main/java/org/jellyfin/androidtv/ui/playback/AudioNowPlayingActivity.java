@@ -44,6 +44,8 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
+import java.util.ArrayList;
+
 import kotlin.Lazy;
 import timber.log.Timber;
 
@@ -419,7 +421,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private String getArtistName(BaseItemDto item) {
-        return item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : item.getAlbumArtist();
+        String artistName = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : item.getAlbumArtist();
+        return artistName != null ? artistName : "";
     }
 
     private void updateInfo(BaseItemDto item) {
@@ -447,7 +450,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void addGenres(TextView textView) {
-        textView.setText(TextUtils.join(" / ", mBaseItem.getGenres()));
+        ArrayList<String> genres = mBaseItem.getGenres();
+        textView.setText(genres == null ? "" : TextUtils.join(" / ", genres));
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {

@@ -157,6 +157,10 @@ public class PlaybackController {
         return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }
 
+    public boolean hasInitializedVideoManager() {
+        return mVideoManager != null && mVideoManager.isInitialized() ? true : false;
+    }
+
     public MediaSourceInfo getCurrentMediaSource() {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
             return mCurrentStreamInfo.getMediaSource();
@@ -903,7 +907,16 @@ public class PlaybackController {
     }
 
     public void prev() {
-
+        Timber.d("Prev called.");
+        vlcErrorEncountered = false;
+        exoErrorEncountered = false;
+        if (mCurrentIndex > 0 && mItems.size() > 0) {
+            stop();
+            mCurrentIndex--;
+            Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
+            spinnerOff = false;
+            play(0);
+        }
     }
 
     public void fastForward() {
@@ -1065,7 +1078,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1130,15 +1143,18 @@ public class PlaybackController {
         }
 
         if (mCurrentIndex < 0) return;
-        for (int i = 0; i < mCurrentIndex; i++) {
-            mItems.remove(0);
+
+        // removing from mItems doesn't work properly when using remote control - modify via mediaManager instead
+        for (int i = 0; i < mCurrentIndex && i < mediaManager.getValue().getCurrentVideoQueue().size(); i++) {
+            mediaManager.getValue().getCurrentVideoQueue().remove(0);
         }
 
         //Now - look at last item played and, if beyond default resume point, remove it too
         Long duration = mCurrentStreamInfo != null ? mCurrentStreamInfo.getRunTimeTicks() : null;
-        if (duration != null && mItems.size() > 0) {
-            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mItems.remove(0);
-        } else if (duration == null) mItems.remove(0);
+        if (duration != null && mediaManager.getValue().getCurrentVideoQueue().size() > 0) {
+            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mediaManager.getValue().getCurrentVideoQueue().remove(0);
+        } else if (duration == null) mediaManager.getValue().getCurrentVideoQueue().remove(0);
+        setItems(mediaManager.getValue().getCurrentVideoQueue());
     }
 
     private void itemComplete() {
