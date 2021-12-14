@@ -830,9 +830,17 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private void addItemToQueue() {
-        if (mBaseItem.getBaseItemType() == BaseItemType.Audio) {
-            mediaManager.getValue().addToAudioQueue(Arrays.asList(mBaseItem));
-
+        if (mBaseItem.getBaseItemType() == BaseItemType.Audio || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+            if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                PlaybackHelper.getItemsToPlay(mBaseItem, false, false, new Response<List<BaseItemDto>>() {
+                    @Override
+                    public void onResponse(List<BaseItemDto> response) {
+                        mediaManager.getValue().addToAudioQueue(response);
+                    }
+                });
+            } else {
+                mediaManager.getValue().addToAudioQueue(Arrays.asList(mBaseItem));
+            }
         } else {
             mediaManager.getValue().addToVideoQueue(mBaseItem);
         }
@@ -982,7 +990,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     mDetailsOverviewRow.addAction(queueButton);
                 }
 
-                if (mBaseItem.getIsFolderItem()) {
+                if (mBaseItem.getIsFolderItem() || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
                     TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
