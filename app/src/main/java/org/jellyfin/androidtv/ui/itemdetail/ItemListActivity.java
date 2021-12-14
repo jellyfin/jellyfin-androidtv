@@ -289,7 +289,7 @@ public class ItemListActivity extends FragmentActivity {
         playFromHere.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                play(mItems.subList(row.getIndex(), mItems.size()));
+                play(mItems, row.getIndex());
                 return true;
             }
         });
@@ -511,6 +511,10 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void play(List<BaseItemDto> items) {
+        play(items, 0);
+    }
+
+    private void play(List<BaseItemDto> items, int ndx) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
 
@@ -527,7 +531,7 @@ public class ItemListActivity extends FragmentActivity {
             startActivity(intent);
 
         } else {
-            mediaManager.getValue().playNow(items);
+            mediaManager.getValue().playNow(items, ndx);
 
         }
 
