@@ -133,7 +133,10 @@ public class PlaybackHelper {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setMediaTypes(new String[]{"Audio"});
-                query.setSortBy(shuffle ? new String[] {ItemSortBy.Random} : mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album} : new String[] {ItemSortBy.SortName});
+                query.setSortBy(shuffle ?
+                        new String[] {ItemSortBy.Random} :
+                            mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.SortName,ItemSortBy.Album} :
+                                new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
