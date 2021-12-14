@@ -87,7 +87,8 @@ public class TvApiEventListener extends ApiEventListener {
                     mainThreadHandler.post(() -> mediaManager.stopAudio(true));
                 else {
                     Activity currentActivity = TvApp.getApplication().getCurrentActivity();
-
+                    if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
+                        mainThreadHandler.post(() -> playbackController.stop());
                     if(currentActivity instanceof PlaybackOverlayActivity)
                         currentActivity.finish();
                 }
@@ -167,8 +168,9 @@ public class TvApiEventListener extends ApiEventListener {
                     Timber.e("No current activity.  Cannot play");
                     return;
                 }
-                Timber.d("got queue start index: %S", command.getStartIndex());
-                Integer startIndex = command.getStartIndex();
+                int startIndex = command.getStartIndex() == null ? 0 : command.getStartIndex().intValue();
+                int startPosition = command.getStartPositionTicks() == null || command.getStartPositionTicks().longValue() == 0 ? 0 : new Long(command.getStartPositionTicks() / 10000L).intValue();
+                Timber.d("got queue start index: %s position %s", startIndex, startPosition);
                 StdItemQuery query = new StdItemQuery(new ItemFields[]{
                         ItemFields.MediaSources,
                         ItemFields.ChildCount
@@ -187,12 +189,12 @@ public class TvApiEventListener extends ApiEventListener {
                                     Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(response.getItems()[0].getBaseItemType());
                                     mediaManager.setCurrentVideoQueue(Arrays.asList(response.getItems()));
                                     Intent intent = new Intent(TvApp.getApplication().getCurrentActivity(), activity);
+                                    intent.putExtra("Position", startPosition);
                                     TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                     break;
                                 case "Audio":
-                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex != null ? startIndex.intValue() : 0);
+                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex);
                                     break;
-
                             }
                         }
                     }
@@ -202,7 +204,7 @@ public class TvApiEventListener extends ApiEventListener {
                 if (command.getItemIds().length > 0) {
                     Timber.i("Playing single item by remote request");
                     Context context = TvApp.getApplication().getCurrentActivity() != null ? TvApp.getApplication().getCurrentActivity() : TvApp.getApplication();
-                    PlaybackHelper.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks() != null ? command.getStartPositionTicks() : 0, context);
+                    PlaybackHelper.retrieveAndPlay(command.getItemIds()[0], false, command.getStartPositionTicks(), context);
                 }
             }
         });
