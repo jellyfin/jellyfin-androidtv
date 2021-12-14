@@ -47,7 +47,7 @@ public class TvApiEventListener extends ApiEventListener {
         this.mediaManager = mediaManager;
 
         //handler to interact with the players (exoplayer doesn't allow access from another thread)
-        this.mainThreadHandler = new Handler(Looper.getMainLooper());
+        mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
