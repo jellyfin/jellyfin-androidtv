@@ -539,6 +539,7 @@ public class ItemListActivity extends FragmentActivity {
 
     private void addButtons(int buttonSize) {
         if (BaseItemUtils.canPlay(mBaseItem)) {
+            // add play button but don't show and focus yet
             TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -551,7 +552,30 @@ public class ItemListActivity extends FragmentActivity {
             });
             play.setGotFocusListener(mainAreaFocusListener);
             mButtonRow.addView(play);
-            play.requestFocus();
+
+            boolean hidePlayButton = false;
+            TextUnderButton queueButton = null;
+            // add to queue if a queue exists and mBaseItem is a MusicAlbum
+            if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum && mediaManager.getValue().hasAudioQueueItems()) {
+                queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mediaManager.getValue().addToAudioQueue(mItems);
+                    }
+                });
+                hidePlayButton = true;
+                mButtonRow.addView(queueButton);
+                queueButton.setGotFocusListener(mainAreaFocusListener);
+            }
+
+            // hide the play button and show add to queue if eligible
+            if (hidePlayButton) {
+                play.setVisibility(View.GONE);
+                queueButton.requestFocus();
+            } else {
+                play.requestFocus();
+            }
+
             if (mBaseItem.getIsFolderItem()) {
                 TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
