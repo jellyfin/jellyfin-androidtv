@@ -104,7 +104,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean canSeek() {
-        return !DeviceUtils.isFireTv() && playbackController.canSeek();
+        return playbackController.canSeek();
     }
 
     boolean isLiveTv() {
