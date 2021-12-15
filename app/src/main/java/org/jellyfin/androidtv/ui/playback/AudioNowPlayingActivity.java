@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -101,6 +102,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
+    private PopupMenu mPopupMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,12 +132,18 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
+        mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
         mPrevButton = findViewById(R.id.prevBtn);
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().prevAudioItem();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().prevAudioItem();
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -143,7 +152,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().nextAudioItem();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().nextAudioItem();
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -152,8 +166,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().toggleRepeat();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().toggleRepeat();
+                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mSaveButton = findViewById(R.id.saveBtn);
@@ -161,7 +180,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().saveAudioQueue(mActivity);
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().saveAudioQueue(mActivity);
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -170,8 +194,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaManager.getValue().shuffleAudioQueue();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().shuffleAudioQueue();
+                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -180,9 +209,14 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent album = new Intent(mActivity, ItemListActivity.class);
-                album.putExtra("ItemId", mBaseItem.getAlbumId());
-                mActivity.startActivity(album);
+                if (ssActive) {
+                    stopScreenSaver();
+                    lastUserInteraction = System.currentTimeMillis();
+                } else {
+                    Intent album = new Intent(mActivity, ItemListActivity.class);
+                    album.putExtra("ItemId", mBaseItem.getAlbumId());
+                    mActivity.startActivity(album);
+                }
             }
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -191,11 +225,13 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+                if (ssActive) {
+                    stopScreenSaver();
+                    lastUserInteraction = System.currentTimeMillis();
+                } else if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
                     artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
                     mActivity.startActivity(artist);
-
                 }
             }
         });
@@ -208,8 +244,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
-                else mediaManager.getValue().resumeAudio();
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().playPauseAudio();
+                }
+                lastUserInteraction = System.currentTimeMillis();
             }
         });
 
@@ -241,6 +281,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         super.onResume();
         loadItem();
         rotateBackdrops();
+        lastUserInteraction = System.currentTimeMillis();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
         //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
@@ -255,6 +296,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        dismissPopup();
         mPoster.setKeepScreenOn(false);
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
         stopRotate();
@@ -341,6 +383,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         @Override
         public void onQueueReplaced() {
+            dismissPopup();
             mRowsAdapter.remove(mQueueRow);
             addQueue();
         }
@@ -353,8 +396,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
-            //also re-position queue to current in case they scrolled around
-            mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            if (mediaManager.getValue().hasAudioQueueItems()) {
+                //also re-position queue to current in case they scrolled around
+                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            }
         }
     };
 
@@ -378,6 +423,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void loadItem() {
+        dismissPopup();
         mBaseItem = mediaManager.getValue().getCurrentAudioItem();
         if (mBaseItem != null) {
             updatePoster();
@@ -460,7 +506,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, (BaseRowItem) item, mActivity);
+            lastUserInteraction = System.currentTimeMillis();
+            if (ssActive) {
+                stopScreenSaver();
+            } else {
+                mPopupMenu =  KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
+            }
         }
     }
 
@@ -501,7 +552,16 @@ public class AudioNowPlayingActivity extends BaseActivity {
         }
     }
 
+    private void dismissPopup() {
+        if (mPopupMenu != null) {
+            mPopupMenu.dismiss();
+            mPopupMenu = null;
+        }
+    }
+
     protected void startScreenSaver() {
+        if (ssActive) return;
+        dismissPopup();
         mArtistName.setAlpha(.3f);
         mGenreRow.setVisibility(View.INVISIBLE);
         mClock.setAlpha(.3f);
@@ -517,15 +577,23 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     protected void stopScreenSaver() {
+        if (!ssActive) return;
+        if (mediaManager.getValue().hasAudioQueueItems()) {
+            mPlayPauseButton.requestFocus();
+        }
         mLogoImage.setVisibility(View.GONE);
-        mSSArea.setAlpha(0f);
         mArtistName.setAlpha(1f);
         mGenreRow.setVisibility(View.VISIBLE);
         mClock.setAlpha(1f);
-        mScrollView.setAlpha(1f);
-        ssActive = false;
         setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
-
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mSSArea, "alpha", 1f, 0f);
+        fadeOut.setDuration(1000);
+        fadeOut.start();
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mScrollView, "alpha", 0f, 1f);
+        fadeIn.setDuration(1000);
+        fadeIn.start();
+        lastUserInteraction = System.currentTimeMillis();
+        ssActive = false;
     }
 
     protected void updateSSInfo() {
