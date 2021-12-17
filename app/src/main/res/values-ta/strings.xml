@@ -453,4 +453,18 @@
     <string name="licenses_link_description">ஜெல்லிஃபின் ஆப்ஸ் பயன்படுத்தும் நூலகங்களின் உரிமங்களைப் பார்க்கவும்</string>
     <string name="licenses_link">உரிமங்கள்</string>
     <string name="select_version">பதிப்பு</string>
+    <string name="searchable_settings_description">ஊடகம்</string>
+    <string name="searchable_hint">ஜெல்லிஃபினைத் தேடுங்கள்</string>
+    <string name="home_section_i">முகப்புப் பிரிவு %1$d</string>
+    <string name="home_section_none">எதுவும் இல்லை</string>
+    <string name="home_section_livetv">நேரலை தொலைக்காட்சி</string>
+    <string name="home_section_next_up">அடுத்தது</string>
+    <string name="home_section_active_recordings">செயலில் பதிவுகள்</string>
+    <string name="home_section_resume_audio">தொடர்ந்து கேளுங்கள்</string>
+    <string name="home_section_resume">தொடர்ந்து பார்க்கவும்</string>
+    <string name="home_section_library_small">எனது ஊடகம் (சிறியது)</string>
+    <string name="home_section_library">எனது ஊடகம்</string>
+    <string name="home_section_latest_media">சமீபத்திய ஊடகம்</string>
+    <string name="home_sections">முகப்பு பிரிவுகள்</string>
+    <string name="home_prefs">முகப்புத் திரை</string>
 </resources>
