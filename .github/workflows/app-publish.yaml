@@ -20,12 +20,21 @@ jobs:
       - name: Set JELLYFIN_VERSION
         run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
       - name: Assemble release files
-        run: ./gradlew --no-daemon --info assemble versionTxt
-      - name: Sign proprietary APK
-        id: sign
+        run: ./gradlew --no-daemon --info assemble bundleRelease versionTxt
+      - name: Sign APK
+        id: signApk
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Sign AAB
+        id: signAab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           alias: ${{ secrets.KEY_ALIAS }}
@@ -35,7 +44,8 @@ jobs:
           mkdir -p build/jellyfin-publish
           mv app/build/outputs/apk/*/jellyfin-androidtv-*-debug.apk build/jellyfin-publish/
           mv app/build/outputs/apk/*/jellyfin-androidtv-*-release-unsigned.apk build/jellyfin-publish/
-          mv ${{ steps.sign.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.apk
+          mv ${{ steps.signApk.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.apk
+          mv ${{ steps.signAab.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.aab
           mv app/build/version.txt build/jellyfin-publish/
       - name: Upload release archive to GitHub release
         uses: alexellis/upload-assets@0.3.0
