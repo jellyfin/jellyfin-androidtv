@@ -221,7 +221,7 @@ public class KeyProcessor {
         return false;
     }
 
-    private static void createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
+    public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
         BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
@@ -305,6 +305,7 @@ public class KeyProcessor {
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
+        return menu;
     }
 
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
