@@ -306,7 +306,7 @@ public class KeyProcessor {
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
-        return (menu);
+        return menu;
     }
 
     private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
