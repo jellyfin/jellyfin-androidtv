@@ -102,7 +102,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
-    private PopupMenu mPopupMenu;
+    private PopupMenu popupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -510,7 +510,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (ssActive) {
                 stopScreenSaver();
             } else {
-                mPopupMenu =  KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
+                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
             }
         }
     }
@@ -553,9 +553,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void dismissPopup() {
-        if (mPopupMenu != null) {
-            mPopupMenu.dismiss();
-            mPopupMenu = null;
+        if (popupMenu != null) {
+            popupMenu.dismiss();
+            popupMenu = null;
         }
     }
 

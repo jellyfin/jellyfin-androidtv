@@ -221,7 +221,6 @@ public class KeyProcessor {
         return false;
     }
 
-    // return the created PopupMenu so that the caller can dismiss it if needed
     public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
         BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
