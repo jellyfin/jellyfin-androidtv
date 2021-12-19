@@ -17,7 +17,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
-import androidx.window.WindowManager
+import androidx.window.layout.WindowMetricsCalculator
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
@@ -99,8 +99,8 @@ class BackgroundService(
 		backgroundDrawable.setDrawableByLayerId(R.id.background_static, windowBackground)
 
 		// Store size of window manager for this activity
-		windowSize = WindowManager(activity).getCurrentWindowMetrics().bounds.let {
-			Size(it.right, it.bottom)
+		windowSize = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity).let {
+			Size(it.bounds.width(), it.bounds.height())
 		}
 
 		// Add a fragment to the activity to automatically set the background on resume
