@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-	compileSdkVersion(30)
+	compileSdk = 30
 
 	defaultConfig {
-		minSdkVersion(21)
-		targetSdkVersion(30)
+		minSdk = 21
+		targetSdk = 30
 	}
 
 	buildFeatures {
@@ -17,6 +17,11 @@ android {
 
 	sourceSets["main"].java.srcDirs("src/main/kotlin")
 	sourceSets["test"].java.srcDirs("src/test/kotlin")
+
+	lint {
+		lintConfig = file("$rootDir/android-lint.xml")
+		isAbortOnError = false
+	}
 }
 
 dependencies {

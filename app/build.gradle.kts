@@ -1,16 +1,15 @@
 plugins {
 	id("com.android.application")
 	kotlin("android")
-	kotlin("plugin.serialization") version Plugins.Versions.kotlin
 	kotlin("kapt")
-	id("com.mikepenz.aboutlibraries.plugin")
+	alias(libs.plugins.kotlin.serialization)
+	alias(libs.plugins.aboutlibraries)
 }
 
 android {
 	compileSdk = 30
 
 	defaultConfig {
-		// Android version targets
 		minSdk = 21
 		targetSdk = 30
 

@@ -1,23 +1,14 @@
 plugins {
-	id("io.gitlab.arturbosch.detekt").version(Plugins.Versions.detekt)
-}
-
-allprojects {
-	repositories.defaultRepositories()
+	alias(libs.plugins.detekt)
 }
 
 buildscript {
-	repositories.defaultRepositories()
-
 	dependencies {
-		classpath(Plugins.androidBuildTools)
-		classpath(Plugins.kotlin)
-		classpath(Plugins.aboutLibraries)
+		classpath(libs.android.gradle)
+		classpath(libs.kotlin.gradle)
 	}
 }
 
-
-// Detekt configuration
 subprojects {
 	apply<io.gitlab.arturbosch.detekt.DetektPlugin>()
 
