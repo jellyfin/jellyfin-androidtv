@@ -309,9 +309,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             try {
                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
 
-                // reset position and state when changing video path so the player doesn't use the state and position from the prior media.
+                // reset position to the new videos default position
                 // exoplayer currently sees transcode streams as live windows, a fix is needed.
-                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)), true, true);
+                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)), true, false);
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
