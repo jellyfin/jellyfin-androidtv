@@ -192,6 +192,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var defaultSubtitlesSize = Preference.int("subtitles_size", 28)
 	}
 
+	override operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+		// Mock-able point for unit tests
+		return super.get(preference)
+	}
+
 	init {
 		// Note: Create a single migration per app version
 		// Note: Migrations are never executed for fresh installs
