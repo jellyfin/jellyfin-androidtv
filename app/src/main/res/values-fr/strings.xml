@@ -444,4 +444,6 @@
     <string name="enable_playback_module_title">Activer le nouveau module de lecture</string>
     <string name="lbl_community_rating">Note de la communauté</string>
     <string name="select_version">Version</string>
+    <string name="license_license">License</string>
+    <string name="license_author">Auteur</string>
 </resources>
