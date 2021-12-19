@@ -17,6 +17,11 @@ android {
 
 	sourceSets["main"].java.srcDirs("src/main/kotlin")
 	sourceSets["test"].java.srcDirs("src/test/kotlin")
+
+	lint {
+		lintConfig = file("$rootDir/android-lint.xml")
+		isAbortOnError = false
+	}
 }
 
 dependencies {
