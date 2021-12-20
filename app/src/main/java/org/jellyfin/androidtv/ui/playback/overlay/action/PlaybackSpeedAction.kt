@@ -13,8 +13,10 @@ import org.jellyfin.androidtv.ui.playback.VideoSpeedController
 
 class PlaybackSpeedAction(
 	context: Context,
-	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue
+	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
+	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
+	private val speedController = VideoSpeedController(playbackController)
 	private val speeds = VideoSpeedController.Companion.SpeedSteps.values()
 
 	init {
@@ -26,11 +28,10 @@ class PlaybackSpeedAction(
 		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context, view: View
 	) {
-		val speedController = VideoSpeedController(playbackController)
 		val speedMenu = populateMenu(context, view, speedController)
 
 		speedMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
-		
+
 		speedMenu.setOnMenuItemClickListener { menuItem ->
 			speedController.setNewSpeed(speeds[menuItem.itemId])
 			speedMenu.dismiss()

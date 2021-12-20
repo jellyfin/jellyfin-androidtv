@@ -86,6 +86,7 @@ public class PlaybackController {
     private VideoOptions mCurrentOptions;
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
+    private double mRequestedPlaybackSpeed = -1.0;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -155,7 +156,10 @@ public class PlaybackController {
     }
 
     public void setPlaybackSpeed(Double speed){
-        mVideoManager.setPlaybackSpeed(speed);
+        mRequestedPlaybackSpeed = speed;
+        if (hasInitializedVideoManager()) {
+            mVideoManager.setPlaybackSpeed(speed);
+        }
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
@@ -723,6 +727,7 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
+        mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 

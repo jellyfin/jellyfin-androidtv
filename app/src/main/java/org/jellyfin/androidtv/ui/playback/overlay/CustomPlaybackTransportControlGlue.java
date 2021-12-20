@@ -175,7 +175,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
-        playbackSpeedAction = new PlaybackSpeedAction(context, this);
+        playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
         playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
