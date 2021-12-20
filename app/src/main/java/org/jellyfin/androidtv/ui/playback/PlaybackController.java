@@ -154,6 +154,10 @@ public class PlaybackController {
         mPlaybackMethod = value;
     }
 
+    public void setPlaybackSpeed(float speed){
+        mVideoManager.setPlaybackSpeed(speed);
+    }
+
     public BaseItemDto getCurrentlyPlayingItem() {
         return mItems.size() > mCurrentIndex ? mItems.get(mCurrentIndex) : null;
     }

@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.playback
 
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import io.mockk.*
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -26,7 +24,6 @@ class PlaybackControllerTest : KoinTest {
 
 	// Koin managed modules
 	lateinit var mockUserPreferences: UserPreferences
-	lateinit var mockMediaManager: MediaManager
 
 	private fun prepDiMocks(): Module {
 		mockUserPreferences = mockk(relaxed = true)
@@ -54,6 +51,16 @@ class PlaybackControllerTest : KoinTest {
 	@Test
 	fun testPlaybackControllerConstruction() {
 		assertNotNull(playbackController)
+	}
+
+	@Test
+	fun testSetPlaybackSpeedForwardsToVideoManager(){
+		floatArrayOf(0.25F, 0.5F, 1.0F, 2.5F, 200.0F).forEach { i ->
+			val mockVideoManager = mockk<VideoManager>(relaxed = true)
+			playbackController.mVideoManager = mockVideoManager
+			playbackController.setPlaybackSpeed(i)
+			verify { mockVideoManager.setPlaybackSpeed(i) }
+		}
 	}
 
 }

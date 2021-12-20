@@ -409,6 +409,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
+    public void setPlaybackSpeed(float speed){
+        if (nativeMode){
+            mExoPlayer.setPlaybackSpeed(speed);
+        } else {
+            mVlcPlayer.setRate(speed);
+        }
+    }
+
     public void setAudioDelay(long value) {
         if (!nativeMode && mVlcPlayer != null) {
             if (!mVlcPlayer.setAudioDelay(value * 1000)) {
