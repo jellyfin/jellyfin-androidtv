@@ -148,4 +148,20 @@ fun OptionsScreen.playbackCategory(
 		}
 		depends { userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL }
 	}
+	
+	checkbox {
+		setTitle(R.string.pref_subtitles_background_title)
+		setContent(R.string.pref_subtitles_background_summary)
+		bind(userPreferences, UserPreferences.subtitlesBackgroundEnabled)
+	}
+
+	seekbar {
+		setTitle(R.string.pref_subtitles_size)
+		min = 18
+		max = 38
+		valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+			override fun display(value: Int) = "${value}"
+		}
+		bind(userPreferences, UserPreferences.defaultSubtitlesSize)
+	}
 }

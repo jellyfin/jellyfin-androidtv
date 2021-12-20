@@ -464,4 +464,7 @@
     <string name="home_section_i">Home section %1$d</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="searchable_settings_description">Media</string>
+    <string name="pref_subtitles_background_title">Subtitles background</string>
+    <string name="pref_subtitles_background_summary">Show a black background behind the subtitles</string>
+    <string name="pref_subtitles_size">Subtitles font size</string>
 </resources>
