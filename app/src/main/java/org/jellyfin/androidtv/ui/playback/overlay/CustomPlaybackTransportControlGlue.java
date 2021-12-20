@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.ChannelBarChannelAction
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChapterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ClosedCaptionsAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.GuideAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
@@ -48,6 +49,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
+    private PlaybackSpeedAction playbackSpeedAction;
     private AdjustAudioDelayAction adjustAudioDelayAction;
     private ZoomAction zoomAction;
     private ChapterAction chapterAction;
@@ -173,6 +175,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
+        playbackSpeedAction = new PlaybackSpeedAction(context, this);
+        playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
         zoomAction = new ZoomAction(context, this);
@@ -218,6 +222,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (hasSubs()) {
             primaryActionsAdapter.add(closedCaptionsAction);
         }
+
+        primaryActionsAdapter.add(playbackSpeedAction);
 
         if (hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
@@ -282,6 +288,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == closedCaptionsAction) {
             leanbackOverlayFragment.setFading(false);
             closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+        } else if (action == playbackSpeedAction) {
+            leanbackOverlayFragment.setFading(false);
+            playbackSpeedAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
         } else if (action == adjustAudioDelayAction) {
             leanbackOverlayFragment.setFading(false);
             adjustAudioDelayAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
