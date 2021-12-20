@@ -154,7 +154,7 @@ public class PlaybackController {
         mPlaybackMethod = value;
     }
 
-    public void setPlaybackSpeed(float speed){
+    public void setPlaybackSpeed(Double speed){
         mVideoManager.setPlaybackSpeed(speed);
     }
 

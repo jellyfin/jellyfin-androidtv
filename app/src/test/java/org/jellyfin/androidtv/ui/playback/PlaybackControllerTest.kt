@@ -54,8 +54,8 @@ class PlaybackControllerTest : KoinTest {
 	}
 
 	@Test
-	fun testSetPlaybackSpeedForwardsToVideoManager(){
-		floatArrayOf(0.25F, 0.5F, 1.0F, 2.5F, 200.0F).forEach { i ->
+	fun testSetPlaybackSpeedForwardsToVideoManager() {
+		doubleArrayOf(0.25, 0.5, 1.0, 2.5, 200.0).forEach { i ->
 			val mockVideoManager = mockk<VideoManager>(relaxed = true)
 			playbackController.mVideoManager = mockVideoManager
 			playbackController.setPlaybackSpeed(i)
