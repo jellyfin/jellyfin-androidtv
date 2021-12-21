@@ -384,7 +384,7 @@
     <string name="image_size_small">Мелкий</string>
     <string name="image_size_auto">По умолчанию</string>
     <string name="image_type_banner">Баннер</string>
-    <string name="image_type_thumbnail">Эскиз</string>
+    <string name="image_type_thumbnail">Бегунок</string>
     <string name="image_type_default">По умолчанию</string>
     <string name="lbl_use_series_thumbnails_description">Использовать бегунки сериалов при отображении эпизодов</string>
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
