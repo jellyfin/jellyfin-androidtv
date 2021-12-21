@@ -363,7 +363,7 @@
     <string name="lbl_episode_number">E%1$d</string>
     <string name="pref_theme_muted_purple">Muted Purple</string>
     <string name="lbl_user_server">%2$s\'da %1$s</string>
-    <string name="lbl_tomatoes">Tomatoes</string>
+    <string name="lbl_tomatoes">Domatesler</string>
     <string name="searchable_settings_description">Medya</string>
     <string name="searchable_hint">Jellyfin\'de ara</string>
     <string name="home_section_i">Ana Ekran bölümü %1$d</string>
