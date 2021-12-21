@@ -154,7 +154,7 @@
     <string name="msg_subtitles_loading">Subtitles loading…</string>
     <string name="lbl_display_preferences">Display Preferences</string>
     <string name="lbl_rating">Rating</string>
-    <string name="lbl_critic_rating">Critic Rating</string>
+    <string name="lbl_critic_rating">Critics Rating</string>
     <string name="lbl_premier_date">Premier Date</string>
     <string name="lbl_date_added">Date Added</string>
     <string name="lbl_name">Name</string>
