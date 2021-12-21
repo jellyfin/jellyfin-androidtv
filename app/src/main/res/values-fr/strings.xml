@@ -446,4 +446,20 @@
     <string name="select_version">Version</string>
     <string name="license_license">License</string>
     <string name="license_author">Auteur</string>
+    <string name="searchable_settings_description">Média</string>
+    <string name="home_section_none">Aucun</string>
+    <string name="home_section_next_up">À suivre</string>
+    <string name="home_section_active_recordings">Enregistrements actifs</string>
+    <string name="home_section_resume_audio">Poursuivre l\'écoute</string>
+    <string name="home_section_resume">Poursuivre le visionnage</string>
+    <string name="home_section_library_small">Mes médias (Petit)</string>
+    <string name="home_section_library">Mon média</string>
+    <string name="home_prefs">Accueil</string>
+    <string name="license_repository">Dépôt</string>
+    <string name="license_website">Site internet</string>
+    <string name="license_artifact">Artefact</string>
+    <string name="license_version">Version</string>
+    <string name="license_description">Description</string>
+    <string name="licenses_link_description">Voir les licences des bibliothèques utilisées dans l\'application Jellyfin</string>
+    <string name="licenses_link">Licences</string>
 </resources>
