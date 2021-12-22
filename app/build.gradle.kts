@@ -159,5 +159,6 @@ dependencies {
 	// Testing
 	testImplementation(libs.kotest.runner.junit5)
 	testImplementation(libs.kotest.assertions)
+	testImplementation(libs.kotlinx.coroutines.test)
 	testImplementation(libs.mockk)
 }

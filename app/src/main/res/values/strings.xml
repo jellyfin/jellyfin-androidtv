@@ -486,4 +486,6 @@
     <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
     <string name="home_section_resume_book">Continue reading</string>
+    <string name="toast_disconnected_network">Network Unavailable</string>
+    <string name="toast_connected_network">Network Reconnected</string>
 </resources>
