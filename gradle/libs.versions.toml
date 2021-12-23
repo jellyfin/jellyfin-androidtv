@@ -110,6 +110,8 @@ android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref =
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 
 [bundles]
 acra = [
