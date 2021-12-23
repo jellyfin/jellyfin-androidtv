@@ -132,7 +132,19 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         mPlayPauseButton = findViewById(R.id.playPauseBtn);
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
+        mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ssActive) {
+                    stopScreenSaver();
+                } else {
+                    mediaManager.getValue().playPauseAudio();
+                }
+                lastUserInteraction = System.currentTimeMillis();
+            }
+        });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mPrevButton = findViewById(R.id.prevBtn);
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +159,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mNextButton = findViewById(R.id.nextBtn);
         mNextButton.setContentDescription(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +174,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mRepeatButton = findViewById(R.id.repeatBtn);
         mRepeatButton.setContentDescription(getString(R.string.lbl_repeat));
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +189,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 lastUserInteraction = System.currentTimeMillis();
             }
         });
+        mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mSaveButton = findViewById(R.id.saveBtn);
         mSaveButton.setContentDescription(getString(R.string.lbl_save_as_playlist));
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +204,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 lastUserInteraction = System.currentTimeMillis();
             }
         });
-        mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
+        mSaveButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mShuffleButton = findViewById(R.id.shuffleBtn);
         mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +221,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mAlbumButton = findViewById(R.id.albumBtn);
         mAlbumButton.setContentDescription(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +238,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             }
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
+
         mArtistButton = findViewById(R.id.artistBtn);
         mArtistButton.setContentDescription(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
@@ -240,18 +259,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mCurrentProgress = findViewById(R.id.playerProgress);
         mCurrentPos = findViewById(R.id.currentPos);
         mRemainingTime = findViewById(R.id.remainingTime);
-
-        mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().playPauseAudio();
-                }
-                lastUserInteraction = System.currentTimeMillis();
-            }
-        });
 
         backgroundService.getValue().attach(this);
         mMetrics = new DisplayMetrics();
@@ -392,7 +399,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private View.OnFocusChangeListener mainAreaFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if (!hasFocus) return;
+            if (!hasFocus) {
+                // when the playback control buttons lose focus, the only other focusable object is the queue row.
+                // Scroll to the bottom of the scrollView
+                mScrollView.smoothScrollTo(0, mScrollView.getHeight() - 1);
+                return;
+            }
 
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
