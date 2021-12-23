@@ -5,7 +5,6 @@ import android.os.Build;
 import java.util.Arrays;
 
 public class DeviceUtils {
-
     // Chromecast with Google TV
     private static final String CHROMECAST_GOOGLE_TV = "Chromecast";
 
@@ -26,7 +25,7 @@ public class DeviceUtils {
     // Nvidia Shield TV Model
     private static final String SHIELD_TV_MODEL = "SHIELD Android TV";
 
-    static String getBuildModel(){
+    static String getBuildModel() {
         // Stub to allow for mock injection
         return Build.MODEL;
     }
@@ -53,18 +52,17 @@ public class DeviceUtils {
 
     public static boolean has4kVideoSupport() {
         return getBuildModel() != null && !Arrays.asList(
-            // These devices only support a max video resolution of 1080p
-            FIRE_STICK_MODEL_GEN_1,
-            FIRE_STICK_MODEL_GEN_2,
-            FIRE_STICK_MODEL_GEN_3,
-            FIRE_STICK_LITE_MODEL,
-            FIRE_TV_MODEL_GEN_1,
-            FIRE_TV_MODEL_GEN_2
+                // These devices only support a max video resolution of 1080p
+                FIRE_STICK_MODEL_GEN_1,
+                FIRE_STICK_MODEL_GEN_2,
+                FIRE_STICK_MODEL_GEN_3,
+                FIRE_STICK_LITE_MODEL,
+                FIRE_TV_MODEL_GEN_1,
+                FIRE_TV_MODEL_GEN_2
         ).contains(getBuildModel());
     }
 
     public static boolean is60() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
-
 }

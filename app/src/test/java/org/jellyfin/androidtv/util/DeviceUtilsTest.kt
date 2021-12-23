@@ -1,26 +1,26 @@
 package org.jellyfin.androidtv.util
 
 import android.os.Build
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import org.junit.After
-import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Test
 
 class DeviceUtilsTest {
 	@After
-	fun tearDown(){
-		unmockkAll()
-	}
+	fun tearDown() = unmockkAll()
 
 	@Test
-	fun testBuildModelIsNull(){
+	fun testBuildModelIsNull() {
 		// A number of the tests below rely on the assumption
 		// that Build.MODEL is null in unit tests
 		assertNull(Build.MODEL)
 	}
 
 	@Test
-	fun testMethodsCanHandleNullModel(){
+	fun testMethodsCanHandleNullModel() {
 		// Methods that implicitly rely on Build.MODEL
 		val methods = arrayOf(
 			DeviceUtils::isChromecastWithGoogleTV,
@@ -31,33 +31,33 @@ class DeviceUtilsTest {
 			DeviceUtils::has4kVideoSupport
 		)
 
-		for(method in methods){
+		for (method in methods) {
 			assertFalse(method())
 		}
 	}
 
-	private fun mockBuildModel(mockedVal: String?){
+	private fun mockBuildModel(mockedVal: String?) {
 		mockkStatic(DeviceUtils::class)
 		every { DeviceUtils.getBuildModel() } returns mockedVal
 	}
 
 	@Test
-	fun testIsChromecastGoogleTvTrue(){
+	fun testIsChromecastGoogleTvTrue() {
 		mockBuildModel("Chromecast")
 		assertTrue(DeviceUtils.isChromecastWithGoogleTV())
 	}
 
 	@Test
-	fun testIsFireTV(){
+	fun testIsFireTV() {
 		val acceptableInputs = arrayOf("AFT", "AFT_foo", "AFT ", "AFT2")
-		for (input in acceptableInputs){
+		for (input in acceptableInputs) {
 			mockBuildModel(input)
 			assertTrue(DeviceUtils.isFireTv())
 		}
 	}
 
 	@Test
-	fun testIsFireTVGen1(){
+	fun testIsFireTVGen1() {
 		mockBuildModel("AFTM")
 		assertTrue(DeviceUtils.isFireTv())
 		assertTrue(DeviceUtils.isFireTvStickGen1())
@@ -65,7 +65,7 @@ class DeviceUtilsTest {
 	}
 
 	@Test
-	fun testIsFireTV4k(){
+	fun testIsFireTV4k() {
 		mockBuildModel("AFTMM")
 		assertTrue(DeviceUtils.isFireTv())
 		assertTrue(DeviceUtils.isFireTvStick4k())
@@ -73,17 +73,17 @@ class DeviceUtilsTest {
 	}
 
 	@Test
-	fun testIsShieldTv(){
+	fun testIsShieldTv() {
 		mockBuildModel("SHIELD Android TV")
 		assertTrue(DeviceUtils.isShieldTv())
 	}
 
 	@Test
-	fun testDisabled4kModels(){
+	fun testDisabled4kModels() {
 		val fire1080pSticks = arrayOf(
 			"AFTM", "AFTT", "AFTSSS", "AFTSS", "AFTB", "AFTS"
 		)
-		for (input in fire1080pSticks){
+		for (input in fire1080pSticks) {
 			mockBuildModel(input)
 			assertFalse(input, DeviceUtils.has4kVideoSupport())
 		}
