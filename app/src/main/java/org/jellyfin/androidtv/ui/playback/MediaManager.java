@@ -342,6 +342,10 @@ public class MediaManager {
     private void startProgressLoop() {
         stopProgressLoop();
         Timber.i("starting progress loop");
+        for (AudioEventListener listener : mAudioEventListeners) {
+            Timber.i("Firing playback state change listener for item: %s", mCurrentAudioItem.getName());
+            listener.onPlaybackStateChange(isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.PAUSED, mCurrentAudioItem);
+        }
         progressLoop = new Runnable() {
             @Override
             public void run() {
@@ -705,10 +709,6 @@ public class MediaManager {
                 dataRefreshService.setLastMusicPlayback(System.currentTimeMillis());
 
                 ReportingHelper.reportStart(item, mCurrentAudioPosition * 10000);
-                for (AudioEventListener listener : mAudioEventListeners) {
-                    Timber.i("Firing playback state change listener for item start. %s", mCurrentAudioItem.getName());
-                    listener.onPlaybackStateChange(PlaybackController.PlaybackState.PLAYING, mCurrentAudioItem);
-                }
             }
 
             @Override
