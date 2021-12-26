@@ -608,6 +608,10 @@ public class MediaManager {
     }
 
     private void playNowInternal(List<BaseItemDto> items, int position) {
+        // stop current item before queue is cleared so it can still be referenced
+        if (isPlayingAudio()) {
+            stopAudio(false);
+        }
         clearUnShuffledQueue();
         createAudioQueue(items);
         if (!(position > 0 && playFrom(position))) {
