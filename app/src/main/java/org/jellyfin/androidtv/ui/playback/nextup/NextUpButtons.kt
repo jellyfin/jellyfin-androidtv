@@ -41,8 +41,8 @@ class NextUpButtons(
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()
 
-		// for some reason a timer duration of 0s == 100
-		if (duration == 100L) {
+		// value of 0 disables timer
+		if (duration == 0L) {
 			return false
 		}
 
