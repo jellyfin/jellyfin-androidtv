@@ -291,13 +291,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
         lastUserInteraction = System.currentTimeMillis();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
-        //Make sure our initial button state reflects playback properly accounting for late loading of the audio stream
-        mLoopHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                updateButtons(mediaManager.getValue().isPlayingAudio());
-            }
-        }, 750);
+        if (mediaManager.getValue().getIsAudioPlayerInitialized()) {
+            updateButtons(mediaManager.getValue().isPlayingAudio());
+        }
     }
 
     @Override
@@ -380,9 +376,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         @Override
         public void onQueueStatusChanged(boolean hasQueue) {
+            Timber.d("Queue status changed");
             if (hasQueue) {
                 loadItem();
-                updateButtons(mediaManager.getValue().isPlayingAudio());
+                if (mediaManager.getValue().getIsAudioPlayerInitialized()) {
+                    updateButtons(mediaManager.getValue().isPlayingAudio());
+                }
             } else {
                 finish(); // entire queue removed nothing to do here
             }
@@ -452,6 +451,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void updateButtons(final boolean playing) {
+        Timber.d("Updating buttons");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
