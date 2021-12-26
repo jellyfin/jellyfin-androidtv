@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
@@ -151,11 +152,11 @@ public class PlaybackController {
         return mPlaybackMethod;
     }
 
-    public void setPlaybackMethod(PlayMethod value) {
+    public void setPlaybackMethod(@NonNull PlayMethod value) {
         mPlaybackMethod = value;
     }
 
-    public void setPlaybackSpeed(Double speed){
+    public void setPlaybackSpeed(@NonNull Double speed) {
         mRequestedPlaybackSpeed = speed;
         if (hasInitializedVideoManager()) {
             mVideoManager.setPlaybackSpeed(speed);

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -143,8 +144,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public boolean isNativeMode() { return nativeMode; }
-    public int getZoomMode() { return mZoomMode; }
+    public boolean isNativeMode() {
+        return nativeMode;
+    }
+
+    public int getZoomMode() {
+        return mZoomMode;
+    }
 
     public void setZoom(int mode) {
         mZoomMode = mode;
@@ -175,7 +181,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long getDuration() {
-        if (nativeMode){
+        if (nativeMode) {
             return mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
         } else {
             return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
@@ -285,13 +291,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mLastTime = mVlcPlayer.getTime();
             Timber.i("VLC length in seek is: %d", mVlcPlayer.getLength());
             try {
-                if (getDuration() > 0) mVlcPlayer.setPosition((float)pos / getDuration()); else mVlcPlayer.setTime(pos);
+                if (getDuration() > 0) mVlcPlayer.setPosition((float) pos / getDuration());
+                else mVlcPlayer.setTime(pos);
 
                 return pos;
 
             } catch (Exception e) {
                 Timber.e(e, "Error seeking in VLC");
-                Utils.showToast(mActivity,  mActivity.getString(R.string.seek_error));
+                Utils.showToast(mActivity, mActivity.getString(R.string.seek_error));
                 return -1;
             }
         }
@@ -349,7 +356,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             } catch (IndexOutOfBoundsException e) {
                 Timber.e("Could not locate subtitle with index %s in vlc track info", index);
                 return false;
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
                 return false;
             }
@@ -387,7 +394,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.e("Could not locate audio with index %s in vlc track info", ndx);
                 mVlcPlayer.setAudioTrack(ndx);
                 return;
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
                 mVlcPlayer.setAudioTrack(vlcIndex);
                 return;
@@ -409,8 +416,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public void setPlaybackSpeed(Double speed){
-        if (nativeMode){
+    public void setPlaybackSpeed(@NonNull Double speed) {
+        if (nativeMode) {
             mExoPlayer.setPlaybackSpeed(speed.floatValue());
         } else {
             mVlcPlayer.setRate(speed.floatValue());
@@ -445,7 +452,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void setVlcAudioOptions() {
-        if(!Utils.downMixAudio()) {
+        if (!Utils.downMixAudio()) {
             mVlcPlayer.setAudioDigitalOutputEnabled(true);
         } else {
             setCompatibleAudio();
@@ -552,7 +559,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         Activity activity = TvApp.getApplication().getCurrentActivity();
         int sw = activity.getWindow().getDecorView().getWidth();
         int sh = activity.getWindow().getDecorView().getHeight();
-        float ar = (float)sw / sh;
+        float ar = (float) sw / sh;
         lp.height = height;
         lp.width = (int) Math.ceil(height * ar);
         lp.rightMargin = ((lp.width - normalWidth) / 2) - 110;
@@ -618,10 +625,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         double ar;
         if (sarDen == sarNum) {
             /* No indication about the density, assuming 1:1 */
-            ar = (double)videoVisibleWidth / (double)videoVisibleHeight;
+            ar = (double) videoVisibleWidth / (double) videoVisibleHeight;
         } else {
             /* Use the specified aspect ratio */
-            double vw = videoVisibleWidth * (double)sarNum / sarDen;
+            double vw = videoVisibleWidth * (double) sarNum / sarDen;
             ar = vw / videoVisibleHeight;
         }
 
@@ -635,7 +642,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         // set display size
         ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
-        lp.width  = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
+        lp.width = (int) Math.ceil(dw * videoWidth / videoVisibleWidth);
         lp.height = (int) Math.ceil(dh * videoHeight / videoVisibleHeight);
         normalWidth = lp.width;
         normalHeight = lp.height;
@@ -679,6 +686,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     private PlaybackListener progressListener;
     private Runnable progressLoop;
+
     private void startProgressLoop() {
         progressLoop = new Runnable() {
             @Override
@@ -724,7 +732,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mVideoHeight = height;
         mVideoWidth = width;
         mVideoVisibleHeight = visibleHeight;
-        mVideoVisibleWidth  = visibleWidth;
+        mVideoVisibleWidth = visibleWidth;
         mSarNum = sarNum;
         mSarDen = sarDen;
 

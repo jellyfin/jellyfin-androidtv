@@ -1,15 +1,15 @@
 package org.jellyfin.androidtv.ui.playback.overlay.action
 
 import android.content.Context
-import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
-import org.jellyfin.androidtv.ui.playback.PlaybackController
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoSpeedController
+import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
+import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
+import java.util.*
 
 class PlaybackSpeedAction(
 	context: Context,
@@ -48,8 +48,9 @@ class PlaybackSpeedAction(
 	): PopupMenu {
 		val speedMenu = PopupMenu(context, view, Gravity.END)
 		val menu = speedMenu.menu
-		speeds.forEachIndexed { i, speed ->
-			menu.add(0, i, i, String.format("%.2fx", speed.value))
+		speeds.forEachIndexed { i, selected ->
+			// Since this is purely numeric data, coerce to en_us to keep the linter happy
+			menu.add(0, i, i, String.format(Locale.US, "%.2fx", selected.speed))
 		}
 
 		menu.setGroupCheckable(0, true, true)

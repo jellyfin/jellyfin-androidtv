@@ -1,10 +1,12 @@
 package org.jellyfin.androidtv.ui.playback
 
-import io.mockk.*
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.Assert.*
-import kotlin.math.exp
 
 class VideoSpeedControllerTest {
 	@After
@@ -19,7 +21,7 @@ class VideoSpeedControllerTest {
 		val expectedStep = 0.25
 		var i = 1
 		speedSteps.forEach { v ->
-			assertEquals(i * expectedStep, v.value, 0.001)
+			assertEquals(i * expectedStep, v.speed, 0.001)
 			i += 1
 		}
 	}
@@ -37,7 +39,7 @@ class VideoSpeedControllerTest {
 	}
 
 	@Test
-	fun testSetNewSpeed(){
+	fun testSetNewSpeed() {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val controller = VideoSpeedController(mockController)
 		val expected = VideoSpeedController.Companion.SpeedSteps.SPEED_1_25
@@ -56,7 +58,7 @@ class VideoSpeedControllerTest {
 		controller.setNewSpeed(expected)
 
 		verify { mockController.setPlaybackSpeed(any()) }
-		assertEquals(expected.value, slot.captured, 0.0001)
+		assertEquals(expected.speed, slot.captured, 0.0001)
 	}
 
 	@Test
@@ -70,7 +72,11 @@ class VideoSpeedControllerTest {
 		VideoSpeedController(mockController)
 
 		verify { mockController.setPlaybackSpeed(any()) }
-		assertEquals(VideoSpeedController.Companion.SpeedSteps.SPEED_1_00.value, slot.captured, 0.0001)
+		assertEquals(
+			VideoSpeedController.Companion.SpeedSteps.SPEED_1_00.speed,
+			slot.captured,
+			0.0001
+		)
 	}
 
 
@@ -90,7 +96,7 @@ class VideoSpeedControllerTest {
 			assertEquals(lastSetSpeed, slot.captured, 0.001)
 
 			controller.setNewSpeed(newSpeed)
-			lastSetSpeed = newSpeed.value
+			lastSetSpeed = newSpeed.speed
 		}
 	}
 
