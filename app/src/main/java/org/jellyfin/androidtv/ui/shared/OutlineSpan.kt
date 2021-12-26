@@ -8,9 +8,7 @@ import android.text.style.ReplacementSpan
 /**
  * A class that draws the outlines of a text
  */
-class OutlineSpan(
-): ReplacementSpan() {
-
+class OutlineSpan : ReplacementSpan() {
 	override fun getSize(
 		paint: Paint,
 		text: CharSequence,
@@ -40,15 +38,18 @@ class OutlineSpan(
 		bottom: Int,
 		paint: Paint
 	) {
-		val initialColor = paint.color
 
-		paint.color = Color.BLACK
-		paint.style = Paint.Style.STROKE
-		paint.strokeWidth = 4f
-		canvas.drawText(text, start, end, x, y.toFloat(), paint)
+		val strokePaint = paint.apply {
+			color = Color.BLACK
+			style = Paint.Style.STROKE
+			strokeWidth = 4f
+		}
+		canvas.drawText(text, start, end, x, y.toFloat(), strokePaint)
 
-		paint.color = initialColor
-		paint.style = Paint.Style.FILL
-		canvas.drawText(text, start, end, x, y.toFloat(), paint)
+		val fillPaint = paint.apply {
+			color = Color.WHITE
+			style = Paint.Style.FILL
+		}
+		canvas.drawText(text, start, end, x, y.toFloat(), fillPaint)
 	}
 }

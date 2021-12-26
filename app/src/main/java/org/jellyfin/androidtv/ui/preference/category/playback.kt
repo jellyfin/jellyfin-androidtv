@@ -159,9 +159,6 @@ fun OptionsScreen.playbackCategory(
 		setTitle(R.string.pref_subtitles_size)
 		min = 18
 		max = 38
-		valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-			override fun display(value: Int) = "${value}"
-		}
 		bind(userPreferences, UserPreferences.defaultSubtitlesSize)
 	}
 }
