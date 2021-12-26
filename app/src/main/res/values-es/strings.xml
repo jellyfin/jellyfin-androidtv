@@ -465,5 +465,6 @@
     <string name="home_section_library_small">Mis contenidos (pequeño)</string>
     <string name="home_section_latest_media">Últimos contenidos</string>
     <string name="home_section_library">Mi contenido</string>
-    <string name="home_section_none">Nada</string>
+    <string name="home_section_none">Ninguna</string>
+    <string name="home_section_i">Sección Principal %1$d</string>
 </resources>
