@@ -55,9 +55,12 @@ fun OptionsScreen.playbackCategory(
 		setContent(R.string.pref_next_up_timeout_summary)
 		min = 0
 		max = 30000
-		increment = 1000
+		increment = 3000
 		valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-			override fun display(value: Int) = if (value == 0) "∞" else "${value / 1000}s"
+			override fun display(value: Int) = when {
+				value == 0 -> "∞" // disables the timer and displays infinity character
+				else -> "${value / 1000}s"
+			}
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
 		depends { userPreferences[UserPreferences.mediaQueuingEnabled]

@@ -64,7 +64,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Next up timeout before playing next item
 		 * Stored in milliseconds
 		 */
-		var nextUpTimeout = Preference.int("next_up_timeout", 1000 * 7)
+		var nextUpTimeout = Preference.int("next_up_timeout", 1000 * 6)
 
 		/**
 		 * Duration in seconds to subtract from resume time
