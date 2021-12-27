@@ -14,7 +14,7 @@ abstract class DisplayPreferencesStore(
 	private val api: ApiClient,
 ) : AsyncPreferenceStore {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
-	private var cachedPreferences: MutableMap<String, String> = mutableMapOf()
+	private var cachedPreferences: MutableMap<String, String?> = mutableMapOf()
 	override val shouldUpdate: Boolean
 		get() = displayPreferencesDto == null
 
@@ -56,7 +56,7 @@ abstract class DisplayPreferencesStore(
 				client = app
 			)
 			displayPreferencesDto = result
-			cachedPreferences = result.customPrefs?.toMutableMap() ?: cachedPreferences
+			cachedPreferences = result.customPrefs.toMutableMap()
 
 			return true
 		} catch (err: ApiClientException) {
@@ -118,6 +118,7 @@ abstract class DisplayPreferencesStore(
 	private fun DisplayPreferencesDto.Companion.empty() = DisplayPreferencesDto(
 		primaryImageHeight = 0,
 		primaryImageWidth = 0,
+		customPrefs = emptyMap(),
 		rememberIndexing = false,
 		scrollDirection = ScrollDirection.HORIZONTAL,
 		rememberSorting = false,
