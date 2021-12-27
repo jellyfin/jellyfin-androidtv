@@ -18,11 +18,9 @@ class NextUpFragment : Fragment(), KoinComponent {
 	private lateinit var binding: FragmentNextUpBinding
 	private val backgroundService: BackgroundService by inject()
 	private var timerStarted = false
-	private var duration = 0L;
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
-		duration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
 
 		viewModel.item.observe(viewLifecycleOwner) { data ->
 			// No data, keep current
