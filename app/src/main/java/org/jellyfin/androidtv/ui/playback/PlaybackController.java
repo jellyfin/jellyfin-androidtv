@@ -367,6 +367,9 @@ public class PlaybackController {
 
                 // set mSeekedPosition so the seekbar will not default to 0:00
                 mSeekedPosition = position;
+                if (mFragment != null) {
+                    mFragment.setFadingEnabled(false);
+                }
 
                 BaseItemDto item = getCurrentlyPlayingItem();
 
@@ -467,7 +470,6 @@ public class PlaybackController {
                 mPlaybackState = PlaybackState.BUFFERING;
                 if (mFragment != null) {
                     mFragment.setPlayPauseActionState(0);
-                    mFragment.setFadingEnabled(true);
                     mFragment.setCurrentTime(position);
                 }
 
@@ -1216,6 +1218,8 @@ public class PlaybackController {
             public void onEvent() {
 
                 if (mPlaybackState == PlaybackState.BUFFERING) {
+                    if (mFragment != null) mFragment.setFadingEnabled(true);
+
                     mPlaybackState = PlaybackState.PLAYING;
                     mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();

@@ -555,14 +555,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     if (!mPlaybackController.isLiveTv()) {
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
                             mPlaybackController.fastForward();
-                            if (!mIsVisible) show();
                             setFadingEnabled(true);
                             return true;
                         }
 
                         if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
                             mPlaybackController.rewind();
-                            if (!mIsVisible) show();
                             setFadingEnabled(true);
                             return true;
                         }
@@ -571,13 +569,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     if (!mIsVisible) {
                         if (!mPlaybackController.isLiveTv()) {
                             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                                mIsVisible = true;
                                 setFadingEnabled(true);
                                 return true;
                             }
 
                             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                                mIsVisible = true;
                                 setFadingEnabled(true);
                                 return true;
                             }
@@ -661,11 +657,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Timber.e("Unable to get audio focus");
             Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
             return;
-        }
-
-        if (!mIsVisible) {
-            show(); // in case we were paused during video playback
-            setFadingEnabled(true);
         }
     }
 
@@ -1265,11 +1256,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void setFadingEnabled(boolean value) {
         mFadeEnabled = value;
+        if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         if (mFadeEnabled) {
-            if (mIsVisible) startFadeTimer();
+            startFadeTimer();
         } else {
             mHandler.removeCallbacks(mHideTask);
-            if (!mIsVisible) requireActivity().runOnUiThread(this::show);
         }
     }
 
