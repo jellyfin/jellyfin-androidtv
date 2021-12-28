@@ -467,4 +467,7 @@
     <string name="home_prefs">Domů</string>
     <string name="searchable_settings_description">Média</string>
     <string name="searchable_hint">Hledat v Jellyfin</string>
+    <string name="pref_subtitles_size">Velikost titulků</string>
+    <string name="pref_subtitles_background_summary">Zobrazit černé pozadí pod titulky</string>
+    <string name="pref_subtitles_background_title">Zobrazit pozadí u titulků</string>
 </resources>
