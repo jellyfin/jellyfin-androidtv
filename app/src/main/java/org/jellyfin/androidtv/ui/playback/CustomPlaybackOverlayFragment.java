@@ -47,6 +47,7 @@ import com.bumptech.glide.request.target.Target;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
@@ -68,6 +69,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
+import org.jellyfin.androidtv.ui.shared.OutlineSpan;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -148,7 +150,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private static final long SUBTITLE_RENDER_INTERVAL_MS = 50;
     private SubtitleTrackInfo subtitleTrackInfo;
     private int currentSubtitleIndex = 0;
+    private int subtitlesSize = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultSubtitlesSize());
     private long lastSubtitlePositionMs = 0;
+    private boolean subtitlesBackgroundEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -257,6 +261,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         // This configuration is required for the PaddedLineBackgroundSpan to work
         binding.subtitlesText.setShadowLayer(SUBTITLE_PADDING, 0, 0, Color.TRANSPARENT);
         binding.subtitlesText.setPadding(SUBTITLE_PADDING, 0, SUBTITLE_PADDING, 0);
+
+        // Subtitles font size configuration
+        binding.subtitlesText.setTextSize(subtitlesSize);
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.abc_fade_out);
@@ -1469,7 +1476,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
             span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (subtitlesBackgroundEnabled) {
+                span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            span.setSpan(new OutlineSpan(), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);

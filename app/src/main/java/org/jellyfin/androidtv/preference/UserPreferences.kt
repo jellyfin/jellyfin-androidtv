@@ -180,6 +180,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
+			
+		/**
+		 * Enable subtitles background
+		 */
+		var subtitlesBackgroundEnabled = Preference.boolean("subtitles_background_enabled", true)
+
+		/**
+		 * Set default subtitles font size
+		 */
+		var defaultSubtitlesSize = Preference.int("subtitles_size", 28)
 	}
 
 	init {
