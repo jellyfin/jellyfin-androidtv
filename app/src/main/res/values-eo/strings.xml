@@ -467,4 +467,7 @@
     <string name="home_prefs">Hejmo</string>
     <string name="searchable_hint">Serĉo de Jellyfin</string>
     <string name="searchable_settings_description">Plurmedio</string>
+    <string name="pref_subtitles_size">Subtitra grandeco</string>
+    <string name="pref_subtitles_background_summary">Montri nigran fonon malantaŭ la subtekstoj</string>
+    <string name="pref_subtitles_background_title">Ebligi fonon de subteksto</string>
 </resources>
