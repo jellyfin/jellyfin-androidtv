@@ -370,7 +370,7 @@
     <string name="lbl_episode_marks">Pe episoade doar</string>
     <string name="lbl_hide_unwatched_count">Ascundeți numărul nevizionat</string>
     <string name="pref_watched_indicator">Afișați indicatorii urmărit</string>
-    <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org pentru a începe să utilizați Jellyfin.</string>
+    <string name="login_help_description">Jellyfin necesită un server pentru a vă conecta. Vizitați documentația noastră la docs.jellyfin.org sau scanați codul QR pentru a începe să utilizați Jellyfin.</string>
     <string name="login_help_title">Aveți nevoie de ajutor\?</string>
     <string name="connect_manually_by_address">Introduceți adresa serverului</string>
     <string name="discovered_servers_empty">Nu s-au găsit servere în network-ul locală.</string>
