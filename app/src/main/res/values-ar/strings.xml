@@ -451,4 +451,23 @@
     <string name="image_type_thumbnail">صورة مصغرة</string>
     <string name="login_authenticating">تتم المصادقة…</string>
     <string name="server_connecting">يتم الاتصال ب %1$s</string>
+    <string name="pref_subtitles_size">حجم الترجمة</string>
+    <string name="pref_subtitles_background_summary">إظهار خلفية سوداء خلف الترجمة</string>
+    <string name="pref_subtitles_background_title">تفعيل الترجمة في الخلفية</string>
+    <string name="searchable_settings_description">وسائط</string>
+    <string name="searchable_hint">بحث في Jellyfin</string>
+    <string name="home_section_i">قسم الصفحة الرئيسية٪ 1 $ d</string>
+    <string name="home_sections">أقسام الصفحة الرئيسية</string>
+    <string name="home_section_none">لاشيء</string>
+    <string name="home_section_livetv">بث تلفزيوني مباشر</string>
+    <string name="home_section_next_up">التالي</string>
+    <string name="home_section_active_recordings">تسجيلات نشطة</string>
+    <string name="home_section_resume_audio">واصل الاستماع</string>
+    <string name="home_section_resume">استمر في المشاهدة</string>
+    <string name="home_section_library_small">الوسائط الخاصة بي (صغيرة)</string>
+    <string name="home_section_library">الوسائط الخاصة بي</string>
+    <string name="home_section_latest_media">أحدث الوسائط</string>
+    <string name="home_prefs">الاساسية</string>
+    <string name="license_repository">مخزن</string>
+    <string name="license_artifact">نتاج صنعي</string>
 </resources>
