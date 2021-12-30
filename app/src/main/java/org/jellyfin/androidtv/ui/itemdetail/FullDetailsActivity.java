@@ -237,11 +237,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
 
         //Update information that may have changed - delay slightly to allow changes to take on the server
-        if (dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && dataRefreshService.getValue().getLastPlayback() > mLastUpdated.getTimeInMillis() && TvApp.getApplication().getLastPlayedItem() != null && !mBaseItem.getId().equals(TvApp.getApplication().getLastPlayedItem().getId()) && TvApp.getApplication().getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                long lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
+                Timber.d("current time %s last playback event time %s last refresh time %s", System.currentTimeMillis(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
+
+                // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
+                // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
+                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
+                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && TvApp.getApplication().getLastPlayedItem() != null && !mBaseItem.getId().equals(TvApp.getApplication().getLastPlayedItem().getId()) && TvApp.getApplication().getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(TvApp.getApplication().getLastPlayedItem().getId());
                         TvApp.getApplication().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
@@ -267,16 +272,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                     updateWatched();
                                     //updatePoster();
                                     mLastUpdated = Calendar.getInstance();
-
                                 }
                             }
                         });
-
                     }
-
                 }
-            }, 750);
-        }
+            }
+        }, 750);
     }
 
     @Override
