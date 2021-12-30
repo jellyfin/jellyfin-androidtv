@@ -646,6 +646,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void startFadeTimer() {
+        mFadeEnabled = true;
         mHandler.removeCallbacks(mHideTask);
         mHandler.postDelayed(mHideTask, 6000);
     }
@@ -701,7 +702,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     private void hidePopupPanel() {
-        setFadingEnabled(true);
+        startFadeTimer();
         binding.popupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
     }
