@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.util;
 
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 
 public class DeviceUtils {
@@ -25,33 +27,38 @@ public class DeviceUtils {
     // Nvidia Shield TV Model
     private static final String SHIELD_TV_MODEL = "SHIELD Android TV";
 
+    private static final String UNKNOWN = "Unknown";
+
+    @NonNull
     static String getBuildModel() {
         // Stub to allow for mock injection
-        return Build.MODEL;
+        return Build.MODEL != null ? Build.MODEL : UNKNOWN;
     }
 
     public static boolean isChromecastWithGoogleTV() {
-        return getBuildModel() != null && getBuildModel().equals(CHROMECAST_GOOGLE_TV);
+        return getBuildModel().equals(CHROMECAST_GOOGLE_TV);
     }
 
     public static boolean isFireTv() {
-        return getBuildModel() != null && getBuildModel().startsWith(FIRE_TV_PREFIX);
+        return getBuildModel().startsWith(FIRE_TV_PREFIX);
     }
 
     public static boolean isFireTvStickGen1() {
-        return getBuildModel() != null && getBuildModel().equals(FIRE_STICK_MODEL_GEN_1);
+        return getBuildModel().equals(FIRE_STICK_MODEL_GEN_1);
     }
 
     public static boolean isFireTvStick4k() {
-        return getBuildModel() != null && getBuildModel().equals(FIRE_STICK_4K_MODEL);
+        return getBuildModel().equals(FIRE_STICK_4K_MODEL);
     }
 
     public static boolean isShieldTv() {
-        return getBuildModel() != null && getBuildModel().equals(SHIELD_TV_MODEL);
+        return getBuildModel().equals(SHIELD_TV_MODEL);
     }
 
     public static boolean has4kVideoSupport() {
-        return getBuildModel() != null && !Arrays.asList(
+        String buildModel = getBuildModel();
+
+        return !Arrays.asList(
                 // These devices only support a max video resolution of 1080p
                 FIRE_STICK_MODEL_GEN_1,
                 FIRE_STICK_MODEL_GEN_2,
@@ -59,7 +66,7 @@ public class DeviceUtils {
                 FIRE_STICK_LITE_MODEL,
                 FIRE_TV_MODEL_GEN_1,
                 FIRE_TV_MODEL_GEN_2
-        ).contains(getBuildModel());
+        ).contains(buildModel) && !buildModel.equals(UNKNOWN);
     }
 
     public static boolean is60() {

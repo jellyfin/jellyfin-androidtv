@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.util
 
-import android.os.Build
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -15,8 +14,8 @@ class DeviceUtilsTest {
 	@Test
 	fun testBuildModelIsNull() {
 		// A number of the tests below rely on the assumption
-		// that Build.MODEL is null in unit tests
-		assertNull(Build.MODEL)
+		// that Build.MODEL is Unknown in unit tests
+		assertEquals("Unknown", DeviceUtils.getBuildModel())
 	}
 
 	@Test
@@ -32,11 +31,11 @@ class DeviceUtilsTest {
 		)
 
 		for (method in methods) {
-			assertFalse(method())
+			assertFalse(method.toString(), method())
 		}
 	}
 
-	private fun mockBuildModel(mockedVal: String?) {
+	private fun mockBuildModel(mockedVal: String) {
 		mockkStatic(DeviceUtils::class)
 		every { DeviceUtils.getBuildModel() } returns mockedVal
 	}
