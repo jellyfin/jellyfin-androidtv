@@ -467,4 +467,7 @@
     <string name="home_section_latest_media">最新媒体</string>
     <string name="home_sections">首页部分</string>
     <string name="home_prefs">首页</string>
+    <string name="pref_subtitles_size">字幕大小</string>
+    <string name="pref_subtitles_background_summary">在字幕后面显示黑色背景</string>
+    <string name="pref_subtitles_background_title">启用字幕背景</string>
 </resources>
