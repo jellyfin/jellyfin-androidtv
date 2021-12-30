@@ -467,4 +467,7 @@
     <string name="home_section_latest_media">Ultimi media</string>
     <string name="searchable_settings_description">Media</string>
     <string name="searchable_hint">Cerca in Jellyfin</string>
+    <string name="pref_subtitles_size">Dimensioni sottotitoli</string>
+    <string name="pref_subtitles_background_summary">Mostra lo sfondo nero dietro i sottotitoli</string>
+    <string name="pref_subtitles_background_title">Abilita lo sfondo per i sottotitoli</string>
 </resources>
