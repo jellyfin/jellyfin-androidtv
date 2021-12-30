@@ -246,7 +246,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
                 if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
-                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && lastPlaybackTime > mLastUpdated.getTimeInMillis() && TvApp.getApplication().getLastPlayedItem() != null && !mBaseItem.getId().equals(TvApp.getApplication().getLastPlayedItem().getId()) && TvApp.getApplication().getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
+                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && TvApp.getApplication().getLastPlayedItem() != null && !mBaseItem.getId().equals(TvApp.getApplication().getLastPlayedItem().getId()) && TvApp.getApplication().getLastPlayedItem().getBaseItemType() == BaseItemType.Episode) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(TvApp.getApplication().getLastPlayedItem().getId());
                         TvApp.getApplication().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
