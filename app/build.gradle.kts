@@ -144,7 +144,7 @@ dependencies {
 
 	// Testing
 	testImplementation(libs.junit)
-	testImplementation(libs.mockito)
 	testImplementation(libs.koin.test)
 	testImplementation(libs.koin.test.junit4)
+	testImplementation(libs.mockk)
 }
