@@ -456,7 +456,7 @@
     <string name="pref_subtitles_background_title">تفعيل الترجمة في الخلفية</string>
     <string name="searchable_settings_description">وسائط</string>
     <string name="searchable_hint">بحث في Jellyfin</string>
-    <string name="home_section_i">قسم الصفحة الرئيسية%1$d</string>
+    <string name="home_section_i">قسم الصفحة الرئيسية %1$d</string>
     <string name="home_sections">أقسام الصفحة الرئيسية</string>
     <string name="home_section_none">لاشيء</string>
     <string name="home_section_livetv">بث تلفزيوني مباشر</string>
