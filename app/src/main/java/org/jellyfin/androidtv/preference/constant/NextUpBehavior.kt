@@ -23,4 +23,4 @@ enum class NextUpBehavior {
 	DISABLED
 }
 
-val NEXTUP_TIMER_DISABLED: Int = 0
+const val NEXTUP_TIMER_DISABLED: Int = 0
