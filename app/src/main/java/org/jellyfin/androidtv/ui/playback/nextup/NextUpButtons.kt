@@ -40,9 +40,7 @@ class NextUpButtons(
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()
 
-		if (!countdownTimerEnabled) {
-			return
-		}
+		if (!countdownTimerEnabled) return
 
 		// Create timer
 		countdownTimer = object : CountDownTimer(duration, 1) {
