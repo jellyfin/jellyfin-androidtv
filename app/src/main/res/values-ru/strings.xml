@@ -470,4 +470,5 @@
     <string name="pref_subtitles_size">Размер субтитра</string>
     <string name="pref_subtitles_background_summary">Показывать чёрный фон за субтитрами</string>
     <string name="pref_subtitles_background_title">Включить фон субтитра</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
 </resources>
