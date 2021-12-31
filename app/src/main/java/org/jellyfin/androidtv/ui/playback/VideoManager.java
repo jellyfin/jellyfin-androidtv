@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -114,6 +115,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                if (playbackState == Player.STATE_BUFFERING) {
+                    Timber.d("player is buffering");
+                }
                 // Do not call listener when paused
                 if (playbackState == Player.STATE_READY && playWhenReady) {
                     if (preparedListener != null) preparedListener.onEvent();
@@ -122,6 +126,19 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                     if (completionListener != null) completionListener.onEvent();
                     stopProgressLoop();
                 }
+            }
+
+            @Override
+            public void onPositionDiscontinuity(Player.PositionInfo oldPosition, Player.PositionInfo newPosition, int reason) {
+                // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
+                if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
+                    Timber.d("caught player discontinuity (reason internal) - oldPos %s newPos %s", oldPosition.positionMs, newPosition.positionMs);
+                }
+            }
+
+            @Override
+            public void onTimelineChanged(Timeline timeline, int reason) {
+                Timber.d("caught player timeline changed! reason %s", reason == 0 ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
             }
         });
     }
