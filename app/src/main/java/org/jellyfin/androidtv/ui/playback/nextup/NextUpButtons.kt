@@ -21,8 +21,8 @@ class NextUpButtons(
 	private var countdownTimer: CountDownTimer? = null
 	private val view = View.inflate(context, R.layout.fragment_next_up_buttons, null)
 
-	var countdownTimerEnabled: Boolean = true
-	var duration: Long = 6
+	var countdownTimerEnabled: Boolean = false
+	var duration: Long = 0
 
 	init {
 		addView(view)
