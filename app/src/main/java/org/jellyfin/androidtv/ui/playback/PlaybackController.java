@@ -225,6 +225,13 @@ public class PlaybackController {
 
     public void playerErrorEncountered() {
         if (mVideoManager.isNativeMode()) exoErrorEncountered = true; else vlcErrorEncountered = true;
+
+        // reset the retry count if it's been more than 30s since previous error
+        if (playbackRetries > 0 && System.currentTimeMillis() - lastPlaybackError > 30000) {
+            Timber.d("playback stabilized - retry count reset to 0 from %s", playbackRetries);
+            playbackRetries = 0;
+        }
+
         playbackRetries++;
         lastPlaybackError = System.currentTimeMillis();
 
@@ -1283,12 +1290,6 @@ public class PlaybackController {
                         if (isLiveTv && mCurrentProgramEndTime > 0 && System.currentTimeMillis() >= mCurrentProgramEndTime) {
                             // crossed fire off an async routine to update the program info
                             updateTvProgramInfo();
-                        }
-
-                        // if no additional player errors occur within 30 seconds, reset the count
-                        if (playbackRetries > 0 && System.currentTimeMillis() - lastPlaybackError > 30000) {
-                            Timber.d("resetting playback errror count from %s to 0 because playback has become stable", playbackRetries);
-                            playbackRetries = 0;
                         }
 
                         refreshCurrentPosition();
