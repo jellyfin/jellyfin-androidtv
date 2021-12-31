@@ -35,10 +35,7 @@ class NextUpFragment : Fragment() {
 
 		binding.fragmentNextUpButtons.apply {
 			duration = userPreferences[UserPreferences.nextUpTimeout]
-			countdownTimerEnabled = when {
-				duration == NEXTUP_TIMER_DISABLED -> false
-				else -> true
-			}
+			countdownTimerEnabled = duration != NEXTUP_TIMER_DISABLED
 			setPlayNextListener(viewModel::playNext)
 			setCancelListener(viewModel::close)
 		}
