@@ -22,7 +22,7 @@ class NextUpButtons(
 	private val view = View.inflate(context, R.layout.fragment_next_up_buttons, null)
 
 	var countdownTimerEnabled: Boolean = false
-	var duration: Long = 0
+	var duration: Int = 0
 
 	init {
 		addView(view)
@@ -43,7 +43,7 @@ class NextUpButtons(
 		if (!countdownTimerEnabled) return
 
 		// Create timer
-		countdownTimer = object : CountDownTimer(duration, 1) {
+		countdownTimer = object : CountDownTimer(duration.toLong(), 1) {
 			override fun onTick(millisUntilFinished: Long) {
 				view.findViewById<ProgressBar>(R.id.fragment_next_up_buttons_play_next_progress).apply {
 					max = duration.toInt()

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
@@ -53,12 +54,12 @@ fun OptionsScreen.playbackCategory(
 	seekbar {
 		setTitle(R.string.pref_next_up_timeout_title)
 		setContent(R.string.pref_next_up_timeout_summary)
-		min = 0
+		min = 0 // value of 0 disables timer
 		max = 30000
-		increment = 3000
+		increment = 1000
 		valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
-			override fun display(value: Int) = when {
-				value == 0 -> "∞" // disables the timer and displays infinity character
+			override fun display(value: Int): String = when (value) {
+				NEXTUP_TIMER_DISABLED -> activity.getString(R.string.pref_next_up_timeout_disabled)
 				else -> "${value / 1000}s"
 			}
 		}
