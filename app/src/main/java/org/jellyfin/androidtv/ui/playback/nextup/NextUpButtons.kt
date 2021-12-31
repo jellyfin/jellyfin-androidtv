@@ -9,20 +9,20 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatButton
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 
 class NextUpButtons(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,
 	defStyle: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyle), KoinComponent {
+) : FrameLayout(context, attrs, defStyleAttr, defStyle) {
 	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
 
 	private var countdownTimer: CountDownTimer? = null
 	private val view = View.inflate(context, R.layout.fragment_next_up_buttons, null)
+
+	var countdownTimerEnabled: Boolean = false
+	var duration: Int = 0
 
 	init {
 		addView(view)
@@ -36,13 +36,14 @@ class NextUpButtons(
 	}
 
 	fun startTimer() {
-		val duration = get<UserPreferences>()[UserPreferences.nextUpTimeout].toLong()
 
 		// Cancel current timer if one is already set
 		countdownTimer?.cancel()
 
+		if (!countdownTimerEnabled) return
+
 		// Create timer
-		countdownTimer = object : CountDownTimer(duration, 1) {
+		countdownTimer = object : CountDownTimer(duration.toLong(), 1) {
 			override fun onTick(millisUntilFinished: Long) {
 				view.findViewById<ProgressBar>(R.id.fragment_next_up_buttons_play_next_progress).apply {
 					max = duration.toInt()

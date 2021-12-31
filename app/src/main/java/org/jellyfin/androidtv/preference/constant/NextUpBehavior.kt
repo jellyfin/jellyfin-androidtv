@@ -22,3 +22,5 @@ enum class NextUpBehavior {
 	@EnumDisplayOptions(R.string.lbl_never)
 	DISABLED
 }
+
+const val NEXTUP_TIMER_DISABLED: Int = 0
