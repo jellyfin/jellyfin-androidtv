@@ -401,4 +401,31 @@
     <string name="lbl_remove_user_content">מחק חשבון</string>
     <string name="lbl_remove_users">הפעולה הזו תמחק גם את כל המשתמשים הקשורים</string>
     <string name="lbl_manage_servers">ניהול שרתים</string>
+    <string name="lbl_community_rating">דירוג הקהילה</string>
+    <string name="lbl_time_range">%1$s–%2$s</string>
+    <string name="lbl_name_date">%1$s (%2$s)</string>
+    <string name="lbl_one_song">שיר 1</string>
+    <string name="lbl_num_songs">%1$d שירים</string>
+    <string name="lbl_one_episode">פרק 1</string>
+    <string name="lbl_num_episodes">%1$d פרקים</string>
+    <string name="lbl_on_channel">על %1$s</string>
+    <string name="lbl_starting_on_schedule_ending_after">מתחיל בזמן ומסיים %1$s לאחר לוח הזמנים</string>
+    <string name="lbl_starting_early_ending_on_schedule">מתחיל %1$s מוקדם ומסיים בזמן</string>
+    <string name="lbl_starting_early_ending_after">מתחיל %1$s מוקדם ומסיים %2$s לאחר לוח זמנים</string>
+    <string name="lbl_next_up_minimal">בלי תמונה ממוזערת</string>
+    <string name="lbl_next_up_extended">עם תמונה ממוזערת</string>
+    <string name="lbl_special">מיוחד</string>
+    <string name="help">עזרה</string>
+    <string name="add_user">הוסף משתמש</string>
+    <string name="who_is_watching">מי צופה\?</string>
+    <string name="no_user_warning">לא מצאנו שום משתמשים!
+\nתוסיף משתמש חדש על ידי לחיצה על הכפתור \"הוסף משתמש\".</string>
+    <string name="server_unsupported">השרת צריך להיות מעודכן. הגרסה הנוכחית היא %1$s אבל צריך גרסה %2$s או חדשה יותר</string>
+    <string name="welcome_content">תתחבר לשרת שלך כדי להתחיל.</string>
+    <string name="welcome_title">ברוך הבא לjellyfin!</string>
+    <string name="saved_servers">שרתים שמורים</string>
+    <string name="press_to_close">תלחץ כדי לסגור</string>
+    <string name="pref_next_up_behavior_title">הראה מידע על הסרטון הבא</string>
+    <string name="pref_next_up_timeout_disabled">אין סוף</string>
+    <string name="lbl_fit">נוֹרמָלִי</string>
 </resources>
