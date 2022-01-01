@@ -95,7 +95,7 @@ public class PlaybackController {
     private long mStartPosition = 0;
 
     // tmp position used when seeking
-    private long mSeekedPosition = -1;
+    private long mSeekPosition = -1;
     private long mCurrentProgramEndTime;
     private long mCurrentProgramStartTime = 0;
     private long mCurrentTranscodeStartTime;
@@ -327,13 +327,13 @@ public class PlaybackController {
                 // live tv
             }
             else if (mVideoManager != null) {
-                if (!isPlaying() && mSeekedPosition != -1) {
-                    newPos = mSeekedPosition;
+                if (!isPlaying() && mSeekPosition != -1) {
+                    newPos = mSeekPosition;
                     // use seekedPosition until playback starts
                 }
                 else if (isPlaying()) {
                     newPos = mVideoManager.getCurrentPosition();
-                    mSeekedPosition = -1;
+                    mSeekPosition = -1;
                     // playback is happening - get current position and reset seekedPosition
                 }
             }
@@ -374,8 +374,8 @@ public class PlaybackController {
             case IDLE:
                 // start new playback
 
-                // set mSeekedPosition so the seekbar will not default to 0:00
-                mSeekedPosition = position;
+                // set mSeekPosition so the seekbar will not default to 0:00
+                mSeekPosition = position;
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(false);
                 }
@@ -430,8 +430,8 @@ public class PlaybackController {
                 isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
                 startSpinner();
 
-                // undo setting mSeekedPosition for liveTV
-                if (isLiveTv) mSeekedPosition = -1;
+                // undo setting mSeekPosition for liveTV
+                if (isLiveTv) mSeekPosition = -1;
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
@@ -948,7 +948,7 @@ public class PlaybackController {
             mVideoManager.stopPlayback();
 
             // set seekedPosition so reporting prior to playback starting is not inaccurate
-            mSeekedPosition = pos;
+            mSeekPosition = pos;
             mPlaybackState = PlaybackState.BUFFERING;
 
             // this value should only NOT be -1 if vlc is being used for transcoding
@@ -1005,32 +1005,33 @@ public class PlaybackController {
 
     private long currentSkipPos = 0;
     private final Runnable skipRunnable = () -> {
-        if (!isPlaying()) return; // in case we completed since this was requested
+        if (!(isPlaying() || isPaused())) return; // in case we completed since this was requested
 
-        if (!getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
-            seek(currentSkipPos);
-            currentSkipPos = 0;
-            updateProgress = true; // re-enable true progress updates
-        }
-        startReportLoop();
+        seek(currentSkipPos);
+        currentSkipPos = 0;
+        updateProgress = true; // re-enable true progress updates
     };
 
     public void skip(int msec) {
-        if (isPlaying() && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
+        if ((isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
+            pause();
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
+            refreshCurrentPosition(); // first time skip is called mCurrentPosition is made current, after that updateprogress = false
             updateProgress = false; // turn this off so we can show where it will be jumping to
-            currentSkipPos = (currentSkipPos == 0 ? mVideoManager.getCurrentPosition() : currentSkipPos)  + msec;
-            Timber.d("Skip amount requested was %s.  Calculated position is %s",msec, currentSkipPos);
-            if (currentSkipPos < 0) currentSkipPos = 0;
-            Timber.d("Duration reported as: %s current pos: %s",mVideoManager.getDuration(), mVideoManager.getCurrentPosition());
-            if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
-            if (mFragment != null) mFragment.setCurrentTime(currentSkipPos);
-            if (getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
-                seek(currentSkipPos);
+            currentSkipPos = (currentSkipPos == 0 ? mCurrentPosition : currentSkipPos)  + msec;
+
+            if (currentSkipPos < 0) {
                 currentSkipPos = 0;
-                updateProgress = true; // re-enable true progress updates
+            } else if (currentSkipPos > mVideoManager.getDuration()) {
+                currentSkipPos = mVideoManager.getDuration() - 1000;
             }
+
+            Timber.d("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
+            Timber.d("Duration reported as: %s current pos: %s", mVideoManager.getDuration(), mCurrentPosition);
+
+            mSeekPosition = currentSkipPos;
+            if (mFragment != null) mFragment.setCurrentTime(currentSkipPos);
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
@@ -1318,7 +1319,7 @@ public class PlaybackController {
 
     public long getCurrentPosition() {
         // if not playing and seeking, mCurrentPosition may not be current
-        return !isPlaying() && mSeekedPosition != -1 ? mSeekedPosition : mCurrentPosition;
+        return !isPlaying() && mSeekPosition != -1 ? mSeekPosition : mCurrentPosition;
     }
 
     public boolean isPaused() {
