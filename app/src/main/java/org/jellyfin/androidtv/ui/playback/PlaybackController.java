@@ -1005,32 +1005,33 @@ public class PlaybackController {
 
     private long currentSkipPos = 0;
     private final Runnable skipRunnable = () -> {
-        if (!isPlaying()) return; // in case we completed since this was requested
+        if (!(isPlaying() || isPaused())) return; // in case we completed since this was requested
 
-        if (!getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
-            seek(currentSkipPos);
-            currentSkipPos = 0;
-            updateProgress = true; // re-enable true progress updates
-        }
-        startReportLoop();
+        seek(currentSkipPos);
+        currentSkipPos = 0;
+        updateProgress = true; // re-enable true progress updates
     };
 
     public void skip(int msec) {
-        if (isPlaying() && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
+        if ((isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
+            pause();
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
+            refreshCurrentPosition(); // first time skip is called mCurrentPosition is made current, after that updateprogress = false
             updateProgress = false; // turn this off so we can show where it will be jumping to
-            currentSkipPos = (currentSkipPos == 0 ? mVideoManager.getCurrentPosition() : currentSkipPos)  + msec;
-            Timber.d("Skip amount requested was %s.  Calculated position is %s",msec, currentSkipPos);
-            if (currentSkipPos < 0) currentSkipPos = 0;
-            Timber.d("Duration reported as: %s current pos: %s",mVideoManager.getDuration(), mVideoManager.getCurrentPosition());
-            if (currentSkipPos > mVideoManager.getDuration()) currentSkipPos = mVideoManager.getDuration() - 1000;
-            if (mFragment != null) mFragment.setCurrentTime(currentSkipPos);
-            if (getPlaybackMethod().equals(PlayMethod.DirectPlay)) {
-                seek(currentSkipPos);
+            currentSkipPos = (currentSkipPos == 0 ? mCurrentPosition : currentSkipPos)  + msec;
+
+            if (currentSkipPos < 0) {
                 currentSkipPos = 0;
-                updateProgress = true; // re-enable true progress updates
+            } else if (currentSkipPos > mVideoManager.getDuration()) {
+                currentSkipPos = mVideoManager.getDuration() - 1000;
             }
+
+            Timber.d("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
+            Timber.d("Duration reported as: %s current pos: %s", mVideoManager.getDuration(), mCurrentPosition);
+
+            mSeekedPosition = currentSkipPos;
+            if (mFragment != null) mFragment.setCurrentTime(currentSkipPos);
             mHandler.postDelayed(skipRunnable, 800);
         }
     }
