@@ -459,4 +459,16 @@
     <string name="license_description">Beschrijving</string>
     <string name="licenses_link">Licenties</string>
     <string name="select_version">Versie</string>
+    <string name="pref_subtitles_background_title">Schakel achtergrond van ondertiteling in</string>
+    <string name="home_section_i">Homepagina sectie %1$d</string>
+    <string name="home_sections">Homepagina secties</string>
+    <string name="home_prefs">Homepagina</string>
+    <string name="license_repository">Repository</string>
+    <string name="license_artifact">Artifact</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_subtitles_size">Lettergrootte ondertiteling</string>
+    <string name="pref_subtitles_background_summary">Toon een zwarte achtergrond bij de ondertiteling</string>
+    <string name="home_section_next_up">Volgende</string>
+    <string name="home_section_library_small">Mijn media (klein)</string>
+    <string name="licenses_link_description">Bekijk de licenties van de software die wordt gebruikt door de Jellyfin app</string>
 </resources>
