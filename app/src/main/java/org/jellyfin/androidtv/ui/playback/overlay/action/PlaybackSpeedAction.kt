@@ -35,7 +35,7 @@ class PlaybackSpeedAction(
 		speedMenu.setOnMenuItemClickListener { menuItem ->
 			speedController.setNewSpeed(speeds[menuItem.itemId])
 			speedMenu.dismiss()
-			return@setOnMenuItemClickListener true
+			true
 		}
 
 		speedMenu.show()
@@ -45,9 +45,7 @@ class PlaybackSpeedAction(
 		context: Context,
 		view: View,
 		speedController: VideoSpeedController
-	): PopupMenu {
-		val speedMenu = PopupMenu(context, view, Gravity.END)
-		val menu = speedMenu.menu
+	) = PopupMenu(context, view, Gravity.END).apply {
 		speeds.forEachIndexed { i, selected ->
 			// Since this is purely numeric data, coerce to en_us to keep the linter happy
 			menu.add(0, i, i, String.format(Locale.US, "%.2fx", selected.speed))
@@ -55,8 +53,6 @@ class PlaybackSpeedAction(
 
 		menu.setGroupCheckable(0, true, true)
 		menu.getItem(speeds.indexOf(speedController.getCurrentSpeed())).isChecked = true
-		return speedMenu
 	}
-
 
 }
