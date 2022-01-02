@@ -443,4 +443,21 @@
     <string name="lbl_stretch">Rozciągnij</string>
     <string name="lbl_auto_crop">Automatyczne Przycinanie</string>
     <string name="lbl_community_rating">Ocena Społeczności</string>
+    <string name="pref_subtitles_size">Rozmiar napisów</string>
+    <string name="pref_subtitles_background_summary">Wyświetl czarne tło za napisami</string>
+    <string name="pref_subtitles_background_title">Włącz tło napisów</string>
+    <string name="home_section_next_up">Następne</string>
+    <string name="home_section_resume_audio">Kontynuuj odtwarzanie</string>
+    <string name="home_section_resume">Kontynuuj oglądanie</string>
+    <string name="home_prefs">Start</string>
+    <string name="license_license">Licencja</string>
+    <string name="license_author">Autor</string>
+    <string name="license_repository">Repozytorium</string>
+    <string name="license_website">Strona internetowa</string>
+    <string name="license_version">Wersja</string>
+    <string name="license_description">Opis</string>
+    <string name="licenses_link_description">Wyświetl licencje bibliotek używanych przez Jellyfin</string>
+    <string name="licenses_link">Licencje</string>
+    <string name="select_version">Wersja</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
 </resources>
