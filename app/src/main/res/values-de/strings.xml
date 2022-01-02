@@ -467,4 +467,7 @@
     <string name="home_section_latest_media">Neueste Medien</string>
     <string name="home_sections">Startseitenabschnitte</string>
     <string name="home_prefs">Startseite</string>
+    <string name="pref_subtitles_size">Untertitel Größe</string>
+    <string name="pref_subtitles_background_summary">Zeigt einen schwarzen Hintergrund hinter den Untertiteln</string>
+    <string name="pref_subtitles_background_title">Aktiviere Hintergrund für Untertitel</string>
 </resources>
