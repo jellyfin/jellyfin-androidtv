@@ -176,14 +176,31 @@ public class PlaybackController {
         }
     }
 
-    public StreamInfo getCurrentStreamInfo() { return mCurrentStreamInfo; }
-    public boolean canSeek() {return !isLiveTv;}
-    public boolean isLiveTv() { return isLiveTv; }
-    public int getSubtitleStreamIndex() {return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1; }
-    public @Nullable Integer getAudioStreamIndex() {
+    public StreamInfo getCurrentStreamInfo() {
+        return mCurrentStreamInfo;
+    }
+
+    public boolean canSeek() {
+        return !isLiveTv;
+    }
+
+    public boolean isLiveTv() {
+        return isLiveTv;
+    }
+
+    public int getSubtitleStreamIndex() {
+        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
+    }
+
+    @Nullable
+    public Integer getAudioStreamIndex() {
         return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
     }
-    public List<SubtitleStreamInfo> getSubtitleStreams() { return mSubtitleStreams; }
+
+    public List<SubtitleStreamInfo> getSubtitleStreams() {
+        return mSubtitleStreams;
+    }
+
     public SubtitleStreamInfo getSubtitleStreamInfo(int index) {
         for (SubtitleStreamInfo info : mSubtitleStreams) {
             if (info.getIndex() == index) return info;
@@ -192,20 +209,34 @@ public class PlaybackController {
         return null;
     }
 
-    public boolean isNativeMode() { return mVideoManager == null || mVideoManager.isNativeMode(); }
+    public boolean isNativeMode() {
+        return mVideoManager == null || mVideoManager.isNativeMode();
+    }
 
-    public boolean isTranscoding() { return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode; }
+    public boolean isTranscoding() {
+        return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode;
+    }
 
-    public boolean hasNextItem() { return mCurrentIndex < mItems.size() - 1; }
-    public BaseItemDto getNextItem() { return hasNextItem() ? mItems.get(mCurrentIndex+1) : null; }
+    public boolean hasNextItem() {
+        return mCurrentIndex < mItems.size() - 1;
+    }
+
+    public BaseItemDto getNextItem() {
+        return hasNextItem() ? mItems.get(mCurrentIndex + 1) : null;
+    }
 
     public boolean isPlaying() {
         // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
         return mPlaybackState == PlaybackState.PLAYING && (mVideoManager == null || mVideoManager.isPlaying());
     }
 
-    public void setAudioDelay(long value) { if (mVideoManager != null) mVideoManager.setAudioDelay(value);}
-    public long getAudioDelay() { return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;}
+    public void setAudioDelay(long value) {
+        if (mVideoManager != null) mVideoManager.setAudioDelay(value);
+    }
+
+    public long getAudioDelay() {
+        return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;
+    }
 
     private Integer bestGuessAudioTrack(MediaSourceInfo info) {
 
@@ -215,7 +246,8 @@ public class PlaybackController {
                 if (track.getType() == MediaStreamType.Video) {
                     videoFound = true;
                 } else {
-                    if (videoFound && track.getType() == MediaStreamType.Audio) return track.getIndex();
+                    if (videoFound && track.getType() == MediaStreamType.Audio)
+                        return track.getIndex();
                 }
             }
         }
@@ -224,7 +256,8 @@ public class PlaybackController {
     }
 
     public void playerErrorEncountered() {
-        if (mVideoManager.isNativeMode()) exoErrorEncountered = true; else vlcErrorEncountered = true;
+        if (mVideoManager.isNativeMode()) exoErrorEncountered = true;
+        else vlcErrorEncountered = true;
 
         // reset the retry count if it's been more than 30s since previous error
         if (playbackRetries > 0 && System.currentTimeMillis() - lastPlaybackError > 30000) {
@@ -301,9 +334,9 @@ public class PlaybackController {
         Display.Mode best = findBestDisplayMode(videoStream);
         if (best != null) {
             Timber.i("*** Best refresh mode is: %s - %dx%d/%f",
-                best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
+                    best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
             if (current.getModeId() != best.getModeId()) {
-                Timber.i("*** Attempting to change refresh rate from %s/%s",current.getModeId(), current.getRefreshRate());
+                Timber.i("*** Attempting to change refresh rate from %s/%s", current.getModeId(), current.getRefreshRate());
                 WindowManager.LayoutParams params = TvApp.getApplication().getCurrentActivity().getWindow().getAttributes();
                 params.preferredDisplayModeId = best.getModeId();
                 TvApp.getApplication().getCurrentActivity().getWindow().setAttributes(params);
@@ -311,7 +344,7 @@ public class PlaybackController {
                 Timber.i("Display is already in best mode");
             }
         } else {
-            Timber.i("*** Unable to find display mode for refresh rate: %s",videoStream.getRealFrameRate());
+            Timber.i("*** Unable to find display mode for refresh rate: %s", videoStream.getRealFrameRate());
         }
 
 
@@ -325,13 +358,11 @@ public class PlaybackController {
             if (isLiveTv && mCurrentProgramStartTime > 0) {
                 newPos = getRealTimeProgress();
                 // live tv
-            }
-            else if (mVideoManager != null) {
+            } else if (mVideoManager != null) {
                 if (!isPlaying() && mSeekPosition != -1) {
                     newPos = mSeekPosition;
                     // use seekedPosition until playback starts
-                }
-                else if (isPlaying()) {
+                } else if (isPlaying()) {
                     newPos = mVideoManager.getCurrentPosition();
                     mSeekPosition = -1;
                     // playback is happening - get current position and reset seekedPosition
@@ -361,7 +392,8 @@ public class PlaybackController {
             case PAUSED:
                 // just resume
                 mVideoManager.play();
-                if (mVideoManager.isNativeMode()) mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
+                if (mVideoManager.isNativeMode())
+                    mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(true);
                     mFragment.setPlayPauseActionState(0);
@@ -454,15 +486,16 @@ public class PlaybackController {
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
                 internalOptions.setMaxBitrate(Utils.getMaxBitrate());
-                if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv)) internalOptions.setEnableDirectStream(false);
+                if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
+                    internalOptions.setEnableDirectStream(false);
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
                 internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
                 internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     internalProfile = new ExoPlayerProfile(
-                        isLiveTv,
-                        userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
+                            isLiveTv,
+                            userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
                     );
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
@@ -482,7 +515,7 @@ public class PlaybackController {
                     mFragment.setCurrentTime(position);
                 }
 
-                long duration = getCurrentlyPlayingItem().getRunTimeTicks()!= null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
+                long duration = getCurrentlyPlayingItem().getRunTimeTicks() != null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
                 mVideoManager.setMetaDuration(duration);
 
                 break;
@@ -495,7 +528,7 @@ public class PlaybackController {
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         if (isLiveTv) {
-            liveTvChannelName = " ("+item.getName()+")";
+            liveTvChannelName = " (" + item.getName() + ")";
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
             //Choose appropriate player now to avoid opening two streams
@@ -510,6 +543,7 @@ public class PlaybackController {
                         useVlc = false;
                         startItem(item, position, response);
                     }
+
                     @Override
                     public void onError(Exception exception) {
                         handlePlaybackInfoError(exception);
@@ -527,6 +561,7 @@ public class PlaybackController {
                         useVlc = true;
                         startItem(item, position, response);
                     }
+
                     @Override
                     public void onError(Exception exception) {
                         handlePlaybackInfoError(exception);
@@ -597,10 +632,11 @@ public class PlaybackController {
                                 // remove direct play profiles to force the transcode
                                 final DeviceProfile save = internalOptions.getProfile();
                                 DeviceProfile newProfile = new ExoPlayerProfile(
-                                    isLiveTv,
-                                    userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
+                                        isLiveTv,
+                                        userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
                                 );
-                                if (!Utils.downMixAudio()) ProfileHelper.addAc3Streaming(newProfile, true);
+                                if (!Utils.downMixAudio())
+                                    ProfileHelper.addAc3Streaming(newProfile, true);
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
@@ -717,7 +753,7 @@ public class PlaybackController {
             public void run() {
                 mVideoManager.start();
             }
-        },750);
+        }, 750);
 
         mStartPosition = position;
 
@@ -804,7 +840,8 @@ public class PlaybackController {
                     break;
                 case Embed:
                     if (!mVideoManager.isNativeMode()) {
-                        if (mFragment != null) mFragment.addManualSubtitles(null); // in case these were on
+                        if (mFragment != null)
+                            mFragment.addManualSubtitles(null); // in case these were on
                         if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
                             // error selecting internal subs
                             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
@@ -988,8 +1025,7 @@ public class PlaybackController {
                     Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
                     updateProgress = true;
                     pause();
-                }
-                else {
+                } else {
                     mVideoManager.play();
                     mPlaybackState = PlaybackState.PLAYING;
                     if (mFragment != null) {
@@ -1019,7 +1055,7 @@ public class PlaybackController {
             stopReportLoop();
             refreshCurrentPosition(); // first time skip is called mCurrentPosition is made current, after that updateprogress = false
             updateProgress = false; // turn this off so we can show where it will be jumping to
-            currentSkipPos = (currentSkipPos == 0 ? mCurrentPosition : currentSkipPos)  + msec;
+            currentSkipPos = (currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec;
 
             if (currentSkipPos < 0) {
                 currentSkipPos = 0;
@@ -1164,7 +1200,8 @@ public class PlaybackController {
         //Now - look at last item played and, if beyond default resume point, remove it too
         Long duration = mCurrentStreamInfo != null ? mCurrentStreamInfo.getRunTimeTicks() : null;
         if (duration != null && mediaManager.getValue().getCurrentVideoQueue().size() > 0) {
-            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration)) mediaManager.getValue().getCurrentVideoQueue().remove(0);
+            if (duration < 300000 || mCurrentPosition * 10000 > Math.floor(.90 * duration))
+                mediaManager.getValue().getCurrentVideoQueue().remove(0);
         } else if (duration == null) mediaManager.getValue().getCurrentVideoQueue().remove(0);
         setItems(mediaManager.getValue().getCurrentVideoQueue());
     }
@@ -1184,7 +1221,7 @@ public class PlaybackController {
             BaseItemDto curItem = getCurrentlyPlayingItem();
 
             if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED
-                && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
+                    && (curItem == null || curItem.getBaseItemType() != BaseItemType.Trailer)) {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mediaManager.getValue().setCurrentVideoQueue(mItems);
@@ -1298,7 +1335,7 @@ public class PlaybackController {
                         }
 
                         refreshCurrentPosition();
-                        if (mFragment != null){
+                        if (mFragment != null) {
                             mFragment.setCurrentTime(mCurrentPosition);
                             mFragment.updateSubtitles(mCurrentPosition);
                         }
@@ -1330,7 +1367,9 @@ public class PlaybackController {
         return mVideoManager.getZoomMode();
     }
 
-    public void setZoom(int mode) { mVideoManager.setZoom(mode); }
+    public void setZoom(int mode) {
+        mVideoManager.setZoom(mode);
+    }
 
     public Integer translateVlcAudioId(Integer vlcId) {
         return mVideoManager.translateVlcAudioId(vlcId);
