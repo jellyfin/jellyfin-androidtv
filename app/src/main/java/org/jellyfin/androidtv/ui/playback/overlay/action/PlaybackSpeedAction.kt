@@ -20,7 +20,7 @@ class PlaybackSpeedAction(
 	private val speeds = VideoSpeedController.Companion.SpeedSteps.values()
 
 	init {
-		initializeWithIcon(R.drawable.exo_ic_speed)
+		initializeWithIcon(R.drawable.ic_playback_speed)
 	}
 
 	override fun handleClickAction(
