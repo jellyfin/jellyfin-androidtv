@@ -461,4 +461,7 @@
     <string name="home_section_livetv">TV Trực Tiếp</string>
     <string name="home_section_next_up">Tiếp theo</string>
     <string name="home_section_active_recordings">Bản ghi hoạt động</string>
+    <string name="pref_subtitles_size">Kích cỡ phụ đề</string>
+    <string name="pref_subtitles_background_summary">Hiển thị nền đen đằng sau phụ đề</string>
+    <string name="pref_subtitles_background_title">Bật nền phụ đề</string>
 </resources>
