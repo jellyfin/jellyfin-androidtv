@@ -462,4 +462,7 @@
     <string name="license_description">Description</string>
     <string name="licenses_link_description">Voir les licences des bibliothèques utilisées dans l\'application Jellyfin</string>
     <string name="licenses_link">Licences</string>
+    <string name="home_section_livetv">TV en direct</string>
+    <string name="home_section_latest_media">Derniers Médias</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
 </resources>
