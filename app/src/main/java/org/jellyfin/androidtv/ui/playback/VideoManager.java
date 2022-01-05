@@ -116,7 +116,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
-                    Timber.d("player is buffering");
+                    Timber.d("Player is buffering");
                 }
                 // Do not call listener when paused
                 if (playbackState == Player.STATE_READY && playWhenReady) {
@@ -132,13 +132,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             public void onPositionDiscontinuity(Player.PositionInfo oldPosition, Player.PositionInfo newPosition, int reason) {
                 // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
                 if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
-                    Timber.d("caught player discontinuity (reason internal) - oldPos %s newPos %s", oldPosition.positionMs, newPosition.positionMs);
+                    Timber.d("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
                 }
             }
 
             @Override
             public void onTimelineChanged(Timeline timeline, int reason) {
-                Timber.d("caught player timeline changed! reason %s", reason == 0 ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
+                Timber.d("Caught player timeline change - reason: %s", reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
             }
         });
     }
