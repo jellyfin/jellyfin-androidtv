@@ -467,4 +467,8 @@
     <string name="home_prefs">Kezdőlap</string>
     <string name="searchable_settings_description">Média</string>
     <string name="searchable_hint">Jellyfin keresés</string>
+    <string name="pref_subtitles_size">Felirat mérete</string>
+    <string name="pref_subtitles_background_summary">Mutasson fekete hátteret a feliratok mögött</string>
+    <string name="pref_subtitles_background_title">Feliratháttér engedélyezése</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
 </resources>
