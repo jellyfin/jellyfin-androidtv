@@ -1,17 +1,16 @@
 package org.jellyfin.androidtv.ui.playback
 
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import io.mockk.verify
+import org.jellyfin.androidtv.preference.IUserPreferences
 import org.jellyfin.androidtv.preference.Preference
-import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
-import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.BaseItemType
-import org.jellyfin.apiclient.model.entities.LocationType
-import org.jellyfin.apiclient.model.library.PlayAccess
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.koin.core.context.startKoin
@@ -29,7 +28,7 @@ class PlaybackControllerTest : KoinTest {
 
 	// Koin managed modules
 	lateinit var mockApiClient: ApiClient
-	lateinit var mockUserPreferences: UserPreferences
+	lateinit var mockUserPreferences: IUserPreferences
 
 	private fun prepDiMocks(): Module {
 		mockApiClient = mockk(relaxed = true)
@@ -41,8 +40,8 @@ class PlaybackControllerTest : KoinTest {
 		} returns PreferredVideoPlayer.EXOPLAYER
 
 		return module {
-			single<ApiClient> { mockApiClient }
-			single<UserPreferences> { mockUserPreferences }
+			single { mockApiClient }
+			single { mockUserPreferences }
 		}
 	}
 
