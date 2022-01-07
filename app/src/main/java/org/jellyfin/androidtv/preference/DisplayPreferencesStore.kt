@@ -30,7 +30,10 @@ abstract class DisplayPreferencesStore(
 				)
 			)
 		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to save displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)")
+			Timber.e(
+				err,
+				"Unable to save displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)"
+			)
 			return false
 		}
 
@@ -60,7 +63,10 @@ abstract class DisplayPreferencesStore(
 
 			return true
 		} catch (err: ApiClientException) {
-			Timber.e(err, "Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)")
+			Timber.e(
+				err,
+				"Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)"
+			)
 
 			if (displayPreferencesDto == null) {
 				Timber.i("Creating an empty DisplayPreferencesDto for next commit.")
@@ -72,43 +78,64 @@ abstract class DisplayPreferencesStore(
 	}
 
 	@Suppress("UNCHECKED_CAST")
-	override fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
-		Int::class -> cachedPreferences[preference.key]?.toIntOrNull() ?: preference.defaultValue
-		Long::class -> cachedPreferences[preference.key]?.toLongOrNull() ?: preference.defaultValue
-		Boolean::class -> cachedPreferences[preference.key]?.toBooleanStrictOrNull()
-			?: preference.defaultValue
-		String::class -> cachedPreferences[preference.key] ?: preference.defaultValue
+	override operator fun <T : Any> get(preference: Preference<T>): T =
+		when (preference.defaultValue) {
+			is PreferenceVal.IntT -> cachedPreferences[preference.key]?.toIntOrNull()
+				?: preference.defaultValue.data
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+			is PreferenceVal.LongT ->
+				cachedPreferences[preference.key]?.toLongOrNull()
+					?: preference.defaultValue.data
 
-	override fun <T : Preference<V>, V : Any> set(preference: T, value: V) = when (preference.type) {
-		Int::class -> cachedPreferences[preference.key] = (value as Int).toString()
-		Long::class -> cachedPreferences[preference.key] = (value as Long).toString()
-		Boolean::class -> cachedPreferences[preference.key] = (value as Boolean).toString()
-		String::class -> cachedPreferences[preference.key] = (value as String).toString()
-		Enum::class -> cachedPreferences[preference.key] = value.toString()
+			is PreferenceVal.BoolT ->
+				cachedPreferences[preference.key]?.toBooleanStrictOrNull()
+					?: preference.defaultValue.data
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	}
+			is PreferenceVal.StringT ->
+				cachedPreferences[preference.key] ?: preference.defaultValue.data
 
-	override fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+			is PreferenceVal.EnumT<*> -> getEnum(preference, preference.defaultValue)
+		} as T
+
+	private fun <T> getEnum(
+		preference: Preference<*>,
+		// Require an EnumT param so someone can't call this with the wrong T type
+		defaultValue: PreferenceVal.EnumT<*>
+	): T {
 		val stringValue = cachedPreferences[preference.key]
 
-		return if (stringValue.isNullOrBlank()) preference.defaultValue
-		else preference.type.java.enumConstants?.find {
+		if (stringValue.isNullOrBlank()) {
+			@Suppress("UNCHECKED_CAST")
+			return defaultValue.data as T
+		}
+
+		val loadedVal = defaultValue.enumClass.java.enumConstants?.find {
 			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
-		} ?: preference.defaultValue
+		} ?: defaultValue.data
+
+		@Suppress("UNCHECKED_CAST")
+		return loadedVal as T
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) {
+	override operator fun set(preference: Preference<*>, value: PreferenceVal<*>) {
+		when (value) {
+			is PreferenceVal.IntT -> cachedPreferences[preference.key] = (value.data).toString()
+			is PreferenceVal.LongT -> cachedPreferences[preference.key] = (value.data).toString()
+			is PreferenceVal.BoolT -> cachedPreferences[preference.key] = (value.data).toString()
+			is PreferenceVal.StringT -> cachedPreferences[preference.key] = (value.data)
+			is PreferenceVal.EnumT<*> -> setEnum(preference, value.data)
+		}
+
+	}
+
+	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) {
 		cachedPreferences[preference.key] = when (value) {
 			is PreferenceEnum -> value.serializedName
 			else -> value.toString()
 		}
 	}
 
-	override fun <T : Preference<V>, V : Any> delete(preference: T) {
+	override fun delete(preference: Preference<*>) {
 		cachedPreferences.remove(preference.key)
 	}
 

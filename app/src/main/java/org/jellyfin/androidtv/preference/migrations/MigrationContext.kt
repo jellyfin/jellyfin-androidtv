@@ -22,7 +22,8 @@ class MigrationContext<E, V> {
 	 * @param toVersion The new version to upgrade to
 	 * @param body Actual migration code
 	 */
-	inline fun migration(toVersion: Int, noinline body: E.(V) -> Unit) = migration(Migration(toVersion, body))
+	inline fun migration(toVersion: Int, noinline body: E.(V) -> Unit) =
+		migration(Migration(toVersion, body))
 
 	fun migration(definition: Migration<E, V>) {
 		if (definition.toVersion > highVersion) highVersion = definition.toVersion

@@ -5,23 +5,22 @@ package org.jellyfin.androidtv.preference
  */
 interface PreferenceStore {
 	// val value = store[Preference.x]
-	operator fun <T : Preference<V>, V : Any> get(preference: T): V
-	operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V
+	// Preserve the type so downstream callers do not need to (re)cast
+	operator fun <T : Any> get(preference: Preference<T>): T
 
 	// store[Preference.x] = value
-	operator fun <T : Preference<V>, V : Any> set(preference: T, value: V)
-	operator fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V)
+	operator fun set(preference: Preference<*>, value: PreferenceVal<*>)
 
 	// store.getDefaultValue(Preference.x)
-	fun <T : Preference<V>, V : Any> getDefaultValue(preference: T): V {
-		return preference.defaultValue
+	fun <T : Any> getDefaultValue(preference: Preference<T>): T {
+		return preference.defaultValue.data
 	}
 
 	// store.reset(Preference.x)
-	fun <T : Preference<V>, V : Any> reset(preference: T) {
-		this[preference] = getDefaultValue(preference)
+	fun <T : Any> reset(preference: Preference<T>) {
+		this[preference] = PreferenceVal.buildBasedOnT(getDefaultValue(preference))
 	}
 
 	// store.delete(Preference.x)
-	fun <T : Preference<V>, V : Any> delete(preference: T)
+	fun delete(preference: Preference<*>)
 }

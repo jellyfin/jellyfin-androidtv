@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.preference.category
 import android.app.Activity
 import android.app.AlertDialog
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.PreferenceVal
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
@@ -64,8 +65,10 @@ fun OptionsScreen.playbackCategory(
 			}
 		}
 		bind(userPreferences, UserPreferences.nextUpTimeout)
-		depends { userPreferences[UserPreferences.mediaQueuingEnabled]
-			&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED }
+		depends {
+			userPreferences[UserPreferences.mediaQueuingEnabled]
+					&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
+		}
 	}
 
 	list {
@@ -146,13 +149,14 @@ fun OptionsScreen.playbackCategory(
 						.show()
 				}
 
-				userPreferences[UserPreferences.externalVideoPlayerSendPath] = it
+				userPreferences[UserPreferences.externalVideoPlayerSendPath] =
+					PreferenceVal.BoolT(it)
 			}
 			default { userPreferences.getDefaultValue(UserPreferences.externalVideoPlayerSendPath) }
 		}
 		depends { userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL }
 	}
-	
+
 	checkbox {
 		setTitle(R.string.pref_subtitles_background_title)
 		setContent(R.string.pref_subtitles_background_summary)

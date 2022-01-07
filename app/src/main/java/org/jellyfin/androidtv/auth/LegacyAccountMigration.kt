@@ -10,6 +10,7 @@ import kotlinx.serialization.modules.contextual
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
+import org.jellyfin.androidtv.preference.PreferenceVal
 import org.jellyfin.androidtv.preference.SystemPreferences
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -66,7 +67,8 @@ class LegacyAccountMigration(
 					val name = user["Name"]?.jsonPrimitive?.content ?: userId.toString()
 					val requirePassword = user["HasPassword"]?.jsonPrimitive?.booleanOrNull ?: true
 					val imageTag = user["PrimaryImageTag"]?.jsonPrimitive?.content
-					val accessToken = user["AccessToken"]?.jsonPrimitive?.content ?: server["AccessToken"]?.jsonPrimitive?.content
+					val accessToken = user["AccessToken"]?.jsonPrimitive?.content
+						?: server["AccessToken"]?.jsonPrimitive?.content
 
 					authenticationStore.putUser(
 						server = serverId,
@@ -90,7 +92,8 @@ class LegacyAccountMigration(
 				}
 			}
 
-			systemPreferences[SystemPreferences.legacyCredentialsMigrated] = true
+			systemPreferences[SystemPreferences.legacyCredentialsMigrated] =
+				PreferenceVal.BoolT(true)
 		} else {
 			Timber.d("Skipping migration of legacy credentials from $path (file does not exist)")
 		}

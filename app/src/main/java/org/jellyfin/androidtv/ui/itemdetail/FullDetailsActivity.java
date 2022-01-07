@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.preference.PreferenceVal;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
@@ -200,7 +201,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         }
                     });
 
-                    mRowsAdapter.removeItems(1, mRowsAdapter.size()-1); // delete all but detail row
+                    mRowsAdapter.removeItems(1, mRowsAdapter.size() - 1); // delete all but detail row
                     //re-retrieve the schedule after giving it a second to rebuild
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -261,7 +262,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         boolean resumeVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()) {
-                                            mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
+                                            mResumeButton.setText(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll())));
                                         }
                                         if (resumeVisible) {
                                             mResumeButton.requestFocus();
@@ -300,7 +301,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemUtils.canPlay(mBaseItem)) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-            play(mBaseItem, pos.intValue() , false);
+            play(mBaseItem, pos.intValue(), false);
             return true;
         }
 
@@ -327,26 +328,26 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         }
     }
 
-    private static BaseItemType[] buttonTypes = new BaseItemType[] {
-        BaseItemType.Episode,
-        BaseItemType.Movie,
-        BaseItemType.Series,
-        BaseItemType.Season,
-        BaseItemType.Folder,
-        BaseItemType.Video,
-        BaseItemType.Recording,
-        BaseItemType.Program,
-        BaseItemType.ChannelVideoItem,
-        BaseItemType.Trailer,
-        BaseItemType.MusicArtist,
-        BaseItemType.Person,
-        BaseItemType.MusicVideo,
-        BaseItemType.SeriesTimer
+    private static BaseItemType[] buttonTypes = new BaseItemType[]{
+            BaseItemType.Episode,
+            BaseItemType.Movie,
+            BaseItemType.Series,
+            BaseItemType.Season,
+            BaseItemType.Folder,
+            BaseItemType.Video,
+            BaseItemType.Recording,
+            BaseItemType.Program,
+            BaseItemType.ChannelVideoItem,
+            BaseItemType.Trailer,
+            BaseItemType.MusicArtist,
+            BaseItemType.Person,
+            BaseItemType.MusicVideo,
+            BaseItemType.SeriesTimer
     };
 
 
     private static List<BaseItemType> buttonTypeList = Arrays.asList(buttonTypes);
-    private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
+    private static String[] directPlayableTypes = new String[]{"Episode", "Movie", "Video", "Recording", "Program"};
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
@@ -387,7 +388,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     @Override
     public void setRecTimer(String id) {
         mProgramInfo.setTimerId(id);
-        if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.ic_record : R.drawable.ic_record_red);
+        if (mRecordButton != null)
+            mRecordButton.setImageResource(id == null ? R.drawable.ic_record : R.drawable.ic_record_red);
     }
 
     private int posterWidth;
@@ -396,8 +398,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     @Override
     public void setRecSeriesTimer(String id) {
         if (mProgramInfo != null) mProgramInfo.setSeriesTimerId(id);
-        if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.ic_record_series : R.drawable.ic_record_series_red);
-        if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
+        if (mRecSeriesButton != null)
+            mRecSeriesButton.setImageResource(id == null ? R.drawable.ic_record_series : R.drawable.ic_record_series_red);
+        if (mSeriesSettingsButton != null)
+            mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
 
     }
 
@@ -410,8 +414,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             // Figure image size
             Double aspect = ImageUtils.getImageAspectRatio(item, false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, item.getBaseItemType() == BaseItemType.Person || item.getBaseItemType() == BaseItemType.MusicArtist ? 300 : 200);
-            posterWidth = (int)((aspect) * posterHeight);
-            if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
+            posterWidth = (int) ((aspect) * posterHeight);
+            if (posterHeight < 10)
+                posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
@@ -489,7 +494,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                             ImageOptions options = new ImageOptions();
                             options.setMaxHeight(height);
                             options.setImageType(ImageType.Primary);
-                            studioImageUrl =apiClient.getValue().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
+                            studioImageUrl = apiClient.getValue().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
                         } catch (UnsupportedEncodingException e) {
                             Timber.e(e, "Unsupported encoding");
                         }
@@ -585,7 +590,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 //Similar
                 SimilarItemsQuery similar = new SimilarItemsQuery();
-                similar.setFields(new ItemFields[] {
+                similar.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
@@ -608,7 +613,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
                 //Similar
                 SimilarItemsQuery similarTrailer = new SimilarItemsQuery();
-                similarTrailer.setFields(new ItemFields[] {
+                similarTrailer.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
@@ -628,10 +633,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         ItemFields.ChildCount
                 });
                 personMovies.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                personMovies.setPersonIds(new String[] {mBaseItem.getId()});
+                personMovies.setPersonIds(new String[]{mBaseItem.getId()});
                 personMovies.setRecursive(true);
-                personMovies.setIncludeItemTypes(new String[] {"Movie"});
-                personMovies.setSortBy(new String[] {ItemSortBy.SortName});
+                personMovies.setIncludeItemTypes(new String[]{"Movie"});
+                personMovies.setSortBy(new String[]{ItemSortBy.SortName});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, TvApp.getApplication().getString(R.string.lbl_movies));
 
@@ -642,10 +647,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         ItemFields.ChildCount
                 });
                 personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                personSeries.setPersonIds(new String[] {mBaseItem.getId()});
+                personSeries.setPersonIds(new String[]{mBaseItem.getId()});
                 personSeries.setRecursive(true);
-                personSeries.setIncludeItemTypes(new String[] {"Series"});
-                personSeries.setSortBy(new String[] {ItemSortBy.SortName});
+                personSeries.setIncludeItemTypes(new String[]{"Series"});
+                personSeries.setSortBy(new String[]{ItemSortBy.SortName});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, TvApp.getApplication().getString(R.string.lbl_tv_series));
 
@@ -656,10 +661,10 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         ItemFields.ChildCount
                 });
                 personEpisodes.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
+                personEpisodes.setPersonIds(new String[]{mBaseItem.getId()});
                 personEpisodes.setRecursive(true);
-                personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
-                personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
+                personEpisodes.setIncludeItemTypes(new String[]{"Episode"});
+                personEpisodes.setSortBy(new String[]{ItemSortBy.SeriesSortName, ItemSortBy.SortName});
                 ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(personEpisodes, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personEpisodesAdapter, 2, TvApp.getApplication().getString(R.string.lbl_episodes));
 
@@ -693,7 +698,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(TvApp.getApplication().getCurrentUser().getId());
-                seasons.setFields(new ItemFields[] {
+                seasons.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
@@ -737,7 +742,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                     nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
                     nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
                     nextEpisodes.setLimit(20);
-                    ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0, false, true, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode));
                 }
 
@@ -777,7 +782,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
                 if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
-                    HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
+                    HeaderItem header = new HeaderItem("Media Details" + (ms.getContainer() != null ? " (" + ms.getContainer() + ")" : ""));
                     ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
                     for (MediaStream stream : ms.getMediaStreams()) {
                         infoAdapter.add(stream);
@@ -912,7 +917,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         } else {
             long startPos = 0;
             if (mBaseItem.getCanResume()) {
-                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
+                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
@@ -928,7 +933,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getItems().length > 0) {
-                                play(response.getItems()[0], 0 , false);
+                                play(response.getItems()[0], 0, false);
                             } else {
                                 Utils.showToast(TvApp.getApplication(), "Unable to find next up episode");
                             }
@@ -1015,11 +1020,11 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
         }
         //Video versions button
-        if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1){
+        if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1) {
             TextUnderButton versionsButton = new TextUnderButton(this, R.drawable.ic_guide, buttonSize, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (versions != null ) {
+                    if (versions != null) {
                         addVersionsMenu(v);
                     } else {
                         versions = mBaseItem.getMediaSources();
@@ -1118,7 +1123,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             }
 
             if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
-                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
+                mRecSeriesButton = new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
@@ -1356,19 +1361,20 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
-        if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
+        if (mBaseItem.getBaseItemType() != BaseItemType.Episode)
+            showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
 
     }
 
     private void addVersionsMenu(View v) {
         PopupMenu menu = new PopupMenu(this, v, Gravity.END);
 
-        for (int i = 0; i< versions.size(); i++) {
+        for (int i = 0; i < versions.size(); i++) {
             MenuItem item = menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
             item.setChecked(i == selectedVersionPopupIndex);
         }
 
-        menu.getMenu().setGroupCheckable(0,true,false);
+        menu.getMenu().setGroupCheckable(0, true, false);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -1386,7 +1392,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
         menu.show();
     }
 
-    int collapsedOptions = 0 ;
+    int collapsedOptions = 0;
 
     private void showMoreButtonIfNeeded() {
         int visibleOptions = mDetailsOverviewRow.getVisibleActions() + (moreButton.isVisible() ? collapsedOptions - 1 : 0);
@@ -1451,16 +1457,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             switch (item.getItemId()) {
 
                 case R.id.play_with_vlc:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), new PreferenceVal.EnumT<>(PreferredVideoPlayer.VLC));
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_exo:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), new PreferenceVal.EnumT<>(PreferredVideoPlayer.EXOPLAYER));
                     play(mBaseItem, 0, false);
                     return true;
                 case R.id.play_with_external:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                    PlaybackHelper.getItemsToPlay(mBaseItem, false , false, new Response<List<BaseItemDto>>() {
+                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), new PreferenceVal.EnumT<>(PreferredVideoPlayer.EXTERNAL));
+                    PlaybackHelper.getItemsToPlay(mBaseItem, false, false, new Response<List<BaseItemDto>>() {
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
                             if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
@@ -1481,17 +1487,18 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     };
 
     RecordPopup mRecordPopup;
+
     public void showRecordingOptions(String id, final BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(this, 600);
             Point size = new Point();
             getWindowManager().getDefaultDisplay().getSize(size);
-            mRecordPopup = new RecordPopup(this, mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
+            mRecordPopup = new RecordPopup(this, mRowsFragment.getView(), (size.x / 2) - (width / 2), mRowsFragment.getView().getTop() + 40, width);
         }
         apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                if (recordSeries || Utils.isTrue(program.getIsSports())){
+                if (recordSeries || Utils.isTrue(program.getIsSports())) {
                     mRecordPopup.setContent(mActivity, program, response, mActivity, recordSeries);
                     mRecordPopup.show();
                 } else {
@@ -1521,14 +1528,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
 
-
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), mActivity);
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), mActivity);
         }
     }
 
@@ -1539,7 +1545,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
             } else {
-                mCurrentItem = (BaseRowItem)item;
+                mCurrentItem = (BaseRowItem) item;
             }
         }
     }

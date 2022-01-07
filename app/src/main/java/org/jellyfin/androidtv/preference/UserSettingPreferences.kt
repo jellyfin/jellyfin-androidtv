@@ -24,7 +24,15 @@ class UserSettingPreferences(
 	}
 
 	val homesections
-		get() = listOf(homesection0, homesection1, homesection2, homesection3, homesection4, homesection5, homesection6)
+		get() = listOf(
+			homesection0,
+			homesection1,
+			homesection2,
+			homesection3,
+			homesection4,
+			homesection5,
+			homesection6
+		)
 			.map(::get)
 			.filterNot { it == HomeSectionType.NONE }
 }

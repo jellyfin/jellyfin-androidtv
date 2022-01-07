@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.dsl
 
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.PreferenceStore
+import org.jellyfin.androidtv.preference.PreferenceVal
 
 abstract class OptionsItemMutable<T : Any> : OptionsItem {
 	var title: String? = null
@@ -13,7 +14,7 @@ abstract class OptionsItemMutable<T : Any> : OptionsItem {
 
 	open fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
 		get { store[preference] }
-		set { store[preference] = it }
+		set { store[preference] = PreferenceVal.buildBasedOnT(it) }
 		default { store.getDefaultValue(preference) }
 	}
 

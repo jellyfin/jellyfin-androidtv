@@ -39,46 +39,84 @@ abstract class SharedPreferenceStore(
 	// Getters and setters
 	// Primitive types
 	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
-		Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int)
-		Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long)
-		Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean)
-		String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String)
+	override operator fun <T : Any> get(preference: Preference<T>): T =
+		// Coerce returned type based on the default type
+		when (preference.defaultValue) {
+			is PreferenceVal.IntT -> sharedPreferences.getInt(
+				preference.key,
+				preference.defaultValue.data
+			)
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+			is PreferenceVal.LongT ->
+				sharedPreferences.getLong(
+					preference.key,
+					preference.defaultValue.data
 
-	override operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
-		when (preference.type) {
-			Int::class -> putInt(preference.key, value as Int)
-			Long::class -> putLong(preference.key, value as Long)
-			Boolean::class -> putBoolean(preference.key, value as Boolean)
-			String::class -> putString(preference.key, value as String)
-			Enum::class -> putString(preference.key, value.toString())
+				)
+			is PreferenceVal.BoolT ->
+				sharedPreferences.getBoolean(
+					preference.key,
+					preference.defaultValue.data
+				)
 
-			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-		}
-	}
+			is PreferenceVal.StringT -> {
+
+				sharedPreferences.getString(
+					preference.key,
+					preference.defaultValue.data
+				) ?: preference.defaultValue.data
+
+			}
+			is PreferenceVal.EnumT -> {
+				getEnum(preference, preference.defaultValue)
+			}
+		} as T
+
 
 	// Enums
-	override operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+	private fun <T> getEnum(
+		preference: Preference<*>,
+		// Require an EnumT param so someone can't call this with the wrong T type
+		defaultValue: PreferenceVal.EnumT<*>
+	): T {
 		val stringValue = sharedPreferences.getString(preference.key, null)
 
-		return if (stringValue.isNullOrBlank()) preference.defaultValue
-		else preference.type.java.enumConstants?.find {
+		if (stringValue.isNullOrBlank()) {
+			@Suppress("UNCHECKED_CAST")
+			return defaultValue.data as T
+		}
+
+		val loadedVal = defaultValue.enumClass.java.enumConstants?.find {
 			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
-		} ?: preference.defaultValue
+		} ?: defaultValue.data
+
+		@Suppress("UNCHECKED_CAST")
+		return loadedVal as T
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
-		putString(preference.key, when (value) {
-			is PreferenceEnum -> value.serializedName
-			else -> value.toString()
-		})
+	override operator fun set(preference: Preference<*>, value: PreferenceVal<*>) =
+		transaction {
+			when (value) {
+				is PreferenceVal.IntT -> putInt(preference.key, value.data)
+				is PreferenceVal.LongT -> putLong(preference.key, value.data)
+				is PreferenceVal.BoolT -> putBoolean(preference.key, value.data)
+				is PreferenceVal.StringT -> putString(preference.key, value.data)
+				is PreferenceVal.EnumT<*> -> setEnum(preference, value.data)
+			}
+		}
+
+
+	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) = transaction {
+		putString(
+			preference.key, when (value) {
+				is PreferenceEnum -> value.serializedName
+				else -> value.toString()
+			}
+		)
 	}
 
 	// Additional mutations
-	override fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
+	override fun delete(preference: Preference<*>) = transaction {
 		remove(preference.key)
 	}
 
@@ -87,12 +125,13 @@ abstract class SharedPreferenceStore(
 		val context = MigrationContext<MigrationEditor, SharedPreferences>()
 		context.body()
 
-		this[VERSION] = context.applyMigrations(this[VERSION]) { migration ->
+		val newVersion = context.applyMigrations(this[VERSION]) { migration ->
 			Timber.i("Migrating a preference store to version ${migration.toVersion}")
 
 			// Create a new transaction and execute the migration
 			transaction { migration.body(this, sharedPreferences) }
 		}
+		this[VERSION] = PreferenceVal.IntT(newVersion)
 	}
 
 	companion object {
