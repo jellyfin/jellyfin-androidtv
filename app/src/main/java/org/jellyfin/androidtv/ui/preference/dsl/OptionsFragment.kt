@@ -6,7 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AsyncPreferenceStore
-import org.jellyfin.androidtv.preference.PreferenceStore
+import org.jellyfin.androidtv.preference.IPreferenceStore
 
 abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	abstract val screen: OptionsScreen
@@ -22,7 +22,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	 * Preference stores used in current screen. Fragment will automatically call the update and
 	 * commit functions for all async stores.
 	 */
-	protected open val stores: Array<PreferenceStore> = emptyArray()
+	protected open val stores: Array<IPreferenceStore> = emptyArray()
 
 	// Used to not build twice during onCreate()
 	private var skippedInitialResume = false
@@ -32,7 +32,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		runBlocking {
 			stores
 				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.update() }  }
+				.map { async { it.update() } }
 				.awaitAll()
 		}
 
@@ -46,7 +46,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		runBlocking {
 			stores
 				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.commit() }  }
+				.map { async { it.commit() } }
 				.awaitAll()
 		}
 	}

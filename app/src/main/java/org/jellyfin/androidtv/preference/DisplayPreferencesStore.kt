@@ -12,7 +12,7 @@ abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
 	protected var app: String = "jellyfin-androidtv",
 	private val api: ApiClient,
-) : AsyncPreferenceStore {
+) : AsyncPreferenceStore, BasicPreferenceStore() {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
 	private var cachedPreferences: MutableMap<String, String?> = mutableMapOf()
 	override val shouldUpdate: Boolean
@@ -72,7 +72,7 @@ abstract class DisplayPreferencesStore(
 	}
 
 	@Suppress("UNCHECKED_CAST")
-	override fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
+	override operator fun <T : Any> get(preference: Preference<T>) = when (preference.type) {
 		Int::class -> cachedPreferences[preference.key]?.toIntOrNull() ?: preference.defaultValue
 		Long::class -> cachedPreferences[preference.key]?.toLongOrNull() ?: preference.defaultValue
 		Boolean::class -> cachedPreferences[preference.key]?.toBooleanStrictOrNull()
@@ -80,19 +80,20 @@ abstract class DisplayPreferencesStore(
 		String::class -> cachedPreferences[preference.key] ?: preference.defaultValue
 
 		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+	} as T
 
-	override fun <T : Preference<V>, V : Any> set(preference: T, value: V) = when (preference.type) {
-		Int::class -> cachedPreferences[preference.key] = (value as Int).toString()
-		Long::class -> cachedPreferences[preference.key] = (value as Long).toString()
-		Boolean::class -> cachedPreferences[preference.key] = (value as Boolean).toString()
-		String::class -> cachedPreferences[preference.key] = (value as String).toString()
-		Enum::class -> cachedPreferences[preference.key] = value.toString()
+	override operator fun <T : Any> set(preference: Preference<T>, value: T) =
+		when (preference.type) {
+			Int::class -> cachedPreferences[preference.key] = (value as Int).toString()
+			Long::class -> cachedPreferences[preference.key] = (value as Long).toString()
+			Boolean::class -> cachedPreferences[preference.key] = (value as Boolean).toString()
+			String::class -> cachedPreferences[preference.key] = (value as String).toString()
+			Enum::class -> cachedPreferences[preference.key] = value.toString()
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	}
+			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
+		}
 
-	override fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+	override operator fun <T : Enum<T>> get(preference: Preference<T>): T {
 		val stringValue = cachedPreferences[preference.key]
 
 		return if (stringValue.isNullOrBlank()) preference.defaultValue
@@ -101,7 +102,7 @@ abstract class DisplayPreferencesStore(
 		} ?: preference.defaultValue
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) {
+	override operator fun <T : Enum<T>> set(preference: Preference<T>, value: T) {
 		cachedPreferences[preference.key] = when (value) {
 			is PreferenceEnum -> value.serializedName
 			else -> value.toString()

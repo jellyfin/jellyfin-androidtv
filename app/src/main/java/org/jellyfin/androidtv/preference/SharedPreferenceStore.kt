@@ -28,7 +28,7 @@ abstract class SharedPreferenceStore(
 	 * SharedPreferences to read from and write to
 	 */
 	protected val sharedPreferences: SharedPreferences,
-) : PreferenceStore {
+) : IPreferenceStore, BasicPreferenceStore() {
 	// Internal helpers
 	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
 		val editor = sharedPreferences.edit()
@@ -39,16 +39,22 @@ abstract class SharedPreferenceStore(
 	// Getters and setters
 	// Primitive types
 	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
+	override operator fun <T : Any> get(preference: Preference<T>) = when (preference.type) {
 		Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int)
 		Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long)
-		Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean)
-		String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String)
+		Boolean::class -> sharedPreferences.getBoolean(
+			preference.key,
+			preference.defaultValue as Boolean
+		)
+		String::class -> sharedPreferences.getString(
+			preference.key,
+			preference.defaultValue as String
+		)
 
 		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+	} as T
 
-	override operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
+	override operator fun <T : Any> set(preference: Preference<T>, value: T) = transaction {
 		when (preference.type) {
 			Int::class -> putInt(preference.key, value as Int)
 			Long::class -> putLong(preference.key, value as Long)
@@ -61,7 +67,7 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Enums
-	override operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
+	override operator fun <T : Enum<T>> get(preference: Preference<T>): T {
 		val stringValue = sharedPreferences.getString(preference.key, null)
 
 		return if (stringValue.isNullOrBlank()) preference.defaultValue
@@ -70,11 +76,13 @@ abstract class SharedPreferenceStore(
 		} ?: preference.defaultValue
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
-		putString(preference.key, when (value) {
-			is PreferenceEnum -> value.serializedName
-			else -> value.toString()
-		})
+	override operator fun <T : Enum<T>> set(preference: Preference<T>, value: T) = transaction {
+		putString(
+			preference.key, when (value) {
+				is PreferenceEnum -> value.serializedName
+				else -> value.toString()
+			}
+		)
 	}
 
 	// Additional mutations
