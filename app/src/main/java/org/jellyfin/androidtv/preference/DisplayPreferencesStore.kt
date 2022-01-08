@@ -12,7 +12,7 @@ abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
 	protected var app: String = "jellyfin-androidtv",
 	private val api: ApiClient,
-) : AsyncPreferenceStore {
+) : AsyncPreferenceStore, BasicPreferenceStore() {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
 	private var cachedPreferences: MutableMap<String, String?> = mutableMapOf()
 	override val shouldUpdate: Boolean
