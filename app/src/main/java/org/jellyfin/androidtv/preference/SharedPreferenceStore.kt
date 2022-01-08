@@ -36,84 +36,25 @@ abstract class SharedPreferenceStore(
 		editor.apply()
 	}
 
-	// Getters and setters
-	// Primitive types
-	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Any> get(preference: Preference<T>): T =
-		// Coerce returned type based on the default type
-		when (preference.defaultValue) {
-			is PreferenceVal.IntT -> sharedPreferences.getInt(
-				preference.key,
-				preference.defaultValue.data
-			)
+	override fun getInt(keyName: String, defaultValue: Int) =
+		sharedPreferences.getInt(keyName, defaultValue)
 
-			is PreferenceVal.LongT ->
-				sharedPreferences.getLong(
-					preference.key,
-					preference.defaultValue.data
+	override fun getLong(keyName: String, defaultValue: Long) =
+		sharedPreferences.getLong(keyName, defaultValue)
 
-				)
-			is PreferenceVal.BoolT ->
-				sharedPreferences.getBoolean(
-					preference.key,
-					preference.defaultValue.data
-				)
+	override fun getBool(keyName: String, defaultValue: Boolean) =
+		sharedPreferences.getBoolean(keyName, defaultValue)
 
-			is PreferenceVal.StringT -> {
+	override fun getString(keyName: String, defaultValue: String) =
+		sharedPreferences.getString(keyName, defaultValue) ?: defaultValue
 
-				sharedPreferences.getString(
-					preference.key,
-					preference.defaultValue.data
-				) ?: preference.defaultValue.data
+	override fun setInt(keyName: String, value: Int) = transaction { putInt(keyName, value) }
+	override fun setLong(keyName: String, value: Long) = transaction { putLong(keyName, value) }
+	override fun setBool(keyName: String, value: Boolean) =
+		transaction { putBoolean(keyName, value) }
 
-			}
-			is PreferenceVal.EnumT -> {
-				getEnum(preference, preference.defaultValue)
-			}
-		} as T
-
-
-	// Enums
-	private fun <T> getEnum(
-		preference: Preference<*>,
-		// Require an EnumT param so someone can't call this with the wrong T type
-		defaultValue: PreferenceVal.EnumT<*>
-	): T {
-		val stringValue = sharedPreferences.getString(preference.key, null)
-
-		if (stringValue.isNullOrBlank()) {
-			@Suppress("UNCHECKED_CAST")
-			return defaultValue.data as T
-		}
-
-		val loadedVal = defaultValue.enumClass.java.enumConstants?.find {
-			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
-		} ?: defaultValue.data
-
-		@Suppress("UNCHECKED_CAST")
-		return loadedVal as T
-	}
-
-	override operator fun set(preference: Preference<*>, value: PreferenceVal<*>) =
-		transaction {
-			when (value) {
-				is PreferenceVal.IntT -> putInt(preference.key, value.data)
-				is PreferenceVal.LongT -> putLong(preference.key, value.data)
-				is PreferenceVal.BoolT -> putBoolean(preference.key, value.data)
-				is PreferenceVal.StringT -> putString(preference.key, value.data)
-				is PreferenceVal.EnumT<*> -> setEnum(preference, value.data)
-			}
-		}
-
-
-	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) = transaction {
-		putString(
-			preference.key, when (value) {
-				is PreferenceEnum -> value.serializedName
-				else -> value.toString()
-			}
-		)
-	}
+	override fun setString(keyName: String, value: String) =
+		transaction { putString(keyName, value) }
 
 	// Additional mutations
 	override fun delete(preference: Preference<*>) = transaction {

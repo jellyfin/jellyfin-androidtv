@@ -76,63 +76,33 @@ abstract class DisplayPreferencesStore(
 			return false
 		}
 	}
+	
+	override fun getInt(keyName: String, defaultValue: Int) =
+		cachedPreferences[keyName]?.toIntOrNull() ?: defaultValue
 
-	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Any> get(preference: Preference<T>): T =
-		when (preference.defaultValue) {
-			is PreferenceVal.IntT -> cachedPreferences[preference.key]?.toIntOrNull()
-				?: preference.defaultValue.data
+	override fun getLong(keyName: String, defaultValue: Long) =
+		cachedPreferences[keyName]?.toLongOrNull() ?: defaultValue
 
-			is PreferenceVal.LongT ->
-				cachedPreferences[preference.key]?.toLongOrNull()
-					?: preference.defaultValue.data
+	override fun getBool(keyName: String, defaultValue: Boolean) =
+		cachedPreferences[keyName]?.toBooleanStrictOrNull() ?: defaultValue
 
-			is PreferenceVal.BoolT ->
-				cachedPreferences[preference.key]?.toBooleanStrictOrNull()
-					?: preference.defaultValue.data
+	override fun getString(keyName: String, defaultValue: String) =
+		cachedPreferences[keyName] ?: defaultValue
 
-			is PreferenceVal.StringT ->
-				cachedPreferences[preference.key] ?: preference.defaultValue.data
-
-			is PreferenceVal.EnumT<*> -> getEnum(preference, preference.defaultValue)
-		} as T
-
-	private fun <T> getEnum(
-		preference: Preference<*>,
-		// Require an EnumT param so someone can't call this with the wrong T type
-		defaultValue: PreferenceVal.EnumT<*>
-	): T {
-		val stringValue = cachedPreferences[preference.key]
-
-		if (stringValue.isNullOrBlank()) {
-			@Suppress("UNCHECKED_CAST")
-			return defaultValue.data as T
-		}
-
-		val loadedVal = defaultValue.enumClass.java.enumConstants?.find {
-			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
-		} ?: defaultValue.data
-
-		@Suppress("UNCHECKED_CAST")
-		return loadedVal as T
+	override fun setInt(keyName: String, value: Int) {
+		cachedPreferences[keyName] = value.toString()
 	}
 
-	override operator fun set(preference: Preference<*>, value: PreferenceVal<*>) {
-		when (value) {
-			is PreferenceVal.IntT -> cachedPreferences[preference.key] = (value.data).toString()
-			is PreferenceVal.LongT -> cachedPreferences[preference.key] = (value.data).toString()
-			is PreferenceVal.BoolT -> cachedPreferences[preference.key] = (value.data).toString()
-			is PreferenceVal.StringT -> cachedPreferences[preference.key] = (value.data)
-			is PreferenceVal.EnumT<*> -> setEnum(preference, value.data)
-		}
-
+	override fun setLong(keyName: String, value: Long) {
+		cachedPreferences[keyName] = value.toString()
 	}
 
-	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) {
-		cachedPreferences[preference.key] = when (value) {
-			is PreferenceEnum -> value.serializedName
-			else -> value.toString()
-		}
+	override fun setBool(keyName: String, value: Boolean) {
+		cachedPreferences[keyName] = value.toString()
+	}
+
+	override fun setString(keyName: String, value: String) {
+		cachedPreferences[keyName] = value
 	}
 
 	override fun delete(preference: Preference<*>) {
