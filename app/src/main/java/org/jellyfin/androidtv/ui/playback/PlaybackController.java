@@ -20,7 +20,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.preference.IUserPreferences;
+import org.jellyfin.androidtv.preference.PreferenceStore;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -68,7 +68,7 @@ public class PlaybackController {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
-    private Lazy<IUserPreferences> userPreferences = inject(IUserPreferences.class);
+    private Lazy<PreferenceStore> userPreferences = inject(PreferenceStore.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 

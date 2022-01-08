@@ -4,8 +4,8 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.jellyfin.androidtv.preference.IUserPreferences
 import org.jellyfin.androidtv.preference.Preference
+import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -28,7 +28,7 @@ class PlaybackControllerTest : KoinTest {
 
 	// Koin managed modules
 	lateinit var mockApiClient: ApiClient
-	lateinit var mockUserPreferences: IUserPreferences
+	lateinit var mockUserPreferences: PreferenceStore
 
 	private fun prepDiMocks(): Module {
 		mockApiClient = mockk(relaxed = true)

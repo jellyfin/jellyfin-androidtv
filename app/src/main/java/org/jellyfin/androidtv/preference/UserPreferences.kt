@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.util.DeviceUtils
  *
  * @param context Context to get the SharedPreferences from
  */
-class UserPreferences(context: Context) : IUserPreferences, SharedPreferenceStore(
+class UserPreferences(context: Context) : PreferenceStore, SharedPreferenceStore(
 	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 ) {
 	companion object {

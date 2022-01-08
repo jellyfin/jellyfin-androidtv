@@ -17,7 +17,7 @@ class VideoSpeedControllerTest {
 
 	@Test
 	fun testSpeedSteps() {
-		val speedSteps = VideoSpeedController.Companion.SpeedSteps.values()
+		val speedSteps = VideoSpeedController.SpeedSteps.values()
 		val expectedStep = 0.25
 		var i = 1
 		speedSteps.forEach { v ->
@@ -42,7 +42,7 @@ class VideoSpeedControllerTest {
 	fun testSetNewSpeed() {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val controller = VideoSpeedController(mockController)
-		val expected = VideoSpeedController.Companion.SpeedSteps.SPEED_1_25
+		val expected = VideoSpeedController.SpeedSteps.SPEED_1_25
 		controller.setNewSpeed(expected)
 		assertEquals(expected, controller.getCurrentSpeed())
 	}
@@ -54,7 +54,7 @@ class VideoSpeedControllerTest {
 		justRun { mockController.setPlaybackSpeed(capture(slot)) }
 
 		val controller = VideoSpeedController(mockController)
-		val expected = VideoSpeedController.Companion.SpeedSteps.SPEED_1_75
+		val expected = VideoSpeedController.SpeedSteps.SPEED_1_75
 		controller.setNewSpeed(expected)
 
 		verify { mockController.setPlaybackSpeed(any()) }
@@ -64,7 +64,7 @@ class VideoSpeedControllerTest {
 	@Test
 	fun testResetPreviousSpeedToDefault() {
 		val mockController = mockk<PlaybackController>(relaxed = true)
-		VideoSpeedController(mockController).setNewSpeed(VideoSpeedController.Companion.SpeedSteps.SPEED_2_00)
+		VideoSpeedController(mockController).setNewSpeed(VideoSpeedController.SpeedSteps.SPEED_2_00)
 		VideoSpeedController.resetPreviousSpeedToDefault()
 
 		val slot = slot<Double>()
@@ -73,7 +73,7 @@ class VideoSpeedControllerTest {
 
 		verify { mockController.setPlaybackSpeed(any()) }
 		assertEquals(
-			VideoSpeedController.Companion.SpeedSteps.SPEED_1_00.speed,
+			VideoSpeedController.SpeedSteps.SPEED_1_00.speed,
 			slot.captured,
 			0.0001
 		)
@@ -83,7 +83,7 @@ class VideoSpeedControllerTest {
 	@Test
 	fun testControllerPreservesMostRecentlySelectedSpeedConstructingNew() {
 		var lastSetSpeed = 1.0
-		val speeds = VideoSpeedController.Companion.SpeedSteps.values()
+		val speeds = VideoSpeedController.SpeedSteps.values()
 
 		speeds.forEach { newSpeed ->
 			val mockController = mockk<PlaybackController>()

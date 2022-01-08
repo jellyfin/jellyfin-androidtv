@@ -13,7 +13,7 @@ val preferenceModule = module {
 	single { AuthenticationPreferences(androidApplication()) }
 	single { UserPreferences(androidApplication()) } binds arrayOf(
 		UserPreferences::class,
-		IUserPreferences::class
+		PreferenceStore::class
 	)
 	single { SystemPreferences(androidApplication()) }
 }

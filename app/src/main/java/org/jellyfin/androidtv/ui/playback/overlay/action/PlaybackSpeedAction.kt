@@ -17,7 +17,7 @@ class PlaybackSpeedAction(
 	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val speedController = VideoSpeedController(playbackController)
-	private val speeds = VideoSpeedController.Companion.SpeedSteps.values()
+	private val speeds = VideoSpeedController.SpeedSteps.values()
 
 	init {
 		initializeWithIcon(R.drawable.ic_playback_speed)
