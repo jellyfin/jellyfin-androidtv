@@ -66,13 +66,12 @@ abstract class SharedPreferenceStore(
 		val context = MigrationContext<MigrationEditor, SharedPreferences>()
 		context.body()
 
-		val newVersion = context.applyMigrations(this[VERSION]) { migration ->
+		this[VERSION] = context.applyMigrations(this[VERSION]) { migration ->
 			Timber.i("Migrating a preference store to version ${migration.toVersion}")
 
 			// Create a new transaction and execute the migration
 			transaction { migration.body(this, sharedPreferences) }
 		}
-		this[VERSION] = PreferenceVal.IntT(newVersion)
 	}
 
 	companion object {

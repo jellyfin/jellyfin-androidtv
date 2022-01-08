@@ -9,7 +9,7 @@ interface IPreferenceStore {
 	operator fun <T : Any> get(preference: Preference<T>): T
 
 	// store[Preference.x] = value
-	operator fun set(preference: Preference<*>, value: PreferenceVal<*>)
+	operator fun <T : Any> set(preference: Preference<T>, value: T)
 
 	// store.getDefaultValue(Preference.x)
 	fun <T : Any> getDefaultValue(preference: Preference<T>): T

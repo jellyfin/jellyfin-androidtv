@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import androidx.annotation.NonNull;
 
-import org.jellyfin.androidtv.preference.PreferenceVal;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -34,25 +33,17 @@ public class GuideFilters {
         premiere = systemPreferences.getValue().get(SystemPreferences.Companion.getLiveTvGuideFilterPremiere());
     }
 
-    public boolean any() {
-        return movies || news || series || kids || sports || premiere;
-    }
+    public boolean any() { return movies || news || series || kids || sports || premiere; }
 
     public boolean passesFilter(BaseItemDto program) {
         if (!any()) return true;
 
-        if (movies && Utils.isTrue(program.getIsMovie()))
-            return !premiere || Utils.isTrue(program.getIsPremiere());
-        if (news && Utils.isTrue(program.getIsNews()))
-            return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive()) || !Utils.isTrue(program.getIsRepeat());
-        if (series && Utils.isTrue(program.getIsSeries()))
-            return !premiere || Utils.isTrue(program.getIsPremiere()) || !Utils.isTrue(program.getIsRepeat());
-        if (kids && Utils.isTrue(program.getIsKids()))
-            return !premiere || Utils.isTrue(program.getIsPremiere());
-        if (sports && Utils.isTrue(program.getIsSports()))
-            return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive());
-        if (!movies && !news && !series && !kids && !sports)
-            return (premiere && (Utils.isTrue(program.getIsPremiere()) || (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsRepeat())) || (Utils.isTrue(program.getIsSports()) && Utils.isTrue(program.getIsLive()))));
+        if (movies && Utils.isTrue(program.getIsMovie())) return !premiere || Utils.isTrue(program.getIsPremiere());
+        if (news && Utils.isTrue(program.getIsNews())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive()) || !Utils.isTrue(program.getIsRepeat());
+        if (series && Utils.isTrue(program.getIsSeries())) return !premiere || Utils.isTrue(program.getIsPremiere()) || !Utils.isTrue(program.getIsRepeat());
+        if (kids && Utils.isTrue(program.getIsKids())) return !premiere || Utils.isTrue(program.getIsPremiere());
+        if (sports && Utils.isTrue(program.getIsSports())) return !premiere || Utils.isTrue(program.getIsPremiere()) || Utils.isTrue(program.getIsLive());
+        if (!movies && !news && !series && !kids && !sports) return (premiere && (Utils.isTrue(program.getIsPremiere()) || (Utils.isTrue(program.getIsSeries()) && !Utils.isTrue(program.getIsRepeat())) || (Utils.isTrue(program.getIsSports()) && Utils.isTrue(program.getIsLive()))));
 
         return false;
 
@@ -85,9 +76,7 @@ public class GuideFilters {
         return filterString;
     }
 
-    private String getSeparator(String original) {
-        return (original.length()) > 0 ? ", " : "";
-    }
+    private String getSeparator(String original) {return (original.length()) > 0 ? ", " : "";}
 
     public boolean isMovies() {
         return movies;
@@ -95,7 +84,7 @@ public class GuideFilters {
 
     public void setMovies(boolean movies) {
         this.movies = movies;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterMovies(), new PreferenceVal.BoolT(movies));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterMovies(), movies);
     }
 
     public boolean isNews() {
@@ -104,7 +93,7 @@ public class GuideFilters {
 
     public void setNews(boolean news) {
         this.news = news;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterNews(), new PreferenceVal.BoolT(news));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterNews(), news);
     }
 
     public boolean isSeries() {
@@ -113,7 +102,7 @@ public class GuideFilters {
 
     public void setSeries(boolean series) {
         this.series = series;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSeries(), new PreferenceVal.BoolT(series));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSeries(), series);
     }
 
     public boolean isKids() {
@@ -122,7 +111,7 @@ public class GuideFilters {
 
     public void setKids(boolean kids) {
         this.kids = kids;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterKids(), new PreferenceVal.BoolT(kids));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterKids(), kids);
     }
 
     public boolean isSports() {
@@ -131,7 +120,7 @@ public class GuideFilters {
 
     public void setSports(boolean sports) {
         this.sports = sports;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSports(), new PreferenceVal.BoolT(sports));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterSports(), sports);
     }
 
     public boolean isPremiere() {
@@ -140,6 +129,6 @@ public class GuideFilters {
 
     public void setPremiere(boolean premiere) {
         this.premiere = premiere;
-        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterPremiere(), new PreferenceVal.BoolT(premiere));
+        systemPreferences.getValue().set(SystemPreferences.Companion.getLiveTvGuideFilterPremiere(), premiere);
     }
 }

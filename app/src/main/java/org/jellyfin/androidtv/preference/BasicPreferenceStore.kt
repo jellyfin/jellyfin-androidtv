@@ -7,7 +7,7 @@ abstract class BasicPreferenceStore : IPreferenceStore {
 	}
 
 	override fun <T : Any> reset(preference: Preference<T>) {
-		this[preference] = PreferenceVal.buildBasedOnT(getDefaultValue(preference))
+		this[preference] = getDefaultValue(preference)
 	}
 
 	@Suppress("UNCHECKED_CAST")
@@ -21,14 +21,18 @@ abstract class BasicPreferenceStore : IPreferenceStore {
 			is PreferenceVal.EnumT -> getEnum(preference, preference.defaultValue)
 		} as T
 
-	override operator fun set(preference: Preference<*>, value: PreferenceVal<*>) =
+	override operator fun <T : Any> set(preference: Preference<T>, value: T) {
 		when (value) {
-			is PreferenceVal.IntT -> setInt(preference.key, value.data)
-			is PreferenceVal.LongT -> setLong(preference.key, value.data)
-			is PreferenceVal.BoolT -> setBool(preference.key, value.data)
-			is PreferenceVal.StringT -> setString(preference.key, value.data)
-			is PreferenceVal.EnumT<*> -> setEnum(preference, value.data)
+			is Boolean -> setBool(preference.key, value)
+			is Int -> setInt(preference.key, value)
+			is Long -> setLong(preference.key, value)
+			is String -> setString(preference.key, value)
+			is Enum<*> -> setEnum(preference.key, value)
+			else -> throw UnsupportedPreferenceType("Unknown Type")
 		}
+	}
+
+	fun <T : Enum<T>> buildBasedOnT(value: T): PreferenceVal<T> = PreferenceVal.EnumT(value)
 
 	// Protected methods to get / set items, this is an implementation detail so we protect
 	// it in the abstract common functionality (where it is used)
@@ -43,7 +47,6 @@ abstract class BasicPreferenceStore : IPreferenceStore {
 	protected abstract fun setString(keyName: String, value: String)
 
 	// Private Enum handling, all Enum types are serialized to / from String types
-
 	private fun <T> getEnum(
 		preference: Preference<*>,
 		// Require an EnumT param so someone can't call this with the wrong T type
@@ -64,9 +67,9 @@ abstract class BasicPreferenceStore : IPreferenceStore {
 		return loadedVal as T
 	}
 
-	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
+	private fun <V : Enum<V>> setEnum(keyName: String, value: Enum<V>) =
 		setString(
-			preference.key, when (value) {
+			keyName, when (value) {
 				is PreferenceEnum -> value.serializedName
 				else -> value.toString()
 			}

@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.preference.IPreferenceStore
 import org.jellyfin.androidtv.preference.Preference
-import org.jellyfin.androidtv.preference.PreferenceVal
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import java.util.*
 
@@ -21,7 +20,7 @@ class OptionsItemEnum<T : Enum<T>>(
 	// store getter and setter will be used.
 	override fun bind(store: IPreferenceStore, preference: Preference<T>) = bind {
 		get { store[preference] }
-		set { store[preference] = PreferenceVal.buildBasedOnT(it) }
+		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }
 	}
 

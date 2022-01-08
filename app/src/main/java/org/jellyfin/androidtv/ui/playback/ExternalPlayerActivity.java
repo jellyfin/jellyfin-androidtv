@@ -18,7 +18,6 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.preference.PreferenceVal;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -142,8 +141,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void handlePlayerError() {
-        if (!mediaManager.getValue().isVideoQueueModified())
-            mediaManager.getValue().clearVideoQueue();
+        if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.no_player)
@@ -156,8 +154,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 .setNegativeButton(R.string.turn_off, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), new PreferenceVal.EnumT<>(PreferredVideoPlayer.AUTO));
-                        userPreferences.getValue().set(UserPreferences.Companion.getLiveTvVideoPlayer(), new PreferenceVal.EnumT<>(PreferredVideoPlayer.AUTO));
+                        userPreferences.getValue().set(UserPreferences.Companion.getVideoPlayer(), PreferredVideoPlayer.AUTO);
+                        userPreferences.getValue().set(UserPreferences.Companion.getLiveTvVideoPlayer(), PreferredVideoPlayer.AUTO);
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -216,7 +214,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     protected void launchExternalPlayer(int ndx) {
         if (ndx >= mItemsToPlay.size()) {
-            Timber.e("Attempt to play index beyond items: %s", ndx);
+            Timber.e("Attempt to play index beyond items: %s",ndx);
         } else {
             //Get playback info for current item
             mCurrentNdx = ndx;
@@ -279,17 +277,17 @@ public class ExternalPlayerActivity extends FragmentActivity {
         if (rawPath == null) return "";
         String lower = rawPath.toLowerCase();
         if (!rawPath.contains("://")) {
-            rawPath = rawPath.replace("\\\\", ""); // remove UNC prefix if there
+            rawPath = rawPath.replace("\\\\",""); // remove UNC prefix if there
             //prefix with smb
-            rawPath = "smb://" + rawPath;
+            rawPath = "smb://"+rawPath;
         }
 
-        return rawPath.replaceAll("\\\\", "/");
+        return rawPath.replaceAll("\\\\","/");
     }
 
     protected void startExternalActivity(String path, String container) {
         Intent external = new Intent(Intent.ACTION_VIEW);
-        external.setDataAndType(Uri.parse(path), "video/" + container);
+        external.setDataAndType(Uri.parse(path), "video/"+container);
 
         BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
 
@@ -301,7 +299,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         }
         //End MX Player
 
-        Timber.i("Starting external playback of path: %s and mime: video/%s", path, container);
+        Timber.i("Starting external playback of path: %s and mime: video/%s",path,container);
 
         try {
             mLastPlayerStart = System.currentTimeMillis();

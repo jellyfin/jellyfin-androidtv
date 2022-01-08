@@ -16,20 +16,6 @@ sealed class PreferenceVal<T>(initialValue: T) {
 	class EnumT<T : Enum<T>>(data: T) : PreferenceVal<T>(data) {
 		val enumClass = data::class
 	}
-
-	companion object {
-		@Suppress("UNCHECKED_CAST")
-		fun <T : Any> buildBasedOnT(value: T): PreferenceVal<T> =
-			when (value) {
-				is Boolean -> BoolT(value)
-				is Int -> IntT(value)
-				is Long -> LongT(value)
-				is String -> StringT(value)
-				else -> throw UnsupportedPreferenceType("Unknown Type")
-			} as PreferenceVal<T>
-
-		fun <T : Enum<T>> buildBasedOnT(value: T): PreferenceVal<T> = EnumT(value)
-	}
 }
 
 data class Preference<T>(

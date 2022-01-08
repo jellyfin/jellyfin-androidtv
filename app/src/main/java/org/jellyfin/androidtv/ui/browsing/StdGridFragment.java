@@ -36,7 +36,6 @@ import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
-import org.jellyfin.androidtv.preference.PreferenceVal;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.AlphaPicker;
 import org.jellyfin.androidtv.ui.GridFragment;
@@ -102,7 +101,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mPosterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
         mImageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
         mGridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
-
+        
         if (mGridDirection.equals(GridDirection.VERTICAL))
             setGridPresenter(new VerticalGridPresenter());
         else
@@ -170,7 +169,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity) getActivity();
+        if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity)getActivity();
 
         backgroundService.getValue().attach(requireActivity());
 
@@ -224,7 +223,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                             if (!mGridAdapter.ReRetrieveIfNeeded()) refreshCurrentItem();
                         }
                     }
-                }, 500);
+                },500);
             }
 
         } else {
@@ -343,10 +342,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     protected ImageButton mLetterButton;
 
     protected void updateDisplayPrefs() {
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), new PreferenceVal.BoolT(mGridAdapter.getFilters().isFavoriteOnly()));
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), new PreferenceVal.BoolT(mGridAdapter.getFilters().isUnwatchedOnly()));
-        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), new PreferenceVal.StringT(mGridAdapter.getSortBy()));
-        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), new PreferenceVal.EnumT<>(getSortOption(mGridAdapter.getSortBy()).order));
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mGridAdapter.getFilters().isFavoriteOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mGridAdapter.getFilters().isUnwatchedOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mGridAdapter.getSortBy());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mGridAdapter.getSortBy()).order);
         libraryPreferences.commitBlocking();
     }
 
@@ -368,8 +367,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
                     MenuItem item = sortMenu.getMenu().add(0, key, key, option.name);
-                    if (option.value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())))
-                        item.setChecked(true);
+                    if (option.value.equals(libraryPreferences.get(LibraryPreferences.Companion.getSortBy()))) item.setChecked(true);
                 }
                 sortMenu.getMenu().setGroupCheckable(0, true, true);
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -477,7 +475,6 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
     }
 
     private JumplistPopup mJumplistPopup;
-
     class JumplistPopup {
 
         private final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
@@ -617,7 +614,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mGridAdapter, ((BaseRowItem) item).getIndex(), getActivity());
+            ItemLauncher.launch((BaseRowItem) item, mGridAdapter, ((BaseRowItem)item).getIndex(), getActivity());
         }
     }
 
@@ -641,13 +638,12 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 //fill in default background
                 backgroundService.getValue().clearBackgrounds();
             } else {
-                mCurrentItem = (BaseRowItem) item;
+                mCurrentItem = (BaseRowItem)item;
                 mTitleView.setText(mCurrentItem.getName(requireContext()));
                 mInfoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, 400);
 
-                if (!determiningPosterSize)
-                    mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                if (!determiningPosterSize) mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
 
             }
 

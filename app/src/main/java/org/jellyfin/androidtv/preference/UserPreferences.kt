@@ -127,14 +127,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Shortcut used for changing the audio track
 		 */
-		var shortcutAudioTrack =
-			Preference.int("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+		var shortcutAudioTrack = Preference.int("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
 
 		/**
 		 * Shortcut used for changing the subtitle track
 		 */
-		var shortcutSubtitleTrack =
-			Preference.int("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
+		var shortcutSubtitleTrack = Preference.int("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 		/* Developer options */
 		/**
@@ -176,14 +174,13 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Set when watched indicators should show on MyImageCardViews
 		 */
-		var watchedIndicatorBehavior =
-			Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
+		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
 
 		/**
 		 * Enable series thumbnails in home screen rows
 		 */
 		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
-
+			
 		/**
 		 * Enable subtitles background
 		 */
@@ -204,40 +201,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				// Migrate to video player enum
 				// Note: This is the only time we need to check if the value is not set yet because the version numbers were reset
 				if (!it.contains("video_player"))
-					putEnum(
-						"video_player",
-						if (it.getBoolean(
-								"pref_video_use_external",
-								false
-							)
-						) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO
-					)
+					putEnum("video_player", if (it.getBoolean("pref_video_use_external", false)) PreferredVideoPlayer.EXTERNAL else PreferredVideoPlayer.AUTO)
 			}
 
 			// v0.11.x to v0.12.x
 			migration(toVersion = 5) {
 				// Migrate to audio behavior enum
-				putEnum(
-					"audio_behavior",
-					if (it.getString(
-							"pref_audio_option",
-							"0"
-						) == "1"
-					) AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM
-				)
+				putEnum("audio_behavior", if (it.getString("pref_audio_option", "0") == "1") AudioBehavior.DOWNMIX_TO_STEREO else AudioBehavior.DIRECT_STREAM)
 
 				// Migrate live tv player to use enum
-				putEnum(
-					"live_tv_video_player",
+				putEnum("live_tv_video_player",
 					when {
-						it.getBoolean(
-							"pref_live_tv_use_external",
-							false
-						) -> PreferredVideoPlayer.EXTERNAL
+						it.getBoolean("pref_live_tv_use_external", false) -> PreferredVideoPlayer.EXTERNAL
 						it.getBoolean("pref_enable_vlc_livetv", false) -> PreferredVideoPlayer.VLC
 						else -> PreferredVideoPlayer.AUTO
-					}
-				)
+					})
 
 				// Change audio delay type from long to int
 				putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())

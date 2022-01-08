@@ -17,7 +17,6 @@ import androidx.leanback.widget.Presenter;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
-import org.jellyfin.androidtv.preference.PreferenceVal;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -67,8 +66,8 @@ public class TvManager {
 
     public static void setLastLiveTvChannel(String id) {
         SystemPreferences systemPreferences = KoinJavaComponent.<SystemPreferences>get(SystemPreferences.class);
-        systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), new PreferenceVal.StringT(systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel())));
-        systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), new PreferenceVal.StringT(id));
+        systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
+        systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
         sortChannels();
     }
@@ -89,10 +88,7 @@ public class TvManager {
     public static void forceReload() {
         forceReload = true;
     }
-
-    public static boolean shouldForceReload() {
-        return forceReload;
-    }
+    public static boolean shouldForceReload() { return forceReload; }
 
     public static int getAllChannelsIndex(String id) {
         for (int i = 0; i < allChannels.size(); i++) {
@@ -111,7 +107,7 @@ public class TvManager {
             if (ndx >= 0) {
                 TimeZone timeZone = Calendar.getInstance().getTimeZone();
                 Date now = new Date();
-                allChannels.get(ndx).getUserData().setLastPlayedDate(new Date(now.getTime() - timeZone.getRawOffset()));
+                allChannels.get(ndx).getUserData().setLastPlayedDate(new Date(now.getTime()-timeZone.getRawOffset()));
             }
         }
     }
@@ -133,10 +129,9 @@ public class TvManager {
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setAddCurrentProgram(true);
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop()))
-            query.setEnableFavoriteSorting(true);
+        if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) query.setEnableFavoriteSorting(true);
         query.setSortOrder("DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
-        query.setSortBy(new String[]{"DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? "DatePlayed" : "SortName"});
+        query.setSortBy(new String[] {"DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? "DatePlayed" : "SortName"});
         Timber.d("*** About to load channels");
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
@@ -212,10 +207,10 @@ public class TvManager {
             forceReload = false;
             ProgramQuery query = new ProgramQuery();
             query.setUserId(TvApp.getApplication().getCurrentUser().getId());
-            endNdx = endNdx > channelIds.length ? channelIds.length : endNdx + 1; //array copy range final ndx is exclusive
+            endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setEnableImages(false);
-            query.setSortBy(new String[]{"StartDate"});
+            query.setSortBy(new String[] {"StartDate"});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
             end.add(Calendar.SECOND, -1);
@@ -267,9 +262,7 @@ public class TvManager {
         return programNeedLoadTime;
     }
 
-    public static boolean programsNeedLoad(Calendar now) {
-        return programNeedLoadTime == null || now.after(programNeedLoadTime);
-    }
+    public static boolean programsNeedLoad(Calendar now) { return programNeedLoadTime == null || now.after(programNeedLoadTime); }
 
     public static List<BaseItemDto> getProgramsForChannel(String channelId, GuideFilters filters) {
         if (!mProgramsDict.containsKey(channelId)) return new ArrayList<>();
@@ -303,7 +296,7 @@ public class TvManager {
         channel.setTextColor(activity.getResources().getColor(android.R.color.holo_blue_light));
         timelineRow.addView(channel);
         TextView datetime = new TextView(activity);
-        datetime.setText(TimeUtils.getFriendlyDate(activity, local) + " @ " + android.text.format.DateFormat.getTimeFormat(activity).format(local) + " (" + DateUtils.getRelativeTimeSpanString(local.getTime()) + ")");
+        datetime.setText(TimeUtils.getFriendlyDate(activity, local)+ " @ "+android.text.format.DateFormat.getTimeFormat(activity).format(local)+ " ("+ DateUtils.getRelativeTimeSpanString(local.getTime())+")");
         timelineRow.addView(datetime);
 
     }

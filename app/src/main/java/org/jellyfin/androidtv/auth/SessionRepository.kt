@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
-import org.jellyfin.androidtv.preference.PreferenceVal
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
 import org.jellyfin.sdk.api.client.ApiClient
@@ -52,8 +51,7 @@ class SessionRepositoryImpl(
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
 
 		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
-		val userId =
-			authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
+		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
 
 		when (behavior) {
 			DISABLED -> destroyCurrentSession()
@@ -65,14 +63,10 @@ class SessionRepositoryImpl(
 	override fun restoreDefaultSystemSession() {
 		Timber.d("Restoring default system session")
 
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return setCurrentSession(
-			null,
-			false
-		)
+		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return setCurrentSession(null, false)
 
 		val behavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
-		val userId =
-			authenticationPreferences[AuthenticationPreferences.systemUserId].toUUIDOrNull()
+		val userId = authenticationPreferences[AuthenticationPreferences.systemUserId].toUUIDOrNull()
 
 		when (behavior) {
 			DISABLED -> setCurrentSystemSession(null)
@@ -108,19 +102,13 @@ class SessionRepositoryImpl(
 		apiBinder.updateSession(null) { }
 	}
 
-	private fun setCurrentSession(
-		session: Session?,
-		includeSystemUser: Boolean,
-		callback: ((Boolean) -> Unit)? = null
-	) {
+	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
 		// No change in session - don't switch
 		if (session != null && currentSession.value?.userId == session.userId) return
 
-		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] =
-			PreferenceVal.StringT(session.userId.toString())
+		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
-		val systemUserBehavior =
-			authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
+		val systemUserBehavior = authenticationPreferences[AuthenticationPreferences.systemUserBehavior]
 		if (includeSystemUser && systemUserBehavior == LAST_USER) setCurrentSystemSession(session)
 
 		// Update session after binding the apiclient settings
@@ -150,8 +138,7 @@ class SessionRepositoryImpl(
 	}
 
 	private fun createLastUserSession(): Session? {
-		val lastUserId =
-			authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
+		val lastUserId = authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
 		return createUserSession(lastUserId)
 	}
 

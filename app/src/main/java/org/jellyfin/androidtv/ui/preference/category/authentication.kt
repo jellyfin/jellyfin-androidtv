@@ -6,7 +6,6 @@ import org.jellyfin.androidtv.auth.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
-import org.jellyfin.androidtv.preference.PreferenceVal
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.preference.dsl.*
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker.UserSelection
@@ -98,9 +97,8 @@ private fun OptionsBinder.Builder<UserSelection>.from(
 	}
 
 	set {
-		authenticationPreferences[userBehaviorPreference] = PreferenceVal.EnumT(it.behavior)
-		authenticationPreferences[userIdPreference] =
-			PreferenceVal.StringT(it.userId?.toString().orEmpty())
+		authenticationPreferences[userBehaviorPreference] = it.behavior
+		authenticationPreferences[userIdPreference] = it.userId?.toString().orEmpty()
 
 		onSet?.invoke(it)
 	}
