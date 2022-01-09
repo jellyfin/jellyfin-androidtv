@@ -467,4 +467,8 @@
     <string name="home_prefs">Domov</string>
     <string name="searchable_settings_description">Médiá</string>
     <string name="searchable_hint">Hľadať v Jellyfine</string>
+    <string name="pref_subtitles_size">Veľkosť titulkov</string>
+    <string name="pref_subtitles_background_summary">Zobrazí čierne pozadie za titulkami</string>
+    <string name="pref_subtitles_background_title">Zobraziť pozadie za titulkami</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
 </resources>
