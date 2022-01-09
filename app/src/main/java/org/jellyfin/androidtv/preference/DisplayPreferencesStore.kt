@@ -60,10 +60,7 @@ abstract class DisplayPreferencesStore(
 
 			return true
 		} catch (err: ApiClientException) {
-			Timber.e(
-				err,
-				"Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)"
-			)
+			Timber.e(err, "Unable to retrieve displaypreferences. (displayPreferencesId=$displayPreferencesId, app=$app)")
 
 			if (displayPreferencesDto == null) {
 				Timber.i("Creating an empty DisplayPreferencesDto for next commit.")
