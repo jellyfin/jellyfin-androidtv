@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.playback
 
-class VideoSpeedController(playbackController: PlaybackController) {
+class VideoSpeedController(
+	private val parentController: PlaybackController
+) {
 	enum class SpeedSteps(val speed: Double) {
 		// Use named parameter so detekt knows these aren't magic values
 		SPEED_0_25(speed = 0.25),
@@ -14,28 +16,25 @@ class VideoSpeedController(playbackController: PlaybackController) {
 	}
 
 	companion object {
+		// Preserve the currently selected speed during the app lifetime, even if
+		// video playback closes
 		private var previousSpeedSelection = SpeedSteps.SPEED_1_00
-		fun resetPreviousSpeedToDefault() {
-			previousSpeedSelection = SpeedSteps.SPEED_1_00
-		}
 	}
 
-	private val parentController = playbackController
+	var currentSpeed = previousSpeedSelection
+		set(value) {
+			parentController.setPlaybackSpeed(value.speed)
+			previousSpeedSelection = value
+			field = value
+		}
 
 	init {
-		// Carry forward the user's recent speed selection onto the next video(s)
-		setNewSpeed(previousSpeedSelection)
+		// We need to do this again in init, as Kotlin will not call the custom
+		// setter on initialization, so the PlaybackController is not informed
+		currentSpeed = previousSpeedSelection
 	}
 
-	fun getCurrentSpeed(): SpeedSteps {
-		// Currently getCurrentSpeed uses previousSpeedSelection (from the companion)
-		// but this is an implementation detail I'd rather not leak in-case we ever need
-		// to separate out the two details. So implement a custom named getter...
-		return previousSpeedSelection
-	}
-
-	fun setNewSpeed(selectedSpeed: SpeedSteps) {
-		previousSpeedSelection = selectedSpeed
-		parentController.setPlaybackSpeed(selectedSpeed.speed)
+	fun resetSpeedToDefault() {
+		currentSpeed = SpeedSteps.SPEED_1_00
 	}
 }

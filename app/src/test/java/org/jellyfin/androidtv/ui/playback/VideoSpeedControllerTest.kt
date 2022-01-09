@@ -12,7 +12,7 @@ class VideoSpeedControllerTest {
 	@After
 	fun tearDown() {
 		// Always reset the "user selected" speed back to default
-		VideoSpeedController.resetPreviousSpeedToDefault()
+		VideoSpeedController(mockk(relaxed = true)).resetSpeedToDefault()
 	}
 
 	@Test
@@ -43,8 +43,8 @@ class VideoSpeedControllerTest {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val controller = VideoSpeedController(mockController)
 		val expected = VideoSpeedController.SpeedSteps.SPEED_1_25
-		controller.setNewSpeed(expected)
-		assertEquals(expected, controller.getCurrentSpeed())
+		controller.currentSpeed = expected
+		assertEquals(expected, controller.currentSpeed)
 	}
 
 	@Test
@@ -55,7 +55,7 @@ class VideoSpeedControllerTest {
 
 		val controller = VideoSpeedController(mockController)
 		val expected = VideoSpeedController.SpeedSteps.SPEED_1_75
-		controller.setNewSpeed(expected)
+		controller.currentSpeed = expected
 
 		verify { mockController.setPlaybackSpeed(any()) }
 		assertEquals(expected.speed, slot.captured, 0.0001)
@@ -63,15 +63,17 @@ class VideoSpeedControllerTest {
 
 	@Test
 	fun testResetPreviousSpeedToDefault() {
-		val mockController = mockk<PlaybackController>(relaxed = true)
-		VideoSpeedController(mockController).setNewSpeed(VideoSpeedController.SpeedSteps.SPEED_2_00)
-		VideoSpeedController.resetPreviousSpeedToDefault()
+		val playbackController = mockk<PlaybackController>(relaxed = true)
+		val videoController = VideoSpeedController(playbackController)
+
+		videoController.currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
+		videoController.resetSpeedToDefault()
 
 		val slot = slot<Double>()
-		justRun { mockController.setPlaybackSpeed(capture(slot)) }
-		VideoSpeedController(mockController)
+		justRun { playbackController.setPlaybackSpeed(capture(slot)) }
+		VideoSpeedController(playbackController)
 
-		verify { mockController.setPlaybackSpeed(any()) }
+		verify { playbackController.setPlaybackSpeed(any()) }
 		assertEquals(
 			VideoSpeedController.SpeedSteps.SPEED_1_00.speed,
 			slot.captured,
@@ -95,7 +97,7 @@ class VideoSpeedControllerTest {
 			verify { mockController.setPlaybackSpeed(any()) }
 			assertEquals(lastSetSpeed, slot.captured, 0.001)
 
-			controller.setNewSpeed(newSpeed)
+			controller.currentSpeed = newSpeed
 			lastSetSpeed = newSpeed.speed
 		}
 	}

@@ -33,7 +33,7 @@ class PlaybackSpeedAction(
 		speedMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 
 		speedMenu.setOnMenuItemClickListener { menuItem ->
-			speedController.setNewSpeed(speeds[menuItem.itemId])
+			speedController.currentSpeed = speeds[menuItem.itemId]
 			speedMenu.dismiss()
 			true
 		}
@@ -52,7 +52,7 @@ class PlaybackSpeedAction(
 		}
 
 		menu.setGroupCheckable(0, true, true)
-		menu.getItem(speeds.indexOf(speedController.getCurrentSpeed())).isChecked = true
+		menu.getItem(speeds.indexOf(speedController.currentSpeed)).isChecked = true
 	}
 
 }
