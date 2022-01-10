@@ -465,4 +465,7 @@
     <string name="home_section_livetv">TV en direct</string>
     <string name="home_section_latest_media">Derniers Médias</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_subtitles_size">Taille des sous-titres</string>
+    <string name="pref_subtitles_background_summary">Affiche un fond noir derrière les sous-titres</string>
+    <string name="pref_subtitles_background_title">Activer le fond pour les sous-titres</string>
 </resources>
