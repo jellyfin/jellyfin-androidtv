@@ -980,7 +980,7 @@ public class PlaybackController {
     public void seek(final long pos) {
         Timber.d("Seeking from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo.getContainer());
-        if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
+        if (mPlaybackMethod == PlayMethod.Transcode && !isNativeMode() && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
 
@@ -1309,16 +1309,12 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if (mPlaybackMethod == PlayMethod.Transcode) {
-                                // we started the stream at seek point
-                                mStartPosition = 0;
-                            } else {
+                            if (isNativeMode() || mPlaybackMethod != PlayMethod.Transcode) {
                                 mPlaybackState = PlaybackState.SEEKING;
                                 delayedSeek(mStartPosition);
                                 continueUpdate = false;
-                                mStartPosition = 0;
-
                             }
+                            mStartPosition = 0;
                         } else {
                             stopSpinner();
                         }
