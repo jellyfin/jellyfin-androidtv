@@ -355,7 +355,7 @@
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_invalid_credentials">Invalid username and/or password</string>
     <string name="server_field_empty">The address cannot be empty</string>
-    <string name="server_connection_failed">Unable to connect to server: %1$s</string>
+    <string name="server_connection_failed">Unable to connect to server</string>
     <string name="server_connecting">Connecting to %1$s</string>
     <string name="login_authenticating">Authenticating…</string>
     <string name="login_help_title">Need help\?</string>
@@ -471,4 +471,12 @@
     <string name="home_sections">Home sections</string>
     <string name="home_prefs">Home</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">SSL handshake failed</string>
+    <string name="server_issue_timeout">Connection timed out</string>
+    <string name="server_issue_outdated_version">Server uses version $1%s but needs to be $2%s or newer</string>
+    <string name="server_issue_unsupported_version">Server uses version $1%s which is not supported</string>
+    <string name="server_issue_missing_version">Could not determine server version</string>
+    <string name="server_issue_invalid_product">Server software is incompatible</string>
+    <string name="server_issue_unable_to_connect">Unable to connect</string>
+    <string name="server_connection_failed_candidates">Unable to connect to server, tried the following addresses: %1$s</string>
 </resources>
