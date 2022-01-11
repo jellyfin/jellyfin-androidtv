@@ -145,7 +145,7 @@
     <string name="lbl_use_series_thumbnails_description">Uzi seriajn avizojn kiam montri epizodojn</string>
     <string name="discovered_servers_empty">Neniuj serviloj troviĝis en loka reto.</string>
     <string name="lbl_user_last_used">Laste uzita sur %1$s je %2$s</string>
-    <string name="server_connection_failed">Ne eblas konektiĝi al servilo: %1$s</string>
+    <string name="server_connection_failed">Ne eblas konektiĝi al servilo</string>
     <string name="msg_queue_saved">Vico savita kiel nova ludlisto: %1$s</string>
     <string name="pref_acra_disabled">Kraŝaj raportoj ne estos senditaj</string>
     <string name="pref_use_direct_path_title">Sencimigaj Opcioj</string>
@@ -471,4 +471,12 @@
     <string name="pref_subtitles_background_summary">Montri nigran fonon malantaŭ la subtekstoj</string>
     <string name="pref_subtitles_background_title">Ebligi fonon de subteksto</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">SSL-kvitanco malsukcesis</string>
+    <string name="server_issue_timeout">Konekta tempo estas elĉerpita</string>
+    <string name="server_issue_outdated_version">Servilo uzas version $1%s sed devas esti $2%s aŭ pli nova</string>
+    <string name="server_issue_unsupported_version">Servilo uzas version $1%s kiu ne subtenatas</string>
+    <string name="server_issue_missing_version">Ne eblas determini servilan version</string>
+    <string name="server_issue_invalid_product">Servila programaro estas nekongrua</string>
+    <string name="server_issue_unable_to_connect">Ne eblas konektiĝi</string>
+    <string name="server_connection_failed_candidates">Ne eblas konektiĝi al servilo, provas la jenajn adresojn: %1$s</string>
 </resources>
