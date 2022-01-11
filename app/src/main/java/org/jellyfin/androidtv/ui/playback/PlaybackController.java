@@ -68,7 +68,7 @@ public class PlaybackController {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
-    private Lazy<PreferenceStore> userPreferences = inject(PreferenceStore.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
