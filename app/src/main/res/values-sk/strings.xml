@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Neplatné používateľské meno a/alebo heslo</string>
     <string name="login_authenticating">Prebieha overovanie…</string>
     <string name="server_field_empty">Táto adresa nemôže byť prázdna</string>
-    <string name="server_connection_failed">Nedá sa pripojiť k serveru: %1$s</string>
+    <string name="server_connection_failed">Nedá sa pripojiť na server</string>
     <string name="server_connecting">Pripájanie k %1$s</string>
     <string name="login_help_title">Potrebujete pomoc\?</string>
     <string name="connect_manually_by_address">Zadajte adresu servera</string>
@@ -471,4 +471,12 @@
     <string name="pref_subtitles_background_summary">Zobrazí čierne pozadie za titulkami</string>
     <string name="pref_subtitles_background_title">Zobraziť pozadie za titulkami</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">Spojenie SSL zlyhalo</string>
+    <string name="server_issue_timeout">Čas pre pripojenie vypršal</string>
+    <string name="server_issue_outdated_version">Server používa verziu $1%s, potrebná je však verzia $2%s alebo novšia</string>
+    <string name="server_issue_unsupported_version">Server používa verziu $1%s, ktorá nie je podporovaná</string>
+    <string name="server_issue_missing_version">Nebolo možné určiť verziu serveru</string>
+    <string name="server_issue_invalid_product">Serverový softvér nie je kompatibilný</string>
+    <string name="server_issue_unable_to_connect">Nedá sa pripojiť</string>
+    <string name="server_connection_failed_candidates">Nedá sa pripojiť na server. Vyskúšaná bola nasledujúca adresa: %1$s</string>
 </resources>
