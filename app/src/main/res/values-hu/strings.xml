@@ -479,4 +479,5 @@
     <string name="server_issue_invalid_product">A szerverszoftver nem kompatibilis</string>
     <string name="server_issue_unable_to_connect">Kapcsolódás sikertelen</string>
     <string name="server_connection_failed_candidates">Nem sikerült csatlakozni a szerverhez, a következő címen: %1$s</string>
+    <string name="lbl_playback_speed">Lejátszási sebesség</string>
 </resources>
