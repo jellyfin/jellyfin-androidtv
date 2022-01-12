@@ -201,6 +201,7 @@
     <string name="lbl_stretch">Stretch</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_audio_track">Select audio track</string>
+    <string name="lbl_playback_speed">Playback Speed</string>
     <string name="lbl_subtitle_track">Select subtitle track</string>
     <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>

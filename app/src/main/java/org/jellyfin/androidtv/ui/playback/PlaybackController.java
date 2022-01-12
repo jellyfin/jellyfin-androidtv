@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
@@ -19,6 +20,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.preference.PreferenceStore;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -86,6 +88,7 @@ public class PlaybackController {
     private VideoOptions mCurrentOptions;
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
+    private double mRequestedPlaybackSpeed = -1.0;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -150,8 +153,15 @@ public class PlaybackController {
         return mPlaybackMethod;
     }
 
-    public void setPlaybackMethod(PlayMethod value) {
+    public void setPlaybackMethod(@NonNull PlayMethod value) {
         mPlaybackMethod = value;
+    }
+
+    public void setPlaybackSpeed(@NonNull Double speed) {
+        mRequestedPlaybackSpeed = speed;
+        if (hasInitializedVideoManager()) {
+            mVideoManager.setPlaybackSpeed(speed);
+        }
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
@@ -719,6 +729,7 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
+        mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 
