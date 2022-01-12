@@ -2,8 +2,6 @@
     <dimen name="overscan_horizontal">27dp</dimen>
     <dimen name="overscan_vertical">48dp</dimen>
 
-    <dimen name="lb_settings_pane_width">500dp</dimen>
-
     <fraction name="card_scale_default">100%</fraction>
     <fraction name="card_scale_focus">115%</fraction>
 
