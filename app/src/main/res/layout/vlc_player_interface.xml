@@ -45,6 +45,16 @@
             android:layout_gravity="center" />
 
         <TextView
+            android:id="@+id/subtitles_text_outline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginHorizontal="120dp"
+            android:layout_marginBottom="48dp"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            tools:text="Subtitles" />
+        <TextView
             android:id="@+id/subtitles_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +69,6 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.OutlineSpan;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -261,9 +260,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         // This configuration is required for the PaddedLineBackgroundSpan to work
         binding.subtitlesText.setShadowLayer(SUBTITLE_PADDING, 0, 0, Color.TRANSPARENT);
         binding.subtitlesText.setPadding(SUBTITLE_PADDING, 0, SUBTITLE_PADDING, 0);
+        binding.subtitlesTextOutline.setShadowLayer(SUBTITLE_PADDING, 0, 0, Color.TRANSPARENT);
+        binding.subtitlesTextOutline.setPadding(SUBTITLE_PADDING, 0, SUBTITLE_PADDING, 0);
 
         // Subtitles font size configuration
         binding.subtitlesText.setTextSize(subtitlesSize);
+        binding.subtitlesTextOutline.setTextSize(subtitlesSize);
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.abc_fade_out);
@@ -1450,8 +1452,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     private void clearSubtitles() {
         requireActivity().runOnUiThread(() -> {
+            binding.subtitlesTextOutline.setVisibility(View.INVISIBLE);
             binding.subtitlesText.setVisibility(View.INVISIBLE);
             binding.subtitlesText.setText(null);
+            binding.subtitlesTextOutline.setText(null);
         });
     }
 
@@ -1467,14 +1471,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     .replaceAll("\\\\h", "&ensp;");
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
-            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             if (subtitlesBackgroundEnabled) {
                 span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            span.setSpan(new OutlineSpan(), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+            if (!subtitlesBackgroundEnabled) {
+                binding.subtitlesTextOutline.getPaint().setStrokeWidth(5);
+                binding.subtitlesTextOutline.getPaint().setStyle(Paint.Style.STROKE);
+                binding.subtitlesTextOutline.getPaint().setAntiAlias(true);
+                binding.subtitlesTextOutline.setText(span);
+            }
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);
+            if (!subtitlesBackgroundEnabled) {
+                binding.subtitlesTextOutline.setVisibility(View.VISIBLE);
+            }
         });
     }
 }
