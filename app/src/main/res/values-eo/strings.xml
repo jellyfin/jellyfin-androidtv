@@ -479,4 +479,5 @@
     <string name="server_issue_invalid_product">Servila programaro estas nekongrua</string>
     <string name="server_issue_unable_to_connect">Ne eblas konektiĝi</string>
     <string name="server_connection_failed_candidates">Ne eblas konektiĝi al servilo, provas la jenajn adresojn: %1$s</string>
+    <string name="lbl_playback_speed">Ludada Rapido</string>
 </resources>
