@@ -28,7 +28,7 @@ class EditServerScreen : OptionsFragment() {
 
 			if (users.isNotEmpty()) {
 				category {
-					setTitle(R.string.lbl_users)
+					setTitle(R.string.pref_accounts)
 
 					users.forEach { user ->
 						link {

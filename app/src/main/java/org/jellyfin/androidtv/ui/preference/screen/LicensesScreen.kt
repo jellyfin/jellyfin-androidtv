@@ -24,7 +24,6 @@ class LicensesScreen : OptionsFragment() {
 		title = lib.libraryName
 
 		category {
-			@OptIn(ExperimentalStdlibApi::class)
 			buildList {
 				if (lib.libraryDescription.isNotBlank()) add(getString(R.string.license_description) to lib.libraryDescription)
 				if (lib.libraryVersion.isNotBlank()) add(getString(R.string.license_version) to lib.libraryVersion)
@@ -33,7 +32,6 @@ class LicensesScreen : OptionsFragment() {
 				if (lib.repositoryLink.isNotBlank()) add(getString(R.string.license_repository) to lib.repositoryLink)
 				if (lib.author.isNotBlank()) add(getString(R.string.license_author) to lib.author)
 				lib.licenses?.forEach { license -> add(getString(R.string.license_license) to license.licenseName) }
-
 			}.forEach { (key, value) ->
 				link {
 					title = value
