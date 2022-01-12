@@ -479,4 +479,5 @@
     <string name="server_issue_invalid_product">Serverdıñ bağdarlamalyq jasaqtamasy üylesımdı emes</string>
     <string name="server_issue_unable_to_connect">Qosylu mümkın emes</string>
     <string name="server_connection_failed_candidates">Serverge qosylu mümkın bolmady, kelesı mekenjaılardy qoldanyp kördık: %1$s</string>
+    <string name="lbl_playback_speed">Oinatu jyldamdyğy</string>
 </resources>
