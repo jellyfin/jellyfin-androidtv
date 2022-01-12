@@ -350,7 +350,7 @@
     <string name="login_invalid_credentials">Tên đăng nhập và / hoặc mật khẩu không hợp lệ</string>
     <string name="login_authenticating">Đang xác thực…</string>
     <string name="server_field_empty">Địa chỉ không được để trống</string>
-    <string name="server_connection_failed">Không thể kết nối đến máy chủ: %1$s</string>
+    <string name="server_connection_failed">Không thể kết nối đến máy chủ</string>
     <string name="server_connecting">‎Đang kết nối tới ‎%1$s</string>
     <string name="login_help_description">Jellyfin yêu cầu một máy chủ để kết nối. Truy cập tài liệu của chúng tôi tại docs.jellyfin.org hoặc quét mã QR để bắt đầu với Jellyfin.</string>
     <string name="login_help_title">Cần giúp đỡ\?</string>
@@ -464,4 +464,12 @@
     <string name="pref_subtitles_size">Kích cỡ phụ đề</string>
     <string name="pref_subtitles_background_summary">Hiển thị nền đen đằng sau phụ đề</string>
     <string name="pref_subtitles_background_title">Bật nền phụ đề</string>
+    <string name="server_issue_ssl_handshake">Bắt tay SSL không thành công</string>
+    <string name="server_issue_timeout">Kết nối quá hạn</string>
+    <string name="server_issue_outdated_version">Máy chủ sử dụng phiên bản $1%s nhưng cần phải là $2%s hoặc mới hơn</string>
+    <string name="server_issue_unsupported_version">Máy chủ sử dụng phiên bản $1%s không được hỗ trợ</string>
+    <string name="server_issue_missing_version">Không thể xác định phiên bản máy chủ</string>
+    <string name="server_issue_invalid_product">Phần mềm máy chủ không tương thích</string>
+    <string name="server_issue_unable_to_connect">Không thể kết nối</string>
+    <string name="server_connection_failed_candidates">Không thể kết nối với máy chủ, hãy thử các địa chỉ sau: %1$s</string>
 </resources>
