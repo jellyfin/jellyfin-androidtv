@@ -177,6 +177,13 @@ public class ItemLauncher {
 
                 // or generic handling
                 if (baseItem.getIsFolderItem()) {
+                    // Some items don't have a display preferences id, but it's required for StdGridFragment
+                    // Use the id of the item as a workaround, it's a unique key for the specific item
+                    // Which is exactly what we want
+                    if (baseItem.getDisplayPreferencesId() == null) {
+                        baseItem.setDisplayPreferencesId(baseItem.getId());
+                    }
+
                     Intent intent = new Intent(activity, GenericGridActivity.class);
                     intent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));
                     if (noHistory) {
