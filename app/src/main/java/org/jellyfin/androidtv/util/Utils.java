@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import org.jellyfin.androidtv.BuildConfig;
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
@@ -54,10 +52,6 @@ public class Utils {
 
     public static boolean isTrue(Boolean value) {
         return value != null && value;
-    }
-
-    public static String getVersionString(Context context) {
-        return context.getString(R.string.lbl_version) + BuildConfig.VERSION_NAME;
     }
 
     public static String firstToUpper(String value) {
