@@ -334,7 +334,7 @@
     <string name="login_invalid_credentials">Username e/o password non validi</string>
     <string name="login_authenticating">Autenticazione…</string>
     <string name="server_field_empty">L\'indirizzo non può essere vuoto</string>
-    <string name="server_connection_failed">Impossibile connettersi al server: %1$s</string>
+    <string name="server_connection_failed">Impossibile connettersi al server</string>
     <string name="server_connecting">Connessione al %1$s</string>
     <string name="pref_clock_display_playback">Durante la riproduzione</string>
     <string name="pref_clock_display_browsing">Durante la navigazione</string>
@@ -471,4 +471,13 @@
     <string name="pref_subtitles_background_summary">Mostra lo sfondo nero dietro i sottotitoli</string>
     <string name="pref_subtitles_background_title">Abilita lo sfondo per i sottotitoli</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">Fallito handshake SSL</string>
+    <string name="server_issue_timeout">La connessione è andata in timeout</string>
+    <string name="server_issue_outdated_version">Il server usa la versione $1%s ma deve essere $2%s o più recente</string>
+    <string name="server_issue_unsupported_version">Il server usa la versione $1%s che non è supportata</string>
+    <string name="server_issue_missing_version">Impossibile determinare la versione del server</string>
+    <string name="server_issue_invalid_product">Il software del server è incompatibile</string>
+    <string name="server_issue_unable_to_connect">Impossibile connettersi</string>
+    <string name="server_connection_failed_candidates">Impossibile connettersi al server, sono stati usati i seguenti indirizzi: %1$s</string>
+    <string name="lbl_playback_speed">Velocità di riproduzione</string>
 </resources>
