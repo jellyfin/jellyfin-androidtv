@@ -479,4 +479,5 @@
     <string name="lbl_stretch">Развући</string>
     <string name="lbl_auto_crop">Аутоматско исецање</string>
     <string name="lbl_community_rating">Оцена заједнице</string>
+    <string name="lbl_playback_speed">Брзина репродукције</string>
 </resources>
