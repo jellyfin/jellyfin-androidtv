@@ -4,8 +4,8 @@
     <string name="lbl_instant_mix">Tujmiksaĵo</string>
     <string name="lbl_enable_cinema_mode">Kineja Reĝimo</string>
     <string name="pref_live_tv_cat">TV-etero</string>
-    <string name="lbl_community_rating">Komunuma Taksado</string>
-    <string name="lbl_critic_rating">Kritika Taksado</string>
+    <string name="lbl_community_rating">Taksado de Komunumo</string>
+    <string name="lbl_critic_rating">Taksado de kritikistoj</string>
     <string name="lbl_date_added">Dato Aldonita</string>
     <string name="lbl_mark_played">Marki Ludita</string>
     <string name="lbl_mark_unplayed">Marki Neludita</string>
@@ -86,7 +86,7 @@
     <string name="lbl_other">Alia</string>
     <string name="lbl_movies">Filmoj</string>
     <string name="lbl_collections">Kolektoj</string>
-    <string name="lbl_favorites">Favoratoj</string>
+    <string name="lbl_favorites">Favorataj</string>
     <string name="lbl_latest">Plej novaj</string>
     <string name="lbl_search">Serĉu</string>
     <string name="lbl_genres">Ĝenroj</string>
@@ -467,7 +467,7 @@
     <string name="home_prefs">Hejmo</string>
     <string name="searchable_hint">Serĉo de Jellyfin</string>
     <string name="searchable_settings_description">Plurmedio</string>
-    <string name="pref_subtitles_size">Subtitra grandeco</string>
+    <string name="pref_subtitles_size">Subteksta grandeco</string>
     <string name="pref_subtitles_background_summary">Montri nigran fonon malantaŭ la subtekstoj</string>
     <string name="pref_subtitles_background_title">Ebligi fonon de subteksto</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
