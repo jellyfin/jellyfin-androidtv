@@ -55,10 +55,14 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		preferenceScreen = screen.build(preferenceManager)
 	}
 
+	protected fun rebuild() {
+		screen.build(preferenceManager, preferenceScreen)
+	}
+
 	override fun onResume() {
 		super.onResume()
 
-		if (skippedInitialResume && rebuildOnResume) screen.build(preferenceManager, preferenceScreen)
+		if (skippedInitialResume && rebuildOnResume) rebuild()
 
 		skippedInitialResume = true
 	}
