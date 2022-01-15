@@ -11,7 +11,6 @@
     <string name="settings_title">Preferences</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="chapters">Chapters</string>
-    <string name="pref_general">General</string>
     <string name="lbl_settings">Preferences</string>
     <string name="lbl_continue_watching">Continue Watching</string>
     <string name="lbl_next_up">Next Up</string>
@@ -21,7 +20,6 @@
     <string name="lbl_suggested">Suggested</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Genres</string>
-    <string name="lbl_performers">Performers</string>
     <string name="lbl_search">Search</string>
     <string name="msg_not_implemented">" not implemented"</string>
     <string name="lbl_latest">Latest</string>
@@ -81,7 +79,6 @@
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Yes</string>
     <string name="msg_error_server_unavailable">Server unavailable</string>
-    <string name="lbl_version">Version</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_enter_server_address">Enter Server Address</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
@@ -305,7 +302,6 @@
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="lbl_unknown_key">Unknown (%1s)</string>
-    <string name="pref_button_remapping_category">Button Remapping</string>
     <string name="pref_audio_track_button">Audio track button</string>
     <string name="pref_subtitle_track_button">Subtitle track button</string>
     <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
@@ -365,7 +361,6 @@
     <string name="login_invalid_credentials">Invalid username and/or password</string>
     <string name="login_server_unavailable">Unable to connect to server</string>
     <string name="login_username_field_empty">Username cannot be empty</string>
-    <string name="pref_authentication_link">Authentication options</string>
     <string name="lbl_manage_servers">Manage servers</string>
     <string name="lbl_remove_users">This will also remove all associated accounts</string>
     <string name="lbl_remove_user_content">Remove account</string>
@@ -373,7 +368,6 @@
     <string name="lbl_remove_server">Remove server</string>
     <string name="lbl_user_last_used">Last used on %1$s at %2$s</string>
     <string name="lbl_user_server">%1$s on %2$s</string>
-    <string name="lbl_users">Accounts</string>
     <string name="lbl_server">Server</string>
     <string name="lbl_remove">Remove</string>
     <string name="lbl_sign_out">Sign out</string>
