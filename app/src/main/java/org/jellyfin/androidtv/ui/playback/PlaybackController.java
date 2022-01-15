@@ -291,6 +291,7 @@ public class PlaybackController {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
             endPlayback();
+            if (mFragment != null) mFragment.finish();
         }
     }
 
