@@ -479,4 +479,5 @@
     <string name="server_issue_invalid_product">Serverový softvér nie je kompatibilný</string>
     <string name="server_issue_unable_to_connect">Nedá sa pripojiť</string>
     <string name="server_connection_failed_candidates">Nedá sa pripojiť na server. Vyskúšaná bola nasledujúca adresa: %1$s</string>
+    <string name="lbl_playback_speed">Rýchlosť prehrávania</string>
 </resources>
