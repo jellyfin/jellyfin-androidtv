@@ -69,6 +69,7 @@ class ExoPlayerProfile(
 							CodecTypes.MP2,
 							CodecTypes.DCA,
 							CodecTypes.DTS,
+							CodecTypes.OPUS,
 						).joinToString(",")
 					}
 				})
