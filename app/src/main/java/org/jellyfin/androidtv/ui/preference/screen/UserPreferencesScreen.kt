@@ -3,11 +3,11 @@ package org.jellyfin.androidtv.ui.preference.screen
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.category.aboutCategory
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
-import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 
 class UserPreferencesScreen : OptionsFragment() {
-	override val screen by lazyOptionsScreen {
+	override val screen by optionsScreen {
 		setTitle(R.string.settings_title)
 
 		category {

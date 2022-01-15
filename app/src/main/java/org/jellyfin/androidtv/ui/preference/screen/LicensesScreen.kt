@@ -5,11 +5,11 @@ import com.mikepenz.aboutlibraries.Libs
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
-import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 
 class LicensesScreen : OptionsFragment() {
-	override val screen by lazyOptionsScreen {
+	override val screen by optionsScreen {
 		when (val library = arguments?.getString(EXTRA_LIBRARY)) {
 			null -> createList()
 			else -> createLibrary(library)

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceScreen
+import kotlin.properties.ReadOnlyProperty
 
 class OptionsScreen(
 	private val context: Context
@@ -69,10 +70,8 @@ class OptionsScreen(
 }
 
 @OptionsDSL
-fun OptionsFragment.optionsScreen(init: OptionsScreen.() -> Unit) = OptionsScreen(requireContext())
-	.apply { init() }
-
-@OptionsDSL
-fun OptionsFragment.lazyOptionsScreen(init: OptionsScreen.() -> Unit) = lazy {
-	optionsScreen(init)
+fun OptionsFragment.optionsScreen(
+	init: OptionsScreen.() -> Unit
+) = ReadOnlyProperty<OptionsFragment, OptionsScreen> { _, _ ->
+	OptionsScreen(requireContext()).apply { init() }
 }
