@@ -22,30 +22,6 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		/*
-		** Potentially add a transcoding profile to the base profile instead of replacing it
-		** Doesn't work right now
-
-		transcodingProfiles = arrayOf(
-				// MP4 video profile
-				TranscodingProfile().apply {
-					type = DlnaProfileType.Video
-					context = EncodingContext.Streaming
-					container = ContainerTypes.MP4
-					//videoCodec = arrayOf(CodecTypes.HEVC, CodecTypes.H264).joinToString(",")
-					videoCodec = buildList {
-						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
-						add(CodecTypes.H264)
-					}.toTypedArray().joinToString(",")
-
-					audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
-					protocol = "hls"
-					minSegments = 1
-					copyTimestamps = false
-				}
-		).plus(transcodingProfiles)
-		*/
-
 		transcodingProfiles = arrayOf(
 			// MP4 video profile
 			TranscodingProfile().apply {
