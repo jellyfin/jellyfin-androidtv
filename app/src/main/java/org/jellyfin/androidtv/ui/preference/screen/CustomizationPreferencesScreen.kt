@@ -73,13 +73,12 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				withFragment<HomePreferencesScreen>()
 			}
 
-			// TODO implement
-			// link {
-			// 	setTitle(R.string.libraries)
-			// 	setContent(R.string.libraries_description)
-			// 	icon = R.drawable.ic_grid
-			// 	withFragment<HomePreferencesScreen>()
-			// }
+			link {
+				setTitle(R.string.pref_libraries)
+				setContent(R.string.pref_libraries_description)
+				icon = R.drawable.ic_grid
+				withFragment<LibrariesPreferencesScreen>()
+			}
 		}
 
 		category {
