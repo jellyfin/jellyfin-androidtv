@@ -17,11 +17,11 @@
     <string name="lbl_suggested">Ūsynylğan</string>
     <string name="lbl_genres">Janrlar</string>
     <string name="lbl_performers">Oryndauşylar</string>
-    <string name="lbl_search">İzdeu</string>
+    <string name="lbl_search">Izdeu</string>
     <string name="msg_not_implemented">" jüzege asyrylmağan"</string>
     <string name="lbl_latest">Eñ keiıngı</string>
     <string name="lbl_by_name">Atymen</string>
-    <string name="lbl_favorites">Tandaulylar</string>
+    <string name="lbl_favorites">Tañdaulylar</string>
     <string name="lbl_coming_up">Aldağy</string>
     <string name="lbl_favorite_channels">Tandauly arnalar</string>
     <string name="lbl_other_channels">Basqa arnalar</string>
