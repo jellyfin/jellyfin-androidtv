@@ -207,8 +207,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             } else {
                 long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
                 lastExoPlayerPosition = mExoPlayerCurrentPosition;
-
-                Timber.d("exo curr position %s islive %s duration %s isSeekable %s", mExoPlayerCurrentPosition, mExoPlayer.isCurrentMediaItemLive(), mExoPlayer.getDuration(), mExoPlayer.isCurrentMediaItemSeekable());
                 return mExoPlayerCurrentPosition;
             }
         }
