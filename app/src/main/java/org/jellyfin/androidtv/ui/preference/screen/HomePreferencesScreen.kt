@@ -6,7 +6,7 @@ import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.koin.android.ext.android.inject
 
 class HomePreferencesScreen : OptionsFragment() {
@@ -15,7 +15,7 @@ class HomePreferencesScreen : OptionsFragment() {
 	override val stores: Array<PreferenceStore>
 		get() = arrayOf(userSettingPreferences)
 
-	override val screen by lazyOptionsScreen {
+	override val screen by optionsScreen {
 		setTitle(R.string.home_prefs)
 
 		category {

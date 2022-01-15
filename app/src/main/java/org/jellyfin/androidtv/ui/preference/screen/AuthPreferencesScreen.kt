@@ -26,7 +26,7 @@ class AuthPreferencesScreen : OptionsFragment() {
 
 	override val rebuildOnResume = true
 
-	override val screen get() = optionsScreen {
+	override val screen by optionsScreen {
 		setTitle(R.string.pref_authentication_cat)
 
 		category {

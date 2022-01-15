@@ -10,7 +10,7 @@ import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
-import org.jellyfin.androidtv.ui.preference.dsl.lazyOptionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.koin.android.ext.android.inject
 
 class DisplayPreferencesScreen : OptionsFragment() {
@@ -25,7 +25,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 	override val stores: Array<PreferenceStore>
 		get() = arrayOf(libraryPreferences)
 
-	override val screen by lazyOptionsScreen {
+	override val screen by optionsScreen {
 		setTitle(R.string.lbl_display_preferences)
 
 		category {

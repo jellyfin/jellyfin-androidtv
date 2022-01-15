@@ -12,7 +12,7 @@ import org.koin.android.ext.android.inject
 class CustomizationPreferencesScreen : OptionsFragment() {
 	private val userPreferences: UserPreferences by inject()
 
-	override val screen by lazyOptionsScreen {
+	override val screen by optionsScreen {
 		setTitle(R.string.pref_customization)
 
 		category {
