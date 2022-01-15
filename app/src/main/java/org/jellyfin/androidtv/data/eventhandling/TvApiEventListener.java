@@ -88,7 +88,7 @@ public class TvApiEventListener extends ApiEventListener {
                 else {
                     Activity currentActivity = TvApp.getApplication().getCurrentActivity();
                     if(playbackController != null && mediaManager.hasVideoQueueItems() && playbackController.hasInitializedVideoManager())
-                        mainThreadHandler.post(() -> playbackController.stop());
+                        mainThreadHandler.post(() -> playbackController.endPlayback());
                     if(currentActivity instanceof PlaybackOverlayActivity)
                         currentActivity.finish();
                 }

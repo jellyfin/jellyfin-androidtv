@@ -252,7 +252,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 return;
             }
             mExoPlayer.setPlayWhenReady(true);
-            mExoPlayerView.setKeepScreenOn(true);
             normalWidth = mExoPlayerView.getLayoutParams().width;
             normalHeight = mExoPlayerView.getLayoutParams().height;
         } else {
@@ -270,20 +269,16 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void play() {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(true);
-            mExoPlayerView.setKeepScreenOn(true);
         } else {
             mVlcPlayer.play();
-            mSurfaceView.setKeepScreenOn(true);
         }
     }
 
     public void pause() {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(false);
-            mExoPlayerView.setKeepScreenOn(false);
         } else {
             mVlcPlayer.pause();
-            mSurfaceView.setKeepScreenOn(false);
         }
     }
 
@@ -498,6 +493,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void destroy() {
+        stopPlayback();
         releasePlayer();
     }
 
@@ -567,7 +563,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-
+        clearPlayerListeners();
         mSurfaceView.setKeepScreenOn(false);
     }
 
@@ -706,10 +702,18 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mVlcHandler.setOnProgressListener(listener);
     }
 
+    public void clearPlayerListeners() {
+        mVlcHandler.setOnErrorListener(null);
+        mVlcHandler.setOnCompletionListener(null);
+        mVlcHandler.setOnPreparedListener(null);
+        mVlcHandler.setOnProgressListener(null);
+    }
+
     private PlaybackListener progressListener;
     private Runnable progressLoop;
 
     private void startProgressLoop() {
+        stopProgressLoop();
         progressLoop = new Runnable() {
             @Override
             public void run() {
