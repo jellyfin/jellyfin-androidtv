@@ -283,7 +283,8 @@
 \nDeze informatie wordt verzonden naar een derde partij (tracepot.com). 
 \n 
 \nDeze melding kan worden uitgeschakeld in het Crasrapportage-deel in de instellingen van de Jellyfin app.</string>
-    <string name="pref_acra_syslog">Neem systeemlogboeken op in crashrapporten. Dit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
+    <string name="pref_acra_syslog">Neem systeemlogboeken op.
+\nDit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
     <string name="grid_direction_vertical">Verticaal (experimenteel)</string>
     <string name="grid_direction_horizontal">Horizontaal</string>
     <string name="grid_direction">Raster-richting</string>
@@ -467,4 +468,5 @@
     <string name="licenses_link_description">Bekijk de licenties van de software die wordt gebruikt door de Jellyfin app</string>
     <string name="server_issue_unsupported_version">Server gebruikt versie %1$s dat niet ondersteund wordt</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
+    <string name="pref_show_backdrop_description">Verander achtergrond foto naar geselecteerd item</string>
 </resources>
