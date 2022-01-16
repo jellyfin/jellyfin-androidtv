@@ -331,7 +331,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
                 // reset position when changing video so the player doesn't use the position from the prior video stream
                 mExoPlayer.setMediaSource(new DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(mMediaItemBuilder.build()), true);
-                //mExoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mMediaItemBuilder.build()), true);
                 mExoPlayer.prepare();
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
