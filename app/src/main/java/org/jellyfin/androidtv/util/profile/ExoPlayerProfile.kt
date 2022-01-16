@@ -22,6 +22,30 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
+		transcodingProfiles = arrayOf(
+			// MP4 video profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Video
+				context = EncodingContext.Streaming
+				container = ContainerTypes.MP4
+				videoCodec = buildList {
+					if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
+					add(CodecTypes.H264)
+				}.joinToString(",")
+				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
+				protocol = "hls"
+				minSegments = 1
+				copyTimestamps = false
+			},
+			// MP3 audio profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Audio
+				context = EncodingContext.Streaming
+				container = CodecTypes.MP3
+				audioCodec = CodecTypes.MP3
+			}
+		)
+
 		directPlayProfiles = buildList {
 			// Video direct play
 			if (!isLiveTV || isLiveTVDirectPlayEnabled) {

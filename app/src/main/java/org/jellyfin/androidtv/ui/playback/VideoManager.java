@@ -17,11 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
@@ -326,9 +327,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             try {
                 DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
 
-                // reset position to the new videos default position
-                // exoplayer currently sees transcode streams as live windows, a fix is needed.
-                mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path)), true, false);
+                MediaItem.Builder mMediaItemBuilder = new MediaItem.Builder();
+                mMediaItemBuilder.setUri(Uri.parse(path));
+
+                // reset position when changing video so the player doesn't use the position from the prior video stream
+                mExoPlayer.setMediaSource(new DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(mMediaItemBuilder.build()), true);
+                mExoPlayer.prepare();
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
