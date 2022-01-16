@@ -16,9 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
@@ -59,6 +59,7 @@ class LeanbackChannelWorker(
 
 	private val api by inject<ApiClient>(systemApiClient)
 	private val userPreferences by inject<UserPreferences>()
+	private val userViewsRepository by inject<UserViewsRepository>()
 
 	/**
 	 * Check if the app can use Leanback features and is API level 26 or higher.
@@ -142,7 +143,7 @@ class LeanbackChannelWorker(
 		// Add new items
 		val items = response.items
 			.orEmpty()
-			.filterNot { it.collectionType in ItemRowAdapter.ignoredCollectionTypes }
+			.filter { userViewsRepository.isSupported(it.collectionType.orEmpty()) }
 			.map { item ->
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
 					api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()

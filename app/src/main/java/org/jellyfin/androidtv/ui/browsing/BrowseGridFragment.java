@@ -50,7 +50,6 @@ public class BrowseGridFragment extends StdGridFragment {
                     query.setRecursive(true);
                     break;
                 case "music":
-                    mAllowViewSelection = false;
                     //Special queries needed for album artists
                     String includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
