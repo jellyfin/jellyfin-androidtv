@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
@@ -85,10 +86,10 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
     private int mCardHeight = SMALL_CARD;
 
-    protected boolean mAllowViewSelection = true;
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
+    private Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -465,7 +466,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, DisplayPreferencesScreen.class.getCanonicalName());
                 Bundle screenArgs = new Bundle();
                 screenArgs.putString(DisplayPreferencesScreen.ARG_PREFERENCES_ID, mFolder.getDisplayPreferencesId());
-                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, mAllowViewSelection);
+                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType()));
                 settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, screenArgs);
                 getActivity().startActivity(settingsIntent);
             }

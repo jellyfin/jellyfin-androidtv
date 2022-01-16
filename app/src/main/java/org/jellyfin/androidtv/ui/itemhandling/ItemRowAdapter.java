@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
@@ -62,7 +63,6 @@ import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 import org.koin.java.KoinJavaComponent;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -119,6 +119,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
 
     public boolean isCurrentlyRetrieving() {
         synchronized (currentlyRetrievingSemaphore) {
@@ -734,9 +735,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         notifyRetrieveFinished();
     }
 
-    public static String[] ignoredCollectionTypes = new String[]{ "books", "games", "folders" };
-    private static List<String> ignoreTypeList = Arrays.asList(ignoredCollectionTypes);
-
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
         final UserDto user = TvApp.getApplication().getCurrentUser();
@@ -749,7 +747,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (BaseItemDto item : response.getItems()) {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
-                        if (!ignoreTypeList.contains(item.getCollectionType())) {
+                        if (userViewsRepository.getValue().isSupported(item.getCollectionType())) {
                             adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
                         }
                     }
@@ -790,7 +788,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         adapter.clear();
                     }
                     for (SearchHint item : response.getSearchHints()) {
-                        if (!ignoreTypeList.contains(item.getType())) {
+                        if (userViewsRepository.getValue().isSupported(item.getType())) {
                             i++;
                             adapter.add(new BaseRowItem(item));
                         }
