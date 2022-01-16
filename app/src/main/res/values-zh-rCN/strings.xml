@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">无效的用户名或密码</string>
     <string name="login_authenticating">验证中 ……</string>
     <string name="server_field_empty">地址栏不能为空</string>
-    <string name="server_connection_failed">无法连接到服务器：%1$s</string>
+    <string name="server_connection_failed">无法连接到服务器</string>
     <string name="server_connecting">正在连接服务器 %1$s</string>
     <string name="lbl_user_server">%1$s 于 %2$s</string>
     <string name="lbl_user_last_used">上次在 %1$s 于 %2$s 使用</string>
@@ -471,4 +471,13 @@
     <string name="pref_subtitles_background_summary">在字幕后面显示黑色背景</string>
     <string name="pref_subtitles_background_title">启用字幕背景</string>
     <string name="pref_next_up_timeout_disabled">无限</string>
+    <string name="server_issue_ssl_handshake">SSL握手失败</string>
+    <string name="server_issue_timeout">连接超时</string>
+    <string name="server_issue_outdated_version">服务器使用版本为$1%s，需要$2%s或更高版本</string>
+    <string name="server_issue_unsupported_version">服务器使用了不支持的版本：$1%s</string>
+    <string name="server_issue_missing_version">无法确定服务器版本</string>
+    <string name="server_issue_invalid_product">服务器软件不兼容</string>
+    <string name="server_issue_unable_to_connect">无法连接</string>
+    <string name="server_connection_failed_candidates">无法连接到服务器，尝试了以下地址：%1$s</string>
+    <string name="lbl_playback_speed">播放速度</string>
 </resources>

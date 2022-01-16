@@ -349,7 +349,7 @@
     <string name="login_invalid_credentials">Nome de usuário e/ou senha inválida</string>
     <string name="login_authenticating">Autenticando…</string>
     <string name="server_field_empty">O endereço não pode estar vazio</string>
-    <string name="server_connection_failed">Incapaz de conectar ao servidor: %1$s</string>
+    <string name="server_connection_failed">Não foi possível se conectar ao servidor</string>
     <string name="server_connecting">Conectando a %1$s</string>
     <string name="pref_clock_display_playback">Durante a reprodução</string>
     <string name="pref_clock_display_browsing">Durante a navegação</string>
@@ -471,4 +471,13 @@
     <string name="license_description">Descrição</string>
     <string name="licenses_link_description">Veja as licenças das bibliotecas utilizadas pelo Jellyfin</string>
     <string name="licenses_link">Licenças</string>
+    <string name="server_issue_ssl_handshake">Falha no \"SSL handshake\"</string>
+    <string name="server_issue_timeout">A conexão expirou</string>
+    <string name="server_issue_outdated_version">Servidor está usando a versão $1%s, mas é necessário a versão $2%s ou superior</string>
+    <string name="server_issue_unsupported_version">Servidor está usando a versão $1%s que não é mais suportada</string>
+    <string name="server_issue_missing_version">Não foi possível identificar a versão do servidor</string>
+    <string name="server_issue_invalid_product">O programa do servidor é incompatível</string>
+    <string name="server_issue_unable_to_connect">Não foi possível conectar</string>
+    <string name="server_connection_failed_candidates">Não foi possível se conectar ao servidor através dos endereços: %1$s</string>
+    <string name="lbl_playback_speed">Velocidade de reprodução</string>
 </resources>

@@ -357,7 +357,7 @@
     <string name="login_server_unavailable">Server niet bereikbaar</string>
     <string name="login_invalid_credentials">Ongeldige gebruikersnaam en/of wachtwoord</string>
     <string name="server_field_empty">Het adres kan niet leeg zijn</string>
-    <string name="server_connection_failed">Kan niet verbinden met server: %1$s</string>
+    <string name="server_connection_failed">Kan niet verbinden met server</string>
     <string name="pref_developer_link">Ontwikkelaar opties</string>
     <string name="image_size_large">Groot</string>
     <string name="image_size_medium">Gemiddeld</string>
@@ -471,4 +471,6 @@
     <string name="home_section_next_up">Volgende</string>
     <string name="home_section_library_small">Mijn media (klein)</string>
     <string name="licenses_link_description">Bekijk de licenties van de software die wordt gebruikt door de Jellyfin app</string>
+    <string name="server_issue_unsupported_version">Server gebruikt versie %1$s dat niet ondersteund wordt</string>
+    <string name="lbl_playback_speed">Afspeelsnelheid</string>
 </resources>

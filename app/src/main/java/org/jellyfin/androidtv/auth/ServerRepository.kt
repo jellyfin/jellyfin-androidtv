@@ -104,7 +104,7 @@ class ServerRepositoryImpl(
 				val index = users.indexOfFirst { it.id == user.id }
 				if (index == -1) users.add(user)
 				else {
-					users[index] = when(val currentUser = users[index]) {
+					users[index] = when (val currentUser = users[index]) {
 						is PublicUser -> user
 						is PrivateUser -> currentUser.copy(
 							name = user.name,
@@ -132,20 +132,19 @@ class ServerRepositoryImpl(
 
 		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
 		val badRecommendations = mutableListOf<RecommendedServerInfo>()
-		val greatRecommendaton = jellyfin.discovery.getRecommendedServers(addressCandidates)
-			.firstOrNull { recommendedServer ->
-				when (recommendedServer.score) {
-					RecommendedServerInfoScore.GREAT -> true
-					RecommendedServerInfoScore.GOOD -> {
-						goodRecommendations += recommendedServer
-						false
-					}
-					else -> {
-						badRecommendations += recommendedServer
-						false
-					}
+		val greatRecommendaton = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
+			when (recommendedServer.score) {
+				RecommendedServerInfoScore.GREAT -> true
+				RecommendedServerInfoScore.GOOD -> {
+					goodRecommendations += recommendedServer
+					false
+				}
+				else -> {
+					badRecommendations += recommendedServer
+					false
 				}
 			}
+		}
 
 		Timber.d(buildString {
 			append("Recommendations: ")
@@ -179,7 +178,10 @@ class ServerRepositoryImpl(
 			emit(ConnectedState(id, systemInfo))
 		} else {
 			// No great or good recommendations, only add bad recommendations
-			emit(UnableToConnectState(addressCandidates))
+			val addressCandidatesWithIssues = (badRecommendations + goodRecommendations)
+				.groupBy { it.address }
+				.mapValues { (_, entry) -> entry.flatMap { server -> server.issues } }
+			emit(UnableToConnectState(addressCandidatesWithIssues))
 		}
 	}
 }

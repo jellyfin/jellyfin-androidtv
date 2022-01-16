@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
@@ -19,6 +20,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.preference.PreferenceStore;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -86,6 +88,7 @@ public class PlaybackController {
     private VideoOptions mCurrentOptions;
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
+    private double mRequestedPlaybackSpeed = -1.0;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -135,8 +138,9 @@ public class PlaybackController {
         return mFragment != null;
     }
 
-    public void init(VideoManager mgr) {
+    public void init(VideoManager mgr, IPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
+        mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
         setupCallbacks();
     }
@@ -150,8 +154,15 @@ public class PlaybackController {
         return mPlaybackMethod;
     }
 
-    public void setPlaybackMethod(PlayMethod value) {
+    public void setPlaybackMethod(@NonNull PlayMethod value) {
         mPlaybackMethod = value;
+    }
+
+    public void setPlaybackSpeed(@NonNull Double speed) {
+        mRequestedPlaybackSpeed = speed;
+        if (hasInitializedVideoManager()) {
+            mVideoManager.setPlaybackSpeed(speed);
+        }
     }
 
     public BaseItemDto getCurrentlyPlayingItem() {
@@ -194,6 +205,8 @@ public class PlaybackController {
 
     @Nullable
     public Integer getAudioStreamIndex() {
+        if (!hasInitializedVideoManager())
+            return 0;
         return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
     }
 
@@ -227,15 +240,15 @@ public class PlaybackController {
 
     public boolean isPlaying() {
         // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
-        return mPlaybackState == PlaybackState.PLAYING && (mVideoManager == null || mVideoManager.isPlaying());
+        return mPlaybackState == PlaybackState.PLAYING && hasInitializedVideoManager() && mVideoManager.isPlaying();
     }
 
     public void setAudioDelay(long value) {
-        if (mVideoManager != null) mVideoManager.setAudioDelay(value);
+        if (hasInitializedVideoManager()) mVideoManager.setAudioDelay(value);
     }
 
     public long getAudioDelay() {
-        return mVideoManager != null ? mVideoManager.getAudioDelay() : 0;
+        return hasInitializedVideoManager() ? mVideoManager.getAudioDelay() : 0;
     }
 
     private Integer bestGuessAudioTrack(MediaSourceInfo info) {
@@ -256,7 +269,7 @@ public class PlaybackController {
     }
 
     public void playerErrorEncountered() {
-        if (mVideoManager.isNativeMode()) exoErrorEncountered = true;
+        if (isNativeMode()) exoErrorEncountered = true;
         else vlcErrorEncountered = true;
 
         // reset the retry count if it's been more than 30s since previous error
@@ -277,8 +290,7 @@ public class PlaybackController {
         } else {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
-            stop();
-
+            endPlayback();
             if (mFragment != null) mFragment.finish();
         }
     }
@@ -358,7 +370,7 @@ public class PlaybackController {
             if (isLiveTv && mCurrentProgramStartTime > 0) {
                 newPos = getRealTimeProgress();
                 // live tv
-            } else if (mVideoManager != null) {
+            } else if (hasInitializedVideoManager()) {
                 if (!isPlaying() && mSeekPosition != -1) {
                     newPos = mSeekPosition;
                     // use seekedPosition until playback starts
@@ -692,6 +704,10 @@ public class PlaybackController {
     }
 
     private void startItem(BaseItemDto item, long position, StreamInfo response) {
+        if (!hasInitializedVideoManager() || !hasFragment()) {
+            Timber.d("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
+            return;
+        }
         mCurrentStreamInfo = response;
         Long mbPos = position * 10000;
 
@@ -719,6 +735,7 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
+        mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 
@@ -799,6 +816,9 @@ public class PlaybackController {
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
+        if (!hasInitializedVideoManager())
+            return;
+
         // get current timestamp first
         refreshCurrentPosition();
         Timber.d("Setting subtitle index to: %d", index);
@@ -895,7 +915,7 @@ public class PlaybackController {
             return;
         }
         mPlaybackState = PlaybackState.PAUSED;
-        mVideoManager.pause();
+        if (hasInitializedVideoManager()) mVideoManager.pause();
         if (mFragment != null) {
             mFragment.setFadingEnabled(false);
             mFragment.setPlayPauseActionState(0);
@@ -939,6 +959,12 @@ public class PlaybackController {
                 getCurrentlyPlayingItem().getUserData().setPlaybackPositionTicks(mbPos);
             }
         }
+    }
+
+    public void endPlayback() {
+        stop();
+        mFragment = null;
+        mVideoManager = null;
     }
 
     public void next() {
@@ -1053,7 +1079,7 @@ public class PlaybackController {
     };
 
     public void skip(int msec) {
-        if ((isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
+        if (hasInitializedVideoManager() && (isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
             pause();
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
@@ -1130,6 +1156,7 @@ public class PlaybackController {
     }
 
     private void startPauseReportLoop() {
+        stopReportLoop();
         ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
         mReportLoop = new Runnable() {
             @Override
@@ -1213,8 +1240,7 @@ public class PlaybackController {
     private void itemComplete() {
         mPlaybackState = PlaybackState.IDLE;
         stopReportLoop();
-        Long mbPos = mVideoManager.getCurrentPosition() * 10000;
-        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mbPos);
+        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 1000);
         vlcErrorEncountered = false;
         exoErrorEncountered = false;
 
@@ -1364,11 +1390,12 @@ public class PlaybackController {
     }
 
     public int getZoomMode() {
-        return mVideoManager.getZoomMode();
+        return hasInitializedVideoManager() ? mVideoManager.getZoomMode() : 0;
     }
 
     public void setZoom(int mode) {
-        mVideoManager.setZoom(mode);
+        if (hasInitializedVideoManager())
+            mVideoManager.setZoom(mode);
     }
 
     public Integer translateVlcAudioId(Integer vlcId) {

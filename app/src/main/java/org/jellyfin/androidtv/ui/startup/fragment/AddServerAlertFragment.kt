@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.databinding.FragmentAlertAddServerBinding
 import org.jellyfin.androidtv.ui.shared.AlertFragment
 import org.jellyfin.androidtv.ui.shared.KeyboardFocusChangeListener
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AddServerAlertFragment : AlertFragment() {
@@ -74,8 +75,10 @@ class AddServerAlertFragment : AlertFragment() {
 				when (state) {
 					is ConnectingState -> binding.error.text = getString(R.string.server_connecting, state.address)
 					is UnableToConnectState -> binding.error.text = getString(
-						R.string.server_connection_failed,
-						state.addressCandidates.joinToString(prefix = "\n", separator = "\n")
+						R.string.server_connection_failed_candidates,
+						state.addressCandidates
+							.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+							.joinToString(prefix = "\n", separator = "\n")
 					)
 					is ConnectedState -> parentFragmentManager.commit {
 						replace<StartupToolbarFragment>(R.id.content_view)

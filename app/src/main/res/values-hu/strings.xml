@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Hibás felhasználónév és/vagy jelszó</string>
     <string name="login_authenticating">Hitelesítés…</string>
     <string name="server_field_empty">Az elérhetőség nem lehet üres</string>
-    <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez: %1$s</string>
+    <string name="server_connection_failed">Nem sikerült csatlakozni a szerverhez</string>
     <string name="server_connecting">Csatlakozás a következőhöz: %1$s</string>
     <string name="login_help_description">A Jellyfin szerverre van szüksége a kapcsolat létrehozásához. Látogassa meg dokumentációnkat a docs.jellyfin.org címen, vagy olvassa be a QR-kódot a Jellyfin használatának megkezdéséhez.</string>
     <string name="login_help_title">Kell segítség\?</string>
@@ -471,4 +471,13 @@
     <string name="pref_subtitles_background_summary">Mutasson fekete hátteret a feliratok mögött</string>
     <string name="pref_subtitles_background_title">Feliratháttér engedélyezése</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">Az SSL Handshake sikertelen</string>
+    <string name="server_issue_timeout">Kapcsolat időtúllépés</string>
+    <string name="server_issue_outdated_version">A szerver a $1%s verziót használja, de legalább $2%s verziónak kell lennie</string>
+    <string name="server_issue_unsupported_version">A szerver a $1%s verziót használja, amely nem támogatott</string>
+    <string name="server_issue_missing_version">Nem sikerült meghatározni a szerver verzióját</string>
+    <string name="server_issue_invalid_product">A szerverszoftver nem kompatibilis</string>
+    <string name="server_issue_unable_to_connect">Kapcsolódás sikertelen</string>
+    <string name="server_connection_failed_candidates">Nem sikerült csatlakozni a szerverhez, a következő címen: %1$s</string>
+    <string name="lbl_playback_speed">Lejátszási sebesség</string>
 </resources>

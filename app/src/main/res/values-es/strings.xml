@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Usuario y/o contraseña inválidos</string>
     <string name="login_authenticating">Autenticando…</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
-    <string name="server_connection_failed">Imposible conectar con el servidor: %1$s</string>
+    <string name="server_connection_failed">Imposible conectar con el servidor</string>
     <string name="server_connecting">Conectando con %1$s</string>
     <string name="lbl_episode_marks">Solo en episodios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contador de \"no visto\"</string>
@@ -467,4 +467,17 @@
     <string name="home_section_library">Mi contenido</string>
     <string name="home_section_none">Ninguna</string>
     <string name="home_section_i">Sección Principal %1$d</string>
+    <string name="server_issue_ssl_handshake">El emparejamiento SSL ha fallado</string>
+    <string name="server_issue_timeout">No se ha podido conectar</string>
+    <string name="server_issue_outdated_version">El servidor usa la versión $1%s pero se necesita $2%s o superior</string>
+    <string name="server_issue_unsupported_version">El servidor usa la versión $1%s, que no está soportada</string>
+    <string name="server_issue_missing_version">No se puede determinar la versión del servidor</string>
+    <string name="server_issue_invalid_product">El software del servidor es incompatible</string>
+    <string name="server_issue_unable_to_connect">Imposible conectar</string>
+    <string name="pref_subtitles_size">Tamaño de los subtítulos</string>
+    <string name="pref_subtitles_background_summary">Muestra un fondo negro detrás de los subtítulos</string>
+    <string name="pref_subtitles_background_title">Activar fondo para subtítulos</string>
+    <string name="server_connection_failed_candidates">Imposible conectar con el servidor. Dirección usada: %1$s</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="lbl_playback_speed">Velocidad de Reproducción</string>
 </resources>

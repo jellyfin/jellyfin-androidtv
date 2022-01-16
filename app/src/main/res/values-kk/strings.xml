@@ -17,11 +17,11 @@
     <string name="lbl_suggested">Ūsynylğan</string>
     <string name="lbl_genres">Janrlar</string>
     <string name="lbl_performers">Oryndauşylar</string>
-    <string name="lbl_search">İzdeu</string>
+    <string name="lbl_search">Izdeu</string>
     <string name="msg_not_implemented">" jüzege asyrylmağan"</string>
     <string name="lbl_latest">Eñ keiıngı</string>
     <string name="lbl_by_name">Atymen</string>
-    <string name="lbl_favorites">Tandaulylar</string>
+    <string name="lbl_favorites">Tañdaulylar</string>
     <string name="lbl_coming_up">Aldağy</string>
     <string name="lbl_favorite_channels">Tandauly arnalar</string>
     <string name="lbl_other_channels">Basqa arnalar</string>
@@ -312,7 +312,7 @@
     <string name="login_invalid_credentials">Jaramsyz paidalanuşy aty/paröl</string>
     <string name="login_authenticating">Tüpnūsqalyq rastauda…</string>
     <string name="server_field_empty">Mekenjaiy bos boluy mümkın emes</string>
-    <string name="server_connection_failed">Serverge qosylu mümkın emes: %1$s</string>
+    <string name="server_connection_failed">Serverge qosylu mümkın emes</string>
     <string name="server_connecting">%1$s üşın qosyluda</string>
     <string name="pref_clock_display_playback">Oinatu kezınde</string>
     <string name="pref_clock_display_browsing">Şarlau kezınde</string>
@@ -471,4 +471,13 @@
     <string name="pref_subtitles_background_summary">Subtitrlerdıñ artynda qara öñ körsetu</string>
     <string name="pref_subtitles_background_title">Subtitr oñıñ qosu</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">SSL rastamasy sätsız aiaqtaldy</string>
+    <string name="server_issue_timeout">Qosylu waqyty aiaqtaldy</string>
+    <string name="server_issue_outdated_version">Server $1%s nusqasyn paydalanady, bıraq ol $2%s nemese odan jañaraq boluy kerek</string>
+    <string name="server_issue_unsupported_version">Server qoldau körsetılmeitın $1%s nusqasyn paydalanady</string>
+    <string name="server_issue_missing_version">Serverdıñ nusqasyn anyqtau mümkın bolmady</string>
+    <string name="server_issue_invalid_product">Serverdıñ bağdarlamalyq jasaqtamasy üylesımdı emes</string>
+    <string name="server_issue_unable_to_connect">Qosylu mümkın emes</string>
+    <string name="server_connection_failed_candidates">Serverge qosylu mümkın bolmady, kelesı mekenjaılardy qoldanyp kördık: %1$s</string>
+    <string name="lbl_playback_speed">Oinatu jyldamdyğy</string>
 </resources>

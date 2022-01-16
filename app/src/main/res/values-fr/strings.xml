@@ -465,4 +465,18 @@
     <string name="home_section_livetv">TV en direct</string>
     <string name="home_section_latest_media">Derniers Médias</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_subtitles_size">Taille des sous-titres</string>
+    <string name="pref_subtitles_background_summary">Affiche un fond noir derrière les sous-titres</string>
+    <string name="pref_subtitles_background_title">Activer le fond pour les sous-titres</string>
+    <string name="server_issue_invalid_product">Server incompatible</string>
+    <string name="server_issue_unable_to_connect">Impossible de se connecter</string>
+    <string name="home_section_i">Accueil %1$d</string>
+    <string name="home_sections">Accueil</string>
+    <string name="server_connection_failed_candidates">Impossible de se connecter au server: %1$s</string>
+    <string name="lbl_playback_speed">Vitesse de lecture</string>
+    <string name="server_issue_ssl_handshake">Négociation SSL échoué</string>
+    <string name="server_issue_timeout">Délais de connexion dépassé</string>
+    <string name="server_issue_outdated_version">Une version server supérieur ou égale à: $2%s est nécessaire, hors le server est en version: $1%s.</string>
+    <string name="server_issue_unsupported_version">La version du server: $1%s , n\'est pas compatible</string>
+    <string name="server_issue_missing_version">Impossible de déterminer la version du server</string>
 </resources>

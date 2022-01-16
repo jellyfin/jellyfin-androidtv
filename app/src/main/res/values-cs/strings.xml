@@ -356,7 +356,7 @@
     <string name="login_invalid_credentials">Neplatné uživatelské jméno nebo heslo</string>
     <string name="login_authenticating">Ověřování uživatele…</string>
     <string name="server_field_empty">Adresa nesmí být prázdná</string>
-    <string name="server_connection_failed">Nelze se připojit k serveru: %1$s</string>
+    <string name="server_connection_failed">Nelze se připojit k serveru</string>
     <string name="server_connecting">Připojování k %1$s</string>
     <string name="login_help_description">Jellyfin vyžaduje server, ke kterému se může připojit. Chcete-li zjistit, jak začít Jellyfin používat, podívejte se na dokumentaci na docs.jellyfin.org nebo naskenujte QR kód.</string>
     <string name="login_help_title">Potřebujete pomoc\?</string>
@@ -471,4 +471,13 @@
     <string name="pref_subtitles_background_summary">Zobrazit černé pozadí pod titulky</string>
     <string name="pref_subtitles_background_title">Zobrazit pozadí u titulků</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="server_issue_ssl_handshake">Nebylo možné navázat spojení SSL</string>
+    <string name="server_issue_timeout">Čas pro připojení vypršel</string>
+    <string name="server_issue_outdated_version">Verze serveru je %s, ale musí být %s nebo novější</string>
+    <string name="server_issue_unsupported_version">Verze serveru %s není podporována</string>
+    <string name="server_issue_missing_version">Nebylo možné určit verzi serveru</string>
+    <string name="server_issue_invalid_product">Software server není kompatibilní</string>
+    <string name="server_issue_unable_to_connect">Nelze se připojit</string>
+    <string name="server_connection_failed_candidates">Nelze se připojit k serveru. Byly vyzkoušeny následující adresy: %1$s</string>
+    <string name="lbl_playback_speed">Rychlost přehrávání</string>
 </resources>

@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
+import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SelectServerFragment : Fragment() {
@@ -81,8 +82,10 @@ class SelectServerFragment : Fragment() {
 					// Show error as toast
 					if (state is UnableToConnectState) {
 						Toast.makeText(requireContext(), getString(
-							R.string.server_connection_failed,
-							state.addressCandidates.joinToString(prefix = "\n", separator = "\n")
+							R.string.server_connection_failed_candidates,
+							state.addressCandidates
+								.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+								.joinToString(prefix = "\n", separator = "\n")
 						), Toast.LENGTH_LONG).show()
 					}
 				}
