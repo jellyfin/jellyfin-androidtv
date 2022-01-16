@@ -980,6 +980,10 @@ public class PlaybackController {
     public void seek(final long pos) {
         Timber.d("Seeking from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo.getContainer());
+
+        if (!hasInitializedVideoManager()) {
+            return;
+        }
         if (mPlaybackMethod == PlayMethod.Transcode && !isNativeMode() && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
