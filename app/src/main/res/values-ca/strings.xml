@@ -20,7 +20,6 @@
     <string name="lbl_latest">Últim</string>
     <string name="msg_not_implemented">" No implementat"</string>
     <string name="lbl_search">Buscar</string>
-    <string name="lbl_performers">Intèrprets</string>
     <string name="lbl_genres">Gèneres</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Suggerit</string>
@@ -30,7 +29,6 @@
     <string name="lbl_next_up">Pròxim</string>
     <string name="lbl_continue_watching">Continua veient</string>
     <string name="lbl_settings">Configuració</string>
-    <string name="pref_general">General</string>
     <string name="chapters">Capítols</string>
     <string name="lbl_play_all">Reproduïr Tots</string>
     <string name="lbl_because_you_watched">"Perque els has vist "</string>
@@ -85,7 +83,6 @@
     <string name="lbl_valid_server_address">Introduïu l\'adreça del servidor (IP o nom de domini / màquina)</string>
     <string name="lbl_enter_server_address">Introduïu l\'adreça del servidor</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://myserver.com</string>
-    <string name="lbl_version">"Versió "</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Requereix hardware compatible</string>
     <string name="lbl_bitstream_ac3">Transmissió directa d\'àudio Dolby Digital</string>
@@ -282,7 +279,6 @@
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
-    <string name="pref_authentication_link">Opcions d’autenticació</string>
     <string name="login_username_field_empty">El nom d\'usuari no pot estar buit</string>
     <string name="login_invalid_credentials">Nom d\'usuari i/o contrasenya no vàlids</string>
     <string name="login_server_unavailable">No es pot connectar al servidor</string>
@@ -339,7 +335,6 @@
     <string name="pref_button_remapping_description">Premeu qualsevol botó del comandament TV per assignar-lo</string>
     <string name="pref_subtitle_track_button">Botó de pista de subtítols</string>
     <string name="pref_audio_track_button">Botó de pista d\'àudio</string>
-    <string name="pref_button_remapping_category">Remapatge de botons</string>
     <string name="lbl_unknown_key">Desconegut (%1s)</string>
     <string name="grid_direction_horizontal">Horitzontal</string>
     <string name="grid_direction">Direcció de la graella</string>
@@ -464,7 +459,6 @@
     <string name="lbl_sign_out">Tanca sessió</string>
     <string name="lbl_remove">Esborrar</string>
     <string name="lbl_server">Servidor</string>
-    <string name="lbl_users">Usuaris</string>
     <string name="lbl_user_server">%1$s a %2$s</string>
     <string name="lbl_user_last_used">Últim ús el %1$s a les %2$s</string>
     <string name="lbl_remove_server">Esborrar servidor</string>

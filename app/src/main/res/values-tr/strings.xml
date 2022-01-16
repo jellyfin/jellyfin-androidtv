@@ -141,7 +141,6 @@
     <string name="lbl_valid_server_address">Lütfen sunucu adresi girin (IP yada alan/makine adı)</string>
     <string name="lbl_enter_server_address">Sunucu Adresi Girin</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 veya https://benimsunucum.com</string>
-    <string name="lbl_version">"Versiyon "</string>
     <string name="msg_error_server_unavailable">Sunucuya erişilemiyor</string>
     <string name="lbl_yes">Evet</string>
     <string name="lbl_no">Hayır</string>
@@ -201,7 +200,6 @@
     <string name="lbl_latest">Son Eklenen</string>
     <string name="msg_not_implemented">" uygulanmadı"</string>
     <string name="lbl_search">Arama</string>
-    <string name="lbl_performers">Oyuncular</string>
     <string name="lbl_genres">Türler</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Önerilen</string>
@@ -211,7 +209,6 @@
     <string name="lbl_next_up">Sıradaki Bölüm</string>
     <string name="lbl_continue_watching">İzlemeye Devam Et</string>
     <string name="lbl_settings">Ayarlar</string>
-    <string name="pref_general">Genel</string>
     <string name="chapters">Bölümler</string>
     <string name="pref_authentication_cat">Doğrulama</string>
     <string name="settings_title">Ayarlar</string>
@@ -269,7 +266,6 @@
     <string name="pref_button_remapping_description">Atamak için TV uzaktan kumandasındaki herhangi bir düğmeye basın</string>
     <string name="pref_subtitle_track_button">Altyazı parçası düğmesi</string>
     <string name="pref_audio_track_button">Ses parçası düğmesi</string>
-    <string name="pref_button_remapping_category">Düğme Yeniden Eşlemesi</string>
     <string name="lbl_unknown_key">Bilinmeyen (%1s)</string>
     <string name="grid_direction_vertical">Dikey (deneysel)</string>
     <string name="grid_direction_horizontal">Yatay</string>
@@ -449,14 +445,12 @@
     <string name="lbl_sign_out">Çıkış yap</string>
     <string name="lbl_remove">Kaldır</string>
     <string name="lbl_server">Sunucu</string>
-    <string name="lbl_users">Kullanıcılar</string>
     <string name="lbl_user_last_used">En son %1$s tarihinde saat %2$s\'de kullanıldı</string>
     <string name="lbl_remove_server">Sunucuyu kaldır</string>
     <string name="lbl_sign_out_content">Bir sonraki kullanımda giriş yapmayı gerektirir</string>
     <string name="lbl_remove_user_content">Hesabı kaldır</string>
     <string name="lbl_remove_users">Tüm ilişkili kullanıcılar da kaldırılacaktır</string>
     <string name="lbl_manage_servers">Sunucuları yönet</string>
-    <string name="pref_authentication_link">Yetkilendirme seçenekleri</string>
     <string name="login_authenticating">Yetkilendiriliyor…</string>
     <string name="pref_clock_display_browsing">Gezinirken</string>
     <string name="pref_clock_display">Saati göster</string>

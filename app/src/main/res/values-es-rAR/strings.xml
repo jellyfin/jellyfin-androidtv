@@ -52,7 +52,6 @@
     <string name="lbl_next_up">Siguiente</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_settings">Configuraciones</string>
-    <string name="pref_general">General</string>
     <string name="chapters">Capítulos</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="settings_title">Configuraciones</string>
@@ -63,7 +62,6 @@
     <string name="pref_playback">Reproducción</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_valid_server_address">Introduzca la dirección del servidor (IP o nombre de dominio/equipo)</string>
-    <string name="lbl_version">"Versión "</string>
     <string name="lbl_play_trailers">Reproducir Sinopsis</string>
     <string name="msg_access_restricted">Acceso restringido en este momento</string>
     <string name="lbl_bracket_unknown">&lt;Desconocido&gt;</string>
@@ -130,7 +128,6 @@
     <string name="pref_button_remapping_description">Aprieta cualquier botón del control remoto para asignarlo</string>
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="pref_audio_track_button">Botón de pista de audio</string>
-    <string name="pref_button_remapping_category">Remapeo de botones</string>
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
@@ -341,7 +338,6 @@
     <string name="lbl_runs">Duración</string>
     <string name="lbl_cast_crew">Reparto/Equipo</string>
     <string name="lbl_pause">Pausa</string>
-    <string name="lbl_performers">Intérpretes</string>
     <string name="lbl_by_letter">Por letra</string>
     <string name="pref_clock_display_playback">Durante la Reproducción</string>
     <string name="pref_clock_display_browsing">Mientras Navega</string>
@@ -350,7 +346,6 @@
     <string name="pref_default_rating">Tipo de Puntuación por Defecto</string>
     <string name="lbl_tomatoes">Tomatoes</string>
     <string name="lbl_stars">Estrellas</string>
-    <string name="pref_authentication_link">Opciones de autenticación</string>
     <string name="login_username_field_empty">El nombre de usuario no puede estar vacío</string>
     <string name="login_server_unavailable">No se puede conectar al servidor</string>
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválido</string>
@@ -378,7 +373,6 @@
     <string name="lbl_sign_out">Desconectarse</string>
     <string name="lbl_remove">Eliminar</string>
     <string name="lbl_server">Servidor</string>
-    <string name="lbl_users">Usuarios</string>
     <string name="lbl_user_server">%1$s en %2$s</string>
     <string name="lbl_user_last_used">Utilizado por ultima vez el %1$s at %2$s</string>
     <string name="lbl_remove_server">Eliminar Servidor</string>

@@ -32,7 +32,6 @@
     <string name="lbl_latest">সর্বশেষ</string>
     <string name="msg_not_implemented">" বাস্তবায়িত হয়নি"</string>
     <string name="lbl_search">অনুসন্ধান করুন</string>
-    <string name="lbl_performers">অভিনেতারা</string>
     <string name="lbl_genres">ধরন</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">প্রস্তাবিত</string>
@@ -42,7 +41,6 @@
     <string name="lbl_next_up">এর পরে</string>
     <string name="lbl_continue_watching">পর্যবেক্ষণ চালিয়ে যান</string>
     <string name="lbl_settings">সেটিংস</string>
-    <string name="pref_general">সাধারণ</string>
     <string name="chapters">অধ্যায়</string>
     <string name="pref_authentication_cat">প্রমাণীকরণ</string>
     <string name="settings_title">সেটিংস</string>

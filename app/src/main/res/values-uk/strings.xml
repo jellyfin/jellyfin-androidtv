@@ -31,7 +31,6 @@
     <string name="lbl_latest">Нещодавні</string>
     <string name="msg_not_implemented">" не реалізовано"</string>
     <string name="lbl_search">Пошук</string>
-    <string name="lbl_performers">Виконавці</string>
     <string name="lbl_genres">Жанри</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Рекомендації</string>
@@ -41,7 +40,6 @@
     <string name="lbl_next_up">Наступний</string>
     <string name="lbl_continue_watching">Продовжити перегляд</string>
     <string name="lbl_settings">Налаштування</string>
-    <string name="pref_general">Головна</string>
     <string name="chapters">Розділи</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_clock_display_playback">Під час відтворення</string>
@@ -100,7 +98,6 @@
     <string name="lbl_valid_server_address">Введіть адресу сервера (IP або домен/ім\'я комп\'ютера)</string>
     <string name="lbl_enter_server_address">Введіть адресу сервера</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 або https://myserver.com</string>
-    <string name="lbl_version">"Версія "</string>
     <string name="msg_error_server_unavailable">Сервер недоступний</string>
     <string name="lbl_yes">Так</string>
     <string name="lbl_no">Ні</string>

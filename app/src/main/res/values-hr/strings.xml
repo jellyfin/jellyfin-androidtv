@@ -5,7 +5,6 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Unesi adresu poslužitelja</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ili https://myserver.com</string>
-    <string name="lbl_version">"Verzija "</string>
     <string name="msg_error_server_unavailable">Poslužitelj nedostupan</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
@@ -73,10 +72,8 @@
     <string name="lbl_specials">Specijalno</string>
     <string name="lbl_latest_additions">Posljednje dodano</string>
     <string name="msg_not_implemented">" nije implementirano"</string>
-    <string name="lbl_performers">Izvođači</string>
     <string name="lbl_views">Pregledi</string>
     <string name="lbl_on_now">Sada na programu</string>
-    <string name="pref_general">Općenito</string>
     <string name="pref_authentication_cat">Autentičnost</string>
     <string name="pref_max_bitrate_title">Najveći dopušteni prijenos bitova po sekundi</string>
     <string name="video_error_unknown_error">Neuspješno učitavanje videozapisa</string>
@@ -210,7 +207,6 @@
     <string name="pref_button_remapping_description">Pritisnite bilo koji gumb na daljinskom upravljaču da mu dodijelite funkciju</string>
     <string name="pref_subtitle_track_button">Gumb zapisa titla</string>
     <string name="pref_audio_track_button">Gumb zvučnog zapisa</string>
-    <string name="pref_button_remapping_category">Mapiranje gumba</string>
     <string name="lbl_unknown_key">Nepoznato (%1s)</string>
     <string name="grid_direction_vertical">Okomito (eksperimentalno)</string>
     <string name="grid_direction_horizontal">Vodoravno</string>
@@ -371,7 +367,6 @@
     <string name="enable_smart_view_description">\'Smart screen\' prikazuje relevantne stavke umjesto rešetke</string>
     <string name="enable_smart_view">Omogući \'smart screen\'</string>
     <string name="lbl_remove">Ukloni</string>
-    <string name="lbl_users">Korisnici</string>
     <string name="lbl_user_server">%1$s u %2$s</string>
     <string name="lbl_user_last_used">Posljednji put korišteno %1$s u %2$s</string>
     <string name="lbl_remove_server">Ukloni poslužitelj</string>
@@ -379,7 +374,6 @@
     <string name="lbl_remove_user_content">Ukloni račun</string>
     <string name="lbl_remove_users">Time ćete ukloniti i sve povezane korisnike</string>
     <string name="lbl_manage_servers">Upravljajte poslužiteljima</string>
-    <string name="pref_authentication_link">Mogućnosti provjere autentičnosti</string>
     <string name="login_server_unavailable">Nije moguće povezivanje s poslužiteljem</string>
     <string name="connect_manually_by_address">Unesi adresu poslužitelja</string>
     <string name="lbl_hide_unwatched_count">Sakrij nepregledan broj</string>

@@ -5,7 +5,6 @@
     <string name="lbl_Reset">Setel ulang</string>
     <string name="pref_button_remapping_description">Tekan sembarang tombol di remote TV untuk menetapkannya</string>
     <string name="pref_audio_track_button">Tombol trek audio</string>
-    <string name="pref_button_remapping_category">Pemetaan Tombol</string>
     <string name="lbl_unknown_key">Tidak diketahui (%1s)</string>
     <string name="watch_now">Menonton sekarang</string>
     <string name="pref_next_up_timeout_title">Durasi timer Berikutnya</string>
@@ -141,7 +140,6 @@
     <string name="msg_playback_restricted">Administrator telah membatasi pemutaran item ini saat ini</string>
     <string name="msg_playback_not_allowed">Pemutaran tidak diperbolehkan saat ini</string>
     <string name="lbl_loading_elipses">Memuat…</string>
-    <string name="lbl_version">"Versi "</string>
     <string name="msg_video_playback_error">"Kesalahan Pemutaran Video - "</string>
     <string name="lbl_none">Tidak ada</string>
     <string name="lbl_recordings">Rekaman</string>
@@ -157,7 +155,6 @@
     <string name="lbl_chapters">Bagian</string>
     <string name="lbl_cast_crew">Pemeran/Kru</string>
     <string name="msg_unable_to_cancel">Tidak dapat membatalkan rekaman</string>
-    <string name="lbl_performers">Peforma</string>
     <string name="lbl_direct_stream_live">Streaming Langsung Live TV</string>
     <string name="msg_error_live_stream">Terjadi kesalahan saat streaming Live TV. Akan mencoba kembali…</string>
     <string name="pref_live_tv_cat">Live TV</string>
@@ -254,7 +251,6 @@
     <string name="lbl_next_up">Selanjutnya</string>
     <string name="lbl_continue_watching">Lanjutkan Menonton</string>
     <string name="lbl_settings">Pengaturan</string>
-    <string name="pref_general">Umum</string>
     <string name="chapters">Bagian</string>
     <string name="pref_authentication_cat">Autentikasi</string>
     <string name="settings_title">Pengaturan</string>

@@ -37,7 +37,6 @@
     <string name="lbl_valid_server_address">Vui lòng nhập địa chỉ máy chủ (IP hoặc tên miền / tên máy)</string>
     <string name="lbl_enter_server_address">Nhập Địa Chỉ Máy Chủ</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 hoặc https://myserver.com</string>
-    <string name="lbl_version">"Phiên bản "</string>
     <string name="msg_error_server_unavailable">Máy chủ không có sẵn</string>
     <string name="lbl_yes">Có</string>
     <string name="lbl_no">Không</string>
@@ -93,7 +92,6 @@
     <string name="lbl_latest">Mới Nhất</string>
     <string name="msg_not_implemented">" không được thực hiện"</string>
     <string name="lbl_search">Tìm kiếm</string>
-    <string name="lbl_performers">Người biểu diễn</string>
     <string name="lbl_genres">Thể loại</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Được Đề Xuất</string>
@@ -103,7 +101,6 @@
     <string name="lbl_next_up">Kế Tiếp</string>
     <string name="lbl_continue_watching">Tiếp Tục Xem</string>
     <string name="lbl_settings">Cài đặt</string>
-    <string name="pref_general">Chung</string>
     <string name="chapters">Phân cảnh</string>
     <string name="pref_authentication_cat">Xác thực</string>
     <string name="settings_title">Cài đặt</string>
@@ -317,7 +314,6 @@
     <string name="lbl_end_padding">Kết thúc đệm</string>
     <string name="lbl_begin_padding">Bắt đầu đệm</string>
     <string name="seek_error">Không thể tua</string>
-    <string name="pref_button_remapping_category">Nút Ánh Xạ</string>
     <string name="pref_about_title">Thông Tin</string>
     <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
     <string name="lbl_direct_stream_live">Luồng Phát Truyền Hình Trực Tiếp</string>
@@ -344,7 +340,6 @@
     <string name="pref_clock_display_browsing">Trong khi duyệt</string>
     <string name="lbl_always">Luôn luôn</string>
     <string name="pref_clock_display">Hiển thị đồng hồ</string>
-    <string name="pref_authentication_link">Tùy chọn xác thực</string>
     <string name="login_username_field_empty">Tên người dùng không được để trống</string>
     <string name="login_server_unavailable">Không thể kết nối đến máy chủ</string>
     <string name="login_invalid_credentials">Tên đăng nhập và / hoặc mật khẩu không hợp lệ</string>
@@ -371,7 +366,6 @@
     <string name="lbl_sign_out">Đăng xuất</string>
     <string name="lbl_remove">Xóa</string>
     <string name="lbl_server">Máy chủ</string>
-    <string name="lbl_users">Người dùng</string>
     <string name="lbl_user_last_used">Được sử dụng lần cuối vào %1$s lúc %2$s</string>
     <string name="lbl_remove_server">Xóa máy chủ</string>
     <string name="lbl_sign_out_content">Yêu cầu đăng nhập vào lần sử dụng tiếp theo</string>

@@ -8,7 +8,6 @@
     <string name="btn_cancel">Отмени</string>
     <string name="loading">Зареждане…</string>
     <string name="video_error_unknown_error">Проблем при зареждането на видеото</string>
-    <string name="pref_general">Основни</string>
     <string name="lbl_similar_items_library">Подобни във вашата библиотека</string>
     <string name="msg_will_record">Ще записва</string>
     <string name="msg_recording_now">Записване сега</string>
@@ -37,7 +36,6 @@
     <string name="lbl_valid_server_address">Моля въведете сървърен адрес (IP или домейн/име на машината)</string>
     <string name="lbl_enter_server_address">Въведете сървърен адрес</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
-    <string name="lbl_version">"Версия "</string>
     <string name="msg_error_server_unavailable">Сървърът е недостъпен</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_no">Не</string>

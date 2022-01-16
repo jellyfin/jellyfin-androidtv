@@ -30,7 +30,6 @@
     <string name="image_type_default">Defaŭlte</string>
     <string name="lbl_remove">Forigu</string>
     <string name="lbl_server">Servilo</string>
-    <string name="lbl_users">Uzantoj</string>
     <string name="bitrate_auto">Aŭtomata</string>
     <string name="grid_direction_horizontal">Horizontala</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
@@ -62,7 +61,6 @@
     <string name="lbl_never">Neniam</string>
     <string name="lbl_born">"Naskiĝinta "</string>
     <string name="lbl_ok">Ek</string>
-    <string name="lbl_version">"Versio "</string>
     <string name="lbl_yes">Jes</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_trailer">"Filmanonco "</string>
@@ -91,7 +89,6 @@
     <string name="lbl_search">Serĉu</string>
     <string name="lbl_genres">Ĝenroj</string>
     <string name="lbl_settings">Parametroj</string>
-    <string name="pref_general">Ĝenerala</string>
     <string name="settings_title">Parametroj</string>
     <string name="pref_playback">Ludado</string>
     <string name="byletter_letters">ABCĈDEFGĜHĤIJĴKLMNOPRSŜTUŬVZ</string>
@@ -225,7 +222,6 @@
     <string name="lbl_item">Aĵo</string>
     <string name="lbl_chapters">Ĉapitroj</string>
     <string name="lbl_cast_crew">Roluloj/Skipanoj</string>
-    <string name="lbl_performers">Artistoj</string>
     <string name="lbl_suggested">Proponita</string>
     <string name="lbl_views">Vidoj</string>
     <string name="chapters">Ĉapitroj</string>
@@ -291,7 +287,6 @@
     <string name="pref_developer_link">Opcioj por programistoj</string>
     <string name="lbl_remove_user_content">Forigi konton</string>
     <string name="lbl_manage_servers">Administri servilojn</string>
-    <string name="pref_authentication_link">Aŭtentigaj opcioj</string>
     <string name="pref_clock_display_playback">Dum ludado</string>
     <string name="pref_clock_display_browsing">Dum foliumado</string>
     <string name="pref_clock_display">Montri horloĝon</string>
@@ -300,7 +295,6 @@
     <string name="episode_missing">Epizodo Mankanta</string>
     <string name="no_player">Neniu Ludilo</string>
     <string name="mark_watched">Marki Spektita</string>
-    <string name="pref_button_remapping_category">Buton-Remapado</string>
     <string name="lbl_unknown_key">Nekonata (%1s)</string>
     <string name="grid_direction_vertical">Vertikala (eksperimenta)</string>
     <string name="grid_direction">Krada Direkto</string>

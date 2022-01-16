@@ -49,7 +49,6 @@
     <string name="lbl_views">Vistas</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_genres">Géneros</string>
-    <string name="lbl_performers">Intérpretes</string>
     <string name="lbl_search">Buscar</string>
     <string name="msg_not_implemented">" no implementado"</string>
     <string name="lbl_latest">Recientes</string>
@@ -80,7 +79,6 @@
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
     <string name="lbl_no">No</string>
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
-    <string name="lbl_version">"Versión: "</string>
     <string name="lbl_born">"Nació "</string>
     <string name="lbl_loading_elipses">Cargando…</string>
     <string name="msg_playback_incompatible">No es posible reproducir este formato de video</string>
@@ -129,7 +127,6 @@
     <string name="lbl_image_size">Tamaño de imagen</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
-    <string name="pref_general">General</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="pref_max_bitrate_title">Velocidad de bits máxima para la transmisión</string>
     <string name="lbl_colored_backgrounds">Color de fondo en código</string>
@@ -299,7 +296,6 @@
     <string name="pref_button_remapping_description">Aprieta cualquier botón del control remoto para asignarlo</string>
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="pref_audio_track_button">Botón de pista de audio</string>
-    <string name="pref_button_remapping_category">Remapeo de botones</string>
     <string name="clear_expanded">¿Desea limpiar la cola de reproducción de videos\?</string>
     <string name="lbl_clear">Limpiar</string>
     <string name="no_player_message">No parece tener instalada una aplicación para reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
@@ -332,7 +328,6 @@
     <string name="like_setting_error">Error aplicando estado de \"me gusta/no me gusta\"</string>
     <string name="like_clearing_error">Error removiendo estado de \"me gusta/no me gusta\"</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
-    <string name="pref_authentication_link">Opciones de autenticación</string>
     <string name="login_username_field_empty">Nombre de usuario no puede estar vacio</string>
     <string name="login_server_unavailable">Incapaz de conectar al servidor</string>
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválida</string>
@@ -381,7 +376,6 @@
     <string name="lbl_sign_out">Desconectar</string>
     <string name="lbl_remove">Eliminar</string>
     <string name="lbl_server">Servidor</string>
-    <string name="lbl_users">Usuarios</string>
     <string name="lbl_user_server">%1$s en %2$s</string>
     <string name="lbl_user_last_used">Utilizado por última vez en %1$s a las %2$s</string>
     <string name="lbl_remove_server">Quitar servidor</string>

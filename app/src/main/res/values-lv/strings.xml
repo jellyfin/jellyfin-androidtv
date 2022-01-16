@@ -156,7 +156,6 @@
     <string name="lbl_valid_server_address">Lūdzu ievadi servera adresi (IP vai domēnu/datora nosaukumu)</string>
     <string name="lbl_enter_server_address">Ievadi Servera Adresi</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 vai https://myserver.com</string>
-    <string name="lbl_version">"Versija "</string>
     <string name="msg_error_server_unavailable">Serveris nav pieejams</string>
     <string name="lbl_yes">Jā</string>
     <string name="lbl_no">Nē</string>
@@ -202,7 +201,6 @@
     <string name="lbl_latest">Jaunākais</string>
     <string name="msg_not_implemented">" nav ieviests"</string>
     <string name="lbl_search">Meklēt</string>
-    <string name="lbl_performers">Izpildītāji</string>
     <string name="lbl_genres">Žanri</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Ieteiktie</string>
@@ -211,7 +209,6 @@
     <string name="lbl_next_up">Nākamais</string>
     <string name="lbl_continue_watching">Turpini Skatīties</string>
     <string name="lbl_settings">Iestatījumi</string>
-    <string name="pref_general">Vispārīgi</string>
     <string name="chapters">Nodaļas</string>
     <string name="pref_authentication_cat">Autentifikācija</string>
     <string name="settings_title">Iestatījumi</string>
@@ -291,7 +288,6 @@
     <string name="pref_button_remapping_description">Nospied jebkuru pogu uz TV pults lai to pārkartētu</string>
     <string name="pref_subtitle_track_button">Subtitru celiņa poga</string>
     <string name="pref_audio_track_button">Audio celiņu poga</string>
-    <string name="pref_button_remapping_category">Pogu pārkartēšana</string>
     <string name="lbl_unknown_key">Nezināms (%1s)</string>
     <string name="grid_direction_vertical">Vertikāls (eksperimentāls)</string>
     <string name="grid_direction_horizontal">Horizontāls</string>

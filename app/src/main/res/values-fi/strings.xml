@@ -75,7 +75,6 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Anna palvelimen osoite</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 tai https://myserver.com</string>
-    <string name="lbl_version">"Versio "</string>
     <string name="msg_error_server_unavailable">Palvelin ei ole saatavilla</string>
     <string name="lbl_yes">Kyllä</string>
     <string name="lbl_no">Ei</string>
@@ -126,7 +125,6 @@
     <string name="lbl_favorites">Suosikit</string>
     <string name="lbl_by_name">Nimen mukaan</string>
     <string name="msg_not_implemented">" Ei toteutettu"</string>
-    <string name="lbl_performers">Esiintyjät</string>
     <string name="lbl_search">Haku</string>
     <string name="lbl_genres">Tyylilajit</string>
     <string name="lbl_latest">Uusimmat</string>
@@ -164,7 +162,6 @@
     <string name="lbl_next_up">Seuraavaksi</string>
     <string name="lbl_continue_watching">Jatka katsomista</string>
     <string name="lbl_settings">Asetukset</string>
-    <string name="pref_general">Yleinen</string>
     <string name="chapters">Kappaleet</string>
     <string name="settings_title">Asetukset</string>
     <string name="pref_playback">Toistaminen</string>

@@ -7,7 +7,6 @@
     <string name="pref_max_bitrate_title">最大串流码率</string>
     <string name="settings_title">设置</string>
     <string name="chapters">章节</string>
-    <string name="pref_general">常规</string>
     <string name="lbl_settings">设置</string>
     <string name="lbl_continue_watching">继续观看</string>
     <string name="lbl_next_up">下一个</string>
@@ -16,7 +15,6 @@
     <string name="lbl_by_letter">字母顺序</string>
     <string name="lbl_suggested">推荐欣赏</string>
     <string name="lbl_genres">风格类型</string>
-    <string name="lbl_performers">演员歌手</string>
     <string name="msg_not_implemented">" 尚未观看"</string>
     <string name="lbl_latest">最新上映</string>
     <string name="lbl_by_name">名称顺序</string>
@@ -60,7 +58,6 @@
     <string name="lbl_trailer">"预告片 "</string>
     <string name="lbl_no">否</string>
     <string name="lbl_yes">是</string>
-    <string name="lbl_version">"版本 "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 或 https://myserver.com</string>
     <string name="lbl_enter_server_address">输入服务器地址</string>
     <string name="lbl_valid_server_address">请输入服务器地址 (IP, 域名, 或机器名)</string>
@@ -295,7 +292,6 @@
     <string name="pref_button_remapping_description">按电视遥控器上的任何按钮进行分配</string>
     <string name="pref_subtitle_track_button">字幕选择按键</string>
     <string name="pref_audio_track_button">音轨按键</string>
-    <string name="pref_button_remapping_category">按键映射</string>
     <string name="lbl_unknown_key">未知(%1s)</string>
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
@@ -350,7 +346,6 @@
     <string name="pref_default_rating">默认评分类型</string>
     <string name="lbl_tomatoes">番茄</string>
     <string name="lbl_stars">星级</string>
-    <string name="pref_authentication_link">验证选项</string>
     <string name="login_username_field_empty">用户名不能为空</string>
     <string name="login_server_unavailable">无法连接到服务器</string>
     <string name="login_invalid_credentials">无效的用户名或密码</string>
@@ -380,7 +375,6 @@
     <string name="lbl_sign_out">退出</string>
     <string name="lbl_remove">移除</string>
     <string name="lbl_server">服务器</string>
-    <string name="lbl_users">用户</string>
     <string name="lbl_remove_server">删除服务器</string>
     <string name="lbl_sign_out_content">在下次使用时需要登陆</string>
     <string name="lbl_remove_user_content">删除账户</string>

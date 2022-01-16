@@ -3,7 +3,6 @@
     <string name="lbl_latest">ഏറ്റവും പുതിയ</string>
     <string name="msg_not_implemented">" നടപ്പിലാക്കാത്ത"</string>
     <string name="lbl_search">തിരയുക</string>
-    <string name="lbl_performers">പ്രകടനം നടത്തുന്നവർ</string>
     <string name="lbl_suggested">നിർദ്ദേശിച്ചു</string>
     <string name="lbl_by_letter">കത്തിലൂടെ</string>
     <string name="lbl_views">കാഴ്‌ചകൾ</string>
@@ -11,7 +10,6 @@
     <string name="lbl_next_up">അടുത്തത്</string>
     <string name="lbl_continue_watching">കാണുന്നത് തുടരുക</string>
     <string name="lbl_settings">ക്രമീകരണങ്ങൾ</string>
-    <string name="pref_general">ജനറൽ</string>
     <string name="chapters">അധ്യായങ്ങൾ</string>
     <string name="pref_authentication_cat">പ്രാമാണീകരണം</string>
     <string name="settings_title">ക്രമീകരണങ്ങൾ</string>
@@ -91,13 +89,11 @@
     <string name="lbl_sign_out">സൈൻ ഔട്ട്</string>
     <string name="lbl_remove">നീക്കംചെയ്യുക</string>
     <string name="lbl_server">സെർവർ</string>
-    <string name="lbl_users">ഉപയോക്താക്കൾ</string>
     <string name="lbl_remove_server">സെർവർ നീക്കംചെയ്യുക</string>
     <string name="lbl_sign_out_content">അടുത്ത ഉപയോഗത്തിൽ ലോഗിൻ ആവശ്യമാണ്</string>
     <string name="lbl_remove_user_content">അക്കൗണ്ട് നീക്കംചെയ്യുക</string>
     <string name="lbl_remove_users">ഇത് ബന്ധപ്പെട്ട എല്ലാ ഉപയോക്താക്കളെയും നീക്കംചെയ്യും</string>
     <string name="lbl_manage_servers">സെർവറുകൾ നിയന്ത്രിക്കുക</string>
-    <string name="pref_authentication_link">പ്രാമാണീകരണ ഓപ്ഷനുകൾ</string>
     <string name="login_username_field_empty">ഉപയോക്തൃനാമം ശൂന്യമായിരിക്കരുത്</string>
     <string name="login_server_unavailable">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല</string>
     <string name="login_invalid_credentials">അസാധുവായ ഉപയോക്തൃനാമവും കൂടാതെ / അല്ലെങ്കിൽ പാസ്‌വേഡും</string>
@@ -141,7 +137,6 @@
     <string name="pref_button_remapping_description">അത് നൽകാൻ ടിവി റിമോട്ടിലെ ഏതെങ്കിലും ബട്ടൺ അമർത്തുക</string>
     <string name="pref_subtitle_track_button">സബ്‌ടൈറ്റിൽ ട്രാക്ക് ബട്ടൺ</string>
     <string name="pref_audio_track_button">ഓഡിയോ ട്രാക്ക് ബട്ടൺ</string>
-    <string name="pref_button_remapping_category">ബട്ടൺ റീമാപ്പിംഗ്</string>
     <string name="grid_direction_horizontal">തിരശ്ചീന</string>
     <string name="pref_device_model">ഉപകരണ മോഡൽ</string>
     <string name="pref_app_theme">അപ്ലിക്കേഷൻ തീം</string>
@@ -349,7 +344,6 @@
     <string name="lbl_valid_server_address">സെർവർ വിലാസം നൽകുക (IP അല്ലെങ്കിൽ ഡൊമെയ്ൻ / മെഷീൻ നാമം)</string>
     <string name="lbl_enter_server_address">സെർവർ വിലാസം നൽകുക</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 അല്ലെങ്കിൽ https://myserver.com</string>
-    <string name="lbl_version">"പതിപ്പ് "</string>
     <string name="msg_error_server_unavailable">സെർവർ ലഭ്യമല്ല</string>
     <string name="lbl_yes">അതെ</string>
     <string name="lbl_no">ഇല്ല</string>

@@ -7,7 +7,6 @@
     <string name="pref_max_bitrate_title">Ağynmen tasymaldau eñ köp qarqyny</string>
     <string name="settings_title">Parametrler</string>
     <string name="chapters">Sahnalar</string>
-    <string name="pref_general">Jalpy</string>
     <string name="lbl_settings">Parametrler</string>
     <string name="lbl_continue_watching">Qaraudy jalğastyru</string>
     <string name="lbl_next_up">Kezektı</string>
@@ -16,7 +15,6 @@
     <string name="lbl_by_letter">Ärıppen</string>
     <string name="lbl_suggested">Ūsynylğan</string>
     <string name="lbl_genres">Janrlar</string>
-    <string name="lbl_performers">Oryndauşylar</string>
     <string name="lbl_search">Izdeu</string>
     <string name="msg_not_implemented">" jüzege asyrylmağan"</string>
     <string name="lbl_latest">Eñ keiıngı</string>
@@ -71,7 +69,6 @@
     <string name="lbl_enter_user_pw">Paidalanuşy parölın engızu</string>
     <string name="lbl_no">Joq</string>
     <string name="lbl_yes">İa</string>
-    <string name="lbl_version">"Nūsqasy: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 nemese https://myserver.com</string>
     <string name="lbl_enter_server_address">Server mekenjaiyn engızu</string>
     <string name="lbl_valid_server_address">Server mekenjaiyn engızıñız (IP nemese domen/maşina aty)</string>
@@ -298,7 +295,6 @@
     <string name="lbl_Reset">Ysyru</string>
     <string name="pref_subtitle_track_button">Subtitrler jolşyğynyñ tüimeşıgı</string>
     <string name="pref_audio_track_button">Dybys jolşyğynyñ tüimeşıgı</string>
-    <string name="pref_button_remapping_category">Tüimeşıkterdı qaita qūru</string>
     <string name="lbl_unknown_key">Belgısız (%1s)</string>
     <string name="grid_direction_vertical">Tık (eksperimentaldy)</string>
     <string name="grid_direction_horizontal">Köldeneñ</string>
@@ -306,7 +302,6 @@
     <string name="pref_device_model">Qūrylğy ülgısı</string>
     <string name="lbl_subtitle_track">Subtitrler jolşyğyn tañdau</string>
     <string name="lbl_audio_track">Dybys jolşyğyn tañdau</string>
-    <string name="pref_authentication_link">Tüpnūsqalyq rastamasynyñ opsialary</string>
     <string name="login_username_field_empty">Paidalanuşy aty bos boluy mümkın emes</string>
     <string name="login_server_unavailable">Serverge qosylu mümkın emes</string>
     <string name="login_invalid_credentials">Jaramsyz paidalanuşy aty/paröl</string>
@@ -373,7 +368,6 @@
     <string name="lbl_sign_out">Şyğu</string>
     <string name="lbl_remove">Alastau</string>
     <string name="lbl_server">Server</string>
-    <string name="lbl_users">Paidalanuşylar</string>
     <string name="lbl_user_server">%1$s %2$s ışınde</string>
     <string name="lbl_remove_server">Serverdı alastau</string>
     <string name="lbl_remove_user_content">Tırkelgını alastau</string>

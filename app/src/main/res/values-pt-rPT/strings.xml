@@ -8,7 +8,6 @@
     <string name="pref_max_bitrate_title">Taxa de bits máxima de transmissão</string>
     <string name="settings_title">Definições</string>
     <string name="chapters">Capítulos</string>
-    <string name="pref_general">Geral</string>
     <string name="lbl_settings">Definições</string>
     <string name="lbl_continue_watching">Continuar a Ver</string>
     <string name="lbl_next_up">A Seguir</string>
@@ -17,7 +16,6 @@
     <string name="lbl_by_letter">Por Letra</string>
     <string name="lbl_suggested">Sugerido</string>
     <string name="lbl_genres">Géneros</string>
-    <string name="lbl_performers">Artistas</string>
     <string name="lbl_search">Pesquisa</string>
     <string name="msg_not_implemented">" não implementado"</string>
     <string name="lbl_latest">Mais Recente</string>
@@ -72,7 +70,6 @@
     <string name="lbl_enter_user_pw">Digite a plavra-passe de utilizador</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_version">"Versão: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ou https://myserver.com</string>
     <string name="lbl_enter_server_address">Insira o Endereço do Servidor</string>
     <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
@@ -266,7 +263,6 @@
     <string name="pref_button_remapping_description">Pressione qualquer botão no seu comando do Televisor para atribuí-lo</string>
     <string name="pref_subtitle_track_button">Botão da faixa de legendas</string>
     <string name="pref_audio_track_button">Botão de faixa de áudio</string>
-    <string name="pref_button_remapping_category">Remapeamento de botões</string>
     <string name="lbl_unknown_key">Desconhecido (%1s)</string>
     <string name="grid_direction_vertical">Vertical (em fase experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
@@ -329,7 +325,6 @@
     <string name="lbl_clear">Limpar</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>
     <string name="mark_watched">Marcar como Visto</string>
-    <string name="pref_authentication_link">Opções de autenticação</string>
     <string name="login_username_field_empty">O nome de usuário não pode ser vazio</string>
     <string name="login_server_unavailable">Não foi possível ligar ao servidor</string>
     <string name="login_invalid_credentials">Nome do utilizador e/ou palavra-passe inválido/s</string>
@@ -393,7 +388,6 @@
     <string name="lbl_sign_out">Sair</string>
     <string name="lbl_remove">Remover</string>
     <string name="lbl_server">Servidor</string>
-    <string name="lbl_users">Utilizadores</string>
     <string name="lbl_user_server">%1$s em %2$s</string>
     <string name="lbl_user_last_used">Última utilização em %1$s às %2$s</string>
     <string name="lbl_remove_server">Remover servidor</string>

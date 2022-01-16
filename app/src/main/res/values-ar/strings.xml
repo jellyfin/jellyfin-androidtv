@@ -75,7 +75,6 @@
     <string name="lbl_valid_server_address">الرجاء إدخال عنوان الخادم (IP أو اسم النطاق/الجهاز)</string>
     <string name="lbl_enter_server_address">أدخل عنوان الخادم</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 أو https://myserver.com</string>
-    <string name="lbl_version">"الإصدار "</string>
     <string name="msg_error_server_unavailable">الخادم غير متاح</string>
     <string name="lbl_yes">نعم</string>
     <string name="lbl_no">لا</string>
@@ -132,7 +131,6 @@
     <string name="lbl_latest">الأحدث</string>
     <string name="msg_not_implemented">" غير مفعل"</string>
     <string name="lbl_search">البحث</string>
-    <string name="lbl_performers">المؤدون</string>
     <string name="lbl_suggested">مقترح</string>
     <string name="lbl_by_letter">أبجدي</string>
     <string name="lbl_views">طريقة العرض</string>
@@ -140,7 +138,6 @@
     <string name="lbl_next_up">التالي</string>
     <string name="lbl_continue_watching">متابعة المشاهدة</string>
     <string name="lbl_settings">الإعدادات</string>
-    <string name="pref_general">العام</string>
     <string name="chapters">الأجزاء</string>
     <string name="settings_title">الإعدادات</string>
     <string name="pref_max_bitrate_title">أقصى سعة للبث</string>
@@ -193,7 +190,6 @@
     <string name="pref_button_remapping_description">اضغط على أي زر في جهاز التحكم عن بعد لتعيينه</string>
     <string name="pref_subtitle_track_button">زر مقطع الترجمة</string>
     <string name="pref_audio_track_button">زر مقطع الصوت</string>
-    <string name="pref_button_remapping_category">إعادة تعيين أماكن الأزرار</string>
     <string name="lbl_unknown_key">غير معروف (%1s)</string>
     <string name="grid_direction_horizontal">أفقي</string>
     <string name="pref_device_model">اصدار الجهاز</string>
@@ -382,14 +378,12 @@
     <string name="lbl_sign_out">تسجيل خروج</string>
     <string name="lbl_remove">حذف</string>
     <string name="lbl_server">الخادم</string>
-    <string name="lbl_users">المستخدمين</string>
     <string name="lbl_user_server">%1$s على %2$s</string>
     <string name="lbl_user_last_used">آخر إستخدام كان %1$s على %2$s</string>
     <string name="lbl_remove_server">حذف الخادم</string>
     <string name="lbl_sign_out_content">يستلزم تسجيل الدخول في المرة القادمة</string>
     <string name="lbl_remove_user_content">حذف الحساب</string>
     <string name="lbl_remove_users">هاذا ايضا سيحذف جميع المستخدمين</string>
-    <string name="pref_authentication_link">خيارات المصادقة</string>
     <string name="login_username_field_empty">اسم المستخدم لا يمكن أن يكون فارغا</string>
     <string name="login_server_unavailable">لا يمكن الإتصال بالخادم</string>
     <string name="login_invalid_credentials">خطأ في اسم المستخدم و/أو كلمة السر</string>

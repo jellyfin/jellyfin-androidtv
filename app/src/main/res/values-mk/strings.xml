@@ -36,7 +36,6 @@
     <string name="lbl_latest">Последно</string>
     <string name="msg_not_implemented">" не е импленетирано"</string>
     <string name="lbl_search">Пребарај</string>
-    <string name="lbl_performers">Изведувачи</string>
     <string name="lbl_genres">Жанрови</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">Предложено</string>
@@ -46,7 +45,6 @@
     <string name="lbl_next_up">Следно</string>
     <string name="lbl_continue_watching">Продолжи со Гледање</string>
     <string name="lbl_settings">Опции</string>
-    <string name="pref_general">Општо</string>
     <string name="chapters">Делови</string>
     <string name="pref_authentication_cat">Автентикација</string>
     <string name="settings_title">Опци</string>
@@ -72,7 +70,6 @@
     <string name="lbl_valid_server_address">Ве молиме внесете ја адресата на серверот (IP адреса или доменско име)</string>
     <string name="lbl_enter_server_address">Внесете ја адресата на серверот</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://mojotserver.com</string>
-    <string name="lbl_version">"Верзија "</string>
     <string name="msg_error_server_unavailable">Серверот е недостапен</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_no">Не</string>

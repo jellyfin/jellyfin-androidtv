@@ -66,7 +66,6 @@
     <string name="lbl_specials">Penodau arbennig</string>
     <string name="lbl_chapters">Golygfeydd</string>
     <string name="lbl_cast_crew">Cast/Criw</string>
-    <string name="lbl_performers">Perfformwyr</string>
     <string name="lbl_suggested">Awgrymwyd</string>
     <string name="lbl_views">Gweddau</string>
     <string name="chapters">Golygfeydd</string>
@@ -91,7 +90,6 @@
     <string name="image_type_default">Diofyn</string>
     <string name="lbl_remove">Tynnu</string>
     <string name="lbl_server">Gweinydd</string>
-    <string name="lbl_users">Defnyddwyr</string>
     <string name="watch_count_overflow">99+</string>
     <string name="bitrate_auto">Awto</string>
     <string name="grid_direction_horizontal">Llorweddol</string>
@@ -121,7 +119,6 @@
     <string name="lbl_name">Enw</string>
     <string name="lbl_never">Byth</string>
     <string name="lbl_ok">Iawn</string>
-    <string name="lbl_version">"Fersiwn "</string>
     <string name="lbl_yes">Iawn</string>
     <string name="lbl_no">Na</string>
     <string name="lbl_trailer">"Trelar "</string>
@@ -150,7 +147,6 @@
     <string name="lbl_search">Chwilio</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_settings">Gosodiadau</string>
-    <string name="pref_general">Cyffredinol</string>
     <string name="settings_title">Gosodiadau</string>
     <string name="pref_playback">Chwarae</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>

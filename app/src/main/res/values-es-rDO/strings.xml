@@ -41,7 +41,6 @@
     <string name="lbl_valid_server_address">Por favor, ingrese la dirección del servidor (IP o dirección/nombre del dispositivo)</string>
     <string name="lbl_enter_server_address">Ingrese la dirección del servidor</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://miservidor.com</string>
-    <string name="lbl_version">"Versión "</string>
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
@@ -103,6 +102,5 @@
     <string name="lbl_next_up">A continuación</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_settings">Ajustes</string>
-    <string name="pref_general">General</string>
     <string name="chapters">Capítulos</string>
 </resources>

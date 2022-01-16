@@ -9,7 +9,6 @@
     <string name="settings_title">Тохиргоо</string>
     <string name="pref_authentication_cat">Гэрчлэлт</string>
     <string name="chapters">Тэмдэгтүүд</string>
-    <string name="pref_general">Ерөнхий</string>
     <string name="lbl_settings">Тохиргоо</string>
     <string name="lbl_continue_watching">Үргэлжлүүлэн үзэх</string>
     <string name="lbl_next_up">Дараах</string>
@@ -18,7 +17,6 @@
     <string name="lbl_by_letter">Дараагийн үсэг</string>
     <string name="lbl_suggested">Санал болгож буй</string>
     <string name="lbl_genres">Төрөл зүйл</string>
-    <string name="lbl_performers">Гүйцэтгэгчид</string>
     <string name="lbl_search">Хайх</string>
     <string name="msg_not_implemented">" хэрэгжүүлээгүй байна"</string>
     <string name="lbl_latest">Сүүлийн үеийн</string>
@@ -72,7 +70,6 @@
     <string name="lbl_no">Үгүй</string>
     <string name="lbl_yes">Тийм</string>
     <string name="msg_error_server_unavailable">Сервер тодорхойгүй</string>
-    <string name="lbl_version">"Хувилбар "</string>
     <string name="lbl_enter_server_address">Серверийн хаяг оруулна уу</string>
     <string name="lbl_valid_server_address">Серверийн хаягийг оруулна уу (IP эсвэл домэйн / нэр)</string>
     <string name="lbl_born">"Эхэлсэн "</string>

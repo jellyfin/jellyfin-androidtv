@@ -119,7 +119,6 @@
     <string name="lbl_valid_server_address">הכנס שם שרת (IP או שם מכונה)</string>
     <string name="lbl_enter_server_address">הכנס כתובת שרת</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 או https://myserver.com</string>
-    <string name="lbl_version">"גרסה "</string>
     <string name="msg_error_server_unavailable">שרת לא זמין</string>
     <string name="lbl_yes">כן</string>
     <string name="lbl_no">לא</string>
@@ -177,7 +176,6 @@
     <string name="lbl_latest">חדש</string>
     <string name="msg_not_implemented">" לא ממומש"</string>
     <string name="lbl_search">חיפוש</string>
-    <string name="lbl_performers">שחקנים</string>
     <string name="lbl_genres">ז׳אנרים</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">מומלץ</string>
@@ -187,7 +185,6 @@
     <string name="lbl_next_up">הצפייה הבאה</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
     <string name="lbl_settings">הגדרוות</string>
-    <string name="pref_general">כללי</string>
     <string name="chapters">פרקים</string>
     <string name="pref_authentication_cat">התחברות</string>
     <string name="settings_title">הגדרות</string>
@@ -303,7 +300,6 @@
     <string name="pref_button_remapping_description">לחץ על כל מקש בשלט כדי לקבוע אותו</string>
     <string name="pref_subtitle_track_button">כפתור כתוביות</string>
     <string name="pref_audio_track_button">כפתור רצועת שמע</string>
-    <string name="pref_button_remapping_category">מיפוי כפתורים</string>
     <string name="lbl_unknown_key">לא ידוע (%1s)</string>
     <string name="grid_direction_vertical">אנכי (נסיוני)</string>
     <string name="grid_direction_horizontal">אופקי</string>
@@ -352,7 +348,6 @@
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
     <string name="server_connection_failed">לא מצליח להתחבר לשרת: %1$s</string>
-    <string name="pref_authentication_link">אפשרויות אימות</string>
     <string name="login_username_field_empty">שם משתמש לא יכול להיות ריק</string>
     <string name="login_server_unavailable">לא מצליח להתחבר לשרת</string>
     <string name="login_invalid_credentials">שם משתמש ו/או סיסמה שגויים</string>
@@ -393,7 +388,6 @@
     <string name="lbl_sign_out">התנתק</string>
     <string name="lbl_remove">מחק</string>
     <string name="lbl_server">שרת</string>
-    <string name="lbl_users">משתמשים</string>
     <string name="lbl_user_server">%1$s ב%2$s</string>
     <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב%1$s בשעה %2$s</string>
     <string name="lbl_remove_server">מחק שרת</string>

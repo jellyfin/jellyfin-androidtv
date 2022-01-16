@@ -35,7 +35,6 @@
     <string name="lbl_views">觀看次數</string>
     <string name="lbl_on_now">正在觀看</string>
     <string name="lbl_next_up">下一個</string>
-    <string name="pref_general">一般</string>
     <string name="lbl_repeat_options">重複的選項</string>
     <string name="msg_playback_incompatible">無法播放這該影片格式</string>
     <string name="lbl_ok">確定</string>
@@ -73,7 +72,6 @@
     <string name="lbl_loading_elipses">讀取中…</string>
     <string name="lbl_valid_server_address">請輸入伺服器地址（IP、域名或主機名稱）</string>
     <string name="lbl_enter_server_address">輸入伺服器位址</string>
-    <string name="lbl_version">"版本 "</string>
     <string name="lbl_yes">是</string>
     <string name="lbl_no">否</string>
     <string name="lbl_enter_user_pw">輸入使用者密碼</string>
@@ -183,7 +181,6 @@
     <string name="msg_recording_cancelled">錄製已取消</string>
     <string name="msg_unable_to_create_recording">無法錄製</string>
     <string name="msg_set_to_record">用於錄製的程式</string>
-    <string name="lbl_performers">演員歌手</string>
     <string name="lbl_end_padding">結束填充</string>
     <string name="lbl_begin_padding">開始填充</string>
     <string name="msg_will_record">將會記錄</string>
@@ -295,7 +292,6 @@
     <string name="pref_button_remapping_description">按電視遙控器上的任何按鈕進行分配</string>
     <string name="pref_subtitle_track_button">字幕選擇按鍵</string>
     <string name="pref_audio_track_button">音軌按鍵</string>
-    <string name="pref_button_remapping_category">按鍵映射</string>
     <string name="lbl_unknown_key">未知 (%1s)</string>
     <string name="bitrate_auto">自動位元率</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/秒</string>
@@ -326,7 +322,6 @@
     <string name="lbl_sign_out">登出</string>
     <string name="lbl_remove">移除</string>
     <string name="lbl_server">伺服器</string>
-    <string name="lbl_users">使用者</string>
     <string name="lbl_user_server">%1$s 在 %2$s</string>
     <string name="lbl_user_last_used">最後 %1$s 在 %2$s 使用</string>
     <string name="lbl_remove_server">移除伺服器</string>
@@ -334,7 +329,6 @@
     <string name="lbl_remove_user_content">移除帳號</string>
     <string name="lbl_remove_users">將同時移除所有關聯使用者</string>
     <string name="lbl_manage_servers">管理伺服器</string>
-    <string name="pref_authentication_link">驗證選項</string>
     <string name="login_username_field_empty">使用者名稱不能留空</string>
     <string name="login_server_unavailable">無法連接伺服器</string>
     <string name="login_invalid_credentials">無效的使用者名稱和/或密碼</string>

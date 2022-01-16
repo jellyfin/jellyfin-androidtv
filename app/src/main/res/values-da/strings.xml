@@ -7,7 +7,6 @@
     <string name="pref_max_bitrate_title">Maks Streaming Bitrate</string>
     <string name="settings_title">Indstillinger</string>
     <string name="chapters">Kapitler</string>
-    <string name="pref_general">Generalt</string>
     <string name="lbl_settings">Indstillinger</string>
     <string name="lbl_continue_watching">Forsæt med at se</string>
     <string name="lbl_next_up">Næste</string>
@@ -16,7 +15,6 @@
     <string name="lbl_by_letter">Ved bogstav</string>
     <string name="lbl_suggested">Foreslået</string>
     <string name="lbl_genres">Genre</string>
-    <string name="lbl_performers">Medvirkende</string>
     <string name="lbl_search">Søg</string>
     <string name="msg_not_implemented">" ikke implementeret"</string>
     <string name="lbl_latest">Seneste</string>
@@ -69,7 +67,6 @@
     <string name="lbl_enter_user_pw">Indtast bruger kodeord</string>
     <string name="lbl_no">Nej</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_version">"Version: "</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 eller https://myserver.com</string>
     <string name="lbl_enter_server_address">Indtast server adresse</string>
     <string name="lbl_valid_server_address">Venligst indtast serveradressen (IP eller domæne/servernavn)</string>
@@ -291,7 +288,6 @@
     <string name="pref_button_remapping_description">Tryk på én knap på fjernbetjeningen for at tildele den</string>
     <string name="pref_subtitle_track_button">Undertekster knap</string>
     <string name="pref_audio_track_button">Lydspor knap</string>
-    <string name="pref_button_remapping_category">Omkonfigurér Knap</string>
     <string name="lbl_unknown_key">Ukendt (%1s)</string>
     <string name="grid_direction_vertical">Vertikal (Eksperimentel)</string>
     <string name="grid_direction_horizontal">Horisontal</string>
@@ -343,7 +339,6 @@
     <string name="lbl_subtitle_track">Vælg undertekst</string>
     <string name="lbl_audio_track">Vælg lydspor</string>
     <string name="lbl_pause">Stop</string>
-    <string name="pref_authentication_link">Verificerings muligheder</string>
     <string name="login_username_field_empty">Brugernavnet må ikke være tomt</string>
     <string name="login_server_unavailable">Kan ikke forbinde til serveren</string>
     <string name="login_invalid_credentials">Ugyldigt brugernavn og/eller adgangskode</string>
@@ -382,7 +377,6 @@
     <string name="lbl_sign_out">Log ud</string>
     <string name="lbl_remove">Fjern</string>
     <string name="lbl_server">Server</string>
-    <string name="lbl_users">Brugere</string>
     <string name="lbl_user_server">%1$s på %2$s</string>
     <string name="lbl_user_last_used">Sidst brugt den %1$s kl. %2$s</string>
     <string name="lbl_remove_server">Fjern server</string>

@@ -4,7 +4,6 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Podaj adres serwera (IP lub domena/nazwa serwera)</string>
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
-    <string name="lbl_version">"Wersja "</string>
     <string name="msg_error_server_unavailable">Serwer niedostępny</string>
     <string name="lbl_yes">Tak</string>
     <string name="lbl_no">Nie</string>
@@ -64,7 +63,6 @@
     <string name="lbl_next_up">Następne</string>
     <string name="lbl_continue_watching">Kontynuuj Oglądanie</string>
     <string name="lbl_settings">Ustawienia</string>
-    <string name="pref_general">Główne</string>
     <string name="chapters">Rozdziały</string>
     <string name="pref_authentication_cat">Autoryzacja</string>
     <string name="settings_title">Ustawienia</string>
@@ -152,7 +150,6 @@
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
     <string name="lbl_remove_dislike">Usuń Nie podoba mi się</string>
     <string name="lbl_runs">Odtworzeń</string>
-    <string name="lbl_performers">Wykonawcy</string>
     <string name="lbl_delete">Usuń</string>
     <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
@@ -222,7 +219,6 @@
     <string name="pref_button_remapping_description">Naciśnij dowolny przycisk na pilocie telewizora, aby go przypisać</string>
     <string name="pref_subtitle_track_button">Przycisk ścieżki napisów</string>
     <string name="pref_audio_track_button">Przycisk ścieżki dźwiękowej</string>
-    <string name="pref_button_remapping_category">Zmiana klawisza</string>
     <string name="lbl_unknown_key">Nieznany (%1s)</string>
     <string name="grid_direction_vertical">Pionowa (eksperymentalna)</string>
     <string name="grid_direction_horizontal">Poziomy</string>
@@ -342,7 +338,6 @@
     <string name="pref_video_player_choose">Zawsze pytaj</string>
     <string name="lbl_subtitle_track">Wybierz napisy</string>
     <string name="lbl_audio_track">Wybierz ścieżkę audio</string>
-    <string name="pref_authentication_link">Opcje uwierzytelniania</string>
     <string name="login_username_field_empty">Nazwa użytkownika nie może być pusta</string>
     <string name="login_server_unavailable">Niemożna połączyć z serwerem</string>
     <string name="login_invalid_credentials">Niepoprawna nazwa użytkownika i/lub hasło</string>
@@ -378,7 +373,6 @@
     <string name="lbl_sign_out">Wyloguj się</string>
     <string name="lbl_remove">Usuń</string>
     <string name="lbl_server">Serwer</string>
-    <string name="lbl_users">Użytkownicy</string>
     <string name="lbl_user_server">%1$s na %2$s</string>
     <string name="lbl_user_last_used">Ostatnio używany %1$s na %2$s</string>
     <string name="lbl_remove_server">Usuń serwer</string>
