@@ -31,7 +31,7 @@ class ExoPlayerProfile(
 				videoCodec = buildList {
 					if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
 					add(CodecTypes.H264)
-				}.toTypedArray().joinToString(",")
+				}.joinToString(",")
 				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
 				protocol = "hls"
 				minSegments = 1
