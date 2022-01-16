@@ -252,7 +252,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 return;
             }
             mExoPlayer.setPlayWhenReady(true);
-            mExoPlayerView.setKeepScreenOn(true);
             normalWidth = mExoPlayerView.getLayoutParams().width;
             normalHeight = mExoPlayerView.getLayoutParams().height;
         } else {
@@ -260,7 +259,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.e("Attempt to play before surface ready");
                 return;
             }
-
             if (!mVlcPlayer.isPlaying()) {
                 mVlcPlayer.play();
             }
@@ -270,20 +268,16 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void play() {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(true);
-            mExoPlayerView.setKeepScreenOn(true);
         } else {
             mVlcPlayer.play();
-            mSurfaceView.setKeepScreenOn(true);
         }
     }
 
     public void pause() {
         if (nativeMode) {
             mExoPlayer.setPlayWhenReady(false);
-            mExoPlayerView.setKeepScreenOn(false);
         } else {
             mVlcPlayer.pause();
-            mSurfaceView.setKeepScreenOn(false);
         }
     }
 
@@ -339,8 +333,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
         } else {
-            mSurfaceHolder.setKeepScreenOn(true);
-
             mCurrentMedia = new Media(mLibVLC, Uri.parse(path));
             mCurrentMedia.parse();
             mVlcPlayer.setMedia(mCurrentMedia);
@@ -498,6 +490,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void destroy() {
+        stopPlayback();
         releasePlayer();
     }
 
@@ -567,8 +560,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-
-        mSurfaceView.setKeepScreenOn(false);
+        clearPlayerListeners();
     }
 
     int normalWidth;
@@ -706,10 +698,18 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mVlcHandler.setOnProgressListener(listener);
     }
 
+    public void clearPlayerListeners() {
+        mVlcHandler.setOnErrorListener(null);
+        mVlcHandler.setOnCompletionListener(null);
+        mVlcHandler.setOnPreparedListener(null);
+        mVlcHandler.setOnProgressListener(null);
+    }
+
     private PlaybackListener progressListener;
     private Runnable progressLoop;
 
     private void startProgressLoop() {
+        stopProgressLoop();
         progressLoop = new Runnable() {
             @Override
             public void run() {

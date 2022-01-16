@@ -238,7 +238,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
         if (TvApp.getApplication().getPlaybackController() != null) {
             videoManager = new VideoManager(((PlaybackOverlayActivity) requireActivity()), view);
-            TvApp.getApplication().getPlaybackController().init(videoManager);
+            TvApp.getApplication().getPlaybackController().init(videoManager, this);
         }
     }
 
@@ -689,8 +689,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onStop() {
         super.onStop();
-
-        mPlaybackController.stop();
+        Timber.d("Stopping!");
+        mPlaybackController.endPlayback();
+        if (!requireActivity().isFinishing()) {
+            // in case the app is suspended/stopped, eg: by pressing the home button, end the playback session.
+            requireActivity().finish();
+        }
     }
 
     public void show() {
