@@ -259,7 +259,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.e("Attempt to play before surface ready");
                 return;
             }
-
             if (!mVlcPlayer.isPlaying()) {
                 mVlcPlayer.play();
             }
@@ -334,8 +333,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
             }
         } else {
-            mSurfaceHolder.setKeepScreenOn(true);
-
             mCurrentMedia = new Media(mLibVLC, Uri.parse(path));
             mCurrentMedia.parse();
             mVlcPlayer.setMedia(mCurrentMedia);
@@ -564,7 +561,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer = null;
         }
         clearPlayerListeners();
-        mSurfaceView.setKeepScreenOn(false);
     }
 
     int normalWidth;
