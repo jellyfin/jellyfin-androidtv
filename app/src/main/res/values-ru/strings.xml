@@ -6,9 +6,9 @@
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ</string>
     <string name="pref_playback">Воспроизведение</string>
     <string name="pref_max_bitrate_title">Макс. поток. скорость</string>
-    <string name="settings_title">Параметры</string>
+    <string name="settings_title">Настройки</string>
     <string name="chapters">Сцены</string>
-    <string name="lbl_settings">Параметры</string>
+    <string name="lbl_settings">Настройки</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
     <string name="lbl_next_up">Очередное</string>
     <string name="lbl_on_now">В эфире</string>
@@ -62,12 +62,12 @@
     <string name="lbl_recordings">Записи</string>
     <string name="lbl_none">Ничего</string>
     <string name="msg_video_playback_error">"Ошибка воспроизведения видео - "</string>
-    <string name="lbl_bracket_unknown">&lt;Неизвестно&gt;</string>
+    <string name="lbl_bracket_unknown">Неизвестно</string>
     <string name="msg_access_restricted">Доступ запрещён в данное время</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_play_trailers">Воспр. трейлеры</string>
     <string name="lbl_enter_user_name">Ввести имя пользователя</string>
-    <string name="lbl_enter_user_pw">Ввести пароль пользователя</string>
+    <string name="lbl_enter_user_pw">Ввести пароль</string>
     <string name="lbl_no">Нет</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
@@ -156,7 +156,7 @@
     <string name="lbl_album">Альбом</string>
     <string name="lbl_episodes">Эпизоды</string>
     <string name="lbl_enable_cinema_mode">Режим кинотеатра</string>
-    <string name="sum_enable_cinema_mode">Когда включено на сервере, то показываются заставки и анонсы перед фильмом</string>
+    <string name="sum_enable_cinema_mode">Воспроизведение доступных заставок и анонсов перед началом фильма</string>
     <string name="lbl_playlists">Плей-листы</string>
     <string name="msg_items_added">" элементов добавлено"</string>
     <string name="lbl_add_to_queue">Добавить в очередь</string>
@@ -187,9 +187,9 @@
     <string name="lbl_clear_queue">Очистить очередь</string>
     <string name="lbl_play_next_up">Воспроизвести следующее</string>
     <string name="lbl_open">Открыть</string>
-    <string name="lbl_show_backdrop">Показывать задники при навигации</string>
+    <string name="lbl_show_backdrop">Показывать задники</string>
     <string name="lbl_refresh_switching">Переключение частоты обновления</string>
-    <string name="lbl_show_premieres">Показывать премьеры сезона при навигации</string>
+    <string name="lbl_show_premieres">Показывать премьеры сезона</string>
     <string name="desc_premieres">Показывать ряд пилотных эпизодов для любого просматривемого сериала</string>
     <string name="lbl_bitstream_dts">Транслировать DTS аудио</string>
     <string name="lbl_favorite">Избранное</string>
@@ -206,8 +206,8 @@
     <string name="lbl_on_schedule">По расписанию</string>
     <string name="lbl_at_any_time">В любое время</string>
     <string name="lbl_save">Сохранить</string>
-    <string name="msg_settings_updated">Параметры обновлены</string>
-    <string name="lbl_series_settings">Параметры серии</string>
+    <string name="msg_settings_updated">Настройки обновлены</string>
+    <string name="lbl_series_settings">Настройки сериала</string>
     <string name="lbl_live">Эфир</string>
     <string name="lbl_new">Новое</string>
     <string name="lbl_repeat">Повтор</string>
@@ -237,7 +237,7 @@
     <string name="lbl_series_recordings">Записанные серии</string>
     <string name="lbl_episode_not_record">Эта передача НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>
-    <string name="no_program_data">&lt;Программа не доступна&gt;</string>
+    <string name="no_program_data">Программа не доступна</string>
     <string name="lbl_just_this_once">Только на этот раз</string>
     <string name="msg_external_path">Эта функция будет работать только при правильной настройке сетевых путей или подстановки пути медиатеки на сервере, а используемый клиент имеет прямой доступ по сети к этим расположениям.</string>
     <string name="pref_authentication_cat">Аутентификация</string>
@@ -254,23 +254,24 @@
     <string name="lbl_new_only">Только новые</string>
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
-    <string name="pref_video_player_vlc">Библиотека libVLC</string>
-    <string name="pref_acra_syslog">Включать системные журналы в отчёты о сбоях. Они могут включать персональные данные из других приложений, если они были записаны во время сбоя.</string>
+    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_acra_syslog">Включать системные журналы.
+\nОни могут включать персональные данные из других приложений, если они были записаны во время сбоя.</string>
     <string name="pref_video_player_external">Внешнее приложение</string>
-    <string name="pref_video_player_exoplayer">Проигрыватель ExoPlayer</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиаданные</string>
     <string name="acra_dialog_title">О нет! Что-то не так.</string>
-    <string name="acra_dialog_text">Вы желаете отправить разработчикам отчёт о сбое\? 
-\n 
-\nЭта информация будет отправлена третьей стороне (tracepot.com). 
-\n 
-\nЭто предложение может быть отключено в разделе Отчёт о сбое в Параметрах Jellyfin-приложения.</string>
+    <string name="acra_dialog_text">Вы желаете отправить разработчикам отчёт о сбое\?
+\n
+\nЭта информация будет отправлена третьей стороне (tracepot.com).
+\n
+\nЭто предложение может быть отключено в разделе Отчёт о сбое в Настройках Jellyfin-приложения.</string>
     <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
     <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
     <string name="pref_acra_alwaysaccept_enabled">Отчёты о сбоях будут отправляться без предупреждения</string>
-    <string name="pref_acra_alwaysaccept">Отправлять отчёты о сбоях без предупреждения</string>
+    <string name="pref_acra_alwaysaccept">Отправлять без предупреждения</string>
     <string name="pref_acra_disabled">Отчёты о сбоях не будут отправляться</string>
     <string name="pref_acra_enabled">Вам будет предложено отправлять отчёты о сбоях</string>
     <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
@@ -365,7 +366,7 @@
     <string name="lbl_manage_servers">Управление серверами</string>
     <string name="login_help_description">Jellyfin требуется подключение к серверу. Просмотрите нашу документацию на docs.jellyfin.org, или сканируйте QR-код, чтобы начать работу с Jellyfin.</string>
     <string name="enable_smart_view_description">Умный экран показывает соответствующие элементы вместо сетки</string>
-    <string name="lbl_remove_users">Это также изымет всех связанных пользователей</string>
+    <string name="lbl_remove_users">Также изымаются все связанные учётные записи</string>
     <string name="login_help_title">Нужна помощь\?</string>
     <string name="connect_manually_by_address">Ввод адреса сервера</string>
     <string name="discovered_servers_empty">В локальной сети серверов не найдено.</string>
@@ -385,20 +386,20 @@
     <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
-    <string name="user_picker_last_user_summary">Использовать последнего активного пользователя</string>
+    <string name="user_picker_last_user_summary">Использовать последнюю активную учётную запись</string>
     <string name="user_picker_last_user_title">Крайнее пользование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
-    <string name="system_user_explanation">Выбранный пользователь будет использован для системной интеграции, такой как поиск</string>
-    <string name="system_user">Системный пользователь</string>
+    <string name="system_user_explanation">Выбранная учётная запись будет использована для системной интеграции, такой как поиск</string>
+    <string name="system_user">Системная учётная запись</string>
     <string name="auto_sign_in">Автоматический вход</string>
-    <string name="lbl_switch_user">Сменить пользователя</string>
+    <string name="lbl_switch_user">Сменить учётную запись</string>
     <string name="no_network_permissions">Jellyfin требуются сетевые разрешения для работы</string>
     <string name="pref_theme_muted_purple">Тускло-пурпурная</string>
-    <string name="add_user">Добавить пользователя</string>
+    <string name="add_user">Добавить учётную запись</string>
     <string name="who_is_watching">Кто смотрит\?</string>
-    <string name="no_user_warning">Мы не смогли найти ни одного пользователя!
-\nДобавьте нового пользователя, нажав кнопку «Добавить пользователя».</string>
+    <string name="no_user_warning">Мы не смогли найти ни одну учётную запись!
+\nДобавьте новую учётную запись, нажав кнопку «Добавить учётную запись».</string>
     <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %1$s, но приложению требуется версия %2$s или новее</string>
     <string name="welcome_content">Подключитесь к своему серверу, чтобы начать.</string>
     <string name="welcome_title">Начало работы в Jellyfin!</string>
@@ -433,7 +434,7 @@
     <string name="lbl_auto_crop">Автообрезка</string>
     <string name="alphabetical">Алфавитный</string>
     <string name="last_use">Крайнее пользование</string>
-    <string name="advanced_settings">Параметры (расширенные)</string>
+    <string name="advanced_settings">Расширенное</string>
     <string name="always_authenticate_description">Включение этой функции отключает автоматический вход в систему</string>
     <string name="always_authenticate">Всегда запрашивать учётные данные</string>
     <string name="lbl_community_rating">Общественная оценка</string>
@@ -461,17 +462,38 @@
     <string name="home_prefs">Главное</string>
     <string name="searchable_settings_description">Медиаданные</string>
     <string name="searchable_hint">Поиск Jellyfin</string>
-    <string name="pref_subtitles_size">Размер субтитра</string>
+    <string name="pref_subtitles_size">Размер текста</string>
     <string name="pref_subtitles_background_summary">Показывать чёрный фон за субтитрами</string>
-    <string name="pref_subtitles_background_title">Включить фон субтитра</string>
+    <string name="pref_subtitles_background_title">Включить фон</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Ошибка подтверждения SSL</string>
     <string name="server_issue_timeout">Время соединения истекло</string>
-    <string name="server_issue_outdated_version">Сервер использует версию $1%s, но должна быть версии $2%s или новее</string>
-    <string name="server_issue_unsupported_version">Сервер использует версию $1%s, которая не поддерживается</string>
+    <string name="server_issue_outdated_version">Сервер использует версию %1$s, но должна быть версии %2$s или новее</string>
+    <string name="server_issue_unsupported_version">Сервер использует версию %1$s, которая не поддерживается</string>
     <string name="server_issue_missing_version">Не удалось определить версию сервера</string>
     <string name="server_issue_invalid_product">Программное обеспечение сервера несовместимо</string>
     <string name="server_issue_unable_to_connect">Невозможно подключиться</string>
     <string name="server_connection_failed_candidates">Не удалось подключиться к серверу, пробуем следующие адреса: %1$s</string>
     <string name="lbl_playback_speed">Скорость воспроизведения</string>
+    <string name="pref_acra_description">Диалог сбоя, автозагрузка, системные журналы</string>
+    <string name="pref_customization">Пользовательская настройка</string>
+    <string name="pref_direct_stream_live_on">Перекодирование выключено</string>
+    <string name="pref_direct_stream_live_off">Перекодирование используется при необходимости</string>
+    <string name="pref_libraries_description">Изменить способ отображения библиотек</string>
+    <string name="pref_home_description">Настройка отображаемых разделов</string>
+    <string name="sort_accounts_by">Сортировка учётных записей по</string>
+    <string name="pref_refresh_switching_description">Частота обновления монитора изменяется в соответствии с видео</string>
+    <string name="pref_show_backdrop_description">Изменение фонового рисунка для выбранных элементов</string>
+    <string name="pref_audio">Аудио</string>
+    <string name="pref_subtitles">Субтитры</string>
+    <string name="pref_video">Видео</string>
+    <string name="pref_playback_description">Видео, субтитры, эфир, очередное</string>
+    <string name="pref_customization_description">Тема, главная, переназначение</string>
+    <string name="pref_login_description">Сервера, учётные записи, автовход</string>
+    <string name="pref_login">Вход</string>
+    <string name="pref_libraries">Медиатеки</string>
+    <string name="pref_theme">Тема</string>
+    <string name="pref_browsing">Навигация</string>
+    <string name="pref_behavior">Поведение</string>
+    <string name="pref_accounts">Учётные записи</string>
 </resources>
