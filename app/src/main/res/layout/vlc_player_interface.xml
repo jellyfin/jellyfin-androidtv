@@ -53,7 +53,7 @@
             android:layout_marginBottom="48dp"
             android:textColor="@color/white"
             android:textSize="28sp"
-            app:stroke_width="5.0"
+            app:strokeWidth="5.0"
             tools:text="Subtitles" />
 
     </FrameLayout>

@@ -11,13 +11,15 @@ import org.jellyfin.androidtv.R
 class StrokeTextView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-) : AppCompatTextView(context, attrs) {
+	defStyleAttr: Int = 0,
+) : AppCompatTextView(context, attrs, defStyleAttr) {
 	var strokeWidth = 0.0f
 	private var isDrawing: Boolean = false
 
 	init {
 		val styledAttrs = context.obtainStyledAttributes(attrs, R.styleable.StrokeTextView)
-		strokeWidth = styledAttrs.getFloat(R.styleable.StrokeTextView_stroke_width, 0.0f)
+		strokeWidth = styledAttrs.getFloat(R.styleable.StrokeTextView_strokeWidth, 0.0f)
+		styledAttrs.recycle()
 	}
 
 	override fun invalidate() {
@@ -27,9 +29,7 @@ class StrokeTextView @JvmOverloads constructor(
 	}
 
 	override fun onDraw(canvas: Canvas?) {
-		if (strokeWidth <= 0) {
-			return super.onDraw(canvas)
-		}
+		if (strokeWidth <= 0) return super.onDraw(canvas)
 		isDrawing = true
 		val initialColor = textColors
 
