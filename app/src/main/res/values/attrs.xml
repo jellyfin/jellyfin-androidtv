@@ -26,4 +26,7 @@
         <attr name="qrBackground" format="color" />
         <attr name="qrForeground" format="color" />
     </declare-styleable>
+    <declare-styleable name="StrokeTextView">
+        <attr name="strokeWidth" format="float" />
+    </declare-styleable>
 </resources>

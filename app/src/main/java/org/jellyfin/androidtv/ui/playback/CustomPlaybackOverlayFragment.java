@@ -69,7 +69,6 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.OutlineSpan;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -1471,11 +1470,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                     .replaceAll("\\\\h", "&ensp;");
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
-            span.setSpan(new ForegroundColorSpan(Color.WHITE), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             if (subtitlesBackgroundEnabled) {
+                // Disable the text outlining when the background is enabled
+                binding.subtitlesText.setStrokeWidth(0.0f);
                 span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            span.setSpan(new OutlineSpan(), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);

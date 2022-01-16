@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
-        <TextView
+        <org.jellyfin.androidtv.ui.shared.StrokeTextView
             android:id="@+id/subtitles_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +54,7 @@
             android:layout_marginBottom="48dp"
             android:textColor="@color/white"
             android:textSize="28sp"
+            app:strokeWidth="5.0"
             tools:text="Subtitles" />
 
     </FrameLayout>
