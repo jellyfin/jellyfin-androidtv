@@ -41,11 +41,11 @@
     <string name="lbl_yes">Có</string>
     <string name="lbl_no">Không</string>
     <string name="lbl_enter_user_pw">Nhập mật khẩu</string>
-    <string name="lbl_enter_user_name">Nhập tên người dùng</string>
+    <string name="lbl_enter_user_name">Điền tên đăng nhập</string>
     <string name="lbl_play_trailers">Phát Đoạn Giới Thiệu</string>
     <string name="lbl_trailer">"Giới Thiệu "</string>
     <string name="msg_access_restricted">Truy cập bị hạn chế vào lúc này</string>
-    <string name="lbl_bracket_unknown">&lt;Không Rõ&gt;</string>
+    <string name="lbl_bracket_unknown">Không rõ</string>
     <string name="msg_video_playback_error">"Xảy Ra Lỗi Khi Phát Video - "</string>
     <string name="lbl_none">Không có</string>
     <string name="lbl_recordings">Ghi lại</string>
@@ -100,11 +100,11 @@
     <string name="lbl_on_now">Ngay Bây Giờ</string>
     <string name="lbl_next_up">Kế Tiếp</string>
     <string name="lbl_continue_watching">Tiếp Tục Xem</string>
-    <string name="lbl_settings">Cài đặt</string>
+    <string name="lbl_settings">Tùy chọn</string>
     <string name="chapters">Phân cảnh</string>
     <string name="pref_authentication_cat">Xác thực</string>
-    <string name="settings_title">Cài đặt</string>
-    <string name="pref_max_bitrate_title">Tốc độ bit phát trực tiếp tối đa</string>
+    <string name="settings_title">Tùy chọn</string>
+    <string name="pref_max_bitrate_title">Tốc độ bit phát trực tuyến tối đa</string>
     <string name="pref_playback">Trình Phát</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Hủy</string>
@@ -112,7 +112,7 @@
     <string name="video_error_unknown_error">Không tải được video</string>
     <string name="lbl_warning">Cảnh báo</string>
     <string name="lbl_playlists">Danh sách phát</string>
-    <string name="sum_enable_cinema_mode">Hiển thị phần giới thiệu và bản xem thử trước khi phát lại phim khi được máy chủ bật</string>
+    <string name="sum_enable_cinema_mode">Phát phần giới thiệu và bản xem trước có sẵn trước khi bắt đầu một bộ phim</string>
     <string name="lbl_enable_cinema_mode">Chế độ rạp chiếu phim</string>
     <string name="lbl_episodes">Tập</string>
     <string name="lbl_songs">Bài hát</string>
@@ -148,7 +148,7 @@
     <string name="desc_debug">Cung cấp thêm thông tin để gỡ lỗi</string>
     <string name="lbl_enable_debug">Tùy chọn gỡ lỗi</string>
     <string name="lbl_goto_series">Đi tới Loạt Phim</string>
-    <string name="lbl_audio_output">Âm thanh Đầu ra</string>
+    <string name="lbl_audio_output">Đầu ra âm thanh</string>
     <string name="msg_remote_already_playing">Yêu cầu phát từ xa bị bỏ qua. Trước tiên hãy dừng mục hiện tại.</string>
     <string name="msg_cancel_entire_series">Bạn có chắc chắn muốn hủy TOÀN BỘ LOẠT PHIM này không\?</string>
     <string name="lbl_repeat_options">Tùy chọn lặp lại</string>
@@ -165,14 +165,15 @@
 \n
 \nThông tin này sẽ được gửi cho bên thứ ba (tracepot.com).
 \n
-\nCó thể tắt lời nhắc này trong phần Báo cáo sự cố trong Cài đặt của ứng dụng Jellyfin.</string>
+\nCó thể tắt lời nhắc này trong phần Báo cáo sự cố trong tùy chọn của ứng dụng Jellyfin.</string>
     <string name="acra_dialog_title">Ôi không! Đã xảy ra lỗi.</string>
     <string name="pref_acra_syslog_disabled">Nhật ký hệ thống sẽ không được đưa vào báo cáo sự cố</string>
     <string name="pref_acra_syslog_enabled">Nhật ký hệ thống sẽ được đưa vào báo cáo sự cố</string>
-    <string name="pref_acra_syslog">Đưa nhật ký hệ thống vào báo cáo sự cố. Điều này có thể bao gồm dữ liệu riêng tư từ các ứng dụng khác nếu nó được ghi vào thời điểm xảy ra sự cố.</string>
+    <string name="pref_acra_syslog">Bao gồm nhật ký hệ thống.
+\nĐiều này có thể bao gồm dữ liệu riêng tư từ các ứng dụng khác nếu nó được ghi vào thời điểm xảy ra sự cố.</string>
     <string name="pref_acra_alwaysaccept_disabled">Một hộp thoại sẽ được hiển thị trước khi gửi bất kỳ báo cáo sự cố nào</string>
     <string name="pref_acra_alwaysaccept_enabled">Báo cáo sự cố sẽ được gửi mà không cần nhắc nhở</string>
-    <string name="pref_acra_alwaysaccept">Gửi báo cáo sự cố mà không cần nhắc nhở</string>
+    <string name="pref_acra_alwaysaccept">Gửi mà không cần nhắc nhở</string>
     <string name="pref_acra_disabled">Báo cáo sự cố sẽ không được gửi</string>
     <string name="pref_acra_enabled">Bạn sẽ được nhắc gửi báo cáo sự cố</string>
     <string name="pref_enable_acra">Gửi báo cáo sự cố cho nhà phát triển</string>
@@ -200,8 +201,8 @@
     <string name="lbl_at_any_time">Bất cứ lúc nào</string>
     <string name="lbl_series_recordings">Bản Ghi Loạt Phim Bộ</string>
     <string name="lbl_save">Lưu</string>
-    <string name="msg_settings_updated">Cài đặt đã cập nhật</string>
-    <string name="lbl_series_settings">Cài đặt Loạt Phim Bộ</string>
+    <string name="msg_settings_updated">Đã cập nhật các tùy chọn</string>
+    <string name="lbl_series_settings">Tùy chọn loạt phim</string>
     <string name="lbl_episode_not_record">Hiển thị này sẽ KHÔNG ghi</string>
     <string name="lbl_schedule">Lên Lịch</string>
     <string name="lbl_live">Trực Tiếp</string>
@@ -211,15 +212,15 @@
     <string name="lbl_recent_recordings">Bản Ghi Gần Đây</string>
     <string name="lbl_kids">Trẻ Em</string>
     <string name="lbl_sports">Thể Thao</string>
-    <string name="no_program_data">&lt;Không có sẵn dữ liệu chương trình&gt;</string>
+    <string name="no_program_data">Không có sẵn dữ liệu chương trình</string>
     <string name="msg_record_entire_series">Ghi lại toàn bộ loạt phim truyền hình\?</string>
     <string name="lbl_just_this_once">Chỉ lần này thôi</string>
     <string name="lbl_select_date">Chọn Ngày</string>
     <string name="lbl_in_x_days">Trong %d ngày</string>
     <string name="desc_premieres">Hiển thị một loạt các thử nghiệm tập mới cho bất kỳ bộ phim nào bạn xem</string>
-    <string name="lbl_show_premieres">Hiển thị các mùa công chiếu trong khi duyệt</string>
+    <string name="lbl_show_premieres">Hiển thị các mùa công chiếu</string>
     <string name="lbl_refresh_switching">Chuyển đổi tốc độ làm mới</string>
-    <string name="lbl_show_backdrop">Hiển thị Phông nền trong khi duyệt</string>
+    <string name="lbl_show_backdrop">Hiển thị phông nền</string>
     <string name="lbl_open">Mở</string>
     <string name="lbl_play_next_up">Phát Kế Tiếp</string>
     <string name="lbl_clear_queue">Xóa hàng đợi</string>
@@ -291,9 +292,9 @@
     <string name="grid_direction">Hướng lưới</string>
     <string name="pref_device_model">Mẫu thiết bị</string>
     <string name="pref_app_theme">Chủ đề ứng dụng</string>
-    <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Độ trễ âm thanh mặc định cho LibVLC</string>
     <string name="watch_now">Xem bây giờ</string>
-    <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ Tiếp theo</string>
+    <string name="pref_next_up_timeout_title">Thời lượng hẹn giờ tiếp theo</string>
     <string name="pref_next_up_timeout_summary">Chờ bao lâu trước khi phát mục tiếp theo</string>
     <string name="pref_media_player">Trình phát phương tiện ưu tiên</string>
     <string name="pref_video_player_external">Ứng dụng bên ngoài</string>
@@ -307,21 +308,21 @@
     <string name="lbl_hd_programs">Chương trình HD</string>
     <string name="lbl_live_broadcasts">Truyền trực tiếp</string>
     <string name="lbl_repeat_episodes">Lặp lại các tập</string>
-    <string name="lbl_bitstream_dts">Luồng bit âm thanh DTS</string>
+    <string name="lbl_bitstream_dts">Âm thanh DTS bitstream</string>
     <string name="pref_audio_direct">Trực tiếp</string>
     <string name="lbl_resume_preroll">Bắt đầu lại phần đầu</string>
-    <string name="pref_audio_compat">Giảm mức xuống âm thanh nổi</string>
+    <string name="pref_audio_compat">Downmix thành âm thanh nổi</string>
     <string name="lbl_end_padding">Kết thúc đệm</string>
     <string name="lbl_begin_padding">Bắt đầu đệm</string>
     <string name="seek_error">Không thể tua</string>
     <string name="pref_about_title">Thông Tin</string>
     <string name="lbl_colored_backgrounds">Mã màu Phông nền</string>
-    <string name="lbl_direct_stream_live">Luồng Phát Truyền Hình Trực Tiếp</string>
+    <string name="lbl_direct_stream_live">Luồng Phát TV Trực Tiếp</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_min">" phút"</string>
     <string name="lbl_tv_filter_status">trong %1$d giờ tiếp theo</string>
     <string name="lbl_tv_channel_status">%1$d trong số %2$d kênh</string>
-    <string name="play_with_vlc">Phát với libVLC</string>
+    <string name="play_with_vlc">Phát với LibVLC</string>
     <string name="play_with">Phát với</string>
     <string name="play_with_external_app">Phát với ứng dụng bên ngoài</string>
     <string name="play_with_exo_player">Phát với ExoPlayer</string>
@@ -370,7 +371,7 @@
     <string name="lbl_remove_server">Xóa máy chủ</string>
     <string name="lbl_sign_out_content">Yêu cầu đăng nhập vào lần sử dụng tiếp theo</string>
     <string name="lbl_remove_user_content">Xoá tài khoản</string>
-    <string name="lbl_remove_users">Điều này cũng sẽ xóa tất cả người dùng được liên kết</string>
+    <string name="lbl_remove_users">Điều này cũng sẽ xóa tất cả các tài khoản được liên kết</string>
     <string name="lbl_manage_servers">Quản lý máy chủ</string>
     <string name="image_type_banner">Ảnh bìa</string>
     <string name="lbl_user_server">%1$s lúc %2$s</string>
@@ -379,14 +380,14 @@
     <string name="lbl_hide_unwatched_count">Ẩn số lượng chưa xem</string>
     <string name="lbl_use_series_thumbnails_description">Dùng hình thu nhỏ loạt phim khi hiển thị các tập</string>
     <string name="lbl_use_series_thumbnails">Hình thu nhỏ loạt phim ưa thích</string>
-    <string name="user_picker_last_user_summary">Sử dụng người dùng hoạt động cuối cùng</string>
+    <string name="user_picker_last_user_summary">Sử dụng tài khoản hoạt động gần đây nhất</string>
     <string name="user_picker_last_user_title">Được sử dụng gần đây nhất</string>
     <string name="user_picker_disable_summary">Luôn hiển thị màn hình đăng nhập</string>
     <string name="user_picker_disable_title">Tắt</string>
-    <string name="system_user_explanation">Người dùng được chọn sẽ được sử dụng để tích hợp hệ thống như tìm kiếm</string>
-    <string name="system_user">Người dùng hệ thống</string>
+    <string name="system_user_explanation">Tài khoản đã chọn sẽ được sử dụng để tích hợp hệ thống như tìm kiếm</string>
+    <string name="system_user">Tài khoản hệ thống</string>
     <string name="auto_sign_in">Đăng nhập tự động</string>
-    <string name="lbl_switch_user">‎Chuyển người dùng‎</string>
+    <string name="lbl_switch_user">‎Chuyển tài khoản</string>
     <string name="no_network_permissions">Jellyfin yêu cầu quyền mạng để hoạt động</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
@@ -409,10 +410,10 @@
     <string name="lbl_next_up_extended">Có hình thu nhỏ</string>
     <string name="lbl_special">Đặc biệt</string>
     <string name="help">Giúp</string>
-    <string name="add_user">Thêm người dùng</string>
+    <string name="add_user">Thêm tài khoản</string>
     <string name="who_is_watching">Ai đang xem\?</string>
-    <string name="no_user_warning">Chúng tôi không tìm thấy bất kỳ người dùng nào!
-\nThêm người dùng mới bằng cách nhấn nút \"Thêm người dùng\".</string>
+    <string name="no_user_warning">Chúng tôi không thể tìm thấy bất kỳ tài khoản nào!
+\nThêm tài khoản mới bằng cách nhấn nút \"Thêm tài khoản\".</string>
     <string name="server_unsupported">Máy chủ cần được cập nhật. Phiên bản hiện tại là %1$s nhưng ứng dụng yêu cầu %2$s hoặc mới hơn</string>
     <string name="welcome_content">Kết nối với máy chủ của bạn để bắt đầu.</string>
     <string name="welcome_title">Chào mừng bạn đến với Jellyfin!</string>
@@ -427,7 +428,7 @@
     <string name="lbl_auto_crop">Tự Động Cắt</string>
     <string name="alphabetical">Bảng chữ cái</string>
     <string name="last_use">Được dùng gần đây nhất</string>
-    <string name="advanced_settings">Cài đặt (nâng cao)</string>
+    <string name="advanced_settings">Nâng cao</string>
     <string name="always_authenticate_description">Bật chức năng này sẽ tắt tự động đăng nhập</string>
     <string name="always_authenticate">Luôn hỏi thông tin xác thực</string>
     <string name="lbl_community_rating">Xếp Hạng Cộng Đồng</string>
@@ -455,15 +456,32 @@
     <string name="home_section_livetv">TV Trực Tiếp</string>
     <string name="home_section_next_up">Tiếp theo</string>
     <string name="home_section_active_recordings">Bản ghi hoạt động</string>
-    <string name="pref_subtitles_size">Kích cỡ phụ đề</string>
+    <string name="pref_subtitles_size">Cỡ chữ</string>
     <string name="pref_subtitles_background_summary">Hiển thị nền đen đằng sau phụ đề</string>
-    <string name="pref_subtitles_background_title">Bật nền phụ đề</string>
+    <string name="pref_subtitles_background_title">Bật nền</string>
     <string name="server_issue_ssl_handshake">Bắt tay SSL không thành công</string>
     <string name="server_issue_timeout">Kết nối quá hạn</string>
-    <string name="server_issue_outdated_version">Máy chủ sử dụng phiên bản $1%s nhưng cần phải là $2%s hoặc mới hơn</string>
-    <string name="server_issue_unsupported_version">Máy chủ sử dụng phiên bản $1%s không được hỗ trợ</string>
+    <string name="server_issue_outdated_version">Máy chủ sử dụng phiên bản %1$s nhưng cần phải là %2$s hoặc mới hơn</string>
+    <string name="server_issue_unsupported_version">Máy chủ sử dụng phiên bản %1$s không được hỗ trợ</string>
     <string name="server_issue_missing_version">Không thể xác định phiên bản máy chủ</string>
     <string name="server_issue_invalid_product">Phần mềm máy chủ không tương thích</string>
     <string name="server_issue_unable_to_connect">Không thể kết nối</string>
     <string name="server_connection_failed_candidates">Không thể kết nối với máy chủ, hãy thử các địa chỉ sau: %1$s</string>
+    <string name="pref_direct_stream_live_on">Chuyển mã bị tắt</string>
+    <string name="pref_direct_stream_live_off">Chuyển mã được sử dụng khi cần thiết</string>
+    <string name="pref_subtitles">Phụ đề</string>
+    <string name="pref_acra_description">Hộp thoại sự cố, tự động tải lên, nhật ký hệ thống</string>
+    <string name="pref_playback_description">Video, phụ đề, truyền hình trực tiếp, tiếp theo</string>
+    <string name="pref_customization_description">Chủ đề, trang chủ, ánh xạ lại</string>
+    <string name="pref_login_description">Máy chủ, tài khoản, đăng nhập tự động</string>
+    <string name="pref_login">Đăng nhập</string>
+    <string name="pref_libraries_description">Thay đổi cách các thư viện được hiển thị</string>
+    <string name="pref_libraries">Thư viện</string>
+    <string name="pref_home_description">Cấu hình các phần được hiển thị</string>
+    <string name="pref_accounts">Tài khoản</string>
+    <string name="sort_accounts_by">Sắp xếp tài khoản theo</string>
+    <string name="pref_customization">Tùy biến</string>
+    <string name="pref_refresh_switching_description">Tốc độ làm mới màn hình được thay đổi để phù hợp với video</string>
+    <string name="pref_show_backdrop_description">Thay đổi hình nền cho các mục đã chọn</string>
+    <string name="lbl_playback_speed">Tốc Độ Phát Lại</string>
 </resources>
