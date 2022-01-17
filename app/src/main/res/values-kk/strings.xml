@@ -5,9 +5,9 @@
     <string name="byletter_letters">AÄBDEFGĞHİIJKLMNÑOÖPQRSŞTUŪÜVYZ</string>
     <string name="pref_playback">Oinatu</string>
     <string name="pref_max_bitrate_title">Ağynmen tasymaldau eñ köp qarqyny</string>
-    <string name="settings_title">Parametrler</string>
+    <string name="settings_title">Teñşelimder</string>
     <string name="chapters">Sahnalar</string>
-    <string name="lbl_settings">Parametrler</string>
+    <string name="lbl_settings">Teñşelimder</string>
     <string name="lbl_continue_watching">Qaraudy jalğastyru</string>
     <string name="lbl_next_up">Kezektı</string>
     <string name="lbl_on_now">Qazırgı</string>
@@ -155,7 +155,7 @@
     <string name="lbl_album">Älbom</string>
     <string name="lbl_episodes">Telebölımder</string>
     <string name="lbl_enable_cinema_mode">Kinoteatr rejımı</string>
-    <string name="sum_enable_cinema_mode">Eger serverde qosylğan bolsa, film oinatu aldynan kırıspeler men aldyn-ala körınısterge rūqsat etıledı</string>
+    <string name="sum_enable_cinema_mode">Filmdı bastamas būryn qoljetımdı kırıspeler men üzındılerdı oynatu</string>
     <string name="lbl_playlists">Oinatu tızımderı</string>
     <string name="msg_items_added">" tarmaq üstelgen"</string>
     <string name="lbl_add_to_queue">Kezekke üsteu</string>
@@ -207,8 +207,8 @@
     <string name="lbl_seconds">s</string>
     <string name="lbl_series_recordings">Telehikaia jazbalary</string>
     <string name="lbl_save">Saqtau</string>
-    <string name="msg_settings_updated">Parametrler jañartyldy</string>
-    <string name="lbl_series_settings">Telehikaia parametrlerı</string>
+    <string name="msg_settings_updated">Teñşelimder jañartyldy</string>
+    <string name="lbl_series_settings">Telehikaia teñşelimderı</string>
     <string name="lbl_schedule">İs kestesı</string>
     <string name="lbl_live">Efir</string>
     <string name="lbl_new">Jaña</string>
@@ -267,7 +267,7 @@
     <string name="acra_dialog_title">Ou, joq! Bırdeñe dūrys bolmady.</string>
     <string name="pref_acra_alwaysaccept_disabled">Aqau turaly habarlau jıberu aldynda tılqatysu beinelenedı</string>
     <string name="pref_acra_alwaysaccept_enabled">Aqau turaly habarlau ysynylylmai jıberıledı</string>
-    <string name="pref_acra_alwaysaccept">Aqau turaly habarlau ūsynylmai jıberıledı</string>
+    <string name="pref_acra_alwaysaccept">Şaqyrusyz jıberu</string>
     <string name="pref_acra_disabled">Aqau turaly habarlau jıberılmeidı</string>
     <string name="pref_acra_enabled">Aqau turaly habarlau jıberu ysynylady</string>
     <string name="pref_enable_acra">Aqau turaly äzırleuşılerge habarlau</string>
@@ -353,7 +353,7 @@
 \n
 \nBūl aqparat üşınşі tarapqa ūsynylady (tracepot.com).
 \n
-\nBūl şaqyrudy Jellyfin qoldanbasynyñ Parametrlerde Apattyq esep bölіmіnen öşıruge bolady.</string>
+\nBūl şaqyrudy Jellyfin qoldanbasy Teñşelımderınde Apattyq esep bölіmіnen öşıruge bolady.</string>
     <string name="login_help_title">Kömek kerek pe\?</string>
     <string name="connect_manually_by_address">Server mekenjaiyn engızu</string>
     <string name="discovered_servers_title">Anyqtalğan serverler</string>
@@ -380,27 +380,27 @@
     <string name="enable_smart_view">Aqyldy ekrandy qosu</string>
     <string name="lbl_user_last_used">Soñğy ret %1$s ışınde %2$s kezınde paidalanyldy</string>
     <string name="lbl_sign_out_content">Kelesı paidalanu kezınde kırudı talap etedı</string>
-    <string name="lbl_remove_users">Sonymen bırge būl barlyq bailanysty paidalanuşylardy alastaidy</string>
+    <string name="lbl_remove_users">Sonymen bırge būl barlyq bailanysty tirkelgılerdı alastaidy</string>
     <string name="lbl_use_series_thumbnails_description">Telebölımderdı beineleu kezınde serialdyñ nobailaryn paidalanu</string>
     <string name="lbl_use_series_thumbnails">Telehikaia nobailaryn qalau</string>
     <string name="lbl_episode_marks">Tek telebölımderde</string>
     <string name="lbl_hide_unwatched_count">Qaralmağannyñ sanağyn jasyru</string>
     <string name="pref_watched_indicator">Qaralu körsetkışın beineleu</string>
-    <string name="user_picker_last_user_summary">Soñğy belsendı paidalanuşyny paidalanyu</string>
+    <string name="user_picker_last_user_summary">Soñğy belsendı tirkelgını paidalanu</string>
     <string name="user_picker_last_user_title">Eñ soñğy paidalanylğan</string>
     <string name="user_picker_disable_summary">Ärqaşan kıru ekranyn körsetu</string>
-    <string name="system_user_explanation">Tañdalğan paidalanuşy ızdeu siaqty jüielık bırıktıru üşın paidalanylady</string>
+    <string name="system_user_explanation">Izdeu siaqty jüielık bırıktıruler üşın tañdalğan tirkelgı paidalanylady</string>
     <string name="user_picker_disable_title">Öşıru</string>
-    <string name="system_user">Jüielık paidalanuşy</string>
+    <string name="system_user">Jüielık tirkelgı</string>
     <string name="auto_sign_in">Avtomatty kıru</string>
-    <string name="lbl_switch_user">Paidalanuşyny auystyru</string>
+    <string name="lbl_switch_user">Tirkelgı auystyru</string>
     <string name="no_network_permissions">Jellyfin jūmys ısteu üşın jelılık rūqsattar qajet</string>
     <string name="pref_theme_muted_purple">Bäseñdetılgen küreñ</string>
-    <string name="no_user_warning">Bırde-bır paidalanuşy tabylmady!
-\n«Paidalanuşyny üsteu» tüimeşıgın basa jaña paidalanuşyny üsteñız.</string>
+    <string name="no_user_warning">Bırde-bır tirkelgı tabylmady!
+\n«Tirkelgı üsteu» tüimeşıgın basyp jaña tirkelgını üsteñız.</string>
     <string name="server_unsupported">Server jañartyluy qajet. Ağymdyq nūsqasy — %1$s, bıraq qoldanba %2$s nūsqasyn, nemese jañalauyn qajet etedı</string>
     <string name="welcome_content">Bastau üşın serverıñızge qosylyñyz.</string>
-    <string name="add_user">Paidalanuşy üsteu</string>
+    <string name="add_user">Tirkelgı üsteu</string>
     <string name="who_is_watching">Kım qaraidy\?</string>
     <string name="welcome_title">Jellyfin-ge qoş keldıñız!</string>
     <string name="saved_servers">Saqtalğan serverler</string>
@@ -464,7 +464,7 @@
     <string name="searchable_settings_description">Tasyğyşderekter</string>
     <string name="pref_subtitles_size">Mätın ölşemı</string>
     <string name="pref_subtitles_background_summary">Subtitrlerdıñ artynda qara öñ körsetu</string>
-    <string name="pref_subtitles_background_title">Öñdıqosu</string>
+    <string name="pref_subtitles_background_title">Öñdı qosu</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">SSL rastamasy sätsız aiaqtaldy</string>
     <string name="server_issue_timeout">Qosylu waqyty aiaqtaldy</string>
@@ -481,4 +481,10 @@
     <string name="pref_login">Kıru</string>
     <string name="pref_libraries">Tasyğyşhanalar</string>
     <string name="pref_theme">Taqyryp</string>
+    <string name="pref_show_backdrop_description">Tañdalğan tarmaqtar üşın öñdıq surettı özgertu</string>
+    <string name="pref_browsing">Şarlau</string>
+    <string name="pref_behavior">Qasietı</string>
+    <string name="pref_accounts">Tırkelgıler</string>
+    <string name="sort_accounts_by">Tirkelgılerdı sūryptau retı</string>
+    <string name="pref_customization">Teñşeu</string>
 </resources>
