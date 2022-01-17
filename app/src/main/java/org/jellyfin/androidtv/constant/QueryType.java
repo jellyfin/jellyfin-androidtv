@@ -22,7 +22,6 @@ public enum QueryType {
     StaticAudioQueueItems,
     AlbumArtists,
     AudioPlaylists,
-    ContinueWatching,
     LatestItems,
     SeriesTimer,
     Premieres

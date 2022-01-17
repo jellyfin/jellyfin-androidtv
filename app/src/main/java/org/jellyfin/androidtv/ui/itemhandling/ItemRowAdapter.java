@@ -674,9 +674,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case Premieres:
                 retrievePremieres(mQuery);
                 break;
-            case ContinueWatching:
-                retrieveContinueWatching(mQuery);
-                break;
             case SeriesTimer:
                 retrieve(mSeriesTimerQuery);
                 break;
@@ -932,17 +929,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         clear();
         add(new GridButton(EnhancedBrowseFragment.FAVSONGS, TvApp.getApplication().getString(R.string.lbl_favorites), R.drawable.favorites, null));
         itemsLoaded = 1;
-        retrieve(query);
-    }
-
-    private void retrieveContinueWatching(final ItemQuery query) {
-        //Add current video queue first if there
-        clear();
-        if (mediaManager.getValue().hasVideoQueueItems()) {
-            Timber.d("Adding video queue...");
-            add(new BaseRowItem(new GridButton(TvApp.VIDEO_QUEUE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_current_queue), R.drawable.tile_port_video_queue, null)));
-            itemsLoaded = 1;
-        }
         retrieve(query);
     }
 

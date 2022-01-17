@@ -67,8 +67,6 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		// Update audio queue
 		Timber.i("Updating audio queue in HomeFragment (onResume)")
 		nowPlaying.update(mRowsAdapter)
-
-		if (helper.hasResumeRow(mRowsAdapter)) refreshRows()
 	}
 
 	override fun onQueueStatusChanged(hasQueue: Boolean) {
