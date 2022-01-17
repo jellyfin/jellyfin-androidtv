@@ -10,8 +10,6 @@ public enum QueryType {
     SimilarMovies,
     StaticPeople,
     StaticChapters,
-    StaticServers,
-    Users,
     Search,
     Specials,
     Trailers,

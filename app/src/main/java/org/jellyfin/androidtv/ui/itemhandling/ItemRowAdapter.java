@@ -33,7 +33,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -101,7 +100,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private Calendar lastFullRetrieve;
 
     private BaseItemPerson[] mPersons;
-    private ServerInfo[] mServers;
     private List<ChapterItemInfo> mChapters;
     private List<BaseItemDto> mItems;
 
@@ -264,13 +262,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.StaticItems;
     }
 
-    public ItemRowAdapter(ServerInfo[] servers, Presenter presenter, ArrayObjectAdapter parent) {
-        super(presenter);
-        mParent = parent;
-        mServers = servers;
-        queryType = QueryType.StaticServers;
-    }
-
     public ItemRowAdapter(SpecialsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
         super(presenter);
         mParent = parent;
@@ -370,12 +361,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
-    }
-
-    public ItemRowAdapter(Presenter presenter, ArrayObjectAdapter parent) {
-        super(presenter);
-        mParent = parent;
-        queryType = QueryType.Users;
     }
 
     public void setItemsLoaded(int itemsLoaded) {
@@ -662,9 +647,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             case StaticPeople:
                 loadPeople();
                 break;
-            case StaticServers:
-                loadServers();
-                break;
             case StaticChapters:
                 loadChapters();
                 break;
@@ -679,9 +661,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Trailers:
                 retrieve(mTrailersQuery);
-                break;
-            case Users:
-                retrieveUsers();
                 break;
             case Search:
                 retrieve(mSearchQuery);
@@ -702,35 +681,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 retrieve(mSeriesTimerQuery);
                 break;
         }
-    }
-
-    private void retrieveUsers() {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetPublicUsersAsync(new Response<UserDto[]>() {
-            @Override
-            public void onResponse(UserDto[] response) {
-                for (UserDto user : response) {
-                    adapter.add(new BaseRowItem(user));
-                }
-                totalItems = response.length;
-                setItemsLoaded(totalItems);
-                if (totalItems == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving users");
-                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                removeRow();
-
-                notifyRetrieveFinished();
-            }
-        });
-
     }
 
     private void loadPeople() {
@@ -780,19 +730,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
             itemsLoaded = i;
 
-        } else {
-            removeRow();
-        }
-
-        notifyRetrieveFinished();
-    }
-
-    private void loadServers() {
-        if (mServers != null) {
-            for (ServerInfo server : mServers) {
-                add(new BaseRowItem(server));
-            }
-            itemsLoaded = mServers.length;
         } else {
             removeRow();
         }
