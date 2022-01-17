@@ -2,7 +2,7 @@
 <resources>
     <string name="btn_got_it">Kompreneblas</string>
     <string name="lbl_instant_mix">Tujmiksaĵo</string>
-    <string name="lbl_enable_cinema_mode">Kineja Reĝimo</string>
+    <string name="lbl_enable_cinema_mode">Kineja reĝimo</string>
     <string name="pref_live_tv_cat">TV-etero</string>
     <string name="lbl_community_rating">Taksado de Komunumo</string>
     <string name="lbl_critic_rating">Taksado de kritikistoj</string>
@@ -88,8 +88,8 @@
     <string name="lbl_latest">Plej novaj</string>
     <string name="lbl_search">Serĉu</string>
     <string name="lbl_genres">Ĝenroj</string>
-    <string name="lbl_settings">Parametroj</string>
-    <string name="settings_title">Parametroj</string>
+    <string name="lbl_settings">Preferoj</string>
+    <string name="settings_title">Preferoj</string>
     <string name="pref_playback">Ludado</string>
     <string name="byletter_letters">ABCĈDEFGĜHĤIJĴKLMNOPRSŜTUŬVZ</string>
     <string name="btn_cancel">Rezignu</string>
@@ -97,7 +97,7 @@
     <string name="connect_manually_by_address">Entajpi servilan adreson</string>
     <string name="lbl_valid_server_address">Entajpi la servilan adreson (IP aŭ domajna/maŝina nomo)</string>
     <string name="lbl_enter_server_address">Entajpi Servilan Adreson</string>
-    <string name="lbl_enter_user_pw">Entajpi uzantan pasvorton</string>
+    <string name="lbl_enter_user_pw">Entajpi pasvorton</string>
     <string name="lbl_enter_user_name">Entajpi uzantan nomon</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d kanaloj</string>
     <string name="welcome_title">Bonvenon al Jellyfin!</string>
@@ -115,7 +115,7 @@
     <string name="lbl_one_song">1 Kanto</string>
     <string name="lbl_one_episode">1 Epizodo</string>
     <string name="lbl_on_channel">Je %1$s</string>
-    <string name="add_user">Aldoni uzanton</string>
+    <string name="add_user">Aldoni konton</string>
     <string name="lbl_sign_out">Elsalutu</string>
     <string name="lbl_remove_server">Forigi servilon</string>
     <string name="bitrate_kbit">%1$,.0f Kibit/s</string>
@@ -129,7 +129,7 @@
     <string name="lbl_new_episodes">Novaj Epizodoj</string>
     <string name="lbl_guide_option_number">Kanala Numero</string>
     <string name="lbl_sort_by">Ordigi laŭ</string>
-    <string name="lbl_series_settings">Seriaj Parametroj</string>
+    <string name="lbl_series_settings">Seriaj preferoj</string>
     <string name="lbl_clear_queue">Malplenigi Vicon</string>
     <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
@@ -146,8 +146,8 @@
     <string name="msg_queue_saved">Vico savita kiel nova ludlisto: %1$s</string>
     <string name="pref_acra_disabled">Kraŝaj raportoj ne estos senditaj</string>
     <string name="pref_use_direct_path_title">Sencimigaj Opcioj</string>
-    <string name="lbl_enable_debug">Sencimigaj Opcioj</string>
-    <string name="lbl_audio_output">Aŭda Eligo</string>
+    <string name="lbl_enable_debug">Sencimigaj opcioj</string>
+    <string name="lbl_audio_output">Aŭdia eligo</string>
     <string name="lbl_repeat_options">Ripetaj Opcioj</string>
     <string name="lbl_end_padding">Fina Ŝtopado</string>
     <string name="lbl_program_ended">Programo Finiĝis</string>
@@ -215,7 +215,7 @@
     <string name="lbl_dislike">Ŝatas</string>
     <string name="lbl_empty">Malplena</string>
     <string name="lbl_loading_elipses">Ŝarĝas…</string>
-    <string name="lbl_bracket_unknown">&lt;Nekonata&gt;</string>
+    <string name="lbl_bracket_unknown">Nekonata</string>
     <string name="lbl_ends">Fino</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_runs">Daŭro</string>
@@ -257,7 +257,7 @@
     <string name="lbl_just_this_once">Nur ĉi foje</string>
     <string name="lbl_in_x_days">Je %d tagoj</string>
     <string name="lbl_bitstream_dts">Bitfluo de DTS-aŭdio</string>
-    <string name="lbl_refresh_switching">Ŝanĝi Aktualigan Oftecon</string>
+    <string name="lbl_refresh_switching">Ŝanĝi oftecon de aktualigoj</string>
     <string name="lbl_play_next_up">Ludi Sekvan Plue</string>
     <string name="desc_bitstream_ac3">Bezonas kapablan aparataron</string>
     <string name="lbl_save_as_playlist">Savi kiel Ludlisto</string>
@@ -266,22 +266,22 @@
     <string name="lbl_live_tv_guide">TV-etera Gvidilo</string>
     <string name="lbl_no_recordings">Neniuj Rikordoj Disponeblaj</string>
     <string name="lbl_goto_series">Iru al Serio</string>
-    <string name="pref_audio_compat">Sebenmiksado al Stereosono</string>
+    <string name="pref_audio_compat">Subenmiksado al stereosono</string>
     <string name="lbl_only_new_episodes">Nur Novaj Epizodoj</string>
     <string name="lbl_tune_to_channel">Ŝanĝi al kanalo</string>
     <string name="msg_no_playable_items">Neniuj ludeblaj aĵoj</string>
     <string name="lbl_play_first_unwatched">Ludi Unue Nespektiton</string>
     <string name="lbl_because_you_watched">"Ĉar vi spektis "</string>
-    <string name="pref_max_bitrate_title">Maksimuma Elsendflua Bitrapido</string>
-    <string name="advanced_settings">Parametroj (altnivelaj)</string>
+    <string name="pref_max_bitrate_title">Maksimuma elsendflua bitrapido</string>
+    <string name="advanced_settings">Aldone</string>
     <string name="lbl_num_songs">%1$d Kantoj</string>
     <string name="lbl_num_episodes">%1$d Epizodoj</string>
     <string name="lbl_next_up_minimal">Sen avizo</string>
     <string name="lbl_next_up_extended">Kun avizo</string>
     <string name="who_is_watching">Kiu spektas\?</string>
     <string name="saved_servers">Savitaj serviloj</string>
-    <string name="lbl_switch_user">Ŝanĝi uzanton</string>
-    <string name="system_user">Sistema uzanto</string>
+    <string name="lbl_switch_user">Ŝanĝi konton</string>
+    <string name="system_user">Sistema konto</string>
     <string name="login_help_title">Bezonas helpon\?</string>
     <string name="discovered_servers_title">Eltrovitaj serviloj</string>
     <string name="pref_developer_link">Opcioj por programistoj</string>
@@ -298,7 +298,7 @@
     <string name="lbl_unknown_key">Nekonata (%1s)</string>
     <string name="grid_direction_vertical">Vertikala (eksperimenta)</string>
     <string name="grid_direction">Krada Direkto</string>
-    <string name="pref_device_model">Aparata Modelo</string>
+    <string name="pref_device_model">Aparata modelo</string>
     <string name="pref_app_theme">Apa Temo</string>
     <string name="watch_now">Spekti nun</string>
     <string name="pref_video_player_choose">Ĉiam demandi</string>
@@ -308,24 +308,24 @@
     <string name="lbl_image_size">Bilda Grandeco</string>
     <string name="lbl_audio_delay">Aŭda Prokrasto</string>
     <string name="lbl_new_only">Nova Nur</string>
-    <string name="pref_acra_category">Kraŝa Raportado</string>
+    <string name="pref_acra_category">Kraŝa raportado</string>
     <string name="lbl_song_title">Kanta Titolo</string>
     <string name="lbl_album_name">Albumnomo</string>
     <string name="lbl_next_episode">Sekva Epizodo</string>
     <string name="lbl_previous_episode">Antaŭa Epizodo</string>
-    <string name="lbl_resume_preroll">Daŭriga Retrorulo</string>
+    <string name="lbl_resume_preroll">Daŭriga retrorulo</string>
     <string name="lbl_guide_option_played">Laste Ludita</string>
     <string name="lbl_guest_stars">Gaststeluloj</string>
     <string name="lbl_on_schedule">Laŭplane</string>
     <string name="lbl_series_recordings">Seriaj Rikordoj</string>
-    <string name="msg_settings_updated">Parametroj ĝisdatigitaj</string>
+    <string name="msg_settings_updated">Preferoj ĝisdatigitaj</string>
     <string name="lbl_all_recordings">Ĉiuj Rukordoj</string>
     <string name="lbl_recent_recordings">Lastatempaj Rikordoj</string>
     <string name="lbl_select_date">Elekti Daton</string>
     <string name="lbl_current_queue">Nuna Vico</string>
     <string name="lbl_auto_crop">Aŭtomata Stuco</string>
     <string name="lbl_new_premieres">Novaj Premieroj</string>
-    <string name="lbl_enable_seasonal_themes">Sezonaj Temoj</string>
+    <string name="lbl_enable_seasonal_themes">Sezonaj temoj</string>
     <string name="msg_item_added">" aĵo aldonita"</string>
     <string name="lbl_now_playing">Nun Ludante</string>
     <string name="lbl_up_next_colon">"Plue Sekva: "</string>
@@ -344,22 +344,22 @@
     <string name="lbl_all_items">Ĉiuj Aĵoj</string>
     <string name="lbl_like">Ŝatas</string>
     <string name="lbl_goto_now_playing">Iri al Nun Ludante</string>
-    <string name="sum_enable_cinema_mode">Montri antaŭfilmetojn kaj antaŭmontrojn antaŭ filma ludado kiam ebligita de la servilo</string>
-    <string name="lbl_direct_stream_live">Rekta Elsendflua TV-etero</string>
+    <string name="sum_enable_cinema_mode">Ludu disponeblajn antaŭfilmetojn kaj antaŭmontrojn antaŭ ol komenci filmon</string>
+    <string name="lbl_direct_stream_live">Rekta elsendflua TV-etero</string>
     <string name="msg_error_live_stream">Eraro dum elsendflui TV-eteron. Reprovos…</string>
     <string name="msg_burn_sub_warning">Bruligi subtekstojn povas daŭri kelkajn minutojn. Pacienci…</string>
     <string name="msg_unable_load_subs">Ne eblas ŝargi subtekston</string>
     <string name="lbl_starting_with">komencante per tiuj, kies nomo komenciĝas per</string>
     <string name="desc_debug">Provizu kromajn informojn por sencimigi</string>
     <string name="msg_remote_already_playing">Teleluda peto ignorita. Halti nunan aĵon unue.</string>
-    <string name="system_user_explanation">Elektita uzanto estos uzata por sistemaj integriĝoj kiel serĉo</string>
+    <string name="system_user_explanation">Elektita konto estos uzata por sistemaj integriĝoj kiel serĉo</string>
     <string name="msg_cancel_entire_series">Ĉu vi certas, ke vi volas rezini ĉi tiun TUTAN SERION\?</string>
     <string name="lbl_record_any_time">Rikordi iam ajn</string>
     <string name="lbl_record_any_channel">Rikordi sur iu ajn kanalo</string>
     <string name="lbl_similar_items_library">Similaj aĵoj en via plurmediteko</string>
     <string name="lbl_search_hint">Serĉa teksto (elekti por klavaro)</string>
     <string name="sum_tv_queuing">Aldonu la reston de la sezono al la vico dum vi ludas epizodon</string>
-    <string name="lbl_tv_queuing">Vicigu ĉiujn Postajn Epizodojn</string>
+    <string name="lbl_tv_queuing">Vicigi ĉiujn postajn epizodojn</string>
     <string name="msg_cannot_play">Ĉi tiu aĉo ne povas esti ludita</string>
     <string name="msg_cannot_play_time">Ne povas ludi ĉi tiun aĵon ĉi tiu tempo</string>
     <string name="msg_playback_incompatible">Ne povas ludi ĉi tiun videoformaton</string>
@@ -376,7 +376,7 @@
     <string name="desc_automatic_fav_songs">Aŭtomata ludlisto de favorataj kaj ŝatataj kantoj</string>
     <string name="desc_current_video_queue">Videa aĵoj aktuale vicigitaj por ludado</string>
     <string name="lbl_record_only_new">Rikordos Nur Novajn Epizodojn</string>
-    <string name="user_picker_last_user_summary">Uzi la lastan aktivan uzanton</string>
+    <string name="user_picker_last_user_summary">Uzi la lastan aktivan konton</string>
     <string name="lbl_sign_out_content">Bezonas ensaluti ĉe venonta uzo</string>
     <string name="login_server_unavailable">Ne eblas konektiĝi al servilo</string>
     <string name="server_field_empty">La adreso ne povas esti malplena</string>
@@ -385,10 +385,10 @@
     <string name="player_error">Ludila eraro renkontita. Reprovos…</string>
     <string name="pref_libvlc_audio_delay_title">Defaŭlta Aŭdio Prokrasto por libVLC</string>
     <string name="acra_dialog_title">Ho ne! Io misfunkciis.</string>
-    <string name="pref_acra_alwaysaccept">Sendi kraŝraportojn sen invitado</string>
+    <string name="pref_acra_alwaysaccept">Sendi sen invitado</string>
     <string name="pref_enable_acra">Sendu kraŝraportojn al programistoj</string>
     <string name="lbl_episode_not_record">Ĉi tiu serio NE rikordos</string>
-    <string name="lbl_show_premieres">Montri sezonajn premierojn dum foliumado</string>
+    <string name="lbl_show_premieres">Montri sezonajn premierojn</string>
     <string name="always_authenticate">Ĉiam peti identigilojn</string>
     <string name="enable_playback_module_title">Ebligi novan ludadan modulon</string>
     <string name="lbl_record_all">Rikordigos Ĉiujn Epizodojn</string>
@@ -407,11 +407,11 @@
     <string name="msg_live_tv_next">Ĉu ŝargi sekvajn %1$d horojn\?</string>
     <string name="clear_expanded">Ĉu forigi nunan videovicon\?</string>
     <string name="pref_next_up_behavior_title">Montri informojn pri sekva video</string>
-    <string name="pref_next_up_timeout_title">Tempumila daŭro de Sekva Plue</string>
+    <string name="pref_next_up_timeout_title">Tempumila daŭro de Sekva plue</string>
     <string name="lbl_start_favorites">Metu Favoratojn ĉe Komenco</string>
     <string name="lbl_tv_filter_status">dum venontaj %1$d horoj</string>
-    <string name="no_program_data">&lt;Neniu \"Program Data\" Disponeblaj&gt;</string>
-    <string name="lbl_show_backdrop">Montri Dorsbildon dum Foliumado</string>
+    <string name="no_program_data">Neniu \"Program Data\" Disponeblaj</string>
+    <string name="lbl_show_backdrop">Montri dorsbildojn</string>
     <string name="lbl_bitstream_ac3">Bitfluo de Dolby Digital aŭdio</string>
     <string name="licenses_link_description">Rigardi la permesilojn de la kodotekoj uzataj de la Jellyfin-apo</string>
     <string name="always_authenticate_description">Ebligi ĉi tiun funkcion malebligas aŭtomatan ensaluton</string>
@@ -421,12 +421,12 @@
     <string name="lbl_starting_early_ending_on_schedule">Komencanta %1$s frue kaj Finonta laŭ Horaro</string>
     <string name="lbl_starting_early_ending_after">Komencanta %1$s frue kaj Finonta %2$s poste Horaro</string>
     <string name="no_user_warning">Ni ne povis trovi ajnajn uzantojn!
-\nAldoni novan uzanton premante la butonon \"Aldoni uzanton\".</string>
+\nAldoni novan konton premante la butonon \"Aldoni konton\".</string>
     <string name="server_unsupported">Servilo devas esti ĝisdatigita. Nuna versio estas %1$s sed la apo bezonas %2$s aŭ pli novan</string>
     <string name="welcome_content">Konekti al via servilo por komenci.</string>
     <string name="login_help_description">Jellyfin bezonas servilon por konektiĝi. Viziti nian dokumentaron ĉe docs.jellyfin.org aŭ skani la QR-kodon por komenci kun Jellyfin.</string>
     <string name="enable_smart_view_description">Inteligenta ekrano montras koncernajn aĵojn anstataŭ krado</string>
-    <string name="lbl_remove_users">Ĉi tio ankaŭ forigos ĉiujn asocigitajn uzantojn</string>
+    <string name="lbl_remove_users">Ĉi tio ankaŭ forigos ĉiujn asocigitajn kontojn</string>
     <string name="episode_missing_message_2">Ĉi tiu epizodo mankas el via plurmediteko. Ludado estos haltata.</string>
     <string name="episode_missing_message">Ĉi tiu epizodo mankas el via plurmediteko. Ĉu vi ŝatus preterlasi ĝin kaj daŭrigi al la sekva\?</string>
     <string name="delete_warning">Ĉi tio PERMANENTE FORIGOS %1$s el via plurmediteko. Ĉu vi TRE certas\?</string>
@@ -438,10 +438,11 @@
 \n
 \nĈi tiu informo estos sendita al tria partio (tracepot.com).
 \n
-\nĈi tiu invito povas esti malŝaltita en la sekcio pri Kraŝa Raportado en la Parametroj de la Jellyfin-apo.</string>
+\nĈi tiu invitado povas esti malŝaltita en la sekcio pri Kraŝa Raportado en la Preferoj de la Jellyfin-apo.</string>
     <string name="pref_acra_syslog_disabled">Sistemaj ĵurnaloj NE estos inkluzivitaj en kraŝraportoj</string>
     <string name="pref_acra_syslog_enabled">Sistemaj ĵurnaloj estos inkluzivitaj en kraŝraportoj</string>
-    <string name="pref_acra_syslog">Inkluzivi sistemajn ĵurnalojn en kraŝraportoj. Ĉi tio povas inkluzivi privatajn datumojn de aliaj aplikaĵoj se ĝi estis ĵurnalita dum la kraŝo.</string>
+    <string name="pref_acra_syslog">Inkluzivi sistemajn ĵurnalojn.
+\nĈi tio povas inkluzivi privatajn datumojn de aliaj aplikaĵoj se ĝi estis ĵurnalita dum la kraŝo.</string>
     <string name="pref_acra_alwaysaccept_disabled">Dialogo estos montrata antaŭ sendi ajnan kraŝraporton</string>
     <string name="pref_acra_enabled">Oni petos vin sendi kraŝraportojn</string>
     <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
@@ -461,17 +462,38 @@
     <string name="home_prefs">Hejmo</string>
     <string name="searchable_hint">Serĉo de Jellyfin</string>
     <string name="searchable_settings_description">Plurmedio</string>
-    <string name="pref_subtitles_size">Subteksta grandeco</string>
+    <string name="pref_subtitles_size">Teksta grandeco</string>
     <string name="pref_subtitles_background_summary">Montri nigran fonon malantaŭ la subtekstoj</string>
-    <string name="pref_subtitles_background_title">Ebligi fonon de subteksto</string>
+    <string name="pref_subtitles_background_title">Ebligi fonon</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">SSL-kvitanco malsukcesis</string>
     <string name="server_issue_timeout">Konekta tempo estas elĉerpita</string>
-    <string name="server_issue_outdated_version">Servilo uzas version $1%s sed devas esti $2%s aŭ pli nova</string>
-    <string name="server_issue_unsupported_version">Servilo uzas version $1%s kiu ne subtenatas</string>
+    <string name="server_issue_outdated_version">Servilo uzas version %1$s sed devas esti %2$s aŭ pli nova</string>
+    <string name="server_issue_unsupported_version">Servilo uzas version %1$s kiu ne subtenatas</string>
     <string name="server_issue_missing_version">Ne eblas determini servilan version</string>
     <string name="server_issue_invalid_product">Servila programaro estas nekongrua</string>
     <string name="server_issue_unable_to_connect">Ne eblas konektiĝi</string>
     <string name="server_connection_failed_candidates">Ne eblas konektiĝi al servilo, provas la jenajn adresojn: %1$s</string>
     <string name="lbl_playback_speed">Ludada Rapido</string>
+    <string name="pref_acra_description">Kraŝa dialogo, aŭtomata alŝuto, sistemaj ĵurnaloj</string>
+    <string name="pref_playback_description">Video, subtekstoj, etero, sekva plue</string>
+    <string name="pref_customization_description">Temo, hejmo, remapado</string>
+    <string name="pref_login_description">Serviloj, kontoj, aŭtomata ensaluto</string>
+    <string name="pref_direct_stream_live_off">Transkodado estos uzata kiam necese</string>
+    <string name="pref_direct_stream_live_on">Transkodado estas malebligita</string>
+    <string name="pref_libraries_description">Ŝanĝi kiel plurmeditekoj estos montrataj</string>
+    <string name="pref_home_description">Agordi montratajn sekciojn</string>
+    <string name="pref_refresh_switching_description">Ofteco de ekrana aktualigo estas ŝanĝita por kongrui kun video</string>
+    <string name="pref_show_backdrop_description">Ŝanĝi fonbildon al elektitaj aĵoj</string>
+    <string name="pref_audio">Aŭdio</string>
+    <string name="pref_subtitles">Subtekstoj</string>
+    <string name="pref_video">Video</string>
+    <string name="pref_login">Ensaluto</string>
+    <string name="pref_libraries">Plurmeditekoj</string>
+    <string name="pref_theme">Temo</string>
+    <string name="pref_browsing">Foliumado</string>
+    <string name="pref_behavior">Konduto</string>
+    <string name="pref_accounts">Kontoj</string>
+    <string name="sort_accounts_by">Ordigi kontojn laŭ</string>
+    <string name="pref_customization">Tajlorado</string>
 </resources>
