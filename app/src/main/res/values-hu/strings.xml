@@ -2,7 +2,7 @@
 <resources>
     <string name="pref_authentication_cat">Azonosítás</string>
     <string name="settings_title">Beállítások</string>
-    <string name="pref_max_bitrate_title">Maximális bitráta</string>
+    <string name="pref_max_bitrate_title">Maximális sztreamelési bitráta</string>
     <string name="pref_playback">Lejátszás</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Mégsem</string>
@@ -11,12 +11,12 @@
     <string name="btn_filter">Szűrő</string>
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
     <string name="lbl_new">Új</string>
-    <string name="lbl_enter_user_pw">Felhasználói jelszó megadása</string>
+    <string name="lbl_enter_user_pw">Jelszó megadása</string>
     <string name="lbl_enter_user_name">Felhasználónév megadása</string>
     <string name="lbl_play_trailers">Előzetes(ek) lejátszása</string>
     <string name="lbl_trailer">"Előzetes "</string>
     <string name="msg_access_restricted">Hozzáférés jelenleg korlátozva</string>
-    <string name="lbl_bracket_unknown">&lt;Ismeretlen&gt;</string>
+    <string name="lbl_bracket_unknown">Ismeretlen</string>
     <string name="msg_video_playback_error">"Videó lejátszási hiba "</string>
     <string name="lbl_none">Nincs</string>
     <string name="lbl_recordings">Felvételek</string>
@@ -100,7 +100,7 @@
     <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
     <string name="lbl_search_hint">Keresés</string>
     <string name="sum_tv_queuing">Adja hozzá az évad hátralévő epizódjait a lejátszási listához</string>
-    <string name="lbl_tv_queuing">Ütemezze be a soron következő epizódokat</string>
+    <string name="lbl_tv_queuing">Állítsa a lejátszási sorba az összes következő epizódot</string>
     <string name="lbl_no_items">Nincs találat</string>
     <string name="msg_cannot_play">A kiválasztott elem nem játszható le</string>
     <string name="msg_cannot_play_time">A kiválasztott médiaelem nem olvasható</string>
@@ -108,7 +108,7 @@
     <string name="lbl_runs">Időtartam</string>
     <string name="msg_set_to_record">Felvételre megjelölt műsor</string>
     <string name="lbl_audio_output">Hangkimenet</string>
-    <string name="pref_audio_compat">Sztereóra keverés</string>
+    <string name="pref_audio_compat">Lekeverés Sztereóvá</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="msg_cancel_entire_series">Biztos vagy benne, hogy az EGÉSZ SOROZATOT törölni szeretnéd\?</string>
     <string name="lbl_repeat_options">Ismétlési beállítások</string>
@@ -132,18 +132,18 @@
     <string name="lbl_on">Ekkor</string>
     <string name="lbl_resume_preroll">Késleltetett lejátszás</string>
     <string name="desc_premieres">Minden egyes nézett sorozathoz a sorozatbemutatók megjelenítése</string>
-    <string name="lbl_show_backdrop">Háttér mutatása böngészéskor</string>
+    <string name="lbl_show_backdrop">Hátterek megjelenítése</string>
     <string name="desc_current_video_queue">Jelenleg várakozásban levő videók</string>
     <string name="msg_external_path">Ez a funkció csak akkor működik, ha a kiszolgálón a médiakönyvtár rendesen be van állítva hálózati elérési utakkal vagy úthelyettesítésekkel, valamint a jelenleg használt kliens képes ezeknek a hálózati helyeknek a megnyitására.</string>
     <string name="pref_app_theme">Alkalmazástéma</string>
-    <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés libVLC-hez</string>
+    <string name="pref_libvlc_audio_delay_title">Alapértelmezett hangkéseleltetés LibVLC-hez</string>
     <string name="watch_now">Megnézés</string>
-    <string name="pref_next_up_timeout_title">Következő lejátszása számláló időtartama</string>
+    <string name="pref_next_up_timeout_title">A \'Következő\' időzítő időtartama</string>
     <string name="pref_next_up_timeout_summary">Ennyi időt várjon a következő elem lejátszása előtt</string>
     <string name="pref_media_player">Kedvelt médialejátszó</string>
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_video_player_external">Külső alkalmazás</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatikus kiválasztás</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
@@ -169,7 +169,8 @@
     <string name="acra_dialog_title">Jaj ne! Valami hiba történt.</string>
     <string name="pref_acra_syslog_disabled">Rendszer-naplóbejegyzések nem lesznek hozzáadva a hibajelentésekhez</string>
     <string name="pref_acra_syslog_enabled">Rendszer-naplóbejegyzések hozzá lesznek adva a hibajelentésekhez</string>
-    <string name="pref_acra_syslog">Rendszer-naplóbejegyzések hozzáadása a hibabejelentőhöz. Tartalmazhatja más alkalmazások privát adatait, amelyek a hiba bekövetkeztekor naplózásra kerültek.</string>
+    <string name="pref_acra_syslog">Tartalmazza a rendszernaplókat.
+\nEz magában foglalhat más alkalmazások személyes adatait is, ha azokat az összeomlás idején naplózták.</string>
     <string name="pref_acra_alwaysaccept_disabled">Dialógusablak fog megjelenni minden egyes hibajelentés küldése előtt</string>
     <string name="pref_acra_alwaysaccept_enabled">Hibajelentések megerősítés nélkül el lesznek küldve</string>
     <string name="pref_acra_enabled">Megerősítést kér hibajelentés küldés előtt</string>
@@ -209,13 +210,13 @@
     <string name="lbl_recent_recordings">Jelenlegi felvételek</string>
     <string name="lbl_kids">Gyerekek</string>
     <string name="lbl_sports">Sport</string>
-    <string name="no_program_data">&lt;Nincs elérhető műsorinformáció&gt;</string>
+    <string name="no_program_data">Nincs elérhető műsorinformáció</string>
     <string name="msg_record_entire_series">Az egész sorozat rögzítésre kerüljön\?</string>
     <string name="lbl_just_this_once">Csak most az egyszer</string>
     <string name="lbl_select_date">Dátum kiválasztása</string>
     <string name="lbl_in_x_days">%d nap múlva</string>
     <string name="lbl_bitstream_dts">DTS Audio bitfolyam</string>
-    <string name="lbl_show_premieres">Jelenítse meg a szezon premierjeit böngészés közben</string>
+    <string name="lbl_show_premieres">A show évadjainak premierjei</string>
     <string name="lbl_refresh_switching">Frissítési ráta módosítása</string>
     <string name="lbl_open">Megnyitás</string>
     <string name="lbl_play_next_up">Következő lejátszása</string>
@@ -226,7 +227,7 @@
     <string name="lbl_new_premieres">Új bemutatók</string>
     <string name="desc_automatic_fav_songs">A kedvenc és kedvelésre megjelölt zenékből álló automata lejátszási lista</string>
     <string name="desc_seasonal_themes">Az évszakhoz illő színek és javaslatok megjelenítése</string>
-    <string name="lbl_enable_seasonal_themes">Évszakhoz tartozó témák</string>
+    <string name="lbl_enable_seasonal_themes">Szezonális témák</string>
     <string name="msg_item_added">" elem hozzáadva"</string>
     <string name="lbl_delete">Törlés</string>
     <string name="lbl_save_as_playlist">Mentés lejátszási listaként</string>
@@ -245,7 +246,7 @@
     <string name="msg_items_added">" elem hozzáadva"</string>
     <string name="lbl_warning">Figyelem</string>
     <string name="lbl_playlists">Lejátszási listák</string>
-    <string name="sum_enable_cinema_mode">Bemutatók és az előnézetek mutatása a film lejátszása előtt, ha a kiszolgálón engedélyezve vannak</string>
+    <string name="sum_enable_cinema_mode">A film elindítása előtt játssza le a rendelkezésre álló bevezetőket és előzeteseket</string>
     <string name="lbl_enable_cinema_mode">Mozi mód</string>
     <string name="lbl_episodes">Epizódok</string>
     <string name="lbl_album">Album</string>
@@ -254,7 +255,7 @@
     <string name="lbl_artists">Előadók</string>
     <string name="lbl_albums">Albumok</string>
     <string name="lbl_programs">Műsorok</string>
-    <string name="lbl_direct_stream_live">Élő TV adás vétele</string>
+    <string name="lbl_direct_stream_live">Élő TV közvetlen stream</string>
     <string name="msg_error_live_stream">Hiba történt az élő TV adása közben. Újrapróbálkozás…</string>
     <string name="pref_live_tv_cat">Élő TV</string>
     <string name="lbl_recorded_tv">Felvett TV-k</string>
@@ -287,7 +288,7 @@
     <string name="grid_direction_vertical">Függőleges (kísérlet)</string>
     <string name="grid_direction_horizontal">Vízszintes</string>
     <string name="grid_direction">Rács irány</string>
-    <string name="pref_device_model">Eszköz model</string>
+    <string name="pref_device_model">Eszköz modell</string>
     <string name="lbl_Reset">Visszaállítás</string>
     <string name="pref_button_remapping_description">Nyomd meg valamelyik gombot a távirányítón a kiosztáshoz</string>
     <string name="pref_subtitle_track_button">Feliratsáv gomb</string>
@@ -333,7 +334,7 @@
     <string name="play_with">Lejátszani vele</string>
     <string name="play_with_external_app">Lejátszás külső alkalmazással</string>
     <string name="play_with_exo_player">Lejátszás ExoPlayer-el</string>
-    <string name="play_with_vlc">Lejátszás libVLC-vel</string>
+    <string name="play_with_vlc">Lejátszás LibVLC-vel</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
     <string name="not_deleted">Az elem NINCS törölve</string>
@@ -378,7 +379,7 @@
     <string name="lbl_remove_server">Szerver eltávolítása</string>
     <string name="lbl_sign_out_content">Bejelentkezés szükséges a következő használatkor</string>
     <string name="lbl_remove_user_content">Fiók törlése</string>
-    <string name="lbl_remove_users">Ez eltávolítja az összes társított felhasználót is</string>
+    <string name="lbl_remove_users">Ezzel az összes társított fiókot is eltávolítja</string>
     <string name="lbl_manage_servers">Szerverek kezelése</string>
     <string name="lbl_use_series_thumbnails_description">Az epizódok megjelenítésekor sorozat bélyegképeket használjon</string>
     <string name="lbl_use_series_thumbnails">Inkább a sorozat indexképeit</string>
@@ -389,8 +390,8 @@
     <string name="user_picker_last_user_title">Legutóbb használt</string>
     <string name="user_picker_disable_summary">Mindig mutassa a bejelentkezési képernyőt</string>
     <string name="user_picker_disable_title">Letiltás</string>
-    <string name="system_user_explanation">A kiválasztott felhasználót rendszer integrációkhoz, például kereséshez használják</string>
-    <string name="system_user">Rendszerhasználó</string>
+    <string name="system_user_explanation">A kiválasztott fiók a rendszerintegrációkhoz, például a kereséshez lesz használva</string>
+    <string name="system_user">Rendszerfiók</string>
     <string name="auto_sign_in">Automatikus bejelentkezés</string>
     <string name="lbl_switch_user">Felhasználóváltás</string>
     <string name="no_network_permissions">A Jellyfin működéséhez hálózati engedélyekre van szükség</string>
@@ -398,8 +399,8 @@
     <string name="press_to_close">Nyomja meg a bezáráshoz</string>
     <string name="add_user">Felhasználó hozzáadása</string>
     <string name="who_is_watching">Ki figyel\?</string>
-    <string name="no_user_warning">Nem találtunk felhasználókat!
-\nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gomb megnyomásával.</string>
+    <string name="no_user_warning">Nem találtunk felhasználói fiókot!
+\nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gombbal.</string>
     <string name="server_unsupported">A szervert frissíteni kell. Az aktuális verzió %1$s , de a működéshez %2$s vagy újabb szükséges</string>
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
     <string name="welcome_title">Üdvözöljük a Jellyfinben!</string>
@@ -463,15 +464,36 @@
     <string name="searchable_hint">Jellyfin keresés</string>
     <string name="pref_subtitles_size">Felirat mérete</string>
     <string name="pref_subtitles_background_summary">Mutasson fekete hátteret a feliratok mögött</string>
-    <string name="pref_subtitles_background_title">Feliratháttér engedélyezése</string>
+    <string name="pref_subtitles_background_title">Háttér engedélyezése</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Az SSL Handshake sikertelen</string>
     <string name="server_issue_timeout">Kapcsolat időtúllépés</string>
-    <string name="server_issue_outdated_version">A szerver a $1%s verziót használja, de legalább $2%s verziónak kell lennie</string>
-    <string name="server_issue_unsupported_version">A szerver a $1%s verziót használja, amely nem támogatott</string>
+    <string name="server_issue_outdated_version">A szerver a %1$s verziót használja, de legalább %2$s verziónak kell lennie</string>
+    <string name="server_issue_unsupported_version">A szerver a %1$s verziót használja, amely nem támogatott</string>
     <string name="server_issue_missing_version">Nem sikerült meghatározni a szerver verzióját</string>
     <string name="server_issue_invalid_product">A szerverszoftver nem kompatibilis</string>
     <string name="server_issue_unable_to_connect">Kapcsolódás sikertelen</string>
     <string name="server_connection_failed_candidates">Nem sikerült csatlakozni a szerverhez, a következő címen: %1$s</string>
     <string name="lbl_playback_speed">Lejátszási sebesség</string>
+    <string name="pref_direct_stream_live_on">Az átkódolás letiltva</string>
+    <string name="pref_direct_stream_live_off">Az átkódolást szükség esetén használjuk</string>
+    <string name="pref_audio">Hang</string>
+    <string name="pref_subtitles">Feliratok</string>
+    <string name="pref_video">Videó</string>
+    <string name="pref_acra_description">Összeomlási párbeszédpanel, automatikus-feltöltés, rendszernaplók</string>
+    <string name="pref_playback_description">Videó, feliratok, élő tévéadás, a \'következő\'</string>
+    <string name="pref_customization_description">Téma, főképernyő, feltérképezés</string>
+    <string name="pref_login_description">Szerverek, fiókok, automatikus bejelentkezés</string>
+    <string name="pref_login">Bejelentkezés</string>
+    <string name="pref_libraries_description">Módosítsa a könyvtárak megjelenítési módját</string>
+    <string name="pref_libraries">Könyvtárak</string>
+    <string name="pref_home_description">Konfigurálja a megjelenítendő szekciókat</string>
+    <string name="pref_theme">Kinézet</string>
+    <string name="pref_browsing">Böngészés</string>
+    <string name="pref_behavior">Viselkedés</string>
+    <string name="pref_accounts">Fiókok</string>
+    <string name="sort_accounts_by">Fiókok rendezése ez szerint</string>
+    <string name="pref_customization">Testreszabás</string>
+    <string name="pref_refresh_switching_description">A monitor frissítési gyakorisága a videónak megfelelően módosult</string>
+    <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
 </resources>
