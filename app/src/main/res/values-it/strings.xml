@@ -27,7 +27,7 @@
     <string name="lbl_tv_series">Serie TV</string>
     <string name="lbl_other">Altro</string>
     <string name="lbl_latest_additions">Ultime Aggiunte</string>
-    <string name="lbl_because_you_watched">"Perchè hai guardato "</string>
+    <string name="lbl_because_you_watched">"Perché hai guardato "</string>
     <string name="lbl_play_all">Riproduci tutto</string>
     <string name="lbl_shuffle_all">Riproduci tutto a caso</string>
     <string name="lbl_play">Riproduci</string>
@@ -184,7 +184,7 @@
     <string name="pref_authentication_cat">Autenticazione</string>
     <string name="lbl_up_next_colon">"Prossima: "</string>
     <string name="lbl_show_premieres">Mostra le anteprime di stagione</string>
-    <string name="lbl_refresh_switching">Cambio della frequenza di aggiornamento</string>
+    <string name="lbl_refresh_switching">Cambio frequenza di aggiornamento</string>
     <string name="lbl_show_backdrop">Mostra gli sfondi</string>
     <string name="lbl_open">Aperto</string>
     <string name="lbl_play_next_up">Riproduci la prossima</string>
@@ -492,4 +492,8 @@
     <string name="pref_customization">Personalizzazione</string>
     <string name="pref_refresh_switching_description">La frequenza di aggiornamento del monitor viene impostata come quella del video</string>
     <string name="pref_show_backdrop_description">Cambia lo sfondo per le voci selezionate</string>
+    <string name="pref_acra_description">Messaggio di crash, auto-upload, log di sistema</string>
+    <string name="pref_customization_description">Tema, home, rimappatura</string>
+    <string name="pref_home_description">Configura sezioni mostrate</string>
+    <string name="pref_behavior">Comportamento</string>
 </resources>
