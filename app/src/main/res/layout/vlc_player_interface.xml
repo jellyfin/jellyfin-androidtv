@@ -95,25 +95,27 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.0" />
 
-        <TextView
+        <org.jellyfin.androidtv.ui.shared.StrokeTextView
             android:id="@+id/item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="32sp"
+            app:strokeWidth="5.0"
             app:layout_constraintEnd_toStartOf="@id/textClock"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_logo"
             app:layout_constraintHorizontal_bias="0.0"
             tools:text="Title" />
 
-        <TextView
+        <org.jellyfin.androidtv.ui.shared.StrokeTextView
             android:id="@+id/item_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/white"
             android:textSize="20sp"
+            app:strokeWidth="5.0"
             app:layout_constraintEnd_toStartOf="@id/textClock"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_title"
