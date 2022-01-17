@@ -38,10 +38,10 @@
     <string name="lbl_sorted_by">zoradené podľa</string>
     <string name="lbl_all_items">Všetky položky</string>
     <string name="lbl_showing">Zobrazujem</string>
-    <string name="lbl_enable_debug">Nastavenia debugu</string>
+    <string name="lbl_enable_debug">Nastavenia pre debug</string>
     <string name="lbl_goto_series">Prejsť na seriály</string>
     <string name="lbl_audio_output">Zvukový výstup</string>
-    <string name="pref_audio_compat">Downmix na Stereo</string>
+    <string name="pref_audio_compat">Downmix na stereo</string>
     <string name="pref_audio_direct">Priamo</string>
     <string name="msg_cancel_entire_series">Ste si naozaj istí, že chcete zrušiť CELÝ SERIÁL\?</string>
     <string name="lbl_repeat_options">Nastavenie opakovania</string>
@@ -79,12 +79,12 @@
     <string name="msg_error_server_unavailable">Server nedostupný</string>
     <string name="lbl_yes">Áno</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_enter_user_pw">Zadajte používateľské heslo</string>
+    <string name="lbl_enter_user_pw">Zadajte heslo</string>
     <string name="lbl_enter_user_name">Zadajte používateľské meno</string>
     <string name="lbl_play_trailers">Prehrať trailer/y</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="msg_access_restricted">Obmedzený prístup v tento dobe</string>
-    <string name="lbl_bracket_unknown">&lt;Neznáme&gt;</string>
+    <string name="lbl_bracket_unknown">Neznáme</string>
     <string name="msg_video_playback_error">"Chyba pri prehrávaní videa - "</string>
     <string name="lbl_none">Žiadne</string>
     <string name="lbl_recordings">Nahrávky</string>
