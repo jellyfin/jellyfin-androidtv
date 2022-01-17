@@ -487,4 +487,13 @@
     <string name="pref_accounts">Tırkelgıler</string>
     <string name="sort_accounts_by">Tirkelgılerdı sūryptau retı</string>
     <string name="pref_customization">Teñşeu</string>
+    <string name="pref_direct_stream_live_on">Qaita kodtau öşırılgen</string>
+    <string name="pref_direct_stream_live_off">Qaita kodtau qajet kezde paidalanylady</string>
+    <string name="pref_acra_description">Apat tılqatysuy, avtomatty jüktep salu, jüielık jūrnaldar</string>
+    <string name="pref_playback_description">Beine, subtitrler, efir, kelesi</string>
+    <string name="pref_customization_description">Taqyryp, basqy ekran, salystyru</string>
+    <string name="pref_login_description">Serverler, tırkelgıler, avtomatty kıru</string>
+    <string name="pref_libraries_description">Tasyğyşhanalardyñ qalay beinelenetınin özgertu</string>
+    <string name="pref_home_description">Beinelenetın bölımderdı retteu</string>
+    <string name="pref_refresh_switching_description">Monitor jañaru jiılıgı beinege säikestendıru üşın özgertıledı</string>
 </resources>
