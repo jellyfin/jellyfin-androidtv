@@ -22,7 +22,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -31,7 +30,6 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -492,10 +490,7 @@ public class MediaManager {
         videoQueueModified = true;
         DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
-        Activity currentActivity = TvApp.getApplication().getCurrentActivity();
-        if (mCurrentVideoQueue.size() == 1 && currentActivity != null && currentActivity instanceof BaseActivity) {
-            ((BaseActivity)currentActivity).sendMessage(CustomMessage.RefreshRows);
-        }
+
         long total = System.currentTimeMillis();
         for (BaseItemDto video :
                 mCurrentVideoQueue) {
