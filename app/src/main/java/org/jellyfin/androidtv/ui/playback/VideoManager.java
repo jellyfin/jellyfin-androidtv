@@ -283,9 +283,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void stopPlayback() {
-        if (nativeMode) {
+        if (nativeMode && mExoPlayer != null) {
             mExoPlayer.stop();
-        } else {
+        } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
         stopProgressLoop();
