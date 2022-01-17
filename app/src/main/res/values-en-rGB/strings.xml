@@ -14,7 +14,7 @@
     <string name="lbl_previous_episode">Previous Episode</string>
     <string name="lbl_more_like_this">More Like This</string>
     <string name="lbl_resume_from">Resume from %1$s</string>
-    <string name="lbl_resume_preroll">Resume Pre-Roll</string>
+    <string name="lbl_resume_preroll">Resume pre-roll</string>
     <string name="lbl_guide_option_number">Channel Number</string>
     <string name="lbl_guide_option_played">Last Played</string>
     <string name="lbl_show_indicators">Show Indicators For</string>
@@ -23,8 +23,8 @@
     <string name="lbl_guest_stars">Guest Stars</string>
     <string name="lbl_series_recordings">Programme Recordings</string>
     <string name="lbl_save">Save</string>
-    <string name="msg_settings_updated">Settings updated</string>
-    <string name="lbl_series_settings">Programme Settings</string>
+    <string name="msg_settings_updated">Preferences updated</string>
+    <string name="lbl_series_settings">Programme preferences</string>
     <string name="lbl_episode_not_record">This showing will NOT record</string>
     <string name="lbl_schedule">Schedule</string>
     <string name="lbl_live">Live</string>
@@ -34,9 +34,9 @@
     <string name="lbl_recent_recordings">Recent Recordings</string>
     <string name="lbl_kids">Kids</string>
     <string name="lbl_sports">Sports</string>
-    <string name="no_program_data">&lt;No Program Data Available&gt;</string>
+    <string name="no_program_data">No Program Data Available</string>
     <string name="msg_record_entire_series">Record entire programme\?</string>
-    <string name="lbl_show_backdrop">Show Backdrop While Browsing</string>
+    <string name="lbl_show_backdrop">Show backdrops</string>
     <string name="lbl_open">Open</string>
     <string name="lbl_play_next_up">Play Next Up</string>
     <string name="lbl_clear_queue">Clear Queue</string>
@@ -47,7 +47,7 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
     <string name="desc_seasonal_themes">Display special colours and suggestions at certain times of the year</string>
-    <string name="lbl_enable_seasonal_themes">Seasonal Themes</string>
+    <string name="lbl_enable_seasonal_themes">Seasonal themes</string>
     <string name="msg_item_added">" item added"</string>
     <string name="lbl_delete">Delete</string>
     <string name="lbl_remove_from_queue">Remove from Queue</string>
@@ -65,8 +65,8 @@
     <string name="lbl_all_items">All Items</string>
     <string name="desc_debug">Provide extra information for debugging</string>
     <string name="lbl_goto_series">Go to Programme</string>
-    <string name="lbl_audio_output">Audio Output</string>
-    <string name="pref_audio_compat">Downmix to Stereo</string>
+    <string name="lbl_audio_output">Audio output</string>
+    <string name="pref_audio_compat">Downmix to stereo</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="msg_remote_already_playing">Remote play request ignored. Please stop current item first.</string>
     <string name="msg_cancel_entire_series">Are you sure you want to cancel this ENTIRE PROGRAMME\?</string>
@@ -94,7 +94,7 @@
     <string name="lbl_play_first_unwatched">Play First Unwatched</string>
     <string name="lbl_search_hint">Search text (select for keyboard)</string>
     <string name="sum_tv_queuing">Add the rest of the series to the queue when playing an episode</string>
-    <string name="lbl_tv_queuing">Queue all Subsequent Episodes</string>
+    <string name="lbl_tv_queuing">Queue all subsequent episodes</string>
     <string name="lbl_empty">Empty</string>
     <string name="lbl_no_items">No Items</string>
     <string name="msg_cannot_play">This item cannot be played</string>
@@ -114,10 +114,10 @@
     <string name="lbl_at_any_time">At Any Time</string>
     <string name="lbl_select_date">Select Date</string>
     <string name="lbl_in_x_days">In %d days</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
+    <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
     <string name="desc_premieres">Show a row of new episode pilots for any programme you watch</string>
-    <string name="lbl_show_premieres">Show series premieres while browsing</string>
-    <string name="lbl_refresh_switching">Refresh Rate Switching</string>
+    <string name="lbl_show_premieres">Show season premieres</string>
+    <string name="lbl_refresh_switching">Refresh rate switching</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="desc_automatic_fav_songs">Automatic playlist of favourite and liked songs</string>
@@ -133,8 +133,8 @@
     <string name="msg_items_added">" items added"</string>
     <string name="lbl_warning">Warning</string>
     <string name="lbl_playlists">Playlists</string>
-    <string name="sum_enable_cinema_mode">Show intros and previews before film playback when enabled by the server</string>
-    <string name="lbl_enable_cinema_mode">Cinema Mode</string>
+    <string name="sum_enable_cinema_mode">Play available intros and previews before starting a movie</string>
+    <string name="lbl_enable_cinema_mode">Cinema mode</string>
     <string name="lbl_episodes">Episodes</string>
     <string name="lbl_album">Album</string>
     <string name="lbl_songs">Songs</string>
@@ -142,7 +142,7 @@
     <string name="lbl_artists">Artists</string>
     <string name="lbl_albums">Albums</string>
     <string name="lbl_programs">Programs</string>
-    <string name="lbl_direct_stream_live">Direct Stream Live TV</string>
+    <string name="lbl_direct_stream_live">Direct stream Live TV</string>
     <string name="msg_error_live_stream">Error streaming live TV. Will re-try…</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
@@ -159,7 +159,7 @@
     <string name="lbl_date_added">Date Added</string>
     <string name="lbl_name">Name</string>
     <string name="lbl_showing">Showing</string>
-    <string name="lbl_enable_debug">Debug Options</string>
+    <string name="lbl_enable_debug">Debug options</string>
     <string name="lbl_repeat_options">Repeat Options</string>
     <string name="lbl_only_new_episodes">Only New Episodes</string>
     <string name="lbl_now_playing_track">%1$s of %2$s</string>
@@ -170,12 +170,12 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_yes">Yes</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_pw">Enter user password</string>
-    <string name="lbl_enter_user_name">Enter user name</string>
+    <string name="lbl_enter_user_pw">Enter password</string>
+    <string name="lbl_enter_user_name">Enter username</string>
     <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="msg_access_restricted">Access restricted at this time</string>
-    <string name="lbl_bracket_unknown">&lt;Unknown&gt;</string>
+    <string name="lbl_bracket_unknown">Unknown</string>
     <string name="msg_video_playback_error">"Video Playback error - "</string>
     <string name="lbl_none">None</string>
     <string name="lbl_recordings">Recordings</string>
@@ -231,7 +231,7 @@
     <string name="lbl_on_now">On Now</string>
     <string name="lbl_next_up">Next Up</string>
     <string name="lbl_continue_watching">Continue Watching</string>
-    <string name="lbl_settings">Settings</string>
+    <string name="lbl_settings">Preferences</string>
     <string name="chapters">Chapters</string>
     <string name="lbl_image_size">Image Size</string>
     <string name="lbl_image_type">Image Type</string>
@@ -245,9 +245,9 @@
     <string name="lbl_audio_delay">Audio Delay</string>
     <string name="lbl_new_only">New Only</string>
     <string name="pref_authentication_cat">Authentication</string>
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">Preferences</string>
     <string name="lbl_news">News</string>
-    <string name="pref_max_bitrate_title">Max Streaming Bitrate</string>
+    <string name="pref_max_bitrate_title">Max streaming bitrate</string>
     <string name="pref_playback">Playback</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Cancel</string>
@@ -256,7 +256,7 @@
     <string name="lbl_just_this_once">Just this once</string>
     <string name="pref_acra_enabled">You will be prompted to submit crash reports</string>
     <string name="pref_enable_acra">Send crash reports to developers</string>
-    <string name="pref_acra_category">Crash Reporting</string>
+    <string name="pref_acra_category">Crash reporting</string>
     <string name="pref_media_player">Preferred media player</string>
     <string name="pref_about_title">About</string>
     <string name="pref_video_player_external">External app</string>
@@ -268,26 +268,27 @@
 \n
 \nThis information will be submitted to a third party (tracepot.com).
 \n
-\nThis prompt can be disabled in the Crash Reporting section in the Jellyfin app\'s Settings.</string>
+\nThis prompt can be disabled in the Crash Reporting section in the Jellyfin app\'s preferences.</string>
     <string name="acra_dialog_title">Oh no! Something went wrong.</string>
     <string name="pref_acra_syslog_disabled">System logs will not be included in crash reports</string>
     <string name="pref_acra_syslog_enabled">System logs will be included in crash reports</string>
-    <string name="pref_acra_syslog">Include system logs in crash reports. This may include private data from other applications if it was logged at the time of the crash.</string>
+    <string name="pref_acra_syslog">Include system logs.
+\nThis may include private data from other applications if it was logged at the time of the crash.</string>
     <string name="pref_acra_alwaysaccept_disabled">A dialog will be displayed before submitting any crash report</string>
     <string name="pref_acra_alwaysaccept_enabled">Crash reports will be submitted without prompting</string>
-    <string name="pref_acra_alwaysaccept">Submit crash reports without prompting</string>
+    <string name="pref_acra_alwaysaccept">Submit without prompting</string>
     <string name="pref_acra_disabled">Crash reports will not be submitted</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
     <string name="watch_now">Watch now</string>
-    <string name="pref_next_up_timeout_title">Next Up timer duration</string>
+    <string name="pref_next_up_timeout_title">Next up timer duration</string>
     <string name="pref_next_up_timeout_summary">How long to wait before playing the next item</string>
-    <string name="pref_app_theme">App Theme</string>
+    <string name="pref_app_theme">App theme</string>
     <string name="pref_theme_emerald">Classic Emerald</string>
     <string name="pref_theme_dark">Dark (Default)</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Grid Direction</string>
-    <string name="pref_device_model">Device Model</string>
+    <string name="pref_device_model">Device model</string>
     <string name="lbl_Reset">Reset</string>
     <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
     <string name="pref_subtitle_track_button">Subtitle track button</string>
@@ -354,12 +355,12 @@
     <string name="server_connecting">Connecting to %1$s</string>
     <string name="login_authenticating">Authenticating…</string>
     <string name="login_help_title">Need help\?</string>
-    <string name="user_picker_last_user_summary">Use the last active user</string>
+    <string name="user_picker_last_user_summary">Use the last active account</string>
     <string name="user_picker_last_user_title">Most recently used</string>
     <string name="user_picker_disable_summary">Always show the sign in screen</string>
     <string name="user_picker_disable_title">Disable</string>
-    <string name="system_user_explanation">Selected user will be used for system integrations like search</string>
-    <string name="system_user">System user</string>
+    <string name="system_user_explanation">Selected account will be used for system integrations like search</string>
+    <string name="system_user">System account</string>
     <string name="auto_sign_in">Automatic sign in</string>
     <string name="lbl_use_series_thumbnails_description">Use programme thumbnails when displaying episodes</string>
     <string name="lbl_use_series_thumbnails">Prefer programme thumbnails</string>
@@ -390,9 +391,9 @@
     <string name="lbl_remove_server">Remove server</string>
     <string name="lbl_sign_out_content">Requires login on next use</string>
     <string name="lbl_remove_user_content">Remove account</string>
-    <string name="lbl_remove_users">This will also remove all associated users</string>
+    <string name="lbl_remove_users">This will also remove all associated accounts</string>
     <string name="lbl_manage_servers">Manage servers</string>
-    <string name="lbl_switch_user">Switch user</string>
+    <string name="lbl_switch_user">Switch account</string>
     <string name="license_license">License</string>
     <string name="license_author">Author</string>
     <string name="license_repository">Repository</string>
@@ -403,7 +404,7 @@
     <string name="licenses_link_description">View the licenses of the libraries used by the Jellyfin app</string>
     <string name="licenses_link">Licenses</string>
     <string name="select_version">Version</string>
-    <string name="advanced_settings">Settings (advanced)</string>
+    <string name="advanced_settings">Advanced</string>
     <string name="always_authenticate_description">Enabling this function disables auto sign in</string>
     <string name="always_authenticate">Always ask for credentials</string>
     <string name="alphabetical">Alphabetical</string>
@@ -431,10 +432,10 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Special</string>
     <string name="help">Help</string>
-    <string name="add_user">Add user</string>
+    <string name="add_user">Add account</string>
     <string name="who_is_watching">Who\'s watching\?</string>
-    <string name="no_user_warning">We couldn\'t find any users!
-\nAdd a new user by pressing the \"Add user\" button.</string>
+    <string name="no_user_warning">We couldn\'t find any accounts!
+\nAdd a new account by pressing the \"Add account\" button.</string>
     <string name="server_unsupported">Server needs to be updated. Current version is %1$s but app requires %2$s or newer</string>
     <string name="welcome_content">Connect to your server to get started.</string>
     <string name="welcome_title">Welcome to Jellyfin!</string>
@@ -447,9 +448,9 @@
     <string name="lbl_stretch">Stretch</string>
     <string name="lbl_auto_crop">Auto Crop</string>
     <string name="lbl_community_rating">Community Rating</string>
-    <string name="pref_subtitles_size">Subtitle size</string>
+    <string name="pref_subtitles_size">Text size</string>
     <string name="pref_subtitles_background_summary">Show a black background behind the subtitles</string>
-    <string name="pref_subtitles_background_title">Enable subtitle background</string>
+    <string name="pref_subtitles_background_title">Enable background</string>
     <string name="searchable_settings_description">Media</string>
     <string name="searchable_hint">Search Jellyfin</string>
     <string name="home_section_i">Home section %1$d</string>
@@ -467,11 +468,32 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">SSL handshake failed</string>
     <string name="server_issue_timeout">Connection timed out</string>
-    <string name="server_issue_outdated_version">Server uses version $1%s but needs to be $2%s or newer</string>
-    <string name="server_issue_unsupported_version">Server uses version $1%s which is not supported</string>
+    <string name="server_issue_outdated_version">Server uses version %1$s but needs to be %2$s or newer</string>
+    <string name="server_issue_unsupported_version">Server uses version %1$s which is not supported</string>
     <string name="server_issue_missing_version">Could not determine server version</string>
     <string name="server_issue_invalid_product">Server software is incompatible</string>
     <string name="server_issue_unable_to_connect">Unable to connect</string>
     <string name="server_connection_failed_candidates">Unable to connect to server, tried the following addresses: %1$s</string>
     <string name="lbl_playback_speed">Playback Speed</string>
+    <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
+    <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_subtitles">Subtitles</string>
+    <string name="pref_video">Video</string>
+    <string name="pref_acra_description">Crash dialog, auto-upload, system logs</string>
+    <string name="pref_playback_description">Video, subtitles, live tv, next up</string>
+    <string name="pref_customization_description">Theme, home, remapping</string>
+    <string name="pref_login_description">Servers, accounts, automatic sign in</string>
+    <string name="pref_login">Login</string>
+    <string name="pref_libraries_description">Change how libraries are displayed</string>
+    <string name="pref_libraries">Libraries</string>
+    <string name="pref_home_description">Configure shown sections</string>
+    <string name="pref_theme">Theme</string>
+    <string name="pref_browsing">Browsing</string>
+    <string name="pref_behavior">Behaviour</string>
+    <string name="pref_accounts">Accounts</string>
+    <string name="sort_accounts_by">Sort accounts by</string>
+    <string name="pref_customization">Customisation</string>
+    <string name="pref_refresh_switching_description">Monitor refresh rate is changed to match video</string>
+    <string name="pref_show_backdrop_description">Change background image to selected items</string>
 </resources>
