@@ -490,6 +490,6 @@
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Subtitles</string>
     <string name="pref_audio">Audio</string>
-    <string name="pref_direct_stream_live_off">Transcoding is used when neccesary</string>
+    <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
 </resources>
