@@ -61,12 +61,12 @@
     <string name="lbl_recordings">Jazbalar</string>
     <string name="lbl_none">Eşqandai</string>
     <string name="msg_video_playback_error">"Beine oinatu qatesı - "</string>
-    <string name="lbl_bracket_unknown">&lt;Belgısız&gt;</string>
+    <string name="lbl_bracket_unknown">Belgısız</string>
     <string name="msg_access_restricted">Qazırgı uaqytta qatynau şektelgen</string>
     <string name="lbl_trailer">"Treiler "</string>
     <string name="lbl_play_trailers">Treilerlerdı oinatu</string>
     <string name="lbl_enter_user_name">Paidalanuşy atyn engızu</string>
-    <string name="lbl_enter_user_pw">Paidalanuşy parölın engızu</string>
+    <string name="lbl_enter_user_pw">Paröl engızu</string>
     <string name="lbl_no">Joq</string>
     <string name="lbl_yes">İa</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 nemese https://myserver.com</string>
@@ -154,7 +154,7 @@
     <string name="lbl_songs">Äuender</string>
     <string name="lbl_album">Älbom</string>
     <string name="lbl_episodes">Telebölımder</string>
-    <string name="lbl_enable_cinema_mode">Kinoteatr rejımın qosu</string>
+    <string name="lbl_enable_cinema_mode">Kinoteatr rejımı</string>
     <string name="sum_enable_cinema_mode">Eger serverde qosylğan bolsa, film oinatu aldynan kırıspeler men aldyn-ala körınısterge rūqsat etıledı</string>
     <string name="lbl_playlists">Oinatu tızımderı</string>
     <string name="msg_items_added">" tarmaq üstelgen"</string>
@@ -173,7 +173,7 @@
     <string name="lbl_save_as_playlist">Oinatu tızımı retınde saqtau</string>
     <string name="lbl_delete">Joiu</string>
     <string name="msg_item_added">" tarmaq üstelgen"</string>
-    <string name="lbl_enable_seasonal_themes">Mausymdyq taqyryptardy qosu</string>
+    <string name="lbl_enable_seasonal_themes">Mausymdyq taqyryptar</string>
     <string name="desc_seasonal_themes">Jyldyñ belgılı bır uaqyttarynda arnaiy tüster men ūsynystarğa rūqsat etu</string>
     <string name="desc_automatic_fav_songs">Tañdauly jäne ūnatylğan äuenderdıñ avtomatty oinatu tızımı</string>
     <string name="lbl_new_premieres">Jaña tūsaukeserler</string>
@@ -186,9 +186,9 @@
     <string name="lbl_clear_queue">Kezektı tazalau</string>
     <string name="lbl_play_next_up">Kezektegını oinatu</string>
     <string name="lbl_open">Aşu</string>
-    <string name="lbl_show_backdrop">Şarlağanda artqy surettı körsetu</string>
+    <string name="lbl_show_backdrop">Artqy suretterdı körsetu</string>
     <string name="lbl_refresh_switching">Jañartu jiılıgın auystyrudy qosu</string>
-    <string name="lbl_show_premieres">Mausym tūsaukeserlerın şarlau kezınde körsetu</string>
+    <string name="lbl_show_premieres">Mausym tūsaukeserlerın körsetu</string>
     <string name="desc_premieres">Qaraludağy telehikaialar üşın telebölımder jolynda tek jañasyn körsetu</string>
     <string name="lbl_bitstream_dts">DTS dybysty tasymaldau</string>
     <string name="lbl_album_name">Älbom aty</string>
@@ -247,7 +247,7 @@
     <string name="lbl_episode_not_record">Būl körsetım JAZYLMAIDY</string>
     <string name="lbl_all_recordings">Barlyq jazbalar</string>
     <string name="lbl_recent_recordings">Eñ keiıñgı jazbalar</string>
-    <string name="no_program_data">&lt;Berılım turaly aqparat joq&gt;</string>
+    <string name="no_program_data">Berılım turaly aqparat joq</string>
     <string name="msg_record_entire_series">Bükıl telehikaiany jazamyz ba\?</string>
     <string name="lbl_just_this_once">Tek osy ret</string>
     <string name="lbl_select_date">Kün tañdau</string>
@@ -260,7 +260,7 @@
     <string name="pref_media_player">Tasyğyşderekterdıñ tañdauly oinatqyşy</string>
     <string name="pref_about_title">Qoldanba turaly</string>
     <string name="pref_video_player_external">Syrtqy qoldanba</string>
-    <string name="pref_video_player_vlc">libVLC kıtaphanasy</string>
+    <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer oinatqyşy</string>
     <string name="pref_video_player_auto">Avtomatty tañdau</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
@@ -342,7 +342,8 @@
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
     <string name="pref_acra_syslog_disabled">Jüielık juūrnaldar apattyq esepter ışıne qosylmaidy</string>
     <string name="pref_acra_syslog_enabled">Jüielık juūrnaldar apattyq esepter ışıne qosylady</string>
-    <string name="pref_acra_syslog">Apattyq esepterge jüielık jūrnaldar qosylady. Būğan basqa qoldanbalardan jekelık derekter kıruı mümkın, eger ol apat kezınde tırkelgen bolsa.</string>
+    <string name="pref_acra_syslog">Jüielık jūrnaldardy qosu.
+\nBūğan basqa qoldanbalardan jekelık derekter kıruı mümkın, eger ol apat kezınde tırkelgen bolsa.</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>
     <string name="episode_missing_message_2">Būl telebölım tasyğyşhanañyzda joq. Oinatu toqtalady.</string>
     <string name="episode_missing_message">Būl telebölım tasyğyşhanañyzda joq. Ötkіzіp, kelesіge ötudі qalaisyz ba\?</string>
@@ -433,7 +434,7 @@
     <string name="lbl_auto_crop">Avtomatty qiyp alu</string>
     <string name="alphabetical">Älıpbi boiynşa</string>
     <string name="last_use">Eñ soñğy paidalanylğan</string>
-    <string name="advanced_settings">Parametrler (keñeitılgen)</string>
+    <string name="advanced_settings">Keñeitılgen</string>
     <string name="always_authenticate_description">Būl mümkındıktı qosu avtomatty kırudi öşıredı</string>
     <string name="always_authenticate">Ärqaşan tirkelgı derekterın sūrau</string>
     <string name="lbl_community_rating">Qauym bağalauy</string>
@@ -461,17 +462,23 @@
     <string name="home_prefs">Basqy</string>
     <string name="searchable_hint">Jellyfin ızdeuı</string>
     <string name="searchable_settings_description">Tasyğyşderekter</string>
-    <string name="pref_subtitles_size">Subtitr ölşemı</string>
+    <string name="pref_subtitles_size">Mätın ölşemı</string>
     <string name="pref_subtitles_background_summary">Subtitrlerdıñ artynda qara öñ körsetu</string>
-    <string name="pref_subtitles_background_title">Subtitr oñıñ qosu</string>
+    <string name="pref_subtitles_background_title">Öñdıqosu</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">SSL rastamasy sätsız aiaqtaldy</string>
     <string name="server_issue_timeout">Qosylu waqyty aiaqtaldy</string>
-    <string name="server_issue_outdated_version">Server $1%s nusqasyn paydalanady, bıraq ol $2%s nemese odan jañaraq boluy kerek</string>
-    <string name="server_issue_unsupported_version">Server qoldau körsetılmeitın $1%s nusqasyn paydalanady</string>
+    <string name="server_issue_outdated_version">Server %1$s nusqasyn paydalanady, bıraq ol %2$s nemese odan jañaraq boluy kerek</string>
+    <string name="server_issue_unsupported_version">Server qoldau körsetılmeitın %1$s nusqasyn paydalanady</string>
     <string name="server_issue_missing_version">Serverdıñ nusqasyn anyqtau mümkın bolmady</string>
     <string name="server_issue_invalid_product">Serverdıñ bağdarlamalyq jasaqtamasy üylesımdı emes</string>
     <string name="server_issue_unable_to_connect">Qosylu mümkın emes</string>
     <string name="server_connection_failed_candidates">Serverge qosylu mümkın bolmady, kelesı mekenjaılardy qoldanyp kördık: %1$s</string>
     <string name="lbl_playback_speed">Oinatu jyldamdyğy</string>
+    <string name="pref_audio">Dybys</string>
+    <string name="pref_subtitles">Subtitrler</string>
+    <string name="pref_video">Beine</string>
+    <string name="pref_login">Kıru</string>
+    <string name="pref_libraries">Tasyğyşhanalar</string>
+    <string name="pref_theme">Taqyryp</string>
 </resources>
