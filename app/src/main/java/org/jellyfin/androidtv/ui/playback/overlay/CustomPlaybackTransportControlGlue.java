@@ -226,7 +226,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             primaryActionsAdapter.add(closedCaptionsAction);
         }
 
-        primaryActionsAdapter.add(playbackSpeedAction);
+        if (!isLiveTv()) {
+            primaryActionsAdapter.add(playbackSpeedAction);
+        }
 
         if (hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
