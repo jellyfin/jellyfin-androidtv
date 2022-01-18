@@ -43,12 +43,12 @@
     <string name="msg_error_server_unavailable">சேவையகம் கிடைக்கவில்லை</string>
     <string name="lbl_yes">ஆம்</string>
     <string name="lbl_no">இல்லை</string>
-    <string name="lbl_enter_user_pw">பயனர் கடவுச்சொல்லை உள்ளிடவும்</string>
+    <string name="lbl_enter_user_pw">கடவுச்சொல்லை உள்ளிடவும்</string>
     <string name="lbl_enter_user_name">பயனர் பெயரை உள்ளிடவும்</string>
     <string name="lbl_play_trailers">டிரெய்லர்களை இயக்கு</string>
     <string name="lbl_trailer">"டிரெய்லர் "</string>
     <string name="msg_access_restricted">இந்த நேரத்தில் அணுகல் தடைசெய்யப்பட்டுள்ளது</string>
-    <string name="lbl_bracket_unknown">&lt;தெரியாத&gt;</string>
+    <string name="lbl_bracket_unknown">தெரியவில்லை</string>
     <string name="msg_video_playback_error">"வீடியோ பின்னணி பிழை - "</string>
     <string name="lbl_none">எதுவுமில்லை</string>
     <string name="lbl_recordings">பதிவுகள்</string>
@@ -110,7 +110,7 @@
     <string name="chapters">அத்தியாயங்கள்</string>
     <string name="pref_authentication_cat">உறுதிப்பாடு</string>
     <string name="settings_title">அமைப்புகள்</string>
-    <string name="pref_max_bitrate_title">மேக்ஸ் ஸ்ட்ரீமிங் பிட்ரேட்</string>
+    <string name="pref_max_bitrate_title">அதிகபட்ச ஸ்ட்ரீமிங் பிட்ரேட்</string>
     <string name="pref_playback">பின்னணி</string>
     <string name="just_one">இது ஒன்று</string>
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
@@ -155,14 +155,14 @@
     <string name="grid_direction">கட்டம் திசை</string>
     <string name="pref_device_model">சாதன மாதிரி</string>
     <string name="pref_app_theme">பயன்பாட்டு தீம்</string>
-    <string name="pref_libvlc_audio_delay_title">VLC க்கான இயல்புநிலை ஆடியோ தாமதம்</string>
+    <string name="pref_libvlc_audio_delay_title">LibVLC க்கான இயல்புநிலை ஆடியோ தாமதம்</string>
     <string name="watch_now">இப்பொழுது பார்</string>
-    <string name="pref_next_up_timeout_title">அடுத்த டைமர் காலம்</string>
+    <string name="pref_next_up_timeout_title">அடுத்த டைமர் கால அளவு</string>
     <string name="pref_next_up_timeout_summary">அடுத்த உருப்படியை இயக்குவதற்கு முன்பு எவ்வளவு நேரம் காத்திருக்க வேண்டும்</string>
     <string name="pref_media_player">விருப்பமான மீடியா பிளேயர்</string>
     <string name="pref_about_title">பற்றி</string>
     <string name="pref_video_player_external">வெளிப்புற பயன்பாடு</string>
-    <string name="pref_video_player_vlc">வி.எல்.சி</string>
+    <string name="pref_video_player_vlc">Libவிஎல்சி</string>
     <string name="pref_video_player_exoplayer">எக்ஸோ பிளேயர்</string>
     <string name="pref_video_player_auto">தானாக தேர்வு செய்யவும்</string>
     <string name="pref_theme_emerald">கிளாசிக் எமரால்டு</string>
@@ -182,16 +182,17 @@
     <string name="lbl_news">செய்தி</string>
     <string name="acra_dialog_text">டெவலப்பர்களுக்கு செயலிழப்பு அறிக்கையை அனுப்ப விரும்புகிறீர்களா\?
 \n
-\nஇந்த தகவல் மூன்றாம் தரப்பினருக்கு (tracepot.com) சமர்ப்பிக்கப்படும்.
+\nஇந்தத் தகவல் மூன்றாம் தரப்பினருக்குச் சமர்ப்பிக்கப்படும் (tracepot.com).
 \n
-\nஜெல்லிஃபின் பயன்பாட்டின் அமைப்புகளில் செயலிழப்பு அறிக்கையிடல் பிரிவில் இந்த வரியில் முடக்கப்படலாம்.</string>
+\nஜெல்லிஃபின் ஆப்ஸின் விருப்பத்தேர்வுகளில் க்ராஷ் ரிப்போர்ட்டிங் பிரிவில் இந்த ப்ராம்ட் முடக்கப்படலாம்.</string>
     <string name="acra_dialog_title">ஏதோ தவறு நடைபெற்றிருக்கிறது.</string>
     <string name="pref_acra_syslog_disabled">செயலிழப்பு அறிக்கைகளில் கணினி பதிவுகள் சேர்க்கப்படாது</string>
     <string name="pref_acra_syslog_enabled">கணினி பதிவுகள் செயலிழப்பு அறிக்கைகளில் சேர்க்கப்படும்</string>
-    <string name="pref_acra_syslog">செயலிழப்பு அறிக்கைகளில் கணினி பதிவுகளைச் சேர்க்கவும். செயலிழந்த நேரத்தில் உள்நுழைந்திருந்தால், பிற பயன்பாடுகளிலிருந்து தனிப்பட்ட தரவு இதில் அடங்கும்.</string>
+    <string name="pref_acra_syslog">கணினி பதிவுகளைச் சேர்க்கவும்.
+\nசெயலிழந்த நேரத்தில் உள்நுழைந்திருந்தால், பிற பயன்பாடுகளின் தனிப்பட்ட தரவு இதில் அடங்கும்.</string>
     <string name="pref_acra_alwaysaccept_disabled">எந்த செயலிழப்பு அறிக்கையையும் சமர்ப்பிக்கும் முன் ஒரு உரையாடல் காண்பிக்கப்படும்</string>
     <string name="pref_acra_alwaysaccept_enabled">செயலிழப்பு அறிக்கைகள் கேட்கப்படாமல் சமர்ப்பிக்கப்படும்</string>
-    <string name="pref_acra_alwaysaccept">செயலிழப்பு அறிக்கைகளை கேட்காமல் சமர்ப்பிக்கவும்</string>
+    <string name="pref_acra_alwaysaccept">கேட்காமல் சமர்ப்பிக்கவும்</string>
     <string name="pref_acra_disabled">செயலிழப்பு அறிக்கைகள் சமர்ப்பிக்கப்படாது</string>
     <string name="pref_acra_enabled">செயலிழப்பு அறிக்கைகளை சமர்ப்பிக்கும்படி கேட்கப்படுவீர்கள்</string>
     <string name="pref_enable_acra">டெவலப்பர்களுக்கு செயலிழப்பு அறிக்கைகளை அனுப்பவும்</string>
@@ -231,16 +232,16 @@
     <string name="lbl_recent_recordings">சமீபத்திய பதிவுகள்</string>
     <string name="lbl_kids">குழந்தைகள்</string>
     <string name="lbl_sports">விளையாட்டு</string>
-    <string name="no_program_data">&lt;நிரல் தரவு கிடைக்கவில்லை&gt;</string>
+    <string name="no_program_data">நிரல் தரவு கிடைக்கவில்லை</string>
     <string name="msg_record_entire_series">முழு தொடரையும் பதிவு செய்யவா\?</string>
     <string name="lbl_just_this_once">ஒரு முறை</string>
     <string name="lbl_select_date">தேதி தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_in_x_days">%d நாட்களில்</string>
     <string name="lbl_bitstream_dts">பிட்ஸ்ட்ரீம் DTS ஆடியோ</string>
     <string name="desc_premieres">நீங்கள் பார்க்கும் எந்தத் தொடருக்கும் புதிய எபிசோட் விமானிகளின் வரிசையைக் காட்டு</string>
-    <string name="lbl_show_premieres">உலாவும்போது சீசன் பிரீமியர்களைக் காட்டு</string>
+    <string name="lbl_show_premieres">சீசன் பிரீமியர்களைக் காட்டு</string>
     <string name="lbl_refresh_switching">வீத மாற்றத்தை புதுப்பிக்கவும்</string>
-    <string name="lbl_show_backdrop">உலாவும்போது பின்னணியைக் காட்டு</string>
+    <string name="lbl_show_backdrop">பின்னணியைக் காட்டு</string>
     <string name="lbl_open">திற</string>
     <string name="lbl_play_next_up">அடுத்து இயக்கு</string>
     <string name="lbl_clear_queue">வரிசையை அழி</string>
@@ -273,7 +274,7 @@
     <string name="msg_items_added">" உருப்படிகள் சேர்க்கப்பட்டன"</string>
     <string name="lbl_warning">எச்சரிக்கை</string>
     <string name="lbl_playlists">பிளேலிஸ்ட்கள்</string>
-    <string name="sum_enable_cinema_mode">சேவையகத்தால் இயக்கப்படும் போது மூவி பிளேபேக்கிற்கு முன் அறிமுகங்கள் மற்றும் மாதிரிக்காட்சிகளைக் காட்டு</string>
+    <string name="sum_enable_cinema_mode">ஒரு திரைப்படத்தைத் தொடங்குவதற்கு முன் கிடைக்கக்கூடிய அறிமுகங்களையும் முன்னோட்டங்களையும் இயக்கவும்</string>
     <string name="lbl_enable_cinema_mode">சினிமா பயன்முறை</string>
     <string name="lbl_episodes">அத்தியாயங்கள்</string>
     <string name="lbl_album">ஆல்பம்</string>
@@ -351,7 +352,7 @@
     <string name="login_invalid_credentials">தவறான பயனர்பெயர் மற்றும் / அல்லது கடவுச்சொல்</string>
     <string name="login_authenticating">அங்கீகரிக்கிறது…</string>
     <string name="server_field_empty">முகவரி காலியாக இருக்க முடியாது</string>
-    <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை: %1$s</string>
+    <string name="server_connection_failed">சேவையகத்துடன் இணைக்க முடியவில்லை</string>
     <string name="server_connecting">%1$s உடன் இணைக்கிறது</string>
     <string name="login_help_description">ஜெல்லிஃபினுடன் இணைக்க ஒரு சேவையகம் தேவை. எங்கள் ஆவணங்களை docs.jellyfin.org இல் பார்வையிடவும் அல்லது ஜெல்லிஃபினுடன் தொடங்க QR குறியீட்டை ஸ்கேன் செய்யவும்.</string>
     <string name="login_help_title">உதவி தேவை\?</string>
@@ -378,21 +379,21 @@
     <string name="lbl_remove_server">சேவையகத்தை அகற்று</string>
     <string name="lbl_sign_out_content">அடுத்த பயன்பாட்டில் உள்நுழைவு தேவை</string>
     <string name="lbl_remove_user_content">கணக்கை அகற்று</string>
-    <string name="lbl_remove_users">இது தொடர்புடைய அனைத்து பயனர்களையும் அகற்றும்</string>
+    <string name="lbl_remove_users">இது தொடர்புடைய அனைத்து கணக்குகளையும் அகற்றும்</string>
     <string name="lbl_manage_servers">சேவையகங்களை நிர்வகிக்கவும்</string>
     <string name="lbl_episode_marks">அத்தியாயங்களில் மட்டுமே</string>
     <string name="lbl_hide_unwatched_count">பார்க்கப்படாத எண்ணிக்கையை மறைக்க</string>
     <string name="pref_watched_indicator">பார்த்த குறிகாட்டிகளைக் காட்டு</string>
     <string name="lbl_use_series_thumbnails_description">அத்தியாயங்களைக் காண்பிக்கும் போது தொடர் சிறுபடங்களைப் பயன்படுத்தவும்</string>
     <string name="lbl_use_series_thumbnails">தொடர் சிறு உருவங்களை விரும்புங்கள்</string>
-    <string name="user_picker_last_user_summary">கடைசியாக செயலில் உள்ள பயனரைப் பயன்படுத்தவும்</string>
+    <string name="user_picker_last_user_summary">கடைசியாக செயலில் உள்ள கணக்கைப் பயன்படுத்தவும்</string>
     <string name="user_picker_last_user_title">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
     <string name="user_picker_disable_summary">உள்நுழைவு திரையில் எப்போதும் காட்டு</string>
     <string name="user_picker_disable_title">முடக்கு</string>
-    <string name="system_user_explanation">தேர்ந்தெடுக்கப்பட்ட பயனர் தேடல் போன்ற கணினி ஒருங்கிணைப்புகளுக்குப் பயன்படுத்தப்படும்</string>
-    <string name="system_user">கணினி பயனர்</string>
+    <string name="system_user_explanation">தேர்ந்தெடுக்கப்பட்ட கணக்கு தேடல் போன்ற கணினி ஒருங்கிணைப்புகளுக்குப் பயன்படுத்தப்படும்</string>
+    <string name="system_user">கணினி கணக்கு</string>
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
-    <string name="lbl_switch_user">பயன்பாட்டாளர் மாற்றம்</string>
+    <string name="lbl_switch_user">கணக்கை மாற்றவும்</string>
     <string name="no_network_permissions">ஜெல்லிஃபின் செயல்பட பிணைய அனுமதிகள் தேவை</string>
     <string name="pref_theme_muted_purple">முடக்கிய ஊதா</string>
     <string name="lbl_next_up_minimal">சிறுபடம் இல்லாமல்</string>
@@ -402,10 +403,10 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">சிறப்பு</string>
     <string name="help">உதவி</string>
-    <string name="add_user">பயனரைச் சேர்க்கவும்</string>
+    <string name="add_user">கணக்கு சேர்க்க</string>
     <string name="who_is_watching">யார் பார்க்கிறார்கள்\?</string>
-    <string name="no_user_warning">எங்களால் எந்த பயனர்களையும் கண்டுபிடிக்க முடியவில்லை!
-\n\"பயனரைச் சேர்\" பொத்தானை அழுத்துவதன் மூலம் புதிய பயனரைச் சேர்க்கவும்.</string>
+    <string name="no_user_warning">எங்களால் எந்த பயனர்களையும் கண்டுபிடிக்க முடிஎங்களால் எந்தக் கணக்குகளையும் கண்டுபிடிக்க முடியவில்லை!
+\n\"கணக்கைச் சேர்\" பொத்தானை அழுத்துவதன் மூலம் புதிய கணக்கைச் சேர்க்கவும்.</string>
     <string name="server_unsupported">சேவையகம் புதுப்பிக்கப்பட வேண்டும். தற்போதைய பதிப்பு %1$s ஆனால் பயன்பாட்டிற்கு %2$s அல்லது புதியது தேவை</string>
     <string name="welcome_content">தொடங்க உங்கள் சேவையகத்துடன் இணைக்கவும்.</string>
     <string name="welcome_title">ஜெல்லிஃபினுக்கு வருக!</string>
@@ -433,7 +434,7 @@
     <string name="lbl_auto_crop">தானாக படத்தை செதுக்கவும்</string>
     <string name="alphabetical">அகரவரிசை</string>
     <string name="last_use">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
-    <string name="advanced_settings">அமைப்புகள் (மேம்பட்டவை)</string>
+    <string name="advanced_settings">மேம்படுத்தபட்ட</string>
     <string name="always_authenticate_description">இந்த செயல்பாட்டை இயக்குவது தானாக உள்நுழைவதை முடக்குகிறது</string>
     <string name="always_authenticate">எப்போதும் சான்றுகளைக் கேளுங்கள்</string>
     <string name="lbl_community_rating">சமூக மதிப்பீடு</string>
@@ -461,4 +462,38 @@
     <string name="home_section_latest_media">சமீபத்திய ஊடகம்</string>
     <string name="home_sections">முகப்பு பிரிவுகள்</string>
     <string name="home_prefs">முகப்புத் திரை</string>
+    <string name="pref_direct_stream_live_on">டிரான்ஸ்கோடிங் முடக்கப்பட்டுள்ளது</string>
+    <string name="pref_direct_stream_live_off">தேவைப்படும்போது டிரான்ஸ்கோடிங் பயன்படுத்தப்படுகிறது</string>
+    <string name="pref_audio">ஆடியோ</string>
+    <string name="pref_subtitles">வசன வரிகள்</string>
+    <string name="pref_video">காணொளி</string>
+    <string name="pref_acra_description">செயலிழப்பு உரையாடல், தானாக பதிவேற்றம், கணினி பதிவுகள்</string>
+    <string name="pref_playback_description">வீடியோ, வசன வரிகள், நேரலை டிவி, அடுத்தது</string>
+    <string name="pref_customization_description">தீம், வீடு, ரீமேப்பிங்</string>
+    <string name="pref_login_description">சேவையகங்கள், கணக்குகள், தானியங்கி உள்நுழைவு</string>
+    <string name="pref_login">புகுபதிகை</string>
+    <string name="pref_libraries_description">நூலகங்கள் எவ்வாறு காட்டப்படுகின்றன என்பதை மாற்றவும்</string>
+    <string name="pref_libraries">நூலகங்கள்</string>
+    <string name="pref_home_description">காட்டப்பட்டுள்ள பிரிவுகளை உள்ளமைக்கவும்</string>
+    <string name="pref_theme">தீம்</string>
+    <string name="pref_browsing">உலாவுதல்</string>
+    <string name="pref_behavior">நடத்தை</string>
+    <string name="pref_accounts">கணக்குகள்</string>
+    <string name="sort_accounts_by">கணக்குகளை வரிசைப்படுத்தவும்</string>
+    <string name="pref_customization">தனிப்பயனாக்கம்</string>
+    <string name="server_issue_ssl_handshake">SSL கைகுலுக்க முடியவில்லை</string>
+    <string name="server_issue_timeout">இணைப்பின் நேரம் முடிந்தது</string>
+    <string name="server_issue_outdated_version">சேவையகம் %1$s பதிப்பைப் பயன்படுத்துகிறது ஆனால் %2$s அல்லது புதியதாக இருக்க வேண்டும்</string>
+    <string name="server_issue_unsupported_version">சேவையகம் ஆதரிக்கப்படாத %1$s பதிப்பைப் பயன்படுத்துகிறது</string>
+    <string name="server_issue_missing_version">சர்வர் பதிப்பை தீர்மானிக்க முடியவில்லை</string>
+    <string name="server_issue_invalid_product">சர்வர் மென்பொருள் இணக்கமற்றது</string>
+    <string name="server_issue_unable_to_connect">இணைக்க முடியவில்லை</string>
+    <string name="pref_subtitles_size">எழுத்து அளவு</string>
+    <string name="pref_subtitles_background_summary">வசனங்களுக்குப் பின்னால் கருப்பு பின்னணியைக் காட்டு</string>
+    <string name="pref_subtitles_background_title">பின்னணியை இயக்கு</string>
+    <string name="server_connection_failed_candidates">சேவையகத்துடன் இணைக்க முடியவில்லை, பின்வரும் முகவரிகளை முயற்சித்தேன்: %1$s</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_refresh_switching_description">வீடியோவைப் பொருத்த மானிட்டர் புதுப்பிப்பு விகிதம் மாற்றப்பட்டது</string>
+    <string name="pref_show_backdrop_description">தேர்ந்தெடுக்கப்பட்ட உருப்படிகளுக்கு பின்னணி படத்தை மாற்றவும்</string>
+    <string name="lbl_playback_speed">பின்னணி வேகம்</string>
 </resources>
