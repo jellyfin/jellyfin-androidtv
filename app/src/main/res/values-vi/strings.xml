@@ -8,7 +8,7 @@
     <string name="lbl_today">Hôm nay</string>
     <string name="lbl_load_channels">"Tải Các Kênh "</string>
     <string name="lbl_unwatched">Chưa Được Xem</string>
-    <string name="msg_no_playable_items">Không có mục nào có thể phát được</string>
+    <string name="msg_no_playable_items">Không có mục nào có thể phát</string>
     <string name="lbl_remove_dislike">Gỡ Bỏ Không Thích</string>
     <string name="lbl_unlike">Bỏ Thích</string>
     <string name="lbl_dislike">Không thích</string>
@@ -235,7 +235,7 @@
     <string name="desc_automatic_fav_songs">Danh sách phát tự động bài hát yêu thích và mục yêu thích</string>
     <string name="desc_seasonal_themes">Hiển thị các màu và gợi ý đặc biệt vào những thời điểm nhất định trong năm</string>
     <string name="lbl_enable_seasonal_themes">Chủ đề theo mùa</string>
-    <string name="msg_item_added">" mục đã được thêm"</string>
+    <string name="msg_item_added">" đã thêm mục"</string>
     <string name="lbl_delete">Xóa</string>
     <string name="lbl_save_as_playlist">Lưu vào danh sách phát</string>
     <string name="lbl_instant_mix">Kết hợp tức thì</string>
@@ -245,12 +245,12 @@
     <string name="lbl_now_playing">Đang Phát</string>
     <string name="lbl_up_next_colon">"Tiếp Theo: "</string>
     <string name="lbl_reshuffle_queue">Phát ngẫu nhiên lại hàng đợi</string>
-    <string name="lbl_prev_item">Mục trước</string>
-    <string name="lbl_next_item">Mục kế tiếp</string>
+    <string name="lbl_prev_item">Mục Trước</string>
+    <string name="lbl_next_item">Mục Kế Tiếp</string>
     <string name="lbl_open_album">Mở Album</string>
     <string name="lbl_open_artist">Mở Nghệ Sĩ</string>
     <string name="lbl_add_to_queue">Thêm vào hàng đợi</string>
-    <string name="msg_items_added">" mục đã được thêm"</string>
+    <string name="msg_items_added">" đã thêm các mục"</string>
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
