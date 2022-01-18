@@ -10,8 +10,6 @@ public enum QueryType {
     SimilarMovies,
     StaticPeople,
     StaticChapters,
-    StaticServers,
-    Users,
     Search,
     Specials,
     Trailers,
@@ -24,7 +22,6 @@ public enum QueryType {
     StaticAudioQueueItems,
     AlbumArtists,
     AudioPlaylists,
-    ContinueWatching,
     LatestItems,
     SeriesTimer,
     Premieres

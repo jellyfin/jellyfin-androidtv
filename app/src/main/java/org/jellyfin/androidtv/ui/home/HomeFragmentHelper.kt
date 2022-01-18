@@ -1,16 +1,12 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.ListRow
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.ChangeTriggerType
-import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.apiclient.model.entities.LocationType
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
@@ -101,15 +97,6 @@ class HomeFragmentHelper(
 		}
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_on_now), query))
-	}
-
-	fun hasResumeRow(rowsAdapter: ArrayObjectAdapter): Boolean {
-		for (i in 0 until rowsAdapter.size()) {
-			val adapter = (rowsAdapter[i] as? ListRow)?.adapter as? ItemRowAdapter
-			if (adapter?.queryType == QueryType.ContinueWatching) return true
-		}
-
-		return false
 	}
 
 	companion object {
