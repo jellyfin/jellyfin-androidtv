@@ -404,4 +404,7 @@
     <string name="lbl_fit">通常</string>
     <string name="sum_enable_cinema_mode">サーバーによって有効にされていると、ムービーの再生前にイントロとプレビューを再生します</string>
     <string name="lbl_community_rating">コミュニティーの評価</string>
+    <string name="pref_subtitles">字幕</string>
+    <string name="pref_direct_stream_live_off">トランスコーディングは必要に応じて使用</string>
+    <string name="pref_direct_stream_live_on">トランスコーディングは無効です</string>
 </resources>
