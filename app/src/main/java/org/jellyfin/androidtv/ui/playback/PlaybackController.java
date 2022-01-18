@@ -1012,7 +1012,8 @@ public class PlaybackController {
         }
         // rebuild the stream for libVLC
         // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
-        if (mPlaybackMethod == PlayMethod.Transcode && (!isNativeMode() || ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) {
+        if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
+            Timber.d("Seek method - rebuilding the stream");
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
 
@@ -1051,6 +1052,7 @@ public class PlaybackController {
                 // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
                 // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
                 // if seek() is called from skip()
+                Timber.d("Seek method - native");
                 updateProgress = false;
                 mPlaybackState = PlaybackState.SEEKING;
                 if (mVideoManager.seekTo(pos) < 0) {
@@ -1341,7 +1343,7 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if (isNativeMode() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) || mPlaybackMethod != PlayMethod.Transcode) {
+                            if ((isNativeMode() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) || mPlaybackMethod != PlayMethod.Transcode) {
                                 mPlaybackState = PlaybackState.SEEKING;
                                 delayedSeek(mStartPosition);
                                 continueUpdate = false;
