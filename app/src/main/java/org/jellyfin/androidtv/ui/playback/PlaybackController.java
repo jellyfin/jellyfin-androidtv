@@ -1010,7 +1010,9 @@ public class PlaybackController {
         if (!hasInitializedVideoManager()) {
             return;
         }
-        if (mPlaybackMethod == PlayMethod.Transcode && !isNativeMode() && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
+        // rebuild the stream for libVLC
+        // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
+        if (mPlaybackMethod == PlayMethod.Transcode && (!isNativeMode() || ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) {
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
 
@@ -1339,7 +1341,7 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if (isNativeMode() || mPlaybackMethod != PlayMethod.Transcode) {
+                            if (isNativeMode() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) || mPlaybackMethod != PlayMethod.Transcode) {
                                 mPlaybackState = PlaybackState.SEEKING;
                                 delayedSeek(mStartPosition);
                                 continueUpdate = false;

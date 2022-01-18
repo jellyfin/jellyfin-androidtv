@@ -293,15 +293,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public long seekTo(long pos) {
         if (nativeMode) {
-            Long intPos = pos;
-            Timber.i("Exo length in seek is: %d", mExoPlayer.getDuration());
-            mExoPlayer.seekTo(intPos.intValue());
+            Timber.i("Exo length in seek is: %d", getDuration());
+            mExoPlayer.seekTo(pos);
             return pos;
         } else {
             if (mVlcPlayer == null || !mVlcPlayer.isSeekable()) return -1;
             mForcedTime = pos;
             mLastTime = mVlcPlayer.getTime();
-            Timber.i("VLC length in seek is: %d", mVlcPlayer.getLength());
+            Timber.i("VLC length in seek is: %d", getDuration());
             try {
                 if (getDuration() > 0) mVlcPlayer.setPosition((float) pos / getDuration());
                 else mVlcPlayer.setTime(pos);
