@@ -1065,7 +1065,7 @@ public class PlaybackController {
                 }
             });
         } else {
-            if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
+            if (!hasInitializedVideoManager() || (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer()))) {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else {
