@@ -82,7 +82,7 @@
     <string name="lbl_enter_user_name">أدخل اسم المستخدم</string>
     <string name="lbl_trailer">"الإعلان "</string>
     <string name="msg_access_restricted">الوصول مقيد في هذا الوقت</string>
-    <string name="lbl_bracket_unknown">&lt;غير معروف&gt;</string>
+    <string name="lbl_bracket_unknown">غير معروف</string>
     <string name="msg_video_playback_error">"خطأ في عرض الفيديو - "</string>
     <string name="lbl_none">لا يوجد</string>
     <string name="lbl_recordings">تسجيلات</string>
@@ -140,7 +140,7 @@
     <string name="lbl_settings">الإعدادات</string>
     <string name="chapters">الأجزاء</string>
     <string name="settings_title">الإعدادات</string>
-    <string name="pref_max_bitrate_title">أقصى سعة للبث</string>
+    <string name="pref_max_bitrate_title">أقصى معدل بت التدفق</string>
     <string name="pref_playback">العرض</string>
     <string name="byletter_letters">أ ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي</string>
     <string name="btn_cancel">إلغاء</string>
@@ -194,7 +194,7 @@
     <string name="grid_direction_horizontal">أفقي</string>
     <string name="pref_device_model">اصدار الجهاز</string>
     <string name="pref_app_theme">مظهر التطبيق</string>
-    <string name="pref_libvlc_audio_delay_title">تأخير الصوت الافتراضي ل libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">تأخير الصوت الافتراضي ل LibVLC</string>
     <string name="pref_next_up_behavior_title">إظهار معلومات الفيديو التالي</string>
     <string name="watch_now">شاهد الآن</string>
     <string name="pref_next_up_timeout_title">كم من الوقت لتشغيل التالي</string>
@@ -224,11 +224,12 @@
 \n
 \nسيتم تقديم هذه المعلومات إلى طرف ثالث (tracepot.com).
 \n
-\nيمكن تعطيل هذه المطالبة في قسم Crash Reporting في إعدادات تطبيق Jellyfin.</string>
+\nيمكن تعطيل هذه المطالبة في قسم الإبلاغ عن الأعطال في إعدادات تطبيق Jellyfin.</string>
     <string name="acra_dialog_title">أوه لا! هناك خطأ ما.</string>
     <string name="pref_acra_syslog_disabled">لن يتم تضمين سجلات النظام في تقارير الأعطال</string>
     <string name="pref_acra_syslog_enabled">سيتم تضمين سجلات النظام في تقارير الأعطال</string>
-    <string name="pref_acra_syslog">تضمين سجلات النظام في تقارير الأعطال. قد يشمل ذلك البيانات الخاصة من التطبيقات الأخرى إذا تم تسجيلها في وقت التعطل.</string>
+    <string name="pref_acra_syslog">تضمين سجلات النظام في تقارير الأعطال.
+\nقد يشمل ذلك البيانات الخاصة من التطبيقات الأخرى إذا تم تسجيلها في وقت التعطل.</string>
     <string name="pref_acra_alwaysaccept_disabled">سيتم عرض مربع حوار قبل إرسال أي تقرير عن العطل</string>
     <string name="pref_acra_alwaysaccept_enabled">سيتم إرسال تقارير الأعطال دون مطالبة</string>
     <string name="pref_acra_alwaysaccept">إرسال تقارير الأعطال دون مطالبة</string>
@@ -268,14 +269,14 @@
     <string name="lbl_all_recordings">كل التسجيلات</string>
     <string name="lbl_recent_recordings">التسجيلات الأخيرة</string>
     <string name="lbl_kids">الأطفال</string>
-    <string name="no_program_data">&lt;لا يوجد بيانات برنامج متاحة&gt;</string>
+    <string name="no_program_data">لا يوجد بيانات برنامج متاحة</string>
     <string name="msg_record_entire_series">تسجيل المسلسل بأكمله؟</string>
     <string name="lbl_just_this_once">هذه المرة فقط</string>
     <string name="lbl_select_date">اختيار التاريخ</string>
     <string name="lbl_in_x_days">في %d أيام</string>
-    <string name="lbl_show_premieres">إظهار الموسم الأول أثناء التصفح</string>
-    <string name="lbl_refresh_switching">تبديل معدل التحديث</string>
-    <string name="lbl_show_backdrop">إظهار الصور الخلفية أثناء التصفح</string>
+    <string name="lbl_show_premieres">عرض العروض الأولى للموسم</string>
+    <string name="lbl_refresh_switching">تحديث معدل التبديل</string>
+    <string name="lbl_show_backdrop">إظهار الصور الخلفية</string>
     <string name="lbl_open">فتح</string>
     <string name="lbl_play_next_up">تشغيل التالي</string>
     <string name="lbl_clear_queue">مسح قائمة الإنتظار</string>
@@ -383,7 +384,7 @@
     <string name="lbl_remove_server">حذف الخادم</string>
     <string name="lbl_sign_out_content">يستلزم تسجيل الدخول في المرة القادمة</string>
     <string name="lbl_remove_user_content">حذف الحساب</string>
-    <string name="lbl_remove_users">هاذا ايضا سيحذف جميع المستخدمين</string>
+    <string name="lbl_remove_users">سيؤدي هذا أيضًا إلى إزالة جميع الحسابات المرتبطة</string>
     <string name="login_username_field_empty">اسم المستخدم لا يمكن أن يكون فارغا</string>
     <string name="login_server_unavailable">لا يمكن الإتصال بالخادم</string>
     <string name="login_invalid_credentials">خطأ في اسم المستخدم و/أو كلمة السر</string>
@@ -400,7 +401,7 @@
     <string name="play_with">تشغيل بواسطة</string>
     <string name="play_with_external_app">تشغيل بواسطة برنامج خارجي</string>
     <string name="play_with_exo_player">تشغيل بواسطة ExoPlayer</string>
-    <string name="play_with_vlc">تشغيل بواسطة libVLC</string>
+    <string name="play_with_vlc">تشغيل بواسطة LibVLC</string>
     <string name="just_one">لهاته المرة فقط</string>
     <string name="turn_off">تعطيل هاته الخاصية</string>
     <string name="not_deleted">لم يتم حذف العنصر</string>
@@ -420,12 +421,12 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="grid_direction_vertical">عمودي (تجريبي)</string>
     <string name="grid_direction">اتجاه الشبكة</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
     <string name="lbl_sports">الرياضة</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Audio</string>
+    <string name="lbl_bitstream_dts">صوت Bitstream DTS</string>
     <string name="lbl_albums">ألبومات</string>
     <string name="msg_error_live_stream">خطأ في بث البث التلفزيوني المباشر. سأعيد المحاولة …</string>
     <string name="pref_live_tv_cat">بث تلفزيوني مباشر</string>
@@ -445,7 +446,7 @@
     <string name="image_type_thumbnail">صورة مصغرة</string>
     <string name="login_authenticating">تتم المصادقة…</string>
     <string name="server_connecting">يتم الاتصال ب %1$s</string>
-    <string name="pref_subtitles_size">حجم الترجمة</string>
+    <string name="pref_subtitles_size">حجم النص</string>
     <string name="pref_subtitles_background_summary">إظهار خلفية سوداء خلف الترجمة</string>
     <string name="pref_subtitles_background_title">تفعيل الترجمة في الخلفية</string>
     <string name="searchable_settings_description">وسائط</string>
@@ -464,4 +465,35 @@
     <string name="home_prefs">الاساسية</string>
     <string name="license_repository">مخزن</string>
     <string name="license_artifact">نتاج صنعي</string>
+    <string name="pref_direct_stream_live_on">تم تعطيل التحويل</string>
+    <string name="pref_direct_stream_live_off">يتم استخدام التحويل عند الضرورة</string>
+    <string name="pref_audio">الصوت</string>
+    <string name="pref_subtitles">ترجمات</string>
+    <string name="pref_video">فيديو</string>
+    <string name="pref_acra_description">حوار الأعطال ، التحميل التلقائي ، سجلات النظام</string>
+    <string name="pref_playback_description">فيديو ، ترجمات ، بث تلفزيوني مباشر ، التالي</string>
+    <string name="pref_customization_description">الموضوع ، المنزل ، إعادة التخطيط</string>
+    <string name="pref_login_description">الخوادم والحسابات وتسجيل الدخول التلقائي</string>
+    <string name="pref_login">تسجيل الدخول</string>
+    <string name="pref_libraries_description">تغيير طريقة عرض المكتبات</string>
+    <string name="pref_libraries">مكتبات</string>
+    <string name="pref_home_description">تكوين الأقسام المعروضة</string>
+    <string name="pref_theme">سمة</string>
+    <string name="pref_browsing">تصفح</string>
+    <string name="pref_behavior">سلوك</string>
+    <string name="pref_accounts">حسابات</string>
+    <string name="sort_accounts_by">فرز الحسابات حسب</string>
+    <string name="pref_customization">التخصيص</string>
+    <string name="server_issue_ssl_handshake">فشلت عملية تبادل الإشارات SSL</string>
+    <string name="server_issue_timeout">انتهت مدة الاتصال</string>
+    <string name="server_issue_outdated_version">يستخدم الخادم الإصدار %1$s ولكن يجب أن يكون %2$s أو أحدث</string>
+    <string name="server_issue_unsupported_version">يستخدم الخادم الإصدار %1$s وهو غير مدعوم</string>
+    <string name="server_issue_missing_version">تعذر تحديد إصدار الخادم</string>
+    <string name="server_issue_invalid_product">برنامج الخادم غير متوافق</string>
+    <string name="server_issue_unable_to_connect">غير قادر على الاتصال</string>
+    <string name="server_connection_failed_candidates">غير قادر على الاتصال بالخادم ، جرب العناوين التالية: %1$s</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_refresh_switching_description">تم تغيير معدل تحديث الشاشة لمطابقة الفيديو</string>
+    <string name="pref_show_backdrop_description">قم بتغيير صورة الخلفية إلى العناصر المحددة</string>
+    <string name="lbl_playback_speed">سرعة التشغيل</string>
 </resources>
