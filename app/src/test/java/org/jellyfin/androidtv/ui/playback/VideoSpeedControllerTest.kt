@@ -1,9 +1,6 @@
 package org.jellyfin.androidtv.ui.playback
 
-import io.mockk.justRun
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
+import io.mockk.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -28,7 +25,7 @@ class VideoSpeedControllerTest {
 
 	@Test
 	fun testControllerSpeedIsOneByDefault() {
-		val mockController = mockk<PlaybackController>()
+		val mockController = mockk<PlaybackController>(relaxed = true)
 		val slot = slot<Double>()
 		justRun { mockController.setPlaybackSpeed(capture(slot)) }
 
@@ -49,7 +46,7 @@ class VideoSpeedControllerTest {
 
 	@Test
 	fun testSetNewSpeedSetsOnManager() {
-		val mockController = mockk<PlaybackController>()
+		val mockController = mockk<PlaybackController>(relaxed = true)
 		val slot = slot<Double>()
 		justRun { mockController.setPlaybackSpeed(capture(slot)) }
 
@@ -88,7 +85,7 @@ class VideoSpeedControllerTest {
 		val speeds = VideoSpeedController.SpeedSteps.values()
 
 		speeds.forEach { newSpeed ->
-			val mockController = mockk<PlaybackController>()
+			val mockController = mockk<PlaybackController>(relaxed = true)
 			val slot = slot<Double>()
 			justRun { mockController.setPlaybackSpeed(capture(slot)) }
 
@@ -100,6 +97,43 @@ class VideoSpeedControllerTest {
 			controller.currentSpeed = newSpeed
 			lastSetSpeed = newSpeed.speed
 		}
+	}
+
+	@Test
+	fun testSpeedResetsToOneWithLiveTv() {
+		// Since handling live TV is more complex, we will simply reset the playback
+		// speed to 1 so we can't out-run the current buffer.
+
+		// Assume the user has pre-set their speed
+		VideoSpeedController(mockk(relaxed = true)).currentSpeed =
+			VideoSpeedController.SpeedSteps.SPEED_2_00
+
+		// Then they switch to live-tv
+		val mockController = mockk<PlaybackController>(relaxed = true)
+		every { mockController.isLiveTv } returns true
+		val speedController = VideoSpeedController(mockController)
+
+		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
+		verify { mockController.setPlaybackSpeed(1.0) }
+
+		// Try to set it back to other values should be ignored
+		speedController.currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
+		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
+		verify { mockController.setPlaybackSpeed(1.0) }
+	}
+
+	@Test
+	fun testSpeedChangeableOffLiveTv() {
+		val mockController = mockk<PlaybackController>(relaxed = true)
+		every { mockController.isLiveTv } returns false
+		val speedController = VideoSpeedController(mockController)
+
+		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
+		verify { mockController.setPlaybackSpeed(1.0) }
+
+		speedController.currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
+		assertEquals(VideoSpeedController.SpeedSteps.SPEED_2_00, speedController.currentSpeed)
+		verify { mockController.setPlaybackSpeed(2.0) }
 	}
 
 }
