@@ -706,7 +706,12 @@ public class PlaybackController {
         } else {
             Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_cannot_play));
         }
-
+        // give the user a second to read the error message
+        try {
+            Thread.sleep(750);
+        } catch (InterruptedException e) {
+            Timber.e(e);
+        }
         if (mFragment != null) mFragment.finish();
     }
 
