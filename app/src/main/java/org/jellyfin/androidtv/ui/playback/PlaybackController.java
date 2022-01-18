@@ -402,6 +402,9 @@ public class PlaybackController {
                 // do nothing
                 break;
             case PAUSED:
+                if (!hasInitializedVideoManager()) {
+                    return;
+                }
                 // just resume
                 mVideoManager.play();
                 if (mVideoManager.isNativeMode())
@@ -700,7 +703,11 @@ public class PlaybackController {
                     Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_restricted));
                     break;
             }
+        } else {
+            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_cannot_play));
         }
+
+        if (mFragment != null) mFragment.finish();
     }
 
     private void startItem(BaseItemDto item, long position, StreamInfo response) {
@@ -1005,7 +1012,7 @@ public class PlaybackController {
 
     public void seek(final long pos) {
         Timber.d("Seeking from %s to %d", mCurrentPosition, pos);
-        Timber.d("Container: %s", mCurrentStreamInfo.getContainer());
+        Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
 
         if (!hasInitializedVideoManager()) {
             return;
@@ -1039,7 +1046,7 @@ public class PlaybackController {
                 }
             });
         } else {
-            if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
+            if (!hasInitializedVideoManager() || (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer()))) {
                 //Exo does not support seeking in .ts
                 Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.seek_error));
             } else {
@@ -1133,7 +1140,8 @@ public class PlaybackController {
     }
 
     private long getTimeShiftedProgress() {
-        return !directStreamLiveTv ? mVideoManager.getCurrentPosition() + (mCurrentTranscodeStartTime - mCurrentProgramStartTime) : getRealTimeProgress();
+        refreshCurrentPosition();
+        return !directStreamLiveTv ? mCurrentPosition + (mCurrentTranscodeStartTime - mCurrentProgramStartTime) : getRealTimeProgress();
     }
 
     private void startReportLoop() {
@@ -1143,7 +1151,8 @@ public class PlaybackController {
             @Override
             public void run() {
                 if (isPlaying()) {
-                    long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
+                    refreshCurrentPosition();
+                    long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
 
                     ReportingHelper.reportProgress(PlaybackController.this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), currentTime * 10000, false);
                 }
@@ -1172,8 +1181,8 @@ public class PlaybackController {
                     // Playback is not paused anymore, stop reporting
                     return;
                 }
-
-                long currentTime = isLiveTv ? getTimeShiftedProgress() : mVideoManager.getCurrentPosition();
+                refreshCurrentPosition();
+                long currentTime = isLiveTv ? getTimeShiftedProgress() : mCurrentPosition;
                 if (isLiveTv && !directStreamLiveTv && mFragment != null) {
                     mFragment.setSecondaryTime(getRealTimeProgress());
                 }
@@ -1196,6 +1205,8 @@ public class PlaybackController {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
+                if (mVideoManager == null)
+                    return;
                 if (mVideoManager.getDuration() <= 0) {
                     // wait until we have valid duration
                     mHandler.postDelayed(this, 25);
