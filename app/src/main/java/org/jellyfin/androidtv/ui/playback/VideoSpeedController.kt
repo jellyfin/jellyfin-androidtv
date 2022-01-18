@@ -23,9 +23,11 @@ class VideoSpeedController(
 
 	var currentSpeed = previousSpeedSelection
 		set(value) {
-			parentController.setPlaybackSpeed(value.speed)
-			previousSpeedSelection = value
-			field = value
+			val checkedVal = if (parentController.isLiveTv) SpeedSteps.SPEED_1_00 else value
+			parentController.setPlaybackSpeed(checkedVal.speed)
+
+			previousSpeedSelection = checkedVal
+			field = checkedVal
 		}
 
 	init {
