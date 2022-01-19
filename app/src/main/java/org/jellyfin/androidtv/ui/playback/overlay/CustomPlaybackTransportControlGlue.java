@@ -98,6 +98,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     protected void onDetachedFromHost () {
         mHandler.removeCallbacks(mRefreshEndTime);
+        mHandler.removeCallbacks(mRefreshViewVisibility);
         super.onDetachedFromHost();
     }
 
