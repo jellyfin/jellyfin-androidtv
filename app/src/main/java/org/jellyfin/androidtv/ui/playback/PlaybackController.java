@@ -1343,7 +1343,11 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if ((isNativeMode() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) || mPlaybackMethod != PlayMethod.Transcode) {
+                            // handle starting streams that support seeking
+                            // use if direct-playing
+                            // use if using hls with exoplayer, which will use fMP4, so ignore if stream is the default container from the default profile
+                            // ignore if exoplayer with hls, transcoding, but is live tv
+                            if ((isNativeMode() && !isLiveTv() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) || mPlaybackMethod != PlayMethod.Transcode) {
                                 mPlaybackState = PlaybackState.SEEKING;
                                 delayedSeek(mStartPosition);
                                 continueUpdate = false;
