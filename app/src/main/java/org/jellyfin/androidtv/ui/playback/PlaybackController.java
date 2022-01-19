@@ -1031,7 +1031,10 @@ public class PlaybackController {
         if (!hasInitializedVideoManager()) {
             return;
         }
-        if (mPlaybackMethod == PlayMethod.Transcode && !isNativeMode() && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
+        // rebuild the stream for libVLC
+        // if an older device uses exoplayer to play a transcoded stream but falls back to the generic http stream instead of hls, rebuild the stream
+        if (mPlaybackMethod == PlayMethod.Transcode && ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer())) {
+            Timber.d("Seek method - rebuilding the stream");
             //mkv transcodes require re-start of stream for seek
             mVideoManager.stopPlayback();
 
@@ -1072,6 +1075,7 @@ public class PlaybackController {
                 // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
                 // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
                 // if seek() is called from skip()
+                Timber.d("Seek method - native");
                 updateProgress = false;
                 mPlaybackState = PlaybackState.SEEKING;
                 if (mVideoManager.seekTo(pos) < 0) {
@@ -1365,7 +1369,11 @@ public class PlaybackController {
                     boolean continueUpdate = true;
                     if (!spinnerOff) {
                         if (mStartPosition > 0) {
-                            if (isNativeMode() || mPlaybackMethod != PlayMethod.Transcode) {
+                            // handle starting streams that support seeking
+                            // use if direct-playing
+                            // use if using hls with exoplayer, which will use fMP4, so ignore if stream is the default container from the default profile
+                            // ignore if exoplayer with hls, transcoding, but is live tv
+                            if ((isNativeMode() && !isLiveTv() && !(ContainerTypes.MKV.equals(mCurrentStreamInfo.getContainer()))) || mPlaybackMethod != PlayMethod.Transcode) {
                                 mPlaybackState = PlaybackState.SEEKING;
                                 delayedSeek(mStartPosition);
                                 continueUpdate = false;
