@@ -531,7 +531,8 @@ public class PlaybackController {
                 }
 
                 long duration = getCurrentlyPlayingItem().getRunTimeTicks() != null ? getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
-                mVideoManager.setMetaDuration(duration);
+                if (mVideoManager != null)
+                    mVideoManager.setMetaDuration(duration);
 
                 break;
         }
@@ -553,6 +554,8 @@ public class PlaybackController {
                 playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
+                        if (mVideoManager == null)
+                            return;
                         mVideoManager.init(getBufferAmount(), false);
                         mCurrentOptions = internalOptions;
                         useVlc = false;
@@ -571,6 +574,8 @@ public class PlaybackController {
                 playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
+                        if (mVideoManager == null)
+                            return;
                         mVideoManager.init(getBufferAmount(), response.getMediaSource().getVideoStream().getIsInterlaced() && (response.getMediaSource().getVideoStream().getWidth() == null || response.getMediaSource().getVideoStream().getWidth() > 1200));
                         mCurrentOptions = vlcOptions;
                         useVlc = true;
@@ -641,6 +646,8 @@ public class PlaybackController {
                             }
 
                             Timber.i(useVlc ? "Preferring VLC" : "Will use internal player");
+                            if (mVideoManager == null)
+                                return;
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
                             if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
@@ -728,10 +735,10 @@ public class PlaybackController {
         // Force VLC when media is not live TV and the preferred player is VLC
         boolean forceVlc = !isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
 
-        if (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv))) {
+        if (mVideoManager != null && (forceVlc || (useVlc && (!getPlaybackMethod().equals(PlayMethod.Transcode) || isLiveTv)))) {
             Timber.i("Playing back in VLC.");
             mVideoManager.setNativeMode(false);
-        } else {
+        } else if (mVideoManager != null) {
             mVideoManager.setNativeMode(true);
             Timber.i("Playing back in native mode.");
             if (Utils.downMixAudio()) {
@@ -747,12 +754,12 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
-        mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
+        if (mVideoManager != null) mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 
         // when using VLC if source is stereo or we're on the Fire platform with AC3 - use most compatible output
-        if (!mVideoManager.isNativeMode() &&
+        if (mVideoManager != null && !mVideoManager.isNativeMode() &&
                 ((isLiveTv && DeviceUtils.isFireTv()) ||
                         (response.getMediaSource() != null &&
                                 response.getMediaSource().getDefaultAudioStream() != null &&
@@ -763,16 +770,18 @@ public class PlaybackController {
                                                         "truehd".equals(response.getMediaSource().getDefaultAudioStream().getCodec()))))))) {
             mVideoManager.setCompatibleAudio();
             Timber.i("Setting compatible audio mode...");
-        } else {
+        } else if (mVideoManager != null) {
             mVideoManager.setAudioMode();
         }
 
-        mVideoManager.setVideoPath(response.getMediaUrl());
-        mVideoManager.setVideoTrack(response.getMediaSource());
+        if (mVideoManager != null) {
+            mVideoManager.setVideoPath(response.getMediaUrl());
+            mVideoManager.setVideoTrack(response.getMediaSource());
+        }
 
         // save the position where the stream starts. vlc gettime() will return ms since this point, which will be
         // added to this to get actual position
-        if ((forceVlc || useVlc) && getPlaybackMethod().equals(PlayMethod.Transcode)) {
+        if (mVideoManager != null && (forceVlc || useVlc) && getPlaybackMethod().equals(PlayMethod.Transcode)) {
             mVideoManager.setMetaVLCStreamStartPosition(position);
         }
 
@@ -780,7 +789,8 @@ public class PlaybackController {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mVideoManager.start();
+                if (mVideoManager != null)
+                    mVideoManager.start();
             }
         }, 750);
 
@@ -957,7 +967,7 @@ public class PlaybackController {
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
-            if (mVideoManager.isPlaying()) mVideoManager.stopPlayback();
+            if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
             //give it a just a beat to actually stop - this keeps it from re-requesting the stream after we tell the server we've stopped
             try {
                 Thread.sleep(150);
@@ -1038,8 +1048,10 @@ public class PlaybackController {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
-                    mVideoManager.setVideoPath(response.getMediaUrl());
-                    mVideoManager.start();
+                    if (mVideoManager != null) {
+                        mVideoManager.setVideoPath(response.getMediaUrl());
+                        mVideoManager.start();
+                    }
                 }
 
                 @Override
@@ -1151,7 +1163,7 @@ public class PlaybackController {
 
     private void startReportLoop() {
         stopReportLoop();
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, false);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, false);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1171,7 +1183,7 @@ public class PlaybackController {
 
     private void startPauseReportLoop() {
         stopReportLoop();
-        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mVideoManager.getCurrentPosition() * 10000, true);
+        ReportingHelper.reportProgress(this, getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 10000, true);
         mReportLoop = new Runnable() {
             @Override
             public void run() {
@@ -1309,7 +1321,6 @@ public class PlaybackController {
         mVideoManager.setOnPreparedListener(new PlaybackListener() {
             @Override
             public void onEvent() {
-
                 if (mPlaybackState == PlaybackState.BUFFERING) {
                     if (mFragment != null) mFragment.setFadingEnabled(true);
 
