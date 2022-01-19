@@ -201,9 +201,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public long getDuration() {
         if (nativeMode) {
-            return mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
+            return isInitialized() && mExoPlayer.getDuration() > 0 ? mExoPlayer.getDuration() : mMetaDuration;
         } else {
-            return mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
+            return isInitialized() && mVlcPlayer.getLength() > 0 ? mVlcPlayer.getLength() : mMetaDuration;
         }
     }
 
@@ -293,6 +293,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public long seekTo(long pos) {
+        if (!isInitialized())
+            return -1;
         if (nativeMode) {
             Long intPos = pos;
             Timber.i("Exo length in seek is: %d", mExoPlayer.getDuration());

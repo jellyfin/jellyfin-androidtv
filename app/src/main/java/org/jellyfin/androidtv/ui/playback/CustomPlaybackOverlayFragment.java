@@ -420,7 +420,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 if (mPlaybackController.isLiveTv()) hide();
             } else if (mGuideVisible) {
                 hideGuide();
-            } else {
+            } else if (!requireActivity().isFinishing()) {
                 requireActivity().finish();
             }
         }
@@ -1365,7 +1365,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void finish() {
-        requireActivity().finish();
+        if (!requireActivity().isFinishing()) {
+            requireActivity().finish();
+        }
     }
 
     @Override
