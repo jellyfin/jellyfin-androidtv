@@ -30,6 +30,10 @@ public abstract class BaseActivity extends FragmentActivity {
         messageListener = listener;
     }
 
+    public void removeMessageListener() {
+        messageListener = null;
+    }
+
     public void sendMessage(CustomMessage message) {
         if (messageListener != null) {
             messageListener.onMessageReceived(message);

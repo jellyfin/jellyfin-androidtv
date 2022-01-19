@@ -244,9 +244,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        if (videoManager != null)
-            videoManager.destroy();
     }
 
     @Override
@@ -670,9 +667,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPlaybackController != null && mPlaybackController.hasFragment()) {
-            mPlaybackController.removePreviousQueueItems();
-        }
     }
 
     @Override
@@ -689,7 +683,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     public void onStop() {
         super.onStop();
         Timber.d("Stopping!");
-        mPlaybackController.endPlayback();
+
+        if (leanbackOverlayFragment != null)
+            leanbackOverlayFragment.setOnKeyInterceptListener(null);
+        if (backPressedCallback != null) {
+            backPressedCallback.remove();
+            backPressedCallback = null;
+        }
+
+        if (mPlaybackController != null) {
+            mPlaybackController.endPlayback();
+            mPlaybackController.removePreviousQueueItems();
+        }
+        if (videoManager != null)
+            videoManager.destroy();
+
+        ((PlaybackOverlayActivity) requireActivity()).removeMessageListener();
+        ((PlaybackOverlayActivity) requireActivity()).setKeyListener(null);
+
         if (!requireActivity().isFinishing()) {
             // in case the app is suspended/stopped, eg: by pressing the home button, end the playback session.
             requireActivity().finish();
