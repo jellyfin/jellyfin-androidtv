@@ -17,12 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.text.TextOutput;
@@ -60,7 +60,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
-    private SimpleExoPlayer mExoPlayer;
+    private ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private AspectRatioFrameLayout mAspectRatioFrameLayout;
     private LibVLC mLibVLC;
@@ -98,7 +98,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
-        mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
+        mExoPlayer = new ExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
             @Override
             protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
                 // Do not add text renderers since we handle subtitles
