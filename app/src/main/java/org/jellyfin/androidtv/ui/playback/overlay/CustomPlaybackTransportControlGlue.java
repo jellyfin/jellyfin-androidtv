@@ -60,9 +60,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private GuideAction guideAction;
     private RecordAction recordAction;
 
-    private final VideoPlayerAdapter playerAdapter;
     private final PlaybackController playbackController;
-    private final LeanbackOverlayFragment leanbackOverlayFragment;
     private ArrayObjectAdapter primaryActionsAdapter;
     private ArrayObjectAdapter secondaryActionsAdapter;
 
@@ -75,11 +73,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private LinearLayout mButtonRef;
 
-    CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
+    CustomPlaybackTransportControlGlue(Context context, VideoPlayerAdapter playerAdapter, PlaybackController playbackController) {
         super(context, playerAdapter);
-        this.playerAdapter = playerAdapter;
         this.playbackController = playbackController;
-        this.leanbackOverlayFragment = leanbackOverlayFragment;
 
         mRefreshEndTime = () -> {
             if (!isPlaying()) {
@@ -97,6 +93,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         };
 
         initActions(context);
+    }
+
+    @Override
+    protected void onDetachedFromHost() {
+        mHandler.removeCallbacks(mRefreshEndTime);
+        mHandler.removeCallbacks(mRefreshViewVisibility);
+        super.onDetachedFromHost();
     }
 
     @Override
@@ -283,41 +286,41 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     public void onCustomActionClicked(Action action, View view) {
         // Handle custom action clicks which require a popup menu
         if (action == selectAudioAction) {
-            leanbackOverlayFragment.setFading(false);
-            selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == closedCaptionsAction) {
-            leanbackOverlayFragment.setFading(false);
-            closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == playbackSpeedAction) {
-            leanbackOverlayFragment.setFading(false);
-            playbackSpeedAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            playbackSpeedAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == adjustAudioDelayAction) {
-            leanbackOverlayFragment.setFading(false);
-            adjustAudioDelayAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            adjustAudioDelayAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == zoomAction) {
-            leanbackOverlayFragment.setFading(false);
-            zoomAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), view);
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            zoomAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == chapterAction) {
-            leanbackOverlayFragment.hideOverlay();
-            playerAdapter.getMasterOverlayFragment().showChapterSelector();
+            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
+            getPlayerAdapter().getMasterOverlayFragment().showChapterSelector();
         } else if (action == previousLiveTvChannelAction) {
-            playerAdapter.getMasterOverlayFragment().switchChannel(TvManager.getPrevLiveTvChannel());
+            getPlayerAdapter().getMasterOverlayFragment().switchChannel(TvManager.getPrevLiveTvChannel());
         } else if (action == channelBarChannelAction) {
-            leanbackOverlayFragment.hideOverlay();
-            playerAdapter.getMasterOverlayFragment().showQuickChannelChanger();
+            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
+            getPlayerAdapter().getMasterOverlayFragment().showQuickChannelChanger();
         } else if (action == guideAction) {
-            leanbackOverlayFragment.hideOverlay();
-            playerAdapter.getMasterOverlayFragment().showGuide();
+            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
+            getPlayerAdapter().getMasterOverlayFragment().showGuide();
         } else if (action == recordAction) {
-            playerAdapter.toggleRecording();
+            getPlayerAdapter().toggleRecording();
             // Icon will be updated via callback recordingStateChanged
         }
     }
 
     private void setEndTime() {
-        if (mEndsText == null || playerAdapter.getDuration() < 1)
+        if (mEndsText == null || getPlayerAdapter().getDuration() < 1)
             return;
-        long msLeft = playerAdapter.getDuration() - playerAdapter.getCurrentPosition();
+        long msLeft = getPlayerAdapter().getDuration() - getPlayerAdapter().getCurrentPosition();
         Calendar ends = Calendar.getInstance();
         ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
         mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(ends.getTime())));
@@ -341,35 +344,35 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     private boolean hasSubs() {
-        return playerAdapter.hasSubs();
+        return getPlayerAdapter().hasSubs();
     }
 
     private boolean hasMultiAudio() {
-        return playerAdapter.hasMultiAudio();
+        return getPlayerAdapter().hasMultiAudio();
     }
 
     private boolean hasNextItem() {
-        return playerAdapter.hasNextItem();
+        return getPlayerAdapter().hasNextItem();
     }
 
     private boolean isNativeMode() {
-        return playerAdapter.isNativeMode();
+        return getPlayerAdapter().isNativeMode();
     }
 
     private boolean canSeek() {
-        return playerAdapter.canSeek();
+        return getPlayerAdapter().canSeek();
     }
 
     private boolean isLiveTv() {
-        return playerAdapter.isLiveTv();
+        return getPlayerAdapter().isLiveTv();
     }
 
     private boolean canRecordLiveTv() {
-        return playerAdapter.canRecordLiveTv();
+        return getPlayerAdapter().canRecordLiveTv();
     }
 
     private boolean hasChapters() {
-        return playerAdapter.hasChapters();
+        return getPlayerAdapter().hasChapters();
     }
 
     void invalidatePlaybackControls() {
@@ -379,7 +382,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     void recordingStateChanged() {
-        if (playerAdapter.isRecording()) {
+        if (getPlayerAdapter().isRecording()) {
             recordAction.setIndex(RecordAction.INDEX_RECORDING);
         } else {
             recordAction.setIndex(RecordAction.INDEX_INACTIVE);
@@ -410,10 +413,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
-            closedCaptionsAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
+            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
         }
         if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
-            selectAudioAction.handleClickAction(playbackController, leanbackOverlayFragment, getContext(), v);
+            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
     }

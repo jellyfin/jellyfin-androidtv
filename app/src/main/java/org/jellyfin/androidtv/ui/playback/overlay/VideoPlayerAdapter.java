@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.DeviceUtils;
@@ -16,9 +17,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     private final PlaybackController playbackController;
     private CustomPlaybackOverlayFragment customPlaybackOverlayFragment;
+    private LeanbackOverlayFragment leanbackOverlayFragment;
 
-    VideoPlayerAdapter(PlaybackController playbackController) {
+    VideoPlayerAdapter(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment) {
         this.playbackController = playbackController;
+        this.leanbackOverlayFragment = leanbackOverlayFragment;
     }
 
     @Override
@@ -117,6 +120,16 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     CustomPlaybackOverlayFragment getMasterOverlayFragment() {
         return customPlaybackOverlayFragment;
+    }
+
+    LeanbackOverlayFragment getLeanbackOverlayFragment() {
+        return leanbackOverlayFragment;
+    }
+
+    @Override
+    public void onDetachedFromHost() {
+        customPlaybackOverlayFragment = null;
+        leanbackOverlayFragment = null;
     }
 
     boolean canRecordLiveTv() {
