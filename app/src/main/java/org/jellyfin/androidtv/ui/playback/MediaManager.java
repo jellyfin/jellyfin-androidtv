@@ -13,9 +13,9 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -70,7 +70,7 @@ public class MediaManager {
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
-    private SimpleExoPlayer mExoPlayer;
+    private ExoPlayer mExoPlayer;
     private AudioManager mAudioManager;
     private boolean audioInitialized = false;
     private boolean nativeMode = false;
@@ -263,7 +263,7 @@ public class MediaManager {
             if (DeviceUtils.is60()) {
                 Timber.i("creating audio player using: exoplayer");
                 nativeMode = true;
-                mExoPlayer = new SimpleExoPlayer.Builder(TvApp.getApplication()).build();
+                mExoPlayer = new ExoPlayer.Builder(TvApp.getApplication()).build();
                 mExoPlayer.addListener(new Player.EventListener() {
                     @Override
                     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
