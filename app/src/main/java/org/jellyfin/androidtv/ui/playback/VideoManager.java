@@ -97,13 +97,16 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
-        mExoPlayer = new ExoPlayer.Builder(TvApp.getApplication(), new DefaultRenderersFactory(TvApp.getApplication()) {
-            @Override
-            protected void buildTextRenderers(Context context, TextOutput output, Looper outputLooper, int extensionRendererMode, ArrayList<Renderer> out) {
-                // Do not add text renderers since we handle subtitles
-            }
-        }).build();
-
+        DefaultRenderersFactory defaultRendererFactory =
+                new DefaultRenderersFactory(TvApp.getApplication()) {
+                    @Override
+                    protected void buildTextRenderers(Context context, TextOutput output,
+                                                      Looper outputLooper, int extensionRendererMode,
+                                                      ArrayList<Renderer> out) {
+                        // Do not add text renderers since we handle subtitles
+                    }
+                }.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+        mExoPlayer = new ExoPlayer.Builder(activity.getApplicationContext(), defaultRendererFactory).build();
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
