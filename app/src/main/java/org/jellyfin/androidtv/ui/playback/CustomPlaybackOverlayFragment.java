@@ -242,11 +242,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
@@ -662,11 +657,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
             return;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
