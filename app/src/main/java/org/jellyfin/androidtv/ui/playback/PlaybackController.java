@@ -753,7 +753,9 @@ public class PlaybackController {
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
-        if (mVideoManager != null) mVideoManager.setPlaybackSpeed(mRequestedPlaybackSpeed);
+
+        // set playback speed to user selection, or 1 if we're watching live-tv
+        if (mVideoManager != null) mVideoManager.setPlaybackSpeed(isLiveTv() ? 1.0 : mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 
