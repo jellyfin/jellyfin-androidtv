@@ -138,6 +138,10 @@ public class PlaybackController {
         return mFragment != null;
     }
 
+    public IPlaybackOverlayFragment getFragment() {
+        return mFragment;
+    }
+
     public void init(VideoManager mgr, IPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mFragment = fragment;
@@ -984,6 +988,9 @@ public class PlaybackController {
 
     public void endPlayback() {
         stop();
+        removePreviousQueueItems();
+        if (mVideoManager != null)
+            mVideoManager.destroy();
         mFragment = null;
         mVideoManager = null;
     }
@@ -1269,9 +1276,7 @@ public class PlaybackController {
     }
 
     private void itemComplete() {
-        mPlaybackState = PlaybackState.IDLE;
-        stopReportLoop();
-        ReportingHelper.reportStopped(getCurrentlyPlayingItem(), getCurrentStreamInfo(), mCurrentPosition * 1000);
+        stop();
         vlcErrorEncountered = false;
         exoErrorEncountered = false;
 
@@ -1286,7 +1291,9 @@ public class PlaybackController {
                 // Show "Next Up" fragment
                 spinnerOff = false;
                 mediaManager.getValue().setCurrentVideoQueue(mItems);
+                mediaManager.getValue().setVideoQueueModified(true);
                 if (mFragment != null) mFragment.showNextUp(nextItem.getId());
+                endPlayback();
             } else {
                 mCurrentIndex++;
                 play(0);

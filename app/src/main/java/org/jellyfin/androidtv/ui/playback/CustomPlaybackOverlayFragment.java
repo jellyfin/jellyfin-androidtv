@@ -142,7 +142,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     private boolean mPopupPanelVisible = false;
 
     private LeanbackOverlayFragment leanbackOverlayFragment;
-    private VideoManager videoManager = null;
 
     // Subtitle fields
     private static final int SUBTITLE_PADDING = 8;
@@ -236,8 +235,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
         super.onViewCreated(view, savedInstanceState);
 
         if (TvApp.getApplication().getPlaybackController() != null) {
-            videoManager = new VideoManager(((PlaybackOverlayActivity) requireActivity()), view);
-            TvApp.getApplication().getPlaybackController().init(videoManager, this);
+            TvApp.getApplication().getPlaybackController().init(new VideoManager(((PlaybackOverlayActivity) requireActivity()), view), this);
         }
     }
 
@@ -681,15 +679,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
             backPressedCallback = null;
         }
 
-        if (mPlaybackController != null) {
-            mPlaybackController.endPlayback();
-            mPlaybackController.removePreviousQueueItems();
-        }
-        if (videoManager != null)
-            videoManager.destroy();
-
         ((PlaybackOverlayActivity) requireActivity()).removeMessageListener();
         ((PlaybackOverlayActivity) requireActivity()).setKeyListener(null);
+
+        // end playback from here if this fragment belongs to the current session.
+        // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
+        if (mPlaybackController != null && mPlaybackController.getFragment() == this) {
+            Timber.d("this fragment belongs to the current session, ending it");
+            mPlaybackController.endPlayback();
+        }
 
         if (!requireActivity().isFinishing()) {
             // in case the app is suspended/stopped, eg: by pressing the home button, end the playback session.
@@ -1373,14 +1371,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
 
     @Override
     public void showNextUp(String id) {
-        // Set to "modified" so the queue won't be cleared
-        mediaManager.getValue().setVideoQueueModified(true);
-
         Intent intent = new Intent(getActivity(), NextUpActivity.class);
         intent.putExtra(NextUpActivity.EXTRA_ID, id);
         startActivity(intent);
-        mPlaybackController.clearFragment();
-        mPlaybackController.removePreviousQueueItems();
         finish();
     }
 
