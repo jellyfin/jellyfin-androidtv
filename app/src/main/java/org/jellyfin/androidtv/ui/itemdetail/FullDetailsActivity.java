@@ -269,8 +269,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                             playButton.requestFocus();
                                         }
                                         showMoreButtonIfNeeded();
-                                    } else if (playButton != null && playButton.isVisible()) {
-                                        playButton.requestFocus();
                                     }
                                     updatePlayedDate();
                                     updateWatched();
