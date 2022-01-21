@@ -265,6 +265,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                                         }
                                         if (resumeVisible) {
                                             mResumeButton.requestFocus();
+                                        } else if (playButton != null && playButton.isVisible()) {
+                                            playButton.requestFocus();
                                         }
                                         showMoreButtonIfNeeded();
                                     }
