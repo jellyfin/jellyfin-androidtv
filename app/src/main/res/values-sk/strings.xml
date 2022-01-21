@@ -188,7 +188,7 @@
     <string name="desc_premieres">Zobraziť riadok nových pilotných epizód pre každý seriál, ktorý pozeráte</string>
     <string name="lbl_show_premieres">Zobraziť premiéry sérií seriálov počas prechádzania</string>
     <string name="lbl_refresh_switching">Prepínanie obnovovacej frekvencie</string>
-    <string name="lbl_show_backdrop">Zobraziť pozadie počas prechádzania</string>
+    <string name="lbl_show_backdrop">Zobraziť pozadia</string>
     <string name="lbl_open">Otvoriť</string>
     <string name="lbl_play_next_up">Prehrať nasledujúcu</string>
     <string name="lbl_clear_queue">Vymazať frontu</string>
@@ -220,7 +220,7 @@
     <string name="msg_items_added">" položky pridané"</string>
     <string name="lbl_warning">Varovanie</string>
     <string name="lbl_playlists">Playlist</string>
-    <string name="sum_enable_cinema_mode">Zobraziť intrá a ukážky pred prehratím filmu, pokiaľ je to povolené na serveri</string>
+    <string name="sum_enable_cinema_mode">Prehrať dostupné intrá a ukážky pred začatím filmu</string>
     <string name="lbl_enable_cinema_mode">Kino režim</string>
     <string name="lbl_episodes">Epizódy</string>
     <string name="lbl_album">Album</string>
