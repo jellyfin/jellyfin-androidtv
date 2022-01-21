@@ -989,7 +989,8 @@ public class PlaybackController {
     public void endPlayback() {
         stop();
         removePreviousQueueItems();
-        mVideoManager.destroy();
+        if (mVideoManager != null)
+            mVideoManager.destroy();
         mFragment = null;
         mVideoManager = null;
     }
