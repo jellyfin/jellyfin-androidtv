@@ -98,7 +98,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         DefaultRenderersFactory defaultRendererFactory =
-                new DefaultRenderersFactory(TvApp.getApplication()) {
+                new DefaultRenderersFactory(activity) {
                     @Override
                     protected void buildTextRenderers(Context context, TextOutput output,
                                                       Looper outputLooper, int extensionRendererMode,
@@ -106,8 +106,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                         // Do not add text renderers since we handle subtitles
                     }
                 }.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
-        mExoPlayer = new ExoPlayer.Builder(activity.getApplicationContext(), defaultRendererFactory).build();
-
+        mExoPlayer = new ExoPlayer.Builder(activity, defaultRendererFactory).build();
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
