@@ -76,10 +76,8 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.entities.PersonType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -97,8 +95,6 @@ import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 import org.koin.java.KoinJavaComponent;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -428,7 +424,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             switch (item.getBaseItemType()) {
                 case Person:
                 case MusicArtist:
-                    mDetailsOverviewRow.setSummarySubTitle("");
                     break;
                 default:
 
@@ -468,46 +463,6 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         .submit()
                         .get();
                 mDetailsOverviewRow.setImageBitmap(mActivity, poster);
-
-                //Studio image
-                int height = Utils.convertDpToPixel(mActivity, 40);
-                int width = Utils.convertDpToPixel(mActivity, 100);
-                if (item.getStudios() != null && item.getStudios().length > 0 && item.getStudios()[0].getHasPrimaryImage()) {
-                    String studioImageUrl = ImageUtils.getPrimaryImageUrl(item.getStudios()[0], apiClient.getValue(), height);
-                    if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(
-                            mActivity,
-                            Glide.with(mActivity)
-                                    .asBitmap()
-                                    .load(studioImageUrl)
-                                    .override(width, height)
-                                    .centerInside()
-                                    .submit()
-                                    .get()
-                    );
-                } else {
-                    if (item.getSeriesStudio() != null) {
-                        String studioImageUrl = null;
-                        try {
-                            ImageOptions options = new ImageOptions();
-                            options.setMaxHeight(height);
-                            options.setImageType(ImageType.Primary);
-                            studioImageUrl =apiClient.getValue().GetStudioImageUrl(URLEncoder.encode(item.getSeriesStudio(), "utf-8"), options);
-                        } catch (UnsupportedEncodingException e) {
-                            Timber.e(e, "Unsupported encoding");
-                        }
-                        if (studioImageUrl != null) mDetailsOverviewRow.setStudioBitmap(
-                                mActivity,
-                                Glide.with(mActivity)
-                                        .asBitmap()
-                                        .load(studioImageUrl)
-                                        .override(width, height)
-                                        .centerInside()
-                                        .submit()
-                                        .get()
-                        );
-
-                    }
-                }
             } catch (ExecutionException | InterruptedException e) {
                 Timber.e(e, "Error loading image");
             }
