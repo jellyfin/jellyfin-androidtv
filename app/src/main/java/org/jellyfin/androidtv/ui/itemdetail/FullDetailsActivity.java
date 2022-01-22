@@ -1341,7 +1341,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         more.getMenu().getItem(0).setVisible(true);
                         more.getMenu().getItem(1).setVisible(false);
                     }
-                } else if (favButton != null) {
+                } else {
                     more.getMenu().getItem(0).setVisible(false);
                     more.getMenu().getItem(1).setVisible(false);
                 }
