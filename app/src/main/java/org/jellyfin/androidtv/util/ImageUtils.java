@@ -12,7 +12,6 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
-import org.jellyfin.apiclient.model.dto.StudioDto;
 import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
@@ -60,14 +59,6 @@ public class ImageUtils {
         options.setMaxHeight(maxHeight);
         options.setImageType(ImageType.Primary);
         return apiClient.GetPersonImageUrl(item, options);
-    }
-
-    public static String getPrimaryImageUrl(StudioDto studio, ApiClient apiClient, int maxHeight) {
-        ImageOptions options = new ImageOptions();
-        options.setTag(studio.getPrimaryImageTag());
-        options.setMaxHeight(maxHeight);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetImageUrl(studio.getId(), options);
     }
 
     public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {

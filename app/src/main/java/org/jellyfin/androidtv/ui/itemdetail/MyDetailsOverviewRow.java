@@ -7,23 +7,18 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.IntRange;
 import androidx.leanback.widget.Row;
-import android.view.View;
 
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.TextUnderButton;
+import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-
 public class MyDetailsOverviewRow extends Row {
     private BaseItemDto mItem;
     private Drawable mImageDrawable;
-    private Drawable mStudioDrawable;
     private String mSummary;
-    private String mSummaryTitle;
-    private String mSummarySubTitle;
     private int mProgress;
     private InfoItem mInfoItem1;
     private InfoItem mInfoItem2;
@@ -53,22 +48,6 @@ public class MyDetailsOverviewRow extends Row {
         return mProgress;
     }
 
-    public String getSummaryTitle() {
-        return mSummaryTitle;
-    }
-
-    public void setSummaryTitle(String mSummaryTitle) {
-        this.mSummaryTitle = mSummaryTitle;
-    }
-
-    public String getSummarySubTitle() {
-        return mSummarySubTitle;
-    }
-
-    public void setSummarySubTitle(String mSummarySubTitle) {
-        this.mSummarySubTitle = mSummarySubTitle;
-    }
-
     public List<TextUnderButton> getActions() { return mActions; }
     public int getVisibleActions() {
         int actions = 0;
@@ -80,22 +59,11 @@ public class MyDetailsOverviewRow extends Row {
 
     public BaseItemDto getItem() { return mItem; }
     public Drawable getImageDrawable() { return mImageDrawable; }
-    public Drawable getStudioDrawable() { return mStudioDrawable; }
 
-    public void setImageDrawable(Drawable drawable) { mImageDrawable = drawable; }
     public void setImageBitmap(Context context, Bitmap bm) { mImageDrawable = new BitmapDrawable(context.getResources(), bm); }
-    public void setStudioBitmap(Context context, Bitmap bm) { mStudioDrawable = new BitmapDrawable(context.getResources(), bm); }
 
     public void addAction(TextUnderButton button) {
         mActions.add(button);
-    }
-
-    public void addAction(int ndx, TextUnderButton button) {
-        mActions.add(ndx, button);
-    }
-
-    public void hideAction(TextUnderButton button) {
-        button.setVisibility(View.GONE);
     }
 
     public InfoItem getInfoItem1() {
