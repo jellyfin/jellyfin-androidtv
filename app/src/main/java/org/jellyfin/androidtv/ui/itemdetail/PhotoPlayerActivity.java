@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
@@ -68,6 +69,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
     Handler handler;
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -335,7 +337,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (target == prevImage) isLoadingPrev = true;
 
             Glide.with(this)
-                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
+                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight, apiClient.getValue()))
                     .override(displayWidth, displayHeight)
                     .centerInside()
                     .error(R.drawable.tile_land_photo)

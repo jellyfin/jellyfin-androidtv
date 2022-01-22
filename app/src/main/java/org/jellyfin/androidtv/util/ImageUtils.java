@@ -16,7 +16,6 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,7 +68,7 @@ public class ImageUtils {
         return apiClient.GetUserImageUrl(item, options);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, int width, int height) {
+    public static String getPrimaryImageUrl(BaseItemDto item, int width, int height, ApiClient apiClient) {
         if (!item.getHasPrimaryImage()) {
             return null;
         }
@@ -78,7 +77,7 @@ public class ImageUtils {
         options.setMaxWidth(width);
         options.setMaxHeight(height);
         options.setImageType(ImageType.Primary);
-        return KoinJavaComponent.<ApiClient>get(ApiClient.class).GetImageUrl(item, options);
+        return apiClient.GetImageUrl(item, options);
     }
 
     public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
