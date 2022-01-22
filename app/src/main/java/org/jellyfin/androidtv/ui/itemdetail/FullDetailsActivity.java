@@ -813,6 +813,21 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 //        }
     }
 
+    private void playTrailers() {
+        apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+            @Override
+            public void onResponse(BaseItemDto[] response) {
+                play(response, 0, false);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error retrieving trailers for playback");
+                Utils.showToast(mActivity, R.string.msg_video_playback_error);
+            }
+        });
+    }
+
     private String getRunTime() {
         Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
         return runtime != null && runtime > 0 ? (int) Math.ceil((double) runtime / 600000000) + getString(R.string.lbl_min) : "";
@@ -901,11 +916,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     private TextUnderButton favButton = null;
+    private TextUnderButton shuffleButton = null;
     private TextUnderButton goToSeriesButton = null;
     private TextUnderButton queueButton = null;
     private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
     private TextUnderButton playButton = null;
+    private TextUnderButton trailerButton = null;
 
     private void addButtons(int buttonSize) {
         String buttonLabel;
@@ -995,13 +1012,13 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 }
 
                 if (mBaseItem.getIsFolderItem() || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
-                    TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                    shuffleButton = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             play(mBaseItem, 0, true);
                         }
                     });
-                    mDetailsOverviewRow.addAction(shuffle);
+                    mDetailsOverviewRow.addAction(shuffleButton);
                 }
 
                 if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
@@ -1034,26 +1051,14 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
 
         if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
-            TextUnderButton trailer = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
+            trailerButton = new TextUnderButton(this, R.drawable.ic_trailer, buttonSize, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
-                        @Override
-                        public void onResponse(BaseItemDto[] response) {
-                            play(response, 0, false);
-                        }
-
-                        @Override
-                        public void onError(Exception exception) {
-                            Timber.e(exception, "Error retrieving trailers for playback");
-                            Utils.showToast(mActivity, R.string.msg_video_playback_error);
-                        }
-                    });
-
+                    playTrailers();
                 }
             });
 
-            mDetailsOverviewRow.addAction(trailer);
+            mDetailsOverviewRow.addAction(trailerButton);
         }
 
         if (mProgramInfo != null && TvApp.getApplication().canManageRecordings()) {
@@ -1327,7 +1332,8 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 PopupMenu more = new PopupMenu(mActivity, v);
                 more.inflate(R.menu.menu_details_more);
                 more.setOnMenuItemClickListener(moreMenuListener);
-                if (favButton != null) {
+
+                if (favButton != null && !favButton.isVisible()) {
                     if (mBaseItem.getUserData().getIsFavorite()) {
                         more.getMenu().getItem(0).setVisible(false);
                         more.getMenu().getItem(1).setVisible(true);
@@ -1335,21 +1341,39 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                         more.getMenu().getItem(0).setVisible(true);
                         more.getMenu().getItem(1).setVisible(false);
                     }
-                } else {
+                } else if (favButton != null) {
                     more.getMenu().getItem(0).setVisible(false);
                     more.getMenu().getItem(1).setVisible(false);
                 }
 
-                if (queueButton == null) {
+                if (trailerButton == null || trailerButton.isVisible()) {
                     more.getMenu().getItem(2).setVisible(false);
+                } else if (trailerButton != null) {
+                    more.getMenu().getItem(2).setVisible(true);
                 }
 
-                if (goToSeriesButton == null) {
+                if (goToSeriesButton == null || goToSeriesButton.isVisible()) {
                     more.getMenu().getItem(3).setVisible(false);
+                } else if (goToSeriesButton != null) {
+                    more.getMenu().getItem(3).setVisible(true);
                 }
 
-                if (deleteButton == null) {
+                if (shuffleButton == null || shuffleButton.isVisible()) {
                     more.getMenu().getItem(4).setVisible(false);
+                } else if (shuffleButton != null){
+                    more.getMenu().getItem(4).setVisible(true);
+                }
+
+                if (queueButton == null || queueButton.isVisible()) {
+                    more.getMenu().getItem(5).setVisible(false);
+                } else if (queueButton != null) {
+                    more.getMenu().getItem(5).setVisible(true);
+                }
+
+                if (deleteButton == null || deleteButton.isVisible()) {
+                    more.getMenu().getItem(6).setVisible(false);
+                } else if (deleteButton != null) {
+                    more.getMenu().getItem(6).setVisible(true);
                 }
 
                 more.show();
@@ -1391,38 +1415,36 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     int collapsedOptions = 0 ;
 
     private void showMoreButtonIfNeeded() {
-        int visibleOptions = mDetailsOverviewRow.getVisibleActions() + (moreButton.isVisible() ? collapsedOptions - 1 : 0);
+        int visibleOptions = mDetailsOverviewRow.getVisibleActions();
 
-        if (visibleOptions > 5) {
+        List<TextUnderButton> actionsList = new ArrayList<>();
+        // added in order of priority
+        if (trailerButton != null) actionsList.add(trailerButton);
+        if (favButton != null) actionsList.add(favButton);
+        if (goToSeriesButton != null) actionsList.add(goToSeriesButton);
+        if (shuffleButton != null) actionsList.add(shuffleButton);
+        if (queueButton != null) actionsList.add(queueButton);
+        if (deleteButton != null) actionsList.add(deleteButton);
 
-            if (favButton != null) {
-                favButton.setVisibility(View.GONE);
+        // reverse the list so the less important actions are hidden first
+        Collections.reverse(actionsList);
+
+        collapsedOptions = 0;
+        for (TextUnderButton action : actionsList) {
+            if (visibleOptions - (action.isVisible() ? 1 : 0) + (!moreButton.isVisible() && collapsedOptions > 0 ? 1 : 0) < 5) {
+                if (!action.isVisible()) {
+                    action.setVisibility(View.VISIBLE);
+                    visibleOptions++;
+                }
+            } else {
+                if (action.isVisible()) {
+                    action.setVisibility(View.GONE);
+                    visibleOptions--;
+                }
                 collapsedOptions++;
             }
-            if (queueButton != null) {
-                queueButton.setVisibility(View.GONE);
-                collapsedOptions++;
-            }
-            if (goToSeriesButton != null) {
-                goToSeriesButton.setVisibility(View.GONE);
-                collapsedOptions++;
-            }
-            if (deleteButton != null) {
-                deleteButton.setVisibility(View.GONE);
-                collapsedOptions++;
-            }
-
-            moreButton.setVisibility(View.VISIBLE);
-        } else {
-            collapsedOptions = 0;
-            if (favButton != null) favButton.setVisibility(View.VISIBLE);
-            if (queueButton != null) queueButton.setVisibility(View.VISIBLE);
-            if (goToSeriesButton != null) goToSeriesButton.setVisibility(View.VISIBLE);
-            if (deleteButton != null) deleteButton.setVisibility(View.VISIBLE);
-
-            moreButton.setVisibility(View.GONE);
-
         }
+        moreButton.setVisibility(collapsedOptions > 0 ? View.VISIBLE : View.GONE);
     }
 
     PopupMenu.OnMenuItemClickListener moreMenuListener = new PopupMenu.OnMenuItemClickListener() {
@@ -1433,11 +1455,16 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
                 case R.id.remFav:
                     toggleFavorite();
                     return true;
-                case R.id.addQueue:
-                    addItemToQueue();
-                    return true;
+                case R.id.playTrailers:
+                    playTrailers();
                 case R.id.gotoSeries:
                     gotoSeries();
+                    return true;
+                case R.id.shuffleAll:
+                    play(mBaseItem, 0, true);
+                    return true;
+                case R.id.addQueue:
+                    addItemToQueue();
                     return true;
                 case R.id.delete:
                     deleteItem();
