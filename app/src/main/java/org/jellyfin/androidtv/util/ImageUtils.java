@@ -56,19 +56,19 @@ public class ImageUtils {
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
     }
 
-    public static String getPrimaryImageUrl(@NonNull BaseItemPerson item, @Nullable ApiClient apiClient, @Nullable int maxHeight) {
+    public static String getPrimaryImageUrl(@NonNull BaseItemPerson item, @Nullable int maxHeight) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), maxHeight);
     }
 
-    public static String getPrimaryImageUrl(@NonNull UserDto item, @Nullable ApiClient apiClient) {
+    public static String getPrimaryImageUrl(@NonNull UserDto item) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item);
     }
 
-    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @NonNull int width, @NonNull int height, @Nullable ApiClient apiClient) {
+    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @NonNull int width, @NonNull int height) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), width, height);
     }
 
-    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @Nullable ApiClient apiClient) {
+    public static String getPrimaryImageUrl(@NonNull BaseItemDto item) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), null, MAX_PRIMARY_IMAGE_HEIGHT);
     }
 
@@ -83,13 +83,13 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item, options);
     }
 
-    public static String getImageUrl(@NonNull String itemId, @NonNull ImageType imageType, @NonNull String imageTag, @Nullable ApiClient apiClient) {
+    public static String getImageUrl(@NonNull String itemId, @NonNull ImageType imageType, @NonNull String imageTag) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
     public static String getBannerImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasBanner()) {
-            return getPrimaryImageUrl(context, item, apiClient, false, maxHeight);
+            return getPrimaryImageUrl(context, item, false, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -112,7 +112,7 @@ public class ImageUtils {
 
     public static String getThumbImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasThumb()) {
-            return getPrimaryImageUrl(context, item, apiClient, true, maxHeight);
+            return getPrimaryImageUrl(context, item, true, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -121,7 +121,7 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getPrimaryImageUrl(@NonNull Context context, @NonNull BaseItemDto item, @Nullable ApiClient apiClient, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
+    public static String getPrimaryImageUrl(@NonNull Context context, @NonNull BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
         if (item.getBaseItemType() == BaseItemType.SeriesTimer) {
             return getResourceUrl(context, R.drawable.tile_land_series_timer);
         }
@@ -129,7 +129,7 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), preferParentThumb, maxHeight);
     }
 
-    public static String getLogoImageUrl(@Nullable BaseItemDto item, @Nullable ApiClient apiClient, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {
+    public static String getLogoImageUrl(@Nullable BaseItemDto item, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getLogoImageUrl(ModelCompat.asSdk(item), maxWidth, useSeriesFallback);
     }
 

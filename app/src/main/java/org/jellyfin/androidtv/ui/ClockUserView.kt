@@ -40,7 +40,7 @@ class ClockUserView @JvmOverloads constructor(
 		if (currentUser != null && !isInEditMode) {
 			if (currentUser.primaryImageTag != null) {
 				Glide.with(context)
-					.load(ImageUtils.getPrimaryImageUrl(currentUser, get()))
+					.load(ImageUtils.getPrimaryImageUrl(currentUser))
 					.placeholder(R.drawable.ic_user)
 					.centerInside()
 					.circleCrop()

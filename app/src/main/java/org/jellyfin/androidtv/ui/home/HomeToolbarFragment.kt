@@ -20,19 +20,17 @@ import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.search.SearchActivity
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.apiclient.interaction.ApiClient
 import org.koin.android.ext.android.inject
 
 class HomeToolbarFragment : Fragment() {
 	private lateinit var binding: FragmentToolbarHomeBinding
-	private val apiClient: ApiClient by inject()
 	private val sessionRepository: SessionRepository by inject()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentToolbarHomeBinding.inflate(inflater, container, false)
 
 		TvApp.getApplication()!!.currentUserLiveData.observe(viewLifecycleOwner) { currentUser ->
-			val image = currentUser?.let { ImageUtils.getPrimaryImageUrl(it, apiClient) }
+			val image = currentUser?.let { ImageUtils.getPrimaryImageUrl(it) }
 			setUserImage(image)
 		}
 

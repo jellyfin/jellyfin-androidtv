@@ -337,7 +337,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (target == prevImage) isLoadingPrev = true;
 
             Glide.with(this)
-                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight, apiClient.getValue()))
+                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .override(displayWidth, displayHeight)
                     .centerInside()
                     .error(R.drawable.tile_land_photo)

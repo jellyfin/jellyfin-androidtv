@@ -246,11 +246,11 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return ImageUtils.getPrimaryImageUrl(context, baseItem, apiClient.getValue(), preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(context, baseItem, preferParentThumb, maxHeight);
             case Person:
-                return ImageUtils.getPrimaryImageUrl(person, apiClient.getValue(), maxHeight);
+                return ImageUtils.getPrimaryImageUrl(person, maxHeight);
             case User:
-                return ImageUtils.getPrimaryImageUrl(user, apiClient.getValue());
+                return ImageUtils.getPrimaryImageUrl(user);
             case Chapter:
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
@@ -263,9 +263,9 @@ public class BaseRowItem {
                 return ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer);
             case SearchHint:
                 if (Utils.isNonEmpty(searchHint.getPrimaryImageTag())) {
-                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag(), apiClient.getValue());
+                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag());
                 } else if (Utils.isNonEmpty(searchHint.getThumbImageItemId())) {
-                    return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag(), apiClient.getValue());
+                    return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag());
                 }
         }
         return null;

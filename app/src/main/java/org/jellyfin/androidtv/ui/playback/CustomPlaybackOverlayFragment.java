@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +46,10 @@ import com.bumptech.glide.request.target.Target;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
@@ -70,7 +69,6 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -1298,7 +1296,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
                 binding.itemTitle.setText(current.getName());
             }
             // Update the logo
-            String imageUrl = ImageUtils.getLogoImageUrl(current, apiClient.getValue(), 440, false);
+            String imageUrl = ImageUtils.getLogoImageUrl(current, 440, false);
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);

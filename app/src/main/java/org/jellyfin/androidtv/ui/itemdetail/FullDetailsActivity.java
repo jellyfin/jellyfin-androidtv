@@ -413,9 +413,9 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(item);
 
-            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, apiClient.getValue(), 600, true);
+            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
-                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mActivity, mBaseItem, apiClient.getValue(), false, posterHeight);
+                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mActivity, mBaseItem, false, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }

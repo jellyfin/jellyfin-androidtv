@@ -491,7 +491,7 @@ public class ItemListActivity extends FragmentActivity {
                 int posterWidth = (int)((aspect) * posterHeight);
                 if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
 
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, apiClient.getValue(), false, posterHeight);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, false, posterHeight);
 
 
                 Glide.with(this)

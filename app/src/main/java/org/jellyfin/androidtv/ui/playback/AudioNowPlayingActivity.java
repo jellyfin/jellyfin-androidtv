@@ -42,7 +42,6 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.ArrayList;
@@ -98,7 +97,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private long lastUserInteraction;
     private boolean ssActive;
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
@@ -423,7 +421,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         if (posterHeight < 10)
             posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, apiClient.getValue(), false, posterHeight);
+        String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
         Glide.with(mActivity)
                 .load(primaryImageUrl)
