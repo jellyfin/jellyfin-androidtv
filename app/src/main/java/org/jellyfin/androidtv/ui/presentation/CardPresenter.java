@@ -41,7 +41,7 @@ import java.util.HashMap;
 import timber.log.Timber;
 
 public class CardPresenter extends Presenter {
-    private static final double ASPECT_RATIO_BANNER = 5.414;
+    private static final double ASPECT_RATIO_BANNER = 434 / 79;
 
     private int mStaticHeight = 300;
     private ImageType mImageType = ImageType.DEFAULT;
@@ -136,7 +136,8 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
-                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT))
+                                aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
                             //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
@@ -186,12 +187,14 @@ public class CardPresenter extends Presenter {
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT))
+                                aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT)) aspect = ImageUtils.ASPECT_RATIO_2_3;
+                            if (imageType.equals(ImageType.DEFAULT))
+                                aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                     }
                     cardHeight = !m.isStaticHeight() ? (aspect > 1 ? lHeight : pHeight) : sHeight;
@@ -346,24 +349,24 @@ public class CardPresenter extends Presenter {
             try {
                 if (url == null) {
                     Glide.with(mCardView.getContext())
-                        .load(mDefaultCardImage)
-                        .into(mCardView.getMainImageView());
+                            .load(mDefaultCardImage)
+                            .into(mCardView.getMainImageView());
                 } else {
                     BlurHashUtils.createBlurHashDrawable(
-                        lifecycleOwner,
-                        blurHash,
-                        (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
-                        (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
-                        bitmap -> {
-                            Glide.with(mCardView.getContext())
-                                .load(url)
-                                .error(mDefaultCardImage)
-                                .thumbnail(Glide.with(mCardView.getContext()).load(bitmap != null ? bitmap : mDefaultCardImage).centerCrop())
-                                .transition(DrawableTransitionOptions.withCrossFade(200))
-                                .into(mCardView.getMainImageView());
+                            lifecycleOwner,
+                            blurHash,
+                            (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
+                            (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
+                            bitmap -> {
+                                Glide.with(mCardView.getContext())
+                                        .load(url)
+                                        .error(mDefaultCardImage)
+                                        .thumbnail(Glide.with(mCardView.getContext()).load(bitmap != null ? bitmap : mDefaultCardImage).centerCrop())
+                                        .transition(DrawableTransitionOptions.withCrossFade(200))
+                                        .into(mCardView.getMainImageView());
 
-                            return null;
-                        }
+                                return null;
+                            }
                     );
                 }
             } catch (IllegalArgumentException e) {

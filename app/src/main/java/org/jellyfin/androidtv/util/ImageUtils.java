@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import androidx.annotation.AnyRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
@@ -16,15 +19,16 @@ import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class ImageUtils {
-    public static final double ASPECT_RATIO_2_3 = .66667;
-    public static final double ASPECT_RATIO_16_9 = 1.779;
-    public static final double ASPECT_RATIO_7_9 = .777777777;
+    public static final double ASPECT_RATIO_2_3 = 2.0 / 3.0;
+    public static final double ASPECT_RATIO_16_9 = 16.0 / 9.0;
+    public static final double ASPECT_RATIO_7_9 = 7.0 / 9.0;
 
     public static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
 
@@ -52,43 +56,20 @@ public class ImageUtils {
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
     }
 
-    public static String getPrimaryImageUrl(BaseItemPerson item, ApiClient apiClient, int maxHeight) {
-        ImageOptions options = new ImageOptions();
-        options.setTag(item.getPrimaryImageTag());
-        options.setMaxHeight(maxHeight);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetPersonImageUrl(item, options);
+    public static String getPrimaryImageUrl(@NonNull BaseItemPerson item, @Nullable ApiClient apiClient, @Nullable int maxHeight) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), maxHeight);
     }
 
-    public static String getPrimaryImageUrl(UserDto item, ApiClient apiClient) {
-        ImageOptions options = new ImageOptions();
-        options.setTag(item.getPrimaryImageTag());
-        options.setMaxHeight(MAX_PRIMARY_IMAGE_HEIGHT);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetUserImageUrl(item, options);
+    public static String getPrimaryImageUrl(@NonNull UserDto item, @Nullable ApiClient apiClient) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, int width, int height, ApiClient apiClient) {
-        if (!item.getHasPrimaryImage()) {
-            return null;
-        }
-        ImageOptions options = new ImageOptions();
-        options.setTag(item.getImageTags().get(ImageType.Primary));
-        options.setMaxWidth(width);
-        options.setMaxHeight(height);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetImageUrl(item, options);
+    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @NonNull int width, @NonNull int height, @Nullable ApiClient apiClient) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), width, height);
     }
 
-    public static String getPrimaryImageUrl(BaseItemDto item, ApiClient apiClient) {
-        if (!item.getHasPrimaryImage()) {
-            return null;
-        }
-        ImageOptions options = new ImageOptions();
-        options.setTag(item.getImageTags().get(ImageType.Primary));
-        options.setMaxHeight(MAX_PRIMARY_IMAGE_HEIGHT);
-        options.setImageType(ImageType.Primary);
-        return apiClient.GetImageUrl(item, options);
+    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @Nullable ApiClient apiClient) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), null, MAX_PRIMARY_IMAGE_HEIGHT);
     }
 
     public static String getPrimaryImageUrl(ChannelInfoDto item, ApiClient apiClient) {
@@ -102,12 +83,8 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item, options);
     }
 
-    public static String getImageUrl(String itemId, ImageType imageType, String imageTag, ApiClient apiClient) {
-        ImageOptions options = new ImageOptions();
-        options.setMaxHeight(MAX_PRIMARY_IMAGE_HEIGHT);
-        options.setImageType(imageType);
-        options.setTag(imageTag);
-        return apiClient.GetImageUrl(itemId, options);
+    public static String getImageUrl(@NonNull String itemId, @NonNull ImageType imageType, @NonNull String imageTag, @Nullable ApiClient apiClient) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
     public static String getBannerImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
@@ -144,96 +121,16 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getPrimaryImageUrl(Context context, BaseItemDto item, ApiClient apiClient, boolean preferParentThumb, int maxHeight) {
-        return getPrimaryImageUrl(context, item, apiClient, false, preferParentThumb, false, maxHeight);
-    }
-
-    public static String getPrimaryImageUrl(Context context, BaseItemDto item, ApiClient apiClient, boolean showProgress, boolean preferParentThumb, boolean preferSeriesPoster, int maxHeight) {
+    public static String getPrimaryImageUrl(@NonNull Context context, @NonNull BaseItemDto item, @Nullable ApiClient apiClient, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
         if (item.getBaseItemType() == BaseItemType.SeriesTimer) {
             return getResourceUrl(context, R.drawable.tile_land_series_timer);
         }
 
-        ImageOptions options = new ImageOptions();
-        String itemId = item.getId();
-        String imageTag = item.getImageTags() != null ? item.getImageTags().get(ImageType.Primary) : null;
-        ImageType imageType = ImageType.Primary;
-
-        if (preferSeriesPoster && item.getBaseItemType() == BaseItemType.Episode) {
-            if (item.getSeasonId() != null) {
-                imageTag = null;
-                itemId = item.getSeasonId();
-            } else if (item.getSeriesPrimaryImageTag() != null && item.getSeriesId() != null) {
-                imageTag = item.getSeriesPrimaryImageTag();
-                itemId = item.getSeriesId();
-            }
-        } else if (preferParentThumb || (item.getBaseItemType() == BaseItemType.Episode && imageTag == null)) {
-            //try for thumb of season or series
-            if (item.getParentThumbImageTag() != null) {
-                imageTag = item.getParentThumbImageTag();
-                itemId = item.getParentThumbItemId();
-                imageType = ImageType.Thumb;
-            } else if (item.getSeriesThumbImageTag() != null) {
-                imageTag = item.getSeriesThumbImageTag();
-                itemId = item.getSeriesId();
-                imageType = ImageType.Thumb;
-            }
-        } else {
-            if (item.getBaseItemType() == BaseItemType.Season && imageTag == null) {
-                imageTag = item.getSeriesPrimaryImageTag();
-                itemId = item.getSeriesId();
-            } else if (item.getBaseItemType() == BaseItemType.Program && item.getHasThumb()) {
-                imageTag = item.getImageTags().get(ImageType.Thumb);
-                imageType = ImageType.Thumb;
-            }
-        }
-
-        if (item.getBaseItemType() == BaseItemType.Audio && !item.getHasPrimaryImage()) {
-            //Try the album or artist
-            if (item.getAlbumId() != null && item.getAlbumPrimaryImageTag() != null) {
-                imageTag = item.getAlbumPrimaryImageTag();
-                itemId = item.getAlbumId();
-                imageType = ImageType.Primary;
-            } else if (item.getAlbumArtists() != null && item.getAlbumArtists().size() > 0) {
-                itemId = item.getAlbumArtists().get(0).getId();
-                imageTag = null;
-            }
-        }
-        options.setMaxHeight(maxHeight);
-        options.setImageType(imageType);
-        options.setTag(imageTag);
-
-        UserItemDataDto userData = item.getUserData();
-        if (userData != null) {
-            if (showProgress && PROGRESS_INDICATOR_TYPES.contains(item.getBaseItemType()) &&
-                    userData.getPlayedPercentage() != null &&
-                    userData.getPlayedPercentage() > 0 &&
-                    userData.getPlayedPercentage() < 99) {
-                Double pct = userData.getPlayedPercentage();
-                options.setPercentPlayed(pct.intValue());
-            }
-        }
-
-        return apiClient.GetImageUrl(itemId, options);
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), preferParentThumb, maxHeight);
     }
 
-    public static String getLogoImageUrl(BaseItemDto item, ApiClient apiClient, int maxWidth, boolean useSeriesFallback) {
-        if (item != null) {
-            ImageOptions options = new ImageOptions();
-            options.setMaxWidth(maxWidth);
-            options.setImageType(ImageType.Logo);
-            if (item.getHasLogo()) {
-                options.setTag(item.getImageTags().get(ImageType.Logo));
-                return apiClient.GetImageUrl(item, options);
-            } else if (item.getParentLogoImageTag() != null) {
-                options.setTag(item.getParentLogoImageTag());
-                return apiClient.GetImageUrl(item.getParentLogoItemId(), options);
-            } else if (useSeriesFallback && item.getSeriesId() != null) {
-                options.setTag(null);
-                return apiClient.GetImageUrl(item.getSeriesId(), options);
-            }
-        }
-
-        return null;
+    public static String getLogoImageUrl(@Nullable BaseItemDto item, @Nullable ApiClient apiClient, @NonNull int maxWidth, @NonNull boolean useSeriesFallback) {
+        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getLogoImageUrl(ModelCompat.asSdk(item), maxWidth, useSeriesFallback);
     }
 
     /**
