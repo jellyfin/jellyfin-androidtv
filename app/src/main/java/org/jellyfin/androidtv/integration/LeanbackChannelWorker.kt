@@ -143,7 +143,7 @@ class LeanbackChannelWorker(
 		// Add new items
 		val items = response.items
 			.orEmpty()
-			.filter { userViewsRepository.isSupported(it.collectionType.orEmpty()) }
+			.filter { userViewsRepository.isSupported(it.collectionType) }
 			.map { item ->
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
 					api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()
