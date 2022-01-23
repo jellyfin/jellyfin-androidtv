@@ -1,4 +1,4 @@
-name: Issue Stale Check
+name: Issue stale check
 
 on:
   schedule:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   stale:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/stale@v4.1.0
         with:
