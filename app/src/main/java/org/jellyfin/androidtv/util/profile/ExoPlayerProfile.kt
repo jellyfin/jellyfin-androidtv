@@ -77,60 +77,25 @@ class ExoPlayerProfile(
 						CodecTypes.MPEG2VIDEO
 					).joinToString(",")
 
-					audioCodec = if (Utils.downMixAudio()) {
-						arrayOf(
-							CodecTypes.AAC,
-							CodecTypes.MP3,
-							CodecTypes.MP2
-						).joinToString(",")
-					} else {
-						listOfNotNull(
-							CodecTypes.AAC_LATM,
-							CodecTypes.MP3,
-							CodecTypes.MP2,
-
-							// Exoplayer FFMPEG extensions:
-							CodecTypes.AAC,
-							CodecTypes.ALAC,
-							CodecTypes.AC3,
-							CodecTypes.EAC3,
-							CodecTypes.DCA,
-							CodecTypes.DTS,
-							CodecTypes.OPUS,
-							CodecTypes.MLP,
-							CodecTypes.TRUEHD,
-							CodecTypes.PCM_ALAW,
-							CodecTypes.PCM_MULAW,
-						).joinToString(",")
-					}
+					audioCodec =
+						if (Utils.downMixAudio())
+							getDownmixSupportedAudioCodecs().joinToString(",")
+						else
+							getAllSupportedAudioCodecs().joinToString(",")
 				})
 			}
 			// Audio direct play
 			add(audioDirectPlayProfile(
-				CodecTypes.MP3,
+				*getAllSupportedAudioCodecs(),
 				CodecTypes.MPA,
 				CodecTypes.FLAC,
 				CodecTypes.WAV,
 				CodecTypes.WMA,
-				CodecTypes.MP2,
 				ContainerTypes.OGG,
 				ContainerTypes.OGA,
 				ContainerTypes.WEBMA,
 				CodecTypes.APE,
 				CodecTypes.OPUS,
-
-				// Built into the Exoplayer FFMPEG extensions:
-				// https://github.com/jellyfin/jellyfin-exoplayer-ffmpeg-extension/build.sh#L18
-				CodecTypes.ALAC,
-				CodecTypes.AAC,
-				CodecTypes.AC3,
-				CodecTypes.EAC3,
-				CodecTypes.DCA,
-				CodecTypes.DTS,
-				CodecTypes.MLP,
-				CodecTypes.TRUEHD,
-				CodecTypes.PCM_ALAW,
-				CodecTypes.PCM_MULAW,
 			))
 			// Photo direct play
 			add(photoDirectPlayProfile)
@@ -211,5 +176,33 @@ class ExoPlayerProfile(
 			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("idx", SubtitleDeliveryMethod.Embed)
 		)
+	}
+
+	companion object {
+		fun getDownmixSupportedAudioCodecs(): Array<String> =
+			arrayOf(
+				CodecTypes.AAC,
+				CodecTypes.MP3,
+				CodecTypes.MP2
+			)
+
+		/**
+		 * Returns all audio codecs used commonly in video containers.
+		 * This does not include containers / codecs found in audio files
+		 */
+		fun getAllSupportedAudioCodecs(): Array<String> =
+			getDownmixSupportedAudioCodecs() +
+					arrayOf(
+						CodecTypes.AAC_LATM,
+						CodecTypes.ALAC,
+						CodecTypes.AC3,
+						CodecTypes.EAC3,
+						CodecTypes.DCA,
+						CodecTypes.DTS,
+						CodecTypes.MLP,
+						CodecTypes.TRUEHD,
+						CodecTypes.PCM_ALAW,
+						CodecTypes.PCM_MULAW,
+					)
 	}
 }
