@@ -85,22 +85,28 @@ class ExoPlayerProfile(
 						).joinToString(",")
 					} else {
 						listOfNotNull(
-							CodecTypes.AAC,
-							CodecTypes.AC3,
-							CodecTypes.EAC3,
 							CodecTypes.AAC_LATM,
 							CodecTypes.MP3,
 							CodecTypes.MP2,
+
+							// Exoplayer FFMPEG extensions:
+							CodecTypes.AAC,
+							CodecTypes.ALAC,
+							CodecTypes.AC3,
+							CodecTypes.EAC3,
 							CodecTypes.DCA,
 							CodecTypes.DTS,
 							CodecTypes.OPUS,
+							CodecTypes.MLP,
+							CodecTypes.TRUEHD,
+							CodecTypes.PCM_ALAW,
+							CodecTypes.PCM_MULAW,
 						).joinToString(",")
 					}
 				})
 			}
 			// Audio direct play
 			add(audioDirectPlayProfile(
-				CodecTypes.AAC,
 				CodecTypes.MP3,
 				CodecTypes.MPA,
 				CodecTypes.FLAC,
@@ -111,7 +117,20 @@ class ExoPlayerProfile(
 				ContainerTypes.OGA,
 				ContainerTypes.WEBMA,
 				CodecTypes.APE,
-				CodecTypes.OPUS
+				CodecTypes.OPUS,
+
+				// Built into the Exoplayer FFMPEG extensions:
+				// https://github.com/jellyfin/jellyfin-exoplayer-ffmpeg-extension/build.sh#L18
+				CodecTypes.ALAC,
+				CodecTypes.AAC,
+				CodecTypes.AC3,
+				CodecTypes.EAC3,
+				CodecTypes.DCA,
+				CodecTypes.DTS,
+				CodecTypes.MLP,
+				CodecTypes.TRUEHD,
+				CodecTypes.PCM_ALAW,
+				CodecTypes.PCM_MULAW,
 			))
 			// Photo direct play
 			add(photoDirectPlayProfile)
