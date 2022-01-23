@@ -23,7 +23,7 @@ class LibrariesPreferencesScreen : OptionsFragment() {
 
 		category {
 			userViewsRepository.views.value.orEmpty().forEach {
-				val allowViewSelection = userViewsRepository.allowViewSelection(it.collectionType.orEmpty())
+				val allowViewSelection = userViewsRepository.allowViewSelection(it.collectionType)
 
 				link {
 					title = it.name

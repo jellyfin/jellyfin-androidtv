@@ -10,8 +10,8 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 interface UserViewsRepository {
 	val views: LiveData<Collection<BaseItemDto>>
 
-	fun isSupported(collectionType: String): Boolean
-	fun allowViewSelection(collectionType: String): Boolean
+	fun isSupported(collectionType: String?): Boolean
+	fun allowViewSelection(collectionType: String?): Boolean
 }
 
 class UserViewsRepositoryImpl(
@@ -21,12 +21,12 @@ class UserViewsRepositoryImpl(
 		val views by api.userViewsApi.getUserViews()
 		val filteredViews = views.items
 			.orEmpty()
-			.filter { isSupported(it.collectionType.orEmpty()) }
+			.filter { isSupported(it.collectionType) }
 		emit(filteredViews)
 	}
 
-	override fun isSupported(collectionType: String) = collectionType !in unsupportedCollectionTypes
-	override fun allowViewSelection(collectionType: String) = collectionType != CollectionType.Music
+	override fun isSupported(collectionType: String?) = collectionType !in unsupportedCollectionTypes
+	override fun allowViewSelection(collectionType: String?) = collectionType != CollectionType.Music
 
 	private companion object {
 		private val unsupportedCollectionTypes = arrayOf(
