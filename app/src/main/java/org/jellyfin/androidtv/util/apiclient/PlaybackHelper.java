@@ -135,7 +135,7 @@ public class PlaybackHelper {
                 query.setMediaTypes(new String[]{"Audio"});
                 query.setSortBy(shuffle ?
                         new String[] {ItemSortBy.Random} :
-                            mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.SortName,ItemSortBy.Album} :
+                            mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
                                 new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
@@ -260,18 +260,19 @@ public class PlaybackHelper {
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
+        boolean shuffleQuery = item.getBaseItemType() == BaseItemType.MusicAlbum || item.getBaseItemType() == BaseItemType.MusicAlbum || item.getBaseItemType() == BaseItemType.Audio ? false : shuffle;
 
-        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffleQuery, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 switch (item.getBaseItemType()) {
                     case MusicAlbum:
                     case MusicArtist:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response);
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response, shuffle);
                         break;
                     case Playlist:
                         if ("Audio".equals(item.getMediaType())) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response);
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response, shuffle);
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
@@ -342,7 +343,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(Arrays.asList(response));
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(Arrays.asList(response), false);
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }
