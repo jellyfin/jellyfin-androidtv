@@ -133,7 +133,7 @@ public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onBrowseCommand(ApiClient client, BrowseRequest command) {
         Timber.d("Browse command received");
-        if (command.getItemId() == null || command.getItemId().equals("")) return;
+        if (Utils.isEmpty(command.getItemId())) return;
 
         mainThreadHandler.post(() -> {
             if (TvApp.getApplication().getCurrentActivity() == null ||
