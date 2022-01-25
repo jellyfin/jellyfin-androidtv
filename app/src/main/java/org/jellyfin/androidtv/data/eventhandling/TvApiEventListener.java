@@ -140,13 +140,17 @@ public class TvApiEventListener extends ApiEventListener {
                 Timber.i("Command ignored due to no activity or playback in progress");
                 return;
             }
-            client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
-                @Override
-                public void onResponse(BaseItemDto response) {
-                    //Create a rowItem and pass to our handler
-                    ItemLauncher.launch(new BaseRowItem(0, response), null, -1, TvApp.getApplication().getCurrentActivity(), true);
-                }
-            });
+            try {
+                client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                    @Override
+                    public void onResponse(BaseItemDto response) {
+                        //Create a rowItem and pass to our handler
+                        ItemLauncher.launch(new BaseRowItem(0, response), null, -1, TvApp.getApplication().getCurrentActivity(), true);
+                    }
+                });
+            } catch (IllegalArgumentException e) {
+                Timber.i("invalid BrowseRequest command");
+            }
         });
     }
 
