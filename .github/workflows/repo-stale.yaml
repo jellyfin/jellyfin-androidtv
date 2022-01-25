@@ -2,7 +2,7 @@ name: Issue stale check
 
 on:
   schedule:
-    - cron: '30 1 * * *'
+    - cron: '30 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -12,6 +12,7 @@ permissions:
 jobs:
   stale:
     runs-on: ubuntu-20.04
+    if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
       - uses: actions/stale@v4.1.0
         with:
