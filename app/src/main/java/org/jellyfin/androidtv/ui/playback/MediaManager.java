@@ -116,9 +116,9 @@ public class MediaManager {
     public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
-    public int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+    public int getCurrentAudioQueuePosition() { return hasAudioQueueItems() && mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; }
     public long getCurrentAudioPosition() { return mCurrentAudioPosition; }
-    public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition >=0 ? mCurrentAudioQueuePosition+1 : 1); }
+    public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(getCurrentAudioQueuePosition() + 1); }
     public String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
     public BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
@@ -152,12 +152,12 @@ public class MediaManager {
             if (mManagedAudioQueue != null) {
                 //re-create existing one
                 mManagedAudioQueue.clear();
-                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     mManagedAudioQueue.add(mCurrentAudioQueue.get(i));
                 }
             } else {
                 List<BaseItemDto> managedItems = new ArrayList<>();
-                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
                 }
                 mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);

@@ -95,6 +95,8 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
 
+    private boolean queueRowHasFocus = false;
+
     private long lastUserInteraction;
     private boolean ssActive;
 
@@ -361,7 +363,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 // new item started
                 loadItem();
                 updateButtons(true);
-                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
             } else {
                 updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
                 if (newState == PlaybackController.PlaybackState.IDLE && !mediaManager.getValue().hasNextAudioItem())
@@ -372,6 +373,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
         @Override
         public void onProgress(long pos) {
             setCurrentTime(pos);
+            if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
+                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            }
         }
 
         @Override
@@ -402,15 +406,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 // when the playback control buttons lose focus, the only other focusable object is the queue row.
                 // Scroll to the bottom of the scrollView
                 mScrollView.smoothScrollTo(0, mScrollView.getHeight() - 1);
+                queueRowHasFocus = true;
                 return;
             }
-
+            queueRowHasFocus = false;
             //scroll so entire main area is in view
             mScrollView.smoothScrollTo(0, 0);
-            if (mediaManager.getValue().hasAudioQueueItems()) {
-                //also re-position queue to current in case they scrolled around
-                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-            }
         }
     };
 
@@ -473,7 +474,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                     mAlbumButton.setEnabled(mBaseItem.getAlbumId() != null);
                     mArtistButton.setEnabled(mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0);
                 }
-
             }
         });
     }
