@@ -19,8 +19,8 @@ public class CodecTypes {
     public static final String PCM = "pcm";
     public static final String PCM_ALAW = "pcm_alaw";
     public static final String PCM_MULAW = "pcm_mulaw";
-    public static final String PCM_S16LE = "PCM_S16LE";
-    public static final String PCM_S24LE = "PCM_S24LE";
+    public static final String PCM_S16LE = "pcm_s16le";
+    public static final String PCM_S24LE = "pcm_s24le";
     public static final String TRUEHD = "truehd";
     public static final String VORBIS = "vorbis";
     public static final String WAV = "wav";
