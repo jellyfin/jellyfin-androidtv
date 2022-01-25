@@ -61,12 +61,12 @@
     <string name="lbl_recordings">Aufnahmen</string>
     <string name="lbl_none">Keiner</string>
     <string name="msg_video_playback_error">"Video Wiedergabefehler - "</string>
-    <string name="lbl_bracket_unknown">&lt;Unbekannt&gt;</string>
+    <string name="lbl_bracket_unknown">Unbekannt</string>
     <string name="msg_access_restricted">Zugriff derzeit beschränkt</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Starte Trailer</string>
-    <string name="lbl_enter_user_name">Benutzername eingeben</string>
-    <string name="lbl_enter_user_pw">Benutzer Passwort eingeben</string>
+    <string name="lbl_enter_user_name">Benutzernamen eingeben</string>
+    <string name="lbl_enter_user_pw">Passwort eingeben</string>
     <string name="lbl_no">Nein</string>
     <string name="lbl_yes">Ja</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 oder https://meinserver.com</string>
@@ -83,7 +83,7 @@
     <string name="msg_cannot_play">Dieser Eintrag kann nicht abgespielt werden</string>
     <string name="lbl_no_items">Keine Einträge</string>
     <string name="lbl_empty">Leer</string>
-    <string name="lbl_tv_queuing">Alle untergeordneten Episoden in die Warteschlange einreihen</string>
+    <string name="lbl_tv_queuing">Alle nachfolgenden Episoden in die Warteschlange einreihen</string>
     <string name="sum_tv_queuing">Füge den Rest der Staffeln der Warteschlange hinzu, wenn eine Episode abgespielt wird</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
     <string name="lbl_play_first_unwatched">Starte Erste ungesehen</string>
@@ -115,7 +115,7 @@
     <string name="msg_cancel_entire_series">Möchten Sie die komplette Serie wirklich abbrechen\?</string>
     <string name="msg_remote_already_playing">Ferngesteuerte Wiedergabe ignoriert. Bitte stoppen Sie die aktuelle Wiedergabe.</string>
     <string name="pref_audio_direct">Direkt</string>
-    <string name="pref_audio_compat">Downmix zu Stereo</string>
+    <string name="pref_audio_compat">Heruntermischen zu Stereo</string>
     <string name="lbl_audio_output">Audio-Ausgabe</string>
     <string name="lbl_goto_series">Gehe zu Serien</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
@@ -155,7 +155,7 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Episoden</string>
     <string name="lbl_enable_cinema_mode">Kino-Modus</string>
-    <string name="sum_enable_cinema_mode">Zeige Intros und Vorschauen vor dem Hauptfilm, wenn auf dem Server aktiviert</string>
+    <string name="sum_enable_cinema_mode">Zeige Intros und Vorschauen vor dem Film</string>
     <string name="lbl_playlists">Wiedergabelisten</string>
     <string name="msg_items_added">" Elemente hinzugefügt"</string>
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
@@ -173,7 +173,7 @@
     <string name="lbl_save_as_playlist">Als Wiedergabeliste speichern</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
-    <string name="lbl_enable_seasonal_themes">Aktiviere Saison Themes</string>
+    <string name="lbl_enable_seasonal_themes">Aktiviere Saisonale Themes</string>
     <string name="desc_seasonal_themes">Zeige besondere Farben und Empfehlungen zu bestimmten Jahreszeiten</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoriten- und Lieblingssongs</string>
     <string name="lbl_new_premieres">Neue Premieren</string>
@@ -186,9 +186,9 @@
     <string name="lbl_clear_queue">Warteschlange leeren</string>
     <string name="lbl_play_next_up">Als Nächstes abspielen</string>
     <string name="lbl_open">Öffnen</string>
-    <string name="lbl_show_backdrop">Zeige Hintergrund während des Durchsuchens</string>
-    <string name="lbl_refresh_switching">Aktualisierungsrate umschalten</string>
-    <string name="lbl_show_premieres">Zeige Staffel-Premieren während des Durchsuchens</string>
+    <string name="lbl_show_backdrop">Hintergründe anzeigen</string>
+    <string name="lbl_refresh_switching">Umschaltung der Bildwiederholfrequenz</string>
+    <string name="lbl_show_premieres">Zeige Staffel-Premieren</string>
     <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die Sie sehen</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
@@ -225,7 +225,7 @@
     <string name="lbl_recent_recordings">Kürzliche Aufnahmen</string>
     <string name="lbl_kids">Kinder</string>
     <string name="lbl_sports">Sport</string>
-    <string name="no_program_data">&lt;Keine Programmdaten verfügbar&gt;</string>
+    <string name="no_program_data">Keine Programmdaten verfügbar</string>
     <string name="msg_record_entire_series">Vollständige Serie aufnehmen\?</string>
     <string name="lbl_just_this_once">Nur diesmal</string>
     <string name="lbl_select_date">Datum auswählen</string>
@@ -257,31 +257,32 @@
     <string name="pref_acra_disabled">Absturzberichte werden nicht gesendet</string>
     <string name="pref_acra_category">Absturzberichte</string>
     <string name="pref_video_player_external">Externe App</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch auswählen</string>
-    <string name="pref_acra_syslog">Füge System-Logs zu den Absturzberichten hinzu. Dies könnte vertrauliche Daten anderer Apps enthalten, sofern diese zur gleichen Zeit aufgenommen wurden.</string>
-    <string name="acra_dialog_text">Möchten Sie einen Absturzbericht an die Entwickler senden\? 
-\n 
-\nDiese Information wird an einen Drittanbieter übergeben (tracepot.com). 
-\n 
+    <string name="pref_acra_syslog">Füge System-Logs zu den Absturzberichten hinzu.
+\nDies könnte vertrauliche Daten anderer Apps enthalten, sofern diese zur gleichen Zeit aufgenommen wurden.</string>
+    <string name="acra_dialog_text">Möchten Sie einen Absturzbericht an die Entwickler senden\?
+\n
+\nDiese Information wird an einen Drittanbieter übergeben (tracepot.com).
+\n
 \nDiese Abfrage kann in der Absturzbericht-Sektion in den Jellyfin-App-Einstellungen deaktiviert werden.</string>
     <string name="acra_dialog_title">Oh nein! Etwas ist schiefgelaufen.</string>
     <string name="pref_acra_syslog_disabled">System-Logs werden den Absturzberichten nicht hinzugefügt</string>
     <string name="pref_acra_syslog_enabled">System-Logs werden den Absturzberichten hinzugefügt</string>
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
-    <string name="pref_acra_alwaysaccept">Sende Absturzberichte ohne Aufforderung</string>
+    <string name="pref_acra_alwaysaccept">Sende ohne Aufforderung</string>
     <string name="pref_acra_enabled">Sie werden aufgefordert, einen Absturzbericht zu senden</string>
     <string name="pref_enable_acra">Absturzmeldungen an die Entwickler senden</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>
     <string name="watch_now">Jetzt anschauen</string>
-    <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für libVLC</string>
-    <string name="pref_next_up_timeout_title">Dauer des Timers für automatische Wiedergabe</string>
+    <string name="pref_libvlc_audio_delay_title">Standard Audio-Verzögerung für LibVLC</string>
+    <string name="pref_next_up_timeout_title">Dauer des Timers für die automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>
-    <string name="pref_app_theme">Thema</string>
+    <string name="pref_app_theme">App-Thema</string>
     <string name="pref_theme_emerald">Smaragd klassisch</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
     <string name="grid_direction_vertical">Vertikal (experimentell)</string>
@@ -331,7 +332,7 @@
     <string name="play_with">Abspielen mit</string>
     <string name="play_with_external_app">Mit externer App abspielen</string>
     <string name="play_with_exo_player">Mit ExoPlayer abspielen</string>
-    <string name="play_with_vlc">Mit libVLC abspielen</string>
+    <string name="play_with_vlc">Mit LibVLC abspielen</string>
     <string name="pref_video_player_choose">Immer fragen</string>
     <string name="lbl_subtitle_track">Untertitelspur auswählen</string>
     <string name="lbl_audio_track">Audiospur auswählen</string>
@@ -351,7 +352,7 @@
     <string name="login_invalid_credentials">Falscher Nutzername und/oder Passwort</string>
     <string name="login_authenticating">Authentifizierung…</string>
     <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
-    <string name="server_connection_failed">Verbindung zum Server nicht möglich: %1$s</string>
+    <string name="server_connection_failed">Verbindung zum Server konnte nicht hergestellt werden</string>
     <string name="server_connecting">Verbinden mit %1$s</string>
     <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org oder scannen Sie den QR-Code, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
     <string name="login_help_title">Benötigen Sie Hilfe\?</string>
@@ -378,28 +379,28 @@
     <string name="lbl_remove_server">Server entfernen</string>
     <string name="lbl_sign_out_content">Erfordert Anmeldung bei nächster Verwendung</string>
     <string name="lbl_remove_user_content">Benutzerkonto entfernen</string>
-    <string name="lbl_remove_users">Dadurch werden auch alle zugehörigen Benutzer entfernt</string>
+    <string name="lbl_remove_users">Dadurch werden auch alle zugehörigen Konten entfernt</string>
     <string name="lbl_manage_servers">Server verwalten</string>
     <string name="lbl_episode_marks">Nur bei Episoden</string>
     <string name="lbl_use_series_thumbnails_description">Serien-Vorschaubilder verwenden, wenn Episoden angezeigt werden</string>
     <string name="lbl_use_series_thumbnails">Serien-Vorschaubilder bevorzugen</string>
     <string name="lbl_hide_unwatched_count">Verberge die Anzahl von ungesehenen Elementen</string>
     <string name="pref_watched_indicator">Präferierte Vorschläge anzeigen</string>
-    <string name="user_picker_last_user_summary">Den zuletzt aktiven Benutzer verwenden</string>
+    <string name="user_picker_last_user_summary">Das zuletzt aktive Konto verwenden</string>
     <string name="user_picker_last_user_title">Als Letztes verwendet</string>
     <string name="user_picker_disable_summary">Immer den Anmeldebildschirm anzeigen</string>
     <string name="user_picker_disable_title">Deaktivieren</string>
-    <string name="system_user_explanation">Der ausgewählte Benutzer wird für Integrationen wie z.B. die Suche verwendet</string>
-    <string name="system_user">Systembenutzer</string>
+    <string name="system_user_explanation">Das ausgewählte Konto wird für Integrationen wie z.B. die Suche verwendet</string>
+    <string name="system_user">Systemkonto</string>
     <string name="auto_sign_in">Automatisch anmelden</string>
-    <string name="lbl_switch_user">Benutzer wechseln</string>
+    <string name="lbl_switch_user">Konto wechseln</string>
     <string name="no_network_permissions">Jellyfin benötigt zum Funktionieren Netzwerkberechtigungen</string>
     <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
     <string name="press_to_close">Zum Schließen klicken</string>
-    <string name="add_user">Benutzer hinzufügen</string>
+    <string name="add_user">Konto erstellen</string>
     <string name="who_is_watching">Wer schaut zu\?</string>
-    <string name="no_user_warning">Wir konnten keine Benutzer finden!
-\nFügen Sie einen neuen Benutzer hinzu, indem Sie auf die Schaltfläche \"Benutzer hinzufügen\" drücken.</string>
+    <string name="no_user_warning">Wir konnten keine Konten finden!
+\nFügen Sie ein neues Konto hinzu, indem Sie auf die Schaltfläche \"Konto hinzufügen\" drücken.</string>
     <string name="server_unsupported">Der Server muss aktualisiert werden. Die derzeitige Version ist %1$s, aber die App benötigt %2$s oder neuer</string>
     <string name="welcome_content">Verbinden Sie sich mit Ihrem Server, um loszulegen.</string>
     <string name="welcome_title">Willkommen bei Jellyfin!</string>
@@ -433,7 +434,7 @@
     <string name="lbl_auto_crop">Automatisches Zuschneiden</string>
     <string name="alphabetical">Alphabetisch</string>
     <string name="last_use">Zuletzt verwendet</string>
-    <string name="advanced_settings">Einstellungen (erweitert)</string>
+    <string name="advanced_settings">erweitert</string>
     <string name="always_authenticate_description">Die Aktivierung dieser Funktion deaktiviert die automatische Anmeldung</string>
     <string name="always_authenticate">Immer nach Anmeldeinformationen fragen</string>
     <string name="lbl_community_rating">Zuschauerwertung</string>
@@ -461,8 +462,38 @@
     <string name="home_section_latest_media">Neueste Medien</string>
     <string name="home_sections">Startseitenabschnitte</string>
     <string name="home_prefs">Startseite</string>
-    <string name="pref_subtitles_size">Untertitel Größe</string>
+    <string name="pref_subtitles_size">Textgröße</string>
     <string name="pref_subtitles_background_summary">Zeigt einen schwarzen Hintergrund hinter den Untertiteln</string>
-    <string name="pref_subtitles_background_title">Aktiviere Hintergrund für Untertitel</string>
+    <string name="pref_subtitles_background_title">Hintergrund aktivieren</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_home_description">Konfigurieren der angezeigten Abschnitte</string>
+    <string name="pref_show_backdrop_description">Hintergrundbild zu selektierten Elementen ändern</string>
+    <string name="pref_direct_stream_live_off">Transkodierung wird bei Bedarf verwendet</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_subtitles">Untertitel</string>
+    <string name="pref_video">Video</string>
+    <string name="pref_acra_description">Absturzdialog, Auto-Upload, Systemprotokolle</string>
+    <string name="pref_playback_description">Video, Untertitel, Live-TV, als nächstes</string>
+    <string name="pref_customization_description">Thema, Startseite, Neuzuordnung</string>
+    <string name="pref_login_description">Server, Konten, automatische Anmeldung</string>
+    <string name="pref_login">Anmeldung</string>
+    <string name="pref_libraries_description">Ändern der Anzeige von Bibliotheken</string>
+    <string name="pref_libraries">Bibliotheken</string>
+    <string name="pref_theme">Thema</string>
+    <string name="pref_browsing">Durchsuchen</string>
+    <string name="pref_behavior">Verhalten</string>
+    <string name="pref_accounts">Konten</string>
+    <string name="sort_accounts_by">Konten sortieren nach</string>
+    <string name="pref_customization">Personalisierung</string>
+    <string name="server_issue_ssl_handshake">SSL-Handshake fehlgeschlagen</string>
+    <string name="server_issue_timeout">Zeitüberschreitung der Verbindung</string>
+    <string name="server_issue_outdated_version">Server verwendet Version %1$s, muss aber %2$s oder neuer sein</string>
+    <string name="server_issue_unsupported_version">Server verwendet Version %1$s, die nicht unterstützt wird</string>
+    <string name="server_issue_missing_version">Serverversion konnte nicht bestimmt werden</string>
+    <string name="server_issue_invalid_product">Server-Software ist nicht kompatibel</string>
+    <string name="server_issue_unable_to_connect">Keine Verbindung möglich</string>
+    <string name="pref_refresh_switching_description">Die Bildwiederholfrequenz des Monitors wird an das Video angepasst</string>
+    <string name="lbl_playback_speed">Wiedergabegeschwindigkeit</string>
+    <string name="pref_direct_stream_live_on">Transcodierung ist deaktiviert</string>
+    <string name="server_connection_failed_candidates">Verbindung zum Server nicht möglich, folgende Adressen ausprobiert: %1$s</string>
 </resources>
