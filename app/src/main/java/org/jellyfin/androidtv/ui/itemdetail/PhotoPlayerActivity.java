@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
@@ -68,6 +69,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
     Handler handler;
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
