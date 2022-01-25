@@ -85,18 +85,21 @@ class ExoPlayerProfile(
 				})
 			}
 			// Audio direct play
-			add(audioDirectPlayProfile(
-				*getAllSupportedAudioCodecs(),
-				CodecTypes.MPA,
-				CodecTypes.FLAC,
-				CodecTypes.WAV,
-				CodecTypes.WMA,
-				ContainerTypes.OGG,
-				ContainerTypes.OGA,
-				ContainerTypes.WEBMA,
-				CodecTypes.APE,
-				CodecTypes.OPUS,
-			))
+			add(
+				audioDirectPlayProfile(
+					getAllSupportedAudioCodecs() + arrayOf(
+						CodecTypes.MPA,
+						CodecTypes.FLAC,
+						CodecTypes.WAV,
+						CodecTypes.WMA,
+						ContainerTypes.OGG,
+						ContainerTypes.OGA,
+						ContainerTypes.WEBMA,
+						CodecTypes.APE,
+						CodecTypes.OPUS,
+					)
+				)
+			)
 			// Photo direct play
 			add(photoDirectPlayProfile)
 		}.toTypedArray()
