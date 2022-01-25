@@ -133,6 +133,7 @@ public class TvApiEventListener extends ApiEventListener {
     @Override
     public void onBrowseCommand(ApiClient client, BrowseRequest command) {
         Timber.d("Browse command received");
+        if (command.getItemId() == null || command.getItemId().equals("")) return;
 
         mainThreadHandler.post(() -> {
             if (TvApp.getApplication().getCurrentActivity() == null ||
@@ -140,17 +141,13 @@ public class TvApiEventListener extends ApiEventListener {
                 Timber.i("Command ignored due to no activity or playback in progress");
                 return;
             }
-            try {
-                client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        //Create a rowItem and pass to our handler
-                        ItemLauncher.launch(new BaseRowItem(0, response), null, -1, TvApp.getApplication().getCurrentActivity(), true);
-                    }
-                });
-            } catch (IllegalArgumentException e) {
-                Timber.i("invalid BrowseRequest command");
-            }
+            client.GetItemAsync(command.getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    //Create a rowItem and pass to our handler
+                    ItemLauncher.launch(new BaseRowItem(0, response), null, -1, TvApp.getApplication().getCurrentActivity(), true);
+                }
+            });
         });
     }
 
