@@ -193,7 +193,7 @@ public class TvApiEventListener extends ApiEventListener {
                                     TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                     break;
                                 case "Audio":
-                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex);
+                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex, false);
                                     break;
                             }
                         }

@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import timber.log.Timber;
 
@@ -116,9 +117,9 @@ public class MediaManager {
     public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
-    public int getCurrentAudioQueuePosition() { return mCurrentAudioQueuePosition; }
+    public int getCurrentAudioQueuePosition() { return hasAudioQueueItems() && mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; }
     public long getCurrentAudioPosition() { return mCurrentAudioPosition; }
-    public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(mCurrentAudioQueuePosition >=0 ? mCurrentAudioQueuePosition+1 : 1); }
+    public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(getCurrentAudioQueuePosition() + 1); }
     public String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
     public BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
@@ -152,12 +153,12 @@ public class MediaManager {
             if (mManagedAudioQueue != null) {
                 //re-create existing one
                 mManagedAudioQueue.clear();
-                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     mManagedAudioQueue.add(mCurrentAudioQueue.get(i));
                 }
             } else {
                 List<BaseItemDto> managedItems = new ArrayList<>();
-                for (int i = mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; i < mCurrentAudioQueue.size(); i++) {
+                for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
                 }
                 mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
@@ -584,39 +585,43 @@ public class MediaManager {
         return audioInitialized;
     }
 
-    public void playNow(final List<BaseItemDto> items, int position) {
+    public void playNow(final List<BaseItemDto> items, int position, boolean shuffle) {
         if (!ensureInitialized()) return;
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
 
-        playNowInternal(items, position);
+        playNowInternal(items, position, shuffle);
 
         if (fireQueueReplaceEvent)
             fireQueueReplaced();
     }
 
-    public void playNow(final List<BaseItemDto> items) {
-        if (!ensureInitialized()) return;
-
-        boolean fireQueueReplaceEvent = hasAudioQueueItems();
-
-        playNowInternal(items, 0);
-
-        if (fireQueueReplaceEvent)
-            fireQueueReplaced();
+    public void playNow(final List<BaseItemDto> items, boolean shuffle) {
+        playNow(items, 0, shuffle);
     }
 
-    private void playNowInternal(List<BaseItemDto> items, int position) {
+    public void playNow(final BaseItemDto item) {
+        if (!ensureInitialized()) return;
+
+        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
+        list.add(item);
+        playNow(list, false);
+    }
+
+    private void playNowInternal(List<BaseItemDto> items, int position, boolean shuffle) {
+        if (items == null || items.size() == 0) return;
+        if (position < 0 || position >= items.size()) position = 0;
         // stop current item before queue is cleared so it can still be referenced
         if (isPlayingAudio()) {
             stopAudio(false);
         }
         clearUnShuffledQueue();
         createAudioQueue(items);
-        if (!(position > 0 && playFrom(position))) {
-            mCurrentAudioQueuePosition = -1;
-            nextAudioItem();
-        }
+
+        mCurrentAudioQueuePosition = shuffle ? new Random().nextInt(items.size()) : position;
+
+        if (shuffle) shuffleAudioQueue();
+        playFrom(position);
         if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
             Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
             TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
@@ -625,20 +630,12 @@ public class MediaManager {
         }
     }
 
-    public void playNow(final BaseItemDto item) {
-        if (!ensureInitialized()) return;
-
-        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
-        list.add(item);
-        playNow(list);
-    }
-
     public boolean playFrom(int ndx) {
         if (ndx >= mCurrentAudioQueue.size()) return false;
 
         if (isPlayingAudio()) stopAudio(false);
 
-        mCurrentAudioQueuePosition = ndx-1;
+        mCurrentAudioQueuePosition = ndx < 0 || ndx >= mCurrentAudioQueue.size() ? -1 : ndx - 1;
         createManagedAudioQueue();
         nextAudioItem();
         return true;
@@ -932,7 +929,7 @@ public class MediaManager {
             }
         } else if (hasAudioQueueItems()) {
             //play from start
-            playInternal(mCurrentAudioItem != null ? mCurrentAudioItem : ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), mCurrentAudioItem != null ? mCurrentAudioQueuePosition : 0);
+            playInternal(mCurrentAudioItem != null ? mCurrentAudioItem : ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), mCurrentAudioItem != null ? getCurrentAudioQueuePosition() : 0);
         }
     }
 

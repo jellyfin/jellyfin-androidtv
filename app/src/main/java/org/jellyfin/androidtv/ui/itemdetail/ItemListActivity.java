@@ -289,7 +289,7 @@ public class ItemListActivity extends FragmentActivity {
         playFromHere.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                play(mItems, row.getIndex());
+                play(mItems, row.getIndex(), false);
                 return true;
             }
         });
@@ -297,7 +297,7 @@ public class ItemListActivity extends FragmentActivity {
         play.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                play(mItems.subList(row.getIndex(), row.getIndex()+1));
+                play(mItems.subList(row.getIndex(), row.getIndex()+1), false);
                 return true;
             }
         });
@@ -510,11 +510,11 @@ public class ItemListActivity extends FragmentActivity {
         else textView.setText(null);
     }
 
-    private void play(List<BaseItemDto> items) {
-        play(items, 0);
+    private void play(List<BaseItemDto> items, boolean shuffle) {
+        play(items, 0, shuffle);
     }
 
-    private void play(List<BaseItemDto> items, int ndx) {
+    private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
 
@@ -529,12 +529,9 @@ public class ItemListActivity extends FragmentActivity {
             }
             mediaManager.getValue().setCurrentVideoQueue(items);
             startActivity(intent);
-
         } else {
-            mediaManager.getValue().playNow(items, ndx);
-
+            mediaManager.getValue().playNow(items, ndx, shuffle);
         }
-
     }
 
     private void addButtons(int buttonSize) {
@@ -544,7 +541,7 @@ public class ItemListActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
-                        play(mItems);
+                        play(mItems, false);
                     } else {
                         Utils.showToast(mActivity, R.string.msg_no_playable_items);
                     }
@@ -585,14 +582,11 @@ public class ItemListActivity extends FragmentActivity {
                                     || mBaseItem.getId().equals(FAV_SONGS)
                                     || mBaseItem.getBaseItemType() == BaseItemType.Playlist
                                     || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
-                                List<BaseItemDto> shuffled = new ArrayList<>(mItems);
-                                Collections.shuffle(shuffled);
-                                play(shuffled);
+                                play(mItems, true);
                             } else {
                                 //use server retrieval in order to get all items
                                 PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
                             }
-
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);
                         }
