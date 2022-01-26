@@ -133,10 +133,9 @@ public class PlaybackHelper {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setMediaTypes(new String[]{"Audio"});
-                query.setSortBy(shuffle ?
-                        new String[] {ItemSortBy.Random} :
-                            mainItem.getBaseItemType() == BaseItemType.MusicArtist ? new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
-                                new String[] {ItemSortBy.SortName});
+                query.setSortBy(mainItem.getBaseItemType() == BaseItemType.MusicArtist ?
+                        new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
+                            new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
@@ -260,9 +259,8 @@ public class PlaybackHelper {
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
-        boolean shuffleQuery = item.getBaseItemType() == BaseItemType.MusicAlbum || item.getBaseItemType() == BaseItemType.MusicAlbum || item.getBaseItemType() == BaseItemType.Audio ? false : shuffle;
 
-        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffleQuery, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 switch (item.getBaseItemType()) {
