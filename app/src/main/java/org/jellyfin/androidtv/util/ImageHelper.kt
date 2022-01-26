@@ -65,7 +65,7 @@ class ImageHelper(
 		var imageTag = item.imageTags?.get(ImageType.PRIMARY)
 		var imageType = ImageType.PRIMARY
 
-		if (preferParentThumb && item.type.equals(BaseItemType.Episode.toString(), ignoreCase = true) && imageTag == null) {
+		if (preferParentThumb && item.type.equals(BaseItemType.Episode.toString(), ignoreCase = true)) {
 			if (item.parentThumbItemId != null && item.parentThumbImageTag != null) {
 				itemId = item.parentThumbItemId!!.toUUID()
 				imageTag = item.parentThumbImageTag
