@@ -289,9 +289,11 @@ public class AudioNowPlayingActivity extends BaseActivity {
         lastUserInteraction = System.currentTimeMillis();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
-        if (mediaManager.getValue().getIsAudioPlayerInitialized()) {
-            updateButtons(mediaManager.getValue().isPlayingAudio());
-        }
+        updateButtons(mediaManager.getValue().isPlayingAudio());
+
+        // load the item duration and set the position to 0 since it won't be set elsewhere until playback is initialized
+        if (!mediaManager.getValue().getIsAudioPlayerInitialized())
+            setCurrentTime(0);
     }
 
     @Override
