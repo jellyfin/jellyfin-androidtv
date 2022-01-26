@@ -76,7 +76,14 @@ public class NowPlayingBug extends FrameLayout {
     AudioEventListener listener = new AudioEventListener() {
         @Override
         public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-            if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != null) setInfo(currentItem);
+            if (currentItem == null)
+                return;
+
+            if (newState == PlaybackController.PlaybackState.PLAYING) {
+                setInfo(currentItem);
+            } else if (newState == PlaybackController.PlaybackState.IDLE && isShown()) {
+                setStatus(mediaManager.getValue().getCurrentAudioPosition());
+            }
         }
 
         @Override
