@@ -1599,9 +1599,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        boolean shuffleQuery = item.getBaseItemType() == BaseItemType.MusicAlbum || item.getBaseItemType() == BaseItemType.MusicArtist || item.getBaseItemType() == BaseItemType.Audio ? false : shuffle;
-
-        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffleQuery, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
