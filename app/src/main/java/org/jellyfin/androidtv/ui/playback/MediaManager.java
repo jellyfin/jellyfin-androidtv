@@ -217,8 +217,6 @@ public class MediaManager {
 
         //Report progress to server every 5 secs if playing, 15 if paused
         if (System.currentTimeMillis() > lastProgressReport + (isPaused() ? 15000 : 5000)) {
-
-            // FIXME: Don't use the getApplication method..
             ReportingHelper.reportProgress(null, mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition*10000, isPaused());
             lastProgressReport = System.currentTimeMillis();
         }
@@ -276,10 +274,10 @@ public class MediaManager {
                             stopProgressLoop();
                         }
                     }
-
                     @Override
                     public void onPlayerError(PlaybackException error) {
-                        stopProgressLoop();
+                        Timber.d("player error!");
+                        stopAudio(true);
                     }
                 });
             } else {
@@ -370,7 +368,8 @@ public class MediaManager {
                     pauseAudio();
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    stopAudio(false);
+                    Timber.d("stopping audio player and releasing due to audio focus loss");
+                    stopAudio(true);
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
                     //resumeAudio();
@@ -885,10 +884,14 @@ public class MediaManager {
             updateCurrentAudioItemPlaying(false);
             stopProgressLoop();
             ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition * 10000);
+            mCurrentAudioPosition = 0;
             for (AudioEventListener listener : mAudioEventListeners) {
                 listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
             }
-            if (releasePlayer) releasePlayer();
+            if (releasePlayer) {
+                releasePlayer();
+                if (mAudioManager != null) mAudioManager.abandonAudioFocus(mAudioFocusChanged);
+            }
         }
     }
 
