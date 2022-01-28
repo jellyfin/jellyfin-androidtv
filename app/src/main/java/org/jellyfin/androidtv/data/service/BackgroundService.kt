@@ -22,11 +22,12 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.search.SearchHint
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.imageApi
+import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 
@@ -122,11 +123,12 @@ class BackgroundService(
 		if (itemId == null || isNullOrEmpty()) return emptyList()
 
 		return mapIndexed { index, tag ->
-			apiClient.GetImageUrl(itemId, ImageOptions().apply {
-				imageType = ImageType.Backdrop
-				imageIndex = index
-				setTag(tag)
-			})
+			apiClient.imageApi.getItemImageUrl(
+				itemId = itemId.toUUID(),
+				imageType = ImageType.BACKDROP,
+				tag = tag,
+				imageIndex = index,
+			)
 		}
 	}
 
@@ -155,11 +157,13 @@ class BackgroundService(
 			return clearBackgrounds()
 
 		// Manually grab the backdrop URL
-		val options = ImageOptions()
-		options.imageType = ImageType.Backdrop
-		options.tag = searchHint.backdropImageTag
-
-		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { apiClient.GetImageUrl(it, options) })
+		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { itemId ->
+			apiClient.imageApi.getItemImageUrl(
+				itemId = itemId.toUUID(),
+				imageType = ImageType.BACKDROP,
+				tag = searchHint.backdropImageTag,
+			)
+		})
 
 		loadBackgrounds(backdropUrls)
 	}

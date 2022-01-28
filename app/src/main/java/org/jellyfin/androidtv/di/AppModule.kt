@@ -88,5 +88,5 @@ val appModule = module {
 	viewModel { LoginViewModel(get(), get(), get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 
-	single { BackgroundService(get(), get(), get()) }
+	single { BackgroundService(get(), get(userApiClient), get()) }
 }
