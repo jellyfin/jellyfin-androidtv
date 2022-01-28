@@ -6,18 +6,20 @@ import android.content.Context
 import android.text.format.DateFormat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
+import org.jellyfin.androidtv.di.userApiClient
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
-import org.jellyfin.apiclient.model.dto.ImageOptions
-import org.jellyfin.apiclient.model.entities.ImageType
 import org.jellyfin.apiclient.model.entities.LocationType
 import org.jellyfin.apiclient.model.entities.PersonType
 import org.jellyfin.apiclient.model.library.PlayAccess
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
-import org.koin.java.KoinJavaComponent.get
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.imageApi
+import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.serializer.toUUID
+import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
 // TODO Feature Envy!!! Wants to live in BaseItemDto.
@@ -134,18 +136,23 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 fun BaseItemDto.getFirstPerson(searchedType: PersonType) =
 	people?.find { it.personType == searchedType }
 
-fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> = chapters.mapIndexed { i, dto ->
-	ChapterItemInfo().apply {
-		itemId = id
-		name = dto.name
-		startPositionTicks = dto.startPositionTicks
-		imagePath = when {
-			dto.hasImage -> get<ApiClient>(ApiClient::class.java).GetImageUrl(id, ImageOptions().apply {
-				imageType = ImageType.Chapter
-				tag = dto.imageTag
-				imageIndex = i
-			})
-			else -> null
+fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> {
+	val apiClient by inject<ApiClient>(ApiClient::class.java, userApiClient)
+
+	return chapters.mapIndexed { i, dto ->
+		ChapterItemInfo().apply {
+			itemId = id
+			name = dto.name
+			startPositionTicks = dto.startPositionTicks
+			imagePath = when {
+				dto.hasImage -> apiClient.imageApi.getItemImageUrl(
+					itemId = itemId.toUUID(),
+					imageType = ImageType.CHAPTER,
+					tag = dto.imageTag,
+					imageIndex = i,
+				)
+				else -> null
+			}
 		}
 	}
 }
