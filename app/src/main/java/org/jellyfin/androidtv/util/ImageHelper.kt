@@ -39,7 +39,7 @@ class ImageHelper(
 		}
 	}
 
-	fun getPrimaryImageUrl(item: BaseItemDto, width: Int?, height: Int?): String? {
+	fun getPrimaryImageUrl(item: BaseItemDto, width: Int? = null, height: Int? = null): String? {
 		val primaryImageTag = item.imageTags?.get(ImageType.PRIMARY) ?: return null
 
 		return api.imageApi.getItemImageUrl(
@@ -101,7 +101,7 @@ class ImageHelper(
 		)
 	}
 
-	fun getLogoImageUrl(item: BaseItemDto?, maxWidth: Int, useSeriesFallback: Boolean): String? {
+	fun getLogoImageUrl(item: BaseItemDto?, maxWidth: Int? = null, useSeriesFallback: Boolean = true): String? {
 		val logoTag = item?.imageTags?.get(ImageType.LOGO)
 		return when {
 			// No item

@@ -86,7 +86,7 @@ val appModule = module {
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get(userApiClient)) }
 
 	viewModel { LoginViewModel(get(), get(), get()) }
-	viewModel { NextUpViewModel(get(), get(), get(), get()) }
+	viewModel { NextUpViewModel(get(), get(), get(), get(), get()) }
 
 	single { BackgroundService(get(), get(userApiClient), get()) }
 }
