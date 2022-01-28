@@ -13,16 +13,18 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
+import org.jellyfin.androidtv.util.ImageHelper
 import org.jellyfin.androidtv.util.apiclient.getDisplayName
 import org.jellyfin.androidtv.util.apiclient.getItem
+import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.dto.ImageOptions
 
 class NextUpViewModel(
 	private val context: Context,
 	private val apiClient: ApiClient,
 	private val userPreferences: UserPreferences,
 	private val sessionRepository: SessionRepository,
+	private val imageHelper: ImageHelper,
 ) : ViewModel() {
 	private val _item = MutableLiveData<NextUpItemData?>()
 	val item: LiveData<NextUpItemData?> = _item
@@ -65,10 +67,10 @@ class NextUpViewModel(
 		val item = apiClient.getItem(id, userId) ?: return@withContext null
 
 		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior]) {
-			NextUpBehavior.EXTENDED -> apiClient.GetImageUrl(item, ImageOptions())
+			NextUpBehavior.EXTENDED -> imageHelper.getPrimaryImageUrl(item.asSdk())
 			else -> null
 		}
-		val logo = apiClient.GetLogoImageUrl(item, ImageOptions())
+		val logo = imageHelper.getLogoImageUrl(item.asSdk())
 		val title = item.getDisplayName(context)
 
 		NextUpItemData(
