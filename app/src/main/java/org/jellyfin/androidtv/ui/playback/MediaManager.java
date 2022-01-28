@@ -81,6 +81,9 @@ public class MediaManager {
     private long lastProgressReport;
     private long lastProgressEvent;
 
+    private long lastReportedPlaybackPosition = -1;
+    private long lastUniqueProgressEvent = -1;
+
     private boolean mRepeat;
 
     private List<BaseItemDto> mCurrentVideoQueue;
@@ -210,6 +213,17 @@ public class MediaManager {
 
         mCurrentAudioPosition = nativeMode ? mExoPlayer.getCurrentPosition() : mVlcPlayer.getTime();
 
+        // until MediaSessions are used to handle playback interruptions that won't be caught by the player, catch them with a timeout
+        if (mCurrentAudioPosition != lastReportedPlaybackPosition || lastUniqueProgressEvent == -1) {
+            lastUniqueProgressEvent = lastProgressEvent;
+        } else if (!isPaused() && lastProgressEvent - lastUniqueProgressEvent > 15000) {
+            Timber.d("playback stalled due to uncaught error - pausing");
+            pauseAudio();
+            return;
+        }
+
+        lastReportedPlaybackPosition = mCurrentAudioPosition;
+
         //fire external listeners if there
         for (AudioEventListener listener : mAudioEventListeners) {
             listener.onProgress(mCurrentAudioPosition);
@@ -224,20 +238,13 @@ public class MediaManager {
     }
 
     private void onComplete() {
-        stopProgressLoop();
-        ReportingHelper.reportStopped(mCurrentAudioItem, mCurrentAudioStreamInfo, mCurrentAudioPosition);
+        stopAudio(hasNextAudioItem());
+
         if (hasNextAudioItem()) {
             nextAudioItem();
         } else if (hasAudioQueueItems()) {
             clearAudioQueue();
         }
-
-        //fire external listener if there
-        for (AudioEventListener listener : mAudioEventListeners) {
-            Timber.i("Firing playback state change listener for item completion. %s", mCurrentAudioItem.getName());
-            listener.onPlaybackStateChange(PlaybackController.PlaybackState.IDLE, mCurrentAudioItem);
-        }
-
     }
 
     private void releasePlayer() {
@@ -880,6 +887,7 @@ public class MediaManager {
 
     public void stopAudio(boolean releasePlayer) {
         if (mCurrentAudioItem != null) {
+            Timber.d("Stopping audio");
             stop();
             updateCurrentAudioItemPlaying(false);
             stopProgressLoop();
