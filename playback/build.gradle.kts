@@ -20,7 +20,7 @@ android {
 
 	lint {
 		lintConfig = file("$rootDir/android-lint.xml")
-		isAbortOnError = false
+		abortOnError = false
 	}
 }
 
