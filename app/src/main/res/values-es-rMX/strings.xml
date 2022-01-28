@@ -4,7 +4,7 @@
     <string name="btn_cancel">Cancelar</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reproducción</string>
-    <string name="pref_max_bitrate_title">Velocidad de bits de transmisión máxima</string>
+    <string name="pref_max_bitrate_title">Velocidad de bits máxima</string>
     <string name="settings_title">Configuraciones</string>
     <string name="chapters">Capítulos</string>
     <string name="lbl_settings">Configuraciones</string>
@@ -61,12 +61,12 @@
     <string name="lbl_recordings">Grabaciones</string>
     <string name="lbl_none">Ninguno</string>
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
-    <string name="lbl_bracket_unknown">&lt;Desconocido&gt;</string>
+    <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="msg_access_restricted">El acceso está restringido en este momento</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Reproducir trailer(s)</string>
     <string name="lbl_enter_user_name">Introducir nombre de usuario</string>
-    <string name="lbl_enter_user_pw">Introducir contraseña de usuario</string>
+    <string name="lbl_enter_user_pw">Introducir contraseña</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://miservidor.com</string>
@@ -83,7 +83,7 @@
     <string name="msg_cannot_play">Este elemento no pude ser reproducido</string>
     <string name="lbl_no_items">No hay elementos</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="lbl_tv_queuing">Poner en cola todos los episodios subsiguientes</string>
+    <string name="lbl_tv_queuing">Poner en cola todos los episodios siguientes</string>
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
     <string name="lbl_play_first_unwatched">Reproducir el primer no visto</string>
@@ -115,10 +115,10 @@
     <string name="msg_cancel_entire_series">¿Estás seguro de querer cancelar esta SERIE COMPLETA\?</string>
     <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Por favor, primero detén el elemento actual.</string>
     <string name="pref_audio_direct">Directo</string>
-    <string name="pref_audio_compat">Downmix a estéreo</string>
+    <string name="pref_audio_compat">Remezclar a estéreo</string>
     <string name="lbl_audio_output">Salida de audio</string>
     <string name="lbl_goto_series">Ir a series</string>
-    <string name="lbl_enable_debug">Habilitar opciones de depuración</string>
+    <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="desc_debug">Proporcionar información adicional para la depuración</string>
     <string name="lbl_showing">Mostrando</string>
     <string name="lbl_all_items">Todos los elementos</string>
@@ -155,7 +155,7 @@
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episodios</string>
     <string name="lbl_enable_cinema_mode">Modo cine</string>
-    <string name="sum_enable_cinema_mode">Mostrar intros y preestrenos antes de la reproducción de la película cuando el servidor lo permita</string>
+    <string name="sum_enable_cinema_mode">Mostrar intros y preestrenos antes de la reproducción de la película</string>
     <string name="lbl_playlists">Listas de reproducción</string>
     <string name="msg_items_added">" elementos agregados"</string>
     <string name="lbl_add_to_queue">Agregar a la cola</string>
