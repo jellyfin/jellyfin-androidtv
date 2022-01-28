@@ -360,6 +360,8 @@ public class MediaManager {
     }
 
     private void stopProgressLoop() {
+        lastUniqueProgressEvent = -1;
+        lastReportedPlaybackPosition = -1;
         if (progressLoop != null) {
             Timber.i("stopping progress loop");
             mHandler.removeCallbacks(progressLoop);
