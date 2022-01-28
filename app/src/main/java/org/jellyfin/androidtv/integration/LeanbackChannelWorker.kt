@@ -130,6 +130,7 @@ class LeanbackChannelWorker(
 	/**
 	 * Updates the "my media" row with current media libraries.
 	 */
+	@Suppress("RestrictedApi")
 	private suspend fun updateMyMedia() {
 		// Get channel
 		val channelUri = getChannelUri("my_media", Channel.Builder()
@@ -223,6 +224,7 @@ class LeanbackChannelWorker(
 	 * Updates the "next up" row with current episodes. Uses the [nextUpItems] parameter to store
 	 * items returned by a NextUpQuery().
 	 */
+	@Suppress("RestrictedApi")
 	private fun updateNextUp(nextUpItems: List<BaseItemDto>) {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
@@ -281,6 +283,7 @@ class LeanbackChannelWorker(
 	/**
 	 * Convert [BaseItemDto] to [WatchNextProgram]. Assumes the item type is "episode".
 	 */
+	@Suppress("RestrictedApi")
 	private fun getBaseItemAsWatchNextProgram(item: BaseItemDto) = WatchNextProgram.Builder().apply {
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
