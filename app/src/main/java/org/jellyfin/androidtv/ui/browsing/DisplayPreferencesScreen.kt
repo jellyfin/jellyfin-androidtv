@@ -4,8 +4,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.GridDirection
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.constant.PosterSize
-import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.LibraryPreferences
+import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox

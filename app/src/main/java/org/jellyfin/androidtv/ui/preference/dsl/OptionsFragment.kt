@@ -32,7 +32,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		runBlocking {
 			stores
 				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.update() } }
+				.map { async { it.update() }  }
 				.awaitAll()
 		}
 
@@ -46,7 +46,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		runBlocking {
 			stores
 				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.commit() } }
+				.map { async { it.commit() }  }
 				.awaitAll()
 		}
 	}

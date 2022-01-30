@@ -2,18 +2,18 @@ package org.jellyfin.androidtv.preference
 
 import kotlinx.coroutines.runBlocking
 
-interface AsyncPreferenceStore : PreferenceStore {
-	val shouldUpdate: Boolean
+abstract class AsyncPreferenceStore : PreferenceStore() {
+	abstract val shouldUpdate: Boolean
 
 	/**
 	 * Save values to store.
 	 */
-	suspend fun commit(): Boolean
+	abstract suspend fun commit(): Boolean
 
 	/**
 	 * Update values from store.
 	 */
-	suspend fun update(): Boolean
+	abstract suspend fun update(): Boolean
 
 	/**
 	 * Modify the preferences in store and [commit] afterwards. Automatically calls [update] if

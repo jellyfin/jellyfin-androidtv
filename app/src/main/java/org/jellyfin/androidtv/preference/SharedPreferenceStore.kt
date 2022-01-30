@@ -27,8 +27,8 @@ abstract class SharedPreferenceStore(
 	/**
 	 * SharedPreferences to read from and write to
 	 */
-	protected val sharedPreferences: SharedPreferences,
-) : BasicPreferenceStore() {
+	protected val sharedPreferences: SharedPreferences
+) : PreferenceStore() {
 	// Internal helpers
 	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
 		val editor = sharedPreferences.edit()
@@ -57,7 +57,7 @@ abstract class SharedPreferenceStore(
 		transaction { putString(keyName, value) }
 
 	// Additional mutations
-	override fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
+	override fun <T : Any> delete(preference: Preference<T>) = transaction {
 		remove(preference.key)
 	}
 

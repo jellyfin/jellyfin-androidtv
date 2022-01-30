@@ -3,8 +3,8 @@ package org.jellyfin.androidtv.ui.preference.dsl
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
-import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.Preference
+import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import java.util.UUID
 

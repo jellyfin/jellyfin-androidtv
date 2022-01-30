@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.ui.preference.dsl
 
-import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.Preference
+import org.jellyfin.androidtv.preference.PreferenceStore
 
 abstract class OptionsItemMutable<T : Any> : OptionsItem {
 	var title: String? = null

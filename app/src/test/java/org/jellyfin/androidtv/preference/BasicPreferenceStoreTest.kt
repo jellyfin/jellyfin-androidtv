@@ -4,8 +4,8 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class BasicPreferenceStoreTest {
-	class TestStub : BasicPreferenceStore() {
+class PreferenceStoreTest {
+	class TestStub : PreferenceStore() {
 		var keyName: String? = null
 		var int: Int? = null
 		var long: Long? = null
@@ -48,7 +48,7 @@ class BasicPreferenceStoreTest {
 			string = value
 		}
 
-		override fun <T : Preference<V>, V : Any> delete(preference: T) {
+		override fun <T : Any> delete(preference: Preference<T>) {
 			throw NotImplementedError("Not required for tests")
 		}
 	}
