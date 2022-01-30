@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -121,7 +120,7 @@ public class ItemRowView extends FrameLayout {
     public void updateWatched() {
         if (mBaseItem == null) return;
         if ("Video".equals(mBaseItem.getMediaType()) && mBaseItem.getUserData() != null && mBaseItem.getUserData().getPlayed()) {
-            mWatchedMark.setText(TextUtilsKt.toHtmlSpanned("&#x2713;"));
+            mWatchedMark.setText("✓");
         } else {
             mWatchedMark.setText("");
         }
