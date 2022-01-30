@@ -89,7 +89,7 @@
 
         <provider
             android:name=".integration.MediaContentProvider"
-            android:authorities="org.jellyfin.androidtv.content"
+            android:authorities="${applicationId}.content"
             android:exported="true"
             android:initOrder="10" />
 

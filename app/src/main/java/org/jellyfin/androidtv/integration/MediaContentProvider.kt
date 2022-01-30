@@ -10,6 +10,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.provider.BaseColumns
 import kotlinx.coroutines.runBlocking
+import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.util.ImageUtils
@@ -28,7 +29,7 @@ import java.time.ZoneId
 
 class MediaContentProvider : ContentProvider(), KoinComponent {
 	companion object {
-		private const val AUTHORITY = "org.jellyfin.androidtv.content"
+		private const val AUTHORITY = "${BuildConfig.APPLICATION_ID}.content"
 		private const val SUGGEST_PATH = "suggestions"
 		private const val SEARCH_SUGGEST = 1
 		private const val TICKS_IN_MILLISECOND = 10000
