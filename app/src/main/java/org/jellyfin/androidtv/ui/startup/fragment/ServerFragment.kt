@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
+import org.jellyfin.androidtv.util.toHtmlSpanned
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -89,7 +90,7 @@ class ServerFragment : Fragment() {
 	}
 
 	private fun onServerChange(server: Server) {
-		binding.loginDisclaimer.text = server.loginDisclaimer
+		binding.loginDisclaimer.text = server.loginDisclaimer?.toHtmlSpanned()
 
 		binding.serverButton.apply {
 			state = ServerButtonView.State.EDIT
