@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
@@ -88,4 +89,6 @@ val appModule = module {
 	viewModel { NextUpViewModel(get(), get(userApiClient), get(), get()) }
 
 	single { BackgroundService(get(), get(userApiClient), get()) }
+
+	single { MarkdownRenderer(get()) }
 }

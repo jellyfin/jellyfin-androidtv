@@ -68,6 +68,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
+import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
@@ -152,6 +153,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +181,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         mRowsFragment.setOnItemViewClickedListener(new ItemViewClickedListener());
         mRowsFragment.setOnItemViewSelectedListener(new ItemViewSelectedListener());
 
-        mDorPresenter = new MyDetailsOverviewRowPresenter();
+        mDorPresenter = new MyDetailsOverviewRowPresenter(markdownRenderer.getValue());
 
         mItemId = getIntent().getStringExtra("ItemId");
         mChannelId = getIntent().getStringExtra("ChannelId");
