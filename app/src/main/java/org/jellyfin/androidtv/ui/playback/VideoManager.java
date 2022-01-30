@@ -144,12 +144,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
      * Configures Exoplayer for video playback. Initially we try with core decoders, but allow
      * ExoPlayer to silently fallback to software renderers.
      *
-     * @param activity                   The associated activity
+     * @param context The associated context
      * @return A configured factory for Exoplayer
      */
-    private DefaultRenderersFactory configureExoplayerFactory(Activity activity) {
+    private DefaultRenderersFactory configureExoplayerFactory(Context context) {
         DefaultRenderersFactory defaultRendererFactory =
-                new DefaultRenderersFactory(activity) {
+                new DefaultRenderersFactory(context) {
                     @Override
                     protected void buildTextRenderers(Context context, TextOutput output,
                                                       Looper outputLooper, int extensionRendeexrerMode,

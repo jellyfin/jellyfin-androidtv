@@ -19,6 +19,31 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 ) : BaseProfile() {
+	private val downmixSupportedAudioCodecs =
+		arrayOf(
+			CodecTypes.AAC,
+			CodecTypes.MP3,
+			CodecTypes.MP2
+		)
+
+	/**
+	 * Returns all audio codecs used commonly in video containers.
+	 * This does not include containers / codecs found in audio files
+	 */
+	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs +
+			arrayOf(
+				CodecTypes.AAC_LATM,
+				CodecTypes.ALAC,
+				CodecTypes.AC3,
+				CodecTypes.EAC3,
+				CodecTypes.DCA,
+				CodecTypes.DTS,
+				CodecTypes.MLP,
+				CodecTypes.TRUEHD,
+				CodecTypes.PCM_ALAW,
+				CodecTypes.PCM_MULAW,
+			)
+
 	init {
 		name = "AndroidTV-ExoPlayer"
 
@@ -78,16 +103,16 @@ class ExoPlayerProfile(
 					).joinToString(",")
 
 					audioCodec =
-						if (Utils.downMixAudio())
-							getDownmixSupportedAudioCodecs().joinToString(",")
-						else
-							getAllSupportedAudioCodecs().joinToString(",")
+						when (Utils.downMixAudio()) {
+							true -> downmixSupportedAudioCodecs.joinToString(",")
+							false -> allSupportedAudioCodecs.joinToString(",")
+						}
 				})
 			}
 			// Audio direct play
 			add(
 				audioDirectPlayProfile(
-					getAllSupportedAudioCodecs() + arrayOf(
+					allSupportedAudioCodecs + arrayOf(
 						CodecTypes.MPA,
 						CodecTypes.FLAC,
 						CodecTypes.WAV,
@@ -181,31 +206,8 @@ class ExoPlayerProfile(
 		)
 	}
 
-	companion object {
-		fun getDownmixSupportedAudioCodecs(): Array<String> =
-			arrayOf(
-				CodecTypes.AAC,
-				CodecTypes.MP3,
-				CodecTypes.MP2
-			)
 
-		/**
-		 * Returns all audio codecs used commonly in video containers.
-		 * This does not include containers / codecs found in audio files
-		 */
-		fun getAllSupportedAudioCodecs(): Array<String> =
-			getDownmixSupportedAudioCodecs() +
-					arrayOf(
-						CodecTypes.AAC_LATM,
-						CodecTypes.ALAC,
-						CodecTypes.AC3,
-						CodecTypes.EAC3,
-						CodecTypes.DCA,
-						CodecTypes.DTS,
-						CodecTypes.MLP,
-						CodecTypes.TRUEHD,
-						CodecTypes.PCM_ALAW,
-						CodecTypes.PCM_MULAW,
-					)
-	}
+
+
+
 }
