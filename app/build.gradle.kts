@@ -34,8 +34,10 @@ android {
 		val release by getting {
 			isMinifyEnabled = false
 
-			// Add applicationId as string for XML resources
+			// Set package names used in various XML files
 			resValue("string", "app_id", "org.jellyfin.androidtv")
+			resValue("string", "app_search_suggest_authority", "org.jellyfin.androidtv.content")
+			resValue("string", "app_search_suggest_intent_data", "content://org.jellyfin.androidtv.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
@@ -47,8 +49,10 @@ android {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
 
-			// Add applicationId as string for XML resources
+			// Set package names used in various XML files
 			resValue("string", "app_id", "org.jellyfin.androidtv.debug")
+			resValue("string", "app_search_suggest_authority", "org.jellyfin.androidtv.debug.content")
+			resValue("string", "app_search_suggest_intent_data", "content://org.jellyfin.androidtv.debug.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
