@@ -19,8 +19,7 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 ) : BaseProfile() {
-	private val downmixSupportedAudioCodecs =
-		arrayOf(
+	private val downmixSupportedAudioCodecs = arrayOf(
 			CodecTypes.AAC,
 			CodecTypes.MP3,
 			CodecTypes.MP2
@@ -30,8 +29,7 @@ class ExoPlayerProfile(
 	 * Returns all audio codecs used commonly in video containers.
 	 * This does not include containers / codecs found in audio files
 	 */
-	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs +
-			arrayOf(
+	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs + arrayOf(
 				CodecTypes.AAC_LATM,
 				CodecTypes.ALAC,
 				CodecTypes.AC3,
@@ -103,16 +101,14 @@ class ExoPlayerProfile(
 					).joinToString(",")
 
 					audioCodec =
-						when (Utils.downMixAudio()) {
-							true -> downmixSupportedAudioCodecs.joinToString(",")
-							false -> allSupportedAudioCodecs.joinToString(",")
+						when {
+							Utils.downMixAudio() -> downmixSupportedAudioCodecs.joinToString(",")
+							else -> allSupportedAudioCodecs.joinToString(",")
 						}
 				})
 			}
 			// Audio direct play
-			add(
-				audioDirectPlayProfile(
-					allSupportedAudioCodecs + arrayOf(
+			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
 						CodecTypes.MPA,
 						CodecTypes.FLAC,
 						CodecTypes.WAV,
@@ -123,8 +119,7 @@ class ExoPlayerProfile(
 						CodecTypes.APE,
 						CodecTypes.OPUS,
 					)
-				)
-			)
+			))
 			// Photo direct play
 			add(photoDirectPlayProfile)
 		}.toTypedArray()
@@ -205,9 +200,4 @@ class ExoPlayerProfile(
 			subtitleProfile("idx", SubtitleDeliveryMethod.Embed)
 		)
 	}
-
-
-
-
-
 }

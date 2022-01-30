@@ -72,8 +72,7 @@ class LibVlcProfile(
 				).joinToString(",")
 			},
 			// Audio direct play
-			audioDirectPlayProfile(
-				arrayOf(
+			audioDirectPlayProfile(arrayOf(
 					CodecTypes.FLAC,
 					CodecTypes.AAC,
 					CodecTypes.MP3,
@@ -85,8 +84,7 @@ class LibVlcProfile(
 					ContainerTypes.OGA,
 					ContainerTypes.WEBMA,
 					CodecTypes.APE
-				)
-			),
+				)),
 			// Photo direct play
 			photoDirectPlayProfile
 		)
