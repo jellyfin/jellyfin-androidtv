@@ -97,16 +97,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
-        DefaultRenderersFactory defaultRendererFactory =
-                new DefaultRenderersFactory(activity) {
-                    @Override
-                    protected void buildTextRenderers(Context context, TextOutput output,
-                                                      Looper outputLooper, int extensionRendererMode,
-                                                      ArrayList<Renderer> out) {
-                        // Do not add text renderers since we handle subtitles
-                    }
-                }.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
-        mExoPlayer = new ExoPlayer.Builder(activity, defaultRendererFactory).build();
+
+        mExoPlayer = new ExoPlayer.Builder(
+                activity, configureExoplayerFactory(activity)).build();
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
@@ -145,6 +138,28 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.d("Caught player timeline change - reason: %s", reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
             }
         });
+    }
+
+    /**
+     * Configures Exoplayer for video playback. Initially we try with core decoders, but allow
+     * ExoPlayer to silently fallback to software renderers.
+     *
+     * @param activity                   The associated activity
+     * @return A configured factory for Exoplayer
+     */
+    private DefaultRenderersFactory configureExoplayerFactory(Activity activity) {
+        DefaultRenderersFactory defaultRendererFactory =
+                new DefaultRenderersFactory(activity) {
+                    @Override
+                    protected void buildTextRenderers(Context context, TextOutput output,
+                                                      Looper outputLooper, int extensionRendeexrerMode,
+                                                      ArrayList<Renderer> out) {
+                        // Do not add text renderers since we handle subtitles
+                    }
+                };
+        defaultRendererFactory.setEnableDecoderFallback(true);
+        defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        return defaultRendererFactory;
     }
 
     public boolean isInitialized() {
