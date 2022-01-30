@@ -131,6 +131,9 @@ dependencies {
 	implementation(libs.jellyfin.exoplayer.ffmpegextension)
 	implementation(libs.libvlc)
 
+	// Markdown
+	implementation(libs.bundles.markwon)
+
 	// Image utility
 	implementation(libs.glide.core)
 	kapt(libs.glide.compiler)

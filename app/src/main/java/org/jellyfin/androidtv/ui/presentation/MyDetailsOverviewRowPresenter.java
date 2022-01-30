@@ -17,15 +17,19 @@ import org.jellyfin.androidtv.ui.DetailRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.TextUtilsKt;
+import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
+    private final MarkdownRenderer markdownRenderer;
     private ViewHolder viewHolder;
 
-    public MyDetailsOverviewRowPresenter() {
+    public MyDetailsOverviewRowPresenter(MarkdownRenderer markdownRenderer) {
         super();
+
+        this.markdownRenderer = markdownRenderer;
+
         // Don't call setActivated() on views
         setSyncActivatePolicy(SYNC_ACTIVATED_CUSTOM);
     }
@@ -112,10 +116,9 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             vh.mProgress.setVisibility(View.VISIBLE);
         }
 
-        // Support simple HTML elements
         String summaryRaw = row.getSummary();
         if (summaryRaw != null)
-            vh.mSummary.setText(TextUtilsKt.toHtmlSpanned(summaryRaw));
+            vh.mSummary.setText(markdownRenderer.toMarkdownSpanned(summaryRaw));
 
         switch (row.getItem().getBaseItemType()) {
             case Person:

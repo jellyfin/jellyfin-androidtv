@@ -51,7 +51,7 @@ import org.jellyfin.androidtv.ui.shared.KeyListener;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
-import org.jellyfin.androidtv.util.TextUtilsKt;
+import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -98,6 +98,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -504,7 +505,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
             mTitle.setText(rowItem.getName(requireContext()));
 
             String summary = rowItem.getSummary(requireContext());
-            if (summary != null) mSummary.setText(TextUtilsKt.toHtmlSpanned(summary));
+            if (summary != null) mSummary.setText(markdownRenderer.getValue().toMarkdownSpanned(summary));
             else mSummary.setText(null);
 
             InfoLayoutHelper.addInfoRow(requireContext(), rowItem, mInfoRow, true, true);

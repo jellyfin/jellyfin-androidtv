@@ -28,8 +28,9 @@ import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.ListAdapter
-import org.jellyfin.androidtv.util.toHtmlSpanned
+import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ServerFragment : Fragment() {
@@ -38,6 +39,7 @@ class ServerFragment : Fragment() {
 	}
 
 	private val loginViewModel: LoginViewModel by sharedViewModel()
+	private val markdownRenderer: MarkdownRenderer by inject()
 	private lateinit var binding: FragmentServerBinding
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
@@ -96,7 +98,7 @@ class ServerFragment : Fragment() {
 	}
 
 	private fun onServerChange(server: Server) {
-		binding.loginDisclaimer.text = server.loginDisclaimer?.toHtmlSpanned()
+		binding.loginDisclaimer.text = server.loginDisclaimer?.let { markdownRenderer.toMarkdownSpanned(it) }
 
 		binding.serverButton.apply {
 			state = ServerButtonView.State.EDIT
