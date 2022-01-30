@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.preference
 
 import kotlinx.coroutines.runBlocking
 
-interface AsyncPreferenceStore : IPreferenceStore {
+interface AsyncPreferenceStore : PreferenceStore {
 	val shouldUpdate: Boolean
 
 	/**

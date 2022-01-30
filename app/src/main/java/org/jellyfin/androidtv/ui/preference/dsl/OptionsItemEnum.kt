@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.preference.dsl
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
-import org.jellyfin.androidtv.preference.IPreferenceStore
+import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import java.util.UUID
@@ -18,7 +18,7 @@ class OptionsItemEnum<T : Enum<T>>(
 
 	// Add exact copy of the OptionsItemMutable.bind function so the correct
 	// store getter and setter will be used.
-	override fun bind(store: IPreferenceStore, preference: Preference<T>) = bind {
+	override fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
 		get { store[preference] }
 		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }

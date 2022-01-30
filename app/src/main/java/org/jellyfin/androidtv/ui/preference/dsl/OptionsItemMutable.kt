@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui.preference.dsl
 
-import org.jellyfin.androidtv.preference.IPreferenceStore
+import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.preference.Preference
 
 abstract class OptionsItemMutable<T : Any> : OptionsItem {
@@ -11,7 +11,7 @@ abstract class OptionsItemMutable<T : Any> : OptionsItem {
 	protected var dependencyCheckFun: () -> Boolean = { true }
 	protected lateinit var binder: OptionsBinder<T>
 
-	open fun bind(store: IPreferenceStore, preference: Preference<T>) = bind {
+	open fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
 		get { store[preference] }
 		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }
