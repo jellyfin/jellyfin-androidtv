@@ -18,7 +18,7 @@
     <string name="lbl_genres">Жанры</string>
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не реализовано"</string>
-    <string name="lbl_latest">Последние</string>
+    <string name="lbl_latest">Крайние</string>
     <string name="lbl_by_name">По названиям</string>
     <string name="lbl_favorites">Избранное</string>
     <string name="lbl_coming_up">Ожидаемое</string>
@@ -28,7 +28,7 @@
     <string name="lbl_movies">Фильмы</string>
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
-    <string name="lbl_latest_additions">Последние добавления</string>
+    <string name="lbl_latest_additions">Крайние добавления</string>
     <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
     <string name="lbl_play_all">Воспр. все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
@@ -55,7 +55,7 @@
     <string name="lbl_min">" мин"</string>
     <string name="lbl_ends">Конец</string>
     <string name="lbl_directed_by">Режиссёр</string>
-    <string name="lbl_last_played">"Последнее воспроизведение "</string>
+    <string name="lbl_last_played">"Крайнее воспроизведение "</string>
     <string name="lbl_other_options">Другие опции</string>
     <string name="lbl_people">Люди</string>
     <string name="lbl_videos">Видео</string>
@@ -212,7 +212,7 @@
     <string name="lbl_new">Новое</string>
     <string name="lbl_repeat">Повтор</string>
     <string name="lbl_all_recordings">Все записи</string>
-    <string name="lbl_recent_recordings">Последние записи</string>
+    <string name="lbl_recent_recordings">Крайние записи</string>
     <string name="lbl_kids">Детское</string>
     <string name="lbl_sports">Спорт</string>
     <string name="msg_record_entire_series">Записать всю серию\?</string>
@@ -228,7 +228,7 @@
     <string name="pref_use_direct_path_title">Прямой вывод на внешний проигрыватель</string>
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
-    <string name="lbl_guide_option_played">Последнее воспроизведение</string>
+    <string name="lbl_guide_option_played">Крайнее воспроизведение</string>
     <string name="lbl_hours">час</string>
     <string name="lbl_minute">мин</string>
     <string name="lbl_hour">час</string>
@@ -277,8 +277,8 @@
     <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
     <string name="pref_acra_category">Отчёт о сбое</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
-    <string name="pref_next_up_timeout_summary">Задержка перед воспроизведениеми следующего элемента</string>
-    <string name="pref_libvlc_audio_delay_title">Задержка по умолчанию аудио для libVLC</string>
+    <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
+    <string name="pref_libvlc_audio_delay_title">Задержка аудио для libVLC по умолчанию</string>
     <string name="watch_now">Смотреть сейчас</string>
     <string name="pref_media_player">Предпочитаемый проигрыватель</string>
     <string name="pref_about_title">О приложении</string>
@@ -359,7 +359,7 @@
     <string name="lbl_remove">Удалить</string>
     <string name="lbl_server">Сервер</string>
     <string name="lbl_user_server">%1$s на %2$s</string>
-    <string name="lbl_user_last_used">Последнее использование - %1$s в %2$s</string>
+    <string name="lbl_user_last_used">Крайнее использование - %1$s в %2$s</string>
     <string name="lbl_remove_server">Изъять сервер</string>
     <string name="lbl_sign_out_content">Требуется вход при следующем обращении</string>
     <string name="lbl_remove_user_content">Удалить учётную запись</string>
@@ -386,8 +386,8 @@
     <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
     <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
-    <string name="user_picker_last_user_summary">Использовать последнюю активную учётную запись</string>
-    <string name="user_picker_last_user_title">Последнее использование</string>
+    <string name="user_picker_last_user_summary">Использовать крайнюю активную учётную запись</string>
+    <string name="user_picker_last_user_title">Крайнее использование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
     <string name="system_user_explanation">Выбранная учётная запись будет использована для системной интеграции, такой как поиск</string>
@@ -433,7 +433,7 @@
     <string name="lbl_stretch">Растяжение</string>
     <string name="lbl_auto_crop">Автообрезка</string>
     <string name="alphabetical">Алфавитный</string>
-    <string name="last_use">Последнее пользование</string>
+    <string name="last_use">Крайнее пользование</string>
     <string name="advanced_settings">Расширенное</string>
     <string name="always_authenticate_description">Включение этой функции отключает автоматический вход в систему</string>
     <string name="always_authenticate">Всегда запрашивать учётные данные</string>
@@ -458,7 +458,7 @@
     <string name="home_section_resume">Продолжение просмотра</string>
     <string name="home_section_library_small">Мои медиаданные (компактно)</string>
     <string name="home_section_library">Мои медиаданные</string>
-    <string name="home_section_latest_media">Последние медиаданные</string>
+    <string name="home_section_latest_media">Крайние медиаданные</string>
     <string name="home_prefs">Главное</string>
     <string name="searchable_settings_description">Медиаданные</string>
     <string name="searchable_hint">Поиск Jellyfin</string>
@@ -479,7 +479,7 @@
     <string name="pref_customization">Пользовательская настройка</string>
     <string name="pref_direct_stream_live_on">Перекодирование выключено</string>
     <string name="pref_direct_stream_live_off">Перекодирование используется при необходимости</string>
-    <string name="pref_libraries_description">Изменить способ отображения библиотек</string>
+    <string name="pref_libraries_description">Изменить способ отображения медиатек</string>
     <string name="pref_home_description">Настройка отображаемых разделов</string>
     <string name="sort_accounts_by">Сортировка учётных записей по</string>
     <string name="pref_refresh_switching_description">Частота обновления монитора изменяется в соответствии с видео</string>
