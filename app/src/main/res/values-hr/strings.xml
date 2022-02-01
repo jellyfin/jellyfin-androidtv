@@ -10,7 +10,7 @@
     <string name="lbl_no">Ne</string>
     <string name="lbl_enter_user_pw">Unesi lozinku</string>
     <string name="lbl_enter_user_name">Unesi korisničko ime</string>
-    <string name="lbl_bracket_unknown">&lt;nepoznato&gt;</string>
+    <string name="lbl_bracket_unknown">Nepoznato</string>
     <string name="msg_video_playback_error">"Greška pri reprodukciji "</string>
     <string name="lbl_none">Nijedan</string>
     <string name="lbl_recordings">Snimke</string>
@@ -290,15 +290,15 @@
     <string name="lbl_recent_recordings">Nedavne snimke</string>
     <string name="lbl_kids">Dječji</string>
     <string name="lbl_sports">Sport</string>
-    <string name="no_program_data">&lt;Nema podataka o programu&gt;</string>
+    <string name="no_program_data">Nema podataka o programu</string>
     <string name="msg_record_entire_series">Snimi cijelu seriju\?</string>
     <string name="lbl_just_this_once">Samo ovaj put</string>
     <string name="lbl_select_date">Odaberi datum</string>
     <string name="lbl_in_x_days">Za %d dana</string>
-    <string name="lbl_bitstream_dts">Bitstream DTS Zvuk</string>
+    <string name="lbl_bitstream_dts">Bitstream DTS zvuk</string>
     <string name="desc_premieres">Prikaži red novih pilot epizoda serija koje gledate</string>
-    <string name="lbl_show_premieres">Prikaži premijere sezone kod pregledavanja</string>
-    <string name="lbl_show_backdrop">Prikaži pozadinu tijekom pregledavanja</string>
+    <string name="lbl_show_premieres">Prikaži premijere sezone</string>
+    <string name="lbl_show_backdrop">Prikaži pozadine</string>
     <string name="lbl_open">Otvori</string>
     <string name="lbl_play_next_up">Reproduciraj sljedeće</string>
     <string name="lbl_clear_queue">Očisti red</string>
@@ -333,7 +333,7 @@
     <string name="msg_items_added">" stavki dodano"</string>
     <string name="lbl_warning">Upozorenje</string>
     <string name="lbl_playlists">Liste za reprodukciju</string>
-    <string name="sum_enable_cinema_mode">Prikaži uvod i foršpane prije reprodukcije filma, ako ih je poslužitelj omogućio</string>
+    <string name="sum_enable_cinema_mode">Reproduciraj uvod i foršpane prije reprodukcije filma</string>
     <string name="lbl_enable_cinema_mode">Kino ugođaj</string>
     <string name="lbl_episodes">Epizode</string>
     <string name="lbl_album">Album</string>
@@ -432,4 +432,7 @@
     <string name="lbl_sign_out">Odjava</string>
     <string name="help">Pomoć</string>
     <string name="auto_sign_in">Automatska prijava</string>
+    <string name="pref_refresh_switching_description">Brzina osvježenja monitora se mijenja kako bi se podudarala sa video zapisom</string>
+    <string name="pref_show_backdrop_description">Promijeni pozadinsku sliku u označene stavke</string>
+    <string name="lbl_playback_speed">Brzina reprodukcije</string>
 </resources>
