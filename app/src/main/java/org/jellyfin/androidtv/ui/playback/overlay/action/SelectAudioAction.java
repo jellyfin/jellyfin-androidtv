@@ -27,16 +27,12 @@ public class SelectAudioAction extends CustomAction {
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
 
         List<MediaStream> audioTracks = KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
-        Integer currentAudioIndex = playbackController.getAudioStreamIndex();
-        if (!playbackController.isNativeMode() && currentAudioIndex != null && currentAudioIndex > audioTracks.size()) {
-            //VLC has translated this to an ID - we need to translate back to our index positionally
-            currentAudioIndex = playbackController.translateVlcAudioId(currentAudioIndex);
-        }
+        int currentAudioIndex = playbackController.getAudioStreamIndex();
 
         PopupMenu audioMenu = new PopupMenu(context, view, Gravity.END);
         for (MediaStream audio : audioTracks) {
             MenuItem item = audioMenu.getMenu().add(0, audio.getIndex(), audio.getIndex(), audio.getDisplayTitle());
-            if (currentAudioIndex != null && currentAudioIndex == audio.getIndex())
+            if (currentAudioIndex == audio.getIndex())
                 item.setChecked(true);
         }
         audioMenu.getMenu().setGroupCheckable(0, true, false);
