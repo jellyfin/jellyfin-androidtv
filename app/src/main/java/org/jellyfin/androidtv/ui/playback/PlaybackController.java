@@ -20,7 +20,6 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.preference.PreferenceStore;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -211,7 +210,7 @@ public class PlaybackController {
     public Integer getAudioStreamIndex() {
         if (!hasInitializedVideoManager())
             return 0;
-        return isTranscoding() ? mCurrentStreamInfo.getAudioStreamIndex() != null ? mCurrentStreamInfo.getAudioStreamIndex() : mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
+        return isTranscoding() ? mCurrentOptions.getAudioStreamIndex() : mVideoManager.getAudioTrack() > -1 ? Integer.valueOf(mVideoManager.getAudioTrack()) : bestGuessAudioTrack(getCurrentMediaSource());
     }
 
     public List<SubtitleStreamInfo> getSubtitleStreams() {
@@ -485,7 +484,6 @@ public class PlaybackController {
 
                 //Build options for each player
                 VideoOptions vlcOptions = new VideoOptions();
-                vlcOptions.setDeviceId(apiClient.getValue().getDeviceId());
                 vlcOptions.setItemId(item.getId());
                 vlcOptions.setMediaSources(item.getMediaSources());
                 vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -500,7 +498,6 @@ public class PlaybackController {
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();
-                internalOptions.setDeviceId(apiClient.getValue().getDeviceId());
                 internalOptions.setItemId(item.getId());
                 internalOptions.setMediaSources(item.getMediaSources());
                 internalOptions.setMaxBitrate(Utils.getMaxBitrate());
@@ -744,10 +741,6 @@ public class PlaybackController {
         } else if (mVideoManager != null) {
             mVideoManager.setNativeMode(true);
             Timber.i("Playing back in native mode.");
-            if (Utils.downMixAudio()) {
-                Timber.i("Setting max audio to 2-channels");
-                mCurrentStreamInfo.setMaxAudioChannels(2);
-            }
         }
 
         // set refresh rate

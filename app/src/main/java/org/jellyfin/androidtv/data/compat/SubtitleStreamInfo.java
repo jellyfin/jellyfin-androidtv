@@ -14,16 +14,6 @@ public class SubtitleStreamInfo {
         Url = value;
     }
 
-    private String Language;
-
-    public final String getLanguage() {
-        return Language;
-    }
-
-    public final void setLanguage(String value) {
-        Language = value;
-    }
-
     private String Name;
 
     public final String getName() {
@@ -32,16 +22,6 @@ public class SubtitleStreamInfo {
 
     public final void setName(String value) {
         Name = value;
-    }
-
-    private boolean IsForced;
-
-    public final boolean getIsForced() {
-        return IsForced;
-    }
-
-    public final void setIsForced(boolean value) {
-        IsForced = value;
     }
 
     private String Format;
@@ -82,15 +62,5 @@ public class SubtitleStreamInfo {
 
     public final void setDeliveryMethod(SubtitleDeliveryMethod value) {
         DeliveryMethod = value;
-    }
-
-    private boolean IsExternalUrl;
-
-    public final boolean getIsExternalUrl() {
-        return IsExternalUrl;
-    }
-
-    public final void setIsExternalUrl(boolean value) {
-        IsExternalUrl = value;
     }
 }
