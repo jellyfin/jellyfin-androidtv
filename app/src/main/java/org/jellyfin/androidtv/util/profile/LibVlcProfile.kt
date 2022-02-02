@@ -73,17 +73,17 @@ class LibVlcProfile(
 			},
 			// Audio direct play
 			audioDirectPlayProfile(arrayOf(
-					CodecTypes.FLAC,
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.MPA,
-					CodecTypes.WAV,
-					CodecTypes.WMA,
-					CodecTypes.MP2,
-					ContainerTypes.OGG,
-					ContainerTypes.OGA,
-					ContainerTypes.WEBMA,
-					CodecTypes.APE
+				CodecTypes.FLAC,
+				CodecTypes.AAC,
+				CodecTypes.MP3,
+				CodecTypes.MPA,
+				CodecTypes.WAV,
+				CodecTypes.WMA,
+				CodecTypes.MP2,
+				ContainerTypes.OGG,
+				ContainerTypes.OGA,
+				ContainerTypes.WEBMA,
+				CodecTypes.APE
 				)),
 			// Photo direct play
 			photoDirectPlayProfile
