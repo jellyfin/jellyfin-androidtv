@@ -49,8 +49,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
-    private PlaybackSpeedAction playbackSpeedAction;
     private AdjustAudioDelayAction adjustAudioDelayAction;
+    private PlaybackSpeedAction playbackSpeedAction;
     private ZoomAction zoomAction;
     private ChapterAction chapterAction;
 
@@ -178,10 +178,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
-        playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
-        playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
         adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
+        playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
+        playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         zoomAction = new ZoomAction(context, this);
         zoomAction.setLabels(new String[]{context.getString(R.string.lbl_zoom)});
         chapterAction = new ChapterAction(context, this);
@@ -226,10 +226,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             primaryActionsAdapter.add(closedCaptionsAction);
         }
 
-        if (!isLiveTv()) {
-            primaryActionsAdapter.add(playbackSpeedAction);
-        }
-
         if (hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
         }
@@ -238,7 +234,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
         }
-
 
         // Secondary Items
         if (isLiveTv()) {
@@ -257,6 +252,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (hasChapters()) {
             secondaryActionsAdapter.add(chapterAction);
         }
+
+        if (!isLiveTv()) {
+            secondaryActionsAdapter.add(playbackSpeedAction);
+        }
+
 
         if (!isNativeMode()) {
             secondaryActionsAdapter.add(adjustAudioDelayAction);
