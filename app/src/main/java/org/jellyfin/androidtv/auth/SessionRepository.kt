@@ -99,7 +99,7 @@ class SessionRepositoryImpl(
 
 		_currentSession.value = null
 		userApiClient.applySession(null)
-		apiBinder.updateSession(null) { }
+		apiBinder.updateSession(null)
 	}
 
 	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
