@@ -71,32 +71,32 @@ abstract class DisplayPreferencesStore(
 		}
 	}
 
-	override fun getInt(keyName: String, defaultValue: Int) =
-		cachedPreferences[keyName]?.toIntOrNull() ?: defaultValue
+	override fun getInt(key: String, defaultValue: Int) =
+		cachedPreferences[key]?.toIntOrNull() ?: defaultValue
 
-	override fun getLong(keyName: String, defaultValue: Long) =
-		cachedPreferences[keyName]?.toLongOrNull() ?: defaultValue
+	override fun getLong(key: String, defaultValue: Long) =
+		cachedPreferences[key]?.toLongOrNull() ?: defaultValue
 
-	override fun getBool(keyName: String, defaultValue: Boolean) =
-		cachedPreferences[keyName]?.toBooleanStrictOrNull() ?: defaultValue
+	override fun getBool(key: String, defaultValue: Boolean) =
+		cachedPreferences[key]?.toBooleanStrictOrNull() ?: defaultValue
 
-	override fun getString(keyName: String, defaultValue: String) =
-		cachedPreferences[keyName] ?: defaultValue
+	override fun getString(key: String, defaultValue: String) =
+		cachedPreferences[key] ?: defaultValue
 
-	override fun setInt(keyName: String, value: Int) {
-		cachedPreferences[keyName] = value.toString()
+	override fun setInt(key: String, value: Int) {
+		cachedPreferences[key] = value.toString()
 	}
 
-	override fun setLong(keyName: String, value: Long) {
-		cachedPreferences[keyName] = value.toString()
+	override fun setLong(key: String, value: Long) {
+		cachedPreferences[key] = value.toString()
 	}
 
-	override fun setBool(keyName: String, value: Boolean) {
-		cachedPreferences[keyName] = value.toString()
+	override fun setBool(key: String, value: Boolean) {
+		cachedPreferences[key] = value.toString()
 	}
 
-	override fun setString(keyName: String, value: String) {
-		cachedPreferences[keyName] = value
+	override fun setString(key: String, value: String) {
+		cachedPreferences[key] = value
 	}
 
 	override fun <T : Any> delete(preference: Preference<T>) {

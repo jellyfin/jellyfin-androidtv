@@ -36,25 +36,25 @@ abstract class SharedPreferenceStore(
 		editor.apply()
 	}
 
-	override fun getInt(keyName: String, defaultValue: Int) =
-		sharedPreferences.getInt(keyName, defaultValue)
+	override fun getInt(key: String, defaultValue: Int) =
+		sharedPreferences.getInt(key, defaultValue)
 
-	override fun getLong(keyName: String, defaultValue: Long) =
-		sharedPreferences.getLong(keyName, defaultValue)
+	override fun getLong(key: String, defaultValue: Long) =
+		sharedPreferences.getLong(key, defaultValue)
 
-	override fun getBool(keyName: String, defaultValue: Boolean) =
-		sharedPreferences.getBoolean(keyName, defaultValue)
+	override fun getBool(key: String, defaultValue: Boolean) =
+		sharedPreferences.getBoolean(key, defaultValue)
 
-	override fun getString(keyName: String, defaultValue: String) =
-		sharedPreferences.getString(keyName, defaultValue) ?: defaultValue
+	override fun getString(key: String, defaultValue: String) =
+		sharedPreferences.getString(key, defaultValue) ?: defaultValue
 
-	override fun setInt(keyName: String, value: Int) = transaction { putInt(keyName, value) }
-	override fun setLong(keyName: String, value: Long) = transaction { putLong(keyName, value) }
-	override fun setBool(keyName: String, value: Boolean) =
-		transaction { putBoolean(keyName, value) }
+	override fun setInt(key: String, value: Int) = transaction { putInt(key, value) }
+	override fun setLong(key: String, value: Long) = transaction { putLong(key, value) }
+	override fun setBool(key: String, value: Boolean) =
+		transaction { putBoolean(key, value) }
 
-	override fun setString(keyName: String, value: String) =
-		transaction { putString(keyName, value) }
+	override fun setString(key: String, value: String) =
+		transaction { putString(key, value) }
 
 	// Additional mutations
 	override fun <T : Any> delete(preference: Preference<T>) = transaction {

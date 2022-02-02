@@ -6,45 +6,45 @@ import kotlin.test.assertEquals
 
 class PreferenceStoreTest {
 	class TestStub : PreferenceStore() {
-		var keyName: String? = null
+		var key: String? = null
 		var int: Int? = null
 		var long: Long? = null
 		var bool: Boolean? = null
 		var string: String? = null
 
-		override fun getInt(keyName: String, defaultValue: Int): Int {
+		override fun getInt(key: String, defaultValue: Int): Int {
 			return int ?: 0
 		}
 
-		override fun getLong(keyName: String, defaultValue: Long): Long {
+		override fun getLong(key: String, defaultValue: Long): Long {
 			return long ?: 0
 		}
 
-		override fun getBool(keyName: String, defaultValue: Boolean): Boolean {
+		override fun getBool(key: String, defaultValue: Boolean): Boolean {
 			return bool ?: false
 		}
 
-		override fun getString(keyName: String, defaultValue: String): String {
+		override fun getString(key: String, defaultValue: String): String {
 			return string ?: ""
 		}
 
-		override fun setInt(keyName: String, value: Int) {
-			this.keyName = keyName
+		override fun setInt(key: String, value: Int) {
+			this.key = key
 			int = value
 		}
 
-		override fun setLong(keyName: String, value: Long) {
-			this.keyName = keyName
+		override fun setLong(key: String, value: Long) {
+			this.key = key
 			long = value
 		}
 
-		override fun setBool(keyName: String, value: Boolean) {
-			this.keyName = keyName
+		override fun setBool(key: String, value: Boolean) {
+			this.key = key
 			bool = value
 		}
 
-		override fun setString(keyName: String, value: String) {
-			this.keyName = keyName
+		override fun setString(key: String, value: String) {
+			this.key = key
 			string = value
 		}
 
@@ -61,51 +61,51 @@ class PreferenceStoreTest {
 
 	@Test
 	fun testGetSetInt() {
-		val pref = Preference.int("keyName", 0)
+		val pref = Preference.int("key", 0)
 		val expectedVal = 1
 		instance[pref] = expectedVal
 		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.keyName)
+		assertEquals(pref.key, instance.key)
 	}
 
 	@Test
 	fun testGetSetLong() {
-		val pref = Preference.long("keyName", 0)
+		val pref = Preference.long("key", 0)
 		val expectedVal: Long = 1
 		instance[pref] = expectedVal
 		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.keyName)
+		assertEquals(pref.key, instance.key)
 	}
 
 	@Test
 	fun testGetSetBoolean() {
-		val pref = Preference.boolean("keyName", false)
+		val pref = Preference.boolean("key", false)
 		val expectedVal = true
 		instance[pref] = expectedVal
 		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.keyName)
+		assertEquals(pref.key, instance.key)
 	}
 
 	@Test
 	fun testGetSetString() {
-		val pref = Preference.string("keyName", "")
+		val pref = Preference.string("key", "")
 		val expectedVal = "val"
 		instance[pref] = expectedVal
 		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.keyName)
+		assertEquals(pref.key, instance.key)
 	}
 
 	enum class TestEnum { NOT_SET, SET }
 
 	@Test
 	fun testGetSetEnum() {
-		val pref = Preference.enum("keyName", TestEnum.NOT_SET)
+		val pref = Preference.enum("key", TestEnum.NOT_SET)
 		val expectedVal = TestEnum.SET
 
 		instance[pref] = expectedVal
 
 		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.keyName)
+		assertEquals(pref.key, instance.key)
 		// Check it was serialised correctly
 		assertEquals(expectedVal.toString(), instance.string)
 	}
