@@ -653,16 +653,16 @@ public class PlaybackController {
                                 return;
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
 
-                            Timber.d("internal audio index %s response default %s", internalOptions.getAudioStreamIndex(), internalResponse.getMediaSource().getDefaultAudioStreamIndex());
+                            Timber.d("current selected audio index: %s server default: %s inferred first track: %s", internalOptions.getAudioStreamIndex(), internalResponse.getMediaSource().getDefaultAudioStreamIndex(), bestGuessAudioTrack(internalResponse.getMediaSource()));
 
                             Integer currAudioIndex = internalOptions.getAudioStreamIndex();
                             Integer defaultAudioIndex = internalResponse.getMediaSource().getDefaultAudioStreamIndex();
                             Integer firstAudioIndex = bestGuessAudioTrack(internalResponse.getMediaSource());
 
                                             // if an audio index is specified but is not the default or inferred first
-                            if (!useVlc && (currAudioIndex != null && (!currAudioIndex.equals(defaultAudioIndex) || !currAudioIndex.equals(firstAudioIndex))) ||
+                            if (!useVlc && (currAudioIndex != null && ((defaultAudioIndex != null && !currAudioIndex.equals(defaultAudioIndex)) || (firstAudioIndex != null && !currAudioIndex.equals(firstAudioIndex)))) ||
                                             // if an audio index is not specified but the default is not the inferred first
-                                            (currAudioIndex == null && firstAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex))) {
+                                            (currAudioIndex == null && firstAudioIndex != null && defaultAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex))) {
 
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                                 // remove direct play profiles to force the transcode

@@ -407,6 +407,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public int getAudioTrack() {
         if (!isInitialized() || nativeMode)
             return -1;
+
         Timber.d("vlc audio track is %s", mVlcPlayer.getAudioTrack());
         return mVlcPlayer.getAudioTrack();
     }
