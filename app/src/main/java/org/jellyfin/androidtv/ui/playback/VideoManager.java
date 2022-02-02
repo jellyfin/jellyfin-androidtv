@@ -420,6 +420,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return -1;
         }
 
+        //debug
+        Timber.d("Setting VLC audio track index to: %d", ndx);
+        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+            Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
+        }
+        //
+
         boolean matched = false;
         for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
             if (track.id == ndx) {
@@ -444,16 +451,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         if (!matched || vlcTrack == null) {
             Timber.e("Could not locate audio track with index %s in vlc", ndx);
+            return -1;
         } else if (mVlcPlayer.getAudioTrack() == ndx) {
             Timber.d("provided index points to the audio track already in use, aborting");
+            return -1;
         }
-
-        //debug
-        Timber.d("Setting VLC audio track index to: %d / %d", ndx, vlcTrack.id);
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
-            Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
-        }
-        //
 
         if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
             Timber.i("Setting by ID was successful");

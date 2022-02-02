@@ -211,7 +211,7 @@ public class PlaybackController {
     public int getAudioStreamIndex() {
         if (!hasInitializedVideoManager()) return mDefaultAudioIndex;
 
-        if (mVideoManager.getAudioTrack() > -1)
+        if (!isTranscoding() && mVideoManager.getAudioTrack() > -1)
             return mVideoManager.getAudioTrack();
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getAudioStreamIndex() != null) {
             return mCurrentStreamInfo.getAudioStreamIndex();
@@ -238,7 +238,9 @@ public class PlaybackController {
     }
 
     public boolean isTranscoding() {
-        return mCurrentStreamInfo != null && mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode;
+        // use or here so that true is the default since
+        // this method is used to exclude features that may break unless we are sure playback is direct
+        return mCurrentStreamInfo == null || mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode;
     }
 
     public boolean hasNextItem() {
@@ -519,7 +521,6 @@ public class PlaybackController {
                     );
                     ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
-
                 } else {
                     Timber.i("*** Using default android profile");
                 }
@@ -651,16 +652,33 @@ public class PlaybackController {
                             if (mVideoManager == null)
                                 return;
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
-                            if (!useVlc && (internalOptions.getAudioStreamIndex() != null && !internalOptions.getAudioStreamIndex().equals(bestGuessAudioTrack(internalResponse.getMediaSource())))) {
+
+                            Timber.d("internal audio index %s response default %s", internalOptions.getAudioStreamIndex(), internalResponse.getMediaSource().getDefaultAudioStreamIndex());
+
+                            Integer currAudioIndex = internalOptions.getAudioStreamIndex();
+                            Integer defaultAudioIndex = internalResponse.getMediaSource().getDefaultAudioStreamIndex();
+                            Integer firstAudioIndex = bestGuessAudioTrack(internalResponse.getMediaSource());
+
+                                            // if an audio index is specified but in not the default or inferred first
+                            if (!useVlc && (currAudioIndex != null && (!currAudioIndex.equals(defaultAudioIndex) || !currAudioIndex.equals(firstAudioIndex))) ||
+                                            // if an audio index is not specified but the default is not the inferred first
+                                            (currAudioIndex == null && firstAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex))) {
+
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                                 // remove direct play profiles to force the transcode
                                 final DeviceProfile save = internalOptions.getProfile();
-                                DeviceProfile newProfile = new ExoPlayerProfile(
-                                        isLiveTv,
-                                        userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
-                                );
-                                if (!Utils.downMixAudio())
+
+                                DeviceProfile newProfile = new BaseProfile();
+                                if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
+                                    newProfile = new ExoPlayerProfile(
+                                            isLiveTv,
+                                            userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
+                                    );
                                     ProfileHelper.addAc3Streaming(newProfile, true);
+                                    Timber.i("*** Using extended Exoplayer profile options");
+                                } else {
+                                    Timber.i("*** Using default android profile");
+                                }
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
@@ -837,7 +855,7 @@ public class PlaybackController {
         // get current timestamp first
         refreshCurrentPosition();
 
-        if (mVideoManager.isNativeMode()) {
+        if (mVideoManager.isNativeMode() || isTranscoding()) {
             startSpinner();
             Timber.d("Setting audio index to: %d", index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
