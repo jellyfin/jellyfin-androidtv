@@ -21,16 +21,17 @@ class ApiBinder(
 	private val device: IDevice,
 	private val authenticationStore: AuthenticationStore,
 ) {
-	fun updateSession(session: Session?, resultCallback: (Boolean) -> Unit) {
+	fun updateSession(session: Session?, resultCallback: ((Boolean) -> Unit)? = null) {
 		GlobalScope.launch(Dispatchers.IO) {
 			@Suppress("TooGenericExceptionCaught")
-			try {
-				val success = updateSessionInternal(session)
-				resultCallback(success)
+			val success = try {
+				updateSessionInternal(session)
 			} catch (throwable: Throwable) {
 				Timber.e(throwable, "Unable to update legacy API session.")
-				resultCallback(false)
+				false
 			}
+
+			resultCallback?.invoke(success)
 		}
 	}
 
