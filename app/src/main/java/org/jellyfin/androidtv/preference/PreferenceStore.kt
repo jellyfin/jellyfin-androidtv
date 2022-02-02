@@ -57,24 +57,7 @@ abstract class PreferenceStore {
 	protected abstract fun setString(key: String, value: String)
 
 	// Private Enum handling, all Enum types are serialized to / from String types
-	private fun <T : Enum<T>> getEnum(preference: Preference<T>): T {
-		val stringValue = getString(preference.key, "")
+	protected abstract fun <T : Enum<T>> getEnum(preference: Preference<T>): T
 
-		if (stringValue.isBlank()) {
-			return preference.defaultValue
-		}
-
-		val loadedVal = preference.type.java.enumConstants?.find {
-			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
-		} ?: preference.defaultValue
-		return loadedVal
-	}
-
-	private fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
-		setString(
-			preference.key, when (value) {
-				is PreferenceEnum -> value.serializedName
-				else -> value.toString()
-			}
-		)
+	protected abstract fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>)
 }

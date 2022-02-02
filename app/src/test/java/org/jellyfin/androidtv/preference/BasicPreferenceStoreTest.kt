@@ -4,28 +4,31 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
+/**
+ * Tests that the generic set/get methods dispatch to the correct
+ * internal getT/setT methods
+ */
 class PreferenceStoreTest {
 	class TestStub : PreferenceStore() {
 		var key: String? = null
-		var int: Int? = null
-		var long: Long? = null
-		var bool: Boolean? = null
-		var string: String? = null
+		private var int: Int? = null
+		private var long: Long? = null
+		private var bool: Boolean? = null
+		private var string: String? = null
+		private var enum: Enum<*>? = null
 
-		override fun getInt(key: String, defaultValue: Int): Int {
-			return int ?: 0
-		}
+		@Suppress("UNCHECKED_CAST")
+		override fun <T : Enum<T>> getEnum(preference: Preference<T>): T =
+			(this.enum ?: preference.defaultValue) as T
 
-		override fun getLong(key: String, defaultValue: Long): Long {
-			return long ?: 0
-		}
+		override fun getInt(key: String, defaultValue: Int): Int = int ?: 0
+		override fun getLong(key: String, defaultValue: Long): Long = long ?: 0
+		override fun getBool(key: String, defaultValue: Boolean): Boolean = bool ?: false
+		override fun getString(key: String, defaultValue: String) = string ?: ""
 
-		override fun getBool(key: String, defaultValue: Boolean): Boolean {
-			return bool ?: false
-		}
-
-		override fun getString(key: String, defaultValue: String): String {
-			return string ?: ""
+		override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) {
+			key = preference.key
+			enum = value
 		}
 
 		override fun setInt(key: String, value: Int) {
@@ -48,6 +51,7 @@ class PreferenceStoreTest {
 			string = value
 		}
 
+
 		override fun <T : Any> delete(preference: Preference<T>) {
 			throw NotImplementedError("Not required for tests")
 		}
@@ -57,6 +61,7 @@ class PreferenceStoreTest {
 	fun setup() {
 		instance = TestStub()
 	}
+
 	private lateinit var instance: TestStub
 
 	@Test
@@ -101,13 +106,9 @@ class PreferenceStoreTest {
 	fun testGetSetEnum() {
 		val pref = Preference.enum("key", TestEnum.NOT_SET)
 		val expectedVal = TestEnum.SET
-
 		instance[pref] = expectedVal
-
 		assertEquals(expectedVal, instance[pref])
 		assertEquals(pref.key, instance.key)
-		// Check it was serialised correctly
-		assertEquals(expectedVal.toString(), instance.string)
 	}
 
 }
