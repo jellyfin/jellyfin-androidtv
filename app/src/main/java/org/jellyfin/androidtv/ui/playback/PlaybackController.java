@@ -659,8 +659,8 @@ public class PlaybackController {
                             Integer defaultAudioIndex = internalResponse.getMediaSource().getDefaultAudioStreamIndex();
                             Integer firstAudioIndex = bestGuessAudioTrack(internalResponse.getMediaSource());
 
-                                            // if an audio index is specified but is not the default or inferred first
-                            if (!useVlc && (currAudioIndex != null && ((defaultAudioIndex != null && !currAudioIndex.equals(defaultAudioIndex)) || (firstAudioIndex != null && !currAudioIndex.equals(firstAudioIndex)))) ||
+                                            // if an audio index is specified but is not the inferred first
+                            if (!useVlc && (currAudioIndex != null && firstAudioIndex != null && !currAudioIndex.equals(firstAudioIndex)) ||
                                             // if an audio index is not specified but the default is not the inferred first
                                             (currAudioIndex == null && firstAudioIndex != null && defaultAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex))) {
 
