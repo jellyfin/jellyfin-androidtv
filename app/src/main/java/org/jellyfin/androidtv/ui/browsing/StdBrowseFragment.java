@@ -46,7 +46,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoader {
+public class StdBrowseFragment extends BrowseSupportFragment implements RowLoader {
     protected String MainTitle;
     protected boolean ShowBadge = true;
     protected BaseRowItem mCurrentItem;
@@ -75,7 +75,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements IRowLoad
         setupEventListeners();
     }
 
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(RowLoader rowLoader) {
         rowLoader.loadRows(mRows);
     }
 

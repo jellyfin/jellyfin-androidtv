@@ -26,7 +26,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
     private static BaseItemType[] showSpecialViewTypes = new BaseItemType[] {BaseItemType.CollectionFolder, BaseItemType.Folder, BaseItemType.UserView, BaseItemType.ChannelFolderItem };
 
     @Override
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(RowLoader rowLoader) {
 
         if (mFolder.getBaseItemType() == BaseItemType.RecordingGroup){
             RecordingQuery query = new RecordingQuery();

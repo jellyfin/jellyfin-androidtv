@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -45,7 +45,7 @@ public class LiveProgramDetailPopup {
     private BaseItemDto mProgram;
     private ProgramGridCell mSelectedProgramView;
     private BaseActivity mActivity;
-    private ILiveTvGuide mTvGuide;
+    private LiveTvGuide mTvGuide;
     private TextView mDTitle;
     private TextView mDSummary;
     private TextView mDRecordInfo;
@@ -64,7 +64,7 @@ public class LiveProgramDetailPopup {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
-    public LiveProgramDetailPopup(BaseActivity activity, ILiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
+    public LiveProgramDetailPopup(BaseActivity activity, LiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
         mActivity = activity;
         mTvGuide = tvGuide;
         mTuneAction = tuneAction;

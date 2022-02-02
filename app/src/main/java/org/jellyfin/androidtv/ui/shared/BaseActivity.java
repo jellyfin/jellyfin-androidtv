@@ -11,8 +11,8 @@ import kotlin.ReplaceWith;
 
 @Deprecated(message = "Use FragmentActivity instead", replaceWith = @ReplaceWith(expression = "FragmentActivity", imports = {}))
 public abstract class BaseActivity extends FragmentActivity {
-    private IKeyListener keyListener;
-    private IMessageListener messageListener;
+    private KeyListener keyListener;
+    private MessageListener messageListener;
 
     public BaseActivity() {
         super();
@@ -22,11 +22,11 @@ public abstract class BaseActivity extends FragmentActivity {
         super(fragmentContentView);
     }
 
-    public void registerKeyListener(IKeyListener listener) {
+    public void registerKeyListener(KeyListener listener) {
         keyListener = listener;
     }
 
-    public void registerMessageListener(IMessageListener listener) {
+    public void registerMessageListener(MessageListener listener) {
         messageListener = listener;
     }
 

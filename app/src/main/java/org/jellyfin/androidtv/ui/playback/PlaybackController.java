@@ -20,7 +20,6 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.preference.PreferenceStore;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -82,7 +81,7 @@ public class PlaybackController {
     private List<SubtitleStreamInfo> mSubtitleStreams;
 
     @Nullable
-    private IPlaybackOverlayFragment mFragment;
+    private PlaybackOverlayFragment mFragment;
     private Boolean spinnerOff = false;
 
     private VideoOptions mCurrentOptions;
@@ -117,7 +116,7 @@ public class PlaybackController {
     private Display.Mode[] mDisplayModes;
     private boolean refreshRateSwitchingEnabled;
 
-    public PlaybackController(List<BaseItemDto> items, IPlaybackOverlayFragment fragment) {
+    public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
         mHandler = new Handler();
@@ -138,11 +137,11 @@ public class PlaybackController {
         return mFragment != null;
     }
 
-    public IPlaybackOverlayFragment getFragment() {
+    public PlaybackOverlayFragment getFragment() {
         return mFragment;
     }
 
-    public void init(VideoManager mgr, IPlaybackOverlayFragment fragment) {
+    public void init(VideoManager mgr, PlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());

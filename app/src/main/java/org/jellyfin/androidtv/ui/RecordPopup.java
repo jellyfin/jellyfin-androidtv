@@ -42,7 +42,7 @@ public class RecordPopup {
     PopupWindow mPopup;
     String mProgramId;
     SeriesTimerInfoDto mCurrentOptions;
-    IRecordingIndicatorView mSelectedView;
+    RecordingIndicatorView mSelectedView;
     View mAnchorView;
     int mPosLeft;
     int mPosTop;
@@ -188,7 +188,7 @@ public class RecordPopup {
         return (mPopup != null && mPopup.isShowing());
     }
 
-    public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, IRecordingIndicatorView selectedView, boolean recordSeries) {
+    public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, RecordingIndicatorView selectedView, boolean recordSeries) {
         mProgramId = program.getId();
         mCurrentOptions = current;
         mRecordSeries = recordSeries;

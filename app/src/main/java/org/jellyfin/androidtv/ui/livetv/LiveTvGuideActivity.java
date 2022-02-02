@@ -45,7 +45,7 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -68,7 +68,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
+public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     public static final int ROW_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(),55);
     public static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(),7);
     public static final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(TvApp.getApplication(), 20);
@@ -213,7 +213,7 @@ public class LiveTvGuideActivity extends BaseActivity implements ILiveTvGuide {
         mChannelScroller.setFocusable(false);
 
         //Register to receive message from popup
-        registerMessageListener(new IMessageListener() {
+        registerMessageListener(new MessageListener() {
             @Override
             public void onMessageReceived(CustomMessage message) {
                 if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();

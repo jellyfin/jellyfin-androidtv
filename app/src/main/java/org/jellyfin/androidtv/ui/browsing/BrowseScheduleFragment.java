@@ -13,7 +13,7 @@ public class BrowseScheduleFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void setupQueries(final IRowLoader rowLoader) {
+    protected void setupQueries(final RowLoader rowLoader) {
         TvManager.getScheduleRowsAsync(requireContext(), new TimerQuery(), new CardPresenter(true), mRowsAdapter, new Response<Integer>() {
             @Override
             public void onResponse(Integer response) {

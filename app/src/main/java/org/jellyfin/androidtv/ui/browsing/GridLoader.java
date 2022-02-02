@@ -1,5 +1,5 @@
 package org.jellyfin.androidtv.ui.browsing;
 
-public interface IGridLoader {
+public interface GridLoader {
     void loadGrid(BrowseRowDef rowDef);
 }

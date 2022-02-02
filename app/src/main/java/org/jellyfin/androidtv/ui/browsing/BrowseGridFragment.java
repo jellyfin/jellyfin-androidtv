@@ -24,7 +24,7 @@ public class BrowseGridFragment extends StdGridFragment {
     }
 
     @Override
-    protected void setupQueries(IGridLoader gridLoader) {
+    protected void setupQueries(GridLoader gridLoader) {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount,

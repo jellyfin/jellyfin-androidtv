@@ -48,8 +48,8 @@ import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.ui.IRecordingIndicatorView;
 import org.jellyfin.androidtv.ui.RecordPopup;
+import org.jellyfin.androidtv.ui.RecordingIndicatorView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -63,7 +63,7 @@ import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -106,7 +106,7 @@ import java.util.concurrent.ExecutionException;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class FullDetailsActivity extends BaseActivity implements IRecordingIndicatorView {
+public class FullDetailsActivity extends BaseActivity implements RecordingIndicatorView {
 
     private int BUTTON_SIZE;
 
@@ -182,7 +182,7 @@ public class FullDetailsActivity extends BaseActivity implements IRecordingIndic
             mSeriesTimerInfo = serializer.getValue().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
         }
 
-        registerMessageListener(new IMessageListener() {
+        registerMessageListener(new MessageListener() {
             @Override
             public void onMessageReceived(CustomMessage message) {
                 if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {

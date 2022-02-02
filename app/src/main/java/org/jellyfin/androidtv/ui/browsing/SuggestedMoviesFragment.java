@@ -24,7 +24,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void setupQueries(final IRowLoader rowLoader) {
+    protected void setupQueries(final RowLoader rowLoader) {
         StdItemQuery lastPlayed = new StdItemQuery();
         lastPlayed.setParentId(mFolder.getId());
         lastPlayed.setIncludeItemTypes(new String[]{"Movie"});

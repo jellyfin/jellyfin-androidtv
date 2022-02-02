@@ -13,7 +13,7 @@ import org.koin.java.KoinJavaComponent;
 
 public class ByGenreFragment extends BrowseFolderFragment {
     @Override
-    protected void setupQueries(final IRowLoader rowLoader) {
+    protected void setupQueries(final RowLoader rowLoader) {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //Get all genres for this folder
             ItemsByNameQuery genres = new ItemsByNameQuery();

@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -27,14 +27,14 @@ public class GuideChannelHeader extends RelativeLayout {
     private ImageView mFavImage;
     private ChannelInfoDto mChannel;
     private Context mContext;
-    private ILiveTvGuide mTvGuide;
+    private LiveTvGuide mTvGuide;
 
-    public GuideChannelHeader(Context context, ILiveTvGuide tvGuide, ChannelInfoDto channel) {
+    public GuideChannelHeader(Context context, LiveTvGuide tvGuide, ChannelInfoDto channel) {
         super(context);
         initComponent(context, tvGuide, channel);
     }
 
-    private void initComponent(Context context, ILiveTvGuide tvGuide, ChannelInfoDto channel) {
+    private void initComponent(Context context, LiveTvGuide tvGuide, ChannelInfoDto channel) {
         mContext = context;
         mChannel = channel;
         mTvGuide = tvGuide;

@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.playback;
 
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 
-public interface IPlaybackOverlayFragment {
+public interface PlaybackOverlayFragment {
     void setCurrentTime(long time);
     void setSecondaryTime(long time);
     void setFadingEnabled(boolean value);
