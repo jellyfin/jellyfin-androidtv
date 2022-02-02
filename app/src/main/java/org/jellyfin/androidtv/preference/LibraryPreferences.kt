@@ -24,7 +24,7 @@ class LibraryPreferences(
 		val filterUnwatchedOnly = Preference.boolean("FilterUnwatchedOnly", false)
 
 		// Item sorting
-		val sortBy = Preference.string("SortBy", "DateCreated,SortName")
-		val sortOrder = Preference.enum("SortOrder", SortOrder.Descending)
+		val sortBy = Preference.string("SortBy", "SortName")
+		val sortOrder = Preference.enum("SortOrder", SortOrder.Ascending)
 	}
 }
