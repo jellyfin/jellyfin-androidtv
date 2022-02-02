@@ -63,7 +63,7 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
-public class StdGridFragment extends GridFragment implements GridLoader {
+public class StdGridFragment extends GridFragment {
     protected String MainTitle;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -174,14 +174,14 @@ public class StdGridFragment extends GridFragment implements GridLoader {
 
         backgroundService.getValue().attach(requireActivity());
 
-        setupQueries(this);
+        setupQueries();
 
         addTools();
 
         setupEventListeners();
     }
 
-    protected void setupQueries(GridLoader gridLoader) {
+    protected void setupQueries() {
     }
 
     @Override

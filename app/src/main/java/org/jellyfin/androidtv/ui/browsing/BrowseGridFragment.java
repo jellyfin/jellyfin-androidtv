@@ -24,7 +24,7 @@ public class BrowseGridFragment extends StdGridFragment {
     }
 
     @Override
-    protected void setupQueries(GridLoader gridLoader) {
+    protected void setupQueries() {
         StdItemQuery query = new StdItemQuery(new ItemFields[] {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount,
@@ -62,7 +62,7 @@ public class BrowseGridFragment extends StdGridFragment {
                         });
                         albumArtists.setParentId(mParentId.toString());
                         mRowDef = new BrowseRowDef("", albumArtists, CHUNK_SIZE, new ChangeTriggerType[] {});
-                        gridLoader.loadGrid(mRowDef);
+                        loadGrid(mRowDef);
                         return;
                     }
                     query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});
@@ -73,6 +73,6 @@ public class BrowseGridFragment extends StdGridFragment {
 
         mRowDef = new BrowseRowDef("", query, CHUNK_SIZE, false, true);
 
-        gridLoader.loadGrid(mRowDef);
+        loadGrid(mRowDef);
     }
 }
