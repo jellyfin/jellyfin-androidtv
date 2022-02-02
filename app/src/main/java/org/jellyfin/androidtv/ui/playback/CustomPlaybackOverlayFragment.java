@@ -96,7 +96,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class CustomPlaybackOverlayFragment extends Fragment implements PlaybackOverlayFragment, LiveTvGuide {
+public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide {
     private VlcPlayerInterfaceBinding binding;
     private OverlayTvGuideBinding tvGuideBinding;
 
@@ -1252,16 +1252,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements PlaybackO
         }
     }
 
-    @Override
     public void setCurrentTime(long time) {
         leanbackOverlayFragment.updateCurrentPosition();
     }
 
-    @Override
     public void setSecondaryTime(long time) {
     }
 
-    @Override
     public void setFadingEnabled(boolean value) {
         mFadeEnabled = value;
         if (!mIsVisible) requireActivity().runOnUiThread(this::show);
@@ -1272,12 +1269,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements PlaybackO
         }
     }
 
-    @Override
     public void setPlayPauseActionState(final int state) {
         leanbackOverlayFragment.updatePlayState();
     }
 
-    @Override
     public void updateDisplay() {
         BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
         if (current != null && getActivity() != null && !getActivity().isFinishing()) {
@@ -1360,14 +1355,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements PlaybackO
         });
     }
 
-    @Override
     public void finish() {
         if (!requireActivity().isFinishing()) {
             requireActivity().finish();
         }
     }
 
-    @Override
     public void showNextUp(String id) {
         Intent intent = new Intent(getActivity(), NextUpActivity.class);
         intent.putExtra(NextUpActivity.EXTRA_ID, id);

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -23,8 +22,8 @@ import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -576,9 +575,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) (nativeMode ? mExoPlayerView.getLayoutParams() : mSurfaceView.getLayoutParams());
         if (isContracted) return;
 
-        Activity activity = TvApp.getApplication().getCurrentActivity();
-        int sw = activity.getWindow().getDecorView().getWidth();
-        int sh = activity.getWindow().getDecorView().getHeight();
+        int sw = mActivity.getWindow().getDecorView().getWidth();
+        int sh = mActivity.getWindow().getDecorView().getHeight();
         float ar = (float) sw / sh;
         lp.height = height;
         lp.width = (int) Math.ceil(height * ar);
@@ -620,10 +618,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         int sh;
 
         // get screen size
-        Activity activity = TvApp.getApplication().getCurrentActivity();
-        if (activity == null) return; //called during destroy
-        sw = activity.getWindow().getDecorView().getWidth();
-        sh = activity.getWindow().getDecorView().getHeight();
+        if (mActivity == null) return; //called during destroy
+        sw = mActivity.getWindow().getDecorView().getWidth();
+        sh = mActivity.getWindow().getDecorView().getHeight();
 
         double dw = sw, dh = sh;
         boolean isPortrait;

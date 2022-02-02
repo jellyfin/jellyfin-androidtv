@@ -81,7 +81,7 @@ public class PlaybackController {
     private List<SubtitleStreamInfo> mSubtitleStreams;
 
     @Nullable
-    private PlaybackOverlayFragment mFragment;
+    private CustomPlaybackOverlayFragment mFragment;
     private Boolean spinnerOff = false;
 
     private VideoOptions mCurrentOptions;
@@ -116,7 +116,7 @@ public class PlaybackController {
     private Display.Mode[] mDisplayModes;
     private boolean refreshRateSwitchingEnabled;
 
-    public PlaybackController(List<BaseItemDto> items, PlaybackOverlayFragment fragment) {
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         mItems = items;
         mFragment = fragment;
         mHandler = new Handler();
@@ -137,11 +137,11 @@ public class PlaybackController {
         return mFragment != null;
     }
 
-    public PlaybackOverlayFragment getFragment() {
+    public CustomPlaybackOverlayFragment getFragment() {
         return mFragment;
     }
 
-    public void init(VideoManager mgr, PlaybackOverlayFragment fragment) {
+    public void init(VideoManager mgr, CustomPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mFragment = fragment;
         directStreamLiveTv = userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled());
@@ -299,7 +299,7 @@ public class PlaybackController {
 
     @TargetApi(23)
     private void getDisplayModes() {
-        Display display = TvApp.getApplication().getCurrentActivity().getWindowManager().getDefaultDisplay();
+        Display display = mFragment.requireActivity().getWindowManager().getDefaultDisplay();
         mDisplayModes = display.getSupportedModes();
         Timber.i("** Available display refresh rates:");
         for (Display.Mode mDisplayMode : mDisplayModes) {
@@ -344,16 +344,16 @@ public class PlaybackController {
             return;
         }
 
-        Display.Mode current = TvApp.getApplication().getCurrentActivity().getWindowManager().getDefaultDisplay().getMode();
+        Display.Mode current = mFragment.requireActivity().getWindowManager().getDefaultDisplay().getMode();
         Display.Mode best = findBestDisplayMode(videoStream);
         if (best != null) {
             Timber.i("*** Best refresh mode is: %s - %dx%d/%f",
                     best.getModeId(), best.getPhysicalWidth(), best.getPhysicalHeight(), best.getRefreshRate());
             if (current.getModeId() != best.getModeId()) {
                 Timber.i("*** Attempting to change refresh rate from %s/%s", current.getModeId(), current.getRefreshRate());
-                WindowManager.LayoutParams params = TvApp.getApplication().getCurrentActivity().getWindow().getAttributes();
+                WindowManager.LayoutParams params = mFragment.requireActivity().getWindow().getAttributes();
                 params.preferredDisplayModeId = best.getModeId();
-                TvApp.getApplication().getCurrentActivity().getWindow().setAttributes(params);
+                mFragment.requireActivity().getWindow().setAttributes(params);
             } else {
                 Timber.i("Display is already in best mode");
             }
@@ -434,7 +434,7 @@ public class PlaybackController {
                 // make sure item isn't missing
                 if (item.getLocationType() == LocationType.Virtual) {
                     if (hasNextItem()) {
-                        new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                        new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
                                 .setMessage(R.string.episode_missing_message)
                                 .setPositiveButton(TvApp.getApplication().getResources().getString(R.string.lbl_yes), new DialogInterface.OnClickListener() {
@@ -446,20 +446,20 @@ public class PlaybackController {
                                 .setNegativeButton(TvApp.getApplication().getResources().getString(R.string.lbl_no), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        TvApp.getApplication().getCurrentActivity().finish();
+                                        mFragment.requireActivity().finish();
                                     }
                                 })
                                 .create()
                                 .show();
                         return;
                     } else {
-                        new AlertDialog.Builder(TvApp.getApplication().getCurrentActivity())
+                        new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
                                 .setMessage(R.string.episode_missing_message_2)
                                 .setPositiveButton(TvApp.getApplication().getResources().getString(R.string.lbl_ok), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        TvApp.getApplication().getCurrentActivity().finish();
+                                        mFragment.requireActivity().finish();
                                     }
                                 })
                                 .create()
@@ -1060,7 +1060,7 @@ public class PlaybackController {
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast(TvApp.getApplication().getCurrentActivity(), R.string.msg_video_playback_error);
+                    Utils.showToast(mFragment.getContext(), R.string.msg_video_playback_error);
                     Timber.e(exception, "Error trying to seek transcoded stream");
                     // call stop so playback can be retried by the user
                     stop();
