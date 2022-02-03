@@ -27,8 +27,8 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.KeyListener;
+import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -40,7 +40,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
+public class StdRowsFragment extends RowsSupportFragment implements RowLoader {
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
@@ -68,7 +68,7 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
         setupEventListeners();
     }
 
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(RowLoader rowLoader) {
         rowLoader.loadRows(mRows);
     }
 
@@ -189,14 +189,14 @@ public class StdRowsFragment extends RowsSupportFragment implements IRowLoader {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
         if (mActivity != null) {
-            mActivity.registerKeyListener(new IKeyListener() {
+            mActivity.registerKeyListener(new KeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
                     return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
                 }
             });
 
-            mActivity.registerMessageListener(new IMessageListener() {
+            mActivity.registerMessageListener(new MessageListener() {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
                     switch (message) {

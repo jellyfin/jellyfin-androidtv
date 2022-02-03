@@ -17,7 +17,7 @@ public class CollectionFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(RowLoader rowLoader) {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             StdItemQuery movies = new StdItemQuery(new ItemFields[]{
                     ItemFields.PrimaryImageAspectRatio,

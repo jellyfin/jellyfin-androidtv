@@ -17,7 +17,7 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
-import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -26,9 +26,9 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.Date;
 
-public class ProgramGridCell extends RelativeLayout implements IRecordingIndicatorView {
+public class ProgramGridCell extends RelativeLayout implements RecordingIndicatorView {
 
-    private ILiveTvGuide mActivity;
+    private LiveTvGuide mActivity;
     private TextView mProgramName;
     private LinearLayout mInfoRow;
     private BaseItemDto mProgram;
@@ -37,12 +37,12 @@ public class ProgramGridCell extends RelativeLayout implements IRecordingIndicat
     private boolean isLast;
     private boolean isFirst;
 
-    public ProgramGridCell(Context context, ILiveTvGuide activity, BaseItemDto program, boolean keyListen) {
+    public ProgramGridCell(Context context, LiveTvGuide activity, BaseItemDto program, boolean keyListen) {
         super(context);
         initComponent((Activity) context, activity, program, keyListen);
     }
 
-    private void initComponent(Activity context, ILiveTvGuide activity, BaseItemDto program, boolean keyListen) {
+    private void initComponent(Activity context, LiveTvGuide activity, BaseItemDto program, boolean keyListen) {
         mActivity = activity;
 
         LayoutInflater inflater = LayoutInflater.from(context);

@@ -38,7 +38,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void setupQueries(final IRowLoader rowLoader) {
+    protected void setupQueries(final RowLoader rowLoader) {
         showViews = true;
         mTitle.setText(TvApp.getApplication().getResources().getString(R.string.lbl_loading_elipses));
         //Latest Recordings

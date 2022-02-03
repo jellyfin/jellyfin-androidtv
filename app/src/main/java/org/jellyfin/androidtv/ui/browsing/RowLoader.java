@@ -2,6 +2,6 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import java.util.List;
 
-public interface IRowLoader {
+public interface RowLoader {
     void loadRows(List<BrowseRowDef> rows);
 }

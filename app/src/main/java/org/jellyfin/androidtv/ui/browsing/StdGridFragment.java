@@ -48,8 +48,8 @@ import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.IKeyListener;
-import org.jellyfin.androidtv.ui.shared.IMessageListener;
+import org.jellyfin.androidtv.ui.shared.KeyListener;
+import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -63,7 +63,7 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
-public class StdGridFragment extends GridFragment implements IGridLoader {
+public class StdGridFragment extends GridFragment {
     protected String MainTitle;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -174,14 +174,14 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
 
         backgroundService.getValue().attach(requireActivity());
 
-        setupQueries(this);
+        setupQueries();
 
         addTools();
 
         setupEventListeners();
     }
 
-    protected void setupQueries(IGridLoader gridLoader) {
+    protected void setupQueries() {
     }
 
     @Override
@@ -527,7 +527,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
         if (mActivity != null) {
-            mActivity.registerKeyListener(new IKeyListener() {
+            mActivity.registerKeyListener(new KeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
                     if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
@@ -539,7 +539,7 @@ public class StdGridFragment extends GridFragment implements IGridLoader {
                 }
             });
 
-            mActivity.registerMessageListener(new IMessageListener() {
+            mActivity.registerMessageListener(new MessageListener() {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
                     switch (message) {

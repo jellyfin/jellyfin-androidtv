@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.livetv;
 
 import android.widget.RelativeLayout;
 
-public interface ILiveTvGuide {
+public interface LiveTvGuide {
     public void displayChannels(int start, int max);
     public long getCurrentLocalStartDate();
     public void showProgramOptions();

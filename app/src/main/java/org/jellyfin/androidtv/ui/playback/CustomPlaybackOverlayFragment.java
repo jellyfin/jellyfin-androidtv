@@ -60,7 +60,7 @@ import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
@@ -96,7 +96,7 @@ import java.util.List;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class CustomPlaybackOverlayFragment extends Fragment implements IPlaybackOverlayFragment, ILiveTvGuide {
+public class CustomPlaybackOverlayFragment extends Fragment implements PlaybackOverlayFragment, LiveTvGuide {
     private VlcPlayerInterfaceBinding binding;
     private OverlayTvGuideBinding tvGuideBinding;
 
@@ -794,9 +794,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements IPlayback
     class DisplayProgramsTask extends AsyncTask<Integer, Integer, Void> {
         private View firstRow;
         private int displayedChannels = 0;
-        private final ILiveTvGuide guide;
+        private final LiveTvGuide guide;
 
-        DisplayProgramsTask(ILiveTvGuide guide) {
+        DisplayProgramsTask(LiveTvGuide guide) {
             super();
             this.guide = guide;
         }

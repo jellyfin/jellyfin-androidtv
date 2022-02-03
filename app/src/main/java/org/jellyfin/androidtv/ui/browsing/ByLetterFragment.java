@@ -10,7 +10,7 @@ public class ByLetterFragment extends BrowseFolderFragment {
     private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
 
     @Override
-    protected void setupQueries(IRowLoader rowLoader) {
+    protected void setupQueries(RowLoader rowLoader) {
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             StdItemQuery numbers = new StdItemQuery();

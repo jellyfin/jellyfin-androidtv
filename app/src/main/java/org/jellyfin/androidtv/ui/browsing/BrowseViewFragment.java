@@ -52,7 +52,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
-    protected void setupQueries(final IRowLoader rowLoader) {
+    protected void setupQueries(final RowLoader rowLoader) {
         String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
         switch (type) {
             case "movies":

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.ui.livetv.ILiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 
 public class GuidePagingButton extends RelativeLayout {
@@ -26,7 +26,7 @@ public class GuidePagingButton extends RelativeLayout {
         super(context, attrs);
     }
 
-    public GuidePagingButton(final Activity activity, final ILiveTvGuide guide, int start, String label) {
+    public GuidePagingButton(final Activity activity, final LiveTvGuide guide, int start, String label) {
         super(activity);
 
         us = this;

@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
-import org.jellyfin.androidtv.ui.browsing.IRowLoader
+import org.jellyfin.androidtv.ui.browsing.RowLoader
 import org.jellyfin.androidtv.ui.browsing.StdRowsFragment
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
@@ -86,7 +86,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		mClickedListener.registerListener(liveTVRow::onItemClicked)
 	}
 
-	override fun setupQueries(rowLoader: IRowLoader) {
+	override fun setupQueries(rowLoader: RowLoader) {
 		lifecycleScope.launch(Dispatchers.IO) {
 			val currentUser = TvApp.getApplication()!!.currentUser!!
 
