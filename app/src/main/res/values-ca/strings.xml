@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_authentication_cat">Autenticació</string>
-    <string name="settings_title">Configuració</string>
+    <string name="settings_title">Preferències</string>
     <string name="pref_max_bitrate_title">Bitrate màxim de l\'streaming</string>
     <string name="pref_playback">Reproducció</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
@@ -28,7 +28,7 @@
     <string name="lbl_on_now">Reproduint ara</string>
     <string name="lbl_next_up">Pròxim</string>
     <string name="lbl_continue_watching">Continua veient</string>
-    <string name="lbl_settings">Configuració</string>
+    <string name="lbl_settings">Preferències</string>
     <string name="chapters">Capítols</string>
     <string name="lbl_play_all">Reproduïr Tots</string>
     <string name="lbl_because_you_watched">"Perque els has vist "</string>
@@ -37,12 +37,12 @@
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_pw">Introduïu la contrasenya d’usuari</string>
+    <string name="lbl_enter_user_pw">Introduïu la contrasenya</string>
     <string name="lbl_enter_user_name">Introduïu el nom d\'usuari</string>
     <string name="lbl_play_trailers">Reprodueix tràiler(s)</string>
     <string name="lbl_trailer">"Tràiler "</string>
     <string name="msg_access_restricted">Accés restringit en aquest moment</string>
-    <string name="lbl_bracket_unknown">&lt;Desconegut&gt;</string>
+    <string name="lbl_bracket_unknown">Desconegut</string>
     <string name="msg_video_playback_error">"Error de reproducció de vídeo - "</string>
     <string name="lbl_none">Cap</string>
     <string name="lbl_recordings">Gravacions</string>
@@ -108,7 +108,7 @@
     <string name="msg_items_added">" elements afegits"</string>
     <string name="lbl_warning">Avís</string>
     <string name="lbl_playlists">Llistes de reproducció</string>
-    <string name="sum_enable_cinema_mode">Mostra les presentacions i les previsualitzacions abans de la reproducció de pel·lícules quan el servidor ho permet</string>
+    <string name="sum_enable_cinema_mode">Mostra les presentacions i les previsualitzacions disponibles abans de la reproducció de pel·lícules</string>
     <string name="lbl_enable_cinema_mode">Mode Cinema</string>
     <string name="lbl_episodes">Episodis</string>
     <string name="lbl_album">Àlbum</string>
@@ -182,7 +182,7 @@
     <string name="lbl_play_first_unwatched">Reproduir primer els no vistos</string>
     <string name="lbl_search_hint">Cerca text (seleccioneu per al teclat)</string>
     <string name="sum_tv_queuing">Afegiu la resta de la temporada a la cua en reproduir un episodi</string>
-    <string name="lbl_tv_queuing">Posa a la cua tots els episodis posteriors</string>
+    <string name="lbl_tv_queuing">Posa a la cua tots els episodis següents</string>
     <string name="lbl_empty">Buit</string>
     <string name="lbl_no_items">Sense elements</string>
     <string name="msg_cannot_play">Aquest element no es pot reproduir</string>
@@ -198,7 +198,7 @@
     <string name="desc_premieres">Mostra una fila de pilots d’episodis nous per a qualsevol sèrie que mires</string>
     <string name="lbl_show_premieres">Mostra les estrenes de la temporada de programes mentre navega</string>
     <string name="lbl_refresh_switching">Canviar velocitat d’actualització</string>
-    <string name="lbl_show_backdrop">Mostra el fons de pantalla mentre es navega</string>
+    <string name="lbl_show_backdrop">Mostra els fons de pantalla</string>
     <string name="lbl_open">Obrir</string>
     <string name="lbl_play_next_up">Reproduir següent</string>
     <string name="lbl_clear_queue">Esborrar cua</string>
@@ -474,4 +474,5 @@
     <string name="lbl_stretch">Escurçar</string>
     <string name="lbl_auto_crop">Retallament Automàtic</string>
     <string name="lbl_community_rating">Puntuació de la Comunitat</string>
+    <string name="pref_show_backdrop_description">Canvia el fons de pantalla segons els elements seleccionats</string>
 </resources>
