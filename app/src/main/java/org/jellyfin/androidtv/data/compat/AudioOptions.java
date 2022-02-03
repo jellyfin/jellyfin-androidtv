@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.data.compat;
 
-import java.util.ArrayList;
-
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.EncodingContext;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+
+import java.util.ArrayList;
 
 /**
  * Class AudioOptions.
@@ -38,26 +38,6 @@ public class AudioOptions {
 
     public final void setEnableDirectStream(boolean value) {
         EnableDirectStream = value;
-    }
-
-    private boolean ForceDirectPlay;
-
-    public final boolean getForceDirectPlay() {
-        return ForceDirectPlay;
-    }
-
-    public final void setForceDirectPlay(boolean value) {
-        ForceDirectPlay = value;
-    }
-
-    private boolean ForceDirectStream;
-
-    public final boolean getForceDirectStream() {
-        return ForceDirectStream;
-    }
-
-    public final void setForceDirectStream(boolean value) {
-        ForceDirectStream = value;
     }
 
     private String ItemId;
@@ -103,16 +83,6 @@ public class AudioOptions {
         MediaSourceId = value;
     }
 
-    private String DeviceId;
-
-    public final String getDeviceId() {
-        return DeviceId;
-    }
-
-    public final void setDeviceId(String value) {
-        DeviceId = value;
-    }
-
     /**
      * Allows an override of supported number of audio channels
      * Example: DeviceProfile supports five channel, but user only has stereo speakers
@@ -153,44 +123,5 @@ public class AudioOptions {
 
     public final void setContext(EncodingContext value) {
         Context = value;
-    }
-
-    /**
-     * Gets or sets the audio transcoding bitrate.
-     *
-     * <value>The audio transcoding bitrate.</value>
-     */
-    private Integer AudioTranscodingBitrate = null;
-
-    public final Integer getAudioTranscodingBitrate() {
-        return AudioTranscodingBitrate;
-    }
-
-    public final void setAudioTranscodingBitrate(Integer value) {
-        AudioTranscodingBitrate = value;
-    }
-
-    /**
-     * Gets the maximum bitrate.
-     *
-     * @return System.Nullable&lt;System.Int32&gt;.
-     */
-    public final Integer GetMaxBitrate(boolean isAudio) {
-        if (getMaxBitrate() != null) {
-            return getMaxBitrate();
-        }
-
-        if (getProfile() != null) {
-            if (getContext() == EncodingContext.Static) {
-                if (isAudio && getProfile().getMaxStaticMusicBitrate() != null) {
-                    return getProfile().getMaxStaticMusicBitrate();
-                }
-                return getProfile().getMaxStaticBitrate();
-            }
-
-            return getProfile().getMaxStreamingBitrate();
-        }
-
-        return null;
     }
 }

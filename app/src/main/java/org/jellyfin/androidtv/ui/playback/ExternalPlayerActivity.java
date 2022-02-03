@@ -229,7 +229,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
             } else {
                 //Build options for player
                 VideoOptions options = new VideoOptions();
-                options.setDeviceId(apiClient.getValue().getDeviceId());
                 options.setItemId(item.getId());
                 options.setMediaSources(item.getMediaSources());
                 options.setMaxBitrate(Utils.getMaxBitrate());
@@ -275,7 +274,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     protected String preparePath(String rawPath) {
         if (rawPath == null) return "";
-        String lower = rawPath.toLowerCase();
         if (!rawPath.contains("://")) {
             rawPath = rawPath.replace("\\\\",""); // remove UNC prefix if there
             //prefix with smb

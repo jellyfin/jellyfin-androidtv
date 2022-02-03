@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.playback;
 
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
-import org.jellyfin.androidtv.data.compat.StreamBuilder;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -35,32 +34,8 @@ public class PlaybackManager {
         this.logger = logger;
     }
 
-    public ArrayList<MediaStream> getPrePlaybackSelectableAudioStreams(String serverId, VideoOptions options) {
-        Normalize(options);
-
-        StreamInfo info = getVideoStreamInfoInternal(serverId, options);
-
-        return info.GetSelectableAudioStreams();
-    }
-
-    public ArrayList<MediaStream> getPrePlaybackSelectableSubtitleStreams(String serverId, VideoOptions options) {
-        Normalize(options);
-
-        StreamInfo info = getVideoStreamInfoInternal(serverId, options);
-
-        return info.GetSelectableSubtitleStreams();
-    }
-
     public ArrayList<MediaStream> getInPlaybackSelectableAudioStreams(StreamInfo info) {
         return info.GetSelectableAudioStreams();
-    }
-
-    public ArrayList<MediaStream> getInPlaybackSelectableSubtitleStreams(StreamInfo info) {
-        return info.GetSelectableSubtitleStreams();
-    }
-
-    private void Normalize(AudioOptions options) {
-        options.setDeviceId(device.getDeviceId());
     }
 
     void SendResponse(Response<StreamInfo> response, StreamInfo info) {
@@ -75,8 +50,6 @@ public class PlaybackManager {
     }
 
     public void getAudioStreamInfo(String serverId, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
-        Normalize(options);
-
         PlaybackInfoRequest request = new PlaybackInfoRequest();
         request.setId(options.getItemId());
         request.setUserId(apiClient.getCurrentUserId());
@@ -90,8 +63,6 @@ public class PlaybackManager {
     }
 
     public void getVideoStreamInfo(final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
-        Normalize(options);
-
         PlaybackInfoRequest request = new PlaybackInfoRequest();
         request.setId(options.getItemId());
         request.setUserId(apiClient.getCurrentUserId());
@@ -110,17 +81,9 @@ public class PlaybackManager {
     }
 
     public void changeVideoStream(final StreamInfo currentStreamInfo, final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
-        Normalize(options);
-
         String playSessionId = currentStreamInfo.getPlaySessionId();
 
         apiClient.StopTranscodingProcesses(device.getDeviceId(), playSessionId, new StopTranscodingResponse(this, serverId, currentStreamInfo, options, logger, startPositionTicks, apiClient, response));
-    }
-
-    StreamInfo getVideoStreamInfoInternal(String serverId, VideoOptions options) {
-        StreamBuilder streamBuilder = new StreamBuilder(logger);
-
-        return streamBuilder.BuildVideoItem(options);
     }
 
     public void reportPlaybackStart(PlaybackStartInfo info, ApiClient apiClient, EmptyResponse response) {

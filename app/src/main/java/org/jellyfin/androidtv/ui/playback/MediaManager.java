@@ -665,7 +665,6 @@ public class MediaManager {
         ensureAudioFocus();
         final ApiClient apiClient = KoinJavaComponent.<ApiClient>get(ApiClient.class);
         AudioOptions options = new AudioOptions();
-        options.setDeviceId(apiClient.getDeviceId());
         options.setItemId(item.getId());
         Integer maxBitrate = Utils.getMaxBitrate();
         if (maxBitrate != null) options.setMaxBitrate(maxBitrate);
