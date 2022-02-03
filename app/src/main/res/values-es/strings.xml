@@ -5,9 +5,9 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_playback">Reproducir</string>
     <string name="pref_max_bitrate_title">Máximo bitrate de transmisión</string>
-    <string name="settings_title">Ajustes</string>
+    <string name="settings_title">Preferencias</string>
     <string name="chapters">Capítulos</string>
-    <string name="lbl_settings">Ajustes</string>
+    <string name="lbl_settings">Preferencias</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
     <string name="lbl_next_up">Siguiente</string>
     <string name="lbl_on_now">Transmitiendo ahora</string>
@@ -53,7 +53,7 @@
     <string name="lbl_people">Gente</string>
     <string name="lbl_none">Ninguno</string>
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
-    <string name="lbl_bracket_unknown">&lt;Desconocido&gt;</string>
+    <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="msg_access_restricted">Acceso Restingido en este momento</string>
     <string name="lbl_trailer">"Avance "</string>
     <string name="lbl_no">No</string>
@@ -72,14 +72,14 @@
     <string name="msg_cannot_play">Este ítem no pude reproducirse</string>
     <string name="lbl_no_items">No hay ítems</string>
     <string name="lbl_empty">Vacío</string>
-    <string name="lbl_tv_queuing">Encolar todos los episodios subsecuentes</string>
+    <string name="lbl_tv_queuing">Poner en la cola todos los episodios siguientes</string>
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_all_items">Todos los elementos</string>
     <string name="lbl_showing">Demostración</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_goto_series">Ir a Series</string>
-    <string name="lbl_audio_output">Salida de Audio</string>
+    <string name="lbl_audio_output">Salida de audio</string>
     <string name="pref_audio_compat">Downmix a estéreo</string>
     <string name="pref_audio_direct">Directo</string>
     <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Primero detenga el elemento actual.</string>
@@ -112,7 +112,7 @@
     <string name="lbl_mark_unplayed">Marcar No Reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir Primero Lo No Visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar por teclado)</string>
-    <string name="lbl_enter_user_pw">Entre su contraseña</string>
+    <string name="lbl_enter_user_pw">Introduce su contraseña</string>
     <string name="lbl_enter_user_name">Introduce el usuario</string>
     <string name="lbl_play_trailers">Reproducir Tráiler(s)</string>
     <string name="lbl_recordings">Grabaciones</string>
@@ -134,7 +134,7 @@
     <string name="msg_items_added">" Elemento añadido"</string>
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_playlists">Listas de reproducción</string>
-    <string name="lbl_enable_cinema_mode">Modo Cine</string>
+    <string name="lbl_enable_cinema_mode">Modo cine</string>
     <string name="lbl_episodes">Episodios</string>
     <string name="lbl_album">Álbum</string>
     <string name="lbl_songs">Canciones</string>
@@ -187,7 +187,7 @@
     <string name="lbl_in_x_days">En %d días</string>
     <string name="desc_premieres">Muestre una fila de nuevos episodios piloto para cualquier serie que vea</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada en la pantalla de inicio</string>
-    <string name="lbl_show_backdrop">Mostrar fondo mientras navega</string>
+    <string name="lbl_show_backdrop">Mostrar fondos de pantalla</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_play_next_up">Reproducir siguiente</string>
     <string name="lbl_clear_queue">Limpiar cola</string>
@@ -213,7 +213,7 @@
     <string name="lbl_prev_item">Elemento previo</string>
     <string name="lbl_next_item">Próximo elemento</string>
     <string name="lbl_reshuffle_queue">Remezclar cola</string>
-    <string name="sum_enable_cinema_mode">Mostrar intros y vistas previas antes de la reproducción de las películas cuando el servidor las habilite</string>
+    <string name="sum_enable_cinema_mode">Mostrar vistas previas e intros disponibles antes de empezar una película</string>
     <string name="lbl_direct_stream_live">Transmisión directa de televisión en vivo</string>
     <string name="msg_error_live_stream">Error al transmitir la televisión en vivo. Se volverá a intentar…</string>
     <string name="pref_live_tv_cat">Televisión en directo</string>
@@ -239,7 +239,7 @@
     <string name="lbl_from">desde</string>
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_bitstream_dts">Audio Bitstream DTS</string>
-    <string name="lbl_refresh_switching">Cambio de Frecuencia de Actualización</string>
+    <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_episodes">Nuevos Episodios</string>
     <string name="lbl_news">Noticias</string>
@@ -474,4 +474,5 @@
     <string name="server_connection_failed_candidates">Imposible conectar con el servidor. Dirección usada: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_playback_speed">Velocidad de Reproducción</string>
+    <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según el elemento seleccionado</string>
 </resources>
