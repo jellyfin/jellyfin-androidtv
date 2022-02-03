@@ -90,8 +90,8 @@
     <string name="lbl_settings">Setări</string>
     <string name="chapters">Capitole</string>
     <string name="pref_authentication_cat">Autentificare</string>
-    <string name="settings_title">Setări</string>
-    <string name="pref_max_bitrate_title">Bitrate maxim al streamului</string>
+    <string name="settings_title">Preferințe</string>
+    <string name="pref_max_bitrate_title">Bitrate maxim al Streamului</string>
     <string name="pref_playback">Redare</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Anulare</string>
