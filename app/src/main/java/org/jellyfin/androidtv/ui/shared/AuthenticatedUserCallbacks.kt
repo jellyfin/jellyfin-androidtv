@@ -13,21 +13,31 @@ import timber.log.Timber
  * the currentUser is null.
  */
 class AuthenticatedUserCallbacks : AbstractActivityLifecycleCallbacks() {
+	companion object {
+		val ignoredClassNames = arrayOf(
+			// Startup activities
+			StartupActivity::class.qualifiedName,
+			PreferencesActivity::class.qualifiedName,
+			// Third party
+			org.acra.dialog.CrashReportDialog::class.qualifiedName,
+			// Screensaver activity is not exposed in Android SDK
+			"android.service.dreams.DreamActivity"
+		)
+	}
+
 	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-		when (activity) {
-			// Ignore startup activities
-			is StartupActivity -> return
-			is PreferencesActivity -> return
-			is org.acra.dialog.CrashReportDialog -> return
-			// All other activities should have a current user
-			else -> {
-				TvApp.getApplication()?.apply {
-					if (currentUser == null) {
-						Timber.w("Current user is null, bouncing to StartupActivity")
-						activity.startActivity(Intent(this, StartupActivity::class.java))
-						activity.finish()
-					}
-				}
+		val name = activity::class.qualifiedName
+
+		if (name in ignoredClassNames) {
+			Timber.i("Activity $name is ignored")
+			return
+		}
+
+		TvApp.getApplication()?.apply {
+			if (currentUser == null) {
+				Timber.w("Current user is null, bouncing to StartupActivity")
+				activity.startActivity(Intent(this, StartupActivity::class.java))
+				activity.finish()
 			}
 		}
 	}
