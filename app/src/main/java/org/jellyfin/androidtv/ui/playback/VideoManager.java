@@ -148,7 +148,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 new DefaultRenderersFactory(context) {
                     @Override
                     protected void buildTextRenderers(Context context, TextOutput output,
-                                                      Looper outputLooper, int extensionRendeexrerMode,
+                                                      Looper outputLooper, int extensionRendererMode,
                                                       ArrayList<Renderer> out) {
                         // Do not add text renderers since we handle subtitles
                     }
