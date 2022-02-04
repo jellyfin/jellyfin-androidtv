@@ -23,15 +23,11 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.text.TextOutput;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
@@ -97,12 +93,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
+        ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(activity);
+        exoPlayerBuilder.setRenderersFactory(createExoplayerRenderersFactory(activity));
+        mExoPlayer = exoPlayerBuilder.build();
 
-        mExoPlayer = new ExoPlayer.Builder(
-                activity, configureExoplayerFactory(activity)).build();
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
-        mExoPlayer.addListener(new Player.EventListener() {
+        mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(PlaybackException error) {
                 Timber.e("***** Got error from player");
@@ -111,12 +108,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
 
             @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
                 }
                 // Do not call listener when paused
-                if (playbackState == Player.STATE_READY && playWhenReady) {
+                if (playbackState == Player.STATE_READY && mExoPlayer.getPlayWhenReady()) {
                     if (preparedListener != null) preparedListener.onEvent();
                     startProgressLoop();
                 } else if (playbackState == Player.STATE_ENDED) {
@@ -147,7 +144,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
      * @param context The associated context
      * @return A configured factory for Exoplayer
      */
-    private DefaultRenderersFactory configureExoplayerFactory(Context context) {
+    private DefaultRenderersFactory createExoplayerRenderersFactory(Context context) {
         DefaultRenderersFactory defaultRendererFactory =
                 new DefaultRenderersFactory(context) {
                     @Override
@@ -343,13 +340,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         if (nativeMode) {
             try {
-                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
-
-                MediaItem.Builder mMediaItemBuilder = new MediaItem.Builder();
-                mMediaItemBuilder.setUri(Uri.parse(path));
-
-                // reset position when changing video so the player doesn't use the position from the prior video stream
-                mExoPlayer.setMediaSource(new DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(mMediaItemBuilder.build()), true);
+                mExoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(path)));
                 mExoPlayer.prepare();
             } catch (IllegalStateException e) {
                 Timber.e(e, "Unable to set video path.  Probably backing out.");
@@ -544,7 +535,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             options.add("-v");
             options.add("--vout=android-opaque,android-display");
 
-            mLibVLC = new LibVLC(TvApp.getApplication(), options);
+            mLibVLC = new LibVLC(mActivity, options);
             Timber.i("Network buffer set to %d", buffer);
 
             mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
@@ -562,7 +553,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mSurfaceReady = true;
         } catch (Exception e) {
             Timber.e(e, "Error creating VLC player");
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
+            Utils.showToast(mActivity, mActivity.getString(R.string.msg_video_playback_error));
         }
     }
 
