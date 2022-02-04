@@ -51,7 +51,7 @@ body:
     attributes:
       label: Device information
       description: Manufacturer and model
-      placeholder: Nvidia Shield, Amazon Fire TV Stick
+      placeholder: Nvidia Shield Pro (2017), Amazon Fire TV Stick v1 (2014)
     validations:
       required: true
   - type: input
@@ -59,7 +59,7 @@ body:
     attributes:
       label: Android version
       description: Version of the OS and other information (e.g. custom ROM / OEM skin)
-      placeholder: Android 10
+      placeholder: Android 9, Fire OS 7
     validations:
       required: true
   - type: input
