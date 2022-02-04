@@ -93,10 +93,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
-        ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(activity);
-        exoPlayerBuilder.setRenderersFactory(createExoplayerRenderersFactory(activity));
-        mExoPlayer = exoPlayerBuilder.build();
-
+        mExoPlayer = configureExoplayerBuilder(activity).build();
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.Listener() {
@@ -142,9 +139,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
      * ExoPlayer to silently fallback to software renderers.
      *
      * @param context The associated context
-     * @return A configured factory for Exoplayer
+     * @return A configured builder for Exoplayer
      */
-    private DefaultRenderersFactory createExoplayerRenderersFactory(Context context) {
+    private ExoPlayer.Builder configureExoplayerBuilder(Context context) {
+        ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
+
         DefaultRenderersFactory defaultRendererFactory =
                 new DefaultRenderersFactory(context) {
                     @Override
@@ -156,7 +155,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 };
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
-        return defaultRendererFactory;
+        exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+
+        return exoPlayerBuilder;
     }
 
     public boolean isInitialized() {
