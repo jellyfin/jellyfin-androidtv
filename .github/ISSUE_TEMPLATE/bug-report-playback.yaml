@@ -26,7 +26,6 @@ body:
       label: Logs
       description: |
         Please paste your client logs (logcat) here, *NOT* server logs (in most cases).
-        In order to capture useful information in the logs, "debug options" should be enabled in the app settings.
         Learn how to capture those logcats [here](https://wiki.lineageos.org/logcat.html).
         Make sure that they don't contain any sensitive information like server URL, auth tokens or passwords.
       placeholder: Paste logs…
