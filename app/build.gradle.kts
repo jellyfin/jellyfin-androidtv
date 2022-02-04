@@ -122,6 +122,7 @@ dependencies {
 
 	// Media players
 	implementation(libs.exoplayer)
+	implementation(libs.jellyfin.exoplayer.ffmpegextension)
 	implementation(libs.libvlc)
 
 	// Image utility

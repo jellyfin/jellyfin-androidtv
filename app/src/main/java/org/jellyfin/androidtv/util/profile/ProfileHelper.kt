@@ -121,7 +121,7 @@ object ProfileHelper {
 		}
 	}
 
-	fun audioDirectPlayProfile(vararg containers: String) = DirectPlayProfile()
+	fun audioDirectPlayProfile(containers: Array<String>) = DirectPlayProfile()
 		.apply {
 			type = DlnaProfileType.Audio
 			container = containers.joinToString(",")

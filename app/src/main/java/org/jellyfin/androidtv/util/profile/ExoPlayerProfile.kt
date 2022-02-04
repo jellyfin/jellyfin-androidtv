@@ -19,6 +19,29 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 ) : BaseProfile() {
+	private val downmixSupportedAudioCodecs = arrayOf(
+		CodecTypes.AAC,
+		CodecTypes.MP3,
+		CodecTypes.MP2
+	)
+
+	/**
+	 * Returns all audio codecs used commonly in video containers.
+	 * This does not include containers / codecs found in audio files
+	 */
+	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs + arrayOf(
+		CodecTypes.AAC_LATM,
+		CodecTypes.ALAC,
+		CodecTypes.AC3,
+		CodecTypes.EAC3,
+		CodecTypes.DCA,
+		CodecTypes.DTS,
+		CodecTypes.MLP,
+		CodecTypes.TRUEHD,
+		CodecTypes.PCM_ALAW,
+		CodecTypes.PCM_MULAW,
+	)
+
 	init {
 		name = "AndroidTV-ExoPlayer"
 
@@ -77,42 +100,24 @@ class ExoPlayerProfile(
 						CodecTypes.MPEG2VIDEO
 					).joinToString(",")
 
-					audioCodec = if (Utils.downMixAudio()) {
-						arrayOf(
-							CodecTypes.AAC,
-							CodecTypes.MP3,
-							CodecTypes.MP2
-						).joinToString(",")
-					} else {
-						listOfNotNull(
-							CodecTypes.AAC,
-							CodecTypes.AC3,
-							CodecTypes.EAC3,
-							CodecTypes.AAC_LATM,
-							CodecTypes.MP3,
-							CodecTypes.MP2,
-							CodecTypes.DCA,
-							CodecTypes.DTS,
-							CodecTypes.OPUS,
-						).joinToString(",")
-					}
+					audioCodec = when {
+						Utils.downMixAudio() -> downmixSupportedAudioCodecs
+						else -> allSupportedAudioCodecs
+					}.joinToString(",")
 				})
 			}
 			// Audio direct play
-			add(audioDirectPlayProfile(
-				CodecTypes.AAC,
-				CodecTypes.MP3,
-				CodecTypes.MPA,
-				CodecTypes.FLAC,
-				CodecTypes.WAV,
-				CodecTypes.WMA,
-				CodecTypes.MP2,
-				ContainerTypes.OGG,
-				ContainerTypes.OGA,
-				ContainerTypes.WEBMA,
-				CodecTypes.APE,
-				CodecTypes.OPUS
-			))
+			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
+					CodecTypes.MPA,
+					CodecTypes.FLAC,
+					CodecTypes.WAV,
+					CodecTypes.WMA,
+					ContainerTypes.OGG,
+					ContainerTypes.OGA,
+					ContainerTypes.WEBMA,
+					CodecTypes.APE,
+					CodecTypes.OPUS,
+				)))
 			// Photo direct play
 			add(photoDirectPlayProfile)
 		}.toTypedArray()
