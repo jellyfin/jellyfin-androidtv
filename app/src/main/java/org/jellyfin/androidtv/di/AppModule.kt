@@ -12,14 +12,15 @@ import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
+import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
-import org.jellyfin.apiclient.interaction.AndroidDevice
-import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
+import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
+import org.jellyfin.sdk.model.DeviceInfo
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -28,17 +29,20 @@ import org.koin.dsl.module
 import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
 import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 
+val defaultDeviceInfo = named("defaultDeviceInfo")
 val userApiClient = named("userApiClient")
 val systemApiClient = named("systemApiClient")
 
 val appModule = module {
 	// New SDK
+	single(defaultDeviceInfo) { androidDevice(get()) }
 	single {
 		createJellyfin {
 			context = androidContext()
 
 			// Add client info
 			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)
+			// FIXME (SDK 1.2.0) deviceInfo = get(defaultDeviceInfo)
 		}
 	}
 
@@ -63,20 +67,15 @@ val appModule = module {
 		}
 	}
 
-	single<IDevice> {
-		AndroidDevice.fromContext(androidApplication())
-	}
-
 	single {
 		get<JellyfinApiClient>().createApi(
-			device = get(),
+			device = get<DeviceInfo>(defaultDeviceInfo).legacy(),
 			eventListener = TvApiEventListener(get(), get())
 		)
 	}
 
 	// Non API related
 	single { MediaManager() }
-
 
 	single { DataRefreshService() }
 

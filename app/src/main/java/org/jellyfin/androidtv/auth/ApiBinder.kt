@@ -6,26 +6,26 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.apiclient.callApiEmpty
+import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.interaction.device.IDevice
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
 import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.apiclient.model.session.ClientCapabilities
 import org.jellyfin.apiclient.model.session.GeneralCommandType
+import org.jellyfin.sdk.model.DeviceInfo
 import timber.log.Timber
 
 class ApiBinder(
 	private val application: JellyfinApplication,
 	private val api: ApiClient,
-	private val device: IDevice,
 	private val authenticationStore: AuthenticationStore,
 ) {
-	fun updateSession(session: Session?, resultCallback: ((Boolean) -> Unit)? = null) {
+	fun updateSession(session: Session?, deviceInfo: DeviceInfo, resultCallback: ((Boolean) -> Unit)? = null) {
 		GlobalScope.launch(Dispatchers.IO) {
 			@Suppress("TooGenericExceptionCaught")
 			val success = try {
-				updateSessionInternal(session)
+				updateSessionInternal(session, deviceInfo)
 			} catch (throwable: Throwable) {
 				Timber.e(throwable, "Unable to update legacy API session.")
 				false
@@ -35,7 +35,7 @@ class ApiBinder(
 		}
 	}
 
-	private suspend fun updateSessionInternal(session: Session?): Boolean {
+	private suspend fun updateSessionInternal(session: Session?, deviceInfo: DeviceInfo): Boolean {
 		if (session == null) {
 			application.currentUser = null
 			return true
@@ -47,7 +47,7 @@ class ApiBinder(
 			return false
 		}
 
-		api.device = AuthenticationDevice(device, session.userId.toString())
+		api.device = deviceInfo.legacy()
 		api.SetAuthenticationInfo(session.accessToken, session.userId.toString())
 		api.EnableAutomaticNetworking(ServerInfo().apply {
 			id = session.serverId.toString()

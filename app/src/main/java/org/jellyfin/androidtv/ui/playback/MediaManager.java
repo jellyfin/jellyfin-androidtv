@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.di.AppModuleKt;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -41,6 +42,7 @@ import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
+import org.jellyfin.sdk.model.DeviceInfo;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -676,7 +678,9 @@ public class MediaManager {
             profile = new LibVlcProfile();
         }
         options.setProfile(profile);
-        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(apiClient.getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
+
+        DeviceInfo deviceInfo = KoinJavaComponent.<org.jellyfin.sdk.api.client.ApiClient>get(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient()).getDeviceInfo();
+        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(deviceInfo, options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;

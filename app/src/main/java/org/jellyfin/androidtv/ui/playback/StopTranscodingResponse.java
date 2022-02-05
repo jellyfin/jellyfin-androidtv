@@ -6,23 +6,22 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.sdk.model.DeviceInfo;
 
 import timber.log.Timber;
 
 @Deprecated
 public class StopTranscodingResponse extends EmptyResponse {
     private PlaybackManager playbackManager;
-    private String serverId;
-    private StreamInfo currentStreamInfo;
+    private final DeviceInfo deviceInfo;
     private AudioOptions options;
     private Response<StreamInfo> response;
     private Long startPositionTicks;
     private ApiClient apiClient;
 
-    public StopTranscodingResponse(PlaybackManager playbackManager, String serverId, StreamInfo currentStreamInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
+    public StopTranscodingResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
         this.playbackManager = playbackManager;
-        this.serverId = serverId;
-        this.currentStreamInfo = currentStreamInfo;
+        this.deviceInfo = deviceInfo;
         this.options = options;
         this.response = response;
         this.startPositionTicks = startPositionTicks;
@@ -30,7 +29,7 @@ public class StopTranscodingResponse extends EmptyResponse {
     }
 
     private void onAny() {
-        playbackManager.getVideoStreamInfo(serverId, (VideoOptions) options, startPositionTicks, apiClient, response);
+        playbackManager.getVideoStreamInfo(deviceInfo, (VideoOptions) options, startPositionTicks, apiClient, response);
     }
 
     @Override
