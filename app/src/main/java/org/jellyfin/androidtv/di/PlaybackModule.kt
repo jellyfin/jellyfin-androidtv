@@ -6,16 +6,12 @@ import org.jellyfin.androidtv.ui.playback.GarbagePlaybackLauncher
 import org.jellyfin.androidtv.ui.playback.PlaybackManager
 import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
 import org.jellyfin.apiclient.interaction.AndroidDevice
-import org.jellyfin.apiclient.logging.AndroidLogger
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val playbackModule = module {
 	single {
-		PlaybackManager(
-			AndroidDevice.fromContext(androidApplication()),
-			AndroidLogger("PlaybackManager")
-		)
+		PlaybackManager(AndroidDevice.fromContext(androidApplication()))
 	}
 
 	factory {

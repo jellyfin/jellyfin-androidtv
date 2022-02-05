@@ -6,7 +6,8 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.logging.ILogger;
+
+import timber.log.Timber;
 
 @Deprecated
 public class StopTranscodingResponse extends EmptyResponse {
@@ -14,17 +15,15 @@ public class StopTranscodingResponse extends EmptyResponse {
     private String serverId;
     private StreamInfo currentStreamInfo;
     private AudioOptions options;
-    private ILogger logger;
     private Response<StreamInfo> response;
     private Long startPositionTicks;
     private ApiClient apiClient;
 
-    public StopTranscodingResponse(PlaybackManager playbackManager, String serverId, StreamInfo currentStreamInfo, AudioOptions options, ILogger logger, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
+    public StopTranscodingResponse(PlaybackManager playbackManager, String serverId, StreamInfo currentStreamInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
         this.playbackManager = playbackManager;
         this.serverId = serverId;
         this.currentStreamInfo = currentStreamInfo;
         this.options = options;
-        this.logger = logger;
         this.response = response;
         this.startPositionTicks = startPositionTicks;
         this.apiClient = apiClient;
@@ -41,7 +40,7 @@ public class StopTranscodingResponse extends EmptyResponse {
 
     @Override
     public void onError(Exception ex) {
-        logger.error("Error in StopTranscodingProcesses", ex);
+        Timber.e(ex, "Error in StopTranscodingProcesses");
         onAny();
     }
 }
