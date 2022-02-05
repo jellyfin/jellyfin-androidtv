@@ -8,7 +8,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.interaction.device.IDevice;
-import org.jellyfin.apiclient.logging.ILogger;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -26,12 +25,10 @@ import java.util.ArrayList;
  */
 @Deprecated
 public class PlaybackManager {
-    private final ILogger logger;
     private final IDevice device;
 
-    public PlaybackManager(IDevice device, ILogger logger) {
+    public PlaybackManager(IDevice device) {
         this.device = device;
-        this.logger = logger;
     }
 
     public ArrayList<MediaStream> getInPlaybackSelectableAudioStreams(StreamInfo info) {
@@ -83,7 +80,7 @@ public class PlaybackManager {
     public void changeVideoStream(final StreamInfo currentStreamInfo, final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         String playSessionId = currentStreamInfo.getPlaySessionId();
 
-        apiClient.StopTranscodingProcesses(device.getDeviceId(), playSessionId, new StopTranscodingResponse(this, serverId, currentStreamInfo, options, logger, startPositionTicks, apiClient, response));
+        apiClient.StopTranscodingProcesses(device.getDeviceId(), playSessionId, new StopTranscodingResponse(this, serverId, currentStreamInfo, options, startPositionTicks, apiClient, response));
     }
 
     public void reportPlaybackStart(PlaybackStartInfo info, ApiClient apiClient, EmptyResponse response) {
