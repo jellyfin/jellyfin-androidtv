@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.shared
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import timber.log.Timber
@@ -12,7 +12,9 @@ import timber.log.Timber
  * ActivityLifecycleCallback that bounces to the StartupActivity if an Activity is created and
  * the currentUser is null.
  */
-class AuthenticatedUserCallbacks : AbstractActivityLifecycleCallbacks() {
+class AuthenticatedUserCallbacks(
+	private val sessionRepository: SessionRepository,
+) : AbstractActivityLifecycleCallbacks() {
 	companion object {
 		val ignoredClassNames = arrayOf(
 			// Startup activities
@@ -30,15 +32,10 @@ class AuthenticatedUserCallbacks : AbstractActivityLifecycleCallbacks() {
 
 		if (name in ignoredClassNames) {
 			Timber.i("Activity $name is ignored")
-			return
-		}
-
-		TvApp.getApplication()?.apply {
-			if (currentUser == null) {
-				Timber.w("Current user is null, bouncing to StartupActivity")
-				activity.startActivity(Intent(this, StartupActivity::class.java))
-				activity.finish()
-			}
+		} else if (sessionRepository.currentSession.value == null) {
+			Timber.w("Activity $name started without a session, bouncing to StartupActivity")
+			activity.startActivity(Intent(activity, StartupActivity::class.java))
+			activity.finish()
 		}
 	}
 }
