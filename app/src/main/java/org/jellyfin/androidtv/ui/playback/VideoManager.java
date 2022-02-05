@@ -96,7 +96,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mExoPlayer = configureExoplayerBuilder(activity).build();
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
-        mExoPlayer.addListener(new Player.Listener() {
+        mExoPlayer.addListener(new Player.EventListener() {
             @Override
             public void onPlayerError(PlaybackException error) {
                 Timber.e("***** Got error from player");
@@ -105,12 +105,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
 
             @Override
-            public void onPlaybackStateChanged(int playbackState) {
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
                 }
                 // Do not call listener when paused
-                if (playbackState == Player.STATE_READY && mExoPlayer.getPlayWhenReady()) {
+                if (playbackState == Player.STATE_READY && playWhenReady) {
                     if (preparedListener != null) preparedListener.onEvent();
                     startProgressLoop();
                 } else if (playbackState == Player.STATE_ENDED) {
