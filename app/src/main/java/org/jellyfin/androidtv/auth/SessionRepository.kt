@@ -6,7 +6,9 @@ import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
+import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 import java.util.*
@@ -38,6 +40,7 @@ class SessionRepositoryImpl(
 	private val userApiClient: ApiClient,
 	private val systemApiClient: ApiClient,
 	private val preferencesRepository: PreferencesRepository,
+	private val defaultDeviceInfo: DeviceInfo,
 ) : SessionRepository {
 	private val _currentSession = MutableLiveData<Session?>()
 	override val currentSession: LiveData<Session?> get() = _currentSession
@@ -99,7 +102,7 @@ class SessionRepositoryImpl(
 
 		_currentSession.value = null
 		userApiClient.applySession(null)
-		apiBinder.updateSession(null)
+		apiBinder.updateSession(null, userApiClient.deviceInfo)
 	}
 
 	private fun setCurrentSession(session: Session?, includeSystemUser: Boolean, callback: ((Boolean) -> Unit)? = null) {
@@ -112,15 +115,16 @@ class SessionRepositoryImpl(
 		if (includeSystemUser && systemUserBehavior == LAST_USER) setCurrentSystemSession(session)
 
 		// Update session after binding the apiclient settings
-		apiBinder.updateSession(session) { success ->
+		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
+		apiBinder.updateSession(session, deviceInfo) { success ->
 			Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
 			if (success) {
-				userApiClient.applySession(session)
+				userApiClient.applySession(session, deviceInfo)
 				runBlocking { preferencesRepository.onSessionChanged() }
 				_currentSession.postValue(session)
 			} else {
-				userApiClient.applySession(null)
+				userApiClient.applySession(null, deviceInfo)
 				_currentSession.postValue(null)
 			}
 
@@ -155,7 +159,9 @@ class SessionRepositoryImpl(
 		)
 	}
 
-	private fun ApiClient.applySession(session: Session?) {
+	private fun ApiClient.applySession(session: Session?, newDeviceInfo: DeviceInfo = defaultDeviceInfo) {
+		deviceInfo = newDeviceInfo
+
 		if (session == null) {
 			baseUrl = null
 			accessToken = null

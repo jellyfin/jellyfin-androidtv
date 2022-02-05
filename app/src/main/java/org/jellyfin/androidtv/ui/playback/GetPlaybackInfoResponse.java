@@ -15,21 +15,24 @@ import org.jellyfin.apiclient.model.mediainfo.LiveStreamResponse;
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol;
 import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoResponse;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.DeviceInfo;
 
 import java.util.ArrayList;
 
 @Deprecated
 public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
     private PlaybackManager playbackManager;
+    private final DeviceInfo deviceInfo;
     private ApiClient apiClient;
     private AudioOptions options;
     private Response<StreamInfo> response;
     private boolean isVideo;
     private Long startPositionTicks;
 
-    public GetPlaybackInfoResponse(PlaybackManager playbackManager, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo, Long startPositionTicks) {
+    public GetPlaybackInfoResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, ApiClient apiClient, AudioOptions options, Response<StreamInfo> response, boolean isVideo, Long startPositionTicks) {
         super(response);
         this.playbackManager = playbackManager;
+        this.deviceInfo = deviceInfo;
         this.apiClient = apiClient;
         this.options = options;
         this.response = response;
@@ -94,7 +97,7 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
 
         streamInfo.setContext(options.getContext());
         streamInfo.setItemId(options.getItemId());
-        streamInfo.setDeviceId(apiClient.getDeviceId());
+        streamInfo.setDeviceId(deviceInfo.getId());
         streamInfo.setDeviceProfile(options.getProfile());
         streamInfo.setPlaySessionId(playbackInfo.getPlaySessionId());
         streamInfo.setStartPositionTicks(startPositionTicks);
@@ -117,7 +120,7 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
                 QueryStringDictionary dict = new QueryStringDictionary();
                 dict.put("Static", "true");
                 dict.put("MediaSourceId", mediaSourceInfo.getId());
-                dict.put("DeviceId", apiClient.getDeviceId());
+                dict.put("DeviceId", deviceInfo.getId());
                 dict.put("api_key", apiClient.getAccessToken());
 
                 if (mediaSourceInfo.getETag() != null && mediaSourceInfo.getETag().length() > 0){
@@ -147,7 +150,7 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
             QueryStringDictionary dict = new QueryStringDictionary();
             dict.put("Static", "true");
             dict.put("MediaSourceId", mediaSourceInfo.getId());
-            dict.put("DeviceId", apiClient.getDeviceId());
+            dict.put("DeviceId", deviceInfo.getId());
             dict.put("api_key", apiClient.getAccessToken());
 
             if (mediaSourceInfo.getETag() != null && mediaSourceInfo.getETag().length() > 0){

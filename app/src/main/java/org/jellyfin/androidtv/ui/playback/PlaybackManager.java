@@ -7,7 +7,6 @@ import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.interaction.device.IDevice;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -15,6 +14,7 @@ import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoRequest;
 import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
+import org.jellyfin.sdk.model.DeviceInfo;
 
 import java.util.ArrayList;
 
@@ -25,10 +25,10 @@ import java.util.ArrayList;
  */
 @Deprecated
 public class PlaybackManager {
-    private final IDevice device;
+    private final org.jellyfin.sdk.api.client.ApiClient api;
 
-    public PlaybackManager(IDevice device) {
-        this.device = device;
+    public PlaybackManager(org.jellyfin.sdk.api.client.ApiClient api) {
+        this.api = api;
     }
 
     public ArrayList<MediaStream> getInPlaybackSelectableAudioStreams(StreamInfo info) {
@@ -46,7 +46,7 @@ public class PlaybackManager {
         }
     }
 
-    public void getAudioStreamInfo(String serverId, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
+    public void getAudioStreamInfo(DeviceInfo deviceInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
         PlaybackInfoRequest request = new PlaybackInfoRequest();
         request.setId(options.getItemId());
         request.setUserId(apiClient.getCurrentUserId());
@@ -56,10 +56,10 @@ public class PlaybackManager {
         request.setDeviceProfile(options.getProfile());
         request.setMaxAudioChannels(options.getMaxAudioChannels());
 
-        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, false, startPositionTicks));
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, false, startPositionTicks));
     }
 
-    public void getVideoStreamInfo(final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
+    public void getVideoStreamInfo(DeviceInfo deviceInfo, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         PlaybackInfoRequest request = new PlaybackInfoRequest();
         request.setId(options.getItemId());
         request.setUserId(apiClient.getCurrentUserId());
@@ -73,14 +73,14 @@ public class PlaybackManager {
         request.setEnableDirectPlay(options.getEnableDirectPlay());
         request.setMaxAudioChannels(options.getMaxAudioChannels());
 
-        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, apiClient, options, response, true, startPositionTicks));
+        apiClient.GetPlaybackInfoWithPost(request, new GetPlaybackInfoResponse(this, deviceInfo, apiClient, options, response, true, startPositionTicks));
 
     }
 
-    public void changeVideoStream(final StreamInfo currentStreamInfo, final String serverId, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
+    public void changeVideoStream(final StreamInfo currentStreamInfo, DeviceInfo deviceInfo, final VideoOptions options, Long startPositionTicks, ApiClient apiClient, final Response<StreamInfo> response) {
         String playSessionId = currentStreamInfo.getPlaySessionId();
 
-        apiClient.StopTranscodingProcesses(device.getDeviceId(), playSessionId, new StopTranscodingResponse(this, serverId, currentStreamInfo, options, startPositionTicks, apiClient, response));
+        apiClient.StopTranscodingProcesses(api.getDeviceInfo().getId(), playSessionId, new StopTranscodingResponse(this, deviceInfo, options, startPositionTicks, apiClient, response));
     }
 
     public void reportPlaybackStart(PlaybackStartInfo info, ApiClient apiClient, EmptyResponse response) {

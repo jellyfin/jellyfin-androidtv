@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.di.AppModuleKt;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
@@ -56,6 +57,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +237,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 options.setProfile(new ExternalPlayerProfile());
 
                 // Get playback info for each player and then decide on which one to use
-                KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
+                KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         mCurrentStreamInfo = response;

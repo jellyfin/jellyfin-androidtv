@@ -7,13 +7,14 @@ import kotlinx.coroutines.flow.flow
 import org.jellyfin.androidtv.auth.model.*
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.apiclient.interaction.device.IDevice
+import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.userApi
+import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.api.ImageType
 import timber.log.Timber
 import java.util.*
@@ -34,11 +35,11 @@ interface AuthenticationRepository {
 class AuthenticationRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val sessionRepository: SessionRepository,
-	private val device: IDevice,
 	private val accountManagerHelper: AccountManagerHelper,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
 	private val authenticationPreferences: AuthenticationPreferences,
+	private val defaultDeviceInfo: DeviceInfo,
 ) : AuthenticationRepository {
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
@@ -192,7 +193,7 @@ class AuthenticationRepositoryImpl(
 			return@flow
 		}
 
-		val api = jellyfin.createApi(server.address, deviceInfo = AuthenticationDevice(device, username).toDeviceInfo())
+		val api = jellyfin.createApi(server.address, deviceInfo = defaultDeviceInfo.forUser(username))
 		val result = try {
 			val response = api.userApi.authenticateUserByName(username, password)
 			response.content

@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.di.AppModuleKt;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.UserSettingPreferences;
@@ -70,6 +71,7 @@ public class PlaybackController {
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient());
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -551,7 +553,7 @@ public class PlaybackController {
             if (!directStreamLiveTv || userPreferences.getValue().get(UserPreferences.Companion.getLiveTvVideoPlayer()) != PreferredVideoPlayer.VLC) {
                 //internal/exo player
                 Timber.i("Using internal player for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         if (mVideoManager == null)
@@ -571,7 +573,7 @@ public class PlaybackController {
             } else {
                 //VLC
                 Timber.i("Using VLC for Live TV");
-                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                     @Override
                     public void onResponse(StreamInfo response) {
                         if (mVideoManager == null)
@@ -592,11 +594,11 @@ public class PlaybackController {
             }
         } else {
             // Get playback info for each player and then decide on which one to use
-            playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+            playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), vlcOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(final StreamInfo vlcResponse) {
                     Timber.i("VLC would %s", vlcResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
-                    playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+                    playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                         @Override
                         public void onResponse(StreamInfo internalResponse) {
                             Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ? "transcode" : "direct stream");
@@ -659,7 +661,7 @@ public class PlaybackController {
                                 newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
                                 internalOptions.setProfile(newProfile);
                                 Timber.i("Forcing transcode due to non-default audio chosen");
-                                playbackManager.getValue().getVideoStreamInfo(apiClient.getValue().getServerInfo().getId(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+                                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                                     @Override
                                     public void onResponse(StreamInfo response) {
                                         //re-set this
@@ -1045,7 +1047,7 @@ public class PlaybackController {
             if (mVideoManager.getMetaVLCStreamStartPosition() != -1) {
                 mVideoManager.setMetaVLCStreamStartPosition(pos);
             }
-            playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, apiClient.getValue().getServerInfo().getId(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
+            playbackManager.getValue().changeVideoStream(mCurrentStreamInfo, api.getValue().getDeviceInfo(), mCurrentOptions, pos * 10000, apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
