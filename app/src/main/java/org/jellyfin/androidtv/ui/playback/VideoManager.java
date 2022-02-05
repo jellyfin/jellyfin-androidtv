@@ -312,8 +312,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         boolean canSeek = false;
         if (isNativeMode())
             canSeek = mExoPlayer.isCurrentMediaItemSeekable();
-        else
-            canSeek = mVlcPlayer.isSeekable();
+        else {
+            canSeek = mVlcPlayer.isSeekable() && mVlcPlayer.getLength() > 0;
+        }
         Timber.d("current media item is%s seekable", canSeek ? "" : " not");
         return canSeek;
     }
