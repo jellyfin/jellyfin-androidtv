@@ -183,8 +183,10 @@ public class PlaybackController {
 
     public MediaSourceInfo getCurrentMediaSource() {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
+            Timber.d("using media source from current stream info");
             return mCurrentStreamInfo.getMediaSource();
         } else {
+            Timber.d("using media source from media sources list");
             ArrayList<MediaSourceInfo> mediaSources = getCurrentlyPlayingItem().getMediaSources();
 
             if (mediaSources == null || mediaSources.isEmpty()) {
@@ -732,6 +734,9 @@ public class PlaybackController {
             return;
         }
         mCurrentStreamInfo = response;
+        mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
+        mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
+
         Long mbPos = position * 10000;
 
         setPlaybackMethod(response.getPlayMethod());
@@ -1123,6 +1128,7 @@ public class PlaybackController {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
+                    Timber.d("after seek - current audio index %s default index %s", mCurrentOptions.getAudioStreamIndex(), mCurrentStreamInfo == null ? -1 : mCurrentStreamInfo.getMediaSource().getDefaultAudioStreamIndex());
                     if (mVideoManager != null) {
                         mVideoManager.setVideoPath(response.getMediaUrl());
                         mVideoManager.start();
