@@ -16,7 +16,7 @@
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_yes">Si</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_pw">Ingrese la contraseña de usuario</string>
+    <string name="lbl_enter_user_pw">Ingrese su contraseña</string>
     <string name="lbl_enter_user_name">Introduzca su nombre de usuario</string>
     <string name="lbl_none">Ninguno</string>
     <string name="lbl_recordings">Grabaciones</string>
@@ -51,20 +51,20 @@
     <string name="lbl_on_now">Ahora</string>
     <string name="lbl_next_up">Siguiente</string>
     <string name="lbl_continue_watching">Continuar viendo</string>
-    <string name="lbl_settings">Configuraciones</string>
+    <string name="lbl_settings">Preferencias</string>
     <string name="chapters">Capítulos</string>
     <string name="pref_authentication_cat">Autenticación</string>
-    <string name="settings_title">Configuraciones</string>
+    <string name="settings_title">Preferencias</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="loading">Cargando…</string>
     <string name="video_error_unknown_error">Error al cargar el video</string>
-    <string name="pref_max_bitrate_title">Velocidad de bits de transmisión máxima</string>
+    <string name="pref_max_bitrate_title">Máximo bitrate de transmisión</string>
     <string name="pref_playback">Reproducción</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_valid_server_address">Introduzca la dirección del servidor (IP o nombre de dominio/equipo)</string>
     <string name="lbl_play_trailers">Reproducir Sinopsis</string>
     <string name="msg_access_restricted">Acceso restringido en este momento</string>
-    <string name="lbl_bracket_unknown">&lt;Desconocido&gt;</string>
+    <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="lbl_videos">Videos</string>
     <string name="lbl_people">Personas</string>
     <string name="lbl_directed_by">Dirigido por</string>
@@ -90,7 +90,7 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reporoducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con libVLC</string>
+    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="not_deleted">Elemento NO eliminado</string>
@@ -134,7 +134,7 @@
     <string name="grid_direction">Dirección de la cuadrícula</string>
     <string name="pref_device_model">Modelo del dispositivo</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
@@ -142,7 +142,7 @@
     <string name="pref_about_title">Acerca de</string>
     <string name="pref_video_player_choose">Preguntar siempre</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Elegir automáticamente</string>
     <string name="pref_theme_emerald">Esmeralda clásico</string>
@@ -163,17 +163,18 @@
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
     <string name="acra_dialog_text">¿Te gustaría enviar un reporte del error a los desarrolladores\?
-\n 
-\nEsta información será enviada a un tercero (tracepot.com). 
-\n 
-\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en la configuración de la aplicación Jellyfin.</string>
+\n
+\nEsta información será enviada a un tercero (tracepot.com).
+\n
+\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en la configuración de la app de Jellyfin.</string>
     <string name="acra_dialog_title">¡Oh no! Algo salió mal.</string>
     <string name="pref_acra_syslog_disabled">Los registros del sistema no serán incluidos en los reportes de errores</string>
     <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
-    <string name="pref_acra_syslog">Incluir registros del sistema en los reportes de errores. Esto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
+    <string name="pref_acra_syslog">Incluir registros del sistema.
+\nEsto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
     <string name="pref_acra_alwaysaccept_disabled">Un dialogo será mostrado antes de enviar cualquier reporte de error</string>
     <string name="pref_acra_alwaysaccept_enabled">Los reportes de errores serán enviados sin preguntar</string>
-    <string name="pref_acra_alwaysaccept">Enviar reportes de errores sin preguntar</string>
+    <string name="pref_acra_alwaysaccept">Enviar sin confirmar</string>
     <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
     <string name="pref_acra_enabled">Se te pedirá que envíes informes de errores</string>
     <string name="pref_enable_acra">Enviar reportes de error a los desarrolladores</string>
@@ -186,7 +187,7 @@
     <string name="lbl_previous_episode">Episodio anterior</string>
     <string name="lbl_more_like_this">Más como esto</string>
     <string name="lbl_resume_from">Reanudar desde %1$s</string>
-    <string name="lbl_resume_preroll">Reanudar Pre-Roll</string>
+    <string name="lbl_resume_preroll">Reanudar pre-roll</string>
     <string name="lbl_guide_option_number">Número de canal</string>
     <string name="lbl_guide_option_played">Última reproducción</string>
     <string name="lbl_show_indicators">Mostrar indicadores para</string>
@@ -202,8 +203,8 @@
     <string name="lbl_at_any_time">En cualquier momento</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="lbl_save">Guardar</string>
-    <string name="msg_settings_updated">Configuración actualizada</string>
-    <string name="lbl_series_settings">Configuración de series</string>
+    <string name="msg_settings_updated">Preferencias actualizadas</string>
+    <string name="lbl_series_settings">Preferencias de series</string>
     <string name="lbl_episode_not_record">Esta programación NO se va a grabar</string>
     <string name="lbl_schedule">Programar</string>
     <string name="lbl_live">En vivo</string>
@@ -213,16 +214,16 @@
     <string name="lbl_recent_recordings">Grabaciones recientes</string>
     <string name="lbl_kids">Niños</string>
     <string name="lbl_sports">Deportes</string>
-    <string name="no_program_data">&lt;Información del programa no disponible&gt;</string>
+    <string name="no_program_data">Información del programa no disponible</string>
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
     <string name="lbl_just_this_once">Solo esta vez</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_in_x_days">En %d días</string>
     <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
-    <string name="lbl_show_premieres">Mostrar estrenos de temporada mientras se explora</string>
-    <string name="lbl_refresh_switching">Cambio de la tasa de refresco</string>
-    <string name="lbl_show_backdrop">Mostrar imagen de fondo mientras se navega</string>
+    <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
+    <string name="lbl_refresh_switching">Cambio de tasa de refresco</string>
+    <string name="lbl_show_backdrop">Mostrar imágenes de fondo</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_play_next_up">Reproducir siguiente</string>
     <string name="lbl_clear_queue">Limpiar cola</string>
@@ -257,7 +258,7 @@
     <string name="msg_items_added">" elementos agregados"</string>
     <string name="lbl_warning">Advertencia</string>
     <string name="lbl_playlists">Listas de reproducción</string>
-    <string name="sum_enable_cinema_mode">Mostrar intros y preestrenos antes de la reproducción de la película cuando el servidor lo permita</string>
+    <string name="sum_enable_cinema_mode">Reproducir introducciones y vistas previas antes de empezar una película</string>
     <string name="lbl_enable_cinema_mode">Modo cine</string>
     <string name="lbl_episodes">Episodios</string>
     <string name="lbl_album">Álbum</string>
@@ -294,9 +295,9 @@
     <string name="lbl_all_items">Todos los elementos</string>
     <string name="lbl_showing">Mostrando</string>
     <string name="desc_debug">Proporcionar información adicional para la depuración</string>
-    <string name="lbl_enable_debug">Habilitar opciones de depuración</string>
+    <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_goto_series">Ir a series</string>
-    <string name="lbl_audio_output">Salida de Audio</string>
+    <string name="lbl_audio_output">Salida de audio</string>
     <string name="pref_audio_compat">Mezclar a estéreo</string>
     <string name="pref_audio_direct">Directo</string>
     <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Por favor, primero detén el elemento actual.</string>
@@ -351,7 +352,7 @@
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválido</string>
     <string name="login_authenticating">Autenticando…</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
-    <string name="server_connection_failed">No se puede conectar al servidor: %1$s</string>
+    <string name="server_connection_failed">No se puede conectar al servidor.</string>
     <string name="server_connecting">Conectando a %1$s</string>
     <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org o escanee el código QR para comenzar con Jellyfin.</string>
     <string name="login_help_title">Necesita Ayuda\?</string>
@@ -378,21 +379,21 @@
     <string name="lbl_remove_server">Eliminar Servidor</string>
     <string name="lbl_sign_out_content">Requiere acceso en el siguiente uso</string>
     <string name="lbl_remove_user_content">Eliminar Cuenta</string>
-    <string name="lbl_remove_users">Esta acción también eliminara todos los usuarios asociados</string>
+    <string name="lbl_remove_users">Esta acción también eliminara todas las cuentas asociadas</string>
     <string name="lbl_manage_servers">Administrar Servidores</string>
     <string name="lbl_episode_marks">Solo en episodios</string>
     <string name="lbl_hide_unwatched_count">Ocultar contador de No Visto</string>
     <string name="pref_watched_indicator">Mostrar Indicadores de Ya Visto</string>
     <string name="lbl_use_series_thumbnails_description">Utilizar serie de miniaturas cuando se muestran episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir Series de Miniaturas</string>
-    <string name="user_picker_last_user_summary">Usar el ultimo usuario activo</string>
+    <string name="user_picker_last_user_summary">Usar la última cuenta activa</string>
     <string name="user_picker_last_user_title">Mas recientemente usados</string>
     <string name="user_picker_disable_summary">Siempre mostrar la pantalla de registro</string>
     <string name="user_picker_disable_title">Inhabilitado</string>
-    <string name="system_user_explanation">Los usuarios seleccionados serán utilizados integraciones de sistemas, como busquedas</string>
-    <string name="system_user">Usuario de Sistema</string>
+    <string name="system_user_explanation">Las cuentas seleccionadas serán utilizadas para integraciones de sistemas como busquedas</string>
+    <string name="system_user">Cuenta del sistema</string>
     <string name="auto_sign_in">Registrarse automáticamente</string>
-    <string name="lbl_switch_user">Cambiar usuario</string>
+    <string name="lbl_switch_user">Cambiar cuenta</string>
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
     <string name="pref_theme_muted_purple">Purpura apagado</string>
     <string name="press_to_close">Toque para Cerrar</string>
@@ -426,4 +427,13 @@
     <string name="lbl_starting_on_schedule_ending_after">Comenzar en Horario y Finalizar %1$s después del horario</string>
     <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s Antes y Finalizar en Horario</string>
     <string name="lbl_starting_early_ending_after">Comenzar %1$s Antes y Finalizar %2$s después del horario</string>
+    <string name="server_connection_failed_candidates">No se pudo conectar al servidor: %1$s</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_refresh_switching_description">La tasa de refrezco del monitor se adapta al contenido</string>
+    <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según los items seleccionados</string>
+    <string name="lbl_playback_speed">Velocidad de reproducción</string>
+    <string name="lbl_fit">Normal</string>
+    <string name="lbl_stretch">Estirar</string>
+    <string name="lbl_auto_crop">Recorte automático</string>
+    <string name="lbl_community_rating">Reseñas de la comunidad</string>
 </resources>
