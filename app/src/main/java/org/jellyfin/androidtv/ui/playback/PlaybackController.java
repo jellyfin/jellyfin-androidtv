@@ -360,20 +360,16 @@ public class PlaybackController {
             if (!isPlaying() && mSeekPosition != -1) {
                 newPos = mSeekPosition;
                 // use seekPosition until playback starts
-                Timber.d("using seekPosition %s", newPos);
             } else if (isPlaying()) {
                 if (finishedInitialSeek) {
                     // playback has started - get current position and reset seekPosition
                     newPos = mVideoManager.getCurrentPosition();
                     mSeekPosition = -1;
-                    Timber.d("using real position %s", newPos);
                 } else if (wasSeeking) {
                     finishedInitialSeek = true;
-                    Timber.d("finished initial seek %s", newPos);
                 } else if (mSeekPosition != -1) {
                     newPos = mSeekPosition;
                     // use seekPosition until initial seek is done
-                    Timber.d("using seekPosition %s", newPos);
                 }
                 wasSeeking = false;
             }
@@ -409,10 +405,8 @@ public class PlaybackController {
                 mVideoManager.play();
                 if (mVideoManager.isNativeMode())
                     mPlaybackState = PlaybackState.PLAYING; //won't get another onprepared call
-                if (mFragment != null) {
+                if (mFragment != null)
                     mFragment.setFadingEnabled(true);
-                    mFragment.setPlayPauseActionState(0);
-                }
                 startReportLoop();
                 break;
             case BUFFERING:
@@ -1160,6 +1154,8 @@ public class PlaybackController {
                     pause();
                 } else {
                     mVideoManager.play();
+                    mPlaybackState = PlaybackState.PLAYING;
+                    if (mFragment != null) mFragment.setFadingEnabled(true);
                 }
             }
         }
@@ -1382,7 +1378,7 @@ public class PlaybackController {
         mVideoManager.setOnPreparedListener(new PlaybackListener() {
             @Override
             public void onEvent() {
-                if (mPlaybackState == PlaybackState.BUFFERING || mPlaybackState == PlaybackState.SEEKING) {
+                if (mPlaybackState == PlaybackState.BUFFERING) {
                     if (mFragment != null) mFragment.setFadingEnabled(true);
 
                     mPlaybackState = PlaybackState.PLAYING;
@@ -1424,7 +1420,6 @@ public class PlaybackController {
         mVideoManager.setOnProgressListener(new PlaybackListener() {
             @Override
             public void onEvent() {
-                Timber.d("on progress event");
                 refreshCurrentPosition();
                 if (isPlaying()) {
                     if (!spinnerOff) {
@@ -1432,6 +1427,7 @@ public class PlaybackController {
                             initialSeek(mStartPosition);
                             mStartPosition = 0;
                         } else {
+                            finishedInitialSeek = true;
                             stopSpinner();
                         }
                     }
@@ -1443,7 +1439,7 @@ public class PlaybackController {
                     if (mFragment != null)
                         mFragment.updateSubtitles(mCurrentPosition);
                 }
-                if (mFragment != null)
+                if (mFragment != null && finishedInitialSeek)
                     mFragment.setCurrentTime(mCurrentPosition);
             }
         });
