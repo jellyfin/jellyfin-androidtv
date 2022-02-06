@@ -13,8 +13,8 @@
     <string name="lbl_songs">Τραγούδια</string>
     <string name="lbl_album">Άλμπουμ</string>
     <string name="lbl_episodes">επεισόδια</string>
-    <string name="lbl_enable_cinema_mode">Ενεργοποιήστε τη λειτουργία Κινηματογράφος</string>
-    <string name="sum_enable_cinema_mode">Αν ενεργοποιηθεί στο διακομιστή , ενεργοποιήστε εισάγω και προεπισκόπηση πριν από την αναπαραγωγή ταινιών</string>
+    <string name="lbl_enable_cinema_mode">Λειτουργία Κινηματογράφου</string>
+    <string name="sum_enable_cinema_mode">Αναπαράγετε εισαγωγικά βίντεο και προεπισκοπήσεις πριν από την αναπαραγωγή ταινιών</string>
     <string name="lbl_playlists">Λίστες αναπαραγωγής</string>
     <string name="msg_items_added">" στοιχεία που προστίθενται"</string>
     <string name="lbl_add_to_queue">Προσθήκη στην ουρά</string>
@@ -40,7 +40,7 @@
     <string name="lbl_enter_user_pw">Εισάγετε κωδικό πρόσβασης</string>
     <string name="lbl_enter_user_name">Εισάγετε όνομα χρήστη</string>
     <string name="lbl_play_trailers">Αναπαραγωγή τρέιλερ</string>
-    <string name="lbl_bracket_unknown">&lt;Άγνωστο&gt;</string>
+    <string name="lbl_bracket_unknown">Άγνωστο</string>
     <string name="lbl_videos">Βίντεο</string>
     <string name="lbl_other_options">Άλλες Επιλογές</string>
     <string name="lbl_directed_by">Σκηνοθετημένο Από</string>
@@ -229,12 +229,12 @@
     <string name="lbl_recent_recordings">Πρόσφατες εγγραφές</string>
     <string name="lbl_kids">Παιδικά</string>
     <string name="lbl_sports">Αθλητικά</string>
-    <string name="no_program_data">&lt;Δεν υπάρχουν διαθέσιμα δεδομένα προγράμματος&gt;</string>
+    <string name="no_program_data">Δεν υπάρχουν διαθέσιμα δεδομένα προγράμματος</string>
     <string name="msg_record_entire_series">Εγγραφή ολόκληρης της σειράς;</string>
     <string name="lbl_select_date">Επιλέξτε Ημερομηνία</string>
     <string name="lbl_in_x_days">Σε %d μέρες</string>
     <string name="desc_premieres">Εμφάνιση μίας σειράς από νέα πιλοτικά επισόδια για οποιαδήποτε σειρά παρακολουθείτε</string>
-    <string name="lbl_show_premieres">Εμφάνιζε τις πρεμιέρες σεζόν κατά την περιήγηση</string>
+    <string name="lbl_show_premieres">Εμφάνιζε τις πρεμιέρες των σεζόν</string>
     <string name="lbl_refresh_switching">Εναλλαγή ρυθμού ανανέωσης</string>
     <string name="lbl_open">Ανοιχτό</string>
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
@@ -309,7 +309,7 @@
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_repeat_episodes">Επανάληψη Επεισοδίων</string>
-    <string name="lbl_show_backdrop">Εμφάνιση Φόντου Κατά την Αναζήτηση</string>
+    <string name="lbl_show_backdrop">Εμφάνιση Φόντου</string>
     <string name="lbl_community_rating">Βαθμολογία Κοινού</string>
     <string name="lbl_hide_unwatched_count">Απόκρυψη μετρητή μη προσβληθέντων</string>
     <string name="lbl_user_server">%1$s από %2$s</string>
@@ -329,7 +329,7 @@
     <string name="pref_subtitle_track_button">Κουμπί κομματιού υποτίτλων</string>
     <string name="pref_audio_track_button">Κουμπί κομματιού ήχου</string>
     <string name="grid_direction">Κατεύθυνση Πλέγματος</string>
-    <string name="lbl_resume_preroll">Συνέχιση Pre-Roll</string>
+    <string name="lbl_resume_preroll">Συνέχιση pre-roll</string>
     <string name="lbl_guest_stars">Καλεσμένοι Στάρ</string>
     <string name="lbl_episode_not_record">Αυτή η εμφάνιση ΔΕΝ θα καταγραφεί</string>
     <string name="lbl_stretch">Τέντωμα</string>
@@ -462,6 +462,8 @@
     <string name="pref_app_theme">Θέμα Εφαρμογής</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_playback_speed">Ταχύτητα Αναπαραγωγής</string>
-    <string name="lbl_fit">Φυσιολογικό</string>
+    <string name="lbl_fit">Κανονικό</string>
     <string name="lbl_auto_crop">Αυτόματη αποκοπή</string>
+    <string name="pref_refresh_switching_description">Ο ρυθμός ανανέωσης της οθόνης έχει αλλάξει για να ταιριάζει με αυτόν του βίντεο</string>
+    <string name="pref_show_backdrop_description">Αλλαγή εικόνας φόντου στα επιλεγμένα αντικείμενα</string>
 </resources>
