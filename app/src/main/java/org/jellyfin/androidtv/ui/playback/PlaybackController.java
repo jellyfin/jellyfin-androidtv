@@ -1408,17 +1408,17 @@ public class PlaybackController {
                         Timber.i("Turning off subs by default");
                         mVideoManager.disableSubs();
                     }
-                    int eligibleAudioTrack = mDefaultAudioIndex;
-                    if (mCurrentOptions.getAudioStreamIndex() != null) {
-                        eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
-                        Timber.d("switching AudioStream to index: %d - using mCurrentOptions index", eligibleAudioTrack);
-                    } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-                        eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
-                        Timber.d("switching AudioStream to index: %d - using getDefaultAudioStreamIndex", eligibleAudioTrack);
-                    } else {
-                        Timber.d("switching AudioStream to index: %d - using mDefaultAudioIndex", eligibleAudioTrack);
-                    }
                     if (!mVideoManager.isNativeMode()) {
+                        int eligibleAudioTrack = mDefaultAudioIndex;
+                        if (mCurrentOptions.getAudioStreamIndex() != null) {
+                            eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
+                            Timber.d("switching AudioStream to index: %d - using mCurrentOptions index", eligibleAudioTrack);
+                        } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
+                            eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
+                            Timber.d("switching AudioStream to index: %d - using getDefaultAudioStreamIndex", eligibleAudioTrack);
+                        } else {
+                            Timber.d("switching AudioStream to index: %d - using mDefaultAudioIndex", eligibleAudioTrack);
+                        }
                         switchAudioStream(eligibleAudioTrack);
                     }
                 }
