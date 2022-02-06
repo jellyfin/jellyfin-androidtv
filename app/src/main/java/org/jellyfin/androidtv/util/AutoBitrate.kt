@@ -22,6 +22,9 @@ class AutoBitrate(
 			Timber.i("Auto bitrate set to: %d", bitrate)
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Failed to detect bitrate")
+		} catch (err: IllegalArgumentException) {
+			// Session probably ended before the detection completed
+			Timber.e(err, "Failed to detect bitrate")
 		}
 	}
 }
