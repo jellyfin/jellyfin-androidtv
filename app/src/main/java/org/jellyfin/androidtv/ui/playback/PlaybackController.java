@@ -1451,7 +1451,6 @@ public class PlaybackController {
                 itemComplete();
             }
         });
-
     }
 
     public long getCurrentPosition() {
