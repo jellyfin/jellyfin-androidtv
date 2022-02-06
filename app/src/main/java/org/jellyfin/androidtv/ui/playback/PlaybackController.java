@@ -875,6 +875,7 @@ public class PlaybackController {
             mPlaybackState = PlaybackState.BUFFERING;
         } else if (mVideoManager.setAudioTrack(index) == index) {
             // if setAudioTrack succeeded it will return the requested index
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
             mVideoManager.setAudioMode();
         }
@@ -1156,6 +1157,7 @@ public class PlaybackController {
                     mVideoManager.play();
                     mPlaybackState = PlaybackState.PLAYING;
                     if (mFragment != null) mFragment.setFadingEnabled(true);
+                    startReportLoop();
                 }
             }
         }
@@ -1406,13 +1408,20 @@ public class PlaybackController {
                         Timber.i("Turning off subs by default");
                         mVideoManager.disableSubs();
                     }
-                    int eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex() != null ? getCurrentMediaSource().getDefaultAudioStreamIndex() : mDefaultAudioIndex;
+                    int eligibleAudioTrack = mDefaultAudioIndex;
+                    if (mCurrentOptions.getAudioStreamIndex() != null) {
+                        eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
+                        Timber.d("switching AudioStream to index: %d - using mCurrentOptions index", eligibleAudioTrack);
+                    } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
+                        eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
+                        Timber.d("switching AudioStream to index: %d - using getDefaultAudioStreamIndex", eligibleAudioTrack);
+                    } else {
+                        Timber.d("switching AudioStream to index: %d - using mDefaultAudioIndex", eligibleAudioTrack);
+                    }
                     if (!mVideoManager.isNativeMode()) {
-                        Timber.i("switching AudioStream to index: %d", eligibleAudioTrack);
                         switchAudioStream(eligibleAudioTrack);
                     }
                 }
-
             }
         });
 
