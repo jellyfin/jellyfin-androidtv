@@ -183,10 +183,8 @@ public class PlaybackController {
 
     public MediaSourceInfo getCurrentMediaSource() {
         if (mCurrentStreamInfo != null && mCurrentStreamInfo.getMediaSource() != null) {
-            Timber.d("using media source from current stream info");
             return mCurrentStreamInfo.getMediaSource();
         } else {
-            Timber.d("using media source from media sources list");
             ArrayList<MediaSourceInfo> mediaSources = getCurrentlyPlayingItem().getMediaSources();
 
             if (mediaSources == null || mediaSources.isEmpty()) {
@@ -362,21 +360,20 @@ public class PlaybackController {
                 // use seekPosition until playback starts
             } else if (isPlaying()) {
                 if (finishedInitialSeek) {
-                    // playback has started - get current position and reset seekPosition
+                    // playback has started following initial seek for direct play and hls
+                    // get current position and reset seekPosition
                     newPos = mVideoManager.getCurrentPosition();
                     mSeekPosition = -1;
                 } else if (wasSeeking) {
+                    // the initial seek for direct play and hls completed
                     finishedInitialSeek = true;
                 } else if (mSeekPosition != -1) {
+                    // the initial seek for direct play and hls hasn't happened yet
                     newPos = mSeekPosition;
-                    // use seekPosition until initial seek is done
                 }
                 wasSeeking = false;
             }
         }
-
-        if (newPos == -1) Timber.d("using mCurrentPosition %s", mCurrentPosition);
-
         // use original value if new one isn't available
         mCurrentPosition = newPos != -1 ? newPos : mCurrentPosition;
     }
@@ -728,6 +725,8 @@ public class PlaybackController {
             return;
         }
         mCurrentStreamInfo = response;
+
+        // set the audio index so that it is preserved if the stream is rebuilt when seeking
         mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
@@ -814,14 +813,12 @@ public class PlaybackController {
 
     public int getAudioStreamIndex() {
         int currIndex = mDefaultAudioIndex;
-        if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getAudioTrack() > -1) {
-            currIndex = mVideoManager.getAudioTrack();
-            Timber.d("getting current audio stream index - using libVLC audio index [%s]", currIndex);
+
+        // if using libVLC and not transcoding, libVLC is able to switch tracks and report its current track
+        if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getVLCAudioTrack() > -1) {
+            currIndex = mVideoManager.getVLCAudioTrack();
         } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
-            Timber.d("getting current audio stream index - using media source default audio index [%s]", currIndex);
-        } else {
-            Timber.d("getting current audio stream index - using inferred first (mDefaultAudioIndex) audio index [%s]", currIndex);
         }
         return currIndex;
     }
@@ -856,7 +853,7 @@ public class PlaybackController {
             return;
 
         int currAudioIndex = getAudioStreamIndex();
-        Timber.d("trying to switch audio streams. Current stream index is %s", currAudioIndex);
+        Timber.d("trying to switch audio stream from %s to %s", currAudioIndex, index);
         if (currAudioIndex == index) {
             Timber.d("skipping setting audio stream, already set to requested index %s", index);
             return;
@@ -865,15 +862,16 @@ public class PlaybackController {
         // get current timestamp first
         refreshCurrentPosition();
 
+        // when transcoding, libVLC will only have the current track available
+        // exoplayer always needs to transcode to play a non-default audio track
         if (mVideoManager.isNativeMode() || isTranscoding()) {
             startSpinner();
-            Timber.d("Setting audio index to: %d", index);
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
-        } else if (mVideoManager.setAudioTrack(index) == index) {
+        } else if (mVideoManager.setVLCAudioTrack(index) == index) {
             // if setAudioTrack succeeded it will return the requested index
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
@@ -1095,7 +1093,7 @@ public class PlaybackController {
         }
 
         if (wasSeeking) {
-            Timber.d("Cancelling seek from %s to %d", mCurrentPosition, pos);
+            Timber.d("Previous seek has not finished - cancelling seek from %s to %d", mCurrentPosition, pos);
             if (isPaused()) {
                 refreshCurrentPosition();
                 play(mCurrentPosition);
@@ -1123,7 +1121,6 @@ public class PlaybackController {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
-                    Timber.d("after seek - current audio index %s default index %s", mCurrentOptions.getAudioStreamIndex(), mCurrentStreamInfo == null ? -1 : mCurrentStreamInfo.getMediaSource().getDefaultAudioStreamIndex());
                     if (mVideoManager != null) {
                         mVideoManager.setVideoPath(response.getMediaUrl());
                         mVideoManager.start();
@@ -1329,7 +1326,6 @@ public class PlaybackController {
     private void itemComplete() {
         stop();
         resetPlayerErrors();
-        clearPlaybackSessionOptions();
 
         BaseItemDto nextItem = getNextItem();
         if (nextItem != null) {
@@ -1384,8 +1380,7 @@ public class PlaybackController {
                     if (mFragment != null) mFragment.setFadingEnabled(true);
 
                     mPlaybackState = PlaybackState.PLAYING;
-                    if (mPlaybackMethod != PlayMethod.Transcode)
-                        mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
+                    mCurrentTranscodeStartTime = mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode ? System.currentTimeMillis() : 0;
                     startReportLoop();
                 }
 
@@ -1410,14 +1405,13 @@ public class PlaybackController {
                     }
                     if (!mVideoManager.isNativeMode()) {
                         int eligibleAudioTrack = mDefaultAudioIndex;
+
+                        // if track switching is done without rebuilding the stream, mCurrentOptions is updated
+                        // otherwise, use the server default
                         if (mCurrentOptions.getAudioStreamIndex() != null) {
                             eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
-                            Timber.d("switching AudioStream to index: %d - using mCurrentOptions index", eligibleAudioTrack);
                         } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
                             eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
-                            Timber.d("switching AudioStream to index: %d - using getDefaultAudioStreamIndex", eligibleAudioTrack);
-                        } else {
-                            Timber.d("switching AudioStream to index: %d - using mDefaultAudioIndex", eligibleAudioTrack);
                         }
                         switchAudioStream(eligibleAudioTrack);
                     }

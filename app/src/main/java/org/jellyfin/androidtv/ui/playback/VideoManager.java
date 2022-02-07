@@ -405,15 +405,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return false;
     }
 
-    public int getAudioTrack() {
+    public int getVLCAudioTrack() {
         if (!isInitialized() || nativeMode)
             return -1;
-
-        Timber.d("vlc audio track is %s", mVlcPlayer.getAudioTrack());
         return mVlcPlayer.getAudioTrack();
     }
 
-    public int setAudioTrack(int ndx) {
+    public int setVLCAudioTrack(int ndx) {
         if (!isInitialized() || ndx < 0)
             return -1;
 
