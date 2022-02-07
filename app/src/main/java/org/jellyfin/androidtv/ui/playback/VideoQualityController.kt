@@ -9,6 +9,7 @@ class VideoQualityController(
 ) {
 
 	enum class QualityProfiles(val quality: String) {
+		Quality_0(quality = "0"),
 		Quality_120(quality = "120"),
 		Quality_110(quality = "110"),
 		Quality_100(quality = "100"),
@@ -27,8 +28,7 @@ class VideoQualityController(
 		Quality_2(quality = "2"),
 		Quality_1(quality = "1"),
 		Quality_072(quality = "0.72"),
-		Quality_042(quality = "0.42"),
-		Quality_0(quality = "0");
+		Quality_042(quality = "0.42");
 
 
 		companion object {
