@@ -14,12 +14,12 @@ import timber.log.Timber;
 public class StopTranscodingResponse extends EmptyResponse {
     private PlaybackManager playbackManager;
     private final DeviceInfo deviceInfo;
-    private AudioOptions options;
+    private VideoOptions options;
     private Response<StreamInfo> response;
     private Long startPositionTicks;
     private ApiClient apiClient;
 
-    public StopTranscodingResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, AudioOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
+    public StopTranscodingResponse(PlaybackManager playbackManager, DeviceInfo deviceInfo, VideoOptions options, Long startPositionTicks, ApiClient apiClient, Response<StreamInfo> response) {
         this.playbackManager = playbackManager;
         this.deviceInfo = deviceInfo;
         this.options = options;
@@ -29,7 +29,7 @@ public class StopTranscodingResponse extends EmptyResponse {
     }
 
     private void onAny() {
-        playbackManager.getVideoStreamInfo(deviceInfo, (VideoOptions) options, startPositionTicks, apiClient, response);
+        playbackManager.getVideoStreamInfo(deviceInfo, options, startPositionTicks, apiClient, response);
     }
 
     @Override

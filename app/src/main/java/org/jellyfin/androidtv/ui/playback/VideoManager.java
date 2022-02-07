@@ -306,6 +306,19 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         stopProgressLoop();
     }
 
+    public boolean isSeekable() {
+        if (!isInitialized())
+            return false;
+        boolean canSeek = false;
+        if (isNativeMode())
+            canSeek = mExoPlayer.isCurrentMediaItemSeekable();
+        else {
+            canSeek = mVlcPlayer.isSeekable() && mVlcPlayer.getLength() > 0;
+        }
+        Timber.d("current media item is%s seekable", canSeek ? "" : " not");
+        return canSeek;
+    }
+
     public long seekTo(long pos) {
         if (!isInitialized())
             return -1;
@@ -392,51 +405,65 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return false;
     }
 
-    public int getAudioTrack() {
-        return nativeMode ? -1 : mVlcPlayer.getAudioTrack();
+    public int getVLCAudioTrack() {
+        if (!isInitialized() || nativeMode)
+            return -1;
+        return mVlcPlayer.getAudioTrack();
     }
 
-    public void setAudioTrack(int ndx, List<MediaStream> allStreams) {
-        if (!nativeMode) {
-            //find the relative order of our audio index within the audio tracks in VLC
-            int vlcIndex = 1; // start at 1 to account for "disabled"
-            for (MediaStream stream : allStreams) {
-                if (stream.getType() == MediaStreamType.Audio && !stream.getIsExternal()) {
-                    if (stream.getIndex() == ndx) {
-                        break;
-                    }
-                    vlcIndex++;
-                }
+    public int setVLCAudioTrack(int ndx) {
+        if (!isInitialized() || ndx < 0)
+            return -1;
+
+        if (isNativeMode()) {
+            Timber.e("Cannot set audio track in native mode");
+            return -1;
+        }
+
+        //debug
+        Timber.d("Setting VLC audio track index to: %d", ndx);
+        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+            Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
+        }
+        //
+
+        boolean matched = false;
+        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+            if (track.id == ndx) {
+                matched = true;
+                break;
             }
+        }
 
-            org.videolan.libvlc.MediaPlayer.TrackDescription vlcTrack;
+        org.videolan.libvlc.MediaPlayer.TrackDescription vlcTrack = null;
+
+        if (matched) {
             try {
-                vlcTrack = mVlcPlayer.getAudioTracks()[vlcIndex];
-
+                vlcTrack = mVlcPlayer.getAudioTracks()[ndx];
             } catch (IndexOutOfBoundsException e) {
                 Timber.e("Could not locate audio with index %s in vlc track info", ndx);
-                mVlcPlayer.setAudioTrack(ndx);
-                return;
+                return -1;
             } catch (NullPointerException e) {
-                Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", ndx);
-                mVlcPlayer.setAudioTrack(vlcIndex);
-                return;
+                Timber.e("Could not locate audio track with index %s in vlc, null exception", ndx);
+                return -1;
             }
-            //debug
-            Timber.d("Setting VLC audio track index to: %d / %d", vlcIndex, vlcTrack.id);
-            for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
-                Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
-            }
-            //
-            if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
-                Timber.i("Setting by ID was successful");
-            } else {
-                Timber.i("Setting by ID not succesful, trying index");
-                mVlcPlayer.setAudioTrack(vlcIndex);
-            }
-        } else {
-            Timber.e("Cannot set audio track in native mode");
         }
+
+        if (!matched || vlcTrack == null) {
+            Timber.e("Could not locate audio track with index %s in vlc", ndx);
+            return -1;
+        } else if (mVlcPlayer.getAudioTrack() == ndx) {
+            Timber.d("provided index points to the audio track already in use, aborting");
+            return -1;
+        }
+
+        if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
+            Timber.i("Setting by ID was successful");
+        } else {
+            Timber.i("Setting by ID not successful, trying index");
+            mVlcPlayer.setAudioTrack(ndx);
+        }
+        return ndx;
     }
 
     public void setPlaybackSpeed(@NonNull Double speed) {
@@ -776,14 +803,5 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 changeSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
             }
         });
-    }
-
-    public Integer translateVlcAudioId(Integer vlcId) {
-        Integer ourIndex = 0;
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
-            if (track.id == vlcId) return ourIndex - 1; // Vlc has 'disabled' as first
-            ourIndex++;
-        }
-        return ourIndex;
     }
 }
