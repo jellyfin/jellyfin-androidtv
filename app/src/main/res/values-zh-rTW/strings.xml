@@ -138,7 +138,7 @@
     <string name="lbl_next_episode">下一集</string>
     <string name="lbl_previous_episode">上一集</string>
     <string name="lbl_more_like_this">類似這個的</string>
-    <string name="lbl_resume_from">%1$s 的簡介</string>
+    <string name="lbl_resume_from">從%1$s繼續</string>
     <string name="lbl_sort_by">排序按照</string>
     <string name="lbl_guest_stars">訪客的星星</string>
     <string name="lbl_hours">小時</string>
@@ -334,7 +334,7 @@
     <string name="login_invalid_credentials">無效的使用者名稱和/或密碼</string>
     <string name="login_authenticating">驗證中…</string>
     <string name="server_field_empty">地址不能留空</string>
-    <string name="server_connection_failed">無法連接至伺服器：%1$s</string>
+    <string name="server_connection_failed">無法連接至伺服器</string>
     <string name="server_connecting">正在與伺服器%1$s</string>
     <string name="pref_clock_display_playback">在播放時</string>
     <string name="pref_clock_display_browsing">在瀏覽時</string>
