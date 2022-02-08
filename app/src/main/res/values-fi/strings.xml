@@ -204,4 +204,6 @@
     <string name="msg_will_record">Nauhoitetaan</string>
     <string name="msg_recording_now">Nauhoittaa nyt</string>
     <string name="lbl_tune_to_channel">Vaihda kanavalle</string>
+    <string name="home_section_library_small">Oma media (pieni)</string>
+    <string name="home_section_library">Oma media</string>
 </resources>
