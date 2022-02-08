@@ -1048,6 +1048,8 @@ public class PlaybackController {
         mDefaultAudioIndex = -1;
         finishedInitialSeek = false;
         wasSeeking = false;
+        if (mVideoManager != null)
+            mVideoManager.setMetaVLCStreamStartPosition(-1);
     }
 
     public void next() {
