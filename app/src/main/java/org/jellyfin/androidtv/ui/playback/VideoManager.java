@@ -394,7 +394,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public boolean setVLCSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
+    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
         if (nativeMode || allStreams == null)
             return false;
 
@@ -553,16 +553,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             groupInfoNdx++;
         }
         return false;
-    }
-
-    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
-        if (allStreams == null)
-            return false;
-
-        if (isNativeMode())
-            return setExoPlayerTrack(index, MediaStreamType.Subtitle, allStreams);
-
-        return setVLCSubtitleTrack(index, allStreams);
     }
 
     public int getVLCAudioTrack() {
