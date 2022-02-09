@@ -434,10 +434,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
         List<MediaStream> streamsOfType = new ArrayList<>();
-
         for (MediaStream stream : allStreams) {
-            if (stream.getType() == streamType && !stream.getIsExternal())
+            if (stream.getType() == streamType && !stream.getIsExternal()) {
+                Timber.d("stream %s index %s", stream.getTitle(), stream.getIndex());
                 streamsOfType.add(stream);
+            }
         }
 
         TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
@@ -458,9 +459,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.d("media track id %s [groupNdx: %s/%s groupInfoNdx: %s/%s trackType %s] label %s mime %s codec %s isSelected %s isSupported %s", trackFormat.id, i+1, group.length, groupInfoNdx+1, exoTracks.getTrackGroupInfos().size(), trackType, trackFormat.label, trackFormat.sampleMimeType, trackFormat.codecs, isSelected, isSupported);
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
-                        Timber.d("exoplayer says current track is %s", exoTracksNdx);
-                        if (exoTracksNdx < streamsOfType.size())
+                        if (exoTracksNdx < streamsOfType.size()) {
+                            Timber.d("exoplayer says current track is %s", streamsOfType.get(exoTracksNdx).getIndex());
                             return streamsOfType.get(exoTracksNdx).getIndex();
+                        }
                         return -1;
                     }
                     exoTracksNdx++;
