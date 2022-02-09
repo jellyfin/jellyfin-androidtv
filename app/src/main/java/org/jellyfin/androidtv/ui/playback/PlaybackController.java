@@ -638,9 +638,7 @@ public class PlaybackController {
                             Integer defaultAudioIndex = internalResponse.getMediaSource().getDefaultAudioStreamIndex();
                             Integer firstAudioIndex = bestGuessAudioTrack(internalResponse.getMediaSource());
 
-                                            // if an audio index is not specified but the default is not the inferred first
-                            if (!useVlc && firstAudioIndex != null && defaultAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex)) {
-
+                            if (!useVlc && internalResponse.getMediaSource().getDefaultAudioStream() != null && internalResponse.getMediaSource().getDefaultAudioStream().getIsExternal()) {
                                 // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
                                 // remove direct play profiles to force the transcode
                                 final DeviceProfile save = internalOptions.getProfile();
@@ -817,6 +815,10 @@ public class PlaybackController {
         // if using libVLC and not transcoding, libVLC is able to switch tracks and report its current track
         if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getVLCAudioTrack() > -1) {
             currIndex = mVideoManager.getVLCAudioTrack();
+        } else if (hasInitializedVideoManager() && !isTranscoding() && isNativeMode() && mVideoManager.getExoPlayerTrack(MediaStreamType.Audio) > -1) {
+            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.Audio);
+        }else if (!isTranscoding() && isNativeMode() && mCurrentOptions.getAudioStreamIndex() != null) {
+            currIndex = mCurrentOptions.getAudioStreamIndex();
         } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
         }
@@ -862,22 +864,55 @@ public class PlaybackController {
         // get current timestamp first
         refreshCurrentPosition();
 
-        // when transcoding, libVLC will only have the current track available
-        // exoplayer always needs to transcode to play a non-default audio track
-        if (mVideoManager.isNativeMode() || isTranscoding()) {
+        if (isNativeMode() && !isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams())) {
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            mCurrentOptions.setAudioStreamIndex(index);
+        }else if (!isNativeMode() && !isTranscoding() && mVideoManager.setVLCAudioTrack(index) == index) {
+            // if setAudioTrack succeeded it will return the requested index
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            mCurrentOptions.setAudioStreamIndex(index);
+            mVideoManager.setAudioMode();
+        } else {
             startSpinner();
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
-        } else if (mVideoManager.setVLCAudioTrack(index) == index) {
-            // if setAudioTrack succeeded it will return the requested index
-            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-            mCurrentOptions.setAudioStreamIndex(index);
-            mVideoManager.setAudioMode();
         }
     }
+
+    public void externalSubsHandler(MediaStream stream) {
+        if (mFragment != null) mFragment.addManualSubtitles(null);
+        mVideoManager.disableSubs();
+        if (mFragment != null) mFragment.showSubLoadingMsg(true);
+        stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
+        stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+        apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+
+            @Override
+            public void onResponse(final SubtitleTrackInfo info) {
+
+                if (info != null) {
+                    Timber.d("Adding json subtitle track to player");
+                    if (mFragment != null) mFragment.addManualSubtitles(info);
+                } else {
+                    Timber.e("Empty subtitle result");
+                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
+                    if (mFragment != null) mFragment.showSubLoadingMsg(false);
+                }
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                Timber.e(ex, "Error downloading subtitles");
+                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
+                if (mFragment != null) mFragment.showSubLoadingMsg(false);
+            }
+
+        });
+    }
+
 
     private boolean burningSubs = false;
 
@@ -925,45 +960,15 @@ public class PlaybackController {
                     play(mCurrentPosition, index);
                     break;
                 case Embed:
-                    if (!mVideoManager.isNativeMode()) {
-                        if (mFragment != null)
-                            mFragment.addManualSubtitles(null); // in case these were on
-                        if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
-                            // error selecting internal subs
-                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                        }
-                        break;
+                    if (mFragment != null)
+                        mFragment.addManualSubtitles(null); // in case these were on
+                    if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
+                        // error selecting internal subs
+                        externalSubsHandler(stream);
                     }
-                    // not using vlc - fall through to external handling
+                    break;
                 case External:
-                    if (mFragment != null) mFragment.addManualSubtitles(null);
-                    mVideoManager.disableSubs();
-                    if (mFragment != null) mFragment.showSubLoadingMsg(true);
-                    stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
-                    apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
-
-                        @Override
-                        public void onResponse(final SubtitleTrackInfo info) {
-
-                            if (info != null) {
-                                Timber.d("Adding json subtitle track to player");
-                                if (mFragment != null) mFragment.addManualSubtitles(info);
-                            } else {
-                                Timber.e("Empty subtitle result");
-                                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                                if (mFragment != null) mFragment.showSubLoadingMsg(false);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception ex) {
-                            Timber.e(ex, "Error downloading subtitles");
-                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                            if (mFragment != null) mFragment.showSubLoadingMsg(false);
-                        }
-
-                    });
+                    externalSubsHandler(stream);
                     break;
                 case Hls:
                     break;
@@ -1405,18 +1410,17 @@ public class PlaybackController {
                         Timber.i("Turning off subs by default");
                         mVideoManager.disableSubs();
                     }
-                    if (!mVideoManager.isNativeMode()) {
-                        int eligibleAudioTrack = mDefaultAudioIndex;
 
-                        // if track switching is done without rebuilding the stream, mCurrentOptions is updated
-                        // otherwise, use the server default
-                        if (mCurrentOptions.getAudioStreamIndex() != null) {
-                            eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
-                        } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-                            eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
-                        }
-                        switchAudioStream(eligibleAudioTrack);
+                    int eligibleAudioTrack = mDefaultAudioIndex;
+
+                    // if track switching is done without rebuilding the stream, mCurrentOptions is updated
+                    // otherwise, use the server default
+                    if (mCurrentOptions.getAudioStreamIndex() != null) {
+                        eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
+                    } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
+                        eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
                     }
+                    switchAudioStream(eligibleAudioTrack);
                 }
             }
         });
