@@ -482,7 +482,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.d("track %s title %s codec %s isExternal %s", tmpNdx, stream.getTitle(),stream.getCodec(), stream.getIsExternal());
                 if (stream.getIndex() == index) {
                     if (stream.getIsExternal())
-                        break;
+                        return false;
                     if (streamType == MediaStreamType.Subtitle && !internallyRenderedSubFormats.contains(stream.getCodec())) {
                         Timber.d("format of selected subtitle track will not use the exoplayer renderer");
                         return false;
