@@ -484,4 +484,7 @@
     <string name="pref_refresh_switching_description">Tốc độ làm mới màn hình được thay đổi để phù hợp với video</string>
     <string name="pref_show_backdrop_description">Thay đổi hình nền cho các mục đã chọn</string>
     <string name="lbl_playback_speed">Tốc Độ Phát Lại</string>
+    <string name="pref_theme">Chủ đề</string>
+    <string name="pref_browsing">Duyệt</string>
+    <string name="pref_behavior">Hành vi</string>
 </resources>
