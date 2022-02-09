@@ -1,9 +1,9 @@
 plugins {
-	id("com.android.application")
-	kotlin("android")
-	kotlin("kapt")
-	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.aboutlibraries)
+	alias(libs.plugins.kotlin.serialization)
+	id(libs.plugins.android.application.get().pluginId)
+	id(libs.plugins.kotlin.android.get().pluginId)
+	id(libs.plugins.kotlin.kapt.get().pluginId)
 }
 
 android {
