@@ -425,17 +425,23 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return mVlcPlayer.setSpuTrack(vlcSub.id);
     }
 
-    public int getExoPlayerTrack(MediaStreamType streamType) {
-        if (!nativeMode || !isInitialized())
+    public int getExoPlayerTrack(MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || allStreams == null)
             return -1;
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return -1;
 
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
-        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
+        List<MediaStream> streamsOfType = new ArrayList<>();
 
-        int exoTracksNdx = 1;
+        for (MediaStream stream : allStreams) {
+            if (stream.getType() == streamType && !stream.getIsExternal())
+                streamsOfType.add(stream);
+        }
+
+        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
+        int exoTracksNdx = 0;
         int groupInfoNdx = 0;
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
             // Group level information.
@@ -453,7 +459,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
                         Timber.d("exoplayer says current track is %s", exoTracksNdx);
-                        return exoTracksNdx;
+                        if (exoTracksNdx < streamsOfType.size())
+                            return streamsOfType.get(exoTracksNdx).getIndex();
+                        return -1;
                     }
                     exoTracksNdx++;
                 }

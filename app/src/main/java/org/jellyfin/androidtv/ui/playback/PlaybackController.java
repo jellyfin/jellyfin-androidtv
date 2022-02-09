@@ -815,8 +815,8 @@ public class PlaybackController {
         // if using libVLC and not transcoding, libVLC is able to switch tracks and report its current track
         if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getVLCAudioTrack() > -1) {
             currIndex = mVideoManager.getVLCAudioTrack();
-        } else if (hasInitializedVideoManager() && !isTranscoding() && isNativeMode() && mVideoManager.getExoPlayerTrack(MediaStreamType.Audio) > -1) {
-            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.Audio);
+        } else if (hasInitializedVideoManager() && !isTranscoding() && isNativeMode() && mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams()) > -1) {
+            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams());
         }else if (!isTranscoding() && isNativeMode() && mCurrentOptions.getAudioStreamIndex() != null) {
             currIndex = mCurrentOptions.getAudioStreamIndex();
         } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
