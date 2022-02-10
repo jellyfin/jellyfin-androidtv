@@ -302,14 +302,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (nativeMode && mExoPlayer != null) {
             mExoPlayer.stop();
             disableSubs();
-            TrackSelectionOverrides overrides =
-                    new TrackSelectionOverrides.Builder()
-                            .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
-                            .build();
-            mExoPlayer.setTrackSelectionParameters(
-                    mExoPlayer.getTrackSelectionParameters()
-                            .buildUpon()
-                            .setTrackSelectionOverrides(overrides).build());
+
+            TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
+                                                    .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
+                                                    .build();
+            mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                    .buildUpon()
+                                                    .setTrackSelectionOverrides(overrides).build());
         } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
