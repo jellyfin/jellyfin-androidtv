@@ -423,8 +423,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return false;
     }
 
-    public int getExoPlayerTrack(MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || allStreams == null)
+    public int getExoPlayerTrack(@Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null)
             return -1;
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return -1;
@@ -458,8 +458,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return -1;
     }
 
-    public boolean setExoPlayerTrack(int index, MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || allStreams == null || index < 0 || index >= allStreams.size())
+    public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null || index < 0 || index >= allStreams.size())
             return false;
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return false;
