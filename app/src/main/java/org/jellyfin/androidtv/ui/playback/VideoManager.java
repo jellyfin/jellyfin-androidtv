@@ -99,11 +99,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
-        mExoPlayer.setTrackSelectionParameters(
-                mExoPlayer.getTrackSelectionParameters()
-                        .buildUpon()
-                        .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
-                        .build());
+        mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                            .buildUpon()
+                                                            .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
+                                                            .build());
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
@@ -383,11 +382,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!isInitialized())
             return;
         if (isNativeMode()) {
-            mExoPlayer.setTrackSelectionParameters(
-                    mExoPlayer.getTrackSelectionParameters()
-                            .buildUpon()
-                            .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
-                            .build());
+            mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                    .buildUpon()
+                                                    .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
+                                                    .build());
         } else {
             mVlcPlayer.setSpuTrack(-1);
         }
@@ -538,8 +536,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
                 try {
                     TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
-                            .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(group))
-                            .build();
+                                                            .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(group))
+                                                            .build();
                     TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
                     if (streamType == MediaStreamType.Subtitle)
                         mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
