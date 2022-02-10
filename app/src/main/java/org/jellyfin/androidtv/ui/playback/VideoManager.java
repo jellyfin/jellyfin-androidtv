@@ -435,40 +435,27 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         List<MediaStream> streamsOfType = new ArrayList<>();
         for (MediaStream stream : allStreams) {
-            if (stream.getType() == streamType && !stream.getIsExternal()) {
-                Timber.d("stream %s index %s", stream.getTitle(), stream.getIndex());
+            if (stream.getType() == streamType && !stream.getIsExternal())
                 streamsOfType.add(stream);
-            }
         }
 
         TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
-        int exoTracksNdx = 0;
-        int groupInfoNdx = 0;
+        int exoTracksIndex = 0;
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
             // Group level information.
             @C.TrackType int trackType = groupInfo.getTrackType();
-            boolean trackInGroupIsSelected = groupInfo.isSelected();
-            boolean trackInGroupIsSupported = groupInfo.isSupported();
             TrackGroup group = groupInfo.getTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
-                boolean isSupported = groupInfo.isTrackSupported(i);
-                boolean isSelected = groupInfo.isTrackSelected(i);
-                Format trackFormat = group.getFormat(i);
-                Metadata trackMetadata = trackFormat.metadata;
-                Timber.d("media track id %s [groupNdx: %s/%s groupInfoNdx: %s/%s trackType %s] label %s mime %s codec %s isSelected %s isSupported %s", trackFormat.id, i+1, group.length, groupInfoNdx+1, exoTracks.getTrackGroupInfos().size(), trackType, trackFormat.label, trackFormat.sampleMimeType, trackFormat.codecs, isSelected, isSupported);
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
-                        if (exoTracksNdx < streamsOfType.size()) {
-                            Timber.d("exoplayer says current track is %s", streamsOfType.get(exoTracksNdx).getIndex());
-                            return streamsOfType.get(exoTracksNdx).getIndex();
-                        }
+                        if (exoTracksIndex < streamsOfType.size())
+                            return streamsOfType.get(exoTracksIndex).getIndex();
                         return -1;
                     }
-                    exoTracksNdx++;
+                    exoTracksIndex++;
                 }
             }
-            groupInfoNdx++;
         }
         return -1;
     }
@@ -485,72 +472,84 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         List<String> internallyRenderedSubFormats = Arrays.asList("ass", "ssa");
 
+        // find the index of the chosen track if it were in a list containing only tracks of its type (subs/audio/video)
         int tmpNdx = 0;
-        int MediaStreamNdx = -1;
+        int mediaStreamFilteredIndex = -1;
         for (MediaStream stream : allStreams) {
             if (stream.getType() == streamType) {
-                Timber.d("track %s title %s codec %s isExternal %s", tmpNdx, stream.getTitle(),stream.getCodec(), stream.getIsExternal());
                 if (stream.getIndex() == index) {
                     if (stream.getIsExternal())
                         return false;
                     if (streamType == MediaStreamType.Subtitle && !internallyRenderedSubFormats.contains(stream.getCodec())) {
-                        Timber.d("format of selected subtitle track will not use the exoplayer renderer");
                         return false;
                     }
-                    MediaStreamNdx = tmpNdx;
+                    mediaStreamFilteredIndex = tmpNdx;
                     break;
+                } else if (!stream.getIsExternal()) {
+                    // exoplayer wont have the external tracks so don't count them
+                    tmpNdx++;
                 }
-                tmpNdx++;
             }
         }
 
-        if (MediaStreamNdx < 0)
+        if (mediaStreamFilteredIndex < 0)
             return false;
 
-        Timber.d("matched ndx %s", MediaStreamNdx);
+        // loop through exoplayer's tracks, counting up when the track type matches
+        // when the track is found, build upon exoplayer's track selection parameters
+        // force selection of the chosen track by setting its TrackGroup as the only allowed group for its type
 
-        int exoTracksNdx = 0;
-        int groupInfoNdx = 0;
+        // design choices for exoplayer track selection overrides:
+        // * build upon the prior parameters so we can mix overrides of different track types without erasing priors
+        //
+        // * for subtitles (not currently used) - use setDisabledTrackTypes to disable or enable exoplayer handing subtitles
+        //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
+        //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
+        //
+        // *
+        int exoTracksIndex = 0;
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
             // Group level information.
             @C.TrackType int trackType = groupInfo.getTrackType();
-            boolean trackInGroupIsSelected = groupInfo.isSelected();
-            boolean trackInGroupIsSupported = groupInfo.isSupported();
             TrackGroup group = groupInfo.getTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
                 boolean isSupported = groupInfo.isTrackSupported(i);
                 boolean isSelected = groupInfo.isTrackSelected(i);
                 Format trackFormat = group.getFormat(i);
-                Metadata trackMetadata = trackFormat.metadata;
-                Timber.d("media track id %s [groupNdx: %s/%s groupInfoNdx: %s/%s trackType %s] label %s mime %s codec %s isSelected %s isSupported %s", trackFormat.id, i+1, group.length, groupInfoNdx+1, exoTracks.getTrackGroupInfos().size(), trackType, trackFormat.label, trackFormat.sampleMimeType, trackFormat.codecs, isSelected, isSupported);
 
-                if (trackType == chosenTrackType) {
-                    if (exoTracksNdx == MediaStreamNdx) {
-                        if (groupInfo.isTrackSelected(i) || !groupInfo.isTrackSupported(i)) {
-                            Timber.d("track is ineligible");
-                            return false;
-                        }
-                        Timber.d("matched track");
-                        try {
-                            TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
-                                    .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(group))
-                                    .build();
-                            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
-                            if (streamType == MediaStreamType.Subtitle)
-                                mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
-                            mExoPlayerSelectionParams.setTrackSelectionOverrides(overrides);
-                            mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
-                        } catch (Exception e) {
-                            Timber.d("Error setting track selection");
-                            return false;
-                        }
-                        return true;
-                    }
-                    exoTracksNdx++;
+                Timber.d("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
+                        trackFormat.id, i+1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
+
+                // continue looping past tracks of the wrong type, and until count up to the right track
+                if (trackType != chosenTrackType)
+                    continue;
+                if (exoTracksIndex != mediaStreamFilteredIndex) {
+                    exoTracksIndex++;
+                    continue;
                 }
+
+                if (groupInfo.isTrackSelected(i) || !groupInfo.isTrackSupported(i)) {
+                    Timber.d("track is %s", groupInfo.isTrackSelected(i) ? "already selected" : "not compatible");
+                    return false;
+                }
+
+                Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
+                try {
+                    TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
+                            .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(group))
+                            .build();
+                    TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+                    if (streamType == MediaStreamType.Subtitle)
+                        mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
+                    mExoPlayerSelectionParams.setTrackSelectionOverrides(overrides);
+                    mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
+                } catch (Exception e) {
+                    Timber.d("Error setting track selection");
+                    return false;
+                }
+                return true;
             }
-            groupInfoNdx++;
         }
         return false;
     }
@@ -686,6 +685,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void createPlayer(int buffer, boolean isInterlaced) {
+        if (isInitialized())
+            return;
+
         try {
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);
