@@ -519,7 +519,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Timber.d("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
                         trackFormat.id, i+1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
 
-                // continue looping past tracks of the wrong type, and until count up to the right track
                 if (trackType != chosenTrackType)
                     continue;
                 if (exoTracksIndex != mediaStreamFilteredIndex) {
