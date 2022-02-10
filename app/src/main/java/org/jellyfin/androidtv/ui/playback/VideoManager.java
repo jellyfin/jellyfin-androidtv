@@ -493,7 +493,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (mediaStreamFilteredIndex < 0)
             return false;
 
-        // loop through exoplayer's tracks, counting up when the track type matches
+        // loop through exoplayer's tracks, counting up for each track matching the chosen type
         // when the track is found, build upon exoplayer's track selection parameters
         // force selection of the chosen track by setting its TrackGroup as the only allowed group for its type
 
