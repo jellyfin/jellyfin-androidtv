@@ -848,38 +848,6 @@ public class PlaybackController {
         }
     }
 
-    public void externalSubsHandler(MediaStream stream) {
-        if (mFragment != null) mFragment.addManualSubtitles(null);
-        mVideoManager.disableSubs();
-        if (mFragment != null) mFragment.showSubLoadingMsg(true);
-        stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-        stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
-        apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
-
-            @Override
-            public void onResponse(final SubtitleTrackInfo info) {
-
-                if (info != null) {
-                    Timber.d("Adding json subtitle track to player");
-                    if (mFragment != null) mFragment.addManualSubtitles(info);
-                } else {
-                    Timber.e("Empty subtitle result");
-                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                    if (mFragment != null) mFragment.showSubLoadingMsg(false);
-                }
-            }
-
-            @Override
-            public void onError(Exception ex) {
-                Timber.e(ex, "Error downloading subtitles");
-                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
-                if (mFragment != null) mFragment.showSubLoadingMsg(false);
-            }
-
-        });
-    }
-
-
     private boolean burningSubs = false;
 
     public void switchSubtitleStream(int index) {
@@ -926,15 +894,45 @@ public class PlaybackController {
                     play(mCurrentPosition, index);
                     break;
                 case Embed:
-                    if (mFragment != null)
-                        mFragment.addManualSubtitles(null); // in case these were on
-                    if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
-                        // error selecting internal subs
-                        externalSubsHandler(stream);
+                    if (!mVideoManager.isNativeMode()) {
+                        if (mFragment != null)
+                            mFragment.addManualSubtitles(null); // in case these were on
+                        if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
+                            // error selecting internal subs
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
+                        }
+                        break;
                     }
-                    break;
+                    // not using vlc - fall through to external handling
                 case External:
-                    externalSubsHandler(stream);
+                    if (mFragment != null) mFragment.addManualSubtitles(null);
+                    mVideoManager.disableSubs();
+                    if (mFragment != null) mFragment.showSubLoadingMsg(true);
+                    stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
+                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+                    apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+
+                        @Override
+                        public void onResponse(final SubtitleTrackInfo info) {
+
+                            if (info != null) {
+                                Timber.d("Adding json subtitle track to player");
+                                if (mFragment != null) mFragment.addManualSubtitles(info);
+                            } else {
+                                Timber.e("Empty subtitle result");
+                                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
+                                if (mFragment != null) mFragment.showSubLoadingMsg(false);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception ex) {
+                            Timber.e(ex, "Error downloading subtitles");
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getResources().getString(R.string.msg_unable_load_subs));
+                            if (mFragment != null) mFragment.showSubLoadingMsg(false);
+                        }
+
+                    });
                     break;
                 case Hls:
                     break;

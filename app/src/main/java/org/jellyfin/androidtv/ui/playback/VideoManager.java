@@ -24,7 +24,6 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.TracksInfo;
-import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverrides;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
@@ -395,34 +394,36 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
-        if (nativeMode || allStreams == null)
-            return false;
-
-        //find the relative order of our sub index within the sub tracks in VLC
-        int vlcIndex = 1; // start at 1 to account for "disabled"
-        for (MediaStream stream : allStreams) {
-            if (stream.getType() == MediaStreamType.Subtitle && !stream.getIsExternal()) {
-                if (stream.getIndex() == index) {
-                    break;
+        if (!nativeMode && allStreams != null) {
+            //find the relative order of our sub index within the sub tracks in VLC
+            int vlcIndex = 1; // start at 1 to account for "disabled"
+            for (MediaStream stream : allStreams) {
+                if (stream.getType() == MediaStreamType.Subtitle && !stream.getIsExternal()) {
+                    if (stream.getIndex() == index) {
+                        break;
+                    }
+                    vlcIndex++;
                 }
-                vlcIndex++;
             }
+
+            org.videolan.libvlc.MediaPlayer.TrackDescription vlcSub;
+            try {
+                vlcSub = getSubtitleTracks()[vlcIndex];
+
+            } catch (IndexOutOfBoundsException e) {
+                Timber.e("Could not locate subtitle with index %s in vlc track info", index);
+                return false;
+            } catch (NullPointerException e) {
+                Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
+                return false;
+            }
+
+            Timber.i("Setting Vlc sub to %s", vlcSub.name);
+            return mVlcPlayer.setSpuTrack(vlcSub.id);
+
         }
 
-        org.videolan.libvlc.MediaPlayer.TrackDescription vlcSub;
-        try {
-            vlcSub = getSubtitleTracks()[vlcIndex];
-
-        } catch (IndexOutOfBoundsException e) {
-            Timber.e("Could not locate subtitle with index %s in vlc track info", index);
-            return false;
-        } catch (NullPointerException e) {
-            Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
-            return false;
-        }
-
-        Timber.i("Setting Vlc sub to %s", vlcSub.name);
-        return mVlcPlayer.setSpuTrack(vlcSub.id);
+        return false;
     }
 
     public int getExoPlayerTrack(MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
