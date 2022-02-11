@@ -225,7 +225,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!isInitialized())
             return -1;
 
-        // to do: add libVLC support
+        // only exoplayer supports reporting buffered position
         if (!isNativeMode())
             return -1;
 
