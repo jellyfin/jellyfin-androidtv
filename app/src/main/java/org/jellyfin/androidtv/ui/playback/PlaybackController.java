@@ -1086,7 +1086,9 @@ public class PlaybackController {
         skip(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
-    public void seek(final long pos) {
+    public void seek(long pos) {
+        pos = Utils.getSafePosition(pos, getDuration());
+
         Timber.d("Trying to seek from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
 
@@ -1176,16 +1178,10 @@ public class PlaybackController {
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
             refreshCurrentPosition();
-            currentSkipPos = (currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec;
-
-            if (currentSkipPos < 0) {
-                currentSkipPos = 0;
-            } else if (currentSkipPos > mVideoManager.getDuration()) {
-                currentSkipPos = mVideoManager.getDuration() - 1000;
-            }
+            currentSkipPos = Utils.getSafePosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
 
             Timber.d("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
-            Timber.d("Duration reported as: %s current pos: %s", mVideoManager.getDuration(), mCurrentPosition);
+            Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
 
             mSeekPosition = currentSkipPos;
             mHandler.postDelayed(skipRunnable, 800);
@@ -1290,6 +1286,7 @@ public class PlaybackController {
                 if (mVideoManager == null)
                     return;
                 if (mVideoManager.getDuration() <= 0) {
+                    // use mVideoManager.getDuration here for accurate results
                     // wait until we have valid duration
                     mHandler.postDelayed(this, 25);
                 } else if (mVideoManager.isSeekable()) {
@@ -1459,22 +1456,24 @@ public class PlaybackController {
     }
 
     public long getDuration() {
+        long duration = 0;
+
         if (hasInitializedVideoManager()) {
-            return mVideoManager.getDuration();
+            duration = mVideoManager.getDuration();
         } else if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
-            return getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
+            duration = getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
         }
-        return -1;
+        return duration > 0 ? duration : 0;
     }
 
     public long getBufferedPosition() {
         long bufferedPosition = -1;
 
-        if (hasInitializedVideoManager() && mVideoManager.getBufferedPosition() > -1) {
+        if (hasInitializedVideoManager())
             bufferedPosition = mVideoManager.getBufferedPosition();
-        } else {
+
+        if (bufferedPosition < 0)
             bufferedPosition = getDuration();
-        }
 
         return bufferedPosition;
     }
