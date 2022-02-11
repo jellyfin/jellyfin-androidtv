@@ -231,8 +231,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         long bufferedPosition = mExoPlayer.getBufferedPosition();
 
-        Timber.d("exoplayer got buffered position %s", bufferedPosition);
-
         if (bufferedPosition > -1 && bufferedPosition < getDuration()) {
             return bufferedPosition;
         }
