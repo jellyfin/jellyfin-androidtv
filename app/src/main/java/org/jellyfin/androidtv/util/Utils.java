@@ -134,7 +134,7 @@ public class Utils {
         return KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
     }
 
-    public static long getSafePosition(long position, long duration) {
+    public static long getSafeSeekPosition(long position, long duration) {
         if (position < 0 || duration < 0)
             return 0;
         if (position >= duration)

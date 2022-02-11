@@ -1087,7 +1087,7 @@ public class PlaybackController {
     }
 
     public void seek(long pos) {
-        pos = Utils.getSafePosition(pos, getDuration());
+        pos = Utils.getSafeSeekPosition(pos, getDuration());
 
         Timber.d("Trying to seek from %s to %d", mCurrentPosition, pos);
         Timber.d("Container: %s", mCurrentStreamInfo == null ? "unknown" : mCurrentStreamInfo.getContainer());
@@ -1178,7 +1178,7 @@ public class PlaybackController {
             mHandler.removeCallbacks(skipRunnable);
             stopReportLoop();
             refreshCurrentPosition();
-            currentSkipPos = Utils.getSafePosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
+            currentSkipPos = Utils.getSafeSeekPosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
 
             Timber.d("Skip amount requested was %s. Calculated position is %s", msec, currentSkipPos);
             Timber.d("Duration reported as: %s current pos: %s", getDuration(), mCurrentPosition);
