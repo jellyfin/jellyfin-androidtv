@@ -111,8 +111,6 @@ android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref =
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [bundles]
