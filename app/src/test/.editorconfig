@@ -1,0 +1,8 @@
+# Note: This file is temporarily, these settings should be moved to the top-level editorconfig to
+# affect the complete project.
+
+[{*.kts,*.kt}]
+# Disable wildcard imports in IntelliJ/Android Studio
+ij_kotlin_name_count_to_use_star_import = 1000
+ij_kotlin_name_count_to_use_star_import_for_members = 1000
+ij_kotlin_packages_to_use_import_on_demand =
