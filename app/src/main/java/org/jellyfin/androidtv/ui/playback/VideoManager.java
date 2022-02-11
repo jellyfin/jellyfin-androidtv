@@ -221,6 +221,24 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
+    public long getBufferedPosition() {
+        if (!isInitialized())
+            return -1;
+
+        // to do: add libVLC support
+        if (!isNativeMode())
+            return -1;
+
+        long bufferedPosition = mExoPlayer.getBufferedPosition();
+
+        Timber.d("exoplayer got buffered position %s", bufferedPosition);
+
+        if (bufferedPosition > -1 && bufferedPosition < getDuration()) {
+            return bufferedPosition;
+        }
+        return -1;
+    }
+
     public long getCurrentPosition() {
         if (nativeMode) {
             if (mExoPlayer == null || !isPlaying()) {

@@ -1458,6 +1458,27 @@ public class PlaybackController {
         });
     }
 
+    public long getDuration() {
+        if (hasInitializedVideoManager()) {
+            return mVideoManager.getDuration();
+        } else if (getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null) {
+            return getCurrentlyPlayingItem().getRunTimeTicks() / 10000;
+        }
+        return -1;
+    }
+
+    public long getBufferedPosition() {
+        long bufferedPosition = -1;
+
+        if (hasInitializedVideoManager() && mVideoManager.getBufferedPosition() > -1) {
+            bufferedPosition = mVideoManager.getBufferedPosition();
+        } else {
+            bufferedPosition = getDuration();
+        }
+
+        return bufferedPosition;
+    }
+
     public long getCurrentPosition() {
         // don't report the real position if seeking
         return !isPlaying() && mSeekPosition != -1 ? mSeekPosition : mCurrentPosition;

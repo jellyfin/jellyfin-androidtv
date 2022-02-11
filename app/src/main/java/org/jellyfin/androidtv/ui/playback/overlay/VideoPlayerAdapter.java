@@ -59,8 +59,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getDuration() {
-        return getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null ?
-                getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
+        return playbackController.getDuration();
     }
 
     @Override
@@ -75,11 +74,15 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getBufferedPosition() {
-        return getDuration();
+        return playbackController.getBufferedPosition();
     }
 
     void updateCurrentPosition() {
         getCallback().onCurrentPositionChanged(this);
+
+        // only exoplayer supports reporting buffered position
+        if (isNativeMode())
+            getCallback().onBufferedPositionChanged(this);
     }
 
     void updatePlayState() {
