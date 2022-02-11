@@ -89,6 +89,7 @@ public class PlaybackController {
     private VideoOptions mCurrentOptions;
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
+    private boolean burningSubs = false;
     private double mRequestedPlaybackSpeed = -1.0;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
@@ -379,10 +380,10 @@ public class PlaybackController {
     }
 
     public void play(long position) {
-        play(position, -1);
+        play(position, null);
     }
 
-    private void play(long position, int transcodedSubtitle) {
+    private void play(long position, @Nullable Integer transcodedSubtitle) {
         Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, transcodedSubtitle);
 
         if (position < 0) {
@@ -479,8 +480,8 @@ public class PlaybackController {
                     vlcOptions.setEnableDirectStream(false);
                     vlcOptions.setEnableDirectPlay(false);
                 }
-                vlcOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
-                vlcOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                vlcOptions.setSubtitleStreamIndex(transcodedSubtitle);
+                vlcOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile vlcProfile = new LibVlcProfile(isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
@@ -491,8 +492,8 @@ public class PlaybackController {
                 if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
                     internalOptions.setEnableDirectStream(false);
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
-                internalOptions.setSubtitleStreamIndex(transcodedSubtitle >= 0 ? transcodedSubtitle : null);
-                internalOptions.setMediaSourceId(transcodedSubtitle >= 0 ? getCurrentMediaSource().getId() : null);
+                internalOptions.setSubtitleStreamIndex(transcodedSubtitle);
+                internalOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     internalProfile = new ExoPlayerProfile(
@@ -506,7 +507,6 @@ public class PlaybackController {
                 }
                 internalOptions.setProfile(internalProfile);
 
-                mDefaultSubIndex = transcodedSubtitle;
                 Timber.d("Max bitrate is: %d", Utils.getMaxBitrate());
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
@@ -724,11 +724,30 @@ public class PlaybackController {
             Timber.d("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
             return;
         }
+
+        mStartPosition = position;
+
         mCurrentStreamInfo = response;
 
         // set the audio index so that it is preserved if the stream is rebuilt when seeking
         mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
+        setDefaultAudioIndex(response);
+
+
+        // get subtitle info
+        mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
+        mDefaultSubIndex = response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
+        Timber.d("default sub index set to %s remote default %s", mDefaultSubIndex, response.getMediaSource().getDefaultSubtitleStreamIndex());
+
+        // if burning in, set the subtitle index and the burningSubs flag so that onPrepared and switchSubtitleStream will know that we already have subtitles enabled
+        burningSubs = false;
+        if (mCurrentStreamInfo.getPlayMethod() == PlayMethod.Transcode && getSubtitleStreamInfo(mDefaultSubIndex) != null &&
+                                getSubtitleStreamInfo(mDefaultSubIndex).getDeliveryMethod() == SubtitleDeliveryMethod.Encode) {
+            mCurrentOptions.setSubtitleStreamIndex(mDefaultSubIndex);
+            Timber.d("stream started with burnt in subs");
+            burningSubs = true;
+        }
 
         Long mbPos = position * 10000;
 
@@ -749,9 +768,6 @@ public class PlaybackController {
         if (refreshRateSwitchingEnabled) {
             setRefreshRate(response.getMediaSource().getVideoStream());
         }
-
-        // get subtitle info
-        mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
 
         // set playback speed to user selection, or 1 if we're watching live-tv
         if (mVideoManager != null) mVideoManager.setPlaybackSpeed(isLiveTv() ? 1.0 : mRequestedPlaybackSpeed);
@@ -793,11 +809,6 @@ public class PlaybackController {
                     mVideoManager.start();
             }
         }, 750);
-
-        mStartPosition = position;
-
-        setDefaultAudioIndex(response);
-        mDefaultSubIndex = mPlaybackMethod != PlayMethod.Transcode && response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
 
         TvApp.getApplication().setLastPlayedItem(item);
         ReportingHelper.reportStart(item, mbPos);
@@ -879,7 +890,7 @@ public class PlaybackController {
         }
     }
 
-    private boolean burningSubs = false;
+
 
     public void switchSubtitleStream(int index) {
         if (!hasInitializedVideoManager())
@@ -893,8 +904,7 @@ public class PlaybackController {
         if (index < 0) {
             if (burningSubs) {
                 stop();
-                play(mCurrentPosition);
-                burningSubs = false;
+                play(mCurrentPosition, -1);
             } else {
                 if (mFragment != null) mFragment.addManualSubtitles(null);
                 mVideoManager.disableSubs();
@@ -1048,6 +1058,7 @@ public class PlaybackController {
         mDefaultAudioIndex = -1;
         finishedInitialSeek = false;
         wasSeeking = false;
+        burningSubs = false;
         if (mVideoManager != null)
             mVideoManager.setMetaVLCStreamStartPosition(-1);
     }
