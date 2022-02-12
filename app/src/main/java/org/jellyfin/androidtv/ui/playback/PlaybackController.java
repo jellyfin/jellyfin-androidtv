@@ -1007,6 +1007,14 @@ public class PlaybackController {
         }
     }
 
+    public void refreshStream() {
+        // get current timestamp first
+        refreshCurrentPosition();
+
+        stop();
+        play(mCurrentPosition);
+    }
+
     public void endPlayback() {
         stop();
         removePreviousQueueItems();

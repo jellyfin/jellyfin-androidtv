@@ -93,14 +93,14 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				entries = setOf(
 					0.0, // auto
 					120.0, 110.0, 100.0, // 100 >=
-					90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 21.0, 15.0, 10.0, // 10 >=
+					90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 15.0, 10.0, // 10 >=
 					5.0, 3.0, 2.0, 1.0, // 1 >=
 					0.72, 0.42 // 0 >=
 				).associate {
 					val value = when {
 						it == 0.0 -> getString(R.string.bitrate_auto)
 						it >= 1.0 -> getString(R.string.bitrate_mbit, it)
-						else -> getString(R.string.bitrate_kbit, it * 100.0)
+						else -> getString(R.string.bitrate_kbit, it * 1000.0)
 					}
 
 					it.toString().removeSuffix(".0") to value
