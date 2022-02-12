@@ -1441,7 +1441,7 @@ public class PlaybackController {
                     if (mFragment != null)
                         mFragment.updateSubtitles(mCurrentPosition);
                 }
-                if (mFragment != null && finishedInitialSeek)
+                if (mFragment != null)
                     mFragment.setCurrentTime(mCurrentPosition);
             }
         });
