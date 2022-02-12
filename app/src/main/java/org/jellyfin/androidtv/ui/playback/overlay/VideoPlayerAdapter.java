@@ -59,7 +59,8 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     @Override
     public long getDuration() {
-        return playbackController.getDuration();
+        return getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null ?
+                getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
     }
 
     @Override
