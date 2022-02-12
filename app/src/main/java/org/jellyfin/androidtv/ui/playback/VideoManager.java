@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -15,17 +14,22 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.Renderer;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.text.TextOutput;
+import com.google.android.exoplayer2.TracksInfo;
+import com.google.android.exoplayer2.source.TrackGroup;
+import com.google.android.exoplayer2.trackselection.TrackSelectionOverrides;
+import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -39,6 +43,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
@@ -94,6 +99,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
+        mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                            .buildUpon()
+                                                            .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
+                                                            .build());
+
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.EventListener() {
@@ -143,16 +153,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
      */
     private ExoPlayer.Builder configureExoplayerBuilder(Context context) {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
-
-        DefaultRenderersFactory defaultRendererFactory =
-                new DefaultRenderersFactory(context) {
-                    @Override
-                    protected void buildTextRenderers(Context context, TextOutput output,
-                                                      Looper outputLooper, int extensionRendererMode,
-                                                      ArrayList<Renderer> out) {
-                        // Do not add text renderers since we handle subtitles
-                    }
-                };
+        DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
         exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
@@ -316,6 +317,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void stopPlayback() {
         if (nativeMode && mExoPlayer != null) {
             mExoPlayer.stop();
+            disableSubs();
+
+            TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
+                                                    .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
+                                                    .build();
+            mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                    .buildUpon()
+                                                    .setTrackSelectionOverrides(overrides).build());
         } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
@@ -385,7 +394,16 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void disableSubs() {
-        if (!nativeMode && mVlcPlayer != null) mVlcPlayer.setSpuTrack(-1);
+        if (!isInitialized())
+            return;
+        if (isNativeMode()) {
+            mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
+                                                    .buildUpon()
+                                                    .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
+                                                    .build());
+        } else {
+            mVlcPlayer.setSpuTrack(-1);
+        }
     }
 
     public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
@@ -418,6 +436,134 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         }
 
+        return false;
+    }
+
+    public int getExoPlayerTrack(@Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null)
+            return -1;
+        if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+            return -1;
+
+        int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+
+        List<MediaStream> streamsOfType = new ArrayList<>();
+        for (MediaStream stream : allStreams) {
+            if (stream.getType() == streamType && !stream.getIsExternal())
+                streamsOfType.add(stream);
+        }
+
+        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
+        int exoTracksIndex = 0;
+        for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
+            // Group level information.
+            @C.TrackType int trackType = groupInfo.getTrackType();
+            TrackGroup group = groupInfo.getTrackGroup();
+            for (int i = 0; i < group.length; i++) {
+                // Individual track information.
+                if (trackType == chosenTrackType) {
+                    if (groupInfo.isTrackSelected(i)) {
+                        if (exoTracksIndex < streamsOfType.size())
+                            return streamsOfType.get(exoTracksIndex).getIndex();
+                        return -1;
+                    }
+                    exoTracksIndex++;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null || index < 0 || index >= allStreams.size())
+            return false;
+        if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+            return false;
+
+        int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+
+        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
+
+        List<String> internallyRenderedSubFormats = Arrays.asList("ass", "ssa");
+
+        // find the index of the chosen track if it were in a list containing only tracks of its type (subs/audio/video)
+        int tmpNdx = 0;
+        int mediaStreamFilteredIndex = -1;
+        for (MediaStream stream : allStreams) {
+            if (stream.getType() == streamType) {
+                if (stream.getIndex() == index) {
+                    if (stream.getIsExternal())
+                        return false;
+                    if (streamType == MediaStreamType.Subtitle && !internallyRenderedSubFormats.contains(stream.getCodec())) {
+                        return false;
+                    }
+                    mediaStreamFilteredIndex = tmpNdx;
+                    break;
+                } else if (!stream.getIsExternal()) {
+                    // exoplayer wont have the external tracks so don't count them
+                    tmpNdx++;
+                }
+            }
+        }
+
+        if (mediaStreamFilteredIndex < 0)
+            return false;
+
+        // loop through exoplayer's tracks, counting up for each track matching the chosen type
+        // when the track is found, build upon exoplayer's track selection parameters
+        // force selection of the chosen track by setting its TrackGroup as the only allowed group for its type
+
+        // design choices for exoplayer track selection overrides:
+        // * build upon the prior parameters so we can mix overrides of different track types without erasing priors
+        //
+        // * for subtitles (not currently used) - use setDisabledTrackTypes to disable or enable exoplayer handing subtitles
+        //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
+        //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
+        //
+        // *
+        int exoTracksIndex = 0;
+        for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
+            // Group level information.
+            @C.TrackType int trackType = groupInfo.getTrackType();
+            TrackGroup group = groupInfo.getTrackGroup();
+            for (int i = 0; i < group.length; i++) {
+                // Individual track information.
+                boolean isSupported = groupInfo.isTrackSupported(i);
+                boolean isSelected = groupInfo.isTrackSelected(i);
+                Format trackFormat = group.getFormat(i);
+
+                Timber.d("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
+                        trackFormat.id, i+1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
+
+                if (trackType != chosenTrackType)
+                    continue;
+                if (exoTracksIndex != mediaStreamFilteredIndex) {
+                    exoTracksIndex++;
+                    continue;
+                }
+
+                if (groupInfo.isTrackSelected(i) || !groupInfo.isTrackSupported(i)) {
+                    Timber.d("track is %s", groupInfo.isTrackSelected(i) ? "already selected" : "not compatible");
+                    return false;
+                }
+
+                Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
+                try {
+                    TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
+                                                            .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(group))
+                                                            .build();
+                    TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+                    if (streamType == MediaStreamType.Subtitle)
+                        mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
+                    mExoPlayerSelectionParams.setTrackSelectionOverrides(overrides);
+                    mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
+                } catch (Exception e) {
+                    Timber.d("Error setting track selection");
+                    return false;
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -552,6 +698,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void createPlayer(int buffer, boolean isInterlaced) {
+        if (isInitialized())
+            return;
+
         try {
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);

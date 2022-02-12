@@ -634,44 +634,8 @@ public class PlaybackController {
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
 
                             Timber.d("server default: %s inferred first track: %s", internalResponse.getMediaSource().getDefaultAudioStreamIndex(), bestGuessAudioTrack(internalResponse.getMediaSource()));
-
-                            Integer defaultAudioIndex = internalResponse.getMediaSource().getDefaultAudioStreamIndex();
-                            Integer firstAudioIndex = bestGuessAudioTrack(internalResponse.getMediaSource());
-
-                                            // if an audio index is not specified but the default is not the inferred first
-                            if (!useVlc && firstAudioIndex != null && defaultAudioIndex != null && !firstAudioIndex.equals(defaultAudioIndex)) {
-
-                                // requested specific audio stream that is different from default so we need to force a transcode to get it (ExoMedia currently cannot switch)
-                                // remove direct play profiles to force the transcode
-                                final DeviceProfile save = internalOptions.getProfile();
-
-                                DeviceProfile newProfile = new BaseProfile();
-                                if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
-                                    newProfile = new ExoPlayerProfile(
-                                            isLiveTv,
-                                            userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
-                                    );
-                                    ProfileHelper.addAc3Streaming(newProfile, true);
-                                    Timber.i("*** Using extended Exoplayer profile options");
-                                } else {
-                                    Timber.i("*** Using default android profile");
-                                }
-                                newProfile.setDirectPlayProfiles(new DirectPlayProfile[]{});
-                                internalOptions.setProfile(newProfile);
-                                Timber.i("Forcing transcode due to non-default audio chosen");
-                                playbackManager.getValue().getVideoStreamInfo(api.getValue().getDeviceInfo(), internalOptions, position * 10000, apiClient.getValue(), new Response<StreamInfo>() {
-                                    @Override
-                                    public void onResponse(StreamInfo response) {
-                                        //re-set this
-                                        internalOptions.setProfile(save);
-                                        mCurrentOptions = internalOptions;
-                                        startItem(item, position, response);
-                                    }
-                                });
-                            } else {
-                                mCurrentOptions = useVlc ? vlcOptions : internalOptions;
-                                startItem(item, position, useVlc ? vlcResponse : internalResponse);
-                            }
+                            mCurrentOptions = useVlc ? vlcOptions : internalOptions;
+                            startItem(item, position, useVlc ? vlcResponse : internalResponse);
                         }
 
                         @Override
@@ -814,9 +778,13 @@ public class PlaybackController {
     public int getAudioStreamIndex() {
         int currIndex = mDefaultAudioIndex;
 
-        // if using libVLC and not transcoding, libVLC is able to switch tracks and report its current track
+        // if not transcoding, libVLC & exoplayer are able to switch tracks and report their selected track
         if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getVLCAudioTrack() > -1) {
             currIndex = mVideoManager.getVLCAudioTrack();
+        } else if (hasInitializedVideoManager() && !isTranscoding() && isNativeMode() && mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams()) > -1) {
+            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams());
+        } else if (!isTranscoding() && isNativeMode() && mCurrentOptions.getAudioStreamIndex() != null) {
+            currIndex = mCurrentOptions.getAudioStreamIndex();
         } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
         }
@@ -862,20 +830,21 @@ public class PlaybackController {
         // get current timestamp first
         refreshCurrentPosition();
 
-        // when transcoding, libVLC will only have the current track available
-        // exoplayer always needs to transcode to play a non-default audio track
-        if (mVideoManager.isNativeMode() || isTranscoding()) {
+        if (isNativeMode() && !isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams())) {
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            mCurrentOptions.setAudioStreamIndex(index);
+        } else if (!isNativeMode() && !isTranscoding() && mVideoManager.setVLCAudioTrack(index) == index) {
+            // if setAudioTrack succeeded it will return the requested index
+            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
+            mCurrentOptions.setAudioStreamIndex(index);
+            mVideoManager.setAudioMode();
+        } else {
             startSpinner();
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
             stop();
             playInternal(getCurrentlyPlayingItem(), mCurrentPosition, mCurrentOptions, mCurrentOptions);
             mPlaybackState = PlaybackState.BUFFERING;
-        } else if (mVideoManager.setVLCAudioTrack(index) == index) {
-            // if setAudioTrack succeeded it will return the requested index
-            mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
-            mCurrentOptions.setAudioStreamIndex(index);
-            mVideoManager.setAudioMode();
         }
     }
 
@@ -1402,18 +1371,17 @@ public class PlaybackController {
                         Timber.i("Turning off subs by default");
                         mVideoManager.disableSubs();
                     }
-                    if (!mVideoManager.isNativeMode()) {
-                        int eligibleAudioTrack = mDefaultAudioIndex;
 
-                        // if track switching is done without rebuilding the stream, mCurrentOptions is updated
-                        // otherwise, use the server default
-                        if (mCurrentOptions.getAudioStreamIndex() != null) {
-                            eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
-                        } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
-                            eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
-                        }
-                        switchAudioStream(eligibleAudioTrack);
+                    int eligibleAudioTrack = mDefaultAudioIndex;
+
+                    // if track switching is done without rebuilding the stream, mCurrentOptions is updated
+                    // otherwise, use the server default
+                    if (mCurrentOptions.getAudioStreamIndex() != null) {
+                        eligibleAudioTrack = mCurrentOptions.getAudioStreamIndex();
+                    } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
+                        eligibleAudioTrack = getCurrentMediaSource().getDefaultAudioStreamIndex();
                     }
+                    switchAudioStream(eligibleAudioTrack);
                 }
             }
         });
