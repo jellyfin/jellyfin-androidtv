@@ -250,9 +250,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
                 secondaryActionsAdapter.add(recordAction);
                 recordingStateChanged();
             }
-        } else {
-            secondaryActionsAdapter.add(selectQualityAction);
-            secondaryActionsAdapter.add(selectAudioOutputAction);
         }
 
         if (hasNextItem()) {
@@ -266,6 +263,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         if (!isLiveTv()) {
             secondaryActionsAdapter.add(playbackSpeedAction);
+            secondaryActionsAdapter.add(selectQualityAction);
+            secondaryActionsAdapter.add(selectAudioOutputAction);
         }
 
 
