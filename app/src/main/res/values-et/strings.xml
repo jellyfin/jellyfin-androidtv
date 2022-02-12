@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="lbl_cancel_recording">Tühista Salvestamine</string>
+    <string name="lbl_cancel">Tühista</string>
+    <string name="lbl_pause">Pausi</string>
+    <string name="lbl_play">Esita</string>
+    <string name="lbl_shuffle_all">Juhustage Kõik</string>
+    <string name="lbl_play_all">Esita Kõik</string>
+    <string name="lbl_because_you_watched">"Sest sa vaatasid "</string>
+    <string name="lbl_other">Muud</string>
+    <string name="lbl_tv_series">Telesarjad</string>
+    <string name="lbl_movies">Filmid</string>
+    <string name="lbl_collections">Kollektsioonid</string>
+    <string name="lbl_other_channels">Muud Kanalid</string>
+    <string name="lbl_favorite_channels">Lemmikud Kanalid</string>
+    <string name="lbl_coming_up">Tulekul</string>
+    <string name="lbl_favorites">Lemmikud</string>
+    <string name="lbl_by_name">Nime Järgi</string>
+    <string name="lbl_latest">Viimased</string>
+    <string name="msg_not_implemented">" ei ole rakendatud"</string>
+    <string name="lbl_search">Otsing</string>
+    <string name="lbl_genres">Žanrid</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_suggested">Soovitatud</string>
+    <string name="lbl_on_now">Praegu</string>
+    <string name="lbl_next_up">Järgmisena</string>
+    <string name="pref_max_bitrate_title">Maksimaalne voogesituse bitikiirus</string>
+    <string name="pref_playback">Taasesitus</string>
+    <string name="btn_cancel">Tühista</string>
+    <string name="loading">Laadimine…</string>
+    <string name="video_error_unknown_error">Video laadimine ebaõnnestus</string>
+</resources>
