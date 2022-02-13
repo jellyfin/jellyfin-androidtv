@@ -130,7 +130,7 @@
     <string name="lbl_critic_rating">Note des critiques</string>
     <string name="lbl_rating">Critique</string>
     <string name="lbl_starting_with">Commençant par ceux dont le nom débute par</string>
-    <string name="btn_done">Fait</string>
+    <string name="btn_done">Terminé</string>
     <string name="lbl_display_preferences">Préférences d\'affichage</string>
     <string name="lbl__continuing">POURSUIVRE</string>
     <string name="lbl_ended">TERMINÉ</string>
@@ -363,9 +363,9 @@
     <string name="lbl_hide_unwatched_count">Masquer le décompte des éléments non visionnés</string>
     <string name="pref_watched_indicator">Afficher les indicateurs de visionnage</string>
     <string name="login_help_description">Jellyfin a besoin d\'un serveur auquel se connecter. Visitez notre documentation docs.jellyfin.org ou scannez le QR code pour commencer à utiliser Jellyfin.</string>
-    <string name="login_help_title">Besoin d\'aide  \?</string>
+    <string name="login_help_title">Besoin d\'aide \?</string>
     <string name="connect_manually_by_address">Entrez l\'adresse du serveur</string>
-    <string name="discovered_servers_empty">Aucun serveur n\'a été découvert sur le réseau local.</string>
+    <string name="discovered_servers_empty">Aucun serveur n\'a été trouvé sur le réseau local.</string>
     <string name="discovered_servers_title">Serveurs découverts</string>
     <string name="lbl_hidden">Caché</string>
     <string name="pref_developer_link_description">Fonctionnalités avancées et expérimentales</string>
