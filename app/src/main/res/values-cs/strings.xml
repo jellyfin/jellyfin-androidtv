@@ -366,7 +366,7 @@
     <string name="image_size_medium">Střední</string>
     <string name="image_size_small">Malý</string>
     <string name="image_size_auto">Výchozí</string>
-    <string name="image_type_banner">Proužek</string>
+    <string name="image_type_banner">Výřez plakátu</string>
     <string name="image_type_thumbnail">Náhled</string>
     <string name="image_type_default">Výchozí</string>
     <string name="enable_smart_view_description">Chytrá obrazovka zobrazuje relevantní položky místo mřížky</string>
