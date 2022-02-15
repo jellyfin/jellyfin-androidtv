@@ -1448,7 +1448,8 @@ public class PlaybackController {
     public long getBufferedPosition() {
         long bufferedPosition = -1;
 
-        if (hasInitializedVideoManager())
+        // FIXME handle live tv buffered position and position while paused
+        if (!isLiveTv() && hasInitializedVideoManager())
             bufferedPosition = mVideoManager.getBufferedPosition();
 
         if (bufferedPosition < 0)

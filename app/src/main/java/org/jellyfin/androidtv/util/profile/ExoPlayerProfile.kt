@@ -45,29 +45,50 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		transcodingProfiles = arrayOf(
-			// MP4 video profile
-			TranscodingProfile().apply {
-				type = DlnaProfileType.Video
-				context = EncodingContext.Streaming
-				container = ContainerTypes.MP4
-				videoCodec = buildList {
-					if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
-					add(CodecTypes.H264)
-				}.joinToString(",")
-				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
-				protocol = "hls"
-				minSegments = 1
-				copyTimestamps = false
-			},
-			// MP3 audio profile
-			TranscodingProfile().apply {
+		transcodingProfiles = buildList {
+			// FIXME use HLS for all transcoded video
+			// on seeking, the server builds the stream starting at the previous key-frame
+			// exoplayer (2.16.1) only supports frame-accurate seeking
+			// it will assume the seek position is accurate despite the server starting the stream
+			// earlier than the position. This breaks subtitle sync and loops the last few seconds
+			// of the media. Because of this, only use HLS for live-tv.
+
+			if (isLiveTV) {
+				// FMP4 HLS profile for live tv
+				add(TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					context = EncodingContext.Streaming
+					container = ContainerTypes.MP4
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
+						add(CodecTypes.H264)
+					}.joinToString(",")
+					audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
+					protocol = "hls"
+					minSegments = 1
+				})
+			} else {
+				// MKV profile for everything else
+				add(TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					context = EncodingContext.Streaming
+					container = "mkv"
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MKV)) add(CodecTypes.HEVC)
+						add(CodecTypes.H264)
+					}.joinToString(",")
+					audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
+					protocol = "http"
+					copyTimestamps = true
+				})
+			}
+			add(TranscodingProfile().apply {
 				type = DlnaProfileType.Audio
 				context = EncodingContext.Streaming
 				container = CodecTypes.MP3
 				audioCodec = CodecTypes.MP3
-			}
-		)
+			})
+		}.toTypedArray()
 
 		directPlayProfiles = buildList {
 			// Video direct play
