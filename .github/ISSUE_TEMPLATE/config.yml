@@ -1,4 +1,4 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
   - name: Jellyfin documentation
     url:  https://jellyfin.org/docs/general/getting-help.html
