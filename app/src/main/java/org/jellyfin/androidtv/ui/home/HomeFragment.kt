@@ -87,9 +87,13 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	}
 
 	override fun setupQueries(rowLoader: RowLoader) {
-		lifecycleScope.launch(Dispatchers.IO) {
-			val currentUser = TvApp.getApplication()!!.currentUser!!
+		val currentUser = TvApp.getApplication()?.currentUser
+		if (currentUser == null) {
+			activity?.finish()
+			return
+		}
 
+		lifecycleScope.launch(Dispatchers.IO) {
 			// Start out with default sections
 			val homesections = userSettingPreferences.homesections
 

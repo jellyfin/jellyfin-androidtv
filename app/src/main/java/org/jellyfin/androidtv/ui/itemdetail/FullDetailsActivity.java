@@ -154,6 +154,13 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Prevent activity from crashing after recovering from a crash
+        if (TvApp.getApplication().getCurrentUser() == null) {
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_full_details);
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 40);
