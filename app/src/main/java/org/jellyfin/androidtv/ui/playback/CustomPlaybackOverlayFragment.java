@@ -172,7 +172,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
+            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_no_playable_items));
             requireActivity().finish();
             return;
         }

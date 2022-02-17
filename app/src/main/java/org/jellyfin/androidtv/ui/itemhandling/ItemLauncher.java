@@ -408,7 +408,7 @@ public class ItemLauncher {
                         Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
-                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        folder.setName(activity.getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(folder));
                         activity.startActivity(recordings);
                         break;

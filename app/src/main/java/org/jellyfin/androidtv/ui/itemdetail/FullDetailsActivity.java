@@ -590,7 +590,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
                 personMovies.setSortBy(new String[] {ItemSortBy.SortName});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, false, new CardPresenter(), adapter);
-                addItemRow(adapter, personMoviesAdapter, 0, TvApp.getApplication().getString(R.string.lbl_movies));
+                addItemRow(adapter, personMoviesAdapter, 0, getString(R.string.lbl_movies));
 
                 ItemQuery personSeries = new ItemQuery();
                 personSeries.setFields(new ItemFields[]{
@@ -604,7 +604,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personSeries.setIncludeItemTypes(new String[] {"Series"});
                 personSeries.setSortBy(new String[] {ItemSortBy.SortName});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, false, new CardPresenter(), adapter);
-                addItemRow(adapter, personSeriesAdapter, 1, TvApp.getApplication().getString(R.string.lbl_tv_series));
+                addItemRow(adapter, personSeriesAdapter, 1, getString(R.string.lbl_tv_series));
 
                 ItemQuery personEpisodes = new ItemQuery();
                 personEpisodes.setFields(new ItemFields[]{
@@ -618,7 +618,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
                 personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
                 ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(personEpisodes, 100, false, new CardPresenter(), adapter);
-                addItemRow(adapter, personEpisodesAdapter, 2, TvApp.getApplication().getString(R.string.lbl_episodes));
+                addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
                 break;
             case MusicArtist:
@@ -633,7 +633,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 artistAlbums.setRecursive(true);
                 artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
                 ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(artistAlbums, 100, false, new CardPresenter(), adapter);
-                addItemRow(adapter, artistAlbumsAdapter, 0, TvApp.getApplication().getString(R.string.lbl_albums));
+                addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
             case Series:
@@ -645,7 +645,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.ChildCount
                 });
                 ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(true, 260), adapter);
-                addItemRow(adapter, nextUpAdapter, 0, TvApp.getApplication().getString(R.string.lbl_next_up));
+                addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
@@ -670,7 +670,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
-                    addItemRow(adapter, seriesCastAdapter, 3, TvApp.getApplication().getString(R.string.lbl_cast_crew));
+                    addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
 

@@ -40,7 +40,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     @Override
     protected void setupQueries(final RowLoader rowLoader) {
         showViews = true;
-        mTitle.setText(TvApp.getApplication().getResources().getString(R.string.lbl_loading_elipses));
+        mTitle.setText(getString(R.string.lbl_loading_elipses));
         //Latest Recordings
         RecordingQuery recordings = new RecordingQuery();
         recordings.setFields(new ItemFields[]{
@@ -165,11 +165,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), getString(R.string.lbl_views));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(new GridButton(SCHEDULE, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null));
+        gridRowAdapter.add(new GridButton(SCHEDULE, getString(R.string.lbl_schedule), R.drawable.tile_port_time, null));
         gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer, null));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
