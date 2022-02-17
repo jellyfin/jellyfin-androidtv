@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
@@ -71,7 +70,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
         public void collapseLeftFrame() {
             ViewGroup.LayoutParams params = mLeftFrame.getLayoutParams();
-            params.width = Utils.convertDpToPixel(TvApp.getApplication(), 100);
+            params.width = Utils.convertDpToPixel(view.getContext(), 100);
         }
     }
 
@@ -114,7 +113,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
             case Person:
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
-                params.height = Utils.convertDpToPixel(TvApp.getApplication(), 185);
+                params.height = Utils.convertDpToPixel(vh.view.getContext(), 185);
                 vh.mSummary.setMaxLines(9);
                 vh.mGenreRow.setVisibility(View.GONE);
                 vh.mInfoRow.setVisibility(View.GONE);
@@ -137,7 +136,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         viewHolder.mTitle.setText(text);
         if (text.length() > 28) {
             // raise it up a bit
-            ((RelativeLayout.LayoutParams) viewHolder.mTitle.getLayoutParams()).topMargin = Utils.convertDpToPixel(TvApp.getApplication(), 55);
+            ((RelativeLayout.LayoutParams) viewHolder.mTitle.getLayoutParams()).topMargin = Utils.convertDpToPixel(viewHolder.view.getContext(), 55);
         }
     }
 
