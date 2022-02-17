@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -100,7 +99,7 @@ public class LegacyImageCardView extends BaseCardView {
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
                 case Photo:
-                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
+                    binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_camera);
                     break;
                 case PhotoAlbum:

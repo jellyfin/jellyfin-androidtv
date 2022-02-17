@@ -415,7 +415,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
-                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                        Utils.showToast(getContext(), exception.getLocalizedMessage());
                     }
                 });
 

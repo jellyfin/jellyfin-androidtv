@@ -11,6 +11,7 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.util.Utils;
 
 public class GuidePagingButton extends RelativeLayout {
 
@@ -34,7 +35,7 @@ public class GuidePagingButton extends RelativeLayout {
 
         setBackgroundResource(R.drawable.gray_gradient);
         TextView txtLabel = new TextView(activity);
-        txtLabel.setHeight(LiveTvGuideActivity.PAGEBUTTON_HEIGHT);
+        txtLabel.setHeight(Utils.convertDpToPixel(getContext(), 55));
         txtLabel.setTextColor(Color.BLACK);
         setPadding(100,0,0,0);
         txtLabel.setFocusable(true);

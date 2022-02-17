@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -66,7 +65,7 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
                 TextView time = new TextView(context);
                 time.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
                 time.setTextSize(12);
-                time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
+                time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getStartDate())));
                 mInfoRow.addView(time);
             }
         }

@@ -904,14 +904,14 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                             if (response.getItems().length > 0) {
                                 play(response.getItems()[0], 0 , false);
                             } else {
-                                Utils.showToast(TvApp.getApplication(), "Unable to find next up episode");
+                                Utils.showToast(FullDetailsActivity.this, "Unable to find next up episode");
                             }
                         }
 
                         @Override
                         public void onError(Exception exception) {
                             Timber.e(exception, "Error playing next up episode");
-                            Utils.showToast(TvApp.getApplication(), getString(R.string.msg_video_playback_error));
+                            Utils.showToast(FullDetailsActivity.this, getString(R.string.msg_video_playback_error));
                         }
                     });
                 } else {
