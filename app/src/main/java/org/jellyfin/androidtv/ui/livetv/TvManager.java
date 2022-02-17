@@ -373,7 +373,7 @@ public class TvManager {
 
             @Override
             public void onError(Exception exception) {
-                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                Utils.showToast(context, exception.getLocalizedMessage());
                 outerResponse.onError(exception);
             }
 

@@ -419,8 +419,8 @@ public class BaseRowItem {
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
+                        (android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
                 return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : context.getString(R.string.lbl_never);

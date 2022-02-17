@@ -268,13 +268,13 @@ public class PlaybackController {
         lastPlaybackError = System.currentTimeMillis();
 
         if (playbackRetries < 3) {
-            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.player_error));
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
             Timber.i("Player error encountered - retrying");
             stop();
             play(mCurrentPosition);
 
         } else {
-            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.too_many_errors));
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.too_many_errors));
             mPlaybackState = PlaybackState.ERROR;
             if (mFragment != null) mFragment.finish();
         }
@@ -459,7 +459,7 @@ public class PlaybackController {
                 // confirm we actually can play
                 if (item.getPlayAccess() != PlayAccess.Full) {
                     String msg = item.getIsPlaceHolder() ? mFragment.getString(R.string.msg_cannot_play) : mFragment.getString(R.string.msg_cannot_play_time);
-                    Utils.showToast(TvApp.getApplication(), msg);
+                    Utils.showToast(mFragment.getContext(), msg);
                     return;
                 }
 
@@ -661,17 +661,17 @@ public class PlaybackController {
             PlaybackException ex = (PlaybackException) exception;
             switch (ex.getErrorCode()) {
                 case NotAllowed:
-                    Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_playback_not_allowed));
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_playback_not_allowed));
                     break;
                 case NoCompatibleStream:
-                    Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_playback_incompatible));
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_playback_incompatible));
                     break;
                 case RateLimitExceeded:
-                    Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_playback_restricted));
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_playback_restricted));
                     break;
             }
         } else {
-            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_cannot_play));
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
         }
         // give the user a second to read the error message
         try {
@@ -882,7 +882,7 @@ public class PlaybackController {
 
         MediaStream stream = StreamHelper.getMediaStream(getCurrentMediaSource(), index);
         if (stream == null) {
-            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.subtitle_error));
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.subtitle_error));
             return;
         }
 
@@ -890,7 +890,7 @@ public class PlaybackController {
         // handle according to delivery method
         SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
         if (streamInfo == null) {
-            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_unable_load_subs));
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
         } else {
             switch (streamInfo.getDeliveryMethod()) {
 
@@ -898,7 +898,7 @@ public class PlaybackController {
                     // Gonna need to burn in so start a transcode with the sub index
                     stop();
                     if (!mVideoManager.isNativeMode()) {
-                        Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_burn_sub_warning));
+                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_burn_sub_warning));
                     }
                     play(mCurrentPosition, index);
                     break;
@@ -908,7 +908,7 @@ public class PlaybackController {
                             mFragment.addManualSubtitles(null); // in case these were on
                         if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
                             // error selecting internal subs
-                            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_unable_load_subs));
+                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                         }
                         break;
                     }
@@ -929,7 +929,7 @@ public class PlaybackController {
                                 if (mFragment != null) mFragment.addManualSubtitles(info);
                             } else {
                                 Timber.e("Empty subtitle result");
-                                Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_unable_load_subs));
+                                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                                 if (mFragment != null) mFragment.showSubLoadingMsg(false);
                             }
                         }
@@ -937,7 +937,7 @@ public class PlaybackController {
                         @Override
                         public void onError(Exception ex) {
                             Timber.e(ex, "Error downloading subtitles");
-                            Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_unable_load_subs));
+                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                             if (mFragment != null) mFragment.showSubLoadingMsg(false);
                         }
 
@@ -1121,7 +1121,7 @@ public class PlaybackController {
         } else {
             if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
                 //Exo does not support seeking in .ts
-                Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.seek_error));
+                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.seek_error));
             } else {
                 // use the same approach to directplay seeking as setOnProgressListener
                 // set state to SEEKING
@@ -1131,7 +1131,7 @@ public class PlaybackController {
                 Timber.d("Seek method - native");
                 mPlaybackState = PlaybackState.SEEKING;
                 if (mVideoManager.seekTo(pos) < 0) {
-                    Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.seek_error));
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.seek_error));
                     pause();
                 } else {
                     mVideoManager.play();
@@ -1337,9 +1337,9 @@ public class PlaybackController {
             @Override
             public void onEvent() {
                 if (isLiveTv && directStreamLiveTv) {
-                    Utils.showToast(TvApp.getApplication(), mFragment.getString(R.string.msg_error_live_stream));
+                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_error_live_stream));
                     directStreamLiveTv = false;
-                    PlaybackHelper.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, TvApp.getApplication());
+                    PlaybackHelper.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, mFragment.getContext());
                     if (mFragment != null) mFragment.finish();
                 } else {
                     String msg = mFragment.getString(R.string.video_error_unknown_error);

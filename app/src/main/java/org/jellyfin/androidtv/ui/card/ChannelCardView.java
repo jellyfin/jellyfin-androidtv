@@ -49,8 +49,8 @@ public class ChannelCardView extends FrameLayout {
     private void updateDisplay(BaseItemDto program) {
         binding.program.setText(program.getName());
         if (program.getStartDate() != null && program.getEndDate() != null) {
-            binding.time.setText(android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getStartDate()))
-                    + "-" + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(program.getEndDate())));
+            binding.time.setText(android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getStartDate()))
+                    + "-" + android.text.format.DateFormat.getTimeFormat(getContext()).format(TimeUtils.convertToLocalDate(program.getEndDate())));
             long start = TimeUtils.convertToLocalDate(program.getStartDate()).getTime();
             long current = System.currentTimeMillis() - start;
             if (current > 0) {
