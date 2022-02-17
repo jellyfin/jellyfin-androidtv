@@ -61,10 +61,10 @@ public class RecordPopup {
     Button mOkButton;
     Button mCancelButton;
 
-    String MINUTE = TvApp.getApplication().getString(R.string.lbl_minute);
-    String MINUTES = TvApp.getApplication().getString(R.string.lbl_minutes);
-    String HOURS = TvApp.getApplication().getString(R.string.lbl_hours);
-    ArrayList<String> mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(TvApp.getApplication().getString(R.string.lbl_on_schedule),"1  "+MINUTE,"5  "+MINUTES,"15 "+MINUTES,"30 "+MINUTES,"60 "+MINUTES,"90 "+MINUTES,"2  "+HOURS,"3  "+HOURS));
+    String MINUTE = mActivity.getString(R.string.lbl_minute);
+    String MINUTES = mActivity.getString(R.string.lbl_minutes);
+    String HOURS = mActivity.getString(R.string.lbl_hours);
+    ArrayList<String> mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(mActivity.getString(R.string.lbl_on_schedule),"1  "+MINUTE,"5  "+MINUTES,"15 "+MINUTES,"30 "+MINUTES,"60 "+MINUTES,"90 "+MINUTES,"2  "+HOURS,"3  "+HOURS));
     ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);

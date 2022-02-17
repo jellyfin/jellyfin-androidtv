@@ -1,16 +1,15 @@
 package org.jellyfin.androidtv.ui.browsing;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
 public class ByLetterFragment extends BrowseFolderFragment {
-    private static String letters = TvApp.getApplication().getResources().getString(R.string.byletter_letters);
 
     @Override
     protected void setupQueries(RowLoader rowLoader) {
+        String letters = getString(R.string.byletter_letters);
         if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0) {
             //First add a '#' item
             StdItemQuery numbers = new StdItemQuery();

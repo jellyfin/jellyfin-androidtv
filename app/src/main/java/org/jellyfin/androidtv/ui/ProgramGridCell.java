@@ -75,17 +75,17 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemUtils.isNew(program) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.getIsPremiere()))) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
-            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.getIsPremiere())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
-            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
             InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
-            InfoLayoutHelper.addBlockText(context, mInfoRow, TvApp.getApplication().getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
