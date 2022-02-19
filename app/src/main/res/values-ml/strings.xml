@@ -350,7 +350,6 @@
     <string name="lbl_enter_user_pw">ഉപയോക്തൃ പാസ്‌വേഡ് നൽകുക</string>
     <string name="lbl_enter_user_name">ഉപയോക്തൃ നാമം നൽകുക</string>
     <string name="lbl_trailer">"ട്രെയിലർ "</string>
-    <string name="msg_access_restricted">ഇപ്പോൾ ആക്‌സസ്സ് നിയന്ത്രിച്ചിരിക്കുന്നു</string>
     <string name="lbl_bracket_unknown">&lt;അജ്ഞാതം&gt;</string>
     <string name="msg_video_playback_error">"വീഡിയോ പ്ലേബാക്ക് പിശക് - "</string>
     <string name="lbl_none">ഒന്നുമില്ല</string>

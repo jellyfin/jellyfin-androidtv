@@ -62,7 +62,6 @@
     <string name="lbl_none">Eşqandai</string>
     <string name="msg_video_playback_error">"Beine oinatu qatesı - "</string>
     <string name="lbl_bracket_unknown">Belgısız</string>
-    <string name="msg_access_restricted">Qazırgı uaqytta qatynau şektelgen</string>
     <string name="lbl_trailer">"Treiler "</string>
     <string name="lbl_play_trailers">Treilerlerdı oinatu</string>
     <string name="lbl_enter_user_name">Paidalanuşy atyn engızu</string>
@@ -385,7 +384,7 @@
     <string name="lbl_use_series_thumbnails">Telehikaia nobailaryn qalau</string>
     <string name="lbl_episode_marks">Tek telebölımderde</string>
     <string name="lbl_hide_unwatched_count">Qaralmau sanağyn jasyru</string>
-    <string name="pref_watched_indicator">Qaralu körsetkışın beineleu</string>
+    <string name="pref_watched_indicator">Qaralu körsetkışterı</string>
     <string name="user_picker_last_user_summary">Soñğy belsendı tirkelgını paidalanu</string>
     <string name="user_picker_last_user_title">Eñ soñğy paidalanylğan</string>
     <string name="user_picker_disable_summary">Ärqaşan kıru ekranyn körsetu</string>
@@ -486,7 +485,7 @@
     <string name="pref_behavior">Qasietı</string>
     <string name="pref_accounts">Tırkelgıler</string>
     <string name="sort_accounts_by">Tirkelgılerdı sūryptau retı</string>
-    <string name="pref_customization">Teñşeu</string>
+    <string name="pref_customization">Retteu</string>
     <string name="pref_direct_stream_live_on">Qaita kodtau öşırılgen</string>
     <string name="pref_direct_stream_live_off">Qaita kodtau qajet kezde paidalanylady</string>
     <string name="pref_acra_description">Apat tılqatysuy, avtomatty jüktep salu, jüielık jūrnaldar</string>

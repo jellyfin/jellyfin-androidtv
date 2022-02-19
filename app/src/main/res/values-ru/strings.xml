@@ -6,9 +6,9 @@
     <string name="byletter_letters">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ</string>
     <string name="pref_playback">Воспроизведение</string>
     <string name="pref_max_bitrate_title">Макс. поток. скорость</string>
-    <string name="settings_title">Настройки</string>
+    <string name="settings_title">Предпочтения</string>
     <string name="chapters">Сцены</string>
-    <string name="lbl_settings">Настройки</string>
+    <string name="lbl_settings">Предпочтения</string>
     <string name="lbl_continue_watching">Продолжить просмотр</string>
     <string name="lbl_next_up">Очередное</string>
     <string name="lbl_on_now">В эфире</string>
@@ -63,7 +63,6 @@
     <string name="lbl_none">Ничего</string>
     <string name="msg_video_playback_error">"Ошибка воспроизведения видео - "</string>
     <string name="lbl_bracket_unknown">Неизвестно</string>
-    <string name="msg_access_restricted">Доступ запрещён в данное время</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_play_trailers">Воспр. трейлеры</string>
     <string name="lbl_enter_user_name">Ввести имя пользователя</string>
@@ -132,7 +131,7 @@
     <string name="lbl_rating">Возрастная категория</string>
     <string name="lbl_starting_with">"начиная с тех, чьё имя начинается с"</string>
     <string name="btn_done">Готово</string>
-    <string name="lbl_display_preferences">Настройки отображения</string>
+    <string name="lbl_display_preferences">Предпочтения отображения</string>
     <string name="lbl__continuing">ПРОДОЛЖАЕТСЯ</string>
     <string name="lbl_ended">ЗАВЕРШИЛСЯ</string>
     <string name="btn_filter">Фильтровать</string>
@@ -206,8 +205,8 @@
     <string name="lbl_on_schedule">По расписанию</string>
     <string name="lbl_at_any_time">В любое время</string>
     <string name="lbl_save">Сохранить</string>
-    <string name="msg_settings_updated">Настройки обновлены</string>
-    <string name="lbl_series_settings">Настройки сериала</string>
+    <string name="msg_settings_updated">Предпочтения обновлены</string>
+    <string name="lbl_series_settings">Предпочтения сериала</string>
     <string name="lbl_live">Эфир</string>
     <string name="lbl_new">Новое</string>
     <string name="lbl_repeat">Повтор</string>
@@ -266,7 +265,7 @@
 \n
 \nЭта информация будет отправлена третьей стороне (tracepot.com).
 \n
-\nЭто предложение может быть отключено в разделе Отчёт о сбое в Настройках Jellyfin-приложения.</string>
+\nЭто предложение может быть отключено в разделе Отчёт о сбое в Предпочтениях Jellyfin-приложения.</string>
     <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
     <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
@@ -385,7 +384,7 @@
     <string name="lbl_use_series_thumbnails">Предпочитать бегунки сериалов</string>
     <string name="lbl_episode_marks">Только в эпизодах</string>
     <string name="lbl_hide_unwatched_count">Скрыть счётчик непросмотренного</string>
-    <string name="pref_watched_indicator">Показывать индикаторы просмотра</string>
+    <string name="pref_watched_indicator">Индикаторы просмотра</string>
     <string name="user_picker_last_user_summary">Использовать крайнюю активную учётную запись</string>
     <string name="user_picker_last_user_title">Крайнее использование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
@@ -476,11 +475,11 @@
     <string name="server_connection_failed_candidates">Не удалось подключиться к серверу, пробуем следующие адреса: %1$s</string>
     <string name="lbl_playback_speed">Скорость воспроизведения</string>
     <string name="pref_acra_description">Диалог сбоя, автозагрузка, системные журналы</string>
-    <string name="pref_customization">Пользовательская настройка</string>
+    <string name="pref_customization">Настройка</string>
     <string name="pref_direct_stream_live_on">Перекодирование выключено</string>
     <string name="pref_direct_stream_live_off">Перекодирование используется при необходимости</string>
-    <string name="pref_libraries_description">Изменить способ отображения медиатек</string>
-    <string name="pref_home_description">Настройка отображаемых разделов</string>
+    <string name="pref_libraries_description">Изменение способа отображения медиатек</string>
+    <string name="pref_home_description">Настройка отображения разделов</string>
     <string name="sort_accounts_by">Сортировка учётных записей по</string>
     <string name="pref_refresh_switching_description">Частота обновления монитора изменяется в соответствии с видео</string>
     <string name="pref_show_backdrop_description">Изменение фонового рисунка для выбранных элементов</string>

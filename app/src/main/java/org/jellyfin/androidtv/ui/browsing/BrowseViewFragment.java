@@ -78,7 +78,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 resumeMovies.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                 resumeMovies.setSortBy(new String[]{ItemSortBy.DatePlayed});
                 resumeMovies.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeMovies, 0, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback}));
 
                 //Latest
                 LatestItemsQuery latestMovies = new LatestItemsQuery();
@@ -92,7 +92,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestMovies.setParentId(mFolder.getId());
                 latestMovies.setLimit(50);
                 latestMovies.setImageTypeLimit(1);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favorites = new StdItemQuery(new ItemFields[]{
@@ -110,7 +110,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 favorites.setImageTypeLimit(1);
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), favorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //Collections
                 StdItemQuery collections = new StdItemQuery();
@@ -122,7 +122,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 collections.setImageTypeLimit(1);
                 //collections.setParentId(mFolder.getId());
                 collections.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_collections), collections, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_collections), collections, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -142,7 +142,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams
                 });
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getResources().getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_next_up), nextUpQuery, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
 
                 //Premieres
                 if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getPremieresEnabled())) {
@@ -164,7 +164,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                     newQuery.setSortOrder(SortOrder.Descending);
                     newQuery.setEnableTotalRecordCount(false);
                     newQuery.setLimit(300);
-                    mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
+                    mRows.add(new BrowseRowDef(getString(R.string.lbl_new_premieres), newQuery, 0, true, true, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}, QueryType.Premieres));
                 }
 
                 //Latest content added
@@ -181,7 +181,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestSeries.setParentId(mFolder.getId());
                 latestSeries.setLimit(50);
                 latestSeries.setImageTypeLimit(1);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery tvFavorites = new StdItemQuery();
@@ -191,7 +191,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 tvFavorites.setImageTypeLimit(1);
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), tvFavorites, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -209,7 +209,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestAlbums.setImageTypeLimit(1);
                 latestAlbums.setParentId(mFolder.getId());
                 latestAlbums.setLimit(50);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
                 //Last Played
                 StdItemQuery lastPlayed = new StdItemQuery();
@@ -222,7 +222,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 lastPlayed.setSortOrder(SortOrder.Descending);
                 lastPlayed.setEnableTotalRecordCount(false);
                 lastPlayed.setLimit(50);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_last_played), lastPlayed, 0, false, true, new ChangeTriggerType[]{ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_last_played), lastPlayed, 0, false, true, new ChangeTriggerType[]{ChangeTriggerType.MusicPlayback, ChangeTriggerType.LibraryUpdated}));
 
                 //Favorites
                 StdItemQuery favAlbums = new StdItemQuery();
@@ -232,7 +232,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 favAlbums.setImageTypeLimit(1);
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorites), favAlbums, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated, ChangeTriggerType.FavoriteUpdate}));
 
                 //AudioPlaylists
                 StdItemQuery playlists = new StdItemQuery(new ItemFields[]{
@@ -245,7 +245,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 playlists.setRecursive(true);
                 playlists.setSortBy(new String[]{ItemSortBy.DateCreated});
                 playlists.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_playlists), playlists, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}, QueryType.AudioPlaylists));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_playlists), playlists, 60, false, true, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}, QueryType.AudioPlaylists));
 
                 rowLoader.loadRows(mRows);
                 break;
@@ -266,7 +266,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 onNow.setImageTypeLimit(1);
                 onNow.setEnableTotalRecordCount(false);
                 onNow.setLimit(150);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_on_now), onNow));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_on_now), onNow));
 
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
@@ -282,20 +282,20 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 upcomingTv.setImageTypeLimit(1);
                 upcomingTv.setEnableTotalRecordCount(false);
                 upcomingTv.setLimit(150);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_coming_up), upcomingTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_coming_up), upcomingTv));
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
                 favTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 favTv.setEnableFavoriteSorting(true);
                 favTv.setIsFavorite(true);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_favorite_channels), favTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), favTv));
 
                 //Other Channels
                 LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
                 otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
                 otherTv.setIsFavorite(false);
-                mRows.add(new BrowseRowDef(TvApp.getApplication().getString(R.string.lbl_other_channels), otherTv));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), otherTv));
 
                 //Latest Recordings
                 RecordingQuery recordings = new RecordingQuery();
@@ -415,7 +415,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
-                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
+                        Utils.showToast(getContext(), exception.getLocalizedMessage());
                     }
                 });
 
@@ -464,32 +464,32 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         if (isLiveTvLibrary) {
             //Views row
-            HeaderItem gridHeader = new HeaderItem(mRowsAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
+            HeaderItem gridHeader = new HeaderItem(mRowsAdapter.size(), getString(R.string.lbl_views));
 
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
             gridRowAdapter.add(new GridButton(
                 TvApp.LIVE_TV_GUIDE_OPTION_ID,
-                TvApp.getApplication().getResources().getString(R.string.lbl_live_tv_guide),
+                getString(R.string.lbl_live_tv_guide),
                 R.drawable.tile_port_guide,
                 null
             ));
             gridRowAdapter.add(new GridButton(
                 TvApp.LIVE_TV_RECORDINGS_OPTION_ID,
-                TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv),
+                getString(R.string.lbl_recorded_tv),
                 R.drawable.tile_port_record,
                 null
             ));
             if (TvApp.getApplication().canManageRecordings()) {
                 gridRowAdapter.add(new GridButton(
                     TvApp.LIVE_TV_SCHEDULE_OPTION_ID,
-                    TvApp.getApplication().getResources().getString(R.string.lbl_schedule),
+                    getString(R.string.lbl_schedule),
                     R.drawable.tile_port_time,
                     null
                 ));
                 gridRowAdapter.add(new GridButton(
                     TvApp.LIVE_TV_SERIES_OPTION_ID,
-                    TvApp.getApplication().getResources().getString(R.string.lbl_series),
+                    getString(R.string.lbl_series),
                     R.drawable.tile_port_series_timer,
                     null
                 ));

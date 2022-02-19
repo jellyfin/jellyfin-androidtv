@@ -63,7 +63,6 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_valid_server_address">Introduzca la dirección del servidor (IP o nombre de dominio/equipo)</string>
     <string name="lbl_play_trailers">Reproducir Sinopsis</string>
-    <string name="msg_access_restricted">Acceso restringido en este momento</string>
     <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="lbl_videos">Videos</string>
     <string name="lbl_people">Personas</string>

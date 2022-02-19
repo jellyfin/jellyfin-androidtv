@@ -286,20 +286,20 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
         if (!showViews) return;
 
-        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), TvApp.getApplication().getString(R.string.lbl_views));
+        HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), getString(R.string.lbl_views));
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
         switch (itemTypeString) {
             case "Movie":
-                gridRowAdapter.add(new GridButton(SUGGESTED, TvApp.getApplication().getString(R.string.lbl_suggested), R.drawable.tile_suggestions, null));
+                gridRowAdapter.add(new GridButton(SUGGESTED, getString(R.string.lbl_suggested), R.drawable.tile_suggestions, null));
                 addStandardViewButtons(gridRowAdapter);
                 break;
 
             case "MusicAlbum":
-                gridRowAdapter.add(new GridButton(ALBUMS, TvApp.getApplication().getString(R.string.lbl_albums), R.drawable.tile_audio, null));
-                gridRowAdapter.add(new GridButton(ARTISTS, TvApp.getApplication().getString(R.string.lbl_artists), R.drawable.tile_artists, null));
-                gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
+                gridRowAdapter.add(new GridButton(ALBUMS, getString(R.string.lbl_albums), R.drawable.tile_audio, null));
+                gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists), R.drawable.tile_artists, null));
+                gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres), R.drawable.tile_genres, null));
                 break;
 
             default:
@@ -311,11 +311,11 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     }
 
     protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
-        gridRowAdapter.add(new GridButton(GRID, TvApp.getApplication().getString(R.string.lbl_all_items), R.drawable.tile_port_grid, null));
-        gridRowAdapter.add(new GridButton(BY_LETTER, TvApp.getApplication().getString(R.string.lbl_by_letter), R.drawable.tile_letters, null));
-        gridRowAdapter.add(new GridButton(GENRES, TvApp.getApplication().getString(R.string.lbl_genres), R.drawable.tile_genres, null));
+        gridRowAdapter.add(new GridButton(GRID, getString(R.string.lbl_all_items), R.drawable.tile_port_grid, null));
+        gridRowAdapter.add(new GridButton(BY_LETTER, getString(R.string.lbl_by_letter), R.drawable.tile_letters, null));
+        gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres), R.drawable.tile_genres, null));
         // Disabled because the screen doesn't behave properly
-        // gridRowAdapter.add(new GridButton(PERSONS, TvApp.getApplication().getString(R.string.lbl_performers), R.drawable.tile_actors));
+        // gridRowAdapter.add(new GridButton(PERSONS, getString(R.string.lbl_performers), R.drawable.tile_actors));
     }
 
     protected void setupEventListeners() {
@@ -448,7 +448,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
-                        folder.setName(TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv));
+                        folder.setName(getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, serializer.getValue().SerializeToString(folder));
                         mActivity.startActivity(recordings);
                         break;
@@ -459,7 +459,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         break;
 
                     default:
-                        Toast.makeText(getActivity(), item.toString() + TvApp.getApplication().getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), item.toString() + getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

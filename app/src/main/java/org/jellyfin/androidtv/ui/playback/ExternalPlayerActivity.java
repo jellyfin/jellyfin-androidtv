@@ -68,7 +68,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
 
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
+            Utils.showToast(this, getString(R.string.msg_no_playable_items));
             finish();
             return;
         }
@@ -257,13 +257,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
                             PlaybackException ex = (PlaybackException) exception;
                             switch (ex.getErrorCode()) {
                                 case NotAllowed:
-                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_not_allowed));
+                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_not_allowed));
                                     break;
                                 case NoCompatibleStream:
-                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_incompatible));
+                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_incompatible));
                                     break;
                                 case RateLimitExceeded:
-                                    Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_playback_restricted));
+                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_restricted));
                                     break;
                             }
                         }

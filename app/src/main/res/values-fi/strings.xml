@@ -187,7 +187,6 @@
     <string name="msg_playback_restricted">Pääkäyttäjä on rajoittanut tämän nimikkeen toistoa</string>
     <string name="msg_playback_not_allowed">Toisto ei sallittu</string>
     <string name="lbl_valid_server_address">Syötä palvelimen osoite (IP-osoite tai domain/laitteen nimi)</string>
-    <string name="msg_access_restricted">Pääsy rajoitettu</string>
     <string name="msg_video_playback_error">"Toistovirhe "</string>
     <string name="lbl_pause">Keskeytä</string>
     <string name="lbl_enable_debug">Debug asetukset</string>

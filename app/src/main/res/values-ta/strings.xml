@@ -47,7 +47,6 @@
     <string name="lbl_enter_user_name">பயனர் பெயரை உள்ளிடவும்</string>
     <string name="lbl_play_trailers">டிரெய்லர்களை இயக்கு</string>
     <string name="lbl_trailer">"டிரெய்லர் "</string>
-    <string name="msg_access_restricted">இந்த நேரத்தில் அணுகல் தடைசெய்யப்பட்டுள்ளது</string>
     <string name="lbl_bracket_unknown">தெரியவில்லை</string>
     <string name="msg_video_playback_error">"வீடியோ பின்னணி பிழை - "</string>
     <string name="lbl_none">எதுவுமில்லை</string>

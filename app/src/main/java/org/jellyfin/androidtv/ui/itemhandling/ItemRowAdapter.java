@@ -2,8 +2,6 @@ package org.jellyfin.androidtv.ui.itemhandling;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.os.Handler;
-
 import androidx.annotation.Nullable;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -45,7 +43,6 @@ import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
-import org.jellyfin.apiclient.model.net.HttpException;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
@@ -897,28 +894,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving items");
-                if (exception instanceof HttpException) {
-                    HttpException httpException = (HttpException) exception;
-                    if (httpException.getStatusCode() != null && httpException.getStatusCode() == 401 && "ParentalControl".equals(httpException.getHeaders().get("X-Application-Error-Code"))) {
-                        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_access_restricted));
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.exit(1);
-                            }
-                        }, 3000);
-                    } else {
-                        removeRow();
-                        Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-                    }
-                } else {
-                    removeRow();
-                    Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
-
-                }
+                removeRow();
+                Utils.showToast(TvApp.getApplication(), exception.getLocalizedMessage());
                 notifyRetrieveFinished();
             }
-
         });
     }
 
@@ -1309,14 +1288,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     int prevItems = adapter.size() > 0 ? adapter.size() : 0;
                     if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
-                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null)));
+                        adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null)));
                         i++;
                         if (TvApp.getApplication().canManageRecordings()) {
                             // and schedule
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null)));
                             i++;
                             // and series
-                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getResources().getString(R.string.lbl_series), R.drawable.tile_port_series_timer, null)));
+                            adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SERIES_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_series), R.drawable.tile_port_series_timer, null)));
                             i++;
                         }
                     }

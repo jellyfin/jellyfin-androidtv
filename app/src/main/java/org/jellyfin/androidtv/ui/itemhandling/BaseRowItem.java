@@ -419,8 +419,8 @@ public class BaseRowItem {
             case LiveTvRecording:
                 return (baseItem.getChannelName() != null ? baseItem.getChannelName() + " - " : "") + (baseItem.getEpisodeTitle() != null ? baseItem.getEpisodeTitle() : "") + " " +
                         new SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + " " +
-                        (android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
-                                + android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
+                        (android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
+                                + android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
             case User:
                 Date date = user.getLastActivityDate();
                 return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : context.getString(R.string.lbl_never);
@@ -509,13 +509,13 @@ public class BaseRowItem {
         }
     }
 
-    public Drawable getBadgeImage() {
+    public Drawable getBadgeImage(Context context) {
         switch (type) {
             case BaseItem:
                 if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
-                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_rt_rotten);
+                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten);
                 } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_series_red) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_red);
+                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
                 }
                 break;
             case Person:
@@ -523,18 +523,18 @@ public class BaseRowItem {
                 break;
             case User:
                 if (user.getHasPassword()) {
-                    return ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_lock);
+                    return ContextCompat.getDrawable(context, R.drawable.ic_lock);
                 }
                 break;
             case LiveTvProgram:
                 if (baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_series_red) : ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.ic_record_red);
+                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
                 }
             case Chapter:
                 break;
         }
 
-        return ContextCompat.getDrawable(TvApp.getApplication(), R.drawable.blank10x10);
+        return ContextCompat.getDrawable(context, R.drawable.blank10x10);
     }
 
     public void refresh(final EmptyResponse outerResponse) {

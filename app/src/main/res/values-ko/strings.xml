@@ -54,7 +54,6 @@
     <string name="lbl_none">None</string>
     <string name="msg_video_playback_error">"영상 재생 에러 - "</string>
     <string name="lbl_bracket_unknown">&lt;알수없음&gt;</string>
-    <string name="msg_access_restricted">현재 접근 제한됨</string>
     <string name="lbl_trailer">"예고편 "</string>
     <string name="lbl_play_trailers">트레일러 재생</string>
     <string name="lbl_enter_user_name">사용자 이름 입력</string>

@@ -155,7 +155,6 @@
     <string name="lbl_valid_server_address">Molimo, unesite adresu poslužitelja (IP ili domena/ime računala)</string>
     <string name="lbl_play_trailers">Reproduciraj kratke prikaz(e)</string>
     <string name="lbl_trailer">"Kratki prikaz "</string>
-    <string name="msg_access_restricted">Pristup trenutno nije dozvoljen</string>
     <string name="lbl_runs">U tijeku</string>
     <string name="lbl_artists">Izvođači</string>
     <string name="lbl_albums">Albumi</string>

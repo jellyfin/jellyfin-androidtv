@@ -54,7 +54,6 @@
     <string name="lbl_none">Ninguno</string>
     <string name="msg_video_playback_error">"Error de reproducción de video - "</string>
     <string name="lbl_bracket_unknown">Desconocido</string>
-    <string name="msg_access_restricted">Acceso Restingido en este momento</string>
     <string name="lbl_trailer">"Avance "</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Si</string>

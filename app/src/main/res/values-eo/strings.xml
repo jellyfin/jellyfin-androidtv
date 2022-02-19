@@ -236,7 +236,7 @@
     <string name="lbl_use_series_thumbnails">Preferi seriajn avizojn</string>
     <string name="lbl_episode_marks">Nur en epizodoj</string>
     <string name="lbl_hide_unwatched_count">Kaŝi nespektitan kalkulon</string>
-    <string name="pref_watched_indicator">Montri spekitajn indikilojn</string>
+    <string name="pref_watched_indicator">Montri spektindikilojn</string>
     <string name="enable_smart_view">Ebligi inteligentan ekranon</string>
     <string name="lbl_user_server">%1$s sur %2$s</string>
     <string name="server_connecting">Konektante al %1$s</string>
@@ -365,7 +365,6 @@
     <string name="msg_playback_incompatible">Ne povas ludi ĉi tiun videoformaton</string>
     <string name="msg_playback_restricted">La administranto limigis ludadon de la aĵo ĉi tiu tempo</string>
     <string name="msg_playback_not_allowed">Ludado ne permesita ĉi tiu tempe</string>
-    <string name="msg_access_restricted">Aliro limigita en ĉi tiu tempo</string>
     <string name="msg_video_playback_error">"Eraro de Videoludado - "</string>
     <string name="msg_unable_to_cancel">Ne eblas rezigni rikordadon</string>
     <string name="msg_unable_to_create_recording">Ne eblas krei rikordadon</string>
@@ -481,8 +480,8 @@
     <string name="pref_login_description">Serviloj, kontoj, aŭtomata ensaluto</string>
     <string name="pref_direct_stream_live_off">Transkodado estos uzata kiam necese</string>
     <string name="pref_direct_stream_live_on">Transkodado estas malebligita</string>
-    <string name="pref_libraries_description">Ŝanĝi kiel plurmeditekoj estos montrataj</string>
-    <string name="pref_home_description">Agordi montratajn sekciojn</string>
+    <string name="pref_libraries_description">Ŝanĝo montradon de plurmeditekoj</string>
+    <string name="pref_home_description">Agordo montratajn sekciojn</string>
     <string name="pref_refresh_switching_description">Ofteco de ekrana aktualigo estas ŝanĝita por kongrui kun video</string>
     <string name="pref_show_backdrop_description">Ŝanĝi fonbildon al elektitaj aĵoj</string>
     <string name="pref_audio">Aŭdio</string>
@@ -495,5 +494,5 @@
     <string name="pref_behavior">Konduto</string>
     <string name="pref_accounts">Kontoj</string>
     <string name="sort_accounts_by">Ordigi kontojn laŭ</string>
-    <string name="pref_customization">Tajlorado</string>
+    <string name="pref_customization">Adapto</string>
 </resources>

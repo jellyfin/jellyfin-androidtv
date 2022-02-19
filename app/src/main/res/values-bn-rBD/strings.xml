@@ -77,7 +77,6 @@
     <string name="lbl_enter_user_name">ইউসারনেম দিন</string>
     <string name="lbl_play_trailers">ট্রেলার(গুলি) চালান</string>
     <string name="lbl_trailer">"ট্রেলার "</string>
-    <string name="msg_access_restricted">এই সময়ে অ্যাক্সেস সীমাবদ্ধ</string>
     <string name="lbl_bracket_unknown">&lt;অজানা&gt;</string>
     <string name="lbl_recordings">রেকর্ডিং</string>
     <string name="lbl_people">লোকজন</string>

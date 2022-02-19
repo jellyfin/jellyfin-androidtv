@@ -21,7 +21,6 @@ import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -51,25 +50,25 @@ public class GridFragment extends Fragment {
     private int mSelectedPosition = -1;
     private int mCardHeight;
 
-    protected int SMALL_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 116);
-    protected int MED_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 175);
-    protected int LARGE_CARD = Utils.convertDpToPixel(TvApp.getApplication(), 210);
-    protected int SMALL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 58);
-    protected int MED_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 88);
-    protected int LARGE_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 105);
+    protected int SMALL_CARD = Utils.convertDpToPixel(getContext(), 116);
+    protected int MED_CARD = Utils.convertDpToPixel(getContext(), 175);
+    protected int LARGE_CARD = Utils.convertDpToPixel(getContext(), 210);
+    protected int SMALL_BANNER = Utils.convertDpToPixel(getContext(), 58);
+    protected int MED_BANNER = Utils.convertDpToPixel(getContext(), 88);
+    protected int LARGE_BANNER = Utils.convertDpToPixel(getContext(), 105);
 
-    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 116);
-    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 171);
-    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(TvApp.getApplication(), 202);
-    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 114);
-    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 163);
-    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(TvApp.getApplication(), 206);
-    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 116);
-    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 155);
-    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(TvApp.getApplication(), 210);
-    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 51);
-    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 77);
-    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(TvApp.getApplication(), 118);
+    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 116);
+    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 171);
+    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 202);
+    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 114);
+    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 163);
+    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 206);
+    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 116);
+    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 155);
+    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 210);
+    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 51);
+    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 77);
+    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 118);
 
     /**
      * Sets the grid presenter.
@@ -149,13 +148,13 @@ public class GridFragment extends Fragment {
 
     protected Map<Integer, SortOption> sortOptions = new HashMap<>();
     {
-        sortOptions.put(0, new SortOption(TvApp.getApplication().getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
-        sortOptions.put(1, new SortOption(TvApp.getApplication().getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
-        sortOptions.put(2, new SortOption(TvApp.getApplication().getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
-        sortOptions.put(3, new SortOption(TvApp.getApplication().getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
-        sortOptions.put(4, new SortOption(TvApp.getApplication().getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
-        sortOptions.put(5,new SortOption(TvApp.getApplication().getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
-        sortOptions.put(6, new SortOption(TvApp.getApplication().getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
+        sortOptions.put(0, new SortOption(getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
+        sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
+        sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
+        sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
+        sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
+        sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
+        sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
     }
 
     protected String getSortFriendlyName(String value) {
@@ -176,20 +175,20 @@ public class GridFragment extends Fragment {
     }
 
     public void setStatusText(String folderName) {
-        String text = TvApp.getApplication().getResources().getString(R.string.lbl_showing) + " ";
+        String text = getString(R.string.lbl_showing) + " ";
         FilterOptions filters = mAdapter.getFilters();
         if (filters == null || (!filters.isFavoriteOnly() && !filters.isUnwatchedOnly())) {
-            text += TvApp.getApplication().getResources().getString(R.string.lbl_all_items);
+            text += getString(R.string.lbl_all_items);
         } else {
-            text += (filters.isUnwatchedOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_unwatched) : "") + " " +
-                    (filters.isFavoriteOnly() ? TvApp.getApplication().getResources().getString(R.string.lbl_favorites) : "");
+            text += (filters.isUnwatchedOnly() ? getString(R.string.lbl_unwatched) : "") + " " +
+                    (filters.isFavoriteOnly() ? getString(R.string.lbl_favorites) : "");
         }
 
         if (mAdapter.getStartLetter() != null) {
-            text += " " + TvApp.getApplication().getResources().getString(R.string.lbl_starting_with) + " " + mAdapter.getStartLetter();
+            text += " " + getString(R.string.lbl_starting_with) + " " + mAdapter.getStartLetter();
         }
 
-        text += " " + TvApp.getApplication().getString(R.string.lbl_from) + " '" + folderName + "' " + TvApp.getApplication().getString(R.string.lbl_sorted_by) + " " + getSortFriendlyName(mAdapter.getSortBy());
+        text += " " + getString(R.string.lbl_from) + " '" + folderName + "' " + getString(R.string.lbl_sorted_by) + " " + getSortFriendlyName(mAdapter.getSortBy());
 
         mStatusText.setText(text);
     }

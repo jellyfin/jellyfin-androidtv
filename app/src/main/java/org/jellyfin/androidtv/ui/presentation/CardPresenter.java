@@ -427,7 +427,7 @@ public class CardPresenter extends Presenter {
             if (holder.getItem().getBaseItemType() != BaseItemType.UserView) {
                 RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
                 if (ratingType == RatingType.RATING_TOMATOES) {
-                    Drawable badge = rowItem.getBadgeImage();
+                    Drawable badge = rowItem.getBadgeImage(holder.view.getContext());
                     holder.mCardView.setRating(null);
                     if (badge != null) {
                         holder.mCardView.setBadgeImage(badge);

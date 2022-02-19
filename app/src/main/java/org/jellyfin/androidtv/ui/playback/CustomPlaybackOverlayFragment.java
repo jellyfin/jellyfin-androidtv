@@ -61,7 +61,6 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
@@ -106,7 +105,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private PositionableListRowPresenter mPopupRowPresenter;
 
     //Live guide items
-    private static final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(TvApp.getApplication(), 7);
+    private final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(getContext(), 7);
     private static final int PAGE_SIZE = 75;
     private static final int GUIDE_HOURS = 9;
 
@@ -160,7 +159,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // stop any audio that may be playing
         mediaManager.getValue().stopAudio(true);
 
-        mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager == null) {
             Timber.e("Unable to get audio manager");
             Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
@@ -172,7 +171,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_no_playable_items));
+            Utils.showToast(getContext(), getString(R.string.msg_no_playable_items));
             requireActivity().finish();
             return;
         }
@@ -632,7 +631,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                 @Override
                 public void onError(Exception exception) {
-                    Utils.showToast(TvApp.getApplication(), R.string.msg_video_playback_error);
+                    Utils.showToast(getContext(), R.string.msg_video_playback_error);
                     finish();
                 }
             });
@@ -814,7 +813,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageUpStart < 0) pageUpStart = 0;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(LiveTvGuideActivity.PAGEBUTTON_HEIGHT);
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), 20));
                 tvGuideBinding.channels.addView(placeHolder);
                 displayedChannels = 0;
 
@@ -876,7 +875,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size() - 1;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(LiveTvGuideActivity.PAGEBUTTON_HEIGHT);
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), 20));
                 tvGuideBinding.channels.addView(placeHolder);
 
                 tvGuideBinding.programRows.addView(new GuidePagingButton(requireActivity(), guide, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
@@ -912,7 +911,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
                 cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
@@ -942,7 +941,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
                 cell.setFocusable(true);
                 programRow.addView(cell);
             }
@@ -953,7 +952,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
-                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, LiveTvGuideActivity.ROW_HEIGHT));
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
                 program.setFocusable(true);
 
                 if (start == getCurrentLocalStartDate())

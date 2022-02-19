@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
@@ -29,7 +28,7 @@ public class ClosedCaptionsAction extends CustomAction {
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
         if (playbackController.getCurrentStreamInfo() == null) {
             Timber.w("StreamInfo null trying to obtain subtitles");
-            Utils.showToast(TvApp.getApplication(), "Unable to obtain subtitle info");
+            Utils.showToast(context, "Unable to obtain subtitle info");
             return;
         }
         List<SubtitleStreamInfo> subtitles = playbackController.getSubtitleStreams();

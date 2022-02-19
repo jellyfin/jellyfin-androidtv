@@ -266,11 +266,11 @@ public class PlaybackHelper {
                 switch (item.getBaseItemType()) {
                     case MusicAlbum:
                     case MusicArtist:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response, shuffle);
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         break;
                     case Playlist:
                         if ("Audio".equals(item.getMediaType())) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response, shuffle);
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
 
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
@@ -285,7 +285,7 @@ public class PlaybackHelper {
                         break;
                     case Audio:
                         if (response.size() > 0) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(response.get(0));
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response.get(0));
                         }
                         break;
 
@@ -341,7 +341,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(Arrays.asList(response), false);
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, Arrays.asList(response), false);
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }
