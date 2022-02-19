@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.widget.Toast;
 import android.os.Looper;
+import android.widget.Toast;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
@@ -194,7 +194,7 @@ public class TvApiEventListener extends ApiEventListener {
                                     TvApp.getApplication().getCurrentActivity().startActivity(intent);
                                     break;
                                 case "Audio":
-                                    mediaManager.playNow(Arrays.asList(response.getItems()), startIndex, false);
+                                    mediaManager.playNow(TvApp.getApplication().getCurrentActivity(), Arrays.asList(response.getItems()), startIndex, false);
                                     break;
                             }
                         }

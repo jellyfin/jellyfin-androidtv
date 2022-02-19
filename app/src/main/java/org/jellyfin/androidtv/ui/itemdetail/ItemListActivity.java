@@ -63,7 +63,6 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import kotlin.Lazy;
@@ -530,7 +529,7 @@ public class ItemListActivity extends FragmentActivity {
             mediaManager.getValue().setCurrentVideoQueue(items);
             startActivity(intent);
         } else {
-            mediaManager.getValue().playNow(items, ndx, shuffle);
+            mediaManager.getValue().playNow(this, items, ndx, shuffle);
         }
     }
 
