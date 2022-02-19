@@ -1444,13 +1444,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     currentSubtitleIndex = tmpSubtitleIndex;
                     lastSubtitlePositionMs = positionMs;
                     if (iterCount > 1)
-                        Timber.d("subs handled in %s iterations", iterCount);
+                        Timber.d("subtitles handled in %s iterations", iterCount);
                     return;
                 }
             }
             iterCount++;
         }
-        Timber.d("subs handled in %s iterations (full list traversal)", iterCount);
+        Timber.d("subtitles handled in %s iterations (full list traversal)", iterCount);
         clearSubtitles();
     }
 
