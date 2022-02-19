@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -595,30 +596,30 @@ public class MediaManager {
         return audioInitialized;
     }
 
-    public void playNow(final List<BaseItemDto> items, int position, boolean shuffle) {
+    public void playNow(Context context, final List<BaseItemDto> items, int position, boolean shuffle) {
         if (!ensureInitialized()) return;
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
 
-        playNowInternal(items, position, shuffle);
+        playNowInternal(context, items, position, shuffle);
 
         if (fireQueueReplaceEvent)
             fireQueueReplaced();
     }
 
-    public void playNow(final List<BaseItemDto> items, boolean shuffle) {
-        playNow(items, 0, shuffle);
+    public void playNow(Context context, final List<BaseItemDto> items, boolean shuffle) {
+        playNow(context, items, 0, shuffle);
     }
 
-    public void playNow(final BaseItemDto item) {
+    public void playNow(Context context, final BaseItemDto item) {
         if (!ensureInitialized()) return;
 
         List<BaseItemDto> list = new ArrayList<BaseItemDto>();
         list.add(item);
-        playNow(list, false);
+        playNow(context, list, false);
     }
 
-    private void playNowInternal(List<BaseItemDto> items, int position, boolean shuffle) {
+    private void playNowInternal(Context context, List<BaseItemDto> items, int position, boolean shuffle) {
         if (items == null || items.size() == 0) return;
         if (position < 0 || position >= items.size()) position = 0;
         // stop current item before queue is cleared so it can still be referenced
@@ -632,11 +633,12 @@ public class MediaManager {
 
         if (shuffle) shuffleAudioQueue();
         playFrom(position);
-        if (TvApp.getApplication().getCurrentActivity().getClass() != AudioNowPlayingActivity.class) {
-            Intent nowPlaying = new Intent(TvApp.getApplication(), AudioNowPlayingActivity.class);
-            TvApp.getApplication().getCurrentActivity().startActivity(nowPlaying);
+
+        if (ContextExtensionsKt.getActivity(context).getClass() != AudioNowPlayingActivity.class) {
+            Intent nowPlaying = new Intent(context, AudioNowPlayingActivity.class);
+            context.startActivity(nowPlaying);
         } else {
-            Toast.makeText(TvApp.getApplication(),items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
+            Toast.makeText(context,items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
         }
     }
 

@@ -1455,7 +1455,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
                             if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
-                                mediaManager.getValue().playNow(response, false);
+                                mediaManager.getValue().playNow(FullDetailsActivity.this, response, false);
                             } else {
                                 Intent intent = new Intent(FullDetailsActivity.this, ExternalPlayerActivity.class);
                                 mediaManager.getValue().setCurrentVideoQueue(response);
@@ -1613,7 +1613,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, item)) return;
 
                 if (item.getBaseItemType() == BaseItemType.MusicArtist) {
-                    mediaManager.getValue().playNow(response, shuffle);
+                    mediaManager.getValue().playNow(FullDetailsActivity.this, response, shuffle);
                 } else {
                     Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
                     Intent intent = new Intent(FullDetailsActivity.this, activity);
