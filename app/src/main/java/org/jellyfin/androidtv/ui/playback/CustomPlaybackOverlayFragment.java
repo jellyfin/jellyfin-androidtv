@@ -1450,7 +1450,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             iterCount++;
         }
         // handles clearing the last event
-        Timber.d("subtitles handled in %s iterations", iterCount);
+        if (iterCount > 1)
+            Timber.d("subtitles handled in %s iterations", iterCount);
         clearSubtitles();
     }
 
