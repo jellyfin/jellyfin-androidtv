@@ -77,7 +77,6 @@
     <string name="loading">Φόρτωση…</string>
     <string name="lbl_yes">Ναι</string>
     <string name="lbl_trailer">"Τρέιλερ "</string>
-    <string name="msg_access_restricted">Η πρόσβαση είναι περιορισμένη αυτήν τη στιγμή</string>
     <string name="msg_video_playback_error">"Σφάλμα Αναπαραγωγής Βίντεο - "</string>
     <string name="lbl_none">Κανένα</string>
     <string name="lbl_recordings">Εγγραφές</string>

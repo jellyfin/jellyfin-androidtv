@@ -214,7 +214,6 @@
     <string name="lbl_enter_user_name">Skriv in användarnamn</string>
     <string name="lbl_play_trailers">Spela Trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
-    <string name="msg_access_restricted">Tillgång begränsad för närvarande</string>
     <string name="lbl_bracket_unknown">&lt;Okänd&gt;</string>
     <string name="msg_video_playback_error">"Videouppspelningsfel "</string>
     <string name="lbl_none">Ingen</string>

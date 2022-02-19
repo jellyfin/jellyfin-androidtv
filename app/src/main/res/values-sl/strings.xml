@@ -23,7 +23,6 @@
     <string name="lbl_enter_user_name">Vnesi uporabniško ime</string>
     <string name="lbl_play_trailers">Predvajaj Napovednik(e)</string>
     <string name="lbl_trailer">"Napovednik "</string>
-    <string name="msg_access_restricted">Dostop trenutno omejen</string>
     <string name="lbl_bracket_unknown">&lt;Neznano&gt;</string>
     <string name="msg_video_playback_error">"Napaka pri predvajanju videa "</string>
     <string name="lbl_none">Nič</string>

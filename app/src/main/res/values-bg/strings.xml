@@ -124,7 +124,6 @@
     <string name="msg_cannot_play">Този елемент не може да се възпроизведе</string>
     <string name="msg_cannot_play_time">Понастоящем не може да се възпроизведе този елемент</string>
     <string name="msg_playback_restricted">Понастоящем администраторът е ограничил възпроизвеждането на този елемент</string>
-    <string name="msg_access_restricted">Понастоящем достъпът е ограничен</string>
     <string name="msg_video_playback_error">"Грешка при възпроизвеждане на видео - "</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_cast_crew">Актьори/Екип</string>

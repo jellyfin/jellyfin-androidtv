@@ -65,7 +65,6 @@
     <string name="lbl_enter_user_name">Унесите корисничко име</string>
     <string name="lbl_play_trailers">Пусти трејлер(е)</string>
     <string name="lbl_trailer">"Трејлер "</string>
-    <string name="msg_access_restricted">Приступ је тренутно ограничен</string>
     <string name="lbl_bracket_unknown">&lt;Непознато&gt;</string>
     <string name="msg_video_playback_error">"Грешка приликом репродукције видео записа - "</string>
     <string name="lbl_none">Ниједан</string>

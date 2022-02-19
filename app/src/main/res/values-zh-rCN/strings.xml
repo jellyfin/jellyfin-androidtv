@@ -54,7 +54,6 @@
     <string name="lbl_none">无</string>
     <string name="msg_video_playback_error">"视频回放出错- "</string>
     <string name="lbl_bracket_unknown">未知</string>
-    <string name="msg_access_restricted">访问受限</string>
     <string name="lbl_trailer">"预告片 "</string>
     <string name="lbl_no">否</string>
     <string name="lbl_yes">是</string>

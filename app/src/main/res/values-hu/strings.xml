@@ -15,7 +15,6 @@
     <string name="lbl_enter_user_name">Felhasználónév megadása</string>
     <string name="lbl_play_trailers">Előzetes(ek) lejátszása</string>
     <string name="lbl_trailer">"Előzetes "</string>
-    <string name="msg_access_restricted">Hozzáférés jelenleg korlátozva</string>
     <string name="lbl_bracket_unknown">Ismeretlen</string>
     <string name="msg_video_playback_error">"Videó lejátszási hiba "</string>
     <string name="lbl_none">Nincs</string>

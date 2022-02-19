@@ -225,7 +225,6 @@
     <string name="lbl_show_backdrop">Rādīt Fonu Pārlūkošanas Laikā</string>
     <string name="desc_automatic_fav_songs">Automātisks atskaņošanas saraksts no patīk saraksta un dziesmu favorītiem</string>
     <string name="lbl_unlike">Noņemt Patīk</string>
-    <string name="msg_access_restricted">Piekļuve ierobežota šajā brīdī</string>
     <string name="lbl_chapters">Nodaļas</string>
     <string name="lbl_favorite_channels">Kanālu Favorīti</string>
     <string name="pref_max_bitrate_title">Maksimālais Straumēšanas Bitu-pārraides ātrums</string>

@@ -126,7 +126,6 @@
     <string name="lbl_enter_user_name">הכנס שם משתמש</string>
     <string name="lbl_play_trailers">נגן טריילרים</string>
     <string name="lbl_trailer">"טריילר "</string>
-    <string name="msg_access_restricted">הגישה מוגבלת כרגע</string>
     <string name="lbl_bracket_unknown">&lt;Unknown&gt;</string>
     <string name="msg_video_playback_error">"בעייה בניגון הסרט - "</string>
     <string name="lbl_none">ללא</string>

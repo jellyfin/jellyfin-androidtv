@@ -62,7 +62,6 @@
     <string name="lbl_none">Žádné</string>
     <string name="msg_video_playback_error">"Chyba při přehrávání videa - "</string>
     <string name="lbl_bracket_unknown">Neznámý</string>
-    <string name="msg_access_restricted">Přístup omezen v této době</string>
     <string name="lbl_trailer">"Upoutávka "</string>
     <string name="lbl_play_trailers">Přehrát upoutávky</string>
     <string name="lbl_enter_user_name">Zadejte uživatelské jméno</string>

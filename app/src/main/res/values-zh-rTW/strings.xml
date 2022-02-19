@@ -80,7 +80,6 @@
     <string name="msg_error_server_unavailable">伺服器不可用</string>
     <string name="lbl_play_trailers">播放預告片</string>
     <string name="lbl_trailer">"預告片 "</string>
-    <string name="msg_access_restricted">無法存取</string>
     <string name="msg_video_playback_error">"影片播放錯誤- "</string>
     <string name="lbl_people">人物</string>
     <string name="lbl_other_options">其它選項</string>

@@ -80,7 +80,6 @@
     <string name="msg_playback_restricted">Administrator ograniczył odtwarzanie danego elementu</string>
     <string name="msg_playback_not_allowed">Odtwarzanie nie dozwolone</string>
     <string name="lbl_born">"Urodzony/a "</string>
-    <string name="msg_access_restricted">Dostęp ograniczony</string>
     <string name="lbl_min">" min"</string>
     <string name="lbl_sd">SD</string>
     <string name="msg_not_implemented">" niezaimplementowane"</string>

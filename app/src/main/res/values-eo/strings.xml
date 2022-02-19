@@ -365,7 +365,6 @@
     <string name="msg_playback_incompatible">Ne povas ludi ĉi tiun videoformaton</string>
     <string name="msg_playback_restricted">La administranto limigis ludadon de la aĵo ĉi tiu tempo</string>
     <string name="msg_playback_not_allowed">Ludado ne permesita ĉi tiu tempe</string>
-    <string name="msg_access_restricted">Aliro limigita en ĉi tiu tempo</string>
     <string name="msg_video_playback_error">"Eraro de Videoludado - "</string>
     <string name="msg_unable_to_cancel">Ne eblas rezigni rikordadon</string>
     <string name="msg_unable_to_create_recording">Ne eblas krei rikordadon</string>

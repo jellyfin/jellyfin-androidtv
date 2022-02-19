@@ -81,7 +81,6 @@
     <string name="lbl_enter_user_pw">أدخل كلمة السر</string>
     <string name="lbl_enter_user_name">أدخل اسم المستخدم</string>
     <string name="lbl_trailer">"الإعلان "</string>
-    <string name="msg_access_restricted">الوصول مقيد في هذا الوقت</string>
     <string name="lbl_bracket_unknown">غير معروف</string>
     <string name="msg_video_playback_error">"خطأ في عرض الفيديو - "</string>
     <string name="lbl_none">لا يوجد</string>

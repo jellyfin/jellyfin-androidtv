@@ -259,7 +259,6 @@
     <string name="lbl_enter_user_name">Introducir nombre de usuario</string>
     <string name="lbl_play_trailers">Reproducir trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
-    <string name="msg_access_restricted">El acceso está restringido en este momento</string>
     <string name="lbl_people">Personas</string>
     <string name="lbl_trailers">Trailers</string>
     <string name="lbl_last_played">"Última reproducción "</string>

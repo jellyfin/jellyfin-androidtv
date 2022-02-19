@@ -29,7 +29,6 @@
     <string name="desc_seasonal_themes">Permiteți culori speciale si sugestii în funcție de anumite perioade din an</string>
     <string name="desc_automatic_fav_songs">Crearea automată a unei liste de redare din cântecele marcate ca favorite si placute</string>
     <string name="lbl_trailer">"Trailer "</string>
-    <string name="msg_access_restricted">Acces restrictionat momentan</string>
     <string name="lbl_bracket_unknown">Necunoscut</string>
     <string name="msg_video_playback_error">"Eroare de redare a videoului "</string>
     <string name="lbl_none">Nici unul</string>

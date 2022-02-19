@@ -77,7 +77,6 @@
     <string name="lbl_enter_user_name">Внесете корисничко име</string>
     <string name="lbl_play_trailers">Пушти трејлер(и)</string>
     <string name="lbl_trailer">"Трејлер "</string>
-    <string name="msg_access_restricted">Пристапот е ограничен во моментот</string>
     <string name="lbl_bracket_unknown">&lt;Непознато&gt;</string>
     <string name="lbl_recordings">Снимки</string>
     <string name="lbl_videos">Видеа</string>

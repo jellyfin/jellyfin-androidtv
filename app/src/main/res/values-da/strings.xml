@@ -60,7 +60,6 @@
     <string name="lbl_none">Ingen</string>
     <string name="msg_video_playback_error">"Videoafspilnings fejl - "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
-    <string name="msg_access_restricted">Adgang nægtet på nuværende tidspunkt</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Afspil trailer</string>
     <string name="lbl_enter_user_name">Indtast brugernavn</string>

@@ -63,7 +63,6 @@
     <string name="lbl_none">Nenhum</string>
     <string name="msg_video_playback_error">"Erro ao reproduzir o Vídeo "</string>
     <string name="lbl_bracket_unknown"><![CDATA[<Desconhecido>]]></string>
-    <string name="msg_access_restricted">Acesso de momento restrito</string>
     <string name="lbl_trailer">"Anúncio "</string>
     <string name="lbl_play_trailers">Reproduzir Anúncio(s)</string>
     <string name="lbl_enter_user_name">Digite o nome de utilizador</string>
