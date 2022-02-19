@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv;
 
-import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.Nullable;
@@ -23,8 +22,6 @@ public class TvApp extends Application {
     private MediatorLiveData<UserDto> currentUser = new MediatorLiveData<UserDto>();
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
-
-    private Activity currentActivity;
 
     @Override
     public void onCreate() {
@@ -53,19 +50,6 @@ public class TvApp extends Application {
     public void setCurrentUser(UserDto currentUser) {
         this.currentUser.postValue(currentUser);
         TvManager.clearCache();
-    }
-
-    /**
-     * @deprecated This function is causing a **lot** of issues because not all activities will set their self as "currentactivity". Try to receive a Context instance instead.
-     */
-    @Deprecated
-    @Nullable
-    public Activity getCurrentActivity() {
-        return currentActivity;
-    }
-
-    public void setCurrentActivity(Activity activity) {
-        currentActivity = activity;
     }
 
     @Nullable
