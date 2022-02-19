@@ -1369,7 +1369,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void addManualSubtitles(@Nullable SubtitleTrackInfo info) {
         subtitleTrackInfo = info;
-        currentSubtitleIndex = 0;
+        currentSubtitleIndex = -1;
         lastSubtitlePositionMs = 0;
         clearSubtitles();
     }
@@ -1389,6 +1389,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
 
+        final long positionTicks = positionMs * 10000;
+        final long lastPositionTicks = lastSubtitlePositionMs * 10000;
+
+        Timber.d("posMS %s lastPosMS %s currentTrackEvent %s", positionMs, lastSubtitlePositionMs, currentSubtitleIndex);
+
         // Skip rendering if the interval ms have not passed since last render
         if (lastSubtitlePositionMs > 0
                 && Math.abs(lastSubtitlePositionMs - positionMs) < SUBTITLE_RENDER_INTERVAL_MS) {
@@ -1397,40 +1402,44 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // If the user has skipped back, need to reset the subtitle index
         if (lastSubtitlePositionMs > positionMs) {
-            currentSubtitleIndex = 0;
+            currentSubtitleIndex = -1;
         }
 
-        lastSubtitlePositionMs = positionMs;
-
-        final long positionTicks = positionMs * 10000;
-        SubtitleTrackEvent trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
-
-        // Check the current subtitle event
-        if (positionTicks >= trackEvent.getStartPositionTicks()) {
-            if (positionTicks <= trackEvent.getEndPositionTicks()) {
-                // Current event should still be rendered
-                renderSubtitles(trackEvent.getText());
-                return;
-            } else {
-                // Current event should be cleared
-                clearSubtitles();
-            }
-        }
+        if (currentSubtitleIndex == -1)
+            Timber.d("subtitle track events size %s", subtitleTrackInfo.getTrackEvents().size());
 
         // Find the next subtitle event that should be rendered
-        for (; currentSubtitleIndex < subtitleTrackInfo.getTrackEvents().size(); currentSubtitleIndex++) {
-            trackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
+        for (int tmpSubtitleIndex = currentSubtitleIndex == -1 ? 0 : currentSubtitleIndex; tmpSubtitleIndex < subtitleTrackInfo.getTrackEvents().size(); tmpSubtitleIndex++) {
+            SubtitleTrackEvent trackEvent = subtitleTrackInfo.getTrackEvents().get(tmpSubtitleIndex);
 
             // This subtitle event should be displayed now
             if (positionTicks >= trackEvent.getStartPositionTicks()
-                    && positionTicks <= trackEvent.getEndPositionTicks()) {
-                renderSubtitles(trackEvent.getText());
+                    && positionTicks < trackEvent.getEndPositionTicks() - SUBTITLE_RENDER_INTERVAL_MS) {
+                currentSubtitleIndex = tmpSubtitleIndex;
+                if (lastPositionTicks < trackEvent.getStartPositionTicks() || lastPositionTicks > trackEvent.getEndPositionTicks()) {
+                    lastSubtitlePositionMs = positionMs;
+                    Timber.d("rendering track event: %s start %s end %s", currentSubtitleIndex, trackEvent.getStartPositionTicks() / 10000, trackEvent.getEndPositionTicks() / 10000);
+                    renderSubtitles(trackEvent.getText());
+                }
                 return;
-            }
+            } else if (currentSubtitleIndex > -1 && tmpSubtitleIndex == currentSubtitleIndex + 1) {
+                SubtitleTrackEvent lastTrackEvent = subtitleTrackInfo.getTrackEvents().get(currentSubtitleIndex);
 
-            // This subtitle event should be displayed next, but it is not time for it yet
-            if (trackEvent.getStartPositionTicks() > positionTicks) {
+                if (positionTicks > lastTrackEvent.getEndPositionTicks()) {
+                    Timber.d("clearing last subtitle track event: %s", currentSubtitleIndex);
+                    currentSubtitleIndex = tmpSubtitleIndex;
+                    clearSubtitles();
+                }
                 return;
+            } else if (currentSubtitleIndex == -1 && tmpSubtitleIndex < subtitleTrackInfo.getTrackEvents().size() - 1) {
+                SubtitleTrackEvent nextTrackEvent = subtitleTrackInfo.getTrackEvents().get(tmpSubtitleIndex + 1);
+
+                // This subtitle event should be displayed now
+                if (positionTicks > trackEvent.getEndPositionTicks() && positionTicks < nextTrackEvent.getStartPositionTicks()) {
+                    lastSubtitlePositionMs = positionMs;
+                    currentSubtitleIndex = tmpSubtitleIndex + 1;
+                    return;
+                }
             }
         }
 

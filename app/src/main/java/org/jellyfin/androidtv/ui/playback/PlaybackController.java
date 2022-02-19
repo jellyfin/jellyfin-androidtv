@@ -1416,7 +1416,7 @@ public class PlaybackController {
                         // crossed fire off an async routine to update the program info
                         updateTvProgramInfo();
                     }
-                    if (mFragment != null)
+                    if (mFragment != null && finishedInitialSeek)
                         mFragment.updateSubtitles(mCurrentPosition);
                 }
                 if (mFragment != null)
