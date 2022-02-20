@@ -61,10 +61,7 @@ public class RecordPopup {
     Button mOkButton;
     Button mCancelButton;
 
-    String MINUTE = mActivity.getString(R.string.lbl_minute);
-    String MINUTES = mActivity.getString(R.string.lbl_minutes);
-    String HOURS = mActivity.getString(R.string.lbl_hours);
-    ArrayList<String> mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(mActivity.getString(R.string.lbl_on_schedule),"1  "+MINUTE,"5  "+MINUTES,"15 "+MINUTES,"30 "+MINUTES,"60 "+MINUTES,"90 "+MINUTES,"2  "+HOURS,"3  "+HOURS));
+    ArrayList<String> mPaddingDisplayOptions;
     ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
@@ -74,6 +71,19 @@ public class RecordPopup {
         mAnchorView = anchorView;
         mPosLeft = left;
         mPosTop = top;
+
+        mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(
+                mActivity.getString(R.string.lbl_on_schedule),
+                "1  " + mActivity.getString(R.string.lbl_minute),
+                "5  " + mActivity.getString(R.string.lbl_minutes),
+                "15 " + mActivity.getString(R.string.lbl_minutes),
+                "30 " + mActivity.getString(R.string.lbl_minutes),
+                "60 " + mActivity.getString(R.string.lbl_minutes),
+                "90 " + mActivity.getString(R.string.lbl_minutes),
+                "2  " + mActivity.getString(R.string.lbl_hours),
+                "3  " + mActivity.getString(R.string.lbl_hours)
+        ));
+
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.new_program_record_popup, null);
         int popupHeight = Utils.convertDpToPixel(activity, 330);
