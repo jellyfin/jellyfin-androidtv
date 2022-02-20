@@ -1,30 +1,27 @@
 package org.jellyfin.androidtv.ui.playback
 
-import io.mockk.*
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.doubles.plusOrMinus
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 
-class VideoSpeedControllerTest {
-	@After
-	fun tearDown() {
+class VideoSpeedControllerTests : FunSpec({
+	afterTest {
 		// Always reset the "user selected" speed back to default
 		VideoSpeedController(mockk(relaxed = true)).resetSpeedToDefault()
 	}
 
-	@Test
-	fun testSpeedSteps() {
-		val speedSteps = VideoSpeedController.SpeedSteps.values()
-		val expectedStep = 0.25
-		var i = 1
-		speedSteps.forEach { v ->
-			assertEquals(i * expectedStep, v.speed, 0.001)
-			i += 1
+	test("VideoSpeedController.SpeedSteps uses intervals of 0.25") {
+		VideoSpeedController.SpeedSteps.values().forEachIndexed { i, v ->
+			v.speed.shouldBe((i + 1) * 0.25 plusOrMinus 0.0001)
 		}
 	}
 
-	@Test
-	fun testControllerSpeedIsOneByDefault() {
+	test("VideoSpeedController speed is 1 by default") {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val slot = slot<Double>()
 		justRun { mockController.setPlaybackSpeed(capture(slot)) }
@@ -32,20 +29,20 @@ class VideoSpeedControllerTest {
 		VideoSpeedController(mockController)
 
 		verify { mockController.setPlaybackSpeed(any()) }
-		assertEquals(1.0, slot.captured, 0.001)
+		slot.captured shouldBe (1.0 plusOrMinus 0.0001)
 	}
 
-	@Test
-	fun testSetNewSpeed() {
+	test("VideoSpeedController.currentSpeed getter returns set value") {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val controller = VideoSpeedController(mockController)
+
 		val expected = VideoSpeedController.SpeedSteps.SPEED_1_25
 		controller.currentSpeed = expected
-		assertEquals(expected, controller.currentSpeed)
+
+		controller.currentSpeed shouldBe expected
 	}
 
-	@Test
-	fun testSetNewSpeedSetsOnManager() {
+	test("VideoSpeedController.currentSpeed updates the speed in the controller") {
 		val mockController = mockk<PlaybackController>(relaxed = true)
 		val slot = slot<Double>()
 		justRun { mockController.setPlaybackSpeed(capture(slot)) }
@@ -55,11 +52,10 @@ class VideoSpeedControllerTest {
 		controller.currentSpeed = expected
 
 		verify { mockController.setPlaybackSpeed(any()) }
-		assertEquals(expected.speed, slot.captured, 0.0001)
+		slot.captured shouldBe (expected.speed plusOrMinus 0.0001)
 	}
 
-	@Test
-	fun testResetPreviousSpeedToDefault() {
+	test("VideoSpeedController.resetSpeedToDefault() works correctly") {
 		val playbackController = mockk<PlaybackController>(relaxed = true)
 		val videoController = VideoSpeedController(playbackController)
 
@@ -71,20 +67,13 @@ class VideoSpeedControllerTest {
 		VideoSpeedController(playbackController)
 
 		verify { playbackController.setPlaybackSpeed(any()) }
-		assertEquals(
-			VideoSpeedController.SpeedSteps.SPEED_1_00.speed,
-			slot.captured,
-			0.0001
-		)
+		slot.captured shouldBe (VideoSpeedController.SpeedSteps.SPEED_1_00.speed plusOrMinus 0.0001)
 	}
 
-
-	@Test
-	fun testControllerPreservesMostRecentlySelectedSpeedConstructingNew() {
+	test("VideoSpeedController remembers previous instance speed value") {
 		var lastSetSpeed = 1.0
-		val speeds = VideoSpeedController.SpeedSteps.values()
 
-		speeds.forEach { newSpeed ->
+		VideoSpeedController.SpeedSteps.values().forEach { newSpeed ->
 			val mockController = mockk<PlaybackController>(relaxed = true)
 			val slot = slot<Double>()
 			justRun { mockController.setPlaybackSpeed(capture(slot)) }
@@ -92,48 +81,48 @@ class VideoSpeedControllerTest {
 			val controller = VideoSpeedController(mockController)
 
 			verify { mockController.setPlaybackSpeed(any()) }
-			assertEquals(lastSetSpeed, slot.captured, 0.001)
+			slot.captured shouldBe (lastSetSpeed plusOrMinus 0.0001)
 
 			controller.currentSpeed = newSpeed
 			lastSetSpeed = newSpeed.speed
 		}
 	}
 
-	@Test
-	fun testSpeedResetsToOneWithLiveTv() {
+	test("VideoSpeedController.currentSpeed always sets the speed to 1 for LiveTV") {
 		// Since handling live TV is more complex, we will simply reset the playback
 		// speed to 1 so we can't out-run the current buffer.
 
 		// Assume the user has pre-set their speed
-		VideoSpeedController(mockk(relaxed = true)).currentSpeed =
-			VideoSpeedController.SpeedSteps.SPEED_2_00
+		VideoSpeedController(mockk(relaxed = true)).currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
 
 		// Then they switch to live-tv
-		val mockController = mockk<PlaybackController>(relaxed = true)
-		every { mockController.isLiveTv } returns true
+		val mockController = mockk<PlaybackController>(relaxed = true) {
+			every { isLiveTv } returns true
+		}
 		val speedController = VideoSpeedController(mockController)
 
-		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
 		verify { mockController.setPlaybackSpeed(1.0) }
+		speedController.currentSpeed shouldBe VideoSpeedController.SpeedSteps.SPEED_1_00
 
 		// Try to set it back to other values should be ignored
 		speedController.currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
-		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
+
 		verify { mockController.setPlaybackSpeed(1.0) }
+		speedController.currentSpeed shouldBe VideoSpeedController.SpeedSteps.SPEED_1_00
 	}
 
-	@Test
-	fun testSpeedChangeableOffLiveTv() {
-		val mockController = mockk<PlaybackController>(relaxed = true)
-		every { mockController.isLiveTv } returns false
+	test("VideoSpeedController.currentSpeed alwats sets the requested speed when LiveTV is off") {
+		val mockController = mockk<PlaybackController>(relaxed = true) {
+			every { isLiveTv } returns false
+		}
 		val speedController = VideoSpeedController(mockController)
 
-		assertEquals(VideoSpeedController.SpeedSteps.SPEED_1_00, speedController.currentSpeed)
 		verify { mockController.setPlaybackSpeed(1.0) }
+		speedController.currentSpeed shouldBe VideoSpeedController.SpeedSteps.SPEED_1_00
 
 		speedController.currentSpeed = VideoSpeedController.SpeedSteps.SPEED_2_00
-		assertEquals(VideoSpeedController.SpeedSteps.SPEED_2_00, speedController.currentSpeed)
-		verify { mockController.setPlaybackSpeed(2.0) }
-	}
 
-}
+		verify { mockController.setPlaybackSpeed(2.0) }
+		speedController.currentSpeed shouldBe VideoSpeedController.SpeedSteps.SPEED_2_00
+	}
+})

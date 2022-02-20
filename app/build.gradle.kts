@@ -67,6 +67,10 @@ android {
 		sarifReport = true
 		checkDependencies = true
 	}
+
+	testOptions.unitTests.all {
+		it.useJUnitPlatform()
+	}
 }
 
 val versionTxt by tasks.registering {
@@ -148,8 +152,7 @@ dependencies {
 	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
-	testImplementation(libs.junit)
-	testImplementation(libs.koin.test)
-	testImplementation(libs.koin.test.junit4)
+	testImplementation(libs.kotest.runner.junit5)
+	testImplementation(libs.kotest.assertions)
 	testImplementation(libs.mockk)
 }

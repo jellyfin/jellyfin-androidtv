@@ -105,7 +105,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private PositionableListRowPresenter mPopupRowPresenter;
 
     //Live guide items
-    private final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(getContext(), 7);
     private static final int PAGE_SIZE = 75;
     private static final int GUIDE_HOURS = 9;
 
@@ -911,7 +910,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
                 cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
@@ -941,7 +940,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
                 cell.setFocusable(true);
                 programRow.addView(cell);
             }
@@ -952,7 +951,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
-                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, Utils.convertDpToPixel(getContext(), 55)));
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
                 program.setFocusable(true);
 
                 if (start == getCurrentLocalStartDate())
@@ -977,8 +976,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
-        int oneHour = 60 * PIXELS_PER_MINUTE;
-        int halfHour = 30 * PIXELS_PER_MINUTE;
+        int oneHour = 60 * Utils.convertDpToPixel(getContext(), 7);
+        int halfHour = 30 * Utils.convertDpToPixel(getContext(), 7);
         int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
         mCurrentGuideEnd.add(Calendar.HOUR, hours);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();

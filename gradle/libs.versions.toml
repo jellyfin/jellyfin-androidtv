@@ -35,6 +35,7 @@ libvlc = "3.4.7"
 mockk = "1.12.1"
 slf4j-timber = "3.1"
 timber = "5.0.1"
+kotest = "5.1.0"
 
 [plugins]
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
@@ -109,10 +110,9 @@ leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 # Compatibility (desugaring)
 android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugar" }
 
-# Testing
-junit = { module = "junit:junit", version.ref = "junit" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+# Test utilities
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [bundles]
