@@ -207,7 +207,7 @@
     <string name="lbl_filters">过滤器</string>
     <string name="btn_clear_all">清除全部</string>
     <string name="btn_filter">过滤器</string>
-    <string name="lbl_ended">已完成</string>
+    <string name="lbl_ended">已完结</string>
     <string name="lbl__continuing">正在继续</string>
     <string name="lbl_display_preferences">显示偏好</string>
     <string name="btn_done">完成</string>
