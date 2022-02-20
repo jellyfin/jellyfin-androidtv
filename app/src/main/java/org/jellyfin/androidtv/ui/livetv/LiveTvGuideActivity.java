@@ -69,10 +69,9 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
-    public final int ROW_HEIGHT = Utils.convertDpToPixel(this, 55);
-    public final int PIXELS_PER_MINUTE = Utils.convertDpToPixel(this,7);
-    public final int PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(this, 20);
-    public final int PAGEBUTTON_WIDTH = 120 * PIXELS_PER_MINUTE;
+    public int ROW_HEIGHT;
+    public int PIXELS_PER_MINUTE;
+    public int PAGEBUTTON_HEIGHT;
     public static final int PAGE_SIZE = 75;
     public static final int NORMAL_HOURS = 9;
     public static final int FILTERED_HOURS = 4;
@@ -121,6 +120,10 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         super.onCreate(savedInstanceState);
 
         mActivity = this;
+
+        ROW_HEIGHT = Utils.convertDpToPixel(this, 55);
+        PIXELS_PER_MINUTE = Utils.convertDpToPixel(this,7);
+        PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(this, 20);
 
         setContentView(R.layout.live_tv_guide);
 

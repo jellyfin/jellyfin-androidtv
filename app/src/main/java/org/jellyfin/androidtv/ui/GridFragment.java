@@ -50,25 +50,59 @@ public class GridFragment extends Fragment {
     private int mSelectedPosition = -1;
     private int mCardHeight;
 
-    protected int SMALL_CARD = Utils.convertDpToPixel(getContext(), 116);
-    protected int MED_CARD = Utils.convertDpToPixel(getContext(), 175);
-    protected int LARGE_CARD = Utils.convertDpToPixel(getContext(), 210);
-    protected int SMALL_BANNER = Utils.convertDpToPixel(getContext(), 58);
-    protected int MED_BANNER = Utils.convertDpToPixel(getContext(), 88);
-    protected int LARGE_BANNER = Utils.convertDpToPixel(getContext(), 105);
+    protected int SMALL_CARD;
+    protected int MED_CARD;
+    protected int LARGE_CARD;
+    protected int SMALL_BANNER;
+    protected int MED_BANNER;
+    protected int LARGE_BANNER;
+    protected int SMALL_VERTICAL_POSTER;
+    protected int MED_VERTICAL_POSTER;
+    protected int LARGE_VERTICAL_POSTER;
+    protected int SMALL_VERTICAL_SQUARE;
+    protected int MED_VERTICAL_SQUARE;
+    protected int LARGE_VERTICAL_SQUARE;
+    protected int SMALL_VERTICAL_THUMB;
+    protected int MED_VERTICAL_THUMB;
+    protected int LARGE_VERTICAL_THUMB;
+    protected int SMALL_VERTICAL_BANNER;
+    protected int MED_VERTICAL_BANNER;
+    protected int LARGE_VERTICAL_BANNER;
 
-    protected int SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 116);
-    protected int MED_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 171);
-    protected int LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 202);
-    protected int SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 114);
-    protected int MED_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 163);
-    protected int LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 206);
-    protected int SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 116);
-    protected int MED_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 155);
-    protected int LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 210);
-    protected int SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 51);
-    protected int MED_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 77);
-    protected int LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 118);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        SMALL_CARD = Utils.convertDpToPixel(getContext(), 116);
+        MED_CARD = Utils.convertDpToPixel(getContext(), 175);
+        LARGE_CARD = Utils.convertDpToPixel(getContext(), 210);
+        SMALL_BANNER = Utils.convertDpToPixel(getContext(), 58);
+        MED_BANNER = Utils.convertDpToPixel(getContext(), 88);
+        LARGE_BANNER = Utils.convertDpToPixel(getContext(), 105);
+        SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 116);
+        MED_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 171);
+        LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 202);
+        SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 114);
+        MED_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 163);
+        LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 206);
+        SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 116);
+        MED_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 155);
+        LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 210);
+        SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 51);
+        MED_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 77);
+        LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 118);
+
+        sortOptions = new HashMap<>();
+        {
+            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
+            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
+            sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
+        };
+    }
 
     /**
      * Sets the grid presenter.
@@ -146,16 +180,7 @@ public class GridFragment extends Fragment {
         }
     }
 
-    protected Map<Integer, SortOption> sortOptions = new HashMap<>();
-    {
-        sortOptions.put(0, new SortOption(getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
-        sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
-        sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
-        sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
-        sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
-        sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
-        sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
-    }
+    protected Map<Integer, SortOption> sortOptions;
 
     protected String getSortFriendlyName(String value) {
         return getSortOption(value).name;
