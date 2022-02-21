@@ -169,4 +169,5 @@
     <string name="lbl_record_any_time">Запис у будь-який час</string>
     <string name="lbl_similar_items_library">Схожі елементи у медіатеці</string>
     <string name="lbl_program_ended">Програма закінчена</string>
+    <string name="lbl_cancel_series">Скасовані серії</string>
 </resources>
