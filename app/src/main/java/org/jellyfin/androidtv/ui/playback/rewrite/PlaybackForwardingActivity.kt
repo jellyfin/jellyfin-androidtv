@@ -13,7 +13,7 @@ import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.util.*
+import java.util.UUID
 
 class PlaybackForwardingActivity : FragmentActivity() {
 	companion object {

@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
-import java.util.*
+import java.util.UUID
 
 class OptionsItemCheckbox(
 	private val context: Context

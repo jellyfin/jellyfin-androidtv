@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import androidx.preference.DialogPreference
 import org.jellyfin.androidtv.R
-import java.util.*
+import java.util.Locale
 
 class ButtonRemapPreference(
 	context: Context,

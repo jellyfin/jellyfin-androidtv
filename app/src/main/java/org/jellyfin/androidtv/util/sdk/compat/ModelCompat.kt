@@ -7,7 +7,7 @@ import org.jellyfin.sdk.model.extensions.toNameGuidPair
 import org.jellyfin.sdk.model.serializer.toUUID
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
+import java.util.Date
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod as LegacySubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.drawing.ImageOrientation as LegacyImageOrientation
 import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto

@@ -7,7 +7,7 @@ import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

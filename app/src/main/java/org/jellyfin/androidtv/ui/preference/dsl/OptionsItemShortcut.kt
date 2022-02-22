@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
-import java.util.*
+import java.util.UUID
 
 class OptionsItemShortcut(
 	private val context: Context

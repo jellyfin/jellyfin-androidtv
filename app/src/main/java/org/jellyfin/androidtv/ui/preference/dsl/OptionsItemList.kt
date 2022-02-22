@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceCategory
-import java.util.*
+import java.util.UUID
 
 class OptionsItemList(
 	private val context: Context

@@ -11,7 +11,11 @@ import org.jellyfin.apiclient.model.entities.LocationType
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
-import org.jellyfin.apiclient.model.querying.*
+import org.jellyfin.apiclient.model.querying.ItemFields
+import org.jellyfin.apiclient.model.querying.ItemFilter
+import org.jellyfin.apiclient.model.querying.ItemSortBy
+import org.jellyfin.apiclient.model.querying.ItemsResult
+import org.jellyfin.apiclient.model.querying.NextUpQuery
 
 class HomeFragmentHelper(
 	private val context: Context

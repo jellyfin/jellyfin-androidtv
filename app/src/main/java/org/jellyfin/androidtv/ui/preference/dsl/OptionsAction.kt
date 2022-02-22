@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import java.util.*
+import java.util.UUID
 
 /**
  * Perform a custom action when activated.

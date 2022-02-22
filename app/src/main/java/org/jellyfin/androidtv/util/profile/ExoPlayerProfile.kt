@@ -12,7 +12,16 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.max1080pProfileConditio
 import org.jellyfin.androidtv.util.profile.ProfileHelper.maxAudioChannelsCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
-import org.jellyfin.apiclient.model.dlna.*
+import org.jellyfin.apiclient.model.dlna.CodecProfile
+import org.jellyfin.apiclient.model.dlna.CodecType
+import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
+import org.jellyfin.apiclient.model.dlna.DlnaProfileType
+import org.jellyfin.apiclient.model.dlna.EncodingContext
+import org.jellyfin.apiclient.model.dlna.ProfileCondition
+import org.jellyfin.apiclient.model.dlna.ProfileConditionType
+import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
+import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 @OptIn(ExperimentalStdlibApi::class)
 class ExoPlayerProfile(

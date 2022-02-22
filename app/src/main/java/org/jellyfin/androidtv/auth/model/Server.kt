@@ -2,7 +2,8 @@ package org.jellyfin.androidtv.auth.model
 
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.sdk.model.ServerVersion
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 /**
  * Server model to use locally in place of ServerInfo model in ApiClient.

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceCategory
-import java.util.*
+import java.util.UUID
 
 class OptionsItemInfo(
 	private val context: Context

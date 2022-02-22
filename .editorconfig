@@ -2,8 +2,16 @@ root = true
 
 [*]
 insert_final_newline = true
+trim_trailing_whitespace = true
 
 [{*.kts, *.kt}]
 charset = utf-8
 indent_style = tab
 tab_width = 4
+# Disable wildcard imports in IntelliJ/Android Studio
+ij_kotlin_name_count_to_use_star_import = 1000
+ij_kotlin_name_count_to_use_star_import_for_members = 1000
+ij_kotlin_packages_to_use_import_on_demand =
+
+[*.md]
+trim_trailing_whitespace = false

@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.auth.model
 
-import java.util.*
+import java.util.UUID
 
 /**
  * User model used locally.

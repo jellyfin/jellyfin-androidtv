@@ -1,7 +1,11 @@
 package org.jellyfin.androidtv.ui.preference.custom
 
 import android.os.Bundle
-import android.view.*
+import android.view.ContextThemeWrapper
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.leanback.preference.LeanbackPreferenceDialogFragmentCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.PreferenceButtonRemapBinding

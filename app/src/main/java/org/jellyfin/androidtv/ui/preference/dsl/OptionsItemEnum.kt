@@ -6,7 +6,7 @@ import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.PreferenceStore
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
-import java.util.*
+import java.util.UUID
 
 class OptionsItemEnum<T : Enum<T>>(
 	private val context: Context,
