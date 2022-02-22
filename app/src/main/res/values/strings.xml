@@ -491,4 +491,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_direct_stream_live_off">Transcoding is used when necessary</string>
     <string name="pref_direct_stream_live_on">Transcoding is disabled</string>
+    <string name="home_section_resume_book">Continue reading</string>
+    <string name="home_section_rewatching">Rewatching</string>
 </resources>

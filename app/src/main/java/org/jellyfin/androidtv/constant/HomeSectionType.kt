@@ -25,11 +25,17 @@ enum class HomeSectionType(
 	@EnumDisplayOptions(R.string.home_section_resume_audio)
 	RESUME_AUDIO("resumeaudio"),
 
+	@EnumDisplayOptions(R.string.home_section_resume_book)
+	RESUME_BOOK("resumebook"),
+
 	@EnumDisplayOptions(R.string.home_section_active_recordings)
 	ACTIVE_RECORDINGS("activerecordings"),
 
 	@EnumDisplayOptions(R.string.home_section_next_up)
 	NEXT_UP("nextup"),
+
+	@EnumDisplayOptions(R.string.home_section_rewatching)
+	REWATCHING("rewatching"),
 
 	@EnumDisplayOptions(R.string.home_section_livetv)
 	LIVE_TV("livetv"),
