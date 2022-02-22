@@ -1,9 +1,8 @@
 package org.jellyfin.androidtv
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -30,31 +29,29 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : TvApp(), LifecycleObserver {
+class JellyfinApplication : TvApp() {
 	override fun onCreate() {
 		super.onCreate()
 
 		// Register application lifecycle events
-		ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-	}
+		ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+			/**
+			 * Called by the Process Lifecycle when the app is created. It is called after [onCreate].
+			 */
+			override fun onCreate(owner: LifecycleOwner) {
+				// Register activity lifecycle callbacks
+				getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
+			}
 
-	/**
-	 * Called by the Process Lifecycle when the app is created. It is called after [onCreate].
-	 */
-	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-	fun onCreated() {
-		// Register activity lifecycle callbacks
-		getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
-	}
+			/**
+			 * Called by the Process Lifecycle when the app is activated in the foreground (activity opened).
+			 */
+			override fun onStart(owner: LifecycleOwner) {
+				Timber.i("Process lifecycle started")
 
-	/**
-	 * Called by the Process Lifecycle when the app is activated in the foreground (activity opened).
-	 */
-	@OnLifecycleEvent(Lifecycle.Event.ON_START)
-	fun onActivate() {
-		Timber.i("Process Lifecycle started")
-
-		get<SessionRepository>().restoreDefaultSession()
+				get<SessionRepository>().restoreDefaultSession()
+			}
+		})
 	}
 
 	/**
