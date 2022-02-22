@@ -4,7 +4,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.auth.model.AccountManagerAccount
+import org.jellyfin.androidtv.auth.model.AuthenticatedState
+import org.jellyfin.androidtv.auth.model.AuthenticatingState
+import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
+import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
+import org.jellyfin.androidtv.auth.model.LoginState
+import org.jellyfin.androidtv.auth.model.PrivateUser
+import org.jellyfin.androidtv.auth.model.RequireSignInState
+import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
+import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.sdk.forUser
@@ -17,7 +27,8 @@ import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.api.ImageType
 import timber.log.Timber
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 interface AuthenticationRepository {
 	fun getServers(): List<Server>

@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.auth.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
+import java.util.Date
 
 /**
  * Locally stored user information. New properties require default values or deserialization will fail.

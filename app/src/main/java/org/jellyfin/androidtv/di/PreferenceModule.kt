@@ -1,6 +1,11 @@
 package org.jellyfin.androidtv.di
 
-import org.jellyfin.androidtv.preference.*
+import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.preference.LiveTvPreferences
+import org.jellyfin.androidtv.preference.PreferencesRepository
+import org.jellyfin.androidtv.preference.SystemPreferences
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 

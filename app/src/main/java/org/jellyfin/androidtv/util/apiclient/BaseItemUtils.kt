@@ -20,7 +20,7 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.java.KoinJavaComponent.inject
-import java.util.*
+import java.util.Calendar
 
 // TODO Feature Envy!!! Wants to live in BaseItemDto.
 fun BaseItemDto.isLiveTv() =

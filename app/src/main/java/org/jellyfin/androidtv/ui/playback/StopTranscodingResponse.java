@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.apiclient.interaction.ApiClient;

@@ -16,7 +16,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ServerRepository
-import org.jellyfin.androidtv.auth.model.*
+import org.jellyfin.androidtv.auth.model.AuthenticatedState
+import org.jellyfin.androidtv.auth.model.AuthenticatingState
+import org.jellyfin.androidtv.auth.model.RequireSignInState
+import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerUnavailableState
+import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
+import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView

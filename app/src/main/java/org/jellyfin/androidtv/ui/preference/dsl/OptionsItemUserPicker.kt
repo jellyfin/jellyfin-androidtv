@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichLi
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichListItem.RichListSection
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import java.text.DateFormat
-import java.util.*
+import java.util.UUID
 
 class OptionsItemUserPicker(
 	private val context: Context,

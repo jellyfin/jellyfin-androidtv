@@ -2,7 +2,13 @@ package org.jellyfin.androidtv.ui.home
 
 import android.app.Activity
 import android.content.Intent
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.OnItemViewClickedListener
+import androidx.leanback.widget.Presenter
+import androidx.leanback.widget.Row
+import androidx.leanback.widget.RowPresenter
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
@@ -16,7 +22,7 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.sdk.model.api.BaseItemDto
-import java.util.*
+import java.util.UUID
 
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,

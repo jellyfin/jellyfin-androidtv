@@ -3,8 +3,20 @@ package org.jellyfin.androidtv.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import org.jellyfin.androidtv.auth.model.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapNotNull
+import org.jellyfin.androidtv.auth.model.ConnectedState
+import org.jellyfin.androidtv.auth.model.ConnectingState
+import org.jellyfin.androidtv.auth.model.PrivateUser
+import org.jellyfin.androidtv.auth.model.PublicUser
+import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerAdditionState
+import org.jellyfin.androidtv.auth.model.UnableToConnectState
+import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.util.sdk.toPublicUser
 import org.jellyfin.androidtv.util.sdk.toServer
 import org.jellyfin.sdk.Jellyfin
@@ -18,7 +30,8 @@ import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 interface ServerRepository {
 	fun getStoredServers(): List<Server>

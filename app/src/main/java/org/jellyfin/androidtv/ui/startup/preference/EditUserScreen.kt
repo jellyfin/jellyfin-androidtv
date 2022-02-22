@@ -8,7 +8,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
+import java.util.UUID
 
 class EditUserScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()

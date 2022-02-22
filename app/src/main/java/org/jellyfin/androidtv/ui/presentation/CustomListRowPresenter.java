@@ -1,11 +1,10 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.RowPresenter;
-
-import android.view.View;
 
 public class CustomListRowPresenter extends ListRowPresenter {
     private View viewHolder;

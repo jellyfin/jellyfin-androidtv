@@ -11,7 +11,8 @@ import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()

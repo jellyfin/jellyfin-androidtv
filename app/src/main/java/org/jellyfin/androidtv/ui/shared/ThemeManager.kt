@@ -6,7 +6,8 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.koin.android.ext.android.get
-import java.util.*
+import java.util.Calendar
+import java.util.GregorianCalendar
 
 object ThemeManager {
 	private fun showAprilFools(userPreferences: UserPreferences): Boolean {

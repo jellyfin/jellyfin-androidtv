@@ -1,6 +1,12 @@
 package org.jellyfin.androidtv.ui.startup
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -12,7 +18,7 @@ import org.jellyfin.androidtv.auth.model.LoginState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
-import java.util.*
+import java.util.UUID
 
 class LoginViewModel(
 	private val serverRepository: ServerRepository,

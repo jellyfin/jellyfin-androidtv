@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.data.model;
 
+import org.jellyfin.apiclient.model.querying.ItemFilter;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jellyfin.apiclient.model.querying.ItemFilter;
 
 public class FilterOptions {
     private boolean favoriteOnly;

@@ -9,7 +9,14 @@ import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.preference.category.aboutCategory
-import org.jellyfin.androidtv.ui.preference.dsl.*
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemUserPicker
+import org.jellyfin.androidtv.ui.preference.dsl.checkbox
+import org.jellyfin.androidtv.ui.preference.dsl.enum
+import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.userPicker
 import org.jellyfin.androidtv.ui.startup.preference.EditServerScreen
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject

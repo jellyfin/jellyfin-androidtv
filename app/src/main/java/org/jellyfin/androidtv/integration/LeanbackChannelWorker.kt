@@ -8,8 +8,12 @@ import android.os.Build
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import androidx.tvprovider.media.tv.*
+import androidx.tvprovider.media.tv.Channel
+import androidx.tvprovider.media.tv.ChannelLogoUtils
+import androidx.tvprovider.media.tv.PreviewProgram
+import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.TvContractCompat.WatchNextPrograms
+import androidx.tvprovider.media.tv.WatchNextProgram
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import kotlinx.coroutines.Dispatchers

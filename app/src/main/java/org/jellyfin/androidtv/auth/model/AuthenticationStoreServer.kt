@@ -6,7 +6,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 /**
  * Locally stored server information. New properties require default values or deserialization will fail.

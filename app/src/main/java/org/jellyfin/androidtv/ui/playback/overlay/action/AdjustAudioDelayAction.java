@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.ui.AudioDelayPopup;
+import org.jellyfin.androidtv.ui.ValueChangedListener;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
-import org.jellyfin.androidtv.ui.AudioDelayPopup;
-import org.jellyfin.androidtv.ui.ValueChangedListener;
 
 public class AdjustAudioDelayAction extends CustomAction {
 

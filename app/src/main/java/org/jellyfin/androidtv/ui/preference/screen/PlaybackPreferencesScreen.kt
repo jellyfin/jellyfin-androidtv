@@ -8,7 +8,12 @@ import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
-import org.jellyfin.androidtv.ui.preference.dsl.*
+import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
+import org.jellyfin.androidtv.ui.preference.dsl.checkbox
+import org.jellyfin.androidtv.ui.preference.dsl.enum
+import org.jellyfin.androidtv.ui.preference.dsl.list
+import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.preference.dsl.seekbar
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.TimeUtils
 import org.koin.android.ext.android.inject

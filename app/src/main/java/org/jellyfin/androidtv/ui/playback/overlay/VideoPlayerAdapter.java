@@ -3,10 +3,8 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;

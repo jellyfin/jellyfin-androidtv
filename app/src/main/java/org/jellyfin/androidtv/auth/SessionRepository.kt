@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
-import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.*
+import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.DISABLED
+import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.LAST_USER
+import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.SPECIFIC_USER
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
-import java.util.*
+import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

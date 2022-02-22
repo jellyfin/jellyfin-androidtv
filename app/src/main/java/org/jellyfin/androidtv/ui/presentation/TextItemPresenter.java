@@ -1,10 +1,11 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.graphics.Color;
-import androidx.leanback.widget.Presenter;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.leanback.widget.Presenter;
 
 public class TextItemPresenter extends Presenter {
     private static final int ITEM_WIDTH = 400;
@@ -21,7 +22,7 @@ public class TextItemPresenter extends Presenter {
         view.setTextSize(32);
         return new ViewHolder(view);
     }
-    
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Object item) {
         ((TextView) viewHolder.view).setText(item.toString());

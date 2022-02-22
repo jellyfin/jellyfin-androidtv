@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoSpeedController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
-import java.util.*
+import java.util.Locale
 
 class PlaybackSpeedAction(
 	context: Context,
