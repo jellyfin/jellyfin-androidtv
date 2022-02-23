@@ -495,4 +495,6 @@
     <string name="pref_libraries_description">Tasyğyşhanalardyñ qalay beinelenetının özgertu</string>
     <string name="pref_home_description">Beinelenetın bölımderdı retteu</string>
     <string name="pref_refresh_switching_description">Monitor jañaru jiılıgı beinege säikestendıru üşın özgertıledı</string>
+    <string name="home_section_rewatching">Qaita qarau</string>
+    <string name="home_section_resume_book">Oqudy jalğastyru</string>
 </resources>
