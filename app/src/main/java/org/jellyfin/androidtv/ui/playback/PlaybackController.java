@@ -208,7 +208,7 @@ public class PlaybackController {
     }
 
     public int getSubtitleStreamIndex() {
-        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
+        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : mDefaultSubIndex;
     }
 
     public List<SubtitleStreamInfo> getSubtitleStreams() {
@@ -867,7 +867,8 @@ public class PlaybackController {
         // get current timestamp first
         refreshCurrentPosition();
         Timber.d("Setting subtitle index to: %d", index);
-        mCurrentOptions.setSubtitleStreamIndex(index >= 0 ? index : null);
+        mCurrentOptions.setSubtitleStreamIndex(index);
+        mDefaultSubIndex = index;
 
         if (index < 0) {
             if (burningSubs) {

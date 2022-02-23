@@ -1382,14 +1382,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void updateSubtitles(long positionMs) {
+        int iterCount = 1;
+        final long positionTicks = positionMs * 10000;
+        final long lastPositionTicks = lastSubtitlePositionMs * 10000;
+
         if (subtitleTrackInfo == null
                 || subtitleTrackInfo.getTrackEvents() == null
                 || currentSubtitleIndex >= subtitleTrackInfo.getTrackEvents().size()) {
             return;
         }
 
-        final long positionTicks = positionMs * 10000;
-        final long lastPositionTicks = lastSubtitlePositionMs * 10000;
+        if (positionTicks < subtitleTrackInfo.getTrackEvents().get(0).getStartPositionTicks())
+            return;
 
         // Skip rendering if the interval ms have not passed since last render
         if (lastSubtitlePositionMs > 0
@@ -1397,15 +1401,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
 
-        // If the user has skipped back, need to reset the subtitle index
+        // If the user has skipped back, reset the subtitle index
         if (lastSubtitlePositionMs > positionMs) {
             currentSubtitleIndex = -1;
+            clearSubtitles();
         }
 
         if (currentSubtitleIndex == -1)
             Timber.d("subtitle track events size %s", subtitleTrackInfo.getTrackEvents().size());
-
-        int iterCount = 1;
 
         // Find the next subtitle event that should be rendered
         for (int tmpSubtitleIndex = currentSubtitleIndex == -1 ? 0 : currentSubtitleIndex; tmpSubtitleIndex < subtitleTrackInfo.getTrackEvents().size(); tmpSubtitleIndex++) {
@@ -1415,13 +1418,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     && positionTicks < trackEvent.getEndPositionTicks()) {
                 // This subtitle event should be displayed now
                 // use lastPositionTicks to ensure it is only rendered once
-                currentSubtitleIndex = tmpSubtitleIndex;
-                if (lastPositionTicks < trackEvent.getStartPositionTicks() || lastPositionTicks > trackEvent.getEndPositionTicks()) {
-                    lastSubtitlePositionMs = positionMs;
-                    Timber.d("rendering subtitle event: %s (pos %s start %s end %s)", currentSubtitleIndex, positionMs, trackEvent.getStartPositionTicks() / 10000, trackEvent.getEndPositionTicks() / 10000);
+
+                if (lastPositionTicks < trackEvent.getStartPositionTicks() || lastPositionTicks >= trackEvent.getEndPositionTicks()) {
+                    Timber.d("rendering subtitle event: %s (pos %s start %s end %s)", tmpSubtitleIndex, positionMs, trackEvent.getStartPositionTicks() / 10000, trackEvent.getEndPositionTicks() / 10000);
                     renderSubtitles(trackEvent.getText());
                 }
 
+                currentSubtitleIndex = tmpSubtitleIndex;
+                lastSubtitlePositionMs = positionMs;
                 // rendering should happen on the 2nd iteration
                 if (iterCount > 2)
                     Timber.d("subtitles handled in %s iterations", iterCount);
@@ -1429,11 +1433,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             } else if (tmpSubtitleIndex < subtitleTrackInfo.getTrackEvents().size() - 1) {
                 SubtitleTrackEvent nextTrackEvent = subtitleTrackInfo.getTrackEvents().get(tmpSubtitleIndex + 1);
 
-                if (positionTicks > trackEvent.getEndPositionTicks() && positionTicks < nextTrackEvent.getStartPositionTicks()) {
+                if (positionTicks >= trackEvent.getEndPositionTicks() && positionTicks < nextTrackEvent.getStartPositionTicks()) {
                     // clear the subtitles if between events
                     // use lastPositionTicks to ensure it is only cleared once
 
-                    if (lastPositionTicks <= trackEvent.getEndPositionTicks() && lastPositionTicks >= trackEvent.getStartPositionTicks()) {
+                    if (currentSubtitleIndex > -1 && !(lastPositionTicks >= trackEvent.getEndPositionTicks() && lastPositionTicks < nextTrackEvent.getStartPositionTicks())) {
                         Timber.d("clearing subtitle event: %s (pos %s - event end %s)", tmpSubtitleIndex, positionMs, trackEvent.getEndPositionTicks() / 10000);
                         clearSubtitles();
                     }
