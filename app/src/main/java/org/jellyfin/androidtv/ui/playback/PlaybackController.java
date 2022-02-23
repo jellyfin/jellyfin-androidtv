@@ -1119,26 +1119,21 @@ public class PlaybackController {
                 }
             });
         } else {
-            if (mVideoManager.isNativeMode() && !isLiveTv && ContainerTypes.TS.equals(mCurrentStreamInfo.getContainer())) {
-                //Exo does not support seeking in .ts
+            // use the same approach to directplay seeking as setOnProgressListener
+            // set state to SEEKING
+            // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
+            // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
+            // if seek() is called from skip()
+            Timber.d("Seek method - native");
+            mPlaybackState = PlaybackState.SEEKING;
+            if (mVideoManager.seekTo(pos) < 0) {
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.seek_error));
+                pause();
             } else {
-                // use the same approach to directplay seeking as setOnProgressListener
-                // set state to SEEKING
-                // if seek succeeds call play and mirror the logic in play() for unpausing. if fails call pause()
-                // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
-                // if seek() is called from skip()
-                Timber.d("Seek method - native");
-                mPlaybackState = PlaybackState.SEEKING;
-                if (mVideoManager.seekTo(pos) < 0) {
-                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.seek_error));
-                    pause();
-                } else {
-                    mVideoManager.play();
-                    mPlaybackState = PlaybackState.PLAYING;
-                    if (mFragment != null) mFragment.setFadingEnabled(true);
-                    startReportLoop();
-                }
+                mVideoManager.play();
+                mPlaybackState = PlaybackState.PLAYING;
+                if (mFragment != null) mFragment.setFadingEnabled(true);
+                startReportLoop();
             }
         }
     }

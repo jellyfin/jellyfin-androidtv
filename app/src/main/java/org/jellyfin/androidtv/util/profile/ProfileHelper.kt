@@ -143,12 +143,16 @@ object ProfileHelper {
 	fun addAc3Streaming(profile: DeviceProfile, primary: Boolean) {
 		if (Utils.downMixAudio()) return
 
-		val mkvProfile = findTranscodingProfile(profile, ContainerTypes.MKV) ?: return
+		val containers = arrayOf(ContainerTypes.MKV, ContainerTypes.TS)
+		containers.forEach { c ->
+			Timber.d("trying to match transcoding profile for %s", c)
+			val transcodingProfile = findTranscodingProfile(profile, c) ?: return@forEach
 
-		Timber.i("*** Adding AC3 as supported transcoded audio")
-		mkvProfile.audioCodec = when (primary) {
-			true -> "${CodecTypes.AC3},${mkvProfile.audioCodec}"
-			false -> "${mkvProfile.audioCodec},${CodecTypes.AC3}"
+			Timber.i("*** Adding AC3 as supported transcoded audio for %s", c)
+			transcodingProfile.audioCodec = when (primary) {
+				true -> "${CodecTypes.AC3},${transcodingProfile.audioCodec}"
+				false -> "${transcodingProfile.audioCodec},${CodecTypes.AC3}"
+			}
 		}
 	}
 
