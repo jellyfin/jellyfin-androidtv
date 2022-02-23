@@ -9,7 +9,7 @@
     <string name="settings_title">Предпочтения</string>
     <string name="chapters">Сцены</string>
     <string name="lbl_settings">Предпочтения</string>
-    <string name="lbl_continue_watching">Продолжить просмотр</string>
+    <string name="lbl_continue_watching">Продолжение просмотра</string>
     <string name="lbl_next_up">Очередное</string>
     <string name="lbl_on_now">В эфире</string>
     <string name="lbl_views">Вид</string>
@@ -495,4 +495,6 @@
     <string name="pref_browsing">Навигация</string>
     <string name="pref_behavior">Поведение</string>
     <string name="pref_accounts">Учётные записи</string>
+    <string name="home_section_rewatching">Пересматривание</string>
+    <string name="home_section_resume_book">Продолжение чтения</string>
 </resources>
