@@ -33,11 +33,11 @@ import com.bumptech.glide.request.target.Target;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.ActivityPhotoPlayerBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
@@ -69,15 +69,16 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
     Handler handler;
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_photo_player);
-        mainImages[0] = (KenBurnsView) findViewById(R.id.mainImage);
-        mainImages[1] = (KenBurnsView) findViewById(R.id.mainImage2);
+        ActivityPhotoPlayerBinding binding = ActivityPhotoPlayerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        mainImages[0] = binding.mainImage;
+        mainImages[1] = binding.mainImage2;
         nextImage = new ImageView(this);
         nextImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         prevImage = new ImageView(this);
@@ -85,7 +86,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
 
-        mPopupArea = (FrameLayout) findViewById(R.id.popupArea);
+        mPopupArea = binding.popupArea;
 
         handler = new Handler();
 
