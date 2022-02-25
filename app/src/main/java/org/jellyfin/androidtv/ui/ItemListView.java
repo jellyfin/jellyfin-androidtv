@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.databinding.ItemListBinding;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -39,9 +39,9 @@ public class ItemListView extends FrameLayout {
 
     private void inflateView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.item_list, this);
+        ItemListBinding binding = ItemListBinding.inflate(inflater, this, true);
         mContext = context;
-        mList = findViewById(R.id.songList);
+        mList = binding.songList;
     }
 
     public void setRowSelectedListener(ItemRowView.RowSelectedListener listener) { mRowSelectedListener = listener; }
