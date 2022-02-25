@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.NowPlayingBugBinding;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
@@ -46,11 +47,11 @@ public class NowPlayingBug extends FrameLayout {
     private void init(Context context) {
         this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.now_playing_bug, this, true);
+        NowPlayingBugBinding binding = NowPlayingBugBinding.inflate(inflater, this, true);
         if (!isInEditMode()) {
-            npIcon = (ImageView)v.findViewById(R.id.npIcon);
-            npDesc = ((TextView) v.findViewById(R.id.npDesc));
-            npStatus = ((TextView) v.findViewById(R.id.npStatus));
+            npIcon = binding.npIcon;
+            npDesc = binding.npDesc;
+            npStatus = binding.npStatus;
             this.setFocusable(true);
             this.setOnClickListener(new OnClickListener() {
                 @Override
