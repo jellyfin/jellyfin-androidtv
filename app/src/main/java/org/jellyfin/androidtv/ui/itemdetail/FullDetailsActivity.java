@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.ActivityFullDetailsBinding;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
@@ -161,7 +162,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             return;
         }
 
-        setContentView(R.layout.activity_full_details);
+        ActivityFullDetailsBinding binding = ActivityFullDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         BUTTON_SIZE = Utils.convertDpToPixel(this, 40);
         mActivity = this;
