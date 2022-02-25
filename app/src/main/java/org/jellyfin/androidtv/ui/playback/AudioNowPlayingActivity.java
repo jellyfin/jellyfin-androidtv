@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.ActivityAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -107,30 +108,31 @@ public class AudioNowPlayingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_audio_now_playing);
+        ActivityAudioNowPlayingBinding binding = ActivityAudioNowPlayingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         lastUserInteraction = System.currentTimeMillis();
 
         mActivity = this;
 
-        mClock = findViewById(R.id.clock);
-        mPoster = findViewById(R.id.poster);
-        mArtistName = findViewById(R.id.artistTitle);
-        mGenreRow = findViewById(R.id.genreRow);
-        mSongTitle = findViewById(R.id.song);
-        mAlbumTitle = findViewById(R.id.album);
-        mCurrentNdx = findViewById(R.id.track);
-        mScrollView = findViewById(R.id.mainScroller);
-        mCounter = findViewById(R.id.counter);
-        mLogoImage = findViewById(R.id.artistLogo);
+        mClock = binding.clock;
+        mPoster = binding.poster;
+        mArtistName = binding.artistTitle;
+        mGenreRow = binding.genreRow;
+        mSongTitle = binding.song;
+        mAlbumTitle = binding.album;
+        mCurrentNdx = binding.track;
+        mScrollView = binding.mainScroller;
+        mCounter = binding.counter;
+        mLogoImage = binding.artistLogo;
 
-        mSSArea = findViewById(R.id.ssInfoArea);
-        mSSTime = findViewById(R.id.ssTime);
-        mSSAlbumSong = findViewById(R.id.ssAlbumSong);
-        mSSQueueStatus = findViewById(R.id.ssQueueStatus);
-        mSSUpNext = findViewById(R.id.ssUpNext);
+        mSSArea = binding.ssInfoArea;
+        mSSTime = binding.ssTime;
+        mSSAlbumSong = binding.ssAlbumSong;
+        mSSQueueStatus = binding.ssQueueStatus;
+        mSSUpNext = binding.ssUpNext;
 
-        mPlayPauseButton = findViewById(R.id.playPauseBtn);
+        mPlayPauseButton = binding.playPauseBtn;
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +147,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mPrevButton = findViewById(R.id.prevBtn);
+        mPrevButton = binding.prevBtn;
         mPrevButton.setContentDescription(getString(R.string.lbl_prev_item));
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +162,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mNextButton = findViewById(R.id.nextBtn);
+        mNextButton = binding.nextBtn;
         mNextButton.setContentDescription(getString(R.string.lbl_next_item));
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +177,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mRepeatButton = findViewById(R.id.repeatBtn);
+        mRepeatButton = binding.repeatBtn;
         mRepeatButton.setContentDescription(getString(R.string.lbl_repeat));
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +208,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mSaveButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mShuffleButton = findViewById(R.id.shuffleBtn);
+        mShuffleButton = binding.shuffleBtn;
         mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +224,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mAlbumButton = findViewById(R.id.albumBtn);
+        mAlbumButton = binding.albumBtn;
         mAlbumButton.setContentDescription(getString(R.string.lbl_open_album));
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +241,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mArtistButton = findViewById(R.id.artistBtn);
+        mArtistButton = binding.artistBtn;
         mArtistButton.setContentDescription(getString(R.string.lbl_open_artist));
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,9 +258,9 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
         mArtistButton.setOnFocusChangeListener(mainAreaFocusListener);
 
-        mCurrentProgress = findViewById(R.id.playerProgress);
-        mCurrentPos = findViewById(R.id.currentPos);
-        mRemainingTime = findViewById(R.id.remainingTime);
+        mCurrentProgress = binding.playerProgress;
+        mCurrentPos = binding.currentPos;
+        mRemainingTime = binding.remainingTime;
 
         backgroundService.getValue().attach(this);
         mMetrics = new DisplayMetrics();
