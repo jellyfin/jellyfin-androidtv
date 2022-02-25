@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import androidx.leanback.widget.RowPresenter;
 
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.InfoItem;
+import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -47,25 +47,25 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          *
          * @param rootView The View bound to the Row.
          */
-        public ViewHolder(View rootView) {
-            super(rootView);
+        public ViewHolder(NewDetailsOverviewRowBinding binding) {
+            super(binding.getRoot());
 
-            mTitle = (TextView) rootView.findViewById(R.id.fdTitle);
-            mInfoTitle1 = (TextView) rootView.findViewById(R.id.infoTitle1);
-            mInfoTitle2 = (TextView) rootView.findViewById(R.id.infoTitle2);
-            mInfoTitle3 = (TextView) rootView.findViewById(R.id.infoTitle3);
-            mInfoValue1 = (TextView) rootView.findViewById(R.id.infoValue1);
-            mInfoValue2 = (TextView) rootView.findViewById(R.id.infoValue2);
-            mInfoValue3 = (TextView) rootView.findViewById(R.id.infoValue3);
+            mTitle = binding.fdTitle;
+            mInfoTitle1 = binding.infoTitle1;
+            mInfoTitle2 = binding.infoTitle2;
+            mInfoTitle3 = binding.infoTitle3;
+            mInfoValue1 = binding.infoValue1;
+            mInfoValue2 = binding.infoValue2;
+            mInfoValue3 = binding.infoValue3;
 
-            mLeftFrame = (RelativeLayout) rootView.findViewById(R.id.leftFrame);
+            mLeftFrame = binding.leftFrame;
 
-            mGenreRow = (TextView) rootView.findViewById(R.id.fdGenreRow);
-            mInfoRow = (LinearLayout) rootView.findViewById(R.id.fdMainInfoRow);
-            mPoster = (ImageView) rootView.findViewById(R.id.mainImage);
-            mProgress = (ProgressBar) rootView.findViewById(R.id.fdProgress);
-            mButtonRow = (LinearLayout) rootView.findViewById(R.id.fdButtonRow);
-            mSummary = (TextView) rootView.findViewById(R.id.fdSummaryText);
+            mGenreRow = binding.fdGenreRow;
+            mInfoRow = binding.fdMainInfoRow;
+            mPoster = binding.mainImage;
+            mProgress = binding.fdProgress;
+            mButtonRow = binding.fdButtonRow;
+            mSummary = binding.fdSummaryText;
         }
 
         public void collapseLeftFrame() {
@@ -76,9 +76,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     @Override
     protected ViewHolder createRowViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.new_details_overview_row, parent, false);
-        viewHolder = new ViewHolder(v);
+        NewDetailsOverviewRowBinding binding = NewDetailsOverviewRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        viewHolder = new ViewHolder(binding);
 
         return viewHolder;
     }
