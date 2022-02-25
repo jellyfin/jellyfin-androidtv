@@ -22,6 +22,7 @@ import androidx.leanback.widget.VerticalGridPresenter;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.model.FilterOptions;
+import org.jellyfin.androidtv.databinding.HorizontalGridBrowseBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
@@ -302,20 +303,19 @@ public class GridFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.horizontal_grid_browse,
-                container, false);
+        HorizontalGridBrowseBinding binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
 
-        mTitleView = (TextView) root.findViewById(R.id.title);
-        mStatusText = (TextView) root.findViewById(R.id.statusText);
-        mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
-        mToolBar = (LinearLayout) root.findViewById(R.id.toolBar);
-        mCounter = (TextView) root.findViewById(R.id.counter);
-        mGridDock = (ViewGroup) root.findViewById(R.id.rowsFragment);
+        mTitleView = binding.title;
+        mStatusText = binding.statusText;
+        mInfoRow = binding.infoRow;
+        mToolBar = binding.toolBar;
+        mCounter = binding.counter;
+        mGridDock = binding.rowsFragment;
 
         // Hide the description because we don't have room for it
-        ((NowPlayingBug)root.findViewById(R.id.npBug)).showDescription(false);
+        binding.npBug.showDescription(false);
 
-        return root;
+        return binding.getRoot();
     }
 
     @Override
@@ -352,16 +352,6 @@ public class GridFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mGridView = null;
-    }
-
-    /**
-     * Sets the selected item position.
-     */
-    public void setSelectedPosition(int position) {
-        mSelectedPosition = position;
-        if(mGridView != null && mGridView.getAdapter() != null) {
-            mGridView.setSelectedPositionSmooth(position);
-        }
     }
 
     private void updateAdapter() {
