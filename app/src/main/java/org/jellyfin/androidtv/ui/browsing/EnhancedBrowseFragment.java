@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -112,13 +113,13 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.enhanced_detail_browse, container, false);
+        EnhancedDetailBrowseBinding binding = EnhancedDetailBrowseBinding.inflate(inflater, container, false);
 
         mActivity = getActivity();
 
-        mTitle = (TextView) root.findViewById(R.id.title);
-        mInfoRow = (LinearLayout) root.findViewById(R.id.infoRow);
-        mSummary = (TextView) root.findViewById(R.id.summary);
+        mTitle = binding.title;
+        mInfoRow = binding.infoRow;
+        mSummary = binding.summary;
 
         // Inject the RowsSupportFragment in the results container
         if (getChildFragmentManager().findFragmentById(R.id.rowsFragment) == null) {
@@ -134,7 +135,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
         mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
         mRowsFragment.setAdapter(mRowsAdapter);
 
-        return root;
+        return binding.getRoot();
     }
 
     @Override
