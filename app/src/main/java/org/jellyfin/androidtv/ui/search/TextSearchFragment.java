@@ -19,6 +19,7 @@ import androidx.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.FragmentSearchTextBinding;
 import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -42,7 +43,7 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search_text, container, false);
+        return FragmentSearchTextBinding.inflate(inflater, container, false).getRoot();
     }
 
     @Override
