@@ -482,7 +482,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         List<String> internallyRenderedSubFormats = Arrays.asList("ass", "ssa");
 
-        // find the index of the chosen track if it were in a list containing only tracks of its type (subs/audio/video)
+        // make sure the chosen track exists, is the correct type, and isn't external
         boolean isValidMediaStream = false;
         for (MediaStream stream : allStreams) {
             Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.getIsExternal());
@@ -501,8 +501,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!isValidMediaStream)
             return false;
 
-        // loop through exoplayer's tracks, counting up for each track matching the chosen type
-        // when the track is found, build upon exoplayer's track selection parameters
+        // MediaStream IDs start at 0 and exoplayer tracks start at 1
         // force selection of the chosen track by setting its TrackGroup as the only allowed group for its type
 
         // design choices for exoplayer track selection overrides:
@@ -511,10 +510,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         // * for subtitles (not currently used) - use setDisabledTrackTypes to disable or enable exoplayer handing subtitles
         //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
         //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
-        //
-        // *
 
-        int testIndex = index + 1;
+        int exoTrackID = index + 1;
 
         TrackGroup matchedGroup = null;
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
@@ -532,7 +529,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
                 if (trackType != chosenTrackType || trackFormat.id == null)
                     continue;
-                if (Integer.parseInt(trackFormat.id) != testIndex) {
+                if (Integer.parseInt(trackFormat.id) != exoTrackID) {
                     continue;
                 }
 
