@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -36,6 +35,7 @@ import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.PopupEmptyBinding;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.AlphaPicker;
@@ -102,7 +102,7 @@ public class StdGridFragment extends GridFragment {
         mPosterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
         mImageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
         mGridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
-        
+
         if (mGridDirection.equals(GridDirection.VERTICAL))
             setGridPresenter(new VerticalGridPresenter());
         else
@@ -486,8 +486,8 @@ public class StdGridFragment extends GridFragment {
 
         JumplistPopup() {
             LayoutInflater inflater = LayoutInflater.from(requireContext());
-            View layout = inflater.inflate(R.layout.popup_empty, mGridDock, false);
-            popupWindow = new PopupWindow(layout, WIDTH, HEIGHT, true);
+            PopupEmptyBinding layout = PopupEmptyBinding.inflate(inflater, mGridDock, false);
+            popupWindow = new PopupWindow(layout.emptyPopup, WIDTH, HEIGHT, true);
             popupWindow.setOutsideTouchable(true);
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             popupWindow.setAnimationStyle(R.style.WindowAnimation_SlideTop);
@@ -500,8 +500,7 @@ public class StdGridFragment extends GridFragment {
                 return null;
             });
 
-            FrameLayout root = layout.findViewById(R.id.empty_popup);
-            root.addView(alphaPicker);
+            layout.emptyPopup.addView(alphaPicker);
         }
 
         public void show() {
