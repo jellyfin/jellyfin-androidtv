@@ -5,9 +5,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
 
 public class DetailRowView extends FrameLayout {
+    private NewDetailsOverviewRowBinding binding;
+
     public DetailRowView(Context context) {
         super(context);
         inflateView(context);
@@ -20,6 +22,10 @@ public class DetailRowView extends FrameLayout {
 
     private void inflateView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.new_details_overview_row, this);
+        binding = NewDetailsOverviewRowBinding.inflate(inflater, this, true);
+    }
+
+    public NewDetailsOverviewRowBinding getBinding() {
+        return binding;
     }
 }

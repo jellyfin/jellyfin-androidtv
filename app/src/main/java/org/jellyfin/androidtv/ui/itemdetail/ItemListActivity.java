@@ -32,6 +32,8 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.ActivityItemListBinding;
+import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
@@ -104,22 +106,24 @@ public class ItemListActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        ActivityItemListBinding binding = ActivityItemListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mActivity = this;
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
-        mTitle = (TextView) findViewById(R.id.fdTitle);
+        NewDetailsOverviewRowBinding detailsBinding = binding.details.getBinding();
+        mTitle = detailsBinding.fdTitle;
         mTitle.setText(getString(R.string.loading));
-        mGenreRow = (TextView) findViewById(R.id.fdGenreRow);
-        mPoster = (ImageView) findViewById(R.id.mainImage);
-        mButtonRow = (LinearLayout) findViewById(R.id.fdButtonRow);
-        mSummary = (TextView) findViewById(R.id.fdSummaryText);
-        mItemList = (ItemListView) findViewById(R.id.songs);
-        mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mGenreRow = detailsBinding.fdGenreRow;
+        mPoster = detailsBinding.mainImage;
+        mButtonRow = detailsBinding.fdButtonRow;
+        mSummary = detailsBinding.fdSummaryText;
+        mItemList = binding.songs;
+        mScrollView = binding.scrollView;
 
         //adjust left frame
-        RelativeLayout leftFrame = (RelativeLayout) findViewById(R.id.leftFrame);
+        RelativeLayout leftFrame = detailsBinding.leftFrame;
         ViewGroup.LayoutParams params = leftFrame.getLayoutParams();
         params.width = Utils.convertDpToPixel(this,100);
 
