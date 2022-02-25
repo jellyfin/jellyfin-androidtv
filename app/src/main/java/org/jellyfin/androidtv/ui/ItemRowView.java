@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.ItemRowBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -63,14 +64,14 @@ public class ItemRowView extends FrameLayout {
 
     private void inflateView(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.item_row, this);
+        ItemRowBinding binding = ItemRowBinding.inflate(inflater, this, true);
         mContext = context;
-        mWholeRow = findViewById(R.id.wholeRow);
-        mIndexNo = findViewById(R.id.indexNo);
-        mItemName = findViewById(R.id.songName);
-        mExtraName = findViewById(R.id.artistName);
-        mRunTime = findViewById(R.id.runTime);
-        mWatchedMark = findViewById(R.id.watchedMark);
+        mWholeRow = binding.wholeRow;
+        mIndexNo = binding.indexNo;
+        mItemName = binding.songName;
+        mExtraName = binding.artistName;
+        mRunTime = binding.runTime;
+        mWatchedMark = binding.watchedMark;
         normalBackground = mWholeRow.getBackground();
         setFocusable(true);
     }
