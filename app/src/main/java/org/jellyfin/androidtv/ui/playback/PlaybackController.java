@@ -497,9 +497,9 @@ public class PlaybackController {
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     internalProfile = new ExoPlayerProfile(
                             isLiveTv,
-                            userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled())
+                            userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
+                            userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
                     );
-                    ProfileHelper.addAc3Streaming(internalProfile, true);
                     Timber.i("*** Using extended Exoplayer profile options");
                 } else {
                     Timber.i("*** Using default android profile");
