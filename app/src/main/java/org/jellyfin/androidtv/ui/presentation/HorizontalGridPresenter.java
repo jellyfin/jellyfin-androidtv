@@ -16,7 +16,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.ShadowOverlayContainer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.HorizontalGridBinding;
 
 import timber.log.Timber;
 
@@ -147,9 +147,8 @@ public class HorizontalGridPresenter extends Presenter {
      * Subclass may override this to inflate a different layout.
      */
     protected ViewHolder createGridViewHolder(ViewGroup parent) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.horizontal_grid, parent, false);
-        return new ViewHolder((HorizontalGridView) root.findViewById(R.id.horizontal_grid));
+        HorizontalGridBinding binding = HorizontalGridBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding.horizontalGrid);
     }
 
     private ItemBridgeAdapter.Wrapper mWrapper = new ItemBridgeAdapter.Wrapper() {
