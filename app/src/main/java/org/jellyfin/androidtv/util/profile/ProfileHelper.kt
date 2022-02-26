@@ -139,11 +139,6 @@ object ProfileHelper {
 			)
 		}
 
-	private fun findTranscodingProfile(
-		deviceProfile: DeviceProfile,
-		container: String
-	) = deviceProfile.transcodingProfiles.find { it.container == container }
-
 	internal fun subtitleProfile(
 		format: String,
 		method: SubtitleDeliveryMethod
