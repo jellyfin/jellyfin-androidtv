@@ -27,6 +27,7 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
+	isAC3Enabled: Boolean = false,
 ) : BaseProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		CodecTypes.AAC,
@@ -55,18 +56,21 @@ class ExoPlayerProfile(
 		name = "AndroidTV-ExoPlayer"
 
 		transcodingProfiles = arrayOf(
-			// MP4 video profile
+			// TS video profile
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Video
 				context = EncodingContext.Streaming
-				container = ContainerTypes.MP4
+				container = ContainerTypes.TS
 				videoCodec = buildList {
 					if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
 					add(CodecTypes.H264)
 				}.joinToString(",")
-				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
+				audioCodec = buildList {
+					if (isAC3Enabled) add(CodecTypes.AC3)
+					add(CodecTypes.AAC)
+					add(CodecTypes.MP3)
+				}.joinToString(",")
 				protocol = "hls"
-				minSegments = 1
 				copyTimestamps = false
 			},
 			// MP3 audio profile
