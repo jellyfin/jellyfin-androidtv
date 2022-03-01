@@ -85,12 +85,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private int mCurrentDuration;
     private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
-    private static PositionableListRowPresenter mAudioQueuePresenter;
+    private PositionableListRowPresenter mAudioQueuePresenter;
 
     private AudioNowPlayingActivity mActivity;
-    private Handler mLoopHandler = new Handler();
-    private Runnable mBackdropLoop;
-    public static int BACKDROP_ROTATION_INTERVAL = 10000;
+    private final Handler mLoopHandler = new Handler();
 
     private BaseItemDto mBaseItem;
     private ListRow mQueueRow;
@@ -289,7 +287,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         loadItem();
-        rotateBackdrops();
         lastUserInteraction = System.currentTimeMillis();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
@@ -306,13 +303,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
         dismissPopup();
         mPoster.setKeepScreenOn(false);
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
-        stopRotate();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopRotate();
     }
 
     @Override
@@ -374,9 +364,15 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         @Override
         public void onProgress(long pos) {
-            setCurrentTime(pos);
-            if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
-                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+            // start the screensaver after 60 seconds without user input
+            // skip setting the time here if the screensaver will be started since startScreensaver() does it
+            if (!ssActive && mediaManager.getValue().isPlayingAudio() && System.currentTimeMillis() - lastUserInteraction > 60000) {
+                startScreenSaver();
+            } else {
+                setCurrentTime(pos);
+                if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
+                    mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
+                }
             }
         }
 
@@ -538,31 +534,6 @@ public class AudioNowPlayingActivity extends BaseActivity {
                 //Keep counter
                 mCounter.setText(((BaseRowItem) item).getIndex() + 1 + " | " + mQueueRow.getAdapter().size());
             }
-        }
-    }
-
-    private void rotateBackdrops() {
-        mBackdropLoop = new Runnable() {
-            @Override
-            public void run() {
-                if (mBaseItem != null && (mBaseItem.getBackdropCount() > 1 || (mBaseItem.getParentBackdropImageTags() != null && mBaseItem.getParentBackdropImageTags().size() > 1)))
-                    backgroundService.getValue().setBackground(mBaseItem);
-
-                //manage our "screen saver" too
-                if (mediaManager.getValue().isPlayingAudio() && !ssActive && System.currentTimeMillis() - lastUserInteraction > 60000) {
-                    startScreenSaver();
-                }
-
-                mLoopHandler.postDelayed(this, BACKDROP_ROTATION_INTERVAL);
-            }
-        };
-
-        mLoopHandler.postDelayed(mBackdropLoop, BACKDROP_ROTATION_INTERVAL);
-    }
-
-    private void stopRotate() {
-        if (mLoopHandler != null && mBackdropLoop != null) {
-            mLoopHandler.removeCallbacks(mBackdropLoop);
         }
     }
 
