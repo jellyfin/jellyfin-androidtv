@@ -5,7 +5,9 @@ import org.jellyfin.androidtv.preference.PreferenceEnum
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 
 /**
- * All possible homesections, synced with jellyfin-web
+ * All possible homesections, "synced" with jellyfin-web.
+ *
+ * https://github.com/jellyfin/jellyfin-web/blob/master/src/components/homesections/homesections.js
  */
 enum class HomeSectionType(
 	override val serializedName: String
@@ -33,9 +35,6 @@ enum class HomeSectionType(
 
 	@EnumDisplayOptions(R.string.home_section_next_up)
 	NEXT_UP("nextup"),
-
-	@EnumDisplayOptions(R.string.home_section_rewatching)
-	REWATCHING("rewatching"),
 
 	@EnumDisplayOptions(R.string.home_section_livetv)
 	LIVE_TV("livetv"),

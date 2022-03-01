@@ -150,7 +150,6 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			HomeSectionType.RESUME_BOOK -> Unit // Books are not (yet) supported
 			HomeSectionType.ACTIVE_RECORDINGS -> rows.add(helper.loadLatestLiveTvRecordings())
 			HomeSectionType.NEXT_UP -> rows.add(helper.loadNextUp())
-			HomeSectionType.REWATCHING -> Unit // FIXME: Similar to next up but with rewatching=true parameter
 			HomeSectionType.LIVE_TV -> if (includeLiveTvRows) {
 				rows.add(liveTVRow)
 				rows.add(helper.loadOnNow())

@@ -17,10 +17,10 @@ class UserSettingPreferences(
 		val homesection0 = Preference.enum("homesection0", HomeSectionType.LIBRARY_TILES_SMALL)
 		val homesection1 = Preference.enum("homesection1", HomeSectionType.RESUME)
 		val homesection2 = Preference.enum("homesection2", HomeSectionType.RESUME_AUDIO)
-		val homesection3 = Preference.enum("homesection3", HomeSectionType.LIVE_TV)
-		val homesection4 = Preference.enum("homesection4", HomeSectionType.NEXT_UP)
-		val homesection5 = Preference.enum("homesection5", HomeSectionType.LATEST_MEDIA)
-		val homesection6 = Preference.enum("homesection6", HomeSectionType.NONE)
+		val homesection3 = Preference.enum("homesection3", HomeSectionType.RESUME_BOOK)
+		val homesection4 = Preference.enum("homesection4", HomeSectionType.LIVE_TV)
+		val homesection5 = Preference.enum("homesection5", HomeSectionType.NEXT_UP)
+		val homesection6 = Preference.enum("homesection6", HomeSectionType.LATEST_MEDIA)
 	}
 
 	val homesections
