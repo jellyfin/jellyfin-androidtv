@@ -45,7 +45,7 @@ class BackgroundService(
 ) {
 	companion object {
 		const val TRANSITION_DURATION = 400L // 0.4 seconds
-		const val SLIDESHOW_DURATION = 10000L // 10 seconds
+		const val SLIDESHOW_DURATION = 30000L // 30 seconds
 		const val UPDATE_INTERVAL = 500L // 0.5 seconds
 		val FRAGMENT_TAG = BackgroundServiceFragment::class.qualifiedName!!
 	}
