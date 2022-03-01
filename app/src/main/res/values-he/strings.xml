@@ -369,8 +369,7 @@
     <string name="lbl_episode_marks">רק על פרקים</string>
     <string name="lbl_hide_unwatched_count">הסתר את מספר התכנים שלא נצפו</string>
     <string name="pref_watched_indicator">הצג סימן עבור פריטים שנצפו</string>
-    <string name="login_help_description">Jellyfin לא יכולה לפעול בלי שרת מחובר.
-\nהיעזר במדריך שלנו בכתובת docs.jellyfin.org או דרך קוד QR המוצג על מנת להתחיל להשתמש בתוכנה.</string>
+    <string name="login_help_description">Jellyfin לא יכולה לפעול בלי שרת מחובר. היעזר במדריך שלנו בכתובת docs.jellyfin.org או דרך קוד QR המוצג על מנת להתחיל להשתמש בתוכנה.</string>
     <string name="login_help_title">צריך עזרה\?</string>
     <string name="connect_manually_by_address">הזן כתובת שרת</string>
     <string name="discovered_servers_empty">לא נמצאו שרתים ברשת המקומית.</string>
