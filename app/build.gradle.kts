@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+	namespace = "org.jellyfin.androidtv"
 	compileSdk = 31
 
 	defaultConfig {
@@ -14,6 +15,7 @@ android {
 		targetSdk = 31
 
 		// Release version
+		applicationId = namespace
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
 		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
@@ -35,9 +37,9 @@ android {
 			isMinifyEnabled = false
 
 			// Set package names used in various XML files
-			resValue("string", "app_id", "org.jellyfin.androidtv")
-			resValue("string", "app_search_suggest_authority", "org.jellyfin.androidtv.content")
-			resValue("string", "app_search_suggest_intent_data", "content://org.jellyfin.androidtv.content/intent")
+			resValue("string", "app_id", namespace!!)
+			resValue("string", "app_search_suggest_authority", "${namespace}.content")
+			resValue("string", "app_search_suggest_intent_data", "content://${namespace}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
@@ -50,9 +52,9 @@ android {
 			applicationIdSuffix = ".debug"
 
 			// Set package names used in various XML files
-			resValue("string", "app_id", "org.jellyfin.androidtv.debug")
-			resValue("string", "app_search_suggest_authority", "org.jellyfin.androidtv.debug.content")
-			resValue("string", "app_search_suggest_intent_data", "content://org.jellyfin.androidtv.debug.content/intent")
+			resValue("string", "app_id", namespace + applicationIdSuffix)
+			resValue("string", "app_search_suggest_authority", "${namespace + applicationIdSuffix}.content")
+			resValue("string", "app_search_suggest_intent_data", "content://${namespace + applicationIdSuffix}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
