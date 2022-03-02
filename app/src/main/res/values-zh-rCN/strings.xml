@@ -495,4 +495,6 @@
     <string name="pref_refresh_switching_description">显示器刷新率已匹配视频</string>
     <string name="pref_show_backdrop_description">更改指定项目的背景图片</string>
     <string name="sort_accounts_by">按帐户排序</string>
+    <string name="home_section_rewatching">重新观看</string>
+    <string name="home_section_resume_book">继续阅读</string>
 </resources>
