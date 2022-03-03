@@ -281,22 +281,28 @@ public class PlaybackController {
 
     @TargetApi(23)
     private void getDisplayModes() {
+        if (mFragment == null)
+            return;
         Display display = mFragment.requireActivity().getWindowManager().getDefaultDisplay();
         mDisplayModes = display.getSupportedModes();
         Timber.i("** Available display refresh rates:");
         for (Display.Mode mDisplayMode : mDisplayModes) {
             Timber.i("%f", mDisplayMode.getRefreshRate());
         }
-
     }
 
     @TargetApi(23)
     private Display.Mode findBestDisplayMode(MediaStream videoStream) {
-        if (mDisplayModes == null || videoStream.getRealFrameRate() == null) return null;
+        if (mFragment == null || mDisplayModes == null || videoStream.getRealFrameRate() == null) return null;
+
 
         int curWeight = 0;
         Display.Mode bestMode = null;
         int sourceRate = Math.round(videoStream.getRealFrameRate() * 100);
+
+        Display.Mode defaultMode = mFragment.requireActivity().getWindowManager().getDefaultDisplay().getMode();
+
+        Timber.d("trying to find display mode for video: %sx%s @%sfps", videoStream.getWidth(), videoStream.getHeight(), videoStream.getRealFrameRate());
         for (Display.Mode mode : mDisplayModes) {
             // Skip unwanted display modes
             if (mode.getPhysicalWidth() < 1280 || mode.getPhysicalHeight() < 720)  // Skip non-HD
@@ -309,8 +315,16 @@ public class PlaybackController {
             if (rate != sourceRate && rate != sourceRate * 2 && rate != Math.round(sourceRate * 2.5)) // Skip inappropriate rates
                 continue;
 
-            int weight = Math.round(rate * 10000) + (9999 - (mode.getPhysicalWidth() - videoStream.getWidth()));
+            Timber.d("qualifying display mode: %sx%s @%sfps", mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
+
+            int weight;
+            if (mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight())
+                weight = (rate * 10000) + 9999;
+            else
+                weight = (rate * 10000) + 9999 - mode.getPhysicalWidth() - videoStream.getWidth();
+
             if (weight > curWeight) {
+                Timber.d("preferring mode: %sx%s @%sfps", mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
                 curWeight = weight;
                 bestMode = mode;
             }
@@ -342,8 +356,6 @@ public class PlaybackController {
         } else {
             Timber.i("*** Unable to find display mode for refresh rate: %s", videoStream.getRealFrameRate());
         }
-
-
     }
 
     // central place to update mCurrentPosition
