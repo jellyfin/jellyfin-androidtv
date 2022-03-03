@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.auth
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -126,7 +125,6 @@ class AuthenticationRepositoryImpl(
 		return authenticated
 	}
 
-	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun authenticateUser(user: User): Flow<LoginState> = flow {
 		Timber.d("Authenticating serverless user %s", user)
 		emit(AuthenticatingState)
@@ -147,7 +145,6 @@ class AuthenticationRepositoryImpl(
 		else emitAll(authenticateUser(user, server))
 	}
 
-	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun authenticateUser(user: User, server: Server): Flow<LoginState> = flow {
 		Timber.d("Authenticating user %s", user)
 		emit(AuthenticatingState)
@@ -197,7 +194,6 @@ class AuthenticationRepositoryImpl(
 		}
 	}
 
-	@OptIn(ExperimentalCoroutinesApi::class)
 	override fun login(server: Server, username: String, password: String) = flow {
 		if (!server.versionSupported) {
 			emit(ServerVersionNotSupported(server))

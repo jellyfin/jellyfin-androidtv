@@ -45,7 +45,6 @@ class OptionsItemUserPicker(
 		)
 	)
 
-	@ExperimentalStdlibApi
 	private fun createItems() = buildList {
 		// Add special behaviors
 		if (allowDisable) add(
@@ -80,7 +79,6 @@ class OptionsItemUserPicker(
 		}
 	}
 
-	@OptIn(ExperimentalStdlibApi::class)
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
 		val pref = RichListPreference<UserSelection>(context).also {
 			it.isPersistent = false

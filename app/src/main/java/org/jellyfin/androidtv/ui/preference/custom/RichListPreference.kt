@@ -19,7 +19,6 @@ class RichListPreference<K>(
 		this.items = items
 	}
 
-	@ExperimentalStdlibApi
 	@JvmName("setItemsByGroup")
 	fun setItems(items: Map<String, List<RichListItem<K>>>) {
 		this.items = buildList {

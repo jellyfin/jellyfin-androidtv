@@ -23,7 +23,6 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
-@OptIn(ExperimentalStdlibApi::class)
 class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,

@@ -34,10 +34,10 @@ class ButtonRemapPreference(
 			return if (keyCodeString.startsWith("KEYCODE")) {
 				keyCodeString
 					.removePrefix("KEYCODE_")
-					.toLowerCase(Locale.getDefault())
+					.lowercase(Locale.getDefault())
 					.split("_")
 					.joinToString(" ") {
-						it.capitalize()
+						it.replaceFirstChar { char -> if (char.isLowerCase()) char.titlecase(Locale.getDefault()) else char.toString() }
 					}
 			} else {
 				context.getString(R.string.lbl_unknown_key, keyCodeString)
