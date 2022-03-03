@@ -1388,6 +1388,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         if (subtitleTrackInfo == null
                 || subtitleTrackInfo.getTrackEvents() == null
+                || subtitleTrackInfo.getTrackEvents().size() < 1
                 || currentSubtitleIndex >= subtitleTrackInfo.getTrackEvents().size()) {
             return;
         }
