@@ -464,7 +464,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
                         if (trackFormat.id != null) {
-                            int id = Integer.parseInt(trackFormat.id) - 1;
+                            int id;
+                            try {
+                                id = Integer.parseInt(trackFormat.id) - 1;
+                            } catch (NumberFormatException e) {
+                                Timber.d("failed to parse track ID [%s]", trackFormat.id);
+                                return -1;
+                            }
                             if (id >= 0 && id < allStreams.size())
                                 return id;
                         }
@@ -535,7 +541,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
                 if (trackType != chosenTrackType || trackFormat.id == null)
                     continue;
-                if (Integer.parseInt(trackFormat.id) != exoTrackID) {
+
+                int id;
+                try {
+                    id = Integer.parseInt(trackFormat.id);
+                    if (id != exoTrackID)
+                        continue;
+                } catch (NumberFormatException e) {
+                    Timber.d("failed to parse track ID [%s]", trackFormat.id);
                     continue;
                 }
 
