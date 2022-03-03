@@ -12,7 +12,7 @@ class GroupedItemsActivity : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			when (groupingType) {
+			when (requireNotNull(groupingType)) {
 				GroupingType.GENRE -> replace<ByGenreFragment>(android.R.id.content)
 				GroupingType.LETTER -> replace<ByLetterFragment>(android.R.id.content)
 			}
