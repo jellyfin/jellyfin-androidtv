@@ -1,8 +1,10 @@
 package org.jellyfin.androidtv.ui.card;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.leanback.widget.BaseCardView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
@@ -35,6 +38,13 @@ public class LegacyImageCardView extends BaseCardView {
         }
 
         binding.mainImage.setClipToOutline(true);
+
+        // "hack" to trigger KeyProcessor to open the menu for this item on long press
+        setOnLongClickListener(v -> {
+            Activity activity = ContextExtensionsKt.getActivity(getContext());
+            if (activity == null) return false;
+            return activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU));
+        });
     }
 
     public void setBanner(int bannerResource) {
