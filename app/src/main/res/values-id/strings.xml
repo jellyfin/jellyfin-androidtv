@@ -117,7 +117,6 @@
     <string name="lbl_load_channels">"Muat Saluran "</string>
     <string name="lbl_unwatched">Belum ditonton</string>
     <string name="msg_no_playable_items">Tidak ada item yang bisa dimainkan</string>
-    <string name="lbl_unlike">batalkan suka</string>
     <string name="lbl_like">Suka</string>
     <string name="lbl_now_playing_album">dari %1$s</string>
     <string name="lbl_now_playing_track">%1$s dari %2$s</string>

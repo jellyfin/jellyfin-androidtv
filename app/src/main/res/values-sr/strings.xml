@@ -89,7 +89,6 @@
     <string name="turn_off">Искључите ову опцију</string>
     <string name="not_deleted">Ставка НИЈЕ избрисана</string>
     <string name="lbl_deleted">%1$s обрисан</string>
-    <string name="like_clearing_error">Грешка при брисању статуса свиђања</string>
     <string name="favorite_error">Грешка при подешавању омиљеног статуса</string>
     <string name="playing_error">Грешка приликом подешавања статуса репродукције</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
@@ -311,7 +310,6 @@
     <string name="lbl_load_channels">"Учитај канале "</string>
     <string name="lbl_unwatched">Није гледано</string>
     <string name="msg_no_playable_items">Нема ставки за репродукцију</string>
-    <string name="lbl_unlike">Уклони свиђање</string>
     <string name="lbl_like">Свиђа ми се</string>
     <string name="lbl_now_playing_album">од %1$s</string>
     <string name="lbl_now_playing_track">%1$s од %2$s</string>

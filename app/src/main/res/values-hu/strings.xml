@@ -88,7 +88,6 @@
     <string name="lbl_continue_watching">Lejátszás folytatása</string>
     <string name="chapters">Fejezetek</string>
     <string name="lbl_settings">Beállítások</string>
-    <string name="lbl_dislike">Nem tetszik</string>
     <string name="lbl_now_playing_track">%1$s / %2$s</string>
     <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
     <string name="lbl_remove_favorite">Eltávolítás a kedvencek közül</string>

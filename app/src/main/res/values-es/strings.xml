@@ -100,7 +100,6 @@
     <string name="lbl_load_channels">"Cargar Canales "</string>
     <string name="lbl_unwatched">No visto</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
-    <string name="lbl_unlike">Quitar me gusta</string>
     <string name="lbl_like">Me gusta</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_add_favorite">Agregar Favorito</string>
@@ -297,7 +296,6 @@
     <string name="turn_off">Desactivar esta opción</string>
     <string name="not_deleted">Elemento no eliminado</string>
     <string name="lbl_deleted">%1$s Borrado</string>
-    <string name="like_clearing_error">Error reseteando el estado de me gusta</string>
     <string name="favorite_error">Error actualizando el estado de favorito</string>
     <string name="playing_error">Error actualizando el estado de reproducción</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>

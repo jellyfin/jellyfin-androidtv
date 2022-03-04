@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Merk som sett</string>
     <string name="lbl_remove_favorite">Fjern favoritt</string>
     <string name="lbl_add_favorite">Legg til favoritt</string>
-    <string name="lbl_dislike">Misliker</string>
     <string name="lbl_remove_dislike">Fjern misliker</string>
     <string name="msg_no_playable_items">Ingen spillbare elementer</string>
     <string name="lbl_unwatched">Usett</string>
@@ -297,7 +296,6 @@
     <string name="turn_off">Slå av dette alternativet</string>
     <string name="not_deleted">Elementet IKKE slettet</string>
     <string name="lbl_deleted">%1$s Slettet</string>
-    <string name="like_clearing_error">Feil under sletting av likt status</string>
     <string name="favorite_error">Feil under lagring av favorittstatus</string>
     <string name="playing_error">Feil under lagring av avspilt status</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>

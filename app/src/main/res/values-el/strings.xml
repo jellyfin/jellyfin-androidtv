@@ -107,7 +107,6 @@
     <string name="lbl_by_letter">Με επιστολή</string>
     <string name="lbl_next_up">Επόμενο</string>
     <string name="pref_max_bitrate_title">Μέγιστο ρυθμό ροής</string>
-    <string name="lbl_like">Αρέσει</string>
     <string name="lbl_now_playing_album">απο %1$s</string>
     <string name="lbl_now_playing_track">%1$s απο %2$s</string>
     <string name="lbl_add_favorite">Προσθήκη αγαπημένου</string>
@@ -238,7 +237,6 @@
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
     <string name="lbl_clear_queue">Καθαρισμός ουράς</string>
     <string name="desc_current_video_queue">Αρχεία βίντεο σε σειρά αναπαραγωγής αυτή την στιγμή</string>
-    <string name="lbl_unlike">Διαφορετικά</string>
     <string name="pref_acra_alwaysaccept">Υποβολή αναφορών σφαλμάτων χωρίς προτροπή</string>
     <string name="pref_acra_disabled">Οι αναφορές σφαλμάτων δεν θα υποβληθούν</string>
     <string name="pref_acra_enabled">Θα σας ζητηθεί να υποβάλετε αναφορές σφαλμάτων</string>

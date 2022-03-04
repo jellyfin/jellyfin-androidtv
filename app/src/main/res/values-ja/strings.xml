@@ -98,7 +98,6 @@
     <string name="lbl_add_favorite">お気に入りに追加</string>
     <string name="lbl_now_playing_track">%1$s 中 %2$s</string>
     <string name="lbl_now_playing_album">%1$s から</string>
-    <string name="lbl_dislike">嫌い</string>
     <string name="lbl_remove_dislike">嫌いを解除</string>
     <string name="msg_no_playable_items">再生可能の項目無し</string>
     <string name="lbl_unwatched">未再生</string>
@@ -344,7 +343,6 @@
     <string name="turn_off">このオプションをオフにする</string>
     <string name="not_deleted">アイテムは削除されていません</string>
     <string name="lbl_deleted">%1$s 削除済み</string>
-    <string name="like_clearing_error">お気に入り登録解除エラー</string>
     <string name="favorite_error">お気に入りの登録エラー</string>
     <string name="playing_error">視聴履歴の設定エラー</string>
     <string name="audio_error">オーディオを再生できません %1$s</string>

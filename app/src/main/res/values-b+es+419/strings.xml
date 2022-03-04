@@ -236,7 +236,6 @@
     <string name="lbl_load_channels">"Cargar canales "</string>
     <string name="lbl_unwatched">No visto</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
-    <string name="lbl_unlike">Remover me gusta</string>
     <string name="lbl_add_favorite">Agregar a favoritos</string>
     <string name="lbl_remove_favorite">Remover de favoritos</string>
     <string name="lbl_mark_played">Marcar como reproducido</string>
@@ -321,7 +320,6 @@
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
     <string name="episode_missing">Episodio Faltante</string>
     <string name="delete_warning">Se eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Desea continuar\?</string>
-    <string name="like_clearing_error">Error removiendo estado de \"me gusta/no me gusta\"</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
     <string name="login_username_field_empty">Nombre de usuario no puede estar vacio</string>
     <string name="login_server_unavailable">Incapaz de conectar al servidor</string>

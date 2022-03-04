@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Označit přehrané</string>
     <string name="lbl_remove_favorite">Odebrat z oblíbených</string>
     <string name="lbl_add_favorite">Přidat k oblíbeným</string>
-    <string name="lbl_dislike">Odporné</string>
     <string name="lbl_remove_dislike">Odebrat odporné</string>
     <string name="msg_no_playable_items">Žádné hratelné položky</string>
     <string name="lbl_unwatched">Neshlédnuto</string>
@@ -298,7 +297,6 @@
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="not_deleted">Položka NEBYLA smazána</string>
     <string name="lbl_deleted">%1$s smazáno</string>
-    <string name="like_clearing_error">Zrušení oblíbeného stavu se nezdařilo</string>
     <string name="favorite_error">Nastavení oblíbeného stavu se nezdařilo</string>
     <string name="playing_error">Nastavení zhlédnutého stavu se nezdařilo</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>

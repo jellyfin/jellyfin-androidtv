@@ -168,7 +168,6 @@
     <string name="lbl_load_channels">"Carregar canals "</string>
     <string name="lbl_unwatched">No vist</string>
     <string name="msg_no_playable_items">Sense elements a reproduïr</string>
-    <string name="lbl_unlike">A diferència de</string>
     <string name="lbl_like">Com</string>
     <string name="lbl_now_playing_album">des de %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
@@ -301,7 +300,6 @@
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="not_deleted">L\'element NO s\'ha suprimit</string>
     <string name="lbl_deleted">%1$s suprimit</string>
-    <string name="like_clearing_error">S\'ha produït un error en esborrar l\'estat</string>
     <string name="favorite_error">Error en establir l\'estat de favorit</string>
     <string name="playing_error">S\'ha produït un error en configurar l\'estat de reproducció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>

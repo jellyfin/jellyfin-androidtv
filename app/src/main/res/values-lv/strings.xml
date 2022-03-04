@@ -130,7 +130,6 @@
     <string name="lbl_load_channels">"Ielādēt Kanālus "</string>
     <string name="lbl_unwatched">Neskatīts</string>
     <string name="msg_no_playable_items">Nav atskaņojamu vienumu</string>
-    <string name="lbl_dislike">Nepatīk</string>
     <string name="lbl_now_playing_album">no %1$s</string>
     <string name="lbl_now_playing_track">%1$s no %2$s</string>
     <string name="lbl_add_favorite">Pievienot Favorītu</string>

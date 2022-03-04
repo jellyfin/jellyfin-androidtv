@@ -50,7 +50,6 @@
     <string name="lbl_load_channels">"عرض القنوات "</string>
     <string name="lbl_unwatched">لم تتم مشاهدته</string>
     <string name="msg_no_playable_items">لا توجد عناصر يمكن تشغيلها</string>
-    <string name="lbl_unlike">عدم إعجاب</string>
     <string name="lbl_now_playing_album">من %1$s</string>
     <string name="lbl_add_favorite">أضف إلى المفضلة</string>
     <string name="lbl_remove_favorite">حذف من المفضلة</string>

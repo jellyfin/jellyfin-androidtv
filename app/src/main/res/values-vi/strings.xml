@@ -9,7 +9,6 @@
     <string name="lbl_load_channels">"Tải Các Kênh "</string>
     <string name="lbl_unwatched">Chưa Được Xem</string>
     <string name="msg_no_playable_items">Không có mục nào có thể phát</string>
-    <string name="lbl_unlike">Bỏ Thích</string>
     <string name="lbl_like">Thích</string>
     <string name="lbl_now_playing_album">từ %1$s</string>
     <string name="lbl_now_playing_track">%1$s của %2$s</string>
@@ -253,7 +252,6 @@
     <string name="turn_off">Tắt tùy chọn này</string>
     <string name="not_deleted">Mục KHÔNG bị xóa</string>
     <string name="lbl_deleted">Đã xóa %1$s</string>
-    <string name="like_clearing_error">Lỗi khi xóa trạng thái thích</string>
     <string name="favorite_error">Lỗi khi đặt trạng thái yêu thích</string>
     <string name="playing_error">Lỗi khi đặt trạng thái đã phát</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>

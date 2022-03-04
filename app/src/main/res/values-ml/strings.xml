@@ -113,7 +113,6 @@
     <string name="just_one">ഇത് മാത്രം</string>
     <string name="turn_off">ഈ ഓപ്‌ഷൻ ഓഫാക്കുക</string>
     <string name="not_deleted">ഇനം ഇല്ലാതാക്കി</string>
-    <string name="like_clearing_error">സ്റ്റാറ്റസ് പോലെ മായ്‌ക്കുന്നതിൽ പിശക്</string>
     <string name="favorite_error">പ്രിയപ്പെട്ട നില ക്രമീകരിക്കുന്നതിൽ പിശക്</string>
     <string name="playing_error">പ്ലേ ചെയ്ത സ്റ്റാറ്റസ് ക്രമീകരിക്കുന്നതിൽ പിശക്</string>
     <string name="msg_no_items">കളിക്കാൻ ഇനങ്ങളൊന്നുമില്ല</string>
@@ -319,7 +318,6 @@
     <string name="lbl_load_channels">"ചാനലുകൾ ലോഡുചെയ്യുക "</string>
     <string name="lbl_unwatched">കാണാത്തത്</string>
     <string name="msg_no_playable_items">പ്ലേ ചെയ്യാവുന്ന ഇനങ്ങളൊന്നുമില്ല</string>
-    <string name="lbl_unlike">വ്യത്യസ്തമായി</string>
     <string name="lbl_add_favorite">പ്രിയപ്പെട്ടവ ചേർക്കുക</string>
     <string name="lbl_remove_favorite">പ്രിയപ്പെട്ടവ നീക്കംചെയ്യുക</string>
     <string name="lbl_mark_played">അടയാളപ്പെടുത്തി</string>

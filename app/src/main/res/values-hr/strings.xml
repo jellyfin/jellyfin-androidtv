@@ -130,7 +130,6 @@
     <string name="lbl_load_channels">"Učitaj kanale "</string>
     <string name="lbl_unwatched">Negledano</string>
     <string name="msg_no_playable_items">Nema stavki za reprodukciju</string>
-    <string name="lbl_unlike">Povuci \"Sviđa mi se\"</string>
     <string name="lbl_like">Sviđa mi se</string>
     <string name="lbl_now_playing_album">od %1$s</string>
     <string name="lbl_now_playing_track">%1$s od %2$s</string>
@@ -173,7 +172,6 @@
     <string name="turn_off">Ugasi ovu postavku</string>
     <string name="not_deleted">Stavka NIJE obrisana</string>
     <string name="lbl_deleted">%1$s obrisan</string>
-    <string name="like_clearing_error">Greška u brisanju statusa \'Sviđa mi se\'</string>
     <string name="favorite_error">Greška u postavljanju statusa favorita</string>
     <string name="playing_error">Greška u postavljanju statusa reprodukcije</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>

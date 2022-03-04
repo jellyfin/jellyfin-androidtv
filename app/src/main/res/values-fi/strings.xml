@@ -59,7 +59,6 @@
     <string name="lbl_load_channels">"Lataa kanavia "</string>
     <string name="lbl_unwatched">Katsomattomat</string>
     <string name="msg_no_playable_items">Ei toistettavia kohteita</string>
-    <string name="lbl_unlike">Poista tykkäys</string>
     <string name="lbl_add_favorite">Lisää suosikiksi</string>
     <string name="lbl_remove_favorite">Poista suosikeista</string>
     <string name="lbl_mark_played">Merkitse toistetuksi</string>

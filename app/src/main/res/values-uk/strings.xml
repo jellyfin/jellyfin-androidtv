@@ -73,7 +73,6 @@
     <string name="lbl_load_channels">"Завантажити канали "</string>
     <string name="lbl_unwatched">Непереглянуте</string>
     <string name="msg_no_playable_items">Немає елементів для вітворення</string>
-    <string name="lbl_unlike">Зняти позначку \"Подобається\"</string>
     <string name="lbl_now_playing_album">з %1$s</string>
     <string name="lbl_add_favorite">Додати у Обране</string>
     <string name="lbl_remove_favorite">Видалити з Обраного</string>

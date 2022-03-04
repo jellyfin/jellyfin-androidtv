@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Markiere als gesehen</string>
     <string name="lbl_remove_favorite">Favorit entfernen</string>
     <string name="lbl_add_favorite">Favorit hinzufügen</string>
-    <string name="lbl_dislike">Mag ich nicht</string>
     <string name="lbl_remove_dislike">Entferne \"mag ich nicht\"</string>
     <string name="msg_no_playable_items">Keine abspielbaren Einträge</string>
     <string name="lbl_unwatched">Ungesehen</string>
@@ -298,7 +297,6 @@
     <string name="turn_off">Diese Option ausschalten</string>
     <string name="not_deleted">Element NICHT Gelöscht</string>
     <string name="lbl_deleted">%1$s Gelöscht</string>
-    <string name="like_clearing_error">Fehler beim Löschen des Gefällt-Status</string>
     <string name="favorite_error">Fehler beim Setzen des Favoritenstatus</string>
     <string name="playing_error">Fehler beim Setzen des Wiedergabestatus</string>
     <string name="audio_error">Audio kann nicht abgespielt werden %1$s</string>

@@ -57,7 +57,6 @@
     <string name="lbl_tomorrow">明天</string>
     <string name="lbl_today">今天</string>
     <string name="lbl_unwatched">未觀看</string>
-    <string name="lbl_unlike">不像</string>
     <string name="lbl_like">喜歡</string>
     <string name="lbl_add_favorite">新增我的最愛</string>
     <string name="lbl_remove_favorite">移除我的最愛</string>
@@ -351,7 +350,6 @@
     <string name="turn_off">關閉此選項</string>
     <string name="not_deleted">項目「未」被刪除</string>
     <string name="lbl_deleted">%1$s 已刪除</string>
-    <string name="like_clearing_error">無法清除「喜歡」狀態</string>
     <string name="favorite_error">無法設為最愛</string>
     <string name="playing_error">無法設為已播放狀態</string>
     <string name="audio_error">無法播放音檔 %1$s</string>

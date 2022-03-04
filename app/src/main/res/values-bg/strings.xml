@@ -16,7 +16,6 @@
     <string name="lbl_today">Днес</string>
     <string name="lbl_load_channels">"Зареждане на канали "</string>
     <string name="lbl_unwatched">Негледан</string>
-    <string name="lbl_like">Харесване</string>
     <string name="lbl_now_playing_album">от %1$s</string>
     <string name="lbl_now_playing_track">%1$s или %2$s</string>
     <string name="lbl_add_favorite">Добавяне на фаворит</string>

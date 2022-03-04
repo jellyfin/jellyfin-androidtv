@@ -179,7 +179,6 @@
     <string name="lbl_load_channels">"Ladda kanaler "</string>
     <string name="lbl_unwatched">Icke sedda</string>
     <string name="msg_no_playable_items">Inga uppspelningsbara föremål</string>
-    <string name="lbl_unlike">Ta bort gilla</string>
     <string name="lbl_like">Gilla</string>
     <string name="lbl_now_playing_album">från %1$s</string>
     <string name="lbl_now_playing_track">%1$s av %2$s</string>
@@ -328,7 +327,6 @@
     <string name="no_player">Ingen spelare</string>
     <string name="mark_watched_message">Videon verkar inte ha helt spelats upp till sin fulla längd. Markera som spelad ändå\?</string>
     <string name="lbl_tv_filter_status">nästkommande %1$d timmar</string>
-    <string name="like_clearing_error">Fel när gillastatus nollställdes</string>
     <string name="lbl_subtitle_track">Välj undertext</string>
     <string name="lbl_audio_track">Välj ljudspår</string>
     <string name="lbl_pause">Pausa</string>

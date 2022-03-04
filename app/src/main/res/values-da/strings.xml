@@ -88,7 +88,6 @@
     <string name="lbl_mark_played">Marker som afspillet</string>
     <string name="lbl_remove_favorite">Fjern favorit</string>
     <string name="lbl_add_favorite">Tilføj favorit</string>
-    <string name="lbl_dislike">Dislike</string>
     <string name="lbl_remove_dislike">Fjern Dislike</string>
     <string name="msg_no_playable_items">Intet indhold kan afspilles</string>
     <string name="lbl_unwatched">Ikke set</string>
@@ -304,7 +303,6 @@
     <string name="turn_off">Slå denne indstilling fra</string>
     <string name="not_deleted">Emne IKKE Slettet</string>
     <string name="lbl_deleted">%1$s Slettet</string>
-    <string name="like_clearing_error">Fejl ved at rydde synes godt om status</string>
     <string name="favorite_error">Fejl ved at sætte favorit status</string>
     <string name="playing_error">Fejl ved at sætte afspilningsstatus</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
