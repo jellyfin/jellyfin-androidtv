@@ -102,10 +102,6 @@
     <string name="lbl_add_favorite">Add Favorite</string>
     <string name="lbl_now_playing_track">%1$s of %2$s</string>
     <string name="lbl_now_playing_album">from %1$s</string>
-    <string name="lbl_like">Like</string>
-    <string name="lbl_dislike">Dislike</string>
-    <string name="lbl_unlike">Unlike</string>
-    <string name="lbl_remove_dislike">Remove Dislike</string>
     <string name="msg_no_playable_items">No playable items</string>
     <string name="lbl_unwatched">Unwatched</string>
     <string name="lbl_load_channels">"Load Channels "</string>
@@ -188,7 +184,7 @@
     <string name="msg_item_added">" item added"</string>
     <string name="lbl_enable_seasonal_themes">Seasonal themes</string>
     <string name="desc_seasonal_themes">Display special colors and suggestions at certain times of the year</string>
-    <string name="desc_automatic_fav_songs">Automatic playlist of favorite and liked songs</string>
+    <string name="desc_automatic_fav_songs">Automatic playlist of favorite songs</string>
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
@@ -332,8 +328,6 @@
     <string name="audio_error">Unable to play audio %1$s</string>
     <string name="playing_error">Error setting played status</string>
     <string name="favorite_error">Error setting favorite status</string>
-    <string name="like_clearing_error">Error clearing like status</string>
-    <string name="like_setting_error">Error setting like status</string>
     <string name="lbl_deleted">%1$s Deleted</string>
     <string name="not_deleted">Item NOT Deleted</string>
     <string name="turn_off">Turn this option off</string>
