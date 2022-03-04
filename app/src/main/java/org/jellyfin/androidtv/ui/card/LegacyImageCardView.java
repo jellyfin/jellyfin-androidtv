@@ -43,6 +43,8 @@ public class LegacyImageCardView extends BaseCardView {
         setOnLongClickListener(v -> {
             Activity activity = ContextExtensionsKt.getActivity(getContext());
             if (activity == null) return false;
+            // Make sure the view is focused so the created menu uses it as anchor
+            if (!v.requestFocus()) return false;
             return activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU));
         });
     }
