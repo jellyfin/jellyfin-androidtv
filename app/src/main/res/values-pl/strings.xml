@@ -86,9 +86,7 @@
     <string name="lbl_coming_up">Nadchodzące</string>
     <string name="pref_playback">Odtwarzanie</string>
     <string name="pref_max_bitrate_title">Maksymalna przepływność transmisji</string>
-    <string name="lbl_unlike">Już nie lubię</string>
     <string name="lbl_dislike">NIe lubię</string>
-    <string name="lbl_like">Lubię</string>
     <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%1$s z %2$s</string>
     <string name="lbl_add_favorite">Dodaj do Ulubionych</string>
@@ -147,7 +145,6 @@
     <string name="lbl_load_channels">"Wczytaj kanały "</string>
     <string name="lbl_unwatched">Nieobejrzane</string>
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
-    <string name="lbl_remove_dislike">Usuń Nie podoba mi się</string>
     <string name="lbl_runs">Odtworzeń</string>
     <string name="lbl_delete">Usuń</string>
     <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
@@ -300,7 +297,6 @@
     <string name="turn_off">Wyłącz tę opcję</string>
     <string name="not_deleted">Element nie został usunięty</string>
     <string name="lbl_deleted">Usunięto %1$s</string>
-    <string name="like_setting_error">Błąd podczas ustawienia polubienia</string>
     <string name="like_clearing_error">Błąd podczas czyszczenia polubień</string>
     <string name="favorite_error">Błąd podczas ustawiania statusu ulubionych</string>
     <string name="playing_error">Błąd podczas ustawiania statusu odtwarzania</string>

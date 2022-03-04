@@ -88,9 +88,7 @@
     <string name="lbl_continue_watching">Lejátszás folytatása</string>
     <string name="chapters">Fejezetek</string>
     <string name="lbl_settings">Beállítások</string>
-    <string name="lbl_unlike">Nem tetszik</string>
     <string name="lbl_dislike">Nem tetszik</string>
-    <string name="lbl_like">Tetszik</string>
     <string name="lbl_now_playing_track">%1$s / %2$s</string>
     <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
     <string name="lbl_remove_favorite">Eltávolítás a kedvencek közül</string>
@@ -283,7 +281,6 @@
     <string name="lbl_enable_debug">Hibakeresési lehetőségek</string>
     <string name="lbl_goto_series">Ugrás a sorozatokhoz</string>
     <string name="msg_remote_already_playing">Távoli lejátszási kérelem figyelmen kívül lett hagyva. Állítsa le a jelenlegi médiaelem lejátszását előbb.</string>
-    <string name="lbl_remove_dislike">Nem tetszés eltávolítása</string>
     <string name="grid_direction_vertical">Függőleges (kísérlet)</string>
     <string name="grid_direction_horizontal">Vízszintes</string>
     <string name="grid_direction">Rács irány</string>
@@ -307,7 +304,6 @@
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
     <string name="lbl_pause">Szünet</string>
-    <string name="like_clearing_error">Hiba történt a kedvelések törlése közben</string>
     <string name="favorite_error">Hiba a kedvencek állapotának beállításakor</string>
     <string name="playing_error">Hiba a lejátszási állapot beállításakor</string>
     <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
@@ -338,7 +334,6 @@
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
     <string name="not_deleted">Az elem NINCS törölve</string>
     <string name="lbl_deleted">%1$s törölve</string>
-    <string name="like_setting_error">Hiba történt a kedvelt állapotok beállítása közben</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
     <string name="lbl_tomatoes">Paradicsomok</string>
     <string name="lbl_stars">Csillagok</string>

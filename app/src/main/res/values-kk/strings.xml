@@ -90,9 +90,7 @@
     <string name="lbl_mark_played">Oinatylğan dep belgıleu</string>
     <string name="lbl_remove_favorite">Tañdaulyny alastau</string>
     <string name="lbl_add_favorite">Tañdaulyny üsteu</string>
-    <string name="lbl_like">Ūnaidy</string>
     <string name="lbl_dislike">Ūnamaidy</string>
-    <string name="lbl_unlike">Basqaşa</string>
     <string name="lbl_remove_dislike">Ūnamaidy degendı alastau</string>
     <string name="msg_no_playable_items">Oinatylatyn tarmaqtar joq</string>
     <string name="lbl_unwatched">Qaralmağan</string>
@@ -324,7 +322,6 @@
     <string name="play_with_vlc">libVLC arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
-    <string name="like_clearing_error">Ūnatu küiın tazalau qatesı</string>
     <string name="like_setting_error">Ūnatu küiın ornatu qatesı</string>
     <string name="favorite_error">Tañdauly küiın ornatu qatesı</string>
     <string name="playing_error">Oinatylu küiın ornatu qatesı</string>

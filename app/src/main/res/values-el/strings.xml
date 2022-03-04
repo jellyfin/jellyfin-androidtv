@@ -107,7 +107,6 @@
     <string name="lbl_by_letter">Με επιστολή</string>
     <string name="lbl_next_up">Επόμενο</string>
     <string name="pref_max_bitrate_title">Μέγιστο ρυθμό ροής</string>
-    <string name="lbl_dislike">Δεν μου αρέσει</string>
     <string name="lbl_like">Αρέσει</string>
     <string name="lbl_now_playing_album">απο %1$s</string>
     <string name="lbl_now_playing_track">%1$s απο %2$s</string>
@@ -239,7 +238,6 @@
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
     <string name="lbl_clear_queue">Καθαρισμός ουράς</string>
     <string name="desc_current_video_queue">Αρχεία βίντεο σε σειρά αναπαραγωγής αυτή την στιγμή</string>
-    <string name="lbl_remove_dislike">Αφαίρεση Αντιπάθειας</string>
     <string name="lbl_unlike">Διαφορετικά</string>
     <string name="pref_acra_alwaysaccept">Υποβολή αναφορών σφαλμάτων χωρίς προτροπή</string>
     <string name="pref_acra_disabled">Οι αναφορές σφαλμάτων δεν θα υποβληθούν</string>
@@ -332,7 +330,6 @@
     <string name="lbl_guest_stars">Καλεσμένοι Στάρ</string>
     <string name="lbl_episode_not_record">Αυτή η εμφάνιση ΔΕΝ θα καταγραφεί</string>
     <string name="lbl_stretch">Τέντωμα</string>
-    <string name="like_clearing_error">Σφάλμα κατά την εκκαθάριση της κατάστασης \"μου αρέσει\"</string>
     <string name="playing_error">Σφάλμα κατά τον ορισμό κατάστασης αναπαραγομένων</string>
     <string name="lbl_starting_early_ending_after">Ξεκινάει στις %1$s και τελειώνει στις %2$s έπειτα από προγραμματισμό</string>
     <string name="server_issue_ssl_handshake">Η χειραψία μέσω SSL απέτυχε</string>
@@ -446,7 +443,6 @@
     <string name="lbl_playback_control_ends">Τελειώνει στις %1$s</string>
     <string name="not_deleted">Το στοιχείο δε διαγράφηκε</string>
     <string name="lbl_deleted">%1$s Διαγράφηκαν</string>
-    <string name="like_setting_error">Σφάλμα κατά τον ορισμό κατάστασης \"μου αρέσει\"</string>
     <string name="favorite_error">Σφάλμα κατά τον ορισμό κατάστασης αγαπημένων</string>
     <string name="audio_error">Δεν είναι δυνατή η αναπαραγωγή ήχου %1$s</string>
     <string name="subtitle_error">Δεν είναι δυνατή η επιλογή υποτίτλων</string>

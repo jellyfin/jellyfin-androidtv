@@ -90,9 +90,7 @@
     <string name="lbl_mark_played">Marcar como reproducido</string>
     <string name="lbl_remove_favorite">Remover favorito</string>
     <string name="lbl_add_favorite">Agregar a favoritos</string>
-    <string name="lbl_like">Me gusta</string>
     <string name="lbl_dislike">No me gusta</string>
-    <string name="lbl_unlike">Quitar me gusta</string>
     <string name="lbl_remove_dislike">Remover no me gusta</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
     <string name="lbl_unwatched">No visto</string>
@@ -328,7 +326,6 @@
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
     <string name="play_with_vlc">Reproducir con libVLC</string>
-    <string name="like_setting_error">Error estableciendo estado</string>
     <string name="like_clearing_error">Error limpiando como estado</string>
     <string name="seek_error">No se puede buscar</string>
     <string name="pref_video_player_choose">Siempre preguntar</string>

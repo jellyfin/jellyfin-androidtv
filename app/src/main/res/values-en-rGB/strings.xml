@@ -85,9 +85,7 @@
     <string name="lbl_load_channels">"Load Channels "</string>
     <string name="lbl_unwatched">Unwatched</string>
     <string name="msg_no_playable_items">No playable items</string>
-    <string name="lbl_remove_dislike">Remove Dislike</string>
     <string name="lbl_unlike">Unlike</string>
-    <string name="lbl_dislike">Dislike</string>
     <string name="lbl_like">Like</string>
     <string name="lbl_now_playing_album">from %1$s</string>
     <string name="lbl_mark_played">Mark Played</string>
@@ -300,7 +298,6 @@
     <string name="turn_off">Turn this option off</string>
     <string name="not_deleted">Item NOT Deleted</string>
     <string name="lbl_deleted">%1$s Deleted</string>
-    <string name="like_setting_error">Error setting like status</string>
     <string name="like_clearing_error">Error clearing like status</string>
     <string name="favorite_error">Error setting favourite status</string>
     <string name="playing_error">Error setting played status</string>

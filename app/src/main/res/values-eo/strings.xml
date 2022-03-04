@@ -155,7 +155,6 @@
     <string name="msg_recording_now">Rikordas</string>
     <string name="msg_will_record">Rikordos</string>
     <string name="lbl_load_channels">"Ŝargi Kanalojn "</string>
-    <string name="lbl_remove_dislike">Forigi Malŝaton</string>
     <string name="lbl_add_favorite">Aldoni Favoratan</string>
     <string name="lbl_remove_favorite">Forigi Favoratan</string>
     <string name="lbl_no_items">Neniuj Aĵoj</string>
@@ -211,7 +210,6 @@
     <string name="lbl_tomorrow">Morgaŭ</string>
     <string name="lbl_today">Hodiaŭ</string>
     <string name="lbl_unwatched">Nespektita</string>
-    <string name="lbl_unlike">Malŝatas</string>
     <string name="lbl_dislike">Ŝatas</string>
     <string name="lbl_empty">Malplena</string>
     <string name="lbl_loading_elipses">Ŝarĝas…</string>
@@ -342,7 +340,6 @@
     <string name="lbl_premier_date">Premiera Dato</string>
     <string name="lbl_sorted_by">ordigita laŭ</string>
     <string name="lbl_all_items">Ĉiuj Aĵoj</string>
-    <string name="lbl_like">Ŝatas</string>
     <string name="lbl_goto_now_playing">Iri al Nun Ludante</string>
     <string name="sum_enable_cinema_mode">Ludu disponeblajn antaŭfilmetojn kaj antaŭmontrojn antaŭ ol komenci filmon</string>
     <string name="lbl_direct_stream_live">Rekta elsendflua TV-etero</string>
@@ -396,7 +393,6 @@
     <string name="login_invalid_credentials">Nevalida uzantnomo kaj/aŭ pasvorto</string>
     <string name="play_with_external_app">Ludi per ekstera apo</string>
     <string name="turn_off">Malŝalti ĉi tiun opcion</string>
-    <string name="like_setting_error">Eraro pri parametro de ŝata stato</string>
     <string name="like_clearing_error">Eraro malplenigante ŝatan staton</string>
     <string name="favorite_error">Eraro pri parametro de favorata stato</string>
     <string name="playing_error">Eraro pri parametro de ludita stato</string>

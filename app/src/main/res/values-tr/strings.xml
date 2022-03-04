@@ -113,9 +113,7 @@
     <string name="lbl_load_channels">"Kanalları Yükle "</string>
     <string name="lbl_unwatched">İzlenmemiş</string>
     <string name="msg_no_playable_items">Oynanabilir öğe yok</string>
-    <string name="lbl_remove_dislike">Nefreti Kaldır</string>
     <string name="lbl_unlike">Beğenme</string>
-    <string name="lbl_dislike">Nefret Et</string>
     <string name="lbl_like">Beğen</string>
     <string name="lbl_now_playing_album">%1$s \'den</string>
     <string name="lbl_now_playing_track">%1$s - %2$s</string>
@@ -234,7 +232,6 @@
     <string name="turn_off">Bu seçeneği kapat</string>
     <string name="not_deleted">Öğe SİLİNEMEDİ</string>
     <string name="lbl_deleted">%1$s Silindi</string>
-    <string name="like_setting_error">Beğeni durumu ayaralanırken hata</string>
     <string name="like_clearing_error">Beğeni durumu temizlenirken hata</string>
     <string name="favorite_error">Favori durumu ayarlanırken hata</string>
     <string name="playing_error">Oynatma durumu ayarlanırken hata</string>

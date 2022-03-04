@@ -130,9 +130,7 @@
     <string name="lbl_load_channels">"Ielādēt Kanālus "</string>
     <string name="lbl_unwatched">Neskatīts</string>
     <string name="msg_no_playable_items">Nav atskaņojamu vienumu</string>
-    <string name="lbl_remove_dislike">Noņemt Nepatīk</string>
     <string name="lbl_dislike">Nepatīk</string>
-    <string name="lbl_like">Patīk</string>
     <string name="lbl_now_playing_album">no %1$s</string>
     <string name="lbl_now_playing_track">%1$s no %2$s</string>
     <string name="lbl_add_favorite">Pievienot Favorītu</string>
@@ -224,7 +222,6 @@
     <string name="lbl_refresh_switching">Atsvaidzināšanas Ātruma Pārslēdze</string>
     <string name="lbl_show_backdrop">Rādīt Fonu Pārlūkošanas Laikā</string>
     <string name="desc_automatic_fav_songs">Automātisks atskaņošanas saraksts no patīk saraksta un dziesmu favorītiem</string>
-    <string name="lbl_unlike">Noņemt Patīk</string>
     <string name="lbl_chapters">Nodaļas</string>
     <string name="lbl_favorite_channels">Kanālu Favorīti</string>
     <string name="pref_max_bitrate_title">Maksimālais Straumēšanas Bitu-pārraides ātrums</string>

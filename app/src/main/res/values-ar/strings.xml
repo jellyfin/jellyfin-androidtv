@@ -50,9 +50,7 @@
     <string name="lbl_load_channels">"عرض القنوات "</string>
     <string name="lbl_unwatched">لم تتم مشاهدته</string>
     <string name="msg_no_playable_items">لا توجد عناصر يمكن تشغيلها</string>
-    <string name="lbl_remove_dislike">إزالة عدم الإعجاب</string>
     <string name="lbl_unlike">عدم إعجاب</string>
-    <string name="lbl_like">إعجاب</string>
     <string name="lbl_now_playing_album">من %1$s</string>
     <string name="lbl_add_favorite">أضف إلى المفضلة</string>
     <string name="lbl_remove_favorite">حذف من المفضلة</string>
@@ -161,7 +159,6 @@
     <string name="lbl_open_album">فتح صفحة الألبوم</string>
     <string name="lbl_open_artist">فتح صفحة الفنان</string>
     <string name="favorite_error">خطأ في تعيين حالة المفضلة</string>
-    <string name="like_clearing_error">خطأ في مسح حالة الإعجاب</string>
     <string name="playing_error">خطأ في تحديد حالة التشغيل</string>
     <string name="audio_error">تعذر تشغيل الصوت %1$s</string>
     <string name="msg_added_to_video">تمت إضافة %1$s إلى قائمة إنتظار الفيديو. ينتهي: %2$s</string>
@@ -318,7 +315,6 @@
     <string name="lbl_use_series_thumbnails_description">إستخدام الصورة المصغرة للمسلسلات عند عرض الحلقات</string>
     <string name="lbl_use_series_thumbnails">تفضيل الصورة المصغرة للمسلسلات</string>
     <string name="image_type_banner">لافتة</string>
-    <string name="like_setting_error">خطأ خلال تحديد حالة الإعجاب</string>
     <string name="lbl_auto_crop">قص تلقائي</string>
     <string name="lbl_deleted">حذف %1$s</string>
     <string name="lbl_special">الخاص</string>
@@ -432,7 +428,6 @@
     <string name="msg_burn_sub_warning">يمكن أن تستغرق الترجمة التي تم تضمينها بضع دقائق. الرجاء الانتظار…</string>
     <string name="msg_subtitles_loading">تحميل الترجمات …</string>
     <string name="pref_audio_direct">مباشرة</string>
-    <string name="lbl_dislike">لم يعجبنى</string>
     <string name="lbl_now_playing_track">%1$s من %2$s</string>
     <string name="lbl_loading_elipses">تحميل…</string>
     <string name="lbl_play_trailers">تشغيل المقطع الدعائي</string>

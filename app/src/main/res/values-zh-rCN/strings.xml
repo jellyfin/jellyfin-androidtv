@@ -73,9 +73,7 @@
     <string name="lbl_empty">空项</string>
     <string name="lbl_tv_queuing">将所有后续剧集排入队列</string>
     <string name="sum_tv_queuing">将此剧季的剩余内容添加到播放队列中</string>
-    <string name="lbl_remove_dislike">移除不喜欢</string>
     <string name="lbl_unlike">不像</string>
-    <string name="lbl_dislike">不喜欢</string>
     <string name="lbl_like">喜欢</string>
     <string name="lbl_now_playing_album">来自 %1$s</string>
     <string name="lbl_now_playing_track">%1$s 中的 %2$s</string>
@@ -308,7 +306,6 @@
     <string name="turn_off">将此选项关闭</string>
     <string name="not_deleted">项目「未」删除</string>
     <string name="lbl_deleted">%1$s已删除</string>
-    <string name="like_setting_error">无法设置喜爱状态</string>
     <string name="like_clearing_error">无法清空喜爱状态</string>
     <string name="favorite_error">无法设置最爱状态</string>
     <string name="playing_error">无法设置已播放状态</string>

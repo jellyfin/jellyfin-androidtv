@@ -58,7 +58,6 @@
     <string name="lbl_tomorrow">Zajtra</string>
     <string name="lbl_today">Dnes</string>
     <string name="lbl_load_channels">"Načítať kanály "</string>
-    <string name="lbl_dislike">Nepáči sa mi to</string>
     <string name="lbl_like">Páči sa mi to</string>
     <string name="lbl_now_playing_album">z %1$s</string>
     <string name="lbl_now_playing_track">%1$s z %2$s</string>
@@ -241,7 +240,6 @@
     <string name="lbl_tune_to_channel">Naladiť na kanál</string>
     <string name="lbl_unwatched">Nepozreté</string>
     <string name="msg_no_playable_items">Žiadne prehrateľné položky</string>
-    <string name="lbl_remove_dislike">Odobrať nepáči sa mi to</string>
     <string name="lbl_unlike">Odobrať páči sa mi to</string>
     <string name="lbl_mark_played">Označiť ako prehrané</string>
     <string name="lbl_mark_unplayed">Označiť ako neprehrané</string>
@@ -311,7 +309,6 @@
     <string name="turn_off">Vypnúť túto možnosť</string>
     <string name="not_deleted">Položka NEBOLA vymazaná</string>
     <string name="lbl_deleted">%1$s vymazaný</string>
-    <string name="like_setting_error">Chyba pri nastavení stavu o páči sa mi to</string>
     <string name="like_clearing_error">Chyba pri zrušení stavu o obľúbení</string>
     <string name="favorite_error">Chyba pri nastavení stavu o obľúbení</string>
     <string name="playing_error">Chyba pri nastavení stavu o prehratí</string>

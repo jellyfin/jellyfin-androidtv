@@ -12,9 +12,7 @@
     <string name="lbl_load_channels">"சேனல்களை ஏற்றவும் "</string>
     <string name="lbl_unwatched">பார்க்கப்படவில்லை</string>
     <string name="msg_no_playable_items">இயக்கக்கூடிய உருப்படிகள் இல்லை</string>
-    <string name="lbl_remove_dislike">விரும்பாததை நீக்க</string>
     <string name="lbl_unlike">விருப்பத்தை நீக்க</string>
-    <string name="lbl_dislike">விரும்பவில்லை</string>
     <string name="lbl_like">விரும்பு</string>
     <string name="lbl_now_playing_album">%1$s இலிருந்து</string>
     <string name="lbl_now_playing_track">%1$s இன் %2$s</string>
@@ -115,7 +113,6 @@
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
     <string name="not_deleted">உருப்படி நீக்கப்படவில்லை</string>
     <string name="lbl_deleted">%1$s நீக்கப்பட்டது</string>
-    <string name="like_setting_error">நிலையைப் போல அமைக்கும் போது பிழை</string>
     <string name="like_clearing_error">நிலையைப் போல அழிக்கும்போது பிழை</string>
     <string name="favorite_error">பிடித்த நிலையை அமைப்பதில் பிழை</string>
     <string name="playing_error">இயக்கிய நிலையை அமைப்பதில் பிழை</string>

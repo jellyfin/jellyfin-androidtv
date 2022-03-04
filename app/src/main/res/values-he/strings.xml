@@ -91,9 +91,7 @@
     <string name="lbl_load_channels">"טען ערוצים "</string>
     <string name="lbl_unwatched">לא נצפו</string>
     <string name="msg_no_playable_items">אין מה לנגן</string>
-    <string name="lbl_remove_dislike">ביטול ׳לא אהבתי׳</string>
     <string name="lbl_unlike">ביטול ׳אהבתי׳</string>
-    <string name="lbl_dislike">לא אהבתי</string>
     <string name="lbl_like">אהבתי</string>
     <string name="lbl_now_playing_album">מתוך %1$s</string>
     <string name="lbl_now_playing_track">%1$s מ %2$s</string>
@@ -270,10 +268,8 @@
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="not_deleted">לא נמחק</string>
     <string name="lbl_deleted">%1$s נמחק</string>
-    <string name="like_setting_error">תקלה בהדלקת סטטוס ׳אהבתי׳</string>
     <string name="playing_error">תקלה בהדלקת סטטוס ׳נצפה׳</string>
     <string name="favorite_error">תקלה בהדלקת סטטוס ׳מועדף׳</string>
-    <string name="like_clearing_error">בעיה במחיקת סטטוס ׳אהבתי׳</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
     <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
     <string name="msg_queue_saved">תור נשמר בתור רשימת ניגון: %1$s</string>

@@ -91,9 +91,7 @@
     <string name="lbl_mark_played">Как воспроизведённое</string>
     <string name="lbl_remove_favorite">Убрать из Избранного</string>
     <string name="lbl_add_favorite">Добавить в Избранное</string>
-    <string name="lbl_like">Нравится</string>
     <string name="lbl_dislike">Не нравится</string>
-    <string name="lbl_unlike">Иное</string>
     <string name="lbl_remove_dislike">Убрать Не нравится</string>
     <string name="msg_no_playable_items">Нет воспроизводимых элементов</string>
     <string name="lbl_unwatched">Непросмотренное</string>
@@ -303,7 +301,6 @@
     <string name="just_one">Только этот один</string>
     <string name="turn_off">Отключить эту опцию</string>
     <string name="lbl_deleted">%1$s удалено</string>
-    <string name="like_setting_error">Ошибка задания статуса \"Нравится\"</string>
     <string name="like_clearing_error">Ошибка очистки статуса \"Нравится\"</string>
     <string name="favorite_error">Ошибка задания статуса избранного</string>
     <string name="playing_error">Ошибка при установке статуса воспроизведения</string>

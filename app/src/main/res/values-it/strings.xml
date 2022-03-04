@@ -109,7 +109,6 @@
     <string name="lbl_today">Oggi</string>
     <string name="lbl_load_channels">"Carica canali "</string>
     <string name="lbl_unwatched">Non visto</string>
-    <string name="lbl_remove_dislike">Rimuovi Non mi piace</string>
     <string name="lbl_unlike">Non mi piace più</string>
     <string name="lbl_now_playing_track">%1$s di %2$s</string>
     <string name="lbl_add_favorite">Aggiungi Preferito</string>
@@ -174,7 +173,6 @@
     <string name="lbl_tune_to_channel">Collega al Canale</string>
     <string name="lbl_on">Attivo</string>
     <string name="msg_no_playable_items">Nessun oggetto eseguibile</string>
-    <string name="lbl_dislike">Non piaciuto</string>
     <string name="lbl_like">Piaciuto</string>
     <string name="lbl_now_playing_album">da %1$s</string>
     <string name="lbl_play_first_unwatched">Guarda il primo non guardato</string>
@@ -339,7 +337,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="lbl_deleted">%1$s Rimosso</string>
-    <string name="like_setting_error">Errore durante il salvataggio nei preferiti</string>
     <string name="like_clearing_error">Errore durante la rimozione dai preferiti</string>
     <string name="favorite_error">Errore durante il salvataggio dello stato di Preferito</string>
     <string name="playing_error">Errore durante il salvataggio dello stato di Visto</string>

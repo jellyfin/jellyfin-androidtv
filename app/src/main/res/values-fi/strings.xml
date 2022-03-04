@@ -2,7 +2,6 @@
 <resources>
     <string name="lbl_live">Live</string>
     <string name="lbl_instant_mix">Instant Mix</string>
-    <string name="lbl_dislike">Dislike</string>
     <string name="pref_app_theme">Sovelluksen teema</string>
     <string name="pref_media_player">Ensisijainen mediasoitin</string>
     <string name="pref_about_title">Tietoja</string>
@@ -60,9 +59,7 @@
     <string name="lbl_load_channels">"Lataa kanavia "</string>
     <string name="lbl_unwatched">Katsomattomat</string>
     <string name="msg_no_playable_items">Ei toistettavia kohteita</string>
-    <string name="lbl_remove_dislike">Poista dislike</string>
     <string name="lbl_unlike">Poista tykkäys</string>
-    <string name="lbl_like">Tykkää</string>
     <string name="lbl_add_favorite">Lisää suosikiksi</string>
     <string name="lbl_remove_favorite">Poista suosikeista</string>
     <string name="lbl_mark_played">Merkitse toistetuksi</string>

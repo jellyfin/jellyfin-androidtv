@@ -78,9 +78,7 @@
     <string name="lbl_mark_played">재생됨으로 표시</string>
     <string name="lbl_remove_favorite">즐겨찾기에서 제거</string>
     <string name="lbl_add_favorite">즐겨찾기에 추가</string>
-    <string name="lbl_like">좋아요</string>
     <string name="lbl_dislike">싫어요</string>
-    <string name="lbl_unlike">좋아요 취소</string>
     <string name="lbl_remove_dislike">싫어요 삭제</string>
     <string name="msg_no_playable_items">재생가능한 항목 없음</string>
     <string name="lbl_unwatched">시청하지 않음</string>
@@ -281,7 +279,6 @@
     <string name="play_with">함께 재생</string>
     <string name="lbl_end_padding">패딩 종료</string>
     <string name="lbl_begin_padding">패딩 시작</string>
-    <string name="like_setting_error">상태 설정 중 오류 발생</string>
     <string name="like_clearing_error">비슷한 상태 삭제중 오류</string>
     <string name="too_many_errors">에러가 너무 많습니다. 포기하세요</string>
     <string name="seek_error">찾을수 없습니다</string>

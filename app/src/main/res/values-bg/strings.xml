@@ -16,7 +16,6 @@
     <string name="lbl_today">Днес</string>
     <string name="lbl_load_channels">"Зареждане на канали "</string>
     <string name="lbl_unwatched">Негледан</string>
-    <string name="lbl_dislike">Махни харесването</string>
     <string name="lbl_like">Харесване</string>
     <string name="lbl_now_playing_album">от %1$s</string>
     <string name="lbl_now_playing_track">%1$s или %2$s</string>
@@ -117,7 +116,6 @@
     <string name="lbl_only_new_episodes">Само нови епизоди</string>
     <string name="lbl_tune_to_channel">Превключете към канал</string>
     <string name="msg_no_playable_items">Няма елементи за възпроизвеждане</string>
-    <string name="lbl_remove_dislike">Премахване на Нехаресване</string>
     <string name="sum_tv_queuing">Добавете останалата част от сезона към опашката, докато се възпроизвежда епизодът</string>
     <string name="lbl_tv_queuing">Подредете всички следващи епизоди</string>
     <string name="lbl_no_items">Няма елементи</string>

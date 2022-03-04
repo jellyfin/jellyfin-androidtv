@@ -90,9 +90,7 @@
     <string name="lbl_mark_played">Markeer als afgespeeld</string>
     <string name="lbl_remove_favorite">Verwijder favoriet</string>
     <string name="lbl_add_favorite">Voeg favoriet toe</string>
-    <string name="lbl_like">Leuk</string>
     <string name="lbl_dislike">Niet leuk</string>
-    <string name="lbl_unlike">Verwijder leuk</string>
     <string name="lbl_remove_dislike">Verwijder niet leuk</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
     <string name="lbl_unwatched">Ongezien</string>
@@ -310,7 +308,6 @@
     <string name="turn_off">Zet deze optie af</string>
     <string name="not_deleted">Item NIET Verwijderd</string>
     <string name="lbl_deleted">%1$s Verwijderd</string>
-    <string name="like_setting_error">Error bij het aanpassen van like status</string>
     <string name="like_clearing_error">Error bij het verwijderen van de like status</string>
     <string name="favorite_error">Error bij het aanpassen van favoriete status</string>
     <string name="playing_error">Error bij het aanpassen van gespeelde status</string>

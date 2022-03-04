@@ -90,9 +90,7 @@
     <string name="lbl_mark_played">Marqué comme vu</string>
     <string name="lbl_remove_favorite">Supprimer des favoris</string>
     <string name="lbl_add_favorite">Ajouter aux favoris</string>
-    <string name="lbl_like">J\'aime</string>
     <string name="lbl_dislike">Je n\'aime pas</string>
-    <string name="lbl_unlike">Supprimer J\'aime</string>
     <string name="lbl_remove_dislike">Supprimer Je n\'aime pas</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
     <string name="lbl_unwatched">Non lu</string>
@@ -326,7 +324,6 @@
     <string name="just_one">Celui-ci uniquement</string>
     <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
     <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>
-    <string name="like_setting_error">Erreur d\'enregistrement du statut Aime</string>
     <string name="like_clearing_error">Erreur de vidage du statut Aime</string>
     <string name="play_with">Lecture avec</string>
     <string name="play_with_external_app">Lecture avec une application externe</string>

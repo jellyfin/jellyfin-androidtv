@@ -98,7 +98,6 @@
     <string name="video_error_unknown_error">Încărcarea video a eșuat</string>
     <string name="lbl_rating">Evaluare</string>
     <string name="pref_audio_direct">Direcție</string>
-    <string name="lbl_like">Îmi place</string>
     <string name="lbl_image_size">Mărime imagine</string>
     <string name="lbl_image_type">Tip Imagine</string>
     <string name="lbl_start_favorites">Plasați preferatele la început</string>
@@ -219,9 +218,7 @@
     <string name="lbl_load_channels">"Încarcă Canalele "</string>
     <string name="lbl_unwatched">Nevizionat</string>
     <string name="msg_no_playable_items">Nu există articole redabile</string>
-    <string name="lbl_remove_dislike">Eliminați Neplăcut</string>
     <string name="lbl_unlike">Neplăcut</string>
-    <string name="lbl_dislike">Neplăcut</string>
     <string name="lbl_now_playing_album">de la %1$s</string>
     <string name="lbl_now_playing_track">%1$s a %2$s</string>
     <string name="lbl_add_favorite">Adaugă Favorit</string>
@@ -326,7 +323,6 @@
     <string name="audio_error">Imposibil de redat sunetul %1$s</string>
     <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
     <string name="msg_queue_saved">Coada salvată ca listă de redare nouă: %1$s</string>
-    <string name="like_clearing_error">Eroare la eliminarea stării</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Se termină la %1$s</string>
     <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>
@@ -338,7 +334,6 @@
     <string name="turn_off">Dezactivați această opțiune</string>
     <string name="not_deleted">Articolul NU a fost sters</string>
     <string name="lbl_deleted">%1$s Șters</string>
-    <string name="like_setting_error">Eroare la setarea statusului plăcut</string>
     <string name="login_username_field_empty">Numele de utilizator nu poate fi vid</string>
     <string name="login_server_unavailable">Nu s-a putut conecta la server</string>
     <string name="login_invalid_credentials">Nume de utilizator și/sau parolă greșite</string>
