@@ -9,7 +9,6 @@ import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.auth.SessionRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -34,7 +33,6 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
-import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -42,10 +40,6 @@ public class KeyProcessor {
 
     public static final int MENU_MARK_FAVORITE = 0;
     public static final int MENU_UNMARK_FAVORITE = 1;
-    public static final int MENU_LIKE = 2;
-    public static final int MENU_DISLIKE = 3;
-    public static final int MENU_UNLIKE = 4;
-    public static final int MENU_UNDISLIKE = 5;
     public static final int MENU_MARK_PLAYED = 6;
     public static final int MENU_UNMARK_PLAYED = 7;
     public static final int MENU_PLAY = 8;
@@ -56,13 +50,11 @@ public class KeyProcessor {
     public static final int MENU_REMOVE_FROM_QUEUE = 13;
     public static final int MENU_GOTO_NOW_PLAYING = 14;
     public static final int MENU_INSTANT_MIX = 15;
-    public static final int MENU_FORGET = 16;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
     private static Activity mCurrentActivity;
     private static int mCurrentRowItemNdx;
-    private static boolean currentItemIsFolder = false;
     private static boolean isMusic;
 
     public static boolean HandleKey(int key, BaseRowItem rowItem, Activity activity) {
@@ -282,17 +274,6 @@ public class KeyProcessor {
             } else {
                 menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
             }
-
-            if (userData.getLikes() == null) {
-                menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
-                menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
-            } else if (userData.getLikes()) {
-                menu.getMenu().add(0, MENU_UNLIKE, order++, activity.getString(R.string.lbl_unlike));
-                menu.getMenu().add(0, MENU_DISLIKE, order++, activity.getString(R.string.lbl_dislike));
-            } else {
-                menu.getMenu().add(0, MENU_LIKE, order++, activity.getString(R.string.lbl_like));
-                menu.getMenu().add(0, MENU_UNDISLIKE, order++, activity.getString(R.string.lbl_remove_dislike));
-            }
         }
 
         //Not sure I like this but I either duplicate processing with in-line events or do this and
@@ -301,7 +282,6 @@ public class KeyProcessor {
         mCurrentRowItemNdx = rowItem.getIndex();
         mCurrentItemId = item.getId();
         mCurrentActivity = activity;
-        currentItemIsFolder = item.getIsFolderItem();
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
@@ -325,7 +305,6 @@ public class KeyProcessor {
         mCurrentItem = item;
         mCurrentItemId = item.getId();
         mCurrentActivity = activity;
-        currentItemIsFolder = isFolder;
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
         menu.show();
@@ -418,16 +397,6 @@ public class KeyProcessor {
                 case MENU_UNMARK_PLAYED:
                     markUnplayed();
                     return true;
-                case MENU_LIKE:
-                    toggleLikes(true);
-                    return true;
-                case MENU_DISLIKE:
-                    toggleLikes(false);
-                    return true;
-                case MENU_UNLIKE:
-                case MENU_UNDISLIKE:
-                    toggleLikes(null);
-                    return true;
                 case MENU_GOTO_NOW_PLAYING:
                     Intent nowPlaying = new Intent(mCurrentActivity, AudioNowPlayingActivity.class);
                     mCurrentActivity.startActivity(nowPlaying);
@@ -497,42 +466,6 @@ public class KeyProcessor {
                 Utils.showToast(mCurrentActivity, R.string.favorite_error);
             }
         });
-
-    }
-
-    private static void toggleLikes(Boolean likes) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-        if (likes == null) {
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).ClearUserItemRatingAsync(mCurrentItemId, userId.toString(), new Response<UserItemDataDto>() {
-                @Override
-                public void onResponse(UserItemDataDto response) {
-                    if (mCurrentActivity instanceof BaseActivity)
-                        ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Timber.e(exception, "Error clearing like status");
-                    Utils.showToast(mCurrentActivity, R.string.like_clearing_error);
-                }
-            });
-
-        } else {
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateUserItemRatingAsync(mCurrentItemId, userId.toString(), likes, new Response<UserItemDataDto>() {
-                @Override
-                public void onResponse(UserItemDataDto response) {
-                    if (mCurrentActivity instanceof BaseActivity)
-                        ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Timber.e(exception, "Error setting like status");
-                    Utils.showToast(mCurrentActivity, R.string.like_setting_error);
-                }
-            });
-        }
-
     }
 }
 
