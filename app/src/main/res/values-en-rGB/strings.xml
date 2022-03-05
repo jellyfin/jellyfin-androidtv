@@ -116,7 +116,7 @@
     <string name="lbl_refresh_switching">Refresh rate switching</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="lbl_new_premieres">New Premieres</string>
-    <string name="desc_automatic_fav_songs">Automatic playlist of favourite and liked songs</string>
+    <string name="desc_automatic_fav_songs">Automatic playlist of favourite songs</string>
     <string name="lbl_save_as_playlist">Save as Playlist</string>
     <string name="lbl_instant_mix">Instant Mix</string>
     <string name="lbl_goto_now_playing">Go to Now Playing</string>
