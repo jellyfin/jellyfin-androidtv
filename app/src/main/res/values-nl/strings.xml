@@ -467,7 +467,6 @@
     <string name="server_issue_ssl_handshake">SSL handshake gefaald</string>
     <string name="server_issue_timeout">Verbinding timeout</string>
     <string name="pref_refresh_switching_description">Verversingsfrequentie wordt in lijn gebracht met video</string>
-    <string name="home_section_rewatching">Opnieuw aan het kijken</string>
     <string name="home_section_resume_book">Doorgaan met lezen</string>
     <string name="pref_direct_stream_live_on">Transcoderen staat uit</string>
     <string name="pref_direct_stream_live_off">Transcoderen wordt gebruikt wanneer nodig</string>

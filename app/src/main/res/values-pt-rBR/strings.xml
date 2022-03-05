@@ -489,6 +489,5 @@
     <string name="pref_customization">Customização</string>
     <string name="pref_refresh_switching_description">Alterar taxa de atualização para corresponder ao vídeo</string>
     <string name="pref_show_backdrop_description">Alterar imagem de fundo para itens selecionados</string>
-    <string name="home_section_rewatching">Reassistindo</string>
     <string name="home_section_resume_book">Continue lendo</string>
 </resources>

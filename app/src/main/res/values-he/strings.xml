@@ -419,7 +419,6 @@
     <string name="lbl_fit">נוֹרמָלִי</string>
     <string name="home_section_i">חלקת %1$d במסך הבית</string>
     <string name="home_prefs">מסך הבית</string>
-    <string name="home_section_rewatching">צפה שוב</string>
     <string name="home_section_resume_book">המשך קריאה</string>
     <string name="pref_direct_stream_live_on">קידוד מחדש מבוטל</string>
     <string name="pref_direct_stream_live_off">קידוד מחדש לפי הצורך</string>

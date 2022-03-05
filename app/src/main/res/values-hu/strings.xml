@@ -489,6 +489,5 @@
     <string name="pref_customization">Testreszabás</string>
     <string name="pref_refresh_switching_description">A monitor frissítési gyakorisága a videónak megfelelően módosult</string>
     <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
-    <string name="home_section_rewatching">Újranézés</string>
     <string name="home_section_resume_book">Olvasás folytatása</string>
 </resources>
