@@ -154,7 +154,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			@Suppress("MagicNumber")
 			seekbar {
 				setTitle(R.string.pref_subtitles_size)
-				min = 18
+				min = 10
 				max = 38
 				bind(userPreferences, UserPreferences.defaultSubtitlesSize)
 			}
