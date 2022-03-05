@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -50,7 +51,7 @@ class NextUpActivity : FragmentActivity() {
 			.commit()
 
 		// Load item info
-		val id = intent.getStringExtra(EXTRA_ID)
+		val id = intent.getStringExtra(EXTRA_ID)?.toUUIDOrNull()
 		viewModel.setItemId(id)
 	}
 }
