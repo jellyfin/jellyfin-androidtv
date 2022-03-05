@@ -29,14 +29,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.apiclient.model.search.SearchHint
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.serializer.toUUID
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
+import java.util.UUID
 import java.util.concurrent.ExecutionException
+import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto
 
 class BackgroundService(
 	private val context: Context,
@@ -125,19 +129,28 @@ class BackgroundService(
 	}
 
 	// Helper function for [setBackground]
-	private fun ArrayList<String>?.getUrls(itemId: String?): List<String> {
+	private fun List<String>?.getUrls(itemId: UUID?): List<String> {
 		// Check for nullability
 		if (itemId == null || isNullOrEmpty()) return emptyList()
 
 		return mapIndexed { index, tag ->
 			apiClient.imageApi.getItemImageUrl(
-				itemId = itemId.toUUID(),
+				itemId = itemId,
 				imageType = ImageType.BACKDROP,
 				tag = tag,
 				imageIndex = index,
 			)
 		}
 	}
+
+	/**
+	 * Use all available backdrops from [baseItem] as background.
+	 */
+	@Deprecated(
+		"Use the SDK instead of the legacy apiclient",
+		ReplaceWith("setBackground(baseItem?.asSdk())", "org.jellyfin.androidtv.util.sdk.compat.asSdk")
+	)
+	fun setBackground(baseItem: LegacyBaseItemDto?) = setBackground(baseItem?.asSdk())
 
 	/**
 	 * Use all available backdrops from [baseItem] as background.
@@ -149,7 +162,7 @@ class BackgroundService(
 
 		// Get all backdrop urls
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
-		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
+		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId?.toUUIDOrNull())
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
 
 		loadBackgrounds(backdropUrls)

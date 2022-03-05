@@ -19,7 +19,7 @@ class NextUpFragment : Fragment() {
 	private val userPreferences: UserPreferences by inject()
 	private var timerStarted = false
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
 		viewModel.item.observe(viewLifecycleOwner) { data ->

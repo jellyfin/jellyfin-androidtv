@@ -9,6 +9,8 @@ import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.di.userApiClient
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.sdk.compat.asSdk
+import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.entities.LocationType
@@ -51,33 +53,7 @@ fun BaseItemDto.getFullName(context: Context): String? = when (baseItemType) {
 	else -> name
 }
 
-fun BaseItemDto.getDisplayName(context: Context): String {
-	val seasonNumber = when {
-		baseItemType == BaseItemType.Episode
-			&& parentIndexNumber != null
-			&& parentIndexNumber != 0 ->
-			context.getString(R.string.lbl_season_number, parentIndexNumber)
-		else -> null
-	}
-	val episodeNumber = when {
-		baseItemType != BaseItemType.Episode -> indexNumber?.toString()
-		parentIndexNumber == 0 -> context.getString(R.string.lbl_special)
-		else -> indexNumber?.let { start ->
-			indexNumberEnd?.let { end -> context.getString(R.string.lbl_episode_range, start, end) }
-				?: context.getString(R.string.lbl_episode_number, start)
-		}
-	}
-	val seasonEpisodeNumbers = listOfNotNull(seasonNumber, episodeNumber).joinToString(":")
-
-	val nameSeparator = when (baseItemType) {
-		BaseItemType.Episode -> " — "
-		else -> ". "
-	}
-
-	return listOfNotNull(seasonEpisodeNumbers, name)
-		.filter { it.isNotEmpty() }
-		.joinToString(nameSeparator)
-}
+fun BaseItemDto.getDisplayName(context: Context): String = asSdk().getDisplayName(context)
 
 fun BaseItemDto.getSubName(context: Context): String? = when (baseItemType) {
 	BaseItemType.Episode -> when {

@@ -10,20 +10,18 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.util.apiclient.getDisplayName
-import org.jellyfin.androidtv.util.apiclient.getItem
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
-import org.jellyfin.apiclient.interaction.ApiClient
+import org.jellyfin.androidtv.util.sdk.getDisplayName
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.UUID
 
 class NextUpViewModel(
 	private val context: Context,
-	private val apiClient: ApiClient,
+	private val api: ApiClient,
 	private val userPreferences: UserPreferences,
-	private val sessionRepository: SessionRepository,
 	private val imageHelper: ImageHelper,
 ) : ViewModel() {
 	private val _item = MutableLiveData<NextUpItemData?>()
@@ -31,15 +29,12 @@ class NextUpViewModel(
 	private val _state = MutableLiveData(NextUpState.INITIALIZED)
 	val state: LiveData<NextUpState> = _state
 
-	fun setItemId(id: String?) = viewModelScope.launch {
+	fun setItemId(id: UUID?) = viewModelScope.launch {
 		if (id == null) {
 			_item.postValue(null)
 			_state.postValue(NextUpState.NO_DATA)
 		} else {
 			val item = loadItemData(id)
-
-			if (item == null) _state.postValue(NextUpState.NO_DATA)
-
 			_item.postValue(item)
 		}
 	}
@@ -52,25 +47,25 @@ class NextUpViewModel(
 		_state.postValue(NextUpState.CLOSE)
 	}
 
+	@Suppress("TooGenericExceptionCaught", "SwallowedException")
 	private fun safelyLoadBitmap(url: String): Bitmap? = try {
 		Glide.with(context)
 			.asBitmap()
 			.load(url)
 			.submit()
 			.get()
-	} catch (e: Exception) {
+	} catch (e: Throwable) {
 		null
 	}
 
-	private suspend fun loadItemData(id: String) = withContext(Dispatchers.IO) {
-		val userId = sessionRepository.currentSession.value?.userId ?: return@withContext null
-		val item = apiClient.getItem(id, userId) ?: return@withContext null
+	private suspend fun loadItemData(id: UUID) = withContext(Dispatchers.IO) {
+		val item by api.userLibraryApi.getItem(itemId = id)
 
 		val thumbnail = when (userPreferences[UserPreferences.nextUpBehavior]) {
-			NextUpBehavior.EXTENDED -> imageHelper.getPrimaryImageUrl(item.asSdk())
+			NextUpBehavior.EXTENDED -> imageHelper.getPrimaryImageUrl(item)
 			else -> null
 		}
-		val logo = imageHelper.getLogoImageUrl(item.asSdk())
+		val logo = imageHelper.getLogoImageUrl(item)
 		val title = item.getDisplayName(context)
 
 		NextUpItemData(
