@@ -4,10 +4,10 @@
     <string name="btn_cancel">Annuleren</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">Afspelen</string>
-    <string name="pref_max_bitrate_title">Maximale Streaming Bitrate</string>
-    <string name="settings_title">Instellingen</string>
+    <string name="pref_max_bitrate_title">Maximale streaming bitrate</string>
+    <string name="settings_title">Voorkeuren</string>
     <string name="chapters">Hoofdstukken</string>
-    <string name="lbl_settings">Instellingen</string>
+    <string name="lbl_settings">Voorkeuren</string>
     <string name="lbl_continue_watching">Kijken hervatten</string>
     <string name="lbl_next_up">Volgende</string>
     <string name="lbl_on_now">Nu aan het afspelen</string>
@@ -61,7 +61,7 @@
     <string name="lbl_recordings">Opnames</string>
     <string name="lbl_none">Geen</string>
     <string name="msg_video_playback_error">"Video-afspeelfout - "</string>
-    <string name="lbl_bracket_unknown">&lt;Onbekend&gt;</string>
+    <string name="lbl_bracket_unknown">Onbekend</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Speel trailer(s)</string>
     <string name="lbl_enter_user_name">Vul gebruikersnaam in</string>
@@ -113,7 +113,7 @@
     <string name="pref_audio_compat">Naar stereo mixen</string>
     <string name="lbl_audio_output">Geluidsuitgang</string>
     <string name="lbl_goto_series">Ga naar serie</string>
-    <string name="lbl_enable_debug">Schakel debugopties in</string>
+    <string name="lbl_enable_debug">Ontwikkelaars opties</string>
     <string name="desc_debug">Toon extra informatie voor debugging</string>
     <string name="lbl_showing">Tonen</string>
     <string name="lbl_all_items">Alle items</string>
@@ -150,7 +150,7 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Afleveringen</string>
     <string name="lbl_enable_cinema_mode">Bioscoopmodus</string>
-    <string name="sum_enable_cinema_mode">Speel intro\'s en previews voor de film, als dit ingeschakeld is op de server</string>
+    <string name="sum_enable_cinema_mode">Speel intro\'s en previews voordat een film begint</string>
     <string name="lbl_playlists">Afspeellijsten</string>
     <string name="msg_items_added">" items toegevoegd"</string>
     <string name="lbl_add_to_queue">Voeg toe aan wachtrij</string>
@@ -170,7 +170,7 @@
     <string name="msg_item_added">" item toegevoegd"</string>
     <string name="lbl_enable_seasonal_themes">Schakel seizoensthema\'s in</string>
     <string name="desc_seasonal_themes">Toon speciale kleuren en suggesties in bepaalde perioden van het jaar</string>
-    <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete en nummers die je leuk vindt</string>
+    <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete nummers</string>
     <string name="lbl_current_queue">Huidige wachtrij</string>
     <string name="lbl_clear_queue">Wachtrij leegmaken</string>
     <string name="lbl_play_next_up">Eerstvolgende afspelen</string>
@@ -181,11 +181,11 @@
     <string name="pref_authentication_cat">Authenticatie</string>
     <string name="loading">Laden…</string>
     <string name="lbl_in_x_days">Over %d dagen</string>
-    <string name="lbl_bitstream_dts">DTS Audio bitstream</string>
+    <string name="lbl_bitstream_dts">DTS audio bitstream</string>
     <string name="desc_premieres">Toon een rij van nieuwe afleveringspiloten voor elke serie die je bekijkt</string>
-    <string name="lbl_show_premieres">Toon seizoens-premières tijdens het bladeren</string>
+    <string name="lbl_show_premieres">Toon seizoens-premières</string>
     <string name="lbl_refresh_switching">Wissel van beeldverversingsfrequentie</string>
-    <string name="lbl_show_backdrop">Achtergrond weergeven tijdens het browsen</string>
+    <string name="lbl_show_backdrop">Achtergrond weergeven tijdens het bladeren</string>
     <string name="desc_current_video_queue">Videobestanden momenteel in de afspeelwachtrij</string>
     <string name="btn_got_it">Duidelijk</string>
     <string name="msg_external_path">Deze functie werkt alleen als u uw bibliotheek correct hebt ingesteld op de server met netwerkpaden of padvervanging en de cliënt die u gebruikt rechtstreeks toegang heeft tot deze locaties via het netwerk.</string>
@@ -210,7 +210,7 @@
     <string name="lbl_minutes">Minuten</string>
     <string name="lbl_seconds">Seconden</string>
     <string name="lbl_save">Opslaan</string>
-    <string name="msg_settings_updated">Instellingen bijgewerkt</string>
+    <string name="msg_settings_updated">Voorkeuren bijgewerkt</string>
     <string name="lbl_live">Live</string>
     <string name="lbl_new">Nieuw</string>
     <string name="lbl_repeat">Herhalen</string>
@@ -236,10 +236,10 @@
     <string name="lbl_on_schedule">Op schema</string>
     <string name="lbl_at_any_time">Op ieder moment</string>
     <string name="lbl_series_recordings">Serie-opnames</string>
-    <string name="lbl_series_settings">Serie-instellingen</string>
+    <string name="lbl_series_settings">Serie voorkeuren</string>
     <string name="lbl_episode_not_record">Deze weergave wordt niet opgenomen</string>
     <string name="lbl_schedule">Inplannen</string>
-    <string name="no_program_data">&lt;Geen programmadata beschikbaar&gt;</string>
+    <string name="no_program_data">Geen programmadata beschikbaar</string>
     <string name="lbl_image_type">Afbeeldingstype</string>
     <string name="lbl_start_favorites">Plaats favorieten vooraan</string>
     <string name="lbl_colored_backgrounds">Kleurgecodeerde achtergronden</string>
@@ -250,14 +250,14 @@
     <string name="pref_use_direct_path_title">Gebruik direct pad voor externe speler</string>
     <string name="lbl_show_indicators">Toon indicators ioor</string>
     <string name="pref_video_player_external">Externe applicatie</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch selecteren</string>
     <string name="lbl_my_media">Mijn media</string>
     <string name="acra_dialog_title">Oeps! Er ging iets verkeerd.</string>
     <string name="pref_acra_alwaysaccept_disabled">Er wordt een melding getoond voor het versturen van crashrapportages</string>
     <string name="pref_acra_alwaysaccept_enabled">Crashrapportages worden verzonden zonder te vragen</string>
-    <string name="pref_acra_alwaysaccept">Verzend crashrapportages zonder te vragen</string>
+    <string name="pref_acra_alwaysaccept">Verzend zonder te vragen</string>
     <string name="pref_acra_disabled">Crashrapportages worden niet verzonden</string>
     <string name="pref_acra_enabled">Er wordt een verzendmelding getoond voor crashrapportages</string>
     <string name="pref_enable_acra">Verzend crashrapportages naar ontwikkelaars</string>
@@ -269,15 +269,15 @@
     <string name="pref_media_player">Voorkeurs-mediaspeler</string>
     <string name="pref_about_title">Over</string>
     <string name="pref_app_theme">App-thema</string>
-    <string name="pref_libvlc_audio_delay_title">Standaard geluidsvertraging voor libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Standaard geluidsvertraging voor LibVLC</string>
     <string name="pref_next_up_timeout_title">Tijdsduur timer \'volgende item\'</string>
     <string name="pref_theme_emerald">Klassiek smaragd</string>
     <string name="pref_theme_dark">Donker (Standaard)</string>
-    <string name="acra_dialog_text">Wilt u een crashrapportage sturen naar de ontwikkelaars\? 
-\n 
-\nDeze informatie wordt verzonden naar een derde partij (tracepot.com). 
-\n 
-\nDeze melding kan worden uitgeschakeld in het Crasrapportage-deel in de instellingen van de Jellyfin app.</string>
+    <string name="acra_dialog_text">Wilt u een crashrapportage versturen naar de ontwikkelaars\?
+\n
+\nDeze informatie wordt verwerkt via een derde partij (tracepot.com).
+\n
+\nDeze melding kan worden uitgeschakeld in de Crasrapportage voorkeuren van de Jellyfin app.</string>
     <string name="pref_acra_syslog">Neem systeemlogboeken op.
 \nDit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
     <string name="grid_direction_vertical">Verticaal (experimenteel)</string>
@@ -301,7 +301,7 @@
     <string name="play_with">Speel af met</string>
     <string name="play_with_external_app">Speel af met een extern programma</string>
     <string name="play_with_exo_player">Speel af met ExoPlayer</string>
-    <string name="play_with_vlc">Speel af met libVLC</string>
+    <string name="play_with_vlc">Speel af met LibVLC</string>
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie af</string>
     <string name="not_deleted">Item NIET Verwijderd</string>
@@ -364,7 +364,7 @@
     <string name="lbl_user_last_used">Laatst gebruikt op %1$s om %2$s</string>
     <string name="lbl_remove_server">Verwijder server</string>
     <string name="lbl_remove_user_content">Verwijder account</string>
-    <string name="lbl_remove_users">Dit zal ook alle gerelateerde gebruikers verwijderen</string>
+    <string name="lbl_remove_users">Dit zal ook alle gerelateerde accounts verwijderen</string>
     <string name="lbl_manage_servers">Beheer servers</string>
     <string name="login_help_description">Jellyfin heeft een server nodig om mee te verbinden. Lees onze documentatie op docs.jellyfin.org of scan de QR-code over hoe te beginnen met Jellyfin.</string>
     <string name="login_help_title">Hulp nodig\?</string>
@@ -373,25 +373,25 @@
     <string name="discovered_servers_title">Gevonden servers</string>
     <string name="lbl_hidden">Verborgen</string>
     <string name="pref_developer_link_description">Geavanceerd en experimentele features</string>
-    <string name="user_picker_last_user_summary">Gebruik de recentste actieve gebruiker</string>
+    <string name="user_picker_last_user_summary">Gebruik het recentste actieve account</string>
     <string name="user_picker_last_user_title">Meest recent gebruikt</string>
     <string name="user_picker_disable_summary">Altijd het inlogscherm tonen</string>
     <string name="user_picker_disable_title">Uitschakelen</string>
-    <string name="system_user_explanation">Geselecteerde gebruiker zal worden gebruikt voor systeemintegraties zoals zoeken</string>
-    <string name="system_user">Systeemgebruiker</string>
+    <string name="system_user_explanation">Geselecteerde account zal worden gebruikt voor systeemintegraties zoals zoeken</string>
+    <string name="system_user">Systeemaccount</string>
     <string name="auto_sign_in">Automatisch inloggen</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
     <string name="lbl_use_series_thumbnails">Voorkeur voor serie miniaturen</string>
     <string name="lbl_episode_marks">Alleen bij afleveringen</string>
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerkpermissies nodig om te functioneren</string>
-    <string name="lbl_switch_user">Wijzig gebruiker</string>
+    <string name="lbl_switch_user">Wijzig account</string>
     <string name="pref_theme_muted_purple">Muted Purple</string>
     <string name="lbl_hide_unwatched_count">Verberg niet bekeken aantal</string>
     <string name="pref_watched_indicator">Laat bekeken indicatoren zien</string>
     <string name="press_to_close">Druk om te sluiten</string>
     <string name="lbl_community_rating">Gemeenschap beoordeling</string>
-    <string name="advanced_settings">Instellingen (vervorderd)</string>
+    <string name="advanced_settings">Geavanceerd</string>
     <string name="always_authenticate_description">Het inschakelen van deze functie schakelt automatisch inloggen uit</string>
     <string name="always_authenticate">Altijd vragen om toegangsgegevens</string>
     <string name="alphabetical">Alfabetisch</string>
@@ -415,10 +415,10 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Speciaal</string>
     <string name="help">Help</string>
-    <string name="add_user">Gebruiker toevoegen</string>
+    <string name="add_user">Account toevoegen</string>
     <string name="who_is_watching">Wie is er aan het kijken\?</string>
-    <string name="no_user_warning">We konden geen gebruikers vinden!
-\n Voeg een nieuwe gebruiker toe door op de knop “ Gebruiker toevoegen” te klikken.</string>
+    <string name="no_user_warning">We konden geen accounts vinden!
+\n Voeg een nieuw account toe met de “ Account toevoegen” knop.</string>
     <string name="server_unsupported">Server moet geüpdatet worden. Huidige versie is %1$s maar app verwacht %2$s of nieuwer</string>
     <string name="welcome_content">Maak verbinding met je server om te beginnen.</string>
     <string name="welcome_title">Welkom bij Jellyfin!</string>
@@ -447,14 +447,14 @@
     <string name="license_description">Beschrijving</string>
     <string name="licenses_link">Licenties</string>
     <string name="select_version">Versie</string>
-    <string name="pref_subtitles_background_title">Schakel achtergrond van ondertiteling in</string>
+    <string name="pref_subtitles_background_title">Toon achtergrond</string>
     <string name="home_section_i">Homepagina sectie %1$d</string>
     <string name="home_sections">Homepagina secties</string>
     <string name="home_prefs">Homepagina</string>
     <string name="license_repository">Repository</string>
     <string name="license_artifact">Artifact</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_subtitles_size">Lettergrootte ondertiteling</string>
+    <string name="pref_subtitles_size">Lettergrootte</string>
     <string name="pref_subtitles_background_summary">Toon een zwarte achtergrond bij de ondertiteling</string>
     <string name="home_section_next_up">Volgende</string>
     <string name="home_section_library_small">Mijn media (klein)</string>
@@ -462,4 +462,33 @@
     <string name="server_issue_unsupported_version">Server gebruikt versie %1$s dat niet ondersteund wordt</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
     <string name="pref_show_backdrop_description">Verander achtergrond foto naar geselecteerd item</string>
+    <string name="pref_playback_description">Video, ondertitels, live tv, volgende video</string>
+    <string name="pref_customization_description">Thema, home, afstandsbediening knoppen</string>
+    <string name="server_issue_ssl_handshake">SSL handshake gefaald</string>
+    <string name="server_issue_timeout">Verbinding timeout</string>
+    <string name="pref_refresh_switching_description">Verversingsfrequentie wordt in lijn gebracht met video</string>
+    <string name="home_section_rewatching">Opnieuw aan het kijken</string>
+    <string name="home_section_resume_book">Doorgaan met lezen</string>
+    <string name="pref_direct_stream_live_on">Transcoderen staat uit</string>
+    <string name="pref_direct_stream_live_off">Transcoderen wordt gebruikt wanneer nodig</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_subtitles">Ondertiteling</string>
+    <string name="pref_video">Video</string>
+    <string name="pref_acra_description">Crashrapportage, automatische-upload, systeem logs</string>
+    <string name="pref_login_description">Servers, accounts, automatisch inloggen</string>
+    <string name="pref_login">Inloggen</string>
+    <string name="pref_libraries_description">Verander hoe bibliotheken worden getoond</string>
+    <string name="pref_libraries">Bibliotheken</string>
+    <string name="pref_home_description">Stel zichtbare secties in</string>
+    <string name="pref_theme">Thema</string>
+    <string name="pref_browsing">Bladeren</string>
+    <string name="pref_behavior">Gedrag</string>
+    <string name="pref_accounts">Accounts</string>
+    <string name="sort_accounts_by">Sorteer accounts volgens</string>
+    <string name="pref_customization">Personalisatie</string>
+    <string name="server_issue_outdated_version">Server gebruikt versie %1$s maar moet versie %2$s of nieuwer zijn</string>
+    <string name="server_issue_missing_version">Kon de server versie niet bepalen</string>
+    <string name="server_issue_invalid_product">Server software is niet ondersteund</string>
+    <string name="server_issue_unable_to_connect">Kon niet verbinden</string>
+    <string name="server_connection_failed_candidates">Kon niet verbinden met server, de volgende adressen zijn geprobeerd: %1$s</string>
 </resources>
