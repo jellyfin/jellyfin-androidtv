@@ -88,7 +88,6 @@
     <string name="lbl_mark_played">Marker som afspillet</string>
     <string name="lbl_remove_favorite">Fjern favorit</string>
     <string name="lbl_add_favorite">Tilføj favorit</string>
-    <string name="lbl_remove_dislike">Fjern Dislike</string>
     <string name="msg_no_playable_items">Intet indhold kan afspilles</string>
     <string name="lbl_unwatched">Ikke set</string>
     <string name="lbl_load_channels">"Indlæs kanaler "</string>

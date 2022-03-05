@@ -91,7 +91,6 @@
     <string name="lbl_load_channels">"טען ערוצים "</string>
     <string name="lbl_unwatched">לא נצפו</string>
     <string name="msg_no_playable_items">אין מה לנגן</string>
-    <string name="lbl_like">אהבתי</string>
     <string name="lbl_now_playing_album">מתוך %1$s</string>
     <string name="lbl_now_playing_track">%1$s מ %2$s</string>
     <string name="lbl_add_favorite">הוסף למועדפים</string>

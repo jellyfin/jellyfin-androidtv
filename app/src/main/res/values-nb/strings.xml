@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Merk som sett</string>
     <string name="lbl_remove_favorite">Fjern favoritt</string>
     <string name="lbl_add_favorite">Legg til favoritt</string>
-    <string name="lbl_remove_dislike">Fjern misliker</string>
     <string name="msg_no_playable_items">Ingen spillbare elementer</string>
     <string name="lbl_unwatched">Usett</string>
     <string name="lbl_series">Serier</string>

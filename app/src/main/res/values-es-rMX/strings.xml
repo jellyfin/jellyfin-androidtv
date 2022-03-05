@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Marcar como reproducido</string>
     <string name="lbl_remove_favorite">Remover favorito</string>
     <string name="lbl_add_favorite">Agregar a favoritos</string>
-    <string name="lbl_remove_dislike">Remover no me gusta</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
     <string name="lbl_unwatched">No visto</string>
     <string name="lbl_load_channels">"Cargar canales "</string>

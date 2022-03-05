@@ -57,7 +57,6 @@
     <string name="lbl_tomorrow">明天</string>
     <string name="lbl_today">今天</string>
     <string name="lbl_unwatched">未觀看</string>
-    <string name="lbl_like">喜歡</string>
     <string name="lbl_add_favorite">新增我的最愛</string>
     <string name="lbl_remove_favorite">移除我的最愛</string>
     <string name="lbl_mark_unplayed">標記為未播放</string>

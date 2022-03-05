@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Označit přehrané</string>
     <string name="lbl_remove_favorite">Odebrat z oblíbených</string>
     <string name="lbl_add_favorite">Přidat k oblíbeným</string>
-    <string name="lbl_remove_dislike">Odebrat odporné</string>
     <string name="msg_no_playable_items">Žádné hratelné položky</string>
     <string name="lbl_unwatched">Neshlédnuto</string>
     <string name="lbl_load_channels">"Načíst kanály "</string>

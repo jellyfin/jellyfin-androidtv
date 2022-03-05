@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Marqué comme vu</string>
     <string name="lbl_remove_favorite">Supprimer des favoris</string>
     <string name="lbl_add_favorite">Ajouter aux favoris</string>
-    <string name="lbl_remove_dislike">Supprimer Je n\'aime pas</string>
     <string name="msg_no_playable_items">Aucun élément à lire</string>
     <string name="lbl_unwatched">Non lu</string>
     <string name="lbl_load_channels">"Charger les chaînes "</string>

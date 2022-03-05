@@ -91,7 +91,6 @@
     <string name="lbl_mark_played">Как воспроизведённое</string>
     <string name="lbl_remove_favorite">Убрать из Избранного</string>
     <string name="lbl_add_favorite">Добавить в Избранное</string>
-    <string name="lbl_remove_dislike">Убрать Не нравится</string>
     <string name="msg_no_playable_items">Нет воспроизводимых элементов</string>
     <string name="lbl_unwatched">Непросмотренное</string>
     <string name="lbl_load_channels">"Загрузить каналы "</string>

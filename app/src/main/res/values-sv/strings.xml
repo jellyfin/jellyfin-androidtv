@@ -179,7 +179,6 @@
     <string name="lbl_load_channels">"Ladda kanaler "</string>
     <string name="lbl_unwatched">Icke sedda</string>
     <string name="msg_no_playable_items">Inga uppspelningsbara föremål</string>
-    <string name="lbl_like">Gilla</string>
     <string name="lbl_now_playing_album">från %1$s</string>
     <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_add_favorite">Lägg till favorit</string>

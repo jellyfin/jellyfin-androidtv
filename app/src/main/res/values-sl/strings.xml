@@ -139,7 +139,6 @@
     <string name="lbl_load_channels">"Naloži programe "</string>
     <string name="lbl_unwatched">Neogledano</string>
     <string name="msg_no_playable_items">Nobenih vsebin ni mogoče predvajati</string>
-    <string name="lbl_like">Všeč mi je</string>
     <string name="lbl_now_playing_album">od %1$s</string>
     <string name="lbl_now_playing_track">%1$s od %2$s</string>
     <string name="lbl_add_favorite">Dodaj priljubljeno</string>

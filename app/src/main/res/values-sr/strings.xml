@@ -310,7 +310,6 @@
     <string name="lbl_load_channels">"Учитај канале "</string>
     <string name="lbl_unwatched">Није гледано</string>
     <string name="msg_no_playable_items">Нема ставки за репродукцију</string>
-    <string name="lbl_like">Свиђа ми се</string>
     <string name="lbl_now_playing_album">од %1$s</string>
     <string name="lbl_now_playing_track">%1$s од %2$s</string>
     <string name="lbl_add_favorite">Додај као омиљено</string>

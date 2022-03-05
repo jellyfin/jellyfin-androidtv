@@ -113,7 +113,6 @@
     <string name="lbl_load_channels">"Kanalları Yükle "</string>
     <string name="lbl_unwatched">İzlenmemiş</string>
     <string name="msg_no_playable_items">Oynanabilir öğe yok</string>
-    <string name="lbl_like">Beğen</string>
     <string name="lbl_now_playing_album">%1$s \'den</string>
     <string name="lbl_now_playing_track">%1$s - %2$s</string>
     <string name="lbl_add_favorite">Favori Ekle</string>

@@ -12,7 +12,6 @@
     <string name="lbl_load_channels">"சேனல்களை ஏற்றவும் "</string>
     <string name="lbl_unwatched">பார்க்கப்படவில்லை</string>
     <string name="msg_no_playable_items">இயக்கக்கூடிய உருப்படிகள் இல்லை</string>
-    <string name="lbl_like">விரும்பு</string>
     <string name="lbl_now_playing_album">%1$s இலிருந்து</string>
     <string name="lbl_now_playing_track">%1$s இன் %2$s</string>
     <string name="lbl_add_favorite">பிடித்தவைச் சேர்க்கவும்</string>

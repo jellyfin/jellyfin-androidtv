@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Markiere als gesehen</string>
     <string name="lbl_remove_favorite">Favorit entfernen</string>
     <string name="lbl_add_favorite">Favorit hinzufügen</string>
-    <string name="lbl_remove_dislike">Entferne \"mag ich nicht\"</string>
     <string name="msg_no_playable_items">Keine abspielbaren Einträge</string>
     <string name="lbl_unwatched">Ungesehen</string>
     <string name="lbl_load_channels">"Lade Kanäle "</string>

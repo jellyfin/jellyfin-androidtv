@@ -90,7 +90,6 @@
     <string name="lbl_mark_played">Markeer als afgespeeld</string>
     <string name="lbl_remove_favorite">Verwijder favoriet</string>
     <string name="lbl_add_favorite">Voeg favoriet toe</string>
-    <string name="lbl_remove_dislike">Verwijder niet leuk</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
     <string name="lbl_unwatched">Ongezien</string>
     <string name="lbl_load_channels">"Laad kanalen "</string>

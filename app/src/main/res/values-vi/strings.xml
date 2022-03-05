@@ -9,7 +9,6 @@
     <string name="lbl_load_channels">"Tải Các Kênh "</string>
     <string name="lbl_unwatched">Chưa Được Xem</string>
     <string name="msg_no_playable_items">Không có mục nào có thể phát</string>
-    <string name="lbl_like">Thích</string>
     <string name="lbl_now_playing_album">từ %1$s</string>
     <string name="lbl_now_playing_track">%1$s của %2$s</string>
     <string name="lbl_add_favorite">Thêm Yêu Thích</string>

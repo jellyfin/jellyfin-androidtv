@@ -85,7 +85,6 @@
     <string name="lbl_load_channels">"Load Channels "</string>
     <string name="lbl_unwatched">Unwatched</string>
     <string name="msg_no_playable_items">No playable items</string>
-    <string name="lbl_like">Like</string>
     <string name="lbl_now_playing_album">from %1$s</string>
     <string name="lbl_mark_played">Mark Played</string>
     <string name="lbl_play_first_unwatched">Play First Unwatched</string>
