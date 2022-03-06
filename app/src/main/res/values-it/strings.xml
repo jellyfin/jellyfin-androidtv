@@ -192,7 +192,7 @@
     <string name="desc_bitstream_ac3">Richiede hardware idoneo</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Nuove premier</string>
-    <string name="desc_automatic_fav_songs">Playlists automatiche di canzoni preferite e piaciute</string>
+    <string name="desc_automatic_fav_songs">Playlist automatica delle canzoni preferite</string>
     <string name="desc_seasonal_themes">Mostra colori e suggerimenti speciali in certi momenti dell\'anno</string>
     <string name="lbl_live">In diretta</string>
     <string name="lbl_new">Nuovo</string>
@@ -489,4 +489,5 @@
     <string name="pref_customization_description">Tema, home, rimappatura</string>
     <string name="pref_home_description">Configura sezioni mostrate</string>
     <string name="pref_behavior">Comportamento</string>
+    <string name="home_section_resume_book">Continua a leggere</string>
 </resources>
