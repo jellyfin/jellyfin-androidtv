@@ -139,4 +139,18 @@
     <string name="lbl_cancel_series">Отказване на сериала</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_by_letter">По буква</string>
+    <string name="lbl_enable_cinema_mode">Режим Кино</string>
+    <string name="lbl_songs">Песни</string>
+    <string name="lbl_song">Песен</string>
+    <string name="lbl_artists">Артисти</string>
+    <string name="lbl_albums">Албуми</string>
+    <string name="lbl_programs">Програми</string>
+    <string name="lbl_recording">Записване</string>
+    <string name="lbl_episodes">Епизоди</string>
+    <string name="lbl_album">Албум</string>
+    <string name="lbl_runs">Изпълнява</string>
+    <string name="home_section_resume_book">Продължете да четете</string>
+    <string name="lbl_record_any_channel">Записване на всякакъв канал</string>
+    <string name="lbl_program_ended">Програмата завърши</string>
+    <string name="msg_set_to_record">Програмата е настроена за запис</string>
 </resources>
