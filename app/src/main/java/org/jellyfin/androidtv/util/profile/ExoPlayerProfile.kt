@@ -27,6 +27,7 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 	isAC3Enabled: Boolean = false,
+	isHlsSupported: Boolean = false,
 ) : BaseProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		CodecTypes.AAC,
@@ -54,32 +55,34 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		transcodingProfiles = arrayOf(
-			// TS video profile
-			TranscodingProfile().apply {
-				type = DlnaProfileType.Video
-				context = EncodingContext.Streaming
-				container = ContainerTypes.TS
-				videoCodec = buildList {
-					if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MP4)) add(CodecTypes.HEVC)
-					add(CodecTypes.H264)
-				}.joinToString(",")
-				audioCodec = buildList {
-					if (isAC3Enabled) add(CodecTypes.AC3)
-					add(CodecTypes.AAC)
-					add(CodecTypes.MP3)
-				}.joinToString(",")
-				protocol = "hls"
-				copyTimestamps = false
-			},
-			// MP3 audio profile
-			TranscodingProfile().apply {
-				type = DlnaProfileType.Audio
-				context = EncodingContext.Streaming
-				container = CodecTypes.MP3
-				audioCodec = CodecTypes.MP3
-			}
-		)
+		if (isHlsSupported) {
+			transcodingProfiles = arrayOf(
+					// TS video profile
+					TranscodingProfile().apply {
+						type = DlnaProfileType.Video
+						context = EncodingContext.Streaming
+						container = ContainerTypes.TS
+						videoCodec = buildList {
+							if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.TS)) add(CodecTypes.HEVC)
+							add(CodecTypes.H264)
+						}.joinToString(",")
+						audioCodec = buildList {
+							if (isAC3Enabled) add(CodecTypes.AC3)
+							add(CodecTypes.AAC)
+							add(CodecTypes.MP3)
+						}.joinToString(",")
+						protocol = "hls"
+						copyTimestamps = false
+					},
+					// MP3 audio profile
+					TranscodingProfile().apply {
+						type = DlnaProfileType.Audio
+						context = EncodingContext.Streaming
+						container = CodecTypes.MP3
+						audioCodec = CodecTypes.MP3
+					}
+			)
+		}
 
 		directPlayProfiles = buildList {
 			// Video direct play

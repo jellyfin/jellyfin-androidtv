@@ -114,8 +114,6 @@ public class PlaybackController {
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
 
-    private boolean updateProgress = true;
-
     private Display.Mode[] mDisplayModes;
     private boolean refreshRateSwitchingEnabled;
 
@@ -498,10 +496,16 @@ public class PlaybackController {
                 internalOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
+                    boolean hlsSupported = false;
+                    if (mFragment != null)
+                        hlsSupported = mFragment.getServerMeetsMinimumVersion("10.8.0");
+                    Timber.d("HLS is %s", hlsSupported ? "allowed" : "disabled");
+
                     internalProfile = new ExoPlayerProfile(
                             isLiveTv,
                             userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                            userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+                            userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
+                            hlsSupported
                     );
                     Timber.i("*** Using extended Exoplayer profile options");
                 } else {
