@@ -235,7 +235,7 @@
     <string name="lbl_record_any_channel">任意のチャンネルで録音</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
-    <string name="msg_burn_sub_warning">付属字幕は数分がかかります。ちょっと待ってください…</string>
+    <string name="msg_burn_sub_warning">字幕の生成に数分必要です。しばらくお待ちください…</string>
     <string name="pref_use_direct_path_title">外部プレーヤーにダイレクトパスを給う</string>
     <string name="lbl_more_like_this">このように</string>
     <string name="lbl_resume_preroll">プレロールを再開する</string>
@@ -400,4 +400,13 @@
     <string name="pref_subtitles">字幕</string>
     <string name="pref_direct_stream_live_off">トランスコーディングは必要に応じて使用</string>
     <string name="pref_direct_stream_live_on">トランスコーディングは無効です</string>
+    <string name="watch_count_overflow">99+</string>
+    <string name="mark_watched_message">最後まで再生されていませんが、視聴済みにしますか？</string>
+    <string name="pref_media_player">お気に入りのメディアプレーヤ</string>
+    <string name="acra_dialog_title">問題が発生しました</string>
+    <string name="pref_refresh_switching_description">モニターのリフレッシュレートが動画に合わせて変更されました。</string>
+    <string name="pref_show_backdrop_description">背景画像を選択中のアイテムに変更する</string>
+    <string name="lbl_playback_speed">再生速度</string>
+    <string name="lbl_stretch">ストレッチ</string>
+    <string name="lbl_auto_crop">オートクロップ</string>
 </resources>
