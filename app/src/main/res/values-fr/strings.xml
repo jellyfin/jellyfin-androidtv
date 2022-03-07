@@ -170,7 +170,7 @@
     <string name="msg_item_added">" élément ajouté"</string>
     <string name="lbl_enable_seasonal_themes">Activer les thèmes de saisons</string>
     <string name="desc_seasonal_themes">Activer les couleurs et les suggestions spéciales à certains moments de l\'année</string>
-    <string name="desc_automatic_fav_songs">Liste de lecture automatique des chansons favorites et aimées</string>
+    <string name="desc_automatic_fav_songs">Liste de lecture automatique des chansons favorites</string>
     <string name="lbl_kids">Enfants</string>
     <string name="btn_got_it">Ok</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
