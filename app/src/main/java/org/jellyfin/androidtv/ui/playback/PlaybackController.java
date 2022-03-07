@@ -317,11 +317,13 @@ public class PlaybackController {
 
             Timber.d("qualifying display mode: %sx%s @%sfps", mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
 
-            int weight;
-            if (mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight())
-                weight = (rate * 10000) + 9999;
-            else
-                weight = (rate * 10000) + 9999 - mode.getPhysicalWidth() - videoStream.getWidth();
+            int resolutionDifference = 0;
+            if (!(mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight()))
+                resolutionDifference = mode.getPhysicalWidth() - videoStream.getWidth();
+            int refreshRateDifference = rate - sourceRate;
+
+            // use 100,000 to account for refresh rates 120Hz+ (at 120Hz rate == 12,000)
+            int weight = 100000 - refreshRateDifference + 100000 - resolutionDifference;
 
             if (weight > curWeight) {
                 Timber.d("preferring mode: %sx%s @%sfps", mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
