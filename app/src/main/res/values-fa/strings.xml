@@ -65,4 +65,7 @@
     <string name="btn_cancel">لغو</string>
     <string name="loading">درحال بارگیری…</string>
     <string name="video_error_unknown_error">عدم موفقیت در بارگیری ویدئو</string>
+    <string name="lbl_bracket_unknown">ناشناخته</string>
+    <string name="msg_video_playback_error">"خطای پخش ویدئو - "</string>
+    <string name="lbl_views">بازدید</string>
 </resources>
