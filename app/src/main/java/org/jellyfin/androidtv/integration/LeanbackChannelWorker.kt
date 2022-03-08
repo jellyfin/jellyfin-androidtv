@@ -30,6 +30,8 @@ import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
@@ -41,6 +43,7 @@ import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 import java.time.ZoneOffset
 
 /**
@@ -82,7 +85,7 @@ class LeanbackChannelWorker(
 		!isSupported -> Result.failure()
 		// Retry later if no authenticated user is found
 		!api.isUsable -> Result.retry()
-		else -> {
+		else -> try {
 			// Get next up episodes
 			val (resumeItems, nextUpItems) = getNextUpItems()
 
@@ -96,6 +99,14 @@ class LeanbackChannelWorker(
 
 			// Success!
 			Result.success()
+		} catch (err: TimeoutException) {
+			Timber.w(err, "Server unreachable, trying again later")
+
+			Result.retry()
+		} catch (err: ApiClientException) {
+			Timber.e(err, "SDK error, trying again later")
+
+			Result.retry()
 		}
 	}
 
