@@ -1495,7 +1495,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         });
     }
 
-    public boolean getServerMeetsMinimumVersion(@NonNull ServerVersion minServerVersion) {
+    public boolean getServerVersionEqualOrGreater(@NonNull ServerVersion minServerVersion) {
         Session session = sessionRepository.getValue().getCurrentSession().getValue();
         if (session == null) {
             Timber.d("couldn't compare server versions - session is null");

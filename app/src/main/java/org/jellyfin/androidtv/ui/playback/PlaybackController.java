@@ -499,7 +499,7 @@ public class PlaybackController {
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     boolean hlsSupported = false;
                     if (mFragment != null)
-                        hlsSupported = mFragment.getServerMeetsMinimumVersion(new ServerVersion(10, 8, 0, null));
+                        hlsSupported = mFragment.getServerVersionEqualOrGreater(new ServerVersion(10, 8, 0, null));
                     Timber.d("HLS is %s", hlsSupported ? "allowed" : "disabled");
 
                     internalProfile = new ExoPlayerProfile(
