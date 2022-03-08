@@ -100,4 +100,25 @@
     <string name="lbl_runs">اجرا</string>
     <string name="lbl_play_trailers">پخش پیش نمایش(ها)</string>
     <string name="lbl_trailer">"پیش نمایش "</string>
+    <string name="lbl_showing">درحال نمایش دادن</string>
+    <string name="desc_debug">ارائه اطلاعات اضافی برای اشکال زدایی</string>
+    <string name="lbl_enable_debug">گزینه های اشکال زدایی</string>
+    <string name="lbl_goto_series">برو به سریال ها</string>
+    <string name="lbl_audio_output">خروجی صدا</string>
+    <string name="pref_audio_compat">کاهش به استریو</string>
+    <string name="pref_audio_direct">مستقیم</string>
+    <string name="msg_remote_already_playing">درخواست پخش از راه دور نادیده گرفته شد. لطفاً ابتدا مورد فعلی را متوقف کنید.</string>
+    <string name="msg_cancel_entire_series">آیا مطمئن هستید که می خواهید تمام این سریال را لغو کنید؟</string>
+    <string name="lbl_repeat_options">گزینه‌ها را دوباره تکرار کنید</string>
+    <string name="lbl_only_new_episodes">فقط قسمت های جدید</string>
+    <string name="lbl_similar_items_library">موارد مشابه در کتابخانه شما</string>
+    <string name="lbl_program_ended">برنامه به پایان رسید</string>
+    <string name="msg_will_record">ضبط خواهد شد</string>
+    <string name="msg_recording_now">الآن در حال ضبط</string>
+    <string name="lbl_on">روشن</string>
+    <string name="lbl_tomorrow">فردا</string>
+    <string name="lbl_today">امروز</string>
+    <string name="lbl_load_channels">"بارگیری کانال ها "</string>
+    <string name="lbl_unwatched">تماشا نشده</string>
+    <string name="msg_no_playable_items">هیچ موردی برای نمایش وجود ندارد</string>
 </resources>
