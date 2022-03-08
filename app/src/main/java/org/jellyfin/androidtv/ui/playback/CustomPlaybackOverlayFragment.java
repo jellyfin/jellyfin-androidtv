@@ -1508,10 +1508,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return false;
         }
 
-        boolean result = server.isVersionEqualOrGreater(minServerVersion);
-        Timber.d("current server version [%s] is %s [%s.%s.%s]",
-                server.getVersion(), result ? ">=" : "<",
-                minServerVersion.getMajor(), minServerVersion.getMinor(), minServerVersion.getPatch());
+        boolean result = server.compareTo(minServerVersion) >= 0;
+        Timber.d("current server version [%s] is %s [%s]", server.getVersion(), result ? ">=" : "<", minServerVersion.toString());
 
         return result;
     }
