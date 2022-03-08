@@ -49,6 +49,7 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.ServerVersion;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -113,8 +114,6 @@ public class PlaybackController {
     private boolean exoErrorEncountered;
     private int playbackRetries = 0;
     private long lastPlaybackError = 0;
-
-    private boolean updateProgress = true;
 
     private Display.Mode[] mDisplayModes;
     private boolean refreshRateSwitchingEnabled;
@@ -498,10 +497,16 @@ public class PlaybackController {
                 internalOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
+                    boolean hlsSupported = false;
+                    if (mFragment != null)
+                        hlsSupported = mFragment.getServerVersionEqualOrGreater(new ServerVersion(10, 8, 0, null));
+                    Timber.d("HLS is %s", hlsSupported ? "allowed" : "disabled");
+
                     internalProfile = new ExoPlayerProfile(
                             isLiveTv,
                             userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                            userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+                            userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled()),
+                            hlsSupported
                     );
                     Timber.i("*** Using extended Exoplayer profile options");
                 } else {

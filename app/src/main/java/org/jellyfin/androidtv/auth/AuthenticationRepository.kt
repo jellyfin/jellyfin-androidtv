@@ -31,6 +31,7 @@ import java.util.UUID
 
 interface AuthenticationRepository {
 	fun getServers(): List<Server>
+	fun getServer(id: UUID): Server?
 	fun getUsers(server: UUID): List<PrivateUser>?
 	fun getUser(server: UUID, user: UUID): PrivateUser?
 	fun saveServer(id: UUID, name: String, address: String, version: String?, loginDisclaimer: String?)
@@ -54,16 +55,20 @@ class AuthenticationRepositoryImpl(
 	private val serverComparator = compareByDescending<Server> { it.dateLastAccessed }.thenBy { it.name }
 	private val userComparator = compareByDescending<PrivateUser> { it.lastUsed }.thenBy { it.name }
 
-	override fun getServers() = authenticationStore.getServers().map { (id, info) ->
-		Server(
+	private fun AuthenticationStoreServer.asServer(id: UUID) = Server(
 			id = id,
-			name = info.name,
-			address = info.address,
-			version = info.version,
-			loginDisclaimer = info.loginDisclaimer,
-			dateLastAccessed = Date(info.lastUsed),
-		)
-	}.sortedWith(serverComparator)
+			name = name,
+			address = address,
+			version = version,
+			loginDisclaimer = loginDisclaimer,
+			dateLastAccessed = Date(lastUsed),
+	)
+
+	override fun getServers() = authenticationStore.getServers()
+			.map { (id, entry) -> entry.asServer(id) }
+			.sortedWith(serverComparator)
+
+	override fun getServer(id: UUID) = authenticationStore.getServer(id)?.asServer(id)
 
 	private fun mapUser(
 		serverId: UUID,

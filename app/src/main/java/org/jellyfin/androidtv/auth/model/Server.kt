@@ -19,6 +19,8 @@ data class Server(
 	private val serverVersion = version?.let(ServerVersion::fromString)
 	val versionSupported = serverVersion != null && serverVersion >= ServerRepository.minimumServerVersion
 
+	operator fun compareTo(other: ServerVersion): Int = serverVersion?.compareTo(other) ?: -1
+
 	override fun equals(other: Any?) = other is Server
 		&& id == other.id
 		&& address == other.address
