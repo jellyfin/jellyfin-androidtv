@@ -16,8 +16,15 @@ data class Server(
 	val loginDisclaimer: String? = null,
 	var dateLastAccessed: Date = Date(0),
 ) {
-	private val serverVersion = version?.let(ServerVersion::fromString)
+	val serverVersion = version?.let(ServerVersion::fromString)
 	val versionSupported = serverVersion != null && serverVersion >= ServerRepository.minimumServerVersion
+
+
+	fun isVersionEqualOrGreater(otherVersion: ServerVersion?): Boolean {
+		val serverVersion: ServerVersion? = version?.let { ServerVersion.fromString(it) }
+		val result = otherVersion?.let { serverVersion?.compareTo(it) } ?: -1
+		return result >= 0
+	}
 
 	override fun equals(other: Any?) = other is Server
 		&& id == other.id

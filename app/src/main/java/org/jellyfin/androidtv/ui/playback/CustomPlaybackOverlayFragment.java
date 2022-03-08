@@ -45,9 +45,10 @@ import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.auth.AuthenticationStore;
+import org.jellyfin.androidtv.auth.AuthenticationRepository;
+import org.jellyfin.androidtv.auth.Session;
 import org.jellyfin.androidtv.auth.SessionRepository;
-import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer;
+import org.jellyfin.androidtv.auth.model.Server;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -95,7 +96,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -156,7 +156,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<SessionRepository> sessionRepository = inject(SessionRepository.class);
-    private final Lazy<AuthenticationStore> authenticationStore = inject(AuthenticationStore.class);
+    private final Lazy<AuthenticationRepository> authenticationRepository = inject(AuthenticationRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -1495,28 +1495,24 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         });
     }
 
-    public boolean getServerMeetsMinimumVersion(@NonNull String minServerVersion) {
-        if (sessionRepository.getValue().getCurrentSession().getValue() == null) {
-            Timber.d("failed to get current session");
+    public boolean getServerMeetsMinimumVersion(@NonNull ServerVersion minServerVersion) {
+        Session session = sessionRepository.getValue().getCurrentSession().getValue();
+        if (session == null) {
+            Timber.d("couldn't compare server versions - session is null");
             return false;
         }
 
-        UUID serverId = sessionRepository.getValue().getCurrentSession().getValue().getServerId();
-        AuthenticationStoreServer server = authenticationStore.getValue().getServer(serverId);
-        if (server == null || server.getVersion() == null) {
-            Timber.d("server is null or version is null");
+        Server server = authenticationRepository.getValue().getServer(session.getServerId());
+        if (server == null) {
+            Timber.d("couldn't compare server versions - server is null");
             return false;
         }
 
-        ServerVersion version = ServerVersion.Companion.fromString(server.getVersion());
-        ServerVersion minVersion = ServerVersion.Companion.fromString(minServerVersion);
-        if (version == null || minVersion == null) {
-            Timber.d("failed to create ServerVersions from strings: %s %s", version, minVersion);
-            return false;
-        }
+        boolean result = server.isVersionEqualOrGreater(minServerVersion);
+        Timber.d("current server version [%s] is %s [%s.%s.%s]",
+                server.getVersion(), result ? ">=" : "<",
+                minServerVersion.getMajor(), minServerVersion.getMinor(), minServerVersion.getPatch());
 
-        int comparison = version.compareTo(minVersion);
-        Timber.d("current server version [%s] is %s [%s]", version, comparison >= 0 ? ">=" : "<", minVersion);
-        return comparison >= 0;
+        return result;
     }
 }

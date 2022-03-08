@@ -49,6 +49,7 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.ServerVersion;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -498,7 +499,7 @@ public class PlaybackController {
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     boolean hlsSupported = false;
                     if (mFragment != null)
-                        hlsSupported = mFragment.getServerMeetsMinimumVersion("10.8.0");
+                        hlsSupported = mFragment.getServerMeetsMinimumVersion(new ServerVersion(10, 8, 0, null));
                     Timber.d("HLS is %s", hlsSupported ? "allowed" : "disabled");
 
                     internalProfile = new ExoPlayerProfile(
