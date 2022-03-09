@@ -247,4 +247,8 @@
     <string name="pref_enable_acra">ارسال گزاش های کارایستایی به توسعه دهندگان</string>
     <string name="pref_acra_category">گزارش کارایستایی</string>
     <string name="pref_use_direct_path_summary">پاس دادن مسیر سیستمی فایل بجای آدرس URL</string>
+    <string name="pref_acra_alwaysaccept_disabled">قبل از ثبت هرگونه گزارش کارایستایی یک پنجره نمایش داده میشود</string>
+    <string name="pref_acra_alwaysaccept_enabled">گزارش کارایستایی بدون درخواست ثبت خواهند شد</string>
+    <string name="pref_acra_alwaysaccept">ثبت بدون اجازه</string>
+    <string name="pref_acra_disabled">گزارش های کارایستایی ثبت نخواهند شد</string>
 </resources>
