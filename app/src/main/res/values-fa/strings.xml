@@ -182,4 +182,12 @@
     <string name="lbl_live_tv_guide">راهنمای تلویزیون زنده</string>
     <string name="lbl_record_any_time">ضبط در هر زمان</string>
     <string name="lbl_record_any_channel">ضبط در هر کانال</string>
+    <string name="lbl_subtitle_track">انتخاب زیرنویس</string>
+    <string name="lbl_playback_speed">سرعت پخش</string>
+    <string name="lbl_audio_track">انتخاب صدا</string>
+    <string name="lbl_fit">عادی</string>
+    <string name="lbl_stretch">کش آمدن</string>
+    <string name="lbl_auto_crop">برش خودکار</string>
+    <string name="lbl_zoom">بزرگنمایی</string>
+    <string name="desc_bitstream_ac3">نیازمند سخت افزار سازگار</string>
 </resources>
