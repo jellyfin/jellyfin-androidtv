@@ -240,4 +240,7 @@
     <string name="lbl_seconds">ثانیه</string>
     <string name="lbl_at_any_time">در هر زمان</string>
     <string name="lbl_series_recordings">ضبط های سریال</string>
+    <string name="pref_use_direct_path_title">دادن مسیر مستقیم به پخش کننده خارجی</string>
+    <string name="lbl_song_title">عنوان آهنگ</string>
+    <string name="lbl_album_name">نام آلبوم</string>
 </resources>
