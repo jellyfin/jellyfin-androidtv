@@ -19,8 +19,11 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:foreground="@drawable/ripple"
         android:gravity="end"
         android:visibility="gone"
+        tools:ignore="UnusedAttribute"
         tools:visibility="visible">
 
         <ImageView

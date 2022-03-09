@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.presentation;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.leanback.widget.ListRowPresenter;
@@ -9,7 +8,6 @@ import androidx.leanback.widget.RowPresenter;
 public class CustomListRowPresenter extends ListRowPresenter {
     private View viewHolder;
     private Integer topPadding;
-    private Drawable backgroundDrawable;
 
     public CustomListRowPresenter() {
         super();
@@ -20,14 +18,6 @@ public class CustomListRowPresenter extends ListRowPresenter {
     public CustomListRowPresenter(Integer topPadding) {
         super();
         this.topPadding = topPadding;
-
-        setHeaderPresenter(new CustomRowHeaderPresenter());
-    }
-
-    public CustomListRowPresenter(Drawable drawable, Integer topPadding) {
-        super();
-        this.topPadding = topPadding;
-        this.backgroundDrawable = drawable;
 
         setHeaderPresenter(new CustomRowHeaderPresenter());
     }
@@ -50,10 +40,6 @@ public class CustomListRowPresenter extends ListRowPresenter {
 
         if (topPadding != null) {
             viewHolder.setPadding(viewHolder.getPaddingLeft(), topPadding, viewHolder.getPaddingRight(), viewHolder.getPaddingBottom());
-        }
-
-        if (backgroundDrawable != null) {
-            viewHolder.setBackground(backgroundDrawable);
         }
     }
 }
