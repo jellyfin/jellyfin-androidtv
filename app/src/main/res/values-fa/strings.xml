@@ -195,4 +195,10 @@
     <string name="lbl_current_queue">صف فعلی</string>
     <string name="btn_got_it">فهمیدم</string>
     <string name="msg_external_path">این ویژگی تنها در صورتی کار می کند که کتابخانه خود را به درستی روی سرور با استفاده از مسیرهای شبکه یا مسیرهای جایگزین تنظیم کرده باشید و کاربر شما بتواند مستقیماً به این مکان ها از طریق شبکه دسترسی داشته باشد.</string>
+    <string name="pref_refresh_switching_description">سرعت تازه‌ سازی صفحه برای مطابقت با ویدئو تغییر کرد</string>
+    <string name="lbl_refresh_switching">تعویض سرعت تازه سازی</string>
+    <string name="pref_show_backdrop_description">تغییر پس زمینه به تصاویر انتخاب شده</string>
+    <string name="lbl_show_backdrop">نمایش تصاویر پس زمینه</string>
+    <string name="lbl_open">باز کردن</string>
+    <string name="lbl_play_next_up">پخش بعدی</string>
 </resources>
