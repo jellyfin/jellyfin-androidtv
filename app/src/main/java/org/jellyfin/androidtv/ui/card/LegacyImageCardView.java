@@ -47,6 +47,8 @@ public class LegacyImageCardView extends BaseCardView {
             if (!v.requestFocus()) return false;
             return activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU));
         });
+
+        setForeground(null);
     }
 
     public void setBanner(int bannerResource) {
