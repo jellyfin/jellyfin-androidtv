@@ -243,4 +243,8 @@
     <string name="pref_use_direct_path_title">دادن مسیر مستقیم به پخش کننده خارجی</string>
     <string name="lbl_song_title">عنوان آهنگ</string>
     <string name="lbl_album_name">نام آلبوم</string>
+    <string name="pref_acra_enabled">از شما خواسته خواهد شد تا گزارش های کارایستایی را ثبت کنید</string>
+    <string name="pref_enable_acra">ارسال گزاش های کارایستایی به توسعه دهندگان</string>
+    <string name="pref_acra_category">گزارش کارایستایی</string>
+    <string name="pref_use_direct_path_summary">پاس دادن مسیر سیستمی فایل بجای آدرس URL</string>
 </resources>
