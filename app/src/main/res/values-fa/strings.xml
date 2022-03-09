@@ -478,4 +478,16 @@
     <string name="no_player_message">به نظر نمی‌رسد برنامه سازگار با ویدئو نصب شده باشد.این گزینه نیازمند نصب یک برنامه شخص ثالث برای پخش محتوای ویدئویی می‌باشد.</string>
     <string name="no_player">بدون پخش کننده</string>
     <string name="mark_watched_message">به نظر نمی رسید این مورد به اندازه مدت زمانش پخش شده باشد. علامت گذاری به عنوان تماشا شده؟</string>
+    <string name="no_user_warning">نتوانستیم هیچ حسابی پیدا کنیم.
+\nبا زدن دکمه \"اضافه کردن حساب\" یک حساب جدید ایجاد کنید.</string>
+    <string name="acra_dialog_text">آیا می خواهید یک گزارش خرابی برای توسعه دهندگان ارسال کنید؟
+\n
+\nاین اطلاعات به شخص ثالث ارسال می شود (tracepot.com).
+\n
+\nاین درخواست را می توان در بخش گزارش کارایستایی در تنظیمات برنامه Jellyfin غیرفعال کرد.</string>
+    <string name="pref_acra_syslog">گنجاندن گزارش های سیستمی.
+\nاین ممکن است شامل داده‌های خصوصی سایر برنامه‌ها باشد، اگر در زمان کارایستایی ثبت شده باشد.</string>
+    <string name="lbl_end_padding">پایان پر کردن</string>
+    <string name="lbl_begin_padding">شروع پر کردن</string>
+    <string name="lbl_tune_to_channel">تغییر به کانال</string>
 </resources>
