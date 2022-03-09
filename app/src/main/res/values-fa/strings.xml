@@ -221,4 +221,23 @@
     <string name="lbl_bitstream_dts">صدای جریان بیت DTS</string>
     <string name="desc_premieres">نمایش یک ردیف از قسمت های آزمایشی برای تمام سریال هایی که تماشا میکنید</string>
     <string name="lbl_show_premieres">نمایش اولین نمایش فصل</string>
+    <string name="lbl_next_episode">قسمت بعدی</string>
+    <string name="lbl_previous_episode">قسمت قبلی</string>
+    <string name="lbl_more_like_this">بیشتر شبیه این</string>
+    <string name="lbl_resume_from">از سرگیری از %1$s</string>
+    <string name="lbl_resume_preroll">از سرگیری پیش نمایش</string>
+    <string name="lbl_guide_option_number">شماره کانال</string>
+    <string name="lbl_guide_option_played">آخرین پخش شده</string>
+    <string name="lbl_show_indicators">نمایش شاخص ها برای</string>
+    <string name="lbl_sort_by">مرتب سازی بر اساس</string>
+    <string name="lbl_premiere">اولین نمایش</string>
+    <string name="lbl_guest_stars">ستاره های میهمان</string>
+    <string name="lbl_on_schedule">طبق برنامه</string>
+    <string name="lbl_hours">ساعت</string>
+    <string name="lbl_minute">دقیقه</string>
+    <string name="lbl_hour">ساعت</string>
+    <string name="lbl_minutes">دقیقه</string>
+    <string name="lbl_seconds">ثانیه</string>
+    <string name="lbl_at_any_time">در هر زمان</string>
+    <string name="lbl_series_recordings">ضبط های سریال</string>
 </resources>
