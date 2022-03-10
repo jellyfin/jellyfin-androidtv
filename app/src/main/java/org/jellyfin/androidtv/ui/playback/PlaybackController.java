@@ -231,7 +231,7 @@ public class PlaybackController {
     }
 
     public boolean hasNextItem() {
-        return mCurrentIndex < mItems.size() - 1;
+        return mItems != null && mCurrentIndex < mItems.size() - 1;
     }
 
     public BaseItemDto getNextItem() {
@@ -421,8 +421,12 @@ public class PlaybackController {
                 BaseItemDto item = getCurrentlyPlayingItem();
 
                 // make sure item isn't missing
-                if (item.getLocationType() == LocationType.Virtual && mFragment != null) {
-                    if (hasNextItem()) {
+                if (item == null || item.getLocationType() == LocationType.Virtual) {
+                    if (mFragment == null) {
+                        Timber.d("item is null!");
+                        if (TvApp.getApplication() != null)
+                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_cannot_play));
+                    } else if (hasNextItem()) {
                         new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
                                 .setMessage(R.string.episode_missing_message)
