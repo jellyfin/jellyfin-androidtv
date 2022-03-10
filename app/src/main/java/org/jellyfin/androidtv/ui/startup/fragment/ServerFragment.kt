@@ -145,6 +145,7 @@ class ServerFragment : Fragment() {
 
 		val server = serverIdArgument?.let(loginViewModel::getServer)
 		if (server != null) loginViewModel.loadUsers(server)
+		else navigateFragment<SelectServerFragment>(keepToolbar = true)
 	}
 
 	private class UserAdapter(
