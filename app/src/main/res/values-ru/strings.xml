@@ -150,7 +150,7 @@
     <string name="lbl_songs">Композиции</string>
     <string name="lbl_album">Альбом</string>
     <string name="lbl_episodes">Эпизоды</string>
-    <string name="lbl_enable_cinema_mode">Режим кинотеатра</string>
+    <string name="lbl_enable_cinema_mode">Режим кинозала</string>
     <string name="sum_enable_cinema_mode">Воспроизведение доступных заставок и анонсов перед началом фильма</string>
     <string name="lbl_playlists">Плей-листы</string>
     <string name="msg_items_added">" элементов добавлено"</string>
