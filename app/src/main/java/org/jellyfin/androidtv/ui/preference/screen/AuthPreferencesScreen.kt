@@ -79,17 +79,20 @@ class AuthPreferencesScreen : OptionsFragment() {
 			}
 		}
 
-		category {
-			setTitle(R.string.lbl_manage_servers)
+		val servers = authenticationRepository.getServers()
+		if (servers.isNotEmpty()) {
+			category {
+				setTitle(R.string.lbl_manage_servers)
 
-			authenticationRepository.getServers().forEach { server ->
-				link {
-					title = server.name
-					icon = R.drawable.ic_house
-					content = server.address
-					withFragment<EditServerScreen>(bundleOf(
-						EditServerScreen.ARG_SERVER_UUID to server.id
-					))
+				servers.forEach { server ->
+					link {
+						title = server.name
+						icon = R.drawable.ic_house
+						content = server.address
+						withFragment<EditServerScreen>(bundleOf(
+							EditServerScreen.ARG_SERVER_UUID to server.id
+						))
+					}
 				}
 			}
 		}
