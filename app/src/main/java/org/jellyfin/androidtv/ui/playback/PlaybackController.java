@@ -420,13 +420,18 @@ public class PlaybackController {
 
                 BaseItemDto item = getCurrentlyPlayingItem();
 
+                if (item == null) {
+                    Timber.d("item is null - aborting play");
+                    if (mFragment != null) {
+                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
+                        mFragment.requireActivity().finish();
+                    }
+                    return;
+                }
+
                 // make sure item isn't missing
-                if (item == null || item.getLocationType() == LocationType.Virtual) {
-                    if (mFragment == null) {
-                        Timber.d("item is null!");
-                        if (TvApp.getApplication() != null)
-                            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_cannot_play));
-                    } else if (hasNextItem()) {
+                if (item.getLocationType() == LocationType.Virtual && mFragment != null) {
+                    if (hasNextItem()) {
                         new AlertDialog.Builder(mFragment.getContext())
                                 .setTitle(R.string.episode_missing)
                                 .setMessage(R.string.episode_missing_message)
