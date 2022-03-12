@@ -70,6 +70,8 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	}
 
 	override fun onQueueStatusChanged(hasQueue: Boolean) {
+		if (activity == null || requireActivity().isFinishing) return
+
 		Timber.i("Updating audio queue in HomeFragment (onQueueStatusChanged)")
 		nowPlaying.update(mRowsAdapter)
 	}
