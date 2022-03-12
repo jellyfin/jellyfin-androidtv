@@ -1,14 +1,14 @@
 package org.jellyfin.androidtv.preference
 
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.test.TestCase
+import io.kotest.matchers.shouldBe
 
 /**
  * Tests that the generic set/get methods dispatch to the correct
  * internal getT/setT methods
  */
-class PreferenceStoreTest {
+class PreferenceStoreTest : FunSpec() {
 	class TestStub : PreferenceStore() {
 		var key: String? = null
 		private var int: Int? = null
@@ -57,58 +57,40 @@ class PreferenceStoreTest {
 		}
 	}
 
-	@Before
-	fun setup() {
+	var instance = TestStub()
+	override fun beforeTest(f: suspend (TestCase) -> Unit) {
+		super.beforeTest(f)
 		instance = TestStub()
-	}
-
-	private lateinit var instance: TestStub
-
-	@Test
-	fun testGetSetInt() {
-		val pref = Preference.int("key", 0)
-		val expectedVal = 1
-		instance[pref] = expectedVal
-		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.key)
-	}
-
-	@Test
-	fun testGetSetLong() {
-		val pref = Preference.long("key", 0)
-		val expectedVal: Long = 1
-		instance[pref] = expectedVal
-		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.key)
-	}
-
-	@Test
-	fun testGetSetBoolean() {
-		val pref = Preference.boolean("key", false)
-		val expectedVal = true
-		instance[pref] = expectedVal
-		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.key)
-	}
-
-	@Test
-	fun testGetSetString() {
-		val pref = Preference.string("key", "")
-		val expectedVal = "val"
-		instance[pref] = expectedVal
-		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.key)
 	}
 
 	enum class TestEnum { NOT_SET, SET }
 
-	@Test
-	fun testGetSetEnum() {
-		val pref = Preference.enum("key", TestEnum.NOT_SET)
-		val expectedVal = TestEnum.SET
-		instance[pref] = expectedVal
-		assertEquals(expectedVal, instance[pref])
-		assertEquals(pref.key, instance.key)
+	fun <T : Any> verifySimpleType(expectedVal: T, preference: Preference<T>) {
+		instance[preference] = expectedVal
+		instance[preference] shouldBe expectedVal
+		instance.key shouldBe preference.key
+	}
+
+	init {
+		test("get and setting native types") {
+			// Unfortunately KoTest will try to serialise to a base Serializable using rows
+			// So manually use generics for the same effect
+			verifySimpleType(1, Preference.int("key", 0))
+			verifySimpleType(1L, Preference.long("key", 0L))
+			verifySimpleType(true, Preference.boolean("key", false))
+			verifySimpleType("string", Preference.string("key", ""))
+		}
+
+		test("get and set with enum types") {
+			// Generics removes too much type info for us to use verifySimpleType
+			// we could be clever, but I prefer duplication and to KISS
+			val pref = Preference.enum("key", TestEnum.NOT_SET)
+			val expectedVal = TestEnum.SET
+			instance[pref] = expectedVal
+			instance[pref] shouldBe expectedVal
+			pref.key shouldBe instance.key
+		}
+
 	}
 
 }
