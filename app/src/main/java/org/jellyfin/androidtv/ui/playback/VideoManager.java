@@ -644,9 +644,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void setPlaybackSpeed(@NonNull Double speed) {
         if (speed < 0.25) {
-            Timber.w("Invalid playback speed requested: %d", speed);
+            Timber.w("Invalid playback speed requested: %f", speed);
             return;
         }
+        Timber.d("Setting playback speed: %f", speed);
 
         if (nativeMode) {
             mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed.floatValue()));
