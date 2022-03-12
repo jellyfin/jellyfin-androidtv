@@ -12,6 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
@@ -52,6 +54,7 @@ public class NowPlayingBug extends FrameLayout {
             npIcon = binding.npIcon;
             npDesc = binding.npDesc;
             npStatus = binding.npStatus;
+            setForeground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_default_ripple, context.getTheme()));
             this.setFocusable(true);
             this.setOnClickListener(new OnClickListener() {
                 @Override

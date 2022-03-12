@@ -36,7 +36,7 @@
 
         <!-- Rounding Values -->
         <item name="cardRounding">4dp</item>
-        <item name="buttonRounding">4dp</item>
+        <item name="buttonRounding">3dp</item>
 
         <!-- Watched Indicator Shape -->
         <item name="accentShape">@drawable/circle_accent</item>

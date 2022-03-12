@@ -40,6 +40,7 @@
 
     <style name="Button.Default" parent="android:Widget.Button">
         <item name="android:background">@drawable/button_default_back</item>
+        <item name="android:foreground">@drawable/button_default_ripple</item>
         <item name="android:textColor">@drawable/button_default_text</item>
         <item name="drawableTint">@drawable/button_icon_tint</item>
         <item name="android:paddingTop">8dp</item>
@@ -52,6 +53,7 @@
 
     <style name="Button.Icon" parent="android:Widget.Button">
         <item name="android:background">@drawable/button_icon_back</item>
+        <item name="android:foreground">@drawable/button_icon_ripple</item>
         <item name="android:tint">@drawable/button_icon_tint</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
