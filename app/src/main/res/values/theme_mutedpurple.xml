@@ -11,6 +11,7 @@
         <item name="progressPrimary">@color/theme_muted_purple_accent</item>
         <item name="android:colorButtonNormal">@color/light_grey_transparent</item>
         <item name="buttonDefaultNormalBackground">@color/light_grey_transparent</item>
+        <item name="buttonDefaultHighlightBackground">@color/theme_muted_purple_accent</item>
 
         <!-- Control icons -->
         <item name="controlIconForegroundActive">@color/theme_muted_purple_accent</item>
