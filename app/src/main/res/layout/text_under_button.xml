@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -14,7 +15,8 @@
         android:focusable="true"
         android:foreground="@drawable/button_default_ripple"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/lb_ic_play" />
+        app:srcCompat="@drawable/ic_play"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/label"
@@ -28,6 +30,6 @@
         android:maxLines="2"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:text="TextView"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:text="TextView" />
 </RelativeLayout>
