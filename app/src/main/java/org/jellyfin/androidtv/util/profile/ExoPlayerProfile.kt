@@ -55,34 +55,51 @@ class ExoPlayerProfile(
 	init {
 		name = "AndroidTV-ExoPlayer"
 
-		if (isHlsSupported) {
-			transcodingProfiles = arrayOf(
-					// TS video profile
-					TranscodingProfile().apply {
-						type = DlnaProfileType.Video
-						context = EncodingContext.Streaming
-						container = ContainerTypes.TS
-						videoCodec = buildList {
-							if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.TS)) add(CodecTypes.HEVC)
-							add(CodecTypes.H264)
-						}.joinToString(",")
-						audioCodec = buildList {
-							if (isAC3Enabled) add(CodecTypes.AC3)
-							add(CodecTypes.AAC)
-							add(CodecTypes.MP3)
-						}.joinToString(",")
-						protocol = "hls"
-						copyTimestamps = false
-					},
-					// MP3 audio profile
-					TranscodingProfile().apply {
-						type = DlnaProfileType.Audio
-						context = EncodingContext.Streaming
-						container = CodecTypes.MP3
-						audioCodec = CodecTypes.MP3
-					}
-			)
-		}
+		transcodingProfiles = arrayOf(
+			when (isHlsSupported) {
+				// TS video profile
+				true -> TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					context = EncodingContext.Streaming
+					container = ContainerTypes.TS
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.TS)) add(CodecTypes.HEVC)
+						add(CodecTypes.H264)
+					}.joinToString(",")
+					audioCodec = buildList {
+						if (isAC3Enabled) add(CodecTypes.AC3)
+						add(CodecTypes.AAC)
+						add(CodecTypes.MP3)
+					}.joinToString(",")
+					protocol = "hls"
+					copyTimestamps = false
+				}
+				// MKV video profile
+				else -> TranscodingProfile().apply {
+					type = DlnaProfileType.Video
+					context = EncodingContext.Streaming
+					container = ContainerTypes.MKV
+					videoCodec = buildList {
+						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MKV)) add(CodecTypes.HEVC)
+						add(CodecTypes.H264)
+					}.joinToString(",")
+					audioCodec = buildList {
+						if (isAC3Enabled) add(CodecTypes.AC3)
+						add(CodecTypes.AAC)
+						add(CodecTypes.MP3)
+					}.joinToString(",")
+					protocol = "http"
+					copyTimestamps = true
+				}
+			},
+			// MP3 audio profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Audio
+				context = EncodingContext.Streaming
+				container = CodecTypes.MP3
+				audioCodec = CodecTypes.MP3
+			}
+		)
 
 		directPlayProfiles = buildList {
 			// Video direct play

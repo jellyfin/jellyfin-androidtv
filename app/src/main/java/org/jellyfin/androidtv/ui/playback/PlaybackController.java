@@ -175,7 +175,7 @@ public class PlaybackController {
     }
 
     public boolean hasInitializedVideoManager() {
-        return mVideoManager != null && mVideoManager.isInitialized() ? true : false;
+        return mVideoManager != null && mVideoManager.isInitialized();
     }
 
     public MediaSourceInfo getCurrentMediaSource() {
@@ -270,7 +270,6 @@ public class PlaybackController {
             Timber.i("Player error encountered - retrying");
             stop();
             play(mCurrentPosition);
-
         } else {
             mPlaybackState = PlaybackState.ERROR;
             if (mFragment != null) {
@@ -322,7 +321,7 @@ public class PlaybackController {
 
     @TargetApi(23)
     private void setRefreshRate(MediaStream videoStream) {
-        if (videoStream == null) {
+        if (videoStream == null || mFragment == null) {
             Timber.e("Null video stream attempting to set refresh rate");
             return;
         }
@@ -1364,18 +1363,19 @@ public class PlaybackController {
 
             @Override
             public void onEvent() {
-                if (mFragment == null) return;
+                if (mFragment == null) {
+                    playerErrorEncountered();
+                    return;
+                }
+
                 if (isLiveTv && directStreamLiveTv) {
                     Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_error_live_stream));
                     directStreamLiveTv = false;
-                    PlaybackHelper.retrieveAndPlay(getCurrentlyPlayingItem().getId(), false, mFragment.getContext());
-                    mFragment.finish();
                 } else {
                     String msg = mFragment.getString(R.string.video_error_unknown_error);
                     Timber.e("Playback error - %s", msg);
-                    playerErrorEncountered();
                 }
-
+                playerErrorEncountered();
             }
         });
 
