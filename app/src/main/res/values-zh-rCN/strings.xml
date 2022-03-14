@@ -161,7 +161,7 @@
     <string name="lbl_zoom">变焦</string>
     <string name="desc_bitstream_ac3">需要有能力的硬件</string>
     <string name="lbl_bitstream_ac3">比特流杜比数字音频</string>
-    <string name="desc_automatic_fav_songs">自动播放列表的喜爱和喜欢的歌曲</string>
+    <string name="desc_automatic_fav_songs">喜爱歌曲的自动播放列表</string>
     <string name="desc_seasonal_themes">在一年中的某些时候展示特殊的颜色和建议</string>
     <string name="lbl_enable_seasonal_themes">季节主题</string>
     <string name="msg_item_added">" 已加入项目"</string>
