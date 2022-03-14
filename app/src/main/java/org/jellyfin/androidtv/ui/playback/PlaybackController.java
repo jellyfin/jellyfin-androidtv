@@ -414,6 +414,8 @@ public class PlaybackController {
 
                 // set mSeekPosition so the seekbar will not default to 0:00
                 mSeekPosition = position;
+                mCurrentPosition = 0;
+
                 if (mFragment != null) {
                     mFragment.setFadingEnabled(false);
                 }
@@ -1012,6 +1014,7 @@ public class PlaybackController {
     }
 
     public void stop() {
+        refreshCurrentPosition();
         Timber.d("stop called at %s", mCurrentPosition);
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
@@ -1051,6 +1054,7 @@ public class PlaybackController {
     private void clearPlaybackSessionOptions() {
         mDefaultSubIndex = -1;
         mDefaultAudioIndex = -1;
+        mSeekPosition = -1;
         finishedInitialSeek = false;
         wasSeeking = false;
         burningSubs = false;
@@ -1392,21 +1396,20 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.PAUSED) {
                     mPlaybackState = PlaybackState.PLAYING;
                 } else {
-                    if (mDefaultSubIndex >= 0) {
-                        //Default subs requested select them
-                        Integer currentIndex = mCurrentOptions.getSubtitleStreamIndex();
 
-                        if (currentIndex != null && currentIndex == mDefaultSubIndex) {
-                            Timber.i("Not selecting default subtitle stream because it is already selected");
-                        } else {
-                            Timber.i("Selecting default sub stream: %d", mDefaultSubIndex);
-                            switchSubtitleStream(mDefaultSubIndex);
-                        }
+                    // select or disable subtitles
+                    Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
+                    if (mDefaultSubIndex >= 0 && currentSubtitleIndex != null && currentSubtitleIndex == mDefaultSubIndex) {
+                        Timber.i("subtitle stream %s is already selected", mDefaultSubIndex);
                     } else {
-                        Timber.i("Turning off subs by default");
-                        mVideoManager.disableSubs();
+                        if (mDefaultSubIndex < 0)
+                            Timber.i("Turning off subs");
+                        else
+                            Timber.i("Enabling default sub stream: %d", mDefaultSubIndex);
+                        switchSubtitleStream(mDefaultSubIndex);
                     }
 
+                    // select an audio track
                     int eligibleAudioTrack = mDefaultAudioIndex;
 
                     // if track switching is done without rebuilding the stream, mCurrentOptions is updated
