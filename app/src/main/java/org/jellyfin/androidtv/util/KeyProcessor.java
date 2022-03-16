@@ -40,16 +40,18 @@ public class KeyProcessor {
 
     public static final int MENU_MARK_FAVORITE = 0;
     public static final int MENU_UNMARK_FAVORITE = 1;
-    public static final int MENU_MARK_PLAYED = 6;
-    public static final int MENU_UNMARK_PLAYED = 7;
-    public static final int MENU_PLAY = 8;
-    public static final int MENU_PLAY_SHUFFLE = 9;
-    public static final int MENU_PLAY_FIRST_UNWATCHED = 10;
-    public static final int MENU_ADD_QUEUE = 11;
-    public static final int MENU_ADVANCE_QUEUE = 12;
-    public static final int MENU_REMOVE_FROM_QUEUE = 13;
-    public static final int MENU_GOTO_NOW_PLAYING = 14;
-    public static final int MENU_INSTANT_MIX = 15;
+    public static final int MENU_MARK_PLAYED = 2;
+    public static final int MENU_UNMARK_PLAYED = 3;
+    public static final int MENU_PLAY = 4;
+    public static final int MENU_PLAY_SHUFFLE = 5;
+    public static final int MENU_PLAY_FIRST_UNWATCHED = 6;
+    public static final int MENU_ADD_QUEUE = 7;
+    public static final int MENU_ADVANCE_QUEUE = 8;
+    public static final int MENU_REMOVE_FROM_QUEUE = 9;
+    public static final int MENU_GOTO_NOW_PLAYING = 10;
+    public static final int MENU_INSTANT_MIX = 11;
+    public static final int MENU_CLEAR_QUEUE = 12;
+    public static final int MENU_TOGGLE_SHUFFLE = 13;
 
     private static String mCurrentItemId;
     private static BaseItemDto mCurrentItem;
@@ -219,15 +221,33 @@ public class KeyProcessor {
         int order = 0;
 
         if (rowItem instanceof AudioQueueItem) {
-            if (!(activity instanceof AudioNowPlayingActivity)) {
-                menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
-            }
-            if (rowItem.getBaseItem() != KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioItem()) {
+            if (activity instanceof AudioNowPlayingActivity) {
+                if (rowItem.getIndex() > KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueuePosition() && rowItem.getIndex() < KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueueSize())
                 menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
+            } else {
+                menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
+
+                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueue().size() > 1) {
+                    menu.getMenu().add(0, MENU_TOGGLE_SHUFFLE, order++, R.string.lbl_shuffle_queue);
+                }
             }
+
+
+            if (userData != null) {
+                if (userData.getIsFavorite()) {
+                    menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
+                } else {
+                    menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
+                }
+            }
+
             // don't allow removal of last item - framework will crash trying to animate an empty row
             if (KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueue().size() > 1) {
                 menu.getMenu().add(0, MENU_REMOVE_FROM_QUEUE, order++, R.string.lbl_remove_from_queue);
+            }
+
+            if (KoinJavaComponent.<MediaManager>get(MediaManager.class).hasAudioQueueItems()) {
+                menu.getMenu().add(0, MENU_CLEAR_QUEUE, order++, R.string.lbl_clear_queue);
             }
         } else {
             if (BaseItemUtils.canPlay(item)) {
@@ -251,7 +271,7 @@ public class KeyProcessor {
                     || item.getBaseItemType() == BaseItemType.Audio
                     || (item.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(item.getMediaType()));
 
-            if (isMusic || !item.getIsFolderItem()) {
+            if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
             }
 
@@ -266,13 +286,13 @@ public class KeyProcessor {
                     menu.getMenu().add(0, MENU_MARK_PLAYED, order++, activity.getString(R.string.lbl_mark_played));
                 }
             }
-        }
 
-        if (userData != null) {
-            if (userData.getIsFavorite()) {
-                menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
-            } else {
-                menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
+            if (userData != null) {
+                if (userData.getIsFavorite()) {
+                    menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
+                } else {
+                    menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
+                }
             }
         }
 
@@ -401,11 +421,16 @@ public class KeyProcessor {
                     Intent nowPlaying = new Intent(mCurrentActivity, AudioNowPlayingActivity.class);
                     mCurrentActivity.startActivity(nowPlaying);
                     return true;
+                case MENU_TOGGLE_SHUFFLE:
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).shuffleAudioQueue();
+                    return true;
                 case MENU_REMOVE_FROM_QUEUE:
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).removeFromAudioQueue(mCurrentRowItemNdx);
                     return true;
                 case MENU_ADVANCE_QUEUE:
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(mCurrentRowItemNdx);
+                case MENU_CLEAR_QUEUE:
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue();
                     return true;
                 case MENU_INSTANT_MIX:
                     PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);
@@ -413,7 +438,7 @@ public class KeyProcessor {
             }
 
             return false;
-            }
+        }
     };
 
     private static void markPlayed() {

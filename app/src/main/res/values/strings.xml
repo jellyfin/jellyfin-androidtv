@@ -170,7 +170,7 @@
     <string name="lbl_add_to_queue">Add to Queue</string>
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_open_album">Open Album</string>
-    <string name="lbl_reshuffle_queue">Re-Shuffle Queue</string>
+    <string name="lbl_shuffle_queue">Toggle Shuffle</string>
     <string name="lbl_next_item">Next Item</string>
     <string name="lbl_prev_item">Previous Item</string>
     <string name="lbl_up_next_colon">"Up Next: "</string>

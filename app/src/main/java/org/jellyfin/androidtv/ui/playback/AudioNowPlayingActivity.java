@@ -207,7 +207,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
         mSaveButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mShuffleButton = binding.shuffleBtn;
-        mShuffleButton.setContentDescription(getString(R.string.lbl_reshuffle_queue));
+        mShuffleButton.setContentDescription(getString(R.string.lbl_shuffle_queue));
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -137,8 +138,16 @@ public class ItemLauncher {
                         return;
 
                     case Audio:
-                        //produce item menu
-                        KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, activity);
+                        Timber.d("got pos %s", pos);
+                        // if a song isn't the first in the queue, play it
+                        if (rowItem.getIndex() > KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueuePosition() && rowItem.getIndex() < KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueueSize()) {
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(rowItem.getIndex());
+                        } else {
+                            // otherwise, open AudioNowPlayingActivity
+                            Intent nowPlaying = new Intent(activity, AudioNowPlayingActivity.class);
+                            activity.startActivity(nowPlaying);
+                        }
+
                         return;
 
                     case Season:
