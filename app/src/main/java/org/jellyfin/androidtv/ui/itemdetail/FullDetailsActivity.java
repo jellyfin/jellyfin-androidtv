@@ -965,7 +965,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     playButton.requestFocus();
                 }
 
-                if (!mBaseItem.getIsFolderItem() && !BaseItemUtils.isLiveTv(mBaseItem)) {
+                boolean isMusic = mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum
+                        || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist
+                        || mBaseItem.getBaseItemType() == BaseItemType.Audio
+                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(mBaseItem.getMediaType()));
+
+                if (isMusic) {
                     queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

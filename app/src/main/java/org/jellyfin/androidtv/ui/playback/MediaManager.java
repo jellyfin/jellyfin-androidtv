@@ -514,6 +514,7 @@ public class MediaManager {
     }
 
     public void clearAudioQueue() {
+        stopAudio(true);
         clearUnShuffledQueue();
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<BaseItemDto>());
