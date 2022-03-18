@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.AuthenticationSortBy
+import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.LoginState

@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.auth
+package org.jellyfin.androidtv.auth.model
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
