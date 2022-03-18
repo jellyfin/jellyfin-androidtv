@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.preference.screen
 import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.AuthenticationSortBy
+import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.Preference
