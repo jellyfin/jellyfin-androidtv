@@ -69,11 +69,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
 
-		// Migrate old credentials
-		runBlocking {
-			serverRepository.migrateLegacyCredentials()
-		}
-
 		// Ensure basic permissions
 		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
 	}

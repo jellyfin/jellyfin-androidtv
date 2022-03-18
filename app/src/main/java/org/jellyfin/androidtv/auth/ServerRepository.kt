@@ -36,7 +36,6 @@ import java.util.UUID
 interface ServerRepository {
 	fun getStoredServers(): List<Server>
 	fun getDiscoveryServers(): Flow<Server>
-	suspend fun migrateLegacyCredentials()
 
 	fun getServerUsers(server: Server): LiveData<List<User>>
 	fun removeServer(serverId: UUID): Boolean
@@ -52,7 +51,6 @@ class ServerRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val authenticationRepository: AuthenticationRepository,
 	private val authenticationStore: AuthenticationStore,
-	private val legacyAccountMigration: LegacyAccountMigration,
 ) : ServerRepository {
 	override fun getStoredServers() = authenticationRepository.getServers()
 
@@ -130,8 +128,6 @@ class ServerRepositoryImpl(
 
 		emit(users.toList())
 	}
-
-	override suspend fun migrateLegacyCredentials() = legacyAccountMigration.migrate()
 
 	override fun removeServer(serverId: UUID) = authenticationStore.removeServer(serverId)
 

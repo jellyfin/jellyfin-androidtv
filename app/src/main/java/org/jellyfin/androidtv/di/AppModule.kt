@@ -81,7 +81,7 @@ val appModule = module {
 
 	factory { WorkManager.getInstance(androidContext()) }
 
-	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get(), get()) }
+	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get()) }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get(userApiClient)) }
 
 	viewModel { LoginViewModel(get(), get(), get()) }
