@@ -7,7 +7,6 @@ import org.jellyfin.androidtv.auth.ApiBinder
 import org.jellyfin.androidtv.auth.AuthenticationRepository
 import org.jellyfin.androidtv.auth.AuthenticationRepositoryImpl
 import org.jellyfin.androidtv.auth.AuthenticationStore
-import org.jellyfin.androidtv.auth.LegacyAccountMigration
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.auth.SessionRepositoryImpl
 import org.koin.android.ext.koin.androidApplication
@@ -23,6 +22,5 @@ val authModule = module {
 	single<SessionRepository> {
 		SessionRepositoryImpl(get(), get(), get(), get(), get(userApiClient), get(systemApiClient), get(), get(defaultDeviceInfo))
 	}
-	single { LegacyAccountMigration(androidContext(), get(), get(), get()) }
 	single { ApiBinder(androidApplication() as JellyfinApplication, get(), get()) }
 }
