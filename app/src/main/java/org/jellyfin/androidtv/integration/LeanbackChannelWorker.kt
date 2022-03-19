@@ -186,23 +186,35 @@ class LeanbackChannelWorker(
 	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
 	 * image when preferred.
 	 */
-	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
-		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
-			&& parentThumbItemId?.toUUIDOrNull() != null -> api.imageApi.getItemImageUrl(
-			itemId = parentThumbItemId!!.toUUIDOrNull()!!,
-			imageType = ImageType.THUMB,
-			format = ImageFormat.WEBP,
-			width = 512,
-			height = 288
-		)
-		else -> api.imageApi.getItemImageUrl(
-			itemId = id,
-			imageType = ImageType.PRIMARY,
-			format = ImageFormat.WEBP,
-			width = 512,
-			height = 288
-		)
-	}.let(Uri::parse)
+	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri {
+		if (type.equals(BaseItemType.Movie.toString(), true)) {
+			return api.imageApi.getItemImageUrl(
+				itemId = id,
+				imageType = ImageType.PRIMARY,
+				format = ImageFormat.WEBP,
+				width = 106.dp(context),
+				height = 153.dp(context),
+			).let(Uri::parse)
+		}
+
+		return when {
+			(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
+				&& parentThumbItemId?.toUUIDOrNull() != null -> api.imageApi.getItemImageUrl(
+				itemId = parentThumbItemId!!.toUUIDOrNull()!!,
+				imageType = ImageType.THUMB,
+				format = ImageFormat.WEBP,
+				width = 272.dp(context),
+				height = 153.dp(context),
+			)
+			else -> api.imageApi.getItemImageUrl(
+				itemId = id,
+				imageType = ImageType.PRIMARY,
+				format = ImageFormat.WEBP,
+				width = 272.dp(context),
+				height = 153.dp(context),
+			)
+		}.let(Uri::parse)
+	}
 
 	/**
 	 * Gets the resume and next up episodes. The returned pair contains two lists:
@@ -215,11 +227,9 @@ class LeanbackChannelWorker(
 				fields = listOf(ItemFields.DATE_CREATED),
 				imageTypeLimit = 1,
 				limit = 10,
-				mediaTypes = listOf(MediaType.Video)
-			).content.items.orEmpty().filter { item ->
-				// Movies are not supported right now
-				item.type.equals(BaseItemType.Episode.toString(), true)
-			}
+				mediaTypes = listOf(MediaType.Video),
+				includeItemTypes = listOf(BaseItemType.Episode.toString(), BaseItemType.Movie.toString()),
+			).content.items.orEmpty()
 		}
 
 		val nextup = async {
@@ -303,13 +313,22 @@ class LeanbackChannelWorker(
 		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 		setInternalProviderId(item.id.toString())
-		setType(WatchNextPrograms.TYPE_TV_EPISODE)
-		setTitle("${item.seriesName} - ${item.name}")
 
-		// Poster image
-		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
-		setPosterArtUri(imageUri)
-		setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
+		// Poster size & type
+		if (item.type.equals(BaseItemType.Episode.toString(), true)) {
+			setType(WatchNextPrograms.TYPE_TV_EPISODE)
+			setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
+		} else if (item.type.equals(BaseItemType.Movie.toString(), true)) {
+			setType(WatchNextPrograms.TYPE_MOVIE)
+			setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
+		}
+
+		// Name
+		if (item.seriesName != null) setTitle("${item.seriesName} - ${item.name}")
+		else setTitle(item.name)
+
+		// Poster
+		setPosterArtUri(item.getPosterArtImageUrl(preferParentThumb))
 
 		// Use date created or fallback to current time if unavailable
 		var engagement = item.dateCreated
