@@ -19,7 +19,7 @@ public class InfoCardPresenter extends Presenter {
         }
 
         public void setItem(MediaStream ms) {
-            mInfoCardView.setItem(ms);
+            mInfoCardView.setMediaStream(ms);
         }
     }
 
