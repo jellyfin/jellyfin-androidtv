@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
+import org.jellyfin.androidtv.constant.SubtitleTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
@@ -36,16 +37,16 @@ open class BaseProfile : DeviceProfile() {
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile("srt", SubtitleDeliveryMethod.External),
-			subtitleProfile("subrip", SubtitleDeliveryMethod.External),
-			subtitleProfile("ass", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("ssa", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("pgs", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("pgssub", SubtitleDeliveryMethod.Encode),
-			subtitleProfile("dvdsub", SubtitleDeliveryMethod.External),
-			subtitleProfile("vtt", SubtitleDeliveryMethod.External),
-			subtitleProfile("sub", SubtitleDeliveryMethod.External),
-			subtitleProfile("idx", SubtitleDeliveryMethod.External)
+			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.External)
 		)
 	}
 }

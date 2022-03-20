@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.util.profile
 
 import org.jellyfin.androidtv.constant.CodecTypes
 import org.jellyfin.androidtv.constant.ContainerTypes
+import org.jellyfin.androidtv.constant.SubtitleTypes
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
@@ -120,18 +121,18 @@ class LibVlcProfile(
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile("srt", SubtitleDeliveryMethod.External),
-			subtitleProfile("srt", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("ass", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("ssa", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("pgs", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("pgssub", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("dvdsub", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("vtt", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("sub", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("smi", SubtitleDeliveryMethod.Embed),
-			subtitleProfile("idx", SubtitleDeliveryMethod.Embed)
+			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.SMI, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.Embed)
 		)
 	}
 }
