@@ -1258,7 +1258,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void setCurrentTime(long time) {
-        leanbackOverlayFragment.updateCurrentPosition();
+        if (leanbackOverlayFragment != null)
+            leanbackOverlayFragment.updateCurrentPosition();
     }
 
     public void setSecondaryTime(long time) {
