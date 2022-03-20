@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:duplicateParentState="true">
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageButton"
+        style="@style/Button.Default"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/button_default_back"
-        android:focusable="true"
-        android:foreground="@drawable/button_default_ripple"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_play"
-        tools:ignore="UnusedAttribute" />
+        android:clickable="false"
+        android:duplicateParentState="true"
+        app:tint="@drawable/button_icon_tint"
+        tools:ignore="UnusedAttribute"
+        tools:src="@drawable/ic_play" />
 
     <TextView
         android:id="@+id/label"

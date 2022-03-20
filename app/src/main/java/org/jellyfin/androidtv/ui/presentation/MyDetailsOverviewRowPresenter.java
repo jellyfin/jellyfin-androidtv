@@ -24,6 +24,12 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
     private ViewHolder viewHolder;
 
+    public MyDetailsOverviewRowPresenter() {
+        super();
+        // Don't call setActivated() on views
+        setSyncActivatePolicy(SYNC_ACTIVATED_CUSTOM);
+    }
+
     public final class ViewHolder extends RowPresenter.ViewHolder {
         private TextView mGenreRow;
         private LinearLayout mInfoRow;
