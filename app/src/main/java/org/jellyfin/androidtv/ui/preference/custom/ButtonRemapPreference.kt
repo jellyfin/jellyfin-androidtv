@@ -7,10 +7,12 @@ import androidx.preference.DialogPreference
 import org.jellyfin.androidtv.R
 import java.util.Locale
 
-class ButtonRemapPreference(
+class ButtonRemapPreference @JvmOverloads constructor(
 	context: Context,
-	attrs: AttributeSet? = null
-) : DialogPreference(context, attrs) {
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 	override fun getDialogLayoutResource() = R.layout.preference_button_remap
 
 	private var innerKeyCode: Int = -1

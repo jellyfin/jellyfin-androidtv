@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import org.jellyfin.androidtv.databinding.FragmentNextUpButtonsBinding
 
-class NextUpButtons(
+class NextUpButtonsView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,
-	defStyle: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyle) {
-	constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
-
+	defStyleRes: Int = 0,
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 	private var countdownTimer: CountDownTimer? = null
 	private val view = FragmentNextUpButtonsBinding.inflate(LayoutInflater.from(context), this, true)
 

@@ -10,10 +10,12 @@ import androidx.preference.PreferenceViewHolder
 import androidx.preference.SeekBarPreference
 import org.jellyfin.androidtv.R
 
-class DurationSeekBarPreference(
+class DurationSeekBarPreference @JvmOverloads constructor(
 	context: Context,
-	attrs: AttributeSet? = null
-) : SeekBarPreference(context, attrs) {
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : SeekBarPreference(context, attrs, defStyleAttr, defStyleRes) {
 	var valueFormatter = ValueFormatter()
 
 	override fun onBindViewHolder(view: PreferenceViewHolder) {

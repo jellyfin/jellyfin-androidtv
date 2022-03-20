@@ -8,10 +8,12 @@ import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichLi
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichListItem.RichListOption
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichListItem.RichListSection
 
-class RichListPreference<K>(
+class RichListPreference<K> @JvmOverloads constructor(
 	context: Context,
-	attrs: AttributeSet? = null
-) : DialogPreference(context, attrs) {
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 	private var items: List<RichListItem<K>> = emptyList()
 	var value: K? = null
 

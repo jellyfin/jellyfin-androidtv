@@ -78,7 +78,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Episode title" />
 
-        <org.jellyfin.androidtv.ui.playback.nextup.NextUpButtons
+        <org.jellyfin.androidtv.ui.playback.nextup.NextUpButtonsView
             android:id="@+id/fragment_next_up_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

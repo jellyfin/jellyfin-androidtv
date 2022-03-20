@@ -11,7 +11,11 @@ import androidx.core.content.ContextCompat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.PopupExpandableTextViewBinding
 
-class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
+class ExpandableTextView @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+) : AppCompatTextView(context, attrs, defStyleAttr) {
 	private val popupContentBinding = PopupExpandableTextViewBinding.inflate(
 		LayoutInflater.from(context),
 		null,
