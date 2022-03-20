@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import androidx.annotation.IntRange
 import org.jellyfin.androidtv.integration.dream.LibraryDreamService
 
-class FadeViewSwitcher @JvmOverloads constructor(
+class FadeViewSwitcherLayout @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,

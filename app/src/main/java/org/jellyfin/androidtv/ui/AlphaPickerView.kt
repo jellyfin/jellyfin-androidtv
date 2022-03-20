@@ -10,10 +10,12 @@ import androidx.core.view.children
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewButtonAlphaPickerBinding
 
-class AlphaPicker(
+class AlphaPickerView @JvmOverloads constructor(
 	context: Context,
-	attrs: AttributeSet? = null
-) : HorizontalScrollView(context, attrs) {
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : HorizontalScrollView(context, attrs, defStyleAttr, defStyleRes) {
 	var onAlphaSelected: (letter: Char) -> Unit = {}
 
 	init {

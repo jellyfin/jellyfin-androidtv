@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <org.jellyfin.androidtv.ui.FadeViewSwitcher
+    <org.jellyfin.androidtv.ui.FadeViewSwitcherLayout
         android:id="@+id/item_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +33,7 @@
         <org.jellyfin.androidtv.integration.dream.LibraryDreamItemView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </org.jellyfin.androidtv.ui.FadeViewSwitcher>
+    </org.jellyfin.androidtv.ui.FadeViewSwitcherLayout>
 
     <TextClock
         android:id="@+id/clock"

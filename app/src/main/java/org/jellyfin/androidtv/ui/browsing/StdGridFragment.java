@@ -38,7 +38,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.PopupEmptyBinding;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
-import org.jellyfin.androidtv.ui.AlphaPicker;
+import org.jellyfin.androidtv.ui.AlphaPickerView;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
@@ -482,7 +482,7 @@ public class StdGridFragment extends GridFragment {
         private final int HEIGHT = Utils.convertDpToPixel(requireContext(), 55);
 
         private final PopupWindow popupWindow;
-        private final AlphaPicker alphaPicker;
+        private final AlphaPickerView alphaPicker;
 
         JumplistPopup() {
             LayoutInflater inflater = LayoutInflater.from(requireContext());
@@ -492,7 +492,7 @@ public class StdGridFragment extends GridFragment {
             popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             popupWindow.setAnimationStyle(R.style.WindowAnimation_SlideTop);
 
-            alphaPicker = new AlphaPicker(requireContext(), null);
+            alphaPicker = new AlphaPickerView(requireContext(), null);
             alphaPicker.setOnAlphaSelected(letter -> {
                 mGridAdapter.setStartLetter(letter.toString());
                 loadGrid(mRowDef);
