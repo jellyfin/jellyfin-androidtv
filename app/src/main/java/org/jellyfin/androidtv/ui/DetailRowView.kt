@@ -1,31 +1,16 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.FrameLayout;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.FrameLayout
+import android.view.LayoutInflater
+import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding
 
-import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
-
-public class DetailRowView extends FrameLayout {
-    private NewDetailsOverviewRowBinding binding;
-
-    public DetailRowView(Context context) {
-        super(context);
-        inflateView(context);
-    }
-
-    public DetailRowView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        inflateView(context);
-    }
-
-    private void inflateView(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        binding = NewDetailsOverviewRowBinding.inflate(inflater, this, true);
-    }
-
-    public NewDetailsOverviewRowBinding getBinding() {
-        return binding;
-    }
+class DetailRowView @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+	val binding = ViewRowDetailsBinding.inflate(LayoutInflater.from(context), this, true)
 }

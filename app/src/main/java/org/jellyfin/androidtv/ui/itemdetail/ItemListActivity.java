@@ -33,7 +33,7 @@ import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityItemListBinding;
-import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
+import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
@@ -112,7 +112,7 @@ public class ItemListActivity extends FragmentActivity {
         mActivity = this;
         BUTTON_SIZE = Utils.convertDpToPixel(this, 35);
 
-        NewDetailsOverviewRowBinding detailsBinding = binding.details.getBinding();
+        ViewRowDetailsBinding detailsBinding = binding.details.getBinding();
         mTitle = detailsBinding.fdTitle;
         mTitle.setText(getString(R.string.loading));
         mGenreRow = detailsBinding.fdGenreRow;
