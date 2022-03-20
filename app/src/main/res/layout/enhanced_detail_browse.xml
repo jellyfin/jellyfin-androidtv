@@ -56,7 +56,7 @@
         android:layout_marginRight="40sp"
         android:layout_alignParentEnd="true" />
 
-    <org.jellyfin.androidtv.ui.NowPlayingBug
+    <org.jellyfin.androidtv.ui.NowPlayingView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npBug"
