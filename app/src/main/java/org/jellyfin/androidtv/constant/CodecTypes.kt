@@ -1,40 +1,35 @@
-package org.jellyfin.androidtv.constant;
+package org.jellyfin.androidtv.constant
 
-public class CodecTypes {
-    /* Audio Codec Types */
-    public static final String AAC = "aac";
-    public static final String AAC_LATM = "aac_latm";
-    public static final String AC3 = "ac3";
-    public static final String ALAC = "alac";
-    public static final String APE = "ape";
-    public static final String DCA = "dca";
-    public static final String DTS = "dts";
-    public static final String EAC3 = "eac3";
-    public static final String FLAC = "flac";
-    public static final String MLP = "mlp";
-    public static final String MP2 = "mp2";
-    public static final String MP3 = "mp3";
-    public static final String MPA = "mpa";
-    public static final String OPUS = "opus";
-    public static final String PCM = "pcm";
-    public static final String PCM_ALAW = "pcm_alaw";
-    public static final String PCM_MULAW = "pcm_mulaw";
-    public static final String PCM_S16LE = "pcm_s16le";
-    public static final String PCM_S24LE = "pcm_s24le";
-    public static final String TRUEHD = "truehd";
-    public static final String VORBIS = "vorbis";
-    public static final String WAV = "wav";
-    public static final String WMA = "wma";
-    public static final String WMAV2 = "wmav2";
+object CodecTypes {
+	/* Audio Codec Types */
+	const val AAC = "aac"
+	const val AAC_LATM = "aac_latm"
+	const val AC3 = "ac3"
+	const val ALAC = "alac"
+	const val APE = "ape"
+	const val DCA = "dca"
+	const val DTS = "dts"
+	const val EAC3 = "eac3"
+	const val FLAC = "flac"
+	const val MLP = "mlp"
+	const val MP2 = "mp2"
+	const val MP3 = "mp3"
+	const val MPA = "mpa"
+	const val OPUS = "opus"
+	const val PCM = "pcm"
+	const val PCM_ALAW = "pcm_alaw"
+	const val PCM_MULAW = "pcm_mulaw"
+	const val PCM_S16LE = "pcm_s16le"
+	const val PCM_S24LE = "pcm_s24le"
+	const val TRUEHD = "truehd"
+	const val WAV = "wav"
+	const val WMA = "wma"
+	const val WMAV2 = "wmav2"
 
-    /* Video Codec Types */
-    public static final String AVC = "avc";
-    public static final String H264 = "h264";
-    public static final String H265 = "h265";
-    public static final String HEVC = "hevc";
-    public static final String MPEG2 = "mpeg2";
-    public static final String MPEG2VIDEO = "mpeg2video";
-    public static final String MPEG4 = "mpeg4";
-    public static final String VP8 = "vp8";
-    public static final String VP9 = "vp9";
+	/* Video Codec Types */
+	const val H264 = "h264"
+	const val HEVC = "hevc"
+	const val MPEG2VIDEO = "mpeg2video"
+	const val VP8 = "vp8"
+	const val VP9 = "vp9"
 }

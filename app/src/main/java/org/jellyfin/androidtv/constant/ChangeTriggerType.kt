@@ -1,12 +1,12 @@
-package org.jellyfin.androidtv.constant;
+package org.jellyfin.androidtv.constant
 
-public enum ChangeTriggerType {
-    LibraryUpdated,
-    MoviePlayback,
-    TvPlayback,
-    GuideNeedsLoad,
-    MusicPlayback,
-    Always,
-    VideoQueueChange,
-    FavoriteUpdate
+enum class ChangeTriggerType {
+	LibraryUpdated,
+	MoviePlayback,
+	TvPlayback,
+	GuideNeedsLoad,
+	MusicPlayback,
+	Always,
+	VideoQueueChange,
+	FavoriteUpdate,
 }
