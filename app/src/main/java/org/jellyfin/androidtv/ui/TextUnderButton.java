@@ -69,10 +69,6 @@ public class TextUnderButton extends RelativeLayout {
         mGotFocusListener = event;
     }
 
-    public void setImageResource(@DrawableRes int resource) {
-        mButton.setImageResource(resource);
-    }
-
     @Override
     public void setEnabled(boolean enabled) {
         setFocusable(enabled);

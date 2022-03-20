@@ -614,7 +614,7 @@ public class ItemListActivity extends FragmentActivity {
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                TextUnderButton fav = new TextUnderButton(this, mBaseItem.getUserData().getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+                TextUnderButton fav = new TextUnderButton(this, R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
@@ -622,12 +622,13 @@ public class ItemListActivity extends FragmentActivity {
                             @Override
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);
-                                ((TextUnderButton)v).setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+                                ((TextUnderButton)v).setActivated(response.getIsFavorite());
                                 dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
                             }
                         });
                     }
                 });
+                fav.setActivated(mBaseItem.getUserData().getIsFavorite());
                 mButtonRow.addView(fav);
                 fav.setGotFocusListener(mainAreaFocusListener);
 
