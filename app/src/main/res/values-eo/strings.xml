@@ -489,4 +489,5 @@
     <string name="sort_accounts_by">Ordigi kontojn laŭ</string>
     <string name="pref_customization">Adapto</string>
     <string name="home_section_resume_book">Daŭrigi legadon</string>
+    <string name="lbl_shuffle_queue">Baskuligi Mikson</string>
 </resources>
