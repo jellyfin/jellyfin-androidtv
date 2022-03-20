@@ -86,7 +86,6 @@
     <string name="lbl_up_next_colon">"Berikutnya : "</string>
     <string name="lbl_prev_item">Item Sebelumnya</string>
     <string name="lbl_next_item">Item berikutnya</string>
-    <string name="lbl_reshuffle_queue">Acak Ulang Antrean</string>
     <string name="lbl_open_album">Buka Album</string>
     <string name="lbl_open_artist">Buka Artis</string>
     <string name="lbl_add_to_queue">Tambahkan ke Antrean</string>

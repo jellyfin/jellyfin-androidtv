@@ -147,7 +147,6 @@
     <string name="lbl_add_to_queue">Дараалалд нэмэх</string>
     <string name="lbl_open_artist">Чөлөөт уран бүтээлч</string>
     <string name="lbl_open_album">Цомог нээх</string>
-    <string name="lbl_reshuffle_queue">Дахин дарааллыг дахин хийх</string>
     <string name="lbl_next_item">Дараах</string>
     <string name="lbl_prev_item">Өмнөх</string>
     <string name="lbl_up_next_colon">"Дараа нь: "</string>

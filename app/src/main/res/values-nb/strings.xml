@@ -157,7 +157,6 @@
     <string name="lbl_add_to_queue">Legg til i kø</string>
     <string name="lbl_open_artist">Åpne artist</string>
     <string name="lbl_open_album">Åpne album</string>
-    <string name="lbl_reshuffle_queue">Stokk om køen</string>
     <string name="lbl_next_item">Neste element</string>
     <string name="lbl_prev_item">Forrige element</string>
     <string name="lbl_up_next_colon">"Neste: "</string>

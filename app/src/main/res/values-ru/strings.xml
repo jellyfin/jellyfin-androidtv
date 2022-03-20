@@ -157,7 +157,6 @@
     <string name="lbl_add_to_queue">Добавить в очередь</string>
     <string name="lbl_open_artist">Открыть исполнителя</string>
     <string name="lbl_open_album">Открыть альбом</string>
-    <string name="lbl_reshuffle_queue">Снова перемешать очередь</string>
     <string name="lbl_next_item">Следующий элемент</string>
     <string name="lbl_prev_item">Предыдущий элемент</string>
     <string name="lbl_up_next_colon">"Очередное: "</string>

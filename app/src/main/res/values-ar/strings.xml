@@ -154,7 +154,6 @@
     <string name="lbl_up_next_colon">"التالي: "</string>
     <string name="lbl_prev_item">العنصر السابق</string>
     <string name="lbl_next_item">العنصر التالي</string>
-    <string name="lbl_reshuffle_queue">إعادة خلط قائمة الإنتظار</string>
     <string name="lbl_open_album">فتح صفحة الألبوم</string>
     <string name="lbl_open_artist">فتح صفحة الفنان</string>
     <string name="favorite_error">خطأ في تعيين حالة المفضلة</string>

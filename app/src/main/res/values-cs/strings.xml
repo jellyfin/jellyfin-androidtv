@@ -184,7 +184,6 @@
     <string name="desc_automatic_fav_songs">Automatický seznam oblíbených skladeb</string>
     <string name="lbl_goto_now_playing">Přejít k Právě hraje</string>
     <string name="lbl_up_next_colon">"Další: "</string>
-    <string name="lbl_reshuffle_queue">Znovu promíchat frontu</string>
     <string name="lbl_warning">Varování</string>
     <string name="sum_enable_cinema_mode">Zobrazovat úvodníky a náhledy před přehráváním filmu</string>
     <string name="lbl_direct_stream_live">Přímý televizní přenos</string>

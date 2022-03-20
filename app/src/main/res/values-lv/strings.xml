@@ -264,7 +264,6 @@
     <string name="pref_acra_syslog_enabled">Sistēmas logi tiks ievietoti kļūdas ziņojumos</string>
     <string name="pref_use_direct_path_title">Padot Tiešo Ceļu ārējam atskaņotājam</string>
     <string name="lbl_goto_now_playing">Pāriet uz Pašlaik Atskaņoto</string>
-    <string name="lbl_reshuffle_queue">Atkārtoti Jaukt Rindu</string>
     <string name="lbl_showing">Rāda</string>
     <string name="desc_debug">Padot papildus informāciju priekš atkļūdošanas</string>
     <string name="pref_audio_compat">Samiksēt uz Stereo</string>

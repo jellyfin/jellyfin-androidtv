@@ -270,7 +270,6 @@
     <string name="lbl_goto_now_playing">지금 재생 중으로 이동</string>
     <string name="lbl_remove_from_queue">대기열 삭제</string>
     <string name="lbl_play_from_here">이어서 재생</string>
-    <string name="lbl_reshuffle_queue">대기열 다시 셔플</string>
     <string name="lbl_add_to_queue">대기열 추가</string>
     <string name="lbl_critic_rating">크리틱 평점</string>
     <string name="pref_audio_compat">스테레오 다운믹스</string>

@@ -245,7 +245,6 @@
     <string name="lbl_up_next_colon">"На рівень вище: "</string>
     <string name="lbl_prev_item">Попередній</string>
     <string name="lbl_next_item">Наступний</string>
-    <string name="lbl_reshuffle_queue">Повторне перемішування черги</string>
     <string name="lbl_open_album">Відкрити альбом</string>
     <string name="lbl_open_artist">Відкрити виконавця</string>
     <string name="lbl_add_to_queue">Додати до черги</string>

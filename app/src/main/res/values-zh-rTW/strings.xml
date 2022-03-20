@@ -114,7 +114,6 @@
     <string name="lbl_now_playing">正在播放</string>
     <string name="lbl_prev_item">以前的項目</string>
     <string name="lbl_next_item">下一個項目</string>
-    <string name="lbl_reshuffle_queue">重新打亂佇列</string>
     <string name="pref_next_up_timeout_summary">播放下一項目之前的等待時間</string>
     <string name="pref_media_player">預設播放器</string>
     <string name="pref_about_title">關於</string>

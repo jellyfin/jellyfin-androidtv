@@ -260,7 +260,6 @@
     <string name="lbl_up_next_colon">"அடுத்து: "</string>
     <string name="lbl_prev_item">முந்தைய உருப்படி</string>
     <string name="lbl_next_item">அடுத்த உருப்படி</string>
-    <string name="lbl_reshuffle_queue">வரிசையை மீண்டும் மாற்றவும்</string>
     <string name="lbl_open_album">ஆல்பத்தைத் திறக்கவும்</string>
     <string name="lbl_open_artist">கலைஞரை திறக்கவும்</string>
     <string name="lbl_add_to_queue">வரிசையில் சேர்</string>

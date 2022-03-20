@@ -134,7 +134,6 @@
     <string name="lbl_up_next_colon">"Næste: "</string>
     <string name="lbl_prev_item">Forrige Element</string>
     <string name="lbl_next_item">Næste genstand</string>
-    <string name="lbl_reshuffle_queue">Re-Shuffle kø</string>
     <string name="lbl_open_album">Åbn Album</string>
     <string name="lbl_open_artist">Åbn kunstner</string>
     <string name="lbl_add_to_queue">Føj til kø</string>

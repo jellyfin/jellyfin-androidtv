@@ -255,7 +255,6 @@
     <string name="lbl_now_playing">Toistetaan parhaillaan</string>
     <string name="lbl_prev_item">Edellinen kohde</string>
     <string name="lbl_next_item">Seuraava kohde</string>
-    <string name="lbl_reshuffle_queue">Sekoita jono uudelleen</string>
     <string name="lbl_add_to_queue">Lisää jonoon</string>
     <string name="msg_items_added">" kohdetta lisättiin"</string>
     <string name="sum_enable_cinema_mode">Toista introja ja trailereita ennen elokuvaa</string>

@@ -153,7 +153,6 @@
     <string name="lbl_up_next_colon">"Następne: "</string>
     <string name="lbl_prev_item">Poprzedni element</string>
     <string name="lbl_next_item">Następny element</string>
-    <string name="lbl_reshuffle_queue">Przemieszaj kolejkę</string>
     <string name="lbl_open_album">Pokaż Album</string>
     <string name="lbl_open_artist">Pokaż Artystę</string>
     <string name="lbl_add_to_queue">Dodaj do kolejki</string>

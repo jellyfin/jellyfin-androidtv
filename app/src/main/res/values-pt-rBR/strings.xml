@@ -156,7 +156,6 @@
     <string name="lbl_add_to_queue">Adicionar à Fila</string>
     <string name="lbl_open_artist">Abrir Artista</string>
     <string name="lbl_open_album">Abrir Álbum</string>
-    <string name="lbl_reshuffle_queue">Reordenar Fila</string>
     <string name="lbl_next_item">Próximo Item</string>
     <string name="lbl_prev_item">Item Anterior</string>
     <string name="lbl_up_next_colon">"A Seguir: "</string>

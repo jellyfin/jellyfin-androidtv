@@ -23,7 +23,6 @@
     <string name="lbl_up_next_colon">"הבא בתור "</string>
     <string name="lbl_prev_item">הקודם</string>
     <string name="lbl_next_item">הבא</string>
-    <string name="lbl_reshuffle_queue">ערבוב תור</string>
     <string name="lbl_open_album">פתח אלבום</string>
     <string name="lbl_open_artist">פתח אמן</string>
     <string name="lbl_add_to_queue">הוסף לתור</string>

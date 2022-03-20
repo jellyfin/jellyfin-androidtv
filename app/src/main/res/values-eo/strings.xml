@@ -328,7 +328,6 @@
     <string name="lbl_up_next_colon">"Plue Sekva: "</string>
     <string name="lbl_prev_item">Antaŭa Aĵo</string>
     <string name="lbl_next_item">Sekva Aĵo</string>
-    <string name="lbl_reshuffle_queue">Remiksigi Vicon</string>
     <string name="lbl_open_album">Malfermi Albumon</string>
     <string name="lbl_open_artist">Malfermi Artiston</string>
     <string name="msg_items_added">" ajoj aldonitaj"</string>

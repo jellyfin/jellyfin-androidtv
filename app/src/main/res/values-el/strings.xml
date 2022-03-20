@@ -20,7 +20,6 @@
     <string name="lbl_add_to_queue">Προσθήκη στην ουρά</string>
     <string name="lbl_open_artist">Ανοίξτε Καλλιτέχνης</string>
     <string name="lbl_open_album">Ανοίξτε Άλμπουμ</string>
-    <string name="lbl_reshuffle_queue">Re ανακάτεμα Ουρά</string>
     <string name="lbl_next_item">επόμενο αντικείμενο</string>
     <string name="lbl_prev_item">προηγούμενο αντικείμενο</string>
     <string name="lbl_up_next_colon">"Αμέσως μετά: "</string>

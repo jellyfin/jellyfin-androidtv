@@ -210,7 +210,6 @@
     <string name="lbl_up_next_colon">"Nasleduje: "</string>
     <string name="lbl_prev_item">Predchádzajúca položka</string>
     <string name="lbl_next_item">Nasledujúca položka</string>
-    <string name="lbl_reshuffle_queue">Znova zamiešať frontu</string>
     <string name="lbl_open_album">Otvoriť album</string>
     <string name="lbl_open_artist">Otvoriť interpreta</string>
     <string name="lbl_add_to_queue">Pridať do fronty</string>

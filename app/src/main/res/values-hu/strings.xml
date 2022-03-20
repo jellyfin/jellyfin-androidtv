@@ -235,7 +235,6 @@
     <string name="lbl_up_next_colon">"Következő: "</string>
     <string name="lbl_prev_item">Előző elem</string>
     <string name="lbl_next_item">Következő elem</string>
-    <string name="lbl_reshuffle_queue">A várakozási lista elemeinek keverése</string>
     <string name="lbl_open_album">Album megnyitása</string>
     <string name="lbl_open_artist">Előadó megnyitása</string>
     <string name="lbl_add_to_queue">Hozzáadás a várakozási listához</string>

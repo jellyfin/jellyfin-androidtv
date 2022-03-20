@@ -117,7 +117,6 @@
     <string name="lbl_up_next_colon">"Nästkommande: "</string>
     <string name="lbl_prev_item">Föregående föremål</string>
     <string name="lbl_next_item">Nästa föremål</string>
-    <string name="lbl_reshuffle_queue">Blanda om kö</string>
     <string name="lbl_open_album">Öppna album</string>
     <string name="lbl_open_artist">Öppna artist</string>
     <string name="lbl_add_to_queue">Lägg till kö</string>

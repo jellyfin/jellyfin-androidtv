@@ -156,7 +156,6 @@
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
     <string name="lbl_open_artist">Zeige Künstler</string>
     <string name="lbl_open_album">Zeige Album</string>
-    <string name="lbl_reshuffle_queue">Warteschlange neu mischen</string>
     <string name="lbl_next_item">Nächstes Element</string>
     <string name="lbl_prev_item">Vorheriges Element</string>
     <string name="lbl_up_next_colon">"Es folgt: "</string>

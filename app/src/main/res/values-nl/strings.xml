@@ -156,7 +156,6 @@
     <string name="lbl_add_to_queue">Voeg toe aan wachtrij</string>
     <string name="lbl_open_artist">Open artiest</string>
     <string name="lbl_open_album">Open Album</string>
-    <string name="lbl_reshuffle_queue">Wachtrijvolgorde husselen</string>
     <string name="lbl_next_item">Volgend item</string>
     <string name="lbl_prev_item">Vorig item</string>
     <string name="lbl_up_next_colon">"Volgend: "</string>

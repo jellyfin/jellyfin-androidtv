@@ -85,7 +85,6 @@
     <string name="lbl_add_to_queue">Aggiungi alla coda</string>
     <string name="lbl_open_artist">Apri Artista</string>
     <string name="lbl_open_album">Apri Album</string>
-    <string name="lbl_reshuffle_queue">Rimescola la Coda</string>
     <string name="lbl_next_item">Prossimo elemento</string>
     <string name="lbl_prev_item">Elemento Precedente</string>
     <string name="lbl_now_playing">In Riproduzione</string>

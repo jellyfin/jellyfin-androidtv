@@ -207,7 +207,6 @@
     <string name="lbl_up_next_colon">"Siguiendo "</string>
     <string name="lbl_prev_item">Elemento previo</string>
     <string name="lbl_next_item">Próximo elemento</string>
-    <string name="lbl_reshuffle_queue">Remezclar cola</string>
     <string name="sum_enable_cinema_mode">Mostrar vistas previas e intros disponibles antes de empezar una película</string>
     <string name="lbl_direct_stream_live">Transmisión directa de televisión en vivo</string>
     <string name="msg_error_live_stream">Error al transmitir la televisión en vivo. Se volverá a intentar…</string>

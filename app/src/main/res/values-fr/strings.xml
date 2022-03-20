@@ -156,7 +156,6 @@
     <string name="lbl_add_to_queue">Ajouter à la liste de lecture</string>
     <string name="lbl_open_artist">Ouvrir la fiche de l\'artiste</string>
     <string name="lbl_open_album">Ouvrir l\'album</string>
-    <string name="lbl_reshuffle_queue">Lire aléatoirement la liste de lecture</string>
     <string name="lbl_next_item">Prochain élément</string>
     <string name="lbl_prev_item">Élément précédent</string>
     <string name="lbl_up_next_colon">"Suivant "</string>

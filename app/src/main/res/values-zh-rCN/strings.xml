@@ -101,7 +101,6 @@
     <string name="msg_cancel_entire_series">你确定要取消整个系列吗\?</string>
     <string name="lbl_resume_preroll">简介</string>
     <string name="lbl_new_premieres">新的首映</string>
-    <string name="lbl_reshuffle_queue">重新打乱队列</string>
     <string name="msg_burn_sub_warning">可能需要几分钟。请耐心等待…</string>
     <string name="lbl_starting_with">以某人的名字开头</string>
     <string name="lbl_premier_date">首映时间</string>

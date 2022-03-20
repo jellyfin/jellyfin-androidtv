@@ -100,7 +100,6 @@
     <string name="lbl_up_next_colon">"Pujar la següent: "</string>
     <string name="lbl_prev_item">Anterior element</string>
     <string name="lbl_next_item">Següent element</string>
-    <string name="lbl_reshuffle_queue">Barrejar cua</string>
     <string name="lbl_open_album">Obrir Àlbum</string>
     <string name="lbl_open_artist">Obrir Artista</string>
     <string name="lbl_add_to_queue">Afegeix a la cua</string>

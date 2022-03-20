@@ -239,7 +239,6 @@
     <string name="lbl_play_from_here">Phát Từ Đây</string>
     <string name="lbl_now_playing">Đang Phát</string>
     <string name="lbl_up_next_colon">"Tiếp Theo: "</string>
-    <string name="lbl_reshuffle_queue">Phát ngẫu nhiên lại hàng đợi</string>
     <string name="lbl_prev_item">Mục Trước</string>
     <string name="lbl_next_item">Mục Kế Tiếp</string>
     <string name="lbl_open_album">Mở Album</string>

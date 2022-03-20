@@ -242,7 +242,6 @@
     <string name="lbl_up_next_colon">"Следеће за репродукцију: "</string>
     <string name="lbl_prev_item">Претходна ставка</string>
     <string name="lbl_next_item">Следећа ставка</string>
-    <string name="lbl_reshuffle_queue">Промешај ред чекања</string>
     <string name="lbl_open_album">Отвори албум</string>
     <string name="lbl_open_artist">Отвори уметника</string>
     <string name="lbl_add_to_queue">Додај у ред чекања</string>

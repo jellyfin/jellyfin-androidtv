@@ -122,7 +122,6 @@
     <string name="lbl_goto_now_playing">Go to Now Playing</string>
     <string name="lbl_prev_item">Previous Item</string>
     <string name="lbl_next_item">Next Item</string>
-    <string name="lbl_reshuffle_queue">Re-Shuffle Queue</string>
     <string name="lbl_open_album">Open Album</string>
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_add_to_queue">Add to Queue</string>

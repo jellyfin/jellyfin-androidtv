@@ -240,7 +240,6 @@
     <string name="lbl_up_next_colon">"മുകളിലേക്ക് അടുത്തത്: "</string>
     <string name="lbl_prev_item">മുമ്പത്തെ ഇനം</string>
     <string name="lbl_next_item">അടുത്ത ഇനം</string>
-    <string name="lbl_reshuffle_queue">റീ-ഷഫിൾ ക്യൂ</string>
     <string name="lbl_open_album">ആൽബം തുറക്കുക</string>
     <string name="lbl_open_artist">ഓപ്പൺ ആർട്ടിസ്റ്റ്</string>
     <string name="lbl_add_to_queue">ക്യൂവിലേക്ക് ചേർക്കുക</string>

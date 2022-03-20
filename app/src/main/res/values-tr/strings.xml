@@ -46,7 +46,6 @@
     <string name="lbl_up_next_colon">"Sıradaki: "</string>
     <string name="lbl_next_item">Sonraki Öğe</string>
     <string name="lbl_prev_item">Önceki Öğe</string>
-    <string name="lbl_reshuffle_queue">Kuruğu Yeniden Karıştır</string>
     <string name="lbl_open_album">Albümü Aç</string>
     <string name="lbl_open_artist">Sanatçıyı Aç</string>
     <string name="lbl_add_to_queue">Kuyruğa Ekle</string>

@@ -13,7 +13,6 @@
     <string name="lbl_add_to_queue">Adaugă în listă</string>
     <string name="lbl_open_artist">Deschide artistul</string>
     <string name="lbl_open_album">Deschide albumul</string>
-    <string name="lbl_reshuffle_queue">Reamestecă lista</string>
     <string name="lbl_next_item">Elementul următor</string>
     <string name="lbl_prev_item">Elementul anterior</string>
     <string name="lbl_up_next_colon">"Urmează: "</string>

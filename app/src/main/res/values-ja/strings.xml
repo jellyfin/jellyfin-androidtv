@@ -142,7 +142,6 @@
     <string name="lbl_warning">注意</string>
     <string name="msg_items_added">" 項目を追加しました"</string>
     <string name="lbl_open_album">アルバムを表示</string>
-    <string name="lbl_reshuffle_queue">キューを再シャッフル</string>
     <string name="lbl_next_item">次の項目</string>
     <string name="lbl_prev_item">前の項目</string>
     <string name="lbl_up_next_colon">"次: "</string>

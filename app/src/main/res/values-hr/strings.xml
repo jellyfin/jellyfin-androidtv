@@ -319,7 +319,6 @@
     <string name="lbl_up_next_colon">"Sljedeće: "</string>
     <string name="lbl_prev_item">Prethodna stavka</string>
     <string name="lbl_next_item">Sljedeća stavka</string>
-    <string name="lbl_reshuffle_queue">Pomiješaj red</string>
     <string name="lbl_open_album">Otvori Album</string>
     <string name="lbl_open_artist">Otvori izvođača</string>
     <string name="lbl_add_to_queue">Dodaj u red</string>

@@ -158,7 +158,6 @@
     <string name="lbl_add_to_queue">Adicionar à Fila</string>
     <string name="lbl_open_artist">Artista Livre</string>
     <string name="lbl_open_album">Álbum Livre</string>
-    <string name="lbl_reshuffle_queue">Misturar fila novamente</string>
     <string name="lbl_next_item">Item Seguinte</string>
     <string name="lbl_prev_item">Item Anterior</string>
     <string name="lbl_up_next_colon">"Cima Seguinte: "</string>

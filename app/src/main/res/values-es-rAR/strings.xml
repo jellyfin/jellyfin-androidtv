@@ -246,7 +246,6 @@
     <string name="lbl_up_next_colon">"Siguiente: "</string>
     <string name="lbl_prev_item">Elemento anterior</string>
     <string name="lbl_next_item">Elemento siguiente</string>
-    <string name="lbl_reshuffle_queue">Remezclar cola</string>
     <string name="lbl_open_album">Abrir álbum</string>
     <string name="lbl_open_artist">Abrir artista</string>
     <string name="lbl_add_to_queue">Agregar a la cola</string>

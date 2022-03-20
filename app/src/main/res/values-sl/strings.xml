@@ -161,7 +161,6 @@
     <string name="lbl_up_next_colon">"Sledi: "</string>
     <string name="lbl_prev_item">Prejšnji element</string>
     <string name="lbl_next_item">Naslednji element</string>
-    <string name="lbl_reshuffle_queue">Premešaj vrsto</string>
     <string name="lbl_open_album">Odpri album</string>
     <string name="lbl_open_artist">Odpri ustvarjalca</string>
     <string name="msg_items_added">" dodani elementi"</string>
