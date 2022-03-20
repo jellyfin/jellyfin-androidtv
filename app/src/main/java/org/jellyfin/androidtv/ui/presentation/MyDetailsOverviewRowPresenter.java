@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.presentation;
 
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +12,8 @@ import android.widget.TextView;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.data.model.InfoItem;
-import org.jellyfin.androidtv.databinding.NewDetailsOverviewRowBinding;
+import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
+import org.jellyfin.androidtv.ui.DetailRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -52,9 +52,12 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
          * Constructor for ViewHolder.
          *
          * @param rootView The View bound to the Row.
+         * @param binding
          */
-        public ViewHolder(NewDetailsOverviewRowBinding binding) {
-            super(binding.getRoot());
+        public ViewHolder(DetailRowView view) {
+            super(view);
+
+            ViewRowDetailsBinding binding = view.getBinding();
 
             mTitle = binding.fdTitle;
             mInfoTitle1 = binding.infoTitle1;
@@ -82,8 +85,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
 
     @Override
     protected ViewHolder createRowViewHolder(ViewGroup parent) {
-        NewDetailsOverviewRowBinding binding = NewDetailsOverviewRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        viewHolder = new ViewHolder(binding);
+        DetailRowView view = new DetailRowView(parent.getContext());
+        viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }

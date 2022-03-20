@@ -1,107 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_height="420dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/leftFrame"
-        android:layout_width="170dp">
+        android:layout_width="170dp"
+        android:layout_height="420dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <TextView
+            android:id="@+id/infoTitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="14sp"
-            android:textAllCaps="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="185dp"
-            android:id="@+id/infoTitle1"
-            android:textAlignment="viewEnd" />
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/infoValue1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/infoTitle1"
-            android:textSize="14sp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/infoValue1"
+            android:alpha=".6"
             android:textAlignment="viewEnd"
-            android:alpha=".6" />
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/infoTitle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/infoValue1"
-            android:textSize="14sp"
-            android:textAllCaps="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:id="@+id/infoTitle2"
-            android:textAlignment="viewEnd" />
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/infoValue2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/infoTitle2"
-            android:textSize="14sp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/infoValue2"
+            android:alpha=".6"
             android:textAlignment="viewEnd"
-            android:alpha=".6" />
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/infoTitle3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/infoValue2"
-            android:textSize="14sp"
-            android:textAllCaps="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:id="@+id/infoTitle3"
-            android:textAlignment="viewEnd" />
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/infoValue3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/infoTitle3"
-            android:textSize="14sp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/infoValue3"
+            android:alpha=".6"
             android:textAlignment="viewEnd"
-            android:alpha=".6" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/middleFrame"
+        android:layout_width="480dp"
         android:layout_height="420dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/leftFrame"
-        android:id="@+id/middleFrame"
-        android:layout_width="480dp">
+        android:layout_toEndOf="@+id/leftFrame">
 
         <TextView
-            android:text="Main Title"
+            android:id="@+id/fdTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:id="@+id/fdTitle"
             android:layout_above="@id/fdMainInfoRow"
-            android:textSize="32sp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_marginStart="40sp"
             android:layout_alignParentStart="true"
-            android:fontFamily="sans-serif-light" />
+            android:layout_marginStart="40sp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:gravity="bottom"
+            android:maxLines="2"
+            android:text="Main Title"
+            android:textSize="32sp" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/fdMainInfoRow"
             android:layout_width="match_parent"
             android:layout_height="20sp"
-            android:id="@+id/fdMainInfoRow"
-            android:dividerPadding="4sp"
             android:layout_above="@+id/fdGenreRow"
             android:layout_alignStart="@+id/fdTitle"
-            />
+            android:dividerPadding="4sp"
+            android:orientation="horizontal" />
 
         <TextView
             android:id="@+id/fdGenreRow"
@@ -112,30 +114,30 @@
             android:minHeight="22sp" />
 
         <org.jellyfin.androidtv.ui.ExpandableTextView
-            android:layout_width="match_parent"
             android:id="@+id/fdSummaryText"
-            android:transitionName="summary"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp"
-            android:maxLines="6"
-            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
             android:layout_above="@id/fdButtonRow"
             android:layout_alignStart="@id/fdTitle"
-            android:layout_height="135dp"
-            android:fontFamily="sans-serif-light" />
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="6"
+            android:textSize="16sp"
+            android:transitionName="summary" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/fdButtonRow"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
-            android:id="@+id/fdButtonRow"
-            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/fdTitle"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:divider="@drawable/blank10x10"
-            android:showDividers="none"
             android:gravity="start"
+            android:orientation="horizontal"
+            android:showDividers="none"
 
             />
     </RelativeLayout>
@@ -147,29 +149,29 @@
         android:layout_toEndOf="@+id/middleFrame">
 
         <ImageView
+            android:id="@+id/mainImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/blank30x30"
-            android:layout_marginTop="60dp"
-            android:foregroundGravity="fill_horizontal"
-            android:scaleType="centerInside"
-            android:paddingTop="80dp"
-            android:paddingStart="50dp"
-            android:paddingEnd="50dp"
-            android:paddingBottom="30dp"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
+            android:layout_marginTop="60dp"
             android:contentDescription="@null"
-            android:id="@+id/mainImage" />
+            android:foregroundGravity="fill_horizontal"
+            android:paddingStart="50dp"
+            android:paddingTop="80dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="30dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/blank30x30" />
 
         <ProgressBar
             android:id="@+id/fdProgress"
             style="@style/overlay_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/mainImage"
-            android:layout_alignEnd="@+id/mainImage"
             android:layout_alignStart="@+id/mainImage"
+            android:layout_alignEnd="@+id/mainImage"
+            android:layout_alignBottom="@+id/mainImage"
             android:layout_marginBottom="5dp"
             android:max="100"
             android:maxHeight="5sp"
