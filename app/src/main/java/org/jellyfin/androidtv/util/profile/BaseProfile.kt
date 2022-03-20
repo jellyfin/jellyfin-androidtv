@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
-import org.jellyfin.androidtv.constant.CodecTypes
-import org.jellyfin.androidtv.constant.SubtitleTypes
-import org.jellyfin.androidtv.constant.ContainerTypes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
@@ -22,31 +20,31 @@ open class BaseProfile : DeviceProfile() {
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Video
 				context = EncodingContext.Streaming
-				container = ContainerTypes.MKV
-				videoCodec = CodecTypes.H264
-				audioCodec = arrayOf(CodecTypes.AAC, CodecTypes.MP3).joinToString(",")
+				container = Codec.Container.MKV
+				videoCodec = Codec.Video.H264
+				audioCodec = arrayOf(Codec.Audio.AAC, Codec.Audio.MP3).joinToString(",")
 				copyTimestamps = true
 			},
 			// MP3 audio profile
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Audio
 				context = EncodingContext.Streaming
-				container = CodecTypes.MP3
-				audioCodec = CodecTypes.MP3
+				container = Codec.Container.MP3
+				audioCodec = Codec.Audio.MP3
 			}
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.External)
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.External)
 		)
 	}
 }

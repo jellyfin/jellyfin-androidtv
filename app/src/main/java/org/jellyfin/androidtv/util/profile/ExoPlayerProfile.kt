@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
-import org.jellyfin.androidtv.constant.CodecTypes
-import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.constant.SubtitleTypes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
@@ -31,9 +29,9 @@ class ExoPlayerProfile(
 	isHlsSupported: Boolean = false,
 ) : BaseProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
-		CodecTypes.AAC,
-		CodecTypes.MP3,
-		CodecTypes.MP2
+		Codec.Audio.AAC,
+		Codec.Audio.MP3,
+		Codec.Audio.MP2
 	)
 
 	/**
@@ -41,16 +39,16 @@ class ExoPlayerProfile(
 	 * This does not include containers / codecs found in audio files
 	 */
 	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs + arrayOf(
-		CodecTypes.AAC_LATM,
-		CodecTypes.ALAC,
-		CodecTypes.AC3,
-		CodecTypes.EAC3,
-		CodecTypes.DCA,
-		CodecTypes.DTS,
-		CodecTypes.MLP,
-		CodecTypes.TRUEHD,
-		CodecTypes.PCM_ALAW,
-		CodecTypes.PCM_MULAW,
+		Codec.Audio.AAC_LATM,
+		Codec.Audio.ALAC,
+		Codec.Audio.AC3,
+		Codec.Audio.EAC3,
+		Codec.Audio.DCA,
+		Codec.Audio.DTS,
+		Codec.Audio.MLP,
+		Codec.Audio.TRUEHD,
+		Codec.Audio.PCM_ALAW,
+		Codec.Audio.PCM_MULAW,
 	)
 
 	init {
@@ -62,15 +60,15 @@ class ExoPlayerProfile(
 				true -> TranscodingProfile().apply {
 					type = DlnaProfileType.Video
 					context = EncodingContext.Streaming
-					container = ContainerTypes.TS
+					container = Codec.Container.TS
 					videoCodec = buildList {
-						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.TS)) add(CodecTypes.HEVC)
-						add(CodecTypes.H264)
+						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
+						add(Codec.Video.H264)
 					}.joinToString(",")
 					audioCodec = buildList {
-						if (isAC3Enabled) add(CodecTypes.AC3)
-						add(CodecTypes.AAC)
-						add(CodecTypes.MP3)
+						if (isAC3Enabled) add(Codec.Audio.AC3)
+						add(Codec.Audio.AAC)
+						add(Codec.Audio.MP3)
 					}.joinToString(",")
 					protocol = "hls"
 					copyTimestamps = false
@@ -79,15 +77,15 @@ class ExoPlayerProfile(
 				else -> TranscodingProfile().apply {
 					type = DlnaProfileType.Video
 					context = EncodingContext.Streaming
-					container = ContainerTypes.MKV
+					container = Codec.Container.MKV
 					videoCodec = buildList {
-						if (deviceHevcCodecProfile.ContainsCodec(CodecTypes.HEVC, ContainerTypes.MKV)) add(CodecTypes.HEVC)
-						add(CodecTypes.H264)
+						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.MKV)) add(Codec.Video.HEVC)
+						add(Codec.Video.H264)
 					}.joinToString(",")
 					audioCodec = buildList {
-						if (isAC3Enabled) add(CodecTypes.AC3)
-						add(CodecTypes.AAC)
-						add(CodecTypes.MP3)
+						if (isAC3Enabled) add(Codec.Audio.AC3)
+						add(Codec.Audio.AAC)
+						add(Codec.Audio.MP3)
 					}.joinToString(",")
 					protocol = "http"
 					copyTimestamps = true
@@ -97,8 +95,8 @@ class ExoPlayerProfile(
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Audio
 				context = EncodingContext.Streaming
-				container = CodecTypes.MP3
-				audioCodec = CodecTypes.MP3
+				container = Codec.Container.MP3
+				audioCodec = Codec.Audio.MP3
 			}
 		)
 
@@ -109,28 +107,28 @@ class ExoPlayerProfile(
 					type = DlnaProfileType.Video
 
 					container = listOfNotNull(
-						if (isLiveTV) ContainerTypes.TS else null,
-						if (isLiveTV) ContainerTypes.MPEGTS else null,
-						ContainerTypes.M4V,
-						ContainerTypes.MOV,
-						ContainerTypes.XVID,
-						ContainerTypes.VOB,
-						ContainerTypes.MKV,
-						ContainerTypes.WMV,
-						ContainerTypes.ASF,
-						ContainerTypes.OGM,
-						ContainerTypes.OGV,
-						ContainerTypes.MP4,
-						ContainerTypes.WEBM
+						if (isLiveTV) Codec.Container.TS else null,
+						if (isLiveTV) Codec.Container.MPEGTS else null,
+						Codec.Container.M4V,
+						Codec.Container.MOV,
+						Codec.Container.XVID,
+						Codec.Container.VOB,
+						Codec.Container.MKV,
+						Codec.Container.WMV,
+						Codec.Container.ASF,
+						Codec.Container.OGM,
+						Codec.Container.OGV,
+						Codec.Container.MP4,
+						Codec.Container.WEBM
 					).joinToString(",")
 
 					videoCodec = arrayOf(
-						CodecTypes.H264,
-						CodecTypes.HEVC,
-						CodecTypes.VP8,
-						CodecTypes.VP9,
-						ContainerTypes.MPEG,
-						CodecTypes.MPEG2VIDEO
+						Codec.Video.H264,
+						Codec.Video.HEVC,
+						Codec.Video.VP8,
+						Codec.Video.VP9,
+						Codec.Video.MPEG,
+						Codec.Video.MPEG2VIDEO
 					).joinToString(",")
 
 					audioCodec = when {
@@ -141,16 +139,16 @@ class ExoPlayerProfile(
 			}
 			// Audio direct play
 			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
-					CodecTypes.MPA,
-					CodecTypes.FLAC,
-					CodecTypes.WAV,
-					CodecTypes.WMA,
-					ContainerTypes.OGG,
-					ContainerTypes.OGA,
-					ContainerTypes.WEBMA,
-					CodecTypes.APE,
-					CodecTypes.OPUS,
-				)))
+				Codec.Audio.MPA,
+				Codec.Audio.FLAC,
+				Codec.Audio.WAV,
+				Codec.Audio.WMA,
+				Codec.Audio.OGG,
+				Codec.Audio.OGA,
+				Codec.Audio.WEBMA,
+				Codec.Audio.APE,
+				Codec.Audio.OPUS,
+			)))
 			// Photo direct play
 			add(photoDirectPlayProfile)
 		}.toTypedArray()
@@ -159,7 +157,7 @@ class ExoPlayerProfile(
 			// H264 profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
-				codec = CodecTypes.H264
+				codec = Codec.Video.H264
 				conditions = buildList {
 					add(h264VideoProfileCondition)
 					add(h264VideoLevelProfileCondition)
@@ -169,7 +167,7 @@ class ExoPlayerProfile(
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
-				codec = CodecTypes.H264
+				codec = Codec.Video.H264
 				conditions = arrayOf(
 					ProfileCondition(
 						ProfileConditionType.LessThanEqual,
@@ -188,7 +186,7 @@ class ExoPlayerProfile(
 			// H264 ref frames profile
 			add(CodecProfile().apply {
 				type = CodecType.Video
-				codec = CodecTypes.H264
+				codec = Codec.Video.H264
 				conditions = arrayOf(
 					ProfileCondition(
 						ProfileConditionType.LessThanEqual,
@@ -218,17 +216,17 @@ class ExoPlayerProfile(
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.Embed)
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed)
 		)
 	}
 }
