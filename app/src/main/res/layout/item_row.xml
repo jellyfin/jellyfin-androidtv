@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="100dp"
     android:layout_marginEnd="100dp"
+    android:duplicateParentState="true"
     android:foreground="@drawable/button_default_ripple"
     android:padding="10dp"
     tools:ignore="UnusedAttribute">
@@ -14,6 +15,8 @@
         android:id="@+id/watchedMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:textColor="@drawable/button_default_text"
         android:textSize="18sp" />
 
     <TextView
@@ -23,8 +26,10 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
+        android:duplicateParentState="true"
         android:gravity="center"
         android:minWidth="20dp"
+        android:textColor="@drawable/button_default_text"
         android:textSize="16sp"
         tools:text="Track" />
 
@@ -34,14 +39,17 @@
         android:layout_marginStart="20dp"
         android:layout_toStartOf="@+id/runTime"
         android:layout_toEndOf="@+id/indexNo"
+        android:duplicateParentState="true"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/songName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:duplicateParentState="true"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textColor="@drawable/button_default_text"
             android:textSize="16sp"
             tools:text="Title" />
 
@@ -49,8 +57,10 @@
             android:id="@+id/artistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:duplicateParentState="true"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textColor="@drawable/button_default_text"
             android:textSize="12sp"
             tools:text="Artist" />
 
@@ -62,6 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:duplicateParentState="true"
+        android:textColor="@drawable/button_default_text"
         android:textSize="16sp"
         tools:text="Time" />
 
