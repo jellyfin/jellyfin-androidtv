@@ -120,7 +120,6 @@ class LibVlcProfile(
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile("srt", SubtitleDeliveryMethod.External),
 			subtitleProfile("srt", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("subrip", SubtitleDeliveryMethod.Embed),
 			subtitleProfile("ass", SubtitleDeliveryMethod.Embed),
