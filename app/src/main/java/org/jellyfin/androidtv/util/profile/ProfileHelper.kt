@@ -1,12 +1,9 @@
 package org.jellyfin.androidtv.util.profile
 
-import org.jellyfin.androidtv.constant.CodecTypes
-import org.jellyfin.androidtv.constant.ContainerTypes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
-import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
-import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
 import org.jellyfin.apiclient.model.dlna.ProfileCondition
@@ -27,7 +24,7 @@ object ProfileHelper {
 	val deviceHevcCodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
-			codec = CodecTypes.HEVC
+			codec = Codec.Video.HEVC
 
 			conditions = when {
 				!MediaTest.supportsHevc() -> {

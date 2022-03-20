@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
-import org.jellyfin.androidtv.constant.CodecTypes
-import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.constant.SubtitleTypes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
@@ -33,59 +31,59 @@ class LibVlcProfile(
 				type = DlnaProfileType.Video
 
 				container = arrayOf(
-					ContainerTypes.M4V,
-					ContainerTypes._3GP,
-					ContainerTypes.TS,
-					ContainerTypes.MPEGTS,
-					ContainerTypes.MOV,
-					ContainerTypes.XVID,
-					ContainerTypes.VOB,
-					ContainerTypes.MKV,
-					ContainerTypes.WMV,
-					ContainerTypes.ASF,
-					ContainerTypes.OGM,
-					ContainerTypes.OGV,
-					ContainerTypes.M2V,
-					ContainerTypes.AVI,
-					ContainerTypes.MPG,
-					ContainerTypes.MPEG,
-					ContainerTypes.MP4,
-					ContainerTypes.WEBM,
-					ContainerTypes.WTV
+					Codec.Container.M4V,
+					Codec.Container.`3GP`,
+					Codec.Container.TS,
+					Codec.Container.MPEGTS,
+					Codec.Container.MOV,
+					Codec.Container.XVID,
+					Codec.Container.VOB,
+					Codec.Container.MKV,
+					Codec.Container.WMV,
+					Codec.Container.ASF,
+					Codec.Container.OGM,
+					Codec.Container.OGV,
+					Codec.Container.M2V,
+					Codec.Container.AVI,
+					Codec.Container.MPG,
+					Codec.Container.MPEG,
+					Codec.Container.MP4,
+					Codec.Container.WEBM,
+					Codec.Container.WTV
 				).joinToString(",")
 
 				audioCodec = listOfNotNull(
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.MP2,
-					CodecTypes.AC3,
-					CodecTypes.WMA,
-					CodecTypes.WMAV2,
-					CodecTypes.DCA,
-					CodecTypes.DTS,
-					CodecTypes.PCM,
-					CodecTypes.PCM_S16LE,
-					CodecTypes.PCM_S24LE,
-					CodecTypes.OPUS,
-					CodecTypes.FLAC,
-					CodecTypes.TRUEHD,
-					if (!Utils.downMixAudio() && isLiveTV) CodecTypes.AAC_LATM else null
+					Codec.Audio.AAC,
+					Codec.Audio.MP3,
+					Codec.Audio.MP2,
+					Codec.Audio.AC3,
+					Codec.Audio.WMA,
+					Codec.Audio.WMAV2,
+					Codec.Audio.DCA,
+					Codec.Audio.DTS,
+					Codec.Audio.PCM,
+					Codec.Audio.PCM_S16LE,
+					Codec.Audio.PCM_S24LE,
+					Codec.Audio.OPUS,
+					Codec.Audio.FLAC,
+					Codec.Audio.TRUEHD,
+					if (!Utils.downMixAudio() && isLiveTV) Codec.Audio.AAC_LATM else null
 				).joinToString(",")
 			},
 			// Audio direct play
 			audioDirectPlayProfile(arrayOf(
-				CodecTypes.FLAC,
-				CodecTypes.AAC,
-				CodecTypes.MP3,
-				CodecTypes.MPA,
-				CodecTypes.WAV,
-				CodecTypes.WMA,
-				CodecTypes.MP2,
-				ContainerTypes.OGG,
-				ContainerTypes.OGA,
-				ContainerTypes.WEBMA,
-				CodecTypes.APE
-				)),
+				Codec.Audio.FLAC,
+				Codec.Audio.AAC,
+				Codec.Audio.MP3,
+				Codec.Audio.MPA,
+				Codec.Audio.WAV,
+				Codec.Audio.WMA,
+				Codec.Audio.MP2,
+				Codec.Audio.OGG,
+				Codec.Audio.OGA,
+				Codec.Audio.WEBMA,
+				Codec.Audio.APE
+			)),
 			// Photo direct play
 			photoDirectPlayProfile
 		)
@@ -96,7 +94,7 @@ class LibVlcProfile(
 			// H264 profile
 			CodecProfile().apply {
 				type = CodecType.Video
-				codec = CodecTypes.H264
+				codec = Codec.Video.H264
 				conditions = arrayOf(
 					h264VideoProfileCondition,
 					h264VideoLevelProfileCondition
@@ -109,30 +107,30 @@ class LibVlcProfile(
 		containerProfiles = arrayOf(
 			ContainerProfile().apply {
 				type = DlnaProfileType.Video
-				container = ContainerTypes.AVI
+				container = Codec.Container.AVI
 				conditions = arrayOf(
 					ProfileCondition(
 						ProfileConditionType.NotEquals,
 						ProfileConditionValue.VideoCodecTag,
-						ContainerTypes.XVID
+						Codec.Container.XVID
 					)
 				)
 			}
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.External),
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SMI, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.Embed)
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SMI, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed)
 		)
 	}
 }

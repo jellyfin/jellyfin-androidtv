@@ -1,8 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
-import org.jellyfin.androidtv.constant.CodecTypes
-import org.jellyfin.androidtv.constant.ContainerTypes
-import org.jellyfin.androidtv.constant.SubtitleTypes
+import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
@@ -21,26 +19,26 @@ class ExternalPlayerProfile : DeviceProfile() {
 			DirectPlayProfile().apply {
 				type = DlnaProfileType.Video
 				container = arrayOf(
-					ContainerTypes.M4V,
-					ContainerTypes._3GP,
-					ContainerTypes.TS,
-					ContainerTypes.MPEGTS,
-					ContainerTypes.MOV,
-					ContainerTypes.XVID,
-					ContainerTypes.VOB,
-					ContainerTypes.MKV,
-					ContainerTypes.WMV,
-					ContainerTypes.ASF,
-					ContainerTypes.OGM,
-					ContainerTypes.OGV,
-					ContainerTypes.M2V,
-					ContainerTypes.AVI,
-					ContainerTypes.MPG,
-					ContainerTypes.MPEG,
-					ContainerTypes.MP4,
-					ContainerTypes.WEBM,
-					ContainerTypes.DVR_MS,
-					ContainerTypes.WTV
+					Codec.Container.M4V,
+					Codec.Container.`3GP`,
+					Codec.Container.TS,
+					Codec.Container.MPEGTS,
+					Codec.Container.MOV,
+					Codec.Container.XVID,
+					Codec.Container.VOB,
+					Codec.Container.MKV,
+					Codec.Container.WMV,
+					Codec.Container.ASF,
+					Codec.Container.OGM,
+					Codec.Container.OGV,
+					Codec.Container.M2V,
+					Codec.Container.AVI,
+					Codec.Container.MPG,
+					Codec.Container.MPEG,
+					Codec.Container.MP4,
+					Codec.Container.WEBM,
+					Codec.Container.DVR_MS,
+					Codec.Container.WTV
 				).joinToString(",")
 			}
 		)
@@ -50,12 +48,12 @@ class ExternalPlayerProfile : DeviceProfile() {
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Video
 				context = EncodingContext.Streaming
-				container = ContainerTypes.MKV
-				videoCodec = CodecTypes.H264
+				container = Codec.Container.MKV
+				videoCodec = Codec.Video.H264
 				audioCodec = arrayOf(
-					CodecTypes.AAC,
-					CodecTypes.MP3,
-					CodecTypes.AC3
+					Codec.Audio.AAC,
+					Codec.Audio.MP3,
+					Codec.Audio.AC3
 				).joinToString(",")
 				copyTimestamps = true
 			},
@@ -63,23 +61,23 @@ class ExternalPlayerProfile : DeviceProfile() {
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Audio
 				context = EncodingContext.Streaming
-				container = CodecTypes.MP3
-				audioCodec = CodecTypes.MP3
+				container = Codec.Container.MP3
+				audioCodec = Codec.Audio.MP3
 			}
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(SubtitleTypes.SRT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUBRIP, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.ASS, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SSA, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.PGS, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.PGSSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.DVDSUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.VTT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.IDX, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(SubtitleTypes.SMI, SubtitleDeliveryMethod.Embed)
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SMI, SubtitleDeliveryMethod.Embed)
 		)
 	}
 }
