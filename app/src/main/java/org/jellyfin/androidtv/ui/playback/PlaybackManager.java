@@ -32,6 +32,8 @@ public class PlaybackManager {
     }
 
     public ArrayList<MediaStream> getInPlaybackSelectableAudioStreams(StreamInfo info) {
+        if (info == null)
+            return null;
         return info.GetSelectableAudioStreams();
     }
 
