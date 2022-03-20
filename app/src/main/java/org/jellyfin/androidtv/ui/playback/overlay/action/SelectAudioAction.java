@@ -27,6 +27,10 @@ public class SelectAudioAction extends CustomAction {
     public void handleClickAction(PlaybackController playbackController, LeanbackOverlayFragment leanbackOverlayFragment, Context context, View view) {
 
         List<MediaStream> audioTracks = KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getInPlaybackSelectableAudioStreams(playbackController.getCurrentStreamInfo());
+
+        if (audioTracks == null)
+            return;
+
         int currentAudioIndex = playbackController.getAudioStreamIndex();
 
         PopupMenu audioMenu = new PopupMenu(context, view, Gravity.END);
