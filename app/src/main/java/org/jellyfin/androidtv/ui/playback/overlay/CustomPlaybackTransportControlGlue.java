@@ -211,8 +211,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     void addMediaActions() {
-        primaryActionsAdapter.clear();
-        secondaryActionsAdapter.clear();
+        if (primaryActionsAdapter.size() > 0)
+            primaryActionsAdapter.clear();
+        if (secondaryActionsAdapter.size() > 0)
+            secondaryActionsAdapter.clear();
 
         // Primary Items
         primaryActionsAdapter.add(playPauseAction);
@@ -378,8 +380,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     void invalidatePlaybackControls() {
-        primaryActionsAdapter.clear();
-        secondaryActionsAdapter.clear();
+        if (primaryActionsAdapter.size() > 0)
+            primaryActionsAdapter.clear();
+        if (secondaryActionsAdapter.size() > 0)
+            secondaryActionsAdapter.clear();
         addMediaActions();
     }
 
