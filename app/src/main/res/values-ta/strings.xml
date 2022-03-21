@@ -489,4 +489,5 @@
     <string name="pref_show_backdrop_description">தேர்ந்தெடுக்கப்பட்ட உருப்படிகளுக்கு பின்னணி படத்தை மாற்றவும்</string>
     <string name="lbl_playback_speed">பின்னணி வேகம்</string>
     <string name="home_section_resume_book">தொடர்ந்து படி</string>
+    <string name="lbl_shuffle_queue">ஷஃபிளை நிலைமாற்று</string>
 </resources>
