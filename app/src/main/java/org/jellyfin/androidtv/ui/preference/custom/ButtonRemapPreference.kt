@@ -10,7 +10,7 @@ import java.util.Locale
 class ButtonRemapPreference @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0,
+	defStyleAttr: Int = androidx.preference.R.attr.dialogPreferenceStyle,
 	defStyleRes: Int = 0,
 ) : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 	override fun getDialogLayoutResource() = R.layout.preference_button_remap

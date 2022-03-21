@@ -13,7 +13,7 @@ import org.jellyfin.androidtv.R
 class DurationSeekBarPreference @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0,
+	defStyleAttr: Int = androidx.preference.R.attr.seekBarPreferenceStyle,
 	defStyleRes: Int = 0,
 ) : SeekBarPreference(context, attrs, defStyleAttr, defStyleRes) {
 	var valueFormatter = ValueFormatter()
