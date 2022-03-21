@@ -642,7 +642,17 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return ndx;
     }
 
-    public void setPlaybackSpeed(@NonNull Double speed) {
+    public float getPlaybackSpeed(){
+        if (!isInitialized()) {
+            return 1.0f;
+        } else if (isNativeMode()){
+            return mExoPlayer.getPlaybackParameters().speed;
+        } else {
+            return mVlcPlayer.getRate();
+        }
+    }
+
+    public void setPlaybackSpeed(@NonNull float speed) {
         if (speed < 0.25) {
             Timber.w("Invalid playback speed requested: %f", speed);
             return;
@@ -650,9 +660,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         Timber.d("Setting playback speed: %f", speed);
 
         if (nativeMode) {
-            mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed.floatValue()));
+            mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
         } else {
-            mVlcPlayer.setRate(speed.floatValue());
+            mVlcPlayer.setRate(speed);
         }
     }
 

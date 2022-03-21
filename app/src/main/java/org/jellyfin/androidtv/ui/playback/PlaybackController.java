@@ -88,7 +88,7 @@ public class PlaybackController {
     private int mDefaultSubIndex = -1;
     private int mDefaultAudioIndex = -1;
     private boolean burningSubs = false;
-    private double mRequestedPlaybackSpeed = -1.0;
+    private float mRequestedPlaybackSpeed = -1.0f;
 
     private PlayMethod mPlaybackMethod = PlayMethod.Transcode;
 
@@ -163,7 +163,13 @@ public class PlaybackController {
         mPlaybackMethod = value;
     }
 
-    public void setPlaybackSpeed(@NonNull Double speed) {
+    public float getPlaybackSpeed() {
+        // Actually poll the video manager, since exoplayer can revert back
+        // to 1x if it can't go faster, so we should check directly
+        return mVideoManager.getPlaybackSpeed();
+    }
+
+    public void setPlaybackSpeed(@NonNull float speed) {
         mRequestedPlaybackSpeed = speed;
         if (hasInitializedVideoManager()) {
             mVideoManager.setPlaybackSpeed(speed);
@@ -767,7 +773,7 @@ public class PlaybackController {
 
         // set playback speed to user selection, or 1 if we're watching live-tv
         if (mVideoManager != null)
-            mVideoManager.setPlaybackSpeed(isLiveTv() ? 1.0 : mRequestedPlaybackSpeed);
+            mVideoManager.setPlaybackSpeed(isLiveTv() ? 1.0f : mRequestedPlaybackSpeed);
 
         if (mFragment != null) mFragment.updateDisplay();
 
