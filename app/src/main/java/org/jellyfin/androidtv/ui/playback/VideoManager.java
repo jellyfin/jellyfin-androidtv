@@ -109,31 +109,38 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
         mExoPlayerView.setPlayer(mExoPlayer);
-        mExoPlayer.addListener(new Player.EventListener() {
+        mExoPlayer.addListener(new Player.Listener() {
             @Override
-            public void onPlayerError(PlaybackException error) {
+            public void onPlayerError(@NonNull PlaybackException error) {
                 Timber.e("***** Got error from player");
                 if (errorListener != null) errorListener.onEvent();
                 stopProgressLoop();
             }
 
             @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            public void onIsPlayingChanged(boolean isPlaying) {
+                if (isPlaying) {
+                    if (preparedListener != null) preparedListener.onEvent();
+                    startProgressLoop();
+                } else {
+                    stopProgressLoop();
+                }
+            }
+
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
                 }
-                // Do not call listener when paused
-                if (playbackState == Player.STATE_READY && playWhenReady) {
-                    if (preparedListener != null) preparedListener.onEvent();
-                    startProgressLoop();
-                } else if (playbackState == Player.STATE_ENDED) {
+
+                if (playbackState == Player.STATE_ENDED) {
                     if (completionListener != null) completionListener.onEvent();
                     stopProgressLoop();
                 }
             }
 
             @Override
-            public void onPositionDiscontinuity(Player.PositionInfo oldPosition, Player.PositionInfo newPosition, int reason) {
+            public void onPositionDiscontinuity(@NonNull Player.PositionInfo oldPosition, @NonNull Player.PositionInfo newPosition, int reason) {
                 // discontinuity for reason internal usually indicates an error, and that the player will reset to its default timestamp
                 if (reason == Player.DISCONTINUITY_REASON_INTERNAL) {
                     Timber.d("Caught player discontinuity (reason internal) - oldPos: %s newPos: %s", oldPosition.positionMs, newPosition.positionMs);
@@ -141,7 +148,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
 
             @Override
-            public void onTimelineChanged(Timeline timeline, int reason) {
+            public void onTimelineChanged(@NonNull Timeline timeline, int reason) {
                 Timber.d("Caught player timeline change - reason: %s", reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
             }
         });
