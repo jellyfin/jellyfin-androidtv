@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.IntRange;
+import androidx.core.view.ViewKt;
 import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.data.model.InfoItem;
@@ -52,7 +53,7 @@ public class MyDetailsOverviewRow extends Row {
     public int getVisibleActions() {
         int actions = 0;
         for (int i = 0; i < mActions.size(); i++) {
-            if (mActions.get(i).isVisible()) actions++;
+            if (ViewKt.isVisible(mActions.get(i))) actions++;
         }
         return actions;
     }
