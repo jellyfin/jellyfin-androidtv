@@ -158,6 +158,10 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         return playbackController.getCurrentlyPlayingItem();
     }
 
+    public double getPlaybackSpeed() {
+        return playbackController.getPlaybackSpeed();
+    }
+
     boolean hasChapters() {
         BaseItemDto item = getCurrentlyPlayingItem();
         List<ChapterInfoDto> chapters = item.getChapters();
