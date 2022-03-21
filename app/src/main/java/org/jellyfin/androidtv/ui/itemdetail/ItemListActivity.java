@@ -540,7 +540,7 @@ public class ItemListActivity extends FragmentActivity {
     private void addButtons(int buttonSize) {
         if (BaseItemUtils.canPlay(mBaseItem)) {
             // add play button but don't show and focus yet
-            TextUnderButton play = new TextUnderButton(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+            TextUnderButton play = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItems.size() > 0) {
@@ -550,14 +550,16 @@ public class ItemListActivity extends FragmentActivity {
                     }
                 }
             });
-            play.setGotFocusListener(mainAreaFocusListener);
+            play.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+            });
             mButtonRow.addView(play);
 
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum
             if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum && mediaManager.getValue().hasAudioQueueItems()) {
-                queueButton = new TextUnderButton(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
+                queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mediaManager.getValue().addToAudioQueue(mItems);
@@ -565,7 +567,9 @@ public class ItemListActivity extends FragmentActivity {
                 });
                 hidePlayButton = true;
                 mButtonRow.addView(queueButton);
-                queueButton.setGotFocusListener(mainAreaFocusListener);
+                queueButton.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                });
             }
 
             // hide the play button and show add to queue if eligible
@@ -577,7 +581,7 @@ public class ItemListActivity extends FragmentActivity {
             }
 
             if (mBaseItem.getIsFolderItem()) {
-                TextUnderButton shuffle = new TextUnderButton(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                TextUnderButton shuffle = TextUnderButton.create(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
@@ -596,25 +600,29 @@ public class ItemListActivity extends FragmentActivity {
                     }
                 });
                 mButtonRow.addView(shuffle);
-                shuffle.setGotFocusListener(mainAreaFocusListener);
+                shuffle.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                });
             }
         }
 
         if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
-            TextUnderButton mix = new TextUnderButton(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
+            TextUnderButton mix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     PlaybackHelper.playInstantMix(ItemListActivity.this, mBaseItem);
                 }
             });
             mButtonRow.addView(mix);
-            mix.setGotFocusListener(mainAreaFocusListener);
+            mix.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+            });
         }
 
         if (!mItemId.equals(FAV_SONGS)) {
             if (!mItemId.equals(VIDEO_QUEUE)) {
                 //Favorite
-                TextUnderButton fav = new TextUnderButton(this, R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+                TextUnderButton fav = TextUnderButton.create(this, R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
@@ -630,13 +638,14 @@ public class ItemListActivity extends FragmentActivity {
                 });
                 fav.setActivated(mBaseItem.getUserData().getIsFavorite());
                 mButtonRow.addView(fav);
-                fav.setGotFocusListener(mainAreaFocusListener);
-
+                fav.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                });
             }
 
             if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
                 if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
-                    mButtonRow.addView(new TextUnderButton(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
+                    mButtonRow.addView(TextUnderButton.create(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mediaManager.getValue().saveVideoQueue(mActivity);
@@ -644,7 +653,7 @@ public class ItemListActivity extends FragmentActivity {
                     }));
                 }
 
-                TextUnderButton delete = new TextUnderButton(this, R.drawable.ic_trash, buttonSize, getString(R.string.lbl_delete), new View.OnClickListener() {
+                TextUnderButton delete = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
@@ -700,12 +709,14 @@ public class ItemListActivity extends FragmentActivity {
                 });
 
                 mButtonRow.addView(delete);
-                delete.setGotFocusListener(mainAreaFocusListener);
+                delete.setOnFocusChangeListener((v, hasFocus) -> {
+                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                });
             }
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-            TextUnderButton artist = new TextUnderButton(this, R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
+            TextUnderButton artist = TextUnderButton.create(this, R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent artist = new Intent(mActivity, FullDetailsActivity.class);
@@ -715,7 +726,9 @@ public class ItemListActivity extends FragmentActivity {
                 }
             });
             mButtonRow.addView(artist);
-            artist.setGotFocusListener(mainAreaFocusListener);
+            artist.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+            });
         }
 
     }
