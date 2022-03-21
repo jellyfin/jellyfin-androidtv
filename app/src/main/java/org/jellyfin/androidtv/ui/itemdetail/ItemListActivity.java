@@ -651,28 +651,20 @@ public class ItemListActivity extends FragmentActivity {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_clear_queue)
                                     .setMessage(R.string.clear_expanded)
-                                    .setPositiveButton(R.string.lbl_clear, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            mediaManager.getValue().setCurrentVideoQueue(new ArrayList<BaseItemDto>());
-                                            dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
-                                            finish();
-                                        }
+                                    .setPositiveButton(R.string.lbl_clear, (dialog, whichButton) -> {
+                                        mediaManager.getValue().setCurrentVideoQueue(new ArrayList<BaseItemDto>());
+                                        dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
+                                        finish();
                                     })
-                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    })
+                                    .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {})
                                     .show()
                                     .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
-
                         } else {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_delete)
                                     .setMessage(getString(R.string.delete_warning, mBaseItem.getName()))
-                                    .setPositiveButton(R.string.lbl_delete, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                            apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                                    .setPositiveButton(R.string.lbl_delete,
+                                            (dialog, whichButton) -> apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                                                 @Override
                                                 public void onResponse() {
                                                     Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
@@ -684,15 +676,9 @@ public class ItemListActivity extends FragmentActivity {
                                                 public void onError(Exception ex) {
                                                     Utils.showToast(mActivity, ex.getLocalizedMessage());
                                                 }
-                                            });
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Utils.showToast(mActivity, R.string.not_deleted);
-                                        }
-                                    })
+                                            }))
+                                    .setNegativeButton(R.string.btn_cancel,
+                                            (dialog, which) -> Utils.showToast(mActivity, R.string.not_deleted))
                                     .show()
                                     .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
 

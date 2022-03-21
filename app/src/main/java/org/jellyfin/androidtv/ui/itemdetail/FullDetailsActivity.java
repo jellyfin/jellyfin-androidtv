@@ -851,9 +851,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.lbl_delete)
                 .setMessage("This will PERMANENTLY DELETE " + mBaseItem.getName() + " from your library.  Are you VERY sure?")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
+                .setPositiveButton("Delete",
+                        (dialog, whichButton) -> apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
                             @Override
                             public void onResponse() {
                                 Utils.showToast(mActivity, mBaseItem.getName() + " Deleted");
@@ -865,19 +864,10 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                             public void onError(Exception ex) {
                                 Utils.showToast(mActivity, ex.getLocalizedMessage());
                             }
-                        });
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Utils.showToast(mActivity, "Item NOT Deleted");
-                    }
-                })
+                        }))
+                .setNegativeButton("Cancel", (dialog, which) -> Utils.showToast(mActivity, "Item NOT Deleted"))
                 .show()
                 .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
-
-
     }
 
     private TextUnderButton favButton = null;
