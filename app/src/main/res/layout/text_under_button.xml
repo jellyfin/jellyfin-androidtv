@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content" android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:duplicateParentState="true">
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageButton"
+        style="@style/Button.Default"
         android:layout_width="70dp"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/lb_ic_play"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:focusable="true"
-        android:background="@drawable/jellyfin_button"
-        android:scaleType="fitCenter"
-        android:id="@+id/imageButton" />
+        android:clickable="false"
+        android:duplicateParentState="true"
+        app:tint="@drawable/button_icon_tint"
+        tools:ignore="UnusedAttribute"
+        tools:src="@drawable/ic_play" />
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/label"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
         android:alpha=".7"
+        android:gravity="center"
+        android:maxLines="2"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:textSize="12sp"
-        android:maxLines="2"
-        android:gravity="center"
-        android:layout_marginTop="2dp"
-        android:id="@+id/label" />
+        tools:text="TextView" />
 </RelativeLayout>

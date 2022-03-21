@@ -357,7 +357,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
-            mWatchedToggleButton.setImageResource(mBaseItem.getUserData().getPlayed() ? R.drawable.ic_watch_red : R.drawable.ic_watch);
+            mWatchedToggleButton.setActivated(mBaseItem.getUserData().getPlayed());
         }
     }
 
@@ -394,7 +394,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     @Override
     public void setRecTimer(String id) {
         mProgramInfo.setTimerId(id);
-        if (mRecordButton != null) mRecordButton.setImageResource(id == null ? R.drawable.ic_record : R.drawable.ic_record_red);
+        if (mRecordButton != null) mRecordButton.setActivated(id != null);
     }
 
     private int posterWidth;
@@ -403,7 +403,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     @Override
     public void setRecSeriesTimer(String id) {
         if (mProgramInfo != null) mProgramInfo.setSeriesTimerId(id);
-        if (mRecSeriesButton != null) mRecSeriesButton.setImageResource(id == null ? R.drawable.ic_record_series : R.drawable.ic_record_series_red);
+        if (mRecSeriesButton != null) mRecSeriesButton.setActivated(id != null);
         if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
 
     }
@@ -835,7 +835,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                favButton.setImageResource(response.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart);
+                favButton.setActivated(response.getIsFavorite());
                 dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
             }
         });
@@ -1033,7 +1033,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         if (mProgramInfo != null && TvApp.getApplication().canManageRecordings()) {
             if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
-                mRecordButton = new TextUnderButton(this, mProgramInfo.getTimerId() != null ? R.drawable.ic_record_red : R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
+                mRecordButton = new TextUnderButton(this, R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
@@ -1089,12 +1089,13 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         }
                     }
                 });
+                mRecordButton.setActivated(mProgramInfo.getTimerId() != null);
 
                 mDetailsOverviewRow.addAction(mRecordButton);
             }
 
             if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
-                mRecSeriesButton= new TextUnderButton(this, mProgramInfo.getSeriesTimerId() != null ? R.drawable.ic_record_series_red : R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
+                mRecSeriesButton= new TextUnderButton(this, R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
@@ -1160,6 +1161,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         }
                     }
                 });
+                mRecSeriesButton.setActivated(mProgramInfo.getSeriesTimerId() != null);
 
                 mDetailsOverviewRow.addAction(mRecSeriesButton);
 
@@ -1179,17 +1181,19 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
             if (mBaseItem.getBaseItemType() != BaseItemType.MusicArtist && mBaseItem.getBaseItemType() != BaseItemType.Person) {
-                mWatchedToggleButton = new TextUnderButton(this, userData.getPlayed() ? R.drawable.ic_watch_red : R.drawable.ic_watch, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
+                mWatchedToggleButton = new TextUnderButton(this, R.drawable.ic_watch, buttonSize, getString(R.string.lbl_watched), markWatchedListener);
+                mWatchedToggleButton.setActivated(userData.getPlayed());
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
             }
 
             //Favorite
-            favButton = new TextUnderButton(this, userData.getIsFavorite() ? R.drawable.ic_heart_red : R.drawable.ic_heart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+            favButton = new TextUnderButton(this, R.drawable.ic_heart, buttonSize, 2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     toggleFavorite();
                 }
             });
+            favButton.setActivated(userData.getIsFavorite());
             mDetailsOverviewRow.addAction(favButton);
         }
 
@@ -1567,7 +1571,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                mWatchedToggleButton.setImageResource(R.drawable.ic_watch_red);
+                mWatchedToggleButton.setActivated(true);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);
@@ -1592,7 +1596,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
-                mWatchedToggleButton.setImageResource(R.drawable.ic_watch);
+                mWatchedToggleButton.setActivated(false);
                 //adjust resume
                 if (mResumeButton != null && !mBaseItem.getCanResume())
                     mResumeButton.setVisibility(View.GONE);

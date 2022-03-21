@@ -6,61 +6,75 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="100dp"
     android:layout_marginEnd="100dp"
-    android:padding="10dp">
+    android:duplicateParentState="true"
+    android:foreground="@drawable/button_default_ripple"
+    android:padding="10dp"
+    tools:ignore="UnusedAttribute">
 
     <TextView
+        android:id="@+id/watchedMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/watchedMark"
+        android:duplicateParentState="true"
+        android:textColor="@drawable/button_default_text"
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/indexNo"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        tools:text="Track"
-        android:id="@+id/indexNo"
-        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
+        android:duplicateParentState="true"
         android:gravity="center"
         android:minWidth="20dp"
-        android:textSize="16sp" />
+        android:textColor="@drawable/button_default_text"
+        android:textSize="16sp"
+        tools:text="Track" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/indexNo"
+        android:layout_marginStart="20dp"
         android:layout_toStartOf="@+id/runTime"
-        android:orientation="vertical"
-        android:layout_marginStart="20dp">
+        android:layout_toEndOf="@+id/indexNo"
+        android:duplicateParentState="true"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Title"
             android:id="@+id/songName"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="16sp" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Artist"
-            android:id="@+id/artistName"
+            android:duplicateParentState="true"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="12sp" />
+            android:textColor="@drawable/button_default_text"
+            android:textSize="16sp"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@drawable/button_default_text"
+            android:textSize="12sp"
+            tools:text="Artist" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/runTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Time"
-        android:id="@+id/runTime"
-        android:textSize="16sp"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:duplicateParentState="true"
+        android:textColor="@drawable/button_default_text"
+        android:textSize="16sp"
+        tools:text="Time" />
 
 </RelativeLayout>
