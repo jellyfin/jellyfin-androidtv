@@ -874,7 +874,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         Utils.showToast(mActivity, "Item NOT Deleted");
                     }
                 })
-                .show();
+                .show()
+                .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
 
 
     }

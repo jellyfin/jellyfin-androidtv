@@ -663,7 +663,8 @@ public class ItemListActivity extends FragmentActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                         }
                                     })
-                                    .show();
+                                    .show()
+                                    .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
 
                         } else {
                             new AlertDialog.Builder(mActivity)
@@ -692,7 +693,8 @@ public class ItemListActivity extends FragmentActivity {
                                             Utils.showToast(mActivity, R.string.not_deleted);
                                         }
                                     })
-                                    .show();
+                                    .show()
+                                    .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
 
 
                         }
