@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
+import static java.lang.Math.round;
+
 import android.content.Context;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -78,9 +80,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         this.playbackController = playbackController;
 
         mRefreshEndTime = () -> {
+            setEndTime();
             if (!isPlaying()) {
-                setEndTime();
-
                 mHandler.postDelayed(mRefreshEndTime, 30000);
             }
         };
@@ -298,6 +299,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == playbackSpeedAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             playbackSpeedAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
+            // Post a callback to calculate the new time, since Exoplayer updates this in an async fashion.
+            // This is a hack, we should instead have onPlaybackParametersChanged call out to this
+            // class to notify rather than poll. But communication is unidirectional at the moment:
+            mHandler.postDelayed(mRefreshEndTime, 5000);  // 5 seconds
         } else if (action == adjustAudioDelayAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             adjustAudioDelayAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
@@ -325,9 +330,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         if (mEndsText == null || getPlayerAdapter().getDuration() < 1)
             return;
         long msLeft = getPlayerAdapter().getDuration() - getPlayerAdapter().getCurrentPosition();
-        Calendar ends = Calendar.getInstance();
-        ends.setTimeInMillis(ends.getTimeInMillis() + msLeft);
-        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(ends.getTime())));
+        long realTimeLeft = round(msLeft / playbackController.getPlaybackSpeed());
+
+        Calendar endTime = Calendar.getInstance();
+        endTime.setTimeInMillis(endTime.getTimeInMillis() + realTimeLeft);
+        mEndsText.setText(getContext().getString(R.string.lbl_playback_control_ends, DateFormat.getTimeFormat(getContext()).format(endTime.getTime())));
     }
 
     private void notifyActionChanged(Action action) {
