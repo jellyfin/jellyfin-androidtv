@@ -489,4 +489,5 @@
     <string name="pref_refresh_switching_description">Adapter la fréquence de rafraîchissement de l\'écran pour correspondre à la vidéo</string>
     <string name="pref_show_backdrop_description">Changer l\'image de fond pour les éléments suivants</string>
     <string name="home_section_resume_book">Continuer à lire</string>
+    <string name="lbl_shuffle_queue">Mode mélanger</string>
 </resources>
