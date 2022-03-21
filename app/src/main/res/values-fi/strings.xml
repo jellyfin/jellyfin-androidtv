@@ -481,4 +481,8 @@
     <string name="login_help_title">Tarvitsetko apua\?</string>
     <string name="connect_manually_by_address">Syötä palvelimen osoite</string>
     <string name="discovered_servers_empty">Paikallisesta verkosta ei löytynyt palvelimia.</string>
+    <string name="lbl_sorted_by">lajitteluperuste</string>
+    <string name="lbl_sort_by">Lajitteluperuste</string>
+    <string name="sort_accounts_by">Tilien lajitteluperuste</string>
+    <string name="lbl_shuffle_queue">Kytke sekoitustila</string>
 </resources>
