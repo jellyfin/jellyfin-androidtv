@@ -1,5 +1,5 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-public class ValueChangedListener<T> {
-    public void onValueChanged(T value) {}
+fun interface ValueChangedListener<T> {
+	fun onValueChanged(value: T)
 }

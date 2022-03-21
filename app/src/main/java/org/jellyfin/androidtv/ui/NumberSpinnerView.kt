@@ -1,63 +1,31 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.FrameLayout
+import org.jellyfin.androidtv.databinding.ViewNumberSpinnerBinding
 
-import org.jellyfin.androidtv.databinding.NumberSpinnerBinding;
+class NumberSpinnerView @JvmOverloads constructor(
+	context: Context,
+	attrs: AttributeSet? = null,
+	defStyleAttr: Int = 0,
+	defStyleRes: Int = 0,
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+	val binding = ViewNumberSpinnerBinding.inflate(LayoutInflater.from(context), this, true)
 
-public class NumberSpinner extends FrameLayout {
-    long mValue = 0;
-    long mIncrement = 10;
-    TextView mTextValue;
-    ValueChangedListener<Long> mValueChangedListener;
+	var increment = 10L
+	var valueChangedListener: ValueChangedListener<Long>? = null
 
-    public NumberSpinner(Context context) {
-        super(context);
-        init(context);
-    }
+	var value = 0L
+		set(value) {
+			field = value
+			binding.value.text = value.toString()
+			valueChangedListener?.onValueChanged(value)
+		}
 
-    public NumberSpinner(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    private void init(Context context) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        NumberSpinnerBinding binding = NumberSpinnerBinding.inflate(inflater, this, true);
-        if (!isInEditMode()) {
-            mTextValue = binding.txtValue;
-            binding.btnIncrease.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setValue(mValue + mIncrement);
-                }
-            });
-            binding.btnDecrease.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setValue(mValue-mIncrement);
-                }
-            });
-        }
-    }
-
-    public void setOnChangeListener(ValueChangedListener<Long> listener) {
-        mValueChangedListener = listener;
-    }
-
-    public void setValue(long value) {
-        mValue = value;
-        mTextValue.setText(Long.toString(mValue));
-        if (mValueChangedListener != null) {
-            mValueChangedListener.onValueChanged(value);
-        }
-    }
-
-    public long getValue() {
-        return mValue;
-    }
+	init {
+		binding.increase.setOnClickListener { value += increment }
+		binding.decrease.setOnClickListener { value -= increment }
+	}
 }

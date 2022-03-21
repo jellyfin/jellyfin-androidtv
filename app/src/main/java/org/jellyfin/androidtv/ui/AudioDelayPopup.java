@@ -16,7 +16,7 @@ import org.jellyfin.androidtv.util.Utils;
 public class AudioDelayPopup {
     private PopupWindow mPopup;
     private View mAnchor;
-    private NumberSpinner mDelaySpinner;
+    private NumberSpinnerView mDelaySpinner;
 
     public AudioDelayPopup(Context context, View anchor, ValueChangedListener<Long> listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -33,7 +33,7 @@ public class AudioDelayPopup {
         mAnchor = anchor;
 
         mDelaySpinner = binding.numberSpinner;
-        mDelaySpinner.setOnChangeListener(listener);
+        mDelaySpinner.setValueChangedListener(listener);
     }
 
     @Nullable
