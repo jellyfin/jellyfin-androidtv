@@ -1,5 +1,5 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-public abstract class HorizontalScrollViewListener {
-    public abstract void onScrollChanged(ObservableHorizontalScrollView scrollView, int x, int y, int oldx, int oldy);
+fun interface HorizontalScrollViewListener {
+	fun onScrollChanged(view: ObservableHorizontalScrollView?, x: Int, y: Int, oldx: Int, oldy: Int)
 }
