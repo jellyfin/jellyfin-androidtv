@@ -11,8 +11,9 @@ fun OptionsScreen.aboutCategory() = category {
 	setTitle(R.string.pref_about_title)
 
 	link {
+		// Hardcoded strings for troubleshooting purposes
 		title = "Jellyfin app version"
-		content = BuildConfig.VERSION_NAME
+		content = "jellyfin-androidtv ${BuildConfig.VERSION_NAME} ${BuildConfig.BUILD_TYPE}"
 		icon = R.drawable.ic_jellyfin
 	}
 
