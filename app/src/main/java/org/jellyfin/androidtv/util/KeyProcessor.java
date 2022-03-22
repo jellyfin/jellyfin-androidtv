@@ -113,10 +113,6 @@ public class KeyProcessor {
                         break;
                     case Person:
                         break;
-                    case Server:
-                        break;
-                    case User:
-                        break;
                     case Chapter:
                         break;
                     case SearchHint:
@@ -192,10 +188,6 @@ public class KeyProcessor {
                         }
                         break;
                     case Person:
-                        break;
-                    case Server:
-                        break;
-                    case User:
                         break;
                     case Chapter:
                         break;

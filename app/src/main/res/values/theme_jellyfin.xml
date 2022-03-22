@@ -80,8 +80,6 @@
         <item name="tile_port_guide_bg">@color/spanish_blue</item>
         <item name="tile_port_series_timer_bg">@color/midnight_blue</item>
         <item name="tile_port_time_bg">@color/spanish_blue</item>
-
-        <item name="tile_port_server_bg">@color/midnight_blue</item>
     </style>
 
     <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">

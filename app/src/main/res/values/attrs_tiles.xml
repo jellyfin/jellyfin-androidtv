@@ -2,7 +2,6 @@
 <resources>
     <attr name="tile_port_person_bg" format="color" />
     <attr name="tile_port_series_timer_bg" format="color" />
-    <attr name="tile_port_server_bg" format="color" />
     <attr name="tile_port_time_bg" format="color" />
     <attr name="tile_port_tv_bg" format="color" />
     <attr name="tile_port_video_bg" format="color" />
