@@ -65,12 +65,10 @@ abstract class SharedPreferenceStore(
 	}
 
 	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
-		setString(
-			preference.key, when (value) {
+		setString(preference.key, when (value) {
 				is PreferenceEnum -> value.serializedName
 				else -> value.toString()
-			}
-		)
+			})
 
 	// Additional mutations
 	override fun <T : Any> delete(preference: Preference<T>) = transaction {
