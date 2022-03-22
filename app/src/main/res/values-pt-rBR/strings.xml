@@ -169,7 +169,7 @@
     <string name="msg_item_added">" item adicionado"</string>
     <string name="lbl_enable_seasonal_themes">Temas temporários (sazonal)</string>
     <string name="desc_seasonal_themes">Exibe cores especiais e sugestões em certas épocas do ano</string>
-    <string name="desc_automatic_fav_songs">Lista de reprodução automática de músicas favoritas e curtidas</string>
+    <string name="desc_automatic_fav_songs">Playlist automática de músicas favoritas</string>
     <string name="lbl_new_premieres">Novas Estreias</string>
     <string name="lbl_bitstream_ac3">Bitstream do áudio Dolby Digital</string>
     <string name="desc_bitstream_ac3">Requer um hardware compatível</string>
@@ -489,4 +489,5 @@
     <string name="pref_refresh_switching_description">Alterar taxa de atualização para corresponder ao vídeo</string>
     <string name="pref_show_backdrop_description">Alterar imagem de fundo para itens selecionados</string>
     <string name="home_section_resume_book">Continue lendo</string>
+    <string name="lbl_shuffle_queue">Alternar modo aleatório</string>
 </resources>
