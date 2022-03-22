@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.format.DateUtils;
 
 import androidx.core.content.ContextCompat;
 
@@ -31,7 +30,6 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import kotlin.Lazy;
 
@@ -85,11 +83,6 @@ public class BaseRowItem {
         this(0, program);
     }
 
-    public BaseRowItem(ServerInfo server) {
-        this.serverInfo = server;
-        this.type = ItemType.Server;
-    }
-
     public BaseRowItem(SeriesTimerInfoDto timer) {
         this.seriesTimerInfo = timer;
         this.type = ItemType.SeriesTimer;
@@ -99,11 +92,6 @@ public class BaseRowItem {
         this.person = person;
         this.staticHeight = true;
         this.type = ItemType.Person;
-    }
-
-    public BaseRowItem(UserDto user) {
-        this.user = user;
-        this.type = ItemType.User;
     }
 
     public BaseRowItem(SearchHint hint) {
@@ -249,14 +237,10 @@ public class BaseRowItem {
                 return ImageUtils.getPrimaryImageUrl(context, baseItem, preferParentThumb, maxHeight);
             case Person:
                 return ImageUtils.getPrimaryImageUrl(person, maxHeight);
-            case User:
-                return ImageUtils.getPrimaryImageUrl(user);
             case Chapter:
                 return chapterInfo.getImagePath();
             case LiveTvChannel:
                 return ImageUtils.getPrimaryImageUrl(channelInfo, apiClient.getValue());
-            case Server:
-                return ImageUtils.getResourceUrl(context, R.drawable.tile_port_server);
             case GridButton:
                 return ImageUtils.getResourceUrl(context, gridButton.getImageRes());
             case SeriesTimer:
@@ -278,8 +262,6 @@ public class BaseRowItem {
             case LiveTvProgram:
                 return baseItem.getUserData() != null && baseItem.getUserData().getIsFavorite();
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -297,8 +279,6 @@ public class BaseRowItem {
             case LiveTvProgram:
                 return baseItem.getUserData() != null && baseItem.getUserData().getPlayed();
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -330,10 +310,6 @@ public class BaseRowItem {
                 return person.getName();
             case Chapter:
                 return chapterInfo.getName();
-            case Server:
-                return serverInfo.getName();
-            case User:
-                return user.getName();
             case LiveTvChannel:
                 return channelInfo.getName();
             case GridButton:
@@ -355,10 +331,6 @@ public class BaseRowItem {
                 return baseItem.getBaseItemType() == BaseItemType.Audio ? getFullName(context) : baseItem.getName();
             case Person:
                 return person.getName();
-            case Server:
-                return serverInfo.getName();
-            case User:
-                return user.getName();
             case Chapter:
                 return chapterInfo.getName();
             case SearchHint:
@@ -384,10 +356,6 @@ public class BaseRowItem {
                 return person.getId();
             case Chapter:
                 return chapterInfo.getItemId();
-            case Server:
-                return serverInfo.getId();
-            case User:
-                return user.getId();
             case LiveTvChannel:
                 return channelInfo.getId();
             case GridButton:
@@ -410,8 +378,6 @@ public class BaseRowItem {
             case Chapter:
                 Long pos = chapterInfo.getStartPositionTicks() / 10000;
                 return TimeUtils.formatMillis(pos.intValue());
-            case Server:
-                return serverInfo.getAddress() != null ? serverInfo.getAddress().substring(7) : "";
             case LiveTvChannel:
                 return channelInfo.getNumber();
             case LiveTvProgram:
@@ -421,9 +387,6 @@ public class BaseRowItem {
                         new SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + " " +
                         (android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getStartDate())) + "-"
                                 + android.text.format.DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem.getEndDate())));
-            case User:
-                Date date = user.getLastActivityDate();
-                return date != null ? DateUtils.getRelativeTimeSpanString(TimeUtils.convertToLocalDate(date).getTime()).toString() : context.getString(R.string.lbl_never);
             case SearchHint:
                 return searchHint.getType();
             case SeriesTimer:
@@ -447,8 +410,6 @@ public class BaseRowItem {
             case LiveTvProgram:
                 return baseItem.getOverview();
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -467,8 +428,6 @@ public class BaseRowItem {
             case BaseItem:
                 return baseItem.getRunTimeTicks() != null ? baseItem.getRunTimeTicks() : 0;
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -486,8 +445,6 @@ public class BaseRowItem {
             case BaseItem:
                 return isFolder() && baseItem.getBaseItemType() != BaseItemType.MusicArtist && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -519,13 +476,6 @@ public class BaseRowItem {
                 }
                 break;
             case Person:
-            case Server:
-                break;
-            case User:
-                if (user.getHasPassword()) {
-                    return ContextCompat.getDrawable(context, R.drawable.ic_lock);
-                }
-                break;
             case LiveTvProgram:
                 if (baseItem.getTimerId() != null) {
                     return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
@@ -549,8 +499,6 @@ public class BaseRowItem {
                 });
                 break;
             case Person:
-            case Server:
-            case User:
             case Chapter:
             case SearchHint:
             case LiveTvChannel:
@@ -580,8 +528,6 @@ public class BaseRowItem {
     public enum ItemType {
         BaseItem,
         Person,
-        Server,
-        User,
         Chapter,
         SearchHint,
         LiveTvChannel,
@@ -589,7 +535,6 @@ public class BaseRowItem {
         GridButton,
         SeriesTimer,
         LiveTvProgram,
-
     }
 
     public enum SelectAction {
