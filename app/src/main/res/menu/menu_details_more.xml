@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:title="@string/lbl_add_favorite"
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
         android:id="@+id/addFav"
-        android:icon="@drawable/ic_heart"
-        />
-    <item android:title="@string/lbl_remove_favorite"
+        android:title="@string/lbl_add_favorite" />
+    <item
         android:id="@+id/remFav"
-        android:icon="@drawable/ic_heart_red"
-        />
-    <item android:title="@string/lbl_play_trailers"
+        android:title="@string/lbl_remove_favorite" />
+    <item
         android:id="@+id/playTrailers"
-        android:icon="@drawable/ic_trailer"
-        />
-    <item android:title="@string/lbl_goto_series"
+        android:title="@string/lbl_play_trailers" />
+    <item
         android:id="@+id/gotoSeries"
-        android:icon="@drawable/ic_tv"
-        />
-    <item android:title="@string/lbl_shuffle_all"
+        android:title="@string/lbl_goto_series" />
+    <item
         android:id="@+id/shuffleAll"
-        android:icon="@drawable/ic_shuffle"
-        />
-    <item android:title="@string/lbl_add_to_queue"
+        android:title="@string/lbl_shuffle_all" />
+    <item
         android:id="@+id/addQueue"
-        android:icon="@drawable/ic_add"
-        />
-
-    <item android:title="@string/lbl_delete"
+        android:title="@string/lbl_add_to_queue" />
+    <item
         android:id="@+id/delete"
-        android:icon="@drawable/ic_trash"
-        />
-
+        android:title="@string/lbl_delete" />
 </menu>
