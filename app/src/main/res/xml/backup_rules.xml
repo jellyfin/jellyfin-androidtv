@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Stored servers & users (without access tokens) -->
+        <include
+            domain="file"
+            path="authentication_store.json" />
+
+        <!-- UserPreferences -->
+        <include
+            domain="sharedpref"
+            path="org.jellyfin.androidtv_preferences" />
+        <include
+            domain="sharedpref"
+            path="org.jellyfin.androidtv.debug_preferences" />
+        <!-- SystemPreferences -->
+        <include
+            domain="sharedpref"
+            path="systemprefs" />
+        <!-- AuthenticationPreferences -->
+        <include
+            domain="sharedpref"
+            path="AuthenticationPreferences" />
+    </cloud-backup>
+    <device-transfer>
+        <!-- Stored servers & users (without access tokens) -->
+        <include
+            domain="file"
+            path="authentication_store.json" />
+
+        <!-- UserPreferences -->
+        <include
+            domain="sharedpref"
+            path="org.jellyfin.androidtv_preferences" />
+        <include
+            domain="sharedpref"
+            path="org.jellyfin.androidtv.debug_preferences" />
+        <!-- SystemPreferences -->
+        <include
+            domain="sharedpref"
+            path="systemprefs" />
+        <!-- AuthenticationPreferences -->
+        <include
+            domain="sharedpref"
+            path="AuthenticationPreferences" />
+    </device-transfer>
+</data-extraction-rules>
