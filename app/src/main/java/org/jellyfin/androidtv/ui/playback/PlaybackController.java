@@ -29,7 +29,6 @@ import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.BaseProfile;
@@ -164,9 +163,13 @@ public class PlaybackController {
     }
 
     public float getPlaybackSpeed() {
-        // Actually poll the video manager, since exoplayer can revert back
-        // to 1x if it can't go faster, so we should check directly
-        return mVideoManager.getPlaybackSpeed();
+        if (hasInitializedVideoManager()) {
+            // Actually poll the video manager, since exoplayer can revert back
+            // to 1x if it can't go faster, so we should check directly
+            return mVideoManager.getPlaybackSpeed();
+        } else {
+            return mRequestedPlaybackSpeed;
+        }
     }
 
     public void setPlaybackSpeed(@NonNull float speed) {
