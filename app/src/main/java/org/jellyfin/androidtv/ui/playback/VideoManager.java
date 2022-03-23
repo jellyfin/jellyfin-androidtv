@@ -77,6 +77,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
+    private Integer exoplayerAudioIndex = null;
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
@@ -143,6 +144,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             @Override
             public void onTimelineChanged(Timeline timeline, int reason) {
                 Timber.d("Caught player timeline change - reason: %s", reason == Player.TIMELINE_CHANGE_REASON_PLAYLIST_CHANGED ? "PLAYLIST_CHANGED" : "SOURCE_UPDATE");
+            }
+
+            @Override
+            public void onTracksInfoChanged(TracksInfo tracksInfo) {
+                Timber.d("Tracks info changed");
+                exoplayerAudioIndex = null;
             }
         });
     }
@@ -290,6 +297,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 mActivity.finish();
                 return;
             }
+            exoplayerAudioIndex = null;
             mExoPlayer.setPlayWhenReady(true);
             normalWidth = mExoPlayerView.getLayoutParams().width;
             normalHeight = mExoPlayerView.getLayoutParams().height;
@@ -331,6 +339,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
                                                     .buildUpon()
                                                     .setTrackSelectionOverrides(overrides).build());
+            exoplayerAudioIndex = null;
         } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
@@ -451,6 +460,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return -1;
 
+        if (exoplayerAudioIndex != null)
+            return exoplayerAudioIndex;
+
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
         TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
@@ -471,8 +483,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                                 Timber.d("failed to parse track ID [%s]", trackFormat.id);
                                 return -1;
                             }
-                            if (id >= 0 && id < allStreams.size())
+                            if (id >= 0 && id < allStreams.size()) {
+                                Timber.d("re-retrieved exoplayer track index %s", id);
+                                exoplayerAudioIndex = id;
                                 return id;
+                            }
                         }
                         return -1;
                     }
