@@ -460,7 +460,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return -1;
 
-        if (exoplayerAudioIndex != null)
+        if (exoplayerAudioIndex != null && streamType == MediaStreamType.Audio)
             return exoplayerAudioIndex;
 
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
@@ -485,7 +485,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                             }
                             if (id >= 0 && id < allStreams.size()) {
                                 Timber.d("re-retrieved exoplayer track index %s", id);
-                                exoplayerAudioIndex = id;
+                                if (streamType == MediaStreamType.Audio)
+                                    exoplayerAudioIndex = id;
                                 return id;
                             }
                         }
