@@ -148,4 +148,14 @@
     <string name="pref_playback">Chwarae</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Canslo</string>
+    <string name="pref_libraries">Llyfrgelloedd</string>
+    <string name="pref_libraries_description">Newid sut mae llyfrgelloedd yn cael eu harddangos</string>
+    <string name="pref_login">Mewngofnodi</string>
+    <string name="pref_login_description">Gweinyddwyr, cyfrifon, mewngofnodi awtomatig</string>
+    <string name="pref_video">Fideo</string>
+    <string name="pref_subtitles">Isdeitlau</string>
+    <string name="pref_audio">Sain</string>
+    <string name="pref_direct_stream_live_off">Defnyddir trawsgodio pan fod angen</string>
+    <string name="pref_direct_stream_live_on">Trawsgodio wedi\'i ddiffodd</string>
+    <string name="home_section_resume_book">Parhau i ddarllen</string>
 </resources>
