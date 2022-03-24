@@ -1,0 +1,14 @@
+Viaj plurmedioj, laŭ viaj kondiĉoj.
+
+La Jellyfin estas malfermitkoda projekto, plurmedia servilo de libera programaro. Neniuj kotizoj, neniu sekvado, neniu kaŝita tagordo. Akiru nian senpagan servilon por kolekti ĉiujn viajn aŭdaĵojn, videojn, fotojn kaj pli en unu loko.
+
+Por uzi la apon, vi devas havi Jellyfin-servilon agorditan kaj funkciantan. Eksciu pli ĉe <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Kun Jellyfin-servilo vi povas:
+
+* Spekti TV-eteron kaj rikorditajn seriojn de via Jellyfin-servilo (aldonaj aparataro/servoj necesas)
+* Elsendflui al Chromecast-aparato en via reto
+* Elsendflui vian plurmediojn al via Android-aparato
+* Spekti vian kolektojn en faciluza interfaco
+
+Jen la oficiala akompana Jellyfin-apo por Android TV. Dankon pro uzi Jellyfin!
