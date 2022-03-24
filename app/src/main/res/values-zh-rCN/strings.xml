@@ -489,4 +489,5 @@
     <string name="pref_show_backdrop_description">更改指定项目的背景图片</string>
     <string name="sort_accounts_by">按帐户排序</string>
     <string name="home_section_resume_book">继续阅读</string>
+    <string name="lbl_shuffle_queue">切换随机播放</string>
 </resources>
