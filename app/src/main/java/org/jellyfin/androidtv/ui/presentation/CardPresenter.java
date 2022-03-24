@@ -414,7 +414,7 @@ public class CardPresenter extends Presenter {
         } else {
             holder.mCardView.setPlayingIndicator(false);
 
-            if (holder.getItem().getBaseItemType() != BaseItemType.UserView) {
+            if (rowItem.getBaseItem() != null && rowItem.getBaseItemType() != BaseItemType.UserView) {
                 RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
                 if (ratingType == RatingType.RATING_TOMATOES) {
                     Drawable badge = rowItem.getBadgeImage(holder.view.getContext());
@@ -423,7 +423,7 @@ public class CardPresenter extends Presenter {
                         holder.mCardView.setBadgeImage(badge);
                     }
                 } else if (ratingType == RatingType.RATING_STARS &&
-                        rowItem.getBaseItem() != null && rowItem.getBaseItem().getCommunityRating() != null) {
+                        rowItem.getBaseItem().getCommunityRating() != null) {
                     holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
                     holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
                 }

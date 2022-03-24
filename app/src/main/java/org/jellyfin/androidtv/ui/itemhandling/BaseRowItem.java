@@ -467,21 +467,23 @@ public class BaseRowItem {
     }
 
     public Drawable getBadgeImage(Context context) {
-        switch (type) {
-            case BaseItem:
-                if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
-                    return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten);
-                } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
-                }
-                break;
-            case Person:
-            case LiveTvProgram:
-                if (baseItem.getTimerId() != null) {
-                    return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
-                }
-            case Chapter:
-                break;
+        if (baseItem != null) {
+            switch (type) {
+                case BaseItem:
+                    if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
+                        return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten);
+                    } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
+                        return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
+                    }
+                    break;
+                case Person:
+                case LiveTvProgram:
+                    if (baseItem.getTimerId() != null) {
+                        return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
+                    }
+                case Chapter:
+                    break;
+            }
         }
 
         return ContextCompat.getDrawable(context, R.drawable.blank10x10);
