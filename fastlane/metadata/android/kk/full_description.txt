@@ -1,0 +1,14 @@
+Sızdıñ tasyğyşderekterıñız, öz şarttaryñyz boiynşa.
+
+Jellyfın jobasy - būl aşyq kodyndağy azat bağdarlamalyq jasaqtama negızındegı tasyğyşhana serverı. Eşqandai aqysyz, eşqandai qadağalausyz, eşqandai jasyryn josparsyz. Özıñızdıñ barlyq dybystardy, beinelerdı, fotosuretterdı jäne tağy basqalaryn bır jerde jinauğa mümkındık beretın tegın serverımızdı alyñyz.
+
+Qoldanbany paidalanu üşın sızde Jellyfın-server ornatylyp jäne jūmys ıstep tūruy kerek. Ony <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a> saitynda köbırek bılıñız.
+
+Jellyfın-serverımen sız:
+
+* Jellyfın-serverınen efirlık TD men jazylğan körsetımderdı qaraisyz (qosymşa jabdyq / qyzmetter qajet);
+* Jelıñızdegı Chromecast-qūrylğysyna ağyn taratasyz;
+* Öz tasyğyşderekterıñızdı Androıd-qūrylğysyna jıberesız;
+* Öz jiyntyqtañyzdy qoldanuğa yñğaily interfeiste qarap şyğasyz.
+
+Būl Androıd TV üşın Jellyfın resmi tūtynğyştyq qoldanbasy. Jellyfın qoldanğanyñyzğa alğys!
