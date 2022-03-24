@@ -79,7 +79,7 @@
     <string name="lbl_enable_debug">Opciones de depuración</string>
     <string name="lbl_goto_series">Ir a Series</string>
     <string name="lbl_audio_output">Salida de audio</string>
-    <string name="pref_audio_compat">Downmix a estéreo</string>
+    <string name="pref_audio_compat">Remezclar a estéreo</string>
     <string name="pref_audio_direct">Directo</string>
     <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Primero detenga el elemento actual.</string>
     <string name="msg_cancel_entire_series">¿Está seguro de que desea cancelar toda la serie\?</string>
@@ -175,13 +175,13 @@
     <string name="lbl_recent_recordings">Grabaciones recientes</string>
     <string name="lbl_kids">Niños</string>
     <string name="lbl_sports">Deportes</string>
-    <string name="no_program_data">&lt;No hay datos del programa disponibles&gt;</string>
+    <string name="no_program_data">No hay datos del programa disponibles</string>
     <string name="msg_record_entire_series">¿Grabar series completas\?</string>
     <string name="lbl_just_this_once">Solo esta vez</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_in_x_days">En %d días</string>
     <string name="desc_premieres">Muestre una fila de nuevos episodios piloto para cualquier serie que vea</string>
-    <string name="lbl_show_premieres">Mostrar estrenos de temporada en la pantalla de inicio</string>
+    <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="lbl_show_backdrop">Mostrar fondos de pantalla</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_play_next_up">Reproducir siguiente</string>
@@ -193,7 +193,7 @@
     <string name="lbl_zoom">Agrandar</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
     <string name="lbl_new_premieres">Estrenos nuevos</string>
-    <string name="desc_automatic_fav_songs">Lista de reproducción automática de canciones favoritas y canciones que le gustaron</string>
+    <string name="desc_automatic_fav_songs">Lista de reproducción automática de canciones favoritas</string>
     <string name="desc_seasonal_themes">Muestra colores y sugerencias especiales en ciertas épocas del año</string>
     <string name="lbl_enable_seasonal_themes">Temas estacionales</string>
     <string name="msg_item_added">" Elemento agregado"</string>
@@ -232,7 +232,7 @@
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_from">desde</string>
     <string name="msg_error_server_unavailable">Servidor no disponible</string>
-    <string name="lbl_bitstream_dts">Audio Bitstream DTS</string>
+    <string name="lbl_bitstream_dts">Audio bitstream DTS</string>
     <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_episodes">Nuevos Episodios</string>
@@ -240,12 +240,12 @@
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_audio_delay">Retraso del audio</string>
     <string name="lbl_new_only">Solo Nuevo</string>
-    <string name="lbl_resume_preroll">Resumir pre-introducción</string>
+    <string name="lbl_resume_preroll">Continuar pre-cortinilla</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_hd_programs">Programas HD</string>
     <string name="lbl_repeat_episodes">Repetir Episodios</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Seleccionar automáticamente</string>
     <string name="lbl_my_media">Mis Medios</string>
@@ -257,31 +257,32 @@
 \n
 \nEsta información será enviada a un tercero (tracepot.com).
 \n
-\nEsta sugerencia se puede deshabilitar en la sección Informes de Fallos en los Ajustes de la app Jellyfin.</string>
+\nEsta solicitud se puede deshabilitar en la sección Informes de fallos en los ajustes de la app Jellyfin.</string>
     <string name="acra_dialog_title">¡Oh, no! Algo fue mal.</string>
     <string name="pref_acra_syslog_disabled">No se incluirán logs del sistema en los informes de fallos</string>
     <string name="pref_acra_syslog_enabled">Se incluirán logs del sistema en los informes de fallos</string>
-    <string name="pref_acra_syslog">Incluir logs del sistema en los informes de fallos. Esto puede incluir información privada de otras aplicaciones si fue registrada en el momento del fallo.</string>
+    <string name="pref_acra_syslog">Incluir registros del sistema.
+\nEsto puede incluir información privada de otras aplicaciones si fue registrada en el momento del fallo.</string>
     <string name="pref_acra_alwaysaccept_disabled">Se mostrará un diálogo antes de enviar cualquier informe de fallos</string>
     <string name="pref_acra_alwaysaccept_enabled">Los informes de fallos serán enviados sin pedir confirmación</string>
-    <string name="pref_acra_alwaysaccept">Enviar informes de fallos sin pedir confirmación</string>
+    <string name="pref_acra_alwaysaccept">Enviar sin pedir confirmación</string>
     <string name="pref_acra_disabled">Los informes de fallos no serán enviados</string>
     <string name="pref_acra_enabled">Se le pedirá enviar el informe de fallos</string>
     <string name="pref_enable_acra">Enviar informe de fallos a los desarrolladores</string>
     <string name="pref_acra_category">Informe de fallos</string>
-    <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
-    <string name="pref_next_up_timeout_title">Duración del siguiente temporizador</string>
+    <string name="pref_next_up_timeout_title">Duración del temporizador de siguiente</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_media_player">Reproductor multimedia preferido</string>
     <string name="pref_about_title">Quienes somos</string>
-    <string name="pref_app_theme">App de Temas</string>
+    <string name="pref_app_theme">Temas de la app</string>
     <string name="pref_theme_emerald">Esmeralda Clasico</string>
     <string name="pref_theme_dark">Oscuro (Por Defecto)</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
-    <string name="pref_device_model">Modelo del Equipo</string>
+    <string name="pref_device_model">Modelo del dispositivo</string>
     <string name="pref_audio_track_button">Botón de pista de audio</string>
     <string name="lbl_Reset">Restablecer</string>
     <string name="pref_button_remapping_description">Presiona un botón en el mando a distancia para asignarlo</string>
@@ -323,7 +324,7 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con una app externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con libVLC</string>
+    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="pref_video_player_choose">Preguntar siempre</string>
     <string name="lbl_subtitle_track">Selecciona track de subtitulos</string>
     <string name="lbl_audio_track">Selecciona un track de audio</string>
@@ -372,17 +373,17 @@
     <string name="lbl_remove_server">Eliminar servidor</string>
     <string name="lbl_sign_out_content">Requiere inicio de sesión en el siguiente uso</string>
     <string name="lbl_remove_user_content">Eliminar cuenta</string>
-    <string name="lbl_remove_users">Esto también eliminará todos los usuarios asociados</string>
+    <string name="lbl_remove_users">Esto también eliminará todas las cuentas asociadas</string>
     <string name="lbl_manage_servers">Gestionar servidores</string>
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
     <string name="pref_theme_muted_purple">Morado silenciado</string>
-    <string name="lbl_switch_user">Cambiar de usuario</string>
-    <string name="user_picker_last_user_summary">Usar el último usuario activo</string>
+    <string name="lbl_switch_user">Cambiar de cuenta</string>
+    <string name="user_picker_last_user_summary">Usar la última cuenta activa</string>
     <string name="user_picker_last_user_title">Usado más recientemente</string>
     <string name="user_picker_disable_summary">Mostrar siempre la pantalla de inicio de sesión</string>
     <string name="user_picker_disable_title">Desactivar</string>
-    <string name="system_user_explanation">El usuario seleccionado se usara en las integraciones del sistema como la búsqueda</string>
-    <string name="system_user">Usuario del sistema</string>
+    <string name="system_user_explanation">La cuenta seleccionada se usara en integraciones del sistema como la búsqueda</string>
+    <string name="system_user">Cuenta del sistema</string>
     <string name="auto_sign_in">Inicio de sesión automático</string>
     <string name="lbl_use_series_thumbnails_description">Usar las miniaturas de las series mientras se muestran los episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir miniaturas de las series</string>
@@ -468,4 +469,25 @@
     <string name="lbl_playback_speed">Velocidad de Reproducción</string>
     <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según el elemento seleccionado</string>
     <string name="lbl_shuffle_queue">Cambiar a aleatorio</string>
+    <string name="home_section_resume_book">Continuar leyendo</string>
+    <string name="pref_direct_stream_live_on">Transcodificación deshabilitada</string>
+    <string name="pref_direct_stream_live_off">Se trans-codifica cuando es necesario</string>
+    <string name="pref_audio">Audio</string>
+    <string name="pref_subtitles">Subtítulos</string>
+    <string name="pref_video">Video</string>
+    <string name="pref_acra_description">Dialogo de error, auto-carga, registros de sistema</string>
+    <string name="pref_playback_description">Video, subtítulos, TV en vivo, siguiente</string>
+    <string name="pref_customization_description">Tema, inicio, re-ordenar</string>
+    <string name="pref_login_description">Servidores, cuentas, acceso automático</string>
+    <string name="pref_login">Acceso</string>
+    <string name="pref_libraries_description">Cambiar como se muestran las bibliotecas</string>
+    <string name="pref_libraries">Bibliotecas</string>
+    <string name="pref_home_description">Configurar secciones a mostrar</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_browsing">Navegación</string>
+    <string name="pref_behavior">Comportamiento</string>
+    <string name="pref_accounts">Cuentas</string>
+    <string name="sort_accounts_by">Ordenar cuentas por</string>
+    <string name="pref_customization">Personalización</string>
+    <string name="pref_refresh_switching_description">Cambia la tasa de actualización de la pantalla para coincidir con la del video</string>
 </resources>
