@@ -1,0 +1,14 @@
+Oma mediasi, omilla ehdoillasi.
+
+Jellyfin-projekti on ilmainen avoimen lähdekoodin mediapalvelin. Ei maksuja, ei seurantaa, ei piilotettuja tavoitteita. Hanki ilmainen palvelimemme kerätäksesi kaikki ääni-, video- ja kuvatiedostosi ja paljon muuta yhteen paikkaan.
+
+Käyttääksesi sovellusta sinulla on oltava käyttövalmiiksi määritetty Jellyfin-palvelin. Lisätietoja osoitteesta <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Jellyfin-palvelimella voit:
+
+* Katsele suoria televisiolähetyksiä ja tallenteita Jellyfin-palvelimeltasi (vaatii lisälaitteita/palveluita)
+* Suoratoista verkkosi Chromecast-laitteilla
+* Suoratoista mediaasi Android-laitteillasi
+* Selaa kokoelmaasi helppokäyttöisellä käyttöliittymällä
+
+Tämä on virallinen Jellyfin-kumppanisovellus Android TV:lle. Kiitos Jellyfinin käytöstä!
