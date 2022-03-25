@@ -1,0 +1,14 @@
+Vaše médiá, vaše podmienky.
+
+Projekt Jellyfin je open source, mediálny software, ktorý je zdarma. Žiadne poplatky, žiadne sledovanie, žiadna skrytá agenda. Skúste náš softvér zdarma a užívajte si svoju kolekciu audia, videa, fotografií a oveľa viac na jednom mieste.
+
+Aby ste mohli použiť aplikáciu, potrebujete mať nastavený a spustený Jellyfin server. Zistite viac na <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+S Jellyfin serverom môžte:
+
+* Sledovať a nahrávať živú TV z Jellyfin servera (vyžaduje dodatočný hardvér/služby)
+* Streamovať na Chromecast zariadenia na vašej sieti
+* Streamovať vaše médiá na vaše Android zariadenie
+* Prehliadať vašu kolekciu v rozhraní, ktoré sa ľahko používa
+
+Toto je oficiálna Jellyfin aplikácia pre Android TV. Ďakujeme, že používate Jellyfin!

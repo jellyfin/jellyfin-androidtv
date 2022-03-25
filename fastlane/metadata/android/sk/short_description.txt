@@ -1,0 +1,1 @@
+Televízny klient pre Jellyfin, mediálny softvér, ktorý je úplne zdarma
