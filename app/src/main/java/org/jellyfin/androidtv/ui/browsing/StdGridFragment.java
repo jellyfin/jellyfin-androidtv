@@ -55,6 +55,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.CollectionType;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.UUID;
@@ -558,7 +559,7 @@ public class StdGridFragment extends GridFragment {
             public void onResponse() {
                 setStatusText(mFolder.getName());
                 updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
-                mLetterButton.setVisibility("SortName".equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
+                mLetterButton.setVisibility(ItemSortBy.SortName.equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 setItem(null);
                 if (mGridAdapter.getTotalItems() == 0) {
                     mToolBar.requestFocus();

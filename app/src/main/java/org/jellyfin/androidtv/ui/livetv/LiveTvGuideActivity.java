@@ -57,6 +57,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -615,7 +616,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             mSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mCurrentSort = position == 0 ? "DatePlayed" : "Number";
+                    mCurrentSort = position == 0 ? ItemSortBy.DatePlayed : ItemSortBy.SortName;
                 }
 
                 @Override
@@ -641,7 +642,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             mRepeat.setChecked(prefs.get(LiveTvPreferences.Companion.getShowRepeatIndicator()));
             mColorCode.setChecked(prefs.get(LiveTvPreferences.Companion.getColorCodeGuide()));
             mPremiere.setChecked(prefs.get(LiveTvPreferences.Companion.getShowPremiereIndicator()));
-            mSortBy.setSelection(prefs.get(LiveTvPreferences.Companion.getChannelOrder()).equals("DatePlayed") ? 0 : 1);
+            mSortBy.setSelection(prefs.get(LiveTvPreferences.Companion.getChannelOrder()).equals(ItemSortBy.DatePlayed) ? 0 : 1);
 
             mPopup.showAtLocation(mTimelineScroller, Gravity.NO_GRAVITY, mTimelineScroller.getRight(), mSummary.getTop()-20);
         }

@@ -29,6 +29,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.koin.java.KoinJavaComponent;
 
@@ -375,7 +376,7 @@ public class KeyProcessor {
                     query.setRecursive(true);
                     query.setIsVirtualUnaired(false);
                     query.setIsMissing(false);
-                    query.setSortBy(new String[]{"SortName"});
+                    query.setSortBy(new String[]{ItemSortBy.SortName});
                     query.setSortOrder(SortOrder.Ascending);
                     query.setLimit(1);
                     query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});

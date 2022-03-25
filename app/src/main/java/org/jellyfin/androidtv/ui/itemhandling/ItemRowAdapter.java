@@ -46,6 +46,7 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
@@ -397,7 +398,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     mQuery.setSortOrder(option.order);
                     break;
             }
-            if (!"SortName".equals(option.value)) {
+            if (!ItemSortBy.SortName.equals(option.value)) {
                 setStartLetter(null);
             }
         }
