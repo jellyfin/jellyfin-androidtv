@@ -34,6 +34,7 @@ import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.ProgramQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
@@ -130,8 +131,8 @@ public class TvManager {
         query.setUserId(TvApp.getApplication().getCurrentUser().getId());
         query.setAddCurrentProgram(true);
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) query.setEnableFavoriteSorting(true);
-        query.setSortOrder("DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
-        query.setSortBy(new String[] {"DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? "DatePlayed" : "SortName"});
+        query.setSortOrder(ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
+        query.setSortBy(new String[] {ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? ItemSortBy.DatePlayed : ItemSortBy.SortName});
         Timber.d("*** About to load channels");
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
@@ -169,7 +170,7 @@ public class TvManager {
         int ndx = 0;
         if (allChannels != null) {
             //Sort by last played - if selected
-            if ("DatePlayed".equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
+            if (ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
                 Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
                     @Override
                     public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
@@ -210,7 +211,7 @@ public class TvManager {
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setEnableImages(false);
-            query.setSortBy(new String[] {"StartDate"});
+            query.setSortBy(new String[] {ItemSortBy.StartDate});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
             end.add(Calendar.SECOND, -1);

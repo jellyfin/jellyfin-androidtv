@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.databinding.DreamLibraryBinding
 import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.apiclient.model.querying.ItemSortBy
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -78,7 +79,7 @@ class LibraryDreamService : DreamService() {
 		val response by api.itemsApi.getItemsByUserId(
 			includeItemTypes = listOf("Movie", "Series"),
 			recursive = true,
-			sortBy = listOf("Random"),
+			sortBy = listOf(ItemSortBy.Random),
 			limit = 1,
 			imageTypes = listOf(ImageType.BACKDROP)
 		)

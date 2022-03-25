@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.SortOrder;
+import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,13 +96,13 @@ public class GridFragment extends Fragment {
 
         sortOptions = new HashMap<>();
         {
-            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), "SortName", SortOrder.Ascending));
-            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), "DateCreated,SortName", SortOrder.Descending));
-            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), "PremiereDate,SortName", SortOrder.Descending));
-            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), "OfficialRating,SortName", SortOrder.Ascending));
-            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), "CommunityRating,SortName", SortOrder.Descending));
-            sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), "CriticRating,SortName", SortOrder.Descending));
-            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), "DatePlayed,SortName", SortOrder.Descending));
+            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.Ascending));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.Ascending));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.Descending));
         };
     }
 
