@@ -41,6 +41,7 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.jellyfin.sdk.model.DeviceInfo;
@@ -242,6 +243,7 @@ public class MediaManager {
     }
 
     private void onComplete() {
+        Timber.d("item complete");
         stopAudio(hasNextAudioItem());
 
         if (hasNextAudioItem()) {
@@ -252,6 +254,7 @@ public class MediaManager {
     }
 
     private void releasePlayer() {
+        Timber.d("releasing audio player");
         if (mVlcPlayer != null) {
             mVlcPlayer.setEventListener(null);
             mVlcPlayer.release();
@@ -514,7 +517,12 @@ public class MediaManager {
     }
 
     public void clearAudioQueue() {
-        stopAudio(true);
+        clearAudioQueue(false);
+    }
+
+    public void clearAudioQueue(boolean releasePlayer) {
+        Timber.d("clearing the audio queue");
+        stopAudio(releasePlayer);
         clearUnShuffledQueue();
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<BaseItemDto>());
@@ -602,7 +610,18 @@ public class MediaManager {
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
 
-        playNowInternal(context, items, position, shuffle);
+        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
+        for (int i = 0; i < items.size(); i++){
+            if (items.get(i).getBaseItemType() == BaseItemType.Audio) {
+                list.add(items.get(i));
+            } else if (i < position) {
+                position--;
+            }
+        }
+        if (position < 0)
+            position = 0;
+
+        playNowInternal(context, list, position, shuffle);
 
         if (fireQueueReplaceEvent)
             fireQueueReplaced();
@@ -644,9 +663,13 @@ public class MediaManager {
     }
 
     public boolean playFrom(int ndx) {
-        if (ndx >= mCurrentAudioQueue.size()) return false;
+        if (mCurrentAudioQueue == null || ndx >= mCurrentAudioQueue.size()) return false;
+
+        if (!ensureInitialized()) return false;
 
         if (isPlayingAudio()) stopAudio(false);
+
+        Timber.d("playing audio queue from pos %s", ndx);
 
         mCurrentAudioQueuePosition = ndx < 0 || ndx >= mCurrentAudioQueue.size() ? -1 : ndx - 1;
         createManagedAudioQueue();
@@ -886,7 +909,7 @@ public class MediaManager {
 
     private void stop() {
         if (!getIsAudioPlayerInitialized()) return ;
-        if (nativeMode) mExoPlayer.stop(true);
+        if (nativeMode) mExoPlayer.stop();
         else mVlcPlayer.stop();
     }
 

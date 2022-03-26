@@ -215,8 +215,8 @@ public class KeyProcessor {
 
         if (rowItem instanceof AudioQueueItem) {
             if (activity instanceof AudioNowPlayingActivity) {
-                if (rowItem.getIndex() > KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueuePosition() && rowItem.getIndex() < KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueueSize())
-                menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
+                if (rowItem.getBaseItem() != KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioItem())
+                    menu.getMenu().add(0, MENU_ADVANCE_QUEUE, order++, R.string.lbl_play_from_here);
             } else {
                 menu.getMenu().add(0, MENU_GOTO_NOW_PLAYING, order++, R.string.lbl_goto_now_playing);
 
@@ -422,8 +422,9 @@ public class KeyProcessor {
                     return true;
                 case MENU_ADVANCE_QUEUE:
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(mCurrentRowItemNdx);
+                    return true;
                 case MENU_CLEAR_QUEUE:
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue();
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).clearAudioQueue(true);
                     return true;
                 case MENU_INSTANT_MIX:
                     PlaybackHelper.playInstantMix(mCurrentActivity, mCurrentItem);
