@@ -489,4 +489,5 @@
     <string name="pref_home_description">Configura sezioni mostrate</string>
     <string name="pref_behavior">Comportamento</string>
     <string name="home_section_resume_book">Continua a leggere</string>
+    <string name="lbl_shuffle_queue">Riproduzione Casuale</string>
 </resources>
