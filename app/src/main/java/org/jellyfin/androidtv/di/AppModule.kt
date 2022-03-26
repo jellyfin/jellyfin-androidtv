@@ -43,7 +43,7 @@ val appModule = module {
 
 			// Add client info
 			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)
-			// FIXME (SDK 1.2.0) deviceInfo = get(defaultDeviceInfo)
+			deviceInfo = get(defaultDeviceInfo)
 		}
 	}
 
