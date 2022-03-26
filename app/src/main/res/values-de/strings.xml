@@ -28,7 +28,7 @@
     <string name="lbl_tv_series">Serien</string>
     <string name="lbl_other">Sonstiges</string>
     <string name="lbl_latest_additions">Zuletzt hinzugefügt</string>
-    <string name="lbl_because_you_watched">"Weil Sie Folgendes angesehen haben: "</string>
+    <string name="lbl_because_you_watched">"Weil du Folgendes angesehen hast: "</string>
     <string name="lbl_play_all">Alle abspielen</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
     <string name="lbl_play">Abspielen</string>
@@ -70,7 +70,7 @@
     <string name="lbl_yes">Ja</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 oder https://meinserver.com</string>
     <string name="lbl_enter_server_address">Server-Adresse eingeben</string>
-    <string name="lbl_valid_server_address">Bitte geben Sie die Server-Adresse ein (IP oder Domain/Server Name)</string>
+    <string name="lbl_valid_server_address">Bitte gebe die Server-Adresse ein (IP oder Domain/Servername)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Geboren "</string>
     <string name="lbl_loading_elipses">Laden…</string>
@@ -102,13 +102,13 @@
     <string name="lbl_begin_padding">Vorlauf</string>
     <string name="lbl_program_ended">Programm beendet</string>
     <string name="lbl_end_padding">Nachlauf</string>
-    <string name="lbl_similar_items_library">Ähnliche Einträge in Ihrer Bibliothek</string>
+    <string name="lbl_similar_items_library">Ähnliche Einträge in deiner Bibliothek</string>
     <string name="lbl_record_any_channel">Aufnahme auf jedem Kanal</string>
     <string name="lbl_record_any_time">Aufnahme zu jeder Zeit</string>
     <string name="lbl_only_new_episodes">Nur neue Episoden</string>
     <string name="lbl_repeat_options">Wiederholungsoptionen</string>
-    <string name="msg_cancel_entire_series">Möchten Sie die komplette Serie wirklich abbrechen\?</string>
-    <string name="msg_remote_already_playing">Ferngesteuerte Wiedergabe ignoriert. Bitte stoppen Sie die aktuelle Wiedergabe.</string>
+    <string name="msg_cancel_entire_series">Möchtest du die KOMPLETTE SERIE wirklich abbrechen\?</string>
+    <string name="msg_remote_already_playing">Anfrage zur ferngesteuerten Wiedergabe ignoriert. Bitte stoppe zuerst die aktuelle Wiedergabe.</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="pref_audio_compat">Heruntermischen zu Stereo</string>
     <string name="lbl_audio_output">Audio-Ausgabe</string>
@@ -169,7 +169,7 @@
     <string name="msg_item_added">" Element hinzugefügt"</string>
     <string name="lbl_enable_seasonal_themes">Aktiviere Saisonale Themes</string>
     <string name="desc_seasonal_themes">Zeige besondere Farben und Empfehlungen zu bestimmten Jahreszeiten</string>
-    <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoriten- und Lieblingssongs</string>
+    <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
     <string name="lbl_new_premieres">Neue Premieren</string>
     <string name="lbl_bitstream_ac3">Dolby Digital Audio bitstreamen</string>
     <string name="desc_bitstream_ac3">Benötigt abspielfähige Hardware</string>
@@ -183,7 +183,7 @@
     <string name="lbl_show_backdrop">Hintergründe anzeigen</string>
     <string name="lbl_refresh_switching">Umschaltung der Bildwiederholfrequenz</string>
     <string name="lbl_show_premieres">Zeige Staffel-Premieren</string>
-    <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die Sie sehen</string>
+    <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die du siehst</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
     <string name="pref_use_direct_path_summary">Übergibt den Dateisystempfad statt der Streaming-URL</string>
@@ -256,7 +256,7 @@
     <string name="pref_video_player_auto">Automatisch auswählen</string>
     <string name="pref_acra_syslog">Füge System-Logs zu den Absturzberichten hinzu.
 \nDies könnte vertrauliche Daten anderer Apps enthalten, sofern diese zur gleichen Zeit aufgenommen wurden.</string>
-    <string name="acra_dialog_text">Möchten Sie einen Absturzbericht an die Entwickler senden\?
+    <string name="acra_dialog_text">Möchtest du einen Absturzbericht an die Entwickler senden\?
 \n
 \nDiese Information wird an einen Drittanbieter übergeben (tracepot.com).
 \n
@@ -267,7 +267,7 @@
     <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept_enabled">Absturzberichte werden ohne Abfrage gesendet</string>
     <string name="pref_acra_alwaysaccept">Sende ohne Aufforderung</string>
-    <string name="pref_acra_enabled">Sie werden aufgefordert, einen Absturzbericht zu senden</string>
+    <string name="pref_acra_enabled">Du wirst aufgefordert, einen Absturzbericht zu senden</string>
     <string name="pref_enable_acra">Absturzmeldungen an die Entwickler senden</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
@@ -284,7 +284,7 @@
     <string name="grid_direction">Rasterausrichtung</string>
     <string name="pref_device_model">Gerätemodell</string>
     <string name="lbl_Reset">Zurücksetzen</string>
-    <string name="pref_button_remapping_description">Drücken Sie eine Taste auf der Fernbedienung, um sie zu belegen</string>
+    <string name="pref_button_remapping_description">Drücke eine Taste auf der Fernbedienung, um sie zu belegen</string>
     <string name="pref_subtitle_track_button">Untertiteltaste</string>
     <string name="pref_audio_track_button">Audiospurtaste</string>
     <string name="lbl_unknown_key">Unbekannt (%1s)</string>
@@ -308,14 +308,14 @@
     <string name="msg_live_tv_prev">Vorherige %1$d Stunden laden\?</string>
     <string name="msg_live_tv_next">Nächste %1$d Stunden laden\?</string>
     <string name="lbl_load_guide_data">Guide-Daten laden</string>
-    <string name="lbl_new_playlist_name">Geben Sie einen Namen für die neue Wiedergabeliste ein</string>
-    <string name="episode_missing_message_2">Diese Episode fehlt in Ihrer Bibliothek. Die Wiedergabe wird angehalten.</string>
-    <string name="episode_missing_message">Diese Episode fehlt in Ihrer Bibliothek. Möchten Sie sie überspringen und mit der nächsten Episode fortfahren\?</string>
+    <string name="lbl_new_playlist_name">Gebe einen Namen für die neue Wiedergabeliste ein</string>
+    <string name="episode_missing_message_2">Diese Episode fehlt in deiner Bibliothek. Die Wiedergabe wird angehalten.</string>
+    <string name="episode_missing_message">Diese Episode fehlt in deiner Bibliothek. Möchtest du sie überspringen und mit der nächsten Episode fortfahren\?</string>
     <string name="episode_missing">Episode fehlt</string>
-    <string name="delete_warning">Hierdurch wird %1$s DAUERHAFT aus Ihrer Bibliothek GELÖSCHT. Sind Sie SEHR sicher\?</string>
+    <string name="delete_warning">Hierdurch wird %1$s DAUERHAFT aus deiner Bibliothek GELÖSCHT. Bist du WIRKLICH sicher\?</string>
     <string name="clear_expanded">Aktuelle Video-Warteschlange löschen\?</string>
     <string name="lbl_clear">Löschen</string>
-    <string name="no_player_message">Es scheint nicht, dass Sie eine videofähige Anwendung installiert haben. Diese Option erfordert die Installation einer Drittanbieteranwendung zur Wiedergabe von Videoinhalten.</string>
+    <string name="no_player_message">Es scheint nicht, dass du eine videofähige Anwendung installiert haben. Diese Option erfordert die Installation einer Drittanbieteranwendung zur Wiedergabe von Videoinhalten.</string>
     <string name="no_player">Kein Player vorhanden</string>
     <string name="mark_watched_message">Das Element schien nicht so lange zu spielen wie seine Laufzeit. Als gesehen markieren\?</string>
     <string name="mark_watched">Als gesehen markieren</string>
@@ -346,8 +346,8 @@
     <string name="server_field_empty">Das Adressfeld darf nicht leer sein</string>
     <string name="server_connection_failed">Verbindung zum Server konnte nicht hergestellt werden</string>
     <string name="server_connecting">Verbinden mit %1$s</string>
-    <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuchen Sie unsere Dokumentation unter docs.jellyfin.org oder scannen Sie den QR-Code, um Ihre ersten Schritte mit Jellyfin zu machen.</string>
-    <string name="login_help_title">Benötigen Sie Hilfe\?</string>
+    <string name="login_help_description">Jellyfin benötigt einen Server, mit dem eine Verbindung hergestellt werden kann. Besuche unsere Dokumentation unter docs.jellyfin.org oder scanne den QR-Code, um deine ersten Schritte mit Jellyfin zu machen.</string>
+    <string name="login_help_title">Brauchst du Hilfe\?</string>
     <string name="connect_manually_by_address">Server-Adresse eingeben</string>
     <string name="discovered_servers_empty">Es wurden keine Server im lokalen Netzwerk gefunden.</string>
     <string name="discovered_servers_title">Gefundene Server</string>
@@ -392,9 +392,9 @@
     <string name="add_user">Konto erstellen</string>
     <string name="who_is_watching">Wer schaut zu\?</string>
     <string name="no_user_warning">Wir konnten keine Konten finden!
-\nFügen Sie ein neues Konto hinzu, indem Sie auf die Schaltfläche \"Konto hinzufügen\" drücken.</string>
+\nFüge ein neues Konto hinzu, indem du auf die Schaltfläche \"Konto hinzufügen\" drückest.</string>
     <string name="server_unsupported">Der Server muss aktualisiert werden. Die derzeitige Version ist %1$s, aber die App benötigt %2$s oder neuer</string>
-    <string name="welcome_content">Verbinden Sie sich mit Ihrem Server, um loszulegen.</string>
+    <string name="welcome_content">Verbinden dich mit deinem Server, um loszulegen.</string>
     <string name="welcome_title">Willkommen bei Jellyfin!</string>
     <string name="saved_servers">Gespeicherte Server</string>
     <string name="lbl_next_up_minimal">Ohne Vorschaubild</string>
@@ -488,4 +488,6 @@
     <string name="lbl_playback_speed">Wiedergabegeschwindigkeit</string>
     <string name="pref_direct_stream_live_on">Transcodierung ist deaktiviert</string>
     <string name="server_connection_failed_candidates">Verbindung zum Server nicht möglich, folgende Adressen ausprobiert: %1$s</string>
+    <string name="home_section_resume_book">Weiterlesen</string>
+    <string name="lbl_shuffle_queue">Shufflemodus umschalten</string>
 </resources>
