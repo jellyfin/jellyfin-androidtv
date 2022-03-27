@@ -59,6 +59,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private int mZoomMode = ZOOM_FIT;
 
     private PlaybackOverlayActivity mActivity;
+    private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurface;
@@ -88,9 +89,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
-    private PlaybackListener errorListener;
-    private PlaybackListener completionListener;
-    private PlaybackListener preparedListener;
 
     public VideoManager(PlaybackOverlayActivity activity, View view) {
         mActivity = activity;
@@ -114,14 +112,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
                 Timber.e("***** Got error from player");
-                if (errorListener != null) errorListener.onEvent();
+                if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
 
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if (isPlaying) {
-                    if (preparedListener != null) preparedListener.onEvent();
+                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
                 } else {
                     stopProgressLoop();
@@ -135,8 +133,15 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 }
 
                 if (playbackState == Player.STATE_ENDED) {
-                    if (completionListener != null) completionListener.onEvent();
+                    if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onCompletion();
                     stopProgressLoop();
+                }
+            }
+
+            @Override
+            public void onPlaybackParametersChanged(@NonNull PlaybackParameters playbackParameters) {
+                if (mPlaybackControllerNotifiable != null){
+                    mPlaybackControllerNotifiable.onPlaybackSpeedChange(playbackParameters.speed);
                 }
             }
 
@@ -159,6 +164,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 exoplayerAudioIndex = null;
             }
         });
+    }
+
+    public void subscribe(PlaybackControllerNotifiable notifier){
+        mPlaybackControllerNotifiable = notifier;
+        setupVLCListeners();
     }
 
     /**
@@ -686,6 +696,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.setPlaybackParameters(new PlaybackParameters(speed));
         } else {
             mVlcPlayer.setRate(speed);
+            // VLC will always change rate, so we can post this immediately
+            if (mPlaybackControllerNotifiable != null){
+                mPlaybackControllerNotifiable.onPlaybackSpeedChange(speed);
+            }
         }
     }
 
@@ -741,6 +755,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public void destroy() {
+        mPlaybackControllerNotifiable = null;
         stopPlayback();
         releasePlayer();
     }
@@ -814,7 +829,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-        clearPlayerListeners();
     }
 
     int normalWidth;
@@ -929,43 +943,36 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface.invalidate();
     }
 
-    public void setOnErrorListener(final PlaybackListener listener) {
-        mVlcHandler.setOnErrorListener(listener);
-        errorListener = listener;
+    private void setupVLCListeners() {
+        mVlcHandler.setOnCompletionListener(() -> {
+            if (mPlaybackControllerNotifiable != null) {
+                mPlaybackControllerNotifiable.onCompletion();
+            }
+        });
+        mVlcHandler.setOnErrorListener(() -> {
+            if (mPlaybackControllerNotifiable != null) {
+                mPlaybackControllerNotifiable.onError();
+            }
+        });
+        mVlcHandler.setOnPreparedListener(() -> {
+            if (mPlaybackControllerNotifiable != null) {
+                mPlaybackControllerNotifiable.onPrepared();
+            }
+        });
+        mVlcHandler.setOnProgressListener(() -> {
+            if (mPlaybackControllerNotifiable != null) {
+                mPlaybackControllerNotifiable.onProgress();
+            }
+        });
     }
 
-    public void setOnCompletionListener(final PlaybackListener listener) {
-        completionListener = listener;
-        mVlcHandler.setOnCompletionListener(listener);
-    }
-
-    public void setOnPreparedListener(final PlaybackListener listener) {
-        preparedListener = listener;
-
-        mVlcHandler.setOnPreparedListener(listener);
-    }
-
-    public void setOnProgressListener(PlaybackListener listener) {
-        progressListener = listener;
-        mVlcHandler.setOnProgressListener(listener);
-    }
-
-    public void clearPlayerListeners() {
-        mVlcHandler.setOnErrorListener(null);
-        mVlcHandler.setOnCompletionListener(null);
-        mVlcHandler.setOnPreparedListener(null);
-        mVlcHandler.setOnProgressListener(null);
-    }
-
-    private PlaybackListener progressListener;
     private Runnable progressLoop;
-
     private void startProgressLoop() {
         stopProgressLoop();
         progressLoop = new Runnable() {
             @Override
             public void run() {
-                if (progressListener != null) progressListener.onEvent();
+                if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onProgress();
                 mHandler.postDelayed(this, 500);
             }
         };
