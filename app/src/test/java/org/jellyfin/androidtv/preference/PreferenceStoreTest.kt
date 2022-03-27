@@ -58,7 +58,7 @@ private enum class TestEnum { NOT_SET, SET }
  * Tests that the generic set/get methods dispatch to the correct
  * internal getT/setT methods
  */
-class PreferenceStoreTest : FunSpec() {
+class PreferenceStoreTest : FunSpec({
 	fun <T : Any> verifySimpleType(expectedVal: T, preference: Preference<T>) {
 		val instance = TestStub()
 		instance[preference] = expectedVal
@@ -66,25 +66,24 @@ class PreferenceStoreTest : FunSpec() {
 		instance.key shouldBe preference.key
 	}
 
-	init {
-		test("get and setting native types") {
-			// Unfortunately KoTest will try to serialise to a base Serializable using rows
-			// So manually use generics for the same effect
-			verifySimpleType(1, Preference.int("key", 0))
-			verifySimpleType(1L, Preference.long("key", 0L))
-			verifySimpleType(true, Preference.boolean("key", false))
-			verifySimpleType("string", Preference.string("key", ""))
-		}
-
-		test("get and set with enum types") {
-			// Generics removes too much type info for us to use verifySimpleType
-			// we could be clever, but I prefer duplication and to KISS
-			val pref = Preference.enum("key", TestEnum.NOT_SET)
-			val expectedVal = TestEnum.SET
-			val instance = TestStub()
-			instance[pref] = expectedVal
-			instance[pref] shouldBe expectedVal
-			pref.key shouldBe instance.key
-		}
+	test("get and setting native types") {
+		// Unfortunately KoTest will try to serialise to a base Serializable using rows
+		// So manually use generics for the same effect
+		verifySimpleType(1, Preference.int("key", 0))
+		verifySimpleType(1L, Preference.long("key", 0L))
+		verifySimpleType(true, Preference.boolean("key", false))
+		verifySimpleType("string", Preference.string("key", ""))
 	}
-}
+
+	test("get and set with enum types") {
+		// Generics removes too much type info for us to use verifySimpleType
+		// we could be clever, but I prefer duplication and to KISS
+		val pref = Preference.enum("key", TestEnum.NOT_SET)
+		val expectedVal = TestEnum.SET
+		val instance = TestStub()
+		instance[pref] = expectedVal
+		instance[pref] shouldBe expectedVal
+		pref.key shouldBe instance.key
+	}
+
+})
