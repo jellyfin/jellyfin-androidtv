@@ -746,7 +746,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             // Create a new media player
             ArrayList<String> options = new ArrayList<>(20);
             options.add("--network-caching=" + buffer);
-            options.add("--no-audio-time-stretch");
+            options.add("--audio-time-stretch");
             options.add("--avcodec-skiploopfilter");
             options.add("1");
             options.add("--avcodec-skip-frame");
