@@ -140,14 +140,16 @@ public class ItemLauncher {
                         Timber.d("got pos %s", pos);
                         if (rowItem.getBaseItem() == null)
                             return;
+                        MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
+
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
-                        if (KoinJavaComponent.<MediaManager>get(MediaManager.class).hasAudioQueueItems() && rowItem.getBaseItem() == KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioItem()) {
+                        if (mediaManager.hasAudioQueueItems() && rowItem.getBaseItem() == mediaManager.getCurrentAudioItem()) {
                             // otherwise, open AudioNowPlayingActivity
                             Intent nowPlaying = new Intent(activity, AudioNowPlayingActivity.class);
                             activity.startActivity(nowPlaying);
-                        } else if (KoinJavaComponent.<MediaManager>get(MediaManager.class).hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueueSize()) {
+                        } else if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < mediaManager.getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(pos);
+                            mediaManager.playFrom(pos);
                         } else {
                             Timber.d("playing audio item");
                             List<BaseItemDto> audioItemsAsList = new ArrayList<>();
@@ -156,7 +158,7 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, audioItemsAsList, pos, false);
+                            mediaManager.playNow(activity, audioItemsAsList, pos, false);
                         }
 
                         return;
