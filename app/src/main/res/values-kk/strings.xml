@@ -134,7 +134,7 @@
     <string name="lbl_filters">Süzgıler</string>
     <string name="msg_subtitles_loading">Subtitrler jüktelude…</string>
     <string name="msg_unable_load_subs">Subtitrlerdı jükteu mümkın emes</string>
-    <string name="msg_burn_sub_warning">Subtitrlerdı oiyp beru bırneşe minut aluy mümkın. Kışkene şydañyz…</string>
+    <string name="msg_burn_sub_warning">Subtitrler oiyp berılude. Būl bırneşe sekunt aluy mümkın…</string>
     <string name="lbl_recording">Jazba</string>
     <string name="lbl_no_recordings">Jazbalar qol jetımdı emes</string>
     <string name="lbl_live_tv_guide">Efirlık telegid</string>
