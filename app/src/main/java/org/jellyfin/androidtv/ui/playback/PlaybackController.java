@@ -932,7 +932,6 @@ public class PlaybackController {
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.subtitle_error));
             return;
         }
-        // handle according to delivery method
         SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
         if (streamInfo == null) {
             if (mFragment != null)
@@ -951,7 +950,7 @@ public class PlaybackController {
         }
 
         // when burnt-in subtitles are selected, these values are set in startItem() as soon as playback starts
-        // otherwise mCurrentOptions SubtitleStreamIndex is kept null so we know subtitles need to be enabled but aren't already
+        // otherwise mCurrentOptions SubtitleStreamIndex is kept null until now so we knew subtitles needed to be enabled but weren't already
         mCurrentOptions.setSubtitleStreamIndex(index);
         mDefaultSubIndex = index;
 
