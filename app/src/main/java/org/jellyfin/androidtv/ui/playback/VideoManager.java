@@ -675,7 +675,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public void setPlaybackSpeed(@NonNull float speed) {
+    public void setPlaybackSpeed(float speed) {
         if (speed < 0.25) {
             Timber.w("Invalid playback speed requested: %f", speed);
             return;
