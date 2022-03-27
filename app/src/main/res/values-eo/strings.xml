@@ -342,7 +342,7 @@
     <string name="sum_enable_cinema_mode">Ludu disponeblajn antaŭfilmetojn kaj antaŭmontrojn antaŭ ol komenci filmon</string>
     <string name="lbl_direct_stream_live">Rekta elsendflua TV-etero</string>
     <string name="msg_error_live_stream">Eraro dum elsendflui TV-eteron. Reprovos…</string>
-    <string name="msg_burn_sub_warning">Bruligi subtekstojn povas daŭri kelkajn minutojn. Pacienci…</string>
+    <string name="msg_burn_sub_warning">Enbruligante subtekstojn. Ĉi tio povas daŭri kelkajn sekundojn…</string>
     <string name="msg_unable_load_subs">Ne eblas ŝargi subtekston</string>
     <string name="lbl_starting_with">komencante per tiuj, kies nomo komenciĝas per</string>
     <string name="desc_debug">Provizu kromajn informojn por sencimigi</string>
