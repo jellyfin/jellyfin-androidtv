@@ -44,10 +44,12 @@ class ExpandableTextView(context: Context, attrs: AttributeSet?) : AppCompatText
 		}
 	}
 
-	override fun onTextChanged(text: CharSequence?, start: Int, lengthBefore: Int, lengthAfter: Int) {
-		super.onTextChanged(text, start, lengthBefore, lengthAfter)
+	override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+		super.onLayout(changed, left, top, right, bottom)
 
-		isFocusable = !text.isNullOrBlank()
-		isClickable = !text.isNullOrBlank()
+		// Only make focusable when text is ellipsized.
+		val isEllipsized = !text.isNullOrBlank() && lineCount > 0 && layout.getEllipsisCount(lineCount - 1) > 0
+		isFocusable = isEllipsized
+		isClickable = isEllipsized
 	}
 }
