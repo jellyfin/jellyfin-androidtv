@@ -12,7 +12,7 @@ abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
 	protected var app: String = "jellyfin-androidtv",
 	private val api: ApiClient,
-) : AsyncPreferenceStore {
+) : AsyncPreferenceStore() {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
 	private var cachedPreferences: MutableMap<String, String?> = mutableMapOf()
 	override val shouldUpdate: Boolean
@@ -71,46 +71,53 @@ abstract class DisplayPreferencesStore(
 		}
 	}
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
-		Int::class -> cachedPreferences[preference.key]?.toIntOrNull() ?: preference.defaultValue
-		Long::class -> cachedPreferences[preference.key]?.toLongOrNull() ?: preference.defaultValue
-		Boolean::class -> cachedPreferences[preference.key]?.toBooleanStrictOrNull()
-			?: preference.defaultValue
-		String::class -> cachedPreferences[preference.key] ?: preference.defaultValue
+	override fun getInt(key: String, defaultValue: Int) =
+		cachedPreferences[key]?.toIntOrNull() ?: defaultValue
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+	override fun getLong(key: String, defaultValue: Long) =
+		cachedPreferences[key]?.toLongOrNull() ?: defaultValue
 
-	override fun <T : Preference<V>, V : Any> set(preference: T, value: V) = when (preference.type) {
-		Int::class -> cachedPreferences[preference.key] = (value as Int).toString()
-		Long::class -> cachedPreferences[preference.key] = (value as Long).toString()
-		Boolean::class -> cachedPreferences[preference.key] = (value as Boolean).toString()
-		String::class -> cachedPreferences[preference.key] = (value as String).toString()
-		Enum::class -> cachedPreferences[preference.key] = value.toString()
+	override fun getBool(key: String, defaultValue: Boolean) =
+		cachedPreferences[key]?.toBooleanStrictOrNull() ?: defaultValue
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
+	override fun getString(key: String, defaultValue: String) =
+		cachedPreferences[key] ?: defaultValue
+
+	override fun setInt(key: String, value: Int) {
+		cachedPreferences[key] = value.toString()
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
-		val stringValue = cachedPreferences[preference.key]
+	override fun setLong(key: String, value: Long) {
+		cachedPreferences[key] = value.toString()
+	}
 
+	override fun setBool(key: String, value: Boolean) {
+		cachedPreferences[key] = value.toString()
+	}
+
+	override fun setString(key: String, value: String) {
+		cachedPreferences[key] = value
+	}
+
+	override fun <T : Any> delete(preference: Preference<T>) {
+		cachedPreferences.remove(preference.key)
+	}
+
+	override fun <T : Enum<T>> getEnum(preference: Preference<T>): T {
+		val stringValue = cachedPreferences[preference.key]
 		return if (stringValue.isNullOrBlank()) preference.defaultValue
 		else preference.type.java.enumConstants?.find {
 			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
 		} ?: preference.defaultValue
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) {
-		cachedPreferences[preference.key] = when (value) {
-			is PreferenceEnum -> value.serializedName
-			else -> value.toString()
-		}
-	}
-
-	override fun <T : Preference<V>, V : Any> delete(preference: T) {
-		cachedPreferences.remove(preference.key)
-	}
+	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
+		setString(
+			preference.key, when (value) {
+				is PreferenceEnum -> value.serializedName
+				else -> value.toString()
+			}
+		)
 
 	/**
 	 * Create an empty [DisplayPreferencesDto] with default values.

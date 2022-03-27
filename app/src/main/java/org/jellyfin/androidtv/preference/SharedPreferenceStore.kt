@@ -27,8 +27,8 @@ abstract class SharedPreferenceStore(
 	/**
 	 * SharedPreferences to read from and write to
 	 */
-	protected val sharedPreferences: SharedPreferences,
-) : PreferenceStore {
+	protected val sharedPreferences: SharedPreferences
+) : PreferenceStore() {
 	// Internal helpers
 	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
 		val editor = sharedPreferences.edit()
@@ -36,49 +36,42 @@ abstract class SharedPreferenceStore(
 		editor.apply()
 	}
 
-	// Getters and setters
-	// Primitive types
-	@Suppress("UNCHECKED_CAST")
-	override operator fun <T : Preference<V>, V : Any> get(preference: T) = when (preference.type) {
-		Int::class -> sharedPreferences.getInt(preference.key, preference.defaultValue as Int)
-		Long::class -> sharedPreferences.getLong(preference.key, preference.defaultValue as Long)
-		Boolean::class -> sharedPreferences.getBoolean(preference.key, preference.defaultValue as Boolean)
-		String::class -> sharedPreferences.getString(preference.key, preference.defaultValue as String)
+	override fun getInt(key: String, defaultValue: Int) =
+		sharedPreferences.getInt(key, defaultValue)
 
-		else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-	} as V
+	override fun getLong(key: String, defaultValue: Long) =
+		sharedPreferences.getLong(key, defaultValue)
 
-	override operator fun <T : Preference<V>, V : Any> set(preference: T, value: V) = transaction {
-		when (preference.type) {
-			Int::class -> putInt(preference.key, value as Int)
-			Long::class -> putLong(preference.key, value as Long)
-			Boolean::class -> putBoolean(preference.key, value as Boolean)
-			String::class -> putString(preference.key, value as String)
-			Enum::class -> putString(preference.key, value.toString())
+	override fun getBool(key: String, defaultValue: Boolean) =
+		sharedPreferences.getBoolean(key, defaultValue)
 
-			else -> throw IllegalArgumentException("${preference.type.simpleName} type is not supported")
-		}
-	}
+	override fun getString(key: String, defaultValue: String) =
+		sharedPreferences.getString(key, defaultValue) ?: defaultValue
 
-	// Enums
-	override operator fun <T : Preference<V>, V : Enum<V>> get(preference: T): V {
-		val stringValue = sharedPreferences.getString(preference.key, null)
+	override fun setInt(key: String, value: Int) = transaction { putInt(key, value) }
+	override fun setLong(key: String, value: Long) = transaction { putLong(key, value) }
+	override fun setBool(key: String, value: Boolean) =
+		transaction { putBoolean(key, value) }
 
-		return if (stringValue.isNullOrBlank()) preference.defaultValue
+	override fun setString(key: String, value: String) =
+		transaction { putString(key, value) }
+
+	override fun <T : Enum<T>> getEnum(preference: Preference<T>): T {
+		val stringValue = getString(preference.key, "")
+		return if (stringValue.isBlank()) preference.defaultValue
 		else preference.type.java.enumConstants?.find {
 			(it is PreferenceEnum && it.serializedName == stringValue) || it.name == stringValue
 		} ?: preference.defaultValue
 	}
 
-	override fun <T : Preference<V>, V : Enum<V>> set(preference: T, value: V) = transaction {
-		putString(preference.key, when (value) {
-			is PreferenceEnum -> value.serializedName
-			else -> value.toString()
-		})
-	}
+	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
+		setString(preference.key, when (value) {
+				is PreferenceEnum -> value.serializedName
+				else -> value.toString()
+			})
 
 	// Additional mutations
-	override fun <T : Preference<V>, V : Any> delete(preference: T) = transaction {
+	override fun <T : Any> delete(preference: Preference<T>) = transaction {
 		remove(preference.key)
 	}
 
