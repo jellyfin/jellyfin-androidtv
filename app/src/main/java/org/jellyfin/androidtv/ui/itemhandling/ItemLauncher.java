@@ -26,7 +26,6 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
-import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -139,17 +138,30 @@ public class ItemLauncher {
 
                     case Audio:
                         Timber.d("got pos %s", pos);
-                        // if a song isn't the first in the queue, play it
-                        if (rowItem.getIndex() > KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueuePosition() && rowItem.getIndex() < KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentAudioQueueSize()) {
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).playFrom(rowItem.getIndex());
-                        } else {
+                        if (rowItem.getBaseItem() == null)
+                            return;
+                        MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
+
+                        // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
+                        if (mediaManager.hasAudioQueueItems() && rowItem.getBaseItem() == mediaManager.getCurrentAudioItem()) {
                             // otherwise, open AudioNowPlayingActivity
                             Intent nowPlaying = new Intent(activity, AudioNowPlayingActivity.class);
                             activity.startActivity(nowPlaying);
+                        } else if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < mediaManager.getCurrentAudioQueueSize()) {
+                            Timber.d("playing audio queue item");
+                            mediaManager.playFrom(pos);
+                        } else {
+                            Timber.d("playing audio item");
+                            List<BaseItemDto> audioItemsAsList = new ArrayList<>();
+
+                            for (Object item : adapter.unmodifiableList()) {
+                                if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
+                                    audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
+                            }
+                            mediaManager.playNow(activity, audioItemsAsList, pos, false);
                         }
 
                         return;
-
                     case Season:
                     case RecordingGroup:
                         //Start activity for enhanced browse
