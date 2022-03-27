@@ -404,8 +404,8 @@ public class PlaybackController {
         play(position, null);
     }
 
-    private void play(long position, @Nullable Integer transcodedSubtitle) {
-        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, transcodedSubtitle);
+    private void play(long position, @Nullable Integer forcedSubtitleIndex) {
+        Timber.d("Play called from state: %s with pos: %d and sub index: %d", mPlaybackState, position, forcedSubtitleIndex);
 
         if (position < 0) {
             Timber.i("Negative start requested - adjusting to zero");
@@ -514,8 +514,8 @@ public class PlaybackController {
                     vlcOptions.setEnableDirectStream(false);
                     vlcOptions.setEnableDirectPlay(false);
                 }
-                vlcOptions.setSubtitleStreamIndex(transcodedSubtitle);
-                vlcOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
+                vlcOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
+                vlcOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile vlcProfile = new LibVlcProfile(isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
@@ -526,8 +526,8 @@ public class PlaybackController {
                 if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
                     internalOptions.setEnableDirectStream(false);
                 internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
-                internalOptions.setSubtitleStreamIndex(transcodedSubtitle);
-                internalOptions.setMediaSourceId(transcodedSubtitle != null ? getCurrentMediaSource().getId() : null);
+                internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
+                internalOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     boolean hlsSupported = false;
@@ -752,6 +752,8 @@ public class PlaybackController {
             mCurrentOptions.setSubtitleStreamIndex(mDefaultSubIndex);
             Timber.d("stream started with burnt in subs");
             burningSubs = true;
+        } else {
+            mCurrentOptions.setSubtitleStreamIndex(null);
         }
 
         Long mbPos = position * 10000;
@@ -905,20 +907,21 @@ public class PlaybackController {
     public void switchSubtitleStream(int index) {
         if (!hasInitializedVideoManager())
             return;
-
         // get current timestamp first
         refreshCurrentPosition();
         Timber.d("Setting subtitle index to: %d", index);
-        mCurrentOptions.setSubtitleStreamIndex(index);
-        mDefaultSubIndex = index;
 
+        // clear subtitles first
+        if (mFragment != null) mFragment.addManualSubtitles(null);
+        mVideoManager.disableSubs();
+
+        // handle setting subtitles as disabled
+        // restart playback if turning off burnt-in subtitles
         if (index < 0) {
+            mCurrentOptions.setSubtitleStreamIndex(-1);
             if (burningSubs) {
                 stop();
                 play(mCurrentPosition, -1);
-            } else {
-                if (mFragment != null) mFragment.addManualSubtitles(null);
-                mVideoManager.disableSubs();
             }
             return;
         }
@@ -929,77 +932,74 @@ public class PlaybackController {
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.subtitle_error));
             return;
         }
-
-
-        // handle according to delivery method
         SubtitleStreamInfo streamInfo = getSubtitleStreamInfo(index);
         if (streamInfo == null) {
             if (mFragment != null)
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-        } else {
-            switch (streamInfo.getDeliveryMethod()) {
+            return;
+        }
 
-                case Encode:
-                    // Gonna need to burn in so start a transcode with the sub index
-                    stop();
-                    if (!mVideoManager.isNativeMode()) {
+        // handle switching on or between burnt-in subtitles, or switching to non-burnt subtitles
+        // if switching from burnt-in subtitles to another type, playback still needs to be restarted
+        if (burningSubs || streamInfo.getDeliveryMethod() == SubtitleDeliveryMethod.Encode) {
+            stop();
+            if (mFragment != null && streamInfo.getDeliveryMethod() == SubtitleDeliveryMethod.Encode)
+                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_burn_sub_warning));
+            play(mCurrentPosition, index);
+            return;
+        }
+
+        // when burnt-in subtitles are selected, these values are set in startItem() as soon as playback starts
+        // otherwise mCurrentOptions SubtitleStreamIndex is kept null until now so we knew subtitles needed to be enabled but weren't already
+        mCurrentOptions.setSubtitleStreamIndex(index);
+        mDefaultSubIndex = index;
+
+        switch (streamInfo.getDeliveryMethod()) {
+            case Embed:
+                if (!mVideoManager.isNativeMode()) {
+                    if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
+                        // error selecting internal subs
                         if (mFragment != null)
-                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_burn_sub_warning));
+                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                     }
-                    play(mCurrentPosition, index);
                     break;
-                case Embed:
-                    if (!mVideoManager.isNativeMode()) {
-                        if (mFragment != null)
-                            mFragment.addManualSubtitles(null); // in case these were on
-                        if (!mVideoManager.setSubtitleTrack(index, getCurrentlyPlayingItem().getMediaStreams())) {
-                            // error selecting internal subs
-                            if (mFragment != null)
-                                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-                        }
-                        break;
-                    }
-                    // not using vlc - fall through to external handling
-                case External:
-                    if (mFragment != null) mFragment.addManualSubtitles(null);
-                    mVideoManager.disableSubs();
-                    if (mFragment != null) mFragment.showSubLoadingMsg(true);
-                    stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                    stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
-                    apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
+                }
+                // not using vlc - fall through to external handling
+            case External:
+                if (mFragment != null) mFragment.showSubLoadingMsg(true);
+                stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
+                stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+                apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
-                        @Override
-                        public void onResponse(final SubtitleTrackInfo info) {
+                    @Override
+                    public void onResponse(final SubtitleTrackInfo info) {
 
-                            if (info != null) {
-                                Timber.d("Adding json subtitle track to player");
-                                if (mFragment != null) mFragment.addManualSubtitles(info);
-                            } else {
-                                Timber.e("Empty subtitle result");
-                                if (mFragment != null) {
-                                    Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
-                                    mFragment.showSubLoadingMsg(false);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception ex) {
-                            Timber.e(ex, "Error downloading subtitles");
+                        if (info != null) {
+                            Timber.d("Adding json subtitle track to player");
+                            if (mFragment != null) mFragment.addManualSubtitles(info);
+                        } else {
+                            Timber.e("Empty subtitle result");
                             if (mFragment != null) {
                                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
                                 mFragment.showSubLoadingMsg(false);
                             }
                         }
+                    }
 
-                    });
-                    break;
-                case Hls:
-                    break;
-            }
+                    @Override
+                    public void onError(Exception ex) {
+                        Timber.e(ex, "Error downloading subtitles");
+                        if (mFragment != null) {
+                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
+                            mFragment.showSubLoadingMsg(false);
+                        }
+                    }
 
+                });
+                break;
+            case Hls:
+                break;
         }
-
     }
 
     public void pause() {
@@ -1419,7 +1419,6 @@ public class PlaybackController {
                 if (mPlaybackState == PlaybackState.PAUSED) {
                     mPlaybackState = PlaybackState.PLAYING;
                 } else {
-
                     // select or disable subtitles
                     Integer currentSubtitleIndex = mCurrentOptions.getSubtitleStreamIndex();
                     if (mDefaultSubIndex >= 0 && currentSubtitleIndex != null && currentSubtitleIndex == mDefaultSubIndex) {
