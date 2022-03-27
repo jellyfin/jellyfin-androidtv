@@ -654,7 +654,8 @@ public class MediaManager {
         if (shuffle) shuffleAudioQueue();
         playFrom(position);
 
-        if (ContextExtensionsKt.getActivity(context).getClass() != AudioNowPlayingActivity.class) {
+        Activity activity = ContextExtensionsKt.getActivity(context);
+        if (activity != null && activity.getClass() != AudioNowPlayingActivity.class) {
             Intent nowPlaying = new Intent(context, AudioNowPlayingActivity.class);
             context.startActivity(nowPlaying);
         } else {
