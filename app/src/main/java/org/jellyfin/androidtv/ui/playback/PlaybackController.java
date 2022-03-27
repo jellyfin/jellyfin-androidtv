@@ -506,10 +506,10 @@ public class PlaybackController {
                 // undo setting mSeekPosition for liveTV
                 if (isLiveTv) mSeekPosition = -1;
 
-                //Build options for each player
-                VideoOptions vlcOptions = buildVLCOptions(forcedSubtitleIndex, item);
-                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item);
-                Timber.d("Max bitrate is: %d", Utils.getMaxBitrate());
+                int maxBitrate = Utils.getMaxBitrate();
+                Timber.d("Max bitrate is: %d", maxBitrate);
+                VideoOptions vlcOptions = buildVLCOptions(forcedSubtitleIndex, item, maxBitrate);
+                VideoOptions internalOptions = buildExoPlayerOptions(forcedSubtitleIndex, item, maxBitrate);
 
                 playInternal(getCurrentlyPlayingItem(), position, vlcOptions, internalOptions);
                 mPlaybackState = PlaybackState.BUFFERING;
@@ -527,11 +527,11 @@ public class PlaybackController {
     }
 
     @NonNull
-    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item) {
+    private VideoOptions buildExoPlayerOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item, int maxBitrate) {
         VideoOptions internalOptions = new VideoOptions();
         internalOptions.setItemId(item.getId());
         internalOptions.setMediaSources(item.getMediaSources());
-        internalOptions.setMaxBitrate(Utils.getMaxBitrate());
+        internalOptions.setMaxBitrate(maxBitrate);
         if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
             internalOptions.setEnableDirectStream(false);
         internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
@@ -554,11 +554,11 @@ public class PlaybackController {
     }
 
     @NonNull
-    private VideoOptions buildVLCOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item) {
+    private VideoOptions buildVLCOptions(@Nullable Integer forcedSubtitleIndex, BaseItemDto item, int maxBitrate) {
         VideoOptions vlcOptions = new VideoOptions();
         vlcOptions.setItemId(item.getId());
         vlcOptions.setMediaSources(item.getMediaSources());
-        vlcOptions.setMaxBitrate(Utils.getMaxBitrate());
+        vlcOptions.setMaxBitrate(maxBitrate);
         if (vlcErrorEncountered) {
             Timber.i("*** Disabling direct play/stream due to previous error");
             vlcOptions.setEnableDirectStream(false);
