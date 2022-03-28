@@ -1,0 +1,3 @@
+Köszönjük, hogy a Jellyfint használja Android TV-n! Mindig ajánlott a legújabb kiadott Jellyfin Server használata.
+
+További információért keresse fel blogunkat a jellyfin.org címen, vagy olvassa el a teljes változásnaplót a GitHubon.
