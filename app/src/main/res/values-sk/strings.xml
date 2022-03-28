@@ -231,7 +231,7 @@
     <string name="lbl_recorded_tv">TV nahrávky</string>
     <string name="lbl_live_tv_guide">Programový sprievodca TV</string>
     <string name="lbl_no_recordings">Žiadne dostupné nahrávky</string>
-    <string name="msg_burn_sub_warning">Vypálenie tituliek môže zabrať niekoľko minút. Prosím, buďte trpezlivý…</string>
+    <string name="msg_burn_sub_warning">Vypaľovanie titulkov do obrazu. Môže to chvíľu trvať…</string>
     <string name="lbl_starting_with">začať s tými, ktorých meno začína s</string>
     <string name="desc_debug">Poskytnúť extra informácie pre debugovanie</string>
     <string name="msg_remote_already_playing">Požiadavka vzdialeného prehrávania bola odignorovaná. Prosím, najskôr zastavte súčasnú položku.</string>
