@@ -257,7 +257,7 @@
     <string name="lbl_live_tv_guide">Élő TV-újság</string>
     <string name="lbl_no_recordings">Nincs elérhető felvétel</string>
     <string name="lbl_recording">Felvétel</string>
-    <string name="msg_burn_sub_warning">Beégetett feliratok egy ideig eltarthatnak. Légy türelemmel…</string>
+    <string name="msg_burn_sub_warning">Feliratok beégetése. Ez eltarthat pár másodpercig…</string>
     <string name="msg_unable_load_subs">Feliratok betöltése sikertelen</string>
     <string name="msg_subtitles_loading">Feliratok betöltése…</string>
     <string name="lbl_filters">Szűrők</string>
@@ -489,4 +489,5 @@
     <string name="pref_refresh_switching_description">A monitor frissítési gyakorisága a videónak megfelelően módosult</string>
     <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
     <string name="home_section_resume_book">Olvasás folytatása</string>
+    <string name="lbl_shuffle_queue">Véletlenszerű Lejátszás</string>
 </resources>
