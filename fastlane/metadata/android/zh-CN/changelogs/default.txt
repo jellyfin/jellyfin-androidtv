@@ -1,0 +1,3 @@
+感谢您在Android TV上使用Jellyfin！我们始终建议使用最新版本的Jellyfin服务器。
+
+欲了解更多信息，请查看我们在jellyfin.org发布的博客，或者阅读GitHub上的完整更新日志。

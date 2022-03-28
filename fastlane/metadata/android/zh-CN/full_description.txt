@@ -1,0 +1,14 @@
+根据您的条件，您的媒体。
+
+Jellyfin项目是一个开源的免费软件媒体服务器。 没有费用，没有跟踪，没有隐藏的议程。获取我们的免费服务器，将您所有的音频，视频，照片等收集在一个地方。
+
+要使用该应用程序，您必须已设置并运行Jellyfin服务器。 在<a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>中找到更多信息。
+
+使用Jellyfin服务器，您可以：
+
+*从Jellyfin服务器上观看直播电视和录制的节目（需要额外的硬件/服务）
+*流式传输到网络上的Chromecast设备
+*将媒体流式传输到Android设备
+*在易于使用的界面中查看您的收藏
+
+这是Android TV的官方Jellyfin配套应用。 感谢您使用Jellyfin！
