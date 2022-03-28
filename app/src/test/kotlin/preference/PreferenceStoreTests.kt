@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.preference
 
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.core.test.TestCase
 import io.kotest.matchers.shouldBe
 
 private class TestStub : PreferenceStore() {
@@ -58,7 +57,7 @@ private enum class TestEnum { NOT_SET, SET }
  * Tests that the generic set/get methods dispatch to the correct
  * internal getT/setT methods
  */
-class PreferenceStoreTest : FunSpec({
+class PreferenceStoreTests : FunSpec({
 	fun <T : Any> verifySimpleType(expectedVal: T, preference: Preference<T>) {
 		val instance = TestStub()
 		instance[preference] = expectedVal
@@ -85,5 +84,4 @@ class PreferenceStoreTest : FunSpec({
 		instance[pref] shouldBe expectedVal
 		pref.key shouldBe instance.key
 	}
-
 })
