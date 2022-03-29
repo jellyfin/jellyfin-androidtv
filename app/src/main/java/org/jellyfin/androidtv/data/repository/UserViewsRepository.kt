@@ -1,14 +1,14 @@
 package org.jellyfin.androidtv.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.jellyfin.apiclient.model.entities.CollectionType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 
 interface UserViewsRepository {
-	val views: LiveData<Collection<BaseItemDto>>
+	val views: Flow<Collection<BaseItemDto>>
 
 	fun isSupported(collectionType: String?): Boolean
 	fun allowViewSelection(collectionType: String?): Boolean
@@ -17,7 +17,7 @@ interface UserViewsRepository {
 class UserViewsRepositoryImpl(
 	private val api: ApiClient,
 ) : UserViewsRepository {
-	override val views: LiveData<Collection<BaseItemDto>> = liveData {
+	override val views = flow {
 		val views by api.userViewsApi.getUserViews()
 		val filteredViews = views.items
 			.orEmpty()
