@@ -5,6 +5,7 @@ import androidx.leanback.media.PlayerAdapter;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
@@ -137,7 +138,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     boolean canRecordLiveTv() {
         BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         return currentlyPlayingItem.getCurrentProgram() != null
-                && TvApp.getApplication().canManageRecordings();
+                && Utils.canManageRecordings(TvApp.getApplication().getCurrentUser());
     }
 
     void toggleRecording() {

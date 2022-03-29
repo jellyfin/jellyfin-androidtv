@@ -1024,7 +1024,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             mDetailsOverviewRow.addAction(trailerButton);
         }
 
-        if (mProgramInfo != null && TvApp.getApplication().canManageRecordings()) {
+        if (mProgramInfo != null && Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
             if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
                 mRecordButton = TextUnderButton.create(this, R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {

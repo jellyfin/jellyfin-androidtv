@@ -128,7 +128,7 @@ public class LiveProgramDetailPopup {
                 mFirstButton = createTuneButton();
             }
 
-            if (TvApp.getApplication().canManageRecordings()) {
+            if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
                 if (program.getTimerId() != null) {
                     // cancel button
                     Button cancel = new Button(mActivity);
