@@ -1,6 +1,11 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.DisplayPreferencesScreen
@@ -11,18 +16,23 @@ import org.koin.android.ext.android.inject
 
 class LibrariesPreferencesScreen : OptionsFragment() {
 	private val userViewsRepository by inject<UserViewsRepository>()
+	private val userViews by lazy {
+		userViewsRepository.views.stateIn(lifecycleScope, SharingStarted.Lazily, emptyList())
+	}
 
-	override fun onStart() {
-		super.onStart()
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-		userViewsRepository.views.observe(viewLifecycleOwner) { rebuild() }
+		lifecycleScope.launch {
+			userViews.collect { rebuild() }
+		}
 	}
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_libraries)
 
 		category {
-			userViewsRepository.views.value.orEmpty().forEach {
+			userViews.value.forEach {
 				val allowViewSelection = userViewsRepository.allowViewSelection(it.collectionType)
 
 				link {
