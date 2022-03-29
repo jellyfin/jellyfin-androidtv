@@ -12,8 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
@@ -56,35 +59,42 @@ class ServerFragment : Fragment() {
 
 		val userAdapter = UserAdapter(requireContext(), server, loginViewModel)
 		userAdapter.onItemPressed = { user ->
-			loginViewModel.authenticate(user, server).observe(viewLifecycleOwner) { state ->
-				when (state) {
-					// Ignored states
-					AuthenticatingState -> Unit
-					AuthenticatedState -> Unit
-					// Actions
-					RequireSignInState -> navigateFragment<UserLoginAlertFragment>(bundleOf(
-						UserLoginAlertFragment.ARG_SERVER_ID to server.id.toString(),
-						UserLoginAlertFragment.ARG_USERNAME to user.name,
-					))
-					// Errors
-					ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
-					is ServerVersionNotSupported -> Toast.makeText(
-						context,
-						getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),
-						Toast.LENGTH_LONG
-					).show()
+			lifecycleScope.launch {
+				loginViewModel.authenticate(user, server).collect { state ->
+					when (state) {
+						// Ignored states
+						AuthenticatingState -> Unit
+						AuthenticatedState -> Unit
+						// Actions
+						RequireSignInState -> navigateFragment<UserLoginAlertFragment>(bundleOf(
+							UserLoginAlertFragment.ARG_SERVER_ID to server.id.toString(),
+							UserLoginAlertFragment.ARG_USERNAME to user.name,
+						))
+						// Errors
+						ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+						is ServerVersionNotSupported -> Toast.makeText(
+							context,
+							getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),
+							Toast.LENGTH_LONG
+						).show()
+					}
 				}
 			}
 		}
 		binding.users.adapter = userAdapter
 
-		loginViewModel.users.observe(viewLifecycleOwner) { users ->
-			userAdapter.items = users
+		viewLifecycleOwner.lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				loginViewModel.users.collect { users ->
+					userAdapter.items = users
 
-			binding.users.isFocusable = users.any()
-			binding.noUsersWarning.isVisible = users.isEmpty()
-			binding.root.requestFocus()
+					binding.users.isFocusable = users.any()
+					binding.noUsersWarning.isVisible = users.isEmpty()
+					binding.root.requestFocus()
+				}
+			}
 		}
+
 		loginViewModel.loadUsers(server)
 
 		onServerChange(server)

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
@@ -83,22 +85,24 @@ class UserLoginAlertFragment : AlertFragment() {
 		if (server == null) {
 			binding.error.setText(R.string.msg_error_server_unavailable)
 		} else if (binding.username.text.isNotBlank()) {
-			loginViewModel.login(
-				server,
-				binding.username.text.toString(),
-				binding.password.text.toString()
-			).observe(viewLifecycleOwner) { state ->
-				when (state) {
-					is ServerVersionNotSupported -> binding.error.setText(getString(
-						R.string.server_unsupported,
-						state.server.version,
-						ServerRepository.minimumServerVersion.toString()
-					))
-					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
-					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
-					ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
-					// Do nothing beause the activity will respond to the new session
-					AuthenticatedState -> Unit
+			lifecycleScope.launch {
+				loginViewModel.login(
+					server,
+					binding.username.text.toString(),
+					binding.password.text.toString()
+				).collect { state ->
+					when (state) {
+						is ServerVersionNotSupported -> binding.error.setText(getString(
+							R.string.server_unsupported,
+							state.server.version,
+							ServerRepository.minimumServerVersion.toString()
+						))
+						AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
+						RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
+						ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
+						// Do nothing beause the activity will respond to the new session
+						AuthenticatedState -> Unit
+					}
 				}
 			}
 		} else {
