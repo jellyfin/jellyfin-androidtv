@@ -2,12 +2,12 @@ package org.jellyfin.androidtv.ui.playback.nextup
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -24,27 +24,26 @@ class NextUpViewModel(
 	private val userPreferences: UserPreferences,
 	private val imageHelper: ImageHelper,
 ) : ViewModel() {
-	private val _item = MutableLiveData<NextUpItemData?>()
-	val item: LiveData<NextUpItemData?> = _item
-	private val _state = MutableLiveData(NextUpState.INITIALIZED)
-	val state: LiveData<NextUpState> = _state
+	private val _item = MutableStateFlow<NextUpItemData?>(null)
+	val item: StateFlow<NextUpItemData?> = _item
+	private val _state = MutableStateFlow(NextUpState.INITIALIZED)
+	val state: StateFlow<NextUpState> = _state
 
 	fun setItemId(id: UUID?) = viewModelScope.launch {
 		if (id == null) {
-			_item.postValue(null)
-			_state.postValue(NextUpState.NO_DATA)
+			_item.value = null
+			_state.value = NextUpState.NO_DATA
 		} else {
-			val item = loadItemData(id)
-			_item.postValue(item)
+			_item.value = loadItemData(id)
 		}
 	}
 
 	fun playNext() {
-		_state.postValue(NextUpState.PLAY_NEXT)
+		_state.value = NextUpState.PLAY_NEXT
 	}
 
 	fun close() {
-		_state.postValue(NextUpState.CLOSE)
+		_state.value = NextUpState.CLOSE
 	}
 
 	@Suppress("TooGenericExceptionCaught", "SwallowedException")

@@ -5,6 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -22,15 +26,19 @@ class NextUpFragment : Fragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
-		viewModel.item.observe(viewLifecycleOwner) { data ->
-			// No data, keep current
-			if (data == null) return@observe
+		viewLifecycleOwner.lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				viewModel.item.collect { data ->
+					// No data, keep current
+					if (data == null) return@collect
 
-			backgroundService.setBackground(data.baseItem)
+					backgroundService.setBackground(data.baseItem)
 
-			binding.logo.setImageBitmap(data.logo)
-			binding.image.setImageBitmap(data.thumbnail)
-			binding.title.text = data.title
+					binding.logo.setImageBitmap(data.logo)
+					binding.image.setImageBitmap(data.thumbnail)
+					binding.title.text = data.title
+				}
+			}
 		}
 
 		binding.fragmentNextUpButtons.apply {

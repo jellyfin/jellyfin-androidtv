@@ -3,6 +3,9 @@ package org.jellyfin.androidtv.ui.playback.nextup
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
@@ -24,20 +27,24 @@ class NextUpActivity : FragmentActivity() {
 		val useExternalPlayer = intent.getBooleanExtra(EXTRA_USE_EXTERNAL_PLAYER, false)
 
 		// Observe state
-		viewModel.state.observe(this) { state ->
-			when (state) {
-				// Open next item
-				NextUpState.PLAY_NEXT -> {
-					when (useExternalPlayer) {
-						true -> startActivity(Intent(this, ExternalPlayerActivity::class.java))
-						false -> startActivity(Intent(this, PlaybackOverlayActivity::class.java))
+		lifecycleScope.launchWhenCreated {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				viewModel.state.collect { state ->
+					when (state) {
+						// Open next item
+						NextUpState.PLAY_NEXT -> {
+							when (useExternalPlayer) {
+								true -> startActivity(Intent(this@NextUpActivity, ExternalPlayerActivity::class.java))
+								false -> startActivity(Intent(this@NextUpActivity, PlaybackOverlayActivity::class.java))
+							}
+							finish()
+						}
+						// Close activity
+						NextUpState.CLOSE -> finish()
+						// Unknown state
+						else -> Unit
 					}
-					finish()
 				}
-				// Close activity
-				NextUpState.CLOSE -> finish()
-				// Unknown state
-				else -> Unit
 			}
 		}
 
