@@ -1,7 +1,7 @@
 package org.jellyfin.androidtv.auth
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.preference.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.PreferencesRepository
@@ -24,8 +24,8 @@ data class Session(
 )
 
 interface SessionRepository {
-	val currentSession: LiveData<Session?>
-	val currentSystemSession: LiveData<Session?>
+	val currentSession: StateFlow<Session?>
+	val currentSystemSession: StateFlow<Session?>
 
 	fun restoreDefaultSession()
 	fun restoreDefaultSystemSession()
@@ -44,11 +44,11 @@ class SessionRepositoryImpl(
 	private val preferencesRepository: PreferencesRepository,
 	private val defaultDeviceInfo: DeviceInfo,
 ) : SessionRepository {
-	private val _currentSession = MutableLiveData<Session?>()
-	override val currentSession: LiveData<Session?> get() = _currentSession
+	private val _currentSession = MutableStateFlow<Session?>(null)
+	override val currentSession: StateFlow<Session?> get() = _currentSession
 
-	private val _currentSystemSession = MutableLiveData<Session?>()
-	override val currentSystemSession: LiveData<Session?> get() = _currentSystemSession
+	private val _currentSystemSession = MutableStateFlow<Session?>(null)
+	override val currentSystemSession: StateFlow<Session?> get() = _currentSystemSession
 
 	override fun restoreDefaultSession() {
 		Timber.d("Restoring default session")
@@ -124,10 +124,10 @@ class SessionRepositoryImpl(
 			if (success) {
 				userApiClient.applySession(session, deviceInfo)
 				runBlocking { preferencesRepository.onSessionChanged() }
-				_currentSession.postValue(session)
+				_currentSession.value = session
 			} else {
 				userApiClient.applySession(null, deviceInfo)
-				_currentSession.postValue(null)
+				_currentSession.value = null
 			}
 
 			callback?.invoke(success)
@@ -138,7 +138,7 @@ class SessionRepositoryImpl(
 		// No change in session - don't switch
 		if (session != null && currentSession.value?.userId == session.userId) return
 
-		_currentSystemSession.postValue(session)
+		_currentSystemSession.value = session
 
 		systemApiClient.applySession(session)
 	}
