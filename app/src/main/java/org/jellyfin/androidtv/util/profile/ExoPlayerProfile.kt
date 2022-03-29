@@ -26,7 +26,6 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 	isAC3Enabled: Boolean = false,
-	isHlsSupported: Boolean = false,
 ) : BaseProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
@@ -55,41 +54,22 @@ class ExoPlayerProfile(
 		name = "AndroidTV-ExoPlayer"
 
 		transcodingProfiles = arrayOf(
-			when (isHlsSupported) {
-				// TS video profile
-				true -> TranscodingProfile().apply {
-					type = DlnaProfileType.Video
-					context = EncodingContext.Streaming
-					container = Codec.Container.TS
-					videoCodec = buildList {
-						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
-						add(Codec.Video.H264)
-					}.joinToString(",")
-					audioCodec = buildList {
-						if (isAC3Enabled) add(Codec.Audio.AC3)
-						add(Codec.Audio.AAC)
-						add(Codec.Audio.MP3)
-					}.joinToString(",")
-					protocol = "hls"
-					copyTimestamps = false
-				}
-				// MKV video profile
-				else -> TranscodingProfile().apply {
-					type = DlnaProfileType.Video
-					context = EncodingContext.Streaming
-					container = Codec.Container.MKV
-					videoCodec = buildList {
-						if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.MKV)) add(Codec.Video.HEVC)
-						add(Codec.Video.H264)
-					}.joinToString(",")
-					audioCodec = buildList {
-						if (isAC3Enabled) add(Codec.Audio.AC3)
-						add(Codec.Audio.AAC)
-						add(Codec.Audio.MP3)
-					}.joinToString(",")
-					protocol = "http"
-					copyTimestamps = true
-				}
+			// TS video profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Video
+				context = EncodingContext.Streaming
+				container = Codec.Container.TS
+				videoCodec = buildList {
+					if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
+					add(Codec.Video.H264)
+				}.joinToString(",")
+				audioCodec = buildList {
+					if (isAC3Enabled) add(Codec.Audio.AC3)
+					add(Codec.Audio.AAC)
+					add(Codec.Audio.MP3)
+				}.joinToString(",")
+				protocol = "hls"
+				copyTimestamps = false
 			},
 			// MP3 audio profile
 			TranscodingProfile().apply {

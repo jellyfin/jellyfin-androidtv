@@ -46,9 +46,7 @@ import com.bumptech.glide.request.target.Target;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.AuthenticationRepository;
-import org.jellyfin.androidtv.auth.Session;
 import org.jellyfin.androidtv.auth.SessionRepository;
-import org.jellyfin.androidtv.auth.model.Server;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -89,7 +87,6 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
-import org.jellyfin.sdk.model.ServerVersion;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -1495,24 +1492,5 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);
         });
-    }
-
-    public boolean getServerVersionEqualOrGreater(@NonNull ServerVersion minServerVersion) {
-        Session session = sessionRepository.getValue().getCurrentSession().getValue();
-        if (session == null) {
-            Timber.d("couldn't compare server versions - session is null");
-            return false;
-        }
-
-        Server server = authenticationRepository.getValue().getServer(session.getServerId());
-        if (server == null) {
-            Timber.d("couldn't compare server versions - server is null");
-            return false;
-        }
-
-        boolean result = server.compareTo(minServerVersion) >= 0;
-        Timber.d("current server version [%s] is %s [%s]", server.getVersion(), result ? ">=" : "<", minServerVersion.toString());
-
-        return result;
     }
 }
