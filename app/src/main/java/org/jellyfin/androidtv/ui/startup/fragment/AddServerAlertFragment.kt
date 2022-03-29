@@ -9,6 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -71,24 +73,26 @@ class AddServerAlertFragment : AlertFragment() {
 
 	override fun onConfirm(): Boolean {
 		if (binding.address.text.isNotBlank()) {
-			loginViewModel.addServer(binding.address.text.toString()).observe(viewLifecycleOwner) { state ->
-				when (state) {
-					is ConnectingState -> binding.error.text = getString(R.string.server_connecting, state.address)
-					is UnableToConnectState -> binding.error.text = getString(
-						R.string.server_connection_failed_candidates,
-						state.addressCandidates
-							.map { "${it.key} ${it.value.getSummary(requireContext())}" }
-							.joinToString(prefix = "\n", separator = "\n")
-					)
-					is ConnectedState -> parentFragmentManager.commit {
-						replace<StartupToolbarFragment>(R.id.content_view)
-						add<ServerFragment>(
-							R.id.content_view,
-							null,
-							bundleOf(
-								ServerFragment.ARG_SERVER_ID to state.id.toString()
-							)
+			viewLifecycleOwner.lifecycleScope.launch {
+				loginViewModel.addServer(binding.address.text.toString()).collect { state ->
+					when (state) {
+						is ConnectingState -> binding.error.text = getString(R.string.server_connecting, state.address)
+						is UnableToConnectState -> binding.error.text = getString(
+							R.string.server_connection_failed_candidates,
+							state.addressCandidates
+								.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+								.joinToString(prefix = "\n", separator = "\n")
 						)
+						is ConnectedState -> parentFragmentManager.commit {
+							replace<StartupToolbarFragment>(R.id.content_view)
+							add<ServerFragment>(
+								R.id.content_view,
+								null,
+								bundleOf(
+									ServerFragment.ARG_SERVER_ID to state.id.toString()
+								)
+							)
+						}
 					}
 				}
 			}

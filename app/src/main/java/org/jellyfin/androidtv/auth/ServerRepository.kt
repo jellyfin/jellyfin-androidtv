@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.auth
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -37,7 +35,7 @@ interface ServerRepository {
 	fun getStoredServers(): List<Server>
 	fun getDiscoveryServers(): Flow<Server>
 
-	fun getServerUsers(server: Server): LiveData<List<User>>
+	fun getServerUsers(server: Server): Flow<List<User>>
 	fun removeServer(serverId: UUID): Boolean
 	fun addServer(address: String): Flow<ServerAdditionState>
 	suspend fun refreshServerInfo(server: Server): Boolean
@@ -103,7 +101,7 @@ class ServerRepositoryImpl(
 		.getUsers(server.id)
 		.orEmpty()
 
-	override fun getServerUsers(server: Server): LiveData<List<User>> = liveData {
+	override fun getServerUsers(server: Server): Flow<List<User>> = flow {
 		val users = mutableListOf<User>()
 
 		users.addAll(getServerStoredUsers(server))
