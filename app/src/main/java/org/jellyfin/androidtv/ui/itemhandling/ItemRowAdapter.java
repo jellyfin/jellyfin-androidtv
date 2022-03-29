@@ -1291,7 +1291,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         // and recordings as first item if showing all
                         adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null)));
                         i++;
-                        if (TvApp.getApplication().canManageRecordings()) {
+                        if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
                             // and schedule
                             adapter.add(new BaseRowItem(new GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null)));
                             i++;

@@ -480,7 +480,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 R.drawable.tile_port_record,
                 null
             ));
-            if (TvApp.getApplication().canManageRecordings()) {
+            if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
                 gridRowAdapter.add(new GridButton(
                     TvApp.LIVE_TV_SCHEDULE_OPTION_ID,
                     getString(R.string.lbl_schedule),

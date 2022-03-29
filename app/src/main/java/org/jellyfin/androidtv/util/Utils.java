@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
+import org.jellyfin.apiclient.model.dto.UserDto;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
@@ -140,5 +141,9 @@ public class Utils {
         if (position >= duration)
             return Math.max(duration - 1000, 0);
         return position;
+    }
+
+    public static boolean canManageRecordings(UserDto user) {
+        return user != null && user.getPolicy().getEnableLiveTvManagement();
     }
 }

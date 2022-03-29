@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.browsing.UserViewActivity
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
+import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.sdk.model.api.BaseItemDto
 import java.util.UUID
 
@@ -35,7 +36,7 @@ class HomeFragmentLiveTVRow(
 		adapter.add(GridButton(TvApp.LIVE_TV_GUIDE_OPTION_ID, activity.getString(R.string.lbl_live_tv_guide), R.drawable.tile_port_guide))
 		// Live TV Recordings button
 		adapter.add(GridButton(TvApp.LIVE_TV_RECORDINGS_OPTION_ID, activity.getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record))
-		if (TvApp.getApplication()?.canManageRecordings() == true) {
+		if (Utils.canManageRecordings(TvApp.getApplication()?.currentUser)) {
 			// Recording Schedule button
 			adapter.add(GridButton(TvApp.LIVE_TV_SCHEDULE_OPTION_ID, activity.getString(R.string.lbl_schedule), R.drawable.tile_port_time))
 			// Recording Series button
