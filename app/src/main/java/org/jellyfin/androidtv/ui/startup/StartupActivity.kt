@@ -12,11 +12,9 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
-import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
@@ -47,7 +45,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val loginViewModel: LoginViewModel by viewModel()
 	private val apiClient: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
-	private val serverRepository: ServerRepository by inject()
 	private val sessionRepository: SessionRepository by inject()
 
 	private val networkPermissionsRequester = registerForActivityResult(
@@ -75,30 +72,31 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 	private fun onPermissionsGranted() {
 		var isLoaded = false
+		lifecycleScope.launchWhenCreated {
+			sessionRepository.currentSession.collect { session ->
+				if (session != null) {
+					Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
-		sessionRepository.currentSession.observe(this) { session ->
-			if (session != null) {
-				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
+					showSplash()
 
-				showSplash()
+					(application as? TvApp)?.currentUserLiveData?.observe(this@StartupActivity) { currentUser ->
+						Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
-				(application as? TvApp)?.currentUserLiveData?.observe(this) { currentUser ->
-					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
-
-					if (currentUser != null) lifecycleScope.launch {
-						openNextActivity()
+						if (currentUser != null) lifecycleScope.launch {
+							openNextActivity()
+						}
 					}
+				} else if (!isLoaded) {
+					// Clear audio queue in case left over from last run
+					mediaManager.clearAudioQueue()
+					mediaManager.clearVideoQueue()
+
+					val server = loginViewModel.getLastServer()
+					if (server != null) showServer(server.id)
+					else showServerSelection()
+
+					isLoaded = true
 				}
-			} else if (!isLoaded) {
-				// Clear audio queue in case left over from last run
-				mediaManager.clearAudioQueue()
-				mediaManager.clearVideoQueue()
-
-				val server = loginViewModel.getLastServer()
-				if (server != null) showServer(server.id)
-				else showServerSelection()
-
-				isLoaded = true
 			}
 		}
 	}
