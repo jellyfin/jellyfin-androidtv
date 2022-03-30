@@ -62,11 +62,11 @@
     <string name="lbl_recordings">Gravações</string>
     <string name="lbl_none">Nenhum</string>
     <string name="msg_video_playback_error">"Erro ao reproduzir o Vídeo "</string>
-    <string name="lbl_bracket_unknown"><![CDATA[<Desconhecido>]]></string>
+    <string name="lbl_bracket_unknown">Desconhecido</string>
     <string name="lbl_trailer">"Anúncio "</string>
     <string name="lbl_play_trailers">Reproduzir Anúncio(s)</string>
     <string name="lbl_enter_user_name">Digite o nome de utilizador</string>
-    <string name="lbl_enter_user_pw">Digite a plavra-passe de utilizador</string>
+    <string name="lbl_enter_user_pw">Digite a palavra-passe de utilizador</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ou https://myserver.com</string>
@@ -83,7 +83,7 @@
     <string name="msg_cannot_play">Este item não pode ser reproduzido</string>
     <string name="lbl_no_items">Vazio</string>
     <string name="lbl_empty">Vazio</string>
-    <string name="lbl_tv_queuing">Adicionar à lista de reprodução todos os espisódios subsequentes</string>
+    <string name="lbl_tv_queuing">Adicionar à lista de reprodução todos os episódios subsequentes</string>
     <string name="sum_tv_queuing">Adicionar o resto da temporada à fila de reprodução ao reproduzir um episódio</string>
     <string name="lbl_search_hint">Procurar texto (selecione para ver teclado)</string>
     <string name="lbl_play_first_unwatched">Reproduzir o Primeiro Não-visto</string>
@@ -112,7 +112,7 @@
     <string name="msg_cancel_entire_series">Tem a certeza que deseja cancelar a SÉRIE COMPLETA?</string>
     <string name="msg_remote_already_playing">Pedido de reprodução remota ignorado. Por favor, primeiro pare o item atual.</string>
     <string name="pref_audio_direct">Direto</string>
-    <string name="pref_audio_compat">Compatível</string>
+    <string name="pref_audio_compat">Downmix para estéreo</string>
     <string name="lbl_audio_output">Saída de Áudio</string>
     <string name="lbl_goto_series">Ir para Séries</string>
     <string name="lbl_enable_debug">Ativar opções de depuração</string>
@@ -152,7 +152,7 @@
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episódios</string>
     <string name="lbl_enable_cinema_mode">Ativar Modo Cinema</string>
-    <string name="sum_enable_cinema_mode">Se ativado no servidor, ativa introduções e pré-visualizações antes do filme</string>
+    <string name="sum_enable_cinema_mode">Ativar introduções e pré-visualizações antes do filme</string>
     <string name="lbl_playlists">Listas de Reprodução</string>
     <string name="msg_items_added">" itens adicionados"</string>
     <string name="lbl_add_to_queue">Adicionar à Fila</string>
@@ -169,9 +169,9 @@
     <string name="lbl_save_as_playlist">Guardar como Lista de Reprodução</string>
     <string name="lbl_delete">Remover</string>
     <string name="msg_item_added">" item adicionado"</string>
-    <string name="lbl_enable_seasonal_themes">Activar Temas Sazonais</string>
+    <string name="lbl_enable_seasonal_themes">Temas Sazonais</string>
     <string name="desc_seasonal_themes">Permitir cores e sugestões especiais em determinadas alturas do ano</string>
-    <string name="desc_automatic_fav_songs">Lista automática das músicas favoritas e preferidas</string>
+    <string name="desc_automatic_fav_songs">Lista automática de músicas favoritas</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Autenticação</string>
     <string name="lbl_image_size">Tamanho da imagem</string>
@@ -288,7 +288,7 @@
     <string name="lbl_bitstream_dts">Bitstream do Áudio DTS</string>
     <string name="desc_premieres">Mostrar uma lista de novos episódios pilotos para as series que assista</string>
     <string name="lbl_refresh_switching">Alteração da Taxa de Atualização (Refresh Rate)</string>
-    <string name="lbl_show_backdrop">Exibir Imagem de Fundo Durante a Navegação</string>
+    <string name="lbl_show_backdrop">Exibir Imagens de Fundo</string>
     <string name="msg_external_path">Esta funcionalidade apenas funcionará se montou corretamente a sua biblioteca no servidor com caminhos de rede ou substituição de caminhos e se o cliente que está a utilizar pode aceder diretamente a estes locais pela rede.</string>
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
     <string name="just_one">Apenas este</string>
@@ -439,4 +439,6 @@
     <string name="lbl_stretch">Esticar</string>
     <string name="lbl_auto_crop">Recorte Automático</string>
     <string name="lbl_community_rating">Avaliação da comunidade</string>
+    <string name="lbl_playback_speed">Velocidade de reprodução</string>
+    <string name="lbl_shuffle_queue">Reprodução aleatória</string>
 </resources>
