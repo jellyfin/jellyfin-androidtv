@@ -260,7 +260,7 @@
     <string name="sum_enable_cinema_mode">Toista introja ja trailereita ennen elokuvaa</string>
     <string name="lbl_direct_stream_live">Toista televisiolähetys muuntamattomasti</string>
     <string name="msg_error_live_stream">Virhe televisiolähetyksen suoratoistossa. Yritetään uudelleen…</string>
-    <string name="msg_burn_sub_warning">Tekstitysten poltto voi kestää muutamia minuutteja. Ole kärsivällinen…</string>
+    <string name="msg_burn_sub_warning">Tekstityksiä poltetaan. Tämä saattaa kestää muutamia sekunteja…</string>
     <string name="lbl_ended">PÄÄTTYNYT</string>
     <string name="lbl__continuing">JATKUU</string>
     <string name="lbl_display_preferences">Näyttöasetukset</string>
@@ -485,4 +485,6 @@
     <string name="lbl_sort_by">Lajitteluperuste</string>
     <string name="sort_accounts_by">Tilien lajitteluperuste</string>
     <string name="lbl_shuffle_queue">Kytke sekoitustila</string>
+    <string name="seek_error">Haku ei onnistu</string>
+    <string name="lbl_show_indicators">Näytä paikkamerkit kohteille</string>
 </resources>
