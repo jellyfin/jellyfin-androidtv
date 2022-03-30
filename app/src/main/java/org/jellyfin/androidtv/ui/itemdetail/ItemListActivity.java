@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +28,6 @@ import com.bumptech.glide.Glide;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.model.GotFocusEvent;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityItemListBinding;
@@ -263,14 +261,6 @@ public class ItemListActivity extends FragmentActivity {
             if (mCurrentlyPlayingRow != null) {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }
-        }
-    };
-
-    private GotFocusEvent mainAreaFocusListener = new GotFocusEvent() {
-        @Override
-        public void gotFocus(View v) {
-            //scroll so entire main area is in view
-            mScrollView.smoothScrollTo(0, 0);
         }
     };
 
@@ -551,7 +541,7 @@ public class ItemListActivity extends FragmentActivity {
                 }
             });
             play.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                if (hasFocus) mScrollView.smoothScrollTo(0, 0);
             });
             mButtonRow.addView(play);
 
@@ -568,7 +558,7 @@ public class ItemListActivity extends FragmentActivity {
                 hidePlayButton = true;
                 mButtonRow.addView(queueButton);
                 queueButton.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
                 });
             }
 
@@ -601,7 +591,7 @@ public class ItemListActivity extends FragmentActivity {
                 });
                 mButtonRow.addView(shuffle);
                 shuffle.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
                 });
             }
         }
@@ -615,7 +605,7 @@ public class ItemListActivity extends FragmentActivity {
             });
             mButtonRow.addView(mix);
             mix.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                if (hasFocus) mScrollView.smoothScrollTo(0, 0);
             });
         }
 
@@ -639,7 +629,7 @@ public class ItemListActivity extends FragmentActivity {
                 fav.setActivated(mBaseItem.getUserData().getIsFavorite());
                 mButtonRow.addView(fav);
                 fav.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
                 });
             }
 
@@ -698,7 +688,7 @@ public class ItemListActivity extends FragmentActivity {
 
                 mButtonRow.addView(delete);
                 delete.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
                 });
             }
         }
@@ -715,7 +705,7 @@ public class ItemListActivity extends FragmentActivity {
             });
             mButtonRow.addView(artist);
             artist.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) mainAreaFocusListener.gotFocus(v);
+                if (hasFocus) mScrollView.smoothScrollTo(0, 0);
             });
         }
 
