@@ -39,7 +39,6 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.data.model.DetailItemLoadResponse;
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
@@ -373,8 +372,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 public void onResponse(ChannelInfoDto response) {
                     mProgramInfo = response.getCurrentProgram();
                     mItemId = mProgramInfo.getId();
-                    apiClient.getValue().GetItemAsync(mItemId, TvApp.getApplication().getCurrentUser().getId(), new DetailItemLoadResponse(us));
-
+                    apiClient.getValue().GetItemAsync(mItemId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            setBaseItem(response);
+                        }
+                    });
                 }
             });
         } else if (mSeriesTimerInfo != null) {
@@ -388,7 +391,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
             setBaseItem(item);
         } else {
-            apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new DetailItemLoadResponse(this));
+            apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    setBaseItem(response);
+                }
+            });
         }
 
         mLastUpdated = Calendar.getInstance();
