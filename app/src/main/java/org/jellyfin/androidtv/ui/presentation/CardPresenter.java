@@ -41,7 +41,7 @@ import java.util.HashMap;
 import timber.log.Timber;
 
 public class CardPresenter extends Presenter {
-    private static final double ASPECT_RATIO_BANNER = 1000 / 185;
+    private static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
 
     private int mStaticHeight = 300;
     private ImageType mImageType = ImageType.DEFAULT;
