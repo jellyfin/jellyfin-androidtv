@@ -3,13 +3,15 @@ package org.jellyfin.androidtv;
 import android.app.Application;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
-import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.sdk.model.api.UserDto;
+import org.koin.java.KoinJavaComponent;
+
+import kotlin.Deprecated;
+import kotlin.ReplaceWith;
 
 public class TvApp extends Application {
     public static final int LIVE_TV_GUIDE_OPTION_ID = 1000;
@@ -19,7 +21,6 @@ public class TvApp extends Application {
     public static final int LIVE_TV_SERIES_OPTION_ID = 5000;
 
     private static TvApp app;
-    private MediatorLiveData<UserDto> currentUser = new MediatorLiveData<UserDto>();
     private BaseItemDto lastPlayedItem;
     private PlaybackController playbackController;
 
@@ -35,21 +36,10 @@ public class TvApp extends Application {
         return app;
     }
 
-    @Deprecated
+    @Deprecated(message = "Use UserRepository", replaceWith = @ReplaceWith(expression = "KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue()", imports = {}))
     @Nullable
     public UserDto getCurrentUser() {
-        return currentUser.getValue();
-    }
-
-    @Deprecated
-    public LiveData<UserDto> getCurrentUserLiveData() {
-        return currentUser;
-    }
-
-    @Deprecated
-    public void setCurrentUser(UserDto currentUser) {
-        this.currentUser.postValue(currentUser);
-        TvManager.clearCache();
+        return KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
     }
 
     @Nullable

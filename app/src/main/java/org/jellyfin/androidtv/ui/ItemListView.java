@@ -84,7 +84,7 @@ public class ItemListView extends FrameLayout {
                 ItemFields.MediaSources,
                 ItemFields.ChildCount
         });
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         String[] ids = new String[mItemIds.size()];
         query.setIds(mItemIds.toArray(ids));
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {

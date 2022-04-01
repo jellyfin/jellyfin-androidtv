@@ -11,11 +11,12 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -46,6 +47,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val apiClient: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
 	private val sessionRepository: SessionRepository by inject()
+	private val userRepository: UserRepository by inject()
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -79,12 +81,11 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 					showSplash()
 
-					(application as? TvApp)?.currentUserLiveData?.observe(this@StartupActivity) { currentUser ->
-						Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
+					val currentUser = userRepository.currentUser.first { it != null }
+					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
-						if (currentUser != null) lifecycleScope.launch {
-							openNextActivity()
-						}
+					lifecycleScope.launch {
+						openNextActivity()
 					}
 				} else if (!isLoaded) {
 					// Clear audio queue in case left over from last run

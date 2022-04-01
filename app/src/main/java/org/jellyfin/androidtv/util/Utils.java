@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
-import org.jellyfin.apiclient.model.dto.UserDto;
+import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;

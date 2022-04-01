@@ -30,7 +30,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
         if (mFolder.getBaseItemType() == BaseItemType.RecordingGroup){
             RecordingQuery query = new RecordingQuery();
-            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
             query.setGroupId(mFolder.getId());
             query.setFields(new ItemFields[] {
                     ItemFields.PrimaryImageAspectRatio,

@@ -42,6 +42,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -131,7 +132,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Next up
                 NextUpQuery nextUpQuery = new NextUpQuery();
-                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 nextUpQuery.setLimit(50);
                 nextUpQuery.setParentId(mFolder.getId());
                 nextUpQuery.setImageTypeLimit(1);
@@ -152,7 +153,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                             ItemFields.Overview,
                             ItemFields.ChildCount
                     });
-                    newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                    newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                     newQuery.setIncludeItemTypes(new String[]{"Episode"});
                     newQuery.setParentId(mFolder.getId());
                     newQuery.setRecursive(true);
@@ -262,7 +263,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.ChannelInfo,
                         ItemFields.ChildCount
                 });
-                onNow.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                onNow.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 onNow.setImageTypeLimit(1);
                 onNow.setEnableTotalRecordCount(false);
                 onNow.setLimit(150);
@@ -270,7 +271,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
-                upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 upcomingTv.setFields(new ItemFields[]{
                         ItemFields.Overview,
                         ItemFields.PrimaryImageAspectRatio,
@@ -286,14 +287,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
-                favTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                favTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 favTv.setEnableFavoriteSorting(true);
                 favTv.setIsFavorite(true);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), favTv));
 
                 //Other Channels
                 LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
-                otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 otherTv.setIsFavorite(false);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), otherTv));
 
@@ -304,7 +305,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                 recordings.setEnableImages(true);
                 recordings.setLimit(40);
 
@@ -367,12 +368,12 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                             ItemFields.PrimaryImageAspectRatio,
                                             ItemFields.ChildCount
                                     });
-                                    recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                    recordings.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                                     recordings.setEnableImages(true);
                                     mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 50));
                                     //All Recordings by group - will only be there for non-internal TV
                                     RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-                                    recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                                    recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                                     mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_all_recordings), recordingGroups));
                                     rowLoader.loadRows(mRows);
 
@@ -428,11 +429,11 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             default:
                 // Fall back to rows defined by the view children
                 final List<BrowseRowDef> rows = new ArrayList<>();
-                final String userId = TvApp.getApplication().getCurrentUser().getId();
+                final UUID userId = TvApp.getApplication().getCurrentUser().getId();
 
                 ItemQuery query = new ItemQuery();
                 query.setParentId(mFolder.getId());
-                query.setUserId(userId);
+                query.setUserId(userId.toString());
                 query.setImageTypeLimit(1);
                 query.setSortBy(new String[]{ItemSortBy.SortName});
 
@@ -443,7 +444,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                             for (BaseItemDto item : response.getItems()) {
                                 ItemQuery rowQuery = new StdItemQuery();
                                 rowQuery.setParentId(item.getId());
-                                rowQuery.setUserId(userId);
+                                rowQuery.setUserId(userId.toString());
                                 rows.add(new BrowseRowDef(item.getName(), rowQuery, 60, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
                             }
                         }

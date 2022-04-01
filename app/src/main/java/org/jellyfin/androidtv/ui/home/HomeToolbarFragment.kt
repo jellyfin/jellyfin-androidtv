@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.databinding.FragmentToolbarHomeBinding
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.search.SearchActivity
@@ -24,15 +27,11 @@ import org.koin.android.ext.android.inject
 
 class HomeToolbarFragment : Fragment() {
 	private lateinit var binding: FragmentToolbarHomeBinding
-	private val sessionRepository: SessionRepository by inject()
+	private val sessionRepository by inject<SessionRepository>()
+	private val userRepository by inject<UserRepository>()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentToolbarHomeBinding.inflate(inflater, container, false)
-
-		TvApp.getApplication()!!.currentUserLiveData.observe(viewLifecycleOwner) { currentUser ->
-			val image = currentUser?.let { ImageUtils.getPrimaryImageUrl(it) }
-			setUserImage(image)
-		}
 
 		binding.settings.setOnClickListener {
 			val settingsIntent = Intent(activity, PreferencesActivity::class.java)
@@ -49,6 +48,21 @@ class HomeToolbarFragment : Fragment() {
 		}
 
 		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				userRepository.currentUser.collect { user ->
+					if (user != null) {
+						val image = ImageUtils.getPrimaryImageUrl(user)
+						setUserImage(image)
+					}
+				}
+			}
+		}
 	}
 
 	private fun setUserImage(image: String?) {
@@ -76,9 +90,6 @@ class HomeToolbarFragment : Fragment() {
 	}
 
 	private fun switchUser() {
-		// Stop observer so the current image is kept during the transition
-		TvApp.getApplication()?.currentUserLiveData?.removeObservers(viewLifecycleOwner)
-
 		sessionRepository.destroyCurrentSession()
 
 		// Open login activity

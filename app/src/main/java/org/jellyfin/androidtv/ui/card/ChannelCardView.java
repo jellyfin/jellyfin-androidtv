@@ -27,7 +27,7 @@ public class ChannelCardView extends FrameLayout {
         if (program != null) {
             if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
                 //need to update program
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getCurrentProgram() != null)

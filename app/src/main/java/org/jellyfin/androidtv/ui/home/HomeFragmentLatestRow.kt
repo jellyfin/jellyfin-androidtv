@@ -20,7 +20,7 @@ class HomeFragmentLatestRow(
 		val configuration = TvApp.getApplication()!!.currentUser!!.configuration
 
 		// Create a list of views to include
-		val latestItemsExcludes = configuration.latestItemsExcludes
+		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty()
 		views.items
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
 			.map { item ->

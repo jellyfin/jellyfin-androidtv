@@ -128,7 +128,7 @@ public class TvManager {
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
 
         LiveTvChannelQuery query = new LiveTvChannelQuery();
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         query.setAddCurrentProgram(true);
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) query.setEnableFavoriteSorting(true);
         query.setSortOrder(ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
@@ -207,7 +207,7 @@ public class TvManager {
         if (forceReload || needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
             forceReload = false;
             ProgramQuery query = new ProgramQuery();
-            query.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setEnableImages(false);

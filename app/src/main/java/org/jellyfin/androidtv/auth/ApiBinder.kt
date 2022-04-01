@@ -1,41 +1,29 @@
 package org.jellyfin.androidtv.auth
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.JellyfinApplication
-import org.jellyfin.androidtv.util.apiclient.callApi
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.apiclient.ServerInfo
-import org.jellyfin.apiclient.model.dto.UserDto
 import org.jellyfin.sdk.model.DeviceInfo
 import timber.log.Timber
 
 class ApiBinder(
-	private val application: JellyfinApplication,
 	private val api: ApiClient,
 	private val authenticationStore: AuthenticationStore,
 ) {
-	fun updateSession(session: Session?, deviceInfo: DeviceInfo, resultCallback: ((Boolean) -> Unit)? = null) {
-		GlobalScope.launch(Dispatchers.IO) {
-			@Suppress("TooGenericExceptionCaught")
-			val success = try {
-				updateSessionInternal(session, deviceInfo)
-			} catch (throwable: Throwable) {
-				Timber.e(throwable, "Unable to update legacy API session.")
-				false
-			}
-
-			resultCallback?.invoke(success)
+	fun updateSession(session: Session?, deviceInfo: DeviceInfo): Boolean {
+		@Suppress("TooGenericExceptionCaught")
+		val success = try {
+			updateSessionInternal(session, deviceInfo)
+		} catch (throwable: Throwable) {
+			Timber.e(throwable, "Unable to update legacy API session.")
+			false
 		}
+
+		return success
 	}
 
-	private suspend fun updateSessionInternal(session: Session?, deviceInfo: DeviceInfo): Boolean {
-		if (session == null) {
-			application.currentUser = null
-			return true
-		}
+	private fun updateSessionInternal(session: Session?, deviceInfo: DeviceInfo): Boolean {
+		if (session == null) return true
 
 		val server = authenticationStore.getServer(session.serverId)
 		if (server == null) {
@@ -52,10 +40,6 @@ class ApiBinder(
 			userId = session.userId.toString()
 			accessToken = session.accessToken
 		})
-
-		// Update currentUser DTO
-		val user = callApi<UserDto> { callback -> api.GetUserAsync(session.userId.toString(), callback) }
-		application.currentUser = user
 
 		return true
 	}

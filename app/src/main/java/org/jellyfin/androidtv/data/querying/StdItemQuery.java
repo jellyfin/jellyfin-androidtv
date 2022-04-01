@@ -15,7 +15,7 @@ public class StdItemQuery extends ItemQuery {
                     ItemFields.ChildCount
             };
         }
-        setUserId(TvApp.getApplication().getCurrentUser().getId());
+        setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         setFields(fields);
     }
 

@@ -35,7 +35,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
@@ -59,6 +58,7 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
+import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
@@ -163,7 +163,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
@@ -177,7 +177,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
@@ -195,7 +195,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mArtistsQuery = query;
-        mArtistsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mArtistsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         staticHeight = true;
         this.chunkSize = chunkSize;
         if (chunkSize > 0) {
@@ -208,7 +208,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mNextUpQuery = query;
-        mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
@@ -225,7 +225,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mLatestQuery = query;
-        mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         staticHeight = true;
@@ -314,7 +314,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSimilarQuery = query;
-        mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         this.queryType = queryType;
     }
 
@@ -322,7 +322,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mUpcomingQuery = query;
-        mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         queryType = QueryType.Upcoming;
     }
 
@@ -330,7 +330,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSeasonQuery = query;
-        mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         queryType = QueryType.Season;
     }
 
@@ -339,7 +339,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         this.chunkSize = chunkSize;
         mPersonsQuery = query;
-        mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         if (chunkSize > 0) {
             mPersonsQuery.setLimit(chunkSize);
         }
@@ -350,7 +350,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSearchQuery = query;
-        mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         mSearchQuery.setLimit(50);
         queryType = QueryType.Search;
     }
@@ -736,7 +736,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
         final UserDto user = TvApp.getApplication().getCurrentUser();
-        apiClient.getValue().GetUserViews(user.getId(), new Response<ItemsResult>() {
+        apiClient.getValue().GetUserViews(user.getId().toString(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
@@ -1335,7 +1335,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final SpecialsQuery query) {
         final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -1372,7 +1372,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final TrailersQuery query) {
         final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId(), query.getItemId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {

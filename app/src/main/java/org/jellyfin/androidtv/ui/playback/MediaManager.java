@@ -440,7 +440,7 @@ public class MediaManager {
                     public void onClick(DialogInterface dialog, int which) {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
-                        request.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        request.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                         request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
                         request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
