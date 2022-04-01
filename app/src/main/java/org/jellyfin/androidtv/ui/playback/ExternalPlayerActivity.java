@@ -191,7 +191,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void markPlayed(String itemId) {
-        apiClient.getValue().MarkPlayedAsync(itemId, TvApp.getApplication().getCurrentUser().getId(), null, new Response<UserItemDataDto>());
+        apiClient.getValue().MarkPlayedAsync(itemId, TvApp.getApplication().getCurrentUser().getId().toString(), null, new Response<UserItemDataDto>());
     }
 
     protected void playNext() {

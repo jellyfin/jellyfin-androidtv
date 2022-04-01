@@ -164,7 +164,7 @@ public class RecordPopup {
                             mPopup.dismiss();
                             mActivity.sendMessage(CustomMessage.ActionComplete);
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());

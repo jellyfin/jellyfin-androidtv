@@ -28,7 +28,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
         StdItemQuery lastPlayed = new StdItemQuery();
         lastPlayed.setParentId(mFolder.getId());
         lastPlayed.setIncludeItemTypes(new String[]{"Movie"});
-        lastPlayed.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        lastPlayed.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         lastPlayed.setSortOrder(SortOrder.Descending);
         lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
         lastPlayed.setLimit(8);

@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.LAST_USER
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.SPECIFIC_USER
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
@@ -43,6 +44,7 @@ class SessionRepositoryImpl(
 	private val systemApiClient: ApiClient,
 	private val preferencesRepository: PreferencesRepository,
 	private val defaultDeviceInfo: DeviceInfo,
+	private val userRepository: UserRepository,
 ) : SessionRepository {
 	private val _currentSession = MutableStateFlow<Session?>(null)
 	override val currentSession: StateFlow<Session?> get() = _currentSession
@@ -102,6 +104,7 @@ class SessionRepositoryImpl(
 	override fun destroyCurrentSession() {
 		Timber.d("Destroying current session")
 
+		userRepository.updateCurrentUser(null)
 		_currentSession.value = null
 		userApiClient.applySession(null)
 		apiBinder.updateSession(null, userApiClient.deviceInfo)
@@ -118,20 +121,22 @@ class SessionRepositoryImpl(
 
 		// Update session after binding the apiclient settings
 		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
-		apiBinder.updateSession(session, deviceInfo) { success ->
-			Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
+		val success = apiBinder.updateSession(session, deviceInfo)
+		Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
-			if (success) {
-				userApiClient.applySession(session, deviceInfo)
-				runBlocking { preferencesRepository.onSessionChanged() }
-				_currentSession.value = session
-			} else {
-				userApiClient.applySession(null, deviceInfo)
-				_currentSession.value = null
-			}
-
-			callback?.invoke(success)
+		if (success) runBlocking {
+			userApiClient.applySession(session, deviceInfo)
+			val user by userApiClient.userApi.getCurrentUser()
+			userRepository.updateCurrentUser(user)
+			preferencesRepository.onSessionChanged()
+			_currentSession.value = session
+		} else {
+			userRepository.updateCurrentUser(null)
+			userApiClient.applySession(null, deviceInfo)
+			_currentSession.value = null
 		}
+
+		callback?.invoke(success)
 	}
 
 	private fun setCurrentSystemSession(session: Session?) {

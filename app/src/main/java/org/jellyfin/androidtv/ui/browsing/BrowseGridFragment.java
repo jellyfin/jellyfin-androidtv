@@ -54,7 +54,7 @@ public class BrowseGridFragment extends StdGridFragment {
                     String includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
-                        albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId());
+                        albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
                         albumArtists.setFields(new ItemFields[]{
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ItemCounts,

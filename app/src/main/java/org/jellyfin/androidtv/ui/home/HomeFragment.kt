@@ -100,13 +100,13 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			val homesections = userSettingPreferences.homesections
 
 			// Check for live TV support
-			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy.enableLiveTvAccess) {
+			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				callApi<ItemsResult> {
 					apiClient.GetRecommendedLiveTvProgramsAsync(
 						RecommendedProgramQuery().apply {
-							userId = currentUser.id
+							userId = currentUser.id.toString()
 							enableTotalRecordCount = false
 							imageTypeLimit = 1
 							isAiring = true
@@ -118,7 +118,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			}
 
 			if (homesections.contains(HomeSectionType.LATEST_MEDIA)) {
-				views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id, it) }
+				views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id.toString(), it) }
 			}
 
 			// Make sure the rows are empty

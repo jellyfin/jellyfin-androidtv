@@ -63,7 +63,6 @@ androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-cor
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-leanback-core = { module = "androidx.leanback:leanback", version.ref = "androidx-leanback" }
 androidx-leanback-preference = { module = "androidx.leanback:leanback-preference", version.ref = "androidx-leanback" }
-androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
@@ -127,7 +126,6 @@ acra = [
     "acra-limiter",
 ]
 androidx-lifecycle = [
-    "androidx-lifecycle-livedata",
     "androidx-lifecycle-process",
     "androidx-lifecycle-runtime",
     "androidx-lifecycle-service",

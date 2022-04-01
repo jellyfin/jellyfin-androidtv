@@ -4,6 +4,8 @@ import androidx.work.WorkManager
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.ServerRepositoryImpl
+import org.jellyfin.androidtv.auth.UserRepository
+import org.jellyfin.androidtv.auth.UserRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
@@ -86,6 +88,7 @@ val appModule = module {
 	factory { WorkManager.getInstance(androidContext()) }
 
 	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get()) }
+	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get(userApiClient)) }
 
 	viewModel { LoginViewModel(get(), get(), get()) }

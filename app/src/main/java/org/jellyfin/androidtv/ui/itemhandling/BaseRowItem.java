@@ -22,11 +22,11 @@ import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.sdk.model.api.UserDto;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -492,7 +492,7 @@ public class BaseRowItem {
     public void refresh(final EmptyResponse outerResponse) {
         switch (type) {
             case BaseItem:
-                apiClient.getValue().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         baseItem = response;

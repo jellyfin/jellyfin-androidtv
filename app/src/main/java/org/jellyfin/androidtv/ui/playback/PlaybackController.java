@@ -1224,7 +1224,7 @@ public class PlaybackController {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getBaseItemType() == BaseItemType.TvChannel) {
-            apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     BaseItemDto program = response.getCurrentProgram();

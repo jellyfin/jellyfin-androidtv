@@ -21,7 +21,7 @@ public class ByGenreFragment extends BrowseFolderFragment {
             genres.setSortBy(new String[]{ItemSortBy.SortName});
             if (includeType != null) genres.setIncludeItemTypes(new String[]{includeType});
             genres.setRecursive(true);
-            genres.setUserId(TvApp.getApplication().getCurrentUser().getId());
+            genres.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
             KoinJavaComponent.<ApiClient>get(ApiClient.class).GetGenresAsync(genres, new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {

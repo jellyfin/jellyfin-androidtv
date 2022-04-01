@@ -6,9 +6,9 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import org.jellyfin.apiclient.model.dto.UserDto as LegacyUserDto
 
 class ImageHelper(
 	private val api: ApiClient,
@@ -26,17 +26,15 @@ class ImageHelper(
 		}
 	}
 
-	fun getPrimaryImageUrl(item: LegacyUserDto): String? {
+	fun getPrimaryImageUrl(item: UserDto): String? {
 		if (item.primaryImageTag == null) return null
 
-		return item.id?.toUUIDOrNull()?.let { userId ->
-			api.imageApi.getUserImageUrl(
-				userId = userId,
-				imageType = ImageType.PRIMARY,
-				tag = item.primaryImageTag,
-				maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
-			)
-		}
+		return api.imageApi.getUserImageUrl(
+			userId = item.id,
+			imageType = ImageType.PRIMARY,
+			tag = item.primaryImageTag,
+			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
+		)
 	}
 
 	fun getPrimaryImageUrl(item: BaseItemDto, width: Int? = null, height: Int? = null): String? {

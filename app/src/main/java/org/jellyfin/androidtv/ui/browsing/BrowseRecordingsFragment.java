@@ -48,7 +48,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount
         });
-        recordings.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        recordings.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         recordings.setEnableImages(true);
         recordings.setLimit(40);
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 40));
@@ -60,7 +60,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount
         });
-        movies.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        movies.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         movies.setEnableImages(true);
         movies.setIsMovie(true);
         BrowseRowDef moviesDef = new BrowseRowDef(mActivity.getString(R.string.lbl_movies), movies, 60);
@@ -72,7 +72,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount
         });
-        shows.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        shows.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         shows.setEnableImages(true);
         shows.setIsSeries(true);
         BrowseRowDef showsDef = new BrowseRowDef(mActivity.getString(R.string.lbl_tv_series), shows, 60);
@@ -87,7 +87,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount
         });
-        sports.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        sports.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         sports.setEnableImages(true);
         sports.setIsSports(true);
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_sports), sports, 60));
@@ -99,14 +99,14 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                 ItemFields.PrimaryImageAspectRatio,
                 ItemFields.ChildCount
         });
-        kids.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        kids.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         kids.setEnableImages(true);
         kids.setIsKids(true);
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_kids), kids, 60));
 
         //All Recordings by group - will only be there for non-internal TV
         RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-        recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId());
+        recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_all_recordings), recordingGroups));
 
         rowLoader.loadRows(mRows);
