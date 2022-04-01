@@ -907,6 +907,8 @@ public class PlaybackController {
         // clear subtitles first
         if (mFragment != null) mFragment.addManualSubtitles(null);
         mVideoManager.disableSubs();
+        // clear the default in case there's an error loading the subtitles
+        mDefaultSubIndex = -1;
 
         // handle setting subtitles as disabled
         // restart playback if turning off burnt-in subtitles
