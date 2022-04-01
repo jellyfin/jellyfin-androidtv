@@ -213,7 +213,7 @@ public class PlaybackController {
     }
 
     public int getSubtitleStreamIndex() {
-        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : mDefaultSubIndex;
+        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
     }
 
     public List<SubtitleStreamInfo> getSubtitleStreams() {
