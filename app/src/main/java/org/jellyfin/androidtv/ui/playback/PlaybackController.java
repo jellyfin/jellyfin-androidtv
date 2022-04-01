@@ -213,7 +213,7 @@ public class PlaybackController {
     }
 
     public int getSubtitleStreamIndex() {
-        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : mDefaultSubIndex;
+        return (mCurrentOptions != null && mCurrentOptions.getSubtitleStreamIndex() != null) ? mCurrentOptions.getSubtitleStreamIndex() : -1;
     }
 
     public List<SubtitleStreamInfo> getSubtitleStreams() {
@@ -907,6 +907,8 @@ public class PlaybackController {
         // clear subtitles first
         if (mFragment != null) mFragment.addManualSubtitles(null);
         mVideoManager.disableSubs();
+        // clear the default in case there's an error loading the subtitles
+        mDefaultSubIndex = -1;
 
         // handle setting subtitles as disabled
         // restart playback if turning off burnt-in subtitles
@@ -942,10 +944,8 @@ public class PlaybackController {
             return;
         }
 
-        // when burnt-in subtitles are selected, these values are set in startItem() as soon as playback starts
+        // when burnt-in subtitles are selected, mCurrentOptions SubtitleStreamIndex is set in startItem() as soon as playback starts
         // otherwise mCurrentOptions SubtitleStreamIndex is kept null until now so we knew subtitles needed to be enabled but weren't already
-        mCurrentOptions.setSubtitleStreamIndex(index);
-        mDefaultSubIndex = index;
 
         switch (streamInfo.getDeliveryMethod()) {
             case Embed:
@@ -954,6 +954,9 @@ public class PlaybackController {
                         // error selecting internal subs
                         if (mFragment != null)
                             Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
+                    } else {
+                        mCurrentOptions.setSubtitleStreamIndex(index);
+                        mDefaultSubIndex = index;
                     }
                     break;
                 }
@@ -970,6 +973,8 @@ public class PlaybackController {
                         if (info != null) {
                             Timber.d("Adding json subtitle track to player");
                             if (mFragment != null) mFragment.addManualSubtitles(info);
+                            mCurrentOptions.setSubtitleStreamIndex(index);
+                            mDefaultSubIndex = index;
                         } else {
                             Timber.e("Empty subtitle result");
                             if (mFragment != null) {
