@@ -143,7 +143,7 @@ public class ItemLauncher {
                         MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
-                        if (mediaManager.hasAudioQueueItems() && rowItem.getBaseItem() == mediaManager.getCurrentAudioItem()) {
+                        if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getCurrentAudioItem().getId())) {
                             // otherwise, open AudioNowPlayingActivity
                             Intent nowPlaying = new Intent(activity, AudioNowPlayingActivity.class);
                             activity.startActivity(nowPlaying);
