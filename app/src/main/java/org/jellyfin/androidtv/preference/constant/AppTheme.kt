@@ -21,10 +21,4 @@ enum class AppTheme {
 	 */
 	@EnumDisplayOptions(R.string.pref_theme_muted_purple)
 	MUTED_PURPLE,
-
-	/**
-	 * Theme inspired by Win 3.1's "hot dog stand"
-	 */
-	@EnumDisplayOptions(hidden = true)
-	HOT_DOG_STAND
 }
