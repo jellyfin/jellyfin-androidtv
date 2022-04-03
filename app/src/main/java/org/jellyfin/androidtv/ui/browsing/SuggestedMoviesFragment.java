@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -28,7 +28,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
         StdItemQuery lastPlayed = new StdItemQuery();
         lastPlayed.setParentId(mFolder.getId());
         lastPlayed.setIncludeItemTypes(new String[]{"Movie"});
-        lastPlayed.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        lastPlayed.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         lastPlayed.setSortOrder(SortOrder.Descending);
         lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
         lastPlayed.setLimit(8);

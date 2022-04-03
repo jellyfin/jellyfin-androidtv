@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.browsing;
 import android.os.Bundle;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -12,6 +12,7 @@ import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.Arrays;
 
@@ -30,7 +31,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
         if (mFolder.getBaseItemType() == BaseItemType.RecordingGroup){
             RecordingQuery query = new RecordingQuery();
-            query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+            query.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
             query.setGroupId(mFolder.getId());
             query.setFields(new ItemFields[] {
                     ItemFields.PrimaryImageAspectRatio,

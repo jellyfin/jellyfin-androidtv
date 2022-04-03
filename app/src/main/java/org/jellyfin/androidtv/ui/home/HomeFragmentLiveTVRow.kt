@@ -13,6 +13,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.constant.LiveTvOption
 import org.jellyfin.androidtv.ui.GridButton
@@ -28,6 +29,7 @@ import java.util.UUID
 
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
+	private val userRepository: UserRepository,
 ) : HomeFragmentRow, OnItemViewClickedListener {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
@@ -37,7 +39,7 @@ class HomeFragmentLiveTVRow(
 		adapter.add(GridButton(LiveTvOption.LIVE_TV_GUIDE_OPTION_ID, activity.getString(R.string.lbl_live_tv_guide), R.drawable.tile_port_guide))
 		// Live TV Recordings button
 		adapter.add(GridButton(LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID, activity.getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record))
-		if (Utils.canManageRecordings(TvApp.getApplication()?.currentUser)) {
+		if (Utils.canManageRecordings(userRepository.currentUser.value)) {
 			// Recording Schedule button
 			adapter.add(GridButton(LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID, activity.getString(R.string.lbl_schedule), R.drawable.tile_port_time))
 			// Recording Series button

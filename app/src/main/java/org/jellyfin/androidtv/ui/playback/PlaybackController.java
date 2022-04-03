@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -1225,7 +1226,7 @@ public class PlaybackController {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
         if (channel.getBaseItemType() == BaseItemType.TvChannel) {
-            apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     BaseItemDto program = response.getCurrentProgram();

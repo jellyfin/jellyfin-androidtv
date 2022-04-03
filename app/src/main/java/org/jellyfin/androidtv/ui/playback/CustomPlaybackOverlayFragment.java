@@ -45,6 +45,9 @@ import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.AuthenticationRepository;
+import org.jellyfin.androidtv.auth.SessionRepository;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -449,7 +452,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         GuideChannelHeader header = (GuideChannelHeader)mSelectedProgramView;
         UserItemDataDto data = header.getChannel().getUserData();
         if (data != null) {
-            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), TvApp.getApplication().getCurrentUser().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
@@ -620,7 +623,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             mPlaybackController.stop();
             if (hideGuide)
                 hideGuide();
-            apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     List<BaseItemDto> items = new ArrayList<BaseItemDto>();
@@ -998,7 +1001,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         @Override
         public void run() {
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mSelectedProgram = response;

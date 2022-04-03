@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -27,6 +27,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.sdk.model.api.UserDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -492,7 +493,7 @@ public class BaseRowItem {
     public void refresh(final EmptyResponse outerResponse) {
         switch (type) {
             case BaseItem:
-                apiClient.getValue().GetItemAsync(getItemId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         baseItem = response;

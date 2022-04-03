@@ -8,6 +8,7 @@ import androidx.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
@@ -133,7 +134,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Next up
                 NextUpQuery nextUpQuery = new NextUpQuery();
-                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 nextUpQuery.setLimit(50);
                 nextUpQuery.setParentId(mFolder.getId());
                 nextUpQuery.setImageTypeLimit(1);
@@ -154,7 +155,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                             ItemFields.Overview,
                             ItemFields.ChildCount
                     });
-                    newQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                    newQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                     newQuery.setIncludeItemTypes(new String[]{"Episode"});
                     newQuery.setParentId(mFolder.getId());
                     newQuery.setRecursive(true);
@@ -264,7 +265,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.ChannelInfo,
                         ItemFields.ChildCount
                 });
-                onNow.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                onNow.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 onNow.setImageTypeLimit(1);
                 onNow.setEnableTotalRecordCount(false);
                 onNow.setLimit(150);
@@ -272,7 +273,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Upcoming
                 RecommendedProgramQuery upcomingTv = new RecommendedProgramQuery();
-                upcomingTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                upcomingTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 upcomingTv.setFields(new ItemFields[]{
                         ItemFields.Overview,
                         ItemFields.PrimaryImageAspectRatio,
@@ -288,14 +289,14 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                 //Fav Channels
                 LiveTvChannelQuery favTv = new LiveTvChannelQuery();
-                favTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                favTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 favTv.setEnableFavoriteSorting(true);
                 favTv.setIsFavorite(true);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_favorite_channels), favTv));
 
                 //Other Channels
                 LiveTvChannelQuery otherTv = new LiveTvChannelQuery();
-                otherTv.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                otherTv.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 otherTv.setIsFavorite(false);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_other_channels), otherTv));
 
@@ -306,7 +307,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                recordings.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 recordings.setEnableImages(true);
                 recordings.setLimit(40);
 
@@ -369,12 +370,12 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                             ItemFields.PrimaryImageAspectRatio,
                                             ItemFields.ChildCount
                                     });
-                                    recordings.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                                    recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                                     recordings.setEnableImages(true);
                                     mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 50));
                                     //All Recordings by group - will only be there for non-internal TV
                                     RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-                                    recordingGroups.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                                    recordingGroups.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                                     mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_all_recordings), recordingGroups));
                                     rowLoader.loadRows(mRows);
 
@@ -430,7 +431,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             default:
                 // Fall back to rows defined by the view children
                 final List<BrowseRowDef> rows = new ArrayList<>();
-                final UUID userId = TvApp.getApplication().getCurrentUser().getId();
+                final UUID userId = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId();
 
                 ItemQuery query = new ItemQuery();
                 query.setParentId(mFolder.getId());
@@ -482,7 +483,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 R.drawable.tile_port_record,
                 null
             ));
-            if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
+            if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
                 gridRowAdapter.add(new GridButton(
                     LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID,
                     getString(R.string.lbl_schedule),

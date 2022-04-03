@@ -31,7 +31,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
@@ -402,7 +402,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         GuideChannelHeader header = (GuideChannelHeader)mSelectedProgramView;
         UserItemDataDto data = header.getChannel().getUserData();
         if (data != null) {
-            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), TvApp.getApplication().getCurrentUser().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                 @Override
                 public void onResponse(UserItemDataDto response) {
                     header.getChannel().setUserData(response);
@@ -969,7 +969,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         @Override
         public void run() {
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mSelectedProgram = response;

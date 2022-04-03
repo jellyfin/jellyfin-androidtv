@@ -1,8 +1,9 @@
 package org.jellyfin.androidtv.data.querying;
 
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
+import org.koin.java.KoinJavaComponent;
 
 public class StdItemQuery extends ItemQuery {
     public StdItemQuery(ItemFields[] fields) {
@@ -15,7 +16,7 @@ public class StdItemQuery extends ItemQuery {
                     ItemFields.ChildCount
             };
         }
-        setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         setFields(fields);
     }
 

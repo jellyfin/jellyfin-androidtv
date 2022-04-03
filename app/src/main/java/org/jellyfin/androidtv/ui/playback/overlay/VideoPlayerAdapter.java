@@ -2,13 +2,14 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 
 import androidx.leanback.media.PlayerAdapter;
 
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
 
@@ -138,7 +139,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     boolean canRecordLiveTv() {
         BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         return currentlyPlayingItem.getCurrentProgram() != null
-                && Utils.canManageRecordings(TvApp.getApplication().getCurrentUser());
+                && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
     }
 
     void toggleRecording() {

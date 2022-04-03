@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -31,6 +31,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
+import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,7 +165,7 @@ public class RecordPopup {
                             mPopup.dismiss();
                             mActivity.sendMessage(CustomMessage.ActionComplete);
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());

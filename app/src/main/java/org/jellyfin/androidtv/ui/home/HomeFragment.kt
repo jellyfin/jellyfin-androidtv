@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
@@ -31,7 +31,8 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val apiClient by inject<ApiClient>()
 	private val mediaManager by inject<MediaManager>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
-	private val helper by lazy { HomeFragmentHelper(requireContext()) }
+	private val userRepository by inject<UserRepository>()
+	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository) }
 
 	// Data
 	private val rows = mutableListOf<HomeFragmentRow>()
@@ -40,7 +41,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 
 	// Special rows
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
-	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity()) }
+	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), userRepository) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		// Create adapter/presenter and set it to parent
@@ -89,7 +90,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	}
 
 	override fun setupQueries(rowLoader: RowLoader) {
-		val currentUser = TvApp.getApplication()?.currentUser
+		val currentUser = userRepository.currentUser.value
 		if (currentUser == null) {
 			activity?.finish()
 			return
