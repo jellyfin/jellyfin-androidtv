@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.AudioBehavior;
 import org.jellyfin.sdk.model.api.UserDto;
@@ -124,9 +123,8 @@ public class Utils {
         return themeColor;
     }
 
-    public static boolean downMixAudio() {
-        // FIXME: Require context
-        AudioManager am = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+    public static boolean downMixAudio(@NonNull Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (am.isBluetoothA2dpOn()) {
             Timber.i("Downmixing audio due to wired headset");
             return true;

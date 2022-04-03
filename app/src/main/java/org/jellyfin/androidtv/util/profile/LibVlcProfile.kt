@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
@@ -20,7 +21,8 @@ import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 
 class LibVlcProfile(
-	isLiveTV: Boolean = false
+	context: Context,
+	isLiveTV: Boolean = false,
 ) : BaseProfile() {
 	init {
 		name = "AndroidTV-libVLC"
@@ -67,7 +69,7 @@ class LibVlcProfile(
 					Codec.Audio.OPUS,
 					Codec.Audio.FLAC,
 					Codec.Audio.TRUEHD,
-					if (!Utils.downMixAudio() && isLiveTV) Codec.Audio.AAC_LATM else null
+					if (!Utils.downMixAudio(context) && isLiveTV) Codec.Audio.AAC_LATM else null
 				).joinToString(",")
 			},
 			// Audio direct play

@@ -717,7 +717,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void setVlcAudioOptions() {
-        if (!Utils.downMixAudio()) {
+        if (!Utils.downMixAudio(mActivity)) {
             mVlcPlayer.setAudioDigitalOutputEnabled(true);
         } else {
             setCompatibleAudio();

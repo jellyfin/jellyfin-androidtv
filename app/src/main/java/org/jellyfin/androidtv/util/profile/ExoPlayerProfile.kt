@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.util.profile
 
+import android.content.Context
 import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
@@ -23,6 +24,7 @@ import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 class ExoPlayerProfile(
+	context: Context,
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 	isAC3Enabled: Boolean = false,
@@ -57,7 +59,7 @@ class ExoPlayerProfile(
 			// TS video profile
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Video
-				context = EncodingContext.Streaming
+				this.context = EncodingContext.Streaming
 				container = Codec.Container.TS
 				videoCodec = buildList {
 					if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
@@ -74,7 +76,7 @@ class ExoPlayerProfile(
 			// MP3 audio profile
 			TranscodingProfile().apply {
 				type = DlnaProfileType.Audio
-				context = EncodingContext.Streaming
+				this.context = EncodingContext.Streaming
 				container = Codec.Container.MP3
 				audioCodec = Codec.Audio.MP3
 			}
@@ -112,7 +114,7 @@ class ExoPlayerProfile(
 					).joinToString(",")
 
 					audioCodec = when {
-						Utils.downMixAudio() -> downmixSupportedAudioCodecs
+						Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
 						else -> allSupportedAudioCodecs
 					}.joinToString(",")
 				})

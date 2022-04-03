@@ -515,7 +515,7 @@ public class PlaybackController {
                 }
                 vlcOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
                 vlcOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
-                DeviceProfile vlcProfile = new LibVlcProfile(isLiveTv);
+                DeviceProfile vlcProfile = new LibVlcProfile(mFragment.getContext(), isLiveTv);
                 vlcOptions.setProfile(vlcProfile);
 
                 VideoOptions internalOptions = new VideoOptions();
@@ -524,12 +524,13 @@ public class PlaybackController {
                 internalOptions.setMaxBitrate(Utils.getMaxBitrate());
                 if (exoErrorEncountered || (isLiveTv && !directStreamLiveTv))
                     internalOptions.setEnableDirectStream(false);
-                internalOptions.setMaxAudioChannels(Utils.downMixAudio() ? 2 : null); //have to downmix at server
+                internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
                 internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
                 internalOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
                 DeviceProfile internalProfile = new BaseProfile();
                 if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
                     internalProfile = new ExoPlayerProfile(
+                            mFragment.getContext(),
                             isLiveTv,
                             userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                             userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
@@ -646,7 +647,7 @@ public class PlaybackController {
                                                 vlcResponse.getMediaSource().getDefaultAudioStream() == null ||
                                                 (!"ac3".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()) &&
                                                         !"truehd".equals(vlcResponse.getMediaSource().getDefaultAudioStream().getCodec()))) &&
-                                        (Utils.downMixAudio() ||
+                                        (Utils.downMixAudio(mFragment.getContext()) ||
                                                 !DeviceUtils.is60() ||
                                                 internalResponse.getPlayMethod().equals(PlayMethod.Transcode) ||
                                                 !userPreferences.getValue().get(UserPreferences.Companion.getDtsEnabled()) ||
