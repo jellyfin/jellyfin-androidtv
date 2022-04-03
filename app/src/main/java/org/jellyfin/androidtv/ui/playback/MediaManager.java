@@ -198,7 +198,7 @@ public class MediaManager {
             return false;
         }
 
-        return createPlayer(600);
+        return createPlayer(TvApp.getApplication(), 600);
     }
 
     private boolean isPaused() {
@@ -268,14 +268,14 @@ public class MediaManager {
         }
     }
 
-    private boolean createPlayer(int buffer) {
+    private boolean createPlayer(Context context, int buffer) {
         try {
 
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
                 Timber.i("creating audio player using: exoplayer");
                 nativeMode = true;
-                mExoPlayer = new ExoPlayer.Builder(TvApp.getApplication()).build();
+                mExoPlayer = new ExoPlayer.Builder(context).build();
                 mExoPlayer.addListener(new Player.EventListener() {
                     @Override
                     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -301,10 +301,10 @@ public class MediaManager {
                 options.add("--no-audio-time-stretch");
                 options.add("-v");
 
-                mLibVLC = new LibVLC(TvApp.getApplication(), options);
+                mLibVLC = new LibVLC(context, options);
 
                 mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
-                if(!Utils.downMixAudio()) {
+                if(!Utils.downMixAudio(context)) {
                     mVlcPlayer.setAudioDigitalOutputEnabled(true);
                 } else {
                     mVlcPlayer.setAudioOutput("opensles_android");
@@ -340,7 +340,7 @@ public class MediaManager {
             }
         } catch (Exception e) {
             Timber.e(e, "Error creating VLC player");
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_video_playback_error));
+            Utils.showToast(context, context.getString(R.string.msg_video_playback_error));
             return false;
         }
 
@@ -700,9 +700,9 @@ public class MediaManager {
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile;
         if (DeviceUtils.is60()) {
-            profile = new ExoPlayerProfile();
+            profile = new ExoPlayerProfile(TvApp.getApplication(), false, false, false);
         } else {
-            profile = new LibVlcProfile();
+            profile = new LibVlcProfile(TvApp.getApplication(), false);
         }
         options.setProfile(profile);
 
