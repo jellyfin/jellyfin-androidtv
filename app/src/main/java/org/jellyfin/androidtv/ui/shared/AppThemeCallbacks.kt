@@ -13,7 +13,7 @@ class AppThemeCallbacks(
 	private var lastTheme: AppTheme? = null
 	private var lastPreferencesTheme: AppTheme? = null
 
-	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+	override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
 		userPreferences[UserPreferences.appTheme].let {
 			Timber.i("Applying theme: %s", it)
 			activity.setTheme(ThemeManager.getTheme(activity, it))
@@ -24,7 +24,7 @@ class AppThemeCallbacks(
 		}
 	}
 
-	override fun onActivityResumed(activity: Activity) {
+	override fun onActivityPreResumed(activity: Activity) {
 		val lastThemeForActivity = if (activity is PreferencesActivity) lastPreferencesTheme else lastTheme
 		userPreferences[UserPreferences.appTheme].let {
 			if (lastThemeForActivity != null && lastThemeForActivity != it) {
