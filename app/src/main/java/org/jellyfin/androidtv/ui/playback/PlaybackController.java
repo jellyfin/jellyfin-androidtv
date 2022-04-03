@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.BaseProfile;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
@@ -69,6 +70,7 @@ public class PlaybackController {
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient());
+    private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
@@ -813,7 +815,7 @@ public class PlaybackController {
             }
         }, 750);
 
-        TvApp.getApplication().setLastPlayedItem(item);
+        dataRefreshService.getValue().setLastPlayedItem(ModelCompat.asSdk(item));
         ReportingHelper.reportStart(item, mbPos);
     }
 
