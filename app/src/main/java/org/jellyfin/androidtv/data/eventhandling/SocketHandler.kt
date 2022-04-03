@@ -6,9 +6,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.ApiClient
@@ -33,6 +33,7 @@ class SocketHandler(
 	private val api: ApiClient,
 	private val dataRefreshService: DataRefreshService,
 	private val mediaManager: MediaManager,
+	private val playbackControllerContainer: PlaybackControllerContainer,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
 	private var socketInstance: SocketInstance? = null
@@ -101,7 +102,7 @@ class SocketHandler(
 	@Suppress("ComplexMethod")
 	private fun onPlayStateMessage(message: PlayStateMessage) = coroutineScope.launch(Dispatchers.Main) {
 		Timber.i("Received PlayStateMessage with command ${message.request.command}")
-		val playbackController = TvApp.getApplication()?.playbackController
+		val playbackController = playbackControllerContainer.playbackController
 		// Audio playback uses the mediaManager, video playback and live tv use the playbackController
 		if (mediaManager.isAudioPlayerInitialized) when (message.request.command) {
 			PlaystateCommand.STOP -> mediaManager.stopAudio(true)
@@ -130,7 +131,7 @@ class SocketHandler(
 	// Add "GeneralCommandType.DISPLAY_CONTENT" to supportedCommands in capabilities to receive
 	// these messages. Otherwise this function is never called.
 	private fun onDisplayContent(itemId: UUID) {
-		val playbackController = TvApp.getApplication()?.playbackController
+		val playbackController = playbackControllerContainer.playbackController
 
 		if (playbackController?.isPlaying == true || playbackController?.isPaused == true) {
 			Timber.i("Not launching $itemId: playback in progress")

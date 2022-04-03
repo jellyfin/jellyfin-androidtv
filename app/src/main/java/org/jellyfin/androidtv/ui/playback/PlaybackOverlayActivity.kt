@@ -8,13 +8,14 @@ import android.view.View
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.ui.shared.BaseActivity
+import org.koin.android.ext.android.inject
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
 class PlaybackOverlayActivity : BaseActivity() {
+	private val playbackControllerContainer by inject<PlaybackControllerContainer>()
 	var keyListener: View.OnKeyListener? = null
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +52,7 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 		}
 
-		val playbackController = TvApp.getApplication()?.playbackController
+		val playbackController = playbackControllerContainer.playbackController
 
 		when (keyCode) {
 			KeyEvent.KEYCODE_MEDIA_PLAY -> playbackController?.play(0)

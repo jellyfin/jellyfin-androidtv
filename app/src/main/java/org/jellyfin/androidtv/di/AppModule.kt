@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.LoginViewModel
 import org.jellyfin.androidtv.util.MarkdownRenderer
@@ -55,7 +56,7 @@ val appModule = module {
 		get<JellyfinSdk>().createApi()
 	}
 
-	single { SocketHandler(get(), get(userApiClient), get(), get()) }
+	single { SocketHandler(get(), get(userApiClient), get(), get(), get()) }
 
 	single(systemApiClient) {
 		// Create an empty API instance, the actual values are set by the SessionRepository
@@ -84,6 +85,7 @@ val appModule = module {
 	single { MediaManager() }
 
 	single { DataRefreshService() }
+	single { PlaybackControllerContainer() }
 
 	factory { WorkManager.getInstance(androidContext()) }
 
