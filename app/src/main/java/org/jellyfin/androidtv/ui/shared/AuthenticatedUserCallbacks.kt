@@ -9,7 +9,7 @@ import org.jellyfin.androidtv.ui.startup.StartupActivity
 import timber.log.Timber
 
 /**
- * ActivityLifecycleCallback that bounces to the StartupActivity if an Activity is created and
+ * ActivityLifecycleCallback that bounces to the StartupActivity when an activity is created and
  * the currentUser is null.
  */
 class AuthenticatedUserCallbacks(
@@ -27,7 +27,7 @@ class AuthenticatedUserCallbacks(
 		)
 	}
 
-	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+	override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
 		val name = activity::class.qualifiedName
 
 		if (name in ignoredClassNames) {
