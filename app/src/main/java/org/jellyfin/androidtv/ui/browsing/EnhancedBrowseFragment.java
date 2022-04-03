@@ -28,9 +28,9 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
@@ -429,7 +429,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         break;
 
                     case SERIES:
-                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
                         Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId("SERIESTIMERS");
@@ -441,12 +441,12 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         break;
 
                     case SCHEDULE:
-                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
                         Intent schedIntent = new Intent(mActivity, BrowseScheduleActivity.class);
                         requireActivity().startActivity(schedIntent);
                         break;
 
-                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
                         Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
@@ -455,7 +455,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         mActivity.startActivity(recordings);
                         break;
 
-                    case TvApp.LIVE_TV_GUIDE_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
                         Intent guide = new Intent(mActivity, LiveTvGuideActivity.class);
                         mActivity.startActivity(guide);
                         break;
