@@ -58,6 +58,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient());
+    private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +173,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     private void startReportLoop() {
         // FIXME: Don't use the getApplication method..
-        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
         ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, null, false);
         mReportLoop = new Runnable() {
             @Override

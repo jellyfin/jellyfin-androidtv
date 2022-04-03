@@ -1,13 +1,17 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Bundle;
 
 import androidx.leanback.app.PlaybackSupportFragment;
 
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+
+import kotlin.Lazy;
 
 public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
@@ -15,6 +19,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     private CustomPlaybackTransportControlGlue playerGlue;
     private VideoPlayerAdapter playerAdapter;
     private boolean shouldShowOverlay = true;
+    private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
 
         setBackgroundType(BG_LIGHT);
 
-        PlaybackController playbackController = TvApp.getApplication().getPlaybackController();
+        PlaybackController playbackController = playbackControllerContainer.getValue().getPlaybackController();
 
         playerAdapter = new VideoPlayerAdapter(playbackController, this);
         playerGlue = new CustomPlaybackTransportControlGlue(getContext(), playerAdapter, playbackController);

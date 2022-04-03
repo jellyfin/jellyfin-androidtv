@@ -45,8 +45,6 @@ import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
-import org.jellyfin.androidtv.auth.AuthenticationRepository;
-import org.jellyfin.androidtv.auth.SessionRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
@@ -152,8 +150,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
-    private final Lazy<SessionRepository> sessionRepository = inject(SessionRepository.class);
-    private final Lazy<AuthenticationRepository> authenticationRepository = inject(AuthenticationRepository.class);
+    private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -179,8 +176,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
 
-        TvApp.getApplication().setPlaybackController(new PlaybackController(mItemsToPlay, this));
-        mPlaybackController = TvApp.getApplication().getPlaybackController();
+        playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this));
+        mPlaybackController = playbackControllerContainer.getValue().getPlaybackController();
 
         // setup fade task
         mHideTask = () -> {
@@ -234,8 +231,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (TvApp.getApplication().getPlaybackController() != null) {
-            TvApp.getApplication().getPlaybackController().init(new VideoManager(((PlaybackOverlayActivity) requireActivity()), view), this);
+        if (playbackControllerContainer.getValue().getPlaybackController() != null) {
+            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager(((PlaybackOverlayActivity) requireActivity()), view), this);
         }
     }
 

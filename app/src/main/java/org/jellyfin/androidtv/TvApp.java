@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.auth.UserRepository;
-import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
@@ -22,7 +21,6 @@ public class TvApp extends Application {
 
     private static TvApp app;
     private BaseItemDto lastPlayedItem;
-    private PlaybackController playbackController;
 
     @Override
     public void onCreate() {
@@ -40,15 +38,6 @@ public class TvApp extends Application {
     @Nullable
     public UserDto getCurrentUser() {
         return KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
-    }
-
-    @Nullable
-    public PlaybackController getPlaybackController() {
-        return playbackController;
-    }
-
-    public void setPlaybackController(PlaybackController playbackController) {
-        this.playbackController = playbackController;
     }
 
     @Nullable
