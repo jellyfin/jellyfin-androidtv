@@ -126,8 +126,12 @@ class SessionRepositoryImpl(
 
 		if (success) runBlocking {
 			userApiClient.applySession(session, deviceInfo)
-			val user by userApiClient.userApi.getCurrentUser()
-			userRepository.updateCurrentUser(user)
+			if (session != null) {
+				val user by userApiClient.userApi.getCurrentUser()
+				userRepository.updateCurrentUser(user)
+			} else {
+				userRepository.updateCurrentUser(null)
+			}
 			preferencesRepository.onSessionChanged()
 			_currentSession.value = session
 		} else {
