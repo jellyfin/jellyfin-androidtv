@@ -18,7 +18,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
@@ -128,7 +128,7 @@ public class LiveProgramDetailPopup {
                 mFirstButton = createTuneButton();
             }
 
-            if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
+            if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
                 if (program.getTimerId() != null) {
                     // cancel button
                     Button cancel = new Button(mActivity);
@@ -175,7 +175,7 @@ public class LiveProgramDetailPopup {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgram = response;
@@ -261,7 +261,7 @@ public class LiveProgramDetailPopup {
                                             @Override
                                             public void onResponse() {
                                                 // we have to re-retrieve the program to get the timer id
-                                                apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                                                apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                     @Override
                                                     public void onResponse(BaseItemDto response) {
                                                         mProgram = response;
@@ -355,7 +355,7 @@ public class LiveProgramDetailPopup {
         fave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiClient.getValue().UpdateFavoriteStatusAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), !channel.getUserData().getIsFavorite(), new Response<UserItemDataDto>() {
+                apiClient.getValue().UpdateFavoriteStatusAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !channel.getUserData().getIsFavorite(), new Response<UserItemDataDto>() {
                     @Override
                     public void onResponse(UserItemDataDto response) {
                         channel.setUserData(response);

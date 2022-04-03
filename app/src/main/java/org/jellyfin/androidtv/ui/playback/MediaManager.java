@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -440,7 +441,7 @@ public class MediaManager {
                     public void onClick(DialogInterface dialog, int which) {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
-                        request.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                        request.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                         request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
                         request.setName(text);
                         request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());

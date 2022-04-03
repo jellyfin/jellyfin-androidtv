@@ -2,13 +2,14 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import android.os.Bundle;
 
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.koin.java.KoinJavaComponent;
 
 public class BrowseGridFragment extends StdGridFragment {
     private final static int CHUNK_SIZE = 50;
@@ -54,7 +55,7 @@ public class BrowseGridFragment extends StdGridFragment {
                     String includeType = getActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
-                        albumArtists.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                        albumArtists.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                         albumArtists.setFields(new ItemFields[]{
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ItemCounts,

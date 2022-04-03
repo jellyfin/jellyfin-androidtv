@@ -11,6 +11,7 @@ import androidx.leanback.widget.PresenterSelector;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
@@ -164,7 +165,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
@@ -178,7 +179,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mQuery = query;
-        mQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.chunkSize = chunkSize;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
@@ -196,7 +197,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mArtistsQuery = query;
-        mArtistsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mArtistsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         staticHeight = true;
         this.chunkSize = chunkSize;
         if (chunkSize > 0) {
@@ -209,7 +210,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mNextUpQuery = query;
-        mNextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mNextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.NextUp;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = true;
@@ -226,7 +227,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mLatestQuery = query;
-        mLatestQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mLatestQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.LatestItems;
         this.preferParentThumb = preferParentThumb;
         staticHeight = true;
@@ -315,7 +316,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSimilarQuery = query;
-        mSimilarQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mSimilarQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         this.queryType = queryType;
     }
 
@@ -323,7 +324,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mUpcomingQuery = query;
-        mUpcomingQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mUpcomingQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.Upcoming;
     }
 
@@ -331,7 +332,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSeasonQuery = query;
-        mSeasonQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mSeasonQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         queryType = QueryType.Season;
     }
 
@@ -340,7 +341,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         this.chunkSize = chunkSize;
         mPersonsQuery = query;
-        mPersonsQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mPersonsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         if (chunkSize > 0) {
             mPersonsQuery.setLimit(chunkSize);
         }
@@ -351,7 +352,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         super(presenter);
         mParent = parent;
         mSearchQuery = query;
-        mSearchQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        mSearchQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         mSearchQuery.setLimit(50);
         queryType = QueryType.Search;
     }
@@ -736,7 +737,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieveViews() {
         final ItemRowAdapter adapter = this;
-        final UserDto user = TvApp.getApplication().getCurrentUser();
+        final UserDto user = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
         apiClient.getValue().GetUserViews(user.getId().toString(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
@@ -1292,7 +1293,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                         // and recordings as first item if showing all
                         adapter.add(new BaseRowItem(new GridButton(LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record, null)));
                         i++;
-                        if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
+                        if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
                             // and schedule
                             adapter.add(new BaseRowItem(new GridButton(LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID, TvApp.getApplication().getString(R.string.lbl_schedule), R.drawable.tile_port_time, null)));
                             i++;
@@ -1336,7 +1337,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final SpecialsQuery query) {
         final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetSpecialFeaturesAsync(TvApp.getApplication().getCurrentUser().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetSpecialFeaturesAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
@@ -1373,7 +1374,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     private void retrieve(final TrailersQuery query) {
         final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), query.getItemId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {

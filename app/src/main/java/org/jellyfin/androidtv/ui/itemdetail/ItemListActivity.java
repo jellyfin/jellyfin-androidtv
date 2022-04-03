@@ -26,7 +26,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
@@ -360,7 +360,7 @@ public class ItemListActivity extends FragmentActivity {
                 setBaseItem(queue);
                 break;
             default:
-                apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         setBaseItem(response);
@@ -411,7 +411,7 @@ public class ItemListActivity extends FragmentActivity {
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
                     playlistSongs.setId(mBaseItem.getId());
-                    playlistSongs.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                    playlistSongs.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                     playlistSongs.setFields(new ItemFields[]{
                             ItemFields.PrimaryImageAspectRatio,
                             ItemFields.Genres,
@@ -616,7 +616,7 @@ public class ItemListActivity extends FragmentActivity {
                     @Override
                     public void onClick(final View v) {
                         UserItemDataDto data = mBaseItem.getUserData();
-                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                             @Override
                             public void onResponse(UserItemDataDto response) {
                                 mBaseItem.setUserData(response);

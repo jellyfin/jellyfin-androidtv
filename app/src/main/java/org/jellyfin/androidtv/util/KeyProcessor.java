@@ -9,6 +9,7 @@ import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
@@ -358,7 +359,7 @@ public class KeyProcessor {
                         });
 
                     } else {
-                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).addToVideoQueue(response);
@@ -437,7 +438,7 @@ public class KeyProcessor {
     };
 
     private static void markPlayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId().toString(), null, new Response<UserItemDataDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)
@@ -454,7 +455,7 @@ public class KeyProcessor {
     }
 
     private static void markUnplayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<UserItemDataDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)
@@ -471,7 +472,7 @@ public class KeyProcessor {
     }
 
     private static void toggleFavorite(boolean fav) {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, TvApp.getApplication().getCurrentUser().getId().toString(), fav, new Response<UserItemDataDto>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), fav, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)

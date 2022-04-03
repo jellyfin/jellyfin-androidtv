@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
@@ -159,7 +160,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         super.onCreate(savedInstanceState);
 
         // Prevent activity from crashing after recovering from a crash
-        if (TvApp.getApplication().getCurrentUser() == null) {
+        if (KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue() == null) {
             finish();
             return;
         }
@@ -259,7 +260,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         TvApp.getApplication().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
                         Timber.d("Updating info after playback");
-                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                             @Override
                             public void onResponse(BaseItemDto response) {
                                 if (!isFinishing()) {
@@ -367,12 +368,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
             final FullDetailsActivity us = this;
-            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
                     mProgramInfo = response.getCurrentProgram();
                     mItemId = mProgramInfo.getId();
-                    apiClient.getValue().GetItemAsync(mItemId, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                    apiClient.getValue().GetItemAsync(mItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                         @Override
                         public void onResponse(BaseItemDto response) {
                             setBaseItem(response);
@@ -391,7 +392,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
             setBaseItem(item);
         } else {
-            apiClient.getValue().GetItemAsync(id, TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
                     setBaseItem(response);
@@ -566,7 +567,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                similar.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                similar.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 similar.setId(mBaseItem.getId());
                 similar.setLimit(10);
 
@@ -589,7 +590,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                similarTrailer.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                similarTrailer.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 similarTrailer.setId(mBaseItem.getId());
                 similarTrailer.setLimit(10);
 
@@ -604,7 +605,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                personMovies.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                personMovies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 personMovies.setPersonIds(new String[] {mBaseItem.getId()});
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
@@ -618,7 +619,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
                 });
-                personSeries.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                personSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series"});
@@ -632,7 +633,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
                 });
-                personEpisodes.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                personEpisodes.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
                 personEpisodes.setRecursive(true);
                 personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
@@ -648,7 +649,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                artistAlbums.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                artistAlbums.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 artistAlbums.setArtistIds(new String[]{mBaseItem.getId()});
                 artistAlbums.setRecursive(true);
                 artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
@@ -658,7 +659,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 break;
             case Series:
                 NextUpQuery nextUpQuery = new NextUpQuery();
-                nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 nextUpQuery.setSeriesId(mBaseItem.getId());
                 nextUpQuery.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
@@ -669,7 +670,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
-                seasons.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                seasons.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 seasons.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.DisplayPreferencesId,
@@ -679,7 +680,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 addItemRow(adapter, seasonsAdapter, 1, getString(R.string.lbl_seasons));
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
-                upcoming.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                upcoming.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 upcoming.setParentId(mBaseItem.getId());
                 upcoming.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
@@ -700,7 +701,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
                 });
-                similarSeries.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                similarSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
                 ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
@@ -789,7 +790,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     private void playTrailers() {
-        apiClient.getValue().GetLocalTrailersAsync(TvApp.getApplication().getCurrentUser().getId().toString(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 play(response, 0, false);
@@ -842,7 +843,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     private void toggleFavorite() {
         UserItemDataDto data = mBaseItem.getUserData();
-        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -907,7 +908,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 if (mBaseItem.getBaseItemType() == BaseItemType.Series) {
                     //play next up
                     NextUpQuery nextUpQuery = new NextUpQuery();
-                    nextUpQuery.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+                    nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                     nextUpQuery.setSeriesId(mBaseItem.getId());
                     apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
                         @Override
@@ -1032,7 +1033,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             mDetailsOverviewRow.addAction(trailerButton);
         }
 
-        if (mProgramInfo != null && Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
+        if (mProgramInfo != null && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
             if (TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() > System.currentTimeMillis()) {
                 //Record button
                 mRecordButton = TextUnderButton.create(this, R.drawable.ic_record, buttonSize, 4, getString(R.string.lbl_record), new View.OnClickListener() {
@@ -1047,7 +1048,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgramInfo = response;
@@ -1109,7 +1110,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
                                                     mProgramInfo = response;
@@ -1216,7 +1217,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
             //now go get our prev episode id
             EpisodeQuery adjacent = new EpisodeQuery();
-            adjacent.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+            adjacent.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
             adjacent.setSeriesId(mBaseItem.getSeriesId());
             adjacent.setAdjacentTo(mBaseItem.getId());
             apiClient.getValue().GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
@@ -1244,8 +1245,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             mDetailsOverviewRow.addAction(goToSeriesButton);
         }
 
-        if ((mBaseItem.getBaseItemType() == BaseItemType.Recording && TvApp.getApplication().getCurrentUser().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
-                ((mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Episode || mBaseItem.getBaseItemType() == BaseItemType.Video) && TvApp.getApplication().getCurrentUser().getPolicy().getEnableContentDeletion())) {
+        if ((mBaseItem.getBaseItemType() == BaseItemType.Recording && KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete()) ||
+                ((mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Episode || mBaseItem.getBaseItemType() == BaseItemType.Video) && KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getPolicy().getEnableContentDeletion())) {
             deleteButton = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1374,7 +1375,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 selectedVersionPopupIndex = menuItem.getItemId();
-                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         mBaseItem = response;
@@ -1504,7 +1505,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         @Override
                         public void onResponse() {
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     setRecTimer(response.getTimerId());
@@ -1569,7 +1570,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     };
 
     private void markPlayed() {
-        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), null, new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -1594,7 +1595,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     private void markUnPlayed() {
-        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<UserItemDataDto>() {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);

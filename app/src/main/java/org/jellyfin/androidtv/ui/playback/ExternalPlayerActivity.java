@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
@@ -192,7 +193,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void markPlayed(String itemId) {
-        apiClient.getValue().MarkPlayedAsync(itemId, TvApp.getApplication().getCurrentUser().getId().toString(), null, new Response<UserItemDataDto>());
+        apiClient.getValue().MarkPlayedAsync(itemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>());
     }
 
     protected void playNext() {

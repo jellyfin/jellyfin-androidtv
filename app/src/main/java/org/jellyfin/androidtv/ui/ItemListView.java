@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.databinding.ItemListBinding;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -84,7 +84,7 @@ public class ItemListView extends FrameLayout {
                 ItemFields.MediaSources,
                 ItemFields.ChildCount
         });
-        query.setUserId(TvApp.getApplication().getCurrentUser().getId().toString());
+        query.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         String[] ids = new String[mItemIds.size()];
         query.setIds(mItemIds.toArray(ids));
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {

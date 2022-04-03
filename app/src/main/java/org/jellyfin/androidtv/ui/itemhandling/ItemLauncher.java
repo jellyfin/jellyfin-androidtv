@@ -8,6 +8,7 @@ import androidx.core.util.Consumer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
@@ -258,7 +259,7 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(chapter.getItemId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(chapter.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
@@ -277,7 +278,7 @@ public class ItemLauncher {
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
                 //Retrieve full item for display and playback
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
@@ -334,7 +335,7 @@ public class ItemLauncher {
                     case Play:
                         if (program.getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly - need to retrieve program channel via items api to convert to BaseItem
-                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(program.getChannelId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(program.getChannelId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
@@ -356,7 +357,7 @@ public class ItemLauncher {
             case LiveTvChannel:
                 //Just tune to it by playing
                 final ChannelInfoDto channel = rowItem.getChannelInfo();
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         PlaybackHelper.getItemsToPlay(response, false, false, new Response<List<BaseItemDto>>() {
@@ -388,7 +389,7 @@ public class ItemLauncher {
                     case Play:
                         if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly but need to retrieve as base item
-                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(rowItem.getBaseItemType());

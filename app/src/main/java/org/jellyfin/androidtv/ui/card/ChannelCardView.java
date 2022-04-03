@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
+import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.databinding.ViewCardChannelBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -27,7 +27,7 @@ public class ChannelCardView extends FrameLayout {
         if (program != null) {
             if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
                 //need to update program
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), TvApp.getApplication().getCurrentUser().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getCurrentProgram() != null)

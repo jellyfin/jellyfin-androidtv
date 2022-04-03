@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
@@ -18,10 +18,11 @@ import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
 
 class HomeFragmentHelper(
-	private val context: Context
+	private val context: Context,
+	private val userRepository: UserRepository,
 ) {
 	fun loadRecentlyAdded(views: ItemsResult): HomeFragmentRow {
-		return HomeFragmentLatestRow(context, views)
+		return HomeFragmentLatestRow(context, userRepository, views)
 	}
 
 	fun loadLibraryTiles(): HomeFragmentRow {
@@ -62,7 +63,7 @@ class HomeFragmentHelper(
 				ItemFields.ChildCount
 			)
 
-			userId = TvApp.getApplication()!!.currentUser!!.id.toString()
+			userId = userRepository.currentUser.value!!.id.toString()
 			enableImages = true
 			limit = ITEM_LIMIT_RECORDINGS
 		}
@@ -72,7 +73,7 @@ class HomeFragmentHelper(
 
 	fun loadNextUp(): HomeFragmentRow {
 		val query = NextUpQuery().apply {
-			userId = TvApp.getApplication()!!.currentUser!!.id.toString()
+			userId = userRepository.currentUser.value!!.id.toString()
 			imageTypeLimit = 1
 			limit = ITEM_LIMIT_NEXT_UP
 			fields = arrayOf(
@@ -94,7 +95,7 @@ class HomeFragmentHelper(
 				ItemFields.ChannelInfo,
 				ItemFields.ChildCount
 			)
-			userId = TvApp.getApplication()!!.currentUser!!.id.toString()
+			userId = userRepository.currentUser.value!!.id.toString()
 			imageTypeLimit = 1
 			enableTotalRecordCount = false
 			limit = ITEM_LIMIT_ON_NOW

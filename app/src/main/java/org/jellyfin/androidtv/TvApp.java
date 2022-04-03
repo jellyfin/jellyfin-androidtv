@@ -4,13 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.sdk.model.api.UserDto;
-import org.koin.java.KoinJavaComponent;
-
-import kotlin.Deprecated;
-import kotlin.ReplaceWith;
 
 public class TvApp extends Application {
     private static TvApp app;
@@ -26,12 +20,6 @@ public class TvApp extends Application {
     @Nullable
     public static TvApp getApplication() {
         return app;
-    }
-
-    @Deprecated(message = "Use UserRepository", replaceWith = @ReplaceWith(expression = "KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue()", imports = {}))
-    @Nullable
-    public UserDto getCurrentUser() {
-        return KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
     }
 
     @Nullable

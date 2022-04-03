@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.home
 import android.content.Context
 import androidx.leanback.widget.ArrayObjectAdapter
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
+import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
@@ -13,11 +13,12 @@ import org.jellyfin.apiclient.model.querying.LatestItemsQuery
 
 class HomeFragmentLatestRow(
 	private val context: Context,
+	private val userRepository: UserRepository,
 	private val views: ItemsResult
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		// Get configuration (to find excluded items)
-		val configuration = TvApp.getApplication()!!.currentUser!!.configuration
+		val configuration = userRepository.currentUser.value?.configuration
 
 		// Create a list of views to include
 		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty()
