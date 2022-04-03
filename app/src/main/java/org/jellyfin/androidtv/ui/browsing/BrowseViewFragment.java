@@ -9,6 +9,7 @@ import androidx.leanback.widget.ListRow;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
+import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -470,26 +471,26 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             GridButtonPresenter mGridPresenter = new GridButtonPresenter();
             ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
             gridRowAdapter.add(new GridButton(
-                TvApp.LIVE_TV_GUIDE_OPTION_ID,
+                LiveTvOption.LIVE_TV_GUIDE_OPTION_ID,
                 getString(R.string.lbl_live_tv_guide),
                 R.drawable.tile_port_guide,
                 null
             ));
             gridRowAdapter.add(new GridButton(
-                TvApp.LIVE_TV_RECORDINGS_OPTION_ID,
+                LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID,
                 getString(R.string.lbl_recorded_tv),
                 R.drawable.tile_port_record,
                 null
             ));
             if (Utils.canManageRecordings(TvApp.getApplication().getCurrentUser())) {
                 gridRowAdapter.add(new GridButton(
-                    TvApp.LIVE_TV_SCHEDULE_OPTION_ID,
+                    LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID,
                     getString(R.string.lbl_schedule),
                     R.drawable.tile_port_time,
                     null
                 ));
                 gridRowAdapter.add(new GridButton(
-                    TvApp.LIVE_TV_SERIES_OPTION_ID,
+                    LiveTvOption.LIVE_TV_SERIES_OPTION_ID,
                     getString(R.string.lbl_series),
                     R.drawable.tile_port_series_timer,
                     null

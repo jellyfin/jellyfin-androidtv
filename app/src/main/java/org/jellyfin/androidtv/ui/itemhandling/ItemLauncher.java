@@ -9,6 +9,7 @@ import androidx.core.util.Consumer;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.constant.Extras;
+import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
@@ -419,12 +420,12 @@ public class ItemLauncher {
 
             case GridButton:
                 switch (rowItem.getGridButton().getId()) {
-                    case TvApp.LIVE_TV_GUIDE_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
                         Intent guide = new Intent(activity, LiveTvGuideActivity.class);
                         activity.startActivity(guide);
                         break;
 
-                    case TvApp.LIVE_TV_RECORDINGS_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
                         Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId("");
@@ -433,7 +434,7 @@ public class ItemLauncher {
                         activity.startActivity(recordings);
                         break;
 
-                    case TvApp.VIDEO_QUEUE_OPTION_ID:
+                    case LiveTvOption.VIDEO_QUEUE_OPTION_ID:
                         Intent queueIntent = new Intent(activity, ItemListActivity.class);
                         queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
                         //Resume first item if needed
@@ -450,7 +451,7 @@ public class ItemLauncher {
                         activity.startActivity(queueIntent);
                         break;
 
-                    case TvApp.LIVE_TV_SERIES_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
                         Intent seriesIntent = new Intent(activity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId("SERIESTIMERS");
@@ -461,7 +462,7 @@ public class ItemLauncher {
                         activity.startActivity(seriesIntent);
                         break;
 
-                    case TvApp.LIVE_TV_SCHEDULE_OPTION_ID:
+                    case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
                         Intent schedIntent = new Intent(activity, BrowseScheduleActivity.class);
                         activity.startActivity(schedIntent);
                         break;
