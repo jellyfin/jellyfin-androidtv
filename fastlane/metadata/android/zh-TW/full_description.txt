@@ -1,0 +1,14 @@
+自由管理你的多媒體收藏！
+
+Jellyfin 是一個開源、免費的多媒體管理及串流伺服器，它不需任何費用、沒有隱藏的條款、不會收集你的資料。立即使用 jellyfin 收藏、管理你的影片、音樂、相片或其他媒體！
+
+使用此應用程式前，你需要有架設好的 Jellyfin 伺服器。請前往 <a href="https://jellyfin.org/" target="_blank"> jellyfin.org</a> 取得更多資訊。
+
+搭配Jellyfin 伺服器，它能讓你：
+
+* 觀看在你的 Jellyfin 伺服器上的TV直播或預錄的電視節目（需要額外的設備及服務）
+* 串流至本地網絡上的 Chromecast 裝置
+* 串流至 Android 設備
+* 在簡單易用的介面管理你的媒體收藏
+
+此為 Jellyin 官方的 Android TV應用程式。感謝你使用 Jellyfin！
