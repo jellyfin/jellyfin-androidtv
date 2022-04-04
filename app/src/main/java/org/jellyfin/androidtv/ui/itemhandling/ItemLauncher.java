@@ -7,7 +7,6 @@ import android.content.Intent;
 import androidx.core.util.Consumer;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;

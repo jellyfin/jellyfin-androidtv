@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -30,7 +31,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : TvApp() {
+class JellyfinApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
 
