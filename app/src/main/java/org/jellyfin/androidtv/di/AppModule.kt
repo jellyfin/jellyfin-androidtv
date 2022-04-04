@@ -82,7 +82,7 @@ val appModule = module {
 	}
 
 	// Non API related
-	single { MediaManager() }
+	single { MediaManager(get()) }
 
 	single { DataRefreshService() }
 	single { PlaybackControllerContainer() }
