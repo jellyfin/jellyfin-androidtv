@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.LiveTvOption;

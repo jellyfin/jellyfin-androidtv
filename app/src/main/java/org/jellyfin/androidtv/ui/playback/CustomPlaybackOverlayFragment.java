@@ -44,7 +44,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.AuthenticationRepository;
 import org.jellyfin.androidtv.auth.SessionRepository;
 import org.jellyfin.androidtv.auth.UserRepository;
