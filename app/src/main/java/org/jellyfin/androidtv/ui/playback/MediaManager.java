@@ -21,7 +21,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
@@ -59,6 +58,7 @@ import java.util.Random;
 import timber.log.Timber;
 
 public class MediaManager {
+    private Context context;
     private ItemRowAdapter mCurrentMediaAdapter;
     private int mCurrentMediaPosition = -1;
     private String currentMediaTitle;
@@ -93,6 +93,10 @@ public class MediaManager {
     private boolean mRepeat;
 
     private List<BaseItemDto> mCurrentVideoQueue;
+
+    public MediaManager(Context context) {
+        this.context = context;
+    }
 
     public ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
@@ -169,7 +173,7 @@ public class MediaManager {
                 for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
                 }
-                mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 150)), null, QueryType.StaticAudioQueueItems);
+                mManagedAudioQueue = new ItemRowAdapter(managedItems, new CardPresenter(true, Utils.convertDpToPixel(context, 150)), null, QueryType.StaticAudioQueueItems);
                 mManagedAudioQueue.Retrieve();
             }
             if (mManagedAudioQueue.size() > 0 && isPlayingAudio()) {
@@ -191,15 +195,15 @@ public class MediaManager {
 
     public boolean initAudio() {
         Timber.d("initializing audio");
-        if (mAudioManager == null) mAudioManager = (AudioManager) TvApp.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        if (mAudioManager == null) mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         if (mAudioManager == null) {
             Timber.e("Unable to get audio manager");
-            Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
+            Utils.showToast(context, R.string.msg_cannot_play_time);
             return false;
         }
 
-        return createPlayer(TvApp.getApplication(), 600);
+        return createPlayer(context, 600);
     }
 
     private boolean isPaused() {
@@ -411,7 +415,7 @@ public class MediaManager {
     }
 
     private void createAudioQueue(List<BaseItemDto> items) {
-        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(TvApp.getApplication(), 140)), null, QueryType.StaticAudioQueueItems);
+        mCurrentAudioQueue = new ItemRowAdapter(items, new CardPresenter(true, Utils.convertDpToPixel(context, 140)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         mManagedAudioQueue = null;
         fireQueueStatusChange();
@@ -420,19 +424,19 @@ public class MediaManager {
     private static final int TYPE_AUDIO = 0;
     private static final int TYPE_VIDEO = 1;
 
-    public void saveAudioQueue(Activity activity) {
-        saveQueue(activity, TYPE_AUDIO);
+    public void saveAudioQueue(Context context) {
+        saveQueue(context, TYPE_AUDIO);
     }
 
-    public void saveVideoQueue(Activity activity) {
-        saveQueue(activity, TYPE_VIDEO);
+    public void saveVideoQueue(Context context) {
+        saveQueue(context, TYPE_VIDEO);
     }
 
-    public void saveQueue(Activity activity, final int type) {
+    public void saveQueue(Context context, final int type) {
         //Get a name and save as playlist
-        final EditText name = new EditText(activity);
+        final EditText name = new EditText(context);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        new AlertDialog.Builder(activity)
+        new AlertDialog.Builder(context)
                 .setTitle(R.string.lbl_save_as_playlist)
                 .setMessage(R.string.lbl_new_playlist_name)
                 .setView(name)
@@ -448,7 +452,7 @@ public class MediaManager {
                         KoinJavaComponent.<ApiClient>get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
-                                Toast.makeText(activity, activity.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
                                 DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                                 dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
                             }
@@ -513,7 +517,7 @@ public class MediaManager {
             total += video.getRunTimeTicks() / 10000;
         }
 
-        Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.msg_added_to_video, item.getName(), android.text.format.DateFormat.getTimeFormat(TvApp.getApplication()).format(new Date(total))));
+        Utils.showToast(context, context.getString(R.string.msg_added_to_video, item.getName(), android.text.format.DateFormat.getTimeFormat(context).format(new Date(total))));
         return mCurrentVideoQueue.size()-1;
     }
 
@@ -551,7 +555,7 @@ public class MediaManager {
             fireQueueStatusChange();
         }
 
-        Toast.makeText(TvApp.getApplication(), items.size() + (items.size() > 1 ? TvApp.getApplication().getString(R.string.msg_items_added) : TvApp.getApplication().getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
     public void removeFromAudioQueue(int ndx) {
@@ -600,7 +604,7 @@ public class MediaManager {
         }
 
         if (!audioInitialized) {
-            Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error));
+            Utils.showToast(context, context.getString(R.string.audio_error));
         }
 
         return audioInitialized;
@@ -682,7 +686,7 @@ public class MediaManager {
     private boolean ensureAudioFocus() {
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Timber.e("Unable to get audio focus");
-            Utils.showToast(TvApp.getApplication(), R.string.msg_cannot_play_time);
+            Utils.showToast(context, R.string.msg_cannot_play_time);
             return false;
         }
 
@@ -701,9 +705,9 @@ public class MediaManager {
         options.setMediaSources(item.getMediaSources());
         DeviceProfile profile;
         if (DeviceUtils.is60()) {
-            profile = new ExoPlayerProfile(TvApp.getApplication(), false, false, false);
+            profile = new ExoPlayerProfile(context, false, false, false);
         } else {
-            profile = new LibVlcProfile(TvApp.getApplication(), false);
+            profile = new LibVlcProfile(context, false);
         }
         options.setProfile(profile);
 
@@ -716,7 +720,7 @@ public class MediaManager {
                 mCurrentAudioQueuePosition = pos;
                 mCurrentAudioPosition = 0;
                 if (nativeMode) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(TvApp.getApplication(), "ATV/ExoPlayer");
+                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, "ATV/ExoPlayer");
 
                     mExoPlayer.setPlayWhenReady(true);
                     mExoPlayer.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()))));
@@ -744,7 +748,7 @@ public class MediaManager {
 
             @Override
             public void onError(Exception exception) {
-                Utils.showToast(TvApp.getApplication(), TvApp.getApplication().getString(R.string.audio_error, exception.getLocalizedMessage()));
+                Utils.showToast(context, context.getString(R.string.audio_error, exception.getLocalizedMessage()));
             }
         });
 
