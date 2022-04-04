@@ -40,7 +40,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private var includeLiveTvRows: Boolean = false
 
 	// Special rows
-	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(requireActivity(), mediaManager) }
+	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(mediaManager) }
 	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), userRepository) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,14 +67,14 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 
 		// Update audio queue
 		Timber.i("Updating audio queue in HomeFragment (onResume)")
-		nowPlaying.update(mRowsAdapter)
+		nowPlaying.update(requireContext(), mRowsAdapter)
 	}
 
 	override fun onQueueStatusChanged(hasQueue: Boolean) {
 		if (activity == null || requireActivity().isFinishing) return
 
 		Timber.i("Updating audio queue in HomeFragment (onQueueStatusChanged)")
-		nowPlaying.update(mRowsAdapter)
+		nowPlaying.update(requireContext(), mRowsAdapter)
 	}
 
 	override fun onDestroy() {
@@ -134,8 +134,8 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			// Add sections to layout
 			withContext(Dispatchers.Main) {
 				// Add rows in order
-				nowPlaying.addToRowsAdapter(mCardPresenter, mRowsAdapter)
-				for (row in rows) row.addToRowsAdapter(mCardPresenter, mRowsAdapter)
+				nowPlaying.addToRowsAdapter(requireContext(), mCardPresenter, mRowsAdapter)
+				for (row in rows) row.addToRowsAdapter(requireContext(), mCardPresenter, mRowsAdapter)
 
 				// Manually set focus if focusedByDefault is not available
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) view?.requestFocus()

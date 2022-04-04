@@ -242,43 +242,43 @@ public class StdGridFragment extends GridFragment {
 
         switch (mRowDef.getQueryType()) {
             case NextUp:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getNextUpQuery(), true, mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getNextUpQuery(), true, mCardPresenter, null);
                 break;
             case Season:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getSeasonQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSeasonQuery(), mCardPresenter, null);
                 break;
             case Upcoming:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getUpcomingQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
                 break;
             case Views:
-                mGridAdapter = new ItemRowAdapter(new ViewQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), new ViewQuery(), mCardPresenter, null);
                 break;
             case SimilarSeries:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);
                 break;
             case SimilarMovies:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
                 break;
             case Persons:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getPersonsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getPersonsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
                 break;
             case LiveTvChannel:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
                 break;
             case LiveTvProgram:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getProgramQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getProgramQuery(), mCardPresenter, null);
                 break;
             case LiveTvRecording:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
                 break;
             case LiveTvRecordingGroup:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
                 break;
             case AlbumArtists:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getArtistsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getArtistsQuery(), mRowDef.getChunkSize(), mCardPresenter, null);
                 break;
             default:
-                mGridAdapter = new ItemRowAdapter(mRowDef.getQuery(), mRowDef.getChunkSize(), mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
+                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getQuery(), mRowDef.getChunkSize(), mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
                 break;
         }
 

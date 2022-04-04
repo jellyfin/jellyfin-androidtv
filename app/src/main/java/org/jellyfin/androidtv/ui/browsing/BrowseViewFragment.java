@@ -7,7 +7,6 @@ import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
@@ -381,19 +380,19 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                                     //Now insert our smart rows
                                     if (weekItems.size() > 0) {
-                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(weekItems, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter weekAdapter = new ItemRowAdapter(requireContext(), weekItems, mCardPresenter, mRowsAdapter, true);
                                         weekAdapter.Retrieve();
                                         ListRow weekRow = new ListRow(new HeaderItem("Past Week"), weekAdapter);
                                         mRowsAdapter.add(0, weekRow);
                                     }
                                     if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
                                         scheduledAdapter.Retrieve();
                                         ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                         mRowsAdapter.add(0, scheduleRow);
                                     }
                                     if (dayItems.size() > 0) {
-                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(dayItems, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter dayAdapter = new ItemRowAdapter(requireContext(), dayItems, mCardPresenter, mRowsAdapter, true);
                                         dayAdapter.Retrieve();
                                         ListRow dayRow = new ListRow(new HeaderItem("Past 24 Hours"), dayAdapter);
                                         mRowsAdapter.add(0, dayRow);
@@ -403,7 +402,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     // no recordings
                                     rowLoader.loadRows(mRows);
                                     if (nearTimers.size() > 0) {
-                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
+                                        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
                                         scheduledAdapter.Retrieve();
                                         ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                                         mRowsAdapter.add(0, scheduleRow);

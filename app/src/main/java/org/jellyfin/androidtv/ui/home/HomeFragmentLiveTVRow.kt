@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.HeaderItem
@@ -12,7 +13,6 @@ import androidx.leanback.widget.RowPresenter
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.TvApp
 import org.jellyfin.androidtv.auth.UserRepository
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.constant.LiveTvOption
@@ -31,7 +31,7 @@ class HomeFragmentLiveTVRow(
 	private val activity: Activity,
 	private val userRepository: UserRepository,
 ) : HomeFragmentRow, OnItemViewClickedListener {
-	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
+	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
 		val adapter = ArrayObjectAdapter(GridButtonPresenter())
 
