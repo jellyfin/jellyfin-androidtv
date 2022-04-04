@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.data.repository
 
-import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -11,14 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
+import org.jellyfin.androidtv.constant.NetworkState
 import timber.log.Timber
-
-
-enum class NetworkState {
-	CONNECTED,
-	DISCONNECTED,
-	UNKNOWN
-}
 
 interface NetworkStatusRepository {
 	val state: StateFlow<NetworkState>
@@ -29,19 +22,13 @@ interface NetworkStatusRepository {
  * and provides a StateFlow to monitor the network status
  */
 class NetworkStatusRepositoryImpl(
-	appContext: Context,
 	appScope: CoroutineScope,
-	// DI injection to make repo instantiation much easier in tests:
-	connectivityManagerDi: ConnectivityManager? = null,
+	connectivityManager: ConnectivityManager,
 	private val networkRequestBuilderDi: NetworkRequest.Builder? = null
 ) : NetworkStatusRepository {
 
 	private val _state = MutableStateFlow(NetworkState.UNKNOWN)
 	override val state = _state.asStateFlow()
-
-	// Some manual DI, since using Koin here is overkill
-	private val connectivityManager = connectivityManagerDi
-		?: appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 	init {
 		// Since network is integral to this app, we will run the callback with the app lifecycle

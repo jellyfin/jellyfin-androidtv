@@ -12,6 +12,7 @@ class KoinInitializer : Initializer<KoinApplication> {
 		androidContext(context)
 
 		modules(
+			androidModule,
 			appModule,
 			authModule,
 			activityLifecycleCallbacksModule,

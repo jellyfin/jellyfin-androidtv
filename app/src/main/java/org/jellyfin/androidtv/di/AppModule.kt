@@ -83,8 +83,6 @@ val appModule = module {
 
 	single { DataRefreshService() }
 
-	factory { WorkManager.getInstance(androidContext()) }
-
 	single<NetworkStatusRepository> { NetworkStatusRepositoryImpl(get(), get()) }
 	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get()) }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get(userApiClient)) }
