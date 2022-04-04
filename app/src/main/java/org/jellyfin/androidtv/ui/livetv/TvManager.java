@@ -383,7 +383,7 @@ public class TvManager {
     }
 
     private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
-        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(timers, presenter, rowAdapter, true);
+        ItemRowAdapter scheduledAdapter = new ItemRowAdapter(context, timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
         ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);
         rowAdapter.add(scheduleRow);

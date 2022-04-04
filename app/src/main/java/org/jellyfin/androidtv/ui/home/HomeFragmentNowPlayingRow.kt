@@ -9,16 +9,15 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 
 class HomeFragmentNowPlayingRow(
-	private val context: Context,
 	private val mediaManager: MediaManager
 ) : HomeFragmentRow {
 	private var row: ListRow? = null
 
-	override fun addToRowsAdapter(cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
-		update(rowsAdapter)
+	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
+		update(context, rowsAdapter)
 	}
 
-	private fun add(rowsAdapter: ArrayObjectAdapter) {
+	private fun add(context: Context, rowsAdapter: ArrayObjectAdapter) {
 		if (row != null) return
 
 		row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.managedAudioQueue)
@@ -32,13 +31,13 @@ class HomeFragmentNowPlayingRow(
 		row = null
 	}
 
-	fun update(rowsAdapter: ArrayObjectAdapter) {
+	fun update(context: Context, rowsAdapter: ArrayObjectAdapter) {
 		if (mediaManager.hasAudioQueueItems()) {
 			if (row != null) {
 				row = ListRow(HeaderItem(context.getString(R.string.lbl_now_playing)), mediaManager.managedAudioQueue)
 				rowsAdapter.replace(0, row)
 			}
-			else add(rowsAdapter)
+			else add(context, rowsAdapter)
 		}
 		else remove(rowsAdapter)
 	}

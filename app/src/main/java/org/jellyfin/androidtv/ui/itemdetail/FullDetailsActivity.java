@@ -34,7 +34,6 @@ import androidx.leanback.widget.RowPresenter;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.TvApp;
 import org.jellyfin.androidtv.auth.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
@@ -541,24 +540,24 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(this, new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, getString(R.string.lbl_specials));
                 }
 
                 //Trailers
                 if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
-                    addItemRow(adapter, new ItemRowAdapter(new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_trailers));
+                    addItemRow(adapter, new ItemRowAdapter(this, new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_trailers));
                 }
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
-                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
 
@@ -572,7 +571,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 similar.setId(mBaseItem.getId());
                 similar.setLimit(10);
 
-                ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(this, similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarMoviesAdapter, 4, getString(R.string.lbl_more_like_this));
 
                 addInfoRows(adapter);
@@ -581,7 +580,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -595,7 +594,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 similarTrailer.setId(mBaseItem.getId());
                 similarTrailer.setLimit(10);
 
-                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
+                ItemRowAdapter similarTrailerAdapter = new ItemRowAdapter(this, similarTrailer, QueryType.SimilarMovies, new CardPresenter(), adapter);
                 addItemRow(adapter, similarTrailerAdapter, 4, getString(R.string.lbl_more_like_this));
                 addInfoRows(adapter);
                 break;
@@ -611,7 +610,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
                 personMovies.setSortBy(new String[] {ItemSortBy.SortName});
-                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(personMovies, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(this, personMovies, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, getString(R.string.lbl_movies));
 
                 ItemQuery personSeries = new ItemQuery();
@@ -625,7 +624,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series"});
                 personSeries.setSortBy(new String[] {ItemSortBy.SortName});
-                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(personSeries, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(this, personSeries, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, getString(R.string.lbl_tv_series));
 
                 ItemQuery personEpisodes = new ItemQuery();
@@ -639,7 +638,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 personEpisodes.setRecursive(true);
                 personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
                 personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
-                ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(personEpisodes, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(this, personEpisodes, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
                 break;
@@ -654,7 +653,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 artistAlbums.setArtistIds(new String[]{mBaseItem.getId()});
                 artistAlbums.setRecursive(true);
                 artistAlbums.setIncludeItemTypes(new String[]{"MusicAlbum"});
-                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(artistAlbums, 100, false, new CardPresenter(), adapter);
+                ItemRowAdapter artistAlbumsAdapter = new ItemRowAdapter(this, artistAlbums, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, artistAlbumsAdapter, 0, getString(R.string.lbl_albums));
 
                 break;
@@ -666,7 +665,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(nextUpQuery, false, new CardPresenter(true, 260), adapter);
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(this, nextUpQuery, false, new CardPresenter(true, 260), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
@@ -677,7 +676,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
                 });
-                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(seasons, new CardPresenter(), adapter);
+                ItemRowAdapter seasonsAdapter = new ItemRowAdapter(this, seasons, new CardPresenter(), adapter);
                 addItemRow(adapter, seasonsAdapter, 1, getString(R.string.lbl_seasons));
 
                 UpcomingEpisodesQuery upcoming = new UpcomingEpisodesQuery();
@@ -687,11 +686,11 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(upcoming, new CardPresenter(), adapter);
+                ItemRowAdapter upcomingAdapter = new ItemRowAdapter(this, upcoming, new CardPresenter(), adapter);
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
@@ -705,7 +704,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 similarSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 similarSeries.setId(mBaseItem.getId());
                 similarSeries.setLimit(20);
-                ItemRowAdapter similarAdapter = new ItemRowAdapter(similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
+                ItemRowAdapter similarAdapter = new ItemRowAdapter(this, similarSeries, QueryType.SimilarSeries, new CardPresenter(), adapter);
                 addItemRow(adapter, similarAdapter, 4, getString(R.string.lbl_more_like_this));
                 break;
 
@@ -716,7 +715,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
                     nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
                     nextEpisodes.setLimit(20);
-                    ItemRowAdapter nextAdapter = new ItemRowAdapter(nextEpisodes, 0 , false, true, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(this, nextEpisodes, 0 , false, true, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode));
                 }
 
@@ -727,7 +726,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         if (person.getPersonType() == PersonType.GuestStar) guests.add(person);
                     }
                     if (guests.size() > 0) {
-                        ItemRowAdapter castAdapter = new ItemRowAdapter(guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);
+                        ItemRowAdapter castAdapter = new ItemRowAdapter(this, guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);
                         addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_guest_stars));
                     }
                 }
@@ -735,7 +734,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
-                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(chapters, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
 

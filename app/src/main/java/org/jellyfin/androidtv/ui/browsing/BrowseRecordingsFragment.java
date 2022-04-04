@@ -142,7 +142,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     }
                 }
                 if (nearTimers.size() > 0) {
-                    ItemRowAdapter scheduledAdapter = new ItemRowAdapter(nearTimers, mCardPresenter, mRowsAdapter, true);
+                    ItemRowAdapter scheduledAdapter = new ItemRowAdapter(requireContext(), nearTimers, mCardPresenter, mRowsAdapter, true);
                     scheduledAdapter.Retrieve();
                     ListRow scheduleRow = new ListRow(new HeaderItem("Scheduled in Next 24 Hours"), scheduledAdapter);
                     mRowsAdapter.add(0, scheduleRow);
