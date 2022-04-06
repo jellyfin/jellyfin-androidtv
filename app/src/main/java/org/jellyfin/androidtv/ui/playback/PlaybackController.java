@@ -143,7 +143,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return mFragment;
     }
 
-    public void init(VideoManager mgr, CustomPlaybackOverlayFragment fragment) {
+    public void init(@NonNull VideoManager mgr, @NonNull CustomPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
         mVideoManager.subscribe(this);
         mFragment = fragment;
