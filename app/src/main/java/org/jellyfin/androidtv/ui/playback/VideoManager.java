@@ -166,7 +166,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         });
     }
 
-    public void subscribe(PlaybackControllerNotifiable notifier){
+    public void subscribe(@NonNull PlaybackControllerNotifiable notifier){
         mPlaybackControllerNotifiable = notifier;
         setupVLCListeners();
     }
