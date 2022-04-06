@@ -139,7 +139,7 @@
     <string name="lbl_live_tv_guide">Guida TV Diretta</string>
     <string name="lbl_no_recordings">Nessuna Registrazione Disponibile</string>
     <string name="lbl_recording">Registrazione</string>
-    <string name="msg_burn_sub_warning">I sottotitoli impressi nel video possono metterci qualche minuto. Per favore, abbi pazienza…</string>
+    <string name="msg_burn_sub_warning">Scrittura dei sottotitoli in corso. Potrebbero volerci alcuni secondi…</string>
     <string name="msg_unable_load_subs">Impossibile caricare i sottotitoli</string>
     <string name="msg_subtitles_loading">Caricamento sottotitoli…</string>
     <string name="lbl_filters">Filtri</string>
