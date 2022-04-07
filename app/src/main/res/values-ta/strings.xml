@@ -282,7 +282,7 @@
     <string name="lbl_live_tv_guide">நேரடி தொலைக்காட்சி வழிகாட்டி</string>
     <string name="lbl_no_recordings">பதிவுகள் எதுவும் கிடைக்கவில்லை</string>
     <string name="lbl_recording">பதிவு</string>
-    <string name="msg_burn_sub_warning">வசன வரிகள் பதிக்க சில நிமிடங்கள் ஆகலாம். தயவுசெய்து காத்திருக்கவும்…</string>
+    <string name="msg_burn_sub_warning">வசன வரிகள் பதிக்க சில நிமிடங்கள் ஆகலாம்…</string>
     <string name="msg_unable_load_subs">வசனத்தை ஏற்ற முடியவில்லை</string>
     <string name="msg_subtitles_loading">வசன வரிகள் ஏற்றுதல்…</string>
     <string name="lbl_filters">வடிப்பான்கள்</string>
