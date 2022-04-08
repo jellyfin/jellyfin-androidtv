@@ -8,6 +8,9 @@ on:
     paths:
       - '**/gradlе-wrapper.jar'
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-20.04
