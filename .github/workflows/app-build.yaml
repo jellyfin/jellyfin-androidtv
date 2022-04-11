@@ -24,7 +24,7 @@ jobs:
       - name: Assemble debug APKs
         run: ./gradlew --build-cache --no-daemon --info assembleDebug
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           retention-days: 14
