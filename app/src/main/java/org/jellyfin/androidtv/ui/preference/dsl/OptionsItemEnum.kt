@@ -18,7 +18,7 @@ class OptionsItemEnum<T : Enum<T>>(
 
 	// Add exact copy of the OptionsItemMutable.bind function so the correct
 	// store getter and setter will be used.
-	override fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
+	override fun bind(store: PreferenceStore<*, *>, preference: Preference<T>) = bind {
 		get { store[preference] }
 		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }

@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.preference.store
 
 import org.jellyfin.preference.Preference
 import org.jellyfin.preference.PreferenceEnum
+import org.jellyfin.preference.migration.MigrationContext
 import org.jellyfin.preference.store.AsyncPreferenceStore
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -11,11 +12,12 @@ import org.jellyfin.sdk.model.api.ScrollDirection
 import org.jellyfin.sdk.model.api.SortOrder
 import timber.log.Timber
 
+@Suppress("TooManyFunctions")
 abstract class DisplayPreferencesStore(
 	protected var displayPreferencesId: String,
 	protected var app: String = "jellyfin-androidtv",
 	private val api: ApiClient,
-) : AsyncPreferenceStore() {
+) : AsyncPreferenceStore<Unit, Unit>() {
 	private var displayPreferencesDto: DisplayPreferencesDto? = null
 	private var cachedPreferences: MutableMap<String, String?> = mutableMapOf()
 	override val shouldUpdate: Boolean
@@ -121,6 +123,10 @@ abstract class DisplayPreferencesStore(
 				else -> value.toString()
 			}
 		)
+
+	override fun runMigrations(body: MigrationContext<Unit, Unit>.() -> Unit) {
+		TODO("The DisplayPreferencesStore does not support migrations")
+	}
 
 	/**
 	 * Create an empty [DisplayPreferencesDto] with default values.

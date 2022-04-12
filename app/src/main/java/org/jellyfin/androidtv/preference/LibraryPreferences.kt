@@ -6,7 +6,9 @@ import org.jellyfin.androidtv.constant.PosterSize
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
 import org.jellyfin.apiclient.model.entities.SortOrder
 import org.jellyfin.apiclient.model.querying.ItemSortBy
-import org.jellyfin.preference.Preference
+import org.jellyfin.preference.booleanPreference
+import org.jellyfin.preference.enumPreference
+import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.api.client.ApiClient
 
 class LibraryPreferences(
@@ -17,17 +19,17 @@ class LibraryPreferences(
 	api = api,
 ) {
 	companion object {
-		val posterSize = Preference.enum("PosterSize", PosterSize.AUTO)
-		val imageType = Preference.enum("ImageType", ImageType.DEFAULT)
-		val gridDirection = Preference.enum("GridDirection", GridDirection.HORIZONTAL)
-		val enableSmartScreen = Preference.boolean("SmartScreen", false)
+		val posterSize = enumPreference("PosterSize", PosterSize.AUTO)
+		val imageType = enumPreference("ImageType", ImageType.DEFAULT)
+		val gridDirection = enumPreference("GridDirection", GridDirection.HORIZONTAL)
+		val enableSmartScreen = booleanPreference("SmartScreen", false)
 
 		// Filters
-		val filterFavoritesOnly = Preference.boolean("FilterFavoritesOnly", false)
-		val filterUnwatchedOnly = Preference.boolean("FilterUnwatchedOnly", false)
+		val filterFavoritesOnly = booleanPreference("FilterFavoritesOnly", false)
+		val filterUnwatchedOnly = booleanPreference("FilterUnwatchedOnly", false)
 
 		// Item sorting
-		val sortBy = Preference.string("SortBy", ItemSortBy.SortName)
-		val sortOrder = Preference.enum("SortOrder", SortOrder.Ascending)
+		val sortBy = stringPreference("SortBy", ItemSortBy.SortName)
+		val sortOrder = enumPreference("SortOrder", SortOrder.Ascending)
 	}
 }

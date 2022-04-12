@@ -2,7 +2,8 @@ package org.jellyfin.androidtv.preference
 
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
 import org.jellyfin.apiclient.model.querying.ItemSortBy
-import org.jellyfin.preference.Preference
+import org.jellyfin.preference.booleanPreference
+import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.api.client.ApiClient
 
 class LiveTvPreferences(
@@ -12,13 +13,13 @@ class LiveTvPreferences(
 	api = api,
 ) {
 	companion object {
-		val channelOrder = Preference.string("livetv-channelorder", ItemSortBy.DatePlayed)
-		val colorCodeGuide = Preference.boolean("guide-colorcodedbackgrounds", false)
-		val favsAtTop = Preference.boolean("livetv-favoritechannelsattop", true)
-		val showHDIndicator = Preference.boolean("guide-indicator-hd", false)
-		val showLiveIndicator = Preference.boolean("guide-indicator-live", true)
-		val showNewIndicator = Preference.boolean("guide-indicator-new", false)
-		val showPremiereIndicator = Preference.boolean("guide-indicator-premiere", true)
-		val showRepeatIndicator = Preference.boolean("guide-indicator-repeat", false)
+		val channelOrder = stringPreference("livetv-channelorder", ItemSortBy.DatePlayed)
+		val colorCodeGuide = booleanPreference("guide-colorcodedbackgrounds", false)
+		val favsAtTop = booleanPreference("livetv-favoritechannelsattop", true)
+		val showHDIndicator = booleanPreference("guide-indicator-hd", false)
+		val showLiveIndicator = booleanPreference("guide-indicator-live", true)
+		val showNewIndicator = booleanPreference("guide-indicator-new", false)
+		val showPremiereIndicator = booleanPreference("guide-indicator-premiere", true)
+		val showRepeatIndicator = booleanPreference("guide-indicator-repeat", false)
 	}
 }

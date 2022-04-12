@@ -1,6 +1,7 @@
 package org.jellyfin.preference.store
 
 import org.jellyfin.preference.Preference
+import org.jellyfin.preference.migration.MigrationContext
 
 /**
  * Abstract class defining the required functions for a preference store.
@@ -8,7 +9,8 @@ import org.jellyfin.preference.Preference
  * This implements shared functionality (such as Enum handling), whilst allowing for
  * different backing stores.
  */
-abstract class PreferenceStore {
+@Suppress("TooManyFunctions")
+abstract class PreferenceStore<ME, MV> {
 	// val value = store[Preference.x]
 	@Suppress("UNCHECKED_CAST")
 	operator fun <T : Any> get(preference: Preference<T>): T =
@@ -62,4 +64,7 @@ abstract class PreferenceStore {
 	protected abstract fun <T : Enum<T>> getEnum(preference: Preference<T>): T
 
 	protected abstract fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>)
+
+	// Migrations
+	protected abstract fun runMigrations(body: MigrationContext<ME, MV>.() -> Unit)
 }
