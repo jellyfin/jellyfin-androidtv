@@ -15,6 +15,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.sockets.SocketInstance
+import org.jellyfin.sdk.api.sockets.SocketInstanceState
 import org.jellyfin.sdk.api.sockets.addGeneralCommandsListener
 import org.jellyfin.sdk.api.sockets.addListener
 import org.jellyfin.sdk.model.api.GeneralCommandType
@@ -36,7 +37,8 @@ class SocketHandler(
 	private val playbackControllerContainer: PlaybackControllerContainer,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
-	private var socketInstance: SocketInstance? = null
+	private var socketInstance: SocketInstance = createInstance()
+	val state = socketInstance.state
 
 	suspend fun updateSession() {
 		api.sessionApi.postCapabilities(
@@ -48,8 +50,9 @@ class SocketHandler(
 			),
 		)
 
-		if (socketInstance != null) socketInstance?.updateCredentials()
-		else socketInstance = createInstance()
+		val isOffline = state.value == SocketInstanceState.DISCONNECTED || state.value == SocketInstanceState.ERROR
+		if (isOffline) socketInstance.reconnect()
+		else socketInstance.updateCredentials()
 	}
 
 	private fun createInstance() = api.ws().apply {
