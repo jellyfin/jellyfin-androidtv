@@ -22,7 +22,7 @@ class DisplayPreferencesScreen : OptionsFragment() {
 	private val preferencesId by lazy { requireArguments().getString(ARG_PREFERENCES_ID) }
 	private val allowViewSelection by lazy { requireArguments().getBoolean(ARG_ALLOW_VIEW_SELECTION) }
 
-	override val stores: Array<PreferenceStore>
+	override val stores: Array<PreferenceStore<*, *>>
 		get() = arrayOf(libraryPreferences)
 
 	override val screen by optionsScreen {

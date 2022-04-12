@@ -11,7 +11,7 @@ abstract class OptionsItemMutable<T : Any> : OptionsItem {
 	protected var dependencyCheckFun: () -> Boolean = { true }
 	protected lateinit var binder: OptionsBinder<T>
 
-	open fun bind(store: PreferenceStore, preference: Preference<T>) = bind {
+	open fun bind(store: PreferenceStore<*, *>, preference: Preference<T>) = bind {
 		get { store[preference] }
 		set { store[preference] = it }
 		default { store.getDefaultValue(preference) }

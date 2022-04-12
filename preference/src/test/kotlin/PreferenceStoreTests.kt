@@ -2,6 +2,7 @@ package org.jellyfin.preference
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import org.jellyfin.preference.migration.MigrationContext
 import org.jellyfin.preference.store.PreferenceStore
 
 /**
@@ -17,14 +18,14 @@ class PreferenceStoreTests : FunSpec({
 	}
 
 	test("Reading and writing primitives works correctly") {
-		verifySimpleType(1, Preference.int("key", 0))
-		verifySimpleType(1L, Preference.long("key", 0L))
-		verifySimpleType(true, Preference.boolean("key", false))
-		verifySimpleType("string", Preference.string("key", ""))
+		verifySimpleType(1, intPreference("key", 0))
+		verifySimpleType(1L, longPreference("key", 0L))
+		verifySimpleType(true, booleanPreference("key", false))
+		verifySimpleType("string", stringPreference("key", ""))
 	}
 
 	test("Reading and writing enums works correctly") {
-		val pref = Preference.enum("key", TestEnum.NOT_SET)
+		val pref = enumPreference("key", TestEnum.NOT_SET)
 		val expectedVal = TestEnum.SET
 		val instance = TestStub()
 		instance[pref] = expectedVal
@@ -33,7 +34,7 @@ class PreferenceStoreTests : FunSpec({
 	}
 })
 
-private class TestStub : PreferenceStore() {
+private class TestStub : PreferenceStore<Unit, Unit>() {
 	var key: String? = null
 	private var int: Int? = null
 	private var long: Long? = null
@@ -77,6 +78,10 @@ private class TestStub : PreferenceStore() {
 
 
 	override fun <T : Any> delete(preference: Preference<T>) {
+		throw NotImplementedError("Not required for tests")
+	}
+
+	override fun runMigrations(body: MigrationContext<Unit, Unit>.() -> Unit) {
 		throw NotImplementedError("Not required for tests")
 	}
 }

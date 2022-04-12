@@ -12,7 +12,7 @@ import org.koin.android.ext.android.inject
 class HomePreferencesScreen : OptionsFragment() {
 	private val userSettingPreferences: UserSettingPreferences by inject()
 
-	override val stores: Array<PreferenceStore>
+	override val stores: Array<PreferenceStore<*, *>>
 		get() = arrayOf(userSettingPreferences)
 
 	override val screen by optionsScreen {

@@ -1,8 +1,6 @@
 package org.jellyfin.preference.store
 
-import kotlinx.coroutines.runBlocking
-
-abstract class AsyncPreferenceStore : PreferenceStore() {
+abstract class AsyncPreferenceStore<ME, MV> : PreferenceStore<ME, MV>() {
 	abstract val shouldUpdate: Boolean
 
 	/**
@@ -34,21 +32,11 @@ abstract class AsyncPreferenceStore : PreferenceStore() {
 	 * }
 	 * ```
 	 */
-	suspend fun transaction(body: AsyncPreferenceStore.() -> Unit): Boolean {
+	suspend fun transaction(body: AsyncPreferenceStore<ME, MV>.() -> Unit): Boolean {
 		if (shouldUpdate) update()
 
 		body()
 
 		return commit()
 	}
-
-	/**
-	 * Compatability with old Java classes.
-	 */
-	fun updateBlocking() = runBlocking { update() }
-
-	/**
-	 * Compatability with old Java classes.
-	 */
-	fun commitBlocking() = runBlocking { commit() }
 }

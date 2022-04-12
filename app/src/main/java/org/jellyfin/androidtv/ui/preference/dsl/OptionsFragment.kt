@@ -22,7 +22,7 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	 * Preference stores used in current screen. Fragment will automatically call the update and
 	 * commit functions for all async stores.
 	 */
-	protected open val stores: Array<PreferenceStore> = emptyArray()
+	protected open val stores: Array<PreferenceStore<*, *>> = emptyArray()
 
 	// Used to not build twice during onCreate()
 	private var skippedInitialResume = false
@@ -31,8 +31,8 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		// Refresh all data in async stores
 		runBlocking {
 			stores
-				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.update() }  }
+				.filterIsInstance<AsyncPreferenceStore<*, *>>()
+				.map { async { it.update() } }
 				.awaitAll()
 		}
 
@@ -45,8 +45,8 @@ abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 		// Save all data in async stores
 		runBlocking {
 			stores
-				.filterIsInstance<AsyncPreferenceStore>()
-				.map { async { it.commit() }  }
+				.filterIsInstance<AsyncPreferenceStore<*, *>>()
+				.map { async { it.commit() } }
 				.awaitAll()
 		}
 	}

@@ -3,8 +3,8 @@ package org.jellyfin.preference.store
 import android.content.SharedPreferences
 import org.jellyfin.preference.Preference
 import org.jellyfin.preference.PreferenceEnum
+import org.jellyfin.preference.intPreference
 import org.jellyfin.preference.migration.MigrationContext
-import org.jellyfin.preference.migration.MigrationEditor
 import timber.log.Timber
 
 /**
@@ -26,12 +26,13 @@ import timber.log.Timber
  * }
  * ```
  */
+@Suppress("TooManyFunctions")
 abstract class SharedPreferenceStore(
 	/**
 	 * SharedPreferences to read from and write to
 	 */
 	protected val sharedPreferences: SharedPreferences
-) : PreferenceStore() {
+) : PreferenceStore<SharedPreferences.Editor, SharedPreferences>() {
 	// Internal helpers
 	private fun transaction(body: SharedPreferences.Editor.() -> Unit) {
 		val editor = sharedPreferences.edit()
@@ -79,8 +80,8 @@ abstract class SharedPreferenceStore(
 	}
 
 	// Migrations
-	protected fun runMigrations(body: MigrationContext<MigrationEditor, SharedPreferences>.() -> Unit) {
-		val context = MigrationContext<MigrationEditor, SharedPreferences>()
+	override fun runMigrations(body: MigrationContext<SharedPreferences.Editor, SharedPreferences>.() -> Unit) {
+		val context = MigrationContext<SharedPreferences.Editor, SharedPreferences>()
 		context.body()
 
 		this[VERSION] = context.applyMigrations(this[VERSION]) { migration ->
@@ -95,6 +96,6 @@ abstract class SharedPreferenceStore(
 		/**
 		 * Version of the preference store. Used for migration.
 		 */
-		val VERSION = Preference.int("store_version", -1)
+		val VERSION = intPreference("store_version", -1)
 	}
 }

@@ -46,6 +46,7 @@ import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
+import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -595,7 +596,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     prefs.set(LiveTvPreferences.Companion.getShowRepeatIndicator(), mRepeat.isChecked());
                     prefs.set(LiveTvPreferences.Companion.getChannelOrder(), mCurrentSort);
                     prefs.set(LiveTvPreferences.Companion.getShowLiveIndicator(), mLive.isChecked());
-                    prefs.commitBlocking();
+                    CoroutineUtils.runBlocking((coroutineScope, continuation) -> prefs.commit(continuation));
 
                     TvManager.clearCache();
 

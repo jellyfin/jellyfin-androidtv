@@ -2,8 +2,10 @@ package org.jellyfin.androidtv.preference
 
 import android.content.Context
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
-import org.jellyfin.preference.Preference
+import org.jellyfin.preference.booleanPreference
+import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.store.SharedPreferenceStore
+import org.jellyfin.preference.stringPreference
 
 /**
  * System preferences are not possible to modify by the user.
@@ -19,48 +21,48 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Stores the channel that was active before leaving the app
 		 */
-		val liveTvLastChannel = Preference.string("sys_pref_last_tv_channel", "")
+		val liveTvLastChannel = stringPreference("sys_pref_last_tv_channel", "")
 
 		/**
 		 * Also stores the channel that was active before leaving the app I think
 		 */
-		val liveTvPrevChannel = Preference.string("sys_pref_prev_tv_channel", "")
+		val liveTvPrevChannel = stringPreference("sys_pref_prev_tv_channel", "")
 
 		// Live TV - Guide Filters
 		/**
 		 * Stores whether the kids filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterKids = Preference.boolean("guide_filter_kids", false)
+		val liveTvGuideFilterKids = booleanPreference("guide_filter_kids", false)
 
 		/**
 		 * Stores whether the movies filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterMovies = Preference.boolean("guide_filter_movies", false)
+		val liveTvGuideFilterMovies = booleanPreference("guide_filter_movies", false)
 
 		/**
 		 * Stores whether the news filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterNews = Preference.boolean("guide_filter_news", false)
+		val liveTvGuideFilterNews = booleanPreference("guide_filter_news", false)
 
 		/**
 		 * Stores whether the premiere filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterPremiere = Preference.boolean("guide_filter_premiere", false)
+		val liveTvGuideFilterPremiere = booleanPreference("guide_filter_premiere", false)
 
 		/**
 		 * Stores whether the series filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterSeries = Preference.boolean("guide_filter_series", false)
+		val liveTvGuideFilterSeries = booleanPreference("guide_filter_series", false)
 
 		/**
 		 * Stores whether the sports filter is active in the channel guide or not
 		 */
-		val liveTvGuideFilterSports = Preference.boolean("guide_filter_sports", false)
+		val liveTvGuideFilterSports = booleanPreference("guide_filter_sports", false)
 
 		// Other persistent variables
 		/**
 		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
 		 */
-		var chosenPlayer = Preference.enum("chosen_player", PreferredVideoPlayer.VLC)
+		var chosenPlayer = enumPreference("chosen_player", PreferredVideoPlayer.VLC)
 	}
 }

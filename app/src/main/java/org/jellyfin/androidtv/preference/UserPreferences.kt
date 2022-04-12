@@ -13,9 +13,12 @@ import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
 import org.jellyfin.androidtv.util.DeviceUtils
-import org.jellyfin.preference.Preference
+import org.jellyfin.preference.booleanPreference
+import org.jellyfin.preference.enumPreference
+import org.jellyfin.preference.intPreference
 import org.jellyfin.preference.migration.putEnum
 import org.jellyfin.preference.store.SharedPreferenceStore
+import org.jellyfin.preference.stringPreference
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -36,170 +39,170 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Select the app theme
 		 */
-		var appTheme = Preference.enum("app_theme", AppTheme.DARK)
+		var appTheme = enumPreference("app_theme", AppTheme.DARK)
 
 		/**
 		 * Enable background images while browsing
 		 */
-		var backdropEnabled = Preference.boolean("pref_show_backdrop", true)
+		var backdropEnabled = booleanPreference("pref_show_backdrop", true)
 
 		/**
 		 * Show premieres on home screen
 		 */
-		var premieresEnabled = Preference.boolean("pref_enable_premieres", false)
+		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
 
 		/**
 		 * Show a little notification to celebrate a set of holidays
 		 */
-		var seasonalGreetingsEnabled = Preference.boolean("pref_enable_themes", true)
+		var seasonalGreetingsEnabled = booleanPreference("pref_enable_themes", true)
 
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
 		 * the bitrate should be automatically detected.
 		 */
-		var maxBitrate = Preference.string("pref_max_bitrate", "100")
+		var maxBitrate = stringPreference("pref_max_bitrate", "100")
 
 		/**
 		 * Auto-play next item
 		 */
-		var mediaQueuingEnabled = Preference.boolean("pref_enable_tv_queuing", true)
+		var mediaQueuingEnabled = booleanPreference("pref_enable_tv_queuing", true)
 
 		/**
 		 * Enable the next up screen or not
 		 */
-		var nextUpBehavior = Preference.enum("next_up_behavior", NextUpBehavior.EXTENDED)
+		var nextUpBehavior = enumPreference("next_up_behavior", NextUpBehavior.EXTENDED)
 
 		/**
 		 * Next up timeout before playing next item
 		 * Stored in milliseconds
 		 */
-		var nextUpTimeout = Preference.int("next_up_timeout", 1000 * 7)
+		var nextUpTimeout = intPreference("next_up_timeout", 1000 * 7)
 
 		/**
 		 * Duration in seconds to subtract from resume time
 		 */
-		var resumeSubtractDuration = Preference.string("pref_resume_preroll", "0")
+		var resumeSubtractDuration = stringPreference("pref_resume_preroll", "0")
 
 		/**
 		 * Enable cinema mode
 		 */
-		var cinemaModeEnabled = Preference.boolean("pref_enable_cinema_mode", true)
+		var cinemaModeEnabled = booleanPreference("pref_enable_cinema_mode", true)
 
 		/* Playback - Video */
 		/**
 		 * Preferred video player.
 		 */
-		var videoPlayer = Preference.enum("video_player", PreferredVideoPlayer.EXOPLAYER)
+		var videoPlayer = enumPreference("video_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
 		 * Enable refresh rate switching when device supports it
 		 */
-		var refreshRateSwitchingEnabled = Preference.boolean("pref_refresh_switching", false)
+		var refreshRateSwitchingEnabled = booleanPreference("pref_refresh_switching", false)
 
 		/**
 		 * Send a path instead to the external player
 		 */
-		var externalVideoPlayerSendPath = Preference.boolean("pref_send_path_external", false)
+		var externalVideoPlayerSendPath = booleanPreference("pref_send_path_external", false)
 
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.
 		 */
-		var audioBehaviour = Preference.enum("audio_behavior", defaultAudioBehavior)
+		var audioBehaviour = enumPreference("audio_behavior", defaultAudioBehavior)
 
 		/**
 		 * Enable DTS
 		 */
-		var dtsEnabled = Preference.boolean("pref_bitstream_dts", false)
+		var dtsEnabled = booleanPreference("pref_bitstream_dts", false)
 
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = Preference.boolean("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
+		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
 
 		/**
 		 * Default audio delay in milliseconds for libVLC
 		 */
-		var libVLCAudioDelay = Preference.int("libvlc_audio_delay", 0)
+		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
 
 		/* Live TV */
 		/**
 		 * Use direct play
 		 */
-		var liveTvDirectPlayEnabled = Preference.boolean("pref_live_direct", true)
+		var liveTvDirectPlayEnabled = booleanPreference("pref_live_direct", true)
 
 		/**
 		 * Preferred video player for live TV
 		 */
-		var liveTvVideoPlayer = Preference.enum("live_tv_video_player", PreferredVideoPlayer.AUTO)
+		var liveTvVideoPlayer = enumPreference("live_tv_video_player", PreferredVideoPlayer.AUTO)
 
 		/**
 		 * Shortcut used for changing the audio track
 		 */
-		var shortcutAudioTrack = Preference.int("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+		var shortcutAudioTrack = intPreference("shortcut_audio_track", KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
 
 		/**
 		 * Shortcut used for changing the subtitle track
 		 */
-		var shortcutSubtitleTrack = Preference.int("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
+		var shortcutSubtitleTrack = intPreference("shortcut_subtitle_track", KeyEvent.KEYCODE_CAPTIONS)
 
 		/* Developer options */
 		/**
 		 * Show additional debug information
 		 */
-		var debuggingEnabled = Preference.boolean("pref_enable_debug", false)
+		var debuggingEnabled = booleanPreference("pref_enable_debug", false)
 
 		/**
 		 * Use playback rewrite module
 		 */
-		var playbackRewriteEnabled = Preference.boolean("playback_new", false)
+		var playbackRewriteEnabled = booleanPreference("playback_new", false)
 
 		/* ACRA */
 		/**
 		 * Enable ACRA crash reporting
 		 */
-		var acraEnabled = Preference.boolean(ACRA.PREF_ENABLE_ACRA, true)
+		var acraEnabled = booleanPreference(ACRA.PREF_ENABLE_ACRA, true)
 
 		/**
 		 * Never prompt to report crash logs
 		 */
-		var acraNoPrompt = Preference.boolean(ACRA.PREF_ALWAYS_ACCEPT, false)
+		var acraNoPrompt = booleanPreference(ACRA.PREF_ALWAYS_ACCEPT, false)
 
 		/**
 		 * Include system logs in crash reports
 		 */
-		var acraIncludeSystemLogs = Preference.boolean(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
+		var acraIncludeSystemLogs = booleanPreference(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
 
 		/**
 		 * When to show the clock.
 		 */
-		var clockBehavior = Preference.enum("pref_clock_behavior", ClockBehavior.ALWAYS)
+		var clockBehavior = enumPreference("pref_clock_behavior", ClockBehavior.ALWAYS)
 
 		/**
 		 * Set which ratings provider should show on MyImageCardViews
 		 */
-		var defaultRatingType = Preference.enum("pref_rating_type", RatingType.RATING_TOMATOES)
+		var defaultRatingType = enumPreference("pref_rating_type", RatingType.RATING_TOMATOES)
 
 		/**
 		 * Set when watched indicators should show on MyImageCardViews
 		 */
-		var watchedIndicatorBehavior = Preference.enum("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
+		var watchedIndicatorBehavior = enumPreference("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)
 
 		/**
 		 * Enable series thumbnails in home screen rows
 		 */
-		var seriesThumbnailsEnabled = Preference.boolean("pref_enable_series_thumbnails", true)
+		var seriesThumbnailsEnabled = booleanPreference("pref_enable_series_thumbnails", true)
 
 		/**
 		 * Enable subtitles background
 		 */
-		var subtitlesBackgroundEnabled = Preference.boolean("subtitles_background_enabled", true)
+		var subtitlesBackgroundEnabled = booleanPreference("subtitles_background_enabled", true)
 
 		/**
 		 * Set default subtitles font size
 		 */
-		var defaultSubtitlesSize = Preference.int("subtitles_size", 28)
+		var defaultSubtitlesSize = intPreference("subtitles_size", 28)
 	}
 
 	init {
