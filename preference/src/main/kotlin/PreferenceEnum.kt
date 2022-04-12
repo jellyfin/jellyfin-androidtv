@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.preference
 
 interface PreferenceEnum {
 	val serializedName: String

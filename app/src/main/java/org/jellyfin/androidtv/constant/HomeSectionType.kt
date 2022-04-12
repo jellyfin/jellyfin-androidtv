@@ -1,8 +1,8 @@
 package org.jellyfin.androidtv.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.PreferenceEnum
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
 /**
  * All possible homesections, "synced" with jellyfin-web.

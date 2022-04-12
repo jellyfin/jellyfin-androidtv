@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.preference
 
 import android.content.Context
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.preference.Preference
+import org.jellyfin.preference.store.SharedPreferenceStore
 
 /**
  * System preferences are not possible to modify by the user.

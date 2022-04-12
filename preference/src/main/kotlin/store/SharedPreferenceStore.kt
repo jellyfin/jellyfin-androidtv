@@ -1,7 +1,10 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.preference.store
 
 import android.content.SharedPreferences
-import org.jellyfin.androidtv.preference.migrations.MigrationContext
+import org.jellyfin.preference.Preference
+import org.jellyfin.preference.PreferenceEnum
+import org.jellyfin.preference.migration.MigrationContext
+import org.jellyfin.preference.migration.MigrationEditor
 import timber.log.Timber
 
 /**

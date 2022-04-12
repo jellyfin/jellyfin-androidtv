@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.preference
 
 import kotlin.reflect.KClass
 

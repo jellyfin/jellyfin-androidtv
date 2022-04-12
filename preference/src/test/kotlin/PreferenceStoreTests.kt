@@ -1,7 +1,37 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.preference
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import org.jellyfin.preference.store.PreferenceStore
+
+/**
+ * Tests that the generic set/get methods dispatch to the correct
+ * internal getT/setT methods
+ */
+class PreferenceStoreTests : FunSpec({
+	fun <T : Any> verifySimpleType(expectedVal: T, preference: Preference<T>) {
+		val instance = TestStub()
+		instance[preference] = expectedVal
+		instance[preference] shouldBe expectedVal
+		instance.key shouldBe preference.key
+	}
+
+	test("Reading and writing primitives works correctly") {
+		verifySimpleType(1, Preference.int("key", 0))
+		verifySimpleType(1L, Preference.long("key", 0L))
+		verifySimpleType(true, Preference.boolean("key", false))
+		verifySimpleType("string", Preference.string("key", ""))
+	}
+
+	test("Reading and writing enums works correctly") {
+		val pref = Preference.enum("key", TestEnum.NOT_SET)
+		val expectedVal = TestEnum.SET
+		val instance = TestStub()
+		instance[pref] = expectedVal
+		instance[pref] shouldBe expectedVal
+		pref.key shouldBe instance.key
+	}
+})
 
 private class TestStub : PreferenceStore() {
 	var key: String? = null
@@ -52,36 +82,3 @@ private class TestStub : PreferenceStore() {
 }
 
 private enum class TestEnum { NOT_SET, SET }
-
-/**
- * Tests that the generic set/get methods dispatch to the correct
- * internal getT/setT methods
- */
-class PreferenceStoreTests : FunSpec({
-	fun <T : Any> verifySimpleType(expectedVal: T, preference: Preference<T>) {
-		val instance = TestStub()
-		instance[preference] = expectedVal
-		instance[preference] shouldBe expectedVal
-		instance.key shouldBe preference.key
-	}
-
-	test("get and setting native types") {
-		// Unfortunately KoTest will try to serialise to a base Serializable using rows
-		// So manually use generics for the same effect
-		verifySimpleType(1, Preference.int("key", 0))
-		verifySimpleType(1L, Preference.long("key", 0L))
-		verifySimpleType(true, Preference.boolean("key", false))
-		verifySimpleType("string", Preference.string("key", ""))
-	}
-
-	test("get and set with enum types") {
-		// Generics removes too much type info for us to use verifySimpleType
-		// we could be clever, but I prefer duplication and to KISS
-		val pref = Preference.enum("key", TestEnum.NOT_SET)
-		val expectedVal = TestEnum.SET
-		val instance = TestStub()
-		instance[pref] = expectedVal
-		instance[pref] shouldBe expectedVal
-		pref.key shouldBe instance.key
-	}
-})
