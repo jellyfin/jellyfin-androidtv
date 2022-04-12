@@ -1,5 +1,8 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.androidtv.preference.store
 
+import org.jellyfin.preference.Preference
+import org.jellyfin.preference.PreferenceEnum
+import org.jellyfin.preference.store.AsyncPreferenceStore
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.displayPreferencesApi

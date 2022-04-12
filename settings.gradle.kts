@@ -5,6 +5,7 @@ include(":app")
 
 // Modules
 include(":playback")
+include(":preference")
 
 pluginManagement {
 	repositories {

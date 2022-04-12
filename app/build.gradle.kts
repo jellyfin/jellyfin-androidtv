@@ -88,6 +88,7 @@ val versionTxt by tasks.registering {
 dependencies {
 	// Jellyfin
 	implementation(projects.playback)
+	implementation(projects.preference)
 	implementation(libs.jellyfin.apiclient)
 	implementation(libs.jellyfin.sdk) {
 		// Change version if desired

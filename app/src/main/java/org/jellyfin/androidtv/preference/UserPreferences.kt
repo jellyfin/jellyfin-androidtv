@@ -13,6 +13,9 @@ import org.jellyfin.androidtv.preference.constant.RatingType
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
 import org.jellyfin.androidtv.util.DeviceUtils
+import org.jellyfin.preference.Preference
+import org.jellyfin.preference.migration.putEnum
+import org.jellyfin.preference.store.SharedPreferenceStore
 
 /**
  * User preferences are configurable by the user and change behavior of the application.

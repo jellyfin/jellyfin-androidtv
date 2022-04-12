@@ -1,4 +1,6 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.preference.store
+
+import org.jellyfin.preference.Preference
 
 /**
  * Abstract class defining the required functions for a preference store.

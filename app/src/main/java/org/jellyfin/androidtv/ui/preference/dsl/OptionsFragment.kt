@@ -5,8 +5,8 @@ import androidx.leanback.preference.LeanbackPreferenceFragmentCompat
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
-import org.jellyfin.androidtv.preference.AsyncPreferenceStore
-import org.jellyfin.androidtv.preference.PreferenceStore
+import org.jellyfin.preference.store.AsyncPreferenceStore
+import org.jellyfin.preference.store.PreferenceStore
 
 abstract class OptionsFragment : LeanbackPreferenceFragmentCompat() {
 	abstract val screen: OptionsScreen

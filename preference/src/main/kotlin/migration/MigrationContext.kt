@@ -1,7 +1,7 @@
-package org.jellyfin.androidtv.preference.migrations
+package org.jellyfin.preference.migration
 
 import timber.log.Timber
-import java.lang.Integer.max
+import kotlin.math.max
 
 class MigrationContext<E, V> {
 	private val migrations = mutableListOf<Migration<E, V>>()

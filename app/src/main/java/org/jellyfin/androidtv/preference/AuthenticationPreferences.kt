@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
+import org.jellyfin.preference.Preference
+import org.jellyfin.preference.store.SharedPreferenceStore
 
 class AuthenticationPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = context.getSharedPreferences("authentication", Context.MODE_PRIVATE)
