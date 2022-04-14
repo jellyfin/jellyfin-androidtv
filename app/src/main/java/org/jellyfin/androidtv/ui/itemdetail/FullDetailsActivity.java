@@ -34,7 +34,7 @@ import androidx.leanback.widget.RowPresenter;
 import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;

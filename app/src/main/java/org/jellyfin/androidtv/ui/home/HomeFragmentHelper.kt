@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.UserRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery

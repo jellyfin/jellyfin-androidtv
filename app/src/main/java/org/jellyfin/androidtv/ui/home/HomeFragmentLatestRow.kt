@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.home
 import android.content.Context
 import androidx.leanback.widget.ArrayObjectAdapter
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.UserRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter

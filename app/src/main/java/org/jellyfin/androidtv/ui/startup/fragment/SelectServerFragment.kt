@@ -122,10 +122,12 @@ class SelectServerFragment : Fragment() {
 					}
 				}
 
-				loginViewModel.discoveredServers.collect { server ->
-					discoveryServerAdapter.items += StatefulServer(server = server)
+				launch {
+					loginViewModel.discoveredServers.collect { servers ->
+						discoveryServerAdapter.items = servers.map { StatefulServer(server = it) }
 
-					binding.discoveryServers.isFocusable = true
+						binding.discoveryServers.isFocusable = servers.any()
+					}
 				}
 
 				binding.discoveryProgressIndicator.isVisible = false

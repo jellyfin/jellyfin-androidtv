@@ -7,7 +7,7 @@ import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;

@@ -21,7 +21,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
-import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
@@ -64,7 +63,7 @@ class LeanbackChannelWorker(
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
-	private val api by inject<ApiClient>(systemApiClient)
+	private val api by inject<ApiClient>()
 	private val userPreferences by inject<UserPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
 

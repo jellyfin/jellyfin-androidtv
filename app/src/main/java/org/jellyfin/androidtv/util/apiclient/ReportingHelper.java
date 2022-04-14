@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.util.apiclient;
 
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.auth.SessionRepository;
+import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;

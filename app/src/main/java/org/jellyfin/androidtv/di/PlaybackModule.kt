@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val playbackModule = module {
 	single {
-		PlaybackManager(get(userApiClient))
+		PlaybackManager(get())
 	}
 
 	factory {

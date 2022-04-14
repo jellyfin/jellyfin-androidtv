@@ -12,12 +12,13 @@ class KoinInitializer : Initializer<KoinApplication> {
 		androidContext(context)
 
 		modules(
+			activityLifecycleCallbacksModule,
+			androidModule,
 			appModule,
 			authModule,
-			activityLifecycleCallbacksModule,
 			playbackModule,
 			preferenceModule,
-			utilsModule
+			utilsModule,
 		)
 	}
 

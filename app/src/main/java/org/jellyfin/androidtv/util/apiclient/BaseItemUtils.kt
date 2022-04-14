@@ -6,7 +6,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
-import org.jellyfin.androidtv.di.userApiClient
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
@@ -113,7 +112,7 @@ fun BaseItemDto.getFirstPerson(searchedType: PersonType) =
 	people?.find { it.personType == searchedType }
 
 fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> {
-	val apiClient by inject<ApiClient>(ApiClient::class.java, userApiClient)
+	val apiClient by inject<ApiClient>(ApiClient::class.java)
 
 	return chapters.mapIndexed { i, dto ->
 		ChapterItemInfo().apply {

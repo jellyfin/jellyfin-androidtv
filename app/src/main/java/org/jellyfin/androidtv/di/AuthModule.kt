@@ -1,24 +1,32 @@
 package org.jellyfin.androidtv.di
 
-import androidx.core.content.getSystemService
-import org.jellyfin.androidtv.auth.AccountManagerHelper
-import org.jellyfin.androidtv.auth.ApiBinder
-import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.AuthenticationRepositoryImpl
-import org.jellyfin.androidtv.auth.AuthenticationStore
-import org.jellyfin.androidtv.auth.SessionRepository
-import org.jellyfin.androidtv.auth.SessionRepositoryImpl
-import org.koin.android.ext.koin.androidContext
+import org.jellyfin.androidtv.auth.apiclient.ApiBinder
+import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
+import org.jellyfin.androidtv.auth.repository.AuthenticationRepositoryImpl
+import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerRepositoryImpl
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepositoryImpl
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepositoryImpl
+import org.jellyfin.androidtv.auth.store.AccountManagerStore
+import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
+import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.koin.dsl.module
 
 val authModule = module {
-	single { AuthenticationStore(androidContext()) }
-	single { AccountManagerHelper(androidContext().getSystemService()!!) }
+	single { AuthenticationStore(get()) }
+	single { AccountManagerStore(get()) }
+	single { AuthenticationPreferences(get()) }
+
 	single<AuthenticationRepository> {
-		AuthenticationRepositoryImpl(get(), get(), get(), get(), get(userApiClient), get(), get(defaultDeviceInfo))
+		AuthenticationRepositoryImpl(get(), get(), get(), get(), get(), get(), get(defaultDeviceInfo))
 	}
+	single<ServerRepository> { ServerRepositoryImpl(get(), get()) }
+	single<ServerUserRepository> { ServerUserRepositoryImpl(get(), get(), get()) }
 	single<SessionRepository> {
-		SessionRepositoryImpl(get(), get(), get(), get(), get(userApiClient), get(systemApiClient), get(), get(defaultDeviceInfo), get())
+		SessionRepositoryImpl(get(), get(), get(), get(), get(), get(), get(defaultDeviceInfo), get())
 	}
+
 	single { ApiBinder(get(), get()) }
 }

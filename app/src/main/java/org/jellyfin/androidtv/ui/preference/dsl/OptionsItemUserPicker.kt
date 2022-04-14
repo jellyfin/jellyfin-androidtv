@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichListItem
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment.RichListItem.RichListOption
@@ -15,7 +16,8 @@ import java.util.UUID
 
 class OptionsItemUserPicker(
 	private val context: Context,
-	private val authenticationRepository: AuthenticationRepository,
+	private val serverRepository: ServerRepository,
+	private val serverUserRepository: ServerUserRepository,
 ) : OptionsItemMutable<OptionsItemUserPicker.UserSelection>() {
 	var dialogMessage: String? = null
 	var allowDisable: Boolean = true
@@ -60,9 +62,9 @@ class OptionsItemUserPicker(
 		)
 
 		// Add users grouped by server
-		for (server in authenticationRepository.getServers()) {
-			val users = authenticationRepository.getUsers(server.id)
-			if (users.isNullOrEmpty()) continue
+		for (server in serverRepository.storedServers.value) {
+			val users = serverUserRepository.getStoredServerUsers(server)
+			if (users.isEmpty()) continue
 
 			add(RichListSection(server.name))
 
@@ -115,8 +117,9 @@ class OptionsItemUserPicker(
 
 @OptionsDSL
 fun OptionsCategory.userPicker(
-	authenticationRepository: AuthenticationRepository,
+	serverRepository: ServerRepository,
+	serverUserRepository: ServerUserRepository,
 	init: OptionsItemUserPicker.() -> Unit
 ) {
-	this += OptionsItemUserPicker(context, authenticationRepository).apply { init() }
+	this += OptionsItemUserPicker(context, serverRepository, serverUserRepository).apply { init() }
 }

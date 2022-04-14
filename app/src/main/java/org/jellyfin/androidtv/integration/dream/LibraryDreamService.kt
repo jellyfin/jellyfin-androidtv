@@ -14,7 +14,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.databinding.DreamLibraryBinding
-import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.apiclient.model.querying.ItemSortBy
@@ -42,7 +41,7 @@ class LibraryDreamService : DreamService() {
 	}
 
 	private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-	private val api: ApiClient by inject(systemApiClient)
+	private val api: ApiClient by inject()
 	private val userPreferences: UserPreferences by inject()
 
 	private lateinit var binding: DreamLibraryBinding

@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.auth.model
 
-import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.sdk.model.ServerVersion
 import java.util.Date
 import java.util.UUID

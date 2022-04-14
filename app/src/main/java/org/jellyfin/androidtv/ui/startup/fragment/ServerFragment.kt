@@ -18,7 +18,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.ServerRepository
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
 import org.jellyfin.androidtv.auth.model.RequireSignInState
@@ -26,6 +25,7 @@ import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
@@ -60,7 +60,7 @@ class ServerFragment : Fragment() {
 		val userAdapter = UserAdapter(requireContext(), server, loginViewModel)
 		userAdapter.onItemPressed = { user ->
 			lifecycleScope.launch {
-				loginViewModel.authenticate(user, server).collect { state ->
+				loginViewModel.authenticate(server, user).collect { state ->
 					when (state) {
 						// Ignored states
 						AuthenticatingState -> Unit

@@ -1,9 +1,12 @@
 package org.jellyfin.androidtv
 
 import android.content.Context
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.startup.AppInitializer
 import androidx.startup.Initializer
-import org.jellyfin.androidtv.auth.SessionRepository
+import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.di.KoinInitializer
 
 @Suppress("unused")
@@ -14,7 +17,9 @@ class SessionInitializer : Initializer<Unit> {
 			.koin
 
 		// Restore system session
-		koin.get<SessionRepository>().restoreDefaultSystemSession()
+		ProcessLifecycleOwner.get().lifecycleScope.launch {
+			koin.get<SessionRepository>().restoreSession()
+		}
 	}
 
 	override fun dependencies() = listOf(KoinInitializer::class.java)

@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.shared
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import timber.log.Timber

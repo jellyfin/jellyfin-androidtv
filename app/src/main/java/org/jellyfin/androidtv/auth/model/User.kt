@@ -13,6 +13,8 @@ sealed class User {
 	abstract val requirePassword: Boolean
 	abstract val imageTag: String?
 
+	abstract fun withToken(accessToken: String): User
+
 	override fun equals(other: Any?) = other is User
 		&& serverId == other.serverId
 		&& id == other.id
@@ -35,7 +37,9 @@ data class PrivateUser(
 	override val requirePassword: Boolean,
 	override val imageTag: String?,
 	val lastUsed: Long,
-) : User()
+) : User() {
+	override fun withToken(accessToken: String) = copy(accessToken = accessToken)
+}
 
 /**
  * Represents a user stored server side. Found using the Public User endpoint.
@@ -47,4 +51,6 @@ data class PublicUser(
 	override val accessToken: String?,
 	override val requirePassword: Boolean,
 	override val imageTag: String?,
-) : User()
+) : User() {
+	override fun withToken(accessToken: String) = copy(accessToken = accessToken)
+}

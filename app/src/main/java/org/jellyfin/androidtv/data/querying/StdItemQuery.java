@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.data.querying;
 
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.koin.java.KoinJavaComponent;

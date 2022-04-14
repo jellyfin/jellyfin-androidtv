@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import org.jellyfin.androidtv.di.userApiClient
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
@@ -21,7 +20,7 @@ class PlaybackForwardingActivity : FragmentActivity() {
 	}
 
 	private val mediaManager by inject<MediaManager>()
-	private val api by inject<ApiClient>(userApiClient)
+	private val api by inject<ApiClient>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

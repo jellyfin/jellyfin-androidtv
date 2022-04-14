@@ -52,7 +52,7 @@
         android:usesCleartextTraffic="true">
 
         <service
-            android:name=".auth.AuthenticatorService"
+            android:name=".auth.service.AuthenticatorService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.databinding.ViewCardChannelBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.apiclient.interaction.ApiClient;
