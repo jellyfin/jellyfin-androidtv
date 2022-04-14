@@ -12,7 +12,6 @@ import android.provider.BaseColumns
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.di.systemApiClient
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
@@ -40,7 +39,7 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 		}
 	}
 
-	private val api by inject<ApiClient>(systemApiClient)
+	private val api by inject<ApiClient>()
 
 	override fun onCreate(): Boolean = api.isUsable
 

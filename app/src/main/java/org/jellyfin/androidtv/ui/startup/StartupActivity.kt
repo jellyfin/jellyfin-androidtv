@@ -10,13 +10,15 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.SessionRepository
-import org.jellyfin.androidtv.auth.UserRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -72,9 +74,8 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
 	}
 
-	private fun onPermissionsGranted() {
-		var isLoaded = false
-		lifecycleScope.launchWhenCreated {
+	private fun onPermissionsGranted() = lifecycleScope.launch {
+		lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 			sessionRepository.currentSession.collect { session ->
 				if (session != null) {
 					Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
@@ -87,7 +88,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 					lifecycleScope.launch {
 						openNextActivity()
 					}
-				} else if (!isLoaded) {
+				} else {
 					// Clear audio queue in case left over from last run
 					mediaManager.clearAudioQueue()
 					mediaManager.clearVideoQueue()
@@ -95,8 +96,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 					val server = loginViewModel.getLastServer()
 					if (server != null) showServer(server.id)
 					else showServerSelection()
-
-					isLoaded = true
 				}
 			}
 		}
@@ -154,8 +153,13 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	// Fragment switching
-	private fun showSplash() = supportFragmentManager.commit {
-		replace<SplashFragment>(R.id.content_view)
+	private fun showSplash() {
+		// Prevent progress bar flashing
+		if (supportFragmentManager.findFragmentById(R.id.content_view) is SplashFragment) return
+
+		supportFragmentManager.commit {
+			replace<SplashFragment>(R.id.content_view)
+		}
 	}
 
 	private fun showServer(id: UUID) = supportFragmentManager.commit {

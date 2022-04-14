@@ -7,7 +7,7 @@ import android.widget.RelativeLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.UserRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior

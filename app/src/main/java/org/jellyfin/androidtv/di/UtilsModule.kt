@@ -5,6 +5,6 @@ import org.jellyfin.androidtv.util.ImageHelper
 import org.koin.dsl.module
 
 val utilsModule = module {
-	single { AutoBitrate(get(userApiClient)) }
-	single { ImageHelper(get(userApiClient)) }
+	single { AutoBitrate(get()) }
+	single { ImageHelper(get()) }
 }

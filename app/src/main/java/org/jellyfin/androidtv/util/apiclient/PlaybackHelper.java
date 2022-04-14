@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.SessionRepository;
+import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;

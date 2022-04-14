@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.util
 
 import android.content.Context
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.discovery.RecommendedServerIssue
 import javax.net.ssl.SSLHandshakeException

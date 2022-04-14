@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.auth
+package org.jellyfin.androidtv.auth.store
 
 import android.accounts.Account
 import android.accounts.AccountManager
@@ -11,7 +11,7 @@ import java.util.UUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class AccountManagerHelper(
+class AccountManagerStore(
 	private val accountManager: AccountManager
 ) {
 	companion object {
@@ -57,16 +57,17 @@ class AccountManagerHelper(
 		accountManager.setAuthToken(androidAccount, ACCOUNT_ACCESS_TOKEN_TYPE, accountManagerAccount.accessToken)
 	}
 
-	fun removeAccount(accountManagerAccount: AccountManagerAccount) {
+	fun removeAccount(accountManagerAccount: AccountManagerAccount): Boolean {
 		val androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.first { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
+			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
+			?: return false
 
 		// Remove current account info
 		@Suppress("DEPRECATION")
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1)
-			accountManager.removeAccountExplicitly(androidAccount)
-		else
+		return if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
 			accountManager.removeAccount(androidAccount, null, null)
+			true
+		} else accountManager.removeAccountExplicitly(androidAccount)
 	}
 
 	fun getAccounts() = accountManager.getAccountsByType(ACCOUNT_TYPE).map(::getAccountData)

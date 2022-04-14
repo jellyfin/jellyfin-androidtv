@@ -22,12 +22,11 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
-import org.jellyfin.androidtv.di.AppModuleKt;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -712,7 +711,7 @@ public class MediaManager {
         }
         options.setProfile(profile);
 
-        DeviceInfo deviceInfo = KoinJavaComponent.<org.jellyfin.sdk.api.client.ApiClient>get(org.jellyfin.sdk.api.client.ApiClient.class, AppModuleKt.getUserApiClient()).getDeviceInfo();
+        DeviceInfo deviceInfo = KoinJavaComponent.<org.jellyfin.sdk.api.client.ApiClient>get(org.jellyfin.sdk.api.client.ApiClient.class).getDeviceInfo();
         KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(deviceInfo, options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {

@@ -1,11 +1,8 @@
 package org.jellyfin.androidtv.di
 
-import androidx.work.WorkManager
 import org.jellyfin.androidtv.BuildConfig
-import org.jellyfin.androidtv.auth.ServerRepository
-import org.jellyfin.androidtv.auth.ServerRepositoryImpl
-import org.jellyfin.androidtv.auth.UserRepository
-import org.jellyfin.androidtv.auth.UserRepositoryImpl
+import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
@@ -35,8 +32,6 @@ import org.jellyfin.apiclient.Jellyfin as JellyfinApiClient
 import org.jellyfin.sdk.Jellyfin as JellyfinSdk
 
 val defaultDeviceInfo = named("defaultDeviceInfo")
-val userApiClient = named("userApiClient")
-val systemApiClient = named("systemApiClient")
 
 val appModule = module {
 	// New SDK
@@ -51,17 +46,12 @@ val appModule = module {
 		}
 	}
 
-	single(userApiClient) {
+	single {
 		// Create an empty API instance, the actual values are set by the SessionRepository
 		get<JellyfinSdk>().createApi()
 	}
 
-	single { SocketHandler(get(), get(userApiClient), get(), get(), get()) }
-
-	single(systemApiClient) {
-		// Create an empty API instance, the actual values are set by the SessionRepository
-		get<JellyfinSdk>().createApi()
-	}
+	single { SocketHandler(get(), get(), get(), get(), get()) }
 
 	// Old apiclient
 	single { GsonJsonSerializer() }
@@ -87,16 +77,13 @@ val appModule = module {
 	single { DataRefreshService() }
 	single { PlaybackControllerContainer() }
 
-	factory { WorkManager.getInstance(androidContext()) }
-
-	single<ServerRepository> { ServerRepositoryImpl(get(), get(), get()) }
 	single<UserRepository> { UserRepositoryImpl() }
-	single<UserViewsRepository> { UserViewsRepositoryImpl(get(userApiClient)) }
+	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
 
-	viewModel { LoginViewModel(get(), get(), get()) }
-	viewModel { NextUpViewModel(get(), get(userApiClient), get(), get()) }
+	viewModel { LoginViewModel(get(), get(), get(), get()) }
+	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 
-	single { BackgroundService(get(), get(userApiClient), get()) }
+	single { BackgroundService(get(), get(), get()) }
 
 	single { MarkdownRenderer(get()) }
 }

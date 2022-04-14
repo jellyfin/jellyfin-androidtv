@@ -5,22 +5,22 @@ import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.acra.config.dialog
 import org.acra.config.httpSender
 import org.acra.config.limiter
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
-import org.jellyfin.androidtv.auth.SessionRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.util.AutoBitrate
@@ -51,7 +51,9 @@ class JellyfinApplication : Application() {
 			override fun onStart(owner: LifecycleOwner) {
 				Timber.i("Process lifecycle started")
 
-				get<SessionRepository>().restoreDefaultSession()
+				owner.lifecycleScope.launch {
+					get<SessionRepository>().restoreSession()
+				}
 			}
 		})
 	}
@@ -59,28 +61,32 @@ class JellyfinApplication : Application() {
 	/**
 	 * Called from the StartupActivity when the user session is started.
 	 */
-	@DelicateCoroutinesApi
-	suspend fun onSessionStart() {
+	suspend fun onSessionStart() = withContext(Dispatchers.IO) {
 		val workManager by inject<WorkManager>()
 		val autoBitrate by inject<AutoBitrate>()
 		val socketListener by inject<SocketHandler>()
 
-		// Cancel all current workers
-		workManager.cancelAllWork().await()
+		// Update background worker
+		launch {
+			// Cancel all current workers
+			workManager.cancelAllWork().await()
 
-		// Recreate periodic workers
-		workManager.enqueueUniquePeriodicWork(
-			LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
-			ExistingPeriodicWorkPolicy.REPLACE,
-			PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
-				.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
-				.build()
-		).await()
+			// Recreate periodic workers
+			workManager.enqueueUniquePeriodicWork(
+				LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
+				ExistingPeriodicWorkPolicy.REPLACE,
+				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
+					.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
+					.build()
+			).await()
+		}
+
+		// Update WebSockets
+		launch { socketListener.updateSession() }
 
 		// Detect auto bitrate
-		GlobalScope.launch(Dispatchers.IO) { autoBitrate.detect() }
-
-		socketListener.updateSession()
+		// running in a different scope to prevent slow startups
+		ProcessLifecycleOwner.get().lifecycleScope.launch { autoBitrate.detect() }
 	}
 
 	override fun attachBaseContext(base: Context?) {

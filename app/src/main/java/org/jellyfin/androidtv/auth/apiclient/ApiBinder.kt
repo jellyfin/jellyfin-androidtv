@@ -1,5 +1,7 @@
-package org.jellyfin.androidtv.auth
+package org.jellyfin.androidtv.auth.apiclient
 
+import org.jellyfin.androidtv.auth.repository.Session
+import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.model.apiclient.ServerInfo

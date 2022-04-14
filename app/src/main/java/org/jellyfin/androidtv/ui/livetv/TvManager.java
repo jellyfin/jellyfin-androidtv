@@ -15,7 +15,7 @@ import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;

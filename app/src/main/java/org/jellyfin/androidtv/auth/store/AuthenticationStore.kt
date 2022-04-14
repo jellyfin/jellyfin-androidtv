@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.auth
+package org.jellyfin.androidtv.auth.store
 
 import android.content.Context
 import kotlinx.serialization.encodeToString
@@ -20,7 +20,7 @@ import java.util.UUID
 
 /**
  * Storage for authentication related entities. Stores servers with users inside. Should be used in
- * combination with the [AccountManagerHelper] to store access tokens and integrate with the
+ * combination with the [AccountManagerStore] to store access tokens and integrate with the
  * operating system.
  *
  * The data is stored in a JSON file located in the applications data directory.

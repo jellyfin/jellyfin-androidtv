@@ -1,11 +1,18 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import android.os.Bundle
+import android.view.View
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.AuthenticationRepository
-import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
-import org.jellyfin.androidtv.preference.AuthenticationPreferences
+import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior
 import org.jellyfin.androidtv.ui.preference.category.aboutCategory
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsBinder
@@ -22,7 +29,8 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 
 class AuthPreferencesScreen : OptionsFragment() {
-	private val authenticationRepository: AuthenticationRepository by inject()
+	private val serverRepository: ServerRepository by inject()
+	private val serverUserRepository: ServerUserRepository by inject()
 	private val authenticationPreferences: AuthenticationPreferences by inject()
 	private val sessionRepository: SessionRepository by inject()
 
@@ -31,13 +39,21 @@ class AuthPreferencesScreen : OptionsFragment() {
 		requireArguments().getBoolean(ARG_SHOW_ABOUT, false)
 	}
 
-	override val rebuildOnResume = true
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		viewLifecycleOwner.lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				serverRepository.storedServers.collect { rebuild() }
+			}
+		}
+	}
 
 	override val screen by optionsScreen {
 		setTitle(R.string.pref_authentication_cat)
 
 		category {
-			userPicker(authenticationRepository) {
+			userPicker(serverRepository, serverUserRepository) {
 				setTitle(R.string.auto_sign_in)
 
 				bind {
@@ -53,38 +69,18 @@ class AuthPreferencesScreen : OptionsFragment() {
 				}
 			}
 
-			userPicker(authenticationRepository) {
-				setTitle(R.string.system_user)
-				setDialogMessage(R.string.system_user_explanation)
-
-				bind {
-					from(
-						authenticationPreferences,
-						AuthenticationPreferences.systemUserBehavior,
-						AuthenticationPreferences.systemUserId
-					) {
-						// Update current system session
-						sessionRepository.restoreDefaultSystemSession()
-					}
-				}
-
-				depends {
-					!authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]
-				}
-			}
-
 			enum<AuthenticationSortBy> {
 				setTitle(R.string.sort_accounts_by)
 				bind(authenticationPreferences, AuthenticationPreferences.sortBy)
 			}
 		}
 
-		val servers = authenticationRepository.getServers()
+		val servers = serverRepository.storedServers.value
 		if (servers.isNotEmpty()) {
 			category {
 				setTitle(R.string.lbl_manage_servers)
 
-				servers.forEach { server ->
+				for (server in servers) {
 					link {
 						title = server.name
 						icon = R.drawable.ic_house

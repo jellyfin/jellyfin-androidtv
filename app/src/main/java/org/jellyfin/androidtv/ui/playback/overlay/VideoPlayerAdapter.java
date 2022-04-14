@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.playback.overlay;
 
 import androidx.leanback.media.PlayerAdapter;
 
-import org.jellyfin.androidtv.auth.UserRepository;
+import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;

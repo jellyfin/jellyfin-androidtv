@@ -1,7 +1,8 @@
 package org.jellyfin.androidtv.ui.startup.preference
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
@@ -13,6 +14,7 @@ import java.util.UUID
 class EditUserScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()
 	private val authenticationRepository by inject<AuthenticationRepository>()
+	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val screen by optionsScreen {
 		val serverUUID = requireArguments().get(ARG_SERVER_UUID)
@@ -21,7 +23,7 @@ class EditUserScreen : OptionsFragment() {
 		if (serverUUID !is UUID || userUUID !is UUID) return@optionsScreen
 
 		val server = loginViewModel.getServer(serverUUID) ?: return@optionsScreen
-		val user = authenticationRepository.getUser(server.id, userUUID) ?: return@optionsScreen
+		val user = serverUserRepository.getStoredServerUsers(server).find { it.id == userUUID } ?: return@optionsScreen
 
 		title = context?.getString(R.string.lbl_user_server, user.name, server.name)
 
@@ -34,6 +36,7 @@ class EditUserScreen : OptionsFragment() {
 
 				onActivate = {
 					authenticationRepository.logout(user)
+					rebuild()
 				}
 
 				// Disable action when access token is not set (already signed out)
@@ -49,7 +52,7 @@ class EditUserScreen : OptionsFragment() {
 				icon = R.drawable.ic_delete
 
 				onActivate = {
-					authenticationRepository.removeUser(user)
+					serverUserRepository.deleteStoredUser(user)
 					parentFragmentManager.popBackStack()
 				}
 			}

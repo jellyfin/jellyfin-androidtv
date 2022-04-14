@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.startup.preference
 
 import androidx.core.os.bundleOf
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.AuthenticationRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.link
@@ -16,7 +16,7 @@ import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
 	private val loginViewModel: LoginViewModel by sharedViewModel()
-	private val authenticationRepository by inject<AuthenticationRepository>()
+	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val rebuildOnResume = true
 
@@ -25,7 +25,7 @@ class EditServerScreen : OptionsFragment() {
 			?: return@optionsScreen
 
 		val server = loginViewModel.getServer(serverUUID) ?: return@optionsScreen
-		val users = authenticationRepository.getUsers(serverUUID) ?: return@optionsScreen
+		val users = serverUserRepository.getStoredServerUsers(server)
 
 		title = server.name
 
@@ -62,7 +62,7 @@ class EditServerScreen : OptionsFragment() {
 				setContent(R.string.lbl_remove_users)
 				icon = R.drawable.ic_delete
 				onActivate = {
-					loginViewModel.removeServer(serverUUID)
+					loginViewModel.deleteServer(serverUUID)
 
 					parentFragmentManager.popBackStack()
 				}

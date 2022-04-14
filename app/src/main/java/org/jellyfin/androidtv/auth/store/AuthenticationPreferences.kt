@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.preference
+package org.jellyfin.androidtv.auth.store
 
 import android.content.Context
 import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
@@ -12,18 +12,14 @@ class AuthenticationPreferences(context: Context) : SharedPreferenceStore(
 	sharedPreferences = context.getSharedPreferences("authentication", Context.MODE_PRIVATE)
 ) {
 	companion object {
+		// Preferences
 		val autoLoginUserBehavior = enumPreference("auto_login_user_behavior", UserSelectBehavior.LAST_USER)
 		val autoLoginUserId = stringPreference("auto_login_user_id", "")
-
-		val systemUserBehavior = enumPreference("system_user_behavior", UserSelectBehavior.LAST_USER)
-		val systemUserId = stringPreference("system_user_id", "")
 
 		val sortBy = enumPreference("sort_by", AuthenticationSortBy.LAST_USE)
 		val alwaysAuthenticate = booleanPreference("always_authenticate", false)
 
-		/**
-		 * Do not set directly, use [SessionRepository] instead.
-		 */
+		// Persistent state
 		val lastUserId = stringPreference("last_user_id", "")
 	}
 }
