@@ -134,7 +134,7 @@
     <string name="lbl_filters">Filtres</string>
     <string name="msg_subtitles_loading">Chargement des sous-titres…</string>
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
-    <string name="msg_burn_sub_warning">Inscrire les sous-titre peut prendre quelques minutes. Soyez patient…</string>
+    <string name="msg_burn_sub_warning">L\'incrustation des sous-titres peut prendre quelques minutes. Merci de patienter…</string>
     <string name="lbl_recording">Enregistrement</string>
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
@@ -489,5 +489,5 @@
     <string name="pref_refresh_switching_description">Adapter la fréquence de rafraîchissement de l\'écran pour correspondre à la vidéo</string>
     <string name="pref_show_backdrop_description">Changer l\'image de fond pour les éléments suivants</string>
     <string name="home_section_resume_book">Continuer à lire</string>
-    <string name="lbl_shuffle_queue">Mode mélanger</string>
+    <string name="lbl_shuffle_queue">Mode aléatoire</string>
 </resources>
