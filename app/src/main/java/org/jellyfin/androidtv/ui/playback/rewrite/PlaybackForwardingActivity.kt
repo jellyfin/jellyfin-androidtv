@@ -31,9 +31,9 @@ class PlaybackForwardingActivity : FragmentActivity() {
 
 		if (itemId == null) {
 			Toast.makeText(
-					this,
-					"Could not find item to play (itemId=null)",
-					Toast.LENGTH_LONG
+				this,
+				"Could not find item to play (itemId=null)",
+				Toast.LENGTH_LONG
 			).show()
 			finishAfterTransition()
 			return
@@ -45,9 +45,9 @@ class PlaybackForwardingActivity : FragmentActivity() {
 
 			// Log info
 			Toast.makeText(
-					this@PlaybackForwardingActivity,
-					"Found item of type ${item.type} - ${item.name} (${item.id}",
-					Toast.LENGTH_LONG
+				this@PlaybackForwardingActivity,
+				"Found item of type ${item.type} - ${item.name} (${item.id}",
+				Toast.LENGTH_LONG
 			).show()
 			Timber.i(item.toString())
 

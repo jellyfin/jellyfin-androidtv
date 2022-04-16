@@ -11,6 +11,7 @@ androidx-core = "1.7.0"
 androidx-fragment = "1.4.0"
 androidx-leanback = "1.1.0-rc01"
 androidx-lifecycle = "2.4.1"
+androidx-media2 = "1.2.1"
 androidx-preference = "1.1.1"
 androidx-recyclerview = "1.2.1"
 androidx-startup = "1.1.1"
@@ -27,6 +28,7 @@ jellyfin-sdk = "1.2.0-beta.2"
 junit = "4.13.2"
 kenburnsview = "1.0.7"
 koin = "3.1.4"
+kotest = "5.1.0"
 kotlin = "1.6.10"
 kotlinx-coroutines = "1.5.2"
 kotlinx-serialization = "1.3.1"
@@ -36,7 +38,6 @@ markwon = "4.6.2"
 mockk = "1.12.1"
 slf4j-timber = "3.1"
 timber = "5.0.1"
-kotest = "5.1.0"
 
 [plugins]
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
@@ -51,6 +52,7 @@ jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-core", version.ref = "jelly
 # Kotlin
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 # Android(x)
@@ -67,6 +69,7 @@ androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", 
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-media2-session = { module = "androidx.media2:media2-session", version.ref = "androidx-media2" }
 androidx-preference = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
