@@ -73,7 +73,10 @@ class LoginViewModel(
 		viewModelScope.launch { serverRepository.loadStoredServers() }
 	}
 
-	fun getLastServer(): Server? = serverRepository.storedServers.value.maxByOrNull { it.dateLastAccessed }
+	suspend fun getLastServer(): Server? {
+		serverRepository.loadStoredServers()
+		return serverRepository.storedServers.value.maxByOrNull { it.dateLastAccessed }
+	}
 
 	suspend fun updateServer(server: Server): Boolean = serverRepository.updateServer(server)
 }
