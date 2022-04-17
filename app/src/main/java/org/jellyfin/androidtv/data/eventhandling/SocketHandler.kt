@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.sockets.SocketInstance
@@ -41,14 +42,19 @@ class SocketHandler(
 	val state = socketInstance.state
 
 	suspend fun updateSession() {
-		api.sessionApi.postCapabilities(
-			playableMediaTypes = listOf(MediaType.Video, MediaType.Audio),
-			supportsMediaControl = true,
-			supportedCommands = listOf(
-				GeneralCommandType.DISPLAY_MESSAGE,
-				GeneralCommandType.SEND_STRING,
-			),
-		)
+		try {
+			api.sessionApi.postCapabilities(
+				playableMediaTypes = listOf(MediaType.Video, MediaType.Audio),
+				supportsMediaControl = true,
+				supportedCommands = listOf(
+					GeneralCommandType.DISPLAY_MESSAGE,
+					GeneralCommandType.SEND_STRING,
+				),
+			)
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to update capabilities")
+			return
+		}
 
 		val isOffline = state.value == SocketInstanceState.DISCONNECTED || state.value == SocketInstanceState.ERROR
 		if (isOffline) socketInstance.reconnect()
