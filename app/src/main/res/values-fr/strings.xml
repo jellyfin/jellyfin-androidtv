@@ -380,7 +380,6 @@
     <string name="lbl_use_series_thumbnails">Préférez les miniatures de séries</string>
     <string name="user_picker_disable_summary">Toujours afficher l\'écran de connexion</string>
     <string name="user_picker_disable_title">Désactiver</string>
-    <string name="system_user_explanation">Le compte sélectionné sera utilisé pour les intégrations systèmes telles que la recherche</string>
     <string name="system_user">Compte système</string>
     <string name="user_picker_last_user_summary">Utiliser le dernier compte actif</string>
     <string name="user_picker_last_user_title">Plus récent</string>

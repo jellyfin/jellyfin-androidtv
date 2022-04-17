@@ -409,7 +409,6 @@
     <string name="user_picker_last_user_title">En son kullanılan</string>
     <string name="user_picker_disable_summary">Her zaman giriş ekranını göster</string>
     <string name="user_picker_disable_title">Devre dışı bırak</string>
-    <string name="system_user_explanation">Seçilen kullanıcı arama gibi sistem entegrasyonu için kullanılacaktır</string>
     <string name="system_user">Sistem kullanıcısı</string>
     <string name="auto_sign_in">Otomatik giriş yap</string>
     <string name="lbl_use_series_thumbnails_description">Bölümleri oynatırken seri miniresimlerini kullan</string>

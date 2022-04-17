@@ -328,7 +328,6 @@
     <string name="pref_theme_muted_purple">Vaimea violetti</string>
     <string name="lbl_switch_user">Vaihda tiliä</string>
     <string name="user_picker_last_user_summary">Käytä viimeksi käytettyä tiliä</string>
-    <string name="system_user">Järjestelmätili</string>
     <string name="auto_sign_in">Kirjaudu automaattisesti</string>
     <string name="lbl_use_series_thumbnails">Suosi sarjojen thumbnail-kuvia</string>
     <string name="pref_watched_indicator">Näytä katsontatilan merkit</string>
@@ -473,7 +472,6 @@
     <string name="user_picker_last_user_title">Viimeksi käytetty</string>
     <string name="user_picker_disable_summary">Näytä kirjautumisruutu aina</string>
     <string name="user_picker_disable_title">Poista käytöstä</string>
-    <string name="system_user_explanation">Valittua tiliä käytetään järjestelmäintegrointeihin, kuten hakuun</string>
     <string name="lbl_use_series_thumbnails_description">Käytä sarjojen thumbnail-kuvia näytettäesä jaksoja</string>
     <string name="lbl_episode_marks">Vain jaksoissa</string>
     <string name="lbl_hide_unwatched_count">Piilota katsomattomien määrä</string>

@@ -278,7 +278,6 @@
     <string name="who_is_watching">Kiu spektas\?</string>
     <string name="saved_servers">Savitaj serviloj</string>
     <string name="lbl_switch_user">Ŝanĝi konton</string>
-    <string name="system_user">Sistema konto</string>
     <string name="login_help_title">Bezonas helpon\?</string>
     <string name="discovered_servers_title">Eltrovitaj serviloj</string>
     <string name="pref_developer_link">Opcioj por programistoj</string>
@@ -347,7 +346,6 @@
     <string name="lbl_starting_with">komencante per tiuj, kies nomo komenciĝas per</string>
     <string name="desc_debug">Provizu kromajn informojn por sencimigi</string>
     <string name="msg_remote_already_playing">Teleluda peto ignorita. Halti nunan aĵon unue.</string>
-    <string name="system_user_explanation">Elektita konto estos uzata por sistemaj integriĝoj kiel serĉo</string>
     <string name="msg_cancel_entire_series">Ĉu vi certas, ke vi volas rezini ĉi tiun TUTAN SERION\?</string>
     <string name="lbl_record_any_time">Rikordi iam ajn</string>
     <string name="lbl_record_any_channel">Rikordi sur iu ajn kanalo</string>

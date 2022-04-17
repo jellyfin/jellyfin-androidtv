@@ -381,9 +381,7 @@
     <string name="user_picker_last_user_summary">Soñğy belsendı tirkelgını paidalanu</string>
     <string name="user_picker_last_user_title">Eñ soñğy paidalanylğan</string>
     <string name="user_picker_disable_summary">Ärqaşan kıru ekranyn körsetu</string>
-    <string name="system_user_explanation">Izdeu siaqty jüielık bırıktıruler üşın tañdalğan tırkelgı paidalanylady</string>
     <string name="user_picker_disable_title">Öşıru</string>
-    <string name="system_user">Jüielık tirkelgı</string>
     <string name="auto_sign_in">Avtomatty kıru</string>
     <string name="lbl_switch_user">Tırkelgı auystyru</string>
     <string name="no_network_permissions">Jellyfin jūmys ısteu üşın jelılık rūqsattar qajet</string>

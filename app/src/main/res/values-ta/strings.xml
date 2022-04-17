@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">மிக சமீபத்தில் பயன்படுத்தப்பட்டது</string>
     <string name="user_picker_disable_summary">உள்நுழைவு திரையில் எப்போதும் காட்டு</string>
     <string name="user_picker_disable_title">முடக்கு</string>
-    <string name="system_user_explanation">தேர்ந்தெடுக்கப்பட்ட கணக்கு தேடல் போன்ற கணினி ஒருங்கிணைப்புகளுக்குப் பயன்படுத்தப்படும்</string>
     <string name="system_user">கணினி கணக்கு</string>
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
     <string name="lbl_switch_user">கணக்கை மாற்றவும்</string>

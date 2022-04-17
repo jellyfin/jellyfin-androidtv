@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Usado más recientemente</string>
     <string name="user_picker_disable_summary">Mostrar siempre la pantalla de inicio de sesión</string>
     <string name="user_picker_disable_title">Desactivar</string>
-    <string name="system_user_explanation">La cuenta seleccionada se usara en integraciones del sistema como la búsqueda</string>
     <string name="system_user">Cuenta del sistema</string>
     <string name="auto_sign_in">Inicio de sesión automático</string>
     <string name="lbl_use_series_thumbnails_description">Usar las miniaturas de las series mientras se muestran los episodios</string>

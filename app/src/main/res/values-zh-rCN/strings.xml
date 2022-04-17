@@ -378,12 +378,10 @@
     <string name="lbl_use_series_thumbnails">优先使用剧集缩略图</string>
     <string name="lbl_episode_marks">仅在章节中</string>
     <string name="lbl_hide_unwatched_count">隐藏未观看计数</string>
-    <string name="system_user_explanation">选定的帐户将用于系统集成，例如搜索</string>
     <string name="user_picker_last_user_summary">使用最后一个活跃账户</string>
     <string name="user_picker_last_user_title">最近常用</string>
     <string name="user_picker_disable_summary">允许显示登录界面</string>
     <string name="user_picker_disable_title">禁用</string>
-    <string name="system_user">系统帐号</string>
     <string name="auto_sign_in">自动登录</string>
     <string name="lbl_switch_user">切换账户</string>
     <string name="no_network_permissions">Jellyfin需要网络权限才能运行</string>

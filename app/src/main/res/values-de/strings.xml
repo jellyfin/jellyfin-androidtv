@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Als Letztes verwendet</string>
     <string name="user_picker_disable_summary">Immer den Anmeldebildschirm anzeigen</string>
     <string name="user_picker_disable_title">Deaktivieren</string>
-    <string name="system_user_explanation">Das ausgewählte Konto wird für Integrationen wie z.B. die Suche verwendet</string>
     <string name="system_user">Systemkonto</string>
     <string name="auto_sign_in">Automatisch anmelden</string>
     <string name="lbl_switch_user">Konto wechseln</string>

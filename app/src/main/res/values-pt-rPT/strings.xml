@@ -352,7 +352,6 @@
     <string name="user_picker_last_user_title">Mais recentes utilizados</string>
     <string name="user_picker_disable_summary">Mostrar sempre o ecrã de autenticação</string>
     <string name="user_picker_disable_title">Desabilitar</string>
-    <string name="system_user_explanation">Utilizador selecionado vai ser utilizado para integrações de sistema como a procura</string>
     <string name="system_user">Utilizador de sistema</string>
     <string name="auto_sign_in">Autenticar automáticamente</string>
     <string name="lbl_use_series_thumbnails_description">Mostrar miniaturas de séries quando episódios são mostrados</string>

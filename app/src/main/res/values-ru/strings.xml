@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Крайнее использование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
-    <string name="system_user_explanation">Выбранная учётная запись будет использована для системной интеграции, такой как поиск</string>
     <string name="system_user">Системная учётная запись</string>
     <string name="auto_sign_in">Автоматический вход</string>
     <string name="lbl_switch_user">Сменить учётную запись</string>

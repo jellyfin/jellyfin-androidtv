@@ -380,7 +380,6 @@
     <string name="user_picker_last_user_title">Naposledy použité</string>
     <string name="user_picker_disable_summary">Vždy zobraziť prihlasovaciu obrazovku</string>
     <string name="user_picker_disable_title">Zakázať</string>
-    <string name="system_user_explanation">Vybraný účet bude použitý pre systémovú integráciu ako napríklad vyhľadávanie</string>
     <string name="system_user">Systémový účet</string>
     <string name="auto_sign_in">Automatické prihlásenie</string>
     <string name="lbl_use_series_thumbnails_description">Použiť seriálové thumbnaily počas zobrazenia epizód</string>

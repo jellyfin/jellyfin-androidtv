@@ -423,7 +423,6 @@
     <string name="user_picker_last_user_title">Més utilitzats recentment</string>
     <string name="user_picker_disable_summary">Mostra sempre la pantalla de inici de sessió</string>
     <string name="user_picker_disable_title">Desactivar</string>
-    <string name="system_user_explanation">L\'usuari seleccionat serà utilitzat per les integracions del sistema com la cerca</string>
     <string name="system_user">Usuari de sistema</string>
     <string name="auto_sign_in">Iniciar sessió automàticament</string>
     <string name="lbl_use_series_thumbnails_description">Utilitza miniatures de sèries al mostrar episodis</string>

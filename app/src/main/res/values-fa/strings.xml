@@ -346,9 +346,7 @@
     <string name="user_picker_last_user_summary">استفاده از آخرین حساب فعال</string>
     <string name="user_picker_last_user_title">بیشترین استفاده شده های اخیر</string>
     <string name="user_picker_disable_summary">همیشه صفحه ورود به سیستم نشان داده شود</string>
-    <string name="system_user_explanation">حساب انتخاب شده برای ادغام های سیستمی مثل جستجو استفاده میشود</string>
     <string name="user_picker_disable_title">غیرفعال سازی</string>
-    <string name="system_user">حساب سیستم</string>
     <string name="auto_sign_in">ورود خودکار</string>
     <string name="lbl_use_series_thumbnails_description">زمان نمایش قسمت ها، از تصاویر بند انگشتی سریال استفاده کن</string>
     <string name="lbl_use_series_thumbnails">ترجیح تصاویر بندانگشتی سریال ها</string>

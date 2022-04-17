@@ -379,7 +379,6 @@
     <string name="user_picker_last_user_title">Mas recientemente usado</string>
     <string name="user_picker_disable_summary">Siempre mostrar la pantalla de ingreso</string>
     <string name="user_picker_disable_title">Deshabilitado</string>
-    <string name="system_user_explanation">El usuario seleccionado ser usado para integración de sistemas como búsquedas</string>
     <string name="system_user">Usuario de Sistema</string>
     <string name="auto_sign_in">ingreso Automatico</string>
     <string name="lbl_use_series_thumbnails_description">Usar serie de miniaturas cuando se muestren episodios</string>

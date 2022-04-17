@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Naposledy použité</string>
     <string name="user_picker_disable_summary">Vždy zobrazit přihlašovací obrazovku</string>
     <string name="user_picker_disable_title">Vypnout</string>
-    <string name="system_user_explanation">Vybraný účet bude sloužit pro systémové integrace jako vyhledávání</string>
     <string name="system_user">Systémový účet</string>
     <string name="auto_sign_in">Automatické přihlášení</string>
     <string name="lbl_switch_user">Přepnout účet</string>

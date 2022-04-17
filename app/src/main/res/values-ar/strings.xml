@@ -316,7 +316,6 @@
     <string name="lbl_auto_crop">قص تلقائي</string>
     <string name="lbl_deleted">حذف %1$s</string>
     <string name="lbl_special">الخاص</string>
-    <string name="system_user_explanation">المستخدم المختار سيتم استعماله للنظام المتكلمل مثل البحث</string>
     <string name="lbl_hide_unwatched_count">إخفاء عدد التي لم يتم مشاهدتها</string>
     <string name="login_help_description">Jellyfin يستلزم خادم للإتصال به. قم بزيارة وثائقنا على docs.jellyfin.org او قم بمسح رمز QR للبدأ مع Jellyfin.</string>
     <string name="pref_developer_link">إعدادات المطورين</string>
@@ -352,7 +351,6 @@
     <string name="user_picker_last_user_summary">إظهار آخر مستخدم نشط</string>
     <string name="user_picker_disable_summary">إظهار شاشة تسجيل الدخول دائما</string>
     <string name="user_picker_disable_title">تعطيل</string>
-    <string name="system_user">مستخدم النظام</string>
     <string name="auto_sign_in">تسجيل دخول تلقائي</string>
     <string name="lbl_episode_marks">في الحلقات فقط</string>
     <string name="pref_watched_indicator">إظهار علامة تمت مشاهدته</string>

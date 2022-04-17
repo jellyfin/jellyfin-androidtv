@@ -292,7 +292,6 @@
     <string name="user_picker_last_user_title">最近使用したもの</string>
     <string name="user_picker_disable_summary">サインイン画面を常に表示する</string>
     <string name="user_picker_disable_title">無効化</string>
-    <string name="system_user_explanation">選択されたユーザーは、検索などのシステム統合に使用されます</string>
     <string name="auto_sign_in">自動サインイン</string>
     <string name="lbl_use_series_thumbnails_description">エピソードを表示する際、シリーズのサムネイルを使用する</string>
     <string name="lbl_use_series_thumbnails">シリーズのサムネイルを優先する</string>

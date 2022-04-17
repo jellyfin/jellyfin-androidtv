@@ -376,7 +376,6 @@
     <string name="user_picker_last_user_title">Meest recent gebruikt</string>
     <string name="user_picker_disable_summary">Altijd het inlogscherm tonen</string>
     <string name="user_picker_disable_title">Uitschakelen</string>
-    <string name="system_user_explanation">Geselecteerde account zal worden gebruikt voor systeemintegraties zoals zoeken</string>
     <string name="system_user">Systeemaccount</string>
     <string name="auto_sign_in">Automatisch inloggen</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
