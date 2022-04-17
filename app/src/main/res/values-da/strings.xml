@@ -380,7 +380,6 @@
     <string name="user_picker_last_user_title">Senest brugt</string>
     <string name="user_picker_disable_summary">Vis altid log ind skærmen</string>
     <string name="user_picker_disable_title">Deaktiver</string>
-    <string name="system_user">System bruger</string>
     <string name="auto_sign_in">Automatisk log ind</string>
     <string name="lbl_use_series_thumbnails_description">Brug serieminiaturer når der vises afsnit</string>
 </resources>

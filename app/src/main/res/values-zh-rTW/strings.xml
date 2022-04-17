@@ -476,7 +476,6 @@
     <string name="user_picker_last_user_title">最近使用</string>
     <string name="user_picker_disable_summary">始終顯示登入畫面</string>
     <string name="user_picker_disable_title">停用</string>
-    <string name="system_user">系統帳號</string>
     <string name="auto_sign_in">自動登入</string>
     <string name="server_connection_failed_candidates">無法連線至伺服器，已嘗試以下的地址：%1$s</string>
     <string name="pref_next_up_behavior_title">顯示下部影片資訊</string>

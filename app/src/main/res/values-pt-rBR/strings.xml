@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Mais usado recentemente</string>
     <string name="user_picker_disable_summary">Sempre mostrar tela de login</string>
     <string name="user_picker_disable_title">Desativar</string>
-    <string name="system_user">Contas do sistema</string>
     <string name="auto_sign_in">Login automático</string>
     <string name="lbl_switch_user">Trocar conta</string>
     <string name="advanced_settings">Avançado</string>

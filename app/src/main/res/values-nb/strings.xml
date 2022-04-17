@@ -384,7 +384,6 @@
     <string name="user_picker_last_user_title">Sist brukte</string>
     <string name="user_picker_disable_summary">Alltid vis innloggingsskjermen</string>
     <string name="user_picker_disable_title">Deaktiver</string>
-    <string name="system_user">Systembruker</string>
     <string name="auto_sign_in">Automatisk innlogging</string>
     <string name="lbl_one_song">1 Sang</string>
     <string name="lbl_one_episode">1 Episode</string>

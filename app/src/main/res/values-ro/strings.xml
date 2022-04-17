@@ -350,7 +350,6 @@
     <string name="user_picker_last_user_title">Cel mai recent utilizat</string>
     <string name="user_picker_disable_summary">Afișați întotdeauna ecranul de autentificare</string>
     <string name="user_picker_disable_title">Dezactivează</string>
-    <string name="system_user">Contul de sistem</string>
     <string name="auto_sign_in">Autentificare automată</string>
     <string name="lbl_use_series_thumbnails_description">Utilizați miniaturi de serial când afișați episoadele</string>
     <string name="lbl_use_series_thumbnails">Preferă miniaturile de serial</string>

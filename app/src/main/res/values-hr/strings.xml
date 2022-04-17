@@ -347,7 +347,6 @@
     <string name="lbl_switch_user">Promjena korisnika</string>
     <string name="user_picker_last_user_summary">Koristi posljednje aktivnog korisnika</string>
     <string name="user_picker_last_user_title">Posljednje korišteno</string>
-    <string name="system_user">Korisnik sustava</string>
     <string name="lbl_use_series_thumbnails_description">Prilikom prikazivanja epizoda koristi sličice iz serije</string>
     <string name="lbl_use_series_thumbnails">Preferira sličice serije</string>
     <string name="lbl_episode_marks">Samo u epizodama</string>

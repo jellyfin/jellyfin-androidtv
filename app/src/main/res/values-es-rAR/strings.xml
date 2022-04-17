@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Mas recientemente usados</string>
     <string name="user_picker_disable_summary">Siempre mostrar la pantalla de registro</string>
     <string name="user_picker_disable_title">Inhabilitado</string>
-    <string name="system_user">Cuenta del sistema</string>
     <string name="auto_sign_in">Registrarse automáticamente</string>
     <string name="lbl_switch_user">Cambiar cuenta</string>
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>

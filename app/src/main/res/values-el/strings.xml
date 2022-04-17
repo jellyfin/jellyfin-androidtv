@@ -402,7 +402,6 @@
     <string name="user_picker_last_user_title">Πιο πρόσφατα χρησιμοποιημένα</string>
     <string name="user_picker_disable_summary">Πάντα προβολή της οθόνης σύνδεσης</string>
     <string name="user_picker_disable_title">Απενεργοποίηση</string>
-    <string name="system_user">Χρήστης συστήματος</string>
     <string name="auto_sign_in">Αυτόματη σύνδεση</string>
     <string name="lbl_use_series_thumbnails_description">Χρήση μικρογραφιών σειρών κατά την απεικόνιση των επεισοδίων</string>
     <string name="lbl_use_series_thumbnails">Προτίμηση μικρογραφιών σειρών</string>

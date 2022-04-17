@@ -376,7 +376,6 @@
     <string name="user_picker_last_user_title">Được sử dụng gần đây nhất</string>
     <string name="user_picker_disable_summary">Luôn hiển thị màn hình đăng nhập</string>
     <string name="user_picker_disable_title">Tắt</string>
-    <string name="system_user">Tài khoản hệ thống</string>
     <string name="auto_sign_in">Đăng nhập tự động</string>
     <string name="lbl_switch_user">‎Chuyển tài khoản</string>
     <string name="no_network_permissions">Jellyfin yêu cầu quyền mạng để hoạt động</string>

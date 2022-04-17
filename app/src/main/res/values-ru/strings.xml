@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Крайнее использование</string>
     <string name="user_picker_disable_summary">Всегда показывать экран входа</string>
     <string name="user_picker_disable_title">Отключить</string>
-    <string name="system_user">Системная учётная запись</string>
     <string name="auto_sign_in">Автоматический вход</string>
     <string name="lbl_switch_user">Сменить учётную запись</string>
     <string name="no_network_permissions">Jellyfin требуются сетевые разрешения для работы</string>

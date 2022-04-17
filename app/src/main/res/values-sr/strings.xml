@@ -350,7 +350,6 @@
     <string name="user_picker_last_user_title">Недавно коришћени</string>
     <string name="user_picker_disable_summary">Увек прикажи екран за пријављивање</string>
     <string name="user_picker_disable_title">Онемогући</string>
-    <string name="system_user">Корисник система</string>
     <string name="auto_sign_in">Аутоматско пријављивање</string>
     <string name="lbl_use_series_thumbnails">Дајте предност сличицама серије</string>
     <string name="lbl_episode_marks">Само на епизодама</string>

@@ -351,7 +351,6 @@
     <string name="user_picker_last_user_title">Most recently used</string>
     <string name="user_picker_disable_summary">Always show the sign in screen</string>
     <string name="user_picker_disable_title">Disable</string>
-    <string name="system_user">System account</string>
     <string name="auto_sign_in">Automatic sign in</string>
     <string name="lbl_use_series_thumbnails_description">Use programme thumbnails when displaying episodes</string>
     <string name="lbl_use_series_thumbnails">Prefer programme thumbnails</string>

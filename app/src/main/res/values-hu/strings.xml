@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Legutóbb használt</string>
     <string name="user_picker_disable_summary">Mindig mutassa a bejelentkezési képernyőt</string>
     <string name="user_picker_disable_title">Letiltás</string>
-    <string name="system_user">Rendszerfiók</string>
     <string name="auto_sign_in">Automatikus bejelentkezés</string>
     <string name="lbl_switch_user">Felhasználóváltás</string>
     <string name="no_network_permissions">A Jellyfin működéséhez hálózati engedélyekre van szükség</string>

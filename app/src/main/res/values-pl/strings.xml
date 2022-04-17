@@ -382,7 +382,6 @@
     <string name="user_picker_last_user_title">Ostatnio używany</string>
     <string name="user_picker_disable_summary">Zawsze pokazuj ekran logowania</string>
     <string name="user_picker_disable_title">Wyłączone</string>
-    <string name="system_user">Konto systemowe</string>
     <string name="auto_sign_in">Automatyczne logowanie</string>
     <string name="lbl_switch_user">Zmień konto</string>
     <string name="no_network_permissions">Jellyfin wymaga uprawnień sieciowych do działania</string>
