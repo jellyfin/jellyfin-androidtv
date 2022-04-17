@@ -26,7 +26,6 @@ import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
@@ -36,10 +35,10 @@ import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemFields
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -186,7 +185,7 @@ class LeanbackChannelWorker(
 	 * image when preferred.
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri {
-		if (type.equals(BaseItemType.Movie.toString(), true)) {
+		if (type == BaseItemKind.MOVIE) {
 			return api.imageApi.getItemImageUrl(
 				itemId = id,
 				imageType = ImageType.PRIMARY,
@@ -198,8 +197,8 @@ class LeanbackChannelWorker(
 
 		return when {
 			(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
-				&& parentThumbItemId?.toUUIDOrNull() != null -> api.imageApi.getItemImageUrl(
-				itemId = parentThumbItemId!!.toUUIDOrNull()!!,
+				&& parentThumbItemId != null -> api.imageApi.getItemImageUrl(
+				itemId = parentThumbItemId!!,
 				imageType = ImageType.THUMB,
 				format = ImageFormat.WEBP,
 				width = 272.dp(context),
@@ -227,7 +226,7 @@ class LeanbackChannelWorker(
 				imageTypeLimit = 1,
 				limit = 10,
 				mediaTypes = listOf(MediaType.Video),
-				includeItemTypes = listOf(BaseItemType.Episode.toString(), BaseItemType.Movie.toString()),
+				includeItemTypes = listOf(BaseItemKind.EPISODE, BaseItemKind.MOVIE),
 			).content.items.orEmpty()
 		}
 
@@ -314,10 +313,10 @@ class LeanbackChannelWorker(
 		setInternalProviderId(item.id.toString())
 
 		// Poster size & type
-		if (item.type.equals(BaseItemType.Episode.toString(), true)) {
+		if (item.type == BaseItemKind.EPISODE) {
 			setType(WatchNextPrograms.TYPE_TV_EPISODE)
 			setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_16_9)
-		} else if (item.type.equals(BaseItemType.Movie.toString(), true)) {
+		} else if (item.type == BaseItemKind.MOVIE) {
 			setType(WatchNextPrograms.TYPE_MOVIE)
 			setPosterArtAspectRatio(WatchNextPrograms.ASPECT_RATIO_MOVIE_POSTER)
 		}

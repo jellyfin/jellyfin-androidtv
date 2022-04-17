@@ -36,7 +36,6 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.serializer.toUUID
-import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.ExecutionException
@@ -162,7 +161,7 @@ class BackgroundService(
 
 		// Get all backdrop urls
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
-		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId?.toUUIDOrNull())
+		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
 
 		loadBackgrounds(backdropUrls)

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.ConnectedState
 import org.jellyfin.androidtv.auth.model.ConnectingState
@@ -70,7 +70,7 @@ class ServerRepositoryImpl(
 
 		jellyfin.discovery
 			.discoverLocalServers()
-			.mapNotNull(ServerDiscoveryInfo::toServer)
+			.map(ServerDiscoveryInfo::toServer)
 			.collect { server ->
 				servers += server
 				_discoveredServers.emit(servers.toList())

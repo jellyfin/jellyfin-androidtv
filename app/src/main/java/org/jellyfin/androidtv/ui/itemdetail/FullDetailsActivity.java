@@ -95,6 +95,7 @@ import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -254,7 +255,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
                 if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
                     org.jellyfin.sdk.model.api.BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
-                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType().equalsIgnoreCase(BaseItemType.Episode.toString())) {
+                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(lastPlayedItem.getId().toString());
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
