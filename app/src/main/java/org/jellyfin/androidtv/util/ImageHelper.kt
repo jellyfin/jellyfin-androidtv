@@ -1,13 +1,12 @@
 package org.jellyfin.androidtv.util
 
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
-import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 class ImageHelper(
@@ -16,7 +15,7 @@ class ImageHelper(
 	fun getPrimaryImageUrl(item: BaseItemPerson, maxHeight: Int? = null): String? {
 		if (item.primaryImageTag == null) return null
 
-		return item.id?.toUUIDOrNull()?.let { itemId ->
+		return item.id.let { itemId ->
 			api.imageApi.getItemImageUrl(
 				itemId = itemId,
 				imageType = ImageType.PRIMARY,
@@ -63,9 +62,9 @@ class ImageHelper(
 		var imageTag = item.imageTags?.get(ImageType.PRIMARY)
 		var imageType = ImageType.PRIMARY
 
-		if (preferParentThumb && item.type.equals(BaseItemType.Episode.toString(), ignoreCase = true)) {
+		if (preferParentThumb && item.type == BaseItemKind.EPISODE) {
 			if (item.parentThumbItemId != null && item.parentThumbImageTag != null) {
-				itemId = item.parentThumbItemId!!.toUUID()
+				itemId = item.parentThumbItemId!!
 				imageTag = item.parentThumbImageTag
 				imageType = ImageType.THUMB
 			} else if (item.seriesId != null && item.seriesThumbImageTag != null) {
@@ -73,15 +72,15 @@ class ImageHelper(
 				imageTag = item.seriesThumbImageTag
 				imageType = ImageType.THUMB
 			}
-		} else if (item.type.equals(BaseItemType.Season.toString(), ignoreCase = true) && imageTag == null) {
+		} else if (item.type == BaseItemKind.SEASON && imageTag == null) {
 			if (item.seriesId != null && item.seriesPrimaryImageTag != null) {
 				itemId = item.seriesId!!
 				imageTag = item.seriesPrimaryImageTag
 			}
-		} else if (item.type.equals(BaseItemType.Program.toString(), ignoreCase = true) && item.imageTags?.containsKey(ImageType.THUMB) == true) {
+		} else if (item.type == BaseItemKind.PROGRAM && item.imageTags?.containsKey(ImageType.THUMB) == true) {
 			imageTag = item.imageTags!![ImageType.THUMB]
 			imageType = ImageType.THUMB
-		} else if (item.type.equals(BaseItemType.Audio.toString(), ignoreCase = true) && imageTag == null) {
+		} else if (item.type == BaseItemKind.AUDIO && imageTag == null) {
 			if (item.albumId != null && item.albumPrimaryImageTag != null) {
 				itemId = item.albumId!!
 				imageTag = item.albumPrimaryImageTag
@@ -116,7 +115,7 @@ class ImageHelper(
 			// Item parent has a logo
 			item.parentLogoItemId != null && item.parentLogoImageTag != null -> {
 				api.imageApi.getItemImageUrl(
-					itemId = item.parentLogoItemId!!.toUUID(),
+					itemId = item.parentLogoItemId!!,
 					imageType = ImageType.LOGO,
 					maxWidth = maxWidth,
 					tag = item.parentLogoImageTag

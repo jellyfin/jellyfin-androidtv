@@ -3,8 +3,10 @@
 package org.jellyfin.androidtv.util.sdk.compat
 
 import org.jellyfin.androidtv.util.sdk.toNameGuidPair
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.extensions.toNameGuidPair
 import org.jellyfin.sdk.model.serializer.toUUID
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
@@ -117,12 +119,12 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	isHd = this.isHD,
 	isFolder = this.isFolder,
 	parentId = this.parentId?.toUUID(),
-	type = this.type,
+	type = BaseItemKind.from(this.type)!!,
 	people = this.people?.map { it.asSdk() },
 	studios = this.studios?.map { it.asSdk() },
 	genreItems = this.genreItems?.map { it.asSdk() },
-	parentLogoItemId = this.parentLogoItemId,
-	parentBackdropItemId = this.parentBackdropItemId,
+	parentLogoItemId = this.parentLogoItemId?.toUUIDOrNull(),
+	parentBackdropItemId = this.parentBackdropItemId?.toUUIDOrNull(),
 	parentBackdropImageTags = this.parentBackdropImageTags,
 	localTrailerCount = this.localTrailerCount,
 	userData = this.userData?.asSdk(),
@@ -157,12 +159,12 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	backdropImageTags = this.backdropImageTags,
 	screenshotImageTags = this.screenshotImageTags,
 	parentLogoImageTag = this.parentLogoImageTag,
-	parentArtItemId = this.parentArtItemId,
+	parentArtItemId = this.parentArtItemId?.toUUIDOrNull(),
 	parentArtImageTag = this.parentArtImageTag,
 	seriesThumbImageTag = this.seriesThumbImageTag,
 	imageBlurHashes = this.imageBlurHashes?.asSdk(),
 	seriesStudio = this.seriesStudio,
-	parentThumbItemId = this.parentThumbItemId,
+	parentThumbItemId = this.parentThumbItemId?.toUUIDOrNull(),
 	parentThumbImageTag = this.parentThumbImageTag,
 	parentPrimaryImageItemId = this.parentPrimaryImageItemId,
 	parentPrimaryImageTag = this.parentPrimaryImageTag,
@@ -215,6 +217,47 @@ fun LegacyBaseItemDto.asSdk(): ModernBaseItemDto = ModernBaseItemDto(
 	timerId = this.timerId,
 	currentProgram = this.currentProgram?.asSdk(),
 )
+
+private fun BaseItemKind.Companion.from(str: String) = when (str.uppercase()) {
+	"AGGREGATE_FOLDER", "AGGREGATEFOLDER" -> BaseItemKind.AGGREGATE_FOLDER
+	"AUDIO" -> BaseItemKind.AUDIO
+	"AUDIO_BOOK", "AUDIOBOOK" -> BaseItemKind.AUDIO_BOOK
+	"BASE_PLUGIN_FOLDER", "BASEPLUGINFOLDER" -> BaseItemKind.BASE_PLUGIN_FOLDER
+	"BOOK" -> BaseItemKind.BOOK
+	"BOX_SET", "BOXSET" -> BaseItemKind.BOX_SET
+	"CHANNEL" -> BaseItemKind.CHANNEL
+	"CHANNEL_FOLDER_ITEM", "CHANNELFOLDERITEM" -> BaseItemKind.CHANNEL_FOLDER_ITEM
+	"COLLECTION_FOLDER", "COLLECTIONFOLDER" -> BaseItemKind.COLLECTION_FOLDER
+	"EPISODE" -> BaseItemKind.EPISODE
+	"FOLDER" -> BaseItemKind.FOLDER
+	"GENRE" -> BaseItemKind.GENRE
+	"MANUAL_PLAYLISTS_FOLDER", "MANUALPLAYLISTSFOLDER" -> BaseItemKind.MANUAL_PLAYLISTS_FOLDER
+	"MOVIE" -> BaseItemKind.MOVIE
+	"LIVE_TV_CHANNEL", "LIVETVCHANNEL" -> BaseItemKind.LIVE_TV_CHANNEL
+	"LIVE_TV_PROGRAM", "LIVETVPROGRAM" -> BaseItemKind.LIVE_TV_PROGRAM
+	"MUSIC_ALBUM", "MUSICALBUM" -> BaseItemKind.MUSIC_ALBUM
+	"MUSIC_ARTIST", "MUSICARTIST" -> BaseItemKind.MUSIC_ARTIST
+	"MUSIC_GENRE", "MUSICGENRE" -> BaseItemKind.MUSIC_GENRE
+	"MUSIC_VIDEO", "MUSICVIDEO" -> BaseItemKind.MUSIC_VIDEO
+	"PERSON" -> BaseItemKind.PERSON
+	"PHOTO" -> BaseItemKind.PHOTO
+	"PHOTO_ALBUM", "PHOTOALBUM" -> BaseItemKind.PHOTO_ALBUM
+	"PLAYLIST" -> BaseItemKind.PLAYLIST
+	"PLAYLISTS_FOLDER", "PLAYLISTSFOLDER" -> BaseItemKind.PLAYLISTS_FOLDER
+	"PROGRAM" -> BaseItemKind.PROGRAM
+	"RECORDING" -> BaseItemKind.RECORDING
+	"SEASON" -> BaseItemKind.SEASON
+	"SERIES" -> BaseItemKind.SERIES
+	"STUDIO" -> BaseItemKind.STUDIO
+	"TRAILER" -> BaseItemKind.TRAILER
+	"TV_CHANNEL", "TVCHANNEL" -> BaseItemKind.TV_CHANNEL
+	"TV_PROGRAM", "TVPROGRAM" -> BaseItemKind.TV_PROGRAM
+	"USER_ROOT_FOLDER", "USERROOTFOLDER" -> BaseItemKind.USER_ROOT_FOLDER
+	"USER_VIEW", "USERVIEW" -> BaseItemKind.USER_VIEW
+	"VIDEO" -> BaseItemKind.VIDEO
+	"YEAR" -> BaseItemKind.YEAR
+	else -> null
+}
 
 private fun ModernDayOfWeek.Companion.from(str: String) = when (str.uppercase()) {
 	"SUNDAY" -> ModernDayOfWeek.SUNDAY
@@ -322,7 +365,7 @@ fun LegacyMediaUrl.asSdk(): ModernMediaUrl = ModernMediaUrl(
 
 fun LegacyBaseItemPerson.asSdk(): ModernBaseItemPerson = ModernBaseItemPerson(
 	name = this.name,
-	id = this.id,
+	id = this.id.toUUID(),
 	role = this.role,
 	type = this.type,
 	primaryImageTag = this.primaryImageTag,

@@ -9,13 +9,11 @@ import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
-fun ServerDiscoveryInfo.toServer(): Server? {
-	return Server(
-		id = id?.toUUIDOrNull() ?: return null,
-		name = name ?: return null,
-		address = address ?: return null,
-	)
-}
+fun ServerDiscoveryInfo.toServer(): Server = Server(
+	id = id.toUUID(),
+	name = name,
+	address = address,
+)
 
 fun UserDto.toPublicUser(): PublicUser? {
 	return PublicUser(

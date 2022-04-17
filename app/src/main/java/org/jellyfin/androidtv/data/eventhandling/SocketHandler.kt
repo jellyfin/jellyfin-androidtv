@@ -88,12 +88,12 @@ class SocketHandler(
 	private fun onLibraryChanged(info: LibraryUpdateInfo) {
 		Timber.d(buildString {
 			appendLine("Library changed.")
-			appendLine("Added ${info.itemsAdded!!.size} items")
-			appendLine("Removed ${info.itemsRemoved!!.size} items")
-			appendLine("Updated ${info.itemsUpdated!!.size} items")
+			appendLine("Added ${info.itemsAdded.size} items")
+			appendLine("Removed ${info.itemsRemoved.size} items")
+			appendLine("Updated ${info.itemsUpdated.size} items")
 		})
 
-		if (info.itemsAdded!!.any() || info.itemsRemoved!!.any())
+		if (info.itemsAdded.any() || info.itemsRemoved.any())
 			dataRefreshService.lastLibraryChange = System.currentTimeMillis()
 	}
 

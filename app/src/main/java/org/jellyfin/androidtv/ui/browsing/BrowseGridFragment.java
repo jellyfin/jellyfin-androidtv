@@ -6,9 +6,9 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 public class BrowseGridFragment extends StdGridFragment {
@@ -34,7 +34,7 @@ public class BrowseGridFragment extends StdGridFragment {
                 ItemFields.DisplayPreferencesId
         });
         query.setParentId(mParentId.toString());
-        if (mFolder.getType().equalsIgnoreCase(BaseItemType.UserView.toString()) || mFolder.getType().equalsIgnoreCase(BaseItemType.CollectionFolder.toString())) {
+        if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
             switch (type) {
                 case "movies":

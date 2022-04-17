@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
 import java.util.UUID
 
 class HomeFragmentLiveTVRow(
@@ -66,7 +67,8 @@ class HomeFragmentLiveTVRow(
 							Json.encodeToString(
 								BaseItemDto(
 									id = UUID(0L, 0L),
-									name = activity.getString(R.string.lbl_recorded_tv)
+									name = activity.getString(R.string.lbl_recorded_tv),
+									type = BaseItemKind.FOLDER,
 								)
 							))
 					}
@@ -86,7 +88,8 @@ class HomeFragmentLiveTVRow(
 								BaseItemDto(
 									id = UUID(0L, 0L),
 									name = activity.getString(R.string.lbl_series_recordings),
-									collectionType = "SeriesTimers"
+									collectionType = "SeriesTimers",
+									type = BaseItemKind.FOLDER,
 								)
 							)
 						)

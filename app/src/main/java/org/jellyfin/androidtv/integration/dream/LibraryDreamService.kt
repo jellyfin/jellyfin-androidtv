@@ -22,6 +22,7 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.android.ext.android.inject
@@ -76,7 +77,7 @@ class LibraryDreamService : DreamService() {
 
 	private suspend fun getRandomItem(): BaseItemDto? = try {
 		val response by api.itemsApi.getItemsByUserId(
-			includeItemTypes = listOf("Movie", "Series"),
+			includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 			recursive = true,
 			sortBy = listOf(ItemSortBy.Random),
 			limit = 1,
