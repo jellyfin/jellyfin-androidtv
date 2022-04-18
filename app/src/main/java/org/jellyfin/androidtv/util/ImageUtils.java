@@ -64,10 +64,6 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(item);
     }
 
-    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @NonNull int width, @NonNull int height) {
-        return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), width, height);
-    }
-
     public static String getPrimaryImageUrl(@NonNull BaseItemDto item) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), null, MAX_PRIMARY_IMAGE_HEIGHT);
     }

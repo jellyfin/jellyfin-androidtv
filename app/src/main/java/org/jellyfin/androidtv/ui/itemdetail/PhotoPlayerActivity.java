@@ -37,8 +37,9 @@ import org.jellyfin.androidtv.databinding.ActivityPhotoPlayerBinding;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.util.ImageUtils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.androidtv.util.ImageHelper;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -68,6 +69,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     boolean mPopupPanelVisible;
 
     Handler handler;
+    private Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
 
     @Override
@@ -93,7 +95,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         currentImageView().pause();
         nextImageView().pause();
 
-        currentPhoto = mediaManager.getValue().getCurrentMediaItem().getBaseItem();
+        currentPhoto = ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem());
         loadImage(currentPhoto, currentImageView(), getIntent().getBooleanExtra("Play", false));
         loadImage(currentPhoto, nextImageView());
         loadNext();
@@ -149,7 +151,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
                     if (isLoadingPrev || isTransitioning)
                         return true; //swallow too fast requests
                     if (isPlaying) stop();
-                    currentPhoto = mediaManager.getValue().prevMedia().getBaseItem();
+                    currentPhoto = ModelCompat.asSdk(mediaManager.getValue().prevMedia().getBaseItem());
                     nextImage.setImageDrawable(currentImageView().getDrawable());
                     nextImageView().setImageDrawable(prevImage.getDrawable());
                     transition(750);
@@ -184,7 +186,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (isPlaying) stop();
             hideThumbPanel();
             mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
+            loadImage(ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), currentImageView());
             nextImageView().setAlpha(0f);
             currentImageView().resume();
             loadNext();
@@ -201,7 +203,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
         if (isPlaying) stop();
         else play();
         return true;
-
     }
 
     protected boolean handleSelectKey() {
@@ -209,7 +210,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (isPlaying) stop();
             hideThumbPanel();
             mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
+            loadImage(ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), currentImageView());
             nextImageView().setAlpha(0f);
             loadNext();
 
@@ -217,7 +218,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
         }
 
         return false;
-
     }
 
     @Override
@@ -227,12 +227,11 @@ public class PhotoPlayerActivity extends FragmentActivity {
     }
 
     private void next(int transDuration) {
-        currentPhoto = mediaManager.getValue().nextMedia().getBaseItem();
+        currentPhoto = ModelCompat.asSdk(mediaManager.getValue().nextMedia().getBaseItem());
         prevImage.setImageDrawable(currentImageView().getDrawable());
         nextImageView().setImageDrawable(nextImage.getDrawable());
         transition(transDuration);
         loadNext();
-
     }
 
     Runnable playRunnable = new Runnable() {
@@ -265,26 +264,30 @@ public class PhotoPlayerActivity extends FragmentActivity {
         isPlaying = false;
     }
 
-    private KenBurnsView currentImageView() { return mainImages[currentImageNdx]; }
-    private KenBurnsView nextImageView() { return mainImages[nextImageNdx]; }
+    private KenBurnsView currentImageView() {
+        return mainImages[currentImageNdx];
+    }
+
+    private KenBurnsView nextImageView() {
+        return mainImages[nextImageNdx];
+    }
 
     private void loadNext() {
-        if (mediaManager.getValue().hasNextMediaItem()) loadImage(mediaManager.getValue().peekNextMediaItem().getBaseItem(), nextImage);
-
+        if (mediaManager.getValue().hasNextMediaItem())
+            loadImage(ModelCompat.asSdk(mediaManager.getValue().peekNextMediaItem().getBaseItem()), nextImage);
     }
 
     private void loadPrev() {
-        if (mediaManager.getValue().hasPrevMediaItem()) loadImage(mediaManager.getValue().peekPrevMediaItem().getBaseItem(), prevImage);
-
+        if (mediaManager.getValue().hasPrevMediaItem())
+            loadImage(ModelCompat.asSdk(mediaManager.getValue().peekPrevMediaItem().getBaseItem()), prevImage);
     }
 
     private void transition(int duration) {
         //transition between current image and the next one
         isTransitioning = true;
-        currentImageView().animate().alpha(0f).setDuration(duration-50).setListener(new Animator.AnimatorListener() {
+        currentImageView().animate().alpha(0f).setDuration(duration - 50).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
             }
 
             @Override
@@ -294,18 +297,15 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-
             }
 
             @Override
             public void onAnimationRepeat(Animator animation) {
-
             }
         });
         nextImageView().animate().alpha(1).setDuration(duration).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
             }
 
             @Override
@@ -328,6 +328,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             }
         });
     }
+
     private void loadImage(final BaseItemDto photo, final ImageView target) {
         loadImage(photo, target, false);
     }
@@ -338,7 +339,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (target == prevImage) isLoadingPrev = true;
 
             Glide.with(this)
-                    .load(ImageUtils.getPrimaryImageUrl(photo, displayWidth, displayHeight))
+                    .load(imageHelper.getValue().getPrimaryImageUrl(photo, displayWidth, displayHeight))
                     .override(displayWidth, displayHeight)
                     .centerInside()
                     .error(R.drawable.tile_land_photo)
@@ -356,7 +357,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
                             if (target == nextImage) isLoadingNext = false;
                             if (target == prevImage) isLoadingPrev = false;
                             Timber.d("Loaded item %s", photo.getName());
-                            if (play){
+                            if (play) {
                                 currentImageView().resume();
                                 handler.postDelayed(new Runnable() {
                                     @Override
@@ -382,8 +383,9 @@ public class PhotoPlayerActivity extends FragmentActivity {
     private OnItemViewSelectedListener itemViewSelectedListener = new OnItemViewSelectedListener() {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (!(item instanceof BaseRowItem) || mediaManager.getValue().getCurrentMediaAdapter() == null) return;
-            mediaManager.getValue().getCurrentMediaAdapter().loadMoreItemsIfNeeded(((BaseRowItem)item).getIndex());
+            if (!(item instanceof BaseRowItem) || mediaManager.getValue().getCurrentMediaAdapter() == null)
+                return;
+            mediaManager.getValue().getCurrentMediaAdapter().loadMoreItemsIfNeeded(((BaseRowItem) item).getIndex());
         }
     };
 
@@ -393,7 +395,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
             @Override
             public void onAnimationStart(Animation animation) {
                 mPopupArea.setVisibility(View.VISIBLE);
-
             }
 
             @Override
@@ -403,14 +404,12 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
         hidePopup = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out);
         hidePopup.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -423,22 +422,17 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
             }
         });
-
-
     }
 
     private void showThumbPanel() {
-
         mPopupArea.bringToFront();
         mPopupRowPresenter.setPosition(mediaManager.getValue().getCurrentMediaPosition());
         mPopupArea.startAnimation(showPopup);
         mPopupPanelVisible = true;
     }
 
-    private void hideThumbPanel(){
+    private void hideThumbPanel() {
         mPopupArea.startAnimation(hidePopup);
         mPopupPanelVisible = false;
     }
-
-
 }
