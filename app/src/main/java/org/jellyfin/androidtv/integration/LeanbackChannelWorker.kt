@@ -227,6 +227,7 @@ class LeanbackChannelWorker(
 				limit = 10,
 				mediaTypes = listOf(MediaType.Video),
 				includeItemTypes = listOf(BaseItemKind.EPISODE, BaseItemKind.MOVIE),
+				excludeActiveSessions = true,
 			).content.items.orEmpty()
 		}
 
