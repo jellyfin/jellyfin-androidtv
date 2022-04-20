@@ -5,7 +5,7 @@
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
     <string name="msg_error_live_stream">Σφάλμα συνεχή ροή ζωντανή τηλεόραση . Θα προσπαθήσουμε ξανά…</string>
-    <string name="lbl_direct_stream_live">Άμεση ρεύμα ζωντανά τηλεόραση</string>
+    <string name="lbl_direct_stream_live">Άμεση μετάδοση ζωντανής τηλεόραση</string>
     <string name="lbl_programs">προγράμμα</string>
     <string name="lbl_albums">Άλμπουμ</string>
     <string name="lbl_artists">καλλιτέχνες</string>
@@ -33,7 +33,7 @@
     <string name="msg_item_added">" αντικείμενο προστέθηκε"</string>
     <string name="lbl_enable_seasonal_themes">Εποχιακά Θέματα</string>
     <string name="desc_seasonal_themes">Αφήστε τα ειδικά χρώματα και τις υποδείξεις σε ορισμένες περιόδους του έτους</string>
-    <string name="desc_automatic_fav_songs">Αυτόματη λίστα αναπαραγωγής από τα αγαπημένα τραγούδια και μου άρεσε</string>
+    <string name="desc_automatic_fav_songs">Αυτόματη λίστα αναπαραγωγής από τα αγαπημένα τραγούδια</string>
     <string name="lbl_just_this_once">Μόνο αυτή την φορά</string>
     <string name="lbl_no">Όχι</string>
     <string name="lbl_enter_user_pw">Εισάγετε κωδικό πρόσβασης</string>
@@ -105,7 +105,7 @@
     <string name="msg_not_implemented">" δεν εφαρμόζεται"</string>
     <string name="lbl_by_letter">Με επιστολή</string>
     <string name="lbl_next_up">Επόμενο</string>
-    <string name="pref_max_bitrate_title">Μέγιστο ρυθμό ροής</string>
+    <string name="pref_max_bitrate_title">Μέγιστος ρυθμός ροής</string>
     <string name="lbl_now_playing_album">απο %1$s</string>
     <string name="lbl_now_playing_track">%1$s απο %2$s</string>
     <string name="lbl_add_favorite">Προσθήκη αγαπημένου</string>
@@ -280,7 +280,7 @@
     <string name="lbl_tv_channel_status">%1$d από %2$d κανάλια</string>
     <string name="acra_dialog_text">Θέλεις να στείλεις μία αναφορά σφάλματος στους προγραμματιστές;
 \n
-\nΗ πληροφορίες θα σταλούν σε τρίτο (traceport.com).
+\nΟι πληροφορίες θα σταλούν σε τρίτο (traceport.com).
 \n
 \nΑυτή η προτροπή μπορεί ν\'απενεργοποιηθεί στην περιοχή Αναφορά Σφαλμάτων στις Ρυθμίσεις της εφαρμογής Jellyfin.</string>
     <string name="acra_dialog_title">Ούπς! Κάτι πήγε στραβά.</string>
@@ -298,9 +298,9 @@
     <string name="lbl_unknown_key">\'Αγνωστο (%1s)</string>
     <string name="grid_direction_vertical">Κάθετο (πειραματικό)</string>
     <string name="pref_device_model">Μοντέλο Συσκευής</string>
-    <string name="pref_libvlc_audio_delay_title">Προεπιλεγμένη Καθυστέρηση \'Ηχου για το libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Προεπιλεγμένη Καθυστέρηση \'Ηχου για το LibVLC</string>
     <string name="pref_next_up_behavior_title">Εμφάνιση πληροφοριών επόμενου βίντεο</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="lbl_repeat_episodes">Επανάληψη Επεισοδίων</string>
     <string name="lbl_show_backdrop">Εμφάνιση Φόντου</string>
@@ -318,7 +318,7 @@
     <string name="clear_expanded">Εκκαθάριση της παρούσας ουράς βίντεο;</string>
     <string name="no_player_message">Δεν υπάρχει κάποια εφαρμογή για αναπαραγωγή βίντεο. Αυτή η επιλογή απαιτεί την εγκατάσταση κάποιας τρίτης εφαρμογής για την αναπαραγωγή περιεχομένου βίντεο.</string>
     <string name="no_player">Δεν υπάρχει πρόγραμμα αναπαραγωγής</string>
-    <string name="mark_watched_message">Αυτό το αντικείμενο δεν φαίνεται να αναπαράγεται για διάστημα ίσο με τη διάρκεια του. Να επιλεχθεί ως \"έχει προβληθεί\";</string>
+    <string name="mark_watched_message">Αυτό το αντικείμενο δεν φαίνεται να έχει αναπαραχθεί για διάστημα ίσο με τη διάρκεια του. Να επιλεχθεί ως \"έχει προβληθεί\";</string>
     <string name="mark_watched">Σημείωση ως \"Έχουν παρακολουθηθεί\"</string>
     <string name="pref_subtitle_track_button">Κουμπί κομματιού υποτίτλων</string>
     <string name="pref_audio_track_button">Κουμπί κομματιού ήχου</string>
@@ -456,4 +456,6 @@
     <string name="lbl_auto_crop">Αυτόματη αποκοπή</string>
     <string name="pref_refresh_switching_description">Ο ρυθμός ανανέωσης της οθόνης έχει αλλάξει για να ταιριάζει με αυτόν του βίντεο</string>
     <string name="pref_show_backdrop_description">Αλλαγή εικόνας φόντου στα επιλεγμένα αντικείμενα</string>
+    <string name="pref_use_direct_path_title">Διαδρομή εξωτερικού προγράμματος αναπαραγωγής</string>
+    <string name="bitrate_kbit">%1$,.0f Kbit/δευτ.</string>
 </resources>
