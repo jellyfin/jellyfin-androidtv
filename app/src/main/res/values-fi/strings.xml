@@ -137,7 +137,7 @@
     <string name="lbl_artists">Esittäjät</string>
     <string name="lbl_albums">Albumit</string>
     <string name="lbl_programs">Ohjelmat</string>
-    <string name="pref_live_tv_cat">Live TV</string>
+    <string name="pref_live_tv_cat">Televisio</string>
     <string name="lbl_live_tv_guide">Ohjelmaopas</string>
     <string name="lbl_filters">Suodattimet</string>
     <string name="btn_filter">Suodata</string>
