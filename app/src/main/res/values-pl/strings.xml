@@ -144,7 +144,7 @@
     <string name="lbl_load_channels">"Wczytaj kanały "</string>
     <string name="lbl_unwatched">Nieobejrzane</string>
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
-    <string name="lbl_runs">Odtworzeń</string>
+    <string name="lbl_runs">Trwa</string>
     <string name="lbl_delete">Usuń</string>
     <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
