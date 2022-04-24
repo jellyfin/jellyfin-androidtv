@@ -190,13 +190,13 @@
     <string name="pref_media_player">Leitor de preferido</string>
     <string name="pref_about_title">Sobre</string>
     <string name="pref_video_player_external">App externa</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">Reprodutor Externo (ExoPlayer)</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Meu Conteúdo</string>
     <string name="acra_dialog_title">Oh Não! Algo inesperado aconteceu.</string>
     <string name="pref_acra_syslog_disabled">Os registos do sistema não serão incluídos no crash report</string>
-    <string name="pref_acra_alwaysaccept">Enviar registo de bugs sem pré aviso</string>
+    <string name="pref_acra_alwaysaccept">Enviar dados sem pedido prévio</string>
     <string name="pref_acra_disabled">Registo de bugs não serão enviados</string>
     <string name="pref_enable_acra">Reportar bug ao programadores</string>
     <string name="pref_acra_category">Reportar problema</string>
@@ -228,8 +228,8 @@
     <string name="lbl_at_any_time">A qualquer momento</string>
     <string name="lbl_series_recordings">Séries gravando</string>
     <string name="lbl_save">Guardar</string>
-    <string name="msg_settings_updated">Definições actualizadas</string>
-    <string name="lbl_series_settings">Definições de Séries</string>
+    <string name="msg_settings_updated">Opções atualizadas</string>
+    <string name="lbl_series_settings">Opções de Séries</string>
     <string name="lbl_schedule">Agendado</string>
     <string name="lbl_live">Directo</string>
     <string name="lbl_new">Novo</string>
@@ -238,12 +238,12 @@
     <string name="lbl_recent_recordings">Gravações recentes</string>
     <string name="lbl_kids">Crianças</string>
     <string name="lbl_sports">Desporto</string>
-    <string name="no_program_data">&lt;Sem data para o programa disponível &gt;</string>
+    <string name="no_program_data">Sem Informação do Programa Disponível</string>
     <string name="msg_record_entire_series">Gravar série inteira\?</string>
     <string name="lbl_just_this_once">Apenas este</string>
     <string name="lbl_select_date">Selecionar data</string>
     <string name="lbl_in_x_days">Em %d dias</string>
-    <string name="lbl_show_premieres">Mostrar estreias de temporadas durante a navegação</string>
+    <string name="lbl_show_premieres">Mostrar estreias de temporadas</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_play_next_up">Reproduzir A Seguir</string>
     <string name="lbl_clear_queue">Limpar Fila</string>
@@ -261,19 +261,19 @@
     <string name="grid_direction_vertical">Vertical (em fase experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Direção da Grelha</string>
-    <string name="pref_device_model">Modelo do Dispositivo</string>
+    <string name="pref_device_model">Modelo do dispositivo</string>
     <string name="pref_app_theme">Tema da Aplicação</string>
-    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para libVLC</string>
-    <string name="pref_next_up_timeout_title">Duração do temporizador \"A seguir\"</string>
+    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para LibVLC</string>
+    <string name="pref_next_up_timeout_title">Duração do temporizador \"A Seguir\"</string>
     <string name="pref_theme_emerald">Esmeralda Clássica</string>
     <string name="pref_theme_dark">Escuro (Padrão)</string>
     <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
     <string name="lbl_premieres">Estreias</string>
-    <string name="acra_dialog_text">Gostaria de enviar um relatório de falha para os desenvolvedores\?
+    <string name="acra_dialog_text">Pretende enviar um relatório de falha aos desenvolvedores\?
 \n
-\nEsta informação será submetida numa aplicação de terceiros (tracepot).
+\nEsta informação será submetida numa aplicação de terceiros (tracepot.com).
 \n
-\nEsse aviso pode ser desativado na secção de \"Relatórios de Falhas\" nas configurações do Jellyfin.</string>
+\nEsse aviso pode ser desativado na secção de \"Relatórios de Falhas\" nas opções do Jellyfin.</string>
     <string name="pref_acra_syslog_enabled">Registos de sistema será incluídos nos relatórios de falhas</string>
     <string name="pref_acra_syslog">Incluir registos de sistema nos relatórios de falha. Isto pode incluir dados privados de outras aplicações caso estejam ligados no momento de falha.</string>
     <string name="pref_acra_alwaysaccept_disabled">Uma janela de confirmação surgirá antes de enviar qualquer tipo de relatório de falha</string>
@@ -287,7 +287,7 @@
     <string name="lbl_episode_not_record">Esta série NÃO gravará</string>
     <string name="lbl_bitstream_dts">Bitstream do Áudio DTS</string>
     <string name="desc_premieres">Mostrar uma lista de novos episódios pilotos para as series que assista</string>
-    <string name="lbl_refresh_switching">Alteração da Taxa de Atualização (Refresh Rate)</string>
+    <string name="lbl_refresh_switching">Altera Taxa de Atualização (Refresh Rate)</string>
     <string name="lbl_show_backdrop">Exibir Imagens de Fundo</string>
     <string name="msg_external_path">Esta funcionalidade apenas funcionará se montou corretamente a sua biblioteca no servidor com caminhos de rede ou substituição de caminhos e se o cliente que está a utilizar pode aceder diretamente a estes locais pela rede.</string>
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
@@ -322,7 +322,7 @@
     <string name="login_invalid_credentials">Nome do utilizador e/ou palavra-passe inválido/s</string>
     <string name="login_authenticating">A autenticar…</string>
     <string name="server_field_empty">O campo do endereçõ não pode ser vazio</string>
-    <string name="server_connection_failed">Não foi possível ligar ao servidor: %1$s</string>
+    <string name="server_connection_failed">Não foi possível estabelecer ligação com o servidor</string>
     <string name="server_connecting">A ligar a %1$s</string>
     <string name="pref_clock_display_playback">Durante a reprodução</string>
     <string name="pref_clock_display_browsing">Durante a navegação</string>
@@ -337,7 +337,7 @@
     <string name="play_with">Reproduzir com</string>
     <string name="play_with_external_app">Reproduzir com uma app externa</string>
     <string name="play_with_exo_player">Reproduzir com ExoPlayer</string>
-    <string name="play_with_vlc">Reproduzir com libVLC</string>
+    <string name="play_with_vlc">Reproduzir com LibVLC</string>
     <string name="no_player">Nenhum reprodutor encontrado</string>
     <string name="pref_video_player_choose">Sempre perguntar</string>
     <string name="lbl_tv_filter_status">pelas próximas %1$d horas</string>
@@ -347,8 +347,8 @@
     <string name="lbl_pause">Pausar</string>
     <string name="no_network_permissions">O Jellyfin precisa de permissões de rede para funcionar</string>
     <string name="pref_theme_muted_purple">Roxo</string>
-    <string name="lbl_switch_user">Alterar utilizador</string>
-    <string name="user_picker_last_user_summary">Utilizar o último utilizador ativo</string>
+    <string name="lbl_switch_user">Alterar conta</string>
+    <string name="user_picker_last_user_summary">Utilizar a última conta ativa</string>
     <string name="user_picker_last_user_title">Mais recentes utilizados</string>
     <string name="user_picker_disable_summary">Mostrar sempre o ecrã de autenticação</string>
     <string name="user_picker_disable_title">Desabilitar</string>
@@ -383,7 +383,7 @@
     <string name="lbl_remove_server">Remover servidor</string>
     <string name="lbl_sign_out_content">Autenticação necessária na próxima utilização</string>
     <string name="lbl_remove_user_content">Remover conta</string>
-    <string name="lbl_remove_users">Isto também vai remover todos os utilizadores associados</string>
+    <string name="lbl_remove_users">Esta ação vai remover todos as contas associadas</string>
     <string name="lbl_manage_servers">Gerir servidores</string>
     <string name="license_license">Licença</string>
     <string name="license_author">Autor</string>
@@ -395,7 +395,7 @@
     <string name="licenses_link_description">Ver as liçensas das bibliotecas usadas pela app do Jellyfin</string>
     <string name="licenses_link">Licenças</string>
     <string name="select_version">Versão</string>
-    <string name="advanced_settings">Definições (avançado)</string>
+    <string name="advanced_settings">(Avançado)</string>
     <string name="always_authenticate_description">Ativar esta funcionalidade desativa o login automático</string>
     <string name="always_authenticate">Pedir sempre credenciais</string>
     <string name="alphabetical">Alfabética</string>
@@ -423,10 +423,10 @@
     <string name="lbl_season_number">S%1$d</string>
     <string name="lbl_special">Especial</string>
     <string name="help">Ajuda</string>
-    <string name="add_user">Adicionar utilizador</string>
+    <string name="add_user">Adicionar conta</string>
     <string name="who_is_watching">Quem está a ver\?</string>
-    <string name="no_user_warning">Não foi possível encontrar nenhum utilizador!
-\nAdicione um novo utilizador carregado no botão \"Adicionar utilizador\".</string>
+    <string name="no_user_warning">Não foi possível encontrar nenhuma conta!
+\nAdicione uma nova conta carregando no botão \"Adicionar conta\".</string>
     <string name="server_unsupported">O servidor precisa de ser atualizado. A versão atual é %1$s mas a aplicação requer %2$s ou mais recente</string>
     <string name="welcome_content">Conecte-se ao seu servidor para começar.</string>
     <string name="welcome_title">Bem-vindo ao Jellyfin!</string>
@@ -439,4 +439,50 @@
     <string name="lbl_community_rating">Avaliação da comunidade</string>
     <string name="lbl_playback_speed">Velocidade de reprodução</string>
     <string name="lbl_shuffle_queue">Reprodução aleatória</string>
+    <string name="home_section_resume_book">Continuar a ler</string>
+    <string name="pref_direct_stream_live_on">A Transcodificação está desativada</string>
+    <string name="pref_direct_stream_live_off">A transcodificação é utilizada quando necessária</string>
+    <string name="pref_audio">Som</string>
+    <string name="pref_subtitles">Legendas</string>
+    <string name="pref_video">Vídeo</string>
+    <string name="pref_acra_description">Janelas de falha, uploar automático, registos sistema</string>
+    <string name="pref_playback_description">Vídeo, legendas, tv em direto, a seguir</string>
+    <string name="pref_customization_description">Tema, início, remapeamento</string>
+    <string name="pref_login_description">Servidores,contas, início de sessão automático</string>
+    <string name="pref_login">Iniciar Sessão</string>
+    <string name="pref_libraries_description">Alterar a forma de apresentação das bibliotecas</string>
+    <string name="pref_libraries">Bibliotecas</string>
+    <string name="pref_home_description">Configurar secções visíveis</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_browsing">Navegação</string>
+    <string name="pref_behavior">Comportamento</string>
+    <string name="pref_accounts">Contas</string>
+    <string name="sort_accounts_by">Listar contas por</string>
+    <string name="pref_customization">Customização</string>
+    <string name="server_issue_ssl_handshake">A negociação SSL (\"SSL handshake\") falhou</string>
+    <string name="server_issue_timeout">A ligação expirou</string>
+    <string name="server_issue_outdated_version">O servidor utiliza a versão %1$s, mas necessita da versão %2$s ou superior</string>
+    <string name="server_issue_unsupported_version">O servidor utiliza a versão %1$s que não é suportada</string>
+    <string name="server_issue_missing_version">Não foi possível apurar a versão do servidor</string>
+    <string name="server_issue_invalid_product">O software do servidor é incompatível</string>
+    <string name="server_issue_unable_to_connect">Impossível ligar</string>
+    <string name="pref_subtitles_size">Tamanho do texto</string>
+    <string name="pref_subtitles_background_summary">Mostrar fundo negro sob as legendas</string>
+    <string name="pref_subtitles_background_title">Ativar fundo</string>
+    <string name="searchable_settings_description">Multimédia</string>
+    <string name="searchable_hint">Procurar Jellyfin</string>
+    <string name="home_section_i">Secção de início %1$d</string>
+    <string name="home_section_none">Nenhum</string>
+    <string name="home_section_livetv">TV em direto</string>
+    <string name="home_section_next_up">A seguir</string>
+    <string name="home_section_active_recordings">Gravações Ativas</string>
+    <string name="home_section_resume_audio">Continuar a ouvir</string>
+    <string name="home_section_resume">Continuar a ver</string>
+    <string name="home_section_library_small">O meu conteúdo (pequeno)</string>
+    <string name="home_section_library">O meu conteúdo</string>
+    <string name="home_sections">Secções do Início</string>
+    <string name="home_prefs">Início</string>
+    <string name="server_connection_failed_candidates">Não foi possível estabelecer ligação com o servidor, foram tentados os seguintes endereços: %1$s</string>
+    <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="pref_show_backdrop_description">Alterar imagem de fundo para seleção de items</string>
 </resources>
