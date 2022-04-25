@@ -138,7 +138,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
 				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
-				depends { DeviceUtils.is60() }
+				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}
 

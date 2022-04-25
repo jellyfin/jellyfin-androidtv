@@ -238,7 +238,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
 			}
 
-			// v0.12.x to v0.13.x
+			// v0.13.3 to v0.13.4
 			migration(toVersion = 6) {
 				putEnum("refresh_rate_switching_behavior",
 					when {
