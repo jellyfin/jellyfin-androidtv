@@ -123,10 +123,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mFragment = fragment;
         mHandler = new Handler();
 
-        if (DeviceUtils.is60())
+        if (DeviceUtils.is60()) {
             refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
             if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
                 getDisplayModes();
+        }
 
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
