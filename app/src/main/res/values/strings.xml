@@ -11,6 +11,7 @@
     <string name="settings_title">Preferences</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="chapters">Chapters</string>
+    <string name="lbl_disabled">Disabled</string>
     <string name="lbl_settings">Preferences</string>
     <string name="lbl_continue_watching">Continue Watching</string>
     <string name="lbl_next_up">Next Up</string>
@@ -201,8 +202,6 @@
     <string name="lbl_open">Open</string>
     <string name="lbl_show_backdrop">Show backdrops</string>
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
-    <string name="lbl_refresh_switching">Refresh rate switching</string>
-    <string name="pref_refresh_switching_description">Monitor refresh rate is changed to match video</string>
     <string name="lbl_show_premieres">Show season premieres</string>
     <string name="desc_premieres">Show a row of new episode pilots for any series you watch</string>
     <string name="lbl_bitstream_dts">Bitstream DTS audio</string>
@@ -491,4 +490,7 @@
     <string name="login_quickconnect_step_1">1. Open the Jellyfin app on your phone or webbrowser, and sign in with your account</string>
     <string name="login_quickconnect_step_2">2. Open the user menu and go to the Quick Connect page</string>
     <string name="login_quickconnect_step_3">3. Enter the following code:</string>
+    <string name="lbl_refresh_switching">Refresh rate switching</string>
+    <string name="pref_refresh_rate_scale_tv">Scale on TV</string>
+    <string name="pref_refresh_rate_scale_on_device">Scale on device</string>
 </resources>
