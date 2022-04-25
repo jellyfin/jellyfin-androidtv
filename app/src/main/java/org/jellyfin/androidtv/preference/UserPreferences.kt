@@ -99,7 +99,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Change refresh rate to match media when device supports it
 		 */
-		var refreshRateSwitchingBehavior = enumPreference("pref_refresh_switching", RefreshRateSwitchingBehavior.DISABLED)
+		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
 		/**
 		 * Send a path instead to the external player
@@ -240,7 +240,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 			// v0.12.x to v0.13.x
 			migration(toVersion = 6) {
-				putEnum("pref_refresh_switching",
+				putEnum("refresh_rate_switching_behavior",
 					when {
 						it.getBoolean("pref_refresh_switching", false) -> RefreshRateSwitchingBehavior.SCALE_ON_TV
 						else -> RefreshRateSwitchingBehavior.DISABLED

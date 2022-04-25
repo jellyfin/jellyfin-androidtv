@@ -491,6 +491,6 @@
     <string name="login_quickconnect_step_2">2. Open the user menu and go to the Quick Connect page</string>
     <string name="login_quickconnect_step_3">3. Enter the following code:</string>
     <string name="lbl_refresh_switching">Refresh rate switching</string>
-    <string name="pref_refresh_rate_scale_tv">Scale on TV</string>
+    <string name="pref_refresh_rate_scale_on_tv">Scale on TV</string>
     <string name="pref_refresh_rate_scale_on_device">Scale on device</string>
 </resources>

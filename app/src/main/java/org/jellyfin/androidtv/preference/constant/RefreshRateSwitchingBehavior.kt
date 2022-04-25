@@ -10,7 +10,7 @@ enum class RefreshRateSwitchingBehavior {
 	/**
 	 * When comparing modes, use difference in resolution to rank modes.
 	 */
-	@EnumDisplayOptions(R.string.pref_refresh_rate_scale_tv)
+	@EnumDisplayOptions(R.string.pref_refresh_rate_scale_on_tv)
 	SCALE_ON_TV,
 
 	/**
