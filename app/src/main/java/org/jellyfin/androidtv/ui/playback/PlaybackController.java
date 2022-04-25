@@ -316,6 +316,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         Timber.d("trying to find display mode for video: %dx%d@%f", videoStream.getWidth(), videoStream.getHeight(), videoStream.getRealFrameRate());
         for (Display.Mode mode : mDisplayModes) {
+            Timber.d("considering display mode: %s - %dx%d@%f", mode.getModeId(), mode.getPhysicalWidth(), mode.getPhysicalHeight(), mode.getRefreshRate());
+
             // Skip unwanted display modes
             if (mode.getPhysicalWidth() < 1280 || mode.getPhysicalHeight() < 720)  // Skip non-HD
                 continue;
@@ -337,7 +339,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
                     refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_TV) {
 
-                resolutionDifference = mode.getPhysicalWidth() - videoStream.getWidth();
+                resolutionDifference = Math.abs(mode.getPhysicalWidth() - videoStream.getWidth());
             }
             int refreshRateDifference = rate - sourceRate;
 
