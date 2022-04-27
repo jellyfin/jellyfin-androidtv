@@ -4,7 +4,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 
 enum class RefreshRateSwitchingBehavior {
-	@EnumDisplayOptions(R.string.lbl_disabled)
+	@EnumDisplayOptions(R.string.state_disabled)
 	DISABLED,
 
 	/**

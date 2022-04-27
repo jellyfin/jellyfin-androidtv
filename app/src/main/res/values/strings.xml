@@ -11,7 +11,7 @@
     <string name="settings_title">Preferences</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="chapters">Chapters</string>
-    <string name="lbl_disabled">Disabled</string>
+    <string name="state_disabled">Disabled</string>
     <string name="lbl_settings">Preferences</string>
     <string name="lbl_continue_watching">Continue Watching</string>
     <string name="lbl_next_up">Next Up</string>
