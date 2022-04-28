@@ -1,4 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>jellyfin/.github//renovate-presets/gradle"]
+	"extends": ["github>jellyfin/.github//renovate-presets/gradle"],
+	
+	"semanticCommits": "disabled"
 }
