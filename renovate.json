@@ -1,4 +1,4 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>jellyfin/.github//renovate-presets/gradle"]
+	"extends": ["github>h1dden-da3m0n/.github//renovate-presets/gradle"]
 }
