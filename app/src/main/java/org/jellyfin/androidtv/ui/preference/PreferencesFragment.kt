@@ -27,7 +27,8 @@ class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 	}
 
 	override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-		val fragment = instantiateFragment(pref.fragment).apply {
+		val fragmentName = pref.fragment ?: return false
+		val fragment = instantiateFragment(fragmentName).apply {
 			setTargetFragment(caller, 0)
 			arguments = pref.extras
 		}
