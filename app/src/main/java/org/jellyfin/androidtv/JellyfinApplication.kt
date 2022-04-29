@@ -102,9 +102,9 @@ class JellyfinApplication : Application() {
 			}
 
 			dialog {
-				withResTitle(R.string.acra_dialog_title)
-				withResText(R.string.acra_dialog_text)
-				withResTheme(R.style.Theme_Jellyfin)
+				title = getString(R.string.acra_dialog_title)
+				text = getString(R.string.acra_dialog_text)
+				resTheme = R.style.Theme_Jellyfin
 			}
 
 			limiter {}
