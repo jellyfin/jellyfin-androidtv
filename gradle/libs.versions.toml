@@ -1,6 +1,6 @@
 [versions]
 aboutlibraries = "8.9.4"
-acra = "5.8.4"
+acra = "5.9.3"
 android-desugar = "1.1.5"
 android-gradle = "7.1.3"
 androidx-activity = "1.4.0"
