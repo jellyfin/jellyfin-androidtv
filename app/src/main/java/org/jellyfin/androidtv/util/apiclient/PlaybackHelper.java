@@ -51,6 +51,7 @@ public class PlaybackHelper {
                     //add subsequent episodes
                     if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
+                        if (mainItem.getSeasonId() != null) episodeQuery.setSeasonId(mainItem.getSeasonId());
                         episodeQuery.setSeriesId(mainItem.getSeriesId());
                         episodeQuery.setUserId(userId.toString());
                         episodeQuery.setIsVirtualUnaired(false);
