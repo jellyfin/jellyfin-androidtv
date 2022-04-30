@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.preference.screen
 
 import androidx.core.os.bundleOf
 import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.util.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsScreen
@@ -16,26 +17,32 @@ class LicensesScreen : OptionsFragment() {
 		}
 	}
 
+	private val libs by lazy {
+		Libs.Builder().withContext(requireContext()).build()
+	}
+
 	private fun OptionsScreen.createLibrary(artifactId: String) {
-		val lib = Libs(requireContext()).libraries.find {
-			it.libraryArtifactId == artifactId
+		val lib = libs.libraries.find {
+			it.artifactId == artifactId
 		} ?: return createList()
 
-		title = lib.libraryName
+		title = lib.name
 
 		category {
 			buildList {
-				if (lib.libraryDescription.isNotBlank()) add(getString(R.string.license_description) to lib.libraryDescription)
-				if (lib.libraryVersion.isNotBlank()) add(getString(R.string.license_version) to lib.libraryVersion)
-				if (lib.libraryArtifactId.isNotBlank()) add(getString(R.string.license_artifact) to lib.libraryArtifactId)
-				if (lib.libraryWebsite.isNotBlank()) add(getString(R.string.license_website) to lib.libraryWebsite)
-				if (lib.repositoryLink.isNotBlank()) add(getString(R.string.license_repository) to lib.repositoryLink)
-				if (lib.author.isNotBlank()) add(getString(R.string.license_author) to lib.author)
-				lib.licenses?.forEach { license -> add(getString(R.string.license_license) to license.licenseName) }
+				add(getString(R.string.license_description) to lib.description)
+				add(getString(R.string.license_version) to lib.artifactVersion)
+				add(getString(R.string.license_artifact) to lib.artifactId)
+				add(getString(R.string.license_website) to lib.website)
+				add(getString(R.string.license_repository) to lib.scm?.url)
+				lib.developers.forEach { developer -> add(getString(R.string.license_author) to developer.name) }
+				lib.licenses.forEach { license -> add(getString(R.string.license_license) to license.name) }
 			}.forEach { (key, value) ->
-				link {
-					title = value
-					content = key
+				if (value != null) {
+					link {
+						title = value
+						content = key
+					}
 				}
 			}
 		}
@@ -45,12 +52,12 @@ class LicensesScreen : OptionsFragment() {
 		setTitle(R.string.licenses_link)
 
 		category {
-			for (library in Libs(context).libraries.sortedBy { it.libraryName.lowercase() }) {
+			for (library in libs.libraries.sortedBy { it.name.lowercase() }) {
 				link {
-					title = "${library.libraryName} ${library.libraryVersion}"
-					content = library.licenses?.joinToString(", ") { it.licenseName }
+					title = "${library.name} ${library.artifactVersion}"
+					content = library.licenses.joinToString(", ") { it.name }
 
-					withFragment<LicensesScreen>(bundleOf(EXTRA_LIBRARY to library.libraryArtifactId))
+					withFragment<LicensesScreen>(bundleOf(EXTRA_LIBRARY to library.artifactId))
 				}
 			}
 		}
