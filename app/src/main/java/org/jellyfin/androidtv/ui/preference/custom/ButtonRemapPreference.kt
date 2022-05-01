@@ -15,13 +15,10 @@ class ButtonRemapPreference @JvmOverloads constructor(
 ) : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 	override fun getDialogLayoutResource() = R.layout.preference_button_remap
 
-	private var innerKeyCode: Int = -1
-	var keyCode: Int
-		get() = innerKeyCode
+	var keyCode: Int = -1
 		set(value) {
-			innerKeyCode = value
-			notifyDependencyChange(false)
-			notifyChanged()
+			field = value
+			callChangeListener(value)
 		}
 	var defaultKeyCode: Int = -1
 
