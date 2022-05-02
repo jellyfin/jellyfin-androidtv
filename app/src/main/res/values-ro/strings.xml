@@ -480,7 +480,6 @@
     <string name="lbl_starting_early_ending_after">Începe %1$s mai devreme și se termină %2$s după program</string>
     <string name="server_connection_failed_candidates">Nu se poate conecta la server, următoarele adrese au fost încercate: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_refresh_switching_description">Viteza de atualizare a monitorului e schimbată pentru a se potrivi cu videoclip</string>
     <string name="pref_show_backdrop_description">Schimbă imaginea de fundal în elementele selectate</string>
     <string name="lbl_playback_speed">Viteza de Redare</string>
 </resources>

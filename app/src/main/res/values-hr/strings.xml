@@ -419,7 +419,6 @@
     <string name="lbl_sign_out">Odjava</string>
     <string name="help">Pomoć</string>
     <string name="auto_sign_in">Automatska prijava</string>
-    <string name="pref_refresh_switching_description">Brzina osvježenja monitora se mijenja kako bi se podudarala sa video zapisom</string>
     <string name="pref_show_backdrop_description">Promijeni pozadinsku sliku u označene stavke</string>
     <string name="lbl_playback_speed">Brzina reprodukcije</string>
 </resources>

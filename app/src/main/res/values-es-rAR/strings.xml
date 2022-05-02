@@ -416,7 +416,6 @@
     <string name="lbl_starting_early_ending_after">Comenzar %1$s Antes y Finalizar %2$s después del horario</string>
     <string name="server_connection_failed_candidates">No se pudo conectar al servidor: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_refresh_switching_description">La tasa de refrezco del monitor se adapta al contenido</string>
     <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según los items seleccionados</string>
     <string name="lbl_playback_speed">Velocidad de reproducción</string>
     <string name="lbl_fit">Normal</string>

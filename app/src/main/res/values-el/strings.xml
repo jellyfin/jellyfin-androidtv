@@ -451,7 +451,6 @@
     <string name="lbl_playback_speed">Ταχύτητα Αναπαραγωγής</string>
     <string name="lbl_fit">Κανονικό</string>
     <string name="lbl_auto_crop">Αυτόματη αποκοπή</string>
-    <string name="pref_refresh_switching_description">Ο ρυθμός ανανέωσης της οθόνης έχει αλλάξει για να ταιριάζει με αυτόν του βίντεο</string>
     <string name="pref_show_backdrop_description">Αλλαγή εικόνας φόντου στα επιλεγμένα αντικείμενα</string>
     <string name="pref_use_direct_path_title">Διαδρομή εξωτερικού προγράμματος αναπαραγωγής</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/δευτ.</string>

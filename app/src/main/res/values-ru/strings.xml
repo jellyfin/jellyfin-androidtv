@@ -469,7 +469,6 @@
     <string name="pref_libraries_description">Изменение способа отображения медиатек</string>
     <string name="pref_home_description">Настройка отображения разделов</string>
     <string name="sort_accounts_by">Сортировка учётных записей по</string>
-    <string name="pref_refresh_switching_description">Частота обновления монитора изменяется в соответствии с видео</string>
     <string name="pref_show_backdrop_description">Изменение фонового рисунка для выбранных элементов</string>
     <string name="pref_audio">Аудио</string>
     <string name="pref_subtitles">Субтитры</string>

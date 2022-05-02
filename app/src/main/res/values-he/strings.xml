@@ -478,7 +478,6 @@
     <string name="lbl_episode_number">פרק %1$d</string>
     <string name="lbl_season_number">עונה %1$d</string>
     <string name="server_connection_failed_candidates">כשלה ההתחברות לשרת דרך הכתובות הבאות: %1$s</string>
-    <string name="pref_refresh_switching_description">קצב רענון התמונה משתנה בהתאם לסרטון</string>
     <string name="pref_show_backdrop_description">שנה את תמונת הרקע לפריטים שנבחרו</string>
     <string name="lbl_playback_speed">מהירות נגן</string>
     <string name="lbl_stretch">מתיחה</string>

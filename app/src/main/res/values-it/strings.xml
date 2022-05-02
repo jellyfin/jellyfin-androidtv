@@ -477,7 +477,6 @@
     <string name="pref_accounts">Utenti</string>
     <string name="sort_accounts_by">Ordina gli utenti per</string>
     <string name="pref_customization">Personalizzazione</string>
-    <string name="pref_refresh_switching_description">La frequenza di aggiornamento del monitor viene impostata come quella del video</string>
     <string name="pref_show_backdrop_description">Cambia lo sfondo per le voci selezionate</string>
     <string name="pref_acra_description">Messaggio di crash, auto-upload, log di sistema</string>
     <string name="pref_customization_description">Tema, home, rimappatura</string>

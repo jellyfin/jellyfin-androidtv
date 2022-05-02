@@ -481,7 +481,6 @@
     <string name="pref_accounts">Accounts</string>
     <string name="sort_accounts_by">Sort accounts by</string>
     <string name="pref_customization">Customisation</string>
-    <string name="pref_refresh_switching_description">Monitor refresh rate is changed to match video</string>
     <string name="pref_show_backdrop_description">Change background image to selected items</string>
     <string name="home_section_resume_book">Continue reading</string>
     <string name="lbl_shuffle_queue">Toggle Shuffle</string>

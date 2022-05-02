@@ -479,7 +479,6 @@
     <string name="server_issue_missing_version">Serverversion konnte nicht bestimmt werden</string>
     <string name="server_issue_invalid_product">Server-Software ist nicht kompatibel</string>
     <string name="server_issue_unable_to_connect">Keine Verbindung möglich</string>
-    <string name="pref_refresh_switching_description">Die Bildwiederholfrequenz des Monitors wird an das Video angepasst</string>
     <string name="lbl_playback_speed">Wiedergabegeschwindigkeit</string>
     <string name="pref_direct_stream_live_on">Transcodierung ist deaktiviert</string>
     <string name="server_connection_failed_candidates">Verbindung zum Server nicht möglich, folgende Adressen ausprobiert: %1$s</string>

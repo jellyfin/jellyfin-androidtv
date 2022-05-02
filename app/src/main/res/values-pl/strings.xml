@@ -481,7 +481,6 @@
     <string name="home_sections">Sekcje domowe</string>
     <string name="license_artifact">Aretfakt</string>
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
-    <string name="pref_refresh_switching_description">Częstotliwość odświerzania monitora jest zmieniona, aby dopasować do wideo</string>
     <string name="pref_show_backdrop_description">Zmień tło na wybrane elementy</string>
     <string name="lbl_playback_speed">Prędkość Odtwarzania</string>
 </resources>

@@ -470,7 +470,6 @@
     <string name="pref_direct_stream_live_on">Transkodado estas malebligita</string>
     <string name="pref_libraries_description">Ŝanĝo montradon de plurmeditekoj</string>
     <string name="pref_home_description">Agordo montratajn sekciojn</string>
-    <string name="pref_refresh_switching_description">Ofteco de ekrana aktualigo estas ŝanĝita por kongrui kun video</string>
     <string name="pref_show_backdrop_description">Ŝanĝi fonbildon al elektitaj aĵoj</string>
     <string name="pref_audio">Aŭdio</string>
     <string name="pref_subtitles">Subtekstoj</string>

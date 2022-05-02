@@ -228,7 +228,6 @@
     <string name="lbl_bitstream_dts">Välitä DTS-ääni vahvistimelle</string>
     <string name="desc_premieres">Näytä rivi kaikkien katsomiesi sarjojen uusista pilottijaksoista</string>
     <string name="lbl_show_premieres">Sarjojen kausien ensimmäiset jaksot</string>
-    <string name="pref_refresh_switching_description">Näytön virkistystaajuus vaihdetaan videota vastaavaksi</string>
     <string name="lbl_refresh_switching">Virkistystaajuuden vaihto</string>
     <string name="pref_show_backdrop_description">Vaihda valittujen kohteiden taustakuva</string>
     <string name="desc_current_video_queue">Jonossa olevat videot</string>

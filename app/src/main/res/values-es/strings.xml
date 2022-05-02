@@ -484,5 +484,4 @@
     <string name="pref_accounts">Cuentas</string>
     <string name="sort_accounts_by">Ordenar cuentas por</string>
     <string name="pref_customization">Personalización</string>
-    <string name="pref_refresh_switching_description">Cambia la tasa de actualización de la pantalla para coincidir con la del video</string>
 </resources>

@@ -481,7 +481,6 @@
     <string name="pref_accounts">Účty</string>
     <string name="sort_accounts_by">Zoradiť účty podľa</string>
     <string name="pref_customization">Prispôsobenie</string>
-    <string name="pref_refresh_switching_description">Obnovovacia frekvencia je zmenená tak, aby sa zhodovala s videom</string>
     <string name="pref_show_backdrop_description">Zmeniť obrázok pozadia na vybrané položky</string>
     <string name="home_section_resume_book">Pokračovať v čítaní</string>
     <string name="lbl_shuffle_queue">Prepnúť náhodné prehrávanie</string>

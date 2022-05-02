@@ -204,7 +204,6 @@
     <string name="lbl_sports">Спорт</string>
     <string name="lbl_bitstream_ac3">Звук Bitstream Dolby Digital</string>
     <string name="lbl_bitstream_dts">Звук Bitstream DTS</string>
-    <string name="pref_refresh_switching_description">Частоту оновлення монітора змінено відповідно до відео</string>
     <string name="lbl_refresh_switching">Перемикання частоти оновлення</string>
     <string name="pref_show_backdrop_description">Змінити фонове зображення на вибрані елементи</string>
     <string name="lbl_show_backdrop">Показати фони</string>

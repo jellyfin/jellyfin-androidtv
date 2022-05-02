@@ -453,7 +453,6 @@
     <string name="pref_subtitles_background_summary">Visa svart bakgrund bakom undertexter</string>
     <string name="pref_subtitles_background_title">Aktivera bakgrund</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="pref_refresh_switching_description">Skärmens uppdateringsfrekvens ändrades för att matcha videons</string>
     <string name="lbl_playback_speed">Uppspelningshastighet</string>
     <string name="pref_playback_description">Video, undertexter, direktsänd-TV, kommer härnäst</string>
     <string name="home_section_resume_book">Fortsätt läsa</string>
