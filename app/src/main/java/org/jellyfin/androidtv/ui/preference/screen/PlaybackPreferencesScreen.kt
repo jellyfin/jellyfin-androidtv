@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
@@ -134,10 +135,9 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				depends { userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL }
 			}
 
-			checkbox {
+			enum<RefreshRateSwitchingBehavior> {
 				setTitle(R.string.lbl_refresh_switching)
-				setContent(R.string.pref_refresh_switching_description)
-				bind(userPreferences, UserPreferences.refreshRateSwitchingEnabled)
+				bind(userPreferences, UserPreferences.refreshRateSwitchingBehavior)
 				depends { DeviceUtils.is60() && userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
 			}
 		}

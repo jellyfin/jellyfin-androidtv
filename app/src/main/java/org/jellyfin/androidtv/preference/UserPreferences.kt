@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RatingType
+import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
 import org.jellyfin.androidtv.util.DeviceUtils
@@ -90,9 +91,9 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var videoPlayer = Preference.enum("video_player", PreferredVideoPlayer.EXOPLAYER)
 
 		/**
-		 * Enable refresh rate switching when device supports it
+		 * Change refresh rate to match media when device supports it
 		 */
-		var refreshRateSwitchingEnabled = Preference.boolean("pref_refresh_switching", false)
+		var refreshRateSwitchingBehavior = Preference.enum("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
 		/**
 		 * Send a path instead to the external player
@@ -229,6 +230,15 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 
 				// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
 				if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
+			}
+
+			// v0.13.3 to v0.13.4
+			migration(toVersion = 6) {
+				putEnum("refresh_rate_switching_behavior",
+					when {
+						it.getBoolean("pref_refresh_switching", false) -> RefreshRateSwitchingBehavior.SCALE_ON_TV
+						else -> RefreshRateSwitchingBehavior.DISABLED
+					})
 			}
 		}
 	}
