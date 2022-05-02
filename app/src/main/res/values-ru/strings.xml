@@ -65,7 +65,6 @@
     <string name="lbl_bracket_unknown">Неизвестно</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_play_trailers">Воспр. трейлеры</string>
-    <string name="lbl_enter_user_pw">Ввести пароль</string>
     <string name="lbl_no">Нет</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
@@ -329,7 +328,7 @@
     <string name="lbl_pause">Пауза</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Конец в %1$s</string>
-    <string name="lbl_sign_in">Войдите</string>
+    <string name="lbl_sign_in">Выполнить вход</string>
     <string name="pref_default_rating">Тип оценки по умолчанию</string>
     <string name="lbl_tomatoes">Томаты</string>
     <string name="lbl_stars">Звёзды</string>
@@ -486,4 +485,14 @@
     <string name="pref_accounts">Учётные записи</string>
     <string name="home_section_resume_book">Продолжение чтения</string>
     <string name="lbl_shuffle_queue">Переключить перемешивание</string>
+    <string name="login_quickconnect_step_3">3. Введите следующий код:</string>
+    <string name="login_quickconnect_step_2">2. Откройте меню пользователя и перейдите на страницу Быстрого подключения</string>
+    <string name="login_quickconnect_step_1">1. Откройте Jellyfin-приложение на своём телефоне или веб-браузере и войдите в свою учётную запись</string>
+    <string name="login_other_options">Другие опции:</string>
+    <string name="login_connect_to">Подключение к %1$s</string>
+    <string name="input_password">Пароль</string>
+    <string name="input_username">Имя пользователя</string>
+    <string name="action_use_quickconnect">Использовать Быстрое подключение</string>
+    <string name="action_use_password">Использовать пароль</string>
+    <string name="action_login">Вход</string>
 </resources>
