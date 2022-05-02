@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Belgısız</string>
     <string name="lbl_trailer">"Treiler "</string>
     <string name="lbl_play_trailers">Treilerlerdı oinatu</string>
-    <string name="lbl_enter_user_pw">Paröl engızu</string>
     <string name="lbl_no">Joq</string>
     <string name="lbl_yes">İa</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 nemese https://myserver.com</string>
@@ -486,4 +485,14 @@
     <string name="pref_refresh_switching_description">Monitor jañaru jiılıgı beinege säikestendıru üşın özgertıledı</string>
     <string name="home_section_resume_book">Oqudy jalğastyru</string>
     <string name="lbl_shuffle_queue">Aralastyrudy qosu/öşıru</string>
+    <string name="login_quickconnect_step_3">3. Kelesı kodty engızıñız:</string>
+    <string name="login_quickconnect_step_2">2. Paidalanuşy mäzırın aşyp, Jyldam qosylu betıne ötıñız</string>
+    <string name="login_quickconnect_step_1">1. Telefondağy Jellyfin‐qoldanbany nemese ueb-şolğyşty aşyp, tirkelgiñiz arqyly kiriñiz</string>
+    <string name="login_other_options">Basqa opsialar:</string>
+    <string name="login_connect_to">%1$s üşın qosyluda</string>
+    <string name="input_password">Paröl</string>
+    <string name="input_username">Paidalanuşy aty</string>
+    <string name="action_use_quickconnect">Jyldam qosyludy paidalanu</string>
+    <string name="action_use_password">Paröl paidalanu</string>
+    <string name="action_login">Kıru</string>
 </resources>
