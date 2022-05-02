@@ -11,7 +11,6 @@
     <string name="btn_filter">Szűrő</string>
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
     <string name="lbl_new">Új</string>
-    <string name="lbl_enter_user_name">Felhasználónév megadása</string>
     <string name="lbl_play_trailers">Előzetes(ek) lejátszása</string>
     <string name="lbl_trailer">"Előzetes "</string>
     <string name="lbl_bracket_unknown">Ismeretlen</string>
@@ -321,7 +320,7 @@
     <string name="mark_watched_message">Úgy tűnik hogy nem lett teljes hosszában lejátszva. Megjelöljük megtekintettként\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>
-    <string name="lbl_sign_in">Kérlek, jelentkezz be</string>
+    <string name="lbl_sign_in">Kérlek Jelentkezz Be</string>
     <string name="play_with">Lejátszani vele</string>
     <string name="play_with_external_app">Lejátszás külső alkalmazással</string>
     <string name="play_with_exo_player">Lejátszás ExoPlayer-el</string>
@@ -486,4 +485,14 @@
     <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
     <string name="home_section_resume_book">Olvasás folytatása</string>
     <string name="lbl_shuffle_queue">Véletlenszerű Lejátszás</string>
+    <string name="login_quickconnect_step_3">3. Írjd be a következő kódot:</string>
+    <string name="login_quickconnect_step_2">2. Nyisd meg a felhasználói menüt, és lépj a Quick Connect oldalra</string>
+    <string name="login_quickconnect_step_1">1. Nyisd meg a Jellyfin alkalmazást telefonodon, vagy webböngészőben, és jelentkezz be a fiókoddal</string>
+    <string name="login_other_options">További lehetőségek:</string>
+    <string name="login_connect_to">Kapcsolódás a %1$s-hoz</string>
+    <string name="input_password">Jelszó</string>
+    <string name="input_username">Felhasználónév</string>
+    <string name="action_use_quickconnect">QuickConnect használata</string>
+    <string name="action_use_password">Használj jelszót</string>
+    <string name="action_login">Bejelentkezés</string>
 </resources>
