@@ -76,8 +76,7 @@
     <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Yes</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
-    <string name="lbl_enter_server_address">Enter Server Address</string>
+    <string name="lbl_enter_server_address">Enter server address</string>
     <string name="lbl_valid_server_address">Please enter the server address (IP or domain/machine name)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Born "</string>
@@ -493,4 +492,5 @@
     <string name="lbl_refresh_switching">Refresh rate switching</string>
     <string name="pref_refresh_rate_scale_on_tv">Scale on TV</string>
     <string name="pref_refresh_rate_scale_on_device">Scale on device</string>
+    <string name="action_connect">Connect</string>
 </resources>

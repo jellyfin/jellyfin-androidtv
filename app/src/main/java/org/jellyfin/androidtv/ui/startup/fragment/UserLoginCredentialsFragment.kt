@@ -38,7 +38,10 @@ class UserLoginCredentialsFragment : Fragment() {
 		with(binding.password) {
 			setOnEditorActionListener { _, actionId, _ ->
 				when (actionId) {
-					EditorInfo.IME_ACTION_DONE -> loginWithCredentials()
+					EditorInfo.IME_ACTION_DONE -> {
+						loginWithCredentials()
+						true
+					}
 					else -> false
 				}
 			}
@@ -79,19 +82,15 @@ class UserLoginCredentialsFragment : Fragment() {
 		}
 	}
 
-	private fun loginWithCredentials(): Boolean = when {
-		binding.username.text.isNotBlank() -> {
-			lifecycleScope.launch {
+	private fun loginWithCredentials() {
+		when {
+			binding.username.text.isNotBlank() -> lifecycleScope.launch {
 				userLoginViewModel.login(
 					binding.username.text.toString(),
 					binding.password.text.toString()
 				)
 			}
-			true
-		}
-		else -> {
-			binding.error.setText(R.string.login_username_field_empty)
-			false
+			else -> binding.error.setText(R.string.login_username_field_empty)
 		}
 	}
 }

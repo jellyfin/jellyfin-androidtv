@@ -140,7 +140,7 @@ class SelectServerFragment : Fragment() {
 		binding.enterServerAddress.setOnClickListener {
 			parentFragmentManager.commit {
 				addToBackStack(null)
-				replace<AddServerAlertFragment>(R.id.content_view)
+				replace<ServerAddFragment>(R.id.content_view)
 			}
 		}
 
