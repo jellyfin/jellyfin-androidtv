@@ -334,7 +334,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
             // if scaling on-device, keep native resolution modes at diff 0 (best score)
             // for other resolutions when scaling on device, or if scaling on tv, score based on distance from media resolution
-            int resolutionDifference = 0;
+
+            // use -1 as the default so, with SCALE_ON_DEVICE, a mode at native resolution will rank higher than
+            // a mode with equal refresh rate and the same resolution as the media
+            int resolutionDifference = -1;
             if ((refreshRateSwitchingBehavior == RefreshRateSwitchingBehavior.SCALE_ON_DEVICE &&
                     !(mode.getPhysicalWidth() == defaultMode.getPhysicalWidth() && mode.getPhysicalHeight() == defaultMode.getPhysicalHeight())) ||
 
