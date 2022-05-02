@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Desconhecido</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Reproduzir Trailer(s)</string>
-    <string name="lbl_enter_user_name">Inserir usuário</string>
     <string name="lbl_enter_user_pw">Digitar senha</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
@@ -234,7 +233,6 @@
     <string name="lbl_resume_preroll">Continuar nos Lançamentos</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_series_recordings">Séries Gravadas</string>
-    <string name="msg_error_server_unavailable">Servidor indisponível</string>
     <string name="loading">Carregando…</string>
     <string name="lbl_audio_delay">Atraso do Áudio</string>
     <string name="lbl_new_only">Somente Novos</string>

@@ -100,7 +100,6 @@
     <string name="msg_playback_restricted">The administrator has restricted playback of this item at this time</string>
     <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
     <string name="lbl_loading_elipses">Loading…</string>
-    <string name="msg_error_server_unavailable">Server unavailable</string>
     <string name="lbl_on_schedule">On Schedule</string>
     <string name="lbl_hours">Hours</string>
     <string name="lbl_minute">Minute</string>
@@ -165,7 +164,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_yes">Yes</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_pw">Enter password</string>
     <string name="lbl_enter_user_name">Enter username</string>
     <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>

@@ -81,7 +81,6 @@
     <string name="lbl_mark_unplayed">标记为未播放</string>
     <string name="lbl_play_first_unwatched">播放未观看中的第一部影片</string>
     <string name="lbl_search_hint">搜索文本(选择键盘)</string>
-    <string name="lbl_enter_user_pw">输入密码</string>
     <string name="lbl_enter_user_name">输入用户名</string>
     <string name="lbl_play_trailers">播放预告片</string>
     <string name="lbl_recordings">录音</string>
@@ -235,7 +234,6 @@
     <string name="lbl_load_channels">"加载通道 "</string>
     <string name="lbl_unwatched">未观看</string>
     <string name="msg_no_playable_items">没有可播放的项目</string>
-    <string name="msg_error_server_unavailable">服务器不可用</string>
     <string name="lbl_image_size">图像尺寸</string>
     <string name="lbl_image_type">图像格式</string>
     <string name="lbl_start_favorites">将收藏夹放在开头</string>

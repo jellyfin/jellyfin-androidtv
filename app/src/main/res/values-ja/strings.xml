@@ -70,7 +70,6 @@
     <string name="lbl_bracket_unknown">&lt;Unknown&gt;</string>
     <string name="lbl_trailer">"トレーラー・PV "</string>
     <string name="lbl_play_trailers">トレーラーを再生</string>
-    <string name="lbl_enter_user_name">ユーザー名を入力</string>
     <string name="lbl_enter_user_pw">ユーザーパスワードを入力</string>
     <string name="lbl_no">いいえ</string>
     <string name="lbl_yes">はい</string>
@@ -190,7 +189,6 @@
     <string name="lbl_audio_delay">音声遅延</string>
     <string name="lbl_new_only">新しいのみ</string>
     <string name="lbl_news">ニュース</string>
-    <string name="msg_error_server_unavailable">サーバー利用不可</string>
     <string name="pref_use_direct_path_summary">ストリーミングURLの代わりにシステムパスを使用</string>
     <string name="lbl_resume_from">%1$s から再開</string>
     <string name="lbl_guide_option_number">チャンネル番号</string>

@@ -107,7 +107,6 @@
     <string name="lbl_mark_unplayed">Marcar No Reproducido</string>
     <string name="lbl_play_first_unwatched">Reproducir Primero Lo No Visto</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar por teclado)</string>
-    <string name="lbl_enter_user_pw">Introduce su contraseña</string>
     <string name="lbl_enter_user_name">Introduce el usuario</string>
     <string name="lbl_play_trailers">Reproducir Tráiler(s)</string>
     <string name="lbl_recordings">Grabaciones</string>
@@ -231,7 +230,6 @@
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_from">desde</string>
-    <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_bitstream_dts">Audio bitstream DTS</string>
     <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>

@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Ukjent>]]></string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Spill av trailer(e)</string>
-    <string name="lbl_enter_user_name">Skriv inn brukernavn</string>
     <string name="lbl_enter_user_pw">Skriv inn passord</string>
     <string name="lbl_no">Nei</string>
     <string name="lbl_yes">Ja</string>
@@ -247,7 +246,6 @@
     <string name="lbl_audio_delay">Lydforsinkelse</string>
     <string name="lbl_new_only">Kun nye</string>
     <string name="lbl_news">Nyheter</string>
-    <string name="msg_error_server_unavailable">Serveren er utilgjengelig</string>
     <string name="pref_video_player_external">Ekstern app</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>

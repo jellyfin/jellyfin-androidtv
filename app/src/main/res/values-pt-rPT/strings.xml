@@ -65,7 +65,6 @@
     <string name="lbl_bracket_unknown">Desconhecido</string>
     <string name="lbl_trailer">"Anúncio "</string>
     <string name="lbl_play_trailers">Reproduzir Anúncio(s)</string>
-    <string name="lbl_enter_user_name">Digite o nome de utilizador</string>
     <string name="lbl_enter_user_pw">Digite a palavra-passe de utilizador</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
@@ -182,7 +181,6 @@
     <string name="lbl_warning">Aviso</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
-    <string name="msg_error_server_unavailable">Servidor inacessível</string>
     <string name="lbl_watched">Visto</string>
     <string name="lbl_favorite">Favorito</string>
     <string name="watch_now">Ver agora</string>

@@ -58,10 +58,8 @@
     <string name="btn_cancel">Откажи</string>
     <string name="loading">Учитавам…</string>
     <string name="video_error_unknown_error">Не могу да учитам видео</string>
-    <string name="msg_error_server_unavailable">Сервер недоступан</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_no">Не</string>
-    <string name="lbl_enter_user_pw">Унесите лозинку</string>
     <string name="lbl_enter_user_name">Унесите корисничко име</string>
     <string name="lbl_play_trailers">Пусти трејлер(е)</string>
     <string name="lbl_trailer">"Трејлер "</string>

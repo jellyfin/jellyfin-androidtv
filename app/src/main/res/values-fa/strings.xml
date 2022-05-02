@@ -92,10 +92,8 @@
     <string name="lbl_valid_server_address">لطفا آدرس سرور (IP یا دامنه/نام ماشین) را وارد کنید</string>
     <string name="lbl_enter_server_address">آدرس سرور را وارد کنید</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 یا https://myserver.com</string>
-    <string name="msg_error_server_unavailable">سرور در دسترس نمی‌باشد</string>
     <string name="lbl_yes">بله</string>
     <string name="lbl_no">خیر</string>
-    <string name="lbl_enter_user_pw">رمز عبور را وارد کنید</string>
     <string name="lbl_enter_user_name">نام کاربری را وارد کنید</string>
     <string name="lbl_runs">اجرا</string>
     <string name="lbl_play_trailers">پخش پیش نمایش(ها)</string>

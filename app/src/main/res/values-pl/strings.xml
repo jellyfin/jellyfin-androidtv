@@ -4,10 +4,8 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_valid_server_address">Podaj adres serwera (IP lub domena/nazwa serwera)</string>
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
-    <string name="msg_error_server_unavailable">Serwer niedostępny</string>
     <string name="lbl_yes">Tak</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_enter_user_pw">Podaj hasło</string>
     <string name="lbl_enter_user_name">Podaj login</string>
     <string name="lbl_play_trailers">Odtwórz zwiastun</string>
     <string name="lbl_trailer">"Zwiastun "</string>

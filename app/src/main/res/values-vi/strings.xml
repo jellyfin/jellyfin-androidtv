@@ -33,10 +33,8 @@
     <string name="lbl_valid_server_address">Vui lòng nhập địa chỉ máy chủ (IP hoặc tên miền / tên máy)</string>
     <string name="lbl_enter_server_address">Nhập Địa Chỉ Máy Chủ</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 hoặc https://myserver.com</string>
-    <string name="msg_error_server_unavailable">Máy chủ không có sẵn</string>
     <string name="lbl_yes">Có</string>
     <string name="lbl_no">Không</string>
-    <string name="lbl_enter_user_pw">Nhập mật khẩu</string>
     <string name="lbl_enter_user_name">Điền tên đăng nhập</string>
     <string name="lbl_play_trailers">Phát Đoạn Giới Thiệu</string>
     <string name="lbl_trailer">"Giới Thiệu "</string>

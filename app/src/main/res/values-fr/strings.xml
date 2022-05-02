@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Inconnu</string>
     <string name="lbl_trailer">"Bande-annonce "</string>
     <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
-    <string name="lbl_enter_user_name">Entrez le nom d\'utilisateur</string>
     <string name="lbl_enter_user_pw">Entrez le mot de passe</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
@@ -231,7 +230,6 @@
     <string name="lbl_watched">Vu</string>
     <string name="lbl_warning">Avertissement</string>
     <string name="lbl_now_playing_track">%1$s sur %2$s</string>
-    <string name="msg_error_server_unavailable">Serveur indisponible</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Identification</string>
     <string name="msg_external_path">Cette fonction ne fonctionnera que si vous avez correctement configuré votre médiathèque sur le serveur avec des chemins d\'accès réseau ou des substitutions de chemins et que le client que vous utilisez peut accéder directement à ces emplacements via le réseau.</string>

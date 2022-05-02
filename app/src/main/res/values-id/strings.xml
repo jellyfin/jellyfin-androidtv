@@ -181,10 +181,8 @@
     <string name="acra_dialog_title">Oh tidak! Ada yang salah.</string>
     <string name="msg_external_path">Fitur ini hanya akan berfungsi jika Anda telah menyiapkan pustaka Anda dengan benar di server dengan jalur jaringan atau substitusi jalur dan klien yang Anda gunakan dapat langsung mengakses lokasi ini melalui jaringan.</string>
     <string name="sum_enable_cinema_mode">Tampilkan intro dan pratinjau sebelum pemutaran film ketika diaktifkan oleh server</string>
-    <string name="msg_error_server_unavailable">Server tidak tersedia</string>
     <string name="lbl_yes">Iya</string>
     <string name="lbl_no">Tidak</string>
-    <string name="lbl_enter_user_pw">Masukkan kata sandi pengguna</string>
     <string name="lbl_enter_user_name">Masukkan nama pengguna</string>
     <string name="lbl_trailer">"Cuplikan "</string>
     <string name="lbl_bracket_unknown">Tak Diketahui</string>

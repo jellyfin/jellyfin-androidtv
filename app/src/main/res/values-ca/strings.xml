@@ -34,10 +34,8 @@
     <string name="lbl_because_you_watched">"Perque els has vist "</string>
     <string name="lbl_latest_additions">Últims Afegits</string>
     <string name="lbl_min">" min"</string>
-    <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_pw">Introduïu la contrasenya</string>
     <string name="lbl_enter_user_name">Introduïu el nom d\'usuari</string>
     <string name="lbl_play_trailers">Reprodueix tràiler(s)</string>
     <string name="lbl_trailer">"Tràiler "</string>

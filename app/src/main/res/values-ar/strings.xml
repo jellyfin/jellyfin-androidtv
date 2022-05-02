@@ -72,10 +72,8 @@
     <string name="lbl_valid_server_address">الرجاء إدخال عنوان الخادم (IP أو اسم النطاق/الجهاز)</string>
     <string name="lbl_enter_server_address">أدخل عنوان الخادم</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 أو https://myserver.com</string>
-    <string name="msg_error_server_unavailable">الخادم غير متاح</string>
     <string name="lbl_yes">نعم</string>
     <string name="lbl_no">لا</string>
-    <string name="lbl_enter_user_pw">أدخل كلمة السر</string>
     <string name="lbl_enter_user_name">أدخل اسم المستخدم</string>
     <string name="lbl_trailer">"الإعلان "</string>
     <string name="lbl_bracket_unknown">غير معروف</string>

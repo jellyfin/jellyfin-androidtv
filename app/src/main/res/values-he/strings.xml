@@ -114,10 +114,8 @@
     <string name="lbl_valid_server_address">הכנס שם שרת (IP או שם מכונה)</string>
     <string name="lbl_enter_server_address">הכנס כתובת שרת</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 או https://myserver.com</string>
-    <string name="msg_error_server_unavailable">שרת לא זמין</string>
     <string name="lbl_yes">כן</string>
     <string name="lbl_no">לא</string>
-    <string name="lbl_enter_user_pw">הזן סיסמה</string>
     <string name="lbl_enter_user_name">הזן שם חשבון</string>
     <string name="lbl_play_trailers">נגן טריילרים</string>
     <string name="lbl_trailer">"טריילר "</string>

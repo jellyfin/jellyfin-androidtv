@@ -62,7 +62,6 @@
     <string name="lbl_bracket_unknown"><![CDATA[<Unknown>]]></string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Afspil trailer</string>
-    <string name="lbl_enter_user_name">Indtast brugernavn</string>
     <string name="lbl_enter_user_pw">Indtast bruger kodeord</string>
     <string name="lbl_no">Nej</string>
     <string name="lbl_yes">Ja</string>
@@ -117,7 +116,6 @@
     <string name="pref_audio_direct">Direkte</string>
     <string name="lbl_now_playing_album">fra %1$s</string>
     <string name="lbl_now_playing_track">%1$s af %2$s</string>
-    <string name="msg_error_server_unavailable">Serveren er ikke tilgængelig</string>
     <string name="lbl_recordings">Optagelser</string>
     <string name="lbl_videos">Videoer</string>
     <string name="lbl_watched">Set</string>

@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_play_trailers">Reproducir trailer(s)</string>
-    <string name="lbl_enter_user_name">Introducir nombre de usuario</string>
     <string name="lbl_enter_user_pw">Introducir contraseña</string>
     <string name="lbl_no">No</string>
     <string name="lbl_yes">Sí</string>
@@ -232,7 +231,6 @@
     <string name="lbl_series">Series</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
-    <string name="msg_error_server_unavailable">Servidor no disponible</string>
     <string name="lbl_favorite">Favorito</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="loading">Cargando…</string>

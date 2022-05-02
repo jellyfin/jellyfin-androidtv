@@ -203,10 +203,8 @@
     <string name="lbl_valid_server_address">Vänligen ange serveradressen (IP eller domän/maskinnamn)</string>
     <string name="lbl_enter_server_address">Ange serveradress</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 eller https://minserver.com</string>
-    <string name="msg_error_server_unavailable">Servern ej tillgänglig</string>
     <string name="lbl_yes">Ja</string>
     <string name="lbl_no">Nej</string>
-    <string name="lbl_enter_user_pw">Skriv in lösenord</string>
     <string name="lbl_enter_user_name">Skriv in användarnamn</string>
     <string name="lbl_play_trailers">Spela Trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>

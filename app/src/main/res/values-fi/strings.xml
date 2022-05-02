@@ -71,10 +71,8 @@
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Syötä palvelimen osoite</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 tai https://omapalvelin.fi</string>
-    <string name="msg_error_server_unavailable">Palvelin ei ole saatavilla</string>
     <string name="lbl_yes">Kyllä</string>
     <string name="lbl_no">Ei</string>
-    <string name="lbl_enter_user_pw">Syötä salasana</string>
     <string name="lbl_enter_user_name">Syötä käyttäjätunnus</string>
     <string name="lbl_play_trailers">Toista traileri(t)</string>
     <string name="lbl_trailer">"Traileri "</string>

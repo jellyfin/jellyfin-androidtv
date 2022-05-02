@@ -113,9 +113,7 @@
     <string name="lbl_remove_favorite">Rimuovi Preferito</string>
     <string name="lbl_mark_played">Segna come Visto</string>
     <string name="lbl_mark_unplayed">Segna come Non Visto</string>
-    <string name="msg_error_server_unavailable">Server non raggiungibile</string>
     <string name="lbl_enter_user_pw">Inserisci password</string>
-    <string name="lbl_enter_user_name">Inserisci nome utente</string>
     <string name="lbl_recordings">Registrazioni</string>
     <string name="lbl_videos">Video</string>
     <string name="lbl_watched">Visto</string>

@@ -95,10 +95,8 @@
     <string name="lbl_valid_server_address">Введіть адресу сервера (IP або домен/ім\'я комп\'ютера)</string>
     <string name="lbl_enter_server_address">Введіть адресу сервера</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 або https://myserver.com</string>
-    <string name="msg_error_server_unavailable">Сервер недоступний</string>
     <string name="lbl_yes">Так</string>
     <string name="lbl_no">Ні</string>
-    <string name="lbl_enter_user_pw">Введіть пароль</string>
     <string name="lbl_enter_user_name">Введіть ім\'я користувача</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_bracket_unknown">Невідомо</string>

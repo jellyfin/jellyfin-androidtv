@@ -65,7 +65,6 @@
     <string name="lbl_bracket_unknown">Неизвестно</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_play_trailers">Воспр. трейлеры</string>
-    <string name="lbl_enter_user_name">Ввести имя пользователя</string>
     <string name="lbl_enter_user_pw">Ввести пароль</string>
     <string name="lbl_no">Нет</string>
     <string name="lbl_yes">Да</string>
@@ -235,7 +234,6 @@
     <string name="lbl_just_this_once">Только на этот раз</string>
     <string name="msg_external_path">Эта функция будет работать только при правильной настройке сетевых путей или подстановки пути медиатеки на сервере, а используемый клиент имеет прямой доступ по сети к этим расположениям.</string>
     <string name="pref_authentication_cat">Аутентификация</string>
-    <string name="msg_error_server_unavailable">Сервер недоступен</string>
     <string name="lbl_image_size">Размер рисунка</string>
     <string name="lbl_image_type">Тип рисунка</string>
     <string name="lbl_start_favorites">Разместить избранные в начале</string>

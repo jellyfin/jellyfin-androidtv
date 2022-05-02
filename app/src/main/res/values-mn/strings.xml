@@ -64,11 +64,9 @@
     <string name="lbl_bracket_unknown">&lt;Тодорхойгүй&gt;</string>
     <string name="lbl_trailer">"Трейлер "</string>
     <string name="lbl_play_trailers">Трейлер үзэх</string>
-    <string name="lbl_enter_user_name">Хрээглэгчийн нэр оруулна уу</string>
     <string name="lbl_enter_user_pw">Нууц үгээ оруулна уу</string>
     <string name="lbl_no">Үгүй</string>
     <string name="lbl_yes">Тийм</string>
-    <string name="msg_error_server_unavailable">Сервер тодорхойгүй</string>
     <string name="lbl_enter_server_address">Серверийн хаяг оруулна уу</string>
     <string name="lbl_valid_server_address">Серверийн хаягийг оруулна уу (IP эсвэл домэйн / нэр)</string>
     <string name="lbl_born">"Эхэлсэн "</string>

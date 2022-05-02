@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Belgısız</string>
     <string name="lbl_trailer">"Treiler "</string>
     <string name="lbl_play_trailers">Treilerlerdı oinatu</string>
-    <string name="lbl_enter_user_name">Paidalanuşy atyn engızu</string>
     <string name="lbl_enter_user_pw">Paröl engızu</string>
     <string name="lbl_no">Joq</string>
     <string name="lbl_yes">İa</string>
@@ -246,7 +245,6 @@
     <string name="lbl_just_this_once">Tek osy ret</string>
     <string name="lbl_select_date">Kün tañdau</string>
     <string name="lbl_warning">Eskertu</string>
-    <string name="msg_error_server_unavailable">Server qoljetımdı emes</string>
     <string name="pref_authentication_cat">Tüpnūsqalyq rastama</string>
     <string name="pref_libvlc_audio_delay_title">libVLC üşın dybystyñ ädepkı kıdırısı</string>
     <string name="watch_now">Qazır köru</string>

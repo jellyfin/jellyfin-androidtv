@@ -56,7 +56,6 @@
     <string name="lbl_bracket_unknown">&lt;알수없음&gt;</string>
     <string name="lbl_trailer">"예고편 "</string>
     <string name="lbl_play_trailers">트레일러 재생</string>
-    <string name="lbl_enter_user_name">사용자 이름 입력</string>
     <string name="lbl_enter_user_pw">사용자 비밀번호 입력</string>
     <string name="lbl_no">아니오</string>
     <string name="lbl_yes">예</string>
@@ -186,7 +185,6 @@
     <string name="sum_tv_queuing">에피소드를 재생할 때 남은 시즌 대기열에 추가</string>
     <string name="lbl_tv_queuing">모든 후속 에피소드 대기열에 추가</string>
     <string name="lbl_never">안 함</string>
-    <string name="msg_error_server_unavailable">서버 연결 불가능</string>
     <string name="pref_libvlc_audio_delay_title">libVLC 기본 오디오 지연</string>
     <string name="watch_now">지금 재생</string>
     <string name="pref_next_up_timeout_title">다음 타이머 시간</string>

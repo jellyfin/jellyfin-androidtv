@@ -16,10 +16,8 @@
     <string name="lbl_valid_server_address">Prosim vnesi naslov strežnika (IP ali domena/ime naprave)</string>
     <string name="lbl_enter_server_address">Vnesi naslov strežnika</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ali https://mojstreznik.com</string>
-    <string name="msg_error_server_unavailable">Strežnik ni na voljo</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
-    <string name="lbl_enter_user_pw">Vnesi geslo</string>
     <string name="lbl_enter_user_name">Vnesi uporabniško ime</string>
     <string name="lbl_play_trailers">Predvajaj Napovednik(e)</string>
     <string name="lbl_trailer">"Napovednik "</string>
