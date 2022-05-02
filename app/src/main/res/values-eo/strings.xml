@@ -97,7 +97,6 @@
     <string name="connect_manually_by_address">Entajpi servilan adreson</string>
     <string name="lbl_valid_server_address">Entajpi la servilan adreson (IP aŭ domajna/maŝina nomo)</string>
     <string name="lbl_enter_server_address">Entajpi Servilan Adreson</string>
-    <string name="lbl_enter_user_name">Entajpi uzantan nomon</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d kanaloj</string>
     <string name="welcome_title">Bonvenon al Jellyfin!</string>
     <string name="lbl_sign_in">Ensaluti</string>
@@ -115,7 +114,7 @@
     <string name="lbl_one_episode">1 Epizodo</string>
     <string name="lbl_on_channel">Je %1$s</string>
     <string name="add_user">Aldoni konton</string>
-    <string name="lbl_sign_out">Elsalutu</string>
+    <string name="lbl_sign_out">Elsaluto</string>
     <string name="lbl_remove_server">Forigi servilon</string>
     <string name="bitrate_kbit">%1$,.0f Kibit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mibit/s</string>
@@ -486,4 +485,14 @@
     <string name="pref_customization">Adapto</string>
     <string name="home_section_resume_book">Daŭrigi legadon</string>
     <string name="lbl_shuffle_queue">Baskuligi Mikson</string>
+    <string name="login_quickconnect_step_3">3. Enigu la sekvan kodon:</string>
+    <string name="login_quickconnect_step_2">2. Malfermu la uzantan menuon kaj iru al la paĝo de Rapida Konekto</string>
+    <string name="login_quickconnect_step_1">1. Malfermu la Jellyfin-apon en via telefono aŭ retumilon, kaj ensalutu per via konto</string>
+    <string name="login_other_options">Aliaj Opcioj:</string>
+    <string name="login_connect_to">Konektante al %1$s</string>
+    <string name="input_password">Pasvorto</string>
+    <string name="input_username">Uzantnomo</string>
+    <string name="action_use_quickconnect">Uzi Rapidan Konekton</string>
+    <string name="action_use_password">Uzi pasvorton</string>
+    <string name="action_login">Ensaluto</string>
 </resources>
