@@ -74,7 +74,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 أو https://myserver.com</string>
     <string name="lbl_yes">نعم</string>
     <string name="lbl_no">لا</string>
-    <string name="lbl_enter_user_name">أدخل اسم المستخدم</string>
     <string name="lbl_trailer">"الإعلان "</string>
     <string name="lbl_bracket_unknown">غير معروف</string>
     <string name="msg_video_playback_error">"خطأ في عرض الفيديو - "</string>

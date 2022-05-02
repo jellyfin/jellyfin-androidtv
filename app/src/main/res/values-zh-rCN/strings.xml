@@ -81,7 +81,6 @@
     <string name="lbl_mark_unplayed">标记为未播放</string>
     <string name="lbl_play_first_unwatched">播放未观看中的第一部影片</string>
     <string name="lbl_search_hint">搜索文本(选择键盘)</string>
-    <string name="lbl_enter_user_name">输入用户名</string>
     <string name="lbl_play_trailers">播放预告片</string>
     <string name="lbl_recordings">录音</string>
     <string name="lbl_videos">视频</string>

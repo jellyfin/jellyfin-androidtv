@@ -64,7 +64,6 @@
     <string name="lbl_bracket_unknown">Inconnu</string>
     <string name="lbl_trailer">"Bande-annonce "</string>
     <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
-    <string name="lbl_enter_user_pw">Entrez le mot de passe</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 ou https://monserveur.com</string>

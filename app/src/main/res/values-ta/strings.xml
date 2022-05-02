@@ -38,7 +38,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 அல்லது https://myserver.com</string>
     <string name="lbl_yes">ஆம்</string>
     <string name="lbl_no">இல்லை</string>
-    <string name="lbl_enter_user_name">பயனர் பெயரை உள்ளிடவும்</string>
     <string name="lbl_play_trailers">டிரெய்லர்களை இயக்கு</string>
     <string name="lbl_trailer">"டிரெய்லர் "</string>
     <string name="lbl_bracket_unknown">தெரியவில்லை</string>

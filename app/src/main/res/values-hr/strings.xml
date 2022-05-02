@@ -7,7 +7,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 ili https://myserver.com</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
-    <string name="lbl_enter_user_name">Unesi korisničko ime</string>
     <string name="lbl_bracket_unknown">Nepoznato</string>
     <string name="msg_video_playback_error">"Greška pri reprodukciji "</string>
     <string name="lbl_none">Nijedan</string>

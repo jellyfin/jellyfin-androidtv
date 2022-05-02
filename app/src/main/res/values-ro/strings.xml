@@ -243,7 +243,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 sau https://myserver.com</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Nu</string>
-    <string name="lbl_enter_user_name">Introduceti numele de utilizator</string>
     <string name="lbl_play_trailers">Rulează Trailer(e)</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_video_player_external">Aplicație externă</string>

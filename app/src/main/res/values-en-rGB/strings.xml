@@ -164,7 +164,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_yes">Yes</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_name">Enter username</string>
     <string name="lbl_play_trailers">Play Trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_bracket_unknown">Unknown</string>

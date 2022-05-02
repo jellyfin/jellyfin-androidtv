@@ -72,7 +72,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://mojotserver.com</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_no">Не</string>
-    <string name="lbl_enter_user_name">Внесете корисничко име</string>
     <string name="lbl_play_trailers">Пушти трејлер(и)</string>
     <string name="lbl_trailer">"Трејлер "</string>
     <string name="lbl_bracket_unknown">&lt;Непознато&gt;</string>

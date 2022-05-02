@@ -13,7 +13,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://miservidor.com</string>
     <string name="lbl_yes">Si</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_name">Introduzca su nombre de usuario</string>
     <string name="lbl_none">Ninguno</string>
     <string name="lbl_recordings">Grabaciones</string>
     <string name="lbl_other_options">Otras opciones</string>

@@ -72,7 +72,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_yes">হ্যাঁ</string>
     <string name="lbl_no">না</string>
-    <string name="lbl_enter_user_name">ইউসারনেম দিন</string>
     <string name="lbl_play_trailers">ট্রেলার(গুলি) চালান</string>
     <string name="lbl_trailer">"ট্রেলার "</string>
     <string name="lbl_bracket_unknown">&lt;অজানা&gt;</string>

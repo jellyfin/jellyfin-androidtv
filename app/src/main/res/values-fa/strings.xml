@@ -94,7 +94,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 یا https://myserver.com</string>
     <string name="lbl_yes">بله</string>
     <string name="lbl_no">خیر</string>
-    <string name="lbl_enter_user_name">نام کاربری را وارد کنید</string>
     <string name="lbl_runs">اجرا</string>
     <string name="lbl_play_trailers">پخش پیش نمایش(ها)</string>
     <string name="lbl_trailer">"پیش نمایش "</string>

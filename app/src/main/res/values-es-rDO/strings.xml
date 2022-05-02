@@ -40,7 +40,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 o https://miservidor.com</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_name">Ingrese nombre de usuario</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_bracket_unknown">&lt;Desconocido&gt;</string>
     <string name="msg_video_playback_error">"Error de reproducción de video "</string>

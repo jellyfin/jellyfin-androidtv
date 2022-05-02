@@ -138,7 +138,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 veya https://benimsunucum.com</string>
     <string name="lbl_yes">Evet</string>
     <string name="lbl_no">Hayır</string>
-    <string name="lbl_enter_user_name">Kullanıcı adı gir</string>
     <string name="lbl_play_trailers">Fragmanları Oynat</string>
     <string name="lbl_trailer">"Fragman "</string>
     <string name="lbl_bracket_unknown">&lt;Bilinmiyor&gt;</string>

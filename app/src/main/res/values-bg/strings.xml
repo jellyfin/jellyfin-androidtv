@@ -36,7 +36,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_no">Не</string>
-    <string name="lbl_enter_user_name">Въведете потребителско име</string>
     <string name="lbl_trailer">"Трейлър "</string>
     <string name="lbl_none">Няма</string>
     <string name="lbl_recordings">Записи</string>

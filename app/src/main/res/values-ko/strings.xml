@@ -56,7 +56,6 @@
     <string name="lbl_bracket_unknown">&lt;알수없음&gt;</string>
     <string name="lbl_trailer">"예고편 "</string>
     <string name="lbl_play_trailers">트레일러 재생</string>
-    <string name="lbl_enter_user_pw">사용자 비밀번호 입력</string>
     <string name="lbl_no">아니오</string>
     <string name="lbl_yes">예</string>
     <string name="lbl_ip_hint">192.168.1.100:8096 또는 https://myserver.com</string>

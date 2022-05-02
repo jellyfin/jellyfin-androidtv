@@ -70,7 +70,6 @@
     <string name="lbl_enter_server_address">輸入伺服器位址</string>
     <string name="lbl_yes">是</string>
     <string name="lbl_no">否</string>
-    <string name="lbl_enter_user_name">輸入使用者名稱</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="lbl_play_trailers">播放預告片</string>
     <string name="lbl_trailer">"預告片 "</string>

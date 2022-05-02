@@ -18,7 +18,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 ali https://mojstreznik.com</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
-    <string name="lbl_enter_user_name">Vnesi uporabniško ime</string>
     <string name="lbl_play_trailers">Predvajaj Napovednik(e)</string>
     <string name="lbl_trailer">"Napovednik "</string>
     <string name="lbl_bracket_unknown">&lt;Neznano&gt;</string>

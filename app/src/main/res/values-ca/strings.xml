@@ -36,7 +36,6 @@
     <string name="lbl_min">" min"</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_no">No</string>
-    <string name="lbl_enter_user_name">Introduïu el nom d\'usuari</string>
     <string name="lbl_play_trailers">Reprodueix tràiler(s)</string>
     <string name="lbl_trailer">"Tràiler "</string>
     <string name="lbl_bracket_unknown">Desconegut</string>

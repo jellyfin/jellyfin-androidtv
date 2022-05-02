@@ -6,7 +6,6 @@
     <string name="lbl_enter_server_address">Podaj adres serwera</string>
     <string name="lbl_yes">Tak</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_enter_user_name">Podaj login</string>
     <string name="lbl_play_trailers">Odtwórz zwiastun</string>
     <string name="lbl_trailer">"Zwiastun "</string>
     <string name="lbl_bracket_unknown">Nieznany</string>

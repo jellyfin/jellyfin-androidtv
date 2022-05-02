@@ -76,7 +76,6 @@
     <string name="lbl_ip_hint">192.168.1.100:8096 alebo https://mojserver.sk</string>
     <string name="lbl_yes">Áno</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_enter_user_name">Zadajte používateľské meno</string>
     <string name="lbl_play_trailers">Prehrať trailer</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_bracket_unknown">Neznáme</string>
