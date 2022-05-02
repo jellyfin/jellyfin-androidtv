@@ -672,15 +672,22 @@ public class PlaybackController {
                             if (mVideoManager == null)
                                 return;
                             mVideoManager.init(getBufferAmount(), useDeinterlacing);
-
-                            Timber.d("server default: %s inferred first track: %s", internalResponse.getMediaSource().getDefaultAudioStreamIndex(), bestGuessAudioTrack(internalResponse.getMediaSource()));
                             mCurrentOptions = useVlc ? vlcOptions : internalOptions;
                             startItem(item, position, useVlc ? vlcResponse : internalResponse);
                         }
 
                         @Override
                         public void onError(Exception exception) {
-                            Timber.e(exception, "Unable to get internal stream info");
+                            Timber.e(exception, "Unable to get stream info for internal player - falling back to libVLC");
+                            if (mVideoManager == null)
+                                return;
+
+                            boolean useDeinterlacing = vlcResponse.getMediaSource().getVideoStream() != null &&
+                                    vlcResponse.getMediaSource().getVideoStream().getIsInterlaced() &&
+                                    (vlcResponse.getMediaSource().getVideoStream().getWidth() == null ||
+                                            vlcResponse.getMediaSource().getVideoStream().getWidth() > 1200);
+
+                            mVideoManager.init(getBufferAmount(), useDeinterlacing);
                             mCurrentOptions = vlcOptions;
                             startItem(item, position, vlcResponse);
                         }
