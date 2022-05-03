@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/button_fade_duration" android:exitFadeDuration="@integer/button_fade_duration">
-    <item android:drawable="@drawable/button_minimal_highlight" android:state_focused="true" />
-    <item android:drawable="@drawable/button_minimal_normal" android:state_focused="false" />
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/buttonDefaultHighlightBackground" />
+        </shape>
+    </item>
+    <item android:state_focused="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@null" />
+        </shape>
+    </item>
 </selector>
