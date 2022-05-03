@@ -1,0 +1,14 @@
+Vos médias, comme vous le souhaitez.
+
+Jellyfin est un serveur multimédia libre et open-source. Pas de frais, pas de pistage et pas d'agenda caché. Procurez-vous notre serveur gratuit pour centraliser tous vos fichiers audio, vidéo, photos et autres.
+
+Pour utiliser cette application, vous devez au préalable installer et configurer un serveur Jellyfin. Pour en savoir plus, consultez <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Avec un serveur Jellyfin, vous pouvez :
+
+* Regarder et enregistrer vos émissions de télévision depuis votre serveur (matériel er/ou services supplémentaires requis)
+* Diffuser vers un appareil Chromecast sur votre réseau
+* Diffuser vos médias sur votre appareil Android
+* Consulter votre médiathèque via une interface intuitive.
+
+Ceci est l'application compagnon officielle de Jellyfin pour Android TV. Merci d'utiliser Jellyfin !
