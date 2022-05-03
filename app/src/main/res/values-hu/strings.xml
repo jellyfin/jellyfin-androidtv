@@ -52,7 +52,6 @@
     <string name="lbl_ok">Rendben</string>
     <string name="lbl_valid_server_address">Kérlek írd be a szerver címét (IP cím vagy tartomány/eszköz név)</string>
     <string name="lbl_enter_server_address">Írd be a szerver címét</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 vagy https://enszerverem.hu</string>
     <string name="lbl_yes">Igen</string>
     <string name="lbl_no">Nem</string>
     <string name="desc_bitstream_ac3">Kompatibilis hardver szükséges</string>

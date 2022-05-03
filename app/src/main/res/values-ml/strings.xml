@@ -335,7 +335,6 @@
     <string name="lbl_ok">ശരി</string>
     <string name="lbl_valid_server_address">സെർവർ വിലാസം നൽകുക (IP അല്ലെങ്കിൽ ഡൊമെയ്ൻ / മെഷീൻ നാമം)</string>
     <string name="lbl_enter_server_address">സെർവർ വിലാസം നൽകുക</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 അല്ലെങ്കിൽ https://myserver.com</string>
     <string name="lbl_yes">അതെ</string>
     <string name="lbl_no">ഇല്ല</string>
     <string name="lbl_trailer">"ട്രെയിലർ "</string>

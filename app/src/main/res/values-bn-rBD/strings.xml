@@ -69,7 +69,6 @@
     <string name="lbl_ok">বেশ</string>
     <string name="lbl_valid_server_address">অনুগ্ৰহ করে সার্ভারের ঠিকানা প্রবেশ করুন (আইপি বা ডোমেন / মেশিনের নাম)</string>
     <string name="lbl_enter_server_address">সার্ভারের ঠিকানা লিখুন</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 or https://myserver.com</string>
     <string name="lbl_yes">হ্যাঁ</string>
     <string name="lbl_no">না</string>
     <string name="lbl_play_trailers">ট্রেলার(গুলি) চালান</string>

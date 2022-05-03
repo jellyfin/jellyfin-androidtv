@@ -67,7 +67,6 @@
     <string name="lbl_play_trailers">Воспр. трейлеры</string>
     <string name="lbl_no">Нет</string>
     <string name="lbl_yes">Да</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 или https://myserver.com</string>
     <string name="lbl_enter_server_address">Ввести адрес сервера</string>
     <string name="lbl_valid_server_address">Введите адрес сервера (IP или домен/имя_машины)</string>
     <string name="lbl_ok">ОК</string>

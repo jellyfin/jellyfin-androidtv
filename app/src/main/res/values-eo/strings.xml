@@ -107,7 +107,6 @@
     <string name="lbl_audio_track">Elekti aŭdtrakon</string>
     <string name="lbl_add_to_queue">Aldoni al Vico</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 aŭ https://miaservilo.com</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Kanto</string>

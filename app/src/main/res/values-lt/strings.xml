@@ -71,7 +71,6 @@
     <string name="lbl_born">"Gimė "</string>
     <string name="lbl_ok">Gerai</string>
     <string name="lbl_enter_server_address">Įveskite serverio adresą</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 arba https://myserver.com</string>
     <string name="lbl_yes">Taip</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nežinomas</string>

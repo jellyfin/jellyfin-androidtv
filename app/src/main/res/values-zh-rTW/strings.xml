@@ -38,7 +38,6 @@
     <string name="lbl_repeat_options">重複的選項</string>
     <string name="msg_playback_incompatible">無法播放這該影片格式</string>
     <string name="lbl_ok">確定</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 或 https://myserver.com</string>
     <string name="lbl_recordings">錄音</string>
     <string name="lbl_videos">影片</string>
     <string name="lbl_none">無</string>

@@ -35,7 +35,6 @@
     <string name="lbl_ok">சரி</string>
     <string name="lbl_valid_server_address">சேவையக முகவரியை உள்ளிடவும் (ஐபி அல்லது டொமைன் / இயந்திர பெயர்)</string>
     <string name="lbl_enter_server_address">சேவையக முகவரியை உள்ளிடவும்</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 அல்லது https://myserver.com</string>
     <string name="lbl_yes">ஆம்</string>
     <string name="lbl_no">இல்லை</string>
     <string name="lbl_play_trailers">டிரெய்லர்களை இயக்கு</string>

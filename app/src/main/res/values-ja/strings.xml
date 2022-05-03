@@ -72,7 +72,6 @@
     <string name="lbl_play_trailers">トレーラーを再生</string>
     <string name="lbl_no">いいえ</string>
     <string name="lbl_yes">はい</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 または https://myserver.com</string>
     <string name="lbl_enter_server_address">サーバーアドレスを入力</string>
     <string name="lbl_valid_server_address">サーバーアドレス（IPアドレスまたはドメイン・マシン名）を入力してください</string>
     <string name="lbl_ok">確定</string>

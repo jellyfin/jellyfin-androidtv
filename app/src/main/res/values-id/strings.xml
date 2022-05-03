@@ -188,7 +188,6 @@
     <string name="lbl_ok">Baik</string>
     <string name="lbl_valid_server_address">Silakan masukkan alamat server (IP atau domain / nama mesin)</string>
     <string name="lbl_enter_server_address">Masukkan Alamat Server</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 atau https://myserver.com</string>
     <string name="lbl_items">Item</string>
     <string name="lbl_trailers">Cuplikan</string>
     <string name="lbl_specials">Spesial</string>

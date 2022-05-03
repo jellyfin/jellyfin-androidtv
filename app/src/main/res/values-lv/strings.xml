@@ -152,7 +152,6 @@
     <string name="lbl_ok">Labi</string>
     <string name="lbl_valid_server_address">Lūdzu ievadi servera adresi (IP vai domēnu/datora nosaukumu)</string>
     <string name="lbl_enter_server_address">Ievadi Servera Adresi</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 vai https://myserver.com</string>
     <string name="lbl_yes">Jā</string>
     <string name="lbl_no">Nē</string>
     <string name="lbl_play_trailers">Atskaņot Treileri(-us)</string>

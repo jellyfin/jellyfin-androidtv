@@ -127,7 +127,6 @@
     <string name="lbl_ok">Εντάξει</string>
     <string name="lbl_valid_server_address">Εισαγάγετε την διεύθυνση του διακομιστή (IP ή τομέα / όνομα μηχανήματος)</string>
     <string name="lbl_enter_server_address">Εισαγάγετε την διεύθυνση του διακομιστή</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 ή https://myserver.com</string>
     <string name="lbl_current_queue">Τώρα στην ουρά</string>
     <string name="btn_got_it">Το κατάλαβα</string>
     <string name="msg_external_path">Το χαρακτηριστικό αυτό θα λειτουργήσει μόνο αν έχετε ρυθμίσει σωστά την βιβλιοθήκη σας στον διακομιστή με τοποθεσίες δικτύου ή με αντικατάσταση τοποθεσίας και το πρόγραμμα-πελάτης που χρησιμοποιείτε μπορεί να έχει πρόσβαση στις τοποθεσίες αυτές άμεσα.</string>

@@ -113,7 +113,6 @@
     <string name="lbl_ok">ok</string>
     <string name="lbl_valid_server_address">הכנס שם שרת (IP או שם מכונה)</string>
     <string name="lbl_enter_server_address">הכנס כתובת שרת</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 או https://myserver.com</string>
     <string name="lbl_yes">כן</string>
     <string name="lbl_no">לא</string>
     <string name="lbl_play_trailers">נגן טריילרים</string>

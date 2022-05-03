@@ -5,7 +5,6 @@
     <string name="lbl_born">"เกิด "</string>
     <string name="lbl_ok">ตกลง</string>
     <string name="lbl_valid_server_address">โปรดใส่ที่อยู่เซิร์ฟเวอร์ (ที่อยู่IP หรือ ชื่อโดเมน/ชื่อเครื่อง)</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 หรือ https://myserver.com</string>
     <string name="lbl_yes">ใช่</string>
     <string name="lbl_no">ไม่</string>
     <string name="lbl_play_trailers">เล่นตัวอย่าง</string>

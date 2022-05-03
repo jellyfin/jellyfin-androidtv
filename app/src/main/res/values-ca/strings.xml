@@ -78,7 +78,6 @@
     <string name="lbl_ok">D\'acord</string>
     <string name="lbl_valid_server_address">Introduïu l\'adreça del servidor (IP o nom de domini / màquina)</string>
     <string name="lbl_enter_server_address">Introduïu l\'adreça del servidor</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 o https://myserver.com</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Requereix hardware compatible</string>
     <string name="lbl_bitstream_ac3">Transmissió directa d\'àudio Dolby Digital</string>

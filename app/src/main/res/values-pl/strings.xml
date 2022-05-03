@@ -92,7 +92,6 @@
     <string name="lbl_play_first_unwatched">Odtwórz pierwszy nieobejrzany</string>
     <string name="lbl_search_hint">Wyszukaj (wybierz aby wyświetlić klawiaturę)</string>
     <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 lub https://myserver.com</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_warning">Ostrzeżenie</string>

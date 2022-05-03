@@ -58,7 +58,6 @@
     <string name="lbl_play_trailers">트레일러 재생</string>
     <string name="lbl_no">아니오</string>
     <string name="lbl_yes">예</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 또는 https://myserver.com</string>
     <string name="lbl_enter_server_address">서버 주소 입력</string>
     <string name="lbl_valid_server_address">서버 주소를 입력해주십시오. (IP 또는 도메인/기기 이름)</string>
     <string name="lbl_ok">예</string>

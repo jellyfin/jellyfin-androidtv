@@ -66,7 +66,6 @@
     <string name="lbl_play_trailers">Speel trailer(s)</string>
     <string name="lbl_no">Nee</string>
     <string name="lbl_yes">Ja</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 of https://mijnserver.nl</string>
     <string name="lbl_enter_server_address">Voer serveradres in</string>
     <string name="lbl_valid_server_address">Vul het serveradres in (IP-adres of domein-/servernaam)</string>
     <string name="lbl_ok">Ok</string>

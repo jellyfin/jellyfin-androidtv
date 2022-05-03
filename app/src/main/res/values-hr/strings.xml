@@ -4,7 +4,6 @@
     <string name="lbl_loading_elipses">Učitavam…</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_enter_server_address">Unesi adresu poslužitelja</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 ili https://myserver.com</string>
     <string name="lbl_yes">Da</string>
     <string name="lbl_no">Ne</string>
     <string name="lbl_bracket_unknown">Nepoznato</string>

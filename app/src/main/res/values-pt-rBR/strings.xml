@@ -66,7 +66,6 @@
     <string name="lbl_play_trailers">Reproduzir Trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_ip_hint">192.168.1.100:8096 ou https://meuservidor.com</string>
     <string name="lbl_enter_server_address">Digite o Endereço do Servidor</string>
     <string name="lbl_valid_server_address">Por favor, digite o endereço do servidor (IP ou nome do domínio/máquina)</string>
     <string name="lbl_ok">Ok</string>
