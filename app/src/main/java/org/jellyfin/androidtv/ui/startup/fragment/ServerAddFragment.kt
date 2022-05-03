@@ -82,7 +82,7 @@ class ServerAddFragment : Fragment() {
 						binding.error.text = getString(
 							R.string.server_connection_failed_candidates,
 							state.addressCandidates
-								.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+								.map { "${it.key} - ${it.value.getSummary(requireContext())}" }
 								.joinToString(prefix = "\n", separator = "\n")
 						)
 					}
