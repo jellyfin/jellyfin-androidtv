@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/button_fade_duration" android:exitFadeDuration="@integer/button_fade_duration">
-    <item android:drawable="@drawable/button_default_normal" android:state_enabled="true" android:state_focused="false" />
-    <item android:drawable="@drawable/button_default_disabled" android:state_enabled="false" android:state_focused="false" />
-    <item android:drawable="@drawable/button_default_highlight" android:state_enabled="true" android:state_focused="true" />
+    <item android:state_enabled="true" android:state_focused="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/buttonRounding" />
+            <solid android:color="?attr/buttonDefaultNormalBackground" />
+        </shape>
+    </item>
+    <item android:state_enabled="false" android:state_focused="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/buttonRounding" />
+            <solid android:color="@color/button_default_disabled_background" />
+        </shape>
+    </item>
+    <item android:state_enabled="true" android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="?attr/buttonRounding" />
+            <solid android:color="?attr/buttonDefaultHighlightBackground" />
+        </shape>
+    </item>
 </selector>

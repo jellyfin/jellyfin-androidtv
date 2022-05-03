@@ -80,7 +80,7 @@ public class ItemRowView extends FrameLayout {
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
-            mWholeRow.setBackgroundResource(R.drawable.btn_focus);
+            mWholeRow.setBackgroundResource(R.drawable.jellyfin_button);
             playSoundEffect(SoundEffectConstants.getContantForFocusDirection(direction));
             if (rowSelectedListener != null) rowSelectedListener.onRowSelected(this);
         } else {
