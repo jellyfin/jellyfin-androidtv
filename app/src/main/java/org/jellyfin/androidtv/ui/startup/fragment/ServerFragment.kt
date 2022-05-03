@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.ServerUserRepository
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
@@ -48,6 +49,7 @@ class ServerFragment : Fragment() {
 	private val markdownRenderer: MarkdownRenderer by inject()
 	private val authenticationRepository: AuthenticationRepository by inject()
 	private val serverUserRepository: ServerUserRepository by inject()
+	private val backgroundService: BackgroundService by inject()
 	private lateinit var binding: FragmentServerBinding
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
@@ -161,6 +163,7 @@ class ServerFragment : Fragment() {
 		super.onResume()
 
 		startupViewModel.reloadServers()
+		backgroundService.clearBackgrounds()
 
 		val server = serverIdArgument?.let(startupViewModel::getServer)
 		if (server != null) startupViewModel.loadUsers(server)

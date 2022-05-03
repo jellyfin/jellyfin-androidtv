@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="48dp"
-    android:layout_marginVertical="27dp"
     tools:context=".ui.startup.StartupActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -19,11 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@color/black_transparent_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/title"
         style="@style/TextAppearance.Leanback.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="48dp"
         android:text="@string/lbl_sign_in"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +43,9 @@
         android:id="@+id/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="48dp"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
@@ -43,7 +55,9 @@
         android:id="@+id/login_method"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/actions"
         app:layout_constraintEnd_toStartOf="@id/center"
@@ -55,7 +69,11 @@
         android:id="@+id/actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView

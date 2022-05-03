@@ -87,7 +87,7 @@ val appModule = module {
 	viewModel { ServerAddViewModel(get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 
-	single { BackgroundService(get(), get(), get()) }
+	single { BackgroundService(get(), get(), get(), get()) }
 
 	single { MarkdownRenderer(get()) }
 }

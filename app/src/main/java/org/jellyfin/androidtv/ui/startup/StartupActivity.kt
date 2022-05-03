@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
@@ -50,6 +51,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val mediaManager: MediaManager by inject()
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
+	private val backgroundService: BackgroundService by inject()
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -67,6 +69,8 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		backgroundService.attach(this)
 
 		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
 
