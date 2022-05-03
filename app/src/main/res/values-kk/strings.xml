@@ -494,4 +494,7 @@
     <string name="action_use_quickconnect">Jyldam qosyludy paidalanu</string>
     <string name="action_use_password">Paröl paidalanu</string>
     <string name="action_login">Kıru</string>
+    <string name="pref_refresh_rate_scale_on_device">Qūrylğyda masştabtau</string>
+    <string name="pref_refresh_rate_scale_on_tv">Teledidarda masştabtau</string>
+    <string name="state_disabled">Öşırılgen</string>
 </resources>
