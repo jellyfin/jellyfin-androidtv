@@ -494,4 +494,7 @@
     <string name="action_use_quickconnect">Uzi Rapidan Konekton</string>
     <string name="action_use_password">Uzi pasvorton</string>
     <string name="action_login">Ensaluto</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skali sur televido</string>
+    <string name="pref_refresh_rate_scale_on_device">Skali sur aparato</string>
+    <string name="state_disabled">Malebligita</string>
 </resources>
