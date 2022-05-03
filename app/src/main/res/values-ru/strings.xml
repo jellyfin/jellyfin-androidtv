@@ -494,4 +494,7 @@
     <string name="action_use_quickconnect">Использовать Быстрое подключение</string>
     <string name="action_use_password">Использовать пароль</string>
     <string name="action_login">Вход</string>
+    <string name="pref_refresh_rate_scale_on_device">Масштабирование на устройстве</string>
+    <string name="pref_refresh_rate_scale_on_tv">Масштабирование на телевизоре</string>
+    <string name="state_disabled">Отключено</string>
 </resources>
