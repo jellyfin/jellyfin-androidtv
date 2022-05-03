@@ -314,7 +314,7 @@
     <string name="seek_error">Impossibile ricercare</string>
     <string name="lbl_load_guide_data">Carica Dati Manuale</string>
     <string name="no_player">Player non disponibile</string>
-    <string name="lbl_sign_in">Per Favore Accedi</string>
+    <string name="lbl_sign_in">Per favore accedi</string>
     <string name="no_player_message">Non sembra che tu abbia un\'app per i video. Quest\'opzione richiede l\'installazione di un\'app di terze parti in grado di riprodurre video.</string>
     <string name="login_username_field_empty">Lo Username non può essere vuoto</string>
     <string name="login_server_unavailable">Impossibile connettersi al server</string>
@@ -484,4 +484,15 @@
     <string name="pref_behavior">Comportamento</string>
     <string name="home_section_resume_book">Continua a leggere</string>
     <string name="lbl_shuffle_queue">Riproduzione Casuale</string>
+    <string name="login_quickconnect_step_3">3. Inserisci il seguente codice:</string>
+    <string name="login_quickconnect_step_2">2. Apri il menù utente e vai sulla pagina Quick Connect</string>
+    <string name="login_quickconnect_step_1">1. Apri l\'app Jellyfin sul cellulare o sul browser ed entra con il tuo account</string>
+    <string name="login_other_options">Altre opzioni:</string>
+    <string name="login_connect_to">Connessione a %1$s</string>
+    <string name="input_password">Password</string>
+    <string name="input_username">Nome Utente</string>
+    <string name="action_use_quickconnect">Utilizza QuickConnect</string>
+    <string name="action_use_password">Utilizza una password</string>
+    <string name="action_login">Entra</string>
+    <string name="state_disabled">Disabilitato</string>
 </resources>
