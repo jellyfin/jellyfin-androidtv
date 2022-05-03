@@ -484,4 +484,5 @@
     <string name="pref_show_backdrop_description">Changer l\'image de fond pour les éléments suivants</string>
     <string name="home_section_resume_book">Continuer à lire</string>
     <string name="lbl_shuffle_queue">Mode aléatoire</string>
+    <string name="state_disabled">Désactivé</string>
 </resources>
