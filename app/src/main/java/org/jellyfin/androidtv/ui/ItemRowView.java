@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -56,7 +55,6 @@ public class ItemRowView extends FrameLayout {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSoundEffect(SoundEffectConstants.CLICK);
                 if (rowClickedListener != null) rowClickedListener.onRowClicked(itemRowView);
             }
         });
@@ -81,7 +79,6 @@ public class ItemRowView extends FrameLayout {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (gainFocus) {
             mWholeRow.setBackgroundResource(R.drawable.jellyfin_button);
-            playSoundEffect(SoundEffectConstants.getContantForFocusDirection(direction));
             if (rowSelectedListener != null) rowSelectedListener.onRowSelected(this);
         } else {
             mWholeRow.setBackground(normalBackground);
