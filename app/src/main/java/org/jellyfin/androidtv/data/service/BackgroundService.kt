@@ -28,9 +28,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.apiclient.model.search.SearchHint
+import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -43,7 +45,8 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto
 
 class BackgroundService(
 	private val context: Context,
-	private val apiClient: ApiClient,
+	private val jellyfin: Jellyfin,
+	private val api: ApiClient,
 	private val userPreferences: UserPreferences,
 ) {
 	companion object {
@@ -133,7 +136,7 @@ class BackgroundService(
 		if (itemId == null || isNullOrEmpty()) return emptyList()
 
 		return mapIndexed { index, tag ->
-			apiClient.imageApi.getItemImageUrl(
+			api.imageApi.getItemImageUrl(
 				itemId = itemId,
 				imageType = ImageType.BACKDROP,
 				tag = tag,
@@ -177,7 +180,7 @@ class BackgroundService(
 
 		// Manually grab the backdrop URL
 		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { itemId ->
-			apiClient.imageApi.getItemImageUrl(
+			api.imageApi.getItemImageUrl(
 				itemId = itemId.toUUID(),
 				imageType = ImageType.BACKDROP,
 				tag = searchHint.backdropImageTag,
@@ -185,6 +188,20 @@ class BackgroundService(
 		})
 
 		loadBackgrounds(backdropUrls)
+	}
+
+	/**
+	 * Use splashscreen from [server] as background.
+	 */
+	fun setBackground(server: Server) {
+		// Check if item is set and backgrounds are enabled
+		if (!userPreferences[UserPreferences.backdropEnabled])
+			return clearBackgrounds()
+
+		// Manually grab the backdrop URL
+		val api = jellyfin.createApi(baseUrl = server.address)
+		val splashscreenUrl = api.imageApi.getSplashscreenUrl()
+		loadBackgrounds(setOf(splashscreenUrl))
 	}
 
 	private fun loadBackgrounds(backdropUrls: Set<String>) {
