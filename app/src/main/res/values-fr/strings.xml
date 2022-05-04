@@ -66,7 +66,7 @@
     <string name="lbl_play_trailers">Lire la (les) bande(s)-annonce(s)</string>
     <string name="lbl_no">Non</string>
     <string name="lbl_yes">Oui</string>
-    <string name="lbl_enter_server_address">Entrez l\'adresse du serveur</string>
+    <string name="lbl_enter_server_address">Saisir l\'adresse du serveur</string>
     <string name="lbl_valid_server_address">Veuillez saisir une adresse de serveur valide (IP ou nom de machine/domaine)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Né "</string>
@@ -124,7 +124,7 @@
     <string name="lbl_starting_with">Commençant par ceux dont le nom débute par</string>
     <string name="btn_done">Terminé</string>
     <string name="lbl_display_preferences">Préférences d\'affichage</string>
-    <string name="lbl__continuing">POURSUIVRE</string>
+    <string name="lbl__continuing">EN PRODUCTION</string>
     <string name="lbl_ended">TERMINÉ</string>
     <string name="btn_filter">Filtre</string>
     <string name="btn_clear_all">Tout effacer</string>
@@ -484,4 +484,17 @@
     <string name="home_section_resume_book">Continuer à lire</string>
     <string name="lbl_shuffle_queue">Mode aléatoire</string>
     <string name="state_disabled">Désactivé</string>
+    <string name="action_connect">Connecter</string>
+    <string name="pref_refresh_rate_scale_on_device">Mise à l\'échelle sur l\'appareil</string>
+    <string name="pref_refresh_rate_scale_on_tv">Mise à l\'échelle sur la TV</string>
+    <string name="login_quickconnect_step_3">3. Saisir le code suivant :</string>
+    <string name="login_quickconnect_step_2">2. Ouvrir le menu utilisateur and se rendre sur la page de \'QuickConnect\'</string>
+    <string name="login_quickconnect_step_1">1. Ouvrir l\'application Jellyfin sur votre appareil et se connecter avec votre compte</string>
+    <string name="login_other_options">Autres options :</string>
+    <string name="login_connect_to">En attente de connexion à %1$s</string>
+    <string name="input_password">Mot de passe</string>
+    <string name="input_username">Nom d\'utilisateur</string>
+    <string name="action_use_quickconnect">Utiliser \'QuickConnect\'</string>
+    <string name="action_use_password">Utiliser un mot de passe</string>
+    <string name="action_login">Connexion</string>
 </resources>
