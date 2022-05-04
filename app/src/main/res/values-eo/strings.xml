@@ -96,7 +96,7 @@
     <string name="lbl_new_playlist_name">Entajpi nomon por la nova ludlisto</string>
     <string name="connect_manually_by_address">Entajpi servilan adreson</string>
     <string name="lbl_valid_server_address">Entajpi la servilan adreson (IP aŭ domajna/maŝina nomo)</string>
-    <string name="lbl_enter_server_address">Entajpi Servilan Adreson</string>
+    <string name="lbl_enter_server_address">Entajpi servilan adreson</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d kanaloj</string>
     <string name="welcome_title">Bonvenon al Jellyfin!</string>
     <string name="lbl_sign_in">Ensaluti</string>
@@ -496,4 +496,5 @@
     <string name="pref_refresh_rate_scale_on_tv">Skali sur televido</string>
     <string name="pref_refresh_rate_scale_on_device">Skali sur aparato</string>
     <string name="state_disabled">Malebligita</string>
+    <string name="action_connect">Konektu</string>
 </resources>
