@@ -496,4 +496,5 @@
     <string name="pref_refresh_rate_scale_on_device">Qūrylğyda masştabtau</string>
     <string name="pref_refresh_rate_scale_on_tv">Teledidarda masştabtau</string>
     <string name="state_disabled">Öşırılgen</string>
+    <string name="action_connect">Qosylu</string>
 </resources>
