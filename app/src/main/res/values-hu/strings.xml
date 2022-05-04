@@ -496,4 +496,5 @@
     <string name="pref_refresh_rate_scale_on_device">Skálázás az eszközön</string>
     <string name="pref_refresh_rate_scale_on_tv">Skálázás a TV-n</string>
     <string name="state_disabled">Letiltva</string>
+    <string name="action_connect">Csatlakozás</string>
 </resources>
