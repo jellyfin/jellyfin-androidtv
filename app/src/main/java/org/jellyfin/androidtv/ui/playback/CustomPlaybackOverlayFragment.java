@@ -1483,6 +1483,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             // Encode whitespace as html entities
             final String htmlText = text
                     .replaceAll("\\r\\n", "<br>")
+                    .replaceAll("\\n", "<br>")
                     .replaceAll("\\\\h", "&ensp;");
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
