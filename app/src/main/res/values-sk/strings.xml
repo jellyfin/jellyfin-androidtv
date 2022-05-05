@@ -483,4 +483,18 @@
     <string name="pref_show_backdrop_description">Zmeniť obrázok pozadia na vybrané položky</string>
     <string name="home_section_resume_book">Pokračovať v čítaní</string>
     <string name="lbl_shuffle_queue">Prepnúť náhodné prehrávanie</string>
+    <string name="action_connect">Pripojiť</string>
+    <string name="pref_refresh_rate_scale_on_device">Škálovať na zariadení</string>
+    <string name="pref_refresh_rate_scale_on_tv">Škálovať na TV</string>
+    <string name="login_quickconnect_step_2">2. Otvorte používateľské menu a choďte na sekciu rýchleho pripojenia</string>
+    <string name="login_quickconnect_step_3">3. Zadajte nasledujúci kód:</string>
+    <string name="login_quickconnect_step_1">1. Otvorte aplikáciu Jellyfin na svojom telefóne alebo webovom prehliadači a prihláste sa pomocou svojho účtu</string>
+    <string name="login_other_options">Ostatné možnosti:</string>
+    <string name="login_connect_to">Pripájanie sa k %1$s</string>
+    <string name="input_password">Heslo</string>
+    <string name="input_username">Používateľské meno</string>
+    <string name="action_use_quickconnect">Použiť rýchle pripojenie</string>
+    <string name="action_use_password">Použiť heslo</string>
+    <string name="action_login">Prihlásenie</string>
+    <string name="state_disabled">Zakázané</string>
 </resources>
