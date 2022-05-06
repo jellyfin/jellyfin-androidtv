@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.card
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -11,6 +12,9 @@ import androidx.core.view.updateLayoutParams
 import com.bumptech.glide.Glide
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewCardDefaultBinding
+import org.jellyfin.androidtv.util.MenuBuilder
+import org.jellyfin.androidtv.util.popupMenu
+import org.jellyfin.androidtv.util.showIfNotEmpty
 import kotlin.math.roundToInt
 
 class DefaultCardView @JvmOverloads constructor(
@@ -61,6 +65,21 @@ class DefaultCardView @JvmOverloads constructor(
 					placeholder(placeholder)
 			}
 			.into(binding.banner)
+	}
+
+	fun setPopupMenu(init: MenuBuilder.() -> Unit) {
+		setOnLongClickListener {
+			popupMenu(context, binding.root, init = init).showIfNotEmpty()
+		}
+	}
+
+	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+		if (super.onKeyUp(keyCode, event)) return true
+
+		// Menu key should show the popup menu
+		if (event.keyCode == KeyEvent.KEYCODE_MENU) return performLongClick()
+
+		return false
 	}
 
 	override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
