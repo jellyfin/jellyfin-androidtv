@@ -19,10 +19,6 @@ class DefaultCardView @JvmOverloads constructor(
 	defStyleAttr: Int = 0,
 	defStyleRes: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
-	companion object {
-		const val ANIMATION_DURATION = 150L // 150ms
-	}
-
 	init {
 		isFocusable = true
 		descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
@@ -77,7 +73,7 @@ class DefaultCardView @JvmOverloads constructor(
 			animate().apply {
 				scaleX(scale)
 				scaleY(scale)
-				duration = ANIMATION_DURATION
+				duration = resources.getInteger(R.integer.card_scale_duration).toLong()
 				withLayer()
 			}
 		}

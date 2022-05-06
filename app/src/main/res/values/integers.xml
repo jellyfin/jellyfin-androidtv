@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Animation durations are always defined in milliseconds -->
     <integer name="button_fade_duration">200</integer>
     <integer name="input_fade_duration">200</integer>
+    <integer name="card_scale_duration">150</integer>
 </resources>
