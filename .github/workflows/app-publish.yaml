@@ -50,7 +50,7 @@ jobs:
       - name: Upload release archive to GitHub release
         uses: alexellis/upload-assets@0.3.0
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         with:
           asset_paths: '["build/jellyfin-publish/*"]'
       - name: Upload release archive to repo.jellyfin.org
