@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -10,6 +11,9 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewButtonServerBinding
+import org.jellyfin.androidtv.util.MenuBuilder
+import org.jellyfin.androidtv.util.popupMenu
+import org.jellyfin.androidtv.util.showIfNotEmpty
 
 class ServerButtonView @JvmOverloads constructor(
 	context: Context,
@@ -73,6 +77,21 @@ class ServerButtonView @JvmOverloads constructor(
 				}
 			}
 		}
+
+	fun setPopupMenu(init: MenuBuilder.() -> Unit) {
+		setOnLongClickListener {
+			popupMenu(context, binding.root, init = init).showIfNotEmpty()
+		}
+	}
+
+	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+		if (super.onKeyUp(keyCode, event)) return true
+
+		// Menu key should show the popup menu
+		if (event.keyCode == KeyEvent.KEYCODE_MENU) return performLongClick()
+
+		return false
+	}
 
 	enum class State {
 		DEFAULT,

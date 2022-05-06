@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
+import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -44,21 +45,28 @@ class SelectServerFragment : Fragment() {
 		val serverDivider = SpacingItemDecoration(0, 8)
 
 		// Stored servers
-		val storedServerAdapter = ServerAdapter { (_, server) ->
-			requireActivity()
-				.supportFragmentManager
-				.commit {
-					replace<StartupToolbarFragment>(R.id.content_view)
-					add<ServerFragment>(
-						R.id.content_view,
-						null,
-						bundleOf(
-							ServerFragment.ARG_SERVER_ID to server.id.toString()
+		val storedServerAdapter = ServerAdapter(
+			serverClickListener = { (_, server) ->
+				requireActivity()
+					.supportFragmentManager
+					.commit {
+						replace<StartupToolbarFragment>(R.id.content_view)
+						add<ServerFragment>(
+							R.id.content_view,
+							null,
+							bundleOf(
+								ServerFragment.ARG_SERVER_ID to server.id.toString()
+							)
 						)
-					)
-					addToBackStack(null)
+						addToBackStack(null)
+					}
+			},
+			serverPopupBuilder = { server ->
+				item(getString(R.string.lbl_remove)) {
+					startupViewModel.deleteServer(server.id)
 				}
-		}
+			}
+		)
 		binding.storedServers.setHasFixedSize(true)
 		binding.storedServers.addItemDecoration(serverDivider)
 		binding.storedServers.adapter = storedServerAdapter
@@ -66,39 +74,41 @@ class SelectServerFragment : Fragment() {
 		// Discovery
 		binding.discoveryServers.setHasFixedSize(true)
 		binding.discoveryServers.addItemDecoration(serverDivider)
-		val discoveryServerAdapter = ServerAdapter { (_, server) ->
-			viewLifecycleOwner.lifecycleScope.launch {
-				startupViewModel.addServer(server.address).collect { state ->
-					if (state is ConnectedState) {
-						parentFragmentManager.commit {
-							replace<StartupToolbarFragment>(R.id.content_view)
-							add<ServerFragment>(
-								R.id.content_view,
-								null,
-								bundleOf(
-									ServerFragment.ARG_SERVER_ID to state.id.toString()
+		val discoveryServerAdapter = ServerAdapter(
+			serverClickListener = { (_, server) ->
+				viewLifecycleOwner.lifecycleScope.launch {
+					startupViewModel.addServer(server.address).collect { state ->
+						if (state is ConnectedState) {
+							parentFragmentManager.commit {
+								replace<StartupToolbarFragment>(R.id.content_view)
+								add<ServerFragment>(
+									R.id.content_view,
+									null,
+									bundleOf(
+										ServerFragment.ARG_SERVER_ID to state.id.toString()
+									)
 								)
-							)
-						}
-					} else {
-						items = items.map {
-							if (it.server.id == server.id) StatefulServer(state, it.server)
-							else it
-						}
+							}
+						} else {
+							items = items.map {
+								if (it.server.id == server.id) StatefulServer(state, it.server)
+								else it
+							}
 
-						// Show error as toast
-						if (state is UnableToConnectState) {
-							Toast.makeText(requireContext(), getString(
-								R.string.server_connection_failed_candidates,
-								state.addressCandidates
-									.map { "${it.key} ${it.value.getSummary(requireContext())}" }
-									.joinToString(prefix = "\n", separator = "\n")
-							), Toast.LENGTH_LONG).show()
+							// Show error as toast
+							if (state is UnableToConnectState) {
+								Toast.makeText(requireContext(), getString(
+									R.string.server_connection_failed_candidates,
+									state.addressCandidates
+										.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+										.joinToString(prefix = "\n", separator = "\n")
+								), Toast.LENGTH_LONG).show()
+							}
 						}
 					}
 				}
 			}
-		}
+		)
 		binding.discoveryServers.adapter = discoveryServerAdapter
 
 		viewLifecycleOwner.lifecycleScope.launch {
@@ -162,6 +172,7 @@ class SelectServerFragment : Fragment() {
 
 	class ServerAdapter(
 		var serverClickListener: ServerAdapter.(statefulServer: StatefulServer) -> Unit = {},
+		var serverPopupBuilder: MenuBuilder.(server: Server) -> Unit = {},
 	) : ListAdapter<StatefulServer, ServerAdapter.ViewHolder>() {
 		override fun areItemsTheSame(old: StatefulServer, new: StatefulServer): Boolean = new.server == old.server
 
@@ -187,9 +198,8 @@ class SelectServerFragment : Fragment() {
 			}
 
 			// Set actions
-			setOnClickListener {
-				serverClickListener(statefulServer)
-			}
+			setOnClickListener { serverClickListener(statefulServer) }
+			setPopupMenu { serverPopupBuilder(server) }
 		}
 
 		inner class ViewHolder(
