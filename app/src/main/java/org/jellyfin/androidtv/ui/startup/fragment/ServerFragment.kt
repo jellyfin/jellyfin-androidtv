@@ -20,12 +20,15 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
+import org.jellyfin.androidtv.auth.model.PrivateUser
 import org.jellyfin.androidtv.auth.model.RequireSignInState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
+import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
 import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.databinding.FragmentServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.card.DefaultCardView
@@ -43,6 +46,8 @@ class ServerFragment : Fragment() {
 
 	private val startupViewModel: StartupViewModel by sharedViewModel()
 	private val markdownRenderer: MarkdownRenderer by inject()
+	private val authenticationRepository: AuthenticationRepository by inject()
+	private val serverUserRepository: ServerUserRepository by inject()
 	private lateinit var binding: FragmentServerBinding
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
@@ -57,7 +62,7 @@ class ServerFragment : Fragment() {
 
 		binding = FragmentServerBinding.inflate(inflater, container, false)
 
-		val userAdapter = UserAdapter(requireContext(), server, startupViewModel)
+		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
 		userAdapter.onItemPressed = { user ->
 			lifecycleScope.launch {
 				startupViewModel.authenticate(server, user).collect { state ->
@@ -166,6 +171,8 @@ class ServerFragment : Fragment() {
 		private val context: Context,
 		private val server: Server,
 		private val startupViewModel: StartupViewModel,
+		private val authenticationRepository: AuthenticationRepository,
+		private val serverUserRepository: ServerUserRepository,
 	) : ListAdapter<User, UserAdapter.ViewHolder>() {
 		var onItemPressed: (User) -> Unit = {}
 
@@ -182,6 +189,22 @@ class ServerFragment : Fragment() {
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
 			holder.cardView.title = user.name
 			holder.cardView.setImage(startupViewModel.getUserImage(server, user), R.drawable.tile_port_user)
+			holder.cardView.setPopupMenu {
+				// Logout button
+				if (user is PrivateUser && user.accessToken != null) {
+					item(context.getString(R.string.lbl_sign_out)) {
+						authenticationRepository.logout(user)
+					}
+				}
+
+				// Remove button
+				if (user is PrivateUser) {
+					item(context.getString(R.string.lbl_remove)) {
+						serverUserRepository.deleteStoredUser(user)
+						startupViewModel.loadUsers(server)
+					}
+				}
+			}
 
 			holder.cardView.setOnClickListener {
 				onItemPressed(user)
