@@ -12,6 +12,7 @@
         <item name="android:colorButtonNormal">@color/light_grey_transparent</item>
         <item name="buttonDefaultNormalBackground">@color/light_grey_transparent</item>
         <item name="buttonDefaultHighlightBackground">@color/theme_muted_purple_accent</item>
+        <item name="popupMenuBackground">#384873</item>
 
         <!-- Control icons -->
         <item name="controlIconForegroundActive">@color/theme_muted_purple_accent</item>
@@ -23,6 +24,7 @@
         <item name="cardRounding">5dp</item>
         <item name="buttonRounding">7dp</item>
         <item name="inputRounding">7dp</item>
+        <item name="popupMenuRounding">7dp</item>
 
         <!-- Watched Indicator Shape -->
         <item name="accentShape">@drawable/square_accent</item>

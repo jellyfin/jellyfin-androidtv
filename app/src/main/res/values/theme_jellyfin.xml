@@ -23,6 +23,8 @@
         <item name="inputDefaultStrokeWidth">2dp</item>
         <item name="inputDefaultStrokeColor">@color/input_default_stroke</item>
         <item name="inputDefaultHighlightBackground">@color/input_default_highlight_background</item>
+        <!-- Default popup menu -->
+        <item name="popupMenuBackground">@color/popup_menu_background</item>
         <!-- Toolbar background color -->
         <item name="toolbarBackground">@color/not_quite_black</item>
         <!-- Header text color -->
@@ -38,11 +40,13 @@
         <item name="rowHeaderStyle">@style/Widget.Jellyfin.Row.Header</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
 
         <!-- Rounding Values -->
         <item name="cardRounding">4dp</item>
         <item name="buttonRounding">3dp</item>
         <item name="inputRounding">3dp</item>
+        <item name="popupMenuRounding">3dp</item>
 
         <!-- Watched Indicator Shape -->
         <item name="accentShape">@drawable/circle_accent</item>
