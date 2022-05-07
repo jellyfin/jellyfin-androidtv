@@ -494,4 +494,7 @@
     <string name="action_use_password">Utilizza una password</string>
     <string name="action_login">Entra</string>
     <string name="state_disabled">Disabilitato</string>
+    <string name="pref_refresh_rate_scale_on_tv">Ridimensionamento sulla TV</string>
+    <string name="pref_refresh_rate_scale_on_device">Ridimensionamento sul dispositivo</string>
+    <string name="action_connect">Connetti</string>
 </resources>
