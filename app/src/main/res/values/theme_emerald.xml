@@ -14,6 +14,7 @@
         <item name="progressPrimary">@color/theme_emerald_light</item>
         <item name="progressSecondary">@color/theme_emerald_dark</item>
         <item name="toolbarBackground">@color/theme_emerald_black</item>
+        <item name="popupMenuBackground">@color/theme_emerald_black</item>
 
         <!-- Control icons -->
         <item name="controlIconBackground">@color/theme_emerald_black</item>

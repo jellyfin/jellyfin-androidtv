@@ -71,4 +71,9 @@
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
     </style>
+
+    <style name="PopupMenu" parent="android:Widget.Material.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_back</item>
+        <item name="android:textColor">@color/indigo_dye</item>
+    </style>
 </resources>

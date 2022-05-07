@@ -58,6 +58,9 @@
     <color name="input_default_disabled_text">#686868</color>
     <color name="input_default_highlight_text">#444444</color>
 
+    <!-- popup_menu -->
+    <color name="popup_menu_background">#202124</color>
+
     <!-- Card Background Color -->
     <color name="lb_basic_card_info_bg_color">@color/grey</color>
 
