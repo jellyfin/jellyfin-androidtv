@@ -483,4 +483,18 @@
     <string name="sort_accounts_by">按帐户排序</string>
     <string name="home_section_resume_book">继续阅读</string>
     <string name="lbl_shuffle_queue">切换随机播放</string>
+    <string name="action_connect">连接</string>
+    <string name="pref_refresh_rate_scale_on_device">在设备上缩放</string>
+    <string name="pref_refresh_rate_scale_on_tv">在电视上缩放</string>
+    <string name="login_quickconnect_step_3">3. 输入以下代码：</string>
+    <string name="login_quickconnect_step_2">2. 打开用户菜单，进入Quick Connect 页面</string>
+    <string name="login_quickconnect_step_1">1. 在手机或网络浏览器上打开 Jellyfin 应用程序，并使用您的帐户登录</string>
+    <string name="login_other_options">其他选项：</string>
+    <string name="login_connect_to">连接到 %1$s</string>
+    <string name="input_password">密码</string>
+    <string name="input_username">用户名</string>
+    <string name="action_use_quickconnect">使用QuickConnect</string>
+    <string name="action_use_password">使用密码</string>
+    <string name="action_login">登入</string>
+    <string name="state_disabled">禁用</string>
 </resources>
