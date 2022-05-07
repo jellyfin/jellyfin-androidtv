@@ -480,4 +480,20 @@
     <string name="lbl_shuffle_queue">Kytke sekoitustila</string>
     <string name="seek_error">Haku ei onnistu</string>
     <string name="lbl_show_indicators">Näytä paikkamerkit kohteille</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skaalaa televisioon</string>
+    <string name="pref_refresh_rate_scale_on_device">Skaalaa laitteeseen</string>
+    <string name="action_connect">Yhdistä</string>
+    <string name="login_quickconnect_step_3">3. Syötä seuraava koodi:</string>
+    <string name="login_quickconnect_step_2">2. Avaa käyttäjävalikko ja sieltä Pikayhteys-sivu</string>
+    <string name="login_quickconnect_step_1">1. Avaa Jellydin-sovellus tai -verkkosivu ja kirjaudu tililläsi</string>
+    <string name="login_other_options">Muut vaihtoehdot:</string>
+    <string name="login_connect_to">Yhdistetään palvelimeen %1$s</string>
+    <string name="input_password">Salasana</string>
+    <string name="input_username">Käyttäjätunnus</string>
+    <string name="action_use_quickconnect">Käytä Pikayhdistystä</string>
+    <string name="action_use_password">Käytä salasanaa</string>
+    <string name="action_login">Kirjaudu</string>
+    <string name="lbl_tv_filter_status">seuraavat %1$d tuntia</string>
+    <string name="lbl_starting_with">alkaen niistä, joiden nimi alkaa</string>
+    <string name="state_disabled">Poistettu käytöstä</string>
 </resources>
