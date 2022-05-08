@@ -326,7 +326,7 @@
     <string name="lbl_audio_track">ஆடியோ டிராக்கைத் தேர்ந்தெடுக்கவும்</string>
     <string name="lbl_pause">இடைநிறுத்தம்</string>
     <string name="lbl_playback_control_ends">%1$s இல் முடிகிறது</string>
-    <string name="lbl_sign_in">உள்நுழைக</string>
+    <string name="lbl_sign_in">உள்நுழையவும்</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_default_rating">இயல்புநிலை மதிப்பீட்டு வகை</string>
     <string name="lbl_tomatoes">தக்காளி</string>
@@ -483,4 +483,18 @@
     <string name="lbl_playback_speed">பின்னணி வேகம்</string>
     <string name="home_section_resume_book">தொடர்ந்து படி</string>
     <string name="lbl_shuffle_queue">ஷஃபிளை நிலைமாற்று</string>
+    <string name="action_connect">இணைக்கவும்</string>
+    <string name="pref_refresh_rate_scale_on_device">சாதனத்தில் அளவை</string>
+    <string name="pref_refresh_rate_scale_on_tv">தொலைக்காட்சியில் அளவிடவும்</string>
+    <string name="login_quickconnect_step_3">3. பின்வரும் குறியீட்டை உள்ளிடவும்:</string>
+    <string name="login_quickconnect_step_2">2. பயனர் மெனுவைத் திறந்து விரைவு இணைப்பு பக்கத்திற்குச் செல்லவும்</string>
+    <string name="login_quickconnect_step_1">1. உங்கள் தொலைபேசி அல்லது இணைய உலாவியில் ஜெல்லிஃபின் பயன்பாட்டைத் திறந்து, உங்கள் கணக்கில் உள்நுழையவும்</string>
+    <string name="login_other_options">மற்ற விருப்பங்கள்:</string>
+    <string name="login_connect_to">%1$s உடன் இணைக்கிறது</string>
+    <string name="input_password">கடவுச்சொல்</string>
+    <string name="input_username">பயனர் பெயர்</string>
+    <string name="action_use_quickconnect">QuickConnect ஐப் பயன்படுத்தவும்</string>
+    <string name="action_use_password">கடவுச்சொல்லைப் பயன்படுத்தவும்</string>
+    <string name="action_login">உள்நுழையவும்</string>
+    <string name="state_disabled">முடக்கப்பட்டது</string>
 </resources>
