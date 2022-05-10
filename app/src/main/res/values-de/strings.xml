@@ -483,4 +483,18 @@
     <string name="server_connection_failed_candidates">Verbindung zum Server nicht möglich, folgende Adressen ausprobiert: %1$s</string>
     <string name="home_section_resume_book">Weiterlesen</string>
     <string name="lbl_shuffle_queue">Shufflemodus umschalten</string>
+    <string name="action_connect">Verbinden</string>
+    <string name="pref_refresh_rate_scale_on_device">Skalierung am Gerät</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skalierung im TV</string>
+    <string name="login_quickconnect_step_3">3. Geben Sie den folgenden Code ein:</string>
+    <string name="login_quickconnect_step_2">2. Öffnen Sie das Benutzermenü und gehen Sie auf die Seite QuickConnect</string>
+    <string name="login_quickconnect_step_1">1. Öffnen Sie die Jellyfin-App auf Ihrem Telefon oder Webbrowser und melden Sie sich mit Ihrem Konto an</string>
+    <string name="login_other_options">Andere Optionen:</string>
+    <string name="login_connect_to">Verbinden mit %1$s</string>
+    <string name="input_password">Passwort</string>
+    <string name="input_username">Benutzername</string>
+    <string name="action_use_quickconnect">QuickConnect verwenden</string>
+    <string name="action_use_password">Verwenden Sie ein Passwort</string>
+    <string name="action_login">Anmelden</string>
+    <string name="state_disabled">Deaktiviert</string>
 </resources>
