@@ -482,4 +482,11 @@
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
     <string name="pref_show_backdrop_description">Zmień tło na wybrane elementy</string>
     <string name="lbl_playback_speed">Prędkość Odtwarzania</string>
+    <string name="login_quickconnect_step_3">3. Wpisz podany kod:</string>
+    <string name="login_quickconnect_step_1">1. Otwórz aplikację Jellyfin na swoim telefonie lub w przeglądarce i zaloguj się na swoje konto</string>
+    <string name="login_connect_to">Łączenie z %1$s</string>
+    <string name="input_password">Hasło</string>
+    <string name="input_username">Nazwa użytkownika</string>
+    <string name="action_use_password">Użyj hasła</string>
+    <string name="action_login">Zaloguj się</string>
 </resources>
