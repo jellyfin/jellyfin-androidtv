@@ -31,7 +31,7 @@
     <string name="lbl_born">"Sinh "</string>
     <string name="lbl_ok">Đồng Ý</string>
     <string name="lbl_valid_server_address">Vui lòng nhập địa chỉ máy chủ (IP hoặc tên miền / tên máy)</string>
-    <string name="lbl_enter_server_address">Nhập Địa Chỉ Máy Chủ</string>
+    <string name="lbl_enter_server_address">Nhập địa chỉ máy chủ</string>
     <string name="lbl_yes">Có</string>
     <string name="lbl_no">Không</string>
     <string name="lbl_play_trailers">Phát Đoạn Giới Thiệu</string>
@@ -116,7 +116,7 @@
     <string name="lbl_live_tv_guide">Hướng dẫn truyền hình trực tiếp</string>
     <string name="lbl_no_recordings">Không có bản ghi nào</string>
     <string name="lbl_recording">Ghi</string>
-    <string name="msg_burn_sub_warning">Quá trình ghi phụ đề có thể mất vài phút. Hãy kiên nhẫn…</string>
+    <string name="msg_burn_sub_warning">Ghi phụ đề. Điều này có thể mất một vài giây…</string>
     <string name="msg_unable_load_subs">Không thể tải phụ đề</string>
     <string name="msg_subtitles_loading">Đang tải phụ đề…</string>
     <string name="lbl_filters">Bộ lọc</string>
@@ -223,7 +223,7 @@
     <string name="desc_bitstream_ac3">Yêu cầu phần cứng có khả năng</string>
     <string name="lbl_bitstream_ac3">Âm thanh kỹ thuật số Dolby Bitstream</string>
     <string name="lbl_new_premieres">Công chiếu mới</string>
-    <string name="desc_automatic_fav_songs">Danh sách phát tự động bài hát yêu thích và mục yêu thích</string>
+    <string name="desc_automatic_fav_songs">Danh sách bài hát yêu thích tự động</string>
     <string name="desc_seasonal_themes">Hiển thị các màu và gợi ý đặc biệt vào những thời điểm nhất định trong năm</string>
     <string name="lbl_enable_seasonal_themes">Chủ đề theo mùa</string>
     <string name="msg_item_added">" đã thêm mục"</string>
@@ -321,7 +321,7 @@
     <string name="lbl_on">Bật</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Kết thúc lúc %1$s</string>
-    <string name="lbl_sign_in">Hãy Đăng Nhập</string>
+    <string name="lbl_sign_in">Hãy đăng nhập</string>
     <string name="pref_default_rating">Kiểu xếp hạng mặc định</string>
     <string name="lbl_tomatoes">Cà chua</string>
     <string name="lbl_stars">Ngôi sao</string>
@@ -472,4 +472,20 @@
     <string name="pref_theme">Chủ đề</string>
     <string name="pref_browsing">Duyệt</string>
     <string name="pref_behavior">Hành vi</string>
+    <string name="action_connect">Kết nối</string>
+    <string name="pref_refresh_rate_scale_on_device">Tỉ lệ trên thiết bị</string>
+    <string name="pref_refresh_rate_scale_on_tv">Tỉ lệ trên TV</string>
+    <string name="login_quickconnect_step_3">3. Nhập mã sau:</string>
+    <string name="login_quickconnect_step_2">2. Mở menu người dùng và truy cập trang Kết Nối Nhanh</string>
+    <string name="login_quickconnect_step_1">1. Mở ứng dụng Jellyfin trên điện thoại hoặc trình duyệt web của bạn và đăng nhập bằng tài khoản của bạn</string>
+    <string name="login_other_options">Tùy chọn khác:</string>
+    <string name="login_connect_to">Đang kết nối với %1$s</string>
+    <string name="input_password">Mật khẩu</string>
+    <string name="input_username">Tên đăng nhập</string>
+    <string name="action_use_quickconnect">Sử dụng QuickConnect</string>
+    <string name="action_use_password">Sử dụng mật khẩu</string>
+    <string name="action_login">Đăng nhập</string>
+    <string name="home_section_resume_book">Tiếp tục đọc</string>
+    <string name="lbl_shuffle_queue">Chuyển Đổi Ngẫu Nhiên</string>
+    <string name="state_disabled">Đã Tắt</string>
 </resources>
