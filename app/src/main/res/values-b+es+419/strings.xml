@@ -38,7 +38,7 @@
     <string name="lbl_premiere">Estreno</string>
     <string name="lbl_sort_by">Ordenar por</string>
     <string name="lbl_show_indicators">Mostrar indicadores para</string>
-    <string name="lbl_resume_preroll">Reanudar Pre-Roll</string>
+    <string name="lbl_resume_preroll">Reanudar pre-roll</string>
     <string name="lbl_resume_from">Reanudar desde %1$s</string>
     <string name="lbl_more_like_this">Más como esto</string>
     <string name="lbl_previous_episode">Episodio anterior</string>
@@ -114,7 +114,7 @@
     <string name="lbl_select_date">Seleccionar fecha</string>
     <string name="lbl_all_recordings">Todas las grabaciones</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa al reproductor externo</string>
-    <string name="lbl_series_settings">Configuración de series</string>
+    <string name="lbl_series_settings">Preferencias de series</string>
     <string name="lbl_schedule">Programar</string>
     <string name="lbl_recent_recordings">Grabaciones recientes</string>
     <string name="watch_now">Ver ahora</string>
@@ -135,11 +135,11 @@
     <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_news">Noticias</string>
     <string name="pref_acra_alwaysaccept_disabled">Un dialogo será mostrado antes de enviar cualquier reporte de error</string>
-    <string name="pref_acra_category">Reporte de error</string>
+    <string name="pref_acra_category">Reporte de fallos</string>
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
-    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para LibVLC</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de «A continuación»</string>
     <string name="pref_next_up_timeout_summary">Cuánto tiempo hay que esperar antes de reproducir el siguiente elemento</string>
     <string name="pref_about_title">Acerca de</string>
@@ -150,16 +150,17 @@
     <string name="lbl_hd_programs">Programas en HD</string>
     <string name="lbl_new_only">Solo nuevos</string>
     <string name="acra_dialog_text">¿Te gustaría enviar un reporte del error a los desarrolladores\?
-\n 
-\nEsta información será enviada a un tercero (tracepot.com). 
-\n 
-\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en la configuración de la aplicación Jellyfin.</string>
+\n
+\nEsta información será enviada a un tercero (tracepot.com).
+\n
+\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en las preferencias de la aplicación Jellyfin.</string>
     <string name="acra_dialog_title">¡Oh no! Algo salió mal.</string>
     <string name="pref_acra_syslog_disabled">Los registros del sistema no serán incluidos en los reportes de errores</string>
     <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
-    <string name="pref_acra_syslog">Incluir registros del sistema en los reportes de errores. Esto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
+    <string name="pref_acra_syslog">Incluir registros del sistema.
+\nEsto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
     <string name="pref_acra_alwaysaccept_enabled">Los reportes de errores serán enviados sin preguntar</string>
-    <string name="pref_acra_alwaysaccept">Enviar reportes de errores sin preguntar</string>
+    <string name="pref_acra_alwaysaccept">Enviar sin preguntar</string>
     <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
     <string name="pref_acra_enabled">Se te pedirá que envíes informes de errores</string>
     <string name="pref_enable_acra">Enviar reportes de error a los desarrolladores</string>
@@ -170,7 +171,7 @@
     <string name="lbl_guide_option_number">Número de canal</string>
     <string name="lbl_guide_option_played">Última reproducción</string>
     <string name="lbl_on_schedule">En el horario programado</string>
-    <string name="msg_settings_updated">Configuración actualizada</string>
+    <string name="msg_settings_updated">Preferencias actualizadas</string>
     <string name="lbl_live">En vivo</string>
     <string name="msg_record_entire_series">¿Grabar serie completa\?</string>
     <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
@@ -185,7 +186,7 @@
     <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_new_premieres">Nuevos estrenos</string>
-    <string name="desc_automatic_fav_songs">Lista de reproducción automática de las canciones favoritas y gustadas</string>
+    <string name="desc_automatic_fav_songs">Lista de reproducción automática de las canciones favoritas</string>
     <string name="desc_seasonal_themes">Mostrar colores y sugerencias especiales en ciertas épocas del año</string>
     <string name="lbl_enable_seasonal_themes">Temas estacionales</string>
     <string name="msg_item_added">" elemento agregado"</string>
@@ -209,7 +210,7 @@
     <string name="pref_live_tv_cat">TV en vivo</string>
     <string name="lbl_live_tv_guide">Guía de TV en vivo</string>
     <string name="lbl_no_recordings">No hay grabaciones disponibles</string>
-    <string name="msg_burn_sub_warning">Quemar los subtítulos puede tomar algunos minutos. Por favor, sé paciente…</string>
+    <string name="msg_burn_sub_warning">Integrando subtítulos al video. Ésto puede tomar algunos minutos…</string>
     <string name="btn_clear_all">Limpiar todo</string>
     <string name="lbl_display_preferences">Preferencias de pantalla</string>
     <string name="lbl_starting_with">comenzando con aquellos cuyo nombre comienza con</string>
@@ -246,7 +247,7 @@
     <string name="msg_playback_not_allowed">La reproducción no está permitida en este momento</string>
     <string name="lbl_ok">OK</string>
     <string name="lbl_valid_server_address">Por favor, introduce la dirección del servidor (IP, dominio o nombre del equipo)</string>
-    <string name="lbl_enter_server_address">Introduce la dirección del servidor</string>
+    <string name="lbl_enter_server_address">Introduzca la dirección del servidor</string>
     <string name="lbl_yes">Sí</string>
     <string name="lbl_play_trailers">Reproducir trailer(s)</string>
     <string name="lbl_trailer">"Trailer "</string>
@@ -273,7 +274,7 @@
     <string name="lbl_by_letter">Por letra</string>
     <string name="lbl_on_now">Transmitiendo ahora</string>
     <string name="lbl_next_up">A continuación</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
@@ -336,7 +337,7 @@
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
-    <string name="play_with_vlc">Reproducir con libVLC</string>
+    <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="pref_video_player_choose">Siempre preguntar</string>
     <string name="lbl_subtitle_track">Seleccionar pista de subtítulos</string>
     <string name="lbl_audio_track">Seleccionar pista de audio</string>
@@ -369,7 +370,7 @@
     <string name="lbl_remove_server">Quitar servidor</string>
     <string name="lbl_sign_out_content">Requiere iniciar sesión en el próximo uso</string>
     <string name="lbl_remove_user_content">Eliminar cuenta</string>
-    <string name="lbl_remove_users">Esto también eliminará a todos los usuarios asociados</string>
+    <string name="lbl_remove_users">Esto también eliminará a todos las cuentas asociadas</string>
     <string name="lbl_manage_servers">Administrar servidores</string>
     <string name="user_picker_last_user_summary">Usar el ultimo usuario activo</string>
     <string name="user_picker_last_user_title">Mas recientemente usado</string>
@@ -480,4 +481,6 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_show_backdrop_description">Cambiar imagen de fondo a elementos seleccionados</string>
     <string name="lbl_playback_speed">Velocidad de reproducción</string>
+    <string name="lbl_shuffle_queue">Alternar aleatorio</string>
+    <string name="state_disabled">Deshabilitado</string>
 </resources>
