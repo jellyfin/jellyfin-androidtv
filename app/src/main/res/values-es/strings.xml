@@ -212,7 +212,7 @@
     <string name="lbl_live_tv_guide">Guía de TV en vivo</string>
     <string name="lbl_no_recordings">No hay grabaciones disponibles</string>
     <string name="lbl_recording">Grabación</string>
-    <string name="msg_burn_sub_warning">El grabado de los subtítulos puede tomar unos minutos. Por favor, sea paciente…</string>
+    <string name="msg_burn_sub_warning">Grabando en subtítulos. Esto puede tardar unos pocos segundos…</string>
     <string name="msg_unable_load_subs">No se puede cargar el subtítulo</string>
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="lbl_filters">Filtros</string>
@@ -241,7 +241,7 @@
     <string name="lbl_hd_programs">Programas HD</string>
     <string name="lbl_repeat_episodes">Repetir Episodios</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">libVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Seleccionar automáticamente</string>
     <string name="lbl_my_media">Mis Medios</string>
@@ -327,7 +327,7 @@
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina a las %1$s</string>
-    <string name="lbl_sign_in">Por Favor, Inicie Sesión</string>
+    <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="pref_clock_display_browsing">Durante la navegación</string>
     <string name="pref_clock_display_playback">Durante la reproducción</string>
     <string name="lbl_always">Siempre</string>
@@ -384,8 +384,8 @@
     <string name="image_type_banner">Banner</string>
     <string name="add_user">Agregar usuario</string>
     <string name="who_is_watching">¿Quién está mirando\?</string>
-    <string name="no_user_warning">¡No hemos podido encontrar ningún usuario!
-\nAñade un nuevo usuario pulsando el botón \"Añadir usuario\".</string>
+    <string name="no_user_warning">¡No pudimos encontrar ninguna cuenta!
+\nAgregue una nueva cuenta presionando el botón \"Agregar cuenta\".</string>
     <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %1$s pero la aplicación requiere %2$s o más reciente</string>
     <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
@@ -418,7 +418,7 @@
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Estirar</string>
     <string name="lbl_auto_crop">Ajuste automático</string>
-    <string name="advanced_settings">Preferencias (Avanzado)</string>
+    <string name="advanced_settings">Avanzado</string>
     <string name="always_authenticate_description">Habilitar ésto deshabilitará el inicio de sesión automático</string>
     <string name="always_authenticate">Siempre pedir credenciales</string>
     <string name="alphabetical">Alfabético</string>
@@ -450,14 +450,14 @@
     <string name="home_section_i">Sección Principal %1$d</string>
     <string name="server_issue_ssl_handshake">El emparejamiento SSL ha fallado</string>
     <string name="server_issue_timeout">No se ha podido conectar</string>
-    <string name="server_issue_outdated_version">El servidor usa la versión $1%s pero se necesita $2%s o superior</string>
-    <string name="server_issue_unsupported_version">El servidor usa la versión $1%s, que no está soportada</string>
+    <string name="server_issue_outdated_version">El servidor usa la versión %1$s pero debe ser %2$s o más reciente</string>
+    <string name="server_issue_unsupported_version">El servidor usa la versión %1$s que no es compatible</string>
     <string name="server_issue_missing_version">No se puede determinar la versión del servidor</string>
     <string name="server_issue_invalid_product">El software del servidor es incompatible</string>
     <string name="server_issue_unable_to_connect">Imposible conectar</string>
-    <string name="pref_subtitles_size">Tamaño de los subtítulos</string>
+    <string name="pref_subtitles_size">Tamaño del texto</string>
     <string name="pref_subtitles_background_summary">Muestra un fondo negro detrás de los subtítulos</string>
-    <string name="pref_subtitles_background_title">Activar fondo para subtítulos</string>
+    <string name="pref_subtitles_background_title">Activar fondo</string>
     <string name="server_connection_failed_candidates">Imposible conectar con el servidor. Dirección usada: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_playback_speed">Velocidad de Reproducción</string>
@@ -483,4 +483,18 @@
     <string name="pref_accounts">Cuentas</string>
     <string name="sort_accounts_by">Ordenar cuentas por</string>
     <string name="pref_customization">Personalización</string>
+    <string name="action_connect">Conectar</string>
+    <string name="pref_refresh_rate_scale_on_device">Escala en el dispositivo</string>
+    <string name="pref_refresh_rate_scale_on_tv">Escala en la TV</string>
+    <string name="login_quickconnect_step_3">3. Introduce el siguiente código:</string>
+    <string name="login_quickconnect_step_2">2. Abra el menú de usuario y vaya a la página Conexión Rápida</string>
+    <string name="login_quickconnect_step_1">1. Abra la aplicación Jellyfin en su teléfono o navegador web e inicie sesión con su cuenta</string>
+    <string name="login_other_options">Otras opciones:</string>
+    <string name="login_connect_to">Conectando a %1$s</string>
+    <string name="input_password">Contraseña</string>
+    <string name="input_username">Usuario</string>
+    <string name="action_use_quickconnect">Use Conexión Rápida (QuickConnect)</string>
+    <string name="action_use_password">Use una contraseña</string>
+    <string name="action_login">Iniciar Sesión</string>
+    <string name="state_disabled">Desactivado</string>
 </resources>
