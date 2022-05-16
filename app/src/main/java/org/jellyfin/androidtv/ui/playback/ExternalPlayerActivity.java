@@ -2,8 +2,10 @@ package org.jellyfin.androidtv.ui.playback;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +25,7 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -33,7 +36,9 @@ import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 import org.koin.java.KoinJavaComponent;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -58,6 +63,34 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+
+    static final int RUNTIME_TICKS_TO_MS = 10000;
+
+    // https://sites.google.com/site/mxvpen/api
+    static final String API_MX_TITLE = "title";
+    static final String API_MX_SEEK_POSITION = "position";
+    static final String API_MX_FILENAME = "filename";
+    static final String API_MX_RETURN_RESULT = "return_result";
+    static final String API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW";
+    static final String API_MX_RESULT_POSITION = "position";
+    static final String API_MX_RESULT_END_BY = "end_by";
+    static final String API_MX_RESULT_END_BY_USER = "user";
+    static final String API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion";
+
+    // https://wiki.videolan.org/Android_Player_Intents/
+    static final String API_VLC_TITLE = "title";
+    static final String API_VLC_SEEK_POSITION = "position";
+    static final String API_VLC_FROM_START = "from_start";
+    static final String API_VLC_RESULT_ID = "org.videolan.vlc.player.result";
+    static final String API_VLC_RESULT_POSITION = "extra_position";
+
+    // https://www.vimu.tv/player-api
+    static final String API_VIMU_TITLE = "forcename";
+    static final String API_VIMU_SEEK_POSITION = "startfrom";
+    static final String API_VIMU_RESUME = "forceresume";
+    static final String API_VIMU_RESULT_POSITION = "position";
+    static final int API_VIMU_RESULT_PLAYBACK_COMPLETED = 1;
+    static final int API_VIMU_RESULT_PLAYBACK_INTERRUPTED = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +117,45 @@ public class ExternalPlayerActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         long playerFinishedTime = System.currentTimeMillis();
-        Timber.d("Returned from player... %d", resultCode);
-        //MX Player will return position
-        int pos = data != null ? data.getIntExtra("position", 0) : 0;
+        Timber.d("Returned from player, result <%d>, extra data <%s>", resultCode, data);
+        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        long runtime = item.getRunTimeTicks() != null ? item.getRunTimeTicks() / RUNTIME_TICKS_TO_MS : 0;
+        int pos = 0;
+        // look for result position in API's
+         if (data != null) {
+             if (data.hasExtra(API_MX_RESULT_POSITION)) {
+                 pos = data.getIntExtra(API_MX_RESULT_POSITION, 0);
+             } else if (data.hasExtra(API_VLC_RESULT_POSITION)) {
+                 pos = data.getIntExtra(API_VLC_RESULT_POSITION, 0);
+             } else if (data.hasExtra(API_VIMU_RESULT_POSITION)) {
+                 pos = data.getIntExtra(API_VIMU_RESULT_POSITION, 0);
+             }
+         }
+        // check for playback completion in API's
+        if (pos == 0 && data != null) {
+            if (Objects.equals(data.getAction(), API_MX_RESULT_ID)) {
+                if (resultCode == Activity.RESULT_OK && data.getStringExtra(API_MX_RESULT_END_BY).equals(API_MX_RESULT_END_BY_PLAYBACK_COMPLETION)) {
+                    pos = (int) runtime;
+                    Timber.i("Detected playback completion for MX player.");
+                }
+            }
+            else if (Objects.equals(data.getAction(), API_VLC_RESULT_ID)) {
+                if (resultCode == Activity.RESULT_OK) {
+                    pos = (int) runtime;
+                    Timber.i("Detected playback completion for VLC player.");
+                }
+            }
+            else if (resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED) {
+                pos = (int) runtime;
+                Timber.i("Detected playback completion for Vimu player.");
+            }
+        }
+
         if (pos > 0) Timber.i("Player returned position: %d", pos);
-        Long reportPos = (long) pos * 10000;
+        Long reportPos = (long) pos * RUNTIME_TICKS_TO_MS;
 
         stopReportLoop();
-        ReportingHelper.reportStopped(mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, reportPos);
+        ReportingHelper.reportStopped(item, mCurrentStreamInfo, reportPos);
 
         //Check against a total failure (no apps installed)
         if (playerFinishedTime - mLastPlayerStart < 1000) {
@@ -101,7 +165,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
             return;
         }
 
-        long runtime = mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() != null ? mItemsToPlay.get(mCurrentNdx).getRunTimeTicks() / 10000 : 0;
         if (pos == 0) {
             //If item didn't play as long as its duration - confirm we want to mark watched
             if (!isLiveTv && playerFinishedTime - mLastPlayerStart < runtime * .9) {
@@ -286,24 +349,55 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void startExternalActivity(String path, String container) {
+        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        if (item == null) {
+            Timber.e("Error getting item to play for Ndx: <%d>.", mCurrentNdx);
+            return;
+        }
+
         Intent external = new Intent(Intent.ACTION_VIEW);
         external.setDataAndType(Uri.parse(path), "video/"+container);
 
-        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
-
-        //These parms are for MX Player
-        if (mPosition > 0) external.putExtra("position", mPosition);
-        external.putExtra("return_result", true);
-        if (item != null) {
-            external.putExtra("title", item.getName());
+        // build full title string
+        String full_title = "";
+        Context context = getBaseContext();
+        if (context != null) {
+            full_title = BaseItemUtils.getDisplayName(item, context);
         }
-        //End MX Player
+        if (full_title.isEmpty()) {
+            full_title = item.getName();
+        }
+        if (item.getProductionYear() != null && item.getProductionYear() > 0) {
+            full_title += " - ("+ item.getProductionYear().toString() +")";
+        }
 
-        Timber.i("Starting external playback of path: %s and mime: video/%s",path,container);
+        //Start player API params
+        int pos = mPosition.intValue();
+        external.putExtra(API_MX_SEEK_POSITION, pos);
+        external.putExtra(API_VIMU_SEEK_POSITION, pos);
+        if (pos == 0) {
+            external.putExtra(API_VLC_FROM_START, true);
+        }
+        external.putExtra(API_VIMU_RESUME, false);
+        external.putExtra(API_MX_RETURN_RESULT, true);
+        if (!full_title.isEmpty()) {
+            external.putExtra(API_MX_TITLE, full_title);
+            external.putExtra(API_VIMU_TITLE, full_title);
+        }
+        String filepath = item.getPath();
+        if (!filepath.isEmpty()) {
+            File file = new File(filepath);
+            if (!file.getName().isEmpty()) {
+                external.putExtra(API_MX_FILENAME, file.getName());
+            }
+        }
+        //End player API params
+
+        Timber.i("Starting external playback of path: %s and mime: video/%s at position/ms: %s",path,container,mPosition);
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
-            ReportingHelper.reportStart(mItemsToPlay.get(mCurrentNdx), 0);
+            ReportingHelper.reportStart(item, 0);
             startReportLoop();
             startActivityForResult(external, 1);
 
