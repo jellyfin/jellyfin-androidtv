@@ -1,1 +1,1 @@
-Cliente para TV de Jellyfin, el sistema multimedia de software libre
+Cliente de TV para Jellyfin, el sistema de medios de software libre
