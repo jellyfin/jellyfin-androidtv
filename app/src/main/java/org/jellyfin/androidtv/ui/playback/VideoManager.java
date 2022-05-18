@@ -66,7 +66,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
-    private AspectRatioFrameLayout mAspectRatioFrameLayout;
     private LibVLC mLibVLC;
     private org.videolan.libvlc.MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
@@ -220,13 +219,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mZoomMode = mode;
         switch (mode) {
             case ZOOM_FIT:
-                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FIT);
+                mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
                 break;
             case ZOOM_AUTO_CROP:
-                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+                mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
                 break;
             case ZOOM_STRETCH:
-                mExoPlayerView.setResizeMode(mAspectRatioFrameLayout.RESIZE_MODE_FILL);
+                mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
                 break;
         }
     }
