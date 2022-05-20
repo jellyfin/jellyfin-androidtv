@@ -11,9 +11,9 @@ jobs:
     if: ${{ github.repository == 'jellyfin/jellyfin-androidtv' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@860f60056505705214d223b91ed7a30f173f6142 # tag=v3
         with:
           distribution: adopt
           java-version: 11
@@ -23,7 +23,7 @@ jobs:
         run: ./gradlew --no-daemon --info assemble bundleRelease versionTxt
       - name: Sign APK
         id: signApk
-        uses: r0adkll/sign-android-release@v1
+        uses: r0adkll/sign-android-release@349ebdef58775b1e0d8099458af0816dc79b6407 # tag=v1
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
@@ -32,7 +32,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - name: Sign AAB
         id: signAab
-        uses: r0adkll/sign-android-release@v1
+        uses: r0adkll/sign-android-release@349ebdef58775b1e0d8099458af0816dc79b6407 # tag=v1
         with:
           releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
@@ -48,13 +48,13 @@ jobs:
           mv ${{ steps.signAab.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.aab
           mv app/build/version.txt build/jellyfin-publish/
       - name: Upload release archive to GitHub release
-        uses: alexellis/upload-assets@0.3.0
+        uses: alexellis/upload-assets@5586bc227f8525a5e3525e6edf64da5350bfb5b1 # tag=0.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         with:
           asset_paths: '["build/jellyfin-publish/*"]'
       - name: Upload release archive to repo.jellyfin.org
-        uses: burnett01/rsync-deployments@5.2
+        uses: burnett01/rsync-deployments@0dc935cdecc5f5e571865e60d2a6cdc673704823 # tag=5.2
         with:
           switches: -vrptz
           path: build/jellyfin-publish/
@@ -63,7 +63,7 @@ jobs:
           remote_user: ${{ secrets.DEPLOY_USER }}
           remote_key: ${{ secrets.DEPLOY_KEY }}
       - name: Update repo.jellyfin.org symlinks
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@1d1b21ca96111b1eb4c03c21c14ebb971d2200f6 # tag=v0.1.4
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
