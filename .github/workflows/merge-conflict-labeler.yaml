@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.repository == 'jellyfin/jellyfin-androidtv'
     steps:
-      - uses: eps1lon/actions-label-merge-conflict@v2.0.1
+      - uses: eps1lon/actions-label-merge-conflict@b8bf8341285ec9a4567d4318ba474fee998a6919 # tag=v2.0.1
         with:
           dirtyLabel: merge conflict
           repoToken: ${{ secrets.JF_BOT_TOKEN }}
