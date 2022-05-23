@@ -18,7 +18,7 @@
         android:foreground="@drawable/ripple"
         app:cardCornerRadius="?attr/cardRounding">
 
-        <ImageView
+        <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
