@@ -10,7 +10,6 @@ import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,7 +65,8 @@ class AsyncImageView @JvmOverloads constructor(
 				.load(url ?: placeholder)
 				.placeholder(placeholderOrBlurHash)
 				.error(placeholder)
-				.transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
+				// FIXME: Glide is unable to scale the image when transitions are enabled
+				//.transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
 				.into(this@AsyncImageView)
 		}
 	}
