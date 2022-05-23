@@ -2,14 +2,13 @@ package org.jellyfin.androidtv.ui.card
 
 import android.content.Context
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.annotation.DrawableRes
 import androidx.core.view.updateLayoutParams
-import com.bumptech.glide.Glide
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewCardDefaultBinding
 import org.jellyfin.androidtv.util.MenuBuilder
@@ -56,16 +55,10 @@ class DefaultCardView @JvmOverloads constructor(
 	}
 
 	fun setImage(
-		image: String?,
-		@DrawableRes placeholder: Int? = null,
-	) {
-		Glide.with(context)
-			.load(image).apply {
-				if (placeholder != null)
-					placeholder(placeholder)
-			}
-			.into(binding.banner)
-	}
+		url: String? = null,
+		blurHash: String? = null,
+		placeholder: Drawable? = null,
+	) = binding.banner.load(url, blurHash, placeholder)
 
 	fun setPopupMenu(init: MenuBuilder.() -> Unit) {
 		setOnLongClickListener {

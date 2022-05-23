@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -191,7 +192,10 @@ class ServerFragment : Fragment() {
 
 		override fun onBindViewHolder(holder: ViewHolder, user: User) {
 			holder.cardView.title = user.name
-			holder.cardView.setImage(startupViewModel.getUserImage(server, user), R.drawable.tile_port_user)
+			holder.cardView.setImage(
+				url = startupViewModel.getUserImage(server, user),
+				placeholder = ContextCompat.getDrawable(context, R.drawable.tile_port_user)
+			)
 			holder.cardView.setPopupMenu {
 				// Logout button
 				if (user is PrivateUser && user.accessToken != null) {
