@@ -702,6 +702,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
+    public void setSubtitleDelay(long value) {
+        if (!nativeMode && mVlcPlayer != null) {
+            if (!mVlcPlayer.setSpuDelay(value * 1000)) {
+                Timber.e("Error setting subtitle offset");
+            } else {
+                Timber.i("Subtitle offset set to %d", value);
+            }
+        }
+    }
+
+    public long getSubtitleDelay() {
+        return mVlcPlayer != null ? mVlcPlayer.getSpuDelay() / 1000 : 0;
+    }
+
     public void setAudioDelay(long value) {
         if (!nativeMode && mVlcPlayer != null) {
             if (!mVlcPlayer.setAudioDelay(value * 1000)) {

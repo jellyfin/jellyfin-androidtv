@@ -261,6 +261,7 @@
     <string name="lbl_news">News</string>
     <string name="lbl_new_only">New Only</string>
     <string name="lbl_audio_delay">Audio Delay</string>
+    <string name="lbl_subtitle_delay">Subtitle Delay</string>
     <string name="lbl_new_episodes">New Episodes</string>
     <string name="lbl_premieres">Premieres</string>
     <string name="lbl_repeat_episodes">Repeat Episodes</string>
@@ -286,6 +287,7 @@
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_behavior_title">Show next video info</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for LibVLC</string>
+    <string name="pref_libvlc_subtitle_delay_title">Default Subtitle Delay for LibVLC</string>
     <string name="pref_app_theme">App theme</string>
     <string name="pref_device_model">Device model</string>
     <string name="grid_direction">Grid Direction</string>
