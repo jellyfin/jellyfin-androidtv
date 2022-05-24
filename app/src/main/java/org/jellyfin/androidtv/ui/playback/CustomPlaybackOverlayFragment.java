@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,12 +35,6 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -1295,24 +1288,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (imageUrl != null) {
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
-                Glide.with(requireContext())
-                    .load(imageUrl)
-                    .centerInside()
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            binding.itemLogo.setContentDescription(current.getName());
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            binding.itemLogo.setVisibility(View.GONE);
-                            binding.itemTitle.setVisibility(View.VISIBLE);
-                            return false;
-                        }
-                    })
-                    .into(binding.itemLogo);
+                binding.itemLogo.setContentDescription(current.getName());
+                binding.itemLogo.load(imageUrl, null, null, 1.0, 0);
             } else {
                 binding.itemLogo.setVisibility(View.GONE);
                 binding.itemTitle.setVisibility(View.VISIBLE);

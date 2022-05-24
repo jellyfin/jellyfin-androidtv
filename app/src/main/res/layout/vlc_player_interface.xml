@@ -86,7 +86,7 @@
         android:clickable="false"
         android:visibility="invisible">
 
-        <ImageView
+        <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/item_logo"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
