@@ -1,10 +1,8 @@
 package org.jellyfin.androidtv.ui.playback.nextup
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +15,7 @@ import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.UUID
+import org.jellyfin.sdk.model.api.ImageType
 
 class NextUpViewModel(
 	private val context: Context,
@@ -46,17 +45,6 @@ class NextUpViewModel(
 		_state.value = NextUpState.CLOSE
 	}
 
-	@Suppress("TooGenericExceptionCaught", "SwallowedException")
-	private fun safelyLoadBitmap(url: String): Bitmap? = try {
-		Glide.with(context)
-			.asBitmap()
-			.load(url)
-			.submit()
-			.get()
-	} catch (e: Throwable) {
-		null
-	}
-
 	private suspend fun loadItemData(id: UUID) = withContext(Dispatchers.IO) {
 		val item by api.userLibraryApi.getItem(itemId = id)
 
@@ -64,6 +52,7 @@ class NextUpViewModel(
 			NextUpBehavior.EXTENDED -> imageHelper.getPrimaryImageUrl(item)
 			else -> null
 		}
+		val thumbnailBlurhash = item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(item.imageTags?.get(ImageType.PRIMARY))
 		val logo = imageHelper.getLogoImageUrl(item)
 		val title = item.getDisplayName(context)
 
@@ -71,8 +60,8 @@ class NextUpViewModel(
 			item,
 			item.id,
 			title,
-			thumbnail?.let { safelyLoadBitmap(it) },
-			logo?.let { safelyLoadBitmap(it) }
+			NextUpItemData.Image(thumbnail, thumbnailBlurhash, item.primaryImageAspectRatio ?: 1.0),
+			NextUpItemData.Image(logo, null, 1.0)
 		)
 	}
 }

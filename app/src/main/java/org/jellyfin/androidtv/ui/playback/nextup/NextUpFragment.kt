@@ -34,8 +34,16 @@ class NextUpFragment : Fragment() {
 
 					backgroundService.setBackground(data.baseItem)
 
-					binding.logo.setImageBitmap(data.logo)
-					binding.image.setImageBitmap(data.thumbnail)
+					binding.logo.load(
+						url = data.logo.url,
+						blurHash = data.logo.blurHash,
+						aspectRatio = data.logo.aspectRatio
+					)
+					binding.image.load(
+						url = data.thumbnail.url,
+						blurHash = data.thumbnail.blurHash,
+						aspectRatio = data.thumbnail.aspectRatio
+					)
 					binding.title.text = data.title
 				}
 			}

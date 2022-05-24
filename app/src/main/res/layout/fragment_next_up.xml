@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@drawable/moviebg">
 
-    <ImageView
+    <org.jellyfin.androidtv.ui.AsyncImageView
         android:id="@+id/logo"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_goneMarginEnd="0dp">
 
-            <ImageView
+            <org.jellyfin.androidtv.ui.AsyncImageView
                 android:id="@+id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
