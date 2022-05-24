@@ -14,9 +14,6 @@ import androidx.leanback.widget.Presenter;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -24,7 +21,6 @@ import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior;
 import org.jellyfin.androidtv.ui.card.LegacyImageCardView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.util.BlurHashUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -37,8 +33,6 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.Date;
 import java.util.HashMap;
-
-import timber.log.Timber;
 
 public class CardPresenter extends Presenter {
     private static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
@@ -336,32 +330,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
-            try {
-                if (url == null) {
-                    Glide.with(mCardView.getContext())
-                            .load(mDefaultCardImage)
-                            .into(mCardView.getMainImageView());
-                } else {
-                    BlurHashUtils.createBlurHashDrawable(
-                            lifecycleOwner,
-                            blurHash,
-                            (aspect > 1) ? (int) Math.round(32 * aspect) : 32,
-                            (aspect >= 1) ? 32 : (int) Math.round(32 / aspect),
-                            bitmap -> {
-                                Glide.with(mCardView.getContext())
-                                        .load(url)
-                                        .error(mDefaultCardImage)
-                                        .thumbnail(Glide.with(mCardView.getContext()).load(bitmap != null ? bitmap : mDefaultCardImage).centerCrop())
-                                        .transition(DrawableTransitionOptions.withCrossFade(200))
-                                        .into(mCardView.getMainImageView());
-
-                                return null;
-                            }
-                    );
-                }
-            } catch (IllegalArgumentException e) {
-                Timber.i("Image load aborted due to activity closing");
-            }
+            mCardView.getMainImageView().load(url, blurHash, mDefaultCardImage, aspect, 32);
         }
 
         protected void resetCardView() {
