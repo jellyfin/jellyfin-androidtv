@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +29,6 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-
-import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -104,7 +101,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -477,17 +473,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     }
 
             }
-            try {
-                //Main image
-                Bitmap poster = Glide.with(mActivity)
-                        .asBitmap()
-                        .load(primaryImageUrl)
-                        .submit()
-                        .get();
-                mDetailsOverviewRow.setImageBitmap(mActivity, poster);
-            } catch (ExecutionException | InterruptedException e) {
-                Timber.e(e, "Error loading image");
-            }
+
+            mDetailsOverviewRow.setImageBitmap(primaryImageUrl);
 
             return mDetailsOverviewRow;
         }
