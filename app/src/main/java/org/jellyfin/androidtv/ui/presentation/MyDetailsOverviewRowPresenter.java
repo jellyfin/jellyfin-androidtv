@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.presentation;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -13,6 +12,7 @@ import androidx.leanback.widget.RowPresenter;
 
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
+import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.DetailRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
@@ -38,7 +38,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         private TextView mGenreRow;
         private LinearLayout mInfoRow;
         private TextView mTitle;
-        private ImageView mPoster;
+        private AsyncImageView mPoster;
         private TextView mSummary;
         private LinearLayout mButtonRow;
         private ProgressBar mProgress;
@@ -109,9 +109,10 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         setInfo2(row.getInfoItem2());
         setInfo3(row.getInfoItem3());
 
-        vh.mPoster.setImageDrawable(row.getImageDrawable());
+        String posterUrl = row.getImageDrawable();
+        vh.mPoster.load(posterUrl, null, null, 1.0, 0);
         int progress = row.getProgress();
-        if (progress > 0 && vh.mPoster.getDrawable() != null) {
+        if (progress > 0 && posterUrl != null) {
             vh.mProgress.setProgress(progress);
             vh.mProgress.setVisibility(View.VISIBLE);
         }

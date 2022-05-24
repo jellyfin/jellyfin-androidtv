@@ -1,11 +1,7 @@
 package org.jellyfin.androidtv.ui.itemdetail;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-
 import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
 import androidx.core.view.ViewKt;
 import androidx.leanback.widget.Row;
 
@@ -18,7 +14,7 @@ import java.util.List;
 
 public class MyDetailsOverviewRow extends Row {
     private BaseItemDto mItem;
-    private Drawable mImageDrawable;
+    private String mImageDrawable;
     private String mSummary;
     private int mProgress;
     private InfoItem mInfoItem1;
@@ -59,9 +55,9 @@ public class MyDetailsOverviewRow extends Row {
     }
 
     public BaseItemDto getItem() { return mItem; }
-    public Drawable getImageDrawable() { return mImageDrawable; }
+    public String getImageDrawable() { return mImageDrawable; }
 
-    public void setImageBitmap(Context context, Bitmap bm) { mImageDrawable = new BitmapDrawable(context.getResources(), bm); }
+    public void setImageBitmap(@Nullable String url) { mImageDrawable = url; }
 
     public void addAction(TextUnderButton button) {
         mActions.add(button);

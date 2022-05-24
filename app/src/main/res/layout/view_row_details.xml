@@ -148,7 +148,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/middleFrame">
 
-        <ImageView
+        <org.jellyfin.androidtv.ui.AsyncImageView
             android:id="@+id/mainImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
