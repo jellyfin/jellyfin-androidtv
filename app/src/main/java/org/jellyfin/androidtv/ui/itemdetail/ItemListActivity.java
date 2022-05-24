@@ -14,16 +14,14 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
-import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -32,6 +30,7 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
+import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ItemListView;
 import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
@@ -75,7 +74,7 @@ public class ItemListActivity extends FragmentActivity {
 
     private TextView mTitle;
     private TextView mGenreRow;
-    private ImageView mPoster;
+    private AsyncImageView mPoster;
     private TextView mSummary;
     private LinearLayout mButtonRow;
     private ItemListView mItemList;
@@ -478,21 +477,10 @@ public class ItemListActivity extends FragmentActivity {
                 mPoster.setImageResource(R.drawable.ic_video_queue);
                 break;
             default:
-                // Figure image size
                 Double aspect = ImageUtils.getImageAspectRatio(item, false);
-                int posterHeight = aspect > 1 ? Utils.convertDpToPixel(this, 160) : Utils.convertDpToPixel(this, 250);
-                int posterWidth = (int)((aspect) * posterHeight);
-                if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(this, 150);  //Guard against zero size images causing picasso to barf
-
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, false, posterHeight);
-
-
-                Glide.with(this)
-                        .load(primaryImageUrl)
-                        .override(posterWidth,posterHeight)
-                        .fitCenter()
-                        .into(mPoster);
-
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
+                mPoster.setPadding(0, 0, 0, 0);
+                mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), aspect, 0);
                 break;
         }
     }
