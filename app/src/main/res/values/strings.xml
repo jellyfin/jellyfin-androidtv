@@ -261,6 +261,7 @@
     <string name="lbl_news">News</string>
     <string name="lbl_new_only">New Only</string>
     <string name="lbl_audio_delay">Audio Delay</string>
+    <string name="lbl_adjust">Adjust</string>
     <string name="lbl_subtitle_delay">Subtitle Delay</string>
     <string name="lbl_new_episodes">New Episodes</string>
     <string name="lbl_premieres">Premieres</string>

@@ -6,10 +6,28 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/audioDelaytxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:text="@string/lbl_audio_delay"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <org.jellyfin.androidtv.ui.NumberSpinnerView
+        android:id="@+id/audioDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/audioDelaytxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp" />
+
+    <TextView
+        android:id="@+id/subtitleDelayTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp"
+        android:layout_below="@+id/audioDelay"
         android:text="@string/lbl_subtitle_delay"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -17,7 +35,7 @@
         android:id="@+id/subtitleDelay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/subtitleDelayTxt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15sp" />
 
