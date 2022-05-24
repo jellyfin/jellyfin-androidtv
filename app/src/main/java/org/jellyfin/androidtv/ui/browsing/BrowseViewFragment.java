@@ -473,27 +473,23 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             gridRowAdapter.add(new GridButton(
                 LiveTvOption.LIVE_TV_GUIDE_OPTION_ID,
                 getString(R.string.lbl_live_tv_guide),
-                R.drawable.tile_port_guide,
-                null
+                R.drawable.tile_port_guide
             ));
             gridRowAdapter.add(new GridButton(
                 LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID,
                 getString(R.string.lbl_recorded_tv),
-                R.drawable.tile_port_record,
-                null
+                R.drawable.tile_port_record
             ));
             if (Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
                 gridRowAdapter.add(new GridButton(
                     LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID,
                     getString(R.string.lbl_schedule),
-                    R.drawable.tile_port_time,
-                    null
+                    R.drawable.tile_port_time
                 ));
                 gridRowAdapter.add(new GridButton(
                     LiveTvOption.LIVE_TV_SERIES_OPTION_ID,
                     getString(R.string.lbl_series),
-                    R.drawable.tile_port_series_timer,
-                    null
+                    R.drawable.tile_port_series_timer
                 ));
             }
 

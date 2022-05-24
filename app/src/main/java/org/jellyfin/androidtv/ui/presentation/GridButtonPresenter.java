@@ -6,10 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.leanback.widget.Presenter;
-
-import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -44,22 +41,11 @@ public class GridButtonPresenter extends Presenter {
         public void setItem(GridButton m, int width, int height) {
             gridButton = m;
             cardView.setMainImageDimensions(width, height);
-            if (gridButton.getImageUrl() == null) {
-                cardView.getMainImageView().setImageResource(gridButton.getImageRes());
-            } else {
-                Glide.with(cardView.getContext())
-                        .load(gridButton.getImageUrl())
-                        .error(gridButton.getImageRes())
-                        .into(cardView.getMainImageView());
-            }
+            cardView.getMainImageView().setImageResource(gridButton.getImageRes());
         }
 
         public GridButton getItem() {
             return gridButton;
-        }
-
-        protected void updateCardViewImage(@DrawableRes int image) {
-            cardView.getMainImageView().setImageResource(image);
         }
     }
 
