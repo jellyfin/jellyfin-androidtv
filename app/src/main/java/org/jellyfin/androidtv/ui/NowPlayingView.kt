@@ -5,9 +5,9 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
-import com.bumptech.glide.Glide
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewNowPlayingBinding
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.TimeUtils
 import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.apiclient.model.entities.ImageType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -62,11 +63,9 @@ class NowPlayingView @JvmOverloads constructor(
 	}
 
 	private fun setInfo(item: BaseItemDto) {
-		Glide.with(context)
-			.load(ImageUtils.getPrimaryImageUrl(item))
-			.error(R.drawable.ic_album)
-			.centerInside()
-			.into(binding.npIcon)
+		val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_album)
+		val blurHash = item.imageBlurHashes?.get(ImageType.Primary)?.get(item.imageTags?.get(ImageType.Primary))
+		binding.npIcon.load(ImageUtils.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
 
 		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks / 10_000 else 0)
 		binding.npDesc.text = if (item.albumArtist != null) item.albumArtist else item.name
