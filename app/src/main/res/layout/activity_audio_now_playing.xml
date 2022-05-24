@@ -205,7 +205,7 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <ImageView
+            <org.jellyfin.androidtv.ui.AsyncImageView
                 android:id="@+id/poster"
                 android:layout_width="250dp"
                 android:layout_height="250dp"

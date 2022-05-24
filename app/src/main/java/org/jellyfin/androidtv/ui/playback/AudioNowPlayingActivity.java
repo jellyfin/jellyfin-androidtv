@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
@@ -28,11 +29,10 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import com.bumptech.glide.Glide;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityAudioNowPlayingBinding;
+import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -78,7 +78,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private TextView mSongTitle;
     private TextView mAlbumTitle;
     private TextView mCurrentNdx;
-    private ImageView mPoster;
+    private AsyncImageView mPoster;
     private ProgressBar mCurrentProgress;
     private TextView mCurrentPos;
     private TextView mRemainingTime;
@@ -418,18 +418,10 @@ public class AudioNowPlayingActivity extends BaseActivity {
         // Figure image size
         Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 150) : Utils.convertDpToPixel(mActivity, 250);
-        int posterWidth = (int) ((aspect) * posterHeight);
-        if (posterHeight < 10)
-            posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
-        Glide.with(mActivity)
-                .load(primaryImageUrl)
-                .error(R.drawable.ic_album)
-                .override(posterWidth, posterHeight)
-                .centerInside()
-                .into(mPoster);
+        mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), aspect, 0);
     }
 
     private void loadItem() {
