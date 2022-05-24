@@ -15,6 +15,7 @@ import androidx.leanback.widget.BaseCardView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ViewCardLegacyImageBinding;
+import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -63,7 +64,7 @@ public class LegacyImageCardView extends BaseCardView {
         mBanner.setVisibility(VISIBLE);
     }
 
-    public final ImageView getMainImageView() {
+    public final AsyncImageView getMainImageView() {
         return binding.mainImage;
     }
 
