@@ -43,7 +43,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.MathUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
@@ -64,6 +63,7 @@ import org.koin.java.KoinJavaComponent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -715,7 +715,7 @@ public class ItemListActivity extends FragmentActivity {
         BaseItemDto item = mBaseItem;
 
         if(item.getBackdropCount() == 0 && mItems != null && mItems.size() >= 1)
-            item = mItems.get(MathUtils.randInt(0, mItems.size() - 1));
+            item = mItems.get(new Random().nextInt(mItems.size()));
 
         backgroundService.getValue().setBackground(item);
     }
