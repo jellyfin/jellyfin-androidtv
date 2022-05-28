@@ -758,15 +758,14 @@ public class PlaybackController {
 
         mCurrentStreamInfo = response;
 
-        // set the audio index so that it is preserved if the stream is rebuilt when seeking
-        mCurrentOptions.setAudioStreamIndex(response.getMediaSource().getDefaultAudioStreamIndex());
+        // set media source Id in case we need to switch to transcoding
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
-        setDefaultAudioIndex(response);
-
 
         // get subtitle info
         mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
         mDefaultSubIndex = response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
+        setDefaultAudioIndex(response);
+        Timber.d("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());
         Timber.d("default sub index set to %s remote default %s", mDefaultSubIndex, response.getMediaSource().getDefaultSubtitleStreamIndex());
 
         // if burning in, set the subtitle index and the burningSubs flag so that onPrepared and switchSubtitleStream will know that we already have subtitles enabled
@@ -855,17 +854,21 @@ public class PlaybackController {
     }
 
     public int getAudioStreamIndex() {
-        int currIndex = mDefaultAudioIndex;
+        int currIndex = -1;
 
-        // if not transcoding, libVLC & exoplayer are able to switch tracks and report their selected track
-        if (hasInitializedVideoManager() && !isTranscoding() && mVideoManager.getVLCAudioTrack() > -1) {
-            currIndex = mVideoManager.getVLCAudioTrack();
-        } else if (hasInitializedVideoManager() && !isTranscoding() && isNativeMode() && mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams()) > -1) {
-            currIndex = mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams());
-        } else if (!isTranscoding() && isNativeMode() && mCurrentOptions.getAudioStreamIndex() != null) {
+        // Use stream index from mCurrentOptions if it's set.
+        // This should be null until the player has been queried at least once after playback starts
+        //
+        // Use DefaultAudioStreamIndex for transcoding since they are encoded with only one stream
+        //
+        // Otherwise, query the players
+        if (mCurrentOptions.getAudioStreamIndex() != null) {
             currIndex = mCurrentOptions.getAudioStreamIndex();
-        } else if (getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
+        } else if (isTranscoding() && getCurrentMediaSource().getDefaultAudioStreamIndex() != null) {
             currIndex = getCurrentMediaSource().getDefaultAudioStreamIndex();
+        } else if (hasInitializedVideoManager() && !isTranscoding()) {
+            currIndex = isNativeMode() ? mVideoManager.getExoPlayerTrack(MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams()) :
+                                            mVideoManager.getVLCAudioTrack(getCurrentlyPlayingItem().getMediaStreams());
         }
         return currIndex;
     }
@@ -890,8 +893,13 @@ public class PlaybackController {
         if (mDefaultAudioIndex != -1)
             return;
 
-        if (bestGuessAudioTrack(info.getMediaSource()) != null)
-            mDefaultAudioIndex = bestGuessAudioTrack(info.getMediaSource());
+        Integer remoteDefault = info.getMediaSource().getDefaultAudioStreamIndex();
+        Integer bestGuess = bestGuessAudioTrack(info.getMediaSource());
+
+        if (remoteDefault != null)
+            mDefaultAudioIndex = remoteDefault;
+        else if (bestGuess != null)
+            mDefaultAudioIndex = bestGuess;
         Timber.d("default audio index set to %s", mDefaultAudioIndex);
     }
 
@@ -903,6 +911,10 @@ public class PlaybackController {
         Timber.d("trying to switch audio stream from %s to %s", currAudioIndex, index);
         if (currAudioIndex == index) {
             Timber.d("skipping setting audio stream, already set to requested index %s", index);
+            if (mCurrentOptions.getAudioStreamIndex() == null || mCurrentOptions.getAudioStreamIndex() != index) {
+                Timber.d("setting mCurrentOptions audio stream index from %s to %s", mCurrentOptions.getAudioStreamIndex(), index);
+                mCurrentOptions.setAudioStreamIndex(index);
+            }
             return;
         }
 
@@ -912,7 +924,7 @@ public class PlaybackController {
         if (isNativeMode() && !isTranscoding() && mVideoManager.setExoPlayerTrack(index, MediaStreamType.Audio, getCurrentlyPlayingItem().getMediaStreams())) {
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
-        } else if (!isNativeMode() && !isTranscoding() && mVideoManager.setVLCAudioTrack(index) == index) {
+        } else if (!isNativeMode() && !isTranscoding() && mVideoManager.setVLCAudioTrack(index, getCurrentlyPlayingItem().getMediaStreams()) == index) {
             // if setAudioTrack succeeded it will return the requested index
             mCurrentOptions.setMediaSourceId(getCurrentMediaSource().getId());
             mCurrentOptions.setAudioStreamIndex(index);
