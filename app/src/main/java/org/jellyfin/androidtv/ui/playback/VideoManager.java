@@ -44,9 +44,10 @@ import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IVLCVout;
+import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.MediaPlayer.TrackDescription;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import timber.log.Timber;
@@ -67,7 +68,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private LibVLC mLibVLC;
-    private org.videolan.libvlc.MediaPlayer mVlcPlayer;
+    private MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
@@ -77,7 +78,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
-    private Integer exoplayerAudioIndex = null;
 
     private long mForcedTime = -1;
     private long mLastTime = -1;
@@ -160,7 +160,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             @Override
             public void onTracksInfoChanged(TracksInfo tracksInfo) {
                 Timber.d("Tracks info changed");
-                exoplayerAudioIndex = null;
             }
         });
     }
@@ -313,7 +312,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 mActivity.finish();
                 return;
             }
-            exoplayerAudioIndex = null;
             mExoPlayer.setPlayWhenReady(true);
             normalWidth = mExoPlayerView.getLayoutParams().width;
             normalHeight = mExoPlayerView.getLayoutParams().height;
@@ -355,7 +353,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
                                                     .buildUpon()
                                                     .setTrackSelectionOverrides(overrides).build());
-            exoplayerAudioIndex = null;
         } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
@@ -437,37 +434,43 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode && allStreams != null) {
-            //find the relative order of our sub index within the sub tracks in VLC
-            int vlcIndex = 1; // start at 1 to account for "disabled"
-            for (MediaStream stream : allStreams) {
-                if (stream.getType() == MediaStreamType.Subtitle && !stream.getIsExternal()) {
-                    if (stream.getIndex() == index) {
-                        break;
-                    }
-                    vlcIndex++;
-                }
-            }
+    private int offsetStreamIndex(int index, boolean adjustByAdding, @Nullable List<MediaStream> allStreams) {
+        if (index < 0 || allStreams == null)
+            return -1;
 
-            org.videolan.libvlc.MediaPlayer.TrackDescription vlcSub;
-            try {
-                vlcSub = getSubtitleTracks()[vlcIndex];
-
-            } catch (IndexOutOfBoundsException e) {
-                Timber.e("Could not locate subtitle with index %s in vlc track info", index);
-                return false;
-            } catch (NullPointerException e) {
-                Timber.e("No subtitle tracks found in player trying to set subtitle with index %s in vlc track info", index);
-                return false;
-            }
-
-            Timber.i("Setting Vlc sub to %s", vlcSub.name);
-            return mVlcPlayer.setSpuTrack(vlcSub.id);
-
+        for (MediaStream stream : allStreams) {
+            if (!stream.getIsExternal())
+                break;
+            index += adjustByAdding ? 1 : -1;
         }
 
-        return false;
+        return index < 0 || index >= allStreams.size() ? -1 : index;
+    }
+
+    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
+        if (isNativeMode() || allStreams == null)
+            return false;
+
+        int vlcIndex = offsetStreamIndex(index, false, allStreams);
+
+        if (vlcIndex < 0)
+            return false;
+
+        TrackDescription vlcSub = null;
+        for (TrackDescription subTrack: mVlcPlayer.getSpuTracks()) {
+            Timber.d("libvlc subtitle track %s %s", subTrack.id, subTrack.name);
+            if (subTrack.id == vlcIndex)
+                vlcSub = subTrack;
+        }
+
+        if (vlcSub == null) {
+            Timber.e("Could not locate subtitle with index %s in vlc track info", vlcIndex);
+            return false;
+        }
+
+        Timber.i("Setting Vlc sub to %s", vlcSub.name);
+        return mVlcPlayer.setSpuTrack(vlcSub.id);
+
     }
 
     public int getExoPlayerTrack(@Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
@@ -476,13 +479,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return -1;
 
-        if (exoplayerAudioIndex != null && streamType == MediaStreamType.Audio)
-            return exoplayerAudioIndex;
-
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
+        int matchedIndex = -2;
         TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
+            if (matchedIndex > -2)
+                break;
             // Group level information.
             @C.TrackType int trackType = groupInfo.getTrackType();
             TrackGroup group = groupInfo.getTrackGroup();
@@ -491,62 +494,50 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 Format trackFormat = group.getFormat(i);
                 if (trackType == chosenTrackType) {
                     if (groupInfo.isTrackSelected(i)) {
+                        // we found the track, set to -1 first to handle failed int parsing
+                        matchedIndex = -1;
                         if (trackFormat.id != null) {
                             int id;
                             try {
-                                id = Integer.parseInt(trackFormat.id) - 1;
+                                id = Integer.parseInt(trackFormat.id);
                             } catch (NumberFormatException e) {
                                 Timber.d("failed to parse track ID [%s]", trackFormat.id);
-                                return -1;
+                                break;
                             }
-                            if (id >= 0 && id < allStreams.size()) {
-                                Timber.d("re-retrieved exoplayer track index %s", id);
-                                if (streamType == MediaStreamType.Audio)
-                                    exoplayerAudioIndex = id;
-                                return id;
-                            }
+                            matchedIndex = id;
                         }
-                        return -1;
+                        break;
                     }
                 }
             }
         }
-        return -1;
+
+        // offset the stream index to account for external streams
+        int exoTrackID = offsetStreamIndex(matchedIndex, true, allStreams);
+        if (exoTrackID < 0)
+            return -1;
+
+        Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
+        return exoTrackID;
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || streamType == null || allStreams == null || index < 0 || index >= allStreams.size())
-            return false;
-        if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+        if (!nativeMode || !isInitialized() || allStreams == null || streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return false;
 
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
-
-        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
-
-        List<String> internallyRenderedSubFormats = Arrays.asList("ass", "ssa");
-
-        // make sure the chosen track exists, is the correct type, and isn't external
-        boolean isValidMediaStream = false;
-        for (MediaStream stream : allStreams) {
-            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.getIsExternal());
-            if (stream.getType() == streamType) {
-                if (stream.getIndex() == index) {
-                    if (stream.getIsExternal())
-                        continue;
-                    if (streamType == MediaStreamType.Subtitle && !internallyRenderedSubFormats.contains(stream.getCodec())) {
-                        continue;
-                    }
-                    isValidMediaStream = true;
-                }
-            }
-        }
-
-        if (!isValidMediaStream)
+        MediaStream candidate = allStreams.get(index);
+        if (candidate.getIsExternal() || candidate.getType() != streamType)
             return false;
 
-        // MediaStream IDs start at 0 and exoplayer tracks start at 1
-        // force selection of the chosen track by setting its TrackGroup as the only allowed group for its type
+        int exoTrackID = offsetStreamIndex(index, false, allStreams);
+        if (exoTrackID < 0)
+            return false;
+
+        // print the streams for debugging
+        for (MediaStream stream : allStreams) {
+            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.getIsExternal());
+        }
 
         // design choices for exoplayer track selection overrides:
         // * build upon the prior parameters so we can mix overrides of different track types without erasing priors
@@ -555,8 +546,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
         //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
 
-        int exoTrackID = index + 1;
-
+        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
         TrackGroup matchedGroup = null;
         for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
             // Group level information.
@@ -613,63 +603,51 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return true;
     }
 
-    public int getVLCAudioTrack() {
+    public int getVLCAudioTrack(@Nullable List<MediaStream> allStreams) {
         if (!isInitialized() || nativeMode)
             return -1;
-        return mVlcPlayer.getAudioTrack();
+
+        int ndx = offsetStreamIndex(mVlcPlayer.getAudioTrack(), true, allStreams);
+        Timber.d("re-retrieved libVLC audio track index %s", ndx);
+
+        return ndx;
     }
 
-    public int setVLCAudioTrack(int ndx) {
-        if (!isInitialized() || ndx < 0)
+    public int setVLCAudioTrack(int ndx, @Nullable List<MediaStream> allStreams) {
+        if (!isInitialized() || isNativeMode())
             return -1;
 
-        if (isNativeMode()) {
-            Timber.e("Cannot set audio track in native mode");
+        int vlcID = offsetStreamIndex(ndx, false, allStreams);
+        if (vlcID < 0)
             return -1;
-        }
 
-        //debug
-        Timber.d("Setting VLC audio track index to: %d", ndx);
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+        TrackDescription vlcTrack = null;
+        Timber.d("Setting VLC audio track index to: %d", vlcID);
+
+        int vlcNdx = 0;
+        for (TrackDescription track : mVlcPlayer.getAudioTracks()) {
             Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
-        }
-        //
-
-        boolean matched = false;
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
-            if (track.id == ndx) {
-                matched = true;
-                break;
-            }
+            if (track.id == vlcID)
+                vlcTrack = track;
+            if (vlcTrack == null)
+                vlcNdx++;
         }
 
-        org.videolan.libvlc.MediaPlayer.TrackDescription vlcTrack = null;
-
-        if (matched) {
-            try {
-                vlcTrack = mVlcPlayer.getAudioTracks()[ndx];
-            } catch (IndexOutOfBoundsException e) {
-                Timber.e("Could not locate audio with index %s in vlc track info", ndx);
-                return -1;
-            } catch (NullPointerException e) {
-                Timber.e("Could not locate audio track with index %s in vlc, null exception", ndx);
-                return -1;
-            }
-        }
-
-        if (!matched || vlcTrack == null) {
-            Timber.e("Could not locate audio track with index %s in vlc", ndx);
+        if (vlcTrack == null) {
+            Timber.e("Could not locate audio track with index %s in vlc", vlcID);
             return -1;
-        } else if (mVlcPlayer.getAudioTrack() == ndx) {
+        }
+
+        if (mVlcPlayer.getAudioTrack() == vlcID) {
             Timber.d("provided index points to the audio track already in use, aborting");
-            return -1;
+            return ndx;
         }
 
         if (mVlcPlayer.setAudioTrack(vlcTrack.id)) {
             Timber.i("Setting by ID was successful");
         } else {
-            Timber.i("Setting by ID not successful, trying index");
-            mVlcPlayer.setAudioTrack(ndx);
+            Timber.i("Setting by ID not successful, trying index %s", vlcNdx);
+            mVlcPlayer.setAudioTrack(vlcNdx);
         }
         return ndx;
     }
@@ -749,10 +727,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public org.videolan.libvlc.MediaPlayer.TrackDescription[] getSubtitleTracks() {
-        return nativeMode ? null : mVlcPlayer.getSpuTracks();
-    }
-
     public void destroy() {
         mPlaybackControllerNotifiable = null;
         stopPlayback();
@@ -793,7 +767,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mLibVLC = new LibVLC(mActivity, options);
             Timber.i("Network buffer set to %d", buffer);
 
-            mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
+            mVlcPlayer = new MediaPlayer(mLibVLC);
             setVlcAudioOptions();
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
