@@ -299,7 +299,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == settingAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             settingAction.setSubtitlesPresent(hasSubs());
-            settingAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(),getContext(),view);
+            settingAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == playbackSpeedAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             playbackSpeedAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);

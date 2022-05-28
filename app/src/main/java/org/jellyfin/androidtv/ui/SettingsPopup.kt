@@ -7,66 +7,67 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
-import android.widget.TextView
 import org.jellyfin.androidtv.databinding.SettingsPopupBinding
 import org.jellyfin.androidtv.util.Utils
 
 class SettingsPopup(
-	context: Context?,
+	context: Context,
 	anchor: View,
 	audioChangedListener: ValueChangedListener<Long>?,
 	subtitleChangedListener: ValueChangedListener<Long>?
 ) {
 	val popupWindow: PopupWindow?
-	private val mAnchor: View
-	private val mAudioDelaySpinner: NumberSpinnerView
-	private val mSubtitleDelaySpinner: NumberSpinnerView
-	private val mAudioDelaySpinnerTxt: TextView
-
-	val isShowing: Boolean
-		get() = popupWindow != null && popupWindow.isShowing
-
-	fun show(audioDelayVal: Long, subtitleDelayVal: Long) {
-		mAudioDelaySpinner.value = audioDelayVal
-		mSubtitleDelaySpinner.value = subtitleDelayVal
-		popupWindow!!.showAsDropDown(mAnchor, 0, 0, Gravity.END)
-	}
-
-	fun setSubtitlesPresent(context: Context, subtitlesPresent: Boolean) {
-		if(!subtitlesPresent)
-		{
-			mSubtitleDelaySpinner.visibility = View.GONE
-			mSubtitleDelaySpinner.visibility = View.GONE
-			popupWindow?.height = Utils.convertDpToPixel(context,130)
-		}
-		else
-		{
-			mSubtitleDelaySpinner.visibility = View.VISIBLE
-			mSubtitleDelaySpinner.visibility = View.VISIBLE
-			popupWindow?.height = Utils.convertDpToPixel(context,230)
-		}
-	}
+	private val anchor: View
+	private val binding: SettingsPopupBinding
 
 	init {
-		val inflater = LayoutInflater.from(context)
-		val binding = SettingsPopupBinding.inflate(inflater, null, false)
-		val width = Utils.convertDpToPixel(context!!, 240)
-		val height = Utils.convertDpToPixel(context, 230)
+		val width = Utils.convertDpToPixel(context, width)
+		val height = Utils.convertDpToPixel(context, fullHeight)
+
+		binding = SettingsPopupBinding.inflate(LayoutInflater.from(context), null, false)
 
 		popupWindow = PopupWindow(binding.root, width, height)
 		popupWindow.isFocusable = true
 		popupWindow.isOutsideTouchable = true
 		popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // necessary for popup to dismiss
 
-		mAnchor = anchor
+		this.anchor = anchor
 
-		mSubtitleDelaySpinner = binding.subtitleDelay
-		mSubtitleDelaySpinner.increment = 500L
-		mSubtitleDelaySpinner.valueChangedListener = subtitleChangedListener
+		binding.subtitleDelay.increment = subtitleDelayIncrement
+		binding.subtitleDelay.valueChangedListener = subtitleChangedListener
 
-		mAudioDelaySpinner = binding.audioDelay
-		mAudioDelaySpinner.valueChangedListener = audioChangedListener
+		binding.audioDelay.valueChangedListener = audioChangedListener
 
-		mAudioDelaySpinnerTxt = binding.subtitleDelayTxt
+		binding.subtitleDelayTxt
+	}
+
+	private fun setSubtitlesPresent(context: Context, subtitlesPresent: Boolean) {
+		if(!subtitlesPresent)
+		{
+			binding.subtitleDelayTxt.visibility = View.GONE
+			binding.subtitleDelay.visibility = View.GONE
+			popupWindow?.height = Utils.convertDpToPixel(context, singleHeight)
+		}
+		else
+		{
+			binding.subtitleDelayTxt.visibility = View.VISIBLE
+			binding.subtitleDelay.visibility = View.VISIBLE
+			popupWindow?.height = Utils.convertDpToPixel(context, fullHeight)
+		}
+	}
+
+	fun show(context: Context, subtitlesPresent: Boolean, audioDelayVal: Long, subtitleDelayVal: Long) {
+		setSubtitlesPresent(context, subtitlesPresent)
+
+		binding.audioDelay.value = audioDelayVal
+		binding.subtitleDelay.value = subtitleDelayVal
+		popupWindow!!.showAsDropDown(anchor, 0, 0, Gravity.END)
+	}
+
+	companion object {
+		private const val width = 240
+		private const val fullHeight = 230
+		private const val singleHeight = 130
+		private const val subtitleDelayIncrement = 500L
 	}
 }
