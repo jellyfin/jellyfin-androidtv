@@ -44,6 +44,8 @@ import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IVLCVout;
+import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.MediaPlayer.TrackDescription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private ExoPlayer mExoPlayer;
     private PlayerView mExoPlayerView;
     private LibVLC mLibVLC;
-    private org.videolan.libvlc.MediaPlayer mVlcPlayer;
+    private MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
@@ -454,8 +456,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (vlcIndex < 0)
             return false;
 
-        org.videolan.libvlc.MediaPlayer.TrackDescription vlcSub = null;
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription subTrack: mVlcPlayer.getSpuTracks()) {
+        TrackDescription vlcSub = null;
+        for (TrackDescription subTrack: mVlcPlayer.getSpuTracks()) {
             Timber.d("libvlc subtitle track %s %s", subTrack.id, subTrack.name);
             if (subTrack.id == vlcIndex)
                 vlcSub = subTrack;
@@ -619,11 +621,11 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (vlcID < 0)
             return -1;
 
-        org.videolan.libvlc.MediaPlayer.TrackDescription vlcTrack = null;
+        TrackDescription vlcTrack = null;
         Timber.d("Setting VLC audio track index to: %d", vlcID);
 
         int vlcNdx = 0;
-        for (org.videolan.libvlc.MediaPlayer.TrackDescription track : mVlcPlayer.getAudioTracks()) {
+        for (TrackDescription track : mVlcPlayer.getAudioTracks()) {
             Timber.d("VLC Audio Track: %s / %d", track.name, track.id);
             if (track.id == vlcID)
                 vlcTrack = track;
@@ -765,7 +767,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mLibVLC = new LibVLC(mActivity, options);
             Timber.i("Network buffer set to %d", buffer);
 
-            mVlcPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
+            mVlcPlayer = new MediaPlayer(mLibVLC);
             setVlcAudioOptions();
 
             mSurfaceHolder.addCallback(mSurfaceCallback);
