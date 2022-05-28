@@ -505,7 +505,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     private void retrieveNext() {
-        if(fullyLoaded || isCurrentlyRetrieving()) {
+        if (fullyLoaded || isCurrentlyRetrieving()) {
             return;
         }
 
@@ -773,8 +773,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -806,8 +805,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving search results");
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -853,8 +851,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
     }
@@ -1068,8 +1065,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving next up items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1106,8 +1102,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv channels");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1147,9 +1142,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv programs");
                 removeRow();
-                //TODO suppress this message for now - put it back when server returns empty set for no live tv
-                //Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1191,8 +1184,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv recording groups");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
     }
@@ -1230,8 +1222,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv series timers");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
     }
@@ -1283,8 +1274,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving live tv recordings");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1320,8 +1310,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving special features");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1358,8 +1347,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving special features");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1395,8 +1383,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving similar series items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1432,8 +1419,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving similar series items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1471,8 +1457,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving upcoming items");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1508,8 +1493,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving people");
                 removeRow();
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
@@ -1544,17 +1528,21 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             @Override
             public void onError(Exception exception) {
                 Timber.e(exception, "Error retrieving season items");
-                Utils.showToast(context, exception.getLocalizedMessage());
-                notifyRetrieveFinished();
+                notifyRetrieveFinished(exception);
             }
         });
 
     }
 
     protected void notifyRetrieveFinished() {
+        notifyRetrieveFinished(null);
+    }
+
+    protected void notifyRetrieveFinished(@Nullable Exception exception) {
         setCurrentlyRetrieving(false);
         if (mRetrieveFinishedListener != null) {
-            mRetrieveFinishedListener.onResponse();
+            if (exception == null) mRetrieveFinishedListener.onResponse();
+            else mRetrieveFinishedListener.onError(exception);
         }
     }
 
