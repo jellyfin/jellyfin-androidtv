@@ -27,11 +27,8 @@ class SettingAction(
 		{ value -> playbackController.audioDelay = value },
 		{ value -> playbackController.subtitleDelay = value }
 	).apply {
-		popupWindow?.setOnDismissListener {
-			leanbackOverlayFragment.setFading(true)
-		}
+		popupWindow.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 	}.show(
-		context,
 		subtitlesPresent,
 		playbackController.audioDelay,
 		playbackController.subtitleDelay

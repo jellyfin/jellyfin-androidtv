@@ -7,54 +7,42 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
+import androidx.core.view.isVisible
 import org.jellyfin.androidtv.databinding.SettingsPopupBinding
-import org.jellyfin.androidtv.util.Utils
+import org.jellyfin.androidtv.util.dp
 
 class SettingsPopup(
-	context: Context,
+	private val context: Context,
 	private val anchor: View,
 	audioChangedListener: ValueChangedListener<Long>?,
 	subtitleChangedListener: ValueChangedListener<Long>?
 ) {
-	private val binding: SettingsPopupBinding =
-		SettingsPopupBinding.inflate(LayoutInflater.from(context), null, false)
-			.apply {
-				subtitleDelay.increment = SUBTITLE_DELAY_INCREMENT
-				subtitleDelay.valueChangedListener = subtitleChangedListener
-				audioDelay.valueChangedListener = audioChangedListener
-			}
+	private val binding = SettingsPopupBinding.inflate(LayoutInflater.from(context), null, false)
+		.apply {
+			subtitleDelay.increment = SUBTITLE_DELAY_INCREMENT
+			subtitleDelay.valueChangedListener = subtitleChangedListener
+			audioDelay.valueChangedListener = audioChangedListener
+		}
 
-	private val width = Utils.convertDpToPixel(context, WIDTH)
-	private val height = Utils.convertDpToPixel(context, FULL_HEIGHT)
-	val popupWindow: PopupWindow = PopupWindow(binding.root, width, height)
+	val popupWindow = PopupWindow(binding.root, WIDTH.dp(context), FULL_HEIGHT.dp(context))
 		.apply {
 			isFocusable = true
 			isOutsideTouchable = true
 			setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 		}
 
-	private fun setSubtitlesPresent(context: Context, subtitlesPresent: Boolean) {
-		if (!subtitlesPresent) {
-			binding.subtitleDelayTxt.visibility = View.GONE
-			binding.subtitleDelay.visibility = View.GONE
-			popupWindow.height = Utils.convertDpToPixel(context, SINGLE_HEIGHT)
-		} else {
-			binding.subtitleDelayTxt.visibility = View.VISIBLE
-			binding.subtitleDelay.visibility = View.VISIBLE
-			popupWindow.height = Utils.convertDpToPixel(context, FULL_HEIGHT)
-		}
-	}
-
 	fun show(
-		context: Context,
-		subtitlesPresent: Boolean,
-		audioDelayVal: Long,
-		subtitleDelayVal: Long
+		hasSubtitles: Boolean,
+		audioDelay: Long,
+		subtitleDelay: Long
 	) {
-		setSubtitlesPresent(context, subtitlesPresent)
+		binding.audioDelay.value = audioDelay
 
-		binding.audioDelay.value = audioDelayVal
-		binding.subtitleDelay.value = subtitleDelayVal
+		binding.subtitleDelayTxt.isVisible = hasSubtitles
+		binding.subtitleDelay.isVisible = hasSubtitles
+		binding.subtitleDelay.value = subtitleDelay
+
+		popupWindow.height = (if (hasSubtitles) FULL_HEIGHT else SINGLE_HEIGHT).dp(context)
 		popupWindow.showAsDropDown(anchor, 0, 0, Gravity.END)
 	}
 
