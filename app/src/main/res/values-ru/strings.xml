@@ -497,4 +497,7 @@
     <string name="pref_refresh_rate_scale_on_tv">Масштабирование на телевизоре</string>
     <string name="state_disabled">Отключено</string>
     <string name="action_connect">Соединение</string>
+    <string name="pref_libvlc_subtitle_delay_title">Задержка субтитров для libVLC по умолчанию</string>
+    <string name="lbl_subtitle_delay">Задержка субтитров</string>
+    <string name="lbl_adjust">Подстройка</string>
 </resources>
