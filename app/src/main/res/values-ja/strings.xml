@@ -3,7 +3,6 @@
     <string name="video_error_unknown_error">動画を読み込めませんでした</string>
     <string name="loading">読み込み中…</string>
     <string name="btn_cancel">キャンセル</string>
-    <string name="byletter_letters"></string>
     <string name="pref_playback">再生</string>
     <string name="pref_max_bitrate_title">最大再生ビットレート</string>
     <string name="settings_title">設定</string>
@@ -12,7 +11,6 @@
     <string name="lbl_settings">設定</string>
     <string name="lbl_continue_watching">続きから見る</string>
     <string name="lbl_next_up">次</string>
-    <string name="lbl_on_now"></string>
     <string name="lbl_views">再生数</string>
     <string name="lbl_by_letter">アルファベット順</string>
     <string name="lbl_suggested">おすすめ</string>
@@ -31,7 +29,6 @@
     <string name="lbl_tv_series">テレビ番組</string>
     <string name="lbl_other">その他</string>
     <string name="lbl_latest_additions">最新の追加</string>
-    <string name="lbl_because_you_watched"></string>
     <string name="lbl_play_all">全て再生</string>
     <string name="lbl_shuffle_all">シャッフル再生</string>
     <string name="lbl_play">再生</string>
@@ -56,9 +53,7 @@
     <string name="lbl_favorite">お気に入り</string>
     <string name="lbl_watched">既に見る</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_runs"></string>
     <string name="lbl_min">" 分"</string>
-    <string name="lbl_ends"></string>
     <string name="lbl_directed_by">監督</string>
     <string name="lbl_last_played">"最終再生 "</string>
     <string name="lbl_other_options">その他オプション</string>
@@ -77,8 +72,7 @@
     <string name="lbl_ok">確定</string>
     <string name="lbl_born">"生年月日 "</string>
     <string name="lbl_loading_elipses">読み込み中…</string>
-    <string name="msg_playback_not_allowed"></string>
-    <string name="msg_playback_restricted"></string>
+    <string name="msg_playback_restricted"/>
     <string name="msg_playback_incompatible">こちらの動画形式を再生できません</string>
     <string name="lbl_never">一度もしない</string>
     <string name="msg_cannot_play_time">只今再生できません</string>
