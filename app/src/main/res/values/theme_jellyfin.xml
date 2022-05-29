@@ -8,8 +8,6 @@
         <item name="android:colorAccent">@color/jellyfin_blue</item>
         <!-- Background resource or color -->
         <item name="android:windowBackground">@color/not_quite_black</item>
-        <!-- Background color for popup windows -->
-        <item name="popupWindowBackground">@color/not_quite_black</item>
         <!-- Background color for CardViews -->
         <item name="cardImageBackground">@color/grey</item>
         <item name="cardViewBackground">@android:color/transparent</item>
@@ -41,6 +39,7 @@
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:popupWindowStyle">@style/PopupWindow</item>
 
         <!-- Rounding Values -->
         <item name="cardRounding">4dp</item>

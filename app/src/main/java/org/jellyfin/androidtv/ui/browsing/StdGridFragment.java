@@ -3,13 +3,10 @@ package org.jellyfin.androidtv.ui.browsing;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -487,11 +484,9 @@ public class StdGridFragment extends GridFragment {
         private final AlphaPickerView alphaPicker;
 
         JumplistPopup() {
-            LayoutInflater inflater = LayoutInflater.from(requireContext());
-            PopupEmptyBinding layout = PopupEmptyBinding.inflate(inflater, mGridDock, false);
+            PopupEmptyBinding layout = PopupEmptyBinding.inflate(getLayoutInflater(), mGridDock, false);
             popupWindow = new PopupWindow(layout.emptyPopup, WIDTH, HEIGHT, true);
             popupWindow.setOutsideTouchable(true);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
             popupWindow.setAnimationStyle(R.style.WindowAnimation_SlideTop);
 
             alphaPicker = new AlphaPickerView(requireContext(), null);
