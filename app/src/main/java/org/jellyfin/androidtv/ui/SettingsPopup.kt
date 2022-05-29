@@ -12,62 +12,56 @@ import org.jellyfin.androidtv.util.Utils
 
 class SettingsPopup(
 	context: Context,
-	anchor: View,
+	private val anchor: View,
 	audioChangedListener: ValueChangedListener<Long>?,
 	subtitleChangedListener: ValueChangedListener<Long>?
 ) {
-	val popupWindow: PopupWindow?
-	private val anchor: View
-	private val binding: SettingsPopupBinding
+	private val binding: SettingsPopupBinding =
+		SettingsPopupBinding.inflate(LayoutInflater.from(context), null, false)
+			.apply {
+				subtitleDelay.increment = SUBTITLE_DELAY_INCREMENT
+				subtitleDelay.valueChangedListener = subtitleChangedListener
+				audioDelay.valueChangedListener = audioChangedListener
+			}
 
-	init {
-		val width = Utils.convertDpToPixel(context, width)
-		val height = Utils.convertDpToPixel(context, fullHeight)
-
-		binding = SettingsPopupBinding.inflate(LayoutInflater.from(context), null, false)
-
-		popupWindow = PopupWindow(binding.root, width, height)
-		popupWindow.isFocusable = true
-		popupWindow.isOutsideTouchable = true
-		popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // necessary for popup to dismiss
-
-		this.anchor = anchor
-
-		binding.subtitleDelay.increment = subtitleDelayIncrement
-		binding.subtitleDelay.valueChangedListener = subtitleChangedListener
-
-		binding.audioDelay.valueChangedListener = audioChangedListener
-
-		binding.subtitleDelayTxt
-	}
+	private val width = Utils.convertDpToPixel(context, WIDTH)
+	private val height = Utils.convertDpToPixel(context, FULL_HEIGHT)
+	val popupWindow: PopupWindow = PopupWindow(binding.root, width, height)
+		.apply {
+			isFocusable = true
+			isOutsideTouchable = true
+			setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+		}
 
 	private fun setSubtitlesPresent(context: Context, subtitlesPresent: Boolean) {
-		if(!subtitlesPresent)
-		{
+		if (!subtitlesPresent) {
 			binding.subtitleDelayTxt.visibility = View.GONE
 			binding.subtitleDelay.visibility = View.GONE
-			popupWindow?.height = Utils.convertDpToPixel(context, singleHeight)
-		}
-		else
-		{
+			popupWindow.height = Utils.convertDpToPixel(context, SINGLE_HEIGHT)
+		} else {
 			binding.subtitleDelayTxt.visibility = View.VISIBLE
 			binding.subtitleDelay.visibility = View.VISIBLE
-			popupWindow?.height = Utils.convertDpToPixel(context, fullHeight)
+			popupWindow.height = Utils.convertDpToPixel(context, FULL_HEIGHT)
 		}
 	}
 
-	fun show(context: Context, subtitlesPresent: Boolean, audioDelayVal: Long, subtitleDelayVal: Long) {
+	fun show(
+		context: Context,
+		subtitlesPresent: Boolean,
+		audioDelayVal: Long,
+		subtitleDelayVal: Long
+	) {
 		setSubtitlesPresent(context, subtitlesPresent)
 
 		binding.audioDelay.value = audioDelayVal
 		binding.subtitleDelay.value = subtitleDelayVal
-		popupWindow!!.showAsDropDown(anchor, 0, 0, Gravity.END)
+		popupWindow.showAsDropDown(anchor, 0, 0, Gravity.END)
 	}
 
 	companion object {
-		private const val width = 240
-		private const val fullHeight = 230
-		private const val singleHeight = 130
-		private const val subtitleDelayIncrement = 500L
+		private const val WIDTH = 240
+		private const val FULL_HEIGHT = 230
+		private const val SINGLE_HEIGHT = 130
+		private const val SUBTITLE_DELAY_INCREMENT = 500L
 	}
 }
