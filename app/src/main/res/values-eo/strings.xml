@@ -371,7 +371,7 @@
     <string name="audio_error">Ne eblas ludi aŭdio %1$s</string>
     <string name="too_many_errors">Tro da eraroj. Rezigni</string>
     <string name="player_error">Ludila eraro renkontita. Reprovos…</string>
-    <string name="pref_libvlc_audio_delay_title">Defaŭlta Aŭdio Prokrasto por libVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Defaŭlta aŭdia prokrasto por libVLC</string>
     <string name="acra_dialog_title">Ho ne! Io misfunkciis.</string>
     <string name="pref_acra_alwaysaccept">Sendi sen invitado</string>
     <string name="pref_enable_acra">Sendu kraŝraportojn al programistoj</string>
@@ -497,4 +497,7 @@
     <string name="pref_refresh_rate_scale_on_device">Skali sur aparato</string>
     <string name="state_disabled">Malebligita</string>
     <string name="action_connect">Konektu</string>
+    <string name="lbl_subtitle_delay">Subteksta Prokrasto</string>
+    <string name="pref_libvlc_subtitle_delay_title">Defaŭlta subteksta prokrasto por libVLC</string>
+    <string name="lbl_adjust">Ĝustigi</string>
 </resources>
