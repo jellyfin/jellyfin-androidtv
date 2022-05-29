@@ -9,8 +9,6 @@
         <attr name="progressBackground" format="reference|color" />
         <attr name="progressPrimary" format="reference|color" />
         <attr name="progressSecondary" format="reference|color" />
-        <!-- Popup Window Attributes -->
-        <attr name="popupWindowBackground" format="reference|color" />
         <!-- CardView Attributes -->
         <attr name="cardImageBackground" format="reference|color" />
         <attr name="cardViewBackground" format="reference|color" />

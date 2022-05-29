@@ -4,6 +4,6 @@
     android:id="@+id/empty_popup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/popupWindowBackground"
+    android:background="@drawable/popup_menu_back"
     android:padding="10dp"
     tools:ignore="Overdraw" />

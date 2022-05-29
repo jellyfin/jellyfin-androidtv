@@ -76,4 +76,9 @@
         <item name="android:popupBackground">@drawable/popup_menu_back</item>
         <item name="android:textColor">@color/indigo_dye</item>
     </style>
+
+    <style name="PopupWindow" parent="android:Widget.Material.PopupWindow">
+        <item name="android:popupBackground">@drawable/popup_menu_back</item>
+        <item name="android:textColor">@color/indigo_dye</item>
+    </style>
 </resources>
