@@ -27,7 +27,7 @@ public class LeanbackSearchFragment extends SearchSupportFragment {
         backgroundService.getValue().attach(requireActivity());
 
         // Create provider
-        SearchProvider searchProvider = new SearchProvider(getContext());
+        SearchProvider searchProvider = new SearchProvider(getContext(), getLifecycle());
         setSearchResultProvider(searchProvider);
 
         // Create click listener

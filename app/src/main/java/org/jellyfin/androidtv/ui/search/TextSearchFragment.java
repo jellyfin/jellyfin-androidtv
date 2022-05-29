@@ -38,7 +38,7 @@ public class TextSearchFragment extends Fragment implements TextWatcher, TextVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        searchProvider = new SearchProvider(getContext());
+        searchProvider = new SearchProvider(getContext(), getLifecycle());
     }
 
     @Override
