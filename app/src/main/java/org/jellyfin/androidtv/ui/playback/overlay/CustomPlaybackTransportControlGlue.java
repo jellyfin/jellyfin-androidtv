@@ -28,7 +28,6 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
-import org.jellyfin.androidtv.ui.playback.overlay.action.AdjustAudioDelayAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChannelBarChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChapterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ClosedCaptionsAction;
@@ -37,6 +36,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.SettingAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.koin.java.KoinJavaComponent;
 
@@ -51,7 +51,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
-    private AdjustAudioDelayAction adjustAudioDelayAction;
+    private SettingAction settingAction;
     private PlaybackSpeedAction playbackSpeedAction;
     private ZoomAction zoomAction;
     private ChapterAction chapterAction;
@@ -179,8 +179,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
-        adjustAudioDelayAction = new AdjustAudioDelayAction(context, this);
-        adjustAudioDelayAction.setLabels(new String[]{context.getString(R.string.lbl_audio_delay)});
+        settingAction = new SettingAction(context, this);
+        settingAction.setLabels(new String[]{context.getString(R.string.lbl_adjust)});
         playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
         playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         zoomAction = new ZoomAction(context, this);
@@ -262,7 +262,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
 
         if (!isNativeMode()) {
-            secondaryActionsAdapter.add(adjustAudioDelayAction);
+            secondaryActionsAdapter.add(settingAction);
         } else {
             secondaryActionsAdapter.add(zoomAction);
         }
@@ -296,6 +296,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         } else if (action == closedCaptionsAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
+        } else if (action == settingAction) {
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            settingAction.setSubtitlesPresent(hasSubs());
+            settingAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == playbackSpeedAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             playbackSpeedAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
@@ -303,9 +307,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             // This is a hack, we should instead have onPlaybackParametersChanged call out to this
             // class to notify rather than poll. But communication is unidirectional at the moment:
             mHandler.postDelayed(mRefreshEndTime, 5000);  // 5 seconds
-        } else if (action == adjustAudioDelayAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            adjustAudioDelayAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == zoomAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             zoomAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);

@@ -264,6 +264,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return hasInitializedVideoManager() ? mVideoManager.getAudioDelay() : 0;
     }
 
+    public void setSubtitleDelay(long value) {
+        if (hasInitializedVideoManager()) mVideoManager.setSubtitleDelay(value);
+    }
+
+    public long getSubtitleDelay() {
+        return hasInitializedVideoManager() ? mVideoManager.getSubtitleDelay() : 0;
+    }
+
     public void playerErrorEncountered() {
         if (isNativeMode()) exoErrorEncountered = true;
         else vlcErrorEncountered = true;

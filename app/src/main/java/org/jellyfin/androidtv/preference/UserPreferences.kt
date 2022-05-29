@@ -127,6 +127,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
 
+		/**
+		 * Default audio subtitle in milliseconds for libVLC
+		 */
+		var libVLCSubtitleDelay = intPreference("libvlc_subtitle_delay", 0)
+
 		/* Live TV */
 		/**
 		 * Use direct play

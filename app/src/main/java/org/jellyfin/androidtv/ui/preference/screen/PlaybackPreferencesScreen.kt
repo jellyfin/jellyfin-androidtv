@@ -153,6 +153,17 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 
 			@Suppress("MagicNumber")
 			seekbar {
+				setTitle(R.string.pref_libvlc_subtitle_delay_title)
+				min = -50_000
+				max = 50_000
+				valueFormatter = object : DurationSeekBarPreference.ValueFormatter() {
+					override fun display(value: Int) = "${value}ms"
+				}
+				bind(userPreferences, UserPreferences.libVLCSubtitleDelay)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
 				setTitle(R.string.pref_subtitles_size)
 				min = 10
 				max = 38
