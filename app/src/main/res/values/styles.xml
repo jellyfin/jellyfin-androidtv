@@ -66,6 +66,7 @@
         <item name="android:background">@drawable/input_default_back</item>
         <item name="android:foreground">@drawable/input_default_ripple</item>
         <item name="android:textColor">@drawable/input_default_text</item>
+        <item name="android:textColorHint">@drawable/input_default_text</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingStart">8dp</item>
