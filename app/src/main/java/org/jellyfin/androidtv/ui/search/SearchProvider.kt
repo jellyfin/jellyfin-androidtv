@@ -1,71 +1,51 @@
-package org.jellyfin.androidtv.ui.search;
+package org.jellyfin.androidtv.ui.search
 
-import android.content.Context;
-import android.os.Handler;
+import android.content.Context
+import androidx.leanback.app.SearchSupportFragment
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.ObjectAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
+import kotlin.time.Duration.Companion.milliseconds
 
-import androidx.leanback.app.SearchSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ObjectAdapter;
+class SearchProvider(
+	context: Context,
+	private val lifecycle: Lifecycle,
+) : SearchSupportFragment.SearchResultProvider {
+	companion object {
+		private val SEARCH_DELAY = 600.milliseconds
+	}
 
-import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
-import org.jellyfin.androidtv.util.Utils;
+	private val rowsAdapter = ArrayObjectAdapter(CustomListRowPresenter())
+	private var previousQuery: String? = null
+	private val searchRunnable = SearchRunnable(context, rowsAdapter)
+	private var searchJob: Job? = null
 
-public class SearchProvider implements SearchSupportFragment.SearchResultProvider {
-    private static final int SEARCH_DELAY_MS = 600;
-    private final Handler mHandler = new Handler();
-    private ArrayObjectAdapter mRowsAdapter;
-    private SearchRunnable mDelayedLoad;
-    private String lastQuery;
+	override fun getResultsAdapter(): ObjectAdapter = rowsAdapter
 
-    SearchProvider(Context context) {
-        mRowsAdapter = new ArrayObjectAdapter(new CustomListRowPresenter());
-        mDelayedLoad = new SearchRunnable(context, mRowsAdapter);
-    }
+	override fun onQueryTextChange(query: String): Boolean = search(query, true)
+	override fun onQueryTextSubmit(query: String): Boolean = search(query, false)
 
-    @Override
-    public ObjectAdapter getResultsAdapter() {
-        return mRowsAdapter;
-    }
+	private fun search(query: String, delayed: Boolean): Boolean {
+		if (query.isBlank()) {
+			rowsAdapter.clear()
+			return true
+		}
 
-    @Override
-    public boolean onQueryTextChange(String query) {
-        search(query, true);
+		// Don't search the same thing twice
+		if (query == previousQuery) return false
+		previousQuery = query
 
-        return true;
-    }
+		searchJob?.cancel()
+		searchJob = lifecycle.coroutineScope.launch {
+			if (delayed) delay(SEARCH_DELAY)
+			searchRunnable.run(query)
+		}
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        search(query, false);
-
-        return true;
-    }
-
-    /**
-     * Update search results
-     *
-     * @param query   String to search for
-     * @param delayed When true the search is delayed by [SEARCH_DELAY_MS] milliseconds
-     */
-    private void search(String query, boolean delayed) {
-        // Clear results when query is empty
-        if (Utils.isEmpty(query)) {
-            mRowsAdapter.clear();
-            return;
-        }
-
-        // Don't search the same thing twice
-        if (query.equals(lastQuery)) return;
-        lastQuery = query;
-
-        // Remove current delayed search (if any)
-        mHandler.removeCallbacks(mDelayedLoad);
-
-        // Update search string
-        mDelayedLoad.setQueryString(query);
-
-        // Schedule search depending on [delayed]
-        if (delayed) mHandler.postDelayed(mDelayedLoad, SEARCH_DELAY_MS);
-        else mHandler.post(mDelayedLoad);
-    }
+		return true
+	}
 }
