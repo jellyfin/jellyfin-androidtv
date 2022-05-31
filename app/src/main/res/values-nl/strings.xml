@@ -131,7 +131,7 @@
     <string name="lbl_filters">Filters</string>
     <string name="msg_subtitles_loading">Ondertiteling wordt geladen…</string>
     <string name="msg_unable_load_subs">Ondertiteling kan niet worden geladen</string>
-    <string name="msg_burn_sub_warning">Ingebrande ondertiteling kan enkele minuten duren, even geduld…</string>
+    <string name="msg_burn_sub_warning">Ondertiteling aan het inbranden. Dit kan enkele seconden duren, even geduld…</string>
     <string name="lbl_recording">Opnemen</string>
     <string name="lbl_no_recordings">Geen opnames beschikbaar</string>
     <string name="lbl_live_tv_guide">Live TV-gids</string>
@@ -317,7 +317,7 @@
     <string name="episode_missing">Aflevering mist</string>
     <string name="delete_warning">Dit zal %1$s PERMANENT VERWIJDEREN van uw verzameling. Bent u ENORM zeker\?</string>
     <string name="clear_expanded">Huidige wachtlijst leegmaken\?</string>
-    <string name="no_player_message">Het ziet ernaar uit dat je geen applicatie geïnstalleerd hebt die video capabel is. Deze optie zorgt ervoor dat u een 3de partij applicatie moet installeren om video inhoud af te spelen.</string>
+    <string name="no_player_message">Het ziet ernaar uit dat je geen applicatie geïnstalleerd hebt die video capabel is. Deze optie vereist dat u een 3de partij applicatie moet installeren om video inhoud af te spelen.</string>
     <string name="no_player">Geen speler</string>
     <string name="lbl_subtitle_track">Selecteer een ondertiteling</string>
     <string name="lbl_audio_track">Selecteer een audio track</string>
@@ -482,4 +482,20 @@
     <string name="server_issue_invalid_product">Server software is niet ondersteund</string>
     <string name="server_issue_unable_to_connect">Kon niet verbinden</string>
     <string name="server_connection_failed_candidates">Kon niet verbinden met server, de volgende adressen zijn geprobeerd: %1$s</string>
+    <string name="lbl_shuffle_queue">Shuffle aan/uitzetten</string>
+    <string name="action_connect">Verbinden</string>
+    <string name="login_quickconnect_step_3">3. Voer de volgende code in:</string>
+    <string name="login_quickconnect_step_2">2. Open het gebruikers menu en ga naar de Quick Connect pagina</string>
+    <string name="login_quickconnect_step_1">1. Open de Jellyfin app op uw telefoon of webbrowser, en login met uw account</string>
+    <string name="login_other_options">Andere opties:</string>
+    <string name="login_connect_to">Verbinden met %1$s</string>
+    <string name="input_password">Wachtwoord</string>
+    <string name="input_username">Gebruikersnaam</string>
+    <string name="action_use_quickconnect">Gebruik QuickConnect</string>
+    <string name="action_use_password">Gebruik een wachtwoord</string>
+    <string name="action_login">Log in</string>
+    <string name="pref_libvlc_subtitle_delay_title">Standaard ondertitelvertraging voor LibVLC</string>
+    <string name="lbl_subtitle_delay">Vertraging Ondertiteling</string>
+    <string name="lbl_adjust">Aanpassen</string>
+    <string name="state_disabled">Uitgeschakeld</string>
 </resources>
