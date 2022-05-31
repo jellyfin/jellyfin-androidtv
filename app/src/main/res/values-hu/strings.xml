@@ -497,4 +497,7 @@
     <string name="pref_refresh_rate_scale_on_tv">Skálázás a TV-n</string>
     <string name="state_disabled">Letiltva</string>
     <string name="action_connect">Csatlakozás</string>
+    <string name="lbl_adjust">Igazítás</string>
+    <string name="pref_libvlc_subtitle_delay_title">Alapértelmezett feliratkésleltetés LibVLC-hez</string>
+    <string name="lbl_subtitle_delay">Felirat késleltetése</string>
 </resources>
