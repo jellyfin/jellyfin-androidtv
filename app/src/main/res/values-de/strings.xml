@@ -497,4 +497,7 @@
     <string name="action_use_password">Verwenden Sie ein Passwort</string>
     <string name="action_login">Anmelden</string>
     <string name="state_disabled">Deaktiviert</string>
+    <string name="pref_libvlc_subtitle_delay_title">Standard Untertitel-Verzögerung für LibVLC</string>
+    <string name="lbl_subtitle_delay">Untertitelverzögerung</string>
+    <string name="lbl_adjust">Anpassen</string>
 </resources>
