@@ -74,7 +74,7 @@ Look through the following graphic to see if your native language could use some
    ./gradlew assembleDebug
    ```
    
-   Add the Android SDK to you PATH environment variable or create the ANDROID_SDK_ROOT variable for
+   Add the Android SDK to your PATH environment variable or create the ANDROID_SDK_ROOT variable for
    this to work.
 
 ### Deploy to device/emulator
