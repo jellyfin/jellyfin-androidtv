@@ -496,4 +496,7 @@
     <string name="lbl_tv_filter_status">seuraavat %1$d tuntia</string>
     <string name="lbl_starting_with">alkaen niistä, joiden nimi alkaa</string>
     <string name="state_disabled">Poistettu käytöstä</string>
+    <string name="pref_libvlc_subtitle_delay_title">LibVLC-tekstitysten oletusviive</string>
+    <string name="lbl_subtitle_delay">Tekstitysviive</string>
+    <string name="lbl_adjust">Säädä</string>
 </resources>
