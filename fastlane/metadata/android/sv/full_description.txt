@@ -1,0 +1,14 @@
+Din media, på dina villkor.
+
+Jellyfin-projektet är en mediaserver med öppen källkod och gratis programvara. Inga avgifter, ingen spårning, ingen dold agenda. Skaffa vår gratis server för att samla allt ditt ljud, video, foton och mer på ett ställe.
+
+För att använda appen måste du ha en Jellyfin-server konfigurerad och igång. Läs mer på <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Med en Jellyfin-server kan du:
+
+* Titta på live-tv och inspelade program från din Jellyfin-server (ytterligare hårdvara/tjänster krävs)
+* Streama till en Chromecast-enhet i ditt nätverk
+* Strömma dina media till din Android-enhet
+* Se din samling i ett lättanvänt gränssnitt
+
+Detta är den officiella Jellyfin-kompanjonsappen för Android TV. Tack för att du använder Jellyfin!

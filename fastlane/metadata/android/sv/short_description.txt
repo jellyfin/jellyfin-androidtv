@@ -1,1 +1,1 @@
-TV-klient för Jellyfin, den oberoende programvaran för media.
+TV-klient för Jellyfin, den oberoende programvaran för media
