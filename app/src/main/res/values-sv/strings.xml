@@ -134,7 +134,7 @@
     <string name="lbl_live_tv_guide">Direktsänd-TV Guide</string>
     <string name="lbl_no_recordings">Inga inspelningar tillgängliga</string>
     <string name="lbl_recording">Inspelning</string>
-    <string name="msg_burn_sub_warning">Inbrända undertexter kan ta några minuter. Vänligen vänta en stund…</string>
+    <string name="msg_burn_sub_warning">Bränner in undertexter. Detta kan ta några sekunder…</string>
     <string name="msg_unable_load_subs">Kan inte ladda undertext</string>
     <string name="msg_subtitles_loading">Undertexter laddas…</string>
     <string name="lbl_filters">Filter</string>
@@ -271,7 +271,7 @@
     <string name="lbl_programs">Program</string>
     <string name="pref_live_tv_cat">Direktsänd-TV</string>
     <string name="lbl_recorded_tv">Inspelad TV</string>
-    <string name="pref_libvlc_audio_delay_title">Standard ljudfördröjning för LibVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Standardfördröjning av ljud för LibVLC</string>
     <string name="pref_theme_dark">Mörk (Standard)</string>
     <string name="pref_theme_emerald">Klassisk Smaragd</string>
     <string name="pref_app_theme">Apptema</string>
@@ -482,4 +482,22 @@
     <string name="server_issue_unable_to_connect">Kunde ej ansluta</string>
     <string name="server_connection_failed_candidates">Kunde ej ansluta till servern, försökte följande adresser: %1$s</string>
     <string name="pref_show_backdrop_description">Ändra bakgrundsbild enligt valda objekt</string>
+    <string name="action_connect">Anslut</string>
+    <string name="pref_refresh_rate_scale_on_device">Skala på enheten</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skala på TV</string>
+    <string name="login_quickconnect_step_3">3. Ange följande kod:</string>
+    <string name="login_quickconnect_step_2">2. Öppna användarmenyn och gå till sidan Quick Connect</string>
+    <string name="login_quickconnect_step_1">1. Öppna Jellyfin-appen på din telefon eller webbläsare och logga in med ditt konto</string>
+    <string name="login_other_options">Andra alternativ:</string>
+    <string name="login_connect_to">Ansluter till %1$s</string>
+    <string name="input_password">Lösenord</string>
+    <string name="input_username">Användarnamn</string>
+    <string name="action_use_quickconnect">Använd QuickConnect</string>
+    <string name="action_use_password">Använd ett lösenord</string>
+    <string name="action_login">Logga in</string>
+    <string name="lbl_shuffle_queue">Aktivera Shuffle</string>
+    <string name="pref_libvlc_subtitle_delay_title">Standardfördröjning av undertexter för LibVLC</string>
+    <string name="lbl_subtitle_delay">Undertextfördröjning</string>
+    <string name="lbl_adjust">Justera</string>
+    <string name="state_disabled">Inaktiverad</string>
 </resources>
