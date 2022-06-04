@@ -3,6 +3,8 @@ package org.jellyfin.androidtv.ui.presentation
 import androidx.leanback.widget.ObjectAdapter
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.PresenterSelector
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListUpdateCallback
 
 /**
  * A leanback ObjectAdapter using a Kotlin list as backend. Implements Iterable to allow collection
@@ -37,6 +39,26 @@ class MutableObjectAdapter<T : Any> : ObjectAdapter, Iterable<T> {
 	fun set(index: Int, element: T) {
 		data.set(index, element)
 		notifyItemRangeChanged(index, 1)
+	}
+
+	fun replaceAll(items: List<T>) {
+		val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+			override fun getOldListSize(): Int = data.size
+			override fun getNewListSize(): Int = items.size
+
+			override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = areContentsTheSame(oldItemPosition, newItemPosition)
+			override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = data[oldItemPosition] == items[newItemPosition]
+		})
+
+		data.clear()
+		data.addAll(items)
+
+		diff.dispatchUpdatesTo(object : ListUpdateCallback {
+			override fun onInserted(position: Int, count: Int) = notifyItemRangeInserted(position, count)
+			override fun onRemoved(position: Int, count: Int) = notifyItemRangeRemoved(position, count)
+			override fun onMoved(fromPosition: Int, toPosition: Int) = notifyItemMoved(fromPosition, toPosition)
+			override fun onChanged(position: Int, count: Int, payload: Any?) = notifyItemRangeChanged(position, count, payload)
+		})
 	}
 
 	fun clear() {
