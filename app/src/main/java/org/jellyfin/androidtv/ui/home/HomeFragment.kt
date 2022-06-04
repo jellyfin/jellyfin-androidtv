@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.HomeSectionType
+import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.RowLoader
@@ -32,6 +33,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private val mediaManager by inject<MediaManager>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val userRepository by inject<UserRepository>()
+	private val notificationsRepository by inject<NotificationsRepository>()
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository) }
 
 	// Data
@@ -40,6 +42,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 	private var includeLiveTvRows: Boolean = false
 
 	// Special rows
+	private val notificationsRow by lazy { NotificationsHomeFragmentRow(lifecycleScope, notificationsRepository) }
 	private val nowPlaying by lazy { HomeFragmentNowPlayingRow(mediaManager) }
 	private val liveTVRow by lazy { HomeFragmentLiveTVRow(requireActivity(), userRepository) }
 
@@ -87,6 +90,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		super.setupEventListeners()
 
 		mClickedListener.registerListener(liveTVRow::onItemClicked)
+		mClickedListener.registerListener(notificationsRow::onItemClicked)
 	}
 
 	override fun setupQueries(rowLoader: RowLoader) {
@@ -134,6 +138,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			// Add sections to layout
 			withContext(Dispatchers.Main) {
 				// Add rows in order
+				notificationsRow.addToRowsAdapter(requireContext(), mCardPresenter, mRowsAdapter)
 				nowPlaying.addToRowsAdapter(requireContext(), mCardPresenter, mRowsAdapter)
 				for (row in rows) row.addToRowsAdapter(requireContext(), mCardPresenter, mRowsAdapter)
 

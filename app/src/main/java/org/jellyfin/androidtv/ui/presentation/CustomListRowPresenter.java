@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.presentation;
 
 import android.view.View;
 
+import androidx.core.view.ViewKt;
+import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.RowPresenter;
 
@@ -41,5 +43,8 @@ public class CustomListRowPresenter extends ListRowPresenter {
         if (topPadding != null) {
             viewHolder.setPadding(viewHolder.getPaddingLeft(), topPadding, viewHolder.getPaddingRight(), viewHolder.getPaddingBottom());
         }
+
+        // Hide header view when the item doesn't have one
+        ViewKt.setVisible(holder.getHeaderViewHolder().view, !(item instanceof ListRow && ((ListRow) item).getHeaderItem() == null));
     }
 }
