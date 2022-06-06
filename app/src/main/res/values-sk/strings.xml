@@ -497,4 +497,7 @@
     <string name="action_use_password">Použiť heslo</string>
     <string name="action_login">Prihlásenie</string>
     <string name="state_disabled">Zakázané</string>
+    <string name="pref_libvlc_subtitle_delay_title">Predvolené oneskorenie titulkov pre LibVLC</string>
+    <string name="lbl_subtitle_delay">Oneskorenie tituliek</string>
+    <string name="lbl_adjust">Upraviť</string>
 </resources>
