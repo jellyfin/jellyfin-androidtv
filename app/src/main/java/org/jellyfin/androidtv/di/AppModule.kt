@@ -83,7 +83,7 @@ val appModule = module {
 
 	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
-	single<NotificationsRepository> { NotificationsRepositoryImpl() }
+	single<NotificationsRepository> { NotificationsRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get()) }

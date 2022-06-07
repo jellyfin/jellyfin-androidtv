@@ -497,4 +497,5 @@
     <string name="pref_refresh_rate_scale_on_device">Scale on device</string>
     <string name="action_connect">Connect</string>
     <string name="live_tv_preferences">Live TV options</string>
+    <string name="app_notification_uimode_invalid">This app is optimized for televisions. We recommend using our mobile app on other devices.</string>
 </resources>

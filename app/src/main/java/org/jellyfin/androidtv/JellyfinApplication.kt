@@ -22,6 +22,7 @@ import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
+import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
@@ -34,6 +35,9 @@ import java.util.concurrent.TimeUnit
 class JellyfinApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
+
+		val notificationsRepository by inject<NotificationsRepository>()
+		notificationsRepository.addDefaultNotifications()
 
 		// Register application lifecycle events
 		ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
