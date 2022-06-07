@@ -44,6 +44,7 @@ class AuthPreferencesScreen : OptionsFragment() {
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				serverRepository.loadStoredServers()
 				serverRepository.storedServers.collect { rebuild() }
 			}
 		}
