@@ -66,7 +66,7 @@
     <string name="lbl_play_trailers">Reproduzir Trailer(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_enter_server_address">Digite o Endereço do Servidor</string>
+    <string name="lbl_enter_server_address">Digite o endereço do servidor</string>
     <string name="lbl_valid_server_address">Por favor, digite o endereço do servidor (IP ou nome do domínio/máquina)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascimento "</string>
@@ -244,7 +244,7 @@
     <string name="lbl_new_episodes">Novos Episódios</string>
     <string name="lbl_news">Notícias</string>
     <string name="lbl_colored_backgrounds">Cores de Fundo por Código</string>
-    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para LibVLC</string>
+    <string name="pref_libvlc_audio_delay_title">Atraso de áudio padrão para o LibVLC</string>
     <string name="watch_now">Assista agora</string>
     <string name="pref_next_up_timeout_title">Duração do \"A seguir\"</string>
     <string name="pref_next_up_timeout_summary">Quanto tempo esperar antes de iniciar o próximo item</string>
@@ -327,7 +327,7 @@
     <string name="lbl_pause">Pausar</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Termina em %1$s</string>
-    <string name="lbl_sign_in">Por favor cadastre-se</string>
+    <string name="lbl_sign_in">Por favor, faça login</string>
     <string name="login_username_field_empty">O nome de usuário não pode estar vazio</string>
     <string name="login_server_unavailable">Incapaz de conectar ao servidor</string>
     <string name="login_invalid_credentials">Nome de usuário e/ou senha inválida</string>
@@ -483,4 +483,21 @@
     <string name="pref_show_backdrop_description">Alterar imagem de fundo para itens selecionados</string>
     <string name="home_section_resume_book">Continue lendo</string>
     <string name="lbl_shuffle_queue">Alternar modo aleatório</string>
+    <string name="action_connect">Conectar</string>
+    <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
+    <string name="pref_refresh_rate_scale_on_tv">Escala na TV</string>
+    <string name="login_quickconnect_step_3">3. Digite o seguinte código:</string>
+    <string name="login_quickconnect_step_2">2. Abra o menu do usuário e vá para a página do Quick Connect</string>
+    <string name="login_quickconnect_step_1">1. Abra o aplicativo do Jellyfin no seu telefone ou navegador, e faça login com sua conta</string>
+    <string name="login_other_options">Outras opções:</string>
+    <string name="login_connect_to">Conectando a %1$s</string>
+    <string name="input_password">Senha</string>
+    <string name="input_username">Usuário</string>
+    <string name="action_use_quickconnect">Usar QuickConnect</string>
+    <string name="action_use_password">Usar senha</string>
+    <string name="action_login">Fazer login</string>
+    <string name="pref_libvlc_subtitle_delay_title">Atraso de legenda padrão para o LibVLC</string>
+    <string name="lbl_subtitle_delay">Atraso de legenda</string>
+    <string name="lbl_adjust">Ajuste</string>
+    <string name="state_disabled">Desabilitado</string>
 </resources>
