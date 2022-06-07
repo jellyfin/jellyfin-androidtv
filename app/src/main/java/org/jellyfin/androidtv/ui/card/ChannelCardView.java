@@ -22,7 +22,9 @@ public class ChannelCardView extends FrameLayout {
     }
 
     public void setItem(final ChannelInfoDto channel) {
-        binding.name.setText(channel.getNumber() + " " + channel.getName());
+        if (channel.getNumber() != null) binding.name.setText(channel.getNumber() + " " + channel.getName());
+        else binding.name.setText(channel.getName());
+
         BaseItemDto program = channel.getCurrentProgram();
         if (program != null) {
             if (program.getEndDate() != null && System.currentTimeMillis() > TimeUtils.convertToLocalDate(program.getEndDate()).getTime()) {
