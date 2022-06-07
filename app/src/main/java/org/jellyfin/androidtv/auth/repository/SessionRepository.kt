@@ -28,8 +28,15 @@ data class Session(
 	val accessToken: String,
 )
 
+enum class SessionRepositoryState {
+	READY,
+	RESTORING_SESSION,
+	SWITCHING_SESSION,
+}
+
 interface SessionRepository {
 	val currentSession: StateFlow<Session?>
+	val state: StateFlow<SessionRepositoryState>
 
 	suspend fun restoreSession()
 	suspend fun switchCurrentSession(userId: UUID): Boolean
@@ -49,9 +56,12 @@ class SessionRepositoryImpl(
 	private val currentSessionMutex = Mutex()
 	private val _currentSession = MutableStateFlow<Session?>(null)
 	override val currentSession = _currentSession.asStateFlow()
+	private val _state = MutableStateFlow(SessionRepositoryState.READY)
+	override val state = _state.asStateFlow()
 
 	override suspend fun restoreSession(): Unit = currentSessionMutex.withLock {
 		Timber.d("Restoring session")
+		_state.value = SessionRepositoryState.RESTORING_SESSION
 
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
 
@@ -63,12 +73,15 @@ class SessionRepositoryImpl(
 			LAST_USER -> setCurrentSession(createLastUserSession())
 			SPECIFIC_USER -> setCurrentSession(createUserSession(userId))
 		}
+
+		_state.value = SessionRepositoryState.READY
 	}
 
 	override suspend fun switchCurrentSession(userId: UUID): Boolean {
 		// No change in user - don't switch
 		if (currentSession.value?.userId == userId) return false
 
+		_state.value = SessionRepositoryState.SWITCHING_SESSION
 		Timber.d("Switching current session to user $userId")
 
 		val session = createUserSession(userId)
@@ -77,7 +90,9 @@ class SessionRepositoryImpl(
 			return false
 		}
 
-		return setCurrentSession(session)
+		val switched = setCurrentSession(session)
+		_state.value = SessionRepositoryState.READY
+		return switched
 	}
 
 	override fun destroyCurrentSession() {
@@ -87,6 +102,7 @@ class SessionRepositoryImpl(
 		_currentSession.value = null
 		userApiClient.applySession(null)
 		apiBinder.updateSession(null, userApiClient.deviceInfo)
+		_state.value = SessionRepositoryState.READY
 	}
 
 	private suspend fun setCurrentSession(session: Session?): Boolean {

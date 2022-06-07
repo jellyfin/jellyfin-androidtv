@@ -13,11 +13,13 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -80,7 +82,8 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 	private fun onPermissionsGranted() = lifecycleScope.launch {
 		lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-			sessionRepository.currentSession.collect { session ->
+			sessionRepository.state.filter { it == SessionRepositoryState.READY }.collect {
+				val session = sessionRepository.currentSession.value
 				if (session != null) {
 					Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
