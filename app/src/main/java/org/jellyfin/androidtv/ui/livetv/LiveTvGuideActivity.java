@@ -5,6 +5,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -44,6 +45,7 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
+import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -272,6 +274,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     protected void onResume() {
         super.onResume();
 
+        mFilters.load();
         doLoad();
     }
 
@@ -359,7 +362,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 if ((mDetailPopup == null || !mDetailPopup.isShowing())
-                        && (mFilterPopup == null || !mFilterPopup.isShowing())
                         && (mOptionsPopup == null || !mOptionsPopup.isShowing())
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
@@ -463,87 +465,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     private LiveProgramDetailPopup mDetailPopup;
-
-    private FilterPopup mFilterPopup;
-    class FilterPopup {
-        PopupWindow mPopup;
-        LiveTvGuideActivity mActivity;
-        CheckBox mMovies;
-        CheckBox mNews;
-        CheckBox mSeries;
-        CheckBox mKids;
-        CheckBox mSports;
-        CheckBox mPremiere;
-
-        Button mFilterButton;
-        Button mClearButton;
-
-        FilterPopup(LiveTvGuideActivity activity) {
-            mActivity = activity;
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.guide_filter_popup, null);
-            int popupWidth = Utils.convertDpToPixel(activity, 250);
-            int popupHeight = Utils.convertDpToPixel(activity, 400);
-            mPopup = new PopupWindow(layout, popupWidth, popupHeight);
-            mPopup.setFocusable(true);
-            mPopup.setOutsideTouchable(true);
-            mPopup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // necessary for popup to dismiss
-            mPopup.setAnimationStyle(R.style.WindowAnimation_SlideRight);
-            mMovies = layout.findViewById(R.id.movies);
-            mSeries = layout.findViewById(R.id.series);
-            mNews = layout.findViewById(R.id.news);
-            mKids = layout.findViewById(R.id.kids);
-            mSports = layout.findViewById(R.id.sports);
-            mPremiere = layout.findViewById(R.id.premiere);
-
-            mFilterButton = layout.findViewById(R.id.okButton);
-            mFilterButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mFilters.setMovies(mMovies.isChecked());
-                    mFilters.setSeries(mSeries.isChecked());
-                    mFilters.setNews(mNews.isChecked());
-                    mFilters.setKids(mKids.isChecked());
-                    mFilters.setSports(mSports.isChecked());
-                    mFilters.setPremiere(mPremiere.isChecked());
-
-                    load();
-                    mPopup.dismiss();
-                }
-            });
-            mClearButton = layout.findViewById(R.id.clearButton);
-            mClearButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mFilters.clear();
-                    load();
-                    mPopup.dismiss();
-                }
-            });
-
-        }
-
-        public boolean isShowing() {
-            return (mPopup != null && mPopup.isShowing());
-        }
-
-        public void show() {
-            mMovies.setChecked(mFilters.isMovies());
-            mSeries.setChecked(mFilters.isSeries());
-            mNews.setChecked(mFilters.isNews());
-            mKids.setChecked(mFilters.isKids());
-            mSports.setChecked(mFilters.isSports());
-            mPremiere.setChecked(mFilters.isPremiere());
-
-            mPopup.showAtLocation(mTimelineScroller, Gravity.NO_GRAVITY, mTimelineScroller.getRight(), mSummary.getTop());
-        }
-
-        public void dismiss() {
-            if (mPopup != null && mPopup.isShowing()) {
-                mPopup.dismiss();
-            }
-        }
-    }
 
     private OptionsPopup mOptionsPopup;
     class OptionsPopup {
@@ -677,12 +598,11 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     public void showFilterOptions() {
-        if (mFilterPopup == null) {
-            mFilterPopup = new FilterPopup(this);
-        }
-        mFilterPopup.show();
+        Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+        settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, GuideFiltersScreen.class.getCanonicalName());
+        startActivity(settingsIntent);
+        TvManager.forceReload();
     }
-
 
     public void showOptions() {
         if (mOptionsPopup == null) {
