@@ -85,7 +85,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
 
     private BaseItemDto mSelectedProgram;
     private RelativeLayout mSelectedProgramView;
-    private long mLastLoad = 0;
 
     private List<ChannelInfoDto> mAllChannels;
     private String mFirstFocusChannelId;
@@ -98,7 +97,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     private long mCurrentLocalGuideEnd;
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
-    private long mLastFocusChanged;
 
     private Handler mHandler = new Handler();
 
@@ -229,8 +227,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     ndx = 0; // just start at beginning
                 }
 
-                mLastLoad = System.currentTimeMillis();
-
                 mAllChannels = TvManager.getAllChannels();
                 if (mAllChannels.size() > 0) {
                     displayChannels(ndx, PAGE_SIZE);
@@ -252,7 +248,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     private void reload() {
         fillTimeLine(System.currentTimeMillis(), getGuideHours());
         displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
-        mLastLoad = System.currentTimeMillis();
     }
 
     @Override
@@ -357,8 +352,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 if (getCurrentFocus() instanceof ProgramGridCell
                         && mSelectedProgramView != null
-                        && ((ProgramGridCell)mSelectedProgramView).isLast()
-                        && System.currentTimeMillis() - mLastFocusChanged > 1000) {
+                        && ((ProgramGridCell)mSelectedProgramView).isLast()) {
                     requestGuidePage(mCurrentLocalGuideEnd);
                 }
                 break;
@@ -366,8 +360,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 if (getCurrentFocus() instanceof ProgramGridCell
                         && mSelectedProgramView != null
                         && ((ProgramGridCell)mSelectedProgramView).isFirst()
-                        && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis()
-                        && System.currentTimeMillis() - mLastFocusChanged > 1000) {
+                        && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis()) {
                     focusAtEnd = true;
                     requestGuidePage(mCurrentLocalGuideStart - (getGuideHours()*60*60000));
                 }
