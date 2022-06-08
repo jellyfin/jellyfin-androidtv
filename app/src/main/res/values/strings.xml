@@ -496,4 +496,5 @@
     <string name="pref_refresh_rate_scale_on_tv">Scale on TV</string>
     <string name="pref_refresh_rate_scale_on_device">Scale on device</string>
     <string name="action_connect">Connect</string>
+    <string name="live_tv_preferences">Live TV options</string>
 </resources>
