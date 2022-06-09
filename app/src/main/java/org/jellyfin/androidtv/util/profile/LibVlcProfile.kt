@@ -59,6 +59,7 @@ class LibVlcProfile(
 					Codec.Audio.MP3,
 					Codec.Audio.MP2,
 					Codec.Audio.AC3,
+					Codec.Audio.EAC3,
 					Codec.Audio.WMA,
 					Codec.Audio.WMAV2,
 					Codec.Audio.DCA,
