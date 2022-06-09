@@ -159,7 +159,7 @@
     <string name="lbl_up_next_colon">"Очередное: "</string>
     <string name="lbl_now_playing">Воспроизводится</string>
     <string name="lbl_play_from_here">Воспроизвести отсюда</string>
-    <string name="lbl_remove_from_queue">Удалить из очереди</string>
+    <string name="lbl_remove_from_queue">Изъять из очереди</string>
     <string name="lbl_goto_now_playing">Перейти к воспроизводящемуся</string>
     <string name="lbl_instant_mix">Автомикс</string>
     <string name="lbl_save_as_playlist">Сохранить как плей-лист</string>
