@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.util
 
 import android.view.KeyEvent
+import timber.log.Timber
 
 @DslMarker
 annotation class KeyHandlerDsl
@@ -16,6 +17,8 @@ class KeyHandler(
 			.filter { it.type == event.action }
 			.filter { it.conditions.isEmpty() || it.conditions.all { predicate -> predicate.invoke() } }
 			.firstOrNull() ?: return false
+
+		Timber.d("Key press detected: code=${event.keyCode} type=${event.action} action=$action")
 
 		action.body()
 		return true

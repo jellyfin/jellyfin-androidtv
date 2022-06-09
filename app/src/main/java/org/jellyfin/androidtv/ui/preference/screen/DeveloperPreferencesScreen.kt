@@ -31,6 +31,13 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 
 					bind(userPreferences, UserPreferences.playbackRewriteEnabled)
 				}
+
+				checkbox {
+					title = "Enable new picture viewer"
+					setContent(R.string.enable_playback_module_description)
+
+					bind(userPreferences, UserPreferences.pictureViewerRewriteEnabled)
+				}
 			}
 		}
 	}

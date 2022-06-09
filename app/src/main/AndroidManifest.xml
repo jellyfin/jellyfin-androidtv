@@ -179,6 +179,8 @@
             android:name=".ui.itemdetail.PhotoPlayerActivity"
             android:screenOrientation="landscape" />
 
+        <activity android:name=".ui.picture.PictureViewerActivity" />
+
         <activity
             android:name=".ui.itemdetail.ItemListActivity"
             android:screenOrientation="landscape" />

@@ -64,6 +64,10 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="Button.Icon.Animated" parent="Button.Icon">
+        <item name="android:tint">@drawable/button_icon_tint_animated</item>
+    </style>
+
     <style name="Input.Default" parent="android:Widget.EditText">
         <item name="android:background">@drawable/input_default_back</item>
         <item name="android:foreground">@drawable/input_default_ripple</item>
