@@ -52,7 +52,7 @@
     <string name="lbl_artists">Artistoj</string>
     <string name="lbl_albums">Albumoj</string>
     <string name="lbl_programs">Programoj</string>
-    <string name="lbl_filters">Filtriloj</string>
+    <string name="lbl_filters">Eteraj TD filtriloj</string>
     <string name="btn_filter">Filtru</string>
     <string name="lbl_rating">Taksado</string>
     <string name="lbl_name">Nomo</string>
@@ -500,4 +500,5 @@
     <string name="lbl_subtitle_delay">Subteksta Prokrasto</string>
     <string name="pref_libvlc_subtitle_delay_title">Defaŭlta subteksta prokrasto por libVLC</string>
     <string name="lbl_adjust">Ĝustigi</string>
+    <string name="live_tv_preferences">Eteraj TV opcioj</string>
 </resources>
