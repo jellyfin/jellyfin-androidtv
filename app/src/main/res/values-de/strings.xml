@@ -128,7 +128,7 @@
     <string name="lbl_ended">BEENDET</string>
     <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Lösche alle</string>
-    <string name="lbl_filters">Filter</string>
+    <string name="lbl_filters">Fernseh-Filter</string>
     <string name="msg_subtitles_loading">Lade Untertitel…</string>
     <string name="msg_unable_load_subs">Untertitel konnten nicht geladen werden</string>
     <string name="msg_burn_sub_warning">Untertitel werden eingebrannt. Dies kann ein paar Sekunden dauern…</string>
@@ -500,4 +500,5 @@
     <string name="pref_libvlc_subtitle_delay_title">Standard Untertitel-Verzögerung für LibVLC</string>
     <string name="lbl_subtitle_delay">Untertitelverzögerung</string>
     <string name="lbl_adjust">Anpassen</string>
+    <string name="live_tv_preferences">Fernseh-Optionen</string>
 </resources>
