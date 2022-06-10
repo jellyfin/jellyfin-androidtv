@@ -137,7 +137,7 @@
     <string name="msg_burn_sub_warning">Bränner in undertexter. Detta kan ta några sekunder…</string>
     <string name="msg_unable_load_subs">Kan inte ladda undertext</string>
     <string name="msg_subtitles_loading">Undertexter laddas…</string>
-    <string name="lbl_filters">Filter</string>
+    <string name="lbl_filters">Filter för direktsänd TV</string>
     <string name="btn_clear_all">Rensa alla</string>
     <string name="btn_filter">Filtrera</string>
     <string name="lbl_ended">AVSLUTAD</string>
@@ -500,4 +500,5 @@
     <string name="lbl_subtitle_delay">Undertextfördröjning</string>
     <string name="lbl_adjust">Justera</string>
     <string name="state_disabled">Inaktiverad</string>
+    <string name="live_tv_preferences">Alternativ för direktsänd TV</string>
 </resources>
