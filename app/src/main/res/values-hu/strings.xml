@@ -256,7 +256,7 @@
     <string name="msg_burn_sub_warning">Feliratok beégetése. Ez eltarthat pár másodpercig…</string>
     <string name="msg_unable_load_subs">Feliratok betöltése sikertelen</string>
     <string name="msg_subtitles_loading">Feliratok betöltése…</string>
-    <string name="lbl_filters">Szűrők</string>
+    <string name="lbl_filters">TV Csatorna Szűrők</string>
     <string name="btn_clear_all">Mind törlése</string>
     <string name="lbl_ended">VÉGET ÉRT</string>
     <string name="lbl__continuing">ÚJ RÉSZEK VÁRHATÓAK</string>
@@ -500,4 +500,5 @@
     <string name="lbl_adjust">Igazítás</string>
     <string name="pref_libvlc_subtitle_delay_title">Alapértelmezett feliratkésleltetés LibVLC-hez</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
+    <string name="live_tv_preferences">Élő TV lehetőségek</string>
 </resources>
