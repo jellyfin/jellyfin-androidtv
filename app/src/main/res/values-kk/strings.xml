@@ -128,7 +128,7 @@
     <string name="lbl_ended">AİAQTALĞAN</string>
     <string name="btn_filter">Süzu</string>
     <string name="btn_clear_all">Barlyğyn tazalau</string>
-    <string name="lbl_filters">Süzgıler</string>
+    <string name="lbl_filters">Efirlık TD süzgılerı</string>
     <string name="msg_subtitles_loading">Subtitrler jüktelude…</string>
     <string name="msg_unable_load_subs">Subtitrlerdı jükteu mümkın emes</string>
     <string name="msg_burn_sub_warning">Subtitrler oiyp berılude. Būl bırneşe sekunt aluy mümkın…</string>
@@ -500,4 +500,5 @@
     <string name="lbl_subtitle_delay">Subtitrler kıdırısı</string>
     <string name="lbl_adjust">Naqtylatu</string>
     <string name="pref_libvlc_subtitle_delay_title">libVLC üşın subtitrlerdıñ ädepkı kıdırısı</string>
+    <string name="live_tv_preferences">Efirlık TD opsialary</string>
 </resources>
