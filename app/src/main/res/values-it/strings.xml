@@ -138,7 +138,7 @@
     <string name="msg_burn_sub_warning">Scrittura dei sottotitoli in corso. Potrebbero volerci alcuni secondi…</string>
     <string name="msg_unable_load_subs">Impossibile caricare i sottotitoli</string>
     <string name="msg_subtitles_loading">Caricamento sottotitoli…</string>
-    <string name="lbl_filters">Filtri</string>
+    <string name="lbl_filters">Filtri TV Diretta</string>
     <string name="btn_clear_all">Cancella Tutti</string>
     <string name="btn_filter">Filtro</string>
     <string name="lbl_ended">FINITO</string>
@@ -500,4 +500,5 @@
     <string name="pref_libvlc_subtitle_delay_title">Ritardo sottotitoli per LibVLC</string>
     <string name="lbl_adjust">Regola</string>
     <string name="lbl_subtitle_delay">Ritardo Sottotitoli</string>
+    <string name="live_tv_preferences">Opzioni TV Diretta</string>
 </resources>
