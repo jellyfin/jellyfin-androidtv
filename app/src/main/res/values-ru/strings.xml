@@ -129,7 +129,7 @@
     <string name="lbl_ended">ЗАВЕРШИЛСЯ</string>
     <string name="btn_filter">Фильтровать</string>
     <string name="btn_clear_all">Очистить всё</string>
-    <string name="lbl_filters">Фильтры</string>
+    <string name="lbl_filters">Фильтры эфирного ТВ</string>
     <string name="msg_subtitles_loading">Субтитры загружаются…</string>
     <string name="msg_unable_load_subs">Невозможно загрузить субтитры</string>
     <string name="msg_burn_sub_warning">Субтитры прошиваются. Это может занять несколько секунд…</string>
@@ -500,4 +500,5 @@
     <string name="pref_libvlc_subtitle_delay_title">Задержка субтитров для libVLC по умолчанию</string>
     <string name="lbl_subtitle_delay">Задержка субтитров</string>
     <string name="lbl_adjust">Подстройка</string>
+    <string name="live_tv_preferences">Опции эфирного ТВ</string>
 </resources>
