@@ -9,7 +9,7 @@
     <string name="desc_bitstream_ac3">דורש חומרה מתאימה</string>
     <string name="lbl_bitstream_ac3">שמע בדולבי דיגיטל</string>
     <string name="lbl_new_premieres">יצאו לאחרונה</string>
-    <string name="desc_automatic_fav_songs">רשימת השמעה אוטמאטית של מועדפים ושירים אהובים</string>
+    <string name="desc_automatic_fav_songs">רשימת השמעה אוטומטית של שירים מועדפים</string>
     <string name="desc_seasonal_themes">הצגת צבעים והצעות בהתאם לתקופות, עונות וחגים</string>
     <string name="lbl_enable_seasonal_themes">הצעות עונתיות</string>
     <string name="msg_item_added">" נוסף"</string>
@@ -45,10 +45,10 @@
     <string name="lbl_live_tv_guide">לוח שידורים</string>
     <string name="lbl_no_recordings">אין הקלטות</string>
     <string name="lbl_recording">מקליט</string>
-    <string name="msg_burn_sub_warning">צריבת כתוביות לוקחת מספר דקות. נא המתן…</string>
+    <string name="msg_burn_sub_warning">צורב כתוביות. פעולה זו עשויה להימשך מספר שניות…</string>
     <string name="msg_unable_load_subs">לא מסוגל לטעון כתוביות</string>
     <string name="msg_subtitles_loading">כתובית נטענת…</string>
-    <string name="lbl_filters">מסננים</string>
+    <string name="lbl_filters">מסנני שידורים חיים</string>
     <string name="btn_clear_all">נקה הכל</string>
     <string name="btn_filter">מסנן</string>
     <string name="lbl_ended">הסתיים</string>
@@ -174,7 +174,7 @@
     <string name="lbl_on_now">משודר כרגע</string>
     <string name="lbl_next_up">הצפייה הבאה</string>
     <string name="lbl_continue_watching">המשך צפייה</string>
-    <string name="lbl_settings">הגדרוות</string>
+    <string name="lbl_settings">הגדרות</string>
     <string name="chapters">פרקים</string>
     <string name="pref_authentication_cat">התחברות</string>
     <string name="settings_title">הגדרות</string>
@@ -199,9 +199,8 @@
     <string name="acra_dialog_title">אוי לא! משהו השתבש.</string>
     <string name="pref_acra_syslog_disabled">יומני מערכת לא יכללו בדיווחי התרסקות</string>
     <string name="pref_acra_syslog_enabled">יומני מערכת יכללו בדיווחי התרסקות</string>
-    <string name="pref_acra_syslog">צרף יומני מערכת בדיווח הקריסה. 
-\nאם אפליקציות אחרות דיווחו מידע אישי ליומני המערכת במהלך הקריסה,
-\nנתונים אלה עלולים להכלל בדיווח.</string>
+    <string name="pref_acra_syslog">כלול רישומי מערכת.
+\nייתכן כי מידע אישי מאפליקציות אחרות ייכלל אם הוא נרשם במהלך הקריסה.</string>
     <string name="pref_acra_alwaysaccept_disabled">חלונית אישור תופיע לפני שליחת כל דיווח התרסקות</string>
     <string name="pref_acra_alwaysaccept_enabled">דיווחי התרסקות ישלחו ללא בקשת רשות</string>
     <string name="pref_acra_alwaysaccept">שלח דיווחי קריסה ללא אישור משתמש</string>
@@ -252,7 +251,7 @@
     <string name="lbl_bitstream_dts">שמע דיגיטאלי ב DTS</string>
     <string name="desc_premieres">מראה שורה של פיילוטים לפרקים חדשים עבור הסדרה שנצפית</string>
     <string name="lbl_playback_control_ends">מסתיים ב %1$s</string>
-    <string name="lbl_sign_in">נדרשת כניסה למערכת</string>
+    <string name="lbl_sign_in">אנא התחבר</string>
     <string name="play_with">נגן בעזרת</string>
     <string name="play_with_external_app">נגן בנגן חיצונה</string>
     <string name="play_with_exo_player">נגן בעזרת ExoPlayer</string>
@@ -296,9 +295,9 @@
     <string name="grid_direction">כיוון הטבלה</string>
     <string name="pref_device_model">מודל המכשיר</string>
     <string name="pref_app_theme">עיצוב האפליקציה</string>
-    <string name="pref_libvlc_audio_delay_title">עיכוב שמע בשימוש LibVLC</string>
+    <string name="pref_libvlc_audio_delay_title">ברירת המחדל לעיכוב שמע בשימוש LibVLC</string>
     <string name="watch_now">צפה עכשיו</string>
-    <string name="pref_next_up_timeout_title">תזמון הבא בתור</string>
+    <string name="pref_next_up_timeout_title">תזמון טיימר הבא בתור</string>
     <string name="pref_next_up_timeout_summary">כמה לחכות לפני הפעלת הבא בתור</string>
     <string name="pref_media_player">נגן מדיה מועדף</string>
     <string name="pref_about_title">אודות</string>
@@ -337,7 +336,7 @@
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
-    <string name="server_connection_failed">כשלה ההתחברות לשרת: %1$s</string>
+    <string name="server_connection_failed">לא ניתן להתחבר לשרת</string>
     <string name="login_username_field_empty">שם משתמש לא יכול להיות ריק</string>
     <string name="login_server_unavailable">לא מצליח להתחבר לשרת</string>
     <string name="login_invalid_credentials">שם משתמש ו/או סיסמה שגויים</string>
@@ -377,7 +376,7 @@
     <string name="lbl_remove">מחק</string>
     <string name="lbl_server">שרת</string>
     <string name="lbl_user_server">%1$s ב%2$s</string>
-    <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב%1$s בשעה %2$s</string>
+    <string name="lbl_user_last_used">היה בשימוש פעם אחרונה ב-%1$s בשעה %2$s</string>
     <string name="lbl_remove_server">מחק שרת</string>
     <string name="lbl_sign_out_content">תצטרך להתחבר שוב בפעם הבאה</string>
     <string name="lbl_remove_user_content">הסר חשבון</string>
@@ -419,7 +418,7 @@
     <string name="pref_subtitles">כתוביות</string>
     <string name="pref_video">וידאו</string>
     <string name="pref_acra_description">דיווחי קריסה, שליחה אוטומטית, יומני מערכת</string>
-    <string name="pref_playback_description">וידאו, כתוביות, טלוויזיה חיה, מיד</string>
+    <string name="pref_playback_description">וידאו, כתוביות, טלוויזיה חיה, מייד</string>
     <string name="pref_customization_description">עיצוב, מסך הבית, הגדרות שליטה</string>
     <string name="pref_login_description">שרתים, חשבונות, התחברות אוטומטית</string>
     <string name="pref_login">התחברות</string>
@@ -481,4 +480,22 @@
     <string name="lbl_playback_speed">מהירות נגן</string>
     <string name="lbl_stretch">מתיחה</string>
     <string name="lbl_auto_crop">חיתוך אוטומטי</string>
+    <string name="live_tv_preferences">אפשרויות טלוויזיה חיה</string>
+    <string name="action_connect">התחבר</string>
+    <string name="login_quickconnect_step_3">3. הכנס את הקוד הבא:</string>
+    <string name="login_quickconnect_step_2">2. פתח את תפריט המשתמש והיכנס לדף ה-Quick Connect</string>
+    <string name="login_quickconnect_step_1">1. פתח את אפליקציית ה-Jellyfin בנייד או בדפדפן, והתחבר עם המשתמש שלך</string>
+    <string name="login_other_options">אפשרויות אחרות:</string>
+    <string name="login_connect_to">מתחבר ל-%1$s</string>
+    <string name="input_password">סיסמה</string>
+    <string name="input_username">שם משתמש</string>
+    <string name="action_use_quickconnect">השתמש ב-QuickConnect</string>
+    <string name="action_use_password">השתמש בסיסמה</string>
+    <string name="action_login">התחבר</string>
+    <string name="lbl_start_end_on_schedule">מתחיל בתזמון ומסתיים בתזמון</string>
+    <string name="pref_libvlc_subtitle_delay_title">ברירת המחדל לעיכוב כתוביות בשימוש LibVLC</string>
+    <string name="lbl_subtitle_delay">השהיית כתוביות</string>
+    <string name="lbl_adjust">התאם</string>
+    <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>
+    <string name="state_disabled">מושבת</string>
 </resources>
