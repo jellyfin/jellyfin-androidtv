@@ -4,6 +4,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
@@ -70,6 +71,8 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.TrailerUtils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -785,6 +788,21 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     private void playTrailers() {
+        // External trailer
+        if (mBaseItem.getLocalTrailerCount() == null || mBaseItem.getLocalTrailerCount() < 1) {
+            Intent intent = TrailerUtils.getExternalTrailerIntent(this, ModelCompat.asSdk(mBaseItem));
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException exception) {
+                Timber.w(exception, "Unable to open external trailer");
+                Utils.showToast(mActivity, getString(R.string.no_player_message));
+            }
+
+            return;
+        }
+
+        // Local trailer
         apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
@@ -1016,8 +1034,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             mDetailsOverviewRow.addAction(versionsButton);
         }
 
-
-        if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 0) {
+        if (TrailerUtils.hasPlayableTrailers(this, ModelCompat.asSdk(mBaseItem))) {
             trailerButton = TextUnderButton.create(this, R.drawable.ic_trailer, buttonSize, 0, getString(R.string.lbl_play_trailers), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
