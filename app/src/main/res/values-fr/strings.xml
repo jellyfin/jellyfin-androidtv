@@ -128,7 +128,7 @@
     <string name="lbl_ended">TERMINÉ</string>
     <string name="btn_filter">Filtre</string>
     <string name="btn_clear_all">Tout effacer</string>
-    <string name="lbl_filters">Filtres</string>
+    <string name="lbl_filters">Filtres TV Live</string>
     <string name="msg_subtitles_loading">Chargement des sous-titres…</string>
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
     <string name="msg_burn_sub_warning">L\'incrustation des sous-titres peut prendre quelques minutes. Merci de patienter…</string>
@@ -497,4 +497,8 @@
     <string name="action_use_quickconnect">Utiliser \'QuickConnect\'</string>
     <string name="action_use_password">Utiliser un mot de passe</string>
     <string name="action_login">Connexion</string>
+    <string name="live_tv_preferences">Options TV Live</string>
+    <string name="pref_libvlc_subtitle_delay_title">Délai sous-titres par défaut de LibVLC</string>
+    <string name="lbl_subtitle_delay">Décalage sous-titre</string>
+    <string name="lbl_adjust">Ajuster</string>
 </resources>
