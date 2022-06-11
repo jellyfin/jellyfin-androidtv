@@ -135,7 +135,7 @@
     <string name="lbl_programs">Ohjelmat</string>
     <string name="pref_live_tv_cat">Televisio</string>
     <string name="lbl_live_tv_guide">Ohjelmaopas</string>
-    <string name="lbl_filters">Suodattimet</string>
+    <string name="lbl_filters">Television suodattimet</string>
     <string name="btn_filter">Suodata</string>
     <string name="lbl_rating">Arvio</string>
     <string name="lbl_critic_rating">Kriitikoiden arvio</string>
@@ -404,7 +404,7 @@
     <string name="grid_direction_horizontal">Vaaka</string>
     <string name="grid_direction">Ruudukon suunta</string>
     <string name="pref_device_model">Laitteen malli</string>
-    <string name="pref_libvlc_audio_delay_title">LibVB-äänen oletusviive</string>
+    <string name="pref_libvlc_audio_delay_title">LibVLC-äänen oletusviive</string>
     <string name="pref_next_up_behavior_title">Näytä tietoja seuraavasta videosta</string>
     <string name="watch_now">Katso nyt</string>
     <string name="pref_next_up_timeout_title">Viive seuraavaan toistoon</string>
@@ -480,8 +480,8 @@
     <string name="lbl_shuffle_queue">Kytke sekoitustila</string>
     <string name="seek_error">Haku ei onnistu</string>
     <string name="lbl_show_indicators">Näytä paikkamerkit kohteille</string>
-    <string name="pref_refresh_rate_scale_on_tv">Skaalaa televisioon</string>
-    <string name="pref_refresh_rate_scale_on_device">Skaalaa laitteeseen</string>
+    <string name="pref_refresh_rate_scale_on_tv">Skaalaa televisiossa</string>
+    <string name="pref_refresh_rate_scale_on_device">Skaalaa laitteessa</string>
     <string name="action_connect">Yhdistä</string>
     <string name="login_quickconnect_step_3">3. Syötä seuraava koodi:</string>
     <string name="login_quickconnect_step_2">2. Avaa käyttäjävalikko ja sieltä Pikayhteys-sivu</string>
@@ -499,4 +499,6 @@
     <string name="pref_libvlc_subtitle_delay_title">LibVLC-tekstitysten oletusviive</string>
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
     <string name="lbl_adjust">Säädä</string>
+    <string name="live_tv_preferences">Television asetukset</string>
+    <string name="lbl_from">lähteestä</string>
 </resources>
