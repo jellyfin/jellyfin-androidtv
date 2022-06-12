@@ -49,6 +49,7 @@
     <string name="msg_recording_cancelled">Recording Cancelled</string>
     <string name="msg_unable_to_cancel">Unable to cancel recording</string>
     <string name="lbl_cast_crew">Cast/Crew</string>
+    <string name="lbl_additional_parts">Additional Parts</string>
     <string name="lbl_chapters">Chapters</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>

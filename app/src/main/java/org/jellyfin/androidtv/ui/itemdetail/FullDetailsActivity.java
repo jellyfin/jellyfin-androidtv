@@ -37,6 +37,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.InfoItem;
+import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
@@ -526,27 +527,33 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         switch (mBaseItem.getBaseItemType()) {
             case Movie:
 
+                //Additional Parts
+                if (mBaseItem.getPartCount() != null && mBaseItem.getPartCount() > 0) {
+                    ItemRowAdapter additionalPartsAdapter = new ItemRowAdapter(this, new AdditionalPartsQuery(mBaseItem.getId()), new CardPresenter(), adapter);
+                    addItemRow(adapter, additionalPartsAdapter, 0, getString(R.string.lbl_additional_parts));
+                }
+
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
-                    addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
+                    addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
                 //Specials
                 if (mBaseItem.getSpecialFeatureCount() != null && mBaseItem.getSpecialFeatureCount() > 0) {
-                    addItemRow(adapter, new ItemRowAdapter(this, new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 2, getString(R.string.lbl_specials));
+                    addItemRow(adapter, new ItemRowAdapter(this, new SpecialsQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_specials));
                 }
 
                 //Trailers
                 if (mBaseItem.getLocalTrailerCount() != null && mBaseItem.getLocalTrailerCount() > 1) {
-                    addItemRow(adapter, new ItemRowAdapter(this, new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 3, getString(R.string.lbl_trailers));
+                    addItemRow(adapter, new ItemRowAdapter(this, new TrailersQuery(mBaseItem.getId()), new CardPresenter(), adapter), 4, getString(R.string.lbl_trailers));
                 }
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
-                    addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
+                    addItemRow(adapter, chapterAdapter, 2, getString(R.string.lbl_chapters));
                 }
 
                 //Similar
@@ -560,7 +567,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 similar.setLimit(10);
 
                 ItemRowAdapter similarMoviesAdapter = new ItemRowAdapter(this, similar, QueryType.SimilarMovies, new CardPresenter(), adapter);
-                addItemRow(adapter, similarMoviesAdapter, 4, getString(R.string.lbl_more_like_this));
+                addItemRow(adapter, similarMoviesAdapter, 5, getString(R.string.lbl_more_like_this));
 
                 addInfoRows(adapter);
                 break;

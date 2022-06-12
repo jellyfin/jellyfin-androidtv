@@ -19,6 +19,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
+import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
@@ -79,6 +80,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private PersonsQuery mPersonsQuery;
     private SearchQuery mSearchQuery;
     private SpecialsQuery mSpecialsQuery;
+    private AdditionalPartsQuery mAdditionalPartsQuery;
     private TrailersQuery mTrailersQuery;
     private LiveTvChannelQuery mTvChannelQuery;
     private RecommendedProgramQuery mTvProgramQuery;
@@ -277,6 +279,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         mParent = parent;
         mSpecialsQuery = query;
         queryType = QueryType.Specials;
+    }
+
+    public ItemRowAdapter(Context context, AdditionalPartsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        mAdditionalPartsQuery = query;
+        queryType = QueryType.AdditionalParts;
     }
 
     public ItemRowAdapter(Context context, TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
@@ -662,6 +672,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case Specials:
                 retrieve(mSpecialsQuery);
+                break;
+            case AdditionalParts:
+                retrieve(mAdditionalPartsQuery);
                 break;
             case Trailers:
                 retrieve(mTrailersQuery);
@@ -1314,6 +1327,41 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
+    }
+
+    private void retrieve(final AdditionalPartsQuery query) {
+        final ItemRowAdapter adapter = this;
+        apiClient.getValue().GetAdditionalParts(query.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getItems() != null && response.getItems().length > 0) {
+                    int i = 0;
+                    if (adapter.size() > 0) {
+                        adapter.clear();
+                    }
+                    for (BaseItemDto item : response.getItems()) {
+                        adapter.add(new BaseRowItem(i++, item));
+                    }
+                    totalItems = response.getTotalRecordCount();
+                    setItemsLoaded(itemsLoaded + i);
+                    if (i == 0) {
+                        removeRow();
+                    }
+                } else {
+                    // no results - don't show us
+                    removeRow();
+                }
+
+                notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error retrieving similar series items");
+                removeRow();
+                notifyRetrieveFinished(exception);
+            }
+        });
     }
 
     private void retrieve(final TrailersQuery query) {
