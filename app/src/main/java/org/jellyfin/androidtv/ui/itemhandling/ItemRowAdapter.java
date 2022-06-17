@@ -509,6 +509,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             return;
         }
 
+        Integer savedIdx = null;
         switch (queryType) {
             case Persons:
                 if (mPersonsQuery == null) {
@@ -516,9 +517,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 notifyRetrieveStarted();
 
+                savedIdx = mPersonsQuery.getStartIndex();
                 //set the query to go get the next chunk
                 mPersonsQuery.setStartIndex(itemsLoaded);
                 retrieve(mPersonsQuery);
+                mPersonsQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
 
             case LiveTvChannel:
@@ -527,9 +530,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 notifyRetrieveStarted();
 
+                savedIdx = mTvChannelQuery.getStartIndex();
                 //set the query to go get the next chunk
                 mTvChannelQuery.setStartIndex(itemsLoaded);
                 retrieve(mTvChannelQuery);
+                mTvChannelQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
 
             case AlbumArtists:
@@ -538,9 +543,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 notifyRetrieveStarted();
 
+                savedIdx = mArtistsQuery.getStartIndex();
                 //set the query to go get the next chunk
                 mArtistsQuery.setStartIndex(itemsLoaded);
                 retrieve(mArtistsQuery);
+                mArtistsQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
 
             default:
@@ -549,9 +556,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 }
                 notifyRetrieveStarted();
 
+                savedIdx = mQuery.getStartIndex();
                 //set the query to go get the next chunk
                 mQuery.setStartIndex(itemsLoaded);
                 retrieve(mQuery);
+                mQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
         }
     }
