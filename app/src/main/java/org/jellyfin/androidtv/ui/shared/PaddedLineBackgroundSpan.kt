@@ -37,12 +37,14 @@ class PaddedLineBackgroundSpan(
 		// Measure the current line of text
 		val textWidth = paint.measureText(text, start, end).roundToInt()
 
+		@Suppress("RtlHardcoded")
 		val rectLeft = when(horizontalGravity) {
 			Gravity.CENTER_HORIZONTAL -> ((right - textWidth) / 2) - horizontalPadding
 			Gravity.RIGHT -> right - textWidth - horizontalPadding
 			else -> left - horizontalPadding
 		}
 
+		@Suppress("RtlHardcoded")
 		val rectRight = when(horizontalGravity) {
 			Gravity.CENTER_HORIZONTAL -> right - rectLeft
 			Gravity.RIGHT -> right + horizontalPadding
