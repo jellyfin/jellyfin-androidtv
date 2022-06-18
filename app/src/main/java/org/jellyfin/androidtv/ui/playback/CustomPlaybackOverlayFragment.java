@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -1461,7 +1462,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (subtitlesBackgroundEnabled) {
                 // Disable the text outlining when the background is enabled
                 binding.subtitlesText.setStrokeWidth(0.0f);
-                span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                // get the alignment gravity of the TextView
+                // extract the absolute horizontal gravity so the span can draw its background aligned
+                int gravity = binding.subtitlesText.getGravity();
+                int horizontalGravity = Gravity.getAbsoluteGravity(gravity, binding.subtitlesText.getLayoutDirection()) & Gravity.HORIZONTAL_GRAVITY_MASK;
+                span.setSpan(new PaddedLineBackgroundSpan(ContextCompat.getColor(requireContext(), R.color.black_opaque), SUBTITLE_PADDING, horizontalGravity), 0, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             binding.subtitlesText.setText(span);
