@@ -1,0 +1,14 @@
+Phương tiện của bạn, theo điều kiện của bạn.
+
+Dự án Jellyfin là một máy chủ đa phương tiện phần mềm miễn phí mã nguồn mở. Không có phí, không theo dõi, không có chương trình làm việc ẩn. Nhận máy chủ miễn phí của chúng tôi để thu thập tất cả âm thanh, video, ảnh và nhiều thứ khác của bạn ở một nơi.
+
+Để sử dụng ứng dụng, bạn phải thiết lập và chạy máy chủ Jellyfin. Tìm hiểu thêm tại <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+Với máy chủ Jellyfin, bạn có thể:
+
+* Xem TV Trực tiếp và các chương trình đã ghi từ máy chủ Jellyfin của bạn (yêu cầu phần cứng/dịch vụ bổ sung)
+* Truyền tới thiết bị Chromecast trên mạng của bạn
+* Truyền phương tiện của bạn đến thiết bị Android của bạn
+* Xem bộ sưu tập của bạn trong một giao diện dễ sử dụng
+
+Đây là ứng dụng Jellyfin đồng hành chính thức dành cho Android TV. Cảm ơn bạn đã sử dụng Jellyfin!
