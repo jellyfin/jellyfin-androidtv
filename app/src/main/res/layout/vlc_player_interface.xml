@@ -52,6 +52,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginHorizontal="120dp"
             android:layout_marginBottom="48dp"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="28sp"
             app:strokeWidth="5.0"
