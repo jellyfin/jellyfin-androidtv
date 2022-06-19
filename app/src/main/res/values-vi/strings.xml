@@ -119,7 +119,7 @@
     <string name="msg_burn_sub_warning">Ghi phụ đề. Điều này có thể mất một vài giây…</string>
     <string name="msg_unable_load_subs">Không thể tải phụ đề</string>
     <string name="msg_subtitles_loading">Đang tải phụ đề…</string>
-    <string name="lbl_filters">Bộ lọc</string>
+    <string name="lbl_filters">Bộ lọc TV trực tiếp</string>
     <string name="btn_clear_all">Xóa Hết</string>
     <string name="btn_filter">Bộ lọc</string>
     <string name="lbl_ended">ĐÃ HẾT</string>
@@ -488,4 +488,9 @@
     <string name="home_section_resume_book">Tiếp tục đọc</string>
     <string name="lbl_shuffle_queue">Chuyển Đổi Ngẫu Nhiên</string>
     <string name="state_disabled">Đã Tắt</string>
+    <string name="live_tv_preferences">Tùy chọn TV trực tiếp</string>
+    <string name="pref_audio">Âm thanh</string>
+    <string name="pref_libvlc_subtitle_delay_title">Độ trễ phụ đề mặc định cho LibVLC</string>
+    <string name="lbl_subtitle_delay">Độ Trễ Phụ Đề</string>
+    <string name="lbl_adjust">Điều chỉnh</string>
 </resources>
