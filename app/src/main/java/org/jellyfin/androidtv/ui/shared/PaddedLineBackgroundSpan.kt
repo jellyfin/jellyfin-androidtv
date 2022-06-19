@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.shared
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
+import android.view.Gravity
 import android.text.style.LineBackgroundSpan
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
@@ -14,7 +15,8 @@ import kotlin.math.roundToInt
  */
 class PaddedLineBackgroundSpan(
 	@ColorInt private val backgroundColor: Int,
-	@Dimension private val horizontalPadding: Int
+	@Dimension private val horizontalPadding: Int,
+	private val horizontalGravity: Int,
 ) : LineBackgroundSpan {
 	private val backgroundRect = Rect()
 
@@ -35,11 +37,25 @@ class PaddedLineBackgroundSpan(
 		// Measure the current line of text
 		val textWidth = paint.measureText(text, start, end).roundToInt()
 
+		@Suppress("RtlHardcoded")
+		val rectLeft = when(horizontalGravity) {
+			Gravity.CENTER_HORIZONTAL -> ((right - textWidth) / 2) - horizontalPadding
+			Gravity.RIGHT -> right - textWidth - horizontalPadding
+			else -> left - horizontalPadding
+		}
+
+		@Suppress("RtlHardcoded")
+		val rectRight = when(horizontalGravity) {
+			Gravity.CENTER_HORIZONTAL -> right - rectLeft
+			Gravity.RIGHT -> right + horizontalPadding
+			else -> left + textWidth + horizontalPadding
+		}
+
 		// Set the dimensions of the background rectangle
 		backgroundRect.set(
-			left - horizontalPadding,
+			rectLeft,
 			top,
-			left + textWidth + horizontalPadding,
+			rectRight,
 			bottom
 		)
 
