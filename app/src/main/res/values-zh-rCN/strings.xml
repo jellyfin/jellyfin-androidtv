@@ -497,4 +497,8 @@
     <string name="action_use_password">使用密码</string>
     <string name="action_login">登入</string>
     <string name="state_disabled">禁用</string>
+    <string name="live_tv_preferences">直播电视选项</string>
+    <string name="pref_libvlc_subtitle_delay_title">LibVLC 的默认字幕延迟</string>
+    <string name="lbl_subtitle_delay">字幕延迟</string>
+    <string name="lbl_adjust">调节</string>
 </resources>
