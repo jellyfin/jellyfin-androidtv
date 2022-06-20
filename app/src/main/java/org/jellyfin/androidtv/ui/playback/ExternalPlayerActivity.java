@@ -240,7 +240,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
-                ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition, false);
+                ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
                 mHandler.postDelayed(this, 15000);
             }
         };
@@ -270,6 +270,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 startActivity(intent);
                 finishAfterTransition();
             } else {
+                mPosition = 0L; // reset for next item
                 launchExternalPlayer(0);
             }
         } else {
@@ -279,66 +280,69 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
     protected void launchExternalPlayer(int ndx) {
         if (ndx >= mItemsToPlay.size()) {
-            Timber.e("Attempt to play index beyond items: %s",ndx);
+            Timber.e("Attempt to play index beyond items: %s", ndx);
+            finish();
+            return;
+        }
+
+        //Get playback info for current item
+        mCurrentNdx = ndx;
+        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
+
+        if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
+            // Just pass the path directly
+            mCurrentStreamInfo = new StreamInfo();
+            mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);
+            startExternalActivity(preparePath(item.getPath()), item.getContainer() != null ? item.getContainer() : "*");
         } else {
-            //Get playback info for current item
-            mCurrentNdx = ndx;
-            final BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
-            isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
+            //Build options for player
+            VideoOptions options = new VideoOptions();
+            options.setItemId(item.getId());
+            options.setMediaSources(item.getMediaSources());
+            options.setMaxBitrate(Utils.getMaxBitrate());
+            options.setProfile(new ExternalPlayerProfile());
 
-            if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
-                // Just pass the path directly
-                mCurrentStreamInfo = new StreamInfo();
-                mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);
-                startExternalActivity(preparePath(item.getPath()), item.getContainer() != null ? item.getContainer() : "*");
-            } else {
-                //Build options for player
-                VideoOptions options = new VideoOptions();
-                options.setItemId(item.getId());
-                options.setMediaSources(item.getMediaSources());
-                options.setMaxBitrate(Utils.getMaxBitrate());
-                options.setProfile(new ExternalPlayerProfile());
+            // Get playback info for each player and then decide on which one to use
+            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
+                @Override
+                public void onResponse(StreamInfo response) {
+                    mCurrentStreamInfo = response;
 
-                // Get playback info for each player and then decide on which one to use
-                KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
-                    @Override
-                    public void onResponse(StreamInfo response) {
-                        mCurrentStreamInfo = response;
+                    //Construct a static URL to sent to player
+                    //String url = KoinJavaComponent.<ApiClient>get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
-                        //Construct a static URL to sent to player
-                        //String url = KoinJavaComponent.<ApiClient>get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
+                    String url = response.getMediaUrl();
+                    //And request an activity to play it
+                    startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
+                }
 
-                        String url = response.getMediaUrl();
-                        //And request an activity to play it
-                        startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        Timber.e(exception, "Error getting playback stream info");
-                        if (exception instanceof PlaybackException) {
-                            PlaybackException ex = (PlaybackException) exception;
-                            switch (ex.getErrorCode()) {
-                                case NotAllowed:
-                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_not_allowed));
-                                    break;
-                                case NoCompatibleStream:
-                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_incompatible));
-                                    break;
-                                case RateLimitExceeded:
-                                    Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_restricted));
-                                    break;
-                            }
+                @Override
+                public void onError(Exception exception) {
+                    Timber.e(exception, "Error getting playback stream info");
+                    if (exception instanceof PlaybackException) {
+                        PlaybackException ex = (PlaybackException) exception;
+                        switch (ex.getErrorCode()) {
+                            case NotAllowed:
+                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_not_allowed));
+                                break;
+                            case NoCompatibleStream:
+                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_incompatible));
+                                break;
+                            case RateLimitExceeded:
+                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_restricted));
+                                break;
                         }
                     }
+                }
 
-                });
-            }
+            });
         }
     }
 
+
     protected String preparePath(String rawPath) {
-        if (rawPath == null) return "";
+        if (rawPath == null || rawPath.isEmpty() || rawPath.trim().isEmpty()) return "";
         if (!rawPath.contains("://")) {
             rawPath = rawPath.replace("\\\\",""); // remove UNC prefix if there
             //prefix with smb
@@ -349,9 +353,15 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     protected void startExternalActivity(String path, String container) {
+        if (path == null || path.isEmpty() || path.trim().isEmpty()) {
+            Timber.e("Error playback path is null/empty.");
+            finish();
+            return;
+        }
         BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         if (item == null) {
             Timber.e("Error getting item to play for Ndx: <%d>.", mCurrentNdx);
+            finish();
             return;
         }
 
@@ -385,7 +395,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             external.putExtra(API_VIMU_TITLE, full_title);
         }
         String filepath = item.getPath();
-        if (!filepath.isEmpty()) {
+        if (filepath != null && !filepath.isEmpty()) {
             File file = new File(filepath);
             if (!file.getName().isEmpty()) {
                 external.putExtra(API_MX_FILENAME, file.getName());
@@ -397,10 +407,9 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
-            ReportingHelper.reportStart(item, 0);
+            ReportingHelper.reportStart(item, mPosition * RUNTIME_TICKS_TO_MS);
             startReportLoop();
             startActivityForResult(external, 1);
-
         } catch (ActivityNotFoundException e) {
             noPlayerError = true;
             Timber.e(e, "Error launching external player");
