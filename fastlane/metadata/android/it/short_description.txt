@@ -1,0 +1,1 @@
+Client televisivo per Jellyfin, il software multimediale libero

@@ -1,0 +1,3 @@
+Grazie per aver scelto Jellyfin sulla tua Android TV! Ti raccomandiamo di usare l'ultima versione del Server Jellyfin.
+
+Per ulteriori informazioni, visita il nostro blog al sito jellyfin.org, o leggi la lista completa di modifiche su GitHub.
