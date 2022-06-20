@@ -22,7 +22,7 @@
     <string name="lbl_recording">Nahrávanie</string>
     <string name="msg_unable_load_subs">Titulky sa nedajú načítať</string>
     <string name="msg_subtitles_loading">Titulky sa načítajú…</string>
-    <string name="lbl_filters">Filtre</string>
+    <string name="lbl_filters">Filtre pre živú TV</string>
     <string name="btn_clear_all">Vyčistiť všetko</string>
     <string name="btn_filter">Filter</string>
     <string name="lbl_ended">UKONČENÝ</string>
@@ -144,7 +144,7 @@
     <string name="lbl_album_name">Názov albumu</string>
     <string name="lbl_next_episode">Nasledujúca epizóda</string>
     <string name="lbl_previous_episode">Predchádzajúca epizóda</string>
-    <string name="lbl_more_like_this">Podobné ako toto</string>
+    <string name="lbl_more_like_this">Navrhované</string>
     <string name="lbl_resume_from">Pokračovať od %1$s</string>
     <string name="lbl_guide_option_number">Číslo kanálu</string>
     <string name="lbl_guide_option_played">Naposledy prehrávané</string>
@@ -500,4 +500,5 @@
     <string name="pref_libvlc_subtitle_delay_title">Predvolené oneskorenie titulkov pre LibVLC</string>
     <string name="lbl_subtitle_delay">Oneskorenie tituliek</string>
     <string name="lbl_adjust">Upraviť</string>
+    <string name="live_tv_preferences">Nastavenia pre živú TV</string>
 </resources>
