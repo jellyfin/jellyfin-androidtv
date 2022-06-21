@@ -67,7 +67,7 @@
     <string name="lbl_play_trailers">Reproduzir Anúncio(s)</string>
     <string name="lbl_no">Não</string>
     <string name="lbl_yes">Sim</string>
-    <string name="lbl_enter_server_address">Insira o Endereço do Servidor</string>
+    <string name="lbl_enter_server_address">Introduza o endereço do servidor</string>
     <string name="lbl_valid_server_address">Por favor, introduza o endereço do servidor (IP ou domínio/nome do servidor)</string>
     <string name="lbl_ok">Ok</string>
     <string name="lbl_born">"Nascido "</string>
@@ -481,4 +481,5 @@
     <string name="server_connection_failed_candidates">Não foi possível estabelecer ligação com o servidor, foram tentados os seguintes endereços: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_show_backdrop_description">Alterar imagem de fundo para seleção de items</string>
+    <string name="state_disabled">Desativado</string>
 </resources>
