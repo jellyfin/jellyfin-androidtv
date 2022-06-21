@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.startup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -67,6 +68,7 @@ class StartupViewModel(
 
 	fun reloadServers() {
 		viewModelScope.launch { serverRepository.loadStoredServers() }
+		viewModelScope.launch(Dispatchers.IO) { serverRepository.loadDiscoveryServers() }
 	}
 
 	suspend fun getLastServer(): Server? {
