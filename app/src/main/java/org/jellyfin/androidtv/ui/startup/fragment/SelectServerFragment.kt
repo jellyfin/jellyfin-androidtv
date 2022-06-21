@@ -137,12 +137,12 @@ class SelectServerFragment : Fragment() {
 						discoveryServerAdapter.items = servers.map { StatefulServer(server = it) }
 
 						binding.discoveryServers.isFocusable = servers.any()
+						binding.discoveryServers.isVisible = discoveryServerAdapter.itemCount > 0
+						binding.discoveryNoneFound.isVisible = discoveryServerAdapter.itemCount == 0
 					}
 				}
 
 				binding.discoveryProgressIndicator.isVisible = false
-				binding.discoveryServers.isVisible = discoveryServerAdapter.itemCount > 0
-				binding.discoveryNoneFound.isVisible = discoveryServerAdapter.itemCount == 0
 			}
 		}
 
