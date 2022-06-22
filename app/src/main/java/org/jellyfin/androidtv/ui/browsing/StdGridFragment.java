@@ -554,9 +554,11 @@ public class StdGridFragment extends GridFragment {
             @Override
             public void onResponse() {
                 setStatusText(mFolder.getName());
-                updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
+                if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
+                    setItem(null);
+                    updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
+                }
                 mLetterButton.setVisibility(ItemSortBy.SortName.equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
-                setItem(null);
                 if (mGridAdapter.getTotalItems() == 0) {
                     mToolBar.requestFocus();
                     mHandler.postDelayed(new Runnable() {
