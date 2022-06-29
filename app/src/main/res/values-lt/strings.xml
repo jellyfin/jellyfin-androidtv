@@ -2,7 +2,7 @@
 <resources>
     <string name="lbl_upcoming">Tuoj bus</string>
     <string name="lbl_seasons">Sezonai</string>
-    <string name="lbl_series">Serijos</string>
+    <string name="lbl_series">Laidos</string>
     <string name="lbl_cancel">Uždaryti</string>
     <string name="lbl_play">Žiūrėti</string>
     <string name="lbl_play_all">Žiūrėti visus</string>
@@ -26,7 +26,7 @@
     <string name="lbl_on_now">Šiuo metu rodoma</string>
     <string name="lbl_next_up">Toliau</string>
     <string name="lbl_continue_watching">Tęsti Žiūrėjimą</string>
-    <string name="lbl_settings">Nustatymai</string>
+    <string name="lbl_settings">Parinktys</string>
     <string name="chapters">Skyriai</string>
     <string name="pref_authentication_cat">Autentifikacija</string>
     <string name="settings_title">Nuostatos</string>
@@ -83,4 +83,21 @@
     <string name="lbl_watched">Žiūrėtas</string>
     <string name="lbl_favorite">Mėgstamiausias</string>
     <string name="lbl_chapters">Skyriai</string>
+    <string name="msg_cannot_play">Šio elemento paleisti negalima</string>
+    <string name="msg_cannot_play_time">Šiuo metu negalima paleisti šio elemento</string>
+    <string name="lbl_play_trailers">Leisti Anonsą(-us)</string>
+    <string name="lbl_trailer">"Anonsas "</string>
+    <string name="lbl_none">Tuščia</string>
+    <string name="lbl_other_options">Kitos parinktys</string>
+    <string name="lbl_directed_by">Režisierius</string>
+    <string name="lbl_min">" min"</string>
+    <string name="lbl_runs">Trukmė</string>
+    <string name="lbl_item">Elementas</string>
+    <string name="lbl_items">Elementai</string>
+    <string name="lbl_trailers">Anonsai</string>
+    <string name="lbl_cancel_series">Atšaukti laidą</string>
+    <string name="lbl_record_series">Įrašyti laidą</string>
+    <string name="lbl_pause">Pauzė</string>
+    <string name="msg_not_implemented">" neįgyvendinta"</string>
+    <string name="state_disabled">Išjungta</string>
 </resources>
