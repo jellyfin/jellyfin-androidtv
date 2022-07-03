@@ -35,15 +35,17 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class CardPresenter extends Presenter {
-    private static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
+    public static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
 
     private int mStaticHeight = 300;
-    private ImageType mImageType = ImageType.DEFAULT;
+    private ImageType mImageType = ImageType.POSTER;
     private double aspect;
 
     private boolean mShowInfo = true;
 
     private boolean isUserView = false;
+
+    private boolean isUniformAspect = false;
 
     public CardPresenter() {
         super();
@@ -86,7 +88,7 @@ public class CardPresenter extends Presenter {
         }
 
         public void setItem(BaseRowItem m) {
-            setItem(m, ImageType.DEFAULT, 260, 300, 300);
+            setItem(m, ImageType.POSTER, 260, 300, 300);
         }
 
         public void setItem(BaseRowItem m, ImageType imageType, int lHeight, int pHeight, int sHeight) {
@@ -109,7 +111,9 @@ public class CardPresenter extends Presenter {
                         case Audio:
                         case MusicAlbum:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_audio);
-                            if (aspect < 0.8) {
+                            if (isUniformAspect) {
+                                aspect = 1.0;
+                            } else if (aspect < .8) {
                                 aspect = 1.0;
                             }
                             showWatched = false;
@@ -119,7 +123,9 @@ public class CardPresenter extends Presenter {
                             break;
                         case MusicArtist:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
-                            if (aspect < .8) {
+                            if (isUniformAspect) {
+                                aspect = 1.0;
+                            } else if (aspect < .8) {
                                 aspect = 1.0;
                             }
                             showWatched = false;
@@ -130,7 +136,7 @@ public class CardPresenter extends Presenter {
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
-                            if (imageType.equals(ImageType.DEFAULT))
+                            if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
@@ -181,13 +187,13 @@ public class CardPresenter extends Presenter {
                         case Movie:
                         case Video:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT))
+                            if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             showProgress = true;
                             break;
                         default:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            if (imageType.equals(ImageType.DEFAULT))
+                            if (imageType.equals(ImageType.POSTER))
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                     }
@@ -374,7 +380,7 @@ public class CardPresenter extends Presenter {
 
         holder.mCardView.setTitleText(rowItem.getCardName(holder.mCardView.getContext()));
         holder.mCardView.setContentText(rowItem.getSubText(holder.mCardView.getContext()));
-        if (ImageType.DEFAULT.equals(mImageType)) {
+        if (ImageType.POSTER.equals(mImageType)) {
             holder.mCardView.setOverlayInfo(rowItem);
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
@@ -432,5 +438,9 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
+    }
+
+    public void setUniformAspect(boolean uniformAspect) {
+        isUniformAspect = uniformAspect;
     }
 }

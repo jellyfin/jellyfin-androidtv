@@ -5,11 +5,10 @@ import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 
 enum class PosterSize {
 	/**
-	 * Automatic.
+	 * Smallest.
 	 */
-	@EnumDisplayOptions(R.string.image_size_auto)
-	AUTO,
-
+	@EnumDisplayOptions(R.string.image_size_smallest)
+	SMALLEST,
 	/**
 	 * Small.
 	 */
@@ -26,5 +25,11 @@ enum class PosterSize {
 	 * Large.
 	 */
 	@EnumDisplayOptions(R.string.image_size_large)
-	LARGE
+	LARGE,
+
+	/**
+	 * Extra Large.
+	 */
+	@EnumDisplayOptions(R.string.image_size_xlarge)
+	X_LARGE
 }
