@@ -179,9 +179,6 @@ public class HorizontalGridPresenter extends Presenter {
         }
         Timber.d("mNumRows %s", mNumRows);
         vh.getGridView().setNumRows(mNumRows);
-        vh.getGridView().setFadingRightEdge(true);
-        vh.getGridView().setFadingRightEdgeLength(100);
-        vh.getGridView().setItemSpacing(10);
         vh.mInitialized = true;
 
         vh.mItemBridgeAdapter.setWrapper(mWrapper);

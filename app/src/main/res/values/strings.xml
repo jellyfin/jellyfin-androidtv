@@ -294,7 +294,7 @@
     <string name="pref_device_model">Device model</string>
     <string name="grid_direction">Grid Direction</string>
     <string name="grid_direction_horizontal">Horizontal</string>
-    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="grid_direction_vertical">Vertical</string>
     <string name="lbl_unknown_key">Unknown (%1s)</string>
     <string name="pref_audio_track_button">Audio track button</string>
     <string name="pref_subtitle_track_button">Subtitle track button</string>
@@ -365,13 +365,14 @@
     <string name="lbl_sign_out">Sign out</string>
     <string name="enable_smart_view">Enable smart screen</string>
     <string name="enable_smart_view_description">Smart screen shows relevant items instead of a grid</string>
-    <string name="image_type_default">Default</string>
+    <string name="image_type_poster">Poster</string>
     <string name="image_type_thumbnail">Thumbnail</string>
     <string name="image_type_banner">Banner</string>
-    <string name="image_size_auto">Default</string>
+    <string name="image_size_smallest">Smallest</string>
     <string name="image_size_small">Small</string>
     <string name="image_size_medium">Medium</string>
     <string name="image_size_large">Large</string>
+    <string name="image_size_xlarge">Extra-Large</string>
     <string name="pref_developer_link">Developer options</string>
     <string name="pref_developer_link_description">Advanced and experimental features</string>
     <string name="lbl_hidden">Hidden</string>

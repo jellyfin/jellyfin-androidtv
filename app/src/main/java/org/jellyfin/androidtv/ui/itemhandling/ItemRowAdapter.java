@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
+import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
@@ -117,8 +118,8 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private boolean preferParentThumb = false;
     private boolean staticHeight = false;
 
-    private Lazy<ApiClient> apiClient = inject(ApiClient.class);
-    private Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
+    private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private Context context;
 
     public boolean isCurrentlyRetrieving() {
@@ -450,9 +451,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void setPosition(int pos) {
-        Presenter presenter = getParent().getPresenter(this);
-        if (presenter instanceof PositionableListRowPresenter) {
-            ((PositionableListRowPresenter) presenter).setPosition(pos);
+        if (getParent() != null) {
+            Presenter presenter = getParent().getPresenter(this);
+            if (presenter instanceof PositionableListRowPresenter) {
+                ((PositionableListRowPresenter) presenter).setPosition(pos);
+            }
         }
     }
 
@@ -506,12 +509,17 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             Timber.d("Not loading more because currently retrieving");
             return;
         }
-
-        if (pos >= itemsLoaded - 20) {
-            Timber.d("Loading more items starting at %d", itemsLoaded);
+        // This needs tobe based on the actual estimated cards on screen via type of presenter and WindowAlignmentOffsetPercent
+        if (chunkSize > 0 && context instanceof GenericGridActivity) {
+            // we can use chunkSize as indicator on when to load
+            if (pos >= (itemsLoaded - (chunkSize / 1.7))) {
+                Timber.d("Loading more items trigger pos <%s> itemsLoaded <%s> from total <%s> with chunkSize <%s>", pos, itemsLoaded, totalItems, chunkSize);
+                retrieveNext();
+            }
+        } else if (pos >= itemsLoaded - 20) {
+            Timber.d("Loading more items trigger pos <%s> itemsLoaded <%s> from total <%s>", pos, itemsLoaded, totalItems);
             retrieveNext();
         }
-
     }
 
     private void retrieveNext() {
@@ -768,7 +776,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getTotalRecordCount() > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
                         //re-map the display prefs id to our actual id
                         item.setDisplayPreferencesId(item.getId());
@@ -973,9 +981,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                 ) {
                                     // new unwatched episode 1 not disliked - check to be sure prev episode not already in next up
                                     BaseItemDto nextUpItem = null;
-                                    for (int n = 0; n < nextUpItems.length; n++) {
-                                        if (nextUpItems[n].getSeriesId().equals(item.getSeriesId())) {
-                                            nextUpItem = nextUpItems[n];
+                                    for (BaseItemDto upItem : nextUpItems) {
+                                        if (upItem.getSeriesId().equals(item.getSeriesId())) {
+                                            nextUpItem = upItem;
                                             break;
                                         }
                                     }
@@ -1138,7 +1146,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 TvManager.updateProgramsNeedsLoadTime();
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item, staticHeight));
                         i++;
@@ -1177,7 +1185,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
                         item.setBaseItemType(BaseItemType.RecordingGroup); // the API does not fill this in
                         item.setIsFolder(true); // nor this
@@ -1218,7 +1226,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(SeriesTimerInfoDtoResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     for (SeriesTimerInfoDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(item));
                         i++;
@@ -1256,7 +1264,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     if (adapter.chunkSize == 0) {
                         // and recordings as first item if showing all
                         adapter.add(new BaseRowItem(new GridButton(LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID, context.getString(R.string.lbl_recorded_tv), R.drawable.tile_port_record)));
@@ -1563,7 +1571,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     int i = 0;
-                    int prevItems = adapter.size() > 0 ? adapter.size() : 0;
+                    int prevItems = Math.max(adapter.size(), 0);
                     for (BaseItemDto item : response.getItems()) {
                         adapter.add(new BaseRowItem(i++, item));
                     }

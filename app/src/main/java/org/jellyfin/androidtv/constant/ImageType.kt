@@ -5,10 +5,10 @@ import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 
 enum class ImageType {
 	/**
-	 * Default.
+	 * Poster.
 	 */
-	@EnumDisplayOptions(R.string.image_type_default)
-	DEFAULT,
+	@EnumDisplayOptions(R.string.image_type_poster)
+	POSTER,
 
 	/**
 	 * Thumbnail.

@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,13 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
-import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import timber.log.Timber;
 
@@ -50,49 +52,21 @@ public class GridFragment extends Fragment {
     private OnItemViewSelectedListener mOnItemViewSelectedListener;
     private OnItemViewClickedListener mOnItemViewClickedListener;
     private int mSelectedPosition = -1;
-    private int mCardHeight;
-
-    protected int SMALL_CARD;
-    protected int MED_CARD;
-    protected int LARGE_CARD;
-    protected int SMALL_BANNER;
-    protected int MED_BANNER;
-    protected int LARGE_BANNER;
-    protected int SMALL_VERTICAL_POSTER;
-    protected int MED_VERTICAL_POSTER;
-    protected int LARGE_VERTICAL_POSTER;
-    protected int SMALL_VERTICAL_SQUARE;
-    protected int MED_VERTICAL_SQUARE;
-    protected int LARGE_VERTICAL_SQUARE;
-    protected int SMALL_VERTICAL_THUMB;
-    protected int MED_VERTICAL_THUMB;
-    protected int LARGE_VERTICAL_THUMB;
-    protected int SMALL_VERTICAL_BANNER;
-    protected int MED_VERTICAL_BANNER;
-    protected int LARGE_VERTICAL_BANNER;
+    private int mGridHeight = -1;
+    private int mGridWidth = -1;
+    private int mGridItemSpacingHorizontal = 0;
+    private int mGridItemSpacingVertical = 0;
+    private int mGridPaddingLeft = 0;
+    private int mGridPaddingTop = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SMALL_CARD = Utils.convertDpToPixel(getContext(), 116);
-        MED_CARD = Utils.convertDpToPixel(getContext(), 175);
-        LARGE_CARD = Utils.convertDpToPixel(getContext(), 210);
-        SMALL_BANNER = Utils.convertDpToPixel(getContext(), 58);
-        MED_BANNER = Utils.convertDpToPixel(getContext(), 88);
-        LARGE_BANNER = Utils.convertDpToPixel(getContext(), 105);
-        SMALL_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 116);
-        MED_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 171);
-        LARGE_VERTICAL_POSTER = Utils.convertDpToPixel(getContext(), 202);
-        SMALL_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 114);
-        MED_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 163);
-        LARGE_VERTICAL_SQUARE = Utils.convertDpToPixel(getContext(), 206);
-        SMALL_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 116);
-        MED_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 155);
-        LARGE_VERTICAL_THUMB = Utils.convertDpToPixel(getContext(), 210);
-        SMALL_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 51);
-        MED_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 77);
-        LARGE_VERTICAL_BANNER = Utils.convertDpToPixel(getContext(), 118);
+        // init with some working defaults
+        DisplayMetrics display = requireContext().getResources().getDisplayMetrics();
+        mGridHeight = display.heightPixels - (int) Math.round(display.density * 130.6); // top + bottom in dp, elements scale with density so adjust accordingly
+        mGridWidth = display.widthPixels;
 
         sortOptions = new HashMap<>();
         {
@@ -101,9 +75,9 @@ public class GridFragment extends Fragment {
             sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.Descending));
             sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.Ascending));
             sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.Descending));
-            sortOptions.put(5,new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.Descending));
             sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.Descending));
-        };
+        }
     }
 
     /**
@@ -156,8 +130,24 @@ public class GridFragment extends Fragment {
         return mAdapter;
     }
 
+    /**
+     * @return the GridView for the fragment.
+     */
+    public BaseGridView getGridView() {
+        return mGridView;
+    }
+
     public int getGridHeight() {
-        return Utils.convertDpToPixel(requireContext(), 400);
+        return mGridHeight;
+    }
+
+    public int getGridWidth() {
+        return mGridWidth;
+    }
+
+    protected void setGridSize(int height, int width) {
+        mGridHeight = height;
+        mGridWidth = width;
     }
 
     public void setItem(BaseRowItem item) {
@@ -168,6 +158,16 @@ public class GridFragment extends Fragment {
             mTitleView.setText("");
             mInfoRow.removeAllViews();
         }
+    }
+
+    protected void setGridItemSpacing(int spacingHorizontal, int spacingVertical) {
+        mGridItemSpacingHorizontal = spacingHorizontal;
+        mGridItemSpacingVertical = spacingVertical;
+    }
+
+    protected void setGridPadding(int gridPaddingLeft, int gridPaddingTop) {
+        mGridPaddingLeft = gridPaddingLeft;
+        mGridPaddingTop = gridPaddingTop;
     }
 
     public class SortOption {
@@ -191,10 +191,10 @@ public class GridFragment extends Fragment {
     protected SortOption getSortOption(String value) {
         for (Integer key : sortOptions.keySet()) {
             SortOption option = sortOptions.get(key);
-            if (option.value.equals(value)) return option;
+            if (Objects.requireNonNull(option).value.equals(value)) return option;
         }
 
-        return new SortOption("Unknown","",SortOrder.Ascending);
+        return new SortOption("Unknown", "", SortOrder.Ascending);
     }
 
     public void setTitle(String text) {
@@ -220,7 +220,9 @@ public class GridFragment extends Fragment {
         mStatusText.setText(text);
     }
 
-    public LinearLayout getToolBar() { return mToolBar; }
+    public LinearLayout getToolBar() {
+        return mToolBar;
+    }
 
     final private OnItemViewSelectedListener mRowSelectedListener =
             new OnItemViewSelectedListener() {
@@ -231,30 +233,7 @@ public class GridFragment extends Fragment {
                     Timber.d("row selected position %s", position);
                     onRowSelected(position);
                     if (mOnItemViewSelectedListener != null && position >= 0) {
-                        mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item,
-                                rowViewHolder, row);
-                    }
-                    if (mGridPresenter instanceof VerticalGridPresenter) {
-                        if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
-                            mGridView.setWindowAlignmentOffsetPercent((float) 11.4);
-                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
-                            mGridView.setWindowAlignmentOffsetPercent((float) 25.95);
-                        } else if (mCardHeight == SMALL_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 3) {
-                            mGridView.setWindowAlignmentOffsetPercent((float) 40.5);
-                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
-                            mGridView.setWindowAlignmentOffsetPercent(15);
-                        } else if (mCardHeight == MED_VERTICAL_BANNER && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
-                            mGridView.setWindowAlignmentOffsetPercent(36);
-                        } else if (mCardHeight == SMALL_VERTICAL_SQUARE && position >= ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() && position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns() * 2) {
-                            mGridView.setWindowAlignmentOffsetPercent((float) 49.3);
-                            mGridView.setWindowAlignmentOffset(0);
-                        } else if (position < ((VerticalGridPresenter)mGridPresenter).getNumberOfColumns()) {
-                            mGridView.setWindowAlignmentOffsetPercent((float) 5.1);
-                            mGridView.setWindowAlignmentOffset((int) Math.round(mCardHeight * 0.5));
-                        } else {
-                            mGridView.setWindowAlignmentOffsetPercent(50);
-                            mGridView.setWindowAlignmentOffset(0);
-                        }
+                        mOnItemViewSelectedListener.onItemSelected(itemViewHolder, item, rowViewHolder, row);
                     }
                 }
             };
@@ -271,14 +250,13 @@ public class GridFragment extends Fragment {
             mSelectedPosition = position;
         }
         // Update the counter
-        updateCounter(position+1);
+        updateCounter(position + 1);
     }
 
     public void updateCounter(int position) {
         if (mAdapter != null) {
-            mCounter.setText((position)+" | "+ mAdapter.getTotalItems());
+            mCounter.setText(MessageFormat.format("{0} | {1}", position, mAdapter.getTotalItems()));
         }
-
     }
 
     /**
@@ -288,9 +266,9 @@ public class GridFragment extends Fragment {
         mOnItemViewClickedListener = listener;
         if (mGridPresenter != null) {
             if (mGridPresenter instanceof HorizontalGridPresenter)
-                ((HorizontalGridPresenter)mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
+                ((HorizontalGridPresenter) mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
             else if (mGridPresenter instanceof VerticalGridPresenter)
-                ((VerticalGridPresenter)mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
+                ((VerticalGridPresenter) mGridPresenter).setOnItemViewClickedListener(mOnItemViewClickedListener);
         }
     }
 
@@ -304,8 +282,8 @@ public class GridFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        HorizontalGridBrowseBinding binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
 
+        HorizontalGridBrowseBinding binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
         mTitleView = binding.title;
         mStatusText = binding.statusText;
         mInfoRow = binding.infoRow;
@@ -316,7 +294,20 @@ public class GridFragment extends Fragment {
         // Hide the description because we don't have room for it
         binding.npBug.showDescription(false);
 
+        // NOTE: we only get the 100% correct grid size if we render it once, so hook into it here
+        mGridDock.post(() -> {
+            if (mGridDock.getHeight() > 0 && mGridDock.getWidth() > 0) {
+                onGridSizeMeasurements(mGridDock.getHeight(), mGridDock.getWidth());
+            }
+        });
+
         return binding.getRoot();
+    }
+
+    /**
+     * Callback for measured GridSize.
+     */
+    protected void onGridSizeMeasurements(int gridHeight, int gridWidth) {
     }
 
     @Override
@@ -326,23 +317,25 @@ public class GridFragment extends Fragment {
 
     protected void createGrid() {
         mGridViewHolder = mGridPresenter.onCreateViewHolder(mGridDock);
-        if (mGridViewHolder instanceof HorizontalGridPresenter.ViewHolder)
-            mGridView = ((HorizontalGridPresenter.ViewHolder)mGridViewHolder).getGridView();
-        else if (mGridViewHolder instanceof VerticalGridPresenter.ViewHolder)
-            mGridView = ((VerticalGridPresenter.ViewHolder)mGridViewHolder).getGridView();
-
+        if (mGridViewHolder instanceof HorizontalGridPresenter.ViewHolder) {
+            mGridView = ((HorizontalGridPresenter.ViewHolder) mGridViewHolder).getGridView();
+            mGridView.setGravity(Gravity.CENTER_VERTICAL);
+            mGridView.setPadding(mGridPaddingLeft, mGridPaddingTop, mGridPaddingLeft, mGridPaddingTop); // prevent initial card cutoffs
+            // Don't use fading, breaks initial view and needs special handling, while not providing much of a visual difference!
+//            ((HorizontalGridView)mGridView).setFadingRightEdge(true);
+//            ((HorizontalGridView)mGridView).setFadingRightEdgeLength(100);
+        } else if (mGridViewHolder instanceof VerticalGridPresenter.ViewHolder) {
+            mGridView = ((VerticalGridPresenter.ViewHolder) mGridViewHolder).getGridView();
+            mGridView.setGravity(Gravity.CENTER_HORIZONTAL);
+            mGridView.setPadding(mGridPaddingLeft, mGridPaddingTop, mGridPaddingLeft, mGridPaddingTop); // prevent initial card cutoffs
+        }
+        mGridView.setHorizontalSpacing(mGridItemSpacingHorizontal);
+        mGridView.setVerticalSpacing(mGridItemSpacingVertical);
         mGridView.setFocusable(true);
         mGridDock.removeAllViews();
-        mGridView.setGravity(Gravity.CENTER_VERTICAL);
         mGridDock.addView(mGridViewHolder.view);
 
         updateAdapter();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     public void focusGrid() {
@@ -362,9 +355,5 @@ public class GridFragment extends Fragment {
                 mGridView.setSelectedPosition(mSelectedPosition);
             }
         }
-    }
-
-    protected void setCardHeight(int height) {
-        mCardHeight = height;
     }
 }
