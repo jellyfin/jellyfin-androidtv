@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="lbl_settings">ಆದ್ಯತೆಗಳು</string>
+    <string name="state_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="chapters">ಅಧ್ಯಾಯಗಳು</string>
+    <string name="pref_authentication_cat">ದೃಢೀಕರಣ</string>
+    <string name="settings_title">ಆದ್ಯತೆಗಳು</string>
+    <string name="pref_max_bitrate_title">ಗರಿಷ್ಠ ಸ್ಟ್ರೀಮಿಂಗ್ ಬಿಟ್ರೇಟ್</string>
+    <string name="pref_playback">ಪುನ್ಹಾ ಪ್ಲೇ ಮಾಡು</string>
+    <string name="byletter_letters">ಅಆಇಈಉಊಋಎಏಐಒಓಔಅಂಅ:ಕಖಗಘಙಚಛಜಝಞಟಠಡಢಣತಥದಧನಪಫಬಭಮಯರಲವಶಷಸಹಳಕ್ಷತ್ರಜ್ಞಕಕಾಕಿಕೀಕುಕೂಕೃಕೆಕೇಕೈಕೊಕೋಕೌಕಂಕಃ</string>
+    <string name="btn_cancel">ರದ್ದುಮಾಡು</string>
+    <string name="loading">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</string>
+    <string name="video_error_unknown_error">ವೀಡಿಯೊ ಲೋಡ್ ವಿಫಲವಾಯಿತು</string>
+</resources>
