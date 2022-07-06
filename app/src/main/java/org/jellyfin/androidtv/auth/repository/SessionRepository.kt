@@ -10,6 +10,7 @@ import org.jellyfin.androidtv.auth.store.AccountManagerStore
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.preference.PreferencesRepository
+import org.jellyfin.androidtv.preference.TelemetryPreferences
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.DISABLED
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.LAST_USER
 import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.SPECIFIC_USER
@@ -53,6 +54,7 @@ class SessionRepositoryImpl(
 	private val defaultDeviceInfo: DeviceInfo,
 	private val userRepository: UserRepository,
 	private val serverRepository: ServerRepository,
+	private val telemetryPreferences: TelemetryPreferences,
 ) : SessionRepository {
 	private val currentSessionMutex = Mutex()
 	private val _currentSession = MutableStateFlow<Session?>(null)
@@ -126,6 +128,13 @@ class SessionRepositoryImpl(
 
 		if (success) {
 			userApiClient.applySession(session, deviceInfo)
+
+			// Update crash reporting URL
+			// TODO: Use userApiClient.clientLogApi.logFileUrl(includeCredentials = false) in next SDK release
+			val crashReportUrl = userApiClient.createUrl("/ClientLog/Document")
+			telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
+			telemetryPreferences[TelemetryPreferences.crashReportToken] = session?.accessToken.orEmpty()
+
 			if (session != null) {
 				try {
 					val user by userApiClient.userApi.getCurrentUser()

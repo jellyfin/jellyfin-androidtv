@@ -245,18 +245,6 @@
     <string name="lbl_song_title">Song Title</string>
     <string name="pref_use_direct_path_title">Pass Direct Path for external player</string>
     <string name="pref_use_direct_path_summary">Pass the file system path instead of streaming URL</string>
-    <string name="pref_acra_category">Crash reporting</string>
-    <string name="pref_enable_acra">Send crash reports to developers</string>
-    <string name="pref_acra_enabled">You will be prompted to submit crash reports</string>
-    <string name="pref_acra_disabled">Crash reports will not be submitted</string>
-    <string name="pref_acra_alwaysaccept">Submit without prompting</string>
-    <string name="pref_acra_alwaysaccept_enabled">Crash reports will be submitted without prompting</string>
-    <string name="pref_acra_alwaysaccept_disabled">A dialog will be displayed before submitting any crash report</string>
-    <string name="pref_acra_syslog">Include system logs.\nThis may include private data from other applications if it was logged at the time of the crash.</string>
-    <string name="pref_acra_syslog_enabled">System logs will be included in crash reports</string>
-    <string name="pref_acra_syslog_disabled">System logs will not be included in crash reports</string>
-    <string name="acra_dialog_title">Oh no! Something went wrong.</string>
-    <string name="acra_dialog_text">Would you like to send a crash report to the developers?\n\nThis information will be submitted to a third party (tracepot.com).\n\nThis prompt can be disabled in the Crash Reporting section in the Jellyfin app\'s preferences.</string>
     <string name="lbl_tv_channel_status">%1$d of %2$d channels</string>
     <string name="lbl_tv_filter_status"> for next %1$d hours</string>
     <string name="lbl_news">News</string>
@@ -477,7 +465,6 @@
     <string name="pref_login_description">Servers, accounts, automatic sign in</string>
     <string name="pref_customization_description">Theme, home, remapping</string>
     <string name="pref_playback_description">Video, subtitles, live tv, next up</string>
-    <string name="pref_acra_description">Crash dialog, auto-upload, system logs</string>
     <string name="pref_video">Video</string>
     <string name="pref_subtitles">Subtitles</string>
     <string name="pref_audio">Audio</string>
@@ -501,4 +488,13 @@
     <string name="live_tv_preferences">Live TV options</string>
     <string name="app_notification_uimode_invalid">This app is optimized for televisions. We recommend using our mobile app on other devices.</string>
     <string name="server_unsupported_notification">This server uses Jellyfin version %1$s which is unsupported. Please update to Jellyfin %2$s to continue using the app.</string>
+    <string name="pref_telemetry_category">Crash reporting</string>
+    <string name="pref_telemetry_description">Send crash reports, include logs</string>
+    <string name="pref_crash_reports">Send crash reports to server</string>
+    <string name="pref_crash_reports_enabled">Crash reports will be sent to your last used server</string>
+    <string name="pref_crash_reports_disabled">Crash reports will not be submitted</string>
+    <string name="pref_crash_report_logs">Include logs</string>
+    <string name="pref_crash_report_logs_enabled">Logs will be included in crash reports</string>
+    <string name="pref_crash_report_logs_disabled">Logs will not be included in crash reports</string>
+    <string name="crash_report_toast">Oops! Something went wrong, a crash report was send to your Jellyfin server.</string>
 </resources>
