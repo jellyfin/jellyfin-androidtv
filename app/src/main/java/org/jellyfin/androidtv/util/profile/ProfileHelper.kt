@@ -81,11 +81,12 @@ object ProfileHelper {
 		ProfileCondition(
 			ProfileConditionType.EqualsAny,
 			ProfileConditionValue.VideoProfile,
-			arrayOf(
+			listOfNotNull(
 				"high",
 				"main",
 				"baseline",
-				"constrained baseline"
+				"constrained baseline",
+				if (MediaTest.supportsAVCHigh10()) "high 10" else null
 			).joinToString("|")
 		)
 	}
