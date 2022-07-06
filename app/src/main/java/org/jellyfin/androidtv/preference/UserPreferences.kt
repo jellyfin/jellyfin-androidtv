@@ -3,15 +3,14 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
-import org.acra.ACRA
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.preference.constant.NextUpBehavior
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.preference.constant.RatingType
-import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
+import org.jellyfin.androidtv.preference.constant.WatchedIndicatorBehavior
 import org.jellyfin.androidtv.preference.constant.defaultAudioBehavior
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.preference.booleanPreference
@@ -163,22 +162,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Use playback rewrite module
 		 */
 		var playbackRewriteEnabled = booleanPreference("playback_new", false)
-
-		/* ACRA */
-		/**
-		 * Enable ACRA crash reporting
-		 */
-		var acraEnabled = booleanPreference(ACRA.PREF_ENABLE_ACRA, true)
-
-		/**
-		 * Never prompt to report crash logs
-		 */
-		var acraNoPrompt = booleanPreference(ACRA.PREF_ALWAYS_ACCEPT, false)
-
-		/**
-		 * Include system logs in crash reports
-		 */
-		var acraIncludeSystemLogs = booleanPreference(ACRA.PREF_ENABLE_SYSTEM_LOGS, true)
 
 		/**
 		 * When to show the clock.

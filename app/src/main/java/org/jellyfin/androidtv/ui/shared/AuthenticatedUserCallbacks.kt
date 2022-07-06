@@ -20,8 +20,6 @@ class AuthenticatedUserCallbacks(
 			// Startup activities
 			StartupActivity::class.qualifiedName,
 			PreferencesActivity::class.qualifiedName,
-			// Third party
-			org.acra.dialog.CrashReportDialog::class.qualifiedName,
 			// Screensaver activity is not exposed in Android SDK
 			"android.service.dreams.DreamActivity"
 		)

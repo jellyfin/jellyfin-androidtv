@@ -14,16 +14,12 @@ import androidx.work.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.acra.config.dialog
-import org.acra.config.httpSender
-import org.acra.config.limiter
-import org.acra.data.StringFormat
-import org.acra.ktx.initAcra
-import org.acra.sender.HttpSender
+import org.acra.ACRA
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
+import org.jellyfin.androidtv.telemetry.TelemetryService
 import org.jellyfin.androidtv.util.AutoBitrate
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
@@ -35,6 +31,9 @@ import java.util.concurrent.TimeUnit
 class JellyfinApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
+
+		// Don't run in ACRA service
+		if (ACRA.isACRASenderServiceProcess()) return
 
 		val notificationsRepository by inject<NotificationsRepository>()
 		notificationsRepository.addDefaultNotifications()
@@ -96,22 +95,6 @@ class JellyfinApplication : Application() {
 	override fun attachBaseContext(base: Context?) {
 		super.attachBaseContext(base)
 
-		initAcra {
-			buildConfigClass = BuildConfig::class.java
-			reportFormat = StringFormat.JSON
-
-			httpSender {
-				uri = "https://collector.tracepot.com/a2eda9d9"
-				httpMethod = HttpSender.Method.POST
-			}
-
-			dialog {
-				title = getString(R.string.acra_dialog_title)
-				text = getString(R.string.acra_dialog_text)
-				resTheme = R.style.Theme_Jellyfin
-			}
-
-			limiter {}
-		}
+		TelemetryService.init(this)
 	}
 }

@@ -33,8 +33,8 @@ class UserPreferencesScreen : OptionsFragment() {
 			}
 
 			link {
-				setTitle(R.string.pref_acra_category)
-				setContent(R.string.pref_acra_description)
+				setTitle(R.string.pref_telemetry_category)
+				setContent(R.string.pref_telemetry_description)
 				icon = R.drawable.ic_error
 				withFragment<CrashReportingPreferencesScreen>()
 			}
