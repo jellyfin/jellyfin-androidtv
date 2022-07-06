@@ -21,6 +21,8 @@ import timber.log.Timber;
  * A collection of utility methods, all static.
  */
 public class Utils {
+    static public final long RUNTIME_TICKS_TO_MS = 10000;
+
     /**
      * Shows a (long) toast
      *

@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.util.apiclient;
 
+import static org.jellyfin.androidtv.util.Utils.RUNTIME_TICKS_TO_MS;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -23,6 +26,7 @@ import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.koin.java.KoinJavaComponent;
 
@@ -35,7 +39,8 @@ import java.util.UUID;
 import timber.log.Timber;
 
 public class PlaybackHelper {
-    private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
+    private static final int ITEM_QUERY_LIMIT = 15; // use sane default for none music
+    private static final int ITEM_QUERY_LIMIT_MUSIC = 150; // limit the number of items retrieved for playback
 
     public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
@@ -129,6 +134,7 @@ public class PlaybackHelper {
                 });
                 break;
             case MusicAlbum:
+                query.setParentId(mainItem.getId());
             case MusicArtist:
                 //get all songs
                 query.setIsMissing(false);
@@ -138,14 +144,16 @@ public class PlaybackHelper {
                         new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
                             new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
-                query.setLimit(ITEM_QUERY_LIMIT);
+                query.setLimit(ITEM_QUERY_LIMIT_MUSIC);
                 query.setFields(new ItemFields[] {
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.Genres,
                         ItemFields.ChildCount
                 });
                 query.setUserId(userId.toString());
-                query.setArtistIds(new String[]{mainItem.getId()});
+                if (mainItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                    query.setArtistIds(new String[]{mainItem.getId()});
+                }
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
@@ -163,7 +171,7 @@ public class PlaybackHelper {
                 query.setIsVirtualUnaired(false);
                 if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
                 query.setRecursive(true);
-                query.setLimit(ITEM_QUERY_LIMIT);
+                query.setLimit(ITEM_QUERY_LIMIT_MUSIC);
                 query.setFields(new ItemFields[] {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams,
@@ -232,7 +240,6 @@ public class PlaybackHelper {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
-
                                 for (BaseItemDto intro : response.getItems()) {
                                     intro.setBaseItemType(BaseItemType.Trailer);
                                     items.add(intro);
@@ -257,11 +264,55 @@ public class PlaybackHelper {
         }
     }
 
+    public static void playOrPlayNextUp(final BaseItemDto item, final Context activity) {
+        if (item.getBaseItemType() == BaseItemType.Series || item.getBaseItemType() == BaseItemType.Season) {
+            //play next up
+            NextUpQuery nextUpQuery = new NextUpQuery();
+            UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+            nextUpQuery.setUserId(userId.toString());
+            nextUpQuery.setSeriesId(item.getSeriesId() != null ? item.getSeriesId() : item.getId());
+            nextUpQuery.setLimit(1);
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (response.getItems().length > 0) {
+                        retrieveAndPlay(response.getItems()[0].getId(), false, activity);
+                    } else {
+                        // try resume
+                        ItemQuery query = new ItemQuery();
+                        query.setUserId(userId.toString());
+                        query.setParentId(item.getId());
+                        query.setIsMissing(false);
+                        query.setIsVirtualUnaired(false);
+                        query.setIncludeItemTypes(new String[]{"Episode", "Video"});
+                        query.setFilters(new ItemFilter[]{ItemFilter.IsResumable, ItemFilter.IsUnplayed});
+                        query.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                        query.setSortOrder(SortOrder.Descending);
+                        query.setRecursive(true);
+                        query.setLimit(1);
+                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
+                            @Override
+                            public void onResponse(ItemsResult response) {
+                                if (response.getItems().length > 0) {
+                                    retrieveAndPlay(response.getItems()[0].getId(), false, activity);
+                                } else {
+                                    retrieveAndPlay(item.getId(), false, activity);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            retrieveAndPlay(item.getId(), false, activity);
+        }
+    }
+
     public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
-        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos <= 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 switch (item.getBaseItemType()) {
@@ -272,15 +323,16 @@ public class PlaybackHelper {
                     case Playlist:
                         if ("Audio".equals(item.getMediaType())) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
-
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
                             Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
                             Intent intent = new Intent(activity, newActivity);
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                            intent.putExtra("Position", pos);
-                            if (!(activity instanceof Activity))
+                            intent.putExtra("Position", Math.max(pos,0));
+                            if (!(activity instanceof Activity)) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            }
                             activity.startActivity(intent);
                         }
                         break;
@@ -294,9 +346,11 @@ public class PlaybackHelper {
                         Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getBaseItemType());
                         Intent intent = new Intent(activity, newActivity);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                        intent.putExtra("Position", pos);
-                        if (!(activity instanceof Activity))
+                        intent.putExtra("Position", Math.max(pos,0));
+                        if (!(activity instanceof Activity)) {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        }
                         activity.startActivity(intent);
                 }
             }
@@ -321,7 +375,7 @@ public class PlaybackHelper {
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id, userId.toString(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
-                Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;
+                Long pos = position != null ? position / RUNTIME_TICKS_TO_MS : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / RUNTIME_TICKS_TO_MS) - getResumePreroll() : 0;
                 play(response, pos.intValue(), shuffle, activity);
             }
 

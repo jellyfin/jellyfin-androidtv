@@ -95,15 +95,14 @@ public class KeyProcessor {
                                 return true;
                             case Series:
                             case Season:
-                            case BoxSet:
-                                createPlayMenu(rowItem.getBaseItem(), true, false, activity);
+                                // play next, resume or play
+                                PlaybackHelper.playOrPlayNextUp(item, activity);
                                 return true;
+                            case BoxSet:
                             case MusicAlbum:
                             case MusicArtist:
-                                createPlayMenu(rowItem.getBaseItem(), true, true, activity);
-                                return true;
                             case Playlist:
-                                createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
+                                PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
                                 return true;
                             case Photo:
                                 // open photo player
@@ -380,15 +379,17 @@ public class KeyProcessor {
                     query.setSortBy(new String[]{ItemSortBy.SortName});
                     query.setSortOrder(SortOrder.Ascending);
                     query.setLimit(1);
-                    query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});
+                    // NOTE: exclude filters seem broken?
+//                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
+                    query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                     query.setFilters(new ItemFilter[] {ItemFilter.IsUnplayed});
                     KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
-                            if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
-                            } else {
+                            if (response.getItems() != null && response.getItems().length > 0) {
                                 PlaybackHelper.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
+                            } else {
+                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
                             }
                         }
 

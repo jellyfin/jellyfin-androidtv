@@ -1608,7 +1608,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(item, pos <= 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
