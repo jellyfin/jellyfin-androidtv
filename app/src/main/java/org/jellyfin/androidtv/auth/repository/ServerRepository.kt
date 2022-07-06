@@ -16,11 +16,14 @@ import org.jellyfin.androidtv.auth.model.UnableToConnectState
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.util.sdk.toServer
 import org.jellyfin.sdk.Jellyfin
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.exception.InvalidContentException
 import org.jellyfin.sdk.api.client.extensions.brandingApi
 import org.jellyfin.sdk.api.client.extensions.systemApi
 import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
+import org.jellyfin.sdk.model.api.BrandingOptions
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
@@ -119,8 +122,8 @@ class ServerRepositoryImpl(
 			val systemInfo = chosenRecommendation.systemInfo.getOrThrow()
 
 			// Get branding info
-			val api = jellyfin.createApi(chosenRecommendation.address).brandingApi
-			val branding by api.getBrandingOptions()
+			val api = jellyfin.createApi(chosenRecommendation.address)
+			val branding = api.getBrandingOptionsOrDefault()
 
 			val id = systemInfo.id!!.toUUID()
 
@@ -161,7 +164,7 @@ class ServerRepositoryImpl(
 		return try {
 			val api = jellyfin.createApi(server.address)
 			// Get login disclaimer
-			val branding by api.brandingApi.getBrandingOptions()
+			val branding = api.getBrandingOptionsOrDefault()
 			val systemInfo by api.systemApi.getPublicSystemInfo()
 
 			authenticationStore.putServer(server.id, serverInfo.copy(
@@ -192,4 +195,19 @@ class ServerRepositoryImpl(
 		loginDisclaimer = loginDisclaimer,
 		dateLastAccessed = Date(lastUsed),
 	)
+
+	/**
+	 * Try to retrieve the branding options. If the response JSON is invalid it will return a default value.
+	 * This makes sure we can still work with older Jellyfin versions.
+	 */
+	private suspend fun ApiClient.getBrandingOptionsOrDefault() = try {
+		brandingApi.getBrandingOptions().content
+	} catch (exception: InvalidContentException) {
+		Timber.w(exception, "Invalid branding options response, using default value")
+		BrandingOptions(
+			loginDisclaimer = null,
+			customCss = null,
+			splashscreenEnabled = false,
+		)
+	}
 }
