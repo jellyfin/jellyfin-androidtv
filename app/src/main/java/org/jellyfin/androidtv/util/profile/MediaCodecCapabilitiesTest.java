@@ -1,9 +1,12 @@
 package org.jellyfin.androidtv.util.profile;
 
+import static android.media.MediaCodecInfo.CodecProfileLevel.AVCLevel4;
+import static android.media.MediaCodecInfo.CodecProfileLevel.AVCProfileHigh10;
 import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level10;
 import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level45;
 import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel5;
 import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10;
+import static android.media.MediaFormat.MIMETYPE_VIDEO_AVC;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;
 import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
 
@@ -34,6 +37,10 @@ public class MediaCodecCapabilitiesTest  {
 
     public boolean supportsHevcMain10() {
         return hasDecoder(MIMETYPE_VIDEO_HEVC, HEVCProfileMain10, HEVCMainTierLevel5);
+    }
+
+    public boolean supportsAVCHigh10() {
+        return hasDecoder(MIMETYPE_VIDEO_AVC, AVCProfileHigh10, AVCLevel4);
     }
 
     private boolean checkDecoder(String mime, int profile, int level) {
