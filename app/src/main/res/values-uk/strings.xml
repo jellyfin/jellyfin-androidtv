@@ -24,9 +24,9 @@
     <string name="lbl_movies">Фільми</string>
     <string name="lbl_collections">Колекції</string>
     <string name="lbl_other_channels">Інші канали</string>
-    <string name="lbl_favorite_channels">Улюблені канали</string>
+    <string name="lbl_favorite_channels">Обрані канали</string>
     <string name="lbl_coming_up">Очікується наступним</string>
-    <string name="lbl_favorites">Улюблені</string>
+    <string name="lbl_favorites">Обрані</string>
     <string name="lbl_by_name">За назвою</string>
     <string name="lbl_latest">Нещодавні</string>
     <string name="msg_not_implemented">" не реалізовано"</string>
@@ -74,8 +74,8 @@
     <string name="lbl_unwatched">Непереглянуте</string>
     <string name="msg_no_playable_items">Немає елементів для вітворення</string>
     <string name="lbl_now_playing_album">з %1$s</string>
-    <string name="lbl_add_favorite">Додати у Обране</string>
-    <string name="lbl_remove_favorite">Видалити з Обраного</string>
+    <string name="lbl_add_favorite">Додати у обрані</string>
+    <string name="lbl_remove_favorite">Видалити з обраного</string>
     <string name="lbl_mark_played">Позначити як відтворене</string>
     <string name="lbl_mark_unplayed">Позначити як невідтворене</string>
     <string name="lbl_play_first_unwatched">Відтворити перше непереглянуте</string>
@@ -109,7 +109,7 @@
     <string name="lbl_min">" хв"</string>
     <string name="lbl_runs">Триває</string>
     <string name="lbl_sd">SD</string>
-    <string name="lbl_favorite">Вибране</string>
+    <string name="lbl_favorite">Обрані</string>
     <string name="lbl_seasons">Сезони</string>
     <string name="lbl_item">Елемент</string>
     <string name="lbl_items">Елементи</string>
@@ -181,7 +181,7 @@
     <string name="lbl_my_media">Мої медіа</string>
     <string name="lbl_image_size">Розмір зображення</string>
     <string name="lbl_image_type">Тип зображення</string>
-    <string name="lbl_start_favorites">Розмістіть уподобання на початку</string>
+    <string name="lbl_start_favorites">Розмістіть обрані на початку</string>
     <string name="lbl_colored_backgrounds">Кольорові фони</string>
     <string name="lbl_hd_programs">HD Програми</string>
     <string name="lbl_live_broadcasts">Наживо</string>
@@ -212,7 +212,7 @@
     <string name="desc_current_video_queue">Елементи відео в даний момент в черзі на відтворення</string>
     <string name="lbl_current_queue">Поточна черга</string>
     <string name="btn_got_it">Добре</string>
-    <string name="msg_external_path">Ця функція працюватиме лише в тому випадку, якщо ви правильно налаштували свою бібліотеку на сервері з мережевими шляхами або заміною шляхів, а клієнт, який ви використовуєте, може отримати прямий доступ до цих місць через мережу.</string>
+    <string name="msg_external_path">Ця функція працюватиме лише в тому випадку, якщо ви правильно налаштували свою медіатеку на сервері з мережевими шляхами або заміною шляхів, а клієнт, який ви використовуєте, може отримати прямий доступ до цих місць через мережу.</string>
     <string name="lbl_subtitle_track">Вибрати доріжку субтитрів</string>
     <string name="lbl_playback_speed">Швидкість відтворення</string>
     <string name="lbl_audio_track">Вибрати звукову доріжку</string>
@@ -226,7 +226,7 @@
     <string name="lbl_series">Серіали</string>
     <string name="lbl_trailers">Трейлери</string>
     <string name="lbl_new_premieres">Нові прем\'єри</string>
-    <string name="desc_automatic_fav_songs">Автоматичний список відтворення улюблених пісень</string>
+    <string name="desc_automatic_fav_songs">Автоматичний список відтворення обраних пісень</string>
     <string name="desc_seasonal_themes">Показувати спеціальні кольори та пропозиції в певну пору року</string>
     <string name="lbl_enable_seasonal_themes">Тема сезону</string>
     <string name="msg_item_added">" елементів додано"</string>
@@ -302,10 +302,10 @@
     <string name="msg_live_tv_next">Завантажити наступні %1$d годин\?</string>
     <string name="lbl_load_guide_data">Завантажте дані керування</string>
     <string name="lbl_new_playlist_name">Введіть назву для нового списку відтворення</string>
-    <string name="episode_missing_message_2">Цей епізод відсутній у вашій бібліотеці. Відтворення зупиниться.</string>
-    <string name="episode_missing_message">Цей епізод відсутній у вашій бібліотеці. Бажаєте пропустити його й перейти до наступного\?</string>
+    <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
+    <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
     <string name="episode_missing">Відсутній епізод</string>
-    <string name="delete_warning">Це призведе до ВИДАЛЕННЯ %1$s назавжди з вашої бібліотеки. Ви ДУЖЕ впевнені\?</string>
+    <string name="delete_warning">Це призведе до ВИДАЛЕННЯ %1$s назавжди з вашої медіатеки. Ви ДУЖЕ впевнені\?</string>
     <string name="clear_expanded">Очистити поточну чергу відео\?</string>
     <string name="lbl_clear">Очистити</string>
     <string name="no_player_message">Схоже, у вас не встановлено програму з підтримкою відео. Для цього параметра потрібно встановити сторонню програму для відтворення відеовмісту.</string>
@@ -358,8 +358,8 @@
     <string name="pref_customization_description">Теми, домівка, перекартування</string>
     <string name="pref_login_description">Сервери, облікові записи, автоматичний вхід</string>
     <string name="pref_login">Вхід</string>
-    <string name="pref_libraries_description">Змінити показ бібліотек</string>
-    <string name="pref_libraries">Бібліотеки</string>
+    <string name="pref_libraries_description">Змінити показ медіатек</string>
+    <string name="pref_libraries">Медіатеки</string>
     <string name="pref_home_description">Налаштувати показані секції</string>
     <string name="pref_browsing">Навігація</string>
     <string name="pref_theme">Тема</string>
@@ -398,7 +398,7 @@
     <string name="license_artifact">Артефакт</string>
     <string name="license_version">Версія</string>
     <string name="license_description">Опис</string>
-    <string name="licenses_link_description">Переглянути ліцензії бібліотек, використаних Jellyfin</string>
+    <string name="licenses_link_description">Переглянути ліцензії бібліотек, використаних застосунком Jellyfin</string>
     <string name="licenses_link">Ліцензії</string>
     <string name="select_version">Версія</string>
     <string name="advanced_settings">Розширені</string>
@@ -492,7 +492,7 @@
     <string name="turn_off">Вимкнути цю опцію</string>
     <string name="not_deleted">Елемент НЕ Видалено</string>
     <string name="lbl_deleted">%1$s Видалено</string>
-    <string name="favorite_error">Помилка під час встановлення статусу обраності</string>
+    <string name="favorite_error">Помилка під час додавання в обрані</string>
     <string name="playing_error">Помилка під час встановлення статусу переглянутості</string>
     <string name="audio_error">Неможливо програти звук %1$s</string>
     <string name="msg_added_to_video">%1$s додано до відеочерги. Закінчується: %2$s</string>
