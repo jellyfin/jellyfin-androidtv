@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -254,8 +255,9 @@ public class KeyProcessor {
                         && userData.getUnplayedItemCount() > 0) {
                     menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 }
+                boolean isSeries = item.getBaseItemType() == BaseItemType.Series || item.getBaseItemType() == BaseItemType.Season;
                 menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play);
-                if (item.getIsFolderItem()) {
+                if (!isSeries && item.getIsFolderItem()) {
                     menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
                 }
             }
@@ -380,15 +382,17 @@ public class KeyProcessor {
                     query.setSortBy(new String[]{ItemSortBy.SortName});
                     query.setSortOrder(SortOrder.Ascending);
                     query.setLimit(1);
-                    query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});
+                    // NOTE: exclude filters seem broken?
+//                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
+                    query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
                     query.setFilters(new ItemFilter[] {ItemFilter.IsUnplayed});
                     KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
-                            if (response.getTotalRecordCount() == 0) {
-                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
-                            } else {
+                            if (response.getItems() != null && response.getItems().length > 0) {
                                 PlaybackHelper.retrieveAndPlay(response.getItems()[0].getId(), false, mCurrentActivity);
+                            } else {
+                                Utils.showToast(mCurrentActivity, R.string.msg_no_items);
                             }
                         }
 
@@ -442,6 +446,8 @@ public class KeyProcessor {
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)
                     ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof MessageListener)
+                    ((MessageListener)mCurrentActivity).onMessageReceived(CustomMessage.RefreshCurrentItem);
             }
 
             @Override
@@ -459,6 +465,8 @@ public class KeyProcessor {
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)
                     ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof MessageListener)
+                    ((MessageListener)mCurrentActivity).onMessageReceived(CustomMessage.RefreshCurrentItem);
             }
 
             @Override
@@ -476,6 +484,8 @@ public class KeyProcessor {
             public void onResponse(UserItemDataDto response) {
                 if (mCurrentActivity instanceof BaseActivity)
                     ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
+                if (mCurrentActivity instanceof MessageListener)
+                    ((MessageListener)mCurrentActivity).onMessageReceived(CustomMessage.RefreshCurrentItem);
                 DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
                 dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
             }

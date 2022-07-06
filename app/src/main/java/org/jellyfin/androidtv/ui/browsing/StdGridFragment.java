@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.leanback.widget.BaseGridView;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
@@ -50,6 +53,8 @@ import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.CollectionType;
@@ -62,7 +67,7 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
-public class StdGridFragment extends GridFragment {
+public class StdGridFragment extends GridFragment implements MessageListener {
     protected String MainTitle;
     protected BaseActivity mActivity;
     protected BaseRowItem mCurrentItem;
@@ -514,8 +519,35 @@ public class StdGridFragment extends GridFragment {
         }
     }
 
-    protected void setupEventListeners() {
+    protected BaseGridView.OnKeyInterceptListener mKeyListener = new BaseGridView.OnKeyInterceptListener() {
 
+        @Override
+        public boolean onInterceptKeyEvent(KeyEvent event) {
+            if (mCurrentItem == null || event.getAction() != KeyEvent.ACTION_UP) {
+                return false;
+            }
+            if ((event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY || event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) && BaseItemUtils.canPlay(mCurrentItem.getBaseItem())) {
+                mediaManager.getValue().setCurrentMediaAdapter(mGridAdapter);
+                mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
+                mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
+                //default play action
+                mHandler.postDelayed(() -> PlaybackHelper.playOrPlayNextUp(mCurrentItem.getBaseItem(), requireActivity()), 10);
+                return true;
+            }
+            return KeyProcessor.HandleKey(event.getKeyCode(), mCurrentItem, requireActivity());
+        }
+    };
+
+    @Override
+    public void onMessageReceived(CustomMessage message) {
+        switch (message) {
+            case RefreshCurrentItem:
+                refreshCurrentItem();
+                break;
+        }
+    }
+
+    protected void setupEventListeners() {
         setOnItemViewClickedListener(mClickedListener);
         mClickedListener.registerListener(new ItemViewClickedListener());
 
@@ -546,6 +578,8 @@ public class StdGridFragment extends GridFragment {
                     }
                 }
             });
+        } else {
+            setOnKeyInterceptListener(mKeyListener);
         }
     }
 
