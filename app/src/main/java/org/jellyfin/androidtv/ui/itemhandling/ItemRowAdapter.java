@@ -1357,7 +1357,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
             @Override
             public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving similar series items");
+                Timber.e(exception, "Error retrieving additional parts for item");
                 removeRow();
                 notifyRetrieveFinished(exception);
             }
