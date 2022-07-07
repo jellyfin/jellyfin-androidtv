@@ -501,4 +501,5 @@
     <string name="lbl_adjust">Naqtylatu</string>
     <string name="pref_libvlc_subtitle_delay_title">libVLC üşın subtitrlerdıñ ädepkı kıdırısı</string>
     <string name="live_tv_preferences">Efirlık TD opsialary</string>
+    <string name="app_notification_uimode_invalid">Būl qoldanba teledidarlar üşın oñtailandyrylğan. Basqa qūrylğylarda mobildy qoldanbamyzdy paidalanuyn ūsynamyz.</string>
 </resources>
