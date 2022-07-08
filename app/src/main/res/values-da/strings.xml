@@ -356,10 +356,8 @@
     <string name="image_size_large">Stor</string>
     <string name="image_size_medium">Mellem</string>
     <string name="image_size_small">Lille</string>
-    <string name="image_size_auto">Standard</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniaturebillede</string>
-    <string name="image_type_default">Standard</string>
     <string name="enable_smart_view_description">Smart screen viser relevante elementer i stedet for et gitter</string>
     <string name="enable_smart_view">Aktiver smart screen</string>
     <string name="lbl_sign_out">Log ud</string>

@@ -347,9 +347,7 @@
     <string name="image_size_large">Lớn</string>
     <string name="image_size_medium">Trung bình</string>
     <string name="image_size_small">Nhỏ</string>
-    <string name="image_size_auto">Mặc định</string>
     <string name="image_type_thumbnail">Hình nhỏ</string>
-    <string name="image_type_default">Mặc định</string>
     <string name="enable_smart_view_description">Màn hình thông minh hiển thị các mục có liên quan thay vì lưới</string>
     <string name="enable_smart_view">Bật màn hình thông minh</string>
     <string name="lbl_sign_out">Đăng xuất</string>

@@ -362,10 +362,8 @@
     <string name="image_size_large">Велике</string>
     <string name="image_size_medium">Средње</string>
     <string name="image_size_small">Мале</string>
-    <string name="image_size_auto">Уобичајено</string>
     <string name="image_type_banner">Банер</string>
     <string name="image_type_thumbnail">Сличица</string>
-    <string name="image_type_default">Уобичајено</string>
     <string name="enable_smart_view_description">Паметни екран приказује релевантне ставке уместо мреже</string>
     <string name="enable_smart_view">Омогућите паметни екран</string>
     <string name="lbl_sign_out">Одјава</string>

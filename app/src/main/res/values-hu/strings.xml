@@ -353,10 +353,8 @@
     <string name="image_size_large">Nagy</string>
     <string name="image_size_medium">Közepes</string>
     <string name="image_size_small">Kicsi</string>
-    <string name="image_size_auto">Alapértelmezett</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatűr</string>
-    <string name="image_type_default">Alapértelmezett</string>
     <string name="enable_smart_view_description">Az intelligens képernyőn a rács helyett a releváns elemek láthatók</string>
     <string name="enable_smart_view">Engedélyezze az intelligens képernyőt</string>
     <string name="lbl_sign_out">Kijelentkezés</string>

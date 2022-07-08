@@ -363,10 +363,8 @@
     <string name="image_size_large">Large</string>
     <string name="image_size_medium">Medium</string>
     <string name="image_size_small">Small</string>
-    <string name="image_size_auto">Default</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Thumbnail</string>
-    <string name="image_type_default">Default</string>
     <string name="enable_smart_view_description">Smart screen shows relevant items instead of a grid</string>
     <string name="enable_smart_view">Enable smart screen</string>
     <string name="lbl_sign_out">Sign out</string>

@@ -356,9 +356,7 @@
     <string name="image_size_large">Grande</string>
     <string name="image_size_medium">Mediano</string>
     <string name="image_size_small">Pequeño</string>
-    <string name="image_size_auto">Por defecto</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="image_type_default">Por defecto</string>
     <string name="enable_smart_view_description">La pantalla inteligente muestra elementos relevantes en lugar de una cuadrícula</string>
     <string name="enable_smart_view">Activar pantalla inteligente</string>
     <string name="lbl_sign_out">Desconectar</string>

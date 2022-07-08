@@ -422,10 +422,8 @@
     <string name="image_size_large">Geniş</string>
     <string name="image_size_medium">Orta</string>
     <string name="image_size_small">Küçük</string>
-    <string name="image_size_auto">Varsayılan</string>
     <string name="image_type_banner">Afiş</string>
     <string name="image_type_thumbnail">Miniresim</string>
-    <string name="image_type_default">Varsayılan</string>
     <string name="enable_smart_view_description">Akıllı ekran grid yerine ilgili olanları gösterir</string>
     <string name="enable_smart_view">Akıllı ekranı aktifleştir</string>
     <string name="lbl_sign_out">Çıkış yap</string>

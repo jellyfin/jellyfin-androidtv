@@ -414,10 +414,8 @@
     <string name="image_size_large">Μεγάλο</string>
     <string name="image_size_medium">Μεσαίο</string>
     <string name="image_size_small">Μικρό</string>
-    <string name="image_size_auto">Προκαθορισμένο</string>
     <string name="image_type_banner">Εξώφυλλο</string>
     <string name="image_type_thumbnail">Μικρογραφία</string>
-    <string name="image_type_default">Προκαθορισμένο</string>
     <string name="enable_smart_view_description">Η έξυπνη οθόνη απεικονίζει σχετικά αντικείμενα αντί για πλέγμα</string>
     <string name="enable_smart_view">Ενεργοποίηση έξυπνης οθόνης</string>
     <string name="lbl_sign_out">Αποσύνδεση</string>

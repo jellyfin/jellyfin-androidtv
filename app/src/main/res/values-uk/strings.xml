@@ -454,10 +454,8 @@
     <string name="image_size_large">Великий</string>
     <string name="image_size_medium">Середній</string>
     <string name="image_size_small">Маленький</string>
-    <string name="image_size_auto">За замовчуванням</string>
     <string name="image_type_banner">Банер</string>
     <string name="image_type_thumbnail">Мініатюра</string>
-    <string name="image_type_default">За замовчуванням</string>
     <string name="enable_smart_view_description">Розумний екран показує доречні елементи замість сітки</string>
     <string name="enable_smart_view">Включити розумний екран</string>
     <string name="lbl_sign_out">Вийти</string>

@@ -355,9 +355,7 @@
     <string name="image_size_large">大</string>
     <string name="image_size_medium">中</string>
     <string name="image_size_small">小</string>
-    <string name="image_size_auto">默认</string>
     <string name="image_type_banner">横幅</string>
-    <string name="image_type_default">默认</string>
     <string name="image_type_thumbnail">缩略图</string>
     <string name="enable_smart_view_description">智能屏幕显示相关项目而不是网格</string>
     <string name="enable_smart_view">启用智能屏幕</string>

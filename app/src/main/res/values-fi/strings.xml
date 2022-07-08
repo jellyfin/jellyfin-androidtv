@@ -333,7 +333,6 @@
     <string name="image_size_large">Suuri</string>
     <string name="image_size_medium">Keskikokoinen</string>
     <string name="image_size_small">Pieni</string>
-    <string name="image_size_auto">Oletus</string>
     <string name="image_type_default">Oletus</string>
     <string name="enable_smart_view">Käytä älynäyttöä</string>
     <string name="enable_smart_view_description">Älynäyttö näyttää ruudukun sijaan olennaisia kohteita</string>

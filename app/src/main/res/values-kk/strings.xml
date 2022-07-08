@@ -350,10 +350,8 @@
     <string name="image_size_large">Irı</string>
     <string name="image_size_medium">Ortaşa</string>
     <string name="image_size_small">Ūsaq</string>
-    <string name="image_size_auto">Ädepkı</string>
     <string name="image_type_banner">Baner</string>
     <string name="image_type_thumbnail">Nobai</string>
-    <string name="image_type_default">Ädepkı</string>
     <string name="lbl_sign_out">Şyğu</string>
     <string name="lbl_remove">Alastau</string>
     <string name="lbl_server">Server</string>

@@ -82,9 +82,7 @@
     <string name="user_picker_disable_title">Analluogi</string>
     <string name="image_size_large">Mawr</string>
     <string name="image_size_small">Bach</string>
-    <string name="image_size_auto">Diofyn</string>
     <string name="image_type_banner">Baner</string>
-    <string name="image_type_default">Diofyn</string>
     <string name="lbl_remove">Tynnu</string>
     <string name="lbl_server">Gweinydd</string>
     <string name="watch_count_overflow">99+</string>

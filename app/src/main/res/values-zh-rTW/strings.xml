@@ -304,10 +304,8 @@
     <string name="image_size_large">大</string>
     <string name="image_size_medium">中</string>
     <string name="image_size_small">小</string>
-    <string name="image_size_auto">預設</string>
     <string name="image_type_banner">橫幅</string>
     <string name="image_type_thumbnail">預覽圖</string>
-    <string name="image_type_default">預設</string>
     <string name="enable_smart_view_description">智慧畫面將顯示相關項目而非網格</string>
     <string name="enable_smart_view">開啟智能顯示</string>
     <string name="lbl_sign_out">登出</string>

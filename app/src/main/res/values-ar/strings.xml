@@ -359,7 +359,6 @@
     <string name="image_size_large">كبير</string>
     <string name="image_size_medium">متوسط</string>
     <string name="image_size_small">صغير</string>
-    <string name="image_size_auto">افتراضي</string>
     <string name="image_type_default">افتراضي</string>
     <string name="enable_smart_view_description">الشاشة الذكية تعرض العناصر المهمة عوضا عن جدول</string>
     <string name="enable_smart_view">تفعيل الشاشة الذكية</string>

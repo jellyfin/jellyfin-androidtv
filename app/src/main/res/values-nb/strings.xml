@@ -357,10 +357,8 @@
     <string name="image_size_large">Stor</string>
     <string name="image_size_medium">Medium</string>
     <string name="image_size_small">Liten</string>
-    <string name="image_size_auto">Standard</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatyrbilde</string>
-    <string name="image_type_default">Standard</string>
     <string name="enable_smart_view_description">Smartskjerm viser relevante elementer i stedet for et rutenett</string>
     <string name="enable_smart_view">Aktiver smartskjerm</string>
     <string name="lbl_sign_out">Logg ut</string>

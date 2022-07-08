@@ -359,10 +359,8 @@
     <string name="image_size_large">بزرگ</string>
     <string name="image_size_medium">متوسط</string>
     <string name="image_size_small">کوچک</string>
-    <string name="image_size_auto">پیش فرض</string>
     <string name="image_type_banner">بنر</string>
     <string name="image_type_thumbnail">تصویر بندانگشتی</string>
-    <string name="image_type_default">پیش فرض</string>
     <string name="enable_smart_view_description">صفحه نمایش هوشمند موارد مرتبط را به جای جدول نمایش می دهد</string>
     <string name="enable_smart_view">فعالسازی صفحه نمایش هوشمند</string>
     <string name="lbl_sign_out">خروج</string>

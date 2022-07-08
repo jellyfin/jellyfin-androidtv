@@ -330,7 +330,6 @@
     <string name="lbl_sign_in">Por favor, Regístrese</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="image_type_default">Predeterminado</string>
     <string name="enable_smart_view_description">Pantalla inteligente muestra información relevante en lugar de una cuadrícula</string>
     <string name="enable_smart_view">Activar pantalla inteligente</string>
     <string name="lbl_sign_out">Desconectar</string>
@@ -381,7 +380,6 @@
     <string name="image_size_large">Grande</string>
     <string name="image_size_medium">Mediano</string>
     <string name="image_size_small">Pequeño</string>
-    <string name="image_size_auto">Por defecto</string>
     <string name="no_user_warning">¡No se han encontrado cuentas!
 \nAgrega una nueva cuenta presionando el botón de \"Agregar cuenta\".</string>
     <string name="welcome_content">Conéctate a tu servidor para comenzar.</string>

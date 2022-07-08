@@ -356,10 +356,8 @@
     <string name="image_size_large">Grande</string>
     <string name="image_size_medium">Mediano</string>
     <string name="image_size_small">Pequeño</string>
-    <string name="image_size_auto">Predeterminado</string>
     <string name="image_type_banner">Estandarte</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="image_type_default">Predeterminado</string>
     <string name="enable_smart_view_description">Smart screen muestra elementos relevantes en lugar de una cuadrícula</string>
     <string name="enable_smart_view">Permitir smart screen</string>
     <string name="lbl_sign_out">Desconectar</string>

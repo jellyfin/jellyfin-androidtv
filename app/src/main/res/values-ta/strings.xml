@@ -353,10 +353,8 @@
     <string name="image_size_large">பெரியது</string>
     <string name="image_size_medium">நடுத்தர</string>
     <string name="image_size_small">சிறிய</string>
-    <string name="image_size_auto">இயல்புநிலை</string>
     <string name="image_type_banner">பதாகை</string>
     <string name="image_type_thumbnail">சிறுபடம்</string>
-    <string name="image_type_default">இயல்புநிலை</string>
     <string name="enable_smart_view_description">ஸ்மார்ட் திரை ஒரு கட்டத்திற்கு பதிலாக தொடர்புடைய உருப்படிகளைக் காட்டுகிறது</string>
     <string name="enable_smart_view">ஸ்மார்ட் திரையை இயக்கு</string>
     <string name="lbl_sign_out">வெளியேறு</string>

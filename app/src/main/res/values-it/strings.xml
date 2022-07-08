@@ -343,10 +343,8 @@
     <string name="image_size_large">Grandi</string>
     <string name="image_size_medium">Medie</string>
     <string name="image_size_small">Piccole</string>
-    <string name="image_size_auto">Default</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="image_type_default">Default</string>
     <string name="enable_smart_view_description">Smart screen mostra contenuti rilevanti invece di una griglia</string>
     <string name="enable_smart_view">Abilita smart screen</string>
     <string name="lbl_sign_out">Esci</string>

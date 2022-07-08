@@ -436,10 +436,8 @@
     <string name="image_size_large">Gran</string>
     <string name="image_size_medium">Mitjà</string>
     <string name="image_size_small">Petit</string>
-    <string name="image_size_auto">Per defecte</string>
     <string name="image_type_banner">Pancarta</string>
     <string name="image_type_thumbnail">Miniatura</string>
-    <string name="image_type_default">Per defecte</string>
     <string name="enable_smart_view_description">El panell intel·ligent mostra elements rellevants enlloc de la graella</string>
     <string name="enable_smart_view">Activa panell intel·ligent</string>
     <string name="lbl_sign_out">Tanca sessió</string>

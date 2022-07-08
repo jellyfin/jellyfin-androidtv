@@ -25,9 +25,7 @@
     <string name="user_picker_disable_title">Malebligi</string>
     <string name="image_size_large">Granda</string>
     <string name="image_size_small">Malgranda</string>
-    <string name="image_size_auto">Defaŭlte</string>
     <string name="image_type_banner">Standardo</string>
-    <string name="image_type_default">Defaŭlte</string>
     <string name="lbl_remove">Forigu</string>
     <string name="lbl_server">Servilo</string>
     <string name="bitrate_auto">Aŭtomata</string>

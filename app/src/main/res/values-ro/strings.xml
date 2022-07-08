@@ -363,10 +363,8 @@
     <string name="image_size_large">Mare</string>
     <string name="image_size_medium">Mediu</string>
     <string name="image_size_small">Mic</string>
-    <string name="image_size_auto">Implicit</string>
     <string name="image_type_banner">Bandieră</string>
     <string name="image_type_thumbnail">Miniatură</string>
-    <string name="image_type_default">Implicit</string>
     <string name="enable_smart_view_description">Ecranul inteligent afișează elemente relevante în loc de o grilă</string>
     <string name="enable_smart_view">Activează ecranul inteligent</string>
     <string name="lbl_sign_out">Delogare</string>

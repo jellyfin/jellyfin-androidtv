@@ -352,10 +352,8 @@
     <string name="image_size_large">Veľký</string>
     <string name="image_size_medium">Stredný</string>
     <string name="image_size_small">Malý</string>
-    <string name="image_size_auto">Predvolené</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Náhľad</string>
-    <string name="image_type_default">Predvolené</string>
     <string name="enable_smart_view_description">Inteligentná obrazovka zobrazí relevantné položky namiesto mriežky</string>
     <string name="enable_smart_view">Povoliť inteligentnú obrazovku</string>
     <string name="lbl_sign_out">Odhlásiť</string>

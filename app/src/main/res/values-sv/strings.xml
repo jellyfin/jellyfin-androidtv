@@ -357,7 +357,6 @@
     <string name="image_size_large">Stor</string>
     <string name="image_size_medium">Mellan</string>
     <string name="image_size_small">Liten</string>
-    <string name="image_size_auto">Standard</string>
     <string name="image_type_default">Standard</string>
     <string name="enable_smart_view_description">Smart screen visar relevanta föremål istället för ett rutnät</string>
     <string name="enable_smart_view">Aktivera smart screen</string>

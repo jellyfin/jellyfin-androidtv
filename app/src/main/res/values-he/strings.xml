@@ -366,10 +366,8 @@
     <string name="image_size_large">גדול</string>
     <string name="image_size_medium">בינוני</string>
     <string name="image_size_small">קטן</string>
-    <string name="image_size_auto">ברירת מחדל</string>
     <string name="image_type_banner">באנר</string>
     <string name="image_type_thumbnail">תמונה ממוזערת</string>
-    <string name="image_type_default">ברירת מחדל</string>
     <string name="enable_smart_view_description">\"מסך חכם\" מראה פריטים רלוונטים לך במקום טבלה</string>
     <string name="enable_smart_view">הפעל \"מסך חכם\"</string>
     <string name="lbl_sign_out">התנתק</string>
