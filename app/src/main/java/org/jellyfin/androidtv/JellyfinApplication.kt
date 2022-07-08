@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv
 
-import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -13,12 +12,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.acra.config.dialog
-import org.acra.config.httpSender
-import org.acra.config.limiter
-import org.acra.data.StringFormat
-import org.acra.ktx.initAcra
-import org.acra.sender.HttpSender
 import org.jellyfin.androidtv.auth.SessionRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.util.AutoBitrate
@@ -76,27 +69,5 @@ class JellyfinApplication : TvApp() {
 
 		// Detect auto bitrate
 		GlobalScope.launch(Dispatchers.IO) { autoBitrate.detect() }
-	}
-
-	override fun attachBaseContext(base: Context?) {
-		super.attachBaseContext(base)
-
-		initAcra {
-			buildConfigClass = BuildConfig::class.java
-			reportFormat = StringFormat.JSON
-
-			httpSender {
-				uri = "https://collector.tracepot.com/a2eda9d9"
-				httpMethod = HttpSender.Method.POST
-			}
-
-			dialog {
-				withResTitle(R.string.acra_dialog_title)
-				withResText(R.string.acra_dialog_text)
-				withResTheme(R.style.Theme_Jellyfin)
-			}
-
-			limiter {}
-		}
 	}
 }
