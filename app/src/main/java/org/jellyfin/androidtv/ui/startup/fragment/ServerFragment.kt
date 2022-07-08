@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
@@ -139,6 +140,13 @@ class ServerFragment : Fragment() {
 		binding.serverButton.setOnClickListener {
 			navigateFragment<SelectServerFragment>(keepToolbar = true)
 		}
+
+		binding.notification.isGone = server.versionSupported
+		binding.notification.text = getString(
+			R.string.server_unsupported_notification,
+			server.version,
+			ServerRepository.minimumServerVersion.toString(),
+		)
 	}
 
 	private inline fun <reified F : Fragment> navigateFragment(
