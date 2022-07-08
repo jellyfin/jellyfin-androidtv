@@ -52,6 +52,7 @@ class SessionRepositoryImpl(
 	private val preferencesRepository: PreferencesRepository,
 	private val defaultDeviceInfo: DeviceInfo,
 	private val userRepository: UserRepository,
+	private val serverRepository: ServerRepository,
 ) : SessionRepository {
 	private val currentSessionMutex = Mutex()
 	private val _currentSession = MutableStateFlow<Session?>(null)
@@ -106,10 +107,17 @@ class SessionRepositoryImpl(
 	}
 
 	private suspend fun setCurrentSession(session: Session?): Boolean {
-		// No change in session - don't switch
-		if (session != null && currentSession.value?.userId == session.userId) return true
-		// Update last active user
-		if (session != null) authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
+		if (session != null) {
+			// No change in session - don't switch
+			if (currentSession.value?.userId == session.userId) return true
+
+			// Update last active user
+			authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
+
+			// Check if server version is supported
+			val server = serverRepository.getServer(session.serverId)
+			if (server == null || !server.versionSupported) return false
+		}
 
 		// Update session after binding the apiclient settings
 		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo

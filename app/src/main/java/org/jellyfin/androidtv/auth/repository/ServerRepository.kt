@@ -41,6 +41,7 @@ interface ServerRepository {
 	suspend fun loadDiscoveryServers()
 
 	fun addServer(address: String): Flow<ServerAdditionState>
+	suspend fun getServer(id: UUID): Server?
 	suspend fun updateServer(server: Server): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
 
@@ -153,31 +154,52 @@ class ServerRepositoryImpl(
 		}
 	}
 
+	override suspend fun getServer(id: UUID): Server? {
+		val server = authenticationStore.getServer(id) ?: return null
+
+		val updatedServer = try {
+			updateServerInternal(id, server)
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to update server")
+			null
+		}
+
+		return updatedServer?.asServer(id)
+	}
+
 	override suspend fun updateServer(server: Server): Boolean {
 		// Only update existing servers
 		val serverInfo = authenticationStore.getServer(server.id) ?: return false
-		val now = Date().time
-
-		// Only update every 10 minutes
-		if (now - serverInfo.lastRefreshed < 600000 && serverInfo.version != null) return false
 
 		return try {
-			val api = jellyfin.createApi(server.address)
-			// Get login disclaimer
-			val branding = api.getBrandingOptionsOrDefault()
-			val systemInfo by api.systemApi.getPublicSystemInfo()
-
-			authenticationStore.putServer(server.id, serverInfo.copy(
-				name = systemInfo.serverName ?: serverInfo.name,
-				version = systemInfo.version ?: serverInfo.version,
-				loginDisclaimer = branding.loginDisclaimer ?: serverInfo.loginDisclaimer,
-				lastRefreshed = now
-			))
+			updateServerInternal(server.id, serverInfo) != null
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to update server")
 
 			false
 		}
+	}
+
+	private suspend fun updateServerInternal(id: UUID, server: AuthenticationStoreServer): AuthenticationStoreServer? {
+		val now = Date().time
+
+		// Only update every 10 minutes
+		if (now - server.lastRefreshed < 600000 && server.version != null) return null
+
+		val api = jellyfin.createApi(server.address)
+		// Get login disclaimer
+		val branding = api.getBrandingOptionsOrDefault()
+		val systemInfo by api.systemApi.getPublicSystemInfo()
+
+		val newServer = server.copy(
+			name = systemInfo.serverName ?: server.name,
+			version = systemInfo.version ?: server.version,
+			loginDisclaimer = branding.loginDisclaimer ?: server.loginDisclaimer,
+			lastRefreshed = now
+		)
+		authenticationStore.putServer(id, newServer)
+
+		return newServer
 	}
 
 	override suspend fun deleteServer(server: UUID): Boolean {
