@@ -90,8 +90,11 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
 
         streamInfo = new StreamInfo();
         streamInfo.setItemId(options.getItemId());
-        streamInfo.setMediaType(DlnaProfileType.Audio);
-
+        if (isVideo) {
+            streamInfo.setMediaType(DlnaProfileType.Video);
+        } else {
+            streamInfo.setMediaType(DlnaProfileType.Audio);
+        }
         streamInfo.setMediaSource(mediaSourceInfo);
         streamInfo.setRunTimeTicks(mediaSourceInfo.getRunTimeTicks());
 
