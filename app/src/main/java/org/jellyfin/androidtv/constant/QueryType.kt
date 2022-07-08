@@ -12,6 +12,7 @@ enum class QueryType {
 	StaticChapters,
 	Search,
 	Specials,
+	AdditionalParts,
 	Trailers,
 	LiveTvChannel,
 	LiveTvProgram,
