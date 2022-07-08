@@ -69,13 +69,20 @@ public class PlaybackManager {
         request.setUserId(apiClient.getCurrentUserId());
         request.setMaxStreamingBitrate(Long.valueOf(options.getMaxBitrate()));
         request.setMediaSourceId(options.getMediaSourceId());
-        request.setAudioStreamIndex(options.getAudioStreamIndex());
-        request.setSubtitleStreamIndex(options.getSubtitleStreamIndex());
         request.setStartTimeTicks(startPositionTicks);
         request.setDeviceProfile(options.getProfile());
         request.setEnableDirectStream(options.getEnableDirectStream());
         request.setEnableDirectPlay(options.getEnableDirectPlay());
         request.setMaxAudioChannels(options.getMaxAudioChannels());
+
+        Integer audioIdx = options.getAudioStreamIndex();
+        if (audioIdx != null && audioIdx >= 0) {
+            request.setAudioStreamIndex(audioIdx);
+        }
+        Integer subIdx = options.getSubtitleStreamIndex();
+        if (subIdx != null && subIdx >= 0) {
+            request.setSubtitleStreamIndex(subIdx);
+        }
 
         request.setAllowVideoStreamCopy(true);
         request.setAllowAudioStreamCopy(true);
