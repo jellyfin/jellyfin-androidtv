@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.di
 
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
@@ -47,6 +48,9 @@ val appModule = module {
 			// Add client info
 			clientInfo = ClientInfo("Android TV", BuildConfig.VERSION_NAME)
 			deviceInfo = get(defaultDeviceInfo)
+
+			// Change server version
+			minimumServerVersion = ServerRepository.minimumServerVersion
 		}
 	}
 
