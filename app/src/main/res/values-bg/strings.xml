@@ -149,4 +149,5 @@
     <string name="lbl_record_any_channel">Записване на всякакъв канал</string>
     <string name="lbl_program_ended">Програмата завърши</string>
     <string name="msg_set_to_record">Програмата е настроена за запис</string>
+    <string name="state_disabled">Изключено</string>
 </resources>
