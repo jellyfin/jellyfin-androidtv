@@ -333,7 +333,6 @@
     <string name="image_size_large">Suuri</string>
     <string name="image_size_medium">Keskikokoinen</string>
     <string name="image_size_small">Pieni</string>
-    <string name="image_type_default">Oletus</string>
     <string name="enable_smart_view">Käytä älynäyttöä</string>
     <string name="enable_smart_view_description">Älynäyttö näyttää ruudukun sijaan olennaisia kohteita</string>
     <string name="lbl_sign_out">Kirjaudu ulos</string>
@@ -399,7 +398,7 @@
     <string name="pref_subtitle_track_button">Tekstitysraita-painike</string>
     <string name="pref_audio_track_button">Ääniraita-painike</string>
     <string name="lbl_unknown_key">Tuntematon (%1s)</string>
-    <string name="grid_direction_vertical">Pysty (kokeellinen)</string>
+    <string name="grid_direction_vertical">Pystysuuntainen</string>
     <string name="grid_direction_horizontal">Vaaka</string>
     <string name="grid_direction">Ruudukon suunta</string>
     <string name="pref_device_model">Laitteen malli</string>
@@ -492,12 +491,17 @@
     <string name="action_use_quickconnect">Käytä Pikayhdistystä</string>
     <string name="action_use_password">Käytä salasanaa</string>
     <string name="action_login">Kirjaudu</string>
-    <string name="lbl_tv_filter_status">seuraavat %1$d tuntia</string>
-    <string name="lbl_starting_with">alkaen niistä, joiden nimi alkaa</string>
+    <string name="lbl_tv_filter_status">seuraavien %1$d tunnin ajan</string>
+    <string name="lbl_starting_with">alkaen niillä, joiden nimi alkaa</string>
     <string name="state_disabled">Poistettu käytöstä</string>
     <string name="pref_libvlc_subtitle_delay_title">LibVLC-tekstitysten oletusviive</string>
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
     <string name="lbl_adjust">Säädä</string>
     <string name="live_tv_preferences">Television asetukset</string>
     <string name="lbl_from">lähteestä</string>
+    <string name="app_notification_uimode_invalid">Sovellus on optimoitu televisioille. Muille laitteille suosittelemme mobiilisovellustamme.</string>
+    <string name="image_size_xlarge">Erittäin suuri</string>
+    <string name="image_size_smallest">Pienin</string>
+    <string name="image_type_poster">Juliste</string>
+    <string name="lbl_additional_parts">Muut osat</string>
 </resources>
