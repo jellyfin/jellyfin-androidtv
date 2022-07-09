@@ -276,7 +276,7 @@
     <string name="pref_theme_emerald">经典翡翠色</string>
     <string name="pref_theme_dark">暗黑</string>
     <string name="pref_device_model">设备型号</string>
-    <string name="grid_direction_vertical">纵向（试验性功能）</string>
+    <string name="grid_direction_vertical">纵向</string>
     <string name="grid_direction_horizontal">横向</string>
     <string name="grid_direction">网格排列方向</string>
     <string name="lbl_Reset">重置</string>
@@ -499,4 +499,9 @@
     <string name="pref_libvlc_subtitle_delay_title">LibVLC 的默认字幕延迟</string>
     <string name="lbl_subtitle_delay">字幕延迟</string>
     <string name="lbl_adjust">调节</string>
+    <string name="image_type_poster">海报</string>
+    <string name="image_size_xlarge">更大</string>
+    <string name="image_size_smallest">最小</string>
+    <string name="lbl_additional_parts">附加组件</string>
+    <string name="app_notification_uimode_invalid">这个APP是为电视优化的。我们建议在其他设备上使用我们的移动APP。</string>
 </resources>
