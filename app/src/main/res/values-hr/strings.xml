@@ -348,7 +348,6 @@
     <string name="lbl_episode_marks">Samo u epizodama</string>
     <string name="image_size_medium">Srednje</string>
     <string name="image_size_small">Malo</string>
-    <string name="image_type_default">Zadano</string>
     <string name="enable_smart_view_description">\'Smart screen\' prikazuje relevantne stavke umjesto rešetke</string>
     <string name="enable_smart_view">Omogući \'smart screen\'</string>
     <string name="lbl_remove">Ukloni</string>
