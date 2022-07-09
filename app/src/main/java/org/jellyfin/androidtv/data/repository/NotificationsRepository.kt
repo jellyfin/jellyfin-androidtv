@@ -39,6 +39,8 @@ class NotificationsRepositoryImpl(
 		val isTouch = context.packageManager.hasSystemFeature("android.hardware.touchscreen")
 		val hasHdmiCec = context.packageManager.hasSystemFeature("android.hardware.hdmi.cec")
 
-		if (invalidUiMode && isTouch && !hasHdmiCec) addNotification(context.getString(R.string.app_notification_uimode_invalid))
+		if (invalidUiMode && isTouch && !hasHdmiCec) {
+			addNotification(context.getString(R.string.app_notification_uimode_invalid))
+		}
 	}
 }
