@@ -36,7 +36,11 @@ class NotificationsRepositoryImpl(
 	private fun addUiModeNotification() {
 		val supportedUiModes = setOf(Configuration.UI_MODE_TYPE_TELEVISION, Configuration.UI_MODE_TYPE_UNDEFINED)
 		val invalidUiMode = !supportedUiModes.contains(uiModeManager.currentModeType)
+		val isTouch = context.packageManager.hasSystemFeature("android.hardware.touchscreen")
+		val hasHdmiCec = context.packageManager.hasSystemFeature("android.hardware.hdmi.cec")
 
-		if (invalidUiMode) addNotification(context.getString(R.string.app_notification_uimode_invalid))
+		if (invalidUiMode && isTouch && !hasHdmiCec) {
+			addNotification(context.getString(R.string.app_notification_uimode_invalid))
+		}
 	}
 }
