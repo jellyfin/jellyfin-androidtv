@@ -275,7 +275,7 @@
     <string name="pref_app_theme">Téma aplikácie</string>
     <string name="pref_theme_emerald">Klasická emeraldová</string>
     <string name="pref_theme_dark">Tmavá (predvolená)</string>
-    <string name="grid_direction_vertical">Vertikálne (experimentálne)</string>
+    <string name="grid_direction_vertical">Vertikálne</string>
     <string name="grid_direction_horizontal">Horizontálne</string>
     <string name="grid_direction">Smer mriežky</string>
     <string name="pref_device_model">Model zariadenia</string>
@@ -499,4 +499,10 @@
     <string name="lbl_subtitle_delay">Oneskorenie tituliek</string>
     <string name="lbl_adjust">Upraviť</string>
     <string name="live_tv_preferences">Nastavenia pre živú TV</string>
+    <string name="server_unsupported_notification">Tento server používa Jellyfin verziu %1$s, ktorá je nepodporovaná. Prosím, aktualizujte Jellyfin na verziu %2$s aby ste mohli naďalej používať túto appku.</string>
+    <string name="app_notification_uimode_invalid">Táto aplikácia je optimalizovaná pre televízory. Na iných zariadeniach odporúčame používať našu mobilnú aplikáciu.</string>
+    <string name="image_size_xlarge">Extra veľké</string>
+    <string name="image_size_smallest">Najmenšie</string>
+    <string name="image_type_poster">Plagát</string>
+    <string name="lbl_additional_parts">Dodatočné časti</string>
 </resources>
