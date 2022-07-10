@@ -198,6 +198,10 @@ class BackgroundService(
 		if (!userPreferences[UserPreferences.backdropEnabled])
 			return clearBackgrounds()
 
+		// Check if splashscreen is enabled in (cached) branding options
+		if (!server.splashscreenEnabled)
+			return clearBackgrounds()
+
 		// Manually grab the backdrop URL
 		val api = jellyfin.createApi(baseUrl = server.address)
 		val splashscreenUrl = api.imageApi.getSplashscreenUrl()

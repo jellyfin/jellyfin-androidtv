@@ -18,6 +18,7 @@ data class AuthenticationStoreServer(
 	val address: String,
 	val version: String? = null,
 	@SerialName("login_disclaimer")  val loginDisclaimer: String? = null,
+	@SerialName("splashscreen_enabled")  val splashscreenEnabled: Boolean = false,
 	@SerialName("last_used") val lastUsed: Long = Date().time,
 	@SerialName("last_refreshed") val lastRefreshed: Long = Date().time,
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),

@@ -14,6 +14,7 @@ data class Server(
 	var address: String,
 	val version: String? = null,
 	val loginDisclaimer: String? = null,
+	val splashscreenEnabled: Boolean = false,
 	var dateLastAccessed: Date = Date(0),
 ) {
 	private val serverVersion = version?.let(ServerVersion::fromString)
