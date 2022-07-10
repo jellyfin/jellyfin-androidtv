@@ -164,7 +164,7 @@ class ServerRepositoryImpl(
 			null
 		}
 
-		return updatedServer?.asServer(id)
+		return (updatedServer ?: server).asServer(id)
 	}
 
 	override suspend fun updateServer(server: Server): Boolean {
