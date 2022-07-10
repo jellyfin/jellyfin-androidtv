@@ -286,7 +286,7 @@
     <string name="no_player">Neniu Ludilo</string>
     <string name="mark_watched">Marki Spektita</string>
     <string name="lbl_unknown_key">Nekonata (%1s)</string>
-    <string name="grid_direction_vertical">Vertikala (eksperimenta)</string>
+    <string name="grid_direction_vertical">Vertikala</string>
     <string name="grid_direction">Krada Direkto</string>
     <string name="pref_device_model">Aparata modelo</string>
     <string name="pref_app_theme">Apa Temo</string>
@@ -500,4 +500,9 @@
     <string name="lbl_adjust">Ĝustigi</string>
     <string name="live_tv_preferences">Eteraj TV opcioj</string>
     <string name="app_notification_uimode_invalid">Ĉi tiu apo estas optimumigita por televidiloj. Ni rekomendas uzi nian poŝtelefonan apon sur aliaj aparatoj.</string>
+    <string name="server_unsupported_notification">Ĉi tiu servilo uzas version %1$s de Jellyfin kiu estas nesubtenata. Ĝisdatigu al Jellyfin %2$s por daŭrigi uzi la apon.</string>
+    <string name="image_size_xlarge">Ekstra Granda</string>
+    <string name="image_size_smallest">La plej malgranda</string>
+    <string name="image_type_poster">Afiŝo</string>
+    <string name="lbl_additional_parts">Pliaj Partoj</string>
 </resources>
