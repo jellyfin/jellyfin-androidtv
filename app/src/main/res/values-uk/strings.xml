@@ -320,7 +320,7 @@
     <string name="pref_subtitle_track_button">Кнопка доріжки субтитрів</string>
     <string name="pref_audio_track_button">Кнопка звукової доріжки</string>
     <string name="lbl_unknown_key">Невідомо (%1s)</string>
-    <string name="grid_direction_vertical">Вертикальний (експериментально)</string>
+    <string name="grid_direction_vertical">Вертикальний</string>
     <string name="grid_direction_horizontal">Горизонтальний</string>
     <string name="grid_direction">Напрямок сітки</string>
     <string name="pref_device_model">Модель пристрою</string>
@@ -336,7 +336,7 @@
     <string name="live_tv_preferences">Налаштування телебачення наживо</string>
     <string name="action_connect">Підʼєднатися</string>
     <string name="pref_refresh_rate_scale_on_device">Масштабувати на пристрої</string>
-    <string name="pref_refresh_rate_scale_on_tv">Масштабувати на телебаченні</string>
+    <string name="pref_refresh_rate_scale_on_tv">Масштабувати на телевізорі</string>
     <string name="login_quickconnect_step_3">3. Введіть цей код:</string>
     <string name="login_quickconnect_step_2">2. Відкрийте меню користувача та перейдіть на сторінку Quick Connect</string>
     <string name="login_quickconnect_step_1">1. Відкрийте застосунок Jellyfin на телефоні або в браузері, та увійдіть своїм обліковим записом</string>
@@ -499,4 +499,10 @@
     <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
     <string name="state_disabled">Вимкнено</string>
+    <string name="server_unsupported_notification">Цей сервер використовує версію Jellyfin %1$s, яка не підтримується. Щоб продовжити користуватися додатком, оновіть його до Jellyfin %2$s.</string>
+    <string name="app_notification_uimode_invalid">Ця програма оптимізована для телевізорів. Ми рекомендуємо використовувати наш мобільний додаток на інших пристроях.</string>
+    <string name="image_size_xlarge">Дуже великий</string>
+    <string name="image_size_smallest">Найменший</string>
+    <string name="image_type_poster">Постер</string>
+    <string name="lbl_additional_parts">Додаткові частини</string>
 </resources>
