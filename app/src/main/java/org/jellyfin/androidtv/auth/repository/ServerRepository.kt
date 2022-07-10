@@ -133,12 +133,14 @@ class ServerRepositoryImpl(
 				address = chosenRecommendation.address,
 				version = systemInfo.version,
 				loginDisclaimer = branding.loginDisclaimer,
+				splashscreenEnabled = branding.splashscreenEnabled,
 				lastUsed = Date().time
 			) ?: AuthenticationStoreServer(
 				name = systemInfo.serverName ?: "Jellyfin Server",
 				address = chosenRecommendation.address,
 				version = systemInfo.version,
-				loginDisclaimer = branding.loginDisclaimer
+				loginDisclaimer = branding.loginDisclaimer,
+				splashscreenEnabled = branding.splashscreenEnabled,
 			)
 
 			authenticationStore.putServer(id, server)
@@ -195,6 +197,7 @@ class ServerRepositoryImpl(
 			name = systemInfo.serverName ?: server.name,
 			version = systemInfo.version ?: server.version,
 			loginDisclaimer = branding.loginDisclaimer ?: server.loginDisclaimer,
+			splashscreenEnabled = branding.splashscreenEnabled,
 			lastRefreshed = now
 		)
 		authenticationStore.putServer(id, newServer)
@@ -215,6 +218,7 @@ class ServerRepositoryImpl(
 		address = address,
 		version = version,
 		loginDisclaimer = loginDisclaimer,
+		splashscreenEnabled = splashscreenEnabled,
 		dateLastAccessed = Date(lastUsed),
 	)
 
