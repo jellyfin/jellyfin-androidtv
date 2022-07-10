@@ -141,12 +141,19 @@ class ServerFragment : Fragment() {
 			navigateFragment<SelectServerFragment>(keepToolbar = true)
 		}
 
-		binding.notification.isGone = server.versionSupported
-		binding.notification.text = getString(
-			R.string.server_unsupported_notification,
-			server.version,
-			ServerRepository.minimumServerVersion.toString(),
-		)
+		if (!server.versionSupported) {
+			binding.notification.isVisible = true
+			binding.notification.text = getString(
+				R.string.server_unsupported_notification,
+				server.version,
+				ServerRepository.minimumServerVersion.toString(),
+			)
+		} else if (!server.setupCompleted) {
+			binding.notification.isVisible = true
+			binding.notification.text = getString(R.string.server_setup_incomplete)
+		} else {
+			binding.notification.isGone = true
+		}
 	}
 
 	private inline fun <reified F : Fragment> navigateFragment(
