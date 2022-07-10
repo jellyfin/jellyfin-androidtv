@@ -66,9 +66,12 @@ class StartupViewModel(
 	fun getUserImage(server: Server, user: User): String? =
 		authenticationRepository.getUserImageUrl(server, user)
 
-	fun reloadServers() {
+	fun reloadServers(ignoreDiscovery: Boolean = false) {
 		viewModelScope.launch { serverRepository.loadStoredServers() }
-		viewModelScope.launch(Dispatchers.IO) { serverRepository.loadDiscoveryServers() }
+
+		if (!ignoreDiscovery) {
+			viewModelScope.launch(Dispatchers.IO) { serverRepository.loadDiscoveryServers() }
+		}
 	}
 
 	suspend fun getLastServer(): Server? {
