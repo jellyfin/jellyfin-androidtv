@@ -275,7 +275,7 @@
     <string name="pref_app_theme">Тема приложения</string>
     <string name="pref_theme_emerald">Классическая изумрудная</string>
     <string name="pref_theme_dark">Тёмная (по умолчанию)</string>
-    <string name="grid_direction_vertical">Вертикальное (экспериментально)</string>
+    <string name="grid_direction_vertical">Вертикально</string>
     <string name="grid_direction_horizontal">Горизонтальное</string>
     <string name="grid_direction">Направление сетки</string>
     <string name="pref_device_model">Модель устройства</string>
@@ -500,4 +500,9 @@
     <string name="lbl_adjust">Подстройка</string>
     <string name="live_tv_preferences">Опции эфирного ТВ</string>
     <string name="app_notification_uimode_invalid">Это приложение оптимизировано для телевизоров. Мы рекомендуем использовать наше мобильное приложение на других устройствах.</string>
+    <string name="server_unsupported_notification">Этот сервер использует версию Jellyfin %1$s, которая не поддерживается. Обновитесь до Jellyfin %2$s, чтобы продолжить использовать приложение.</string>
+    <string name="image_size_xlarge">Самый крупный</string>
+    <string name="image_size_smallest">Самый мелкий</string>
+    <string name="image_type_poster">Постер</string>
+    <string name="lbl_additional_parts">Дополнительные части</string>
 </resources>
