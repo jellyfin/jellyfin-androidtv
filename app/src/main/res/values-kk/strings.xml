@@ -286,7 +286,7 @@
     <string name="pref_subtitle_track_button">Subtitrler jolşyğynyñ tüimeşıgı</string>
     <string name="pref_audio_track_button">Dybys jolşyğynyñ tüimeşıgı</string>
     <string name="lbl_unknown_key">Belgısız (%1s)</string>
-    <string name="grid_direction_vertical">Tık (eksperimentaldy)</string>
+    <string name="grid_direction_vertical">Tıgınen</string>
     <string name="grid_direction_horizontal">Köldeneñ</string>
     <string name="grid_direction">Tor bağyty</string>
     <string name="pref_device_model">Qūrylğy ülgısı</string>
@@ -500,4 +500,9 @@
     <string name="pref_libvlc_subtitle_delay_title">libVLC üşın subtitrlerdıñ ädepkı kıdırısı</string>
     <string name="live_tv_preferences">Efirlık TD opsialary</string>
     <string name="app_notification_uimode_invalid">Būl qoldanba teledidarlar üşın oñtailandyrylğan. Basqa qūrylğylarda mobildy qoldanbamyzdy paidalanuyn ūsynamyz.</string>
+    <string name="server_unsupported_notification">Būl server Jellyfin %1$s nusqasyn paidalanady, oğan qoldau körsetılmeidı. Qoldanbany paidalanudy jalğastyru üşın Jellyfin %2$s nusqasyna jañartyñyz.</string>
+    <string name="image_size_xlarge">Eñ ırı</string>
+    <string name="image_size_smallest">Eñ ūsaq</string>
+    <string name="image_type_poster">Poster</string>
+    <string name="lbl_additional_parts">Jalğasatyn bölımder</string>
 </resources>
