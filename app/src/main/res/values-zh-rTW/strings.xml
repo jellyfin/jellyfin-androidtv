@@ -119,7 +119,6 @@
     <string name="lbl_my_media">我的媒體</string>
     <string name="lbl_image_size">圖片尺寸</string>
     <string name="lbl_new_episodes">新集數</string>
-    <string name="pref_acra_disabled">崩潰報告將不會提交</string>
     <string name="pref_acra_category">崩潰報告</string>
     <string name="lbl_song_title">歌曲標題</string>
     <string name="lbl_album_name">專輯名稱</string>
@@ -244,9 +243,7 @@
     <string name="lbl_resume_preroll">恢復前置簡介</string>
     <string name="pref_use_direct_path_title">向外部播放器傳遞直連路徑</string>
     <string name="pref_use_direct_path_summary">傳遞文件系統路徑而不是串流位置</string>
-    <string name="pref_acra_alwaysaccept">在未經確認的情況下提交</string>
     <string name="pref_acra_alwaysaccept_disabled">提交任何崩潰報告之前將顯示一個對話框</string>
-    <string name="pref_acra_syslog_disabled">系統日誌將不包含在崩潰報告中</string>
     <string name="acra_dialog_text">您要向開發人員發送崩潰報告嗎？
 \n
 \n此訊息將被提交給第三方（tracepot.com）。

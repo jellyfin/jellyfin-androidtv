@@ -216,7 +216,6 @@
     <string name="lbl_series_settings">Preferenze Serie TV</string>
     <string name="lbl_schedule">Programmazione</string>
     <string name="lbl_enable_seasonal_themes">Sigle delle stagioni</string>
-    <string name="pref_acra_category">Invio segnalazioni di Crash</string>
     <string name="pref_use_direct_path_summary">Passa il filepath del file system al posto dell\'URL dello streaming</string>
     <string name="pref_use_direct_path_title">Passa il filepath diretto per il riproduttore esterno</string>
     <string name="lbl_song_title">Titolo brano</string>
@@ -232,9 +231,7 @@
     <string name="lbl_sort_by">Ordina per</string>
     <string name="lbl_premiere">In anteprima</string>
     <string name="lbl_guest_stars">Guest Stars</string>
-    <string name="pref_acra_alwaysaccept_enabled">I crash report saranno inviati senza richiederlo</string>
     <string name="pref_acra_disabled">I Crash report non saranno inviati</string>
-    <string name="acra_dialog_title">Oh no! Qualcosa è andato storto.</string>
     <string name="pref_acra_syslog_enabled">Il log di sistema sarà incluso nel report del crash</string>
     <string name="lbl_start_favorites">Posiziona i preferiti all\'inizio</string>
     <string name="lbl_live_broadcasts">Trasmissioni Live</string>

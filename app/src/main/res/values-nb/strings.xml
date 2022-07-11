@@ -249,11 +249,8 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Velg automatisk</string>
     <string name="lbl_my_media">Min media</string>
-    <string name="acra_dialog_title">Å nei! Noe gikk galt.</string>
     <string name="pref_acra_syslog_enabled">Systemlogger vil bli inkludert i feilrapporter</string>
-    <string name="pref_acra_alwaysaccept_disabled">En dialog vil vises før innsending av noen feilrapport</string>
     <string name="pref_acra_alwaysaccept">Send inn feilrapporter uten å spørre</string>
-    <string name="pref_acra_enabled">Du vil bli spurt om å sende inn feilrapporter</string>
     <string name="pref_acra_category">Feilrapportering</string>
     <string name="pref_media_player">Foretrukket media-spiller</string>
     <string name="pref_about_title">Om</string>

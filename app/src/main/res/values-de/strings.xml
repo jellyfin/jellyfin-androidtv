@@ -244,20 +244,12 @@
     <string name="lbl_new_only">Nur Neues</string>
     <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_repeat_episodes">Folgen wiederholen</string>
-    <string name="pref_acra_category">Absturzberichte</string>
     <string name="pref_video_player_external">Externe App</string>
     <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch auswählen</string>
-    <string name="acra_dialog_text">Möchtest du einen Absturzbericht an die Entwickler senden\?
-\n
-\nDiese Information wird an einen Drittanbieter übergeben (tracepot.com).
-\n
-\nDiese Abfrage kann in der Absturzbericht-Sektion in den Jellyfin-App-Einstellungen deaktiviert werden.</string>
     <string name="pref_acra_syslog_disabled">System-Logs werden den Absturzberichten nicht hinzugefügt</string>
-    <string name="pref_acra_alwaysaccept_disabled">Ein Abfragedialog wird vor dem Senden jeglicher Absturzberichte angezeigt</string>
     <string name="pref_acra_alwaysaccept">Sende ohne Aufforderung</string>
-    <string name="pref_enable_acra">Absturzmeldungen an die Entwickler senden</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>
     <string name="pref_media_player">Bevorzugter Mediaplayer</string>

@@ -249,11 +249,8 @@
     <string name="lbl_start_favorites">Colocar Favoritos al Inicio</string>
     <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
     <string name="lbl_live_broadcasts">Emisiones en directo</string>
-    <string name="acra_dialog_title">¡Oh, no! Algo fue mal.</string>
     <string name="pref_acra_syslog_enabled">Se incluirán logs del sistema en los informes de fallos</string>
-    <string name="pref_acra_alwaysaccept_disabled">Se mostrará un diálogo antes de enviar cualquier informe de fallos</string>
     <string name="pref_acra_alwaysaccept">Enviar sin pedir confirmación</string>
-    <string name="pref_acra_enabled">Se le pedirá enviar el informe de fallos</string>
     <string name="pref_acra_category">Informe de fallos</string>
     <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para LibVLC</string>
     <string name="watch_now">Ver ahora</string>

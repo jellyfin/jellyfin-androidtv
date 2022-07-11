@@ -244,15 +244,12 @@
     <string name="msg_playback_incompatible">Tento formát sa nedá prehrať</string>
     <string name="lbl_last_played">"Naposledy pozreté "</string>
     <string name="lbl_watched">Pozreté</string>
-    <string name="pref_acra_alwaysaccept_enabled">Hlásenie chýb bude odoslané bez výzvy</string>
     <string name="pref_acra_disabled">Hlásenie chýb nebude odoslané</string>
-    <string name="pref_enable_acra">Odoslať hlásenie chýb vývojárom</string>
     <string name="pref_video_player_external">Externá aplikácia</string>
     <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Vybrať automaticky</string>
     <string name="lbl_my_media">Moje médiá</string>
-    <string name="acra_dialog_title">Ale nie! Niečo sa pokazilo.</string>
     <string name="pref_acra_syslog_enabled">Systémové logy budú zahrnuté v chybovom hlásení</string>
     <string name="pref_media_player">Preferovaný mediálny prehrávač</string>
     <string name="pref_about_title">Obsah</string>

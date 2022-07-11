@@ -211,11 +211,8 @@
     <string name="lbl_news">Noticies</string>
     <string name="lbl_tv_filter_status">per les pròximes %1$d hores</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canals</string>
-    <string name="acra_dialog_title">Oh no! Alguna cosa ha anat malament.</string>
     <string name="pref_acra_syslog_enabled">Els registres del sistema s’inclouran als informes d’errors</string>
-    <string name="pref_acra_alwaysaccept_disabled">Es mostrarà un quadre de diàleg abans d’enviar cap informe d’error</string>
     <string name="pref_acra_alwaysaccept">Envieu informes d’errors sense demanar-ho</string>
-    <string name="pref_acra_enabled">Se us demanarà que envieu informes d’errors</string>
     <string name="pref_acra_category">Informes d\'errors</string>
     <string name="pref_use_direct_path_summary">Passeu la ruta de sistema de fitxers en lloc de l\'URL de reproducció</string>
     <string name="pref_use_direct_path_title">Passa la ruta directa per a un reproductor extern</string>

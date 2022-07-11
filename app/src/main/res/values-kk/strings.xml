@@ -254,9 +254,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Avtomatty tañdau</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
-    <string name="pref_acra_alwaysaccept_disabled">Aqau turaly habarlau jıberu aldynda tılqatysu beinelenedı</string>
     <string name="pref_acra_alwaysaccept">Şaqyrusyz jıberu</string>
-    <string name="pref_acra_enabled">Aqau turaly habarlau jıberu ysynylady</string>
     <string name="pref_acra_category">Aqau turaly habarlau</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasikalyq kök-jasyl</string>
@@ -324,7 +322,6 @@
     <string name="clear_expanded">Ağymdağy beine kezegın tazartu kerek pe\?</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
-    <string name="pref_acra_syslog_enabled">Jüielık jūrnaldar apattyq esepter ışıne qosylady</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>
     <string name="episode_missing_message_2">Būl telebölım tasyğyşhanañyzda joq. Oinatu toqtalady.</string>
     <string name="episode_missing_message">Būl telebölım tasyğyşhanañyzda joq. Ötkızıp, kelesıge ötudı qalaisyz ba\?</string>

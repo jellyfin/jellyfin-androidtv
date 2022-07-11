@@ -154,11 +154,8 @@
     <string name="msg_error_live_stream">Terjadi kesalahan saat streaming Live TV. Akan mencoba kembali…</string>
     <string name="pref_live_tv_cat">Live TV</string>
     <string name="lbl_live_tv_guide">Panduan Live TV</string>
-    <string name="pref_enable_acra">Kirim laporan kerusakan ke pengembang</string>
     <string name="pref_acra_alwaysaccept">Kirimkan laporan kerusakan tanpa disuruh</string>
-    <string name="pref_acra_syslog">Sertakan log sistem dalam laporan kerusakan. Ini mungkin termasuk data pribadi dari aplikasi lain jika dicatat pada saat terjadi kerusakan.</string>
     <string name="pref_acra_alwaysaccept_enabled">Laporan kerusakan akan dikirimkan tanpa diminta</string>
-    <string name="pref_acra_syslog_enabled">Log sistem akan disertakan dalam laporan kerusakan</string>
     <string name="msg_remote_already_playing">Permintaan pemutaran jarak jauh diabaikan. Harap hentikan item saat ini terlebih dahulu.</string>
     <string name="msg_cancel_entire_series">Anda yakin ingin membatalkan SELURUH SERI ini\?</string>
     <string name="lbl_repeat_options">Opsi Ulangi</string>

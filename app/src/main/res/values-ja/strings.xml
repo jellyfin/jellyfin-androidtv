@@ -362,11 +362,8 @@
     <string name="pref_video_player_external">外部アプリ</string>
     <string name="pref_video_player_auto">自動選択</string>
     <string name="lbl_my_media">マイメディア</string>
-    <string name="pref_acra_syslog_disabled">システムログはクラッシュレポートに含まれません</string>
     <string name="pref_acra_syslog">クラッシュレポートにシステムログを含めます。これには、クラッシュ時にログに記録された他のアプリケーションからの個人データが含まれる場合があります。</string>
-    <string name="pref_acra_alwaysaccept_enabled">クラッシュレポートは確認なしに送信されます</string>
     <string name="pref_acra_disabled">クラッシュレポートは送信されません</string>
-    <string name="pref_enable_acra">開発者にクラッシュレポートを送信する</string>
     <string name="desc_current_video_queue">現在再生のためにリストに入れられているビデオ作品</string>
     <string name="msg_external_path">この機能は、ネットワークパスまたはパス置換を使用してサーバー上のライブラリを適切に設定し、使用しているクライアントがネットワークを介してこれらの場所に直接アクセスできる場合にのみ機能します。</string>
     <string name="lbl_fit">通常</string>

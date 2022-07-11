@@ -232,7 +232,6 @@
     <string name="lbl_favorite">Favorito</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="loading">Cargando…</string>
-    <string name="pref_enable_acra">Enviar reporte de errores a los desarrolladores</string>
     <string name="pref_app_theme">Tema de la aplicación</string>
     <string name="pref_libvlc_audio_delay_title">Retraso de audio por defecto para libVLC</string>
     <string name="watch_now">Ver ahora</string>
@@ -259,9 +258,7 @@
     <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_new_only">Solo nuevos</string>
     <string name="lbl_news">Noticias</string>
-    <string name="acra_dialog_title">¡Oh no! Algo salió mal.</string>
     <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
-    <string name="pref_acra_alwaysaccept_disabled">Un dialogo será mostrado antes de enviar cualquier reporte de error</string>
     <string name="pref_acra_alwaysaccept">Enviar sin preguntar</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>

@@ -153,11 +153,8 @@
     <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
-    <string name="acra_dialog_title">Jaj ne! Valami hiba történt.</string>
     <string name="pref_acra_syslog_enabled">Rendszer-naplóbejegyzések hozzá lesznek adva a hibajelentésekhez</string>
-    <string name="pref_acra_alwaysaccept_disabled">Dialógusablak fog megjelenni minden egyes hibajelentés küldése előtt</string>
     <string name="pref_acra_enabled">Megerősítést kér hibajelentés küldés előtt</string>
-    <string name="pref_acra_disabled">A hibabejelentések nem lesznek elküldve</string>
     <string name="pref_acra_category">Hibajelentés</string>
     <string name="pref_use_direct_path_summary">Fájlrendszerüalapú elérési út használata folyam URL helyett</string>
     <string name="pref_use_direct_path_title">Direkt elérési út megadása a külső lejátszóhoz</string>

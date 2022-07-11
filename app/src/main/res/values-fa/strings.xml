@@ -237,9 +237,7 @@
     <string name="pref_use_direct_path_title">دادن مسیر مستقیم به پخش کننده خارجی</string>
     <string name="lbl_song_title">عنوان آهنگ</string>
     <string name="lbl_album_name">نام آلبوم</string>
-    <string name="pref_enable_acra">ارسال گزاش های کارایستایی به توسعه دهندگان</string>
     <string name="pref_use_direct_path_summary">پاس دادن مسیر سیستمی فایل بجای آدرس URL</string>
-    <string name="pref_acra_alwaysaccept_enabled">گزارش کارایستایی بدون درخواست ثبت خواهند شد</string>
     <string name="pref_acra_disabled">گزارش های کارایستایی ثبت نخواهند شد</string>
     <string name="home_section_resume_book">ادامه خواندن</string>
     <string name="pref_direct_stream_live_on">تغییر کدگذاری غیرفعال است</string>
@@ -446,7 +444,6 @@
     <string name="lbl_news">اخبار</string>
     <string name="lbl_tv_filter_status">برای %1$d ساعت آینده</string>
     <string name="lbl_tv_channel_status">%1$d از %2$d کانال</string>
-    <string name="pref_acra_syslog_disabled">گزارش‌های سیستم در گزارش‌های کارایستایی گنجانده نمی‌شوند</string>
     <string name="seek_error">امکان جستجو وجود ندارد</string>
     <string name="msg_live_tv_prev">بارگیری %1$d ساعت قبلی؟</string>
     <string name="msg_live_tv_next">بارگیری %1$d ساعت بعدی؟</string>
@@ -463,8 +460,6 @@
     <string name="mark_watched_message">به نظر نمی رسید این مورد به اندازه مدت زمانش پخش شده باشد. علامت گذاری به عنوان تماشا شده؟</string>
     <string name="no_user_warning">نتوانستیم هیچ حسابی پیدا کنیم.
 \nبا زدن دکمه \"اضافه کردن حساب\" یک حساب جدید ایجاد کنید.</string>
-    <string name="pref_acra_syslog">گنجاندن گزارش های سیستمی.
-\nاین ممکن است شامل داده‌های خصوصی سایر برنامه‌ها باشد، اگر در زمان کارایستایی ثبت شده باشد.</string>
     <string name="lbl_end_padding">پایان پر کردن</string>
     <string name="lbl_begin_padding">شروع پر کردن</string>
     <string name="lbl_tune_to_channel">تغییر به کانال</string>

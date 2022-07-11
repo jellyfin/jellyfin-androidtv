@@ -30,11 +30,8 @@
     <string name="lbl_audio_delay">Ljudfördröjning</string>
     <string name="lbl_new_only">Endast nya</string>
     <string name="lbl_news">Nyheter</string>
-    <string name="acra_dialog_title">Åh nej! Något gick visst snett.</string>
     <string name="pref_acra_syslog_enabled">Systemloggar kommer att inkluderas i kraschrapporter</string>
-    <string name="pref_acra_alwaysaccept_disabled">En meddelanderuta kommer att visas innan någon kraschrapport skickas</string>
     <string name="pref_acra_alwaysaccept">Skicka utan att fråga</string>
-    <string name="pref_acra_enabled">Du kommer att bli förfrågad om att skicka kraschrapporter</string>
     <string name="pref_acra_category">Kraschrapportering</string>
     <string name="pref_use_direct_path_summary">Passa filsystemssökväg istället för strömmings-URL</string>
     <string name="pref_use_direct_path_title">Passa direkt sökväg för extern spelare</string>

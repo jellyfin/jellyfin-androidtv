@@ -245,14 +245,11 @@
     <string name="lbl_hd_programs">HD Programmer</string>
     <string name="lbl_live_broadcasts">Live Udsendelser</string>
     <string name="lbl_repeat_episodes">Gentag Episoder</string>
-    <string name="pref_acra_enabled">Du vil blive spurgt om du vil sende fejlrappoter</string>
     <string name="lbl_show_indicators">Vis Indikatorer For</string>
     <string name="lbl_on_schedule">Til Tiden</string>
-    <string name="pref_acra_disabled">Fejlrapporter vil ikke blive indsendt</string>
     <string name="pref_use_direct_path_summary">Giv filsystemets sti i stedet for streamnig URL</string>
     <string name="pref_use_direct_path_title">Giv direkte sti til ekstern afspiller</string>
     <string name="lbl_resume_preroll">Genoptag Forfilm</string>
-    <string name="pref_acra_syslog_enabled">System logfiler vil blive inkluderet i fejlrapporter</string>
     <string name="pref_acra_syslog_disabled">System logfiler vil ikke blive inkluderet i fejlrapporter</string>
     <string name="pref_next_up_timeout_title">Næste episode timer varighed</string>
     <string name="pref_next_up_timeout_summary">Tid indtil afspilning af næste episode</string>

@@ -237,11 +237,8 @@
     <string name="lbl_audio_delay">Opóźnienie dźwięku</string>
     <string name="lbl_new_only">Tylko nowe</string>
     <string name="lbl_news">Wiadomości</string>
-    <string name="acra_dialog_title">Oh nie! Coś poszło źle.</string>
     <string name="pref_acra_syslog_enabled">Dzienniki systemowe zostaną uwzględnione w raportach o awariach</string>
-    <string name="pref_acra_alwaysaccept_disabled">Okno dialogowe zostanie wyświetlone przed przesłaniem jakiegokolwiek raportu o awarii</string>
     <string name="pref_acra_alwaysaccept">Przesyłaj bez pytania</string>
-    <string name="pref_acra_enabled">Zostaniesz poproszony o przesłanie raportów o awariach</string>
     <string name="pref_acra_category">Zgłaszanie awarii</string>
     <string name="pref_use_direct_path_title">Ustaw bezpośrednią ścieżkę dla zewnętrznego odtwarzacza</string>
     <string name="lbl_song_title">Tytuł piosenki</string>

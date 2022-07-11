@@ -249,15 +249,8 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиаданные</string>
-    <string name="acra_dialog_text">Вы желаете отправить разработчикам отчёт о сбое\?
-\n
-\nЭта информация будет отправлена третьей стороне (tracepot.com).
-\n
-\nЭто предложение может быть отключено в разделе Отчёт о сбое в Предпочтениях Jellyfin-приложения.</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
-    <string name="pref_acra_alwaysaccept_enabled">Отчёты о сбоях будут отправляться без предупреждения</string>
     <string name="pref_acra_disabled">Отчёты о сбоях не будут отправляться</string>
-    <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
     <string name="pref_libvlc_audio_delay_title">Задержка аудио для libVLC по умолчанию</string>

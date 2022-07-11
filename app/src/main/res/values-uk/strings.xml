@@ -118,12 +118,9 @@
     <string name="lbl_cast_crew">Актори/знімальна група</string>
     <string name="lbl_tv_series">Серіали</string>
     <string name="lbl_pause">Пауза</string>
-    <string name="pref_acra_syslog_disabled">Системні журнали не будуть включені у звіти про помилки</string>
     <string name="pref_acra_syslog">Включати системні журнали.
 \nВони можуть містити персональні дані з інших програм, якщо вони були записані під час збою.</string>
-    <string name="pref_acra_alwaysaccept_enabled">Звіти про помилки будуть надсилатися без попередження</string>
     <string name="pref_acra_disabled">Звіти про помилки не будуть надсилатись</string>
-    <string name="pref_enable_acra">Надіслати розробникам звіти про помилки</string>
     <string name="pref_use_direct_path_summary">Передавати системний шлях замість URL потоку</string>
     <string name="pref_use_direct_path_title">Передати прямий шлях зовнішньому програвачу</string>
     <string name="lbl_resume_preroll">Продовжити пре-рол</string>

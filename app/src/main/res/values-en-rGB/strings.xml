@@ -244,7 +244,6 @@
     <string name="loading">Loading…</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="lbl_just_this_once">Just this once</string>
-    <string name="pref_enable_acra">Send crash reports to developers</string>
     <string name="pref_media_player">Preferred media player</string>
     <string name="pref_about_title">About</string>
     <string name="pref_video_player_external">External app</string>
@@ -252,9 +251,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatically choose</string>
     <string name="lbl_my_media">My Media</string>
-    <string name="acra_dialog_title">Oh no! Something went wrong.</string>
     <string name="pref_acra_syslog_enabled">System logs will be included in crash reports</string>
-    <string name="pref_acra_alwaysaccept_disabled">A dialog will be displayed before submitting any crash report</string>
     <string name="pref_acra_alwaysaccept">Submit without prompting</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
     <string name="watch_now">Watch now</string>

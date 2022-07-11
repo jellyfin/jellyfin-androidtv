@@ -151,11 +151,8 @@
     <string name="lbl_new_only">Само нове</string>
     <string name="lbl_new_episodes">Нове епизоде</string>
     <string name="lbl_news">Нове</string>
-    <string name="acra_dialog_title">О, не! Нешто није у реду.</string>
     <string name="pref_acra_syslog_enabled">Системски дневници ће бити укључени у извештаје о падовима</string>
-    <string name="pref_acra_alwaysaccept_disabled">Пре него што пошаљете било који извештај о паду, приказаће се дијалог</string>
     <string name="pref_acra_alwaysaccept">Пошаљите извештаје о падовима без захтева</string>
-    <string name="pref_acra_enabled">Од вас ће бити затражено да пошаљете извештаје о падовима</string>
     <string name="pref_acra_category">Извештавање о паду</string>
     <string name="pref_use_direct_path_summary">Проследите путању система датотека уместо УРЛ-а за стримовање</string>
     <string name="pref_use_direct_path_title">Проследите директну путању за спољни плејер</string>

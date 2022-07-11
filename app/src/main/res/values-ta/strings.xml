@@ -169,11 +169,8 @@
     <string name="lbl_audio_delay">ஆடியோ தாமதம்</string>
     <string name="lbl_new_only">புதியது மட்டும்</string>
     <string name="lbl_news">செய்தி</string>
-    <string name="acra_dialog_title">ஏதோ தவறு நடைபெற்றிருக்கிறது.</string>
     <string name="pref_acra_syslog_enabled">கணினி பதிவுகள் செயலிழப்பு அறிக்கைகளில் சேர்க்கப்படும்</string>
-    <string name="pref_acra_alwaysaccept_disabled">எந்த செயலிழப்பு அறிக்கையையும் சமர்ப்பிக்கும் முன் ஒரு உரையாடல் காண்பிக்கப்படும்</string>
     <string name="pref_acra_alwaysaccept">கேட்காமல் சமர்ப்பிக்கவும்</string>
-    <string name="pref_acra_enabled">செயலிழப்பு அறிக்கைகளை சமர்ப்பிக்கும்படி கேட்கப்படுவீர்கள்</string>
     <string name="pref_acra_category">செயலிழப்பு அறிக்கை</string>
     <string name="pref_use_direct_path_summary">URL ஐ ஸ்ட்ரீமிங் செய்வதற்கு பதிலாக கோப்பு முறைமை பாதையை அனுப்பவும்</string>
     <string name="pref_use_direct_path_title">வெளிப்புற பிளேயருக்கான நேரடி பாதையை அனுப்பவும்</string>

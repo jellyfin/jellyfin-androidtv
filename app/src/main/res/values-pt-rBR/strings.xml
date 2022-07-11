@@ -255,11 +255,8 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Minha mídia</string>
-    <string name="acra_dialog_title">Oh não! Algo deu errado.</string>
     <string name="pref_acra_syslog_enabled">Logs do sistema serão incluídos nos relatórios de falhas</string>
-    <string name="pref_acra_alwaysaccept_disabled">Um aviso será exibido antes de enviar qualquer relatório de falha</string>
     <string name="pref_acra_alwaysaccept">Enviar sem ser solicitado</string>
-    <string name="pref_acra_enabled">Você será solicitado a enviar relatórios de falhas</string>
     <string name="pref_acra_category">Reportar falhas</string>
     <string name="pref_app_theme">Tema do aplicativo</string>
     <string name="pref_theme_emerald">Esmeralda clássica</string>
