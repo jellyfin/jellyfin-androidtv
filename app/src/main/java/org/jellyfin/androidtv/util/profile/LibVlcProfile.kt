@@ -122,7 +122,6 @@ class LibVlcProfile(
 		)
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Embed),
@@ -131,6 +130,7 @@ class LibVlcProfile(
 			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.WEBVTT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SMI, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed)

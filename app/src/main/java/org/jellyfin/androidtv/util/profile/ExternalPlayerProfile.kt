@@ -75,6 +75,7 @@ class ExternalPlayerProfile : DeviceProfile() {
 			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.WEBVTT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SMI, SubtitleDeliveryMethod.Embed)
