@@ -23,12 +23,12 @@ import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.TracksInfo;
+import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ts.TsExtractor;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.TrackGroup;
-import com.google.android.exoplayer2.trackselection.TrackSelectionOverrides;
+import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -43,9 +43,9 @@ import org.jellyfin.apiclient.model.entities.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.interfaces.IVLCVout;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.MediaPlayer.TrackDescription;
+import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,8 +158,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
 
             @Override
-            public void onTracksInfoChanged(TracksInfo tracksInfo) {
-                Timber.d("Tracks info changed");
+            public void onTracksChanged(Tracks tracks) {
+                Timber.d("Tracks changed");
             }
         });
     }
@@ -347,12 +347,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             mExoPlayer.stop();
             disableSubs();
 
-            TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
-                                                    .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
-                                                    .build();
             mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
-                                                    .buildUpon()
-                                                    .setTrackSelectionOverrides(overrides).build());
+                    .buildUpon()
+                    .clearOverridesOfType(C.TRACK_TYPE_AUDIO)
+                    .build());
         } else if (mVlcPlayer != null) {
             mVlcPlayer.stop();
         }
@@ -482,13 +480,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
         int matchedIndex = -2;
-        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
-        for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
+        Tracks exoTracks = mExoPlayer.getCurrentTracks();
+        for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             if (matchedIndex > -2)
                 break;
             // Group level information.
-            @C.TrackType int trackType = groupInfo.getTrackType();
-            TrackGroup group = groupInfo.getTrackGroup();
+            @C.TrackType int trackType = groupInfo.getType();
+            TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
                 Format trackFormat = group.getFormat(i);
@@ -546,12 +544,12 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
         //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
 
-        TracksInfo exoTracks = mExoPlayer.getCurrentTracksInfo();
+        Tracks exoTracks = mExoPlayer.getCurrentTracks();
         TrackGroup matchedGroup = null;
-        for (TracksInfo.TrackGroupInfo groupInfo : exoTracks.getTrackGroupInfos()) {
+        for (Tracks.Group groupInfo : exoTracks.getGroups()) {
             // Group level information.
-            @C.TrackType int trackType = groupInfo.getTrackType();
-            TrackGroup group = groupInfo.getTrackGroup();
+            @C.TrackType int trackType = groupInfo.getType();
+            TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
                 boolean isSupported = groupInfo.isTrackSupported(i);
@@ -588,13 +586,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return false;
 
         try {
-            TrackSelectionOverrides overrides = mExoPlayer.getTrackSelectionParameters().trackSelectionOverrides.buildUpon()
-                    .setOverrideForType(new TrackSelectionOverrides.TrackSelectionOverride(matchedGroup))
-                    .build();
             TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+            mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
             if (streamType == MediaStreamType.Subtitle)
                 mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
-            mExoPlayerSelectionParams.setTrackSelectionOverrides(overrides);
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
             Timber.d("Error setting track selection");
