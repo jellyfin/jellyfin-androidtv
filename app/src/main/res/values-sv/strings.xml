@@ -30,22 +30,11 @@
     <string name="lbl_audio_delay">Ljudfördröjning</string>
     <string name="lbl_new_only">Endast nya</string>
     <string name="lbl_news">Nyheter</string>
-    <string name="acra_dialog_text">Vill du skicka en kraschrapport till utvecklarna\?
-\n
-\nDenna information kommer skickas till en tredjepart (tracepot.com).
-\n
-\nDenna dialog kan stängas av i kraschrapporteringssektionen i Jellyfins appinställningar.</string>
     <string name="acra_dialog_title">Åh nej! Något gick visst snett.</string>
-    <string name="pref_acra_syslog_disabled">Systemloggar kommer inte inkluderas i kraschrapporter</string>
     <string name="pref_acra_syslog_enabled">Systemloggar kommer att inkluderas i kraschrapporter</string>
-    <string name="pref_acra_syslog">Inkludera systemloggar.
-\nDetta kan inkludera privata uppgifter från andra applikationer om dessa var aktiva under loggningsperioden.</string>
     <string name="pref_acra_alwaysaccept_disabled">En meddelanderuta kommer att visas innan någon kraschrapport skickas</string>
-    <string name="pref_acra_alwaysaccept_enabled">Kraschrapporter kommer skickas utan att du förfrågas</string>
     <string name="pref_acra_alwaysaccept">Skicka utan att fråga</string>
-    <string name="pref_acra_disabled">Kraschrapporter kommer inte att skickas</string>
     <string name="pref_acra_enabled">Du kommer att bli förfrågad om att skicka kraschrapporter</string>
-    <string name="pref_enable_acra">Skicka kraschrapporter till utvecklare</string>
     <string name="pref_acra_category">Kraschrapportering</string>
     <string name="pref_use_direct_path_summary">Passa filsystemssökväg istället för strömmings-URL</string>
     <string name="pref_use_direct_path_title">Passa direkt sökväg för extern spelare</string>
@@ -458,7 +447,6 @@
     <string name="pref_audio">Ljud</string>
     <string name="pref_subtitles">Undertexter</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Kraschdialog, automatisk uppladdning, systemloggar</string>
     <string name="pref_customization_description">Tema, hem, omplacering</string>
     <string name="pref_login_description">Servrar, konton, automatisk inloggning</string>
     <string name="pref_login">Logga in</string>

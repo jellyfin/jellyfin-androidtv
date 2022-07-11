@@ -245,27 +245,19 @@
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
     <string name="pref_video_player_vlc">libVLC</string>
-    <string name="pref_acra_syslog">Включать системные журналы.
-\nОни могут включать персональные данные из других приложений, если они были записаны во время сбоя.</string>
     <string name="pref_video_player_external">Внешнее приложение</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиаданные</string>
-    <string name="acra_dialog_title">О нет! Что-то не так.</string>
     <string name="acra_dialog_text">Вы желаете отправить разработчикам отчёт о сбое\?
 \n
 \nЭта информация будет отправлена третьей стороне (tracepot.com).
 \n
 \nЭто предложение может быть отключено в разделе Отчёт о сбое в Предпочтениях Jellyfin-приложения.</string>
-    <string name="pref_acra_syslog_disabled">Системные журналы не будут включены в отчёты о сбоях</string>
     <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
-    <string name="pref_acra_alwaysaccept_disabled">Будет показано диалоговое окно перед отправкой любого отчёта о сбое</string>
     <string name="pref_acra_alwaysaccept_enabled">Отчёты о сбоях будут отправляться без предупреждения</string>
-    <string name="pref_acra_alwaysaccept">Отправлять без предупреждения</string>
     <string name="pref_acra_disabled">Отчёты о сбоях не будут отправляться</string>
-    <string name="pref_acra_enabled">Вам будет предложено отправлять отчёты о сбоях</string>
     <string name="pref_enable_acra">Отправка разработчикам отчёта о сбое</string>
-    <string name="pref_acra_category">Отчёт о сбое</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
     <string name="pref_libvlc_audio_delay_title">Задержка аудио для libVLC по умолчанию</string>
@@ -459,7 +451,6 @@
     <string name="server_issue_unable_to_connect">Невозможно подключиться</string>
     <string name="server_connection_failed_candidates">Не удалось подключиться к серверу, пробуем следующие адреса: %1$s</string>
     <string name="lbl_playback_speed">Скорость воспроизведения</string>
-    <string name="pref_acra_description">Диалог сбоя, автозагрузка, системные журналы</string>
     <string name="pref_customization">Настройка</string>
     <string name="pref_direct_stream_live_on">Перекодирование выключено</string>
     <string name="pref_direct_stream_live_off">Перекодирование используется при необходимости</string>

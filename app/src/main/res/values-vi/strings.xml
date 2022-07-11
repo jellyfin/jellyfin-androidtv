@@ -152,22 +152,11 @@
     <string name="lbl_audio_delay">Độ Trễ Âm Thanh</string>
     <string name="lbl_new_only">Chỉ Những Thứ Mới</string>
     <string name="lbl_news">Tin Tức</string>
-    <string name="acra_dialog_text">Bạn có muốn gửi báo cáo sự cố cho các nhà phát triển không\?
-\n
-\nThông tin này sẽ được gửi cho bên thứ ba (tracepot.com).
-\n
-\nCó thể tắt lời nhắc này trong phần Báo cáo sự cố trong tùy chọn của ứng dụng Jellyfin.</string>
     <string name="acra_dialog_title">Ôi không! Đã xảy ra lỗi.</string>
-    <string name="pref_acra_syslog_disabled">Nhật ký hệ thống sẽ không được đưa vào báo cáo sự cố</string>
     <string name="pref_acra_syslog_enabled">Nhật ký hệ thống sẽ được đưa vào báo cáo sự cố</string>
-    <string name="pref_acra_syslog">Bao gồm nhật ký hệ thống.
-\nĐiều này có thể bao gồm dữ liệu riêng tư từ các ứng dụng khác nếu nó được ghi vào thời điểm xảy ra sự cố.</string>
     <string name="pref_acra_alwaysaccept_disabled">Một hộp thoại sẽ được hiển thị trước khi gửi bất kỳ báo cáo sự cố nào</string>
-    <string name="pref_acra_alwaysaccept_enabled">Báo cáo sự cố sẽ được gửi mà không cần nhắc nhở</string>
     <string name="pref_acra_alwaysaccept">Gửi mà không cần nhắc nhở</string>
-    <string name="pref_acra_disabled">Báo cáo sự cố sẽ không được gửi</string>
     <string name="pref_acra_enabled">Bạn sẽ được nhắc gửi báo cáo sự cố</string>
-    <string name="pref_enable_acra">Gửi báo cáo sự cố cho nhà phát triển</string>
     <string name="pref_acra_category">Báo cáo sự cố</string>
     <string name="pref_use_direct_path_summary">Thông qua đường dẫn hệ thống tệp thay vì truyền trực tuyến URL</string>
     <string name="pref_use_direct_path_title">Thông qua đường dẫn trực tiếp cho trình phát bên ngoài</string>
@@ -454,7 +443,6 @@
     <string name="pref_direct_stream_live_on">Chuyển mã bị tắt</string>
     <string name="pref_direct_stream_live_off">Chuyển mã được sử dụng khi cần thiết</string>
     <string name="pref_subtitles">Phụ đề</string>
-    <string name="pref_acra_description">Hộp thoại sự cố, tự động tải lên, nhật ký hệ thống</string>
     <string name="pref_playback_description">Video, phụ đề, truyền hình trực tiếp, tiếp theo</string>
     <string name="pref_customization_description">Chủ đề, trang chủ, ánh xạ lại</string>
     <string name="pref_login_description">Máy chủ, tài khoản, đăng nhập tự động</string>

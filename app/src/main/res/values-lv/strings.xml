@@ -20,19 +20,10 @@
     <string name="lbl_new_episodes">Jaunas Epizodes</string>
     <string name="lbl_new_only">Tikai Ziņas</string>
     <string name="lbl_news">Ziņas</string>
-    <string name="acra_dialog_text">Vai tu vēlies nosūtīt kļūdas ziņojumu izstrādātājiem\?
-\n
-\nŠī informācija tiks nosūtīta trešajai pusei (tracepot.com)
-\n
-\nŠo logu var atspējot Kļūdas Ziņojumu sadaļā Jellyfin lietotnes Iestatījumos.</string>
     <string name="pref_acra_syslog_disabled">Sistēmas log ziņojumi netiks pievienoti kļūdu ziņojumiem</string>
-    <string name="acra_dialog_title">Ak nē! Kaut kas nogāja greizi.</string>
     <string name="pref_acra_alwaysaccept_disabled">Dialoga logs tiks parādīts pirms jebkura kļūdas ziņojuma nosūtīšanas</string>
-    <string name="pref_acra_alwaysaccept_enabled">Kļūdu ziņojumi tiks nosūtīti bez vaicāšanas</string>
     <string name="pref_acra_enabled">Tev tiks vaicāts pirms ziņojuma nosūtīšanas</string>
-    <string name="pref_acra_alwaysaccept">Nosūtīt kļūdu ziņojumus bez vaicājuma</string>
     <string name="pref_acra_disabled">Kļūdu ziņojumi netiks nosūtīti</string>
-    <string name="pref_enable_acra">Nosūtīt kļūdu ziņojumus izstrādātājiem</string>
     <string name="pref_acra_category">Kļūdu Ziņošana</string>
     <string name="lbl_song_title">Dziesmas Nosaukums</string>
     <string name="lbl_album_name">Albuma nosaukums</string>
@@ -252,12 +243,10 @@
     <string name="lbl_play">Atskaņot</string>
     <string name="lbl_latest_additions">Jaunākie Pievienojumi</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
-    <string name="pref_acra_syslog">Ievietot sistēmas logus kļūdu ziņojumos. Tas var saturēt privātus datus no citām lietotnēm, ja tā tika logota izveides brīdī.</string>
     <string name="lbl_bitstream_dts">Bit-straumēt DTS Audio</string>
     <string name="lbl_instant_mix">Tiešā Jaukšana</string>
     <string name="lbl_upcoming">Gaidāmā</string>
     <string name="lbl_cast_crew">Lomas/Apkalpe</string>
-    <string name="pref_acra_syslog_enabled">Sistēmas logi tiks ievietoti kļūdas ziņojumos</string>
     <string name="pref_use_direct_path_title">Padot Tiešo Ceļu ārējam atskaņotājam</string>
     <string name="lbl_goto_now_playing">Pāriet uz Pašlaik Atskaņoto</string>
     <string name="lbl_showing">Rāda</string>

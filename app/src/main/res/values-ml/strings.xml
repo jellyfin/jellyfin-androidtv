@@ -31,11 +31,6 @@
     <string name="lbl_unknown_key">അജ്ഞാതം (%1s)</string>
     <string name="lbl_tv_filter_status">അടുത്മ %1$d ണിക്കൂർ</string>
     <string name="lbl_tv_channel_status">%1$d ഡി %2$d ചാനലുകൾ</string>
-    <string name="acra_dialog_text">ഡവലപ്പർമാർക്ക് ഒരു ക്രാഷ് റിപ്പോർട്ട് അയയ്ക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ\?
-\n
-\nഈ വിവരങ്ങൾ ഒരു മൂന്നാം കക്ഷിക്ക് സമർപ്പിക്കും (ട്രെയ്സ്പോട്ട്.കോം).
-\n
-\nജെല്ലിഫിൻ അപ്ലിക്കേഷന്റെ ക്രമീകരണങ്ങളിലെ ക്രാഷ് റിപ്പോർട്ടിംഗ് വിഭാഗത്തിൽ ഈ പ്രോംപ്റ്റ് അപ്രാപ്തമാക്കാം.</string>
     <string name="lbl_resume_from">%1$s ൽ നിന്ന് ആരംഭിക്കുക</string>
     <string name="lbl_in_x_days">%d ദിവസങ്ങളിൽ</string>
     <string name="lbl_now_playing_album">%1$s മുതൽ</string>
@@ -159,17 +154,11 @@
     <string name="lbl_audio_delay">ഓഡിയോ കാലതാമസം</string>
     <string name="lbl_new_only">പുതിയത് മാത്രം</string>
     <string name="lbl_news">വാർത്ത</string>
-    <string name="acra_dialog_title">ഓ, ഇല്ല! എന്തോ കുഴപ്പം സംഭവിച്ചു.</string>
     <string name="pref_acra_syslog_disabled">ക്രാഷ് റിപ്പോർട്ടുകളിൽ സിസ്റ്റം ലോഗുകൾ ഉൾപ്പെടുത്തില്ല</string>
-    <string name="pref_acra_syslog_enabled">സിസ്റ്റം ലോഗുകൾ ക്രാഷ് റിപ്പോർട്ടുകളിൽ ഉൾപ്പെടുത്തും</string>
     <string name="pref_acra_syslog">ക്രാഷ് റിപ്പോർട്ടുകളിൽ സിസ്റ്റം ലോഗുകൾ ഉൾപ്പെടുത്തുക. ക്രാഷ് സമയത്ത് ലോഗിൻ ചെയ്തിട്ടുണ്ടെങ്കിൽ മറ്റ് ആപ്ലിക്കേഷനുകളിൽ നിന്നുള്ള സ്വകാര്യ ഡാറ്റ ഇതിൽ ഉൾപ്പെടാം.</string>
-    <string name="pref_acra_alwaysaccept_disabled">ഏതെങ്കിലും ക്രാഷ് റിപ്പോർട്ട് സമർപ്പിക്കുന്നതിന് മുമ്പ് ഒരു ഡയലോഗ് പ്രദർശിപ്പിക്കും</string>
     <string name="pref_acra_alwaysaccept_enabled">ആവശ്യപ്പെടാതെ ക്രാഷ് റിപ്പോർട്ടുകൾ സമർപ്പിക്കും</string>
-    <string name="pref_acra_alwaysaccept">ആവശ്യപ്പെടാതെ ക്രാഷ് റിപ്പോർട്ടുകൾ സമർപ്പിക്കുക</string>
     <string name="pref_acra_disabled">ക്രാഷ് റിപ്പോർട്ടുകൾ സമർപ്പിക്കില്ല</string>
-    <string name="pref_acra_enabled">ക്രാഷ് റിപ്പോർട്ടുകൾ സമർപ്പിക്കാൻ നിങ്ങളോട് ആവശ്യപ്പെടും</string>
     <string name="pref_enable_acra">ക്രാഷ് റിപ്പോർട്ടുകൾ ഡവലപ്പർമാർക്ക് അയയ്ക്കുക</string>
-    <string name="pref_acra_category">ക്രാഷ് റിപ്പോർട്ടിംഗ്</string>
     <string name="pref_use_direct_path_summary">URL സ്ട്രീമിംഗിനുപകരം ഫയൽ സിസ്റ്റം പാത്ത് കടന്നുപോകുക</string>
     <string name="pref_use_direct_path_title">ബാഹ്യ പ്ലെയറിനായി നേരിട്ടുള്ള പാത കടന്നുപോകുക</string>
     <string name="lbl_song_title">പാട്ടിന്റെ പേര്</string>

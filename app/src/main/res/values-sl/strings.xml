@@ -234,13 +234,9 @@
     <string name="lbl_news">Novice</string>
     <string name="lbl_tv_filter_status">naslednjih %1$d ur</string>
     <string name="lbl_tv_channel_status">%1$d od %2$d kanalov</string>
-    <string name="acra_dialog_title">O ne! Nekaj je šlo narobe.</string>
     <string name="pref_acra_alwaysaccept_disabled">Pred pošiljanjem poročila o napaki se prikaže pogovorno okno</string>
-    <string name="pref_acra_alwaysaccept_enabled">Poročila o napakah bodo posredovana brez potrditve</string>
     <string name="pref_acra_alwaysaccept">Pošlji poročila o napakah brez potrditve</string>
-    <string name="pref_acra_disabled">Poročila o napakah ne bodo posredovana</string>
     <string name="pref_enable_acra">Pošlji poročila o napakah razvijalcem</string>
-    <string name="pref_acra_category">Poročanje o napakah</string>
     <string name="lbl_song_title">Naslov pesmi</string>
     <string name="lbl_album_name">Ime albuma</string>
     <string name="lbl_next_episode">Naslednja epizoda</string>
@@ -289,9 +285,7 @@
     <string name="lbl_show_backdrop">Prikaži ozadje med brskanjem</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
-    <string name="pref_acra_syslog_disabled">Sistemski dnevniki ne bodo vključeni v poročilu o napaki</string>
     <string name="pref_acra_syslog_enabled">&lt;Sistemski dnevniki bodo vključeni v poročilu o napaki</string>
-    <string name="pref_acra_syslog">Vključi sistemske dnevnike v poročilu o napaki. Te lahko vsebujejo zasebne podatke drugih aplikacij če so bile zapisane v dnevnik ob času napake.</string>
     <string name="pref_acra_enabled">Program vas bo prosil da pošljete obvestilo o napaki</string>
     <string name="pref_use_direct_path_summary">Posreduj pot do datoteke na sistemu namesto povezavo do neposrednega pretakanja</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
@@ -306,11 +300,6 @@
     <string name="lbl_resume_preroll">Nadaljuj Pre-Roll</string>
     <string name="msg_external_path">Ta funkcija bo delovala le, če ste pravilno nastavili omrežne poti oz. nadomestne poti v vaši knjižnici na strežniku in jih hkrati vaš odjemalec lahko dostopa.</string>
     <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
-    <string name="acra_dialog_text">Ali želite razvijalcem poslati poročilo o sesutju\?
-\n
-\nPodatki bodo poslani tretji stranki (tracepot.com).
-\n
-\nTo sporočilo lahko onemogočite v razdelku Poročanje o sesutjih v nastavitvah aplikacije Jellyfin.</string>
     <string name="playing_error">Napaka pri pridobivanju statusa predvajanja</string>
     <string name="msg_added_to_video">%1$s dodan v čakalno vrsto. Konec: %2$s</string>
     <string name="msg_queue_saved">Čakalna vrsta shranjena kot seznam predvajanja: %1$s</string>

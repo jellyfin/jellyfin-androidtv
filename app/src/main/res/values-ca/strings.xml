@@ -211,21 +211,11 @@
     <string name="lbl_news">Noticies</string>
     <string name="lbl_tv_filter_status">per les pròximes %1$d hores</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canals</string>
-    <string name="acra_dialog_text">Voleu enviar un informe d’error als desenvolupadors\?
-\n
-\nAquesta informació serà enviada a un tercer (tracepot.com).
-\n
-\nAquesta sol·licitud es pot desactivar a la secció Informes d\'errors a la configuració de l\'aplicació Jellyfin.</string>
     <string name="acra_dialog_title">Oh no! Alguna cosa ha anat malament.</string>
-    <string name="pref_acra_syslog_disabled">Els registres del sistema no s’inclouran als informes d’errors</string>
     <string name="pref_acra_syslog_enabled">Els registres del sistema s’inclouran als informes d’errors</string>
-    <string name="pref_acra_syslog">Inclou els registres del sistema als informes d’errors. Això pot incloure dades privades d\'altres aplicacions si es van registrar en el moment del bloqueig.</string>
     <string name="pref_acra_alwaysaccept_disabled">Es mostrarà un quadre de diàleg abans d’enviar cap informe d’error</string>
-    <string name="pref_acra_alwaysaccept_enabled">Els informes d’errors s’enviaran sense demanar-los</string>
     <string name="pref_acra_alwaysaccept">Envieu informes d’errors sense demanar-ho</string>
-    <string name="pref_acra_disabled">No s’enviaran informes d’errors</string>
     <string name="pref_acra_enabled">Se us demanarà que envieu informes d’errors</string>
-    <string name="pref_enable_acra">Envieu informes d’errors als desenvolupadors</string>
     <string name="pref_acra_category">Informes d\'errors</string>
     <string name="pref_use_direct_path_summary">Passeu la ruta de sistema de fitxers en lloc de l\'URL de reproducció</string>
     <string name="pref_use_direct_path_title">Passa la ruta directa per a un reproductor extern</string>

@@ -244,21 +244,15 @@
     <string name="lbl_colored_backgrounds">Arrière-plans de couleurs</string>
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
     <string name="lbl_new_only">Nouveau uniquement</string>
-    <string name="pref_enable_acra">Envoyer les rapports d\'erreur aux développeurs</string>
     <string name="pref_acra_alwaysaccept">Soumettre sans me demander la permission</string>
-    <string name="pref_acra_disabled">Vos signalements de plantage ne seront pas transmis</string>
     <string name="pref_acra_enabled">Vous serez invité à envoyer vos signalements de plantage</string>
-    <string name="pref_acra_category">Signalement d\'un plantage</string>
     <string name="pref_acra_alwaysaccept_disabled">Une fenêtre de dialogue s\'affichera avant d\'envoyer un rapport de plantage</string>
-    <string name="pref_acra_alwaysaccept_enabled">Les rapports de plantage seront envoyés sans confirmation</string>
     <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs \?
 \n
 \nCette information sera transmise à une tierce partie (tracepot.com).
 \n
 \nCet affichage peut être désactivé dans la section Rapport de plantage dans les préférences de l\'application Jellyfin.</string>
-    <string name="acra_dialog_title">Oh non ! Quelque chose est allé de travers.</string>
     <string name="pref_acra_syslog_disabled">Les logs système ne seront pas inclus dans les rapports de plantage</string>
-    <string name="pref_acra_syslog_enabled">Les logs système seront inclus dans les rapports de plantage</string>
     <string name="pref_acra_syslog">Inclure les logs système.
 \nCela risque d\'inclure des données privées d\'autres applications si elles étaient connectées au moment du plantage.</string>
     <string name="pref_next_up_timeout_title">Durée d\'attente avant la lecture du suivant</string>
@@ -463,7 +457,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Sous-titres</string>
     <string name="pref_video">Vidéo</string>
-    <string name="pref_acra_description">Fenêtre de plantage, upload automatique, logs systèmes</string>
     <string name="pref_playback_description">Vidéo, sous-titres, TV en direct, prochains à voir</string>
     <string name="pref_customization_description">Thème, accueil, remappage</string>
     <string name="pref_login_description">Serveurs, comptes, connexion automatique</string>

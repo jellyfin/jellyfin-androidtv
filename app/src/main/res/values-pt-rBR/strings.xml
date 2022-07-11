@@ -255,22 +255,11 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Minha mídia</string>
-    <string name="acra_dialog_text">Você gostaria de enviar um relatório de falhas para os desenvolvedores\?
-\n
-\nEssa informação será enviada a terceiros (tracepot.com).
-\n
-\nEsse aviso pode ser desativado na seção de Relatórios de Falhas nas preferências de aplicativo do Jellyfin.</string>
     <string name="acra_dialog_title">Oh não! Algo deu errado.</string>
-    <string name="pref_acra_syslog_disabled">Logs do sistema não serão incluídos nos relatórios de falhas</string>
     <string name="pref_acra_syslog_enabled">Logs do sistema serão incluídos nos relatórios de falhas</string>
-    <string name="pref_acra_syslog">Incluir logs do sistema.
-\nIsso pode incluir dados privados de outras aplicações caso tenha sido registrado no momento da falha.</string>
     <string name="pref_acra_alwaysaccept_disabled">Um aviso será exibido antes de enviar qualquer relatório de falha</string>
-    <string name="pref_acra_alwaysaccept_enabled">Relatórios de falhas serão enviados sem solicitação</string>
     <string name="pref_acra_alwaysaccept">Enviar sem ser solicitado</string>
-    <string name="pref_acra_disabled">Relatórios de falhas não vão ser enviados</string>
     <string name="pref_acra_enabled">Você será solicitado a enviar relatórios de falhas</string>
-    <string name="pref_enable_acra">Enviar relatórios de falhas para os desenvolvedores</string>
     <string name="pref_acra_category">Reportar falhas</string>
     <string name="pref_app_theme">Tema do aplicativo</string>
     <string name="pref_theme_emerald">Esmeralda clássica</string>
@@ -464,7 +453,6 @@
     <string name="pref_audio">Áudio</string>
     <string name="pref_subtitles">Legendas</string>
     <string name="pref_video">Vídeo</string>
-    <string name="pref_acra_description">Reporte de erro, upload automático, logs do sistema</string>
     <string name="pref_playback_description">Vídeo, legendas, tv ao vivo, a seguir</string>
     <string name="pref_customization_description">Tema, principal, reorganização</string>
     <string name="pref_login_description">Servidores, contas, entrar automaticamente</string>

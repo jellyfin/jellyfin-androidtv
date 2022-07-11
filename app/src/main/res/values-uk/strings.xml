@@ -118,18 +118,12 @@
     <string name="lbl_cast_crew">Актори/знімальна група</string>
     <string name="lbl_tv_series">Серіали</string>
     <string name="lbl_pause">Пауза</string>
-    <string name="acra_dialog_title">О ні! Щось пішло не так.</string>
     <string name="pref_acra_syslog_disabled">Системні журнали не будуть включені у звіти про помилки</string>
-    <string name="pref_acra_syslog_enabled">Системні журнали будуть включені у звіти про помилки</string>
     <string name="pref_acra_syslog">Включати системні журнали.
 \nВони можуть містити персональні дані з інших програм, якщо вони були записані під час збою.</string>
-    <string name="pref_acra_alwaysaccept_disabled">Перед надсиланням звіту про помилки буде відображене діалогове вікно</string>
     <string name="pref_acra_alwaysaccept_enabled">Звіти про помилки будуть надсилатися без попередження</string>
-    <string name="pref_acra_alwaysaccept">Підтвердити без запиту</string>
     <string name="pref_acra_disabled">Звіти про помилки не будуть надсилатись</string>
-    <string name="pref_acra_enabled">Вам буде запропоновано надсилати звіти про помилки</string>
     <string name="pref_enable_acra">Надіслати розробникам звіти про помилки</string>
-    <string name="pref_acra_category">Повідомлення про аварійне завершення роботи</string>
     <string name="pref_use_direct_path_summary">Передавати системний шлях замість URL потоку</string>
     <string name="pref_use_direct_path_title">Передати прямий шлях зовнішньому програвачу</string>
     <string name="lbl_resume_preroll">Продовжити пре-рол</string>
@@ -193,11 +187,6 @@
     <string name="lbl_news">Новини</string>
     <string name="lbl_tv_filter_status">за наступні %1$d години</string>
     <string name="lbl_tv_channel_status">%1$d з %2$d каналів</string>
-    <string name="acra_dialog_text">Хочете надіслати звіт про аварійне завершення роботи розробникам\?
-\n
-\nЦя інформація буде передана третій стороні (tracepot.com).
-\n
-\nЦю підказку можна вимкнути в розділі звітів про аварійне завершення роботи в налаштуваннях програми Jellyfin.</string>
     <string name="lbl_episode_not_record">Цей показ НЕ записуватиметься</string>
     <string name="lbl_live">Наживо</string>
     <string name="lbl_sports">Спорт</string>
@@ -353,7 +342,6 @@
     <string name="pref_audio">Звук</string>
     <string name="pref_subtitles">Субтитри</string>
     <string name="pref_video">Відео</string>
-    <string name="pref_acra_description">Діалоги збоїв, автозавантаження, логи системи</string>
     <string name="pref_playback_description">Відео, субтитри, телебачення наживо, наступне</string>
     <string name="pref_customization_description">Теми, домівка, перекартування</string>
     <string name="pref_login_description">Сервери, облікові записи, автоматичний вхід</string>

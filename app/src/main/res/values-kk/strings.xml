@@ -254,13 +254,9 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Avtomatty tañdau</string>
     <string name="lbl_my_media">Menıñ tasyğyşderekterım</string>
-    <string name="acra_dialog_title">Ou, joq! Bırdeñe dūrys bolmady.</string>
     <string name="pref_acra_alwaysaccept_disabled">Aqau turaly habarlau jıberu aldynda tılqatysu beinelenedı</string>
-    <string name="pref_acra_alwaysaccept_enabled">Aqau turaly habarlau ysynylylmai jıberıledı</string>
     <string name="pref_acra_alwaysaccept">Şaqyrusyz jıberu</string>
-    <string name="pref_acra_disabled">Aqau turaly habarlau jıberılmeidı</string>
     <string name="pref_acra_enabled">Aqau turaly habarlau jıberu ysynylady</string>
-    <string name="pref_enable_acra">Aqau turaly äzırleuşılerge habarlau</string>
     <string name="pref_acra_category">Aqau turaly habarlau</string>
     <string name="pref_app_theme">Qoldanba taqyryby</string>
     <string name="pref_theme_emerald">Klasikalyq kök-jasyl</string>
@@ -328,20 +324,12 @@
     <string name="clear_expanded">Ağymdağy beine kezegın tazartu kerek pe\?</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
-    <string name="pref_acra_syslog_disabled">Jüielık jūrnaldar apattyq esepter ışıne qosylmaidy</string>
     <string name="pref_acra_syslog_enabled">Jüielık jūrnaldar apattyq esepter ışıne qosylady</string>
-    <string name="pref_acra_syslog">Jüielık jūrnaldardy qosu.
-\nBūğan basqa qoldanbalardan jekelık derekter kıruı mümkın, eger ol apat kezınde tırkelgen bolsa.</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>
     <string name="episode_missing_message_2">Būl telebölım tasyğyşhanañyzda joq. Oinatu toqtalady.</string>
     <string name="episode_missing_message">Būl telebölım tasyğyşhanañyzda joq. Ötkızıp, kelesıge ötudı qalaisyz ba\?</string>
     <string name="no_player_message">Beine üşın qabılettı qoldanba ornatylmağan. Būl opsia beine mazmūndy oinatuğa arnalğan bögde qoldanbasyn ornatudy qajet etedі.</string>
     <string name="mark_watched_message">Tarmaq ūzağyna deiіn oinatyla almady. Qaralğan dep belgıleimız be\?</string>
-    <string name="acra_dialog_text">Äzіrleuşіlerge apattyq esep jіbergіñіz kele me\?
-\n
-\nBūl aqparat üşınşі tarapqa ūsynylady (tracepot.com).
-\n
-\nBūl şaqyrudy Jellyfin qoldanbasy Teñşelımderınde Apattyq esep bölіmіnen öşıruge bolady.</string>
     <string name="login_help_title">Kömek kerek pe\?</string>
     <string name="connect_manually_by_address">Server mekenjaiyn engızu</string>
     <string name="discovered_servers_title">Anyqtalğan serverler</string>
@@ -473,7 +461,6 @@
     <string name="pref_customization">Retteu</string>
     <string name="pref_direct_stream_live_on">Qaita kodtau öşırılgen</string>
     <string name="pref_direct_stream_live_off">Qaita kodtau qajet kezde paidalanylady</string>
-    <string name="pref_acra_description">Apat tılqatysuy, avtomatty jüktep salu, jüielık jūrnaldar</string>
     <string name="pref_playback_description">Beine, subtitrler, efir, kelesi</string>
     <string name="pref_customization_description">Taqyryp, basqy ekran, salystyru</string>
     <string name="pref_login_description">Serverler, tırkelgıler, avtomatty kıru</string>

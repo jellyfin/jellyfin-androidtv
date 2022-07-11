@@ -201,18 +201,12 @@
     <string name="lbl_live_broadcasts">Suorat lähetykset</string>
     <string name="lbl_audio_delay">Äänen viive</string>
     <string name="lbl_tv_channel_status">%1$d/%2$d kanavaa</string>
-    <string name="acra_dialog_title">Voi ei! Jotain meni pieleen.</string>
     <string name="pref_acra_syslog_disabled">Järjestelmän lokitietoja ei sisällytetä kaatumisilmoituksiin</string>
-    <string name="pref_acra_syslog_enabled">Järjestelmän lokitiedot sisällytetään kaatumisilmoituksiin</string>
     <string name="pref_acra_syslog">Sisällytä järjestelmän lokitiedot.
 \nNämä saattavat sisältää muiden sovellusten yksityisiä tietoja, jos niitä kirjattiin kaatumisen tapahtuessa.</string>
-    <string name="pref_acra_alwaysaccept_disabled">Ennen kaatumisilmoitusten lähetystä näytetään valintaruutu</string>
     <string name="pref_acra_alwaysaccept_enabled">Kaatumisilmoitukset lähetetään ilman erillistä vahvistusta</string>
-    <string name="pref_acra_alwaysaccept">Lähetä ilman vahvistusta</string>
     <string name="pref_acra_disabled">Kaatumisilmoituksia ei lähetetä</string>
-    <string name="pref_acra_enabled">Kaatumisilmoitusten lähetys vahvistetaan erikseen</string>
     <string name="pref_acra_category">Kaatumisilmoitukset</string>
-    <string name="pref_enable_acra">Lähetä kehittäjälle kaatumisilmoituksia</string>
     <string name="pref_use_direct_path_summary">Välitä URL-osoitteen sijaan tiedostojärjestelmän polku</string>
     <string name="pref_use_direct_path_title">Välitä tarkka sijainti ulkoiselle soittimelle</string>
     <string name="lbl_resume_from">Jatka kohdasta %1$s</string>
@@ -274,7 +268,6 @@
     <string name="pref_direct_stream_live_off">Transkoodausta käytetään tarvittaessa</string>
     <string name="pref_audio">Ääni</string>
     <string name="pref_subtitles">Tekstitykset</string>
-    <string name="pref_acra_description">Kaatumisilmoitukset, automaattilähetys ja järjestelmälokit</string>
     <string name="pref_playback_description">Video, tekstitykset, televisiolähetykset ja seuraava toisto</string>
     <string name="pref_customization_description">Teema, päävalikko ja painikemääritykset</string>
     <string name="pref_login_description">Palvelimet, tilit ja automaattinen kirjautuminen</string>
@@ -410,11 +403,6 @@
     <string name="pref_video_player_choose">Kysy aina</string>
     <string name="pref_theme_emerald">Klassinen smaragdi</string>
     <string name="lbl_start_favorites">Sijoita suosikit alkuun</string>
-    <string name="acra_dialog_text">Haluatko lähettää kaatumisilmoituksen kehittäjille\?
-\n
-\nTiedot lähetetään kolmannelle osapuolelle (tracepot.com).
-\n
-\nTämän kysely voidaan poistaa käytöstä Jellyfin-sovelluksen kaatumisilmoitukset-osiosta.</string>
     <string name="pref_behavior">Käytettävyys</string>
     <string name="searchable_settings_description">Media</string>
     <string name="lbl_time_range">%1$s–%2$s</string>

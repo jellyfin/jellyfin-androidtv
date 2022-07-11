@@ -249,22 +249,11 @@
     <string name="pref_video_player_exoplayer">Exo Player</string>
     <string name="pref_video_player_auto">Alege automat</string>
     <string name="lbl_my_media">Fișierele mele Media</string>
-    <string name="acra_dialog_text">Doriți să trimiteți un raport de incident dezvoltatorilor\?
-\n
-\nAceste informații vor fi transmise unui terț (tracepot.com).
-\n
-\nAceastă solicitare poate fi dezactivată în secțiunea Raportare incident, din Preferințele aplicației Jellyfin.</string>
     <string name="acra_dialog_title">Oh nu! Ceva n-a mers bine.</string>
-    <string name="pref_acra_syslog_disabled">Jurnalele de sistem nu vor fi incluse în rapoartele de incident</string>
     <string name="pref_acra_syslog_enabled">Jurnalele de sistem vor fi incluse în rapoartele de incident</string>
-    <string name="pref_acra_syslog">Includeți jurnalele de sistem.
-\nAceasta poate include date private din alte aplicații dacă au fost înregistrate la momentul incidentului.</string>
     <string name="pref_acra_alwaysaccept_disabled">Va fi afișat un dialog înainte de a trimite orice raport de incident</string>
-    <string name="pref_acra_alwaysaccept_enabled">Rapoartele de incident vor fi transmise fără solicitare</string>
     <string name="pref_acra_alwaysaccept">Trimiteți fără a solicita</string>
-    <string name="pref_acra_disabled">Rapoartele de incident nu vor fi transmise</string>
     <string name="pref_acra_enabled">Vi se va solicita să trimiteți rapoarte de incident</string>
-    <string name="pref_enable_acra">Trimite raportul incidentului către developeri</string>
     <string name="pref_acra_category">Raportare incident</string>
     <string name="pref_media_player">Media Player preferat</string>
     <string name="pref_about_title">Despre</string>
@@ -406,7 +395,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Subtitrări</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Dialog în cazul blocărilor, încărcare automată, jurnale de sistem</string>
     <string name="pref_playback_description">Video, subtitrări, live tv, next up</string>
     <string name="pref_customization_description">Temă, acasă, remapare</string>
     <string name="pref_login_description">Servere, conturi, autentificare automată</string>

@@ -153,22 +153,11 @@
     <string name="lbl_news">Noticias</string>
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
-    <string name="acra_dialog_text">¿Te gustaría enviar un reporte del error a los desarrolladores\?
-\n
-\nEsta información será enviada a un tercero (tracepot.com).
-\n
-\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en la configuración de la app de Jellyfin.</string>
     <string name="acra_dialog_title">¡Oh no! Algo salió mal.</string>
-    <string name="pref_acra_syslog_disabled">Los registros del sistema no serán incluidos en los reportes de errores</string>
     <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
-    <string name="pref_acra_syslog">Incluir registros del sistema.
-\nEsto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
     <string name="pref_acra_alwaysaccept_disabled">Un dialogo será mostrado antes de enviar cualquier reporte de error</string>
-    <string name="pref_acra_alwaysaccept_enabled">Los reportes de errores serán enviados sin preguntar</string>
     <string name="pref_acra_alwaysaccept">Enviar sin confirmar</string>
-    <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
     <string name="pref_acra_enabled">Se te pedirá que envíes informes de errores</string>
-    <string name="pref_enable_acra">Enviar reportes de error a los desarrolladores</string>
     <string name="pref_acra_category">Reporte de error</string>
     <string name="pref_use_direct_path_summary">Pasar la ruta del sistema de archivos en lugar de la URL de transmisión</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa al reproductor externo</string>
@@ -425,7 +414,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Subtítulos</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Diálogo de error, auto-carga, registros del sistema</string>
     <string name="pref_playback_description">Video, subtítulos, TV en vivo, a continuación</string>
     <string name="pref_customization_description">Tema, inicio, reordenar</string>
     <string name="pref_login_description">Servidores, cuentas, acceso automático</string>

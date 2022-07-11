@@ -119,9 +119,7 @@
     <string name="lbl_my_media">我的媒體</string>
     <string name="lbl_image_size">圖片尺寸</string>
     <string name="lbl_new_episodes">新集數</string>
-    <string name="pref_acra_syslog_enabled">系統日誌將包含在崩潰報告中</string>
     <string name="pref_acra_disabled">崩潰報告將不會提交</string>
-    <string name="pref_enable_acra">發送崩潰報告給開發人員</string>
     <string name="pref_acra_category">崩潰報告</string>
     <string name="lbl_song_title">歌曲標題</string>
     <string name="lbl_album_name">專輯名稱</string>
@@ -246,14 +244,9 @@
     <string name="lbl_resume_preroll">恢復前置簡介</string>
     <string name="pref_use_direct_path_title">向外部播放器傳遞直連路徑</string>
     <string name="pref_use_direct_path_summary">傳遞文件系統路徑而不是串流位置</string>
-    <string name="pref_acra_enabled">系統將提示您提交崩潰報告</string>
     <string name="pref_acra_alwaysaccept">在未經確認的情況下提交</string>
-    <string name="pref_acra_alwaysaccept_enabled">崩潰報告將在不提示的情況下提交</string>
     <string name="pref_acra_alwaysaccept_disabled">提交任何崩潰報告之前將顯示一個對話框</string>
-    <string name="pref_acra_syslog">包括系統日誌。 
-\n如果它是在崩潰時記錄的，則這可能包括來自其他應用程式的私有數據。</string>
     <string name="pref_acra_syslog_disabled">系統日誌將不包含在崩潰報告中</string>
-    <string name="acra_dialog_title">不好了！ 有些不對勁。</string>
     <string name="acra_dialog_text">您要向開發人員發送崩潰報告嗎？
 \n
 \n此訊息將被提交給第三方（tracepot.com）。
@@ -378,7 +371,6 @@
     <string name="pref_audio">音訊</string>
     <string name="pref_subtitles">字幕</string>
     <string name="pref_video">影片</string>
-    <string name="pref_acra_description">崩潰訊息、自動上傳、系統日誌</string>
     <string name="pref_playback_description">影片、字幕、TV 直播、即將播放</string>
     <string name="pref_customization_description">主題、首頁、重新映射</string>
     <string name="pref_login_description">伺服器、帳號、自動登入</string>

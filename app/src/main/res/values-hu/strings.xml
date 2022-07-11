@@ -153,22 +153,11 @@
     <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
-    <string name="acra_dialog_text">Szeretnéd elküldeni a hibajelentést a fejlesztőknek\?
-\n
-\nEgy harmadik fél által lesznek az adatok elküldve (tracepot.com).
-\n
-\nEz a megerősítési ablak kikapcsolható a Hibajelentés szekcióban a Jellyfin alkalmazás beállításai között.</string>
     <string name="acra_dialog_title">Jaj ne! Valami hiba történt.</string>
-    <string name="pref_acra_syslog_disabled">Rendszer-naplóbejegyzések nem lesznek hozzáadva a hibajelentésekhez</string>
     <string name="pref_acra_syslog_enabled">Rendszer-naplóbejegyzések hozzá lesznek adva a hibajelentésekhez</string>
-    <string name="pref_acra_syslog">Tartalmazza a rendszernaplókat.
-\nEz magában foglalhat más alkalmazások személyes adatait is, ha azokat az összeomlás idején naplózták.</string>
     <string name="pref_acra_alwaysaccept_disabled">Dialógusablak fog megjelenni minden egyes hibajelentés küldése előtt</string>
-    <string name="pref_acra_alwaysaccept_enabled">Hibajelentések megerősítés nélkül el lesznek küldve</string>
     <string name="pref_acra_enabled">Megerősítést kér hibajelentés küldés előtt</string>
-    <string name="pref_acra_alwaysaccept">Hibabejelentések küldése megerősítés nélkül</string>
     <string name="pref_acra_disabled">A hibabejelentések nem lesznek elküldve</string>
-    <string name="pref_enable_acra">HIbajelentések küldése a fejlesztőknek</string>
     <string name="pref_acra_category">Hibajelentés</string>
     <string name="pref_use_direct_path_summary">Fájlrendszerüalapú elérési út használata folyam URL helyett</string>
     <string name="pref_use_direct_path_title">Direkt elérési út megadása a külső lejátszóhoz</string>
@@ -464,7 +453,6 @@
     <string name="pref_audio">Hang</string>
     <string name="pref_subtitles">Feliratok</string>
     <string name="pref_video">Videó</string>
-    <string name="pref_acra_description">Összeomlási párbeszédpanel, automatikus-feltöltés, rendszernaplók</string>
     <string name="pref_playback_description">Videó, feliratok, élő tévéadás, a \'következő\'</string>
     <string name="pref_customization_description">Téma, főképernyő, feltérképezés</string>
     <string name="pref_login_description">Szerverek, fiókok, automatikus bejelentkezés</string>

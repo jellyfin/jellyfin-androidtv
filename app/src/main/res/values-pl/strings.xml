@@ -237,22 +237,11 @@
     <string name="lbl_audio_delay">Opóźnienie dźwięku</string>
     <string name="lbl_new_only">Tylko nowe</string>
     <string name="lbl_news">Wiadomości</string>
-    <string name="acra_dialog_text">Czy chcesz wysłać raport o awarii do programistów\?
-\n
-\nInformacje te zostaną przesłane stronie trzeciej (tracepot.com).
-\n
-\nTen monit można wyłączyć w sekcji zgłaszanie awarii w ustawieniach aplikacji Jellyfin.</string>
     <string name="acra_dialog_title">Oh nie! Coś poszło źle.</string>
-    <string name="pref_acra_syslog_disabled">Dzienniki systemowe nie zostaną uwzględnione w raportach o awariach</string>
     <string name="pref_acra_syslog_enabled">Dzienniki systemowe zostaną uwzględnione w raportach o awariach</string>
-    <string name="pref_acra_syslog">Dołącz dzienniki systemowe.
-\nTo może obejmować prywatne dane z innych aplikacji, jeśli były rejestrowane w momencie awarii.</string>
     <string name="pref_acra_alwaysaccept_disabled">Okno dialogowe zostanie wyświetlone przed przesłaniem jakiegokolwiek raportu o awarii</string>
-    <string name="pref_acra_alwaysaccept_enabled">Raporty o awariach będą przesyłane bez monitu</string>
     <string name="pref_acra_alwaysaccept">Przesyłaj bez pytania</string>
-    <string name="pref_acra_disabled">Raporty o awariach nie będą przesyłane</string>
     <string name="pref_acra_enabled">Zostaniesz poproszony o przesłanie raportów o awariach</string>
-    <string name="pref_enable_acra">Wysyłaj raporty o awariach do programistów</string>
     <string name="pref_acra_category">Zgłaszanie awarii</string>
     <string name="pref_use_direct_path_title">Ustaw bezpośrednią ścieżkę dla zewnętrznego odtwarzacza</string>
     <string name="lbl_song_title">Tytuł piosenki</string>
@@ -445,7 +434,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Napisy</string>
     <string name="pref_video">Wideo</string>
-    <string name="pref_acra_description">Dialog awarii, automatyczne przesyłanie, dzienniki systemowe</string>
     <string name="pref_playback_description">Wideo, napisy, TV na żywo, następne</string>
     <string name="pref_customization_description">Motyw, strona główna, ponowne mapowanie</string>
     <string name="pref_login_description">Serwery, konta, automatyczne logowanie</string>

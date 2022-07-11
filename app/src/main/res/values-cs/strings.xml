@@ -249,22 +249,11 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Vybrat automaticky</string>
     <string name="lbl_my_media">Moje média</string>
-    <string name="acra_dialog_text">Chcete vývojářům zaslat chybové hlášení\?
-\n
-\nTyto informace budou poskytnuty třetí straně (tracepot.com).
-\n
-\nTuto výzvu lze zakázat v části Chybové hlášení v nastavení aplikace Jellyfin.</string>
     <string name="acra_dialog_title">Ale ne! Něco se pokazilo.</string>
-    <string name="pref_acra_syslog_disabled">Systémové záznamy nebudou zahrnuty do chybových hlášení</string>
     <string name="pref_acra_syslog_enabled">Systémové záznamy budou zahrnuty do chybových hlášení</string>
-    <string name="pref_acra_syslog">Zahrnout systémové protokoly.
-\nTy mohou zahrnovat soukromá data z jiných aplikací, pokud byla zaznamenána v době selhání.</string>
     <string name="pref_acra_alwaysaccept_disabled">Před odesláním chybového hlášení se zobrazí dialogové okno</string>
-    <string name="pref_acra_alwaysaccept_enabled">Chybové hlášení bude odesláno bez výzvy</string>
     <string name="pref_acra_alwaysaccept">Odeslat chybová hlášení bez výzvy</string>
-    <string name="pref_acra_disabled">Chybové hlášení nelze odeslat</string>
     <string name="pref_acra_enabled">Budete vyzváni k odeslání hlášení o chybách</string>
-    <string name="pref_enable_acra">Odeslat chybové hlášení vývojářům</string>
     <string name="pref_acra_category">Hlášení chyb</string>
     <string name="pref_about_title">Obsah</string>
     <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro LibVLC</string>
@@ -464,7 +453,6 @@
     <string name="pref_audio">Zvuk</string>
     <string name="pref_subtitles">Titulky</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Pády, automatické odeslání, systémové protokoly</string>
     <string name="pref_playback_description">Video, titulky, TV, další díly</string>
     <string name="pref_customization_description">Motiv, domovská stránka, změna mapování</string>
     <string name="pref_login_description">Servery, účty, automatické přihlášení</string>

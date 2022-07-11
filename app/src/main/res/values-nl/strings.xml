@@ -249,15 +249,10 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch selecteren</string>
     <string name="lbl_my_media">Mijn media</string>
-    <string name="acra_dialog_title">Oeps! Er ging iets verkeerd.</string>
     <string name="pref_acra_alwaysaccept_disabled">Er wordt een melding getoond voor het versturen van crashrapportages</string>
-    <string name="pref_acra_alwaysaccept_enabled">Crashrapportages worden verzonden zonder te vragen</string>
     <string name="pref_acra_alwaysaccept">Verzend zonder te vragen</string>
-    <string name="pref_acra_disabled">Crashrapportages worden niet verzonden</string>
     <string name="pref_acra_enabled">Er wordt een verzendmelding getoond voor crashrapportages</string>
-    <string name="pref_enable_acra">Verzend crashrapportages naar ontwikkelaars</string>
     <string name="pref_acra_category">Crashrapportage</string>
-    <string name="pref_acra_syslog_disabled">Systeemlogboeken worden niet toegevoegd aan crashrapportages</string>
     <string name="pref_acra_syslog_enabled">Systeemlogboeken worden toegevoegd aan crashrapportages</string>
     <string name="watch_now">Nu kijken</string>
     <string name="pref_next_up_timeout_summary">Hoelang wachten voordat het volgende item wordt afgespeeld</string>
@@ -268,11 +263,6 @@
     <string name="pref_next_up_timeout_title">Tijdsduur timer \'volgende item\'</string>
     <string name="pref_theme_emerald">Klassiek smaragd</string>
     <string name="pref_theme_dark">Donker (Standaard)</string>
-    <string name="acra_dialog_text">Wilt u een crashrapportage versturen naar de ontwikkelaars\?
-\n
-\nDeze informatie wordt verwerkt via een derde partij (tracepot.com).
-\n
-\nDeze melding kan worden uitgeschakeld in de Crasrapportage voorkeuren van de Jellyfin app.</string>
     <string name="pref_acra_syslog">Neem systeemlogboeken op.
 \nDit kan privégegevens van andere applicaties bevatten als deze werden gelogd op het moment van de crash.</string>
     <string name="grid_direction_vertical">Verticaal (experimenteel)</string>
@@ -463,7 +453,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Ondertiteling</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Crashrapportage, automatische-upload, systeem logs</string>
     <string name="pref_login_description">Servers, accounts, automatisch inloggen</string>
     <string name="pref_login">Inloggen</string>
     <string name="pref_libraries_description">Verander hoe bibliotheken worden getoond</string>

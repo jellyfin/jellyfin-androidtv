@@ -151,21 +151,11 @@
     <string name="lbl_new_only">Само нове</string>
     <string name="lbl_new_episodes">Нове епизоде</string>
     <string name="lbl_news">Нове</string>
-    <string name="acra_dialog_text">Желите ли послати извештај о паду програмерима\?
-\n
-\nОве информације ће бити достављене трећој страни (tracepot.com).
-\n
-\nОвај упит се може онемогућити у одељку извештавање о паду система у подешавањима апликације Jellyfin.</string>
     <string name="acra_dialog_title">О, не! Нешто није у реду.</string>
-    <string name="pref_acra_syslog_disabled">Системски дневници неће бити укључени у извештаје о падовима</string>
     <string name="pref_acra_syslog_enabled">Системски дневници ће бити укључени у извештаје о падовима</string>
-    <string name="pref_acra_syslog">Укључите системске евиденције у извештаје о падовима. То може укључивати приватне податке из других апликација ако су били евидентирани у тренутку пада.</string>
     <string name="pref_acra_alwaysaccept_disabled">Пре него што пошаљете било који извештај о паду, приказаће се дијалог</string>
-    <string name="pref_acra_alwaysaccept_enabled">Извештаји о падовима ће се подносити без упита</string>
     <string name="pref_acra_alwaysaccept">Пошаљите извештаје о падовима без захтева</string>
-    <string name="pref_acra_disabled">Извештаји о падовима неће бити послати</string>
     <string name="pref_acra_enabled">Од вас ће бити затражено да пошаљете извештаје о падовима</string>
-    <string name="pref_enable_acra">Шаљите извештаје о падовима програмерима</string>
     <string name="pref_acra_category">Извештавање о паду</string>
     <string name="pref_use_direct_path_summary">Проследите путању система датотека уместо УРЛ-а за стримовање</string>
     <string name="pref_use_direct_path_title">Проследите директну путању за спољни плејер</string>

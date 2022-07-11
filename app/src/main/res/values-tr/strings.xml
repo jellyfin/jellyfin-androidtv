@@ -286,21 +286,11 @@
     <string name="lbl_news">Yeniler</string>
     <string name="lbl_tv_filter_status">sonraki %1$d saat için</string>
     <string name="lbl_tv_channel_status">kanal %1$d / %2$d</string>
-    <string name="acra_dialog_text">Geliştiricilere bir çökme raporu göndermek ister misiniz\?
-\n
-\nBu bilgiler üçüncü bir tarafa (tracepot.com) sunulacaktır.
-\n
-\nBu komut istemi, Jellyfin uygulamasının Ayarlar bölümündeki Çökme Raporu bölümünde devre dışı bırakılabilir.</string>
     <string name="acra_dialog_title">Oh hayır! Bir şeyler ters gitti.</string>
-    <string name="pref_acra_syslog_disabled">Sistem günlükleri çökme raporlarına dahil edilmeyecek</string>
     <string name="pref_acra_syslog_enabled">Sistem günlükleri çökme raporlarına dahil edilecek</string>
-    <string name="pref_acra_syslog">Sistem günlüklerini çökme raporlarına dahil edin. Bu, çökme anında kaydedilmişse diğer uygulamalardan gelen özel verileri içerebilir.</string>
     <string name="pref_acra_alwaysaccept_disabled">Herhangi bir çökme raporu gönderilmeden önce bir diyalog görüntülenecek</string>
-    <string name="pref_acra_alwaysaccept_enabled">Çökme raporları onay olmadan gönderilecek</string>
     <string name="pref_acra_enabled">Çökme raporlarını göndermek için onayınız istenecek</string>
-    <string name="pref_acra_alwaysaccept">Onay olmadan çökme raporu gönder</string>
     <string name="pref_acra_disabled">Çökme raporları gönderilmeyecek</string>
-    <string name="pref_enable_acra">Çökme raporlarını geliştiricilere gönder</string>
     <string name="pref_acra_category">Çökme Raporu</string>
     <string name="pref_use_direct_path_summary">Akış bağlantısı yerine sistem dosya yolunu gönder</string>
     <string name="pref_use_direct_path_title">Harici oynatıcı için doğrudan yolu gönder</string>

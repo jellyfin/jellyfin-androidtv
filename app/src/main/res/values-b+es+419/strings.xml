@@ -134,7 +134,6 @@
     <string name="lbl_new_episodes">Nuevos episodios</string>
     <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_news">Noticias</string>
-    <string name="pref_acra_alwaysaccept_disabled">Un dialogo será mostrado antes de enviar cualquier reporte de error</string>
     <string name="pref_acra_category">Reporte de fallos</string>
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
@@ -149,20 +148,10 @@
     <string name="lbl_start_favorites">Colocar los favoritos al principio</string>
     <string name="lbl_hd_programs">Programas en HD</string>
     <string name="lbl_new_only">Solo nuevos</string>
-    <string name="acra_dialog_text">¿Te gustaría enviar un reporte del error a los desarrolladores\?
-\n
-\nEsta información será enviada a un tercero (tracepot.com).
-\n
-\nEste aviso puede ser deshabilitado en la sección de «Envío de errores» en las preferencias de la aplicación Jellyfin.</string>
     <string name="acra_dialog_title">¡Oh no! Algo salió mal.</string>
-    <string name="pref_acra_syslog_disabled">Los registros del sistema no serán incluidos en los reportes de errores</string>
     <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
-    <string name="pref_acra_syslog">Incluir registros del sistema.
-\nEsto puede incluir información privada de otras aplicaciones si fue registrado cuando ocurrió el error.</string>
     <string name="pref_acra_alwaysaccept_enabled">Los reportes de errores serán enviados sin preguntar</string>
-    <string name="pref_acra_alwaysaccept">Enviar sin preguntar</string>
     <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
-    <string name="pref_acra_enabled">Se te pedirá que envíes informes de errores</string>
     <string name="pref_enable_acra">Enviar reportes de error a los desarrolladores</string>
     <string name="pref_use_direct_path_summary">Pasar la ruta del sistema de archivos en lugar de la URL de transmisión</string>
     <string name="lbl_song_title">Título de la canción</string>
@@ -451,7 +440,6 @@
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Subtítulos</string>
     <string name="pref_video">Video</string>
-    <string name="pref_acra_description">Dialogo de error, auto-carga, registros de sistema</string>
     <string name="pref_playback_description">Video, subtítulos, TV en vivo, siguiente</string>
     <string name="pref_customization_description">Tema, inicio, reordenar</string>
     <string name="pref_login_description">Servidores, cuentas, acceso automático</string>

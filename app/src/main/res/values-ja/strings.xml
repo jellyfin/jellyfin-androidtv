@@ -362,21 +362,11 @@
     <string name="pref_video_player_external">外部アプリ</string>
     <string name="pref_video_player_auto">自動選択</string>
     <string name="lbl_my_media">マイメディア</string>
-    <string name="acra_dialog_text">開発者にクラッシュレポートを送信しますか\?
-\n
-\nこの情報は第三者(tracepot.com)に提出されます。
-\n
-\nこのプロンプトは、Jellyfinアプリの設定のクラッシュレポートセクションで無効にすることができます。</string>
     <string name="pref_acra_syslog_disabled">システムログはクラッシュレポートに含まれません</string>
-    <string name="pref_acra_syslog_enabled">システムログがクラッシュレポートに含まれます</string>
     <string name="pref_acra_syslog">クラッシュレポートにシステムログを含めます。これには、クラッシュ時にログに記録された他のアプリケーションからの個人データが含まれる場合があります。</string>
-    <string name="pref_acra_alwaysaccept_disabled">クラッシュレポートを送信する前にダイアログが表示されます</string>
     <string name="pref_acra_alwaysaccept_enabled">クラッシュレポートは確認なしに送信されます</string>
-    <string name="pref_acra_alwaysaccept">確認なしでクラッシュレポートを提出する</string>
     <string name="pref_acra_disabled">クラッシュレポートは送信されません</string>
-    <string name="pref_acra_enabled">クラッシュレポートを提出するように求められます</string>
     <string name="pref_enable_acra">開発者にクラッシュレポートを送信する</string>
-    <string name="pref_acra_category">クラッシュレポート</string>
     <string name="desc_current_video_queue">現在再生のためにリストに入れられているビデオ作品</string>
     <string name="msg_external_path">この機能は、ネットワークパスまたはパス置換を使用してサーバー上のライブラリを適切に設定し、使用しているクライアントがネットワークを介してこれらの場所に直接アクセスできる場合にのみ機能します。</string>
     <string name="lbl_fit">通常</string>
@@ -388,7 +378,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="mark_watched_message">最後まで再生されていませんが、視聴済みにしますか？</string>
     <string name="pref_media_player">お気に入りのメディアプレーヤ</string>
-    <string name="acra_dialog_title">問題が発生しました</string>
     <string name="pref_show_backdrop_description">背景画像を選択中のアイテムに変更する</string>
     <string name="lbl_playback_speed">再生速度</string>
     <string name="lbl_stretch">ストレッチ</string>

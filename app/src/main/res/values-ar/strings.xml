@@ -210,22 +210,11 @@
     <string name="lbl_news">أخبار</string>
     <string name="lbl_tv_filter_status">ل %1$d الساعات القادمة</string>
     <string name="lbl_tv_channel_status">%1$d من %2$d قنوات</string>
-    <string name="acra_dialog_text">هل ترغب في إرسال تقرير تعطل إلى المطورين؟
-\n
-\nسيتم تقديم هذه المعلومات إلى طرف ثالث (tracepot.com).
-\n
-\nيمكن تعطيل هذه المطالبة في قسم الإبلاغ عن الأعطال في إعدادات تطبيق Jellyfin.</string>
     <string name="acra_dialog_title">أوه لا! هناك خطأ ما.</string>
-    <string name="pref_acra_syslog_disabled">لن يتم تضمين سجلات النظام في تقارير الأعطال</string>
     <string name="pref_acra_syslog_enabled">سيتم تضمين سجلات النظام في تقارير الأعطال</string>
-    <string name="pref_acra_syslog">تضمين سجلات النظام في تقارير الأعطال.
-\nقد يشمل ذلك البيانات الخاصة من التطبيقات الأخرى إذا تم تسجيلها في وقت التعطل.</string>
     <string name="pref_acra_alwaysaccept_disabled">سيتم عرض مربع حوار قبل إرسال أي تقرير عن العطل</string>
-    <string name="pref_acra_alwaysaccept_enabled">سيتم إرسال تقارير الأعطال دون مطالبة</string>
     <string name="pref_acra_alwaysaccept">إرسال تقارير الأعطال دون مطالبة</string>
-    <string name="pref_acra_disabled">لن يتم تقديم تقارير الأعطال</string>
     <string name="pref_acra_enabled">سيُطلب منك إرسال تقارير الأعطال</string>
-    <string name="pref_enable_acra">إرسال تقارير الأعطال إلى المطورين</string>
     <string name="pref_acra_category">الإبلاغ عن الأعطال</string>
     <string name="pref_use_direct_path_summary">قم بتمرير مسار نظام الملفات بدلاً من عنوان البث URL</string>
     <string name="pref_use_direct_path_title">تمرير المسار المباشر للمشغل الخارجي</string>
@@ -454,7 +443,6 @@
     <string name="pref_audio">الصوت</string>
     <string name="pref_subtitles">ترجمات</string>
     <string name="pref_video">فيديو</string>
-    <string name="pref_acra_description">حوار الأعطال ، التحميل التلقائي ، سجلات النظام</string>
     <string name="pref_playback_description">فيديو ، ترجمات ، بث تلفزيوني مباشر ، التالي</string>
     <string name="pref_customization_description">الموضوع ، المنزل ، إعادة التخطيط</string>
     <string name="pref_login_description">الخوادم والحسابات وتسجيل الدخول التلقائي</string>

@@ -232,11 +232,8 @@
     <string name="lbl_play_next_up">Παίξε το επόμενο</string>
     <string name="lbl_clear_queue">Καθαρισμός ουράς</string>
     <string name="desc_current_video_queue">Αρχεία βίντεο σε σειρά αναπαραγωγής αυτή την στιγμή</string>
-    <string name="pref_acra_alwaysaccept">Υποβολή αναφορών σφαλμάτων χωρίς προτροπή</string>
     <string name="pref_acra_disabled">Οι αναφορές σφαλμάτων δεν θα υποβληθούν</string>
-    <string name="pref_acra_enabled">Θα σας ζητηθεί να υποβάλετε αναφορές σφαλμάτων</string>
     <string name="pref_enable_acra">Αποστολή αναφορών σφαλμάτων στους προγραμματιστές</string>
-    <string name="pref_acra_category">Αναφορά σφαλμάτων</string>
     <string name="pref_use_direct_path_summary">Περάστε τη διαδρομή του συστήματος αρχείων αντί της διεύθυνσης URL ροής</string>
     <string name="lbl_subtitle_track">Επιλέξτε αρχείο υποτίτλων</string>
     <string name="lbl_audio_track">Επιλέξτε αρχείο ήχου</string>
@@ -274,17 +271,9 @@
     <string name="lbl_news">Νέα</string>
     <string name="lbl_tv_filter_status">για τις επόμενες %1$d ώρες</string>
     <string name="lbl_tv_channel_status">%1$d από %2$d κανάλια</string>
-    <string name="acra_dialog_text">Θέλεις να στείλεις μία αναφορά σφάλματος στους προγραμματιστές;
-\n
-\nΟι πληροφορίες θα σταλούν σε τρίτο (traceport.com).
-\n
-\nΑυτή η προτροπή μπορεί ν\'απενεργοποιηθεί στην περιοχή Αναφορά Σφαλμάτων στις Ρυθμίσεις της εφαρμογής Jellyfin.</string>
     <string name="acra_dialog_title">Ούπς! Κάτι πήγε στραβά.</string>
-    <string name="pref_acra_syslog_disabled">Τα αρχεία καταγραφής δεν θα περιλαμβάνονται στις αναφορές σφαλμάτων</string>
     <string name="pref_acra_syslog_enabled">Τα αρχεία καταγραφής θα περιλαμβάνονται στις αναφορές σφαλμάτων</string>
-    <string name="pref_acra_syslog">Θα περιλαμβάνονται τα αρχεία καταγραφής του συστήματος στις αναφορές σφαλμάτων. Αυτά μπορεί να περιλαμβάνουν ιδιωτικά δεδομένα από άλλες εφαρμογές αν υπήρχαν καταγραφές τους τη στιγμή του σφάλματος.</string>
     <string name="pref_acra_alwaysaccept_disabled">Πριν την αναφορά σφαλμάτων θα ζητείται επιβεβαίωση</string>
-    <string name="pref_acra_alwaysaccept_enabled">Οι αναφορές σφαλμάτων θα υποβάλλoνται χωρίς υπενθύμιση</string>
     <string name="lbl_bitstream_dts">Ήχος Bitstream DTS</string>
     <string name="lbl_recorded_tv">Εγγραφές TV</string>
     <string name="bitrate_auto">Αυτόματο</string>

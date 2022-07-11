@@ -139,7 +139,6 @@
     <string name="lbl_user_last_used">Laste uzita sur %1$s je %2$s</string>
     <string name="server_connection_failed">Ne eblas konektiĝi al servilo</string>
     <string name="msg_queue_saved">Vico savita kiel nova ludlisto: %1$s</string>
-    <string name="pref_acra_disabled">Kraŝaj raportoj ne estos senditaj</string>
     <string name="pref_use_direct_path_title">Sencimigaj Opcioj</string>
     <string name="lbl_enable_debug">Sencimigaj opcioj</string>
     <string name="lbl_audio_output">Aŭdia eligo</string>
@@ -298,7 +297,6 @@
     <string name="lbl_image_size">Bilda Grandeco</string>
     <string name="lbl_audio_delay">Aŭda Prokrasto</string>
     <string name="lbl_new_only">Nova Nur</string>
-    <string name="pref_acra_category">Kraŝa raportado</string>
     <string name="lbl_song_title">Kanta Titolo</string>
     <string name="lbl_album_name">Albumnomo</string>
     <string name="lbl_next_episode">Sekva Epizodo</string>
@@ -358,7 +356,6 @@
     <string name="msg_set_to_record">Programo starigita por rikordi</string>
     <string name="desc_seasonal_themes">Montri specialajn kolorojn kaj sugestojn en certaj tempoj de la jaro</string>
     <string name="msg_added_to_video">%1$s aldonita al videovico. Finos: %2$s</string>
-    <string name="pref_acra_alwaysaccept_enabled">Kraŝraportoj estos senditaj sen invitado</string>
     <string name="desc_automatic_fav_songs">Aŭtomata ludlisto de favorataj kantoj</string>
     <string name="desc_current_video_queue">Videa aĵoj aktuale vicigitaj por ludado</string>
     <string name="lbl_record_only_new">Rikordos Nur Novajn Epizodojn</string>
@@ -370,9 +367,7 @@
     <string name="too_many_errors">Tro da eraroj. Rezigni</string>
     <string name="player_error">Ludila eraro renkontita. Reprovos…</string>
     <string name="pref_libvlc_audio_delay_title">Defaŭlta aŭdia prokrasto por libVLC</string>
-    <string name="acra_dialog_title">Ho ne! Io misfunkciis.</string>
     <string name="pref_acra_alwaysaccept">Sendi sen invitado</string>
-    <string name="pref_enable_acra">Sendu kraŝraportojn al programistoj</string>
     <string name="lbl_episode_not_record">Ĉi tiu serio NE rikordos</string>
     <string name="lbl_show_premieres">Montri sezonajn premierojn</string>
     <string name="always_authenticate">Ĉiam peti identigilojn</string>
@@ -418,16 +413,9 @@
     <string name="mark_watched_message">La aĵo ne ŝajnis ludi tiel longe kiel ĝia daŭro. Marki spektita\?</string>
     <string name="pref_button_remapping_description">Premi ajnan butonon de la TV-teleregilo por asigni ĝin</string>
     <string name="pref_next_up_timeout_summary">Kiom longe atendi antaŭ ludi la sekvan aĵon</string>
-    <string name="acra_dialog_text">Ĉu vi ŝatus sendi kraŝraporton al la programistoj\?
-\n
-\nĈi tiu informo estos sendita al tria partio (tracepot.com).
-\n
-\nĈi tiu invitado povas esti malŝaltita en la sekcio pri Kraŝa Raportado en la Preferoj de la Jellyfin-apo.</string>
     <string name="pref_acra_syslog_disabled">Sistemaj ĵurnaloj NE estos inkluzivitaj en kraŝraportoj</string>
-    <string name="pref_acra_syslog_enabled">Sistemaj ĵurnaloj estos inkluzivitaj en kraŝraportoj</string>
     <string name="pref_acra_syslog">Inkluzivi sistemajn ĵurnalojn.
 \nĈi tio povas inkluzivi privatajn datumojn de aliaj aplikaĵoj se ĝi estis ĵurnalita dum la kraŝo.</string>
-    <string name="pref_acra_alwaysaccept_disabled">Dialogo estos montrata antaŭ sendi ajnan kraŝraporton</string>
     <string name="pref_acra_enabled">Oni petos vin sendi kraŝraportojn</string>
     <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
     <string name="desc_premieres">Montri vicon de novaj pilotaj epizodoj por iu ajn serio, kiun vi spektas</string>
@@ -459,7 +447,6 @@
     <string name="server_issue_unable_to_connect">Ne eblas konektiĝi</string>
     <string name="server_connection_failed_candidates">Ne eblas konektiĝi al servilo, provas la jenajn adresojn: %1$s</string>
     <string name="lbl_playback_speed">Ludada Rapido</string>
-    <string name="pref_acra_description">Kraŝa dialogo, aŭtomata alŝuto, sistemaj ĵurnaloj</string>
     <string name="pref_playback_description">Video, subtekstoj, etero, sekva plue</string>
     <string name="pref_customization_description">Temo, hejmo, remapado</string>
     <string name="pref_login_description">Serviloj, kontoj, aŭtomata ensaluto</string>

@@ -216,7 +216,6 @@
     <string name="lbl_series_settings">Preferenze Serie TV</string>
     <string name="lbl_schedule">Programmazione</string>
     <string name="lbl_enable_seasonal_themes">Sigle delle stagioni</string>
-    <string name="pref_enable_acra">Invia i report dei crash agli sviluppatori</string>
     <string name="pref_acra_category">Invio segnalazioni di Crash</string>
     <string name="pref_use_direct_path_summary">Passa il filepath del file system al posto dell\'URL dello streaming</string>
     <string name="pref_use_direct_path_title">Passa il filepath diretto per il riproduttore esterno</string>
@@ -233,16 +232,10 @@
     <string name="lbl_sort_by">Ordina per</string>
     <string name="lbl_premiere">In anteprima</string>
     <string name="lbl_guest_stars">Guest Stars</string>
-    <string name="pref_acra_alwaysaccept_disabled">Una conferma sarà mostrata prima dell\'invio dei crash report</string>
     <string name="pref_acra_alwaysaccept_enabled">I crash report saranno inviati senza richiederlo</string>
-    <string name="pref_acra_alwaysaccept">Invia senza richiederlo</string>
     <string name="pref_acra_disabled">I Crash report non saranno inviati</string>
-    <string name="pref_acra_enabled">Verrà richiesto l\'invio dei crash report</string>
     <string name="acra_dialog_title">Oh no! Qualcosa è andato storto.</string>
-    <string name="pref_acra_syslog_disabled">Il log di sistenon ma sarà incluso nel report del crash</string>
     <string name="pref_acra_syslog_enabled">Il log di sistema sarà incluso nel report del crash</string>
-    <string name="pref_acra_syslog">Includi il log di sistema.
-\nCiò potrebbe includere dati privati di altre applicazioni se era loggato al momento del crash.</string>
     <string name="lbl_start_favorites">Posiziona i preferiti all\'inizio</string>
     <string name="lbl_live_broadcasts">Trasmissioni Live</string>
     <string name="lbl_premieres">Anteprime</string>
@@ -265,11 +258,6 @@
     <string name="lbl_repeat_episodes">Ripeti episodi</string>
     <string name="lbl_new_episodes">Nuovi episodi</string>
     <string name="lbl_audio_delay">Ritardo audio</string>
-    <string name="acra_dialog_text">Vuoi inviare una segnalazione del malfunzionamento agli sviluppatori\?
-\n
-\nLa segnalazione avverrà tramite un servizio di terze parti (tracepot.com).
-\n
-\nQuesto popup può essere disabilitato nella sezione \"Segnalazione bug\" delle preferenze dell\'app di Jellyfin.</string>
     <string name="lbl_episode_not_record">La proiezione NON sarà registrata</string>
     <string name="lbl_colored_backgrounds">Sfondi codificati per colore</string>
     <string name="pref_about_title">Informazioni</string>
@@ -475,7 +463,6 @@
     <string name="sort_accounts_by">Ordina gli utenti per</string>
     <string name="pref_customization">Personalizzazione</string>
     <string name="pref_show_backdrop_description">Cambia lo sfondo per le voci selezionate</string>
-    <string name="pref_acra_description">Messaggio di crash, auto-upload, log di sistema</string>
     <string name="pref_customization_description">Tema, home, rimappatura</string>
     <string name="pref_home_description">Configura sezioni mostrate</string>
     <string name="pref_behavior">Comportamento</string>

@@ -247,22 +247,11 @@
     <string name="pref_video_player_external">外部应用</string>
     <string name="pref_video_player_auto">自动选择</string>
     <string name="lbl_my_media">我的媒体</string>
-    <string name="acra_dialog_text">您想向开发人员发送崩溃报告吗？
-\n
-\n此信息将提交给第三方 (tracepot.com)。
-\n
-\n可以在 Jellyfin 应用程序首选项的“崩溃报告”部分禁用此提示。</string>
     <string name="acra_dialog_title">不好了！ 有些不对劲。</string>
-    <string name="pref_acra_syslog_disabled">系统日志将不包含在崩溃报告中</string>
     <string name="pref_acra_syslog_enabled">系统日志将包含在崩溃报告中</string>
-    <string name="pref_acra_syslog">包括系统日志。
-\n这可能包括来自其他应用程序的私人数据，如果它在崩溃时被记录。</string>
     <string name="pref_acra_alwaysaccept_disabled">提交任何崩溃报告之前将显示一个对话框</string>
-    <string name="pref_acra_alwaysaccept_enabled">崩溃报告将在不提示的情况下提交</string>
     <string name="pref_acra_alwaysaccept">提交不提示</string>
-    <string name="pref_acra_disabled">崩溃报告将不会提交</string>
     <string name="pref_acra_enabled">系统将提示您提交崩溃报告</string>
-    <string name="pref_enable_acra">发送崩溃报告给开发人员</string>
     <string name="pref_acra_category">崩溃报告</string>
     <string name="watch_now">立即播放</string>
     <string name="pref_next_up_timeout_title">自动播放倒计时</string>
@@ -467,7 +456,6 @@
     <string name="pref_login_description">服务器、帐户、自动登录</string>
     <string name="pref_customization_description">主题、家目录、重新映射</string>
     <string name="pref_playback_description">视频、字幕、电视直播、下一步</string>
-    <string name="pref_acra_description">崩溃对话框、自动上载、系统日志</string>
     <string name="pref_login">登录</string>
     <string name="pref_libraries_description">更改资料库的显示方式</string>
     <string name="pref_libraries">资料库</string>

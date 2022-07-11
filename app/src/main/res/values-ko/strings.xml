@@ -202,7 +202,6 @@
     <string name="lbl_by_letter">글자 순</string>
     <string name="lbl_views">시청</string>
     <string name="audio_error">오디오 %1$s 재생할 수 없음</string>
-    <string name="acra_dialog_title">알 수 없는 오류!.</string>
     <string name="play_with_external_app">외부 플레이어 앱으로 재생</string>
     <string name="play_with_exo_player">ExoPlayer로 재생</string>
     <string name="play_with_vlc">libVLC로 재생</string>
@@ -236,21 +235,11 @@
     <string name="lbl_news">신규</string>
     <string name="lbl_tv_filter_status">다음 %1$d 시간 동안</string>
     <string name="lbl_tv_channel_status">%2$d 개 채널 중 %1$d 개</string>
-    <string name="acra_dialog_text">개발자에게 충돌 보고서를 전송하시겠습니까\?
-\n
-\n이 정보는 서드파티(tracepot.com)에 제출됩니다.
-\n
-\n이 메세지는 Jellyfin앱 설정의 오류보고 섹션에서 비활성화 할 수 있습니다.</string>
     <string name="pref_acra_syslog_disabled">시스템 로그는 충돌 보고서에 미포함</string>
-    <string name="pref_acra_syslog_enabled">시스템 로그를 충돌 보고서에 포함</string>
     <string name="pref_acra_syslog">충돌 보고서에 시스템 로그를 포함합니다. 여기에는 충돌시 기록 된 다른 앱들의 개인 데이터가 포함될 수 있습니다.</string>
-    <string name="pref_acra_alwaysaccept_disabled">충돌 보고서를 제출하기 전에 대화 상자 표시</string>
     <string name="pref_acra_alwaysaccept_enabled">메시지없이 충돌 보고서 제출</string>
-    <string name="pref_acra_alwaysaccept">메시지없이 충돌 보고서 제출</string>
     <string name="pref_acra_disabled">충돌 보고서 미제출</string>
-    <string name="pref_acra_enabled">충돌 보고서를 제출하라는 메시지를 표시</string>
     <string name="pref_enable_acra">개발자에게 충돌 보고서를 전송</string>
-    <string name="pref_acra_category">충돌 보고</string>
     <string name="lbl_in_x_days">%d 일 후</string>
     <string name="lbl_bitstream_dts">비트스트림 DTS 오디오</string>
     <string name="desc_premieres">시청하는 시리즈의 새로운 에피소드 파일럿 행을 표시</string>

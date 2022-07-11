@@ -228,21 +228,11 @@
     <string name="lbl_news">Vijesti</string>
     <string name="lbl_tv_filter_status">za idućih %1$d sati</string>
     <string name="lbl_tv_channel_status">%1$d od %2$d kanala</string>
-    <string name="acra_dialog_text">Želite li poslati izvješće o rušenju programerima\?
-\n
-\nOva informacija će biti poslana trećoj strani (tracepot.com).
-\n
-\nOva poruka se može onemogućiti u postavkama aplikacije Jellyfin u dijelu o Izvješćima o rušenju.</string>
     <string name="acra_dialog_title">O, ne! Nešto je pošlo po krivu.</string>
-    <string name="pref_acra_syslog_disabled">Zapisi sustava neće biti uključeni u izvješće o rušenju</string>
     <string name="pref_acra_syslog_enabled">Zapisi sustava će biti uključeni u izvješća o rušenju</string>
-    <string name="pref_acra_syslog">Uključi zapise sustava u izvješćima o rušenju. Privatni podaci iz drugih aplikacija mogu biti uključeni, ako su bili zapisani u trenutku rušenja.</string>
     <string name="pref_acra_alwaysaccept_disabled">Poruka će se prikazati prije slanja bilo kakvog izvješća o rušenju</string>
-    <string name="pref_acra_alwaysaccept_enabled">Izvješća o rušenju će se poslati bez pitanja</string>
     <string name="pref_acra_alwaysaccept">Pošalji izvješća o rušenju bez pitanja</string>
-    <string name="pref_acra_disabled">Izvješća o rušenju se neće slati</string>
     <string name="pref_acra_enabled">Pitat će vas želite li slati izvješće o rušenju</string>
-    <string name="pref_enable_acra">Šalji izvješća o rušenju programerima</string>
     <string name="pref_acra_category">Prijavljivanje rušenja</string>
     <string name="pref_use_direct_path_summary">Prenesi URL datotečnog sustava umjesto URL-a za strujanje</string>
     <string name="pref_use_direct_path_title">Prenesi direktan put vanjskom izvođaču</string>
