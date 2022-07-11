@@ -275,7 +275,7 @@
     <string name="lbl_enable_debug">Hibakeresési lehetőségek</string>
     <string name="lbl_goto_series">Ugrás a sorozatokhoz</string>
     <string name="msg_remote_already_playing">Távoli lejátszási kérelem figyelmen kívül lett hagyva. Állítsa le a jelenlegi médiaelem lejátszását előbb.</string>
-    <string name="grid_direction_vertical">Függőleges (kísérlet)</string>
+    <string name="grid_direction_vertical">Függőleges</string>
     <string name="grid_direction_horizontal">Vízszintes</string>
     <string name="grid_direction">Rács irány</string>
     <string name="pref_device_model">Eszköz modell</string>
@@ -499,4 +499,10 @@
     <string name="pref_libvlc_subtitle_delay_title">Alapértelmezett feliratkésleltetés LibVLC-hez</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
     <string name="live_tv_preferences">Élő TV lehetőségek</string>
+    <string name="lbl_additional_parts">További Részletek</string>
+    <string name="server_unsupported_notification">Ez a szerver a Jellyfin %1$s verzióját használja, amely nem támogatott. Az alkalmazás használatának folytatásához frissíts a Jellyfin %2$s verzióra.</string>
+    <string name="app_notification_uimode_invalid">Ez az alkalmazás televíziókhoz van optimalizálva. Javasoljuk, hogy mobilalkalmazásunkat másfajta eszközökön is használd.</string>
+    <string name="image_size_xlarge">Extra-Nagy</string>
+    <string name="image_size_smallest">Legkisebb</string>
+    <string name="image_type_poster">Poszter</string>
 </resources>
