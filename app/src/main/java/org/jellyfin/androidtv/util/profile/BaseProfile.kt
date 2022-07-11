@@ -43,6 +43,7 @@ open class BaseProfile : DeviceProfile() {
 			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Encode),
 			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.WEBVTT, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.External)
 		)

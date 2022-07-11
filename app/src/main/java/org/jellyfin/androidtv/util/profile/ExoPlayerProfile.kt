@@ -198,17 +198,17 @@ class ExoPlayerProfile(
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
-			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Encode),
-			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Encode),
 			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
-			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Embed)
+			subtitleProfile(Codec.Subtitle.WEBVTT, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Encode),
+			subtitleProfile(Codec.Subtitle.IDX, SubtitleDeliveryMethod.Encode),
 		)
 	}
 }

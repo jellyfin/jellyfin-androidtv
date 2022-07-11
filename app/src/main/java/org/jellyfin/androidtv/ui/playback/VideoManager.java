@@ -32,9 +32,12 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.util.MimeTypes;
+import com.google.android.exoplayer2.util.NonNullApi;
 import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.constant.Codec;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
@@ -45,6 +48,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.MediaPlayer.TrackDescription;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.interfaces.IVLCVout;
 
 import java.util.ArrayList;
@@ -396,6 +400,96 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
+    // Add external subtitles (as SRT) streams to ExoPlayer and VLC as media sources
+    // TODO: Also handle external audio streams
+    public void setMedia(@NonNull String mediaPath, @NonNull String baseUrl, @NonNull List<MediaStream> allStreams) {
+        Timber.i("Video path set to: %s", mediaPath);
+        Timber.i("Base url set to: %s", baseUrl);
+
+        baseUrl += "%s/0/Stream.%s";
+
+        // Jellyfin server returns external streams first in the list of streams while
+        // both ExoPlayer and VLC will add them to the end of their list. We modify the id
+        // of the streams when added to ExoPlayer based on the number of internal/external streams
+        // to make sure they are unique.
+        List<MediaItem.SubtitleConfiguration> subtitleConfigurations = new ArrayList<>();
+        long internalStreams = allStreams.stream().filter(s -> !s.getIsExternal()).count();
+
+        for (int i = 0; i < allStreams.size(); i++) {
+            MediaStream stream = allStreams.get(i);
+
+            if (stream.getIsTextSubtitleStream() && stream.getIsExternal()) {
+                String codec = stream.getCodec();
+                String mimetype = null;
+
+                switch (codec) {
+                    case Codec.Subtitle.SRT:
+                    case Codec.Subtitle.SUBRIP:
+                        mimetype = MimeTypes.APPLICATION_SUBRIP;
+                        break;
+                    case Codec.Subtitle.ASS:
+                    case Codec.Subtitle.SSA:
+                        mimetype = MimeTypes.TEXT_SSA;
+                        break;
+                    case Codec.Subtitle.VTT:
+                    case Codec.Subtitle.WEBVTT:
+                        mimetype = MimeTypes.TEXT_VTT;
+                        break;
+                    case Codec.Subtitle.PGS:
+                    case Codec.Subtitle.PGSSUB:
+                        mimetype = MimeTypes.APPLICATION_PGS;
+                        break;
+                    default:
+                        Timber.i("Unrecognised external subtitle codec: %s. Skipping...", codec);
+                        break;
+                }
+
+                if (mimetype != null) {
+                    String deliveryUrl = String.format(baseUrl, stream.getIndex(), codec.toUpperCase());
+
+                    subtitleConfigurations.add(new MediaItem.SubtitleConfiguration.Builder(Uri.parse(deliveryUrl))
+                            .setMimeType(mimetype)
+                            .setLanguage(stream.getLanguage())
+                            .setLabel(stream.getDisplayTitle())
+                            // Set id in ExoPlayer adding the number of internal streams to the
+                            // external stream index (+ 1 offset as ExoPlayer starts track ids at 1).
+                            .setId(Long.toString(stream.getIndex() + internalStreams + 1))
+                            .build());
+                }
+            }
+        }
+
+        if (nativeMode) {
+            MediaItem mediaItem = new MediaItem.Builder()
+                    .setUri(mediaPath)
+                    .setSubtitleConfigurations(subtitleConfigurations)
+                    .build();
+
+            try {
+                mExoPlayer.setMediaItem(mediaItem);
+                mExoPlayer.prepare();
+            } catch (IllegalStateException e) {
+                Timber.e(e, "Unable to set media item. Probably backing out.");
+            }
+        } else {
+            mCurrentMedia = new Media(mLibVLC, Uri.parse(mediaPath));
+            mCurrentMedia.parse();
+
+            // Add external streams as slave in VLC media. IDs are automatically set linearly
+            // from the last one, so they match what we do with ExoPlayer (albeit without offset
+            // in VLC).
+            for (MediaItem.SubtitleConfiguration sub : subtitleConfigurations) {
+                mCurrentMedia.addSlave(
+                        new IMedia.Slave(IMedia.Slave.Type.Subtitle, 0, sub.uri.toString()));
+            }
+
+            mVlcPlayer.setMedia(mCurrentMedia);
+
+            mCurrentMedia.release();
+        }
+    }
+
+
     public void setVideoPath(@Nullable String path) {
         if (path == null) {
             Timber.w("Video path is null cannot continue");
@@ -432,36 +526,50 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<MediaStream> allStreams) {
-        if (index < 0 || allStreams == null)
-            return -1;
+    // Returns the track index in the video player based on the index of the stream in the
+    // Jellyfin stream list.
+    private long getTrackIndex(int streamIndex, @NonNull List<MediaStream> allStreams) {
+        long trackIndex = streamIndex + (isNativeMode() ? 1 : 0);
 
-        // translate player track index to/from Jellyfin MediaStream index to account for external tracks
-        // being in the MediaStream tracks list but not in a player's track list
-        //
-        // use adjustByAdding=true to translate player-id -> MediaStream-id, false for the other direction
-        //
-        // use indexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
-        // MediaStream indexes/IDs start at 0
-
-        for (MediaStream stream : allStreams) {
-            if (!stream.getIsExternal())
-                break;
-            index += adjustByAdding ? 1 : -1;
+        MediaStream candidate = allStreams.get(streamIndex);
+        if (candidate.getIsExternal()) {
+            trackIndex += allStreams.stream().filter(s -> !s.getIsExternal()).count();
+        } else {
+            trackIndex -= allStreams.stream().filter(MediaStream::getIsExternal).count();
         }
-        index += indexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
-        return index < 0 || index >= allStreams.size() ? -1 : index;
+        return trackIndex;
     }
 
-    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
+    // Returns the stream index in the Jellyfin stream list based on the index of the track in
+    // the video player. This is the inverse of getTrackIndex.
+    private int getStreamIndex(int trackIndex, @NonNull List<MediaStream> allStreams) {
+        if (trackIndex < 0) {
+            return -1;
+        }
+
+        int internalStreamsCount = (int) allStreams.stream().filter(s -> !s.getIsExternal()).count();
+        int externalStreamsCount = (int) allStreams.stream().filter(MediaStream::getIsExternal).count();
+
+        int internalTrackStartIndex = isNativeMode() ? 1 : 0;
+        int internalTrackEndIndex = internalTrackStartIndex + internalStreamsCount;
+
+        if (trackIndex >= internalTrackStartIndex && trackIndex < internalTrackEndIndex) {
+            return trackIndex - (isNativeMode() ? 1 : 0) + externalStreamsCount;
+        }
+
+        return trackIndex - (isNativeMode() ? 1 : 0) - internalStreamsCount;
+    }
+
+    public boolean setVLCSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
         if (isNativeMode() || allStreams == null)
             return false;
 
-        int vlcIndex = offsetStreamIndex(index, false, false, allStreams);
+        if (index == -1) {
+            return mVlcPlayer.setSpuTrack(-1);
+        }
 
-        if (vlcIndex < 0)
-            return false;
+        long vlcIndex = getTrackIndex(index, allStreams);
 
         TrackDescription vlcSub = null;
         for (TrackDescription subTrack: mVlcPlayer.getSpuTracks()) {
@@ -477,7 +585,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         Timber.i("Setting Vlc sub to %s", vlcSub.name);
         return mVlcPlayer.setSpuTrack(vlcSub.id);
-
     }
 
     public int getExoPlayerTrack(@Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
@@ -519,13 +626,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             }
         }
 
-        // offset the stream index to account for external streams
-        int exoTrackID = offsetStreamIndex(matchedIndex, true, true, allStreams);
-        if (exoTrackID < 0)
-            return -1;
-
-        Timber.d("re-retrieved exoplayer track index %s", exoTrackID);
-        return exoTrackID;
+        Timber.d("re-retrieved exoplayer track index %s", matchedIndex);
+        return getStreamIndex(matchedIndex, allStreams);
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
@@ -533,37 +635,34 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return false;
 
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
-        MediaStream candidate = allStreams.get(index);
-        if (candidate.getIsExternal() || candidate.getType() != streamType)
-            return false;
 
-        int exoTrackID = offsetStreamIndex(index, false, true, allStreams);
-        if (exoTrackID < 0)
-            return false;
+        if (index == -1) { // Disable audio or subtitle track
+            mExoPlayer.setTrackSelectionParameters(
+                    mExoPlayer.getTrackSelectionParameters()
+                            .buildUpon()
+                            .setTrackTypeDisabled(chosenTrackType, true)
+                            .build());
+
+            return true;
+        }
 
         // print the streams for debugging
         for (MediaStream stream : allStreams) {
             Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.getIsExternal());
         }
 
-        // design choices for exoplayer track selection overrides:
-        // * build upon the prior parameters so we can mix overrides of different track types without erasing priors
-        //
-        // * for subtitles (not currently used) - use setDisabledTrackTypes to disable or enable exoplayer handing subtitles
-        //   if we want most formats to be handled by the external subtitle handler (which has adjustable size, background), we leave sub track selection disabled
-        //   if we decide to use exoplayer to render a specific subtitle format, allow subtitle track selection and restrict selection to the chosen group
+        long trackIndex = getTrackIndex(index, allStreams);
 
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
         TrackGroup matchedGroup = null;
-        for (Tracks.Group groupInfo : exoTracks.getGroups()) {
+        for (Tracks.Group group : exoTracks.getGroups()) {
             // Group level information.
-            @C.TrackType int trackType = groupInfo.getType();
-            TrackGroup group = groupInfo.getMediaTrackGroup();
             for (int i = 0; i < group.length; i++) {
                 // Individual track information.
-                boolean isSupported = groupInfo.isTrackSupported(i);
-                boolean isSelected = groupInfo.isTrackSelected(i);
-                Format trackFormat = group.getFormat(i);
+                int trackType = group.getType();
+                boolean isSupported = group.isTrackSupported(i);
+                boolean isSelected = group.isTrackSelected(i);
+                Format trackFormat = group.getTrackFormat(i);
 
                 Timber.d("track %s group %s/%s trackType %s label %s mime %s isSelected %s isSupported %s",
                         trackFormat.id, i+1, group.length, trackType, trackFormat.label, trackFormat.sampleMimeType, isSelected, isSupported);
@@ -574,25 +673,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 int id;
                 try {
                     id = Integer.parseInt(trackFormat.id);
-                    if (id != exoTrackID)
+                    if (id != trackIndex)
                         continue;
                 } catch (NumberFormatException e) {
                     Timber.d("failed to parse track ID [%s]", trackFormat.id);
                     continue;
                 }
 
-                if (!groupInfo.isTrackSupported(i)) {
-                    Timber.d("track is not compatible");
+                if (group.isTrackSelected(i) || !group.isTrackSupported(i)) {
+                    Timber.d("track is %s", group.isTrackSelected(i) ? "already selected" : "not compatible");
                     return false;
                 }
 
-                if (groupInfo.isTrackSelected(i)) {
-                    Timber.d("track is already selected");
-                    return true;
-                }
-
                 Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
-                matchedGroup = group;
+                matchedGroup = group.getMediaTrackGroup();
             }
         }
 
@@ -600,11 +694,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return false;
 
         try {
-            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
-            mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
-            if (streamType == MediaStreamType.Subtitle)
-                mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
-            mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
+            mExoPlayer.setTrackSelectionParameters(
+                    mExoPlayer.getTrackSelectionParameters()
+                            .buildUpon()
+                            .setTrackTypeDisabled(chosenTrackType, false)
+                            .setOverrideForType(new TrackSelectionOverride(matchedGroup, 0))
+                            .build()
+            );
         } catch (Exception e) {
             Timber.d("Error setting track selection");
             return false;
@@ -613,20 +709,20 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public int getVLCAudioTrack(@Nullable List<MediaStream> allStreams) {
-        if (!isInitialized() || nativeMode)
+        if (!isInitialized() || nativeMode || allStreams == null)
             return -1;
 
-        int ndx = offsetStreamIndex(mVlcPlayer.getAudioTrack(), true, false, allStreams);
+        int ndx = mVlcPlayer.getAudioTrack();
         Timber.d("re-retrieved libVLC audio track index %s", ndx);
 
-        return ndx;
+        return getStreamIndex(ndx, allStreams);
     }
 
     public int setVLCAudioTrack(int ndx, @Nullable List<MediaStream> allStreams) {
-        if (!isInitialized() || isNativeMode())
+        if (!isInitialized() || isNativeMode() || allStreams == null)
             return -1;
 
-        int vlcID = offsetStreamIndex(ndx, false, false, allStreams);
+        long vlcID = getTrackIndex(ndx, allStreams);
         if (vlcID < 0)
             return -1;
 
