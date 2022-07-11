@@ -400,7 +400,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    // Add external subtitles (as SRT) streams to ExoPlayer and VLC as media sources
+    // Add external subtitles streams to ExoPlayer and VLC as media sources
     // TODO: Also handle external audio streams
     public void setMedia(@NonNull String mediaPath, @NonNull String baseUrl, @NonNull List<MediaStream> allStreams) {
         Timber.i("Video path set to: %s", mediaPath);
