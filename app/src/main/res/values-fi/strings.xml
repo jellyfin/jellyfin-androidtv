@@ -201,8 +201,6 @@
     <string name="lbl_live_broadcasts">Suorat lähetykset</string>
     <string name="lbl_audio_delay">Äänen viive</string>
     <string name="lbl_tv_channel_status">%1$d/%2$d kanavaa</string>
-    <string name="pref_acra_syslog">Sisällytä järjestelmän lokitiedot.
-\nNämä saattavat sisältää muiden sovellusten yksityisiä tietoja, jos niitä kirjattiin kaatumisen tapahtuessa.</string>
     <string name="pref_acra_disabled">Kaatumisilmoituksia ei lähetetä</string>
     <string name="pref_use_direct_path_summary">Välitä URL-osoitteen sijaan tiedostojärjestelmän polku</string>
     <string name="pref_use_direct_path_title">Välitä tarkka sijainti ulkoiselle soittimelle</string>
@@ -489,4 +487,14 @@
     <string name="image_size_smallest">Pienin</string>
     <string name="image_type_poster">Juliste</string>
     <string name="lbl_additional_parts">Muut osat</string>
+    <string name="crash_report_toast">Ups! Jotain meni pieleen ja Jellyfin-palvelimellesi lähetettiin kaatumisilmoitus.</string>
+    <string name="pref_crash_report_logs_disabled">Lokitietoja ei sisällytetä kaatumisilmoituksiin</string>
+    <string name="pref_crash_report_logs_enabled">Lokitiedot sisällytetään kaatumisilmoituksiin</string>
+    <string name="pref_crash_report_logs">Sisällytä lokitiedot</string>
+    <string name="pref_crash_reports_disabled">Kaatumisilmoituksia ei lähetetä</string>
+    <string name="pref_crash_reports_enabled">Kaatumisilmoitukset lähetetään viimeksi käyttämällesi palvelimelle</string>
+    <string name="pref_crash_reports">Lähetä palvelimelle kaatumisilmoituksia</string>
+    <string name="pref_telemetry_category">Kaatumisilmoitukset</string>
+    <string name="pref_telemetry_description">Lähetä kaatumisilmoituksia ja sisällytä lokitiedot</string>
+    <string name="server_unsupported_notification">Palvelin käyttää Jellyfin-versiota %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin versioon %2$s.</string>
 </resources>
