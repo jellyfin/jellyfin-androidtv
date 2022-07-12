@@ -258,7 +258,7 @@
     <string name="pref_subtitle_track_button">Nút theo dõi phụ đề</string>
     <string name="pref_audio_track_button">Nút theo dõi âm thanh</string>
     <string name="lbl_unknown_key">Không xác định (%1s)</string>
-    <string name="grid_direction_vertical">Dọc (thử nghiệm)</string>
+    <string name="grid_direction_vertical">Chiều dọc</string>
     <string name="grid_direction_horizontal">Ngang</string>
     <string name="grid_direction">Hướng lưới</string>
     <string name="pref_device_model">Mẫu thiết bị</string>
@@ -473,4 +473,18 @@
     <string name="pref_libvlc_subtitle_delay_title">Độ trễ phụ đề mặc định cho LibVLC</string>
     <string name="lbl_subtitle_delay">Độ Trễ Phụ Đề</string>
     <string name="lbl_adjust">Điều chỉnh</string>
+    <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi đến máy chủ Jellyfin của bạn.</string>
+    <string name="pref_crash_report_logs_disabled">Nhật ký sẽ không được đưa vào báo cáo sự cố</string>
+    <string name="pref_crash_report_logs_enabled">Nhật ký sẽ được đưa vào báo cáo sự cố</string>
+    <string name="pref_crash_report_logs">Bao gồm nhật ký</string>
+    <string name="pref_crash_reports_disabled">Báo cáo sự cố sẽ không được gửi</string>
+    <string name="pref_crash_reports_enabled">Báo cáo sự cố sẽ được gửi đến máy chủ được sử dụng gần đây nhất của bạn</string>
+    <string name="pref_crash_reports">Gửi báo cáo sự cố đến máy chủ</string>
+    <string name="pref_telemetry_description">Gửi báo cáo sự cố, bao gồm nhật ký</string>
+    <string name="pref_telemetry_category">Báo cáo sự cố</string>
+    <string name="server_unsupported_notification">Máy chủ này sử dụng phiên bản Jellyfin %1$s không được hỗ trợ. Vui lòng cập nhật lên Jellyfin %2$s để tiếp tục sử dụng ứng dụng.</string>
+    <string name="app_notification_uimode_invalid">Ứng dụng này được tối ưu cho TV. Chúng tôi khuyên bạn nên dùng ứng dụng di động của chúng tôi trên các thiết bị khác.</string>
+    <string name="image_size_xlarge">Cực Lớn</string>
+    <string name="image_size_smallest">Nhỏ nhất</string>
+    <string name="lbl_additional_parts">Phần Bổ Sung</string>
 </resources>
