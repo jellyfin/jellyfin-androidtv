@@ -210,7 +210,6 @@
     <string name="lbl_news">أخبار</string>
     <string name="lbl_tv_filter_status">ل %1$d الساعات القادمة</string>
     <string name="lbl_tv_channel_status">%1$d من %2$d قنوات</string>
-    <string name="pref_acra_alwaysaccept">إرسال تقارير الأعطال دون مطالبة</string>
     <string name="pref_use_direct_path_summary">قم بتمرير مسار نظام الملفات بدلاً من عنوان البث URL</string>
     <string name="pref_use_direct_path_title">تمرير المسار المباشر للمشغل الخارجي</string>
     <string name="lbl_song_title">عنوان الأغنية</string>

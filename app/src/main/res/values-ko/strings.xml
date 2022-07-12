@@ -235,7 +235,6 @@
     <string name="lbl_news">신규</string>
     <string name="lbl_tv_filter_status">다음 %1$d 시간 동안</string>
     <string name="lbl_tv_channel_status">%2$d 개 채널 중 %1$d 개</string>
-    <string name="pref_acra_disabled">충돌 보고서 미제출</string>
     <string name="lbl_in_x_days">%d 일 후</string>
     <string name="lbl_bitstream_dts">비트스트림 DTS 오디오</string>
     <string name="desc_premieres">시청하는 시리즈의 새로운 에피소드 파일럿 행을 표시</string>

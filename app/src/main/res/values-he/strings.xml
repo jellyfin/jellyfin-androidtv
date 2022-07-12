@@ -191,7 +191,6 @@
     <string name="lbl_play_next_up">נגן את הבא בתור</string>
     <string name="lbl_clear_queue">נקה תור</string>
     <string name="desc_current_video_queue">סרטים שמחכים בתור להצגה</string>
-    <string name="pref_acra_alwaysaccept">שלח דיווחי קריסה ללא אישור משתמש</string>
     <string name="pref_use_direct_path_summary">העבר מיקום בדיסק במקום מיקום רשת עבור הזרמת מדיה</string>
     <string name="pref_use_direct_path_title">העבר מיקום ישיר עבור נגן חיצוני</string>
     <string name="lbl_song_title">שם השיר</string>

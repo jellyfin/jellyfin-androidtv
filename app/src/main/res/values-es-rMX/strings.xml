@@ -258,7 +258,6 @@
     <string name="lbl_audio_delay">Retraso de audio</string>
     <string name="lbl_new_only">Solo nuevos</string>
     <string name="lbl_news">Noticias</string>
-    <string name="pref_acra_alwaysaccept">Enviar sin preguntar</string>
     <string name="grid_direction_vertical">Vertical (experimental)</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la Cuadrícula</string>

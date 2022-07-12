@@ -153,7 +153,6 @@
     <string name="lbl_news">Noticias</string>
     <string name="lbl_tv_filter_status">Durante las %1$d horas siguientes</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
-    <string name="pref_acra_alwaysaccept">Enviar sin confirmar</string>
     <string name="pref_use_direct_path_summary">Pasar la ruta del sistema de archivos en lugar de la URL de transmisión</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa al reproductor externo</string>
     <string name="lbl_song_title">Título de la canción</string>

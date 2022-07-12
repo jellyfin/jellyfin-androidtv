@@ -286,7 +286,6 @@
     <string name="lbl_news">Yeniler</string>
     <string name="lbl_tv_filter_status">sonraki %1$d saat için</string>
     <string name="lbl_tv_channel_status">kanal %1$d / %2$d</string>
-    <string name="pref_acra_enabled">Çökme raporlarını göndermek için onayınız istenecek</string>
     <string name="pref_use_direct_path_summary">Akış bağlantısı yerine sistem dosya yolunu gönder</string>
     <string name="pref_use_direct_path_title">Harici oynatıcı için doğrudan yolu gönder</string>
     <string name="lbl_song_title">Şarkı Başlığı</string>

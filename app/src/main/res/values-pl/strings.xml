@@ -237,7 +237,6 @@
     <string name="lbl_audio_delay">Opóźnienie dźwięku</string>
     <string name="lbl_new_only">Tylko nowe</string>
     <string name="lbl_news">Wiadomości</string>
-    <string name="pref_acra_alwaysaccept">Przesyłaj bez pytania</string>
     <string name="pref_use_direct_path_title">Ustaw bezpośrednią ścieżkę dla zewnętrznego odtwarzacza</string>
     <string name="lbl_song_title">Tytuł piosenki</string>
     <string name="lbl_album_name">Tytuł albumu</string>

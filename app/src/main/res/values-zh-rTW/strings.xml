@@ -242,11 +242,6 @@
     <string name="lbl_resume_preroll">恢復前置簡介</string>
     <string name="pref_use_direct_path_title">向外部播放器傳遞直連路徑</string>
     <string name="pref_use_direct_path_summary">傳遞文件系統路徑而不是串流位置</string>
-    <string name="acra_dialog_text">您要向開發人員發送崩潰報告嗎？
-\n
-\n此訊息將被提交給第三方（tracepot.com）。
-\n
-\n可以在Jellyfin應用程式「設置」中的「崩潰報告」停用這個提示。</string>
     <string name="lbl_news">新聞</string>
     <string name="lbl_new_only">只有新的</string>
     <string name="lbl_audio_delay">音訊延遲</string>

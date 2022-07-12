@@ -249,7 +249,6 @@
     <string name="pref_video_player_exoplayer">Exo Player</string>
     <string name="pref_video_player_auto">Alege automat</string>
     <string name="lbl_my_media">Fișierele mele Media</string>
-    <string name="pref_acra_alwaysaccept">Trimiteți fără a solicita</string>
     <string name="pref_media_player">Media Player preferat</string>
     <string name="pref_about_title">Despre</string>
     <string name="pref_libvlc_audio_delay_title">Întârziere audio implicită pentru LibVLC</string>

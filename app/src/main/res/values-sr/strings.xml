@@ -151,7 +151,6 @@
     <string name="lbl_new_only">Само нове</string>
     <string name="lbl_new_episodes">Нове епизоде</string>
     <string name="lbl_news">Нове</string>
-    <string name="pref_acra_alwaysaccept">Пошаљите извештаје о падовима без захтева</string>
     <string name="pref_use_direct_path_summary">Проследите путању система датотека уместо УРЛ-а за стримовање</string>
     <string name="pref_use_direct_path_title">Проследите директну путању за спољни плејер</string>
     <string name="lbl_song_title">Назив песме</string>

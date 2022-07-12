@@ -249,7 +249,6 @@
     <string name="lbl_start_favorites">Colocar Favoritos al Inicio</string>
     <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
     <string name="lbl_live_broadcasts">Emisiones en directo</string>
-    <string name="pref_acra_alwaysaccept">Enviar sin pedir confirmación</string>
     <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para LibVLC</string>
     <string name="watch_now">Ver ahora</string>
     <string name="pref_next_up_timeout_title">Duración del temporizador de siguiente</string>

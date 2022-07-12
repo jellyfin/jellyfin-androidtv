@@ -247,7 +247,6 @@
     <string name="pref_video_player_external">外部应用</string>
     <string name="pref_video_player_auto">自动选择</string>
     <string name="lbl_my_media">我的媒体</string>
-    <string name="pref_acra_alwaysaccept">提交不提示</string>
     <string name="watch_now">立即播放</string>
     <string name="pref_next_up_timeout_title">自动播放倒计时</string>
     <string name="pref_next_up_timeout_summary">播放下一项目之前的等待时间</string>
