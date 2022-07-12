@@ -251,7 +251,6 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatically choose</string>
     <string name="lbl_my_media">My Media</string>
-    <string name="pref_acra_syslog_enabled">System logs will be included in crash reports</string>
     <string name="pref_acra_alwaysaccept">Submit without prompting</string>
     <string name="pref_libvlc_audio_delay_title">Default Audio Delay for libVLC</string>
     <string name="watch_now">Watch now</string>

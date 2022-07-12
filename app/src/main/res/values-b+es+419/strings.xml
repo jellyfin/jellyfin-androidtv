@@ -147,7 +147,6 @@
     <string name="lbl_start_favorites">Colocar los favoritos al principio</string>
     <string name="lbl_hd_programs">Programas en HD</string>
     <string name="lbl_new_only">Solo nuevos</string>
-    <string name="pref_acra_syslog_enabled">Los registros del sistema serán incluidos en los reportes de errores</string>
     <string name="pref_acra_disabled">Los reportes de errores no serán enviados</string>
     <string name="pref_use_direct_path_summary">Pasar la ruta del sistema de archivos en lugar de la URL de transmisión</string>
     <string name="lbl_song_title">Título de la canción</string>

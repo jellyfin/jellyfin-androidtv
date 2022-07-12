@@ -255,9 +255,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Minha mídia</string>
-    <string name="pref_acra_syslog_enabled">Logs do sistema serão incluídos nos relatórios de falhas</string>
     <string name="pref_acra_alwaysaccept">Enviar sem ser solicitado</string>
-    <string name="pref_acra_category">Reportar falhas</string>
     <string name="pref_app_theme">Tema do aplicativo</string>
     <string name="pref_theme_emerald">Esmeralda clássica</string>
     <string name="pref_theme_dark">Escuro (Padrão)</string>

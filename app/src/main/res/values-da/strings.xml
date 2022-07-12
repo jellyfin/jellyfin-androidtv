@@ -250,7 +250,6 @@
     <string name="pref_use_direct_path_summary">Giv filsystemets sti i stedet for streamnig URL</string>
     <string name="pref_use_direct_path_title">Giv direkte sti til ekstern afspiller</string>
     <string name="lbl_resume_preroll">Genoptag Forfilm</string>
-    <string name="pref_acra_syslog_disabled">System logfiler vil ikke blive inkluderet i fejlrapporter</string>
     <string name="pref_next_up_timeout_title">Næste episode timer varighed</string>
     <string name="pref_next_up_timeout_summary">Tid indtil afspilning af næste episode</string>
     <string name="pref_libvlc_audio_delay_title">Standard lydforsinkelse for libVLC</string>

@@ -190,7 +190,6 @@
     <string name="pref_video_player_exoplayer">Reprodutor Externo (ExoPlayer)</string>
     <string name="pref_video_player_auto">Escolher automaticamente</string>
     <string name="lbl_my_media">Meu Conteúdo</string>
-    <string name="pref_acra_disabled">Registo de bugs não serão enviados</string>
     <string name="lbl_image_type">Tipo de imagem</string>
     <string name="lbl_start_favorites">Posicionar Favoritos no Início</string>
     <string name="lbl_hd_programs">Programas em HD (Halta-Definição)</string>
@@ -260,7 +259,6 @@
     <string name="pref_theme_dark">Escuro (Padrão)</string>
     <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
     <string name="lbl_premieres">Estreias</string>
-    <string name="pref_acra_alwaysaccept_disabled">Uma janela de confirmação surgirá antes de enviar qualquer tipo de relatório de falha</string>
     <string name="pref_use_direct_path_summary">Enviar o local do sistema de arquivos ao invés da URL de streaming</string>
     <string name="pref_use_direct_path_title">Enviar Local Direto para reprodutor externo</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>

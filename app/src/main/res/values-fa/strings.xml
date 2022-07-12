@@ -238,7 +238,6 @@
     <string name="lbl_song_title">عنوان آهنگ</string>
     <string name="lbl_album_name">نام آلبوم</string>
     <string name="pref_use_direct_path_summary">پاس دادن مسیر سیستمی فایل بجای آدرس URL</string>
-    <string name="pref_acra_disabled">گزارش های کارایستایی ثبت نخواهند شد</string>
     <string name="home_section_resume_book">ادامه خواندن</string>
     <string name="pref_direct_stream_live_on">تغییر کدگذاری غیرفعال است</string>
     <string name="pref_direct_stream_live_off">در صورت لزوم از تغییر کدگذاری استفاده می شود</string>

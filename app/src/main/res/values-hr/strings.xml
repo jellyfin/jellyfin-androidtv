@@ -228,9 +228,7 @@
     <string name="lbl_news">Vijesti</string>
     <string name="lbl_tv_filter_status">za idućih %1$d sati</string>
     <string name="lbl_tv_channel_status">%1$d od %2$d kanala</string>
-    <string name="pref_acra_syslog_enabled">Zapisi sustava će biti uključeni u izvješća o rušenju</string>
     <string name="pref_acra_alwaysaccept">Pošalji izvješća o rušenju bez pitanja</string>
-    <string name="pref_acra_category">Prijavljivanje rušenja</string>
     <string name="pref_use_direct_path_summary">Prenesi URL datotečnog sustava umjesto URL-a za strujanje</string>
     <string name="pref_use_direct_path_title">Prenesi direktan put vanjskom izvođaču</string>
     <string name="lbl_song_title">Naslov pjesme</string>

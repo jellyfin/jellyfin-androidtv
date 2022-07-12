@@ -234,7 +234,6 @@
     <string name="lbl_news">Novice</string>
     <string name="lbl_tv_filter_status">naslednjih %1$d ur</string>
     <string name="lbl_tv_channel_status">%1$d od %2$d kanalov</string>
-    <string name="pref_acra_alwaysaccept">Pošlji poročila o napakah brez potrditve</string>
     <string name="lbl_song_title">Naslov pesmi</string>
     <string name="lbl_album_name">Ime albuma</string>
     <string name="lbl_next_episode">Naslednja epizoda</string>
@@ -283,7 +282,6 @@
     <string name="lbl_show_backdrop">Prikaži ozadje med brskanjem</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
     <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
-    <string name="pref_acra_enabled">Program vas bo prosil da pošljete obvestilo o napaki</string>
     <string name="pref_use_direct_path_summary">Posreduj pot do datoteke na sistemu namesto povezavo do neposrednega pretakanja</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
     <string name="no_program_data">&lt;Podatki o programu niso na voljo&gt;</string>

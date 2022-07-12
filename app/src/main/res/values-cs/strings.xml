@@ -249,9 +249,7 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Vybrat automaticky</string>
     <string name="lbl_my_media">Moje média</string>
-    <string name="pref_acra_syslog_enabled">Systémové záznamy budou zahrnuty do chybových hlášení</string>
     <string name="pref_acra_alwaysaccept">Odeslat chybová hlášení bez výzvy</string>
-    <string name="pref_acra_category">Hlášení chyb</string>
     <string name="pref_about_title">Obsah</string>
     <string name="pref_libvlc_audio_delay_title">Výchozí zvuková prodleva pro LibVLC</string>
     <string name="watch_now">Sledovat nyní</string>

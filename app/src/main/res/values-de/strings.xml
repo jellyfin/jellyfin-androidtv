@@ -248,7 +248,6 @@
     <string name="pref_video_player_vlc">LibVLC</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch auswählen</string>
-    <string name="pref_acra_syslog_disabled">System-Logs werden den Absturzberichten nicht hinzugefügt</string>
     <string name="pref_acra_alwaysaccept">Sende ohne Aufforderung</string>
     <string name="lbl_my_media">Meine Medien</string>
     <string name="pref_about_title">Über diese App</string>

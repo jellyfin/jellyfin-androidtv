@@ -412,8 +412,6 @@
     <string name="mark_watched_message">La aĵo ne ŝajnis ludi tiel longe kiel ĝia daŭro. Marki spektita\?</string>
     <string name="pref_button_remapping_description">Premi ajnan butonon de la TV-teleregilo por asigni ĝin</string>
     <string name="pref_next_up_timeout_summary">Kiom longe atendi antaŭ ludi la sekvan aĵon</string>
-    <string name="pref_acra_syslog">Inkluzivi sistemajn ĵurnalojn.
-\nĈi tio povas inkluzivi privatajn datumojn de aliaj aplikaĵoj se ĝi estis ĵurnalita dum la kraŝo.</string>
     <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
     <string name="desc_premieres">Montri vicon de novaj pilotaj epizodoj por iu ajn serio, kiun vi spektas</string>
     <string name="msg_external_path">Ĉi tiu rimedo nur funkcios se vi konvene starigis vian plurmeditekon sur la servilo kun retaj serĉvojoj aŭ serĉvoja anstataŭigo kaj la kliento, kiun vi uzas, povas rekte aliri ĉi tiujn lokojn per la reto.</string>

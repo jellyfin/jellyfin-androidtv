@@ -154,7 +154,6 @@
     <string name="lbl_audio_delay">ഓഡിയോ കാലതാമസം</string>
     <string name="lbl_new_only">പുതിയത് മാത്രം</string>
     <string name="lbl_news">വാർത്ത</string>
-    <string name="pref_acra_syslog">ക്രാഷ് റിപ്പോർട്ടുകളിൽ സിസ്റ്റം ലോഗുകൾ ഉൾപ്പെടുത്തുക. ക്രാഷ് സമയത്ത് ലോഗിൻ ചെയ്തിട്ടുണ്ടെങ്കിൽ മറ്റ് ആപ്ലിക്കേഷനുകളിൽ നിന്നുള്ള സ്വകാര്യ ഡാറ്റ ഇതിൽ ഉൾപ്പെടാം.</string>
     <string name="pref_acra_disabled">ക്രാഷ് റിപ്പോർട്ടുകൾ സമർപ്പിക്കില്ല</string>
     <string name="pref_use_direct_path_summary">URL സ്ട്രീമിംഗിനുപകരം ഫയൽ സിസ്റ്റം പാത്ത് കടന്നുപോകുക</string>
     <string name="pref_use_direct_path_title">ബാഹ്യ പ്ലെയറിനായി നേരിട്ടുള്ള പാത കടന്നുപോകുക</string>

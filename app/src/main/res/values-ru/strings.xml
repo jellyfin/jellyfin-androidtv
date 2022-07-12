@@ -249,7 +249,6 @@
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Автоматический выбор</string>
     <string name="lbl_my_media">Мои медиаданные</string>
-    <string name="pref_acra_syslog_enabled">Системные журналы будут включены в отчёты о сбоях</string>
     <string name="pref_acra_disabled">Отчёты о сбоях не будут отправляться</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>

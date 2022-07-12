@@ -152,9 +152,7 @@
     <string name="lbl_audio_delay">Độ Trễ Âm Thanh</string>
     <string name="lbl_new_only">Chỉ Những Thứ Mới</string>
     <string name="lbl_news">Tin Tức</string>
-    <string name="pref_acra_syslog_enabled">Nhật ký hệ thống sẽ được đưa vào báo cáo sự cố</string>
     <string name="pref_acra_alwaysaccept">Gửi mà không cần nhắc nhở</string>
-    <string name="pref_acra_category">Báo cáo sự cố</string>
     <string name="pref_use_direct_path_summary">Thông qua đường dẫn hệ thống tệp thay vì truyền trực tuyến URL</string>
     <string name="pref_use_direct_path_title">Thông qua đường dẫn trực tiếp cho trình phát bên ngoài</string>
     <string name="lbl_song_title">Tựa bài hát</string>

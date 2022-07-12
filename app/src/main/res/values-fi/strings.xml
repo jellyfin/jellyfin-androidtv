@@ -201,7 +201,6 @@
     <string name="lbl_live_broadcasts">Suorat lähetykset</string>
     <string name="lbl_audio_delay">Äänen viive</string>
     <string name="lbl_tv_channel_status">%1$d/%2$d kanavaa</string>
-    <string name="pref_acra_disabled">Kaatumisilmoituksia ei lähetetä</string>
     <string name="pref_use_direct_path_summary">Välitä URL-osoitteen sijaan tiedostojärjestelmän polku</string>
     <string name="pref_use_direct_path_title">Välitä tarkka sijainti ulkoiselle soittimelle</string>
     <string name="lbl_resume_from">Jatka kohdasta %1$s</string>

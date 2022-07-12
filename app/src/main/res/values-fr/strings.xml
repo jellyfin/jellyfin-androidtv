@@ -244,14 +244,11 @@
     <string name="lbl_colored_backgrounds">Arrière-plans de couleurs</string>
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
     <string name="lbl_new_only">Nouveau uniquement</string>
-    <string name="pref_acra_enabled">Vous serez invité à envoyer vos signalements de plantage</string>
     <string name="acra_dialog_text">Voudriez-vous envoyer un rapport de plantage aux développeurs \?
 \n
 \nCette information sera transmise à une tierce partie (tracepot.com).
 \n
 \nCet affichage peut être désactivé dans la section Rapport de plantage dans les préférences de l\'application Jellyfin.</string>
-    <string name="pref_acra_syslog">Inclure les logs système.
-\nCela risque d\'inclure des données privées d\'autres applications si elles étaient connectées au moment du plantage.</string>
     <string name="pref_next_up_timeout_title">Durée d\'attente avant la lecture du suivant</string>
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
