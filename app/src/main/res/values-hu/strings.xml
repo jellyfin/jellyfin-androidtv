@@ -153,9 +153,7 @@
     <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
-    <string name="pref_acra_syslog_enabled">Rendszer-naplóbejegyzések hozzá lesznek adva a hibajelentésekhez</string>
     <string name="pref_acra_enabled">Megerősítést kér hibajelentés küldés előtt</string>
-    <string name="pref_acra_category">Hibajelentés</string>
     <string name="pref_use_direct_path_summary">Fájlrendszerüalapú elérési út használata folyam URL helyett</string>
     <string name="pref_use_direct_path_title">Direkt elérési út megadása a külső lejátszóhoz</string>
     <string name="lbl_song_title">Zeneszám címe</string>
@@ -490,4 +488,13 @@
     <string name="image_size_xlarge">Extra-Nagy</string>
     <string name="image_size_smallest">Legkisebb</string>
     <string name="image_type_poster">Poszter</string>
+    <string name="crash_report_toast">Hoppá! Hiba történt, hibajelentés elküldve a Jellyfin szerverre.</string>
+    <string name="pref_crash_report_logs_disabled">A naplók nem fognak szerepelni a hibajelentésekben</string>
+    <string name="pref_crash_report_logs_enabled">A naplók szerepelni fognak a hibajelentésekben</string>
+    <string name="pref_crash_report_logs">Tartalmazza a naplókat</string>
+    <string name="pref_crash_reports_disabled">A hibajelentések nem kerülnek beküldésre</string>
+    <string name="pref_crash_reports_enabled">Az összeomlási jelentések elküldésre kerülnek az utoljára használt szerverre</string>
+    <string name="pref_crash_reports">Összeomlási jelentések küldése a szervernek</string>
+    <string name="pref_telemetry_description">Összeomlási napló küldése, naplóadatokkal együtt</string>
+    <string name="pref_telemetry_category">Összeomlási jelentés</string>
 </resources>
