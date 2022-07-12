@@ -430,10 +430,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                     case Codec.Subtitle.ASS:
                     case Codec.Subtitle.SSA:
                         mimetype = MimeTypes.TEXT_SSA;
+                        // Jellyfin reports codec as ass but requires passing .SSA (and not .ASS) in the url to retrieve the subtitles
+                        codec = Codec.Subtitle.SSA;
                         break;
                     case Codec.Subtitle.VTT:
                     case Codec.Subtitle.WEBVTT:
                         mimetype = MimeTypes.TEXT_VTT;
+                        // Jellyfin reports codec as webvtt but requires passing .VTT (and not .WEBVTT) in the url to retrieve the subtitles
+                        codec = Codec.Subtitle.VTT;
                         break;
                     case Codec.Subtitle.PGS:
                     case Codec.Subtitle.PGSSUB:
