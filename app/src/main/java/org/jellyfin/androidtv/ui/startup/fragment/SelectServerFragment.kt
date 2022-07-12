@@ -167,7 +167,8 @@ class SelectServerFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		startupViewModel.reloadServers()
+		startupViewModel.reloadStoredServers()
+		startupViewModel.loadDiscoveryservers()
 	}
 
 	class ServerAdapter(

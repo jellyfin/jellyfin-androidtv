@@ -171,7 +171,7 @@ class ServerFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 
-		startupViewModel.reloadServers(ignoreDiscovery = true)
+		startupViewModel.reloadStoredServers()
 		backgroundService.clearBackgrounds()
 
 		val server = serverIdArgument?.let(startupViewModel::getServer)

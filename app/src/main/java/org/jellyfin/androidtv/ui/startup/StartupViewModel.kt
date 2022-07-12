@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.jellyfin.androidtv.auth.model.AuthenticationSortBy
 import org.jellyfin.androidtv.auth.model.AutomaticAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.LoginState
@@ -39,6 +41,8 @@ class StartupViewModel(
 		else null
 	}.thenBy { user -> user.name }
 
+	private val discoveryMutex = Mutex()
+
 	fun getServer(id: UUID) = serverRepository.storedServers.value
 		.find { it.id == id }
 
@@ -66,12 +70,19 @@ class StartupViewModel(
 	fun getUserImage(server: Server, user: User): String? =
 		authenticationRepository.getUserImageUrl(server, user)
 
-	fun reloadServers(ignoreDiscovery: Boolean = false) {
-		viewModelScope.launch { serverRepository.loadStoredServers() }
+	fun loadDiscoveryservers() {
+		// Only run one discovery process at a time
+		if (discoveryMutex.isLocked) return
 
-		if (!ignoreDiscovery) {
-			viewModelScope.launch(Dispatchers.IO) { serverRepository.loadDiscoveryServers() }
+		viewModelScope.launch(Dispatchers.IO) {
+			discoveryMutex.withLock {
+				serverRepository.loadDiscoveryServers()
+			}
 		}
+	}
+
+	fun reloadStoredServers() {
+		viewModelScope.launch { serverRepository.loadStoredServers() }
 	}
 
 	suspend fun getLastServer(): Server? {
