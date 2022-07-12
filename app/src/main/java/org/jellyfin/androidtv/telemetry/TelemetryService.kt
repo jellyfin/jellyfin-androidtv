@@ -51,12 +51,14 @@ object TelemetryService {
 	}
 
 	class AcraReportSender(
-		private val config: CoreConfiguration,
-		private val url: String,
-		private val token: String,
+		private val url: String?,
+		private val token: String?,
 		private val includeLogs: Boolean,
 	) : ReportSender {
 		override fun send(context: Context, errorContent: CrashReportData) = try {
+			if (url.isNullOrBlank()) throw ReportSenderException("No telemetry crash report URL available.")
+			if (token.isNullOrBlank()) throw ReportSenderException("No telemetry crash report token available.")
+
 			// Create connection
 			val connection = URL(url).openConnection() as HttpURLConnection
 			// Add authorization
@@ -165,10 +167,7 @@ object TelemetryService {
 			val token = preferences?.getString(TelemetryPreferences.crashReportToken.key, null)
 			val includeLogs = preferences?.getBoolean(TelemetryPreferences.crashReportIncludeLogs.key, true) ?: true
 
-			if (url.isNullOrBlank()) throw ReportSenderException("No telemetry crash report URL available.")
-			if (token.isNullOrBlank()) throw ReportSenderException("No telemetry crash report token available.")
-
-			return AcraReportSender(config, url, token, includeLogs)
+			return AcraReportSender(url, token, includeLogs)
 		}
 	}
 }
