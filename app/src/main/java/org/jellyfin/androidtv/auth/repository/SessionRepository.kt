@@ -129,13 +129,13 @@ class SessionRepositoryImpl(
 		if (success) {
 			userApiClient.applySession(session, deviceInfo)
 
-			// Update crash reporting URL
-			// TODO: Use userApiClient.clientLogApi.logFileUrl(includeCredentials = false) in next SDK release
-			val crashReportUrl = userApiClient.createUrl("/ClientLog/Document")
-			telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
-			telemetryPreferences[TelemetryPreferences.crashReportToken] = session?.accessToken.orEmpty()
-
 			if (session != null) {
+				// Update crash reporting URL
+				// TODO: Use userApiClient.clientLogApi.logFileUrl(includeCredentials = false) in next SDK release
+				val crashReportUrl = userApiClient.createUrl("/ClientLog/Document")
+				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
+				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
+
 				try {
 					val user by userApiClient.userApi.getCurrentUser()
 					userRepository.updateCurrentUser(user)
