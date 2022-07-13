@@ -486,4 +486,8 @@
     <string name="image_size_smallest">最小</string>
     <string name="lbl_additional_parts">附加组件</string>
     <string name="app_notification_uimode_invalid">这个APP是为电视优化的。我们建议在其他设备上使用我们的移动APP。</string>
+    <string name="pref_crash_reports_enabled">崩溃报告将发送到您上次使用的服务器</string>
+    <string name="pref_crash_reports">发送崩溃报告到服务器</string>
+    <string name="pref_telemetry_description">发送崩溃报告，包括日志</string>
+    <string name="pref_telemetry_category">崩溃报告</string>
 </resources>
