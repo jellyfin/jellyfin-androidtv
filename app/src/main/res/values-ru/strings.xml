@@ -487,4 +487,13 @@
     <string name="image_size_smallest">Самый мелкий</string>
     <string name="image_type_poster">Постер</string>
     <string name="lbl_additional_parts">Дополнительные части</string>
+    <string name="pref_crash_reports_enabled">Отчеты о сбоях будут отправлены на последний использованный сервер</string>
+    <string name="pref_telemetry_description">Отправлять отчеты о сбоях, включая журналы</string>
+    <string name="crash_report_toast">Что-то пошло не так, был отправлен отчет о сбое на Jellyfin-сервер.</string>
+    <string name="pref_crash_report_logs_disabled">Журналы не будут включены в отчёты о сбоях</string>
+    <string name="pref_crash_report_logs_enabled">Журналы будут включены в отчёты о сбоях</string>
+    <string name="pref_crash_report_logs">Включая журналы</string>
+    <string name="pref_crash_reports_disabled">Отчёты о сбоях не будут отправляться</string>
+    <string name="pref_crash_reports">Отправка отчёта о сбое на сервер</string>
+    <string name="pref_telemetry_category">Отчёт о сбое</string>
 </resources>
