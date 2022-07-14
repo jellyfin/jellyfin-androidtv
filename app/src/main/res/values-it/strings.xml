@@ -484,4 +484,16 @@
     <string name="lbl_additional_parts">Parti Addizionali</string>
     <string name="server_unsupported_notification">Questo server utilizza Jellyfin %1$s che non è più supportato. Aggiorna Jellyfin %2$s per continuare ad utilizzare l\'app.</string>
     <string name="image_type_poster">Poster</string>
+    <string name="crash_report_toast">Oops! Qualcosa è andato storto, una segnalazione di crash è stata inviata al server Jellyfin.</string>
+    <string name="pref_crash_report_logs_disabled">I log non saranno inclusi nelle segnalazioni di crash</string>
+    <string name="pref_crash_report_logs_enabled">I log saranno inclusi nelle segnalazioni di crash</string>
+    <string name="pref_crash_report_logs">Includi i log</string>
+    <string name="pref_crash_reports_disabled">Le segnalazioni di crash non saranno inviate</string>
+    <string name="pref_crash_reports_enabled">Le segnalazioni di crash saranno inviate all\'ultimo server utilizzato</string>
+    <string name="pref_crash_reports">Invia le segnalazioni dei crash al server</string>
+    <string name="pref_telemetry_description">Invia segnalazioni di crash, log inclusi</string>
+    <string name="pref_telemetry_category">Invio segnalazioni di Crash</string>
+    <string name="app_notification_uimode_invalid">Questa app è ottimizzata per le televisioni. Si consiglia di usare l\'app mobile su altri dispositivi.</string>
+    <string name="image_size_xlarge">Molto grandi</string>
+    <string name="image_size_smallest">Molto piccole</string>
 </resources>
