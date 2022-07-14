@@ -490,4 +490,10 @@
     <string name="pref_crash_reports">发送崩溃报告到服务器</string>
     <string name="pref_telemetry_description">发送崩溃报告，包括日志</string>
     <string name="pref_telemetry_category">崩溃报告</string>
+    <string name="server_unsupported_notification">此服务器使用的Jellyfin %1$s版本不受支持。请更新到Jellyfin %2$s版本以继续使用该程序。</string>
+    <string name="crash_report_toast">哎呀！出了点问题，崩溃日志已经发送到你的Jellyfin服务器。</string>
+    <string name="pref_crash_report_logs_disabled">日志将不会包含再崩溃报告中</string>
+    <string name="pref_crash_report_logs_enabled">日志将包含在崩溃报告中</string>
+    <string name="pref_crash_report_logs">包含日志</string>
+    <string name="pref_crash_reports_disabled">不提交崩溃报告</string>
 </resources>
