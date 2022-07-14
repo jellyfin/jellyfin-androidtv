@@ -487,4 +487,13 @@
     <string name="image_size_smallest">Eñ ūsaq</string>
     <string name="image_type_poster">Poster</string>
     <string name="lbl_additional_parts">Jalğasatyn bölımder</string>
+    <string name="pref_crash_report_logs">Jūrnaldardy engızıp</string>
+    <string name="pref_telemetry_description">Jūrnaldardy engızıp aqau turaly habarlau</string>
+    <string name="crash_report_toast">Bırdeñe durys bolmady, qate turaly esep Jellyfin serverıne jıberıldı.</string>
+    <string name="pref_crash_report_logs_disabled">Jūrnaldar aqau habarlaryna engızılmeidı</string>
+    <string name="pref_crash_report_logs_enabled">Jūrnaldar aqau habarlaryna engızıledı</string>
+    <string name="pref_crash_reports_disabled">Aqau turaly habarlar jıberılmeidı</string>
+    <string name="pref_crash_reports_enabled">Aqau turaly habarlar kein paidalanylğan serverge jıberıledı</string>
+    <string name="pref_crash_reports">Aqau turaly habardy serverge jıberu</string>
+    <string name="pref_telemetry_category">Aqau turaly habarlau</string>
 </resources>
