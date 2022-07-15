@@ -481,4 +481,6 @@
     <string name="pref_libvlc_subtitle_delay_title">Délai sous-titres par défaut de LibVLC</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
     <string name="lbl_adjust">Ajuster</string>
+    <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s pour continuer à utiliser l\'application.</string>
+    <string name="app_notification_uimode_invalid">Cette application est optimisée pour un usage sur une télévision. Nous vous recommandons d\'utiliser notre application mobile sur un autre appareil.</string>
 </resources>
