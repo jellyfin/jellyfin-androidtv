@@ -487,4 +487,13 @@
     <string name="image_size_smallest">La plej malgranda</string>
     <string name="image_type_poster">Afiŝo</string>
     <string name="lbl_additional_parts">Pliaj Partoj</string>
+    <string name="crash_report_toast">Ho ve! Io misfunkciis, kraŝraporto estis sendita al via Jellyfin-servilo.</string>
+    <string name="pref_crash_report_logs_disabled">Protokoloj ne estos inkluzivitaj en kraŝraportoj</string>
+    <string name="pref_crash_report_logs_enabled">Protokoloj estos inkluzivitaj en kraŝraportoj</string>
+    <string name="pref_crash_report_logs">Inkluzivi protokolojn</string>
+    <string name="pref_crash_reports_disabled">Kraŝraportoj ne estos senditaj</string>
+    <string name="pref_crash_reports_enabled">Kraŝraportoj estos senditaj al via lasta uzita servilo</string>
+    <string name="pref_crash_reports">Sendu kraŝraportojn al servilo</string>
+    <string name="pref_telemetry_category">Kraŝraportado</string>
+    <string name="pref_telemetry_description">Sendi kraŝraportojn, inkluzivi protokolojn</string>
 </resources>
