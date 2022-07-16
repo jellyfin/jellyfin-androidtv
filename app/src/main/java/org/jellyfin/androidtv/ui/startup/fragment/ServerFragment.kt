@@ -78,8 +78,6 @@ class ServerFragment : Fragment() {
 						RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
 							UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
 							UserLoginFragment.ARG_USERNAME to user.name,
-							// FIXME: Server does not allow Quick Connect for a specific username
-							UserLoginFragment.ARG_SKIP_QUICKCONNECT to true,
 						))
 						// Errors
 						ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
