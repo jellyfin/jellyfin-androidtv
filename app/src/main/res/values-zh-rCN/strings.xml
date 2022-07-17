@@ -496,4 +496,5 @@
     <string name="pref_crash_report_logs_enabled">日志将包含在崩溃报告中</string>
     <string name="pref_crash_report_logs">包含日志</string>
     <string name="pref_crash_reports_disabled">不提交崩溃报告</string>
+    <string name="server_setup_incomplete">此服务器的设置尚未完成。 在浏览器中打开 Jellyfin 以完成设置，然后再登录。</string>
 </resources>
