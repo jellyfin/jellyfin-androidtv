@@ -487,4 +487,14 @@
     <string name="image_size_smallest">Najmenšie</string>
     <string name="image_type_poster">Plagát</string>
     <string name="lbl_additional_parts">Dodatočné časti</string>
+    <string name="server_setup_incomplete">Nastavenie tohto servera nebolo dokončené. Pred prihlásením otvorte Jellyfin vo webovom prehliadači a dokončite nastavenie.</string>
+    <string name="crash_report_toast">Ach nie! Niečo sa pokazilo, hlásenie chýb bolo odoslané na váš Jellyfin server.</string>
+    <string name="pref_crash_report_logs_enabled">Logy budú zahrnuté v hláseniach chýb</string>
+    <string name="pref_crash_report_logs_disabled">Logy nebudú zahrnuté v hláseniach chýb</string>
+    <string name="pref_crash_report_logs">Zahrnúť logy</string>
+    <string name="pref_crash_reports_disabled">Hlásenia chýb sa nebudú odosielať</string>
+    <string name="pref_crash_reports_enabled">Hlásenia chýb budú zaslané na naposledy použitý server</string>
+    <string name="pref_crash_reports">Odoslať hlásenia chýb na server</string>
+    <string name="pref_telemetry_description">Odoslať hlásenia chýb, vrátane logov</string>
+    <string name="pref_telemetry_category">Hlásenie chýb</string>
 </resources>
