@@ -25,17 +25,16 @@ body:
     attributes:
       label: Logs
       description: |
-        Please paste your client logs (logcat) here, *NOT* server logs (in most cases).
-        Learn how to capture those logcats [here](https://wiki.lineageos.org/logcat.html).
+        Please paste your crash logs here if applicable. You can find these in your servers dashboard under "logs".
+        The file name should start with "upload_org.jellyfin.androidtv".
         Make sure that they don't contain any sensitive information like server URL, auth tokens or passwords.
       placeholder: Paste logs…
-      render: shell
   - type: textarea
     id: logs-ffmpeg
     attributes:
       label: FFmpeg logs
       description: |
-        Please paste your FFmpeg logs here. You can find these by going to the dashboard of your Jellyfin server.
+        Please paste your FFmpeg logs here. You can find these in your servers dashboard under "logs".
       placeholder: Paste logs…
       render: shell
   - type: textarea
@@ -54,7 +53,7 @@ body:
     attributes:
       label: Application version
       description: The version of the installed Jellyfin Android TV app.
-      placeholder: 0.12.0
+      placeholder: 0.14.0
     validations:
       required: true
   - type: input
@@ -70,7 +69,7 @@ body:
     attributes:
       label: Android version
       description: Version of the OS and other information (e.g. custom ROM / OEM skin)
-      placeholder: Android 9, Fire OS 7 
+      placeholder: Android 9, Fire OS 7
     validations:
       required: true
   - type: input
@@ -78,6 +77,6 @@ body:
     attributes:
       label: Jellyfin server version
       description: If on unstable, please specify the commit hash.
-      placeholder: 10.7.7
+      placeholder: 10.8.1
     validations:
       required: true
