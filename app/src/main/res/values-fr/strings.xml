@@ -468,7 +468,7 @@
     <string name="pref_refresh_rate_scale_on_device">Mise à l\'échelle sur l\'appareil</string>
     <string name="pref_refresh_rate_scale_on_tv">Mise à l\'échelle sur la TV</string>
     <string name="login_quickconnect_step_3">3. Saisir le code suivant :</string>
-    <string name="login_quickconnect_step_2">2. Ouvrir le menu utilisateur and se rendre sur la page de \'QuickConnect\'</string>
+    <string name="login_quickconnect_step_2">2. Ouvrir le menu utilisateur et se rendre sur la page de \'Connexion Rapide\'</string>
     <string name="login_quickconnect_step_1">1. Ouvrir l\'application Jellyfin sur votre appareil et se connecter avec votre compte</string>
     <string name="login_other_options">Autres options :</string>
     <string name="login_connect_to">En attente de connexion à %1$s</string>
