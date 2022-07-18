@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/addQueue"
+        android:title="@string/lbl_add_to_queue" />
+    <item
+        android:id="@+id/shuffleAll"
+        android:title="@string/lbl_shuffle_all" />
+    <item
+        android:id="@+id/playTrailers"
+        android:title="@string/lbl_play_trailers" />
+    <item
         android:id="@+id/addFav"
         android:title="@string/lbl_add_favorite" />
     <item
         android:id="@+id/remFav"
         android:title="@string/lbl_remove_favorite" />
     <item
-        android:id="@+id/playTrailers"
-        android:title="@string/lbl_play_trailers" />
-    <item
         android:id="@+id/gotoSeries"
         android:title="@string/lbl_goto_series" />
-    <item
-        android:id="@+id/shuffleAll"
-        android:title="@string/lbl_shuffle_all" />
-    <item
-        android:id="@+id/addQueue"
-        android:title="@string/lbl_add_to_queue" />
     <item
         android:id="@+id/delete"
         android:title="@string/lbl_delete" />

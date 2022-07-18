@@ -1019,7 +1019,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             }
         }
         //Video versions button
-        if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1){
+        if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1) {
             TextUnderButton versionsButton = TextUnderButton.create(this, R.drawable.ic_guide, buttonSize, 0, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1321,17 +1321,16 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 more.inflate(R.menu.menu_details_more);
                 more.setOnMenuItemClickListener(moreMenuListener);
 
-                if (favButton != null && !ViewKt.isVisible(favButton)) {
-                    if (mBaseItem.getUserData().getIsFavorite()) {
-                        more.getMenu().getItem(0).setVisible(false);
-                        more.getMenu().getItem(1).setVisible(true);
-                    } else {
-                        more.getMenu().getItem(0).setVisible(true);
-                        more.getMenu().getItem(1).setVisible(false);
-                    }
-                } else {
+                if (queueButton == null || ViewKt.isVisible(queueButton)) {
                     more.getMenu().getItem(0).setVisible(false);
+                } else if (queueButton != null) {
+                    more.getMenu().getItem(0).setVisible(true);
+                }
+
+                if (shuffleButton == null || ViewKt.isVisible(shuffleButton)) {
                     more.getMenu().getItem(1).setVisible(false);
+                } else if (shuffleButton != null) {
+                    more.getMenu().getItem(1).setVisible(true);
                 }
 
                 if (trailerButton == null || ViewKt.isVisible(trailerButton)) {
@@ -1340,21 +1339,22 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     more.getMenu().getItem(2).setVisible(true);
                 }
 
-                if (goToSeriesButton == null || ViewKt.isVisible(goToSeriesButton)) {
+                if (favButton != null && !ViewKt.isVisible(favButton)) {
+                    if (mBaseItem.getUserData().getIsFavorite()) {
+                        more.getMenu().getItem(3).setVisible(false);
+                        more.getMenu().getItem(4).setVisible(true);
+                    } else {
+                        more.getMenu().getItem(3).setVisible(true);
+                        more.getMenu().getItem(4).setVisible(false);
+                    }
+                } else {
                     more.getMenu().getItem(3).setVisible(false);
-                } else if (goToSeriesButton != null) {
-                    more.getMenu().getItem(3).setVisible(true);
-                }
-
-                if (shuffleButton == null || ViewKt.isVisible(shuffleButton)) {
                     more.getMenu().getItem(4).setVisible(false);
-                } else if (shuffleButton != null){
-                    more.getMenu().getItem(4).setVisible(true);
                 }
 
-                if (queueButton == null || ViewKt.isVisible(queueButton)) {
+                if (goToSeriesButton == null || ViewKt.isVisible(goToSeriesButton)) {
                     more.getMenu().getItem(5).setVisible(false);
-                } else if (queueButton != null) {
+                } else if (goToSeriesButton != null) {
                     more.getMenu().getItem(5).setVisible(true);
                 }
 
@@ -1406,12 +1406,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         int visibleOptions = mDetailsOverviewRow.getVisibleActions();
 
         List<TextUnderButton> actionsList = new ArrayList<>();
-        // added in order of priority
+        // added in order of priority (should match res/menu/menu_details_more.xml)
+        if (queueButton != null) actionsList.add(queueButton);
+        if (shuffleButton != null) actionsList.add(shuffleButton);
         if (trailerButton != null) actionsList.add(trailerButton);
         if (favButton != null) actionsList.add(favButton);
         if (goToSeriesButton != null) actionsList.add(goToSeriesButton);
-        if (shuffleButton != null) actionsList.add(shuffleButton);
-        if (queueButton != null) actionsList.add(queueButton);
         if (deleteButton != null) actionsList.add(deleteButton);
 
         // reverse the list so the less important actions are hidden first
@@ -1508,7 +1508,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {
-                if (recordSeries || Utils.isTrue(program.getIsSports())){
+                if (recordSeries || Utils.isTrue(program.getIsSports())) {
                     mRecordPopup.setContent(mActivity, program, response, mActivity, recordSeries);
                     mRecordPopup.show();
                 } else {
