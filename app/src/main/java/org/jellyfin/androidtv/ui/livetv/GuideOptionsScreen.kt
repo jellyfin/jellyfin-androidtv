@@ -8,10 +8,14 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsItemCheckbox
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.preference.store.PreferenceStore
 import org.koin.android.ext.android.inject
 
 class GuideOptionsScreen : OptionsFragment() {
 	private val liveTvPreferences: LiveTvPreferences by inject()
+
+	override val stores: Array<PreferenceStore<*, *>>
+		get() = arrayOf(liveTvPreferences)
 
 	override val screen by optionsScreen {
 		setTitle(R.string.live_tv_preferences)
