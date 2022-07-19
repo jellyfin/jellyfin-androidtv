@@ -245,11 +245,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         }
     }
 
-    private void reload() {
-        fillTimeLine(System.currentTimeMillis(), getGuideHours());
-        displayChannels(mCurrentDisplayChannelStartNdx, PAGE_SIZE);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -259,18 +254,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     protected void doLoad() {
-
         if (TvManager.shouldForceReload() || System.currentTimeMillis() >= mCurrentLocalGuideStart + 1800000  || mChannels.getChildCount() == 0) {
-            if (mAllChannels == null) {
-                mAllChannels = TvManager.getAllChannels();
-                if (mAllChannels == null) {
-                    load();
-                } else {
-                    reload();
-                }
-            } else {
-                reload();
-            }
+            load();
 
             mFirstFocusChannelId = TvManager.getLastLiveTvChannel();
         }

@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -70,7 +69,7 @@ public class TvManager {
         systemPreferences.set(SystemPreferences.Companion.getLiveTvPrevChannel(), systemPreferences.get(SystemPreferences.Companion.getLiveTvLastChannel()));
         systemPreferences.set(SystemPreferences.Companion.getLiveTvLastChannel(), id);
         updateLastPlayedDate(id);
-        sortChannels();
+        fillChannelIds();
     }
 
     public static String getPrevLiveTvChannel() {
@@ -79,11 +78,6 @@ public class TvManager {
 
     public static List<ChannelInfoDto> getAllChannels() {
         return allChannels;
-    }
-
-    public static void clearCache() {
-        forceReload = true;
-        allChannels = null;
     }
 
     public static void forceReload() {
@@ -114,26 +108,20 @@ public class TvManager {
     }
 
     public static void loadAllChannels(final Response<Integer> outerResponse) {
-        //Get channels if needed
-        if (allChannels != null && allChannels.size() > 0) {
-            Timber.i("*** Channels already loaded - returning %d channels", allChannels.size());
-            outerResponse.onResponse(sortChannels());
-        } else {
-            loadAllChannelsInternal(outerResponse);
-        }
-
-    }
-
-    private static void loadAllChannelsInternal(final Response<Integer> outerResponse) {
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
-
         LiveTvChannelQuery query = new LiveTvChannelQuery();
         query.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         query.setAddCurrentProgram(true);
-        if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) query.setEnableFavoriteSorting(true);
-        query.setSortOrder(ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? SortOrder.Descending : null);
-        query.setSortBy(new String[] {ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder())) ? ItemSortBy.DatePlayed : ItemSortBy.SortName});
+        query.setEnableFavoriteSorting(liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop()));
+        if (ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
+            query.setSortOrder(SortOrder.Descending);
+            query.setSortBy(new String[] { ItemSortBy.DatePlayed });
+        } else {
+            query.setSortBy(new String[] { ItemSortBy.SortName });
+        }
+
         Timber.d("*** About to load channels");
+        Timber.d("Preferences: EnableFavoriteSorting=%s, ChannelOrder=%s", liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop()), liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()));
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelsAsync(query, new Response<ChannelInfoDtoResult>() {
             @Override
             public void onResponse(final ChannelInfoDtoResult response) {
@@ -143,59 +131,22 @@ public class TvManager {
                     Collections.addAll(allChannels, response.getItems());
                 }
 
-                outerResponse.onResponse(sortChannels());
+                outerResponse.onResponse(fillChannelIds());
             }
         });
-
     }
 
     private static int fillChannelIds() {
         int ndx = 0;
-        channelIds = new String[allChannels.size()];
-        String last = getLastLiveTvChannel();
-        int i = 0;
-        for (ChannelInfoDto channel : allChannels) {
-            channelIds[i++] = channel.getId();
-            if (channel.getId().equals(last)) ndx = i;
-            //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
-        }
-
-        return ndx;
-    }
-
-
-    public static int sortChannels() {
-        LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
-
-        int ndx = 0;
         if (allChannels != null) {
-            //Sort by last played - if selected
-            if (ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
-                Collections.sort(allChannels, Collections.reverseOrder(new Comparator<ChannelInfoDto>() {
-                    @Override
-                    public int compare(ChannelInfoDto lhs, ChannelInfoDto rhs) {
-                        long left = lhs.getUserData() == null || lhs.getUserData().getLastPlayedDate() == null ? 0 : lhs.getUserData().getLastPlayedDate().getTime();
-                        long right = rhs.getUserData() == null || rhs.getUserData().getLastPlayedDate() == null ? 0 : rhs.getUserData().getLastPlayedDate().getTime();
-
-                        long result = left - right;
-                        return result == 0 ? 0 : result > 0 ? 1 : -1;
-                    }
-                }));
+            channelIds = new String[allChannels.size()];
+            String last = getLastLiveTvChannel();
+            int i = 0;
+            for (ChannelInfoDto channel : allChannels) {
+                channelIds[i++] = channel.getId();
+                if (channel.getId().equals(last)) ndx = i;
+                //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
             }
-
-            if (liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop())) {
-                Collections.sort(allChannels, new Comparator<ChannelInfoDto>() {
-                    @Override
-                    public int compare(ChannelInfoDto channelOne, ChannelInfoDto channelTwo) {
-                        boolean channelOneFav = channelOne.getUserData() != null && channelOne.getUserData().getIsFavorite();
-                        boolean channelTwoFav = channelTwo.getUserData() != null && channelTwo.getUserData().getIsFavorite();
-                        return -Boolean.compare(channelOneFav, channelTwoFav);
-                    }
-                });
-            }
-
-            //And  fill in channel IDs
-            ndx = fillChannelIds();
         }
 
         return ndx;
