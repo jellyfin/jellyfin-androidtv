@@ -170,10 +170,11 @@
         android:fontFamily="sans-serif-light" />
 
     <ImageButton
+        android:id="@+id/optionsButton"
+        style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/optionsButton"
-        android:layout_marginRight="10sp"
+        android:layout_marginRight="40sp"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
@@ -183,22 +184,24 @@
         android:scaleType="fitCenter" />
 
     <ImageButton
+        android:id="@+id/filterButton"
+        style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/filterButton"
         android:layout_marginRight="10sp"
         android:layout_toLeftOf="@id/optionsButton"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
         android:src="@drawable/ic_filter"
-        android:padding="6dp"
+        android:padding="3dp"
         android:background="@drawable/jellyfin_button"
         android:scaleType="fitCenter" />
 
     <ImageButton
+        android:id="@+id/dateButton"
+        style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/dateButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="false"
         android:layout_above="@+id/timelineHScroller"
@@ -210,9 +213,10 @@
         android:layout_toLeftOf="@+id/filterButton" />
 
     <ImageButton
+        android:id="@+id/resetButton"
+        style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/resetButton"
         android:layout_marginRight="10sp"
         android:layout_alignParentEnd="false"
         android:layout_above="@+id/timelineHScroller"
