@@ -35,7 +35,10 @@ public class GuidePagingButton extends RelativeLayout {
 
         setBackgroundResource(R.drawable.gray_gradient);
         TextView txtLabel = new TextView(activity);
-        txtLabel.setHeight(Utils.convertDpToPixel(getContext(), 55));
+        txtLabel.setHeight(Utils.convertDpToPixel(
+            getContext(),
+            LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP
+        ));
         txtLabel.setTextColor(Color.BLACK);
         setPadding(100,0,0,0);
         txtLabel.setFocusable(true);

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -40,7 +41,10 @@ public class GuideChannelHeader extends RelativeLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.channel_header, this, false);
         int headerWidth = Utils.convertDpToPixel(context, 160);
-        v.setLayoutParams(new AbsListView.LayoutParams(headerWidth, Utils.convertDpToPixel(context, 55)));
+        v.setLayoutParams(new AbsListView.LayoutParams(
+            headerWidth,
+            Utils.convertDpToPixel(context, LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP)
+        ));
         this.addView(v);
         this.setFocusable(true);
         ((TextView) findViewById(R.id.channelName)).setText(channel.getName());

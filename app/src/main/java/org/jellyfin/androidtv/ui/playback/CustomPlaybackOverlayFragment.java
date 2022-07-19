@@ -55,6 +55,7 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
@@ -891,6 +892,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
+        int guideRowHeightPx = Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP);
+        int guideRowWidthPerMinPx = Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_WIDTH_PER_MIN_DP);
+
         LinearLayout programRow = new LinearLayout(requireContext());
         if (programs.size() == 0) {
 
@@ -905,7 +909,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
                 cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
@@ -935,7 +939,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd + duration)));
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 cell.setFocusable(true);
                 programRow.addView(cell);
             }
@@ -946,7 +950,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
-                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * Utils.convertDpToPixel(getContext(), 7), Utils.convertDpToPixel(getContext(), 55)));
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 program.setFocusable(true);
 
                 if (start == getCurrentLocalStartDate())

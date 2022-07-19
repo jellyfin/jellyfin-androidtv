@@ -59,9 +59,8 @@ import kotlin.Lazy;
 import timber.log.Timber;
 
 public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
-    public int ROW_HEIGHT;
-    public int PIXELS_PER_MINUTE;
-    public int PAGEBUTTON_HEIGHT;
+    public static final int GUIDE_ROW_HEIGHT_DP = 55;
+    public static final int GUIDE_ROW_WIDTH_PER_MIN_DP = 7;
     public static final int PAGE_SIZE = 75;
     public static final int NORMAL_HOURS = 9;
     public static final int FILTERED_HOURS = 4;
@@ -98,6 +97,9 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     private int mCurrentDisplayChannelStartNdx = 0;
     private int mCurrentDisplayChannelEndNdx = 0;
 
+    private int guideRowHeightPx;
+    private int guideRowWidthPerMinPx;
+
     private Handler mHandler = new Handler();
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
@@ -108,9 +110,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
 
         mActivity = this;
 
-        ROW_HEIGHT = Utils.convertDpToPixel(this, 55);
-        PIXELS_PER_MINUTE = Utils.convertDpToPixel(this,7);
-        PAGEBUTTON_HEIGHT = Utils.convertDpToPixel(this, 20);
+        guideRowHeightPx = Utils.convertDpToPixel(this, GUIDE_ROW_HEIGHT_DP);
+        guideRowWidthPerMinPx = Utils.convertDpToPixel(this, GUIDE_ROW_WIDTH_PER_MIN_DP);
 
         setContentView(R.layout.live_tv_guide);
 
@@ -534,7 +535,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 }
 
                 TextView placeHolder = new TextView(mActivity);
-                placeHolder.setHeight(PAGEBUTTON_HEIGHT);
+                placeHolder.setHeight(guideRowHeightPx);
                 mChannels.addView(placeHolder);
                 displayedChannels = 0;
 
@@ -601,7 +602,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size()-1;
 
                 TextView placeHolder = new TextView(mActivity);
-                placeHolder.setHeight(PAGEBUTTON_HEIGHT);
+                placeHolder.setHeight(guideRowHeightPx);
                 mChannels.addView(placeHolder);
 
                 mProgramRows.addView(new GuidePagingButton(mActivity, mActivity, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
@@ -643,7 +644,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
                 cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
@@ -675,7 +676,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
-                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 cell.setFocusable(true);
                 if (prevEnd == mCurrentLocalGuideStart) {
                     cell.setFirst();
@@ -690,7 +691,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(this, this, item, false);
                 program.setId(currentCellId++);
-                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
+                program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 program.setFocusable(true);
                 if (start == mCurrentLocalGuideStart) {
                     program.setFirst();
@@ -714,7 +715,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
             ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
             cell.setId(currentCellId++);
-            cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * PIXELS_PER_MINUTE, ROW_HEIGHT));
+            cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
             cell.setFocusable(true);
             programRow.addView(cell);
         }
@@ -733,8 +734,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mDisplayDate.setText(TimeUtils.getFriendlyDate(this, mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
-        int oneHour = 60 * PIXELS_PER_MINUTE;
-        int halfHour = 30 * PIXELS_PER_MINUTE;
+        int oneHour = 60 * guideRowWidthPerMinPx;
+        int halfHour = 30 * guideRowWidthPerMinPx;
         int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
         mCurrentGuideEnd.add(Calendar.HOUR, hours);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
