@@ -155,7 +155,7 @@
     <string name="lbl_open_album">Ouvrir l\'album</string>
     <string name="lbl_next_item">Prochain élément</string>
     <string name="lbl_prev_item">Élément précédent</string>
-    <string name="lbl_up_next_colon">"Suivant "</string>
+    <string name="lbl_up_next_colon">"Suivant : "</string>
     <string name="lbl_now_playing">En cours de lecture</string>
     <string name="lbl_play_from_here">Lire à partir d\'ici</string>
     <string name="lbl_remove_from_queue">Retirer de la liste de lecture</string>
