@@ -198,7 +198,7 @@ public class InfoLayoutHelper {
         layout.removeAllViews();
         TextView text = new TextView(context);
         text.setTextSize(textSize);
-        text.setText(item.getSubText(context) + " ");
+        text.setText(Utils.getSafeValue(item.getSubText(context), "") + " ");
         layout.addView(text);
 
     }
