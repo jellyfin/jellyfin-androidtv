@@ -261,7 +261,7 @@
     <string name="pref_device_model">Modèle de l\'appareil</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Sens de la grille</string>
-    <string name="grid_direction_vertical">Vertical (expérimental)</string>
+    <string name="grid_direction_vertical">Vertical</string>
     <string name="lbl_Reset">Réinitialiser</string>
     <string name="pref_button_remapping_description">Appuyez sur n\'importe lequel des boutons sur la télécommande pour l\'appairer</string>
     <string name="pref_subtitle_track_button">Bouton piste de sous-titres</string>
@@ -483,4 +483,17 @@
     <string name="lbl_adjust">Ajuster</string>
     <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s pour continuer à utiliser l\'application.</string>
     <string name="app_notification_uimode_invalid">Cette application est optimisée pour un usage sur une télévision. Nous vous recommandons d\'utiliser notre application mobile sur un autre appareil.</string>
+    <string name="server_setup_incomplete">La configuration de ce serveur est incomplète. Ouvrir Jellyfin dans un navigateur Web pour terminer la configuration avant de se connecter.</string>
+    <string name="crash_report_toast">Oups ! Il y a eu un problème. Un rapport de plantage a été envoyé à votre serveur Jellyfin.</string>
+    <string name="pref_crash_report_logs_disabled">Des logs ne seront pas inclus avec les rapports de plantage</string>
+    <string name="pref_crash_report_logs_enabled">Des logs seront inclus avec les rapports de plantage</string>
+    <string name="pref_crash_report_logs">Inclure des logs</string>
+    <string name="pref_crash_reports_disabled">Les rapports de plantage ne seront pas envoyés</string>
+    <string name="pref_crash_reports_enabled">Les rapports de plantage seront envoyés au serveur le plus récemment utilisé</string>
+    <string name="pref_crash_reports">Envoyer des rapports de plantage au serveur</string>
+    <string name="pref_telemetry_description">Envoyer des rapports de plantage, inclure des logs</string>
+    <string name="pref_telemetry_category">Rapport de plantage</string>
+    <string name="image_size_xlarge">Très grand</string>
+    <string name="image_size_smallest">Très petit</string>
+    <string name="lbl_additional_parts">Parties additionnelles</string>
 </resources>
