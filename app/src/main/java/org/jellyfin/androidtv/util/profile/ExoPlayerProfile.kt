@@ -194,7 +194,7 @@ class ExoPlayerProfile(
 				})
 			}
 			// Audio channel profile
-			add(maxAudioChannelsCodecProfile(channels = 6))
+			add(maxAudioChannelsCodecProfile(channels = 8))
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
