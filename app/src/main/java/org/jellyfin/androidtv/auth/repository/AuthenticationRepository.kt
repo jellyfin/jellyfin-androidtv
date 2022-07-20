@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.auth.model.PrivateUser
 import org.jellyfin.androidtv.auth.model.QuickConnectAuthenticateMethod
 import org.jellyfin.androidtv.auth.model.RequireSignInState
 import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.store.AccountManagerStore
@@ -26,6 +27,7 @@ import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
 import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -86,6 +88,10 @@ class AuthenticationRepositoryImpl(
 		val result = try {
 			val response = api.userApi.authenticateUserByName(username, password)
 			response.content
+		} catch (err: TimeoutException) {
+			Timber.e(err, "Failed to connect to server trying to sign in $username")
+			emit(ServerUnavailableState)
+			return@flow
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to sign in as $username")
 			emit(RequireSignInState)
