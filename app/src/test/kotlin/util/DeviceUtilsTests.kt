@@ -50,10 +50,12 @@ class DeviceUtilsTests : FunSpec({
 	}
 
 	test("DeviceUtils.isFireTvStick4k() works correctly") {
-		withBuildModel("AFTMM") {
-			DeviceUtils.isFireTv() shouldBe true
-			DeviceUtils.isFireTvStick4k() shouldBe true
-			DeviceUtils.isFireTvStickGen1() shouldBe false
+		arrayOf("AFTMM", "AFTKA").forEach { input ->
+			withBuildModel(input) {
+				DeviceUtils.isFireTv() shouldBe true
+				DeviceUtils.isFireTvStick4k() shouldBe true
+				DeviceUtils.isFireTvStickGen1() shouldBe false
+			}
 		}
 	}
 

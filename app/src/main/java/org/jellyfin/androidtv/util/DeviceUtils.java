@@ -17,6 +17,7 @@ public class DeviceUtils {
     private static final String FIRE_STICK_MODEL_GEN_3 = "AFTSSS";
     private static final String FIRE_STICK_LITE_MODEL = "AFTSS";
     private static final String FIRE_STICK_4K_MODEL = "AFTMM";
+    private static final String FIRE_STICK_4K_MAX_MODEL = "AFTKA";
     // Fire TV Cube Models
     private static final String FIRE_CUBE_MODEL_GEN_1 = "AFTA";
     private static final String FIRE_CUBE_MODEL_GEN_2 = "AFTR";
@@ -48,7 +49,8 @@ public class DeviceUtils {
     }
 
     public static boolean isFireTvStick4k() {
-        return getBuildModel().equals(FIRE_STICK_4K_MODEL);
+        return Arrays.asList(FIRE_STICK_4K_MODEL, FIRE_STICK_4K_MAX_MODEL)
+            .contains(getBuildModel());
     }
 
     public static boolean isShieldTv() {
