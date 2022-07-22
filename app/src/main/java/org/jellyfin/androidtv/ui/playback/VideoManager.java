@@ -432,15 +432,23 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, @Nullable List<MediaStream> allStreams) {
+    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean IndexStartsAtOne, @Nullable List<MediaStream> allStreams) {
         if (index < 0 || allStreams == null)
             return -1;
 
+        // translate player track index to/from jellyfin mediastream index to account for external tracks
+        // being in the mediastream tracks list but not in a player's track list
+        //
+        // use adjustByAdding=true to translate player-id -> mediastream-id, false for the other direction
+        //
+        // use IndexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
+        // mediastream indexes/IDs start at 0
         for (MediaStream stream : allStreams) {
             if (!stream.getIsExternal())
                 break;
             index += adjustByAdding ? 1 : -1;
         }
+        index += IndexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
         return index < 0 || index >= allStreams.size() ? -1 : index;
     }
@@ -449,7 +457,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (isNativeMode() || allStreams == null)
             return false;
 
-        int vlcIndex = offsetStreamIndex(index, false, allStreams);
+        int vlcIndex = offsetStreamIndex(index, false, false, allStreams);
 
         if (vlcIndex < 0)
             return false;
@@ -511,7 +519,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
 
         // offset the stream index to account for external streams
-        int exoTrackID = offsetStreamIndex(matchedIndex, true, allStreams);
+        int exoTrackID = offsetStreamIndex(matchedIndex, true, true, allStreams);
         if (exoTrackID < 0)
             return -1;
 
@@ -528,7 +536,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (candidate.getIsExternal() || candidate.getType() != streamType)
             return false;
 
-        int exoTrackID = offsetStreamIndex(index, false, allStreams);
+        int exoTrackID = offsetStreamIndex(index, false, true, allStreams);
         if (exoTrackID < 0)
             return false;
 
@@ -572,9 +580,14 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                     continue;
                 }
 
-                if (groupInfo.isTrackSelected(i) || !groupInfo.isTrackSupported(i)) {
-                    Timber.d("track is %s", groupInfo.isTrackSelected(i) ? "already selected" : "not compatible");
+                if (!groupInfo.isTrackSupported(i)) {
+                    Timber.d("track is not compatible");
                     return false;
+                }
+
+                if (groupInfo.isTrackSelected(i)) {
+                    Timber.d("track is already selected");
+                    return true;
                 }
 
                 Timber.d("matched exoplayer track %s to mediaStream track %s", trackFormat.id, index);
@@ -602,7 +615,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!isInitialized() || nativeMode)
             return -1;
 
-        int ndx = offsetStreamIndex(mVlcPlayer.getAudioTrack(), true, allStreams);
+        int ndx = offsetStreamIndex(mVlcPlayer.getAudioTrack(), true, false, allStreams);
         Timber.d("re-retrieved libVLC audio track index %s", ndx);
 
         return ndx;
@@ -612,7 +625,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (!isInitialized() || isNativeMode())
             return -1;
 
-        int vlcID = offsetStreamIndex(ndx, false, allStreams);
+        int vlcID = offsetStreamIndex(ndx, false, false, allStreams);
         if (vlcID < 0)
             return -1;
 
