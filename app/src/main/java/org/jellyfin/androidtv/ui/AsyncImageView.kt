@@ -44,6 +44,7 @@ class AsyncImageView @JvmOverloads constructor(
 		url: String? = null,
 		blurHash: String? = null,
 		placeholder: Drawable? = null,
+		error: Drawable? = null,
 		aspectRatio: Double = 1.0,
 		blurHashResolution: Int = 32,
 	) = doOnAttach {
@@ -64,7 +65,7 @@ class AsyncImageView @JvmOverloads constructor(
 			Glide.with(this@AsyncImageView)
 				.load(url ?: placeholder)
 				.placeholder(placeholderOrBlurHash)
-				.error(placeholder)
+				.error(error ?: placeholder)
 				// FIXME: Glide is unable to scale the image when transitions are enabled
 				//.transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
 				.into(this@AsyncImageView)

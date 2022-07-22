@@ -65,7 +65,7 @@ class NowPlayingView @JvmOverloads constructor(
 	private fun setInfo(item: BaseItemDto) {
 		val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_album)
 		val blurHash = item.imageBlurHashes?.get(ImageType.Primary)?.get(item.imageTags?.get(ImageType.Primary))
-		binding.npIcon.load(ImageUtils.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
+		binding.npIcon.load(ImageUtils.getPrimaryImageUrl(item), blurHash, placeholder, null, item.primaryImageAspectRatio ?: 1.0)
 
 		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks / 10_000 else 0)
 		binding.npDesc.text = if (item.albumArtist != null) item.albumArtist else item.name

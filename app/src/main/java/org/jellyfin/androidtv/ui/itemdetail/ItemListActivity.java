@@ -480,7 +480,7 @@ public class ItemListActivity extends FragmentActivity {
                 Double aspect = ImageUtils.getImageAspectRatio(item, false);
                 String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
                 mPoster.setPadding(0, 0, 0, 0);
-                mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), aspect, 0);
+                mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), null, aspect, 0);
                 break;
         }
     }

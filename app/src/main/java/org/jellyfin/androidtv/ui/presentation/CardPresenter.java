@@ -336,7 +336,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(@Nullable String url, @Nullable String blurHash) {
-            mCardView.getMainImageView().load(url, blurHash, mDefaultCardImage, aspect, 32);
+            mCardView.getMainImageView().load(url, blurHash, mDefaultCardImage, null, aspect, 32);
         }
 
         protected void resetCardView() {

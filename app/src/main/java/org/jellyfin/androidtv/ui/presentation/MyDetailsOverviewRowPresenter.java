@@ -110,7 +110,7 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         setInfo3(row.getInfoItem3());
 
         String posterUrl = row.getImageDrawable();
-        vh.mPoster.load(posterUrl, null, null, 1.0, 0);
+        vh.mPoster.load(posterUrl, null, null, null, 1.0, 0);
         int progress = row.getProgress();
         if (progress > 0 && posterUrl != null) {
             vh.mProgress.setProgress(progress);

@@ -421,7 +421,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(this, mBaseItem, false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
-        mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), aspect, 0);
+        mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), null, aspect, 0);
     }
 
     private void loadItem() {
