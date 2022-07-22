@@ -432,23 +432,24 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean IndexStartsAtOne, @Nullable List<MediaStream> allStreams) {
+    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<MediaStream> allStreams) {
         if (index < 0 || allStreams == null)
             return -1;
 
-        // translate player track index to/from jellyfin mediastream index to account for external tracks
-        // being in the mediastream tracks list but not in a player's track list
+        // translate player track index to/from Jellyfin MediaStream index to account for external tracks
+        // being in the MediaStream tracks list but not in a player's track list
         //
-        // use adjustByAdding=true to translate player-id -> mediastream-id, false for the other direction
+        // use adjustByAdding=true to translate player-id -> MediaStream-id, false for the other direction
         //
-        // use IndexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
-        // mediastream indexes/IDs start at 0
+        // use indexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
+        // MediaStream indexes/IDs start at 0
+
         for (MediaStream stream : allStreams) {
             if (!stream.getIsExternal())
                 break;
             index += adjustByAdding ? 1 : -1;
         }
-        index += IndexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
+        index += indexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
         return index < 0 || index >= allStreams.size() ? -1 : index;
     }
