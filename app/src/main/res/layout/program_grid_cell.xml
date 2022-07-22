@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
     android:background="@drawable/light_border"
-    android:padding="2sp">
+    android:padding="2sp"
+    tools:layout_width="210dp">
 
     <TextView
+        android:id="@+id/programName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medium Text"
-        android:id="@+id/programName"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:maxLines="1"
-        android:textSize="18sp"
-        android:layout_marginStart="5sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="5sp"
         android:layout_marginTop="2sp"
         android:layout_marginBottom="2sp"
-        android:fontFamily="sans-serif-light" />
+        android:ellipsize="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fontFamily="sans-serif-light"
+        android:maxLines="1"
+        android:text="@string/no_program_data"
+        android:textSize="18sp" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/infoRow"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/programName"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5sp"
-        android:layout_marginBottom="5sp"
+        android:layout_marginTop="2sp"
         android:layout_marginRight="5sp"
-        android:id="@+id/infoRow"
-        android:layout_marginTop="2sp" />
+        android:layout_marginBottom="5sp"
+        android:divider="@drawable/blank10x10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:orientation="horizontal"
+        android:showDividers="middle" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="10sp"
         android:id="@+id/recIndicator"
-        android:layout_toEndOf="@+id/infoRow"
-        android:layout_marginStart="5sp"
-        android:layout_alignBottom="@+id/infoRow"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
         android:layout_alignTop="@+id/infoRow"
+        android:layout_alignBottom="@+id/infoRow"
+        android:layout_marginStart="5sp"
+        android:layout_marginTop="2sp"
+        android:layout_toEndOf="@+id/infoRow"
         android:scaleType="fitCenter"
-        android:layout_marginTop="2sp" />
+        tools:src="@drawable/ic_record_series_red" />
 </RelativeLayout>

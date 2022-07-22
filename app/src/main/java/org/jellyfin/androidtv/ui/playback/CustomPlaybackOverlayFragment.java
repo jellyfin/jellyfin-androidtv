@@ -910,7 +910,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
-                cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
                     cell.setFirst();
@@ -940,7 +939,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long) (duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
-                cell.setFocusable(true);
                 programRow.addView(cell);
             }
             long end = item.getEndDate() != null ? TimeUtils.convertToLocalDate(item.getEndDate()).getTime() : getCurrentLocalEndDate();
@@ -951,7 +949,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
-                program.setFocusable(true);
 
                 if (start == getCurrentLocalStartDate())
                     program.setFirst();
