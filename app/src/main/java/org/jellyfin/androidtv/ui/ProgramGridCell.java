@@ -48,12 +48,12 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         View v = inflater.inflate(R.layout.program_grid_cell, this, false);
         this.addView(v);
 
+        setFocusable(true);
+
         mProgramName = findViewById(R.id.programName);
         mInfoRow = findViewById(R.id.infoRow);
         mProgramName.setText(program.getName());
         mProgram = program;
-        mProgramName.setFocusable(false);
-        mInfoRow.setFocusable(false);
         mRecIndicator = findViewById(R.id.recIndicator);
 
         setCellBackground();
@@ -73,27 +73,22 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         LiveTvPreferences liveTvPreferences = get(LiveTvPreferences.class);
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowNewIndicator()) && BaseItemUtils.isNew(program) && (!liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) || !Utils.isTrue(program.getIsPremiere()))) {
-            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_new), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowPremiereIndicator()) && Utils.isTrue(program.getIsPremiere())) {
-            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_premiere), 10, Color.GRAY, R.drawable.dark_green_gradient);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
-            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {
-            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, program.getOfficialRating(), 10);
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowHDIndicator()) && Utils.isTrue(program.getIsHD())) {
-            InfoLayoutHelper.addSpacer(context, mInfoRow, "  ", 10);
             InfoLayoutHelper.addBlockText(context, mInfoRow, "HD", 10);
         }
 

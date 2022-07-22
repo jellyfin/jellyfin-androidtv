@@ -151,7 +151,7 @@
         android:layout_marginBottom="2sp"
         android:layout_marginLeft="2sp"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end"
+        android:textColor="@color/grey_light"
         android:fontFamily="sans-serif-light" />
 
     <TextView
@@ -166,7 +166,7 @@
         android:layout_marginRight="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end"
+        android:textColor="@color/grey_light"
         android:fontFamily="sans-serif-light" />
 
     <ImageButton

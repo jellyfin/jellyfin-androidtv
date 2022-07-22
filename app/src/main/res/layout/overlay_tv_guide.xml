@@ -146,7 +146,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="2sp"
         android:layout_marginBottom="2sp"
-        android:textColor="@color/gray_gradient_end"
+        android:textColor="@color/grey_light"
         android:textSize="12sp"
         android:fontFamily="sans-serif-light" />
 
@@ -162,7 +162,7 @@
         android:layout_marginRight="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:textColor="@color/gray_gradient_end"
+        android:textColor="@color/grey_light"
         android:fontFamily="sans-serif-light" />
 
     <RelativeLayout

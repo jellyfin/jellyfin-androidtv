@@ -2,22 +2,18 @@ package org.jellyfin.androidtv.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.jellyfin.androidtv.R;
+import org.jellyfin.androidtv.databinding.ProgramGridCellBinding;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.util.Utils;
 
 public class GuidePagingButton extends RelativeLayout {
-
-    private int startRow;
-    private RelativeLayout us;
-
 
     public GuidePagingButton(Context context) {
         super(context);
@@ -30,39 +26,20 @@ public class GuidePagingButton extends RelativeLayout {
     public GuidePagingButton(final Activity activity, final LiveTvGuide guide, int start, String label) {
         super(activity);
 
-        us = this;
-        startRow = start;
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        ProgramGridCellBinding binding = ProgramGridCellBinding.inflate(inflater, this, true);
+        binding.programName.setText(label);
 
-        setBackgroundResource(R.drawable.gray_gradient);
-        TextView txtLabel = new TextView(activity);
-        txtLabel.setHeight(Utils.convertDpToPixel(
-            getContext(),
-            LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP
-        ));
-        txtLabel.setTextColor(Color.BLACK);
-        setPadding(100,0,0,0);
-        txtLabel.setFocusable(true);
-        txtLabel.setText(label);
-        addView(txtLabel);
+        setBackgroundColor(Utils.getThemeColor(activity, R.attr.buttonDefaultNormalBackground));
+        setFocusable(true);
+        setOnClickListener(v -> guide.displayChannels(start, LiveTvGuideActivity.PAGE_SIZE));
+    }
 
-        txtLabel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                guide.displayChannels(startRow, LiveTvGuideActivity.PAGE_SIZE);
-            }
-        });
+    @Override
+    protected void onFocusChanged(boolean hasFocus, int direction, Rect previouslyFocused) {
+        super.onFocusChanged(hasFocus, direction, previouslyFocused);
 
-        txtLabel.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (hasFocus) {
-                    us.setBackgroundColor(getResources().getColor(R.color.lb_default_brand_color));
-                } else {
-                    us.setBackgroundResource(R.drawable.gray_gradient);
-                }
-
-            }
-        });
+        setBackgroundColor(Utils.getThemeColor(getContext(),
+            hasFocus ? android.R.attr.colorAccent : R.attr.buttonDefaultNormalBackground));
     }
 }

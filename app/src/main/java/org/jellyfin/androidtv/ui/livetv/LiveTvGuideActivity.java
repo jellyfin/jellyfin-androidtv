@@ -645,7 +645,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
-                cell.setFocusable(true);
                 programRow.addView(cell);
                 if (slot == 0)
                     cell.setFirst();
@@ -677,7 +676,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
-                cell.setFocusable(true);
                 if (prevEnd == mCurrentLocalGuideStart) {
                     cell.setFirst();
                 }
@@ -692,7 +690,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 ProgramGridCell program = new ProgramGridCell(this, this, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
-                program.setFocusable(true);
                 if (start == mCurrentLocalGuideStart) {
                     program.setFirst();
                 }
@@ -716,7 +713,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
-            cell.setFocusable(true);
             programRow.addView(cell);
         }
 
