@@ -33,7 +33,7 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 				}
 
 				checkbox {
-					title = "Enable new picture viewer"
+					title = getString(R.string.enable_picture_viewer_title)
 					setContent(R.string.enable_playback_module_description)
 
 					bind(userPreferences, UserPreferences.pictureViewerRewriteEnabled)

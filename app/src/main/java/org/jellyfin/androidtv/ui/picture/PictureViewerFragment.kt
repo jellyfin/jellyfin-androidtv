@@ -30,7 +30,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		/**
 		 * The download API is used by jellyfin-web when loading images. Unfortunately with our
 		 * current code it doesn't work for the app. Larger files (gifs, large photos etc.) can
-		 * cause the app to go out of memory. This is mostly catched by Glide but it ends up
+		 * cause the app to go out of memory. This is mostly caught by Glide but it ends up
 		 * never displaying the picture in those cases.
 		 *
 		 * This toggle is left in the code in case we migrate to a different image processor that
@@ -87,7 +87,10 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		keyDown(KeyEvent.KEYCODE_MEDIA_SKIP_FORWARD, KeyEvent.KEYCODE_MEDIA_NEXT)
 			.body { pictureViewerViewModel.showNext() }
 
-		keyDown(KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_DPAD_CENTER)
+		keyDown(
+			KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN,
+			KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_DPAD_CENTER,
+		)
 			.condition { !binding.actions.isVisible }
 			.body { showActions() }
 

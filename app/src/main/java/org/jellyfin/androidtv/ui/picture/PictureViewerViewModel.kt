@@ -32,7 +32,7 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 		_currentItem.value = itemResponse
 
 		val albumResponse by api.itemsApi.getItemsByUserId(
-			parentId = itemResponse.albumId,
+			parentId = itemResponse.parentId,
 			includeItemTypes = setOf(BaseItemKind.PHOTO),
 			fields = setOf(ItemFields.PRIMARY_IMAGE_ASPECT_RATIO),
 			sortBy = listOf(ItemFields.SORT_NAME.name), // TODO: Order should be consistent with the stdgridview the user comes from, which allows to change the order
