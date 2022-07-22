@@ -5,7 +5,10 @@ import static org.koin.java.KoinJavaComponent.inject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -1287,10 +1290,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             // Update the logo
             String imageUrl = ImageUtils.getLogoImageUrl(current, 440, false);
             if (imageUrl != null) {
+                // FIXME: add support for loading SVG with glide or support server-side for converting to SVG
+                // create a bitmap from the itemTitle TextView to use as a placeholder in case the image fails to load
+                // or in case the image as a unsupported format such as SVG
+                binding.itemTitle.measure(0, 0);
+                Bitmap bitmap = Bitmap.createBitmap(binding.itemTitle.getMeasuredWidth(), binding.itemTitle.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                binding.itemTitle.draw(canvas);
+
                 binding.itemLogo.setVisibility(View.VISIBLE);
                 binding.itemTitle.setVisibility(View.GONE);
                 binding.itemLogo.setContentDescription(current.getName());
-                binding.itemLogo.load(imageUrl, null, null, 1.0, 0);
+                binding.itemLogo.load(imageUrl, null, new BitmapDrawable(getResources(), bitmap), 1.0, 0);
             } else {
                 binding.itemLogo.setVisibility(View.GONE);
                 binding.itemTitle.setVisibility(View.VISIBLE);
