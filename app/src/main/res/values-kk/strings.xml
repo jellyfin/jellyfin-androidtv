@@ -496,4 +496,5 @@
     <string name="pref_crash_reports_enabled">Aqau turaly habarlar kein paidalanylğan serverge jıberıledı</string>
     <string name="pref_crash_reports">Aqau turaly habardy serverge jıberu</string>
     <string name="pref_telemetry_category">Aqau turaly habarlau</string>
+    <string name="server_setup_incomplete">Būl serverdıñ ornatuy aiaqtalmady. Kıru aldynda ornatudy aiaqtau üşın ueb-şolğyşta Jellyfin jüiesın aşyñyz.</string>
 </resources>
