@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.SPECIFIC_US
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -131,8 +132,7 @@ class SessionRepositoryImpl(
 
 			if (session != null) {
 				// Update crash reporting URL
-				// TODO: Use userApiClient.clientLogApi.logFileUrl(includeCredentials = false) in next SDK release
-				val crashReportUrl = userApiClient.createUrl("/ClientLog/Document")
+				val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
 				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
 				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
 
