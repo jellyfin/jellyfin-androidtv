@@ -246,7 +246,7 @@ public class CardPresenter extends Presenter {
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     // Channel logos should fit within the view
                     mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_square_tv);
+                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_tv);
                     break;
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
