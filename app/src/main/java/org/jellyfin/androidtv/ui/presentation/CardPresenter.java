@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
@@ -233,14 +234,19 @@ public class CardPresenter extends Presenter {
                     break;
                 case LiveTvChannel:
                     ChannelInfoDto channel = mItem.getChannelInfo();
-                    double tvAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER : imageType.equals(ImageType.THUMB) ? ImageUtils.ASPECT_RATIO_16_9 : Utils.getSafeValue(channel.getPrimaryImageAspectRatio(), ImageUtils.ASPECT_RATIO_7_9);
+                    // TODO: Is it even possible to have channels with banners or thumbs?
+                    double tvAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER :
+                        imageType.equals(ImageType.THUMB) ? ImageUtils.ASPECT_RATIO_16_9 :
+                        Utils.getSafeValue(channel.getPrimaryImageAspectRatio(), 1.0);
                     cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((tvAspect) * cardHeight);
                     if (cardWidth < 10) {
                         cardWidth = 230;  //Guard against zero size images causing picasso to barf
                     }
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
+                    // Channel logos should fit within the view
+                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_tv);
                     break;
                 case LiveTvProgram:
                     BaseItemDto program = mItem.getProgramInfo();
