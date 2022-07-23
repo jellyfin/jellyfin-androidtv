@@ -145,7 +145,6 @@ public class TvManager {
             for (ChannelInfoDto channel : allChannels) {
                 channelIds[i++] = channel.getId();
                 if (channel.getId().equals(last)) ndx = i;
-                //TvApp.getApplication().getLogger().Debug("Last played for "+channel.getName()+ " is "+channel.getUserData().getLastPlayedDate());
             }
         }
 
@@ -262,10 +261,8 @@ public class TvManager {
             if (otherCell != null) {
                 if (up) {
                     cell.setNextFocusUpId(otherCell.getId());
-                    //TvApp.getApplication().getLogger().Debug("Setting up focus for " + cell.getProgram().getName() + " to " + otherCell.getProgram().getName()+"("+otherCell.getId()+")");
                 } else {
                     cell.setNextFocusDownId(otherCell.getId());
-                    //TvApp.getApplication().getLogger().Debug("Setting down focus for " + cell.getProgram().getName() + " to " + otherCell.getProgram().getName());
                 }
             }
         }
