@@ -496,4 +496,5 @@
     <string name="pref_crash_reports_disabled">Отчёты о сбоях не будут отправляться</string>
     <string name="pref_crash_reports">Отправка отчёта о сбое на сервер</string>
     <string name="pref_telemetry_category">Отчёт о сбое</string>
+    <string name="server_setup_incomplete">Настройка этого сервера не завершена. Откройте Jellyfin в веб-браузере, чтобы завершить настройку перед входом в систему.</string>
 </resources>
