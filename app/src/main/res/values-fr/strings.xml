@@ -487,7 +487,7 @@
     <string name="crash_report_toast">Oups ! Il y a eu un problème. Un rapport de plantage a été envoyé à votre serveur Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Les logs ne seront pas inclus avec les rapports de plantage</string>
     <string name="pref_crash_report_logs_enabled">Les logs seront inclus avec les rapports de plantage</string>
-    <string name="pref_crash_report_logs">Inclure des logs</string>
+    <string name="pref_crash_report_logs">Inclure les logs</string>
     <string name="pref_crash_reports_disabled">Les rapports de plantage ne seront pas envoyés</string>
     <string name="pref_crash_reports_enabled">Les rapports de plantage seront envoyés à votre dernier serveur utilisé</string>
     <string name="pref_crash_reports">Envoyer les rapports de plantage au serveur</string>
@@ -496,4 +496,5 @@
     <string name="image_size_xlarge">Très grand</string>
     <string name="image_size_smallest">Très petit</string>
     <string name="lbl_additional_parts">Parties additionnelles</string>
+    <string name="image_type_poster">Affiche</string>
 </resources>
