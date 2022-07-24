@@ -258,7 +258,7 @@
     <string name="pref_app_theme">Motiv aplikace</string>
     <string name="pref_theme_dark">Tmavý (Výchozí)</string>
     <string name="pref_theme_emerald">Tradiční smaragd</string>
-    <string name="grid_direction_vertical">Vertikální (experiment)</string>
+    <string name="grid_direction_vertical">Vertikálně</string>
     <string name="grid_direction_horizontal">Horizontální</string>
     <string name="grid_direction">Směr mřížky</string>
     <string name="pref_device_model">Model zařízení</string>
@@ -463,4 +463,25 @@
     <string name="pref_show_backdrop_description">Změnit pozadí na vybrané položky</string>
     <string name="home_section_resume_book">Pokračovat ve čtení</string>
     <string name="lbl_shuffle_queue">Přepnout náhodné přehrávání</string>
+    <string name="pref_crash_report_logs_disabled">Logy nebudou přikládány ke hlášení pádů</string>
+    <string name="pref_crash_report_logs_enabled">Logy budou přikládány ke hlášení pádů</string>
+    <string name="pref_crash_report_logs">Přikládat logy</string>
+    <string name="pref_crash_reports_disabled">Hlášení pádů nebudou odesílána</string>
+    <string name="pref_crash_reports_enabled">Hlášení pádů budou odesílána na naposledy použitý server</string>
+    <string name="pref_crash_reports">Odesílat hlášení pádů na server</string>
+    <string name="pref_telemetry_description">Odesílat hlášení pádů, přikládat logy</string>
+    <string name="pref_telemetry_category">Hlášení pádů</string>
+    <string name="action_connect">Připojit</string>
+    <string name="login_other_options">Další možnosti:</string>
+    <string name="login_connect_to">Připojování k %1$s</string>
+    <string name="input_password">Heslo</string>
+    <string name="input_username">Přihlašovací jméno</string>
+    <string name="action_use_quickconnect">Použít QuickConnect</string>
+    <string name="action_use_password">Zadat heslo</string>
+    <string name="action_login">Přihlásit se</string>
+    <string name="image_size_xlarge">Extra velké</string>
+    <string name="image_size_smallest">Nejmenší</string>
+    <string name="pref_libvlc_subtitle_delay_title">Výchozí zpoždění titulků pro LibVLC</string>
+    <string name="lbl_subtitle_delay">Zpoždění titulků</string>
+    <string name="lbl_adjust">Upravit</string>
 </resources>
