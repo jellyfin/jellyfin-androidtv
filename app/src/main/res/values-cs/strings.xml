@@ -484,4 +484,15 @@
     <string name="pref_libvlc_subtitle_delay_title">Výchozí zpoždění titulků pro LibVLC</string>
     <string name="lbl_subtitle_delay">Zpoždění titulků</string>
     <string name="lbl_adjust">Upravit</string>
+    <string name="server_setup_incomplete">Nastavení tohoto serveru ještě nebylo dokončeno. Před přihlášením spusťte Jellyfin ve webovém prohlížeči a dokončete nastavení.</string>
+    <string name="crash_report_toast">Aj! Něco se nepovedlo. Protokol o pádu byl zaslán Vašemu Jellyfin serveru.</string>
+    <string name="server_unsupported_notification">Tento server používá Jellyfin verzi %1$s, která již není podporována. Abyste mohli aplikaci dále používat, aktualizujte, prosím, na verzi Jellyfin %2$s.</string>
+    <string name="app_notification_uimode_invalid">Tato aplikace je optimalizovaná pro televize. Pro ostatní zařízení doporučujeme použít naší mobilní aplikaci.</string>
+    <string name="live_tv_preferences">Možnosti živé TV</string>
+    <string name="login_quickconnect_step_3">3. Zadejte následující kód:</string>
+    <string name="login_quickconnect_step_2">2. Otevřete uživatelskou nabídku a přejděte na stránku s Rychlým připojením</string>
+    <string name="login_quickconnect_step_1">1. Otevřete aplikaci Jellyfin ve Vašem telefonu nebo webovém prohlížeči a přihlaste se svým účtem</string>
+    <string name="image_type_poster">Plakát</string>
+    <string name="lbl_additional_parts">Další díly</string>
+    <string name="state_disabled">Zakázáno</string>
 </resources>
