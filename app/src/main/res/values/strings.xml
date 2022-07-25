@@ -496,6 +496,6 @@
     <string name="pref_crash_report_logs">Include logs</string>
     <string name="pref_crash_report_logs_enabled">Logs will be included in crash reports</string>
     <string name="pref_crash_report_logs_disabled">Logs will not be included in crash reports</string>
-    <string name="crash_report_toast">Oops! Something went wrong, a crash report was send to your Jellyfin server.</string>
+    <string name="crash_report_toast">Oops! Something went wrong, a crash report was sent to your Jellyfin server.</string>
     <string name="server_setup_incomplete">The setup of this server has not been completed. Open Jellyfin in a web browser to finish setup before signing in.</string>
 </resources>
