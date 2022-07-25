@@ -808,7 +808,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageUpStart < 0) pageUpStart = 0;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), 20));
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
                 displayedChannels = 0;
 
@@ -870,7 +870,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size() - 1;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), 20));
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
 
                 tvGuideBinding.programRows.addView(new GuidePagingButton(requireActivity(), guide, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
