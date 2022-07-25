@@ -6,7 +6,7 @@ Pour utiliser cette application, vous devez au préalable installer et configure
 
 Avec un serveur Jellyfin, vous pouvez :
 
-* Regarder et enregistrer vos émissions de télévision depuis votre serveur (matériel er/ou services supplémentaires requis)
+* Regarder et enregistrer vos émissions de télévision depuis votre serveur (matériel/services supplémentaires requis)
 * Diffuser vers un appareil Chromecast sur votre réseau
 * Diffuser vos médias sur votre appareil Android
 * Consulter votre médiathèque via une interface intuitive.
