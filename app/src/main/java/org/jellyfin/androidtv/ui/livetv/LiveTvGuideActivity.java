@@ -72,7 +72,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     private TextView mFilterStatus;
     private TextView mSummary;
     private ImageView mImage;
-    private ImageView mBackdrop;
     private LinearLayout mInfoRow;
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
@@ -124,7 +123,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mFilterStatus.setTextColor(Color.GRAY);
         mInfoRow = findViewById(R.id.infoRow);
         mImage = findViewById(R.id.programImage);
-        mBackdrop = findViewById(R.id.backdrop);
         mChannels = findViewById(R.id.channels);
         mTimeline = findViewById(R.id.timeline);
         mProgramRows = findViewById(R.id.programRows);
@@ -776,24 +774,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     .override(imageSize, imageSize)
                     .centerInside()
                     .into(mImage);
-
-            if (Utils.isTrue(mSelectedProgram.getIsNews())) {
-                mBackdrop.setImageResource(R.drawable.banner_news);
-
-            } else if (Utils.isTrue(mSelectedProgram.getIsKids())) {
-                mBackdrop.setImageResource(R.drawable.banner_kids);
-
-            } else if (Utils.isTrue(mSelectedProgram.getIsSports())) {
-                mBackdrop.setImageResource(R.drawable.banner_sports);
-
-            } else if (Utils.isTrue(mSelectedProgram.getIsMovie())) {
-                mBackdrop.setImageResource(R.drawable.banner_movie);
-
-            } else {
-                mBackdrop.setImageResource(R.drawable.banner_tv);
-            }
         } else {
-            mBackdrop.setImageResource(R.drawable.banner_tv);
             mImage.setImageResource(R.drawable.blank10x10);
         }
     }
