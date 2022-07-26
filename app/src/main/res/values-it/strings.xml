@@ -484,7 +484,7 @@
     <string name="lbl_additional_parts">Parti Addizionali</string>
     <string name="server_unsupported_notification">Questo server utilizza Jellyfin %1$s che non è più supportato. Aggiorna Jellyfin %2$s per continuare ad utilizzare l\'app.</string>
     <string name="image_type_poster">Poster</string>
-    <string name="crash_report_toast">Oops! Qualcosa è andato storto, una segnalazione di crash è stata inviata al server Jellyfin.</string>
+    <string name="crash_report_toast">Oops! Qualcosa è andato storto, la segnalazione di crash è stata inviata al tuo server Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">I log non saranno inclusi nelle segnalazioni di crash</string>
     <string name="pref_crash_report_logs_enabled">I log saranno inclusi nelle segnalazioni di crash</string>
     <string name="pref_crash_report_logs">Includi i log</string>
