@@ -621,7 +621,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             int slot = 0;
             do {
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
@@ -651,7 +651,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
@@ -688,7 +688,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         if (prevEnd < mCurrentLocalGuideEnd) {
             // fill empty time slot
             BaseItemDto empty = new BaseItemDto();
-            empty.setName("  " + getString(R.string.no_program_data));
+            empty.setName(getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);

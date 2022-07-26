@@ -903,7 +903,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
             do {
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
@@ -931,7 +931,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
-                empty.setName("  " + getString(R.string.no_program_data));
+                empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
