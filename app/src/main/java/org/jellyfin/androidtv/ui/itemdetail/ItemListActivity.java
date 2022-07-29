@@ -61,6 +61,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -499,7 +500,12 @@ public class ItemListActivity extends FragmentActivity {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
 
+        Timber.d("play items: %d, shuffle: %b", items.size(), shuffle);
+
         if ("Video".equals(mBaseItem.getMediaType())) {
+            if (shuffle) {
+                Collections.shuffle(items);
+            }
             Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
             Intent intent = new Intent(mActivity, activity);
             //Resume first item if needed
