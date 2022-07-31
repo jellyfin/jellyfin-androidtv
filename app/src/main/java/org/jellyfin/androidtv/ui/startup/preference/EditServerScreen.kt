@@ -21,10 +21,11 @@ class EditServerScreen : OptionsFragment() {
 	override val rebuildOnResume = true
 
 	override val screen by optionsScreen {
-		val serverUUID = requireArguments().get(ARG_SERVER_UUID) as? UUID
-			?: return@optionsScreen
+		val serverUUID = requireNotNull(
+			requireArguments().get(ARG_SERVER_UUID) as? UUID
+		) { "Server null or malformed uuid" }
 
-		val server = startupViewModel.getServer(serverUUID) ?: return@optionsScreen
+		val server = requireNotNull(startupViewModel.getServer(serverUUID)) { "Server not found" }
 		val users = serverUserRepository.getStoredServerUsers(server)
 
 		title = server.name
@@ -46,8 +47,8 @@ class EditServerScreen : OptionsFragment() {
 						)
 
 						withFragment<EditUserScreen>(bundleOf(
-							EditUserScreen.ARG_SERVER_UUID to user.serverId,
-							EditUserScreen.ARG_USER_UUID to user.id
+							EditUserScreen.ARG_SERVER_UUID to server.id,
+							EditUserScreen.ARG_USER_UUID to user.id,
 						))
 					}
 				}
