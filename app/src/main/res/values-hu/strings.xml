@@ -201,7 +201,6 @@
     <string name="lbl_zoom">Nagyítás</string>
     <string name="lbl_new_premieres">Új bemutatók</string>
     <string name="desc_automatic_fav_songs">Kedvenc zenékből álló automata lejátszási lista</string>
-    <string name="desc_seasonal_themes">Az évszakhoz illő színek és javaslatok megjelenítése</string>
     <string name="lbl_enable_seasonal_themes">Szezonális témák</string>
     <string name="msg_item_added">" elem hozzáadva"</string>
     <string name="lbl_delete">Törlés</string>
@@ -478,7 +477,6 @@
     <string name="state_disabled">Letiltva</string>
     <string name="action_connect">Csatlakozás</string>
     <string name="lbl_adjust">Igazítás</string>
-    <string name="pref_libvlc_subtitle_delay_title">Alapértelmezett feliratkésleltetés LibVLC-hez</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
     <string name="live_tv_preferences">Élő TV lehetőségek</string>
     <string name="lbl_additional_parts">További Részletek</string>

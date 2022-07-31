@@ -207,7 +207,6 @@
     <string name="lbl_bitstream_ac3">Âm thanh kỹ thuật số Dolby Bitstream</string>
     <string name="lbl_new_premieres">Công chiếu mới</string>
     <string name="desc_automatic_fav_songs">Danh sách bài hát yêu thích tự động</string>
-    <string name="desc_seasonal_themes">Hiển thị các màu và gợi ý đặc biệt vào những thời điểm nhất định trong năm</string>
     <string name="lbl_enable_seasonal_themes">Chủ đề theo mùa</string>
     <string name="msg_item_added">" đã thêm mục"</string>
     <string name="lbl_delete">Xóa</string>
@@ -470,7 +469,6 @@
     <string name="state_disabled">Đã Tắt</string>
     <string name="live_tv_preferences">Tùy chọn TV trực tiếp</string>
     <string name="pref_audio">Âm thanh</string>
-    <string name="pref_libvlc_subtitle_delay_title">Độ trễ phụ đề mặc định cho LibVLC</string>
     <string name="lbl_subtitle_delay">Độ Trễ Phụ Đề</string>
     <string name="lbl_adjust">Điều chỉnh</string>
     <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi đến máy chủ Jellyfin của bạn.</string>

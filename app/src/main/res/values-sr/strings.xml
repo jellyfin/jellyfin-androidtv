@@ -210,7 +210,6 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital звук</string>
     <string name="lbl_new_premieres">Нове премијере</string>
     <string name="desc_automatic_fav_songs">Аутоматска листа за репродукцију омиљених и вољених песама</string>
-    <string name="desc_seasonal_themes">Прикажите посебне боје и предлоге у одређено доба године</string>
     <string name="lbl_enable_seasonal_themes">Сезонске теме</string>
     <string name="msg_item_added">" ставка је додата"</string>
     <string name="lbl_delete">Обриши</string>

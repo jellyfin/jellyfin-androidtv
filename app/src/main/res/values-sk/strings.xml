@@ -193,7 +193,6 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nové premiéry</string>
     <string name="desc_automatic_fav_songs">Automatický playlist obľúbených skladieb</string>
-    <string name="desc_seasonal_themes">Zobrazí špeciálne farby a odporúčania v určitých dňoch počas roka</string>
     <string name="lbl_enable_seasonal_themes">Sezónne témy</string>
     <string name="msg_item_added">" položka pridaná"</string>
     <string name="lbl_delete">Vymazať</string>
@@ -477,7 +476,6 @@
     <string name="action_use_password">Použiť heslo</string>
     <string name="action_login">Prihlásenie</string>
     <string name="state_disabled">Zakázané</string>
-    <string name="pref_libvlc_subtitle_delay_title">Predvolené oneskorenie titulkov pre LibVLC</string>
     <string name="lbl_subtitle_delay">Oneskorenie tituliek</string>
     <string name="lbl_adjust">Upraviť</string>
     <string name="live_tv_preferences">Nastavenia pre živú TV</string>

@@ -24,7 +24,6 @@
     <string name="lbl_save_as_playlist">Salvează ca listă de redare</string>
     <string name="lbl_delete">Șterge</string>
     <string name="msg_item_added">" element adăugat"</string>
-    <string name="lbl_enable_seasonal_themes">Activați temele sezoniere</string>
     <string name="desc_seasonal_themes">Permiteți culori speciale si sugestii în funcție de anumite perioade din an</string>
     <string name="desc_automatic_fav_songs">Crearea automată a unei liste de redare din cântecele marcate ca favorite si placute</string>
     <string name="lbl_trailer">"Trailer "</string>

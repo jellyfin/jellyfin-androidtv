@@ -158,7 +158,6 @@
     <string name="lbl_save_as_playlist">Uložit jako Playlist</string>
     <string name="lbl_delete">Smazat</string>
     <string name="msg_item_added">" položka přidána"</string>
-    <string name="lbl_enable_seasonal_themes">Sezónní motivy</string>
     <string name="desc_seasonal_themes">Povolit speciální barvy a návrhy dle období roku</string>
     <string name="lbl_instant_mix">Okamžitý mix</string>
     <string name="lbl_in_x_days">Za %d dní</string>
@@ -481,7 +480,6 @@
     <string name="action_login">Přihlásit se</string>
     <string name="image_size_xlarge">Extra velké</string>
     <string name="image_size_smallest">Nejmenší</string>
-    <string name="pref_libvlc_subtitle_delay_title">Výchozí zpoždění titulků pro LibVLC</string>
     <string name="lbl_subtitle_delay">Zpoždění titulků</string>
     <string name="lbl_adjust">Upravit</string>
     <string name="server_setup_incomplete">Nastavení tohoto serveru ještě nebylo dokončeno. Před přihlášením spusťte Jellyfin ve webovém prohlížeči a dokončete nastavení.</string>

@@ -179,7 +179,6 @@
     <string name="desc_bitstream_ac3">Wymaga odpowiedniego sprzętu</string>
     <string name="lbl_bitstream_ac3">Dźwięk w technologii Bitstream Dolby Digital</string>
     <string name="desc_automatic_fav_songs">Automatyczna lista ulubionych piosenek</string>
-    <string name="desc_seasonal_themes">Wyświetlaj specjalne kolory i sugestie w określonych porach roku</string>
     <string name="lbl_enable_seasonal_themes">Motywy sezonowe</string>
     <string name="msg_item_added">" pozycja dodana"</string>
     <string name="lbl_instant_mix">Szybka Składanka</string>

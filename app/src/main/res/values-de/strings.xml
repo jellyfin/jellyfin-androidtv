@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Als Wiedergabeliste speichern</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
-    <string name="lbl_enable_seasonal_themes">Aktiviere Saisonale Themes</string>
     <string name="desc_seasonal_themes">Zeige besondere Farben und Empfehlungen zu bestimmten Jahreszeiten</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
     <string name="lbl_new_premieres">Neue Premieren</string>
@@ -477,7 +476,6 @@
     <string name="action_use_password">Verwenden Sie ein Passwort</string>
     <string name="action_login">Anmelden</string>
     <string name="state_disabled">Deaktiviert</string>
-    <string name="pref_libvlc_subtitle_delay_title">Standard Untertitel-Verzögerung für LibVLC</string>
     <string name="lbl_subtitle_delay">Untertitelverzögerung</string>
     <string name="lbl_adjust">Anpassen</string>
     <string name="live_tv_preferences">Fernseh-Optionen</string>

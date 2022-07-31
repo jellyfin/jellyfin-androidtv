@@ -83,7 +83,6 @@
     <string name="lbl_bitstream_ac3">Transmissió directa d\'àudio Dolby Digital</string>
     <string name="lbl_new_premieres">Noves estrenes</string>
     <string name="desc_automatic_fav_songs">Llista de reproducció automàtica de cançons preferides</string>
-    <string name="desc_seasonal_themes">Mostra colors i suggeriments especials en determinades èpoques de l\'any</string>
     <string name="lbl_enable_seasonal_themes">Temes de temporada</string>
     <string name="msg_item_added">" element afegit"</string>
     <string name="lbl_delete">Eliminar</string>
@@ -490,7 +489,6 @@
     <string name="image_size_xlarge">Enorme</string>
     <string name="image_size_smallest">Minúscul</string>
     <string name="image_type_poster">Cartell</string>
-    <string name="pref_libvlc_subtitle_delay_title">Retard dels subtítols per defecte per a LibVLC</string>
     <string name="lbl_subtitle_delay">Retard dels subtítols</string>
     <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_shuffle_queue">Alternar mode aleatori</string>

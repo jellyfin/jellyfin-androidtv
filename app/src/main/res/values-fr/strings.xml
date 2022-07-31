@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Sauveg. comme liste de lecture</string>
     <string name="lbl_delete">Supprimer</string>
     <string name="msg_item_added">" élément ajouté"</string>
-    <string name="lbl_enable_seasonal_themes">Activer les thèmes de saisons</string>
     <string name="desc_seasonal_themes">Activer les couleurs et les suggestions spéciales à certains moments de l\'année</string>
     <string name="desc_automatic_fav_songs">Liste de lecture automatique des chansons favorites</string>
     <string name="lbl_kids">Enfants</string>
@@ -478,7 +477,6 @@
     <string name="action_use_password">Utiliser un mot de passe</string>
     <string name="action_login">Connexion</string>
     <string name="live_tv_preferences">Options TV Live</string>
-    <string name="pref_libvlc_subtitle_delay_title">Délai sous-titres par défaut de LibVLC</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
     <string name="lbl_adjust">Ajuster</string>
     <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s pour continuer à utiliser l\'application.</string>

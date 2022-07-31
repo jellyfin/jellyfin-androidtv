@@ -33,7 +33,6 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital ses</string>
     <string name="lbl_new_premieres">Yeni Yayınlar</string>
     <string name="desc_automatic_fav_songs">Favori ve beğenilen şarkıların otomatik çalma listesi</string>
-    <string name="desc_seasonal_themes">Yılın belirli zamanlarında özel renkler ve öneriler göster</string>
     <string name="lbl_enable_seasonal_themes">Mevsimsel Temalar</string>
     <string name="msg_item_added">" öğe eklendi"</string>
     <string name="lbl_delete">Sil</string>

@@ -158,7 +158,6 @@
     <string name="desc_bitstream_ac3">需要有能力的硬件</string>
     <string name="lbl_bitstream_ac3">比特流杜比数字音频</string>
     <string name="desc_automatic_fav_songs">喜爱歌曲的自动播放列表</string>
-    <string name="desc_seasonal_themes">在一年中的某些时候展示特殊的颜色和建议</string>
     <string name="lbl_enable_seasonal_themes">季节主题</string>
     <string name="msg_item_added">" 已加入项目"</string>
     <string name="lbl_delete">删除</string>
@@ -478,7 +477,6 @@
     <string name="action_login">登入</string>
     <string name="state_disabled">禁用</string>
     <string name="live_tv_preferences">直播电视选项</string>
-    <string name="pref_libvlc_subtitle_delay_title">LibVLC 的默认字幕延迟</string>
     <string name="lbl_subtitle_delay">字幕延迟</string>
     <string name="lbl_adjust">调节</string>
     <string name="image_type_poster">海报</string>

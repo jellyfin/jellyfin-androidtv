@@ -222,7 +222,6 @@
     <string name="lbl_up_next_colon">"下一個: "</string>
     <string name="lbl_instant_mix">即時混合</string>
     <string name="msg_item_added">" 已加入項目"</string>
-    <string name="lbl_enable_seasonal_themes">季節主題</string>
     <string name="desc_seasonal_themes">在一年中的某些時候展示特殊的顏色和建議</string>
     <string name="desc_automatic_fav_songs">自動生成的喜愛歌曲播放清單</string>
     <string name="lbl_new_premieres">新的首映</string>

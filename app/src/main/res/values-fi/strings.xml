@@ -230,7 +230,6 @@
     <string name="lbl_bitstream_ac3">Välitä Dolby Digital -ääni vahvistimelle</string>
     <string name="lbl_new_premieres">Uudet ensiesitykset</string>
     <string name="desc_automatic_fav_songs">Automaattinen soittolista suosikkikappaleista</string>
-    <string name="desc_seasonal_themes">Näytä vuodenaikakohtaisia värejä ja ehdotuksia</string>
     <string name="lbl_enable_seasonal_themes">Kausiteemat</string>
     <string name="msg_item_added">" kohde lisättiin"</string>
     <string name="lbl_goto_now_playing">Siirry nykyiseen toistoon</string>
@@ -476,7 +475,6 @@
     <string name="lbl_tv_filter_status">seuraavien %1$d tunnin ajan</string>
     <string name="lbl_starting_with">alkaen niillä, joiden nimi alkaa</string>
     <string name="state_disabled">Poistettu käytöstä</string>
-    <string name="pref_libvlc_subtitle_delay_title">LibVLC-tekstitysten oletusviive</string>
     <string name="lbl_subtitle_delay">Tekstitysviive</string>
     <string name="lbl_adjust">Säädä</string>
     <string name="live_tv_preferences">Television asetukset</string>

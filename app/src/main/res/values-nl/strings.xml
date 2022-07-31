@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Opslaan als afspeellijst</string>
     <string name="lbl_delete">Verwijderen</string>
     <string name="msg_item_added">" item toegevoegd"</string>
-    <string name="lbl_enable_seasonal_themes">Schakel seizoensthema\'s in</string>
     <string name="desc_seasonal_themes">Toon speciale kleuren en suggesties in bepaalde perioden van het jaar</string>
     <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete nummers</string>
     <string name="lbl_current_queue">Huidige wachtrij</string>
@@ -474,7 +473,6 @@
     <string name="action_use_quickconnect">Gebruik QuickConnect</string>
     <string name="action_use_password">Gebruik een wachtwoord</string>
     <string name="action_login">Log in</string>
-    <string name="pref_libvlc_subtitle_delay_title">Standaard ondertitelvertraging voor LibVLC</string>
     <string name="lbl_subtitle_delay">Vertraging Ondertiteling</string>
     <string name="lbl_adjust">Aanpassen</string>
     <string name="state_disabled">Uitgeschakeld</string>

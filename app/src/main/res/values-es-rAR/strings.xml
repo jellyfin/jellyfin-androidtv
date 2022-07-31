@@ -212,7 +212,6 @@
     <string name="lbl_bitstream_ac3">Transmisión directa de audio Dolby Digital</string>
     <string name="lbl_new_premieres">Nuevos estrenos</string>
     <string name="desc_automatic_fav_songs">Lista de reproducción automática de las canciones favoritas</string>
-    <string name="desc_seasonal_themes">Mostrar colores y sugerencias especiales en ciertas épocas del año</string>
     <string name="lbl_enable_seasonal_themes">Temas estacionales</string>
     <string name="msg_item_added">" elemento agregado"</string>
     <string name="lbl_delete">Eliminar</string>

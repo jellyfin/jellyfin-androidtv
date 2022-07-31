@@ -188,7 +188,6 @@
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Nuove premier</string>
     <string name="desc_automatic_fav_songs">Playlist automatica delle canzoni preferite</string>
-    <string name="desc_seasonal_themes">Mostra colori e suggerimenti speciali in certi momenti dell\'anno</string>
     <string name="lbl_live">In diretta</string>
     <string name="lbl_new">Nuovo</string>
     <string name="lbl_repeat">Ripeti</string>
@@ -215,7 +214,6 @@
     <string name="msg_settings_updated">Preferenze aggiornate</string>
     <string name="lbl_series_settings">Preferenze Serie TV</string>
     <string name="lbl_schedule">Programmazione</string>
-    <string name="lbl_enable_seasonal_themes">Sigle delle stagioni</string>
     <string name="pref_use_direct_path_summary">Passa il filepath del file system al posto dell\'URL dello streaming</string>
     <string name="pref_use_direct_path_title">Passa il filepath diretto per il riproduttore esterno</string>
     <string name="lbl_song_title">Titolo brano</string>
@@ -477,7 +475,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Ridimensionamento sulla TV</string>
     <string name="pref_refresh_rate_scale_on_device">Ridimensionamento sul dispositivo</string>
     <string name="action_connect">Connetti</string>
-    <string name="pref_libvlc_subtitle_delay_title">Ritardo sottotitoli per LibVLC</string>
     <string name="lbl_adjust">Regola</string>
     <string name="lbl_subtitle_delay">Ritardo Sottotitoli</string>
     <string name="live_tv_preferences">Opzioni TV Diretta</string>

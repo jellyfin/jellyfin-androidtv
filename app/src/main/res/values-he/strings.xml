@@ -10,7 +10,6 @@
     <string name="lbl_bitstream_ac3">שמע בדולבי דיגיטל</string>
     <string name="lbl_new_premieres">יצאו לאחרונה</string>
     <string name="desc_automatic_fav_songs">רשימת השמעה אוטומטית של שירים מועדפים</string>
-    <string name="desc_seasonal_themes">הצגת צבעים והצעות בהתאם לתקופות, עונות וחגים</string>
     <string name="lbl_enable_seasonal_themes">הצעות עונתיות</string>
     <string name="msg_item_added">" נוסף"</string>
     <string name="lbl_delete">מחק</string>
@@ -473,7 +472,6 @@
     <string name="action_use_password">השתמש בסיסמה</string>
     <string name="action_login">התחבר</string>
     <string name="lbl_start_end_on_schedule">מתחיל בתזמון ומסתיים בתזמון</string>
-    <string name="pref_libvlc_subtitle_delay_title">ברירת המחדל לעיכוב כתוביות בשימוש LibVLC</string>
     <string name="lbl_subtitle_delay">השהיית כתוביות</string>
     <string name="lbl_adjust">התאם</string>
     <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>

@@ -31,7 +31,6 @@
     <string name="lbl_save_as_playlist">Αποθήκευση ως λίστα αναπαραγωγής</string>
     <string name="lbl_delete">Διαγράφω</string>
     <string name="msg_item_added">" αντικείμενο προστέθηκε"</string>
-    <string name="lbl_enable_seasonal_themes">Εποχιακά Θέματα</string>
     <string name="desc_seasonal_themes">Αφήστε τα ειδικά χρώματα και τις υποδείξεις σε ορισμένες περιόδους του έτους</string>
     <string name="desc_automatic_fav_songs">Αυτόματη λίστα αναπαραγωγής από τα αγαπημένα τραγούδια</string>
     <string name="lbl_just_this_once">Μόνο αυτή την φορά</string>

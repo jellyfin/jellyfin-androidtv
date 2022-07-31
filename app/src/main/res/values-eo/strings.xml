@@ -313,7 +313,6 @@
     <string name="lbl_current_queue">Nuna Vico</string>
     <string name="lbl_auto_crop">Aŭtomata Stuco</string>
     <string name="lbl_new_premieres">Novaj Premieroj</string>
-    <string name="lbl_enable_seasonal_themes">Sezonaj temoj</string>
     <string name="msg_item_added">" aĵo aldonita"</string>
     <string name="lbl_now_playing">Nun Ludante</string>
     <string name="lbl_up_next_colon">"Plue Sekva: "</string>
@@ -354,7 +353,6 @@
     <string name="msg_unable_to_cancel">Ne eblas rezigni rikordadon</string>
     <string name="msg_unable_to_create_recording">Ne eblas krei rikordadon</string>
     <string name="msg_set_to_record">Programo starigita por rikordi</string>
-    <string name="desc_seasonal_themes">Montri specialajn kolorojn kaj sugestojn en certaj tempoj de la jaro</string>
     <string name="msg_added_to_video">%1$s aldonita al videovico. Finos: %2$s</string>
     <string name="desc_automatic_fav_songs">Aŭtomata ludlisto de favorataj kantoj</string>
     <string name="desc_current_video_queue">Videa aĵoj aktuale vicigitaj por ludado</string>
@@ -478,7 +476,6 @@
     <string name="state_disabled">Malebligita</string>
     <string name="action_connect">Konektu</string>
     <string name="lbl_subtitle_delay">Subteksta Prokrasto</string>
-    <string name="pref_libvlc_subtitle_delay_title">Defaŭlta subteksta prokrasto por libVLC</string>
     <string name="lbl_adjust">Ĝustigi</string>
     <string name="live_tv_preferences">Eteraj TV opcioj</string>
     <string name="app_notification_uimode_invalid">Ĉi tiu apo estas optimumigita por televidiloj. Ni rekomendas uzi nian poŝtelefonan apon sur aliaj aparatoj.</string>

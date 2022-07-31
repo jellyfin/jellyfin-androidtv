@@ -207,7 +207,6 @@
     <string name="lbl_bitstream_ac3">ബിറ്റ്സ്ട്രീം ഡോൾബി ഡിജിറ്റൽ ഓഡിയോ</string>
     <string name="lbl_new_premieres">പുതിയ പ്രീമിയറുകൾ</string>
     <string name="desc_automatic_fav_songs">പ്രിയപ്പെട്ടതും ഇഷ്ടപ്പെട്ടതുമായ ഗാനങ്ങളുടെ യാന്ത്രിക പ്ലേലിസ്റ്റ്</string>
-    <string name="desc_seasonal_themes">വർഷത്തിലെ ചില സമയങ്ങളിൽ പ്രത്യേക നിറങ്ങളും നിർദ്ദേശങ്ങളും പ്രദർശിപ്പിക്കുക</string>
     <string name="lbl_enable_seasonal_themes">സീസണൽ തീമുകൾ</string>
     <string name="msg_item_added">" ഇനം ചേർത്തു"</string>
     <string name="lbl_delete">ഇല്ലാതാക്കുക</string>

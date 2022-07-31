@@ -170,7 +170,6 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_new_premieres">Nuevos estrenos</string>
     <string name="desc_automatic_fav_songs">Lista de reproducción automática de las canciones favoritas</string>
-    <string name="desc_seasonal_themes">Mostrar colores y sugerencias especiales en ciertas épocas del año</string>
     <string name="lbl_enable_seasonal_themes">Temas estacionales</string>
     <string name="msg_item_added">" elemento agregado"</string>
     <string name="lbl_save_as_playlist">Guardar como lista de reproducción</string>

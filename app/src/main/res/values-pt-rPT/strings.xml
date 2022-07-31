@@ -166,7 +166,6 @@
     <string name="lbl_save_as_playlist">Guardar como Lista de Reprodução</string>
     <string name="lbl_delete">Remover</string>
     <string name="msg_item_added">" item adicionado"</string>
-    <string name="lbl_enable_seasonal_themes">Temas Sazonais</string>
     <string name="desc_seasonal_themes">Permitir cores e sugestões especiais em determinadas alturas do ano</string>
     <string name="desc_automatic_fav_songs">Lista automática de músicas favoritas</string>
     <string name="lbl_status">%1$s / %2$s</string>

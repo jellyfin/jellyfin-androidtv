@@ -177,7 +177,6 @@
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Kræver hardwareunderstøttelse</string>
     <string name="lbl_new_premieres">Nye Premierer</string>
-    <string name="lbl_enable_seasonal_themes">Sæson temaer</string>
     <string name="lbl_select_date">Vælg Dato</string>
     <string name="lbl_in_x_days">Om %d dage</string>
     <string name="lbl_bitstream_dts">Bitstream DTS lyd</string>
@@ -193,7 +192,6 @@
     <string name="lbl_current_queue">Nuværende Kø</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital lyd</string>
     <string name="desc_automatic_fav_songs">Automatisk afspilningsliste af favorit sange</string>
-    <string name="desc_seasonal_themes">Vis særlige farver og forslag ved særlige tider af året</string>
     <string name="lbl_song_title">Sangtitel</string>
     <string name="lbl_album_name">Album navn</string>
     <string name="lbl_next_episode">Næste Afsnit</string>
@@ -385,7 +383,6 @@
     <string name="image_size_smallest">Mindste</string>
     <string name="image_type_poster">Plakat</string>
     <string name="server_connection_failed_candidates">Kan ikke oprette forbindelse til serveren, forsøgte med følgende adresse: %1$s</string>
-    <string name="pref_libvlc_subtitle_delay_title">Standard undertekst forsinkelse for LibVLC</string>
     <string name="pref_next_up_behavior_title">Vis næste video info</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Undertekst forsinkelse</string>

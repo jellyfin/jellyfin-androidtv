@@ -286,7 +286,6 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital</string>
     <string name="lbl_new_premieres">Nove premijere</string>
     <string name="desc_automatic_fav_songs">Automatski popis omiljenih i pjesama koje su vam se svidjele</string>
-    <string name="desc_seasonal_themes">Prikazuje posebne boje i prijedloge u određeno doba godine</string>
     <string name="lbl_enable_seasonal_themes">Sezonski ugođaj</string>
     <string name="msg_item_added">" stavka dodana"</string>
     <string name="lbl_delete">Obriši</string>

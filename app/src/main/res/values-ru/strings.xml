@@ -165,7 +165,6 @@
     <string name="lbl_save_as_playlist">Сохранить как плей-лист</string>
     <string name="lbl_delete">Удалить</string>
     <string name="msg_item_added">" элемент добавлен"</string>
-    <string name="lbl_enable_seasonal_themes">Сезонные темы</string>
     <string name="desc_seasonal_themes">Отображать специальные цвета и подсказки в определённые периоды года</string>
     <string name="desc_automatic_fav_songs">Автоматический плей-лист избранных и нравящихся композиций</string>
     <string name="lbl_new_premieres">Новые премьеры</string>
@@ -477,7 +476,6 @@
     <string name="pref_refresh_rate_scale_on_tv">Масштабирование на телевизоре</string>
     <string name="state_disabled">Отключено</string>
     <string name="action_connect">Соединение</string>
-    <string name="pref_libvlc_subtitle_delay_title">Задержка субтитров для libVLC по умолчанию</string>
     <string name="lbl_subtitle_delay">Задержка субтитров</string>
     <string name="lbl_adjust">Подстройка</string>
     <string name="live_tv_preferences">Опции эфирного ТВ</string>

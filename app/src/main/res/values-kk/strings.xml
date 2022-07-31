@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Oinatu tızımı retınde saqtau</string>
     <string name="lbl_delete">Joiu</string>
     <string name="msg_item_added">" tarmaq üstelgen"</string>
-    <string name="lbl_enable_seasonal_themes">Mausymdyq taqyryptar</string>
     <string name="desc_seasonal_themes">Jyldyñ belgılı bır uaqyttarynda arnaiy tüster men ūsynystarğa rūqsat etu</string>
     <string name="desc_automatic_fav_songs">Tañdauly jäne ūnatylğan äuenderdıñ avtomatty oinatu tızımı</string>
     <string name="lbl_new_premieres">Jaña tūsaukeserler</string>
@@ -479,7 +478,6 @@
     <string name="action_connect">Qosylu</string>
     <string name="lbl_subtitle_delay">Subtitrler kıdırısı</string>
     <string name="lbl_adjust">Naqtylatu</string>
-    <string name="pref_libvlc_subtitle_delay_title">libVLC üşın subtitrlerdıñ ädepkı kıdırısı</string>
     <string name="live_tv_preferences">Efirlık TD opsialary</string>
     <string name="app_notification_uimode_invalid">Būl qoldanba teledidarlar üşın oñtailandyrylğan. Basqa qūrylğylarda mobildy qoldanbamyzdy paidalanuyn ūsynamyz.</string>
     <string name="server_unsupported_notification">Būl server Jellyfin %1$s nusqasyn paidalanady, oğan qoldau körsetılmeidı. Qoldanbany paidalanudy jalğastyru üşın Jellyfin %2$s nusqasyna jañartyñyz.</string>
