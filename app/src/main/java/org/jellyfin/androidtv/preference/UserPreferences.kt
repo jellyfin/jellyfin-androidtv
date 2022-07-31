@@ -51,11 +51,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
 
-		/**
-		 * Show a little notification to celebrate a set of holidays
-		 */
-		var seasonalGreetingsEnabled = booleanPreference("pref_enable_themes", true)
-
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
@@ -125,11 +120,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Default audio delay in milliseconds for libVLC
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
-
-		/**
-		 * Default audio subtitle in milliseconds for libVLC
-		 */
-		var libVLCSubtitleDelay = intPreference("libvlc_subtitle_delay", 0)
 
 		/* Live TV */
 		/**

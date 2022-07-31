@@ -180,8 +180,6 @@
     <string name="lbl_save_as_playlist">Save as Playlist</string>
     <string name="lbl_delete">Delete</string>
     <string name="msg_item_added">" item added"</string>
-    <string name="lbl_enable_seasonal_themes">Seasonal themes</string>
-    <string name="desc_seasonal_themes">Display special colors and suggestions at certain times of the year</string>
     <string name="desc_automatic_fav_songs">Automatic playlist of favorite songs</string>
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
@@ -277,7 +275,6 @@
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_behavior_title">Show next video info</string>
     <string name="pref_libvlc_audio_delay_title">Default audio delay for LibVLC</string>
-    <string name="pref_libvlc_subtitle_delay_title">Default subtitle delay for LibVLC</string>
     <string name="pref_app_theme">App theme</string>
     <string name="pref_device_model">Device model</string>
     <string name="grid_direction">Grid Direction</string>
