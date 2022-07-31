@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Salvar como Lista de Reprodução</string>
     <string name="lbl_delete">Excluir</string>
     <string name="msg_item_added">" item adicionado"</string>
-    <string name="desc_seasonal_themes">Exibe cores especiais e sugestões em certas épocas do ano</string>
     <string name="desc_automatic_fav_songs">Playlist automática de músicas favoritas</string>
     <string name="lbl_new_premieres">Novas Estreias</string>
     <string name="lbl_bitstream_ac3">Bitstream do áudio Dolby Digital</string>

@@ -245,7 +245,6 @@
     <string name="btn_got_it">확인</string>
     <string name="msg_external_path">이 기능은 네트워크 경로 또는 대체 경로를 사용하여 서버에 라이브러리를 올바르게 설정하고 사용중인 클라이언트가 네트워크를 통해 이러한 위치에 직접 액세스 할 수 있는 경우에만 작동합니다.</string>
     <string name="desc_automatic_fav_songs">좋아하는 노래와 선호하는 노래의 자동 재생목록</string>
-    <string name="lbl_enable_seasonal_themes">시즌 테마</string>
     <string name="lbl_goto_now_playing">지금 재생 중으로 이동</string>
     <string name="lbl_remove_from_queue">대기열 삭제</string>
     <string name="lbl_play_from_here">이어서 재생</string>

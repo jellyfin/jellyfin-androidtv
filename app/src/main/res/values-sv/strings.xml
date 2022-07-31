@@ -87,7 +87,6 @@
     <string name="lbl_bitstream_ac3">Bitströmma Dolby Digital-ljud</string>
     <string name="lbl_new_premieres">Nya premiärer</string>
     <string name="desc_automatic_fav_songs">Automatisk spellista av favoritlåtar</string>
-    <string name="lbl_enable_seasonal_themes">Säsongsteman</string>
     <string name="msg_item_added">" föremål tillagt"</string>
     <string name="lbl_delete">Ta bort</string>
     <string name="lbl_save_as_playlist">Spara som spellista</string>

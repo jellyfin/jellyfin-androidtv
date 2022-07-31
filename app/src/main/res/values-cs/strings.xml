@@ -158,7 +158,6 @@
     <string name="lbl_save_as_playlist">Uložit jako Playlist</string>
     <string name="lbl_delete">Smazat</string>
     <string name="msg_item_added">" položka přidána"</string>
-    <string name="desc_seasonal_themes">Povolit speciální barvy a návrhy dle období roku</string>
     <string name="lbl_instant_mix">Okamžitý mix</string>
     <string name="lbl_in_x_days">Za %d dní</string>
     <string name="lbl_bitstream_dts">Zvuk DTS jako bitový tok</string>

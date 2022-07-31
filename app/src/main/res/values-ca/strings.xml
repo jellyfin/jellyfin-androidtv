@@ -83,7 +83,6 @@
     <string name="lbl_bitstream_ac3">Transmissió directa d\'àudio Dolby Digital</string>
     <string name="lbl_new_premieres">Noves estrenes</string>
     <string name="desc_automatic_fav_songs">Llista de reproducció automàtica de cançons preferides</string>
-    <string name="lbl_enable_seasonal_themes">Temes de temporada</string>
     <string name="msg_item_added">" element afegit"</string>
     <string name="lbl_delete">Eliminar</string>
     <string name="lbl_save_as_playlist">Desar com a llista de reproducció</string>

@@ -75,7 +75,6 @@
     <string name="lbl_zoom">Perbesar</string>
     <string name="desc_bitstream_ac3">Membutuhkan perangkat keras yang mumpuni</string>
     <string name="desc_automatic_fav_songs">Daftar putar otomatis dari lagu favorit dan disukai</string>
-    <string name="lbl_enable_seasonal_themes">Tema Musiman</string>
     <string name="msg_item_added">" item ditambahkan"</string>
     <string name="lbl_delete">Hapus</string>
     <string name="lbl_save_as_playlist">Simpan sebagai Daftar Putar</string>

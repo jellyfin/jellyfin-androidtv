@@ -226,7 +226,6 @@
     <string name="lbl_bitstream_ac3">பிட்ஸ்ட்ரீம் டால்பி டிஜிட்டல் ஆடியோ</string>
     <string name="lbl_new_premieres">புதிய பிரீமியர்ஸ்</string>
     <string name="desc_automatic_fav_songs">பிடித்த பாடல்களின் தானியங்கி பிளேலிஸ்ட்</string>
-    <string name="lbl_enable_seasonal_themes">பருவகால தீம்கள்</string>
     <string name="msg_item_added">" உருப்படி சேர்க்கப்பட்டது"</string>
     <string name="lbl_delete">நீக்கு</string>
     <string name="lbl_save_as_playlist">பிளேலிஸ்டாக சேமிக்கவும்</string>

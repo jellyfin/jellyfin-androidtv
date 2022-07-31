@@ -146,7 +146,6 @@
     <string name="sum_tv_queuing">Ko predvajate eno epizodo, dodaj preostanek sezone v čakalno vrsto</string>
     <string name="msg_set_to_record">Program nastavljen za snemanje</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="lbl_enable_seasonal_themes">Sezonske teme</string>
     <string name="msg_item_added">" dodan element"</string>
     <string name="lbl_delete">Izbriši</string>
     <string name="lbl_save_as_playlist">Shrani kot seznam predvajanja</string>

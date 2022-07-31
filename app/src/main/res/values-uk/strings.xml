@@ -210,7 +210,6 @@
     <string name="lbl_trailers">Трейлери</string>
     <string name="lbl_new_premieres">Нові прем\'єри</string>
     <string name="desc_automatic_fav_songs">Автоматичний список відтворення обраних пісень</string>
-    <string name="lbl_enable_seasonal_themes">Тема сезону</string>
     <string name="msg_item_added">" елементів додано"</string>
     <string name="lbl_delete">Видалити</string>
     <string name="lbl_save_as_playlist">Зберегти як плейліст</string>

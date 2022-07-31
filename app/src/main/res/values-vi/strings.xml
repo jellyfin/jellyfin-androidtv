@@ -207,7 +207,6 @@
     <string name="lbl_bitstream_ac3">Âm thanh kỹ thuật số Dolby Bitstream</string>
     <string name="lbl_new_premieres">Công chiếu mới</string>
     <string name="desc_automatic_fav_songs">Danh sách bài hát yêu thích tự động</string>
-    <string name="lbl_enable_seasonal_themes">Chủ đề theo mùa</string>
     <string name="msg_item_added">" đã thêm mục"</string>
     <string name="lbl_delete">Xóa</string>
     <string name="lbl_save_as_playlist">Lưu vào danh sách phát</string>

@@ -193,7 +193,6 @@
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital zvuk</string>
     <string name="lbl_new_premieres">Nové premiéry</string>
     <string name="desc_automatic_fav_songs">Automatický playlist obľúbených skladieb</string>
-    <string name="lbl_enable_seasonal_themes">Sezónne témy</string>
     <string name="msg_item_added">" položka pridaná"</string>
     <string name="lbl_delete">Vymazať</string>
     <string name="lbl_save_as_playlist">Uložiť ako Playlist</string>

@@ -230,7 +230,6 @@
     <string name="lbl_bitstream_ac3">Välitä Dolby Digital -ääni vahvistimelle</string>
     <string name="lbl_new_premieres">Uudet ensiesitykset</string>
     <string name="desc_automatic_fav_songs">Automaattinen soittolista suosikkikappaleista</string>
-    <string name="lbl_enable_seasonal_themes">Kausiteemat</string>
     <string name="msg_item_added">" kohde lisättiin"</string>
     <string name="lbl_goto_now_playing">Siirry nykyiseen toistoon</string>
     <string name="lbl_play_from_here">Toista tästä</string>

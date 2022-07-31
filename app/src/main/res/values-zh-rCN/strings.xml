@@ -158,7 +158,6 @@
     <string name="desc_bitstream_ac3">需要有能力的硬件</string>
     <string name="lbl_bitstream_ac3">比特流杜比数字音频</string>
     <string name="desc_automatic_fav_songs">喜爱歌曲的自动播放列表</string>
-    <string name="lbl_enable_seasonal_themes">季节主题</string>
     <string name="msg_item_added">" 已加入项目"</string>
     <string name="lbl_delete">删除</string>
     <string name="lbl_save_as_playlist">作为播放列表保存</string>

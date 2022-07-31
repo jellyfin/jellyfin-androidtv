@@ -201,7 +201,6 @@
     <string name="lbl_zoom">Nagyítás</string>
     <string name="lbl_new_premieres">Új bemutatók</string>
     <string name="desc_automatic_fav_songs">Kedvenc zenékből álló automata lejátszási lista</string>
-    <string name="lbl_enable_seasonal_themes">Szezonális témák</string>
     <string name="msg_item_added">" elem hozzáadva"</string>
     <string name="lbl_delete">Törlés</string>
     <string name="lbl_save_as_playlist">Mentés lejátszási listaként</string>

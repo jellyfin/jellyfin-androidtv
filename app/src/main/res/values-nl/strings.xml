@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Opslaan als afspeellijst</string>
     <string name="lbl_delete">Verwijderen</string>
     <string name="msg_item_added">" item toegevoegd"</string>
-    <string name="desc_seasonal_themes">Toon speciale kleuren en suggesties in bepaalde perioden van het jaar</string>
     <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete nummers</string>
     <string name="lbl_current_queue">Huidige wachtrij</string>
     <string name="lbl_clear_queue">Wachtrij leegmaken</string>

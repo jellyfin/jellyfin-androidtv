@@ -165,7 +165,6 @@
     <string name="lbl_save_as_playlist">Lagre som spilleliste</string>
     <string name="lbl_delete">Slett</string>
     <string name="msg_item_added">" element lagt til"</string>
-    <string name="desc_seasonal_themes">Vis spesielle farger og forslag til visse tider av året</string>
     <string name="desc_automatic_fav_songs">Automatisk spilleliste av favoritt- og likte sanger</string>
     <string name="pref_use_direct_path_summary">Send over plasseringen på filsystemet i stedet for strømme-URLen</string>
     <string name="pref_use_direct_path_title">Send nettverksbane til ekstern avspiller</string>

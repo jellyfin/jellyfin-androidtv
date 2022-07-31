@@ -61,7 +61,6 @@
     <string name="lbl_zoom">Pietuvināts</string>
     <string name="desc_bitstream_ac3">Vajadzīga atbalstoša aparatūra</string>
     <string name="lbl_bitstream_ac3">Bit-straumēt Dolby Digital audio</string>
-    <string name="lbl_enable_seasonal_themes">Sezonālās Tēmas</string>
     <string name="msg_item_added">" vienums pievienots"</string>
     <string name="lbl_delete">Izdzēst</string>
     <string name="lbl_save_as_playlist">Saglabāt kā Atskaņošanas Sarakstu</string>

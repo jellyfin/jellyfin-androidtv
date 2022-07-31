@@ -165,7 +165,6 @@
     <string name="lbl_save_as_playlist">Сохранить как плей-лист</string>
     <string name="lbl_delete">Удалить</string>
     <string name="msg_item_added">" элемент добавлен"</string>
-    <string name="desc_seasonal_themes">Отображать специальные цвета и подсказки в определённые периоды года</string>
     <string name="desc_automatic_fav_songs">Автоматический плей-лист избранных и нравящихся композиций</string>
     <string name="lbl_new_premieres">Новые премьеры</string>
     <string name="lbl_bitstream_ac3">Транслировать аудио Dolby Digital</string>

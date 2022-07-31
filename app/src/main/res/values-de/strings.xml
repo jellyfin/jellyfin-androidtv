@@ -164,7 +164,6 @@
     <string name="lbl_save_as_playlist">Als Wiedergabeliste speichern</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
-    <string name="desc_seasonal_themes">Zeige besondere Farben und Empfehlungen zu bestimmten Jahreszeiten</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
     <string name="lbl_new_premieres">Neue Premieren</string>
     <string name="lbl_bitstream_ac3">Dolby Digital Audio bitstreamen</string>

@@ -46,7 +46,6 @@
     <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
-    <string name="lbl_enable_seasonal_themes">Seasonal themes</string>
     <string name="msg_item_added">" item added"</string>
     <string name="lbl_delete">Delete</string>
     <string name="lbl_remove_from_queue">Remove from Queue</string>

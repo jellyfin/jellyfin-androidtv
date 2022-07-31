@@ -138,7 +138,6 @@
     <string name="btn_cancel">إلغاء</string>
     <string name="loading">جاري التحميل…</string>
     <string name="video_error_unknown_error">لم يتمكن البرنامج من عرض الفيديو</string>
-    <string name="lbl_enable_seasonal_themes">سمات موسمية</string>
     <string name="msg_item_added">" عنصر تمت إضافته"</string>
     <string name="lbl_delete">حذف</string>
     <string name="lbl_save_as_playlist">حفظ كقائمة تشغيل</string>
