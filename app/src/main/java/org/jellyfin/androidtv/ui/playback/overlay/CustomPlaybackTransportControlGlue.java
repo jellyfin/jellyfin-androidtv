@@ -36,6 +36,7 @@ import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SettingAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.koin.java.KoinJavaComponent;
@@ -51,6 +52,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
+    private SelectQualityAction selectQualityAction;
     private SettingAction settingAction;
     private PlaybackSpeedAction playbackSpeedAction;
     private ZoomAction zoomAction;
@@ -181,6 +183,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
         settingAction = new SettingAction(context, this);
         settingAction.setLabels(new String[]{context.getString(R.string.lbl_adjust)});
+        selectQualityAction = new SelectQualityAction(context, this, playbackController);
+        selectQualityAction.setLabels(new String[]{context.getString(R.string.lbl_quality_profile)});
         playbackSpeedAction = new PlaybackSpeedAction(context, this, playbackController);
         playbackSpeedAction.setLabels(new String[]{context.getString(R.string.lbl_playback_speed)});
         zoomAction = new ZoomAction(context, this);
@@ -258,6 +262,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         if (!isLiveTv()) {
             secondaryActionsAdapter.add(playbackSpeedAction);
+            secondaryActionsAdapter.add(selectQualityAction);
         }
 
 
@@ -307,6 +312,9 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             // This is a hack, we should instead have onPlaybackParametersChanged call out to this
             // class to notify rather than poll. But communication is unidirectional at the moment:
             mHandler.postDelayed(mRefreshEndTime, 5000);  // 5 seconds
+        }  else if (action == selectQualityAction) {
+            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
+            selectQualityAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
         } else if (action == zoomAction) {
             getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
             zoomAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);

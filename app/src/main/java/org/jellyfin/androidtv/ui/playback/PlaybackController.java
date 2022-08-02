@@ -1112,6 +1112,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
     }
 
+    public void refreshStream() {
+        // get current timestamp first
+        refreshCurrentPosition();
+
+        stop();
+        play(mCurrentPosition);
+    }
+    
     public void endPlayback(Boolean closeActivity) {
         if (closeActivity) mFragment.getActivity().finish();
         stop();
