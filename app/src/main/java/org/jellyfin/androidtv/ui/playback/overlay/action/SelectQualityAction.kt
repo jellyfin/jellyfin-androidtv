@@ -53,7 +53,7 @@ class SelectQualityAction (
 		val value = when {
 			conv == 0.0 -> context.getString(R.string.bitrate_auto)
 			conv >= 1.0 -> context.getString(R.string.bitrate_mbit, conv)
-			else -> context.getString(R.string.bitrate_kbit, conv * 100.0)
+			else -> context.getString(R.string.bitrate_kbit, conv * 1000.0)
 		}
 
 		conv.toString().removeSuffix(".0") to value
