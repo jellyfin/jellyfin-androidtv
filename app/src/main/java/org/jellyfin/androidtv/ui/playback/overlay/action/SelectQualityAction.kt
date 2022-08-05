@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.constant.QualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
@@ -18,7 +19,7 @@ class SelectQualityAction (
 	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val qualityController = VideoQualityController(playbackController)
-	private val qualityProfiles = VideoQualityController.QualityProfiles.values()
+	private val qualityProfiles = QualityProfiles.values()
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_quality)
@@ -35,7 +36,7 @@ class SelectQualityAction (
 
 		qualityMenu.setOnMenuItemClickListener { menuItem ->
 			KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java).set(UserPreferences.maxBitrate, qualityProfiles[menuItem.itemId].quality)
-			qualityController.currentQuality = VideoQualityController.QualityProfiles.fromPreference(
+			qualityController.currentQuality = QualityProfiles.fromPreference(
 				KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java)
 					.get(UserPreferences.maxBitrate))
 			playbackController.refreshStream()
