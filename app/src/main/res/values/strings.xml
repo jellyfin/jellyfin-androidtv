@@ -294,7 +294,6 @@
     <string name="no_player_message">It doesn\'t appear you have a video capable app installed.  This option requires you install a 3rd party application for playing video content.</string>
     <string name="lbl_clear">Clear</string>
     <string name="clear_expanded">Clear current video queue?</string>
-    <string name="delete_warning">This will PERMANENTLY DELETE %1$s from your library. Are you VERY sure?</string>
     <string name="episode_missing">Episode Missing</string>
     <string name="episode_missing_message">This episode is missing from your library.  Would you like to skip it and continue to the next one?</string>
     <string name="episode_missing_message_2">This episode is missing from your library.  Playback will stop.</string>

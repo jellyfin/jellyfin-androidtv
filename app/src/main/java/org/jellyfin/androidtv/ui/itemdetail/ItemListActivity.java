@@ -46,7 +46,6 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -637,10 +636,10 @@ public class ItemListActivity extends FragmentActivity {
                     }));
                 }
 
-                TextUnderButton delete = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
+                    TextUnderButton delete = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
                             new AlertDialog.Builder(mActivity)
                                     .setTitle(R.string.lbl_clear_queue)
                                     .setMessage(R.string.clear_expanded)
@@ -649,41 +648,18 @@ public class ItemListActivity extends FragmentActivity {
                                         dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
                                         finish();
                                     })
-                                    .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {})
+                                    .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {
+                                    })
                                     .show()
                                     .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
-                        } else {
-                            new AlertDialog.Builder(mActivity)
-                                    .setTitle(R.string.lbl_delete)
-                                    .setMessage(getString(R.string.delete_warning, mBaseItem.getName()))
-                                    .setPositiveButton(R.string.lbl_delete,
-                                            (dialog, whichButton) -> apiClient.getValue().DeleteItem(mBaseItem.getId(), new EmptyResponse() {
-                                                @Override
-                                                public void onResponse() {
-                                                    Utils.showToast(mActivity, getString(R.string.lbl_deleted, mBaseItem.getName()));
-                                                    dataRefreshService.getValue().setLastDeletedItemId(mBaseItem.getId());
-                                                    finish();
-                                                }
-
-                                                @Override
-                                                public void onError(Exception ex) {
-                                                    Utils.showToast(mActivity, ex.getLocalizedMessage());
-                                                }
-                                            }))
-                                    .setNegativeButton(R.string.btn_cancel,
-                                            (dialog, which) -> Utils.showToast(mActivity, R.string.not_deleted))
-                                    .show()
-                                    .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
-
-
                         }
-                    }
-                });
+                    });
 
-                mButtonRow.addView(delete);
-                delete.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
-                });
+                    mButtonRow.addView(delete);
+                    delete.setOnFocusChangeListener((v, hasFocus) -> {
+                        if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+                    });
+                }
             }
         }
 
