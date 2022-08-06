@@ -404,7 +404,7 @@
     <string name="pref_crash_reports">Send nedbrud rapporter til serveren</string>
     <string name="pref_telemetry_description">Send nedbrud rapporter, inkluder logfiler</string>
     <string name="pref_telemetry_category">Rapportering ved nedbrud</string>
-    <string name="server_unsupported_notification">Denne server bruger Jellyfin version %1$s som ikke er understøttet. Venligst opdater til Jellyfin %2$s for at bruge appen</string>
+    <string name="server_unsupported_notification">Denne server bruger Jellyfin version %1$s som ikke er understøttet. Venligst opdater til Jellyfin %2$s for at bruge appen.</string>
     <string name="app_notification_uimode_invalid">Denne app er optimeret til fjernsyn. Vi anbefaler at du bruger vores mobile app på andre enheder.</string>
     <string name="live_tv_preferences">Live TV muligheder</string>
     <string name="action_connect">Forbind</string>
