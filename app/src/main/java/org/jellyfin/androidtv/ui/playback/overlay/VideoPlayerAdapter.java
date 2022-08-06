@@ -58,6 +58,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     @Override
+    public void previous() {
+        playbackController.prev();
+    }
+
+    @Override
     public long getDuration() {
         return getCurrentlyPlayingItem() != null && getCurrentlyPlayingItem().getRunTimeTicks() != null ?
                 getCurrentlyPlayingItem().getRunTimeTicks() / 10000 : -1;
@@ -104,6 +109,10 @@ public class VideoPlayerAdapter extends PlayerAdapter {
 
     boolean hasNextItem() {
         return playbackController.hasNextItem();
+    }
+
+    boolean hasPreviousItem() {
+        return playbackController.hasPreviousItem();
     }
 
     boolean isNativeMode() {

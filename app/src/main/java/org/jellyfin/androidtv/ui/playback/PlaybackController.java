@@ -251,6 +251,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         return hasNextItem() ? mItems.get(mCurrentIndex + 1) : null;
     }
 
+    public boolean hasPreviousItem() {
+        return mItems != null && mCurrentIndex - 1 >= 0;
+    }
+
+    public BaseItemDto getPreviousItem() {
+        return hasPreviousItem() ? mItems.get(mCurrentIndex - 1) : null;
+    }
+
     public boolean isPlaying() {
         // since playbackController is so closely tied to videoManager, check if it is playing too since they can fall out of sync
         return mPlaybackState == PlaybackState.PLAYING && hasInitializedVideoManager() && mVideoManager.isPlaying();
