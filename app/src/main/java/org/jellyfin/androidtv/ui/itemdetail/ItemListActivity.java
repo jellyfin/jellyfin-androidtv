@@ -500,7 +500,7 @@ public class ItemListActivity extends FragmentActivity {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
 
-        Timber.d("play items: %d, shuffle: %b", items.size(), shuffle);
+        Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
         if ("Video".equals(mBaseItem.getMediaType())) {
             if (shuffle) {
@@ -508,13 +508,14 @@ public class ItemListActivity extends FragmentActivity {
             }
             Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
             Intent intent = new Intent(mActivity, activity);
-            //Resume first item if needed
-            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
-            if (first != null && first.getUserData() != null) {
-                Long pos = first.getUserData().getPlaybackPositionTicks() / 10000;
+            //Resume item if needed
+            BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
+            if (item != null && item.getUserData() != null) {
+                Long pos = item.getUserData().getPlaybackPositionTicks() / 10000;
                 intent.putExtra("Position", pos.intValue());
             }
             mediaManager.getValue().setCurrentVideoQueue(items);
+            mediaManager.getValue().setCurrentMediaPosition(ndx);
             startActivity(intent);
         } else {
             mediaManager.getValue().playNow(this, items, ndx, shuffle);
