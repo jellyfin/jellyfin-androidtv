@@ -119,7 +119,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
+        this(items, fragment, 0);
+    }
+
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
         mItems = items;
+        mCurrentIndex = startIndex;
         mFragment = fragment;
         mHandler = new Handler();
 
