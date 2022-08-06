@@ -140,6 +140,10 @@ public class ItemLauncher {
                         Timber.d("got pos %s", pos);
                         if (rowItem.getBaseItem() == null)
                             return;
+
+                        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
+                        if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem())) return;
+
                         MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
