@@ -48,6 +48,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     private PlaybackControlsRow.PlayPauseAction playPauseAction;
     private PlaybackControlsRow.RewindAction rewindAction;
     private PlaybackControlsRow.FastForwardAction fastForwardAction;
+    private PlaybackControlsRow.SkipPreviousAction skipPreviousAction;
     private PlaybackControlsRow.SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
@@ -174,6 +175,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
         rewindAction = new PlaybackControlsRow.RewindAction(context);
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
+        skipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(context);
         skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
         selectAudioAction = new SelectAudioAction(context, this);
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
@@ -247,10 +249,13 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             }
         }
 
+        if (hasPreviousItem()) {
+            secondaryActionsAdapter.add(skipPreviousAction);
+        }
+
         if (hasNextItem()) {
             secondaryActionsAdapter.add(skipNextAction);
         }
-
 
         if (hasChapters()) {
             secondaryActionsAdapter.add(chapterAction);
@@ -282,6 +287,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             getPlayerAdapter().rewind();
         } else if (action == fastForwardAction) {
             getPlayerAdapter().fastForward();
+        } else if (action == skipPreviousAction) {
+            getPlayerAdapter().previous();
         } else if (action == skipNextAction) {
             getPlayerAdapter().next();
         }
@@ -365,6 +372,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     private boolean hasNextItem() {
         return getPlayerAdapter().hasNextItem();
+    }
+
+    private boolean hasPreviousItem() {
+        return getPlayerAdapter().hasPreviousItem();
     }
 
     private boolean isNativeMode() {
