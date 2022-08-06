@@ -310,7 +310,7 @@
     <string name="login_invalid_credentials">ユーザー名またはパスワードが無効</string>
     <string name="login_authenticating">認証中…</string>
     <string name="server_field_empty">アドレスを空にすることはできません</string>
-    <string name="server_connection_failed">サーバーに接続できませんでした:%1$s</string>
+    <string name="server_connection_failed">サーバーに接続できませんでした</string>
     <string name="server_connecting">%1$sに接続</string>
     <string name="pref_clock_display_playback">再生中</string>
     <string name="pref_clock_display_browsing">閲覧中</string>
