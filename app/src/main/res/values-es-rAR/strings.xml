@@ -321,7 +321,7 @@
     <string name="login_invalid_credentials">Nombre de usuario y/o contraseña inválido</string>
     <string name="login_authenticating">Autenticando…</string>
     <string name="server_field_empty">La dirección no puede estar vacía</string>
-    <string name="server_connection_failed">No se puede conectar al servidor.</string>
+    <string name="server_connection_failed">No se puede conectar al servidor</string>
     <string name="server_connecting">Conectando a %1$s</string>
     <string name="login_help_description">Jellyfin requiere un servidor para conectarse. Visite nuestra documentación en docs.jellyfin.org o escanee el código QR para comenzar con Jellyfin.</string>
     <string name="login_help_title">Necesita Ayuda\?</string>

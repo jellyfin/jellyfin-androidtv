@@ -19,7 +19,7 @@
     <string name="btn_cancel">റദ്ദാക്കുക</string>
     <string name="loading">ലോഡിംഗ്…</string>
     <string name="video_error_unknown_error">വീഡിയോ ലോഡുചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു</string>
-    <string name="server_connection_failed">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല: %1$s</string>
+    <string name="server_connection_failed">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല</string>
     <string name="lbl_playback_control_ends">%1$s ൽ അവസാനിക്കുന്നു</string>
     <string name="lbl_deleted">%1$s ഇല്ലാതാക്കി</string>
     <string name="audio_error">%1$s ഓഡിയോ പ്ലേ ചെയ്യാൻ കഴിയില്ല</string>

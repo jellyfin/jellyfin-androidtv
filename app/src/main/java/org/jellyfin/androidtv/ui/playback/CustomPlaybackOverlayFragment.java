@@ -171,7 +171,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
 
-        playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this));
+        int mediaPosition = mediaManager.getValue().getCurrentMediaPosition();
+
+        playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this, mediaPosition));
         mPlaybackController = playbackControllerContainer.getValue().getPlaybackController();
 
         // setup fade task

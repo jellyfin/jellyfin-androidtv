@@ -256,7 +256,7 @@
     <string name="pref_app_theme">App-Thema</string>
     <string name="pref_theme_emerald">Smaragd klassisch</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
-    <string name="grid_direction_vertical">Vertikal (experimentell)</string>
+    <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Rasterausrichtung</string>
     <string name="pref_device_model">Gerätemodell</string>
@@ -478,4 +478,10 @@
     <string name="lbl_subtitle_delay">Untertitelverzögerung</string>
     <string name="lbl_adjust">Anpassen</string>
     <string name="live_tv_preferences">Fernseh-Optionen</string>
+    <string name="pref_telemetry_category">Absturzbericht</string>
+    <string name="server_unsupported_notification">Dieser Server verwendet Jellyfin Version %1$s, die nicht unterstützt wird. Bitte aktualisieren Sie auf Jellyfin %2$s, um die App weiter nutzen zu können.</string>
+    <string name="app_notification_uimode_invalid">Diese App ist für Fernsehgeräte optimiert. Wir empfehlen die Verwendung unserer mobilen App auf anderen Geräten.</string>
+    <string name="image_size_xlarge">Extragroß</string>
+    <string name="image_size_smallest">Kleinste</string>
+    <string name="image_type_poster">Poster</string>
 </resources>

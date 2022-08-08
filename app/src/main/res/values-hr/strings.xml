@@ -351,7 +351,7 @@
     <string name="pref_developer_link">Opcije za programere</string>
     <string name="image_size_large">Veliko</string>
     <string name="lbl_server">Poslužitelj</string>
-    <string name="server_connection_failed">Ne mogu se povezati s poslužiteljem: %1$s</string>
+    <string name="server_connection_failed">Ne mogu se povezati s poslužiteljem</string>
     <string name="lbl_community_rating">Ocjena zajednice</string>
     <string name="advanced_settings">Postavke (napredno)</string>
     <string name="always_authenticate_description">Omogućavanjem ove funkcije onemogućuje se automatska prijava</string>
