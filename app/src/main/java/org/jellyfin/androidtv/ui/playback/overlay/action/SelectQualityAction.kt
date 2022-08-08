@@ -35,7 +35,8 @@ class SelectQualityAction (
 		qualityMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 
 		qualityMenu.setOnMenuItemClickListener { menuItem ->
-			KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java).set(UserPreferences.maxBitrate, qualityProfiles[menuItem.itemId].quality)
+			KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java).set(
+					UserPreferences.maxBitrate, qualityProfiles[menuItem.itemId].quality)
 			qualityController.currentQuality = QualityProfiles.fromPreference(
 				KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java)
 					.get(UserPreferences.maxBitrate))
@@ -51,6 +52,7 @@ class SelectQualityAction (
 
 		val conv = quality.toDouble()
 
+		@Suppress("MagicNumber")
 		val value = when {
 			conv == 0.0 -> context.getString(R.string.bitrate_auto)
 			conv >= 1.0 -> context.getString(R.string.bitrate_mbit, conv)
