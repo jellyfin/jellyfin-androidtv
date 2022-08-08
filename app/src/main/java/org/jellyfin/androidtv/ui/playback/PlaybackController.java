@@ -124,9 +124,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
         mItems = items;
-        mCurrentIndex = startIndex;
-        if (mCurrentIndex < 0 || mCurrentIndex >= items.size()) {
-            mCurrentIndex = 0;
+        mCurrentIndex = 0;
+        if (items != null && startIndex > 0 && startIndex < items.size()) {
+            mCurrentIndex = startIndex;
         }
         mFragment = fragment;
         mHandler = new Handler();
