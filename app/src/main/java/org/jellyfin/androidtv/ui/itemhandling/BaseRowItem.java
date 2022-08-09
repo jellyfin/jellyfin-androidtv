@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import kotlin.Lazy;
+import timber.log.Timber;
 
 public class BaseRowItem {
     private int index;
@@ -493,13 +494,19 @@ public class BaseRowItem {
     public void refresh(final EmptyResponse outerResponse) {
         switch (type) {
             case BaseItem:
-                apiClient.getValue().GetItemAsync(getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        baseItem = response;
-                        outerResponse.onResponse();
-                    }
-                });
+                String id = getItemId();
+                UserDto user = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
+                if (Utils.isNonEmpty(id) && user != null) {
+                    apiClient.getValue().GetItemAsync(id, user.getId().toString(), new Response<BaseItemDto>() {
+                        @Override
+                        public void onResponse(BaseItemDto response) {
+                            baseItem = response;
+                            outerResponse.onResponse();
+                        }
+                    });
+                } else {
+                    Timber.w("BaseRowItem.refresh() failed!");
+                }
                 break;
             case Person:
             case Chapter:

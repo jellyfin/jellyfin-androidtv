@@ -303,6 +303,9 @@ public class ItemListActivity extends FragmentActivity {
                         mediaManager.getValue().addToVideoQueue(row.getItem());
                         break;
                     case "Audio":
+                        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
+                        if (playbackLauncher.interceptPlayRequest(ItemListActivity.this, row.getItem())) break;
+
                         mediaManager.getValue().queueAudioItem(row.getItem());
                         break;
                 }
