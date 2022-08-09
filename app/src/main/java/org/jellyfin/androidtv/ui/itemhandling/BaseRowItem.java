@@ -191,7 +191,7 @@ public class BaseRowItem {
 
     public boolean showCardInfoOverlay() {
         return type == ItemType.BaseItem && baseItem != null
-                && Arrays.asList(BaseItemType.Folder, BaseItemType.PhotoAlbum, BaseItemType.RecordingGroup,
+                && Arrays.asList(BaseItemType.Folder, BaseItemType.PhotoAlbum,
                 BaseItemType.UserView, BaseItemType.CollectionFolder, BaseItemType.Photo,
                 BaseItemType.Video, BaseItemType.Person, BaseItemType.Playlist,
                 BaseItemType.MusicArtist).contains(baseItem.getBaseItemType());

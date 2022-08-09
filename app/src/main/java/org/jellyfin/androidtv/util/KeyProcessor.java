@@ -88,7 +88,6 @@ public class KeyProcessor {
                             case TvChannel:
                             case Video:
                             case Program:
-                            case ChannelVideoItem:
                             case Trailer:
                                 // retrieve full item and play
                                 PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
@@ -175,7 +174,6 @@ public class KeyProcessor {
                             case TvChannel:
                             case Video:
                             case Program:
-                            case ChannelVideoItem:
                             case Series:
                             case Season:
                             case BoxSet:

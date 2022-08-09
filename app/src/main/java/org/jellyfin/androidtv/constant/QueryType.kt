@@ -17,7 +17,6 @@ enum class QueryType {
 	LiveTvChannel,
 	LiveTvProgram,
 	LiveTvRecording,
-	LiveTvRecordingGroup,
 	StaticItems,
 	Persons,
 	StaticAudioQueueItems,
