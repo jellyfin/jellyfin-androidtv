@@ -369,7 +369,6 @@
     <string name="episode_missing_message">Jaksoa ei ole kirjastossa. Haluatko ohittaa sen ja jatkaa seuraavaan jaksoon\?</string>
     <string name="episode_missing_message_2">Jaksoa ei ole kirjastossa. Toisto pysäytetään.</string>
     <string name="episode_missing">Jakso puuttuu</string>
-    <string name="delete_warning">Tämä POISTAA kohteen %1$s kirjastostasi PYSYVÄSTI. Haluatko varmasti tehdä tämän\?</string>
     <string name="clear_expanded">Tyhjennetäänkö nykyinen jono\?</string>
     <string name="lbl_clear">Tyhjennä</string>
     <string name="no_player_message">Videotoistoon kykenevää sovellusta ei näytä olevan asennettuna. Tämä valinta tarvitsee ulkopuolisen videoiden toistosovelluksen.</string>

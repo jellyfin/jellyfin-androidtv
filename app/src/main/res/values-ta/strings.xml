@@ -124,7 +124,6 @@
     <string name="episode_missing_message_2">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. பின்னணி நிறுத்தப்படும்.</string>
     <string name="episode_missing_message">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. அதைத் தவிர்த்துவிட்டு அடுத்ததைத் தொடர விரும்புகிறீர்களா\?</string>
     <string name="episode_missing">அத்தியாயம் காணவில்லை</string>
-    <string name="delete_warning">இது உங்கள் நூலகத்திலிருந்து %1$s ஐ நீக்குகிறது. நீங்கள் உறுதியாக இருக்கிறீர்களா\?</string>
     <string name="clear_expanded">தற்போதைய வீடியோ வரிசையை அழிக்கவா\?</string>
     <string name="lbl_clear">அழி</string>
     <string name="no_player_message">உங்களிடம் வீடியோ திறன் பயன்பாடு நிறுவப்பட்டுள்ளதாகத் தெரியவில்லை. இந்த விருப்பத்திற்கு வீடியோ உள்ளடக்கத்தை இயக்குவதற்கு 3 வது தரப்பு பயன்பாட்டை நிறுவ வேண்டும்.</string>

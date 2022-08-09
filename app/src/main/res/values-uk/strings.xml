@@ -286,7 +286,6 @@
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
     <string name="episode_missing">Відсутній епізод</string>
-    <string name="delete_warning">Це призведе до ВИДАЛЕННЯ %1$s назавжди з вашої медіатеки. Ви ДУЖЕ впевнені\?</string>
     <string name="clear_expanded">Очистити поточну чергу відео\?</string>
     <string name="lbl_clear">Очистити</string>
     <string name="no_player_message">Схоже, у вас не встановлено програму з підтримкою відео. Для цього параметра потрібно встановити сторонню програму для відтворення відеовмісту.</string>

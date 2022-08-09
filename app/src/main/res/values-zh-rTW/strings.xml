@@ -341,7 +341,6 @@
     <string name="episode_missing_message_2">您的收藏庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>
-    <string name="delete_warning">%1$s 將會從您的收藏庫中永久刪除。您真的確定嗎？</string>
     <string name="clear_expanded">清空目前的影片佇列？</string>
     <string name="lbl_clear">清空</string>
     <string name="no_player_message">您似乎沒有可以播放影片的程式。這個選項需要您安裝第三方程式來播放影片。</string>

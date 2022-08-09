@@ -314,7 +314,6 @@
     <string name="subtitle_error">Subtitrlerdı tañdau mümkın emes</string>
     <string name="player_error">Oinatqyş qatesı paida boldy. Äreket qaitalanady…</string>
     <string name="lbl_new_playlist_name">Jaña oinatu tızımınıñ atauyn engızıñız</string>
-    <string name="delete_warning">Būl %1$s tasyğyşhanadan BİRJOLATA JOİYLADY. ÖTE senımdısız be\?</string>
     <string name="clear_expanded">Ağymdağy beine kezegın tazartu kerek pe\?</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>

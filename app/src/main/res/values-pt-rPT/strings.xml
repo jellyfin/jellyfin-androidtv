@@ -290,7 +290,6 @@
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
     <string name="episode_missing">Espisódio em Falta</string>
-    <string name="delete_warning">Esta ação irá APAGAR PERMANENTEMENTE %1$s da sua biblioteca. Tem REALMENTE a certeza\?</string>
     <string name="clear_expanded">Limpar lista de reprodução\?</string>
     <string name="lbl_clear">Limpar</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>

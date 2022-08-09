@@ -338,7 +338,6 @@
     <string name="episode_missing_message_2">このエピソードはあなたのライブラリから欠落しています。再生は停止します。</string>
     <string name="episode_missing_message">このエピソードはあなたのライブラリから欠落しています。スキップして次のものに進みますか\?</string>
     <string name="episode_missing">エピソードがありません</string>
-    <string name="delete_warning">これにより、ライブラリから%1$sが”永久に削除”されます。本当に実行しますか\?</string>
     <string name="clear_expanded">現在のビデオキューをクリアしますか\?</string>
     <string name="no_player_message">ビデオ対応アプリがインストールされていないようです。このオプションでは、ビデオコンテンツを再生するためのサードパーティのアプリケーションをインストールする必要があります。</string>
     <string name="mark_watched">視聴済みにする</string>

@@ -103,7 +103,6 @@
     <string name="episode_missing_message_2">Ова епизода недостаје у вашој библиотеци. Репродукција ће се зауставити.</string>
     <string name="episode_missing_message">Ова епизода недостаје у вашој библиотеци. Да ли бисте желели да га прескочите и наставите на следећи\?</string>
     <string name="episode_missing">Недостаје епизода</string>
-    <string name="delete_warning">Ово ће ТРАЈНО ИЗБРИСАТИ %1$s из ваше библиотеке. Да ли сте СИГУРНИ\?</string>
     <string name="clear_expanded">Очисти тренутни ред видео записа\?</string>
     <string name="lbl_clear">Очисти</string>
     <string name="no_player_message">Изгледа да немате инсталирану апликацију за видео. Ова опција захтева инсталирање независне апликације за репродукцију видео садржаја.</string>

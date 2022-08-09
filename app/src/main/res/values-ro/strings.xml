@@ -280,7 +280,6 @@
     <string name="episode_missing_message_2">Acest episod lipsește din bibliotecă. Redarea se va opri.</string>
     <string name="episode_missing_message">Acest episod lipsește din biblioteca. Doriți să îl săriți și să continuați cu următorul\?</string>
     <string name="episode_missing">Episod lipsă</string>
-    <string name="delete_warning">Aceasta va ȘTERGE PERMANENT %1$s din biblioteca. Ești FOARTE sigur\?</string>
     <string name="clear_expanded">Ștergeți coada video curentă\?</string>
     <string name="lbl_clear">Golește</string>
     <string name="no_player_message">Se pare că nu aveți instalată o aplicație capabilă de redare video. Această opțiune necesită instalarea unei aplicații terță parte pentru redarea conținutului video.</string>

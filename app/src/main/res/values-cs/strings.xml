@@ -289,7 +289,6 @@
     <string name="episode_missing_message_2">Tato epizoda není ve vaší knihovně. Přehrávání bude zastaveno.</string>
     <string name="episode_missing_message">Tato epizoda není ve vaší knihovně. Chcete ji přeskočit a pokračovat další epizodou\?</string>
     <string name="episode_missing">Chybějící epizoda</string>
-    <string name="delete_warning">Položka %1$s bude TRVALE ODSTRANĚNA z knihovny. Přesto pokračovat\?</string>
     <string name="clear_expanded">Smazat aktuální frontu pro přehrávání\?</string>
     <string name="lbl_clear">Smazat</string>
     <string name="no_player_message">Zdá se, že nemá nainstalovaný přehrávač videa. Tato možnost vyžaduje přítomnost externí aplikace umožňující přehrávání videa.</string>

@@ -190,7 +190,6 @@
     <string name="too_many_errors">Preveč napak. Predajam se</string>
     <string name="lbl_new_playlist_name">Vnesi ime za nov seznam predvajanja</string>
     <string name="episode_missing">Manjkajoča epizoda</string>
-    <string name="delete_warning">TRAJNO brisanje %1$s iz knjižnice. Ste prepričani\?</string>
     <string name="clear_expanded">Počisti seznam predvajanja videoposnetkov\?</string>
     <string name="lbl_clear">Počisti</string>
     <string name="no_player">Ni predvajalnika</string>

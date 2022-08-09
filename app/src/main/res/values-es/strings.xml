@@ -287,7 +287,6 @@
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo\?</string>
     <string name="lbl_new_playlist_name">Introduzca un nombre para la nueva lista</string>
     <string name="episode_missing">Episodio Faltante</string>
-    <string name="delete_warning">Esto ELIMINARÄ PERMANENTEMENTE %1$s de la bibioteca. ¿está SEGURO\?</string>
     <string name="clear_expanded">¿Desea vaciar la lista de reproducción actual de videos\?</string>
     <string name="lbl_clear">Vaciar</string>
     <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
