@@ -5,7 +5,6 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
-import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
@@ -30,7 +29,6 @@ public class BrowseRowDef {
     private LiveTvChannelQuery tvChannelQuery;
     private RecommendedProgramQuery programQuery;
     private RecordingQuery recordingQuery;
-    private RecordingGroupQuery recordingGroupQuery;
     private SeriesTimerQuery seriesTimerQuery;
 
     private ArtistsQuery artistsQuery;
@@ -145,12 +143,6 @@ public class BrowseRowDef {
         this.queryType = QueryType.LiveTvRecording;
     }
 
-    public BrowseRowDef(String header, RecordingGroupQuery query) {
-        headerText = header;
-        this.recordingGroupQuery = query;
-        this.queryType = QueryType.LiveTvRecordingGroup;
-    }
-
     public BrowseRowDef(String header, PersonsQuery query, int chunkSize) {
         headerText = header;
         this.personsQuery = query;
@@ -240,9 +232,5 @@ public class BrowseRowDef {
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;
-    }
-
-    public RecordingGroupQuery getRecordingGroupQuery() {
-        return recordingGroupQuery;
     }
 }

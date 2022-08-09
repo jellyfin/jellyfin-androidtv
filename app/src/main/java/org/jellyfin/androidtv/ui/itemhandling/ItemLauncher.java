@@ -167,7 +167,6 @@ public class ItemLauncher {
 
                         return;
                     case Season:
-                    case RecordingGroup:
                         //Start activity for enhanced browse
                         Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
                         seasonIntent.putExtra(Extras.Folder, KoinJavaComponent.<GsonJsonSerializer>get(GsonJsonSerializer.class).SerializeToString(baseItem));

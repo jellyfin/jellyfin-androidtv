@@ -347,7 +347,6 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         BaseItemType.Video,
         BaseItemType.Recording,
         BaseItemType.Program,
-        BaseItemType.ChannelVideoItem,
         BaseItemType.Trailer,
         BaseItemType.MusicArtist,
         BaseItemType.Person,

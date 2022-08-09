@@ -152,9 +152,6 @@ public class StdRowsFragment extends RowsSupportFragment implements RowLoader {
                 case LiveTvRecording:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getRecordingQuery(), def.getChunkSize(), mCardPresenter, mRowsAdapter);
                     break;
-                case LiveTvRecordingGroup:
-                    rowAdapter = new ItemRowAdapter(requireContext(), def.getRecordingGroupQuery(), mCardPresenter, mRowsAdapter);
-                    break;
                 default:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getQuery(), def.getChunkSize(), def.getPreferParentThumb(), def.isStaticHeight(), mCardPresenter, mRowsAdapter, def.getQueryType());
                     break;

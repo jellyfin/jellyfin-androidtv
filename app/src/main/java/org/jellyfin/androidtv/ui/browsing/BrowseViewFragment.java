@@ -26,7 +26,6 @@ import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
-import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
@@ -372,10 +371,6 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                                     recordings.setEnableImages(true);
                                     mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 50));
-                                    //All Recordings by group - will only be there for non-internal TV
-                                    RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-                                    recordingGroups.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                                    mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_all_recordings), recordingGroups));
                                     rowLoader.loadRows(mRows);
 
                                     //Now insert our smart rows

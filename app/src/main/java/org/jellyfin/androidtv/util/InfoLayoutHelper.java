@@ -73,9 +73,6 @@ public class InfoLayoutHelper {
             case Program:
                 addProgramInfo(context, item, layout);
                 break;
-            case RecordingGroup:
-                addRecordingCount(context, item, layout);
-                break;
             case MusicArtist:
                 Integer artistAlbums = item.getAlbumCount() != null ? item.getAlbumCount() : item.getChildCount();
                 addCount(context, artistAlbums, layout, artistAlbums != null && artistAlbums == 1 ? context.getResources().getString(R.string.lbl_album) : context.getResources().getString(R.string.lbl_albums));
@@ -144,15 +141,6 @@ public class InfoLayoutHelper {
             TextView amt = new TextView(context);
             amt.setTextSize(textSize);
             amt.setText(count.toString()+" "+ label +"  ");
-            layout.addView(amt);
-        }
-    }
-
-    private static void addRecordingCount(Context context, BaseItemDto item, LinearLayout layout) {
-        if (item.getRecordingCount() != null && item.getRecordingCount() > 0) {
-            TextView amt = new TextView(context);
-            amt.setTextSize(textSize);
-            amt.setText(item.getRecordingCount().toString() + " " + context.getResources().getString(item.getRecordingCount() > 1 ? R.string.lbl_recordings : R.string.lbl_recording) + "  ");
             layout.addView(amt);
         }
     }

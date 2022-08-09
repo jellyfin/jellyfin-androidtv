@@ -480,9 +480,6 @@ public class StdGridFragment extends GridFragment {
             case LiveTvRecording:
                 mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingQuery(), chunkSize, mCardPresenter, null);
                 break;
-            case LiveTvRecordingGroup:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingGroupQuery(), mCardPresenter, null);
-                break;
             case AlbumArtists:
                 mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getArtistsQuery(), chunkSize, mCardPresenter, null);
                 break;

@@ -38,11 +38,9 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemPerson;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
-import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
@@ -86,7 +84,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private LiveTvChannelQuery mTvChannelQuery;
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
-    private RecordingGroupQuery mTvRecordingGroupQuery;
     private ArtistsQuery mArtistsQuery;
     private LatestItemsQuery mLatestQuery;
     private SeriesTimerQuery mSeriesTimerQuery;
@@ -327,14 +324,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.chunkSize = chunkSize;
         queryType = QueryType.LiveTvRecording;
         staticHeight = true;
-    }
-
-    public ItemRowAdapter(Context context, RecordingGroupQuery query, Presenter presenter, ArrayObjectAdapter parent) {
-        super(presenter);
-        this.context = context;
-        mParent = parent;
-        mTvRecordingGroupQuery = query;
-        queryType = QueryType.LiveTvRecordingGroup;
     }
 
     public ItemRowAdapter(Context context, SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
@@ -671,9 +660,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                 break;
             case LiveTvRecording:
                 retrieve(mTvRecordingQuery);
-                break;
-            case LiveTvRecordingGroup:
-                retrieve(mTvRecordingGroupQuery);
                 break;
             case StaticPeople:
                 loadPeople();
@@ -1176,47 +1162,6 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             }
         });
 
-    }
-
-    private void retrieve(final RecordingGroupQuery query) {
-        final ItemRowAdapter adapter = this;
-        apiClient.getValue().GetLiveTvRecordingGroupsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult response) {
-                if (response.getItems() != null && response.getItems().length > 0) {
-                    int i = 0;
-                    int prevItems = Math.max(adapter.size(), 0);
-                    for (BaseItemDto item : response.getItems()) {
-                        item.setBaseItemType(BaseItemType.RecordingGroup); // the API does not fill this in
-                        item.setIsFolder(true); // nor this
-                        adapter.add(new BaseRowItem(item));
-                        i++;
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving live tv recording groups");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
     }
 
     private void retrieve(final SeriesTimerQuery query) {
