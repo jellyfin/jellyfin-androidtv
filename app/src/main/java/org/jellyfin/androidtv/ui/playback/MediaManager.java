@@ -124,6 +124,7 @@ public class MediaManager {
             newMutableItems.add(items.get(i));
         }
         mCurrentVideoQueue = newMutableItems;
+        mCurrentMediaPosition = 0;
     }
 
     public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
@@ -1041,5 +1042,6 @@ public class MediaManager {
     public void clearVideoQueue() {
         mCurrentVideoQueue = new ArrayList<>();
         videoQueueModified = false;
+        mCurrentMediaPosition = -1;
     }
 }
