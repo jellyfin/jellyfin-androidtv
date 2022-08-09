@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -29,11 +31,10 @@ import com.google.android.exoplayer2.extractor.ts.TsExtractor;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
-import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.CaptionStyleCompat;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.MimeTypes;
-import com.google.android.exoplayer2.util.NonNullApi;
 import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
@@ -99,6 +100,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
+
         mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
@@ -110,6 +112,33 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                                                             .build());
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
+
+        boolean subtitlesBackgroundEnabled = KoinJavaComponent
+                .<UserPreferences>get(UserPreferences.class)
+                .get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
+
+        int backgroundColor = subtitlesBackgroundEnabled ? Color.BLACK : Color.TRANSPARENT;
+        int captionStyle = subtitlesBackgroundEnabled ?
+                CaptionStyleCompat.EDGE_TYPE_NONE:
+                CaptionStyleCompat.EDGE_TYPE_RAISED; // For better contrast
+
+        CaptionStyleCompat subtitlesStyle = new CaptionStyleCompat(
+                Color.WHITE,
+                backgroundColor,
+                Color.TRANSPARENT,
+                captionStyle,
+                Color.BLACK,
+                null);
+
+        int subtitleSize = KoinJavaComponent
+                .<UserPreferences>get(UserPreferences.class)
+                .get(UserPreferences.Companion.getDefaultSubtitlesSize());
+
+        if (mExoPlayerView.getSubtitleView() != null) {
+            mExoPlayerView.getSubtitleView().setStyle(subtitlesStyle);
+            mExoPlayerView.getSubtitleView().setFixedTextSize(Dimension.PX, subtitleSize);
+        }
+
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.Listener() {
             @Override
@@ -886,6 +915,22 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
             options.add("--vout=android-opaque,android-display");
+
+            boolean subtitlesBackgroundEnabled = KoinJavaComponent
+                    .<UserPreferences>get(UserPreferences.class)
+                    .get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
+
+            if (subtitlesBackgroundEnabled) {
+                options.add("--freetype-background-color=0");
+                options.add("--freetype-background-opacity=255");
+            }
+
+            int subtitleSize = KoinJavaComponent
+                    .<UserPreferences>get(UserPreferences.class)
+                    .get(UserPreferences.Companion.getDefaultSubtitlesSize());
+
+            options.add("--freetype-fontsize=" + subtitleSize);
+
 
             mLibVLC = new LibVLC(mActivity, options);
             Timber.i("Network buffer set to %d", buffer);
