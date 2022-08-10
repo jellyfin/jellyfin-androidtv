@@ -113,7 +113,7 @@ public class MediaManager {
     }
 
     public void setCurrentVideoQueue(List<BaseItemDto> items) {
-        if (items == null) {
+        if (items == null || items.size() < 1) {
             clearVideoQueue();
             return;
         }
@@ -986,7 +986,9 @@ public class MediaManager {
     }
 
     public void setCurrentMediaPosition(int currentMediaPosition) {
-        this.mCurrentMediaPosition = currentMediaPosition;
+        if (!hasVideoQueueItems() || currentMediaPosition < 0 || currentMediaPosition > getCurrentVideoQueue().size())
+            return;
+        mCurrentMediaPosition = currentMediaPosition;
     }
 
     public BaseRowItem getMediaItem(int pos) {
