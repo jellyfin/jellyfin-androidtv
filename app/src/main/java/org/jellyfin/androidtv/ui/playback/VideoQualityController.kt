@@ -1,30 +1,20 @@
 package org.jellyfin.androidtv.ui.playback
 
-import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserPreferences.Companion.maxBitrate
-import org.koin.java.KoinJavaComponent.get
-import org.jellyfin.androidtv.constant.QualityProfiles
+import org.jellyfin.androidtv.constant.QualityProfiles;
+import org.jellyfin.androidtv.preference.UserPreferences;
+import org.koin.java.KoinJavaComponent;
 
 class VideoQualityController(
-	@Suppress("unused")
-	private val parentController: PlaybackController
+	previousQualitySelection: QualityProfiles
 ) {
-	companion object {
-		private var previousQualitySelection = QualityProfiles.fromPreference(
-				get<UserPreferences>(UserPreferences::class.java)
-						.get(maxBitrate))
-	}
 
 	var currentQuality = previousQualitySelection
-		@Suppress("unused")
-		set(value) {
-			val checkedVal = QualityProfiles.fromPreference(
-				get<UserPreferences>(UserPreferences::class.java)
-					.get(maxBitrate))
+	set(value) {
+		KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java)[UserPreferences.maxBitrate] =
+			value.quality
 
-			previousQualitySelection = checkedVal
-			field = checkedVal
-		}
+		field = value
+	}
 
 	init {
 		currentQuality = previousQualitySelection

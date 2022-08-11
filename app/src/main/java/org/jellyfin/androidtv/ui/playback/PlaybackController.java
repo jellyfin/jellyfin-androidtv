@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
+import org.jellyfin.androidtv.constant.QualityProfiles;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -1127,7 +1128,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         stop();
         play(mCurrentPosition);
     }
-    
+
     public void endPlayback(Boolean closeActivity) {
         if (closeActivity) mFragment.getActivity().finish();
         stop();

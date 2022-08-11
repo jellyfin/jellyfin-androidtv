@@ -25,7 +25,7 @@ enum class QualityProfiles(val quality: String) {
 
 	companion object {
 		private val mapping = values().associateBy(QualityProfiles::quality)
-		fun fromPreference(quality: String) = mapping[quality]
+		fun fromPreference(quality: String) = requireNotNull(mapping[quality])
 	}
 
 }

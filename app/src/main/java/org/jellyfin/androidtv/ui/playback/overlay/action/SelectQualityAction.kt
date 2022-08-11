@@ -7,18 +7,26 @@ import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.QualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserPreferences.Companion.maxBitrate
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.get
 
 class SelectQualityAction (
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
 	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
-	private val qualityController = VideoQualityController(playbackController)
+
+	private var previousQualitySelection = QualityProfiles.fromPreference(
+		get<UserPreferences>(UserPreferences::class.java)[maxBitrate]
+	)
+
+
+	private val qualityController = VideoQualityController(previousQualitySelection)
 	private val qualityProfiles = QualityProfiles.values()
 
 	init {
@@ -35,11 +43,7 @@ class SelectQualityAction (
 		qualityMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 
 		qualityMenu.setOnMenuItemClickListener { menuItem ->
-			KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java).set(
-					UserPreferences.maxBitrate, qualityProfiles[menuItem.itemId].quality)
-			qualityController.currentQuality = QualityProfiles.fromPreference(
-				KoinJavaComponent.get<UserPreferences>(UserPreferences::class.java)
-					.get(UserPreferences.maxBitrate))
+			qualityController.currentQuality = qualityProfiles[menuItem.itemId]
 			playbackController.refreshStream()
 			qualityMenu.dismiss()
 			true
