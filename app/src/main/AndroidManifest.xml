@@ -88,6 +88,9 @@
             <meta-data
                 android:name="org.jellyfin.androidtv.SessionInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="org.jellyfin.androidtv.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <provider

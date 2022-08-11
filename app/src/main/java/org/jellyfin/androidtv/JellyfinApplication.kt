@@ -2,8 +2,6 @@ package org.jellyfin.androidtv
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.work.BackoffPolicy
@@ -15,16 +13,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.acra.ACRA
-import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.telemetry.TelemetryService
 import org.jellyfin.androidtv.util.AutoBitrate
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
@@ -37,28 +31,6 @@ class JellyfinApplication : Application() {
 
 		val notificationsRepository by inject<NotificationsRepository>()
 		notificationsRepository.addDefaultNotifications()
-
-		// Register application lifecycle events
-		ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
-			/**
-			 * Called by the Process Lifecycle when the app is created. It is called after [onCreate].
-			 */
-			override fun onCreate(owner: LifecycleOwner) {
-				// Register activity lifecycle callbacks
-				getKoin().getAll<ActivityLifecycleCallbacks>().forEach(::registerActivityLifecycleCallbacks)
-			}
-
-			/**
-			 * Called by the Process Lifecycle when the app is activated in the foreground (activity opened).
-			 */
-			override fun onStart(owner: LifecycleOwner) {
-				Timber.i("Process lifecycle started")
-
-				owner.lifecycleScope.launch {
-					get<SessionRepository>().restoreSession()
-				}
-			}
-		})
 	}
 
 	/**
