@@ -240,7 +240,6 @@
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
     <string name="episode_missing_message">Bu bölüm kütüphanenizde eksil. Bunu atlayıp bir sonrakine geçmek ister misiniz\?</string>
     <string name="episode_missing">Bölüm Eksik</string>
-    <string name="delete_warning">Bu KALICI OLARAK %1$s öğesini kütüphanenizden silecektir. EMİN MİSİNİZ\?</string>
     <string name="clear_expanded">Mevcut video kuruğunu temizle\?</string>
     <string name="lbl_clear">Temizle</string>
     <string name="no_player_message">Yüklü video oynatma özellikli bir uygulamanız olmadığı görülüyor. Bu seçenek, video içeriğini oynatmak için 3. taraf bir uygulama yüklemenizi gerektirir.</string>

@@ -296,7 +296,6 @@
     <string name="episode_missing_message_2">Ez az epizód hiányzik a könyvtáradból. A lejátszás megáll.</string>
     <string name="episode_missing_message">Ez az epizód hiányzik a könyvtáradból. Szeretnéd kihagyni, és folytatni az azután következővel\?</string>
     <string name="episode_missing">Epizód hiányzik</string>
-    <string name="delete_warning">Ez véglegesen törli a könyvtáradból a %1$s -t. Biztos vagy benne\?</string>
     <string name="mark_watched_message">Úgy tűnik hogy nem lett teljes hosszában lejátszva. Megjelöljük megtekintettként\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>

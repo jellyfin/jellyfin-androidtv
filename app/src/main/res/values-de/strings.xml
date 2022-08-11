@@ -289,7 +289,6 @@
     <string name="episode_missing_message_2">Diese Episode fehlt in deiner Bibliothek. Die Wiedergabe wird angehalten.</string>
     <string name="episode_missing_message">Diese Episode fehlt in deiner Bibliothek. Möchtest du sie überspringen und mit der nächsten Episode fortfahren\?</string>
     <string name="episode_missing">Episode fehlt</string>
-    <string name="delete_warning">Hierdurch wird %1$s DAUERHAFT aus deiner Bibliothek GELÖSCHT. Bist du WIRKLICH sicher\?</string>
     <string name="clear_expanded">Aktuelle Video-Warteschlange löschen\?</string>
     <string name="lbl_clear">Löschen</string>
     <string name="no_player_message">Es scheint nicht, dass du eine videofähige Anwendung installiert haben. Diese Option erfordert die Installation einer Drittanbieteranwendung zur Wiedergabe von Videoinhalten.</string>

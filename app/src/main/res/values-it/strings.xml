@@ -320,7 +320,6 @@
     <string name="msg_live_tv_next">Carico le prossime %1$d ore\?</string>
     <string name="episode_missing_message_2">Quest\'episodio manca nella tua libreria. La riproduzione verrà interrotta.</string>
     <string name="episode_missing_message">Quest\'episodio manca nella tua libreria. Vuoi saltarlo e continuare con il prossimo\?</string>
-    <string name="delete_warning">Questo eliminerà PERMANENTEMENTE %1$s dalla libreria. Sei sicuro\?</string>
     <string name="image_size_large">Grandi</string>
     <string name="image_size_medium">Medie</string>
     <string name="image_size_small">Piccole</string>

@@ -288,7 +288,6 @@
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar al siguiente\?</string>
     <string name="episode_missing">Episodio Faltante</string>
-    <string name="delete_warning">Esto eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Está seguro\?</string>
     <string name="clear_expanded">¿Desea limpiar la cola de reproducción de videos\?</string>
     <string name="lbl_clear">Limpiar</string>
     <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir videos.</string>

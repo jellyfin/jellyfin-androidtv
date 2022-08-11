@@ -449,7 +449,6 @@
     <string name="episode_missing_message_2">این قسمت در کتابخانه شما موجود نیست. پخش متوقف خواهد شد.</string>
     <string name="episode_missing_message">این قسمت در کتابخانه شما موجود نیست. آیا می خواهید آن را رد کنید و به مورد بعدی ادامه دهید؟</string>
     <string name="episode_missing">قسمت گم شده</string>
-    <string name="delete_warning">با این کار %1$s برای همیشه از کتابخانه شما حذف میشود. آیا از انجام این کار کاملاً اطمینان دارید؟</string>
     <string name="clear_expanded">پاک کردن صف ویدئوی فعلی؟</string>
     <string name="lbl_clear">پاک کردن</string>
     <string name="no_player_message">به نظر نمی‌رسد برنامه سازگار با ویدئو نصب شده باشد.این گزینه نیازمند نصب یک برنامه شخص ثالث برای پخش محتوای ویدئویی می‌باشد.</string>

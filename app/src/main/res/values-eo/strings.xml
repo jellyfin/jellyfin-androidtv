@@ -405,7 +405,6 @@
     <string name="lbl_remove_users">Ĉi tio ankaŭ forigos ĉiujn asocigitajn kontojn</string>
     <string name="episode_missing_message_2">Ĉi tiu epizodo mankas el via plurmediteko. Ludado estos haltata.</string>
     <string name="episode_missing_message">Ĉi tiu epizodo mankas el via plurmediteko. Ĉu vi ŝatus preterlasi ĝin kaj daŭrigi al la sekva\?</string>
-    <string name="delete_warning">Ĉi tio PERMANENTE FORIGOS %1$s el via plurmediteko. Ĉu vi TRE certas\?</string>
     <string name="no_player_message">Ŝajnas, ke vi ne havas instalitan apon pri videokapabla. Ĉi tiu opcio bezonas, ke vi instali eksteran aplikaĵon por ludadi videoenhavon.</string>
     <string name="mark_watched_message">La aĵo ne ŝajnis ludi tiel longe kiel ĝia daŭro. Marki spektita\?</string>
     <string name="pref_button_remapping_description">Premi ajnan butonon de la TV-teleregilo por asigni ĝin</string>

@@ -27,7 +27,6 @@
     <string name="msg_queue_saved">ക്യൂ പുതിയ പ്ലേലിസ്റ്റായി സംരക്ഷിച്ചു: %1$s</string>
     <string name="msg_live_tv_prev">മുമ്പത്തെ %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
     <string name="msg_live_tv_next">അടുത്ത %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
-    <string name="delete_warning">ഇത് നിങ്ങളുടെ ലൈബ്രറിയിൽ നിന്ന് %1$s സ്ഥിരമായി ഇല്ലാതാക്കും. നിങ്ങൾക്ക് വളരെ ഉറപ്പാണോ\?</string>
     <string name="lbl_unknown_key">അജ്ഞാതം (%1s)</string>
     <string name="lbl_tv_filter_status">അടുത്മ %1$d ണിക്കൂർ</string>
     <string name="lbl_tv_channel_status">%1$d ഡി %2$d ചാനലുകൾ</string>

@@ -18,7 +18,4 @@
     <item
         android:id="@+id/gotoSeries"
         android:title="@string/lbl_goto_series" />
-    <item
-        android:id="@+id/delete"
-        android:title="@string/lbl_delete" />
 </menu>

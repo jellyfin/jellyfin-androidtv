@@ -243,7 +243,6 @@
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
     <string name="episode_missing_message">Tập này bị thiếu trong thư viện của bạn. Bạn có muốn bỏ qua nó và tiếp tục phần tiếp theo không\?</string>
     <string name="episode_missing">Thiếu tập phim</string>
-    <string name="delete_warning">Điều này sẽ XÓA NGAY LẬP TỨC %1$s khỏi thư viện của bạn. Bạn có RẤT chắc chắn không\?</string>
     <string name="clear_expanded">Xóa hàng đợi video hiện tại\?</string>
     <string name="lbl_clear">Làm sạch</string>
     <string name="no_player_message">Có vẻ như bạn không có ứng dụng có thể phát video được cài đặt. Tùy chọn này yêu cầu bạn cài đặt ứng dụng của bên thứ 3 để phát nội dung video.</string>

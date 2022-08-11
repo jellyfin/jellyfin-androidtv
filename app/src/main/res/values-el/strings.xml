@@ -292,7 +292,6 @@
     <string name="player_error">Σφάλμα προγράμματος αναπαραγωγής. Γίνεται ξανά απόπειρα…</string>
     <string name="seek_error">Αδυναμία αναζήτησης</string>
     <string name="msg_live_tv_prev">Φόρτωση των προηγούμενων %1$d ωρών;</string>
-    <string name="delete_warning">Αυτό θα ΔΙΑΓΡΑΨΕΙ ΟΡΙΣΤΙΚΑ %1$s από τη βιβλιοθήκη σας. Είστε ΣΙΓΟΥΡΟΣ/Η;</string>
     <string name="clear_expanded">Εκκαθάριση της παρούσας ουράς βίντεο;</string>
     <string name="no_player_message">Δεν υπάρχει κάποια εφαρμογή για αναπαραγωγή βίντεο. Αυτή η επιλογή απαιτεί την εγκατάσταση κάποιας τρίτης εφαρμογής για την αναπαραγωγή περιεχομένου βίντεο.</string>
     <string name="no_player">Δεν υπάρχει πρόγραμμα αναπαραγωγής</string>

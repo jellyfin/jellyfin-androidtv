@@ -300,7 +300,6 @@
     <string name="episode_missing_message_2">Táto epizóda chýba vo vašej knižnici. Prehrávanie bude zastavené.</string>
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>
     <string name="episode_missing">Chýbajúca epizóda</string>
-    <string name="delete_warning">Položka %1$s bude NATRVALO VYMAZANÁ z knižnice. Ste si NAOZAJ istý\?</string>
     <string name="clear_expanded">Vyčistiť aktuálnu frontu pre video\?</string>
     <string name="lbl_clear">Vyčistiť</string>
     <string name="no_player_message">Zdá sa, že nemáte nainštalovaný požadovaný prehrávač videa. Táto možnosť vyžaduje inštaláciu aplikácie tretej strany pre prehrávanie video obsahu.</string>

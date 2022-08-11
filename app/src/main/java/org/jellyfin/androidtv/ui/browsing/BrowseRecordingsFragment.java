@@ -18,7 +18,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
-import org.jellyfin.apiclient.model.livetv.RecordingGroupQuery;
 import org.jellyfin.apiclient.model.livetv.RecordingQuery;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
@@ -103,11 +102,6 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         kids.setEnableImages(true);
         kids.setIsKids(true);
         mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_kids), kids, 60));
-
-        //All Recordings by group - will only be there for non-internal TV
-        RecordingGroupQuery recordingGroups = new RecordingGroupQuery();
-        recordingGroups.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_all_recordings), recordingGroups));
 
         rowLoader.loadRows(mRows);
         addNext24Timers();

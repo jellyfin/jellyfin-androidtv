@@ -290,7 +290,6 @@
     <string name="episode_missing_message">Этот эпизод отсутствует в медиатеке. Пропустить его и перейти к следующему\?</string>
     <string name="episode_missing_message_2">Этот эпизод отсутствует в медиатеке. Воспроизведение будет остановлено.</string>
     <string name="episode_missing">Эпизод отсутствует</string>
-    <string name="delete_warning">Это НАВСЕГДА УДАЛИТ %1$s из вашей медиатеки. Вы ТОЧНО уверены\?</string>
     <string name="clear_expanded">Очистить текущую очередь видео\?</string>
     <string name="lbl_clear">Очистить</string>
     <string name="no_player_message">Не найдено приложение поддерживающее видео. Эта опция требует установки стороннего проигрывателя видео.</string>

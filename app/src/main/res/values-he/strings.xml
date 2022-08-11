@@ -258,7 +258,6 @@
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>
     <string name="episode_missing">פרק חסר</string>
-    <string name="delete_warning">פעול זו תמחק סופית את %1$s מהספרייה שלך. האם אתה בטוח\?</string>
     <string name="clear_expanded">לנקות תור ניגון\?</string>
     <string name="lbl_clear">נקה</string>
     <string name="no_player_message">לא נראה שיש אפליקציה המסוגלת לנגן וידאו. תכונה זו דורשת שתותקן במכשיר תוכנה חיצונית המסוגלת לנגן וידאו.</string>

@@ -296,7 +296,6 @@
     <string name="episode_missing_message_2">Detta avsnitt saknas i ditt bibliotek. Uppspelningen stoppas.</string>
     <string name="episode_missing_message">Detta avsnitt saknas från ditt bibliotek. Vill du hoppa över det och fortsätta med nästa\?</string>
     <string name="episode_missing">Avsnitt saknas</string>
-    <string name="delete_warning">Detta kommer PERMANENT RADERA %1$s från ditt bibliotek. Är du HELT säker\?</string>
     <string name="clear_expanded">Rensa nuvarande videokö\?</string>
     <string name="lbl_clear">Rensa</string>
     <string name="no_player_message">Det verkar som att du inte har någon app som kan spela upp video. Detta alternativ kräver att du installerar en tredjepartsapp för att spela videoinnehåll.</string>

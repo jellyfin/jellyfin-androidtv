@@ -289,7 +289,6 @@
     <string name="episode_missing_message_2">Denne episoden mangler fra biblioteket ditt. Avspillingen stopper.</string>
     <string name="episode_missing_message">Denne episoden mangler fra biblioteket ditt. Vil du hoppe over det og fortsette til neste\?</string>
     <string name="episode_missing">Episode mangler</string>
-    <string name="delete_warning">Dette sletter %1$s PERMANENT fra biblioteket. Er du HELT sikker\?</string>
     <string name="clear_expanded">Tømme gjeldende videokø\?</string>
     <string name="lbl_clear">Tømme</string>
     <string name="no_player_message">Det ser ikke ut til at du har en videokompatibel app installert. Dette alternativet krever at du installerer et tredjepartsprogram for avspilling av videoinnhold.</string>

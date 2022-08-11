@@ -296,7 +296,6 @@
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
     <string name="episode_missing">Episodio Faltante</string>
-    <string name="delete_warning">Se eliminará %1$s PERMANENTEMENTE de la biblioteca. ¿Desea continuar\?</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
     <string name="login_username_field_empty">Nombre de usuario no puede estar vacio</string>
     <string name="login_server_unavailable">Incapaz de conectar al servidor</string>

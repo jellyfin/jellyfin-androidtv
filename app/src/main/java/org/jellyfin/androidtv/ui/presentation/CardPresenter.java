@@ -131,9 +131,6 @@ public class CardPresenter extends Presenter {
                             }
                             showWatched = false;
                             break;
-                        case RecordingGroup:
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_record);
-                            break;
                         case Season:
                         case Series:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
@@ -169,9 +166,6 @@ public class CardPresenter extends Presenter {
                             isUserView = true;
                             break;
                         case Folder:
-                        case MovieGenreFolder:
-                        case MusicGenreFolder:
-                        case MovieGenre:
                         case Genre:
                         case MusicGenre:
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_folder);

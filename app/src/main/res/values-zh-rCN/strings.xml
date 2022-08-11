@@ -268,7 +268,6 @@
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
     <string name="bitrate_auto">自动码率</string>
-    <string name="delete_warning">这将永久地从你的库中删除 %1$s。你确定吗？</string>
     <string name="clear_expanded">清除当前视频队列？</string>
     <string name="lbl_clear">清除</string>
     <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>

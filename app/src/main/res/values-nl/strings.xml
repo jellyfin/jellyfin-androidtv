@@ -296,7 +296,6 @@
     <string name="episode_missing_message_2">Deze aflevering mist van uw collectie. Afspelen zal stoppen.</string>
     <string name="episode_missing_message">De aflevering mist van uw collectie. Zou u deze willen overslaan en verder gaan met de volgende\?</string>
     <string name="episode_missing">Aflevering mist</string>
-    <string name="delete_warning">Dit zal %1$s PERMANENT VERWIJDEREN van uw verzameling. Bent u ENORM zeker\?</string>
     <string name="clear_expanded">Huidige wachtlijst leegmaken\?</string>
     <string name="no_player_message">Het ziet ernaar uit dat je geen applicatie geïnstalleerd hebt die video capabel is. Deze optie vereist dat u een 3de partij applicatie moet installeren om video inhoud af te spelen.</string>
     <string name="no_player">Geen speler</string>

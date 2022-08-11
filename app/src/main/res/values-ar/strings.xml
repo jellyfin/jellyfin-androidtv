@@ -166,7 +166,6 @@
     <string name="episode_missing_message_2">هذه الحلقة مفقودة من مكتبتك. سيتوقف التشغيل.</string>
     <string name="episode_missing_message">هذه الحلقة مفقودة من مكتبتك. هل ترغب في تخطيها والمتابعة إلى الحلقة التالية؟</string>
     <string name="episode_missing">الحلقة مفقودة</string>
-    <string name="delete_warning">سيؤدي هذا إلى حذف %1$s نهائيًا من مكتبتك. هل أنت جد متأكد؟</string>
     <string name="clear_expanded">مسح قائمة فيديو الإنتظار الحالية؟</string>
     <string name="lbl_clear">مسح</string>
     <string name="no_player_message">لا يبدو أن لديك تطبيقًا قادر على تشغيل الفيديو. يتطلب هذا الخيار تثبيت تطبيق تابع لجهة ثالثة لتشغيل محتوى الفيديو.</string>

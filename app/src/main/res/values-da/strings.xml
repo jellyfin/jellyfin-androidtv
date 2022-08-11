@@ -296,7 +296,6 @@
     <string name="episode_missing_message_2">Dette afsnit mangler fra dit bibliotek. Afspilningen stopper.</string>
     <string name="episode_missing_message">Dette afsnit mangler fra dit bibliotek. Vil du springe den over og fortsætte til den næste\?</string>
     <string name="episode_missing">Afsnit mangler</string>
-    <string name="delete_warning">Dette vil PERMANENT SLETTE %1$s fra dit bibliotek. Er du HELT sikker\?</string>
     <string name="clear_expanded">Ryd nuværende video kø\?</string>
     <string name="lbl_clear">Ryd</string>
     <string name="no_player_message">Det ser ikke ud til at du har en app der understøtter video afspilning. Denne handling kræver en tredjeparts applikation for at kunne afspille videoindhold.</string>

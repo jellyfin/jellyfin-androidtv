@@ -293,7 +293,6 @@
     <string name="episode_missing_message_2">Falta aquest episodi a la biblioteca. La reproducció s’aturarà.</string>
     <string name="episode_missing_message">Falta aquest episodi a la biblioteca. Voleu ometre\'l i continuar amb el següent\?</string>
     <string name="episode_missing">Falta l’episodi</string>
-    <string name="delete_warning">Això esborrarà PERMANENTMENT %1$s de la vostra biblioteca. ESTEU SEGUR\?</string>
     <string name="clear_expanded">Voleu esborrar la cua de vídeo actual\?</string>
     <string name="lbl_clear">Netejar</string>
     <string name="no_player_message">Sembla que no teniu instal·lada cap aplicació compatible amb vídeo. Aquesta opció requereix que instal·leu una aplicació de tercers per reproduir contingut de vídeo.</string>

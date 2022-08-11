@@ -284,7 +284,6 @@
     <string name="episode_missing_message_2">Episode ini tidak ada di pustaka anda. Pemutaran akan berhenti.</string>
     <string name="episode_missing_message">Episode ini tidak ada di pustaka anda. Apakah anda ingin melompati dan melanjutkan ke episode selanjutnya\?</string>
     <string name="episode_missing">Episode Hilang</string>
-    <string name="delete_warning">Ini akan MENGHAPUS %1$s secara PERMANEN dari pustaka anda. Apakah anda SUDAH YAKIN\?</string>
     <string name="clear_expanded">Bersihkan antrian video saat ini\?</string>
     <string name="lbl_clear">Bersihkan</string>
     <string name="no_player_message">Sepertinya anda tidak memiliki pemutar video. Opsi ini membutuhkan anda memasang aplikasi pihak ketiga untuk memutar video.</string>

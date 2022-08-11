@@ -268,7 +268,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automático</string>
-    <string name="delete_warning">Isso irá DELETAR PERMANENTEMENTE %1$s da sua biblioteca. Deseja continuar\?</string>
     <string name="clear_expanded">Limpar lista de reprodução de vídeos atual\?</string>
     <string name="lbl_clear">Limpar</string>
     <string name="no_player_message">Parece que você nao tem nenhum app para reprodução de vídeo instalado. Essa opção requer que você instale um reprodutor de vídeos de terceiros.</string>
