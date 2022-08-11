@@ -154,6 +154,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var playbackRewriteEnabled = booleanPreference("playback_new", false)
 
 		/**
+		 * Use PictureViewer rewrite
+		 */
+		var pictureViewerRewriteEnabled = booleanPreference("picture_viewer_new", false)
+
+		/**
 		 * When to show the clock.
 		 */
 		var clockBehavior = enumPreference("pref_clock_behavior", ClockBehavior.ALWAYS)

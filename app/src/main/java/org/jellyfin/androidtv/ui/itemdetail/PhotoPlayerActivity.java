@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.itemdetail;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +35,9 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ActivityPhotoPlayerBinding;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.picture.PictureViewerActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageHelper;
@@ -71,10 +74,19 @@ public class PhotoPlayerActivity extends FragmentActivity {
     Handler handler;
     private Lazy<ImageHelper> imageHelper = inject(ImageHelper.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean pictureViewerRewriteEnabled = userPreferences.getValue().get(UserPreferences.Companion.getPictureViewerRewriteEnabled());
+        if (pictureViewerRewriteEnabled) {
+            Intent intent = PictureViewerActivity.Companion.createIntent(this, ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), getIntent().getBooleanExtra("Play", false));
+            startActivity(intent);
+            finishAfterTransition();
+            return;
+        }
 
         ActivityPhotoPlayerBinding binding = ActivityPhotoPlayerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
