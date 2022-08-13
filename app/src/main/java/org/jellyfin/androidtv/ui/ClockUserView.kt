@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.bumptech.glide.Glide
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
@@ -39,20 +39,11 @@ class ClockUserView @JvmOverloads constructor(
 
 		val currentUser = userRepository.currentUser.value
 
-		if (currentUser != null) {
-			if (currentUser.primaryImageTag != null) {
-				Glide.with(context)
-					.load(ImageUtils.getPrimaryImageUrl(currentUser))
-					.placeholder(R.drawable.ic_user)
-					.centerInside()
-					.circleCrop()
-					.into(binding.clockUserImage)
-			} else {
-				binding.clockUserImage.setImageResource(R.drawable.ic_user)
-			}
-			binding.clockUserImage.isVisible = true
-		} else {
-			binding.clockUserImage.isVisible = false
-		}
+		binding.clockUserImage.load(
+			url = currentUser?.let(ImageUtils::getPrimaryImageUrl),
+			placeholder = ContextCompat.getDrawable(context, R.drawable.ic_user)
+		)
+
+		binding.clockUserImage.isVisible = currentUser != null
 	}
 }
