@@ -5,17 +5,22 @@ import static org.koin.java.KoinJavaComponent.inject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.leanback.widget.BaseGridView;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.OnItemViewSelectedListener;
@@ -38,11 +43,11 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
+import org.jellyfin.androidtv.databinding.HorizontalGridBrowseBinding;
 import org.jellyfin.androidtv.databinding.PopupEmptyBinding;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
 import org.jellyfin.androidtv.ui.AlphaPickerView;
-import org.jellyfin.androidtv.ui.GridFragment;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -55,10 +60,12 @@ import org.jellyfin.androidtv.ui.shared.KeyListener;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
+import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
@@ -66,6 +73,9 @@ import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -73,19 +83,18 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
-public class BrowseGridFragment extends GridFragment {
+public class BrowseGridFragment extends Fragment {
     private final static int CHUNK_SIZE_MINIMUM = 25;
 
-    private String MainTitle;
+    private String mainTitle;
     private BaseActivity mActivity;
     private BaseRowItem mCurrentItem;
     private CompositeClickedListener mClickedListener = new CompositeClickedListener();
     private CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
-    private ItemRowAdapter mGridAdapter;
     private final Handler mHandler = new Handler();
     private int mCardHeight;
     private BrowseRowDef mRowDef;
-    CardPresenter mCardPresenter;
+    private CardPresenter mCardPresenter;
 
     private boolean justLoaded = true;
     private PosterSize mPosterSizeSetting = PosterSize.MED;
@@ -96,6 +105,24 @@ public class BrowseGridFragment extends GridFragment {
     private UUID mParentId;
     private BaseItemDto mFolder;
     private LibraryPreferences libraryPreferences;
+
+    private TextView mTitleView;
+    private TextView mStatusText;
+    private TextView mCounter;
+    private ViewGroup mGridDock;
+    private LinearLayout mInfoRow;
+    private LinearLayout mToolBar;
+    private ItemRowAdapter mAdapter;
+    private Presenter mGridPresenter;
+    private Presenter.ViewHolder mGridViewHolder;
+    private BaseGridView mGridView;
+    private int mSelectedPosition = -1;
+    private int mGridHeight = -1;
+    private int mGridWidth = -1;
+    private int mGridItemSpacingHorizontal = 0;
+    private int mGridItemSpacingVertical = 0;
+    private int mGridPaddingLeft = 0;
+    private int mGridPaddingTop = 0;
 
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -116,12 +143,29 @@ public class BrowseGridFragment extends GridFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // init with some working defaults
+        DisplayMetrics display = requireContext().getResources().getDisplayMetrics();
+        mGridHeight = display.heightPixels - (int) Math.round(display.density * 130.6); // top + bottom in dp, elements scale with density so adjust accordingly
+        mGridWidth = display.widthPixels;
+
+        sortOptions = new HashMap<>();
+        {
+            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.Ascending));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.Ascending));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.Descending));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.Descending));
+        }
+
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity) getActivity();
         backgroundService.getValue().attach(requireActivity());
 
         mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), requireActivity().getIntent().getStringExtra(Extras.Folder));
         mParentId = mFolder.getId();
-        MainTitle = mFolder.getName();
+        mainTitle = mFolder.getName();
         libraryPreferences = preferencesRepository.getValue().getLibraryPreferences(Objects.requireNonNull(mFolder.getDisplayPreferencesId()));
         mPosterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
         mImageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
@@ -140,8 +184,188 @@ public class BrowseGridFragment extends GridFragment {
         setupEventListeners();
     }
 
-    private boolean isDirty() {
-        return mDirty;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        HorizontalGridBrowseBinding binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
+        mTitleView = binding.title;
+        mStatusText = binding.statusText;
+        mInfoRow = binding.infoRow;
+        mToolBar = binding.toolBar;
+        mCounter = binding.counter;
+        mGridDock = binding.rowsFragment;
+
+        // Hide the description because we don't have room for it
+        binding.npBug.showDescription(false);
+
+        // NOTE: we only get the 100% correct grid size if we render it once, so hook into it here
+        mGridDock.post(() -> {
+            if (mGridDock.getHeight() > 0 && mGridDock.getWidth() > 0) {
+                if (mGridView == null) {
+                    return;
+                }
+                // prevent adaption on minor size delta's
+                if (Math.abs(mGridHeight - mGridDock.getHeight()) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(mGridWidth - mGridDock.getWidth()) > MIN_GRIDSIZE_CHANGE_DELTA) {
+                    mGridHeight = mGridDock.getHeight();
+                    mGridWidth = mGridDock.getWidth();
+                    Timber.d("Auto-Adapting grid size to height <%s> width <%s>", mGridDock.getHeight(), mGridDock.getWidth());
+                    mDirty = true;
+                    determiningPosterSize = true;
+                    setAutoCardGridValues();
+                    createGrid();
+                    loadGrid();
+                    determiningPosterSize = false;
+                }
+            }
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        createGrid();
+        loadGrid();
+        addTools();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mGridView = null;
+    }
+
+    private void createGrid() {
+        mGridViewHolder = mGridPresenter.onCreateViewHolder(mGridDock);
+        if (mGridViewHolder instanceof HorizontalGridPresenter.ViewHolder) {
+            mGridView = ((HorizontalGridPresenter.ViewHolder) mGridViewHolder).getGridView();
+            mGridView.setGravity(Gravity.CENTER_VERTICAL);
+            mGridView.setPadding(mGridPaddingLeft, mGridPaddingTop, mGridPaddingLeft, mGridPaddingTop); // prevent initial card cutoffs
+        } else if (mGridViewHolder instanceof VerticalGridPresenter.ViewHolder) {
+            mGridView = ((VerticalGridPresenter.ViewHolder) mGridViewHolder).getGridView();
+            mGridView.setGravity(Gravity.CENTER_HORIZONTAL);
+            mGridView.setPadding(mGridPaddingLeft, mGridPaddingTop, mGridPaddingLeft, mGridPaddingTop); // prevent initial card cutoffs
+        }
+        mGridView.setHorizontalSpacing(mGridItemSpacingHorizontal);
+        mGridView.setVerticalSpacing(mGridItemSpacingVertical);
+        mGridView.setFocusable(true);
+        mGridDock.removeAllViews();
+        mGridDock.addView(mGridViewHolder.view);
+
+        updateAdapter();
+    }
+
+    private void updateAdapter() {
+        if (mGridView != null) {
+            mGridPresenter.onBindViewHolder(mGridViewHolder, mAdapter);
+            if (mSelectedPosition != -1) {
+                mGridView.setSelectedPosition(mSelectedPosition);
+            }
+        }
+    }
+
+    /**
+     * Sets the grid presenter.
+     */
+    public void setGridPresenter(HorizontalGridPresenter gridPresenter) {
+        if (gridPresenter == null) {
+            throw new IllegalArgumentException("Grid presenter may not be null");
+        }
+        gridPresenter.setOnItemViewSelectedListener(mRowSelectedListener);
+        gridPresenter.setOnItemViewClickedListener(mClickedListener);
+        mGridPresenter = gridPresenter;
+    }
+
+    /**
+     * Sets the grid presenter.
+     */
+    public void setGridPresenter(VerticalGridPresenter gridPresenter) {
+        if (gridPresenter == null) {
+            throw new IllegalArgumentException("Grid presenter may not be null");
+        }
+        gridPresenter.setOnItemViewSelectedListener(mRowSelectedListener);
+        gridPresenter.setOnItemViewClickedListener(mClickedListener);
+        mGridPresenter = gridPresenter;
+    }
+
+
+    public void setItem(BaseRowItem item) {
+        if (item != null) {
+            mTitleView.setText(item.getFullName(requireContext()));
+            InfoLayoutHelper.addInfoRow(requireContext(), item, mInfoRow, true, true);
+        } else {
+            mTitleView.setText("");
+            mInfoRow.removeAllViews();
+        }
+    }
+
+    public class SortOption {
+        public String name;
+        public String value;
+        public SortOrder order;
+
+        public SortOption(String name, String value, SortOrder order) {
+            this.name = name;
+            this.value = value;
+            this.order = order;
+        }
+    }
+
+    private Map<Integer, SortOption> sortOptions;
+
+    private SortOption getSortOption(String value) {
+        for (Integer key : sortOptions.keySet()) {
+            SortOption option = sortOptions.get(key);
+            if (Objects.requireNonNull(option).value.equals(value)) return option;
+        }
+
+        return new SortOption("Unknown", "", SortOrder.Ascending);
+    }
+
+    public void setStatusText(String folderName) {
+        String text = getString(R.string.lbl_showing) + " ";
+        FilterOptions filters = mAdapter.getFilters();
+        if (filters == null || (!filters.isFavoriteOnly() && !filters.isUnwatchedOnly())) {
+            text += getString(R.string.lbl_all_items);
+        } else {
+            text += (filters.isUnwatchedOnly() ? getString(R.string.lbl_unwatched) : "") + " " +
+                    (filters.isFavoriteOnly() ? getString(R.string.lbl_favorites) : "");
+        }
+
+        if (mAdapter.getStartLetter() != null) {
+            text += " " + getString(R.string.lbl_starting_with) + " " + mAdapter.getStartLetter();
+        }
+
+        text += " " + getString(R.string.lbl_from) + " '" + folderName + "' " + getString(R.string.lbl_sorted_by) + " " + getSortOption(mAdapter.getSortBy()).name;
+
+        mStatusText.setText(text);
+    }
+
+    final private OnItemViewSelectedListener mRowSelectedListener =
+            new OnItemViewSelectedListener() {
+                @Override
+                public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
+                                           RowPresenter.ViewHolder rowViewHolder, Row row) {
+                    int position = mGridView.getSelectedPosition();
+                    Timber.d("row selected position %s", position);
+                    if (position != mSelectedPosition) {
+                        mSelectedPosition = position;
+                    }
+                    // Update the counter
+                    updateCounter(position + 1);
+                    if (position >= 0) {
+                        mSelectedListener.onItemSelected(itemViewHolder, item, rowViewHolder, row);
+                    }
+                }
+            };
+
+    public void updateCounter(int position) {
+        if (mAdapter != null) {
+            mCounter.setText(MessageFormat.format("{0} | {1}", position, mAdapter.getTotalItems()));
+        }
     }
 
     private void setRowDef(final BrowseRowDef rowDef) {
@@ -149,17 +373,6 @@ public class BrowseGridFragment extends GridFragment {
             mDirty = true;
         }
         mRowDef = rowDef;
-    }
-
-    private void setCardHeight(final int height) {
-        if (mCardHeight != height) {
-            mDirty = true;
-        }
-        mCardHeight = height;
-    }
-
-    private int getCardHeight() {
-        return mCardHeight;
     }
 
     private double getCardWidthBy(final double cardHeight, ImageType imageType, BaseItemDto folder) {
@@ -205,9 +418,8 @@ public class BrowseGridFragment extends GridFragment {
     }
 
     private void setDefaultGridRowCols(PosterSize posterSize, ImageType imageType) {
-        Presenter presenter = getGridPresenter();
         // HINT: use uneven Rows/Cols if possible, so selected middle lines up with TV middle!
-        if (presenter instanceof VerticalGridPresenter) {
+        if (mGridPresenter instanceof VerticalGridPresenter) {
             int numCols;
             switch (posterSize) {
                 case SMALLEST:
@@ -228,8 +440,8 @@ public class BrowseGridFragment extends GridFragment {
                 default:
                     throw new IllegalStateException("Unexpected value: " + mPosterSizeSetting);
             }
-            ((VerticalGridPresenter) presenter).setNumberOfColumns(numCols);
-        } else if (presenter instanceof HorizontalGridPresenter) {
+            ((VerticalGridPresenter) mGridPresenter).setNumberOfColumns(numCols);
+        } else if (mGridPresenter instanceof HorizontalGridPresenter) {
             int numRows;
             switch (posterSize) {
                 case SMALLEST:
@@ -250,19 +462,16 @@ public class BrowseGridFragment extends GridFragment {
                 default:
                     throw new IllegalStateException("Unexpected value: " + mPosterSizeSetting);
             }
-            ((HorizontalGridPresenter) presenter).setNumberOfRows(numRows);
+            ((HorizontalGridPresenter) mGridPresenter).setNumberOfRows(numRows);
         }
     }
 
     private void setAutoCardGridValues() {
-        Presenter presenter = getGridPresenter();
-        if (presenter == null) {
+        if (mGridPresenter == null) {
             Timber.e("Invalid presenter, cant calculate CardGridValues!");
             return;
         }
         double cardScaling = Math.max(mCardFocusScale - 1.0, 0.0);
-        int grid_height = getGridHeight();
-        int grid_width = getGridWidth();
         int cardHeightInt = 100;
         int spacingHorizontalInt = 0;
         int spacingVerticalInt = 0;
@@ -272,14 +481,14 @@ public class BrowseGridFragment extends GridFragment {
         int numCols = 0;
         int numCardsScreen = 0; // number of cards visible, including cutoff's
 
-        if (presenter instanceof HorizontalGridPresenter) {
-            numRows = ((HorizontalGridPresenter) presenter).getNumberOfRows();
+        if (mGridPresenter instanceof HorizontalGridPresenter) {
+            numRows = ((HorizontalGridPresenter) mGridPresenter).getNumberOfRows();
             if (numRows == 1) { // reduce size so minimal cards are shown
                 numRows = 0;
                 numCols = MIN_NUM_CARDS;
             }
-        } else if (presenter instanceof VerticalGridPresenter) {
-            numCols = ((VerticalGridPresenter) presenter).getNumberOfColumns();
+        } else if (mGridPresenter instanceof VerticalGridPresenter) {
+            numCols = ((VerticalGridPresenter) mGridPresenter).getNumberOfColumns();
         }
 
         if (numRows > 0) {
@@ -287,19 +496,19 @@ public class BrowseGridFragment extends GridFragment {
             double spaceingPct = ((paddingPct / 2.0) * CARD_SPACING_PCT) * (numRows - 1);
 
             double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = grid_height / (1.0 + wastedSpacePct); // decrease size
+            double useableCardSpace = mGridHeight / (1.0 + wastedSpacePct); // decrease size
             double cardHeight = useableCardSpace / numRows;
 
             // fix any rounding errors and make pixel perfect
             cardHeightInt = (int) Math.round(cardHeight);
             double cardPaddingTopBottomAdj = cardHeightInt * cardScaling;
             spacingVerticalInt = Math.max((int) (Math.round((cardPaddingTopBottomAdj / 2.0) * CARD_SPACING_PCT)), 0); // round spacing
-            int paddingTopBottomInt = grid_height - ((cardHeightInt * numRows) + (spacingVerticalInt * (numRows - 1)));
+            int paddingTopBottomInt = mGridHeight - ((cardHeightInt * numRows) + (spacingVerticalInt * (numRows - 1)));
             paddingTopInt = Math.max(paddingTopBottomInt / 2, 0);
 
             int sumSize = (cardHeightInt * numRows) + (spacingVerticalInt * (numRows - 1)) + (paddingTopInt * 2);
-            if (Math.abs(sumSize - grid_height) > 2) {
-                Timber.w("setAutoCardGridValues calculation delta > 2, something is off GridHeight <%s> sumSize <%s>!", grid_height, sumSize);
+            if (Math.abs(sumSize - mGridHeight) > 2) {
+                Timber.w("setAutoCardGridValues calculation delta > 2, something is off GridHeight <%s> sumSize <%s>!", mGridHeight, sumSize);
             }
             int cardWidthInt = (int) getCardWidthBy(cardHeightInt, mImageType, mFolder);
             paddingLeftInt = (int) Math.round((cardWidthInt * cardScaling) / 2.0);
@@ -307,7 +516,7 @@ public class BrowseGridFragment extends GridFragment {
             if (mImageType == ImageType.BANNER) {
                 spacingHorizontalInt = Math.max((int) (Math.round(paddingLeftInt * CARD_SPACING_HORIZONTAL_BANNER_PCT)), 0); // round spacing
             }
-            int cardsCol = (int) Math.round(((double) grid_width / (cardWidthInt + spacingHorizontalInt)) + 0.5);
+            int cardsCol = (int) Math.round(((double) mGridWidth / (cardWidthInt + spacingHorizontalInt)) + 0.5);
             mCardsScreenEst = numRows * cardsCol;
             mCardsScreenStride = numRows;
         } else if (numCols > 0) {
@@ -318,7 +527,7 @@ public class BrowseGridFragment extends GridFragment {
             }
 
             double wastedSpacePct = paddingPct + spaceingPct;
-            double useableCardSpace = grid_width / (1.0 + wastedSpacePct); // decrease size
+            double useableCardSpace = mGridWidth / (1.0 + wastedSpacePct); // decrease size
             double cardWidth = useableCardSpace / numCols;
 
             // fix any rounding errors and make pixel perfect
@@ -329,33 +538,30 @@ public class BrowseGridFragment extends GridFragment {
             if (mImageType == ImageType.BANNER) {
                 spacingHorizontalInt = Math.max((int) (Math.round((cardPaddingLeftRightAdj / 2.0) * CARD_SPACING_HORIZONTAL_BANNER_PCT)), 0); // round spacing
             }
-            int paddingLeftRightInt = grid_width - ((cardWidthInt * numCols) + (spacingHorizontalInt * (numCols - 1)));
+            int paddingLeftRightInt = mGridWidth - ((cardWidthInt * numCols) + (spacingHorizontalInt * (numCols - 1)));
             paddingLeftInt = Math.max(paddingLeftRightInt / 2, 0);
 
             int sumSize = (cardWidthInt * numCols) + (spacingHorizontalInt * (numCols - 1)) + (paddingLeftInt * 2);
-            if (Math.abs(sumSize - grid_width) > 2) {
-                Timber.w("setAutoCardGridValues calculation delta > 2, something is off GridWidth <%s> sumSize <%s>!", grid_width, sumSize);
+            if (Math.abs(sumSize - mGridWidth) > 2) {
+                Timber.w("setAutoCardGridValues calculation delta > 2, something is off GridWidth <%s> sumSize <%s>!", mGridWidth, sumSize);
             }
             paddingTopInt = (int) Math.round((cardHeightInt * cardScaling) / 2.0);
             spacingVerticalInt = Math.max((int) (Math.round(paddingTopInt * CARD_SPACING_PCT)), 0); // round spacing
-            int cardsRow = (int) Math.round(((double) grid_height / (cardHeightInt + spacingVerticalInt)) + 0.5);
+            int cardsRow = (int) Math.round(((double) mGridHeight / (cardHeightInt + spacingVerticalInt)) + 0.5);
             mCardsScreenEst = numCols * cardsRow;
             mCardsScreenStride = numCols;
         }
 
         Timber.d("numCardsScreen <%s>", numCardsScreen);
 
-        setCardHeight(cardHeightInt);
-        setGridItemSpacing(spacingHorizontalInt, spacingVerticalInt);
-        setGridPadding(paddingLeftInt, paddingTopInt);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        loadGrid();
-        addTools();
+        if (mCardHeight != cardHeightInt) {
+            mDirty = true;
+        }
+        mCardHeight = cardHeightInt;
+        mGridItemSpacingHorizontal = spacingHorizontalInt;
+        mGridItemSpacingVertical = spacingVerticalInt;
+        mGridPaddingLeft = paddingLeftInt;
+        mGridPaddingTop = paddingTopInt;
     }
 
     private void setupQueries() {
@@ -408,25 +614,6 @@ public class BrowseGridFragment extends GridFragment {
     }
 
     @Override
-    protected void onGridSizeMeasurements(int gridHeight, int gridWidth) {
-        BaseGridView gridView = getGridView();
-        if (gridView == null) {
-            return;
-        }
-        // prevent adaption on minor size delta's
-        if (Math.abs(getGridHeight() - gridHeight) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(getGridWidth() - gridWidth) > MIN_GRIDSIZE_CHANGE_DELTA) {
-            setGridSize(gridHeight, gridWidth); // set to new "real" measured size
-            Timber.d("Auto-Adapting grid size to height <%s> width <%s>", gridHeight, gridWidth);
-            mDirty = true;
-            determiningPosterSize = true;
-            setAutoCardGridValues();
-            createGrid();
-            loadGrid();
-            determiningPosterSize = false;
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -435,16 +622,16 @@ public class BrowseGridFragment extends GridFragment {
         GridDirection gridDirection = libraryPreferences.get(LibraryPreferences.Companion.getGridDirection());
 
 
-        if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection || isDirty()) {
+        if (mImageType != imageType || mPosterSizeSetting != posterSizeSetting || mGridDirection != gridDirection || mDirty) {
             determiningPosterSize = true;
 
             mImageType = imageType;
             mPosterSizeSetting = posterSizeSetting;
             mGridDirection = gridDirection;
 
-            if (mGridDirection.equals(GridDirection.VERTICAL) && (getGridPresenter() == null || !(getGridPresenter() instanceof VerticalGridPresenter))) {
+            if (mGridDirection.equals(GridDirection.VERTICAL) && (mGridPresenter == null || !(mGridPresenter instanceof VerticalGridPresenter))) {
                 setGridPresenter(new VerticalGridPresenter());
-            } else if (mGridDirection.equals(GridDirection.HORIZONTAL) && (getGridPresenter() == null || !(getGridPresenter() instanceof HorizontalGridPresenter))) {
+            } else if (mGridDirection.equals(GridDirection.HORIZONTAL) && (mGridPresenter == null || !(mGridPresenter instanceof HorizontalGridPresenter))) {
                 setGridPresenter(new HorizontalGridPresenter());
             }
             setDefaultGridRowCols(mPosterSizeSetting, mImageType);
@@ -456,12 +643,12 @@ public class BrowseGridFragment extends GridFragment {
 
         if (!justLoaded) {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
-            if (mGridAdapter != null) {
+            if (mAdapter != null) {
                 mHandler.postDelayed(() -> {
                     if (mActivity != null && mActivity.isFinishing()) return;
                     if (getActivity() != null && getActivity().isFinishing()) return;
-                    if (mGridAdapter != null && mGridAdapter.size() > 0) {
-                        if (!mGridAdapter.ReRetrieveIfNeeded()) {
+                    if (mAdapter != null && mAdapter.size() > 0) {
+                        if (!mAdapter.ReRetrieveIfNeeded()) {
                             refreshCurrentItem();
                         }
                     }
@@ -473,7 +660,7 @@ public class BrowseGridFragment extends GridFragment {
     }
 
     private void buildAdapter() {
-        mCardPresenter = new CardPresenter(false, mImageType, getCardHeight());
+        mCardPresenter = new CardPresenter(false, mImageType, mCardHeight);
         mCardPresenter.setUniformAspect(true); // make grid layouts always uniform
 
         Timber.d("buildAdapter cardHeight <%s> getCardWidthBy <%s> chunks <%s> type <%s>", mCardHeight, (int) getCardWidthBy(mCardHeight, mImageType, mFolder), mRowDef.getChunkSize(), mRowDef.getQueryType().toString());
@@ -487,40 +674,40 @@ public class BrowseGridFragment extends GridFragment {
 
         switch (mRowDef.getQueryType()) {
             case NextUp:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getNextUpQuery(), true, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getNextUpQuery(), true, mCardPresenter, null);
                 break;
             case Season:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSeasonQuery(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSeasonQuery(), mCardPresenter, null);
                 break;
             case Upcoming:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
                 break;
             case Views:
-                mGridAdapter = new ItemRowAdapter(requireContext(), new ViewQuery(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), new ViewQuery(), mCardPresenter, null);
                 break;
             case SimilarSeries:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);
                 break;
             case SimilarMovies:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarMovies, mCardPresenter, null);
                 break;
             case Persons:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getPersonsQuery(), chunkSize, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getPersonsQuery(), chunkSize, mCardPresenter, null);
                 break;
             case LiveTvChannel:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getTvChannelQuery(), 40, mCardPresenter, null);
                 break;
             case LiveTvProgram:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getProgramQuery(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getProgramQuery(), mCardPresenter, null);
                 break;
             case LiveTvRecording:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingQuery(), chunkSize, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingQuery(), chunkSize, mCardPresenter, null);
                 break;
             case AlbumArtists:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getArtistsQuery(), chunkSize, mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getArtistsQuery(), chunkSize, mCardPresenter, null);
                 break;
             default:
-                mGridAdapter = new ItemRowAdapter(requireContext(), mRowDef.getQuery(), chunkSize, mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getQuery(), chunkSize, mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);
                 break;
         }
         mDirty = false;
@@ -529,18 +716,35 @@ public class BrowseGridFragment extends GridFragment {
         filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
         filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
 
-        setupRetrieveListeners();
-        mGridAdapter.setFilters(filters);
-        setAdapter(mGridAdapter);
+        mAdapter.setRetrieveFinishedListener(new EmptyResponse() {
+            @Override
+            public void onResponse() {
+                setStatusText(mFolder.getName());
+                if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
+                    setItem(null);
+                    updateCounter(mAdapter.getTotalItems() > 0 ? 1 : 0);
+                }
+                mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
+                if (mAdapter.getTotalItems() == 0) {
+                    mToolBar.requestFocus();
+                    mHandler.postDelayed(() -> mTitleView.setText(mFolder.getName()), 500);
+                } else {
+                    if (mGridView != null) mGridView.requestFocus();
+                }
+            }
+        });
+        mAdapter.setFilters(filters);
+
+        updateAdapter();
     }
 
     public void loadGrid() {
-        if (mCardPresenter == null || mGridAdapter == null || isDirty()) {
+        if (mCardPresenter == null || mAdapter == null || mDirty) {
             buildAdapter();
         }
 
-        mGridAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
-        mGridAdapter.Retrieve();
+        mAdapter.setSortBy(getSortOption(libraryPreferences.get(LibraryPreferences.Companion.getSortBy())));
+        mAdapter.Retrieve();
     }
 
     private ImageButton mSortButton;
@@ -550,16 +754,15 @@ public class BrowseGridFragment extends GridFragment {
     private ImageButton mLetterButton;
 
     private void updateDisplayPrefs() {
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mGridAdapter.getFilters().isFavoriteOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mGridAdapter.getFilters().isUnwatchedOnly());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mGridAdapter.getSortBy());
-        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mGridAdapter.getSortBy()).order);
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterFavoritesOnly(), mAdapter.getFilters().isFavoriteOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getFilterUnwatchedOnly(), mAdapter.getFilters().isUnwatchedOnly());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortBy(), mAdapter.getSortBy());
+        libraryPreferences.set(LibraryPreferences.Companion.getSortOrder(), getSortOption(mAdapter.getSortBy()).order);
         CoroutineUtils.runBlocking((coroutineScope, continuation) -> libraryPreferences.commit(continuation));
     }
 
     private void addTools() {
         //Add tools
-        LinearLayout toolBar = getToolBar();
         int size = Utils.convertDpToPixel(requireContext(), 26);
 
         mSortButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
@@ -570,7 +773,7 @@ public class BrowseGridFragment extends GridFragment {
             @Override
             public void onClick(View v) {
                 //Create sort menu
-                PopupMenu sortMenu = new PopupMenu(getActivity(), getToolBar(), Gravity.END);
+                PopupMenu sortMenu = new PopupMenu(getActivity(), mToolBar, Gravity.END);
                 for (Integer key : sortOptions.keySet()) {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
@@ -582,8 +785,8 @@ public class BrowseGridFragment extends GridFragment {
                 sortMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        mGridAdapter.setSortBy(Objects.requireNonNull(sortOptions.get(item.getItemId())));
-                        mGridAdapter.Retrieve();
+                        mAdapter.setSortBy(Objects.requireNonNull(sortOptions.get(item.getItemId())));
+                        mAdapter.Retrieve();
                         item.setChecked(true);
                         updateDisplayPrefs();
                         return true;
@@ -594,51 +797,51 @@ public class BrowseGridFragment extends GridFragment {
         });
         mSortButton.setContentDescription(getString(R.string.lbl_sort_by));
 
-        toolBar.addView(mSortButton);
+        mToolBar.addView(mSortButton);
 
         if (mRowDef.getQueryType() == QueryType.Items) {
             mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
             mUnwatchedButton.setImageResource(R.drawable.ic_unwatch);
-            mUnwatchedButton.setActivated(mGridAdapter.getFilters().isUnwatchedOnly());
+            mUnwatchedButton.setActivated(mAdapter.getFilters().isUnwatchedOnly());
             mUnwatchedButton.setMaxHeight(size);
             mUnwatchedButton.setAdjustViewBounds(true);
             mUnwatchedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FilterOptions filters = mGridAdapter.getFilters();
+                    FilterOptions filters = mAdapter.getFilters();
                     if (filters == null) filters = new FilterOptions();
 
                     filters.setUnwatchedOnly(!filters.isUnwatchedOnly());
                     mUnwatchedButton.setActivated(filters.isUnwatchedOnly());
-                    mGridAdapter.setFilters(filters);
-                    mGridAdapter.Retrieve();
+                    mAdapter.setFilters(filters);
+                    mAdapter.Retrieve();
                     updateDisplayPrefs();
                 }
             });
             mUnwatchedButton.setContentDescription(getString(R.string.lbl_unwatched));
-            toolBar.addView(mUnwatchedButton);
+            mToolBar.addView(mUnwatchedButton);
         }
 
         mFavoriteButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mFavoriteButton.setImageResource(R.drawable.ic_heart);
-        mFavoriteButton.setActivated(mGridAdapter.getFilters().isFavoriteOnly());
+        mFavoriteButton.setActivated(mAdapter.getFilters().isFavoriteOnly());
         mFavoriteButton.setMaxHeight(size);
         mFavoriteButton.setAdjustViewBounds(true);
         mFavoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FilterOptions filters = mGridAdapter.getFilters();
+                FilterOptions filters = mAdapter.getFilters();
                 if (filters == null) filters = new FilterOptions();
 
                 filters.setFavoriteOnly(!filters.isFavoriteOnly());
                 mFavoriteButton.setActivated(filters.isFavoriteOnly());
-                mGridAdapter.setFilters(filters);
-                mGridAdapter.Retrieve();
+                mAdapter.setFilters(filters);
+                mAdapter.Retrieve();
                 updateDisplayPrefs();
             }
         });
         mFavoriteButton.setContentDescription(getString(R.string.lbl_favorite));
-        toolBar.addView(mFavoriteButton);
+        mToolBar.addView(mFavoriteButton);
 
         mLetterButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mLetterButton.setImageResource(R.drawable.ic_jump_letter);
@@ -652,7 +855,7 @@ public class BrowseGridFragment extends GridFragment {
             }
         });
         mLetterButton.setContentDescription(getString(R.string.lbl_by_letter));
-        toolBar.addView(mLetterButton);
+        mToolBar.addView(mLetterButton);
 
         mSettingsButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mSettingsButton.setImageResource(R.drawable.ic_settings);
@@ -671,7 +874,7 @@ public class BrowseGridFragment extends GridFragment {
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));
-        toolBar.addView(mSettingsButton);
+        mToolBar.addView(mSettingsButton);
     }
 
     private JumplistPopup mJumplistPopup;
@@ -691,7 +894,7 @@ public class BrowseGridFragment extends GridFragment {
 
             alphaPicker = new AlphaPickerView(requireContext(), null);
             alphaPicker.setOnAlphaSelected(letter -> {
-                mGridAdapter.setStartLetter(letter.toString());
+                mAdapter.setStartLetter(letter.toString());
                 loadGrid();
                 dismiss();
                 return null;
@@ -702,8 +905,8 @@ public class BrowseGridFragment extends GridFragment {
 
         public void show() {
             popupWindow.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
-            if (mGridAdapter.getStartLetter() != null && !mGridAdapter.getStartLetter().isEmpty()) {
-                alphaPicker.focus(mGridAdapter.getStartLetter().charAt(0));
+            if (mAdapter.getStartLetter() != null && !mAdapter.getStartLetter().isEmpty()) {
+                alphaPicker.focus(mAdapter.getStartLetter().charAt(0));
             }
         }
 
@@ -715,10 +918,13 @@ public class BrowseGridFragment extends GridFragment {
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(mClickedListener);
+        if (mGridPresenter != null) {
+            if (mGridPresenter instanceof HorizontalGridPresenter)
+                ((HorizontalGridPresenter) mGridPresenter).setOnItemViewClickedListener(mClickedListener);
+            else if (mGridPresenter instanceof VerticalGridPresenter)
+                ((VerticalGridPresenter) mGridPresenter).setOnItemViewClickedListener(mClickedListener);
+        }
         mClickedListener.registerListener(new ItemViewClickedListener());
-
-        setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
         if (mActivity != null) {
@@ -726,7 +932,7 @@ public class BrowseGridFragment extends GridFragment {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
                     if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                        mediaManager.getValue().setCurrentMediaAdapter(mGridAdapter);
+                        mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
                         mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
                         mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
                     }
@@ -748,33 +954,12 @@ public class BrowseGridFragment extends GridFragment {
         }
     }
 
-    private void setupRetrieveListeners() {
-        mGridAdapter.setRetrieveFinishedListener(new EmptyResponse() {
-            @Override
-            public void onResponse() {
-                setStatusText(mFolder.getName());
-                if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
-                    setItem(null);
-                    updateCounter(mGridAdapter.getTotalItems() > 0 ? 1 : 0);
-                }
-                mLetterButton.setVisibility(ItemSortBy.SortName.equals(mGridAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
-                if (mGridAdapter.getTotalItems() == 0) {
-                    mToolBar.requestFocus();
-                    mHandler.postDelayed(() -> setTitle(mFolder.getName()), 500);
-                } else {
-                    focusGrid();
-                }
-            }
-        });
-    }
-
     private void refreshCurrentItem() {
         if (mediaManager.getValue().getCurrentMediaPosition() >= 0) {
             mCurrentItem = mediaManager.getValue().getCurrentMediaItem();
 
-            Presenter presenter = getGridPresenter();
-            if (presenter instanceof HorizontalGridPresenter)
-                ((HorizontalGridPresenter) presenter).setPosition(mediaManager.getValue().getCurrentMediaPosition());
+            if (mGridPresenter instanceof HorizontalGridPresenter)
+                ((HorizontalGridPresenter) mGridPresenter).setPosition(mediaManager.getValue().getCurrentMediaPosition());
             // Don't do anything for vertical grids as the presenter does not allow setting the position
 
             mediaManager.getValue().setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
@@ -786,14 +971,14 @@ public class BrowseGridFragment extends GridFragment {
                 @Override
                 public void onResponse() {
 
-                    mGridAdapter.notifyArrayItemRangeChanged(mGridAdapter.indexOf(mCurrentItem), 1);
+                    mAdapter.notifyArrayItemRangeChanged(mAdapter.indexOf(mCurrentItem), 1);
                     //Now - if filtered make sure we still pass
-                    if (mGridAdapter.getFilters() != null) {
-                        if ((mGridAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mGridAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
+                    if (mAdapter.getFilters() != null) {
+                        if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
                             //if we are about to remove last item, throw focus to toolbar so framework doesn't crash
-                            if (mGridAdapter.size() == 1) mToolBar.requestFocus();
-                            mGridAdapter.remove(mCurrentItem);
-                            mGridAdapter.setTotalItems(mGridAdapter.getTotalItems() - 1);
+                            if (mAdapter.size() == 1) mToolBar.requestFocus();
+                            mAdapter.remove(mCurrentItem);
+                            mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
                             updateCounter(mCurrentItem.getIndex());
                         }
                     }
@@ -808,7 +993,7 @@ public class BrowseGridFragment extends GridFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mGridAdapter, ((BaseRowItem) item).getIndex(), getActivity());
+            ItemLauncher.launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), getActivity());
         }
     }
 
@@ -827,7 +1012,7 @@ public class BrowseGridFragment extends GridFragment {
             mHandler.removeCallbacks(mDelayedSetItem);
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
-                setTitle(MainTitle);
+                mTitleView.setText(mainTitle);
                 //fill in default background
                 backgroundService.getValue().clearBackgrounds();
             } else {
@@ -837,7 +1022,7 @@ public class BrowseGridFragment extends GridFragment {
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
 
                 if (!determiningPosterSize)
-                    mGridAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
+                    mAdapter.loadMoreItemsIfNeeded(mCurrentItem.getIndex());
             }
         }
     }
