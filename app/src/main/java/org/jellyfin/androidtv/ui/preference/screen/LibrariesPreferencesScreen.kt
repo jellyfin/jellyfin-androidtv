@@ -9,9 +9,11 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.DisplayPreferencesScreen
+import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.apiclient.model.entities.CollectionType
 import org.koin.android.ext.android.inject
 
 class LibrariesPreferencesScreen : OptionsFragment() {
@@ -37,11 +39,20 @@ class LibrariesPreferencesScreen : OptionsFragment() {
 
 				link {
 					title = it.name
-					icon = R.drawable.ic_folder
-					withFragment<DisplayPreferencesScreen>(bundleOf(
-						DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION to allowViewSelection,
-						DisplayPreferencesScreen.ARG_PREFERENCES_ID to it.displayPreferencesId,
-					))
+
+					if (userViewsRepository.allowGridView(it.collectionType)) {
+						icon = R.drawable.ic_folder
+						withFragment<DisplayPreferencesScreen>(bundleOf(
+							DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION to allowViewSelection,
+							DisplayPreferencesScreen.ARG_PREFERENCES_ID to it.displayPreferencesId,
+						))
+					} else if (it.collectionType == CollectionType.livetv) {
+						icon = R.drawable.ic_guide
+						withFragment<GuideOptionsScreen>()
+					} else {
+						icon = R.drawable.ic_folder
+						enabled = false
+					}
 				}
 			}
 		}
