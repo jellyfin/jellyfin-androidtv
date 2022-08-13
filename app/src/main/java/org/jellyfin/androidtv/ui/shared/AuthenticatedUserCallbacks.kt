@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.shared
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
@@ -26,14 +27,22 @@ class AuthenticatedUserCallbacks(
 	}
 
 	override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
-		val name = activity::class.qualifiedName
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) activity.checkAuthentication()
+	}
+
+	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) activity.checkAuthentication()
+	}
+
+	private fun Activity.checkAuthentication() {
+		val name = this::class.qualifiedName
 
 		if (name in ignoredClassNames) {
 			Timber.i("Activity $name is ignored")
 		} else if (sessionRepository.currentSession.value == null) {
 			Timber.w("Activity $name started without a session, bouncing to StartupActivity")
-			activity.startActivity(Intent(activity, StartupActivity::class.java))
-			activity.finish()
+			startActivity(Intent(this, StartupActivity::class.java))
+			finish()
 		}
 	}
 }
