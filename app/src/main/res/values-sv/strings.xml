@@ -258,7 +258,7 @@
     <string name="pref_app_theme">Apptema</string>
     <string name="grid_direction">Rutnätsriktning</string>
     <string name="pref_device_model">Enhetens modell</string>
-    <string name="grid_direction_vertical">Vertikal (experimentell)</string>
+    <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horisontell</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
@@ -477,4 +477,21 @@
     <string name="lbl_adjust">Justera</string>
     <string name="state_disabled">Inaktiverad</string>
     <string name="live_tv_preferences">Alternativ för direktsänd TV</string>
+    <string name="enable_picture_viewer_title">Aktivera ny bildvisare</string>
+    <string name="server_setup_incomplete">Installationen av den här servern har inte slutförts. Öppna Jellyfin i en webbläsare för att slutföra installationen innan du loggar in.</string>
+    <string name="crash_report_toast">Oj då! Någonting gick fel, och en krashrapport skickades till din Jellyfin server.</string>
+    <string name="pref_crash_report_logs_disabled">Loggar kommer inte att inkluderas i krashrapporter</string>
+    <string name="pref_crash_report_logs_enabled">Loggar kommer att inkluderas i krashrapporter</string>
+    <string name="pref_crash_report_logs">Inkludera loggar</string>
+    <string name="pref_crash_reports_disabled">Kraschrapporter kommer inte att lämnas</string>
+    <string name="pref_crash_reports_enabled">Kraschrapporter kommer att skickas till din senast använda server</string>
+    <string name="pref_crash_reports">Skicka kraschrapporter till server</string>
+    <string name="pref_telemetry_description">Skicka kraschrapporter, inkludera loggar</string>
+    <string name="pref_telemetry_category">Kraschrapportering</string>
+    <string name="server_unsupported_notification">Den här servern använder Jellyfin version %1$s som inte stöds. Vänligen uppdatera till Jellyfin %2$s för att fortsätta använda appen.</string>
+    <string name="app_notification_uimode_invalid">Den här appen är optimiserad för tv-apparater. Vi rekommenderar att du använder vår mobilapp på andra enheter.</string>
+    <string name="image_size_xlarge">Extra Stor</string>
+    <string name="image_size_smallest">Minsta</string>
+    <string name="image_type_poster">Affisch</string>
+    <string name="lbl_additional_parts">Ytterligare Komponenter</string>
 </resources>
