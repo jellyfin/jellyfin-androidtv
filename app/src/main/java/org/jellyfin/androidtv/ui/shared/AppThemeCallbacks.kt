@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.shared
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
@@ -14,22 +15,38 @@ class AppThemeCallbacks(
 	private var lastPreferencesTheme: AppTheme? = null
 
 	override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) activity.applyThemeOnCreated()
+	}
+
+	override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) activity.applyThemeOnCreated()
+	}
+
+	override fun onActivityPreResumed(activity: Activity) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) activity.applyThemeOnResume()
+	}
+
+	override fun onActivityResumed(activity: Activity) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) activity.applyThemeOnResume()
+	}
+
+	private fun Activity.applyThemeOnCreated() {
 		userPreferences[UserPreferences.appTheme].let {
 			Timber.i("Applying theme: %s", it)
-			activity.setTheme(ThemeManager.getTheme(activity, it))
-			when (activity) {
+			setTheme(ThemeManager.getTheme(this, it))
+			when (this) {
 				is PreferencesActivity -> lastPreferencesTheme = it
 				else -> lastTheme = it
 			}
 		}
 	}
 
-	override fun onActivityPreResumed(activity: Activity) {
-		val lastThemeForActivity = if (activity is PreferencesActivity) lastPreferencesTheme else lastTheme
+	private fun Activity.applyThemeOnResume() {
+		val lastThemeForActivity = if (this is PreferencesActivity) lastPreferencesTheme else lastTheme
 		userPreferences[UserPreferences.appTheme].let {
 			if (lastThemeForActivity != null && lastThemeForActivity != it) {
 				Timber.i("Recreating activity to apply new theme: %s -> %s", lastThemeForActivity, it)
-				activity.recreate()
+				recreate()
 			}
 		}
 	}
