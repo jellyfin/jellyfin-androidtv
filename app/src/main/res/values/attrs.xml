@@ -34,4 +34,8 @@
     <declare-styleable name="StrokeTextView">
         <attr name="strokeWidth" format="float" />
     </declare-styleable>
+    <declare-styleable name="AsyncImageView">
+        <attr name="crossfadeDuration" format="integer" />
+        <attr name="circleCrop" format="boolean" />
+    </declare-styleable>
 </resources>
