@@ -12,6 +12,7 @@ interface UserViewsRepository {
 
 	fun isSupported(collectionType: String?): Boolean
 	fun allowViewSelection(collectionType: String?): Boolean
+	fun allowGridView(collectionType: String?): Boolean
 }
 
 class UserViewsRepositoryImpl(
@@ -26,13 +27,25 @@ class UserViewsRepositoryImpl(
 	}
 
 	override fun isSupported(collectionType: String?) = collectionType !in unsupportedCollectionTypes
-	override fun allowViewSelection(collectionType: String?) = collectionType != CollectionType.Music
+	override fun allowViewSelection(collectionType: String?) = collectionType !in disallowViewSelectionCollectionTypes
+	override fun allowGridView(collectionType: String?) = collectionType !in disallowGridViewCollectionTypes
 
 	private companion object {
 		private val unsupportedCollectionTypes = arrayOf(
 			CollectionType.Books,
 			CollectionType.Games,
 			CollectionType.Folders
+		)
+
+		private val disallowViewSelectionCollectionTypes = arrayOf(
+			CollectionType.livetv,
+			CollectionType.Music,
+			CollectionType.Photos,
+		)
+
+		private val disallowGridViewCollectionTypes = arrayOf(
+			CollectionType.livetv,
+			CollectionType.Music
 		)
 	}
 }
