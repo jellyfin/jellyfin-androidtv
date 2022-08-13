@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
-
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
@@ -23,7 +21,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.koin.java.KoinJavaComponent;
 
 public class GuideChannelHeader extends RelativeLayout {
-    private ImageView mChannelImage;
+    private AsyncImageView mChannelImage;
     private ImageView mFavImage;
     private ChannelInfoDto mChannel;
     private Context mContext;
@@ -57,14 +55,13 @@ public class GuideChannelHeader extends RelativeLayout {
     }
 
     public void loadImage() {
-        int imageWidth = Utils.convertDpToPixel(mContext, 50);
-        int imageHeight = Utils.convertDpToPixel(mContext, 30);
-
-        Glide.with(mContext)
-                .load(ImageUtils.getPrimaryImageUrl(mChannel, KoinJavaComponent.<ApiClient>get(ApiClient.class)))
-                .override(imageWidth, imageHeight)
-                .centerInside()
-                .into(mChannelImage);
+        mChannelImage.load(
+                ImageUtils.getPrimaryImageUrl(mChannel, KoinJavaComponent.<ApiClient>get(ApiClient.class)),
+                null,
+                null,
+                0.0,
+                0
+        );
     }
 
     public ChannelInfoDto getChannel() { return mChannel; }
