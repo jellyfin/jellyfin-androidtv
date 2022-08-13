@@ -36,14 +36,22 @@ fun BaseItemDto?.canPlay() = this != null
 	&& (!isFolderItem || childCount == null || childCount > 0)
 
 fun BaseItemDto.getFullName(context: Context): String? = when (baseItemType) {
-	BaseItemType.Episode -> listOfNotNull(
-		seriesName,
-		parentIndexNumber?.let { context.getString(R.string.lbl_season_number, it) },
-		indexNumber?.let { start ->
-			indexNumberEnd?.let { end -> context.getString(R.string.lbl_episode_range, start, end) }
-				?: context.getString(R.string.lbl_episode_number, start)
+	BaseItemType.Episode -> buildList {
+		add(seriesName)
+
+		if (parentIndexNumber == 0) {
+			add(context.getString(R.string.episode_name_special))
+		} else {
+			if (parentIndexNumber != null)
+				add(context.getString(R.string.lbl_season_number, parentIndexNumber))
+
+			if (indexNumber != null && indexNumberEnd != null)
+				add(context.getString(R.string.lbl_episode_range, indexNumber, indexNumberEnd))
+			else if (indexNumber != null)
+				add(context.getString(R.string.lbl_episode_number, indexNumber))
+
 		}
-	).filter { it.isNotEmpty() }.joinToString(" ")
+	}.filterNot { it.isNullOrBlank() }.joinToString(" ")
 	// we actually want the artist name if available
 	BaseItemType.Audio,
 	BaseItemType.MusicAlbum -> listOfNotNull(albumArtist, name)
