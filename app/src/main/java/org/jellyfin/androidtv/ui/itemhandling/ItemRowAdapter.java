@@ -26,7 +26,7 @@ import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.GridFragment;
+import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
@@ -401,7 +401,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         return totalItems;
     }
 
-    public void setSortBy(GridFragment.SortOption option) {
+    public void setSortBy(BrowseGridFragment.SortOption option) {
         if (!option.value.equals(mSortBy)) {
             mSortBy = option.value;
             switch (queryType) {
