@@ -33,7 +33,10 @@ import org.jellyfin.apiclient.model.entities.Video3DFormat as LegacyVideo3DForma
 import org.jellyfin.apiclient.model.entities.VideoType as LegacyVideoType
 import org.jellyfin.apiclient.model.library.PlayAccess as LegacyPlayAccess
 import org.jellyfin.apiclient.model.livetv.ChannelType as LegacyChannelType
+import org.jellyfin.apiclient.model.livetv.DayPattern as LegacyDayPattern
+import org.jellyfin.apiclient.model.livetv.KeepUntil as LegacyKeepUntil
 import org.jellyfin.apiclient.model.livetv.ProgramAudio as LegacyProgramAudio
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto as LegacySeriesTimerInfoDto
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol as LegacyMediaProtocol
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp as LegacyTransportStreamTimestamp
 import org.jellyfin.apiclient.model.providers.ExternalUrl as LegacyExternalUrl
@@ -42,10 +45,12 @@ import org.jellyfin.sdk.model.api.BaseItemPerson as ModernBaseItemPerson
 import org.jellyfin.sdk.model.api.ChannelType as ModernChannelType
 import org.jellyfin.sdk.model.api.ChapterInfo as ModernChapterInfo
 import org.jellyfin.sdk.model.api.DayOfWeek as ModernDayOfWeek
+import org.jellyfin.sdk.model.api.DayPattern as ModernDayPattern
 import org.jellyfin.sdk.model.api.ExternalUrl as ModernExternalUrl
 import org.jellyfin.sdk.model.api.ImageOrientation as ModernImageOrientation
 import org.jellyfin.sdk.model.api.ImageType as ModernImageType
 import org.jellyfin.sdk.model.api.IsoType as ModernIsoType
+import org.jellyfin.sdk.model.api.KeepUntil as ModernKeepUntil
 import org.jellyfin.sdk.model.api.LocationType as ModernLocationType
 import org.jellyfin.sdk.model.api.MediaProtocol as ModernMediaProtocol
 import org.jellyfin.sdk.model.api.MediaSourceInfo as ModernMediaSourceInfo
@@ -58,6 +63,7 @@ import org.jellyfin.sdk.model.api.NameGuidPair as ModernNameGuidPair
 import org.jellyfin.sdk.model.api.NameIdPair as ModernNameIdPair
 import org.jellyfin.sdk.model.api.PlayAccess as ModernPlayAccess
 import org.jellyfin.sdk.model.api.ProgramAudio as ModernProgramAudio
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto as ModernSeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod as ModernSubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.TransportStreamTimestamp as ModernTransportStreamTimestamp
 import org.jellyfin.sdk.model.api.UserItemDataDto as ModernUserItemDataDto
@@ -544,4 +550,55 @@ fun LegacyProgramAudio.asSdk(): ModernProgramAudio = when (this) {
 	LegacyProgramAudio.DolbyDigital -> ModernProgramAudio.DOLBY_DIGITAL
 	LegacyProgramAudio.Thx -> ModernProgramAudio.THX
 	LegacyProgramAudio.Atmos -> ModernProgramAudio.ATMOS
+}
+
+fun LegacySeriesTimerInfoDto.asSdk() = ModernSeriesTimerInfoDto(
+	id = this.id,
+	type = this.type,
+	serverId = this.serverId,
+	externalId = this.externalId,
+	channelId = this.channelId.toUUID(),
+	externalChannelId = this.externalChannelId,
+	channelName = this.channelName,
+	channelPrimaryImageTag = null,
+	programId = this.programId,
+	externalProgramId = this.externalProgramId,
+	name = this.name,
+	overview = this.overview,
+	startDate = this.startDate.toLocalDateTime(),
+	endDate = this.endDate.toLocalDateTime(),
+	serviceName = this.serviceName,
+	priority = this.priority,
+	prePaddingSeconds = this.prePaddingSeconds,
+	postPaddingSeconds = this.postPaddingSeconds,
+	isPrePaddingRequired = this.isPrePaddingRequired,
+	parentBackdropItemId = this.parentBackdropItemId,
+	parentBackdropImageTags = this.parentBackdropImageTags,
+	isPostPaddingRequired = this.isPostPaddingRequired,
+	keepUntil = this.keepUntil.asSdk(),
+	recordAnyTime = this.recordAnyTime,
+	skipEpisodesInLibrary = this.skipEpisodesInLibrary,
+	recordAnyChannel = this.recordAnyChannel,
+	keepUpTo = this.keepUpTo,
+	recordNewOnly = this.recordNewOnly,
+	days = this.days?.mapNotNull { ModernDayOfWeek.from(it) },
+	dayPattern = this.dayPattern?.asSdk(),
+	imageTags = this.imageTags?.asSdk(),
+	parentThumbItemId = this.parentThumbItemId,
+	parentThumbImageTag = this.parentThumbImageTag,
+	parentPrimaryImageItemId = this.parentPrimaryImageItemId,
+	parentPrimaryImageTag = this.parentPrimaryImageTag,
+)
+
+fun LegacyKeepUntil.asSdk(): ModernKeepUntil = when (this) {
+	LegacyKeepUntil.UntilDeleted -> ModernKeepUntil.UNTIL_DELETED
+	LegacyKeepUntil.UntilSpaceNeeded -> ModernKeepUntil.UNTIL_SPACE_NEEDED
+	LegacyKeepUntil.UntilWatched -> ModernKeepUntil.UNTIL_WATCHED
+	LegacyKeepUntil.UntilDate -> ModernKeepUntil.UNTIL_DATE
+}
+
+fun LegacyDayPattern.asSdk(): ModernDayPattern = when (this) {
+	LegacyDayPattern.Daily -> ModernDayPattern.DAILY
+	LegacyDayPattern.Weekdays -> ModernDayPattern.WEEKDAYS
+	LegacyDayPattern.Weekends -> ModernDayPattern.WEEKENDS
 }
