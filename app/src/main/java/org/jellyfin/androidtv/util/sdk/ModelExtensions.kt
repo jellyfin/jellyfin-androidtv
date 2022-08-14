@@ -1,10 +1,14 @@
+@file:JvmName("ModelUtils")
+
 package org.jellyfin.androidtv.util.sdk
 
 import org.jellyfin.androidtv.auth.model.PublicUser
 import org.jellyfin.androidtv.auth.model.Server
+import org.jellyfin.sdk.model.api.MediaStream
 import org.jellyfin.sdk.model.api.NameGuidPair
 import org.jellyfin.sdk.model.api.NameIdPair
 import org.jellyfin.sdk.model.api.ServerDiscoveryInfo
+import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.UserDto
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
@@ -26,8 +30,12 @@ fun UserDto.toPublicUser(): PublicUser? {
 	)
 }
 
-
 fun NameIdPair.toNameGuidPair(): NameGuidPair = NameGuidPair(
 	id = this.id!!.toUUID(),
 	name = this.name
+)
+
+fun MediaStream.withDelivery(method: SubtitleDeliveryMethod, url: String) = copy(
+	deliveryMethod = method,
+	deliveryUrl = url,
 )

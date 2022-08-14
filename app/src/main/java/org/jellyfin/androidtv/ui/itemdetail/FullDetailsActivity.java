@@ -338,25 +338,22 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         }
     }
 
-    private static BaseItemType[] buttonTypes = new BaseItemType[] {
-        BaseItemType.Episode,
-        BaseItemType.Movie,
-        BaseItemType.Series,
-        BaseItemType.Season,
-        BaseItemType.Folder,
-        BaseItemType.Video,
-        BaseItemType.Recording,
-        BaseItemType.Program,
-        BaseItemType.Trailer,
-        BaseItemType.MusicArtist,
-        BaseItemType.Person,
-        BaseItemType.MusicVideo,
-        BaseItemType.SeriesTimer
+    private static BaseItemKind[] buttonTypes = new BaseItemKind[]{
+            BaseItemKind.EPISODE,
+            BaseItemKind.MOVIE,
+            BaseItemKind.SERIES,
+            BaseItemKind.SEASON,
+            BaseItemKind.FOLDER,
+            BaseItemKind.VIDEO,
+            BaseItemKind.RECORDING,
+            BaseItemKind.PROGRAM,
+            BaseItemKind.TRAILER,
+            BaseItemKind.MUSIC_ARTIST,
+            BaseItemKind.PERSON,
+            BaseItemKind.MUSIC_VIDEO
     };
 
-
-    private static List<BaseItemType> buttonTypeList = Arrays.asList(buttonTypes);
-    private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
+    private static List<BaseItemKind> buttonTypeList = Arrays.asList(buttonTypes);
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
@@ -432,7 +429,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            mDetailsOverviewRow = new MyDetailsOverviewRow(item);
+            mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
 
             String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
@@ -765,8 +762,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         }
     }
 
-    private void updateInfo(BaseItemDto item) {
-        if (buttonTypeList.contains(item.getBaseItemType())) addButtons(BUTTON_SIZE);
+    private void updateInfo(org.jellyfin.sdk.model.api.BaseItemDto item) {
+        if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
 
         mLastUpdated = Calendar.getInstance();

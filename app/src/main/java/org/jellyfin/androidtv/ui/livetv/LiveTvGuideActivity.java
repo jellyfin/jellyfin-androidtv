@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -763,7 +764,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mSummary.setText(mSelectedProgram.getOverview());
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(mSelectedProgram), mInfoRow, false, false);
 
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));

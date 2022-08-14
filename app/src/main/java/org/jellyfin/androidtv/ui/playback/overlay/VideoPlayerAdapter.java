@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 import org.koin.java.KoinJavaComponent;
@@ -95,11 +96,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean hasSubs() {
-        return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
+        return StreamHelper.getSubtitleStreams(ModelCompat.asSdk(playbackController.getCurrentMediaSource())).size() > 0;
     }
 
     boolean hasMultiAudio() {
-        return StreamHelper.getAudioStreams(playbackController.getCurrentMediaSource()).size() > 1;
+        return StreamHelper.getAudioStreams(ModelCompat.asSdk(playbackController.getCurrentMediaSource())).size() > 1;
     }
 
     boolean hasNextItem() {

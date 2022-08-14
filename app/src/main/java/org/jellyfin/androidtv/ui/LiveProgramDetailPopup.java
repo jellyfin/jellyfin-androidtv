@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -116,7 +117,7 @@ public class LiveProgramDetailPopup {
         TvManager.setTimelineRow(mActivity, mDTimeline, program);
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, program, mDInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(program), mDInfoRow, false, false);
 
         //buttons
         mFirstButton = null;
