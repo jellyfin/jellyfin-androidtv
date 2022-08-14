@@ -87,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -906,6 +907,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
             do {
                 BaseItemDto empty = new BaseItemDto();
+                empty.setId(UUID.randomUUID().toString());
+                empty.setType("FOLDER");
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
@@ -934,6 +937,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
+                empty.setId(UUID.randomUUID().toString());
+                empty.setType("FOLDER");
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
