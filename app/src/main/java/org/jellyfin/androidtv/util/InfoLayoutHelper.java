@@ -307,7 +307,7 @@ public class InfoLayoutHelper {
                 break;
             default:
                 if (item.getPremiereDate() != null) {
-                    date.setText(DateFormat.getMediumDateFormat(context).format(item.getPremiereDate()));
+                    date.setText(DateFormat.getMediumDateFormat(context).format(TimeUtils.getDate(item.getPremiereDate())));
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
