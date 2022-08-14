@@ -45,6 +45,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -377,7 +378,7 @@ public class ItemListActivity extends FragmentActivity {
 
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
-        InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(this, ModelCompat.asSdk(item), mainInfoRow, false, false);
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());

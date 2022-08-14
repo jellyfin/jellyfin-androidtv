@@ -82,29 +82,26 @@ fun BaseItemDto.getSubName(context: Context): String? = when (baseItemType) {
 	else -> officialRating
 }
 
-fun BaseItemDto.getProgramUnknownChannelName(): String? =
-	TvManager.getChannel(TvManager.getAllChannelsIndex(channelId)).name
+fun org.jellyfin.sdk.model.api.BaseItemDto.getProgramUnknownChannelName(): String? =
+	TvManager.getChannel(TvManager.getAllChannelsIndex(channelId?.toString())).name
 
-fun BaseItemDto.getProgramSubText(context: Context) = buildString {
+fun org.jellyfin.sdk.model.api.BaseItemDto.getProgramSubText(context: Context) = buildString {
 	// Add the channel name if set
 	channelName?.let { append(channelName, " - ") }
 
 	// Add the episode title if set
 	episodeTitle?.let { append(episodeTitle, " ") }
 
-	val startTime = Calendar.getInstance()
-	startTime.time = TimeUtils.convertToLocalDate(startDate)
-
 	// If the start time is on a different day, add the date
-	if (startTime[Calendar.DAY_OF_YEAR] != Calendar.getInstance()[Calendar.DAY_OF_YEAR])
-		append(TimeUtils.getFriendlyDate(context, startTime.time), " ")
+	if (startDate?.dayOfYear != Calendar.getInstance()[Calendar.DAY_OF_YEAR])
+		append(TimeUtils.getFriendlyDate(context, TimeUtils.getDate(startDate)), " ")
 
 	// Add the start and end time
 	val dateFormat = DateFormat.getTimeFormat(context)
 	append(context.getString(
 		R.string.lbl_time_range,
-		dateFormat.format(startTime.time),
-		dateFormat.format(TimeUtils.convertToLocalDate(endDate))
+		dateFormat.format(startDate),
+		dateFormat.format(endDate)
 	))
 }
 
@@ -132,7 +129,7 @@ fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> {
 	}
 }
 
-fun BaseItemDto.isNew() = isSeries == true && isNews != true && isRepeat != true
+fun org.jellyfin.sdk.model.api.BaseItemDto.isNew() = isSeries == true && isNews != true && isRepeat != true
 
 fun SeriesTimerInfoDto.getSeriesOverview(context: Context) = buildString {
 	if (recordNewOnly) appendLine(context.getString(R.string.lbl_record_only_new))

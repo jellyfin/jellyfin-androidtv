@@ -1,9 +1,9 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.jellyfin.sdk.model.api.BaseItemDto;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
+import org.jellyfin.sdk.model.api.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStreamType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,11 +19,11 @@ public class StreamHelper {
     }
 
     public static List<MediaStream> getSubtitleStreams(MediaSourceInfo mediaSource) {
-        return getStreams(mediaSource, MediaStreamType.Subtitle);
+        return getStreams(mediaSource, MediaStreamType.SUBTITLE);
     }
 
     public static List<MediaStream> getAudioStreams(MediaSourceInfo mediaSource) {
-        return getStreams(mediaSource, MediaStreamType.Audio);
+        return getStreams(mediaSource, MediaStreamType.AUDIO);
     }
 
     public static MediaStream getFirstAudioStream(BaseItemDto item) {
@@ -33,14 +33,10 @@ public class StreamHelper {
         return streams.get(0);
     }
 
-    public static List<MediaStream> getVideoStreams(MediaSourceInfo mediaSource) {
-        return getStreams(mediaSource, MediaStreamType.Video);
-    }
-
     public static List<MediaStream> getStreams(MediaSourceInfo mediaSource, MediaStreamType type) {
         if (mediaSource == null) return Collections.emptyList();
 
-        ArrayList<MediaStream> streams = mediaSource.getMediaStreams();
+        List<MediaStream> streams = mediaSource.getMediaStreams();
         ArrayList<MediaStream> ret = new ArrayList<>();
         if (streams != null) {
             for (MediaStream stream : streams) {

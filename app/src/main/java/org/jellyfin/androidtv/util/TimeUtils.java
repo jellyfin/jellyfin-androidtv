@@ -6,6 +6,8 @@ import android.text.format.DateFormat;
 
 import org.jellyfin.androidtv.R;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -41,7 +43,7 @@ public class TimeUtils {
         millis %= MILLIS_PER_MIN;
         long sec = TimeUnit.MILLISECONDS.toSeconds(millis);
 
-        if(hr > 0) {
+        if (hr > 0) {
             return String.format(DURATION_TIME_FORMAT_WITH_HOURS, hr, min, sec);
         } else {
             return String.format(DURATION_TIME_FORMAT_NO_HOURS, min, sec);
@@ -157,5 +159,11 @@ public class TimeUtils {
         }
 
         return DateFormat.getDateFormat(context).format(date);
+    }
+
+    public static Date getDate(LocalDateTime date) {
+        if (date == null) return null;
+
+        return Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
     }
 }
