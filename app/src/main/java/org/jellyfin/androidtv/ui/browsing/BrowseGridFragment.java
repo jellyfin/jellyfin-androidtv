@@ -13,10 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,7 +69,6 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.koin.java.KoinJavaComponent;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -106,12 +103,7 @@ public class BrowseGridFragment extends Fragment {
     private BaseItemDto mFolder;
     private LibraryPreferences libraryPreferences;
 
-    private TextView mTitleView;
-    private TextView mStatusText;
-    private TextView mCounter;
-    private ViewGroup mGridDock;
-    private LinearLayout mInfoRow;
-    private LinearLayout mToolBar;
+    private HorizontalGridBrowseBinding binding;
     private ItemRowAdapter mAdapter;
     private Presenter mGridPresenter;
     private Presenter.ViewHolder mGridViewHolder;
@@ -128,6 +120,7 @@ public class BrowseGridFragment extends Fragment {
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
+    private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -179,7 +172,6 @@ public class BrowseGridFragment extends Fragment {
 
         setDefaultGridRowCols(mPosterSizeSetting, mImageType);
         setAutoCardGridValues();
-        mJumplistPopup = new JumplistPopup();
         setupQueries();
         setupEventListeners();
     }
@@ -188,28 +180,22 @@ public class BrowseGridFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        HorizontalGridBrowseBinding binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
-        mTitleView = binding.title;
-        mStatusText = binding.statusText;
-        mInfoRow = binding.infoRow;
-        mToolBar = binding.toolBar;
-        mCounter = binding.counter;
-        mGridDock = binding.rowsFragment;
+        binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
 
         // Hide the description because we don't have room for it
         binding.npBug.showDescription(false);
 
         // NOTE: we only get the 100% correct grid size if we render it once, so hook into it here
-        mGridDock.post(() -> {
-            if (mGridDock.getHeight() > 0 && mGridDock.getWidth() > 0) {
+        binding.rowsFragment.post(() -> {
+            if (binding.rowsFragment.getHeight() > 0 && binding.rowsFragment.getWidth() > 0) {
                 if (mGridView == null) {
                     return;
                 }
                 // prevent adaption on minor size delta's
-                if (Math.abs(mGridHeight - mGridDock.getHeight()) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(mGridWidth - mGridDock.getWidth()) > MIN_GRIDSIZE_CHANGE_DELTA) {
-                    mGridHeight = mGridDock.getHeight();
-                    mGridWidth = mGridDock.getWidth();
-                    Timber.d("Auto-Adapting grid size to height <%s> width <%s>", mGridDock.getHeight(), mGridDock.getWidth());
+                if (Math.abs(mGridHeight - binding.rowsFragment.getHeight()) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(mGridWidth - binding.rowsFragment.getWidth()) > MIN_GRIDSIZE_CHANGE_DELTA) {
+                    mGridHeight = binding.rowsFragment.getHeight();
+                    mGridWidth = binding.rowsFragment.getWidth();
+                    Timber.d("Auto-Adapting grid size to height <%s> width <%s>", binding.rowsFragment.getHeight(), binding.rowsFragment.getWidth());
                     mDirty = true;
                     determiningPosterSize = true;
                     setAutoCardGridValues();
@@ -239,7 +225,7 @@ public class BrowseGridFragment extends Fragment {
     }
 
     private void createGrid() {
-        mGridViewHolder = mGridPresenter.onCreateViewHolder(mGridDock);
+        mGridViewHolder = mGridPresenter.onCreateViewHolder(binding.rowsFragment);
         if (mGridViewHolder instanceof HorizontalGridPresenter.ViewHolder) {
             mGridView = ((HorizontalGridPresenter.ViewHolder) mGridViewHolder).getGridView();
             mGridView.setGravity(Gravity.CENTER_VERTICAL);
@@ -252,8 +238,8 @@ public class BrowseGridFragment extends Fragment {
         mGridView.setHorizontalSpacing(mGridItemSpacingHorizontal);
         mGridView.setVerticalSpacing(mGridItemSpacingVertical);
         mGridView.setFocusable(true);
-        mGridDock.removeAllViews();
-        mGridDock.addView(mGridViewHolder.view);
+        binding.rowsFragment.removeAllViews();
+        binding.rowsFragment.addView(mGridViewHolder.view);
 
         updateAdapter();
     }
@@ -294,11 +280,11 @@ public class BrowseGridFragment extends Fragment {
 
     public void setItem(BaseRowItem item) {
         if (item != null) {
-            mTitleView.setText(item.getFullName(requireContext()));
-            InfoLayoutHelper.addInfoRow(requireContext(), item, mInfoRow, true, true);
+            binding.title.setText(item.getFullName(requireContext()));
+            InfoLayoutHelper.addInfoRow(requireContext(), item, binding.infoRow, true, true);
         } else {
-            mTitleView.setText("");
-            mInfoRow.removeAllViews();
+            binding.title.setText("");
+            binding.infoRow.removeAllViews();
         }
     }
 
@@ -341,7 +327,7 @@ public class BrowseGridFragment extends Fragment {
 
         text += " " + getString(R.string.lbl_from) + " '" + folderName + "' " + getString(R.string.lbl_sorted_by) + " " + getSortOption(mAdapter.getSortBy()).name;
 
-        mStatusText.setText(text);
+        binding.statusText.setText(text);
     }
 
     final private OnItemViewSelectedListener mRowSelectedListener =
@@ -364,7 +350,7 @@ public class BrowseGridFragment extends Fragment {
 
     public void updateCounter(int position) {
         if (mAdapter != null) {
-            mCounter.setText(MessageFormat.format("{0} | {1}", position, mAdapter.getTotalItems()));
+            binding.counter.setText(MessageFormat.format("{0} | {1}", position, mAdapter.getTotalItems()));
         }
     }
 
@@ -594,7 +580,7 @@ public class BrowseGridFragment extends Fragment {
                     String includeType = requireActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
-                        albumArtists.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
+                        albumArtists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
                         albumArtists.setFields(new ItemFields[]{
                                 ItemFields.PrimaryImageAspectRatio,
                                 ItemFields.ItemCounts,
@@ -726,8 +712,8 @@ public class BrowseGridFragment extends Fragment {
                 }
                 mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 if (mAdapter.getTotalItems() == 0) {
-                    mToolBar.requestFocus();
-                    mHandler.postDelayed(() -> mTitleView.setText(mFolder.getName()), 500);
+                    binding.toolBar.requestFocus();
+                    mHandler.postDelayed(() -> binding.title.setText(mFolder.getName()), 500);
                 } else {
                     if (mGridView != null) mGridView.requestFocus();
                 }
@@ -773,7 +759,7 @@ public class BrowseGridFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Create sort menu
-                PopupMenu sortMenu = new PopupMenu(getActivity(), mToolBar, Gravity.END);
+                PopupMenu sortMenu = new PopupMenu(getActivity(), binding.toolBar, Gravity.END);
                 for (Integer key : sortOptions.keySet()) {
                     SortOption option = sortOptions.get(key);
                     if (option == null) option = sortOptions.get(0);
@@ -797,7 +783,7 @@ public class BrowseGridFragment extends Fragment {
         });
         mSortButton.setContentDescription(getString(R.string.lbl_sort_by));
 
-        mToolBar.addView(mSortButton);
+        binding.toolBar.addView(mSortButton);
 
         if (mRowDef.getQueryType() == QueryType.Items) {
             mUnwatchedButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
@@ -819,7 +805,7 @@ public class BrowseGridFragment extends Fragment {
                 }
             });
             mUnwatchedButton.setContentDescription(getString(R.string.lbl_unwatched));
-            mToolBar.addView(mUnwatchedButton);
+            binding.toolBar.addView(mUnwatchedButton);
         }
 
         mFavoriteButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
@@ -841,8 +827,9 @@ public class BrowseGridFragment extends Fragment {
             }
         });
         mFavoriteButton.setContentDescription(getString(R.string.lbl_favorite));
-        mToolBar.addView(mFavoriteButton);
+        binding.toolBar.addView(mFavoriteButton);
 
+        JumplistPopup jumplistPopup = new JumplistPopup();
         mLetterButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mLetterButton.setImageResource(R.drawable.ic_jump_letter);
         mLetterButton.setMaxHeight(size);
@@ -851,11 +838,11 @@ public class BrowseGridFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Open letter jump popup
-                mJumplistPopup.show();
+                jumplistPopup.show();
             }
         });
         mLetterButton.setContentDescription(getString(R.string.lbl_by_letter));
-        mToolBar.addView(mLetterButton);
+        binding.toolBar.addView(mLetterButton);
 
         mSettingsButton = new ImageButton(requireContext(), null, 0, R.style.Button_Icon);
         mSettingsButton.setImageResource(R.drawable.ic_settings);
@@ -874,10 +861,8 @@ public class BrowseGridFragment extends Fragment {
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));
-        mToolBar.addView(mSettingsButton);
+        binding.toolBar.addView(mSettingsButton);
     }
-
-    private JumplistPopup mJumplistPopup;
 
     class JumplistPopup {
         private final int WIDTH = Utils.convertDpToPixel(requireContext(), 900);
@@ -887,7 +872,7 @@ public class BrowseGridFragment extends Fragment {
         private final AlphaPickerView alphaPicker;
 
         JumplistPopup() {
-            PopupEmptyBinding layout = PopupEmptyBinding.inflate(getLayoutInflater(), mGridDock, false);
+            PopupEmptyBinding layout = PopupEmptyBinding.inflate(getLayoutInflater(), binding.rowsFragment, false);
             popupWindow = new PopupWindow(layout.emptyPopup, WIDTH, HEIGHT, true);
             popupWindow.setOutsideTouchable(true);
             popupWindow.setAnimationStyle(R.style.WindowAnimation_SlideTop);
@@ -904,7 +889,7 @@ public class BrowseGridFragment extends Fragment {
         }
 
         public void show() {
-            popupWindow.showAtLocation(mGridDock, Gravity.TOP, mGridDock.getLeft(), mGridDock.getTop());
+            popupWindow.showAtLocation(binding.rowsFragment, Gravity.TOP, binding.rowsFragment.getLeft(), binding.rowsFragment.getTop());
             if (mAdapter.getStartLetter() != null && !mAdapter.getStartLetter().isEmpty()) {
                 alphaPicker.focus(mAdapter.getStartLetter().charAt(0));
             }
@@ -976,7 +961,7 @@ public class BrowseGridFragment extends Fragment {
                     if (mAdapter.getFilters() != null) {
                         if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
                             //if we are about to remove last item, throw focus to toolbar so framework doesn't crash
-                            if (mAdapter.size() == 1) mToolBar.requestFocus();
+                            if (mAdapter.size() == 1) binding.toolBar.requestFocus();
                             mAdapter.remove(mCurrentItem);
                             mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
                             updateCounter(mCurrentItem.getIndex());
@@ -1012,13 +997,13 @@ public class BrowseGridFragment extends Fragment {
             mHandler.removeCallbacks(mDelayedSetItem);
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
-                mTitleView.setText(mainTitle);
+                binding.title.setText(mainTitle);
                 //fill in default background
                 backgroundService.getValue().clearBackgrounds();
             } else {
                 mCurrentItem = (BaseRowItem) item;
-                mTitleView.setText(mCurrentItem.getName(requireContext()));
-                mInfoRow.removeAllViews();
+                binding.title.setText(mCurrentItem.getName(requireContext()));
+                binding.infoRow.removeAllViews();
                 mHandler.postDelayed(mDelayedSetItem, VIEW_SELECT_UPDATE_DELAY);
 
                 if (!determiningPosterSize)
