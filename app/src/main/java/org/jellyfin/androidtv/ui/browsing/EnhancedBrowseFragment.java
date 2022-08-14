@@ -52,6 +52,7 @@ import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -60,8 +61,10 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Lazy;
+import kotlinx.serialization.json.Json;
 
 public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     protected FragmentActivity mActivity;
@@ -369,7 +372,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                 switch (((GridButton) item).getId()) {
                     case GRID:
                         Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        folderIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        folderIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         requireActivity().startActivity(folderIntent);
                         break;
 
@@ -377,7 +380,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AL");
 
                         Intent albumsIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        albumsIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        albumsIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         albumsIntent.putExtra(Extras.IncludeType, "MusicAlbum");
                         requireActivity().startActivity(albumsIntent);
                         break;
@@ -386,7 +389,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
 
                         Intent artistsIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         artistsIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, "AlbumArtist");
                         requireActivity().startActivity(artistsIntent);
                         break;
@@ -394,7 +397,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case BY_LETTER:
                         Intent letterIntent = new Intent(getActivity(), GroupedItemsActivity.class);
                         letterIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.LETTER.toString());
-                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         letterIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
                         requireActivity().startActivity(letterIntent);
@@ -403,7 +406,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case GENRES:
                         Intent genreIntent = new Intent(getActivity(), GroupedItemsActivity.class);
                         genreIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.GENRE.toString());
-                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, serializer.getValue().SerializeToString(mFolder));
+                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         genreIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
 
                         requireActivity().startActivity(genreIntent);
@@ -411,7 +414,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
 
                     case SUGGESTED:
                         Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(mFolder));
+                        suggIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
                         suggIntent.putExtra(Extras.IncludeType, itemTypeString);
 
                         requireActivity().startActivity(suggIntent);
@@ -429,10 +432,10 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
                         Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
-                        seriesTimers.setId("SERIESTIMERS");
+                        seriesTimers.setId(UUID.randomUUID().toString());
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, serializer.getValue().SerializeToString(seriesTimers));
+                        seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
 
                         requireActivity().startActivity(seriesIntent);
                         break;
@@ -446,9 +449,9 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
                         Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
-                        folder.setId("");
+                        folder.setId(UUID.randomUUID().toString());
                         folder.setName(getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, serializer.getValue().SerializeToString(folder));
+                        recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));
                         mActivity.startActivity(recordings);
                         break;
 
