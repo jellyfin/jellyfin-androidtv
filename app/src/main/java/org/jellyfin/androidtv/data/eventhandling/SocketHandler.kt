@@ -10,7 +10,6 @@ import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
-import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.sessionApi
@@ -22,6 +21,7 @@ import org.jellyfin.sdk.api.sockets.addListener
 import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
 import org.jellyfin.sdk.model.api.PlaystateCommand
+import org.jellyfin.sdk.model.constant.MediaType
 import org.jellyfin.sdk.model.extensions.getValue
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.jellyfin.sdk.model.socket.LibraryChangedMessage
