@@ -22,7 +22,6 @@ import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
-import org.jellyfin.apiclient.interaction.ApiEventListener
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.sdk.android.androidDevice
@@ -75,8 +74,7 @@ val appModule = module {
 
 	single {
 		get<JellyfinApiClient>().createApi(
-			device = get<DeviceInfo>(defaultDeviceInfo).legacy(),
-			eventListener = ApiEventListener()
+			device = get<DeviceInfo>(defaultDeviceInfo).legacy()
 		)
 	}
 
