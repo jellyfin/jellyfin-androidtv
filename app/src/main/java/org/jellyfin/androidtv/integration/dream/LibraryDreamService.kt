@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.databinding.DreamLibraryBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
-import org.jellyfin.apiclient.model.querying.ItemSortBy
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -25,6 +24,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.concurrent.ExecutionException

@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
-import org.jellyfin.apiclient.model.querying.ItemSortBy
+import org.jellyfin.sdk.model.constant.ItemSortBy
 
 enum class LiveTvChannelOrder(
 	val stringValue: String
