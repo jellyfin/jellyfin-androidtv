@@ -20,12 +20,12 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -355,7 +355,7 @@ public class BaseRowItem {
             case LiveTvRecording:
                 return baseItem.getId();
             case Person:
-                return person.getId();
+                return person.getId().toString();
             case Chapter:
                 return chapterInfo.getItemId();
             case LiveTvChannel:

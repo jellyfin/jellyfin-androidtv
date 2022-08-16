@@ -77,12 +77,10 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.entities.PersonType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
@@ -97,6 +95,8 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.constant.PersonType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -534,7 +534,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
@@ -574,7 +574,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -684,7 +684,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
@@ -716,8 +716,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 //Guest stars
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     List<BaseItemPerson> guests = new ArrayList<>();
-                    for (BaseItemPerson person : mBaseItem.getPeople()) {
-                        if (person.getPersonType() == PersonType.GuestStar) guests.add(person);
+                    for (BaseItemPerson person : ModelCompat.asSdk(mBaseItem.getPeople())) {
+                        if (person.getType() == PersonType.GuestStar) guests.add(person);
                     }
                     if (guests.size() > 0) {
                         ItemRowAdapter castAdapter = new ItemRowAdapter(this, guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);

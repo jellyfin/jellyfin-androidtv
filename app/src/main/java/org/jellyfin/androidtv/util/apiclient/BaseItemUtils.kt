@@ -13,7 +13,6 @@ import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.apiclient.model.entities.LocationType
-import org.jellyfin.apiclient.model.entities.PersonType
 import org.jellyfin.apiclient.model.library.PlayAccess
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
 import org.jellyfin.sdk.api.client.ApiClient
@@ -113,8 +112,8 @@ fun org.jellyfin.sdk.model.api.BaseItemDto.getProgramSubText(context: Context) =
 	))
 }
 
-fun BaseItemDto.getFirstPerson(searchedType: PersonType) =
-	people?.find { it.personType == searchedType }
+fun BaseItemDto.getFirstPerson(searchedType: String) =
+	people?.asSdk()?.firstOrNull { it.type == searchedType }
 
 fun BaseItemDto.buildChapterItems(): List<ChapterItemInfo> {
 	val apiClient by inject<ApiClient>(ApiClient::class.java)

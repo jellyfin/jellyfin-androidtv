@@ -602,3 +602,5 @@ fun LegacyDayPattern.asSdk(): ModernDayPattern = when (this) {
 	LegacyDayPattern.Weekdays -> ModernDayPattern.WEEKDAYS
 	LegacyDayPattern.Weekends -> ModernDayPattern.WEEKENDS
 }
+
+fun Array<LegacyBaseItemPerson>.asSdk() = map(LegacyBaseItemPerson::asSdk).toTypedArray()
