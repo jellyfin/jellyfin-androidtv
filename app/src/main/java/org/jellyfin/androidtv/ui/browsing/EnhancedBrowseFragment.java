@@ -57,6 +57,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -163,16 +164,16 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
 
         if (mFolder.getCollectionType() != null) {
             switch (mFolder.getCollectionType()) {
-                case "movies":
+                case CollectionType.Movies:
                     itemTypeString = "Movie";
                     break;
-                case "tvshows":
+                case CollectionType.TvShows:
                     itemTypeString = "Series";
                     break;
-                case "music":
+                case CollectionType.Music:
                     itemTypeString = "MusicAlbum";
                     break;
-                case "folders":
+                case CollectionType.Folders:
                     showViews = false;
                     break;
                 default:
