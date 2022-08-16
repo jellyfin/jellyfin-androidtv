@@ -97,6 +97,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.constant.PersonType;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -957,7 +958,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 boolean isMusic = mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum
                         || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist
                         || mBaseItem.getBaseItemType() == BaseItemType.Audio
-                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(mBaseItem.getMediaType()));
+                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && MediaType.Audio.equals(mBaseItem.getMediaType()));
 
                 if (isMusic) {
                     queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {

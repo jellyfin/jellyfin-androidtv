@@ -32,6 +32,7 @@ import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -102,7 +103,7 @@ public class KeyProcessor {
                                 createPlayMenu(rowItem.getBaseItem(), true, true, activity);
                                 return true;
                             case Playlist:
-                                createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
+                                createPlayMenu(rowItem.getBaseItem(), true, MediaType.Audio.equals(rowItem.getBaseItem().getMediaType()), activity);
                                 return true;
                             case Photo:
                                 // open photo player
@@ -261,7 +262,7 @@ public class KeyProcessor {
             isMusic = item.getBaseItemType() == BaseItemType.MusicAlbum
                     || item.getBaseItemType() == BaseItemType.MusicArtist
                     || item.getBaseItemType() == BaseItemType.Audio
-                    || (item.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(item.getMediaType()));
+                    || (item.getBaseItemType() == BaseItemType.Playlist && MediaType.Audio.equals(item.getMediaType()));
 
             if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);

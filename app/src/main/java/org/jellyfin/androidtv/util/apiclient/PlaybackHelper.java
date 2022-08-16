@@ -24,6 +24,7 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class PlaybackHelper {
                 //get all songs
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
-                query.setMediaTypes(new String[]{"Audio"});
+                query.setMediaTypes(new String[]{MediaType.Audio});
                 query.setSortBy(mainItem.getBaseItemType() == BaseItemType.MusicArtist ?
                         new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
                             new String[] {ItemSortBy.SortName});
@@ -270,9 +271,8 @@ public class PlaybackHelper {
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         break;
                     case Playlist:
-                        if ("Audio".equals(item.getMediaType())) {
+                        if (MediaType.Audio.equals(item.getMediaType())) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
-
                         } else {
                             BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
                             Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);

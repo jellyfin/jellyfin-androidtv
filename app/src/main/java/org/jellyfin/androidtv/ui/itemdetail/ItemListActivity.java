@@ -57,6 +57,7 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -222,7 +223,7 @@ public class ItemListActivity extends FragmentActivity {
                         }
                     }
                 }, 750);
-            } else if ("Video".equals(mBaseItem.getMediaType())) {
+            } else if (MediaType.Video.equals(mBaseItem.getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -299,10 +300,10 @@ public class ItemListActivity extends FragmentActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (row.getItem().getMediaType()) {
-                    case "Video":
+                    case MediaType.Video:
                         mediaManager.getValue().addToVideoQueue(row.getItem());
                         break;
-                    case "Audio":
+                    case MediaType.Audio:
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                         if (playbackLauncher.interceptPlayRequest(ItemListActivity.this, row.getItem())) break;
 
@@ -336,7 +337,7 @@ public class ItemListActivity extends FragmentActivity {
                 item.setName(getString(R.string.lbl_favorites));
                 item.setOverview(getString(R.string.desc_automatic_fav_songs));
                 item.setPlayAccess(PlayAccess.Full);
-                item.setMediaType("Audio");
+                item.setMediaType(MediaType.Audio);
                 item.setBaseItemType(BaseItemType.Playlist);
                 item.setIsFolder(true);
                 setBaseItem(item);
@@ -347,7 +348,7 @@ public class ItemListActivity extends FragmentActivity {
                 queue.setName(getString(R.string.lbl_current_queue));
                 queue.setOverview(getString(R.string.desc_current_video_queue));
                 queue.setPlayAccess(PlayAccess.Full);
-                queue.setMediaType("Video");
+                queue.setMediaType(MediaType.Video);
                 queue.setBaseItemType(BaseItemType.Playlist);
                 queue.setIsFolder(true);
                 if (mediaManager.getValue().getCurrentVideoQueue() != null) {
@@ -505,7 +506,7 @@ public class ItemListActivity extends FragmentActivity {
 
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
-        if ("Video".equals(mBaseItem.getMediaType())) {
+        if (MediaType.Video.equals(mBaseItem.getMediaType())) {
             if (shuffle) {
                 Collections.shuffle(items);
             }
