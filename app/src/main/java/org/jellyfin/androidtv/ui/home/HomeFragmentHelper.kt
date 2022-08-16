@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.apiclient.model.entities.LocationType
-import org.jellyfin.apiclient.model.entities.MediaType
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
@@ -16,6 +15,7 @@ import org.jellyfin.apiclient.model.querying.ItemFilter
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
 import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.constant.MediaType
 
 class HomeFragmentHelper(
 	private val context: Context,
