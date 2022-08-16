@@ -45,6 +45,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.jellyfin.sdk.model.DeviceInfo;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -447,7 +448,7 @@ public class MediaManager {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
                         request.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                        request.setMediaType(type == TYPE_AUDIO ? "Audio" : "Video");
+                        request.setMediaType(type == TYPE_AUDIO ? MediaType.Audio : MediaType.Video);
                         request.setName(text);
                         request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
                         KoinJavaComponent.<ApiClient>get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
