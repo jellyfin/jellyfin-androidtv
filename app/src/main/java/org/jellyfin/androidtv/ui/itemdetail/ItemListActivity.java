@@ -55,8 +55,8 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;

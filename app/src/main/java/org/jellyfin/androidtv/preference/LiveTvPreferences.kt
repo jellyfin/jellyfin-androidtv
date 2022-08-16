@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.preference
 
 import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
-import org.jellyfin.apiclient.model.querying.ItemSortBy
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.constant.ItemSortBy
 
 class LiveTvPreferences(
 	api: ApiClient,

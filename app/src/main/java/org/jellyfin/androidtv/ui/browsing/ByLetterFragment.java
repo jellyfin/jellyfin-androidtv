@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.ui.browsing;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
 
 public class ByLetterFragment extends BrowseFolderFragment {
 

@@ -13,9 +13,9 @@ import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemFilter
-import org.jellyfin.apiclient.model.querying.ItemSortBy
 import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.sdk.model.constant.ItemSortBy
 
 class HomeFragmentHelper(
 	private val context: Context,
