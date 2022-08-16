@@ -2,10 +2,10 @@ package org.jellyfin.androidtv.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.jellyfin.apiclient.model.entities.CollectionType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.constant.CollectionType
 
 interface UserViewsRepository {
 	val views: Flow<Collection<BaseItemDto>>
@@ -33,18 +33,17 @@ class UserViewsRepositoryImpl(
 	private companion object {
 		private val unsupportedCollectionTypes = arrayOf(
 			CollectionType.Books,
-			CollectionType.Games,
 			CollectionType.Folders
 		)
 
 		private val disallowViewSelectionCollectionTypes = arrayOf(
-			CollectionType.livetv,
+			CollectionType.LiveTv,
 			CollectionType.Music,
 			CollectionType.Photos,
 		)
 
 		private val disallowGridViewCollectionTypes = arrayOf(
-			CollectionType.livetv,
+			CollectionType.LiveTv,
 			CollectionType.Music
 		)
 	}

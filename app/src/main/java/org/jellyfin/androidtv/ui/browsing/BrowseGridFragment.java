@@ -68,6 +68,7 @@ import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 
 import java.text.MessageFormat;
@@ -368,7 +369,7 @@ public class BrowseGridFragment extends Fragment {
                 BaseItemKind fType = folder.getType();
                 if (fType == BaseItemKind.AUDIO || fType == BaseItemKind.GENRE || fType == BaseItemKind.MUSIC_ALBUM || fType == BaseItemKind.MUSIC_ARTIST || fType == BaseItemKind.MUSIC_GENRE) {
                     return cardHeight;
-                } else if (fType == BaseItemKind.COLLECTION_FOLDER && "music".equals(folder.getCollectionType())) {
+                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.Music.equals(folder.getCollectionType())) {
                     return cardHeight;
                 } else {
                     return cardHeight * ImageUtils.ASPECT_RATIO_2_3;
@@ -389,7 +390,7 @@ public class BrowseGridFragment extends Fragment {
                 BaseItemKind fType = folder.getType();
                 if (fType == BaseItemKind.AUDIO || fType == BaseItemKind.GENRE || fType == BaseItemKind.MUSIC_ALBUM || fType == BaseItemKind.MUSIC_ARTIST || fType == BaseItemKind.MUSIC_GENRE) {
                     return cardWidth;
-                } else if (fType == BaseItemKind.COLLECTION_FOLDER && "music".equals(folder.getCollectionType())) {
+                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.Music.equals(folder.getCollectionType())) {
                     return cardWidth;
                 } else {
                     return cardWidth / ImageUtils.ASPECT_RATIO_2_3;
@@ -562,20 +563,20 @@ public class BrowseGridFragment extends Fragment {
         if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
             String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
             switch (type) {
-                case "movies":
+                case CollectionType.Movies:
                     query.setIncludeItemTypes(new String[]{"Movie"});
                     query.setRecursive(true);
                     break;
-                case "tvshows":
+                case CollectionType.TvShows:
                     query.setIncludeItemTypes(new String[]{"Series"});
                     query.setRecursive(true);
                     break;
-                case "boxsets":
+                case CollectionType.BoxSets:
                     query.setIncludeItemTypes(new String[]{"BoxSet"});
                     query.setParentId(null);
                     query.setRecursive(true);
                     break;
-                case "music":
+                case CollectionType.Music:
                     //Special queries needed for album artists
                     String includeType = requireActivity().getIntent().getStringExtra(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {

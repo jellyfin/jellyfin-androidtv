@@ -36,6 +36,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -57,8 +58,8 @@ public class ItemLauncher {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
         Intent intent;
         switch (baseItem.getCollectionType()) {
-            case "movies":
-            case "tvshows":
+            case CollectionType.Movies:
+            case CollectionType.TvShows:
                 LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
                 if (!enableSmartScreen) {
@@ -71,8 +72,8 @@ public class ItemLauncher {
                     intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
                 }
                 break;
-            case "music":
-            case "livetv":
+            case CollectionType.Music:
+            case CollectionType.LiveTv:
                 // open user view browsing
                 intent = new Intent(context, UserViewActivity.class);
                 intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
