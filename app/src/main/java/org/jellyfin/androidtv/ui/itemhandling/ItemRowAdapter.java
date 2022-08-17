@@ -33,6 +33,7 @@ import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -808,7 +809,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (SearchHint item : response.getSearchHints()) {
                         if (userViewsRepository.getValue().isSupported(item.getType())) {
                             i++;
-                            adapter.add(new BaseRowItem(item));
+                            adapter.add(new BaseRowItem(ModelCompat.asSdk(item)));
                         }
                     }
                     totalItems = response.getTotalRecordCount();
