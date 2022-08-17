@@ -35,7 +35,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
 
@@ -283,7 +283,7 @@ public class ItemLauncher {
             case SearchHint:
                 final SearchHint hint = rowItem.getSearchHint();
                 //Retrieve full item for display and playback
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
