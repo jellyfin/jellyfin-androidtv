@@ -93,24 +93,24 @@
         android:layout_height="80sp"
         android:id="@+id/guideTitle"
         android:textSize="25sp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:layout_alignParentEnd="false"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/textClock2"
+        android:layout_toStartOf="@+id/textClock2"
         android:fontFamily="sans-serif-light" />
 
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textClock2"
-        android:layout_marginRight="20sp"
+        android:layout_marginEnd="20sp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="25dp"
         android:format12Hour="h:mm"
         android:format24Hour="k:mm"
-        android:gravity="right"
+        android:gravity="end"
         android:textSize="26sp" />
 
     <LinearLayout
@@ -119,8 +119,8 @@
         android:layout_height="20sp"
         android:layout_alignParentEnd="false"
         android:layout_below="@+id/guideTitle"
-        android:layout_alignLeft="@+id/guideTitle"
-        android:layout_alignRight="@+id/textClock2"
+        android:layout_alignStart="@+id/guideTitle"
+        android:layout_alignEnd="@+id/textClock2"
         android:id="@+id/guideInfoRow"/>
 
     <TextView
@@ -134,8 +134,8 @@
         android:layout_marginTop="5sp"
         android:ellipsize="end"
         android:maxLines="5"
-        android:layout_alignLeft="@+id/guideInfoRow"
-        android:layout_alignRight="@+id/guideInfoRow"
+        android:layout_alignStart="@+id/guideInfoRow"
+        android:layout_alignEnd="@+id/guideInfoRow"
         android:fontFamily="sans-serif-light" />
 
     <TextView
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/guideCurrentTitle"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="2sp"
+        android:layout_marginStart="2sp"
         android:layout_marginBottom="2sp"
         android:textColor="@color/grey_light"
         android:textSize="12sp"
@@ -155,11 +155,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/filterStatus"
         android:layout_alignEnd="@+id/programVScroller"
-        android:gravity="right"
+        android:gravity="end"
         android:layout_alignRight="@+id/programVScroller"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2sp"
-        android:layout_marginRight="10sp"
+        android:layout_marginEnd="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
         android:textColor="@color/grey_light"
@@ -198,7 +198,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40sp"
         android:id="@+id/guideCurrentTitle"
-        android:layout_toLeftOf="@+id/imageView15"
+        android:layout_toStartOf="@+id/imageView15"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:background="@color/black_transparent"
