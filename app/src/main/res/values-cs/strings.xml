@@ -128,7 +128,7 @@
     <string name="lbl_ended">UKONČENO</string>
     <string name="btn_filter">Filtr</string>
     <string name="btn_clear_all">Smazat vše</string>
-    <string name="lbl_filters">Filtry</string>
+    <string name="lbl_filters">Filtry živé TV</string>
     <string name="msg_subtitles_loading">Načítají se titulky…</string>
     <string name="msg_unable_load_subs">Nelze načíst titulky</string>
     <string name="msg_burn_sub_warning">Vypalování titulků do obrazu. Může to chvíli trvat…</string>
@@ -491,4 +491,8 @@
     <string name="image_type_poster">Plakát</string>
     <string name="lbl_additional_parts">Další díly</string>
     <string name="state_disabled">Zakázáno</string>
+    <string name="episode_name_special">speciál</string>
+    <string name="enable_picture_viewer_title">Povolit nový prohlížeč obrázků</string>
+    <string name="pref_refresh_rate_scale_on_device">Měřítko na zařízení</string>
+    <string name="pref_refresh_rate_scale_on_tv">Měřítko na TV přijímači</string>
 </resources>
