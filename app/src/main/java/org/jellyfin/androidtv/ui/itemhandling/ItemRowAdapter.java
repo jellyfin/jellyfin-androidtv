@@ -59,6 +59,7 @@ import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
@@ -91,6 +92,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private QueryType queryType;
 
     private String mSortBy;
+    private SortOrder sortOrder;
     private FilterOptions mFilters;
 
     private EmptyResponse mRetrieveFinishedListener;
@@ -403,8 +405,9 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     public void setSortBy(BrowseGridFragment.SortOption option) {
-        if (!option.value.equals(mSortBy)) {
+        if (!option.value.equals(mSortBy) || !option.order.equals(sortOrder)) {
             mSortBy = option.value;
+            sortOrder = option.order;
             switch (queryType) {
                 case AlbumArtists:
                     mArtistsQuery.setSortBy(new String[]{mSortBy});
@@ -423,6 +426,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public String getSortBy() {
         return mSortBy;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
     }
 
     public FilterOptions getFilters() {
