@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.apiclient.model.entities.LocationType
+import org.jellyfin.apiclient.model.entities.SortOrder
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
@@ -41,7 +42,7 @@ class HomeFragmentHelper(
 			limit = ITEM_LIMIT_RESUME
 			filters = arrayOf(ItemFilter.IsResumable)
 			sortBy = arrayOf(ItemSortBy.DatePlayed)
-			sortOrder = org.jellyfin.apiclient.model.entities.SortOrder.Descending
+			sortOrder = SortOrder.Descending
 		}
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))

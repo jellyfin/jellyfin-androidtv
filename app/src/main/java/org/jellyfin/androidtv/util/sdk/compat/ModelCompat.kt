@@ -30,6 +30,7 @@ import org.jellyfin.apiclient.model.entities.MediaStream as LegacyMediaStream
 import org.jellyfin.apiclient.model.entities.MediaStreamType as LegacyMediaStreamType
 import org.jellyfin.apiclient.model.entities.MediaUrl as LegacyMediaUrl
 import org.jellyfin.apiclient.model.entities.MetadataFields as LegacyMetadataFields
+import org.jellyfin.apiclient.model.entities.SortOrder as LegacySortOrder
 import org.jellyfin.apiclient.model.entities.Video3DFormat as LegacyVideo3DFormat
 import org.jellyfin.apiclient.model.entities.VideoType as LegacyVideoType
 import org.jellyfin.apiclient.model.library.PlayAccess as LegacyPlayAccess
@@ -67,6 +68,7 @@ import org.jellyfin.sdk.model.api.PlayAccess as ModernPlayAccess
 import org.jellyfin.sdk.model.api.ProgramAudio as ModernProgramAudio
 import org.jellyfin.sdk.model.api.SearchHint as ModernSearchHint
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto as ModernSeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.SortOrder as ModernSortOrder
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod as ModernSubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.TransportStreamTimestamp as ModernTransportStreamTimestamp
 import org.jellyfin.sdk.model.api.UserItemDataDto as ModernUserItemDataDto
@@ -639,3 +641,8 @@ fun LegacySearchHint.asSdk(): ModernSearchHint = ModernSearchHint(
 	channelName = this.channelName,
 	primaryImageAspectRatio = this.primaryImageAspectRatio,
 )
+
+fun ModernSortOrder.asLegacy(): LegacySortOrder = when (this) {
+	ModernSortOrder.ASCENDING -> LegacySortOrder.Ascending
+	ModernSortOrder.DESCENDING -> LegacySortOrder.Descending
+}

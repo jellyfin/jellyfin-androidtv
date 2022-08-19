@@ -408,11 +408,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
             switch (queryType) {
                 case AlbumArtists:
                     mArtistsQuery.setSortBy(new String[]{mSortBy});
-                    mArtistsQuery.setSortOrder(option.order);
+                    mArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
                 default:
                     mQuery.setSortBy(new String[]{mSortBy});
-                    mQuery.setSortOrder(option.order);
+                    mQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
             }
             if (!ItemSortBy.SortName.equals(option.value)) {
