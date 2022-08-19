@@ -113,7 +113,7 @@ public class PlaybackManager {
         apiClient.ReportPlaybackProgressAsync(info, response);
     }
 
-    public void reportPlaybackStopped(PlaybackStopInfo info, final StreamInfo streamInfo, final String serverId, String userId, final ApiClient apiClient, final EmptyResponse response) {
+    public void reportPlaybackStopped(PlaybackStopInfo info, final StreamInfo streamInfo, final ApiClient apiClient, final EmptyResponse response) {
         MediaSourceInfo mediaSource = streamInfo.getMediaSource();
 
         if (mediaSource != null) {
