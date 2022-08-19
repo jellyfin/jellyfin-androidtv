@@ -41,6 +41,7 @@ class ApiBinder(
 			address = server.address.removeSuffix("/")
 			userId = session.userId.toString()
 			accessToken = session.accessToken
+			version = server.version
 		})
 
 		return true
