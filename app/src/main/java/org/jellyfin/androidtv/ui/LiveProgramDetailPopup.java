@@ -111,7 +111,6 @@ public class LiveProgramDetailPopup {
         } else {
             mDSummary.setGravity(Gravity.LEFT);
         }
-        //TvApp.getApplication().getLogger().Debug("Text height: "+mDSummary.getHeight() + " (120 = "+Utils.convertDpToPixel(mActivity, 120)+")");
 
         // build timeline info
         TvManager.setTimelineRow(mActivity, mDTimeline, program);

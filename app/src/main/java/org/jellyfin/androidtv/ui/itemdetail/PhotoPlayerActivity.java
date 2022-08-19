@@ -325,7 +325,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
                 nextImageView().setAlpha(1f);
                 currentImageNdx = nextImageNdx;
                 nextImageNdx = currentImageNdx == 0 ? 1 : 0;
-                //TvApp.getApplication().getLogger().Debug("Current ndx: "+currentImageNdx+" next: "+nextImageNdx);
                 isTransitioning = false;
             }
 

@@ -140,8 +140,6 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         } else {
             setBackgroundColor(mBackgroundColor);
         }
-
-//        TvApp.getApplication().getLogger().Debug("Focus on " + mProgram.getName() + " was " + (gainFocus ? "gained" : "lost"));
     }
 
     public BaseItemDto getProgram() { return mProgram; }

@@ -144,7 +144,6 @@ public class ItemListActivity extends FragmentActivity {
                     // too close to bottom - scroll down
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
-                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getItem().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
             }
         });
 

@@ -674,7 +674,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
-            //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(this, this, item, false);
                 program.setId(currentCellId++);

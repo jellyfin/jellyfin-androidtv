@@ -43,7 +43,5 @@ public class FriendlyDateButton extends FrameLayout {
         } else {
             setBackgroundColor(0);
         }
-
-        //TvApp.getApplication().getLogger().Debug("Focus on "+mProgram.getName()+ " was " +(gainFocus ? "gained" : "lost"));
     }
 }
