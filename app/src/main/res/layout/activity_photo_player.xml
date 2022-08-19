@@ -33,7 +33,7 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:id="@+id/rows_area"/>
     </FrameLayout>
 

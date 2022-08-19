@@ -84,14 +84,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/clock"
         android:layout_alignTop="@+id/title"
-        android:layout_marginRight="40sp"
+        android:layout_marginEnd="40sp"
         android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="150sp"
         android:layout_height="150sp"
         android:id="@+id/programImage"
-        android:layout_gravity="left|top"
+        android:layout_gravity="start|top"
         android:layout_margin="20sp" />
 
     <TextView
@@ -101,8 +101,8 @@
         android:layout_alignTop="@+id/programImage"
         android:layout_toEndOf="@+id/programImage"
         android:textSize="25sp"
-        android:layout_toLeftOf="@+id/clock"
-        android:layout_marginRight="20sp"
+        android:layout_toStartOf="@+id/clock"
+        android:layout_marginEnd="20sp"
         android:ellipsize="end"
         android:maxLines="1"
         android:fontFamily="sans-serif-light" />
@@ -113,8 +113,8 @@
         android:layout_height="20sp"
         android:layout_alignParentEnd="false"
         android:layout_below="@+id/title"
-        android:layout_alignLeft="@+id/title"
-        android:layout_alignRight="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:layout_alignEnd="@+id/title"
         android:id="@+id/infoRow" />
 
     <TextView
@@ -122,11 +122,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/summary"
         android:textSize="16sp"
-        android:layout_marginRight="20sp"
+        android:layout_marginEnd="20sp"
         android:layout_below="@+id/infoRow"
         android:layout_toEndOf="@+id/programImage"
         android:layout_above="@+id/timelineHScroller"
-        android:layout_toLeftOf="@+id/clock"
+        android:layout_toStartOf="@+id/clock"
         android:layout_marginBottom="10sp"
         android:layout_marginTop="5sp"
         android:ellipsize="end"
@@ -140,7 +140,7 @@
         android:layout_alignStart="@+id/programImage"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2sp"
-        android:layout_marginLeft="2sp"
+        android:layout_marginStart="2sp"
         android:textSize="12sp"
         android:textColor="@color/grey_light"
         android:fontFamily="sans-serif-light" />
@@ -150,11 +150,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/filterStatus"
         android:layout_alignEnd="@+id/programVScroller"
-        android:gravity="right"
+        android:gravity="end"
         android:layout_alignRight="@+id/programVScroller"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2sp"
-        android:layout_marginRight="10sp"
+        android:layout_marginEnd="10sp"
         android:textStyle="bold"
         android:textSize="12sp"
         android:textColor="@color/grey_light"
@@ -165,7 +165,7 @@
         style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginRight="40sp"
+        android:layout_marginEnd="40sp"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
@@ -179,8 +179,8 @@
         style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginRight="10sp"
-        android:layout_toLeftOf="@id/optionsButton"
+        android:layout_marginEnd="10sp"
+        android:layout_toStartOf="@id/optionsButton"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
         android:src="@drawable/ic_filter"
@@ -193,7 +193,7 @@
         style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginRight="10sp"
+        android:layout_marginEnd="10sp"
         android:layout_alignParentEnd="false"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
@@ -201,14 +201,14 @@
         android:scaleType="fitCenter"
         android:padding="6dp"
         android:background="@drawable/jellyfin_button"
-        android:layout_toLeftOf="@+id/filterButton" />
+        android:layout_toStartOf="@+id/filterButton" />
 
     <ImageButton
         android:id="@+id/resetButton"
         style="@style/Button.Icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginRight="10sp"
+        android:layout_marginEnd="10sp"
         android:layout_alignParentEnd="false"
         android:layout_above="@+id/timelineHScroller"
         android:layout_marginBottom="10sp"
@@ -217,7 +217,7 @@
         android:visibility="gone"
         android:padding="6dp"
         android:background="@drawable/jellyfin_button"
-        android:layout_toLeftOf="@+id/dateButton" />
+        android:layout_toStartOf="@+id/dateButton" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

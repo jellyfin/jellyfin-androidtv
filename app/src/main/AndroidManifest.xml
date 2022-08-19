@@ -50,7 +50,8 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/app_icon_round"
         android:theme="@style/Theme.Jellyfin"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:supportsRtl="true">
 
         <service
             android:name=".auth.service.AuthenticatorService"

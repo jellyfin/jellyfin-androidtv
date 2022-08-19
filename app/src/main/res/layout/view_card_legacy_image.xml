@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
         android:foreground="@drawable/ripple"
-        android:gravity="end"
+        android:gravity="start"
         android:visibility="gone"
         tools:ignore="UnusedAttribute"
         tools:visibility="visible">
@@ -53,6 +53,8 @@
             style="@style/overlay_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@id/main_image"
+            android:layout_alignEnd="@id/main_image"
             android:layout_alignBottom="@+id/main_image"
             android:layout_marginBottom="5dp"
             android:max="100"
@@ -66,9 +68,8 @@
             android:id="@+id/watchedIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/main_image"
             android:layout_alignEnd="@id/main_image"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="4dp"
             android:gravity="end"
@@ -168,9 +169,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/lb_basic_card_info_height"
             android:layout_centerHorizontal="true"
-            android:paddingLeft="2dp"
+            android:paddingStart="2dp"
             android:paddingTop="@dimen/lb_basic_card_info_padding_top"
-            android:paddingRight="2dp"
+            android:paddingEnd="2dp"
             android:paddingBottom="@dimen/lb_basic_card_info_padding_bottom">
 
             <TextView
@@ -185,6 +186,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color"
+                android:textDirection="locale"
                 android:textSize="@dimen/lb_basic_card_title_text_size"
                 tools:text="Title text" />
 
@@ -203,6 +205,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textColor="@color/lb_basic_card_title_text_color"
+                android:textDirection="locale"
                 android:textSize="@dimen/lb_basic_card_content_text_size"
                 tools:text="Content text" />
 
