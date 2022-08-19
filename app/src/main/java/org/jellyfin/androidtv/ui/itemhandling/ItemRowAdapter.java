@@ -64,6 +64,7 @@ import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -634,7 +635,14 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         itemsLoaded = 0;
         switch (queryType) {
             case Items:
-                retrieve(mQuery);
+                // Fix for https://github.com/jellyfin/jellyfin/issues/8249
+                if (mSortBy != null && mFilters != null && mSortBy.contains(ItemSortBy.SeriesDatePlayed) && mFilters.isUnwatchedOnly()) {
+                    mQuery.setFilters(null);
+                    retrieve(mQuery, true);
+                    setFilters(mFilters);
+                } else {
+                    retrieve(mQuery);
+                }
                 break;
             case NextUp:
                 retrieve(mNextUpQuery);
@@ -842,14 +850,28 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     }
 
     private void retrieve(final ItemQuery query) {
+        retrieve(query, false);
+    }
+
+    private void retrieve(final ItemQuery query, final boolean filterPlayed) {
         apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
+                    int totalItems = query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length;
+                    BaseItemDto[] items = response.getItems();
+                    if (filterPlayed) {
+                      items = Arrays.stream(items).filter(x ->
+                                (x.getUserData() == null) || (!x.getUserData().getPlayed() &&
+                                    x.getUserData().getUnplayedItemCount() != null &&
+                                    x.getUserData().getUnplayedItemCount() > 0)
+                        ).toArray(BaseItemDto[]::new);
+                        totalItems = totalItems - (response.getItems().length - items.length);
+                    }
+                    setTotalItems(totalItems);
                     int i = getItemsLoaded();
                     int prevItems = i == 0 && size() > 0 ? size() : 0;
-                    for (BaseItemDto item : response.getItems()) {
+                    for (BaseItemDto item : items) {
                         add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
 
                     }

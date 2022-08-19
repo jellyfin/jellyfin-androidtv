@@ -143,23 +143,30 @@ public class BrowseGridFragment extends Fragment {
         mGridHeight = display.heightPixels - (int) Math.round(display.density * 130.6); // top + bottom in dp, elements scale with density so adjust accordingly
         mGridWidth = display.widthPixels;
 
+        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), requireActivity().getIntent().getStringExtra(Extras.Folder));
+        mParentId = mFolder.getId();
+        mainTitle = mFolder.getName();
+
         sortOptions = new HashMap<>();
         {
+            // don't use Descending Name fallbacks for dates/ratings!
             sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_latest), ItemSortBy.DateLastContentAdded + "," + ItemSortBy.DateCreated, SortOrder.DESCENDING));
+            if (mFolder != null && CollectionType.TvShows.equals(mFolder.getCollectionType())) {
+                sortOptions.put(2, new SortOption(getString(R.string.lbl_date_played), ItemSortBy.SeriesDatePlayed + "," + ItemSortBy.DateLastContentAdded + "," + ItemSortBy.PremiereDate, SortOrder.DESCENDING));
+            } else {
+                sortOptions.put(2, new SortOption(getString(R.string.lbl_date_played), ItemSortBy.DatePlayed + "," + ItemSortBy.DateLastContentAdded + "," + ItemSortBy.PremiereDate, SortOrder.DESCENDING));
+            }
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated, SortOrder.DESCENDING));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.DateCreated, SortOrder.DESCENDING));
+            sortOptions.put(5, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.PremiereDate, SortOrder.DESCENDING));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.PremiereDate, SortOrder.DESCENDING));
+            sortOptions.put(7, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
         }
 
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity) getActivity();
         backgroundService.getValue().attach(requireActivity());
 
-        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), requireActivity().getIntent().getStringExtra(Extras.Folder));
-        mParentId = mFolder.getId();
-        mainTitle = mFolder.getName();
         libraryPreferences = preferencesRepository.getValue().getLibraryPreferences(Objects.requireNonNull(mFolder.getDisplayPreferencesId()));
         mPosterSizeSetting = libraryPreferences.get(LibraryPreferences.Companion.getPosterSize());
         mImageType = libraryPreferences.get(LibraryPreferences.Companion.getImageType());
@@ -917,6 +924,9 @@ public class BrowseGridFragment extends Fragment {
             mActivity.registerKeyListener(new KeyListener() {
                 @Override
                 public boolean onKeyUp(int key, KeyEvent event) {
+                    if (!binding.rowsFragment.hasFocus()) {
+                        return false;
+                    }
                     if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                         mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
                         mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
