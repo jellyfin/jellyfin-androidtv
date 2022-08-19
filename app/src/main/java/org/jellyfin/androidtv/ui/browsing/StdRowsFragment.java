@@ -249,7 +249,6 @@ public class StdRowsFragment extends RowsSupportFragment implements RowLoader {
             BaseRowItem rowItem = (BaseRowItem) item;
 
             if (((ListRow) row).getAdapter() instanceof ItemRowAdapter) {
-                //TvApp.getApplication().getLogger().Debug("Selected Item "+rowItem.getIndex() + " type: "+ (rowItem.getItemType().equals(BaseRowItem.ItemType.BaseItem) ? rowItem.getBaseItem().getType() : "other"));
                 ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) row).getAdapter();
                 adapter.loadMoreItemsIfNeeded(rowItem.getIndex());
             }

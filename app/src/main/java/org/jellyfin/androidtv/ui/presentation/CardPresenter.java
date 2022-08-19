@@ -139,7 +139,6 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
-                            //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             switch (itemDto.getLocationType()) {
