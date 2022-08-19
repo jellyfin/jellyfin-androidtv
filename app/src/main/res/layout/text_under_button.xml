@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:duplicateParentState="true">
+    android:duplicateParentState="true"
+    android:layoutDirection="ltr">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageButton"
@@ -17,7 +18,8 @@
         android:duplicateParentState="true"
         app:tint="@drawable/button_icon_tint"
         tools:ignore="UnusedAttribute"
-        tools:src="@drawable/ic_play" />
+        tools:src="@drawable/ic_play"
+        android:layoutDirection="locale" />
 
     <TextView
         android:id="@+id/label"

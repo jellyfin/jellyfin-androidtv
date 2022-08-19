@@ -452,7 +452,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     if (item.getBaseItemType() == BaseItemType.Series) {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_seasons),
-                                Utils.getSafeValue(item.getChildCount(), 0).toString());
+                                String.format("%d", Utils.getSafeValue(item.getChildCount(), 0)));
                     } else {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_directed_by),
@@ -816,7 +816,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     private String getRunTime() {
         Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
-        return runtime != null && runtime > 0 ? (int) Math.ceil((double) runtime / 600000000) + getString(R.string.lbl_min) : "";
+        return runtime != null && runtime > 0 ? String.format("%d%s", (int) Math.ceil((double) runtime / 600000000), getString(R.string.lbl_min)) : "";
     }
 
     private String getEndTime() {

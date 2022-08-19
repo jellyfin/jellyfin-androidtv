@@ -24,6 +24,7 @@ import org.jellyfin.sdk.model.api.MediaStream;
 import org.jellyfin.sdk.model.api.SeriesStatus;
 import org.koin.java.KoinJavaComponent;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,6 +32,8 @@ import java.util.Locale;
 public class InfoLayoutHelper {
 
     private static int textSize = 16;
+    private static NumberFormat nf = NumberFormat.getInstance();
+    private static NumberFormat nfp = NumberFormat.getPercentInstance();
 
     public static void addInfoRow(Context context, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
         switch (item.getItemType()) {
@@ -201,7 +204,7 @@ public class InfoLayoutHelper {
         Long runtime = item.getRunTimeTicks();
         if (runtime != null && runtime > 0) {
             long endTime = includeEndtime ? System.currentTimeMillis() + runtime / 10000 - (item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0 ? item.getUserData().getPlaybackPositionTicks()/10000 : 0) : 0;
-            String text = (int) Math.ceil((double) runtime / 600000000) + context.getString(R.string.lbl_min) + (endTime > 0 ? " (" + context.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(context).format(new Date(endTime)) + ")  " : "  ");
+            String text = nf.format((int) Math.ceil((double) runtime / 600000000)) + context.getString(R.string.lbl_min) + (endTime > 0 ? " (" + context.getResources().getString(R.string.lbl_ends) + " " + android.text.format.DateFormat.getTimeFormat(context).format(new Date(endTime)) + ")  " : "  ");
             TextView time = new TextView(context);
             time.setTextSize(textSize);
             time.setText(text);
@@ -253,7 +256,7 @@ public class InfoLayoutHelper {
             layout.addView(tomato);
             TextView amt = new TextView(context);
             amt.setTextSize(textSize);
-            amt.setText(item.getCriticRating().toString() + "% ");
+            amt.setText(nfp.format(item.getCriticRating()/100) + " ");
             layout.addView(amt);
 
             hasSomething = true;
@@ -301,7 +304,8 @@ public class InfoLayoutHelper {
                 break;
             case SERIES:
                 if (item.getProductionYear() != null && item.getProductionYear() > 0) {
-                    date.setText(item.getProductionYear().toString());
+                    nf.setGroupingUsed(false);
+                    date.setText(nf.format(item.getProductionYear()));
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 }
@@ -312,7 +316,8 @@ public class InfoLayoutHelper {
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 } else if (item.getProductionYear() != null && item.getProductionYear() > 0) {
-                    date.setText(item.getProductionYear().toString());
+                    nf.setGroupingUsed(false);
+                    date.setText(nf.format(item.getProductionYear()));
                     layout.addView(date);
                     addSpacer(context, layout, "  ");
                 }

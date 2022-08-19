@@ -21,6 +21,8 @@ import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 
+import java.text.NumberFormat;
+
 /**
  * Modified ImageCard with no fade on the badge
  * A card view with an {@link ImageView} as its main region.
@@ -30,6 +32,7 @@ public class LegacyImageCardView extends BaseCardView {
     private ImageView mBanner;
     private int BANNER_SIZE = Utils.convertDpToPixel(getContext(), 50);
     private int noIconMargin = Utils.convertDpToPixel(getContext(), 5);
+    private NumberFormat nf = NumberFormat.getInstance();
 
     public LegacyImageCardView(Context context, boolean showInfo) {
         super(context, null, R.attr.imageCardViewStyle);
@@ -226,7 +229,7 @@ public class LegacyImageCardView extends BaseCardView {
 
     public void setUnwatchedCount(int count) {
         if (count > 0) {
-            binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : Integer.toString(count));
+            binding.unwatchedCount.setText(count > 99 ? getContext().getString(R.string.watch_count_overflow) : nf.format(count));
             binding.unwatchedCount.setVisibility(VISIBLE);
             binding.checkMark.setVisibility(INVISIBLE);
             binding.watchedIndicator.setVisibility(VISIBLE);
