@@ -2,8 +2,6 @@ package org.jellyfin.androidtv.util.apiclient;
 
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.auth.repository.Session;
-import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -16,32 +14,25 @@ import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 import org.koin.java.KoinJavaComponent;
 
-import java.util.UUID;
-
 import timber.log.Timber;
 
 public class ReportingHelper {
     public static void reportStopped(BaseItemDto item, StreamInfo streamInfo, long pos) {
         if (item != null && streamInfo != null) {
-            Session currentSession = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue();
-            if (currentSession != null) {
-                UUID userId = currentSession.getUserId();
+            PlaybackStopInfo info = new PlaybackStopInfo();
+            info.setItemId(item.getId());
+            info.setPositionTicks(pos);
+            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
 
-                PlaybackStopInfo info = new PlaybackStopInfo();
-                info.setItemId(item.getId());
-                info.setPositionTicks(pos);
-                KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStopped(info, streamInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class).getServerInfo().getId(), userId.toString(), KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
-
-                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                dataRefreshService.setLastPlayback(System.currentTimeMillis());
-                switch (item.getBaseItemType()) {
-                    case Movie:
-                        dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
-                        break;
-                    case Episode:
-                        dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
-                        break;
-                }
+            DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
+            dataRefreshService.setLastPlayback(System.currentTimeMillis());
+            switch (item.getBaseItemType()) {
+                case Movie:
+                    dataRefreshService.setLastMoviePlayback(System.currentTimeMillis());
+                    break;
+                case Episode:
+                    dataRefreshService.setLastTvPlayback(System.currentTimeMillis());
+                    break;
             }
         }
     }
