@@ -26,6 +26,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class InfoLayoutHelper {
 
@@ -234,7 +235,7 @@ public class InfoLayoutHelper {
 
             TextView amt = new TextView(context);
             amt.setTextSize(textSize);
-            amt.setText(item.getCommunityRating().toString()+" ");
+            amt.setText(String.format(Locale.US, "%.1f ", item.getCommunityRating()));
             layout.addView(amt);
 
             hasSomething = true;
