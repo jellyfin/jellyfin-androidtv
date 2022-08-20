@@ -2,8 +2,11 @@ package org.jellyfin.androidtv.util.sdk
 
 import android.content.Context
 import org.jellyfin.androidtv.R
+import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.LocationType
+import org.jellyfin.sdk.model.api.PlayAccess
 
 fun BaseItemDto.getDisplayName(context: Context): String {
 	val seasonNumber = when {
@@ -32,3 +35,11 @@ fun BaseItemDto.getDisplayName(context: Context): String {
 		.filter { it.isNotEmpty() }
 		.joinToString(nameSeparator)
 }
+
+
+fun BaseItemDto?.canPlay() = this != null
+	&& playAccess == PlayAccess.FULL
+	&& isPlaceHolder != true
+	&& (type != BaseItemKind.EPISODE || locationType != LocationType.VIRTUAL)
+	&& type != BaseItemKind.PERSON
+	&& (isFolder != true || childCount?.takeIf { it > 0 } != null)

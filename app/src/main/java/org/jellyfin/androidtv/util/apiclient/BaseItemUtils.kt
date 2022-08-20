@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.sdk.canPlay
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.sdk.getDisplayName
 import org.jellyfin.apiclient.model.dto.BaseItemDto
@@ -26,13 +27,7 @@ import java.util.Calendar
 fun BaseItemDto.isLiveTv() =
 	baseItemType == BaseItemType.Program || baseItemType == BaseItemType.LiveTvChannel
 
-fun BaseItemDto?.canPlay() = this != null
-	&& playAccess == PlayAccess.Full
-	&& ((isPlaceHolder == null || !isPlaceHolder)
-	&& (baseItemType != BaseItemType.Episode || locationType != LocationType.Virtual))
-	&& baseItemType != BaseItemType.Person
-	&& baseItemType != BaseItemType.SeriesTimer
-	&& (!isFolderItem || childCount == null || childCount > 0)
+fun BaseItemDto?.canPlay() = this?.asSdk()?.canPlay()
 
 fun BaseItemDto.getFullName(context: Context): String? = when (baseItemType) {
 	BaseItemType.Episode -> buildList {
