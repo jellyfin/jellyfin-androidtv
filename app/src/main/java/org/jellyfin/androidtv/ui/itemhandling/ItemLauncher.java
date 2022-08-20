@@ -51,10 +51,7 @@ public class ItemLauncher {
         launch(rowItem, adapter, pos, activity, false);
     }
 
-    public static void createUserViewIntent(final BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
-        if (baseItem.getCollectionType() == null) {
-            baseItem.setCollectionType("unknown");
-        }
+    public static void createUserViewIntent(final org.jellyfin.sdk.model.api.BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
         Intent intent;
         switch (baseItem.getCollectionType()) {
@@ -65,29 +62,29 @@ public class ItemLauncher {
                 if (!enableSmartScreen) {
                     // open grid browsing
                     intent = new Intent(context, GenericGridActivity.class);
-                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
+                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
                 } else {
                     // open user view browsing
                     intent = new Intent(context, UserViewActivity.class);
-                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
+                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
                 }
                 break;
             case CollectionType.Music:
             case CollectionType.LiveTv:
                 // open user view browsing
                 intent = new Intent(context, UserViewActivity.class);
-                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
+                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
                 break;
             default:
                 // open generic folder browsing
                 intent = new Intent(context, GenericGridActivity.class);
-                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(baseItem)));
+                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
         }
 
         callback.accept(intent);
     }
 
-    public static void launchUserView(final BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
+    public static void launchUserView(final org.jellyfin.sdk.model.api.BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
         createUserViewIntent(baseItem, activity, intent -> {
             activity.startActivity(intent);
             if (finishParent) activity.finishAfterTransition();
@@ -111,7 +108,7 @@ public class ItemLauncher {
                 switch (baseItem.getBaseItemType()) {
                     case UserView:
                     case CollectionFolder:
-                        launchUserView(baseItem, activity, false);
+                        launchUserView(ModelCompat.asSdk(baseItem), activity, false);
                         return;
                     case Series:
                     case MusicArtist:
