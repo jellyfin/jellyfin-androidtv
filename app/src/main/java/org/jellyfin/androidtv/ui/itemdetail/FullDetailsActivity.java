@@ -756,7 +756,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
                     ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
                     for (MediaStream stream : ms.getMediaStreams()) {
-                        infoAdapter.add(stream);
+                        infoAdapter.add(ModelCompat.asSdk(stream));
                     }
 
                     adapter.add(new ListRow(header, infoAdapter));
