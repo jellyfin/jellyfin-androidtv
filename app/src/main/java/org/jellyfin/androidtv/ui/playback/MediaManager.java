@@ -987,8 +987,11 @@ public class MediaManager {
     }
 
     public void setCurrentMediaPosition(int currentMediaPosition) {
-        if (!hasVideoQueueItems() || currentMediaPosition < 0 || currentMediaPosition > getCurrentVideoQueue().size())
-            return;
+        if (currentMediaPosition < 0) return;
+        if (mCurrentMediaAdapter == null && mCurrentVideoQueue == null) return;
+        if (mCurrentMediaAdapter != null && currentMediaPosition > mCurrentMediaAdapter.size()) return;
+        if (mCurrentVideoQueue != null && currentMediaPosition > mCurrentVideoQueue.size()) return;
+
         mCurrentMediaPosition = currentMediaPosition;
     }
 
