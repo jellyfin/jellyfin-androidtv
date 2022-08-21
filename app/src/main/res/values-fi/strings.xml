@@ -176,7 +176,7 @@
     <string name="msg_cannot_play">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_cannot_play_time">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_playback_incompatible">Tätä videomuotoa ei voida toistaa</string>
-    <string name="msg_playback_restricted">Ylläpito on toistaiseksi rajoittanut nimikkeen toistoa</string>
+    <string name="msg_playback_restricted">Ylläpito on rajoittanut nimikkeen toistoa</string>
     <string name="msg_playback_not_allowed">Toistoa ei tällä hetkellä sallita</string>
     <string name="lbl_valid_server_address">Syötä palvelimen osoite (IP-osoite, verkkotunnus tai laitteen nimi)</string>
     <string name="msg_video_playback_error">"Toistovirhe - "</string>
