@@ -374,7 +374,7 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_special">Спецэпизоды</string>
+    <string name="lbl_special">Спецэпизод</string>
     <string name="help">Справка</string>
     <string name="pref_next_up_behavior_title">Инфо о следующем видео</string>
     <string name="lbl_time_range">%1$s—%2$s</string>
@@ -493,4 +493,6 @@
     <string name="pref_crash_reports">Отправка отчёта о сбое на сервер</string>
     <string name="pref_telemetry_category">Отчёт о сбое</string>
     <string name="server_setup_incomplete">Настройка этого сервера не завершена. Откройте Jellyfin в веб-браузере, чтобы завершить настройку перед входом в систему.</string>
+    <string name="episode_name_special">спецэпизод</string>
+    <string name="enable_picture_viewer_title">Включить новый просмотрщик рисунков</string>
 </resources>
