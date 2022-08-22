@@ -493,4 +493,6 @@
     <string name="pref_telemetry_category">Kraŝraportado</string>
     <string name="pref_telemetry_description">Sendi kraŝraportojn, inkluzivi protokolojn</string>
     <string name="server_setup_incomplete">La agordo de ĉi tiu servilo ne estas finita. Malfermu Jellyfin en TTT-foliumilo por fini agordon antaŭ ensaluti.</string>
+    <string name="episode_name_special">speciala</string>
+    <string name="enable_picture_viewer_title">Ebligi novan bildrigardilon</string>
 </resources>
