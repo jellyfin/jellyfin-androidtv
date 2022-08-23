@@ -483,4 +483,16 @@
     <string name="image_size_xlarge">Extragroß</string>
     <string name="image_size_smallest">Kleinste</string>
     <string name="image_type_poster">Poster</string>
+    <string name="episode_name_special">Extra</string>
+    <string name="server_setup_incomplete">Das Setup von diesem Server wurde nicht abgeschlossen. Öffne Jellyfin in einem Webbrowser um das Setup abzuschließen, bevor du dich anmeldest.</string>
+    <string name="crash_report_toast">Ups! Etwas ist schiefgegangen, ein Absturzbericht wurde an deinen Jellyfin-Server gesendet.</string>
+    <string name="pref_crash_reports_enabled">Absturzberichte werden an den zuletzt von dir verwendeten Server gesendet</string>
+    <string name="enable_picture_viewer_title">Neue Bildanzeige aktivieren</string>
+    <string name="pref_crash_report_logs_disabled">Logs werden in Absturzberichten nicht eingeschlossen</string>
+    <string name="pref_crash_report_logs_enabled">Logs werden in Absturzberichten eingeschlossen</string>
+    <string name="pref_crash_report_logs">Logs einschließen</string>
+    <string name="pref_crash_reports_disabled">Absturzberichte werden nicht gesendet</string>
+    <string name="pref_crash_reports">Absturzberichte an Server senden</string>
+    <string name="pref_telemetry_description">Absturzberichte senden, Logs einschließen</string>
+    <string name="lbl_additional_parts">Weitere Teile</string>
 </resources>
