@@ -81,7 +81,7 @@
     <string name="lbl_empty">Vide</string>
     <string name="lbl_tv_queuing">Mettre en file tous les épisodes suivants</string>
     <string name="sum_tv_queuing">Ajouter le reste de la saison à la liste lors de la lecture d\'un épisode</string>
-    <string name="lbl_search_hint">Texte à rechercher (\"select\" pour le clavier)</string>
+    <string name="lbl_search_hint">Mot à rechercher (\"select\" pour le clavier)</string>
     <string name="lbl_play_first_unwatched">Lire le premier élément non vu</string>
     <string name="lbl_mark_unplayed">Marquer comme non vu</string>
     <string name="lbl_mark_played">Marqué comme vu</string>
@@ -493,4 +493,6 @@
     <string name="image_size_smallest">Très petit</string>
     <string name="lbl_additional_parts">Parties additionnelles</string>
     <string name="image_type_poster">Affiche</string>
+    <string name="episode_name_special">special</string>
+    <string name="enable_picture_viewer_title">Activer la nouvelle visionneuse d\'images</string>
 </resources>
