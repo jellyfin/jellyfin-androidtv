@@ -102,7 +102,7 @@
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_ended">FINALIZADO</string>
     <string name="btn_filter">Filtro</string>
-    <string name="lbl_filters">Filtros</string>
+    <string name="lbl_filters">Filtros de TV en vivo</string>
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="msg_unable_load_subs">No fue posible cargar el subtítulo</string>
     <string name="lbl_recording">Grabando</string>
@@ -256,7 +256,7 @@
     <string name="lbl_on_now">Transmitiendo ahora</string>
     <string name="lbl_next_up">A continuación</string>
     <string name="pref_video_player_vlc">LibVLC</string>
-    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
     <string name="pref_device_model">Modelo del dispositivo</string>
@@ -350,21 +350,21 @@
     <string name="lbl_remove_user_content">Eliminar cuenta</string>
     <string name="lbl_remove_users">Esto también eliminará a todos las cuentas asociadas</string>
     <string name="lbl_manage_servers">Administrar servidores</string>
-    <string name="user_picker_last_user_summary">Usar el ultimo usuario activo</string>
+    <string name="user_picker_last_user_summary">Usar la última cuenta activo</string>
     <string name="user_picker_last_user_title">Mas recientemente usado</string>
     <string name="user_picker_disable_summary">Siempre mostrar la pantalla de ingreso</string>
     <string name="user_picker_disable_title">Deshabilitado</string>
     <string name="auto_sign_in">ingreso Automatico</string>
     <string name="lbl_use_series_thumbnails_description">Usar serie de miniaturas cuando se muestren episodios</string>
     <string name="lbl_use_series_thumbnails">Preferir serie de miniaturas</string>
-    <string name="lbl_switch_user">Cambiar usuario</string>
+    <string name="lbl_switch_user">Cambiar de cuenta</string>
     <string name="no_network_permissions">Jellyfin necesita permisos de red para funcionar</string>
     <string name="pref_theme_muted_purple">Purpura apagado</string>
     <string name="press_to_close">Presione para Cerrar</string>
-    <string name="add_user">Agregar usuario</string>
+    <string name="add_user">Agregar cuenta</string>
     <string name="who_is_watching">¿Quién está mirando\?</string>
-    <string name="no_user_warning">¡No hemos podido encontrar ningún usuario!
-\nAñade un nuevo usuario pulsando el botón \"Añadir usuario\".</string>
+    <string name="no_user_warning">¡No hemos podido encontrar ninguna cuenta!
+\nAñade un nueva cuenta pulsando el botón \"Añadir cuenta\".</string>
     <string name="server_unsupported">El servidor necesita ser actualizado. La versión actual es %1$s pero la aplicación requiere %2$s o más reciente</string>
     <string name="welcome_content">Conéctate a tu servidor para empezar.</string>
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
@@ -397,7 +397,7 @@
     <string name="lbl_stretch">Estirar</string>
     <string name="lbl_auto_crop">Auto-ajuste</string>
     <string name="alphabetical">Alfabético</string>
-    <string name="advanced_settings">Ajustes (avanzados)</string>
+    <string name="advanced_settings">Avanzado</string>
     <string name="always_authenticate_description">Al activar esta función se desactiva el inicio de sesión automático</string>
     <string name="always_authenticate">Pedir siempre las credenciales</string>
     <string name="last_use">Más reciente usado</string>
@@ -460,4 +460,13 @@
     <string name="lbl_playback_speed">Velocidad de reproducción</string>
     <string name="lbl_shuffle_queue">Alternar aleatorio</string>
     <string name="state_disabled">Deshabilitado</string>
+    <string name="action_use_password">Usar contraseña</string>
+    <string name="action_login">Iniciar sesión</string>
+    <string name="home_section_resume_book">Continuar leyendo</string>
+    <string name="image_size_xlarge">Extra-grande</string>
+    <string name="image_size_smallest">El mas pequeño</string>
+    <string name="image_type_poster">Póster</string>
+    <string name="lbl_subtitle_delay">Retraso del subtitulo</string>
+    <string name="lbl_adjust">Ajustar</string>
+    <string name="lbl_additional_parts">Partes adicionales</string>
 </resources>
