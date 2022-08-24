@@ -482,7 +482,17 @@
     <string name="lbl_subtitle_delay">Retardo de los subtítulos</string>
     <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
-    <string name="pref_telemetry_description">Envia informe de fallos, incluye registros</string>
+    <string name="pref_telemetry_description">Enviar informe de fallos, incluye registros</string>
     <string name="pref_telemetry_category">Informe de fallos</string>
     <string name="server_unsupported_notification">Este servidor utilizar la versión %1$s de Jellyfin, la cual no es compatible. Por favor actualiza a Jellyfin %2$s para seguir utilizando esta aplicación.</string>
+    <string name="episode_name_special">especial</string>
+    <string name="enable_picture_viewer_title">Activar nuevo visualizador de fotos</string>
+    <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abre Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>
+    <string name="crash_report_toast">Ups! Algo ha ido mal, se ha enviado un informe de fallos a tu servidor de Jellyfin.</string>
+    <string name="pref_crash_report_logs_disabled">Los registros no incluirán los informes de fallos</string>
+    <string name="pref_crash_report_logs_enabled">Los registros serán incluidos en el informe de fallos</string>
+    <string name="pref_crash_report_logs">Incluir registros</string>
+    <string name="pref_crash_reports_disabled">Los informes de fallos no serán enviados</string>
+    <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
+    <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
 </resources>
