@@ -25,9 +25,10 @@ import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -372,7 +373,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         String full_title = "";
         Context context = getBaseContext();
         if (context != null) {
-            full_title = BaseItemUtils.getDisplayName(item, context);
+            full_title = BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(item), context);
         }
         if (full_title.isEmpty()) {
             full_title = item.getName();

@@ -14,7 +14,8 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ItemRowBinding;
 import org.jellyfin.androidtv.util.TimeUtils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.sdk.model.constant.MediaType;
 
@@ -101,7 +102,7 @@ public class ItemRowView extends FrameLayout {
                 }
                 break;
             default:
-                String series = item.getSeriesName() != null ? BaseItemUtils.getFullName(item, mContext) : null;
+                String series = item.getSeriesName() != null ? BaseItemExtensionsKt.getFullName(ModelCompat.asSdk(item), mContext) : null;
                 if (!TextUtils.isEmpty(series)) {
                     mItemName.setText(series);
                     mExtraName.setText(item.getName());

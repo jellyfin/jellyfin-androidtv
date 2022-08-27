@@ -43,8 +43,8 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -526,7 +526,7 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void addButtons(int buttonSize) {
-        if (BaseItemUtils.canPlay(mBaseItem)) {
+        if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             // add play button but don't show and focus yet
             TextUnderButton play = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override

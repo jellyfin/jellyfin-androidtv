@@ -68,7 +68,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -146,6 +146,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean subtitlesBackgroundEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
 
@@ -1289,7 +1290,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             // Update the title and subtitle
             if (current.getBaseItemType() == BaseItemType.Episode) {
                 binding.itemTitle.setText(current.getSeriesName());
-                binding.itemSubtitle.setText(BaseItemUtils.getDisplayName(current, requireContext()));
+                binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(current), requireContext()));
             } else {
                 binding.itemTitle.setText(current.getName());
             }
@@ -1319,7 +1320,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         if (chapters != null && !chapters.isEmpty()) {
             // create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemUtils.buildChapterItems(item), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(item), api.getValue()), new CardPresenter(true, 220), new ArrayObjectAdapter());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.chapters)), chapterAdapter);

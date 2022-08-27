@@ -15,8 +15,8 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -163,17 +163,17 @@ public class InfoLayoutHelper {
     private static void addProgramChannel(Context context, BaseItemDto item, LinearLayout layout){
         TextView name = new TextView(context);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramUnknownChannelName(item));
+        name.setText(BaseItemExtensionsKt.getProgramUnknownChannelName(item));
         layout.addView(name);
     }
 
     private static void addProgramInfo(@NonNull Context context, BaseItemDto item, LinearLayout layout) {
         TextView name = new TextView(context);
         name.setTextSize(textSize);
-        name.setText(BaseItemUtils.getProgramSubText(item, context)+"  ");
+        name.setText(BaseItemExtensionsKt.getProgramSubText(item, context)+"  ");
         layout.addView(name);
 
-        if (BaseItemUtils.isNew(item)) {
+        if (BaseItemExtensionsKt.isNew(item)) {
             addBlockText(context, layout, context.getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(context, layout, "  ");
         } else if (Utils.isTrue(item.isSeries()) && !Utils.isTrue(item.isNews())) {
