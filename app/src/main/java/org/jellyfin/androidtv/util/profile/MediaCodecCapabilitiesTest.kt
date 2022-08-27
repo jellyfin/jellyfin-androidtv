@@ -1,86 +1,64 @@
-package org.jellyfin.androidtv.util.profile;
+package org.jellyfin.androidtv.util.profile
 
-import static android.media.MediaCodecInfo.CodecProfileLevel.AVCLevel4;
-import static android.media.MediaCodecInfo.CodecProfileLevel.AVCProfileHigh10;
-import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level10;
-import static android.media.MediaCodecInfo.CodecProfileLevel.H263Level45;
-import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel5;
-import static android.media.MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10;
-import static android.media.MediaFormat.MIMETYPE_VIDEO_AVC;
-import static android.media.MediaFormat.MIMETYPE_VIDEO_H263;
-import static android.media.MediaFormat.MIMETYPE_VIDEO_HEVC;
+import android.media.MediaCodecInfo.CodecProfileLevel
+import android.media.MediaCodecList
+import android.media.MediaFormat
+import timber.log.Timber
 
-import android.media.MediaCodecInfo;
-import android.media.MediaCodecList;
+class MediaCodecCapabilitiesTest {
+	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
 
-import org.jellyfin.androidtv.util.MediaUtils;
+	fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
 
-import timber.log.Timber;
+	fun supportsHevcMain10(): Boolean = hasDecoder(
+		MediaFormat.MIMETYPE_VIDEO_HEVC,
+		CodecProfileLevel.HEVCProfileMain10,
+		CodecProfileLevel.HEVCMainTierLevel5
+	)
 
-public class MediaCodecCapabilitiesTest  {
-    private static final String TAG = "MediaCodecCapabilitiesTest";
-    private static final int PLAY_TIME_MS = 30000;
-    private static final int TIMEOUT_US = 1000000;  // 1 sec
-    private static final int IFRAME_INTERVAL = 10;          // 10 seconds between I-frames
-    private final MediaCodecList mRegularCodecs =
-            new MediaCodecList(MediaCodecList.REGULAR_CODECS);
-    private final MediaCodecList mAllCodecs =
-            new MediaCodecList(MediaCodecList.ALL_CODECS);
-    private final MediaCodecInfo[] mRegularInfos =
-            mRegularCodecs.getCodecInfos();
-    private final MediaCodecInfo[] mAllInfos =
-            mAllCodecs.getCodecInfos();
+	fun supportsAVCHigh10(): Boolean = hasDecoder(
+		MediaFormat.MIMETYPE_VIDEO_AVC,
+		CodecProfileLevel.AVCProfileHigh10,
+		CodecProfileLevel.AVCLevel4
+	)
 
-    public boolean supportsHevc() {
-        return MediaUtils.checkDecoder(MIMETYPE_VIDEO_HEVC);
-    }
+	private fun hasDecoder(mime: String, profile: Int, level: Int): Boolean {
+		for (info in mediaCodecList.codecInfos) {
+			if (info.isEncoder) continue
 
-    public boolean supportsHevcMain10() {
-        return hasDecoder(MIMETYPE_VIDEO_HEVC, HEVCProfileMain10, HEVCMainTierLevel5);
-    }
+			try {
+				val capabilities = info.getCapabilitiesForType(mime)
+				for (profileLevel in capabilities.profileLevels) {
+					if (profileLevel.profile != profile) continue
 
-    public boolean supportsAVCHigh10() {
-        return hasDecoder(MIMETYPE_VIDEO_AVC, AVCProfileHigh10, AVCLevel4);
-    }
+					// H.263 levels are not completely ordered:
+					// Level45 support only implies Level10 support
+					if (mime.equals(MediaFormat.MIMETYPE_VIDEO_H263, ignoreCase = true)) {
+						if (profileLevel.level != level && profileLevel.level == CodecProfileLevel.H263Level45 && level > CodecProfileLevel.H263Level10) {
+							continue
+						}
+					}
 
-    private boolean checkDecoder(String mime, int profile, int level) {
-        if (!hasDecoder(mime, profile, level)) {
-            Timber.i("no %s decoder for profile %d and level %d", mime, profile, level);
-            return false;
-        }
-        return true;
-    }
-    private boolean hasDecoder(String mime, int profile, int level) {
-        return supports(mime, false /* isEncoder */, profile, level);
-    }
-    private boolean supports(
-            String mime, boolean isEncoder, int profile, int level) {
-        MediaCodecList mcl = new MediaCodecList(MediaCodecList.REGULAR_CODECS);
-        for (MediaCodecInfo info : mcl.getCodecInfos()) {
-            if (isEncoder != info.isEncoder()) {
-                continue;
-            }
-            try {
-                MediaCodecInfo.CodecCapabilities caps = info.getCapabilitiesForType(mime);
-                for (MediaCodecInfo.CodecProfileLevel pl : caps.profileLevels) {
-                    if (pl.profile != profile) {
-                        continue;
-                    }
-                    // H.263 levels are not completely ordered:
-                    // Level45 support only implies Level10 support
-                    if (mime.equalsIgnoreCase(MIMETYPE_VIDEO_H263)) {
-                        if (pl.level != level && pl.level == H263Level45 && level > H263Level10) {
-                            continue;
-                        }
-                    }
-                    if (pl.level >= level) {
-                        return true;
-                    }
-                }
-            } catch (IllegalArgumentException e) {
-                Timber.w(e);
-            }
-        }
-        return false;
-    }
+					if (profileLevel.level >= level) return true
+				}
+			} catch (e: IllegalArgumentException) {
+				Timber.w(e)
+			}
+		}
+
+		return false
+	}
+
+	private fun hasCodecForMime(mime: String): Boolean {
+		for (info in mediaCodecList.codecInfos) {
+			if (info.isEncoder) continue
+
+			if (info.supportedTypes.any { it.equals(mime, ignoreCase = true) }) {
+				Timber.i("found codec %s for mime %s", info.name, mime)
+				return true
+			}
+		}
+
+		return false
+	}
 }
