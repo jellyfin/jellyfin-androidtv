@@ -71,6 +71,7 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -148,6 +149,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     private int selectedVersionPopupIndex = 0;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
@@ -309,7 +311,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (mCurrentItem != null) {
             return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
-        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemUtils.canPlay(mBaseItem)) {
+        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
             play(mBaseItem, pos.intValue() , false);
@@ -446,7 +448,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     break;
                 default:
 
-                    BaseItemPerson director = BaseItemUtils.getFirstPerson(item, PersonType.Director);
+                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonType.Director);
 
                     InfoItem firstRow;
                     if (item.getBaseItemType() == BaseItemType.Series) {
@@ -551,7 +553,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 2, getString(R.string.lbl_chapters));
                 }
@@ -728,7 +730,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
@@ -935,12 +937,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             });
             mDetailsOverviewRow.addAction(playButton);
         } else { //here playButton is only a play button
-            if (BaseItemUtils.canPlay(mBaseItem)) {
+            if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
                 mDetailsOverviewRow.addAction(mResumeButton);
                 boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
-                playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+                playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(ModelCompat.asSdk(mBaseItem)) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, false);

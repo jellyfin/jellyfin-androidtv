@@ -54,11 +54,6 @@ public class Utils {
         return value != null && value;
     }
 
-    public static String firstToUpper(String value) {
-        if (value == null || value.length() == 0) return "";
-        return value.substring(0, 1).toUpperCase() + (value.length() > 1 ? value.substring(1) : "");
-    }
-
     /**
      * A null safe version of {@code String.equalsIgnoreCase}.
      */

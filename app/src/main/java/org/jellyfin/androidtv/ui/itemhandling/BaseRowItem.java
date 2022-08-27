@@ -15,6 +15,8 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -296,7 +298,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return BaseItemUtils.getFullName(baseItem, context);
+                return BaseItemExtensionsKt.getFullName(ModelCompat.asSdk(baseItem), context);
             case Person:
                 return person.getName();
             case Chapter:
@@ -363,7 +365,7 @@ public class BaseRowItem {
     public String getSubText(Context context) {
         switch (type) {
             case BaseItem:
-                return BaseItemUtils.getSubName(baseItem, context);
+                return BaseItemExtensionsKt.getSubName(ModelCompat.asSdk(baseItem), context);
             case Person:
                 return person.getRole();
             case Chapter:
