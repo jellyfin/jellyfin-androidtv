@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
 import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.apiclient.model.entities.LocationType
 import org.jellyfin.apiclient.model.entities.SortOrder
@@ -13,7 +14,6 @@ import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemFilter
-import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.NextUpQuery
 import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.constant.MediaType
@@ -21,9 +21,10 @@ import org.jellyfin.sdk.model.constant.MediaType
 class HomeFragmentHelper(
 	private val context: Context,
 	private val userRepository: UserRepository,
+	private val userViewsRepository: UserViewsRepository,
 ) {
-	fun loadRecentlyAdded(views: ItemsResult): HomeFragmentRow {
-		return HomeFragmentLatestRow(context, userRepository, views)
+	fun loadRecentlyAdded(): HomeFragmentRow {
+		return HomeFragmentLatestRow(userRepository, userViewsRepository)
 	}
 
 	fun loadLibraryTiles(): HomeFragmentRow {
