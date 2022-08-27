@@ -11,8 +11,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.LiveTvOption;
-import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
@@ -42,7 +42,6 @@ import java.util.List;
 import timber.log.Timber;
 
 public class KeyProcessor {
-
     public static final int MENU_MARK_FAVORITE = 0;
     public static final int MENU_UNMARK_FAVORITE = 1;
     public static final int MENU_MARK_PLAYED = 2;
@@ -110,7 +109,7 @@ public class KeyProcessor {
                             case PHOTO:
                                 // open photo player
                                 Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
-                                photoIntent.putExtra("Play",true);
+                                photoIntent.putExtra("Play", true);
                                 activity.startActivity(photoIntent);
                                 return true;
                         }
@@ -250,8 +249,8 @@ public class KeyProcessor {
                         && item.getType() != BaseItemKind.MUSIC_ALBUM
                         && item.getType() != BaseItemKind.PLAYLIST
                         && item.getType() != BaseItemKind.MUSIC_ARTIST
-                        && userData!= null
-                        && userData.getUnplayedItemCount() !=null
+                        && userData != null
+                        && userData.getUnplayedItemCount() != null
                         && userData.getUnplayedItemCount() > 0) {
                     menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 }
@@ -328,7 +327,6 @@ public class KeyProcessor {
     private static PopupMenu.OnMenuItemClickListener menuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
             switch (item.getItemId()) {
                 case MENU_PLAY:
                     if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
@@ -381,8 +379,8 @@ public class KeyProcessor {
                     query.setSortBy(new String[]{ItemSortBy.SortName});
                     query.setSortOrder(SortOrder.Ascending);
                     query.setLimit(1);
-                    query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});
-                    query.setFilters(new ItemFilter[] {ItemFilter.IsUnplayed});
+                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
+                    query.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                     KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
@@ -407,10 +405,10 @@ public class KeyProcessor {
                     toggleFavorite(false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    markPlayed();
+                    togglePlayed(true);
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    markUnplayed();
+                    togglePlayed(false);
                     return true;
                 case MENU_GOTO_NOW_PLAYING:
                     Intent nowPlaying = new Intent(mCurrentActivity, AudioNowPlayingActivity.class);
@@ -437,56 +435,26 @@ public class KeyProcessor {
         }
     };
 
-    private static void markPlayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<org.jellyfin.apiclient.model.dto.UserItemDataDto>() {
-            @Override
-            public void onResponse(org.jellyfin.apiclient.model.dto.UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-            }
+    private static void togglePlayed(boolean played) {
+        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, R.string.playing_error);
-            }
-        });
+        CoroutineUtils.runBlocking((scope, continuation) ->
+                itemMutationRepository.setPlayed(ModelCompat.asSdk(mCurrentItem).getId(), played, continuation)
+        );
 
+        if (mCurrentActivity instanceof BaseActivity)
+            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
     }
 
-    private static void markUnplayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.UserItemDataDto>() {
-            @Override
-            public void onResponse(org.jellyfin.apiclient.model.dto.UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-            }
+    private static void toggleFavorite(boolean favorite) {
+        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, R.string.playing_error);
-            }
-        });
+        CoroutineUtils.runBlocking((scope, continuation) ->
+                itemMutationRepository.setFavorite(ModelCompat.asSdk(mCurrentItem).getId(), favorite, continuation)
+        );
 
-    }
-
-    private static void toggleFavorite(boolean fav) {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), fav, new Response<org.jellyfin.apiclient.model.dto.UserItemDataDto>() {
-            @Override
-            public void onResponse(org.jellyfin.apiclient.model.dto.UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting favorite status");
-                Utils.showToast(mCurrentActivity, R.string.favorite_error);
-            }
-        });
+        if (mCurrentActivity instanceof BaseActivity)
+            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
     }
 }
 

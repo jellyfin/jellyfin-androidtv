@@ -6,6 +6,8 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.auth.repository.UserRepositoryImpl
 import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.repository.ItemMutationRepository
+import org.jellyfin.androidtv.data.repository.ItemMutationRepositoryImpl
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
@@ -87,6 +89,7 @@ val appModule = module {
 	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
 	single<NotificationsRepository> { NotificationsRepositoryImpl(get(), get()) }
+	single<ItemMutationRepository> { ItemMutationRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get()) }
