@@ -2,28 +2,31 @@ package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
 import androidx.leanback.widget.ArrayObjectAdapter
+import kotlinx.coroutines.flow.first
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
+import org.jellyfin.androidtv.util.runBlocking
 import org.jellyfin.apiclient.model.querying.ItemFields
-import org.jellyfin.apiclient.model.querying.ItemsResult
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery
 import org.jellyfin.sdk.model.constant.CollectionType
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 
 class HomeFragmentLatestRow(
-	private val context: Context,
 	private val userRepository: UserRepository,
-	private val views: ItemsResult
+	private val userViewsRepository: UserViewsRepository,
 ) : HomeFragmentRow {
 	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
 		// Get configuration (to find excluded items)
 		val configuration = userRepository.currentUser.value?.configuration
 
 		// Create a list of views to include
-		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty()
-		views.items
+		val latestItemsExcludes = configuration?.latestItemsExcludes.orEmpty().mapNotNull { it.toUUIDOrNull() }
+		val views = runBlocking { userViewsRepository.views.first() }
+		views
 			.filterNot { item -> item.collectionType in EXCLUDED_COLLECTION_TYPES || item.id in latestItemsExcludes }
 			.map { item ->
 				// Create query and add it to a new row
@@ -34,7 +37,7 @@ class HomeFragmentLatestRow(
 						ItemFields.ChildCount
 					)
 					imageTypeLimit = 1
-					parentId = item.id
+					parentId = item.id.toString()
 					groupItems = true
 					limit = ITEM_LIMIT
 				}
