@@ -176,7 +176,7 @@
     <string name="lbl_play_next_up">Reproducir siguiente</string>
     <string name="lbl_open">Abrir</string>
     <string name="lbl_show_backdrop">Mostrar imágenes de fondo</string>
-    <string name="lbl_refresh_switching">Cambio de la tasa de refresco</string>
+    <string name="lbl_refresh_switching">Cambio de la tasa de actualización</string>
     <string name="lbl_show_premieres">Mostrar estrenos de temporada</string>
     <string name="desc_premieres">Mostrar una fila de nuevos episodios pilotos para cualquier serie que veas</string>
     <string name="lbl_bitstream_dts">Transmisión directa de audio DTS</string>
@@ -476,4 +476,23 @@
     <string name="lbl_subtitle_delay">Retraso del subtitulo</string>
     <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
+    <string name="episode_name_special">Especial</string>
+    <string name="enable_picture_viewer_title">Habilitar nuevo visor de imágenes</string>
+    <string name="server_setup_incomplete">La configuración del servidor no ha sido completada. Abre Jellyfin en un navegador web para finalizar la configuración antes de iniciar sesión.</string>
+    <string name="crash_report_toast">¡Ups! ocurrió un error, un reporte de fallos fue enviado a tu servidor Jellyfin.</string>
+    <string name="pref_crash_report_logs_disabled">Los registros no serán incluidos en los reportes de fallos</string>
+    <string name="pref_crash_report_logs_enabled">Los registros serán incluidos en los reportes de fallos</string>
+    <string name="pref_crash_report_logs">Incluir registros</string>
+    <string name="pref_crash_reports_disabled">Los reportes de fallo no serán enviados</string>
+    <string name="pref_crash_reports_enabled">Los reportes de fallos serán enviados al último servidor usado</string>
+    <string name="pref_crash_reports">Enviar reportes de fallos al servidor</string>
+    <string name="pref_telemetry_description">Enviar reporte de fallo, incluye registros</string>
+    <string name="pref_telemetry_category">Reporte de fallos</string>
+    <string name="server_unsupported_notification">Éste servidor usa la versión %1$s de Jellyin la cual no está soportada. Por favor actualice a la versión %2$s para seguir usando la app.</string>
+    <string name="app_notification_uimode_invalid">Ésta app está optimizada para TV. Recomendamos usar la app móvil en otros dispositivos.</string>
+    <string name="live_tv_preferences">Opciones de TV en vivo</string>
+    <string name="pref_customization_description">Tema, inicio, remapear</string>
+    <string name="image_size_xlarge">Extra-grande</string>
+    <string name="image_size_smallest">El más pequeño</string>
+    <string name="image_type_poster">Póster</string>
 </resources>
