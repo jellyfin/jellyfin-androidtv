@@ -10,7 +10,6 @@ import android.widget.PopupMenu;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -19,7 +18,6 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
@@ -145,13 +143,6 @@ public class KeyProcessor {
                         PlaybackHelper.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
-                        if (rowItem.getGridButton().getId() == LiveTvOption.VIDEO_QUEUE_OPTION_ID) {
-                            //Queue already there - just kick off playback
-                            BaseItemType itemType = KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue().size() > 0 ? KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue().get(0).getBaseItemType() : null;
-                            Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
-                            Intent intent = new Intent(activity, newActivity);
-                            activity.startActivity(intent);
-                        }
                         break;
                 }
 
