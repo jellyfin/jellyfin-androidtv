@@ -71,8 +71,9 @@ import timber.log.Timber;
 
 public class ItemListActivity extends FragmentActivity {
     private int BUTTON_SIZE;
-    public static final String FAV_SONGS = "FAV_SONGS";
-    public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
+    // Use fake UUID's to avoid crashing when converting to SDK
+    public static final String FAV_SONGS = "11111111-0000-0000-0000-000000000001";
+    public static final String VIDEO_QUEUE = "11111111-0000-0000-0000-000000000002";
 
     private TextView mTitle;
     private TextView mGenreRow;
