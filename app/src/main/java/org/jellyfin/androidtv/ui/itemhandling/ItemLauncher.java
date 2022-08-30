@@ -437,23 +437,6 @@ public class ItemLauncher {
                         activity.startActivity(recordings);
                         break;
 
-                    case LiveTvOption.VIDEO_QUEUE_OPTION_ID:
-                        Intent queueIntent = new Intent(activity, ItemListActivity.class);
-                        queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
-                        //Resume first item if needed
-                        List<BaseItemDto> items = KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue();
-                        if (items != null) {
-                            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
-                            if (first != null && first.getUserData() != null) {
-                                Long resume = first.getUserData().getPlaybackPositionTicks() / 10000;
-                                queueIntent.putExtra("Position", resume.intValue());
-
-                            }
-                        }
-
-                        activity.startActivity(queueIntent);
-                        break;
-
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
                         Intent seriesIntent = new Intent(activity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
