@@ -213,7 +213,7 @@
     <string name="msg_burn_sub_warning">Grabando en subtítulos. Esto puede tardar unos pocos segundos…</string>
     <string name="msg_unable_load_subs">No se puede cargar el subtítulo</string>
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
-    <string name="lbl_filters">Filtros</string>
+    <string name="lbl_filters">Filtros de TV en directo</string>
     <string name="btn_clear_all">Limpiar todo</string>
     <string name="btn_filter">Filtrar</string>
     <string name="lbl_display_preferences">Mostrar preferencias</string>
@@ -256,7 +256,7 @@
     <string name="pref_app_theme">Temas de la app</string>
     <string name="pref_theme_emerald">Esmeralda Clasico</string>
     <string name="pref_theme_dark">Oscuro (Por Defecto)</string>
-    <string name="grid_direction_vertical">Vertical (experimental)</string>
+    <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Dirección de la cuadrícula</string>
     <string name="pref_device_model">Modelo del dispositivo</string>
@@ -474,4 +474,25 @@
     <string name="action_use_password">Use una contraseña</string>
     <string name="action_login">Iniciar Sesión</string>
     <string name="state_disabled">Desactivado</string>
+    <string name="app_notification_uimode_invalid">Esta aplicación está optimizada para televisiones. Recomendamos utilizar nuestra aplicación para móviles en otros dispositivos.</string>
+    <string name="live_tv_preferences">Opciones de TV en directo</string>
+    <string name="image_size_xlarge">Enorme</string>
+    <string name="image_size_smallest">Muy pequeño</string>
+    <string name="image_type_poster">Cartel</string>
+    <string name="lbl_subtitle_delay">Retardo de los subtítulos</string>
+    <string name="lbl_adjust">Ajustar</string>
+    <string name="lbl_additional_parts">Partes adicionales</string>
+    <string name="pref_telemetry_description">Enviar informe de fallos, incluye registros</string>
+    <string name="pref_telemetry_category">Informe de fallos</string>
+    <string name="server_unsupported_notification">Este servidor utilizar la versión %1$s de Jellyfin, la cual no es compatible. Por favor actualiza a Jellyfin %2$s para seguir utilizando esta aplicación.</string>
+    <string name="episode_name_special">especial</string>
+    <string name="enable_picture_viewer_title">Activar nuevo visualizador de fotos</string>
+    <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abre Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>
+    <string name="crash_report_toast">Ups! Algo ha ido mal, se ha enviado un informe de fallos a tu servidor de Jellyfin.</string>
+    <string name="pref_crash_report_logs_disabled">Los registros no incluirán los informes de fallos</string>
+    <string name="pref_crash_report_logs_enabled">Los registros serán incluidos en el informe de fallos</string>
+    <string name="pref_crash_report_logs">Incluir registros</string>
+    <string name="pref_crash_reports_disabled">Los informes de fallos no serán enviados</string>
+    <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
+    <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
 </resources>

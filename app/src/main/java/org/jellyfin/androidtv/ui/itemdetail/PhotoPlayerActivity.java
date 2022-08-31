@@ -82,7 +82,13 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
         boolean pictureViewerRewriteEnabled = userPreferences.getValue().get(UserPreferences.Companion.getPictureViewerRewriteEnabled());
         if (pictureViewerRewriteEnabled) {
-            Intent intent = PictureViewerActivity.Companion.createIntent(this, ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), getIntent().getBooleanExtra("Play", false));
+            Intent intent = PictureViewerActivity.Companion.createIntent(
+                    this,
+                    ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()),
+                    getIntent().getBooleanExtra("Play", false),
+                    mediaManager.getValue().getCurrentMediaAdapter().getSortBy(),
+                    mediaManager.getValue().getCurrentMediaAdapter().getSortOrder()
+            );
             startActivity(intent);
             finishAfterTransition();
             return;
@@ -325,7 +331,6 @@ public class PhotoPlayerActivity extends FragmentActivity {
                 nextImageView().setAlpha(1f);
                 currentImageNdx = nextImageNdx;
                 nextImageNdx = currentImageNdx == 0 ? 1 : 0;
-                //TvApp.getApplication().getLogger().Debug("Current ndx: "+currentImageNdx+" next: "+nextImageNdx);
                 isTransitioning = false;
             }
 

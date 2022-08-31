@@ -493,4 +493,6 @@
     <string name="pref_telemetry_description">Összeomlási napló küldése, naplóadatokkal együtt</string>
     <string name="pref_telemetry_category">Összeomlási jelentés</string>
     <string name="server_setup_incomplete">A szerver beállítása nem fejeződött be. Nyissa meg a Jellyfint egy webböngészőben a beállítás befejezéséhez a bejelentkezés előtt.</string>
+    <string name="episode_name_special">speciális</string>
+    <string name="enable_picture_viewer_title">Az új képnézegető engedélyezése</string>
 </resources>

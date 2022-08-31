@@ -7,7 +7,7 @@ import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.data.model.InfoItem;
 import org.jellyfin.androidtv.ui.TextUnderButton;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.ArrayList;
 import java.util.List;

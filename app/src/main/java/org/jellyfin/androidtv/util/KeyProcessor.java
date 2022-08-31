@@ -11,8 +11,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.constant.LiveTvOption;
-import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
@@ -21,17 +21,20 @@ import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.api.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.api.UserItemDataDto;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -39,7 +42,6 @@ import java.util.List;
 import timber.log.Timber;
 
 public class KeyProcessor {
-
     public static final int MENU_MARK_FAVORITE = 0;
     public static final int MENU_UNMARK_FAVORITE = 1;
     public static final int MENU_MARK_PLAYED = 2;
@@ -56,7 +58,7 @@ public class KeyProcessor {
     public static final int MENU_TOGGLE_SHUFFLE = 13;
 
     private static String mCurrentItemId;
-    private static BaseItemDto mCurrentItem;
+    private static org.jellyfin.apiclient.model.dto.BaseItemDto mCurrentItem;
     private static Activity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean isMusic;
@@ -74,40 +76,40 @@ public class KeyProcessor {
                 switch (rowItem.getItemType()) {
 
                     case BaseItem:
-                        BaseItemDto item = rowItem.getBaseItem();
-                        if (!BaseItemUtils.canPlay(item)) return false;
-                        switch (item.getBaseItemType()) {
-                            case Audio:
+                        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
+                        if (!BaseItemExtensionsKt.canPlay(item)) return false;
+                        switch (item.getType()) {
+                            case AUDIO:
                                 if (rowItem instanceof AudioQueueItem) {
                                     createItemMenu(rowItem, item.getUserData(), activity);
                                     return true;
                                 }
                                 //fall through...
-                            case Movie:
-                            case Episode:
-                            case TvChannel:
-                            case Video:
-                            case Program:
-                            case Trailer:
+                            case MOVIE:
+                            case EPISODE:
+                            case TV_CHANNEL:
+                            case VIDEO:
+                            case PROGRAM:
+                            case TRAILER:
                                 // retrieve full item and play
-                                PlaybackHelper.retrieveAndPlay(item.getId(), false, activity);
+                                PlaybackHelper.retrieveAndPlay(item.getId().toString(), false, activity);
                                 return true;
-                            case Series:
-                            case Season:
-                            case BoxSet:
+                            case SERIES:
+                            case SEASON:
+                            case BOX_SET:
                                 createPlayMenu(rowItem.getBaseItem(), true, false, activity);
                                 return true;
-                            case MusicAlbum:
-                            case MusicArtist:
+                            case MUSIC_ALBUM:
+                            case MUSIC_ARTIST:
                                 createPlayMenu(rowItem.getBaseItem(), true, true, activity);
                                 return true;
-                            case Playlist:
-                                createPlayMenu(rowItem.getBaseItem(), true, "Audio".equals(rowItem.getBaseItem().getMediaType()), activity);
+                            case PLAYLIST:
+                                createPlayMenu(rowItem.getBaseItem(), true, MediaType.Audio.equals(item.getMediaType()), activity);
                                 return true;
-                            case Photo:
+                            case PHOTO:
                                 // open photo player
                                 Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
-                                photoIntent.putExtra("Play",true);
+                                photoIntent.putExtra("Play", true);
                                 activity.startActivity(photoIntent);
                                 return true;
                         }
@@ -167,21 +169,21 @@ public class KeyProcessor {
                 switch (rowItem.getItemType()) {
 
                     case BaseItem:
-                        BaseItemDto item = rowItem.getBaseItem();
-                        switch (item.getBaseItemType()) {
-                            case Movie:
-                            case Episode:
-                            case TvChannel:
-                            case Video:
-                            case Program:
-                            case Series:
-                            case Season:
-                            case BoxSet:
-                            case MusicAlbum:
-                            case MusicArtist:
-                            case Playlist:
-                            case Audio:
-                            case Trailer:
+                        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
+                        switch (item.getType()) {
+                            case MOVIE:
+                            case EPISODE:
+                            case TV_CHANNEL:
+                            case VIDEO:
+                            case PROGRAM:
+                            case SERIES:
+                            case SEASON:
+                            case BOX_SET:
+                            case MUSIC_ALBUM:
+                            case MUSIC_ARTIST:
+                            case PLAYLIST:
+                            case AUDIO:
+                            case TRAILER:
                                 // generate a standard item menu
                                 createItemMenu(rowItem, item.getUserData(), activity);
                                 break;
@@ -208,7 +210,7 @@ public class KeyProcessor {
     }
 
     public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
-        BaseItemDto item = rowItem.getBaseItem();
+        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
@@ -226,7 +228,7 @@ public class KeyProcessor {
 
 
             if (userData != null) {
-                if (userData.getIsFavorite()) {
+                if (userData.isFavorite()) {
                     menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
                 } else {
                     menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
@@ -242,33 +244,33 @@ public class KeyProcessor {
                 menu.getMenu().add(0, MENU_CLEAR_QUEUE, order++, R.string.lbl_clear_queue);
             }
         } else {
-            if (BaseItemUtils.canPlay(item)) {
-                if (item.getIsFolderItem()
-                        && item.getBaseItemType() != BaseItemType.MusicAlbum
-                        && item.getBaseItemType() != BaseItemType.Playlist
-                        && item.getBaseItemType() != BaseItemType.MusicArtist
-                        && userData!= null
-                        && userData.getUnplayedItemCount() !=null
+            if (BaseItemExtensionsKt.canPlay(item)) {
+                if (item.isFolder()
+                        && item.getType() != BaseItemKind.MUSIC_ALBUM
+                        && item.getType() != BaseItemKind.PLAYLIST
+                        && item.getType() != BaseItemKind.MUSIC_ARTIST
+                        && userData != null
+                        && userData.getUnplayedItemCount() != null
                         && userData.getUnplayedItemCount() > 0) {
                     menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 }
-                menu.getMenu().add(0, MENU_PLAY, order++, item.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play);
-                if (item.getIsFolderItem()) {
+                menu.getMenu().add(0, MENU_PLAY, order++, item.isFolder() ? R.string.lbl_play_all : R.string.lbl_play);
+                if (item.isFolder()) {
                     menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
                 }
             }
 
-            isMusic = item.getBaseItemType() == BaseItemType.MusicAlbum
-                    || item.getBaseItemType() == BaseItemType.MusicArtist
-                    || item.getBaseItemType() == BaseItemType.Audio
-                    || (item.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(item.getMediaType()));
+            isMusic = item.getType() == BaseItemKind.MUSIC_ALBUM
+                    || item.getType() == BaseItemKind.MUSIC_ARTIST
+                    || item.getType() == BaseItemKind.AUDIO
+                    || (item.getType() == BaseItemKind.PLAYLIST && MediaType.Audio.equals(item.getMediaType()));
 
             if (isMusic) {
                 menu.getMenu().add(0, MENU_ADD_QUEUE, order++, R.string.lbl_add_to_queue);
             }
 
             if (isMusic) {
-                if (item.getBaseItemType() != BaseItemType.Playlist) {
+                if (item.getType() != BaseItemKind.PLAYLIST) {
                     menu.getMenu().add(0, MENU_INSTANT_MIX, order++, R.string.lbl_instant_mix);
                 }
             } else {
@@ -280,7 +282,7 @@ public class KeyProcessor {
             }
 
             if (userData != null) {
-                if (userData.getIsFavorite()) {
+                if (userData.isFavorite()) {
                     menu.getMenu().add(0, MENU_UNMARK_FAVORITE, order++, activity.getString(R.string.lbl_remove_favorite));
                 } else {
                     menu.getMenu().add(0, MENU_MARK_FAVORITE, order++, activity.getString(R.string.lbl_add_favorite));
@@ -290,9 +292,9 @@ public class KeyProcessor {
 
         //Not sure I like this but I either duplicate processing with in-line events or do this and
         // use a single event handler
-        mCurrentItem = item;
+        mCurrentItem = rowItem.getBaseItem();
         mCurrentRowItemNdx = rowItem.getIndex();
-        mCurrentItemId = item.getId();
+        mCurrentItemId = item.getId().toString();
         mCurrentActivity = activity;
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
@@ -300,7 +302,7 @@ public class KeyProcessor {
         return menu;
     }
 
-    private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
+    private static void createPlayMenu(org.jellyfin.apiclient.model.dto.BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
         if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
@@ -315,7 +317,7 @@ public class KeyProcessor {
         //Not sure I like this but I either duplicate processing with in-line events or do this and
         // use a single event handler
         mCurrentItem = item;
-        mCurrentItemId = item.getId();
+        mCurrentItemId = item.getId().toString();
         mCurrentActivity = activity;
 
         menu.setOnMenuItemClickListener(menuItemClickListener);
@@ -325,7 +327,6 @@ public class KeyProcessor {
     private static PopupMenu.OnMenuItemClickListener menuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
             switch (item.getItemId()) {
                 case MENU_PLAY:
                     if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
@@ -343,9 +344,9 @@ public class KeyProcessor {
                     return true;
                 case MENU_ADD_QUEUE:
                     if (isMusic) {
-                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<org.jellyfin.apiclient.model.dto.BaseItemDto>>() {
                             @Override
-                            public void onResponse(List<BaseItemDto> response) {
+                            public void onResponse(List<org.jellyfin.apiclient.model.dto.BaseItemDto> response) {
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).addToAudioQueue(response);
                             }
 
@@ -356,9 +357,9 @@ public class KeyProcessor {
                         });
 
                     } else {
-                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
                             @Override
-                            public void onResponse(BaseItemDto response) {
+                            public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).addToVideoQueue(response);
                             }
 
@@ -378,8 +379,8 @@ public class KeyProcessor {
                     query.setSortBy(new String[]{ItemSortBy.SortName});
                     query.setSortOrder(SortOrder.Ascending);
                     query.setLimit(1);
-                    query.setExcludeItemTypes(new String[] {"Series","Season","Folder","MusicAlbum","Playlist","BoxSet"});
-                    query.setFilters(new ItemFilter[] {ItemFilter.IsUnplayed});
+                    query.setExcludeItemTypes(new String[]{"Series", "Season", "Folder", "MusicAlbum", "Playlist", "BoxSet"});
+                    query.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                     KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
@@ -404,10 +405,10 @@ public class KeyProcessor {
                     toggleFavorite(false);
                     return true;
                 case MENU_MARK_PLAYED:
-                    markPlayed();
+                    togglePlayed(true);
                     return true;
                 case MENU_UNMARK_PLAYED:
-                    markUnplayed();
+                    togglePlayed(false);
                     return true;
                 case MENU_GOTO_NOW_PLAYING:
                     Intent nowPlaying = new Intent(mCurrentActivity, AudioNowPlayingActivity.class);
@@ -434,56 +435,26 @@ public class KeyProcessor {
         }
     };
 
-    private static void markPlayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkPlayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-            }
+    private static void togglePlayed(boolean played) {
+        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, R.string.playing_error);
-            }
-        });
+        CoroutineUtils.runBlocking((scope, continuation) ->
+                itemMutationRepository.setPlayed(ModelCompat.asSdk(mCurrentItem).getId(), played, continuation)
+        );
 
+        if (mCurrentActivity instanceof BaseActivity)
+            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
     }
 
-    private static void markUnplayed() {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).MarkUnplayedAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-            }
+    private static void toggleFavorite(boolean favorite) {
+        ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting played status");
-                Utils.showToast(mCurrentActivity, R.string.playing_error);
-            }
-        });
+        CoroutineUtils.runBlocking((scope, continuation) ->
+                itemMutationRepository.setFavorite(ModelCompat.asSdk(mCurrentItem).getId(), favorite, continuation)
+        );
 
-    }
-
-    private static void toggleFavorite(boolean fav) {
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).UpdateFavoriteStatusAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), fav, new Response<UserItemDataDto>() {
-            @Override
-            public void onResponse(UserItemDataDto response) {
-                if (mCurrentActivity instanceof BaseActivity)
-                    ((BaseActivity)mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
-                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                dataRefreshService.setLastFavoriteUpdate(System.currentTimeMillis());
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error setting favorite status");
-                Utils.showToast(mCurrentActivity, R.string.favorite_error);
-            }
-        });
+        if (mCurrentActivity instanceof BaseActivity)
+            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
     }
 }
 

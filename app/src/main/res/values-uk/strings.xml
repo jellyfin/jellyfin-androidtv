@@ -483,4 +483,16 @@
     <string name="image_size_smallest">Найменший</string>
     <string name="image_type_poster">Постер</string>
     <string name="lbl_additional_parts">Додаткові частини</string>
+    <string name="episode_name_special">спеціальні</string>
+    <string name="enable_picture_viewer_title">Увімкнути новий засіб перегляду зображень</string>
+    <string name="server_setup_incomplete">Налаштування цього сервера не завершено. Відкрийте Jellyfin у веб-браузері, щоб завершити налаштування перед входом.</string>
+    <string name="crash_report_toast">Ой! Щось пішло не так, на ваш сервер Jellyfin надіслано звіт про збій.</string>
+    <string name="pref_crash_report_logs_disabled">Журнали не будуть включені до звітів про збої</string>
+    <string name="pref_crash_report_logs_enabled">Журнали будуть включені у звіти про збої</string>
+    <string name="pref_crash_report_logs">Включати журнали</string>
+    <string name="pref_crash_reports_disabled">Звіти про збої надсилатися не будуть</string>
+    <string name="pref_crash_reports_enabled">Звіти про збої будуть надіслані на останній використовуваний сервер</string>
+    <string name="pref_crash_reports">Надіслати звіти про збої на сервері</string>
+    <string name="pref_telemetry_description">Надіслати звіти про збої, включаючи журнали</string>
+    <string name="pref_telemetry_category">Звіт про збої</string>
 </resources>

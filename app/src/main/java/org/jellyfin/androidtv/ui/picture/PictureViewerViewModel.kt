@@ -26,7 +26,7 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
 
-	suspend fun loadItem(id: UUID) {
+	suspend fun loadItem(id: UUID, sortBy: String, sortOrder: SortOrder) {
 		// Load requested item
 		val itemResponse by api.userLibraryApi.getItem(itemId = id)
 		_currentItem.value = itemResponse
@@ -35,8 +35,8 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 			parentId = itemResponse.parentId,
 			includeItemTypes = setOf(BaseItemKind.PHOTO),
 			fields = setOf(ItemFields.PRIMARY_IMAGE_ASPECT_RATIO),
-			sortBy = listOf(ItemFields.SORT_NAME.name), // TODO: Order should be consistent with the stdgridview the user comes from, which allows to change the order
-			sortOrder = listOf(SortOrder.ASCENDING),
+			sortBy = sortBy.split(","),
+			sortOrder = listOf(sortOrder),
 		)
 		album = albumResponse.items.orEmpty()
 		albumIndex = album.indexOfFirst { it.id == id }

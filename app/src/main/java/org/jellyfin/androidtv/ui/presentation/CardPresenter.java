@@ -34,6 +34,7 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class CardPresenter extends Presenter {
     public static final double ASPECT_RATIO_BANNER = 1000.0 / 185.0;
@@ -138,7 +139,6 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                         case Episode:
-                            //TvApp.getApplication().getLogger().Debug("**** Image width: "+ cardWidth + " Aspect: " + Utils.getImageAspectRatio(itemDto, m.getPreferParentThumb()) + " Item: "+itemDto.getName());
                             mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_tv);
                             aspect = ImageUtils.ASPECT_RATIO_16_9;
                             switch (itemDto.getLocationType()) {
@@ -400,7 +400,7 @@ public class CardPresenter extends Presenter {
                 } else if (ratingType == RatingType.RATING_STARS &&
                         rowItem.getBaseItem().getCommunityRating() != null) {
                     holder.mCardView.setBadgeImage(ContextCompat.getDrawable(viewHolder.view.getContext(), R.drawable.ic_star));
-                    holder.mCardView.setRating(rowItem.getBaseItem().getCommunityRating().toString());
+                    holder.mCardView.setRating(String.format(Locale.US, "%.1f", rowItem.getBaseItem().getCommunityRating()));
                 }
             }
         }

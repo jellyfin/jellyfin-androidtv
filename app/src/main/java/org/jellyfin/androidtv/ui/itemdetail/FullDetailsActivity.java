@@ -71,25 +71,23 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.entities.PersonType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
@@ -97,6 +95,10 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
+import org.jellyfin.sdk.model.constant.PersonType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -147,6 +149,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     private int selectedVersionPopupIndex = 0;
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
@@ -308,7 +311,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (mCurrentItem != null) {
             return KeyProcessor.HandleKey(keyCode, mCurrentItem, this) || super.onKeyUp(keyCode, event);
-        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemUtils.canPlay(mBaseItem)) {
+        } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
             play(mBaseItem, pos.intValue() , false);
@@ -338,25 +341,22 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         }
     }
 
-    private static BaseItemType[] buttonTypes = new BaseItemType[] {
-        BaseItemType.Episode,
-        BaseItemType.Movie,
-        BaseItemType.Series,
-        BaseItemType.Season,
-        BaseItemType.Folder,
-        BaseItemType.Video,
-        BaseItemType.Recording,
-        BaseItemType.Program,
-        BaseItemType.Trailer,
-        BaseItemType.MusicArtist,
-        BaseItemType.Person,
-        BaseItemType.MusicVideo,
-        BaseItemType.SeriesTimer
+    private static BaseItemKind[] buttonTypes = new BaseItemKind[]{
+            BaseItemKind.EPISODE,
+            BaseItemKind.MOVIE,
+            BaseItemKind.SERIES,
+            BaseItemKind.SEASON,
+            BaseItemKind.FOLDER,
+            BaseItemKind.VIDEO,
+            BaseItemKind.RECORDING,
+            BaseItemKind.PROGRAM,
+            BaseItemKind.TRAILER,
+            BaseItemKind.MUSIC_ARTIST,
+            BaseItemKind.PERSON,
+            BaseItemKind.MUSIC_VIDEO
     };
 
-
-    private static List<BaseItemType> buttonTypeList = Arrays.asList(buttonTypes);
-    private static String[] directPlayableTypes = new String[] {"Episode","Movie","Video","Recording","Program"};
+    private static List<BaseItemKind> buttonTypeList = Arrays.asList(buttonTypes);
 
     private void updateWatched() {
         if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !isFinishing()) {
@@ -432,7 +432,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
-            mDetailsOverviewRow = new MyDetailsOverviewRow(item);
+            mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
 
             String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
@@ -448,13 +448,13 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     break;
                 default:
 
-                    BaseItemPerson director = BaseItemUtils.getFirstPerson(item, PersonType.Director);
+                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonType.Director);
 
                     InfoItem firstRow;
                     if (item.getBaseItemType() == BaseItemType.Series) {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_seasons),
-                                Utils.getSafeValue(item.getChildCount(), 0).toString());
+                                String.format("%d", Utils.getSafeValue(item.getChildCount(), 0)));
                     } else {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_directed_by),
@@ -537,7 +537,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
@@ -553,7 +553,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 2, getString(R.string.lbl_chapters));
                 }
@@ -577,7 +577,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -687,7 +687,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(this, mBaseItem.getPeople(), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(this, ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
@@ -719,8 +719,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 //Guest stars
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     List<BaseItemPerson> guests = new ArrayList<>();
-                    for (BaseItemPerson person : mBaseItem.getPeople()) {
-                        if (person.getPersonType() == PersonType.GuestStar) guests.add(person);
+                    for (BaseItemPerson person : ModelCompat.asSdk(mBaseItem.getPeople())) {
+                        if (person.getType() == PersonType.GuestStar) guests.add(person);
                     }
                     if (guests.size() > 0) {
                         ItemRowAdapter castAdapter = new ItemRowAdapter(this, guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);
@@ -730,7 +730,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
-                    List<ChapterItemInfo> chapters = BaseItemUtils.buildChapterItems(mBaseItem);
+                    List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
                     ItemRowAdapter chapterAdapter = new ItemRowAdapter(this, chapters, new CardPresenter(true, 240), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
@@ -755,7 +755,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
                     ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
                     for (MediaStream stream : ms.getMediaStreams()) {
-                        infoAdapter.add(stream);
+                        infoAdapter.add(ModelCompat.asSdk(stream));
                     }
 
                     adapter.add(new ListRow(header, infoAdapter));
@@ -765,8 +765,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         }
     }
 
-    private void updateInfo(BaseItemDto item) {
-        if (buttonTypeList.contains(item.getBaseItemType())) addButtons(BUTTON_SIZE);
+    private void updateInfo(org.jellyfin.sdk.model.api.BaseItemDto item) {
+        if (buttonTypeList.contains(item.getType())) addButtons(BUTTON_SIZE);
 //        updatePlayedDate();
 
         mLastUpdated = Calendar.getInstance();
@@ -818,7 +818,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     private String getRunTime() {
         Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
-        return runtime != null && runtime > 0 ? (int) Math.ceil((double) runtime / 600000000) + getString(R.string.lbl_min) : "";
+        return runtime != null && runtime > 0 ? String.format("%d%s", (int) Math.ceil((double) runtime / 600000000), getString(R.string.lbl_min)) : "";
     }
 
     private String getEndTime() {
@@ -937,12 +937,12 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             });
             mDetailsOverviewRow.addAction(playButton);
         } else { //here playButton is only a play button
-            if (BaseItemUtils.canPlay(mBaseItem)) {
+            if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
                 mDetailsOverviewRow.addAction(mResumeButton);
                 boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
-                playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemUtils.isLiveTv(mBaseItem) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
+                playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(ModelCompat.asSdk(mBaseItem)) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         play(mBaseItem, 0, false);
@@ -960,7 +960,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                 boolean isMusic = mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum
                         || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist
                         || mBaseItem.getBaseItemType() == BaseItemType.Audio
-                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && "Audio".equals(mBaseItem.getMediaType()));
+                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && MediaType.Audio.equals(mBaseItem.getMediaType()));
 
                 if (isMusic) {
                     queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {

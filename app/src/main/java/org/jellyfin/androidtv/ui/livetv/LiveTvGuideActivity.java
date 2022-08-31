@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
@@ -54,6 +55,7 @@ import org.koin.java.KoinJavaComponent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -621,6 +623,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             int slot = 0;
             do {
                 BaseItemDto empty = new BaseItemDto();
+                empty.setId(UUID.randomUUID().toString());
+                empty.setType("FOLDER");
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
@@ -651,6 +655,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             if (start > prevEnd) {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
+                empty.setId(UUID.randomUUID().toString());
+                empty.setType("FOLDER");
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
@@ -668,7 +674,6 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             if (end > getCurrentLocalEndDate()) end = getCurrentLocalEndDate();
             prevEnd = end;
             Long duration = (end - start) / 60000;
-            //TvApp.getApplication().getLogger().Debug("Duration for "+item.getName()+" is "+duration.intValue());
             if (duration > 0) {
                 ProgramGridCell program = new ProgramGridCell(this, this, item, false);
                 program.setId(currentCellId++);
@@ -688,6 +693,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         if (prevEnd < mCurrentLocalGuideEnd) {
             // fill empty time slot
             BaseItemDto empty = new BaseItemDto();
+            empty.setId(UUID.randomUUID().toString());
+            empty.setType("FOLDER");
             empty.setName(getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
@@ -763,7 +770,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mSummary.setText(mSelectedProgram.getOverview());
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, mSelectedProgram, mInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(mSelectedProgram), mInfoRow, false, false);
 
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));

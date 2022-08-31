@@ -31,12 +31,12 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
-import org.jellyfin.apiclient.model.search.SearchHint
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.SearchHint
 import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.UUID

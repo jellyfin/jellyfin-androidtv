@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.leanback.widget.Presenter;
 
 import org.jellyfin.androidtv.ui.card.MediaInfoCardView;
-import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStream;
 
 public class InfoCardPresenter extends Presenter {
     class ViewHolder extends Presenter.ViewHolder {
@@ -15,7 +15,6 @@ public class InfoCardPresenter extends Presenter {
         public ViewHolder(View view) {
             super(view);
             mInfoCardView = (MediaInfoCardView) view;
-
         }
 
         public void setItem(MediaStream ms) {
@@ -44,6 +43,5 @@ public class InfoCardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
-        //Log.d(TAG, "onUnbindViewHolder");
     }
 }

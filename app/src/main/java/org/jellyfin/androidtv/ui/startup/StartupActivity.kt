@@ -31,9 +31,9 @@ import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
 import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
-import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -49,7 +49,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	private val startupViewModel: StartupViewModel by viewModel()
-	private val apiClient: ApiClient by inject()
+	private val api: ApiClient by inject()
 	private val mediaManager: MediaManager by inject()
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
@@ -112,7 +112,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 		val itemId = when {
 			intent.action == Intent.ACTION_VIEW && intent.data != null -> intent.data.toString()
 			else -> intent.getStringExtra(EXTRA_ITEM_ID)
-		}
+		}?.toUUIDOrNull()
 		val itemIsUserView = intent.getBooleanExtra(EXTRA_ITEM_IS_USER_VIEW, false)
 
 		Timber.d("Determining next activity (action=${intent.action}, itemId=$itemId, itemIsUserView=$itemIsUserView)")
@@ -134,9 +134,8 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			itemId != null -> when {
 				// Item is a user view - need to get info from API and create the intent
 				// using the ItemLauncher
-				itemIsUserView -> callApi<BaseItemDto?> {
-					apiClient.GetItemAsync(itemId, apiClient.currentUserId, it)
-				}?.let { item ->
+				itemIsUserView -> {
+					val item by api.userLibraryApi.getItem(itemId = itemId)
 					suspendCoroutine { continuation ->
 						ItemLauncher.createUserViewIntent(item, this) { intent ->
 							continuation.resume(intent)
@@ -145,7 +144,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 				}
 				// Item is not a user view
 				else -> Intent(this, FullDetailsActivity::class.java).apply {
-					putExtra(EXTRA_ITEM_ID, itemId)
+					putExtra(EXTRA_ITEM_ID, itemId.toString())
 				}
 			}
 			// Launch default

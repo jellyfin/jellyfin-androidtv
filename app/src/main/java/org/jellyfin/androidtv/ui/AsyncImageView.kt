@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.util.BlurHashDecoder
 import kotlin.math.round
 import kotlin.time.Duration.Companion.milliseconds
@@ -28,12 +29,19 @@ class AsyncImageView @JvmOverloads constructor(
 	defStyleAttr: Int = 0,
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
 	private val lifeCycleOwner get() = findViewTreeLifecycleOwner()
+	private val styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.AsyncImageView, defStyleAttr, 0)
 
 	/**
 	 * The duration of the crossfade when changing switching the images of the url, blurhash and
 	 * placeholder.
 	 */
-	var crossFadeDuration = 100.milliseconds
+	@Suppress("MagicNumber")
+	var crossFadeDuration = styledAttributes.getInt(R.styleable.AsyncImageView_crossfadeDuration, 100).milliseconds
+
+	/**
+	 * Shape the image to a circle and remove all corners.
+	 */
+	var circleCrop = styledAttributes.getBoolean(R.styleable.AsyncImageView_circleCrop, false)
 
 	/**
 	 * Load an image from the network using [url]. When the [url] is null or returns a bad response
@@ -62,11 +70,13 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Start loading image or placeholder
 			Glide.with(this@AsyncImageView)
-				.load(url ?: placeholder)
-				.placeholder(placeholderOrBlurHash)
-				.error(placeholder)
-				// FIXME: Glide is unable to scale the image when transitions are enabled
-				//.transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
+				.load(url ?: placeholder).apply {
+					placeholder(placeholderOrBlurHash)
+					error(placeholder)
+					if (circleCrop) circleCrop()
+					// FIXME: Glide is unable to scale the image when transitions are enabled
+					//transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
+				}
 				.into(this@AsyncImageView)
 		}
 	}

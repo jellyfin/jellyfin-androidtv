@@ -19,7 +19,7 @@ import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
 public class MyDetailsOverviewRowPresenter extends RowPresenter {
     private final MarkdownRenderer markdownRenderer;
@@ -121,8 +121,8 @@ public class MyDetailsOverviewRowPresenter extends RowPresenter {
         if (summaryRaw != null)
             vh.mSummary.setText(markdownRenderer.toMarkdownSpanned(summaryRaw));
 
-        switch (row.getItem().getBaseItemType()) {
-            case Person:
+        switch (row.getItem().getType()) {
+            case PERSON:
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mSummary.getLayoutParams();
                 params.topMargin = 10;
                 params.height = Utils.convertDpToPixel(vh.view.getContext(), 185);

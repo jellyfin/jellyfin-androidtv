@@ -8,7 +8,7 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
 
 import java.util.Arrays;
 

@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.browsing.RowLoader
@@ -21,24 +22,22 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
-import org.jellyfin.androidtv.util.apiclient.callApi
-import org.jellyfin.apiclient.interaction.ApiClient
-import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
-import org.jellyfin.apiclient.model.querying.ItemsResult
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class HomeFragment : StdRowsFragment(), AudioEventListener {
-	private val apiClient by inject<ApiClient>()
+	private val api by inject<ApiClient>()
 	private val mediaManager by inject<MediaManager>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val userRepository by inject<UserRepository>()
 	private val notificationsRepository by inject<NotificationsRepository>()
-	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository) }
+	private val userViewsRepository by inject<UserViewsRepository>()
+	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
 	// Data
 	private val rows = mutableListOf<HomeFragmentRow>()
-	private var views: ItemsResult? = null
 	private var includeLiveTvRows: Boolean = false
 
 	// Special rows
@@ -108,22 +107,14 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
-				callApi<ItemsResult> {
-					apiClient.GetRecommendedLiveTvProgramsAsync(
-						RecommendedProgramQuery().apply {
-							userId = currentUser.id.toString()
-							enableTotalRecordCount = false
-							imageTypeLimit = 1
-							isAiring = true
-							limit = 1
-						},
-						it
-					)
-				}.let { includeLiveTvRows = !it.items.isNullOrEmpty() }
-			}
-
-			if (homesections.contains(HomeSectionType.LATEST_MEDIA)) {
-				views = callApi<ItemsResult> { apiClient.GetUserViews(currentUser.id.toString(), it) }
+				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
+					userId = api.userId,
+					enableTotalRecordCount = false,
+					imageTypeLimit = 1,
+					isAiring = true,
+					limit = 1,
+				)
+				includeLiveTvRows = !recommendedPrograms.items.isNullOrEmpty()
 			}
 
 			// Make sure the rows are empty
@@ -150,7 +141,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 
 	private fun addSection(type: HomeSectionType) {
 		when (type) {
-			HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded(views!!))
+			HomeSectionType.LATEST_MEDIA -> rows.add(helper.loadRecentlyAdded())
 			HomeSectionType.LIBRARY_TILES_SMALL -> rows.add(helper.loadLibraryTiles())
 			HomeSectionType.LIBRARY_BUTTONS -> rows.add(helper.loadLibraryTiles())
 			HomeSectionType.RESUME -> rows.add(helper.loadResumeVideo())

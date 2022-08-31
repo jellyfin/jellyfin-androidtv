@@ -43,6 +43,7 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.ArrayList;
@@ -512,7 +513,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (ssActive) {
                 stopScreenSaver();
             } else {
-                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
+                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ModelCompat.asSdk(((BaseRowItem) item).getBaseItem()).getUserData(), mActivity);
             }
         }
     }

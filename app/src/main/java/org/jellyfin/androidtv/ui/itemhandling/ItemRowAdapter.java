@@ -26,18 +26,18 @@ import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.GridFragment;
+import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
@@ -46,7 +46,6 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
@@ -59,7 +58,10 @@ import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
+import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.Calendar;
@@ -90,6 +92,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private QueryType queryType;
 
     private String mSortBy;
+    private SortOrder sortOrder;
     private FilterOptions mFilters;
 
     private EmptyResponse mRetrieveFinishedListener;
@@ -401,17 +404,18 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         return totalItems;
     }
 
-    public void setSortBy(GridFragment.SortOption option) {
-        if (!option.value.equals(mSortBy)) {
+    public void setSortBy(BrowseGridFragment.SortOption option) {
+        if (!option.value.equals(mSortBy) || !option.order.equals(sortOrder)) {
             mSortBy = option.value;
+            sortOrder = option.order;
             switch (queryType) {
                 case AlbumArtists:
                     mArtistsQuery.setSortBy(new String[]{mSortBy});
-                    mArtistsQuery.setSortOrder(option.order);
+                    mArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
                 default:
                     mQuery.setSortBy(new String[]{mSortBy});
-                    mQuery.setSortOrder(option.order);
+                    mQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
             }
             if (!ItemSortBy.SortName.equals(option.value)) {
@@ -422,6 +426,10 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
 
     public String getSortBy() {
         return mSortBy;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
     }
 
     public FilterOptions getFilters() {
@@ -808,7 +816,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     for (SearchHint item : response.getSearchHints()) {
                         if (userViewsRepository.getValue().isSupported(item.getType())) {
                             i++;
-                            adapter.add(new BaseRowItem(item));
+                            adapter.add(new BaseRowItem(ModelCompat.asSdk(item)));
                         }
                     }
                     totalItems = response.getTotalRecordCount();

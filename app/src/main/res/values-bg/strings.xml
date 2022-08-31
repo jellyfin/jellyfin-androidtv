@@ -150,4 +150,12 @@
     <string name="lbl_program_ended">Програмата завърши</string>
     <string name="msg_set_to_record">Програмата е настроена за запис</string>
     <string name="state_disabled">Изключено</string>
+    <string name="sum_enable_cinema_mode">Пускай наличните интро записи преди започване на филм</string>
+    <string name="msg_error_live_stream">Грешка при излъчването на телевизията. Ще опитаме отново…</string>
+    <string name="pref_live_tv_cat">Телевизия</string>
+    <string name="lbl_recorded_tv">Записана Телевизия</string>
+    <string name="lbl_live_tv_guide">Програма</string>
+    <string name="lbl_no_recordings">Няма налични записи</string>
+    <string name="msg_burn_sub_warning">Внедряване на субтитрите. Може да отнеме няколко секунди…</string>
+    <string name="lbl_additional_parts">Допълнителни Части</string>
 </resources>

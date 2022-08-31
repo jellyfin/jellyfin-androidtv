@@ -23,18 +23,18 @@
         android:id="@+id/channelNumber"
         android:maxLines="1"
         android:textSize="14sp"
-        android:layout_marginLeft="3sp"
-        android:layout_marginRight="3sp"
+        android:layout_marginStart="3sp"
+        android:layout_marginEnd="3sp"
         android:layout_below="@+id/channelName"
         android:layout_alignParentStart="true" />
 
-    <ImageView
+    <org.jellyfin.androidtv.ui.AsyncImageView
         android:layout_width="100sp"
         android:layout_height="50sp"
         android:id="@+id/channelImage"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/channelName"
-        android:scaleType="center" />
+        android:scaleType="centerInside" />
 
     <ImageView
         android:layout_width="wrap_content"

@@ -176,7 +176,7 @@
     <string name="msg_cannot_play">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_cannot_play_time">Tätä kohdetta ei voida toistaa</string>
     <string name="msg_playback_incompatible">Tätä videomuotoa ei voida toistaa</string>
-    <string name="msg_playback_restricted">Ylläpito on toistaiseksi rajoittanut nimikkeen toistoa</string>
+    <string name="msg_playback_restricted">Ylläpito on rajoittanut nimikkeen toistoa</string>
     <string name="msg_playback_not_allowed">Toistoa ei tällä hetkellä sallita</string>
     <string name="lbl_valid_server_address">Syötä palvelimen osoite (IP-osoite, verkkotunnus tai laitteen nimi)</string>
     <string name="msg_video_playback_error">"Toistovirhe - "</string>
@@ -493,4 +493,6 @@
     <string name="pref_telemetry_description">Lähetä kaatumisilmoituksia ja sisällytä lokitiedot</string>
     <string name="server_unsupported_notification">Palvelin käyttää Jellyfin-versiota %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin versioon %2$s.</string>
     <string name="server_setup_incomplete">Tämän palvelimen määritys on kesken. Ennen kirjautumista, avaa Jellyfin verkkoselaimessa ja viimeistele määritys.</string>
+    <string name="enable_picture_viewer_title">Ota uusi kuvankatselu käyttöön</string>
+    <string name="episode_name_special">erikoisjakso</string>
 </resources>

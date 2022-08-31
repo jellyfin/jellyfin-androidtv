@@ -19,26 +19,12 @@ import org.jellyfin.androidtv.ui.AsyncImageView
 import org.jellyfin.androidtv.util.createKeyHandler
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
-import org.jellyfin.sdk.api.client.extensions.libraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PictureViewerFragment : Fragment(), View.OnKeyListener {
-	companion object {
-		/**
-		 * The download API is used by jellyfin-web when loading images. Unfortunately with our
-		 * current code it doesn't work for the app. Larger files (gifs, large photos etc.) can
-		 * cause the app to go out of memory. This is mostly caught by Glide but it ends up
-		 * never displaying the picture in those cases.
-		 *
-		 * This toggle is left in the code in case we migrate to a different image processor that
-		 * potentially fixes the issue.
-		 */
-		const val USE_DOWNLOAD_API = false
-	}
-
 	private val pictureViewerViewModel by sharedViewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private lateinit var binding: FragmentPictureViewerBinding
@@ -134,21 +120,15 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	}
 
 	private fun AsyncImageView.load(item: BaseItemDto) {
-		val url = when (USE_DOWNLOAD_API) {
-			true -> api.libraryApi.getDownloadUrl(
-				itemId = item.id,
-				includeCredentials = true, // TODO send authentication via header
-			)
-			false -> api.imageApi.getItemImageUrl(
-				itemId = item.id,
-				imageType = ImageType.PRIMARY,
-				tag = item.imageTags?.get(ImageType.PRIMARY),
-				// Ask the server to downscale the image to avoid the app going out of memory
-				// unfortunately this can be a bit slow for larger files
-				maxWidth = context.resources.displayMetrics.widthPixels,
-				maxHeight = context.resources.displayMetrics.heightPixels,
-			)
-		}
+		val url = api.imageApi.getItemImageUrl(
+			itemId = item.id,
+			imageType = ImageType.PRIMARY,
+			tag = item.imageTags?.get(ImageType.PRIMARY),
+			// Ask the server to downscale the image to avoid the app going out of memory
+			// unfortunately this can be a bit slow for larger files
+			maxWidth = resources.displayMetrics.widthPixels,
+			maxHeight = resources.displayMetrics.heightPixels,
+		)
 
 		load(
 			url = url,

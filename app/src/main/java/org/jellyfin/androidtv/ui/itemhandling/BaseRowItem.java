@@ -15,17 +15,18 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.apiclient.ServerInfo;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemPerson;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
-import org.jellyfin.apiclient.model.search.SearchHint;
+import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
 
@@ -40,8 +41,6 @@ public class BaseRowItem {
     private BaseItemDto baseItem;
     private BaseItemPerson person;
     private ChapterItemInfo chapterInfo;
-    private ServerInfo serverInfo;
-    private UserDto user;
     private SearchHint searchHint;
     private ChannelInfoDto channelInfo;
     private SeriesTimerInfoDto seriesTimerInfo;
@@ -131,14 +130,6 @@ public class BaseRowItem {
 
     public ChapterItemInfo getChapterInfo() {
         return chapterInfo;
-    }
-
-    public ServerInfo getServerInfo() {
-        return serverInfo;
-    }
-
-    public UserDto getUser() {
-        return user;
     }
 
     public SearchHint getSearchHint() {
@@ -249,7 +240,7 @@ public class BaseRowItem {
                 return ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer);
             case SearchHint:
                 if (Utils.isNonEmpty(searchHint.getPrimaryImageTag())) {
-                    return ImageUtils.getImageUrl(searchHint.getItemId(), ImageType.Primary, searchHint.getPrimaryImageTag());
+                    return ImageUtils.getImageUrl(searchHint.getItemId().toString(), ImageType.Primary, searchHint.getPrimaryImageTag());
                 } else if (Utils.isNonEmpty(searchHint.getThumbImageItemId())) {
                     return ImageUtils.getImageUrl(searchHint.getThumbImageItemId(), ImageType.Thumb, searchHint.getThumbImageTag());
                 }
@@ -307,7 +298,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return BaseItemUtils.getFullName(baseItem, context);
+                return BaseItemExtensionsKt.getFullName(ModelCompat.asSdk(baseItem), context);
             case Person:
                 return person.getName();
             case Chapter:
@@ -355,7 +346,7 @@ public class BaseRowItem {
             case LiveTvRecording:
                 return baseItem.getId();
             case Person:
-                return person.getId();
+                return person.getId().toString();
             case Chapter:
                 return chapterInfo.getItemId();
             case LiveTvChannel:
@@ -363,7 +354,7 @@ public class BaseRowItem {
             case GridButton:
                 return null;
             case SearchHint:
-                return searchHint.getItemId();
+                return searchHint.getItemId().toString();
             case SeriesTimer:
                 return seriesTimerInfo.getId();
         }
@@ -374,7 +365,7 @@ public class BaseRowItem {
     public String getSubText(Context context) {
         switch (type) {
             case BaseItem:
-                return BaseItemUtils.getSubName(baseItem, context);
+                return BaseItemExtensionsKt.getSubName(ModelCompat.asSdk(baseItem), context);
             case Person:
                 return person.getRole();
             case Chapter:

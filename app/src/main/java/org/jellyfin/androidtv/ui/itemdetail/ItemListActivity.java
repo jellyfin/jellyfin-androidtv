@@ -43,8 +43,9 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -54,8 +55,9 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.apiclient.model.querying.ItemSortBy;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -69,8 +71,9 @@ import timber.log.Timber;
 
 public class ItemListActivity extends FragmentActivity {
     private int BUTTON_SIZE;
-    public static final String FAV_SONGS = "FAV_SONGS";
-    public static final String VIDEO_QUEUE = "VIDEO_QUEUE";
+    // Use fake UUID's to avoid crashing when converting to SDK
+    public static final String FAV_SONGS = "11111111-0000-0000-0000-000000000001";
+    public static final String VIDEO_QUEUE = "11111111-0000-0000-0000-000000000002";
 
     private TextView mTitle;
     private TextView mGenreRow;
@@ -142,7 +145,6 @@ public class ItemListActivity extends FragmentActivity {
                     // too close to bottom - scroll down
                     mScrollView.smoothScrollBy(0, y - mBottomScrollThreshold);
                 }
-                //TvApp.getApplication().getLogger().Debug("Row selected: "+row.getItem().getName()+" at "+location[1]+" Screen edge: "+mMetrics.heightPixels);
             }
         });
 
@@ -221,7 +223,7 @@ public class ItemListActivity extends FragmentActivity {
                         }
                     }
                 }, 750);
-            } else if ("Video".equals(mBaseItem.getMediaType())) {
+            } else if (MediaType.Video.equals(mBaseItem.getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -298,10 +300,10 @@ public class ItemListActivity extends FragmentActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (row.getItem().getMediaType()) {
-                    case "Video":
+                    case MediaType.Video:
                         mediaManager.getValue().addToVideoQueue(row.getItem());
                         break;
-                    case "Audio":
+                    case MediaType.Audio:
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                         if (playbackLauncher.interceptPlayRequest(ItemListActivity.this, row.getItem())) break;
 
@@ -335,7 +337,7 @@ public class ItemListActivity extends FragmentActivity {
                 item.setName(getString(R.string.lbl_favorites));
                 item.setOverview(getString(R.string.desc_automatic_fav_songs));
                 item.setPlayAccess(PlayAccess.Full);
-                item.setMediaType("Audio");
+                item.setMediaType(MediaType.Audio);
                 item.setBaseItemType(BaseItemType.Playlist);
                 item.setIsFolder(true);
                 setBaseItem(item);
@@ -346,7 +348,7 @@ public class ItemListActivity extends FragmentActivity {
                 queue.setName(getString(R.string.lbl_current_queue));
                 queue.setOverview(getString(R.string.desc_current_video_queue));
                 queue.setPlayAccess(PlayAccess.Full);
-                queue.setMediaType("Video");
+                queue.setMediaType(MediaType.Video);
                 queue.setBaseItemType(BaseItemType.Playlist);
                 queue.setIsFolder(true);
                 if (mediaManager.getValue().getCurrentVideoQueue() != null) {
@@ -377,7 +379,7 @@ public class ItemListActivity extends FragmentActivity {
 
         LinearLayout mainInfoRow = (LinearLayout)findViewById(R.id.fdMainInfoRow);
 
-        InfoLayoutHelper.addInfoRow(this, item, mainInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(this, ModelCompat.asSdk(item), mainInfoRow, false, false);
         addGenres(mGenreRow);
         addButtons(BUTTON_SIZE);
         mSummary.setText(mBaseItem.getOverview());
@@ -504,7 +506,7 @@ public class ItemListActivity extends FragmentActivity {
 
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
-        if ("Video".equals(mBaseItem.getMediaType())) {
+        if (MediaType.Video.equals(mBaseItem.getMediaType())) {
             if (shuffle) {
                 Collections.shuffle(items);
             }
@@ -525,7 +527,7 @@ public class ItemListActivity extends FragmentActivity {
     }
 
     private void addButtons(int buttonSize) {
-        if (BaseItemUtils.canPlay(mBaseItem)) {
+        if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             // add play button but don't show and focus yet
             TextUnderButton play = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
                 @Override

@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.profile.BaseProfile;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
+import org.jellyfin.androidtv.util.sdk.ModelUtils;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -258,6 +259,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public BaseItemDto getNextItem() {
         return hasNextItem() ? mItems.get(mCurrentIndex + 1) : null;
+    }
+
+    public boolean hasPreviousItem() {
+        return mItems != null && mCurrentIndex - 1 >= 0;
+    }
+
+    public BaseItemDto getPreviousItem() {
+        return hasPreviousItem() ? mItems.get(mCurrentIndex - 1) : null;
     }
 
     public boolean isPlaying() {
@@ -986,7 +995,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             return;
         }
 
-        MediaStream stream = StreamHelper.getMediaStream(getCurrentMediaSource(), index);
+        org.jellyfin.sdk.model.api.MediaStream stream = StreamHelper.getMediaStream(ModelCompat.asSdk(getCurrentMediaSource()), index);
         if (stream == null) {
             if (mFragment != null)
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.subtitle_error));
@@ -1028,8 +1037,18 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 // not using vlc - fall through to external handling
             case External:
                 if (mFragment != null) mFragment.showSubLoadingMsg(true);
-                stream.setDeliveryMethod(SubtitleDeliveryMethod.External);
-                stream.setDeliveryUrl(String.format("%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON", apiClient.getValue().getApiUrl(), mCurrentStreamInfo.getItemId(), mCurrentStreamInfo.getMediaSourceId(), String.valueOf(stream.getIndex())));
+
+                stream = ModelUtils.withDelivery(
+                        stream,
+                        org.jellyfin.sdk.model.api.SubtitleDeliveryMethod.EXTERNAL,
+                        String.format(
+                                "%1$s/Videos/%2$s/%3$s/Subtitles/%4$s/0/Stream.JSON",
+                                apiClient.getValue().getApiUrl(),
+                                mCurrentStreamInfo.getItemId(),
+                                mCurrentStreamInfo.getMediaSourceId(),
+                                String.valueOf(stream.getIndex())
+                        )
+                );
                 apiClient.getValue().getSubtitles(stream.getDeliveryUrl(), new Response<SubtitleTrackInfo>() {
 
                     @Override

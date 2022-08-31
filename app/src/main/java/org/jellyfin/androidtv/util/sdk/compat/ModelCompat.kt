@@ -10,6 +10,7 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
+import java.util.UUID
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod as LegacySubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.drawing.ImageOrientation as LegacyImageOrientation
 import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto
@@ -29,23 +30,30 @@ import org.jellyfin.apiclient.model.entities.MediaStream as LegacyMediaStream
 import org.jellyfin.apiclient.model.entities.MediaStreamType as LegacyMediaStreamType
 import org.jellyfin.apiclient.model.entities.MediaUrl as LegacyMediaUrl
 import org.jellyfin.apiclient.model.entities.MetadataFields as LegacyMetadataFields
+import org.jellyfin.apiclient.model.entities.SortOrder as LegacySortOrder
 import org.jellyfin.apiclient.model.entities.Video3DFormat as LegacyVideo3DFormat
 import org.jellyfin.apiclient.model.entities.VideoType as LegacyVideoType
 import org.jellyfin.apiclient.model.library.PlayAccess as LegacyPlayAccess
 import org.jellyfin.apiclient.model.livetv.ChannelType as LegacyChannelType
+import org.jellyfin.apiclient.model.livetv.DayPattern as LegacyDayPattern
+import org.jellyfin.apiclient.model.livetv.KeepUntil as LegacyKeepUntil
 import org.jellyfin.apiclient.model.livetv.ProgramAudio as LegacyProgramAudio
+import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto as LegacySeriesTimerInfoDto
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol as LegacyMediaProtocol
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp as LegacyTransportStreamTimestamp
 import org.jellyfin.apiclient.model.providers.ExternalUrl as LegacyExternalUrl
+import org.jellyfin.apiclient.model.search.SearchHint as LegacySearchHint
 import org.jellyfin.sdk.model.api.BaseItemDto as ModernBaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemPerson as ModernBaseItemPerson
 import org.jellyfin.sdk.model.api.ChannelType as ModernChannelType
 import org.jellyfin.sdk.model.api.ChapterInfo as ModernChapterInfo
 import org.jellyfin.sdk.model.api.DayOfWeek as ModernDayOfWeek
+import org.jellyfin.sdk.model.api.DayPattern as ModernDayPattern
 import org.jellyfin.sdk.model.api.ExternalUrl as ModernExternalUrl
 import org.jellyfin.sdk.model.api.ImageOrientation as ModernImageOrientation
 import org.jellyfin.sdk.model.api.ImageType as ModernImageType
 import org.jellyfin.sdk.model.api.IsoType as ModernIsoType
+import org.jellyfin.sdk.model.api.KeepUntil as ModernKeepUntil
 import org.jellyfin.sdk.model.api.LocationType as ModernLocationType
 import org.jellyfin.sdk.model.api.MediaProtocol as ModernMediaProtocol
 import org.jellyfin.sdk.model.api.MediaSourceInfo as ModernMediaSourceInfo
@@ -58,6 +66,9 @@ import org.jellyfin.sdk.model.api.NameGuidPair as ModernNameGuidPair
 import org.jellyfin.sdk.model.api.NameIdPair as ModernNameIdPair
 import org.jellyfin.sdk.model.api.PlayAccess as ModernPlayAccess
 import org.jellyfin.sdk.model.api.ProgramAudio as ModernProgramAudio
+import org.jellyfin.sdk.model.api.SearchHint as ModernSearchHint
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto as ModernSeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.SortOrder as ModernSortOrder
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod as ModernSubtitleDeliveryMethod
 import org.jellyfin.sdk.model.api.TransportStreamTimestamp as ModernTransportStreamTimestamp
 import org.jellyfin.sdk.model.api.UserItemDataDto as ModernUserItemDataDto
@@ -544,4 +555,94 @@ fun LegacyProgramAudio.asSdk(): ModernProgramAudio = when (this) {
 	LegacyProgramAudio.DolbyDigital -> ModernProgramAudio.DOLBY_DIGITAL
 	LegacyProgramAudio.Thx -> ModernProgramAudio.THX
 	LegacyProgramAudio.Atmos -> ModernProgramAudio.ATMOS
+}
+
+fun LegacySeriesTimerInfoDto.asSdk() = ModernSeriesTimerInfoDto(
+	id = this.id,
+	type = this.type,
+	serverId = this.serverId,
+	externalId = this.externalId,
+	channelId = this.channelId.toUUID(),
+	externalChannelId = this.externalChannelId,
+	channelName = this.channelName,
+	channelPrimaryImageTag = null,
+	programId = this.programId,
+	externalProgramId = this.externalProgramId,
+	name = this.name,
+	overview = this.overview,
+	startDate = this.startDate.toLocalDateTime(),
+	endDate = this.endDate.toLocalDateTime(),
+	serviceName = this.serviceName,
+	priority = this.priority,
+	prePaddingSeconds = this.prePaddingSeconds,
+	postPaddingSeconds = this.postPaddingSeconds,
+	isPrePaddingRequired = this.isPrePaddingRequired,
+	parentBackdropItemId = this.parentBackdropItemId,
+	parentBackdropImageTags = this.parentBackdropImageTags,
+	isPostPaddingRequired = this.isPostPaddingRequired,
+	keepUntil = this.keepUntil.asSdk(),
+	recordAnyTime = this.recordAnyTime,
+	skipEpisodesInLibrary = this.skipEpisodesInLibrary,
+	recordAnyChannel = this.recordAnyChannel,
+	keepUpTo = this.keepUpTo,
+	recordNewOnly = this.recordNewOnly,
+	days = this.days?.mapNotNull { ModernDayOfWeek.from(it) },
+	dayPattern = this.dayPattern?.asSdk(),
+	imageTags = this.imageTags?.asSdk(),
+	parentThumbItemId = this.parentThumbItemId,
+	parentThumbImageTag = this.parentThumbImageTag,
+	parentPrimaryImageItemId = this.parentPrimaryImageItemId,
+	parentPrimaryImageTag = this.parentPrimaryImageTag,
+)
+
+fun LegacyKeepUntil.asSdk(): ModernKeepUntil = when (this) {
+	LegacyKeepUntil.UntilDeleted -> ModernKeepUntil.UNTIL_DELETED
+	LegacyKeepUntil.UntilSpaceNeeded -> ModernKeepUntil.UNTIL_SPACE_NEEDED
+	LegacyKeepUntil.UntilWatched -> ModernKeepUntil.UNTIL_WATCHED
+	LegacyKeepUntil.UntilDate -> ModernKeepUntil.UNTIL_DATE
+}
+
+fun LegacyDayPattern.asSdk(): ModernDayPattern = when (this) {
+	LegacyDayPattern.Daily -> ModernDayPattern.DAILY
+	LegacyDayPattern.Weekdays -> ModernDayPattern.WEEKDAYS
+	LegacyDayPattern.Weekends -> ModernDayPattern.WEEKENDS
+}
+
+fun Array<LegacyBaseItemPerson>.asSdk() = map(LegacyBaseItemPerson::asSdk).toTypedArray()
+
+fun LegacySearchHint.asSdk(): ModernSearchHint = ModernSearchHint(
+	itemId = this.itemId.toUUID(),
+	id = this.itemId.toUUID(),
+	name = this.name,
+	matchedTerm = this.matchedTerm,
+	indexNumber = this.indexNumber,
+	productionYear = this.productionYear,
+	parentIndexNumber = this.parentIndexNumber,
+	primaryImageTag = this.primaryImageTag,
+	thumbImageTag = this.thumbImageTag,
+	thumbImageItemId = this.thumbImageItemId,
+	backdropImageTag = this.backdropImageTag,
+	backdropImageItemId = this.backdropImageItemId,
+	type = this.type,
+	isFolder = null, // this.isFolder
+	runTimeTicks = this.runTimeTicks,
+	mediaType = this.mediaType,
+	startDate = null, // this.startDate
+	endDate = null, // this.endDate
+	series = this.series,
+	status = null, // this.status
+	album = this.album,
+	albumId = UUID.randomUUID(), // this.albumId
+	albumArtist = this.albumArtist,
+	artists = this.artists?.toList(),
+	songCount = this.songCount,
+	episodeCount = this.episodeCount,
+	channelId = this.channelId.toUUID(),
+	channelName = this.channelName,
+	primaryImageAspectRatio = this.primaryImageAspectRatio,
+)
+
+fun ModernSortOrder.asLegacy(): LegacySortOrder = when (this) {
+	ModernSortOrder.ASCENDING -> LegacySortOrder.Ascending
+	ModernSortOrder.DESCENDING -> LegacySortOrder.Descending
 }

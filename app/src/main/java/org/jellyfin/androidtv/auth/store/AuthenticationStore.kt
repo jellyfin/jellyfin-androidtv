@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.auth.store
 
 import android.content.Context
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -47,8 +48,15 @@ class AuthenticationStore(
 		// No store found
 		if (!storePath.exists()) return emptyMap()
 
+		// Parse JSON document
+		val root = try {
+			json.parseToJsonElement(storePath.readText()).jsonObject
+		} catch (e: SerializationException) {
+			Timber.e(e, "Unable to read JSON")
+			JsonObject(emptyMap())
+		}
+
 		// Check for version
-		val root = json.parseToJsonElement(storePath.readText()).jsonObject
 		return when (root["version"]?.jsonPrimitive?.intOrNull) {
 			1 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
 			null -> {

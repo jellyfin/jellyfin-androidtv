@@ -1,23 +1,15 @@
 package org.jellyfin.androidtv.ui.card
 
 import android.content.Context
-import android.widget.FrameLayout
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.graphics.Typeface
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.widget.FrameLayout
 import androidx.core.text.bold
-import androidx.core.text.toSpannable
 import org.jellyfin.androidtv.databinding.ViewCardMediaInfoBinding
-import org.jellyfin.androidtv.util.Utils
-import org.jellyfin.apiclient.model.entities.MediaStream
-import org.jellyfin.apiclient.model.entities.MediaStreamType
+import org.jellyfin.sdk.model.api.MediaStream
+import org.jellyfin.sdk.model.api.MediaStreamType
 import java.text.NumberFormat
-import java.util.*
 
 class MediaInfoCardView @JvmOverloads constructor(
 	context: Context,
@@ -30,13 +22,13 @@ class MediaInfoCardView @JvmOverloads constructor(
 	fun setMediaStream(mediaStream: MediaStream) {
 		binding.title.text = mediaStream.type.toString()
 		binding.entries.text = SpannableStringBuilder().apply {
-			if (mediaStream.type != MediaStreamType.Video) mediaStream.language?.let { addRow("Language", it) }
+			if (mediaStream.type != MediaStreamType.VIDEO) mediaStream.language?.let { addRow("Language", it) }
 			mediaStream.codec?.let { addRow("Codec", it) }
 			mediaStream.profile?.let { addRow("Profile", it) }
 			mediaStream.level?.let { addRow("Level", it.toString()) }
 			mediaStream.channelLayout?.let { addRow("Layout", it) }
 
-			if (mediaStream.type == MediaStreamType.Video) {
+			if (mediaStream.type == MediaStreamType.VIDEO) {
 				if (mediaStream.width != null && mediaStream.height != null) addRow("Resolution", "${mediaStream.width}x${mediaStream.height}")
 				if (mediaStream.isAnamorphic == true) addRow("Anamorphic")
 				if (mediaStream.isInterlaced) addRow("Interlaced")
