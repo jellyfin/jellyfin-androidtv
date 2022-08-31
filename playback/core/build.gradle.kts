@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.library")
 	kotlin("android")
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -9,10 +10,6 @@ android {
 	defaultConfig {
 		minSdk = 21
 		targetSdk = 32
-	}
-
-	buildFeatures {
-		viewBinding = true
 	}
 
 	sourceSets["main"].java.srcDirs("src/main/kotlin")
@@ -29,9 +26,6 @@ android {
 }
 
 dependencies {
-	// Jellyfin
-	compileOnly(libs.jellyfin.sdk)
-
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
 	implementation(libs.kotlinx.coroutines.guava)
@@ -42,13 +36,10 @@ dependencies {
 	implementation(libs.androidx.appcompat)
 	implementation(libs.androidx.constraintlayout)
 	implementation(libs.bundles.androidx.lifecycle)
+	implementation(libs.androidx.media2.session)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)
-
-	// Media
-	implementation(libs.exoplayer)
-	implementation(libs.androidx.media2.session)
 
 	// Logging
 	implementation(libs.timber)
