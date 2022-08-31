@@ -265,7 +265,6 @@
     <string name="lbl_select_date">Izberi datum</string>
     <string name="lbl_in_x_days">Čez %d dni</string>
     <string name="lbl_open">Odpri</string>
-    <string name="lbl_current_queue">Trenutni seznam čakanja</string>
     <string name="btn_got_it">Razumem</string>
     <string name="lbl_subtitle_track">Izberi sled podnapisov</string>
     <string name="lbl_audio_track">Izberite zvočni posnetek</string>
@@ -278,7 +277,6 @@
     <string name="lbl_refresh_switching">Spremeni hitrost osveževanja</string>
     <string name="lbl_show_backdrop">Prikaži ozadje</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
-    <string name="desc_current_video_queue">Video vsebine v čakalni vrsti za predvajanje</string>
     <string name="pref_use_direct_path_summary">Posreduj pot do datoteke na sistemu namesto povezavo do neposrednega pretakanja</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
     <string name="no_program_data">Podatki o programu niso na voljo</string>

@@ -250,7 +250,6 @@
     <string name="lbl_open">فتح</string>
     <string name="lbl_play_next_up">تشغيل التالي</string>
     <string name="lbl_clear_queue">مسح قائمة الإنتظار</string>
-    <string name="desc_current_video_queue">عناصر الفيديو حاليًا في قائمة الإنتظار للتشغيل</string>
     <string name="lbl_current_queue">قائمة الإنتظار الحالية</string>
     <string name="btn_got_it">فهمت</string>
     <string name="msg_external_path">لن تعمل هذه الخاصية إلا إذا قمت بإعداد مكتبتك بشكل صحيح على الخادم باستخدام مسارات الشبكة أو استبدال المسارات ويمكن للعميل الذي تستخدمه الوصول مباشرة إلى هذه المواقع عبر الشبكة.</string>

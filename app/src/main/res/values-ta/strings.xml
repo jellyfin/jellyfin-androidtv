@@ -216,7 +216,6 @@
     <string name="lbl_open">திற</string>
     <string name="lbl_play_next_up">அடுத்து இயக்கு</string>
     <string name="lbl_clear_queue">வரிசையை அழி</string>
-    <string name="desc_current_video_queue">வீடியோ உருப்படிகள் தற்போது பிளேபேக்கிற்கு வரிசையில் நிற்கின்றன</string>
     <string name="lbl_current_queue">தற்போதைய வரிசை</string>
     <string name="btn_got_it">அறிந்துகொண்டேன்</string>
     <string name="msg_external_path">நெட்வொர்க் பாதைகள் அல்லது பாதை மாற்றீடு மூலம் சேவையகத்தில் உங்கள் நூலகத்தை சரியாக அமைத்திருந்தால் மட்டுமே இந்த அம்சம் செயல்படும், மேலும் நீங்கள் பயன்படுத்தும் கிளையன்ட் இந்த இடங்களை நேரடியாக பிணையத்தில் அணுக முடியும்.</string>

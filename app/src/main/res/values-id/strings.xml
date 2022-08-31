@@ -69,7 +69,6 @@
     <string name="lbl_show_backdrop">Tampilkan Tampilan Latar Saat Menjelajah</string>
     <string name="lbl_open">Buka</string>
     <string name="lbl_clear_queue">Hapus Antrian</string>
-    <string name="desc_current_video_queue">Item video saat ini sedang dalam antrean untuk diputar</string>
     <string name="lbl_current_queue">Antrian Saat Ini</string>
     <string name="btn_got_it">Mengerti</string>
     <string name="lbl_zoom">Perbesar</string>

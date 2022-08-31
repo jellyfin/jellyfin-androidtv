@@ -164,7 +164,6 @@
     <string name="lbl_show_backdrop">Mostrar imágenes de fondo</string>
     <string name="lbl_play_next_up">Reproducir siguiente</string>
     <string name="lbl_clear_queue">Limpiar cola</string>
-    <string name="desc_current_video_queue">Elementos de video actualmente en cola para reproducción</string>
     <string name="lbl_current_queue">Cola actual</string>
     <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
     <string name="lbl_zoom">Zoom</string>

@@ -56,7 +56,6 @@
     <string name="lbl_show_premieres">Rādīt sezonas pirmizrādes pārlūkošanas laikā</string>
     <string name="lbl_open">Atvēŗt</string>
     <string name="lbl_clear_queue">Notīrīt Rindu</string>
-    <string name="lbl_current_queue">Pašreizējā Rinda</string>
     <string name="btn_got_it">Sapratu</string>
     <string name="lbl_zoom">Pietuvināts</string>
     <string name="desc_bitstream_ac3">Vajadzīga atbalstoša aparatūra</string>
@@ -214,7 +213,6 @@
     <string name="lbl_schedule">Grafiks</string>
     <string name="lbl_in_x_days">Pēc %d dienām</string>
     <string name="lbl_play_next_up">Atskaņot Nākamo</string>
-    <string name="desc_current_video_queue">Video vienumi pašlaik ierindoti atskaņošanai</string>
     <string name="msg_external_path">Šī funkcija strādās tikai tad, ja tev serverī ir pareizi uzstādīta bibliotēka ar tīkla ceļiem, vai ceļu substitūcijām, un klients, ko tu izmanto spēj tieši piekļūt šīm vietām caur tīklu.</string>
     <string name="lbl_new_premieres">Jaunās Pirmizrādes</string>
     <string name="lbl_programs">Programmas</string>

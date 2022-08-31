@@ -214,7 +214,6 @@
     <string name="lbl_open">Åpne</string>
     <string name="lbl_play_next_up">Spill neste</string>
     <string name="lbl_clear_queue">Tøm køen</string>
-    <string name="desc_current_video_queue">Videoelementer i kø for avspilling</string>
     <string name="lbl_current_queue">Nåværende kø</string>
     <string name="btn_got_it">Den er grei</string>
     <string name="msg_external_path">Denne funksjonen vil kun virke dersom du har satt opp biblioteket på serveren riktig med nettverksplasseringer eller filbaneerstatning og klienten du bruker kan få direkte tilgang til disse plasseringene over nettverket.</string>
