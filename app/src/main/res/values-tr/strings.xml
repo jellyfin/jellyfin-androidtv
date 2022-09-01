@@ -22,7 +22,6 @@
     <string name="lbl_open">Aç</string>
     <string name="lbl_play_next_up">Sıradakini Oynat</string>
     <string name="lbl_clear_queue">Kuyruğu Temizle</string>
-    <string name="lbl_current_queue">Mevcut Sıra</string>
     <string name="btn_got_it">Anladım</string>
     <string name="msg_external_path">Bu özellik, yalnızca kütüphanenizi sunucuda ağ yolları veya yol konumu ile doğru bir şekilde kurduysanız ve kullandığınız istemci bu konumlara ağ üzerinden doğrudan erişebiliyorsa çalışacaktır.</string>
     <string name="lbl_subtitle_track">Altyazı parçası seç</string>

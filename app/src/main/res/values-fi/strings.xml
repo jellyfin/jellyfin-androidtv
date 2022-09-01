@@ -217,7 +217,6 @@
     <string name="lbl_show_premieres">Sarjojen kausien ensimmäiset jaksot</string>
     <string name="lbl_refresh_switching">Virkistystaajuuden vaihto</string>
     <string name="pref_show_backdrop_description">Vaihda valittujen kohteiden taustakuva</string>
-    <string name="lbl_current_queue">Nykyinen jono</string>
     <string name="lbl_subtitle_track">Valitse tekstitysraita</string>
     <string name="lbl_playback_speed">Toistonopeus</string>
     <string name="lbl_audio_track">Valitse ääniraita</string>

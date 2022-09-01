@@ -274,7 +274,6 @@
     <string name="lbl_open">Otvori</string>
     <string name="lbl_play_next_up">Reproduciraj sljedeće</string>
     <string name="lbl_clear_queue">Očisti red</string>
-    <string name="lbl_current_queue">Trenutni red</string>
     <string name="btn_got_it">Shvaćam</string>
     <string name="msg_external_path">Ova značajka će raditi samo ako ste pravilno podesili biblioteku na poslužitelju sa mrežnim putevima ili zamjenom puteva i ako klijent kojeg koristite može izravno pristupiti tim lokacijama preko mreže.</string>
     <string name="lbl_subtitle_track">Odaberi zapis titlova</string>

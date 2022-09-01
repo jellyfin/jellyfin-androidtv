@@ -190,7 +190,6 @@
     <string name="lbl_open">Obrir</string>
     <string name="lbl_play_next_up">Reproduir següent</string>
     <string name="lbl_clear_queue">Esborrar cua</string>
-    <string name="lbl_current_queue">Cua actual</string>
     <string name="btn_got_it">Ho tinc</string>
     <string name="msg_external_path">Aquesta funció només funcionarà si heu configurat correctament la biblioteca al servidor amb camins de xarxa o substitució de camins i el client que utilitzeu pot accedir directament a aquestes ubicacions a través de la xarxa.</string>
     <string name="lbl_subtitle_track">Selecciona la pista de subtítols</string>

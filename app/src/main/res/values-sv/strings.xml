@@ -78,7 +78,6 @@
     <string name="lbl_open">Öppna</string>
     <string name="lbl_play_next_up">Spela upp</string>
     <string name="lbl_clear_queue">Rensa kö</string>
-    <string name="lbl_current_queue">Nuvarande kö</string>
     <string name="btn_got_it">Uppfattat</string>
     <string name="msg_external_path">Denna funktion kommer bara att fungera om du har konfigurerat ditt bibliotek korrekt med nätverks- eller ersättningssökvägar samt förutsatt att din valda klient kan nå dessa sökvägar via nätverket.</string>
     <string name="lbl_zoom">Zooma</string>
