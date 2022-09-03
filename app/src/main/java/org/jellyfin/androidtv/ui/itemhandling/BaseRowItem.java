@@ -348,7 +348,7 @@ public class BaseRowItem {
             case Person:
                 return person.getId().toString();
             case Chapter:
-                return chapterInfo.getItemId();
+                return chapterInfo.getItemId().toString();
             case LiveTvChannel:
                 return channelInfo.getId();
             case GridButton:

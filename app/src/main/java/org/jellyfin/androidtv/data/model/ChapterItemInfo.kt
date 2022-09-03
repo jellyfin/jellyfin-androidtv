@@ -1,15 +1,10 @@
-package org.jellyfin.androidtv.data.model;
+package org.jellyfin.androidtv.data.model
 
-import org.jellyfin.apiclient.model.entities.ChapterInfo;
+import java.util.UUID
 
-public class ChapterItemInfo extends ChapterInfo {
-    private String itemId;
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-}
+data class ChapterItemInfo(
+	val itemId: UUID,
+	val name: String?,
+	val startPositionTicks: Long,
+	val imagePath: String?,
+)
