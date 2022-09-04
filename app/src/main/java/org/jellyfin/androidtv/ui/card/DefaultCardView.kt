@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.card
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ class DefaultCardView @JvmOverloads constructor(
 	init {
 		isFocusable = true
 		descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) defaultFocusHighlightEnabled = false
 	}
 
 	val binding = ViewCardDefaultBinding.inflate(LayoutInflater.from(context), this, true)
