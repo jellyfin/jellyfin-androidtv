@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -23,6 +24,7 @@ import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
@@ -135,7 +137,7 @@ public class PlaybackHelper {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setMediaTypes(new String[]{MediaType.Audio});
-                query.setSortBy(mainItem.getBaseItemType() == BaseItemType.MusicArtist ?
+                query.setSortBy(ModelCompat.asSdk(mainItem).getType() == BaseItemKind.MUSIC_ARTIST ?
                         new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
                             new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
@@ -227,7 +229,7 @@ public class PlaybackHelper {
                 break;
 
             default:
-                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(mainItem.getBaseItemType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(ModelCompat.asSdk(mainItem).getType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
                     KoinJavaComponent.<ApiClient>get(ApiClient.class).GetIntrosAsync(mainItem.getId(), userId.toString(), new Response<ItemsResult>() {
                         @Override
@@ -262,7 +264,7 @@ public class PlaybackHelper {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
-        getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 switch (item.getBaseItemType()) {
@@ -274,7 +276,7 @@ public class PlaybackHelper {
                         if (MediaType.Audio.equals(item.getMediaType())) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         } else {
-                            BaseItemType itemType = response.size() > 0 ? response.get(0).getBaseItemType() : null;
+                            BaseItemKind itemType = response.size() > 0 ? ModelCompat.asSdk(response.get(0)).getType() : null;
                             Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
                             Intent intent = new Intent(activity, newActivity);
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
@@ -291,7 +293,7 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getBaseItemType());
+                        Class newActivity = playbackLauncher.getPlaybackActivityClass(ModelCompat.asSdk(item).getType());
                         Intent intent = new Intent(activity, newActivity);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);

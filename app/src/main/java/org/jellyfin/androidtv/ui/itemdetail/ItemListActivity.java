@@ -55,6 +55,7 @@ import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
@@ -149,7 +150,7 @@ public class ItemListActivity extends FragmentActivity {
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                showMenu(row, row.getItem().getBaseItemType() != BaseItemType.Audio);
+                showMenu(row, ModelCompat.asSdk(row.getItem()).getType() != BaseItemKind.AUDIO);
             }
         });
 
@@ -294,7 +295,7 @@ public class ItemListActivity extends FragmentActivity {
                 return true;
             }
         });
-        if (row.getItem().getBaseItemType() == BaseItemType.Audio) {
+        if (ModelCompat.asSdk(row.getItem()).getType() == BaseItemKind.AUDIO) {
             MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -347,7 +348,7 @@ public class ItemListActivity extends FragmentActivity {
         updatePoster(mBaseItem);
 
         //get items
-        if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
+        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PLAYLIST) {
             // Have to use different query here
             switch (mItemId) {
                 case FAV_SONGS:
@@ -460,7 +461,7 @@ public class ItemListActivity extends FragmentActivity {
             if (shuffle) {
                 Collections.shuffle(items);
             }
-            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
+            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(mBaseItem).getType());
             Intent intent = new Intent(mActivity, activity);
             //Resume item if needed
             BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
@@ -497,7 +498,7 @@ public class ItemListActivity extends FragmentActivity {
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum
-            if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum && mediaManager.getValue().hasAudioQueueItems()) {
+            if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM && mediaManager.getValue().hasAudioQueueItems()) {
                 queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -538,7 +539,7 @@ public class ItemListActivity extends FragmentActivity {
             }
         }
 
-        if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
+        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM) {
             TextUnderButton mix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

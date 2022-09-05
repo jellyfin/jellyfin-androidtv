@@ -32,9 +32,9 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.io.File;
@@ -289,7 +289,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         //Get playback info for current item
         mCurrentNdx = ndx;
         BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
-        isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
+        isLiveTv = ModelCompat.asSdk(item).getType() == BaseItemKind.TV_CHANNEL;
 
         if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
             // Just pass the path directly

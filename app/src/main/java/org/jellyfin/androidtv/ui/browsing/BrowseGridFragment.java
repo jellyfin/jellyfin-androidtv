@@ -62,7 +62,6 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -950,8 +949,8 @@ public class BrowseGridFragment extends Fragment {
 
             mediaManager.getValue().setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
         }
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.Photo && mCurrentItem.getBaseItemType() != BaseItemType.PhotoAlbum
-                && mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist && mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
+                && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

@@ -116,21 +116,21 @@ public class LegacyImageCardView extends BaseCardView {
 
         if (getCardType() == BaseCardView.CARD_TYPE_MAIN_ONLY && item.showCardInfoOverlay()) {
             switch (item.getBaseItemType()) {
-                case Photo:
+                case PHOTO:
                     binding.overlayText.setText(item.getBaseItem().getPremiereDate() != null ? android.text.format.DateFormat.getDateFormat(getContext()).format(TimeUtils.convertToLocalDate(item.getBaseItem().getPremiereDate())) : item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_camera);
                     break;
-                case PhotoAlbum:
+                case PHOTO_ALBUM:
                     binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_photos);
                     break;
-                case Video:
+                case VIDEO:
                     binding.overlayText.setText(item.getFullName(getContext()));
                     binding.icon.setImageResource(R.drawable.ic_movie);
                     break;
-                case Playlist:
-                case MusicArtist:
-                case Person:
+                case PLAYLIST:
+                case MUSIC_ARTIST:
+                case PERSON:
                     binding.overlayText.setText(item.getFullName(getContext()));
                     hideIcon();
                     break;

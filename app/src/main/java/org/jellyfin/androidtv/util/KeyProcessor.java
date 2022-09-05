@@ -24,7 +24,6 @@ import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
@@ -66,7 +65,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemType.Photo)) {
+                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).pauseAudio();
                     return true;
                 }
@@ -296,7 +295,7 @@ public class KeyProcessor {
     private static void createPlayMenu(org.jellyfin.apiclient.model.dto.BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
-        if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
+        if (!isMusic && ModelCompat.asSdk(item).getType() != BaseItemKind.PLAYLIST) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);

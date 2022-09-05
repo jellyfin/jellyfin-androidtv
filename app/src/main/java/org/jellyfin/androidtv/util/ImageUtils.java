@@ -8,15 +8,14 @@ import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.koin.java.KoinJavaComponent;
@@ -32,8 +31,8 @@ public class ImageUtils {
 
     public static final int MAX_PRIMARY_IMAGE_HEIGHT = 370;
 
-    private static final List<BaseItemType> THUMB_FALLBACK_TYPES = Collections.singletonList(BaseItemType.Episode);
-    private static final List<BaseItemType> PROGRESS_INDICATOR_TYPES = Arrays.asList(BaseItemType.Episode, BaseItemType.Movie, BaseItemType.MusicVideo, BaseItemType.Video);
+    private static final List<BaseItemKind> THUMB_FALLBACK_TYPES = Collections.singletonList(BaseItemKind.EPISODE);
+    private static final List<BaseItemKind> PROGRESS_INDICATOR_TYPES = Arrays.asList(BaseItemKind.EPISODE, BaseItemKind.MOVIE, BaseItemKind.MUSIC_VIDEO, BaseItemKind.VIDEO);
 
     public static Double getImageAspectRatio(BaseItemDto item, boolean preferParentThumb) {
         if (preferParentThumb &&
@@ -50,7 +49,7 @@ public class ImageUtils {
             }
         }
 
-        if (item.getBaseItemType() == BaseItemType.UserView && item.getHasPrimaryImage())
+        if (ModelCompat.asSdk(item).getType() == BaseItemKind.USER_VIEW && item.getHasPrimaryImage())
             return ImageUtils.ASPECT_RATIO_16_9;
 
         return item.getPrimaryImageAspectRatio() != null ? item.getPrimaryImageAspectRatio() : ASPECT_RATIO_7_9;
@@ -83,9 +82,9 @@ public class ImageUtils {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getImageUrl(itemId, ModelCompat.asSdk(imageType), imageTag);
     }
 
-    public static String getBannerImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getBannerImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasBanner()) {
-            return getPrimaryImageUrl(context, item, false, maxHeight);
+            return getPrimaryImageUrl(item, false, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -93,7 +92,7 @@ public class ImageUtils {
         options.setImageType(ImageType.Banner);
 
         UserItemDataDto userData = item.getUserData();
-        if (userData != null && item.getBaseItemType() != BaseItemType.MusicArtist && item.getBaseItemType() != BaseItemType.MusicAlbum) {
+        if (userData != null && ModelCompat.asSdk(item).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(item).getType() != BaseItemKind.MUSIC_ALBUM) {
             if (PROGRESS_INDICATOR_TYPES.contains(item.getBaseItemType()) &&
                     userData.getPlayedPercentage() != null &&
                     userData.getPlayedPercentage() > 0 &&
@@ -106,9 +105,9 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getThumbImageUrl(Context context, BaseItemDto item, ApiClient apiClient, int maxHeight) {
+    public static String getThumbImageUrl(BaseItemDto item, ApiClient apiClient, int maxHeight) {
         if (!item.getHasThumb()) {
-            return getPrimaryImageUrl(context, item, true, maxHeight);
+            return getPrimaryImageUrl(item, true, maxHeight);
         }
 
         ImageOptions options = new ImageOptions();
@@ -117,11 +116,7 @@ public class ImageUtils {
         return apiClient.GetImageUrl(item.getId(), options);
     }
 
-    public static String getPrimaryImageUrl(@NonNull Context context, @NonNull BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
-        if (item.getBaseItemType() == BaseItemType.SeriesTimer) {
-            return getResourceUrl(context, R.drawable.tile_land_series_timer);
-        }
-
+    public static String getPrimaryImageUrl(@NonNull BaseItemDto item, @NonNull boolean preferParentThumb, @NonNull int maxHeight) {
         return KoinJavaComponent.<ImageHelper>get(ImageHelper.class).getPrimaryImageUrl(ModelCompat.asSdk(item), preferParentThumb, maxHeight);
     }
 
