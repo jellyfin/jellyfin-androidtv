@@ -384,6 +384,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             // create base item from our timer
             BaseItemDto item = new BaseItemDto();
             item.setId(mSeriesTimerInfo.getId());
+            item.setBaseItemType(BaseItemType.Folder);
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
             item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
