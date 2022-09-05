@@ -37,7 +37,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -219,7 +219,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.USER_VIEW && mCurrentItem.getBaseItemType() != BaseItemKind.COLLECTION_FOLDER) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

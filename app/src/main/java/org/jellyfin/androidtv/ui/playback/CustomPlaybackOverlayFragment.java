@@ -74,13 +74,13 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -1288,7 +1288,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             tvGuideBinding.guideCurrentTitle.setText(current.getName());
 
             // Update the title and subtitle
-            if (current.getBaseItemType() == BaseItemType.Episode) {
+            if (ModelCompat.asSdk(current).getType() == BaseItemKind.EPISODE) {
                 binding.itemTitle.setText(current.getSeriesName());
                 binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(current), requireContext()));
             } else {

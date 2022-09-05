@@ -31,7 +31,7 @@ import org.jellyfin.androidtv.ui.shared.KeyListener;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -208,7 +208,7 @@ public class StdRowsFragment extends RowsSupportFragment implements RowLoader {
     }
 
     private void refreshCurrentItem() {
-        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemType.UserView && mCurrentItem.getBaseItemType() != BaseItemType.CollectionFolder) {
+        if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.USER_VIEW && mCurrentItem.getBaseItemType() != BaseItemKind.COLLECTION_FOLDER) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override

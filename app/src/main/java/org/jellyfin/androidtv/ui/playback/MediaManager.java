@@ -37,14 +37,15 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.jellyfin.sdk.model.DeviceInfo;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
@@ -619,7 +620,7 @@ public class MediaManager {
 
         List<BaseItemDto> list = new ArrayList<BaseItemDto>();
         for (int i = 0; i < items.size(); i++){
-            if (items.get(i).getBaseItemType() == BaseItemType.Audio) {
+            if (ModelCompat.asSdk(items.get(i)).getType() == BaseItemKind.AUDIO) {
                 list.add(items.get(i));
             } else if (i < position) {
                 position--;
