@@ -434,6 +434,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
+                        seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
                         seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
@@ -450,6 +451,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
                         Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
+                        folder.setBaseItemType(BaseItemType.Folder);
                         folder.setId(UUID.randomUUID().toString());
                         folder.setName(getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));

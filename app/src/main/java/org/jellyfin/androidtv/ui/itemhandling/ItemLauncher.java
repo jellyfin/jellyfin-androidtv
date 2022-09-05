@@ -432,6 +432,7 @@ public class ItemLauncher {
                         Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId(UUID.randomUUID().toString());
+                        folder.setBaseItemType(BaseItemType.Folder);
                         folder.setName(activity.getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));
                         activity.startActivity(recordings);
@@ -441,6 +442,7 @@ public class ItemLauncher {
                         Intent seriesIntent = new Intent(activity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
+                        seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
                         seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
