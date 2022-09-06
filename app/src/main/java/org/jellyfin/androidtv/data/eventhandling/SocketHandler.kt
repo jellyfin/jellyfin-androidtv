@@ -33,12 +33,12 @@ import java.util.UUID
 class SocketHandler(
 	private val context: Context,
 	private val api: ApiClient,
+	private val socketInstance: SocketInstance,
 	private val dataRefreshService: DataRefreshService,
 	private val mediaManager: MediaManager,
 	private val playbackControllerContainer: PlaybackControllerContainer,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
-	private var socketInstance: SocketInstance = createInstance()
 	val state = socketInstance.state
 
 	suspend fun updateSession() {
@@ -61,27 +61,29 @@ class SocketHandler(
 		else socketInstance.updateCredentials()
 	}
 
-	private fun createInstance() = api.ws().apply {
-		// Library
-		addListener<LibraryChangedMessage> { message -> onLibraryChanged(message.info) }
+	init {
+		socketInstance.apply {
+			// Library
+			addListener<LibraryChangedMessage> { message -> onLibraryChanged(message.info) }
 
-		// Media playback
-		addListener<PlayMessage> { message -> onPlayMessage(message) }
-		addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
+			// Media playback
+			addListener<PlayMessage> { message -> onPlayMessage(message) }
+			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
 
-		// General commands
-		addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
-			val itemId by message
-			val itemUuid = itemId?.toUUIDOrNull()
+			// General commands
+			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
+				val itemId by message
+				val itemUuid = itemId?.toUUIDOrNull()
 
-			if (itemUuid != null) onDisplayContent(itemUuid)
-		}
-		addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_MESSAGE, GeneralCommandType.SEND_STRING)) { message ->
-			val header by message
-			val text by message
-			val string by message
+				if (itemUuid != null) onDisplayContent(itemUuid)
+			}
+			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_MESSAGE, GeneralCommandType.SEND_STRING)) { message ->
+				val header by message
+				val text by message
+				val string by message
 
-			onDisplayMessage(header, text ?: string)
+				onDisplayMessage(header, text ?: string)
+			}
 		}
 	}
 
