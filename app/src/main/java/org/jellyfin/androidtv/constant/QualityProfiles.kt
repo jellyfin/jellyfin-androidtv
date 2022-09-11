@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.constant
 
-import org.jellyfin.androidtv.R
-
 val qualityOptions = setOf(
 	0.0, // auto
 	120.0, 110.0, 100.0, // 100 >=
