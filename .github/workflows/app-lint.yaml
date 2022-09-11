@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
       - name: Setup Java
-        uses: actions/setup-java@2c7a4878f5d120bd643426d54ae1209b29cc01a3 # tag=v3
+        uses: actions/setup-java@d854b6da19cdadd9a010605529e522c2393ebd38 # tag=v3
         with:
           distribution: adopt
           java-version: 11
@@ -28,7 +28,7 @@ jobs:
       - name: Run detekt and lint task
         run: ./gradlew --build-cache --no-daemon --info detekt lint
       - name: Upload SARIF files
-        uses: github/codeql-action/upload-sarif@c7f292ea4f542c473194b33813ccd4c207a6c725 # tag=v2
+        uses: github/codeql-action/upload-sarif@b398f525a5587552e573b247ac661067fafa920b # tag=v2
         if: ${{ always() }}
         with:
           sarif_file: .

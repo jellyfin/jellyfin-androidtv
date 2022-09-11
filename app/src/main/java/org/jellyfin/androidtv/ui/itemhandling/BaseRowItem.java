@@ -21,10 +21,10 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.api.UserDto;
@@ -64,7 +64,7 @@ public class BaseRowItem {
     public BaseRowItem(int index, BaseItemDto item, boolean preferParentThumb, boolean staticHeight, SelectAction selectAction) {
         this.index = index;
         this.baseItem = item;
-        this.type = item.getBaseItemType() == BaseItemType.Program ? ItemType.LiveTvProgram : item.getBaseItemType() == BaseItemType.Recording ? ItemType.LiveTvRecording : ItemType.BaseItem;
+        this.type = ModelCompat.asSdk(item).getType() == BaseItemKind.PROGRAM ? ItemType.LiveTvProgram : ModelCompat.asSdk(item).getType() == BaseItemKind.RECORDING ? ItemType.LiveTvRecording : ItemType.BaseItem;
         this.preferParentThumb = preferParentThumb;
         this.staticHeight = staticHeight;
         this.selectAction = selectAction;
@@ -182,10 +182,10 @@ public class BaseRowItem {
 
     public boolean showCardInfoOverlay() {
         return type == ItemType.BaseItem && baseItem != null
-                && Arrays.asList(BaseItemType.Folder, BaseItemType.PhotoAlbum,
-                BaseItemType.UserView, BaseItemType.CollectionFolder, BaseItemType.Photo,
-                BaseItemType.Video, BaseItemType.Person, BaseItemType.Playlist,
-                BaseItemType.MusicArtist).contains(baseItem.getBaseItemType());
+                && Arrays.asList(BaseItemKind.FOLDER, BaseItemKind.PHOTO_ALBUM,
+                BaseItemKind.USER_VIEW, BaseItemKind.COLLECTION_FOLDER, BaseItemKind.PHOTO,
+                BaseItemKind.VIDEO, BaseItemKind.PERSON, BaseItemKind.PLAYLIST,
+                BaseItemKind.MUSIC_ARTIST).contains(ModelCompat.asSdk(baseItem).getType());
     }
 
     public boolean isValid() {
@@ -211,9 +211,9 @@ public class BaseRowItem {
             case LiveTvRecording:
                 switch (imageType) {
                     case BANNER:
-                        return ImageUtils.getBannerImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
+                        return ImageUtils.getBannerImageUrl(baseItem, apiClient.getValue(), maxHeight);
                     case THUMB:
-                        return ImageUtils.getThumbImageUrl(context, baseItem, apiClient.getValue(), maxHeight);
+                        return ImageUtils.getThumbImageUrl(baseItem, apiClient.getValue(), maxHeight);
                     default:
                         return getPrimaryImageUrl(context, maxHeight);
                 }
@@ -227,7 +227,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvProgram:
             case LiveTvRecording:
-                return ImageUtils.getPrimaryImageUrl(context, baseItem, preferParentThumb, maxHeight);
+                return ImageUtils.getPrimaryImageUrl(baseItem, preferParentThumb, maxHeight);
             case Person:
                 return ImageUtils.getPrimaryImageUrl(person, maxHeight);
             case Chapter:
@@ -285,7 +285,7 @@ public class BaseRowItem {
     public String getCardName(Context context) {
         switch (type) {
             case BaseItem:
-                if (baseItem.getBaseItemType() == BaseItemType.Audio) {
+                if (ModelCompat.asSdk(baseItem).getType() == BaseItemKind.AUDIO) {
                     return baseItem.getAlbumArtist() != null ? baseItem.getAlbumArtist() : baseItem.getAlbum() != null ? baseItem.getAlbum() : "<Unknown>";
                 }
             default:
@@ -321,7 +321,7 @@ public class BaseRowItem {
             case BaseItem:
             case LiveTvRecording:
             case LiveTvProgram:
-                return baseItem.getBaseItemType() == BaseItemType.Audio ? getFullName(context) : baseItem.getName();
+                return ModelCompat.asSdk(baseItem).getType() == BaseItemKind.AUDIO ? getFullName(context) : baseItem.getName();
             case Person:
                 return person.getName();
             case Chapter:
@@ -348,7 +348,7 @@ public class BaseRowItem {
             case Person:
                 return person.getId().toString();
             case Chapter:
-                return chapterInfo.getItemId();
+                return chapterInfo.getItemId().toString();
             case LiveTvChannel:
                 return channelInfo.getId();
             case GridButton:
@@ -389,9 +389,9 @@ public class BaseRowItem {
         return "";
     }
 
-    public BaseItemType getBaseItemType() {
+    public BaseItemKind getBaseItemType() {
         if (baseItem != null)
-            return baseItem.getBaseItemType();
+            return ModelCompat.asSdk(baseItem).getType();
         else
             return null;
     }
@@ -436,7 +436,7 @@ public class BaseRowItem {
     public int getChildCount() {
         switch (type) {
             case BaseItem:
-                return isFolder() && baseItem.getBaseItemType() != BaseItemType.MusicArtist && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
+                return isFolder() && ModelCompat.asSdk(baseItem).getType() != BaseItemKind.MUSIC_ARTIST && baseItem.getChildCount() != null ? baseItem.getChildCount() : -1;
             case Person:
             case Chapter:
             case SearchHint:
@@ -451,7 +451,7 @@ public class BaseRowItem {
     }
 
     public String getChildCountStr() {
-        if (baseItem != null && baseItem.getBaseItemType() == BaseItemType.Playlist && baseItem.getCumulativeRunTimeTicks() != null) {
+        if (baseItem != null && ModelCompat.asSdk(baseItem).getType() == BaseItemKind.PLAYLIST && baseItem.getCumulativeRunTimeTicks() != null) {
             return TimeUtils.formatMillis(baseItem.getCumulativeRunTimeTicks() / 10000);
         } else {
             Integer count = getChildCount();
@@ -463,9 +463,9 @@ public class BaseRowItem {
         if (baseItem != null) {
             switch (type) {
                 case BaseItem:
-                    if (baseItem.getBaseItemType() == BaseItemType.Movie && baseItem.getCriticRating() != null) {
+                    if (ModelCompat.asSdk(baseItem).getType() == BaseItemKind.MOVIE && baseItem.getCriticRating() != null) {
                         return baseItem.getCriticRating() > 59 ? ContextCompat.getDrawable(context, R.drawable.ic_rt_fresh) : ContextCompat.getDrawable(context, R.drawable.ic_rt_rotten);
-                    } else if (baseItem.getBaseItemType() == BaseItemType.Program && baseItem.getTimerId() != null) {
+                    } else if (ModelCompat.asSdk(baseItem).getType() == BaseItemKind.PROGRAM && baseItem.getTimerId() != null) {
                         return baseItem.getSeriesTimerId() != null ? ContextCompat.getDrawable(context, R.drawable.ic_record_series_red) : ContextCompat.getDrawable(context, R.drawable.ic_record_red);
                     }
                     break;

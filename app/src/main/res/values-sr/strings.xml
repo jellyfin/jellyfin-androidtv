@@ -198,8 +198,6 @@
     <string name="lbl_open">Отвори</string>
     <string name="lbl_play_next_up">Репродукуј следеће</string>
     <string name="lbl_clear_queue">Очистите ред</string>
-    <string name="desc_current_video_queue">Видео ставке су тренутно у реду за репродукцију</string>
-    <string name="lbl_current_queue">Тренутни ред</string>
     <string name="btn_got_it">Разумем</string>
     <string name="msg_external_path">Ова функција ће функционисати само ако сте правилно поставили библиотеку на серверу са мрежним путањама или заменом путање, а клијент који користите може директно приступити тим локацијама преко мреже.</string>
     <string name="lbl_subtitle_track">Изаберите запис титла</string>

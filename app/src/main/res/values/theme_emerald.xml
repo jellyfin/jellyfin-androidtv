@@ -40,7 +40,6 @@
         <item name="tile_port_time_bg">@color/theme_emerald_light</item>
         <item name="tile_port_tv_bg">@color/theme_emerald_light</item>
         <item name="tile_port_video_bg">@color/theme_emerald_light</item>
-        <item name="tile_port_video_queue_bg">@color/theme_emerald_light</item>
         <item name="tile_port_folder_bg">@color/theme_emerald_light</item>
         <item name="tile_port_grid_bg">@color/theme_emerald_light</item>
         <item name="tile_port_guide_bg">@color/theme_emerald_light</item>

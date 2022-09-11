@@ -187,9 +187,7 @@
     <string name="lbl_open">Åbn</string>
     <string name="lbl_play_next_up">Afspil Næste</string>
     <string name="lbl_clear_queue">Ryd afspilningskøen</string>
-    <string name="desc_current_video_queue">Videofiler i afpilningskø</string>
     <string name="msg_external_path">Denne funktion vil kun fungere hvis du har sat dit bibliotek korrekt op på serveren med netværk stier eller en erstatnings sti og at klienten du benytter kan afspille direkte fra disse lokationer over dit netværk.</string>
-    <string name="lbl_current_queue">Nuværende Kø</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital lyd</string>
     <string name="desc_automatic_fav_songs">Automatisk afspilningsliste af favorit sange</string>
     <string name="lbl_song_title">Sangtitel</string>

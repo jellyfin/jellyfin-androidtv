@@ -48,6 +48,7 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.koin.java.KoinJavaComponent;
@@ -624,7 +625,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             do {
                 BaseItemDto empty = new BaseItemDto();
                 empty.setId(UUID.randomUUID().toString());
-                empty.setType("FOLDER");
+                empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
@@ -656,7 +657,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
                 empty.setId(UUID.randomUUID().toString());
-                empty.setType("FOLDER");
+                empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
@@ -694,7 +695,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             // fill empty time slot
             BaseItemDto empty = new BaseItemDto();
             empty.setId(UUID.randomUUID().toString());
-            empty.setType("FOLDER");
+            empty.setBaseItemType(BaseItemType.Folder);
             empty.setName(getString(R.string.no_program_data));
             empty.setChannelId(channelId);
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));

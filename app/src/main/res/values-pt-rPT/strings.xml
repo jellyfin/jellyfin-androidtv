@@ -235,8 +235,6 @@
     <string name="lbl_open">Abrir</string>
     <string name="lbl_play_next_up">Reproduzir A Seguir</string>
     <string name="lbl_clear_queue">Limpar Fila</string>
-    <string name="desc_current_video_queue">Lista dos vídeos que estão atualmente na fila para reprodução</string>
-    <string name="lbl_current_queue">Fila atual</string>
     <string name="btn_got_it">Entendido</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>

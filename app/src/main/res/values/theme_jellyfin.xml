@@ -72,7 +72,6 @@
         <item name="tile_port_tv_bg">@color/indigo_dye</item>
         <item name="tile_actors_bg">@color/indigo_dye</item>
         <item name="tile_land_photo_bg">@color/indigo_dye</item>
-        <item name="tile_port_video_queue_bg">@color/indigo_dye</item>
         <item name="tile_port_folder_bg">@color/indigo_dye</item>
         <item name="tile_land_series_timer_bg">@color/indigo_dye</item>
 

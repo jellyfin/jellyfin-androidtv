@@ -10,7 +10,6 @@ import android.widget.PopupMenu;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
@@ -19,14 +18,12 @@ import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
@@ -68,7 +65,7 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemType.Photo)) {
+                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).pauseAudio();
                     return true;
                 }
@@ -145,13 +142,6 @@ public class KeyProcessor {
                         PlaybackHelper.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
                         return true;
                     case GridButton:
-                        if (rowItem.getGridButton().getId() == LiveTvOption.VIDEO_QUEUE_OPTION_ID) {
-                            //Queue already there - just kick off playback
-                            BaseItemType itemType = KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue().size() > 0 ? KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue().get(0).getBaseItemType() : null;
-                            Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
-                            Intent intent = new Intent(activity, newActivity);
-                            activity.startActivity(intent);
-                        }
                         break;
                 }
 
@@ -305,7 +295,7 @@ public class KeyProcessor {
     private static void createPlayMenu(org.jellyfin.apiclient.model.dto.BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
-        if (!isMusic && item.getBaseItemType() != BaseItemType.Playlist) {
+        if (!isMusic && ModelCompat.asSdk(item).getType() != BaseItemKind.PLAYLIST) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);

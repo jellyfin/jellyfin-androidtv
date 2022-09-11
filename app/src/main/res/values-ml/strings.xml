@@ -195,8 +195,6 @@
     <string name="lbl_open">തുറക്കുക</string>
     <string name="lbl_play_next_up">അടുത്തത് പ്ലേ ചെയ്യുക</string>
     <string name="lbl_clear_queue">ക്യൂ മായ്‌ക്കുക</string>
-    <string name="desc_current_video_queue">വീഡിയോ ഇനങ്ങൾ നിലവിൽ പ്ലേബാക്കിനായി ക്യൂവിലാണ്</string>
-    <string name="lbl_current_queue">നിലവിലെ ക്യൂ</string>
     <string name="btn_got_it">മനസ്സിലായി</string>
     <string name="msg_external_path">നെറ്റ്‌വർക്ക് പാതകളോ പാത്ത് പകരക്കാരനോ ഉപയോഗിച്ച് സെർവറിൽ നിങ്ങളുടെ ലൈബ്രറി ശരിയായി സജ്ജീകരിച്ചിട്ടുണ്ടെങ്കിൽ മാത്രമേ ഈ സവിശേഷത പ്രവർത്തിക്കൂ, നിങ്ങൾ ഉപയോഗിക്കുന്ന ക്ലയന്റിന് നെറ്റ്‌വർക്കിലൂടെ ഈ ലൊക്കേഷനുകൾ നേരിട്ട് ആക്‌സസ് ചെയ്യാൻ കഴിയും.</string>
     <string name="lbl_subtitle_track">സബ്ടൈറ്റിൽ ട്രാക്ക് തിരഞ്ഞെടുക്കുക</string>

@@ -4,15 +4,11 @@ plugins {
 }
 
 android {
-	compileSdk = 32
+	compileSdk = 33
 
 	defaultConfig {
 		minSdk = 21
-		targetSdk = 32
-	}
-
-	buildFeatures {
-		viewBinding = true
+		targetSdk = 33
 	}
 
 	sourceSets["main"].java.srcDirs("src/main/kotlin")
@@ -30,25 +26,14 @@ android {
 
 dependencies {
 	// Jellyfin
-	compileOnly(libs.jellyfin.sdk)
+	implementation(projects.playback.core)
 
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
 	implementation(libs.kotlinx.coroutines.guava)
-	implementation(libs.kotlinx.serialization.json)
 
-	// Android(x)
-	implementation(libs.androidx.core)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.constraintlayout)
-	implementation(libs.bundles.androidx.lifecycle)
-
-	// Dependency Injection
-	implementation(libs.bundles.koin)
-
-	// Media
+	// ExoPlayer
 	implementation(libs.exoplayer)
-	implementation(libs.androidx.media2.session)
 
 	// Logging
 	implementation(libs.timber)

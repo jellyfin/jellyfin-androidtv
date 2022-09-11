@@ -27,6 +27,7 @@ import org.jellyfin.apiclient.android
 import org.jellyfin.apiclient.logging.AndroidLogger
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.sdk.android.androidDevice
+import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
 import org.jellyfin.sdk.model.DeviceInfo
@@ -61,7 +62,9 @@ val appModule = module {
 		get<JellyfinSdk>().createApi()
 	}
 
-	single { SocketHandler(get(), get(), get(), get(), get()) }
+	single { get<ApiClient>().ws() }
+
+	single { SocketHandler(get(), get(), get(), get(), get(), get()) }
 
 	// Old apiclient
 	single { GsonJsonSerializer() }
@@ -92,7 +95,7 @@ val appModule = module {
 	single<ItemMutationRepository> { ItemMutationRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
-	viewModel { UserLoginViewModel(get(), get(), get()) }
+	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
 	viewModel { ServerAddViewModel(get()) }
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 	viewModel { PictureViewerViewModel(get()) }

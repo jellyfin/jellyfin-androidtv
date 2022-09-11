@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -22,6 +23,7 @@ class TextUnderButton @JvmOverloads constructor(
 		isFocusable = true
 		isFocusableInTouchMode = true
 		descendantFocusability = FOCUS_BLOCK_DESCENDANTS
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) defaultFocusHighlightEnabled = false
 	}
 
 	fun setLabel(text: String?) {
