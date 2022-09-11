@@ -35,6 +35,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
@@ -230,10 +231,10 @@ public class ItemLauncher {
                         case Play:
                             if (baseItem.getPlayAccess() == PlayAccess.Full) {
                                 //Just play it directly
-                                PlaybackHelper.getItemsToPlay(baseItem, baseItem.getBaseItemType() == BaseItemType.Movie, false, new Response<List<BaseItemDto>>() {
+                                PlaybackHelper.getItemsToPlay(baseItem, ModelCompat.asSdk(baseItem).getType() == BaseItemKind.MOVIE, false, new Response<List<BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<BaseItemDto> response) {
-                                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(baseItem.getBaseItemType());
+                                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(baseItem).getType());
                                         Intent intent = new Intent(activity, newActivity);
                                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                                         intent.putExtra("Position", 0);
@@ -261,13 +262,13 @@ public class ItemLauncher {
             case Chapter:
                 final ChapterItemInfo chapter = rowItem.getChapterInfo();
                 //Start playback of the item at the chapter point
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(chapter.getItemId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(chapter.getItemId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(items);
-                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(response.getBaseItemType());
+                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(response).getType());
                         Intent intent = new Intent(activity, newActivity);
                         Long start = chapter.getStartPositionTicks() / 10000;
                         intent.putExtra("Position", start.intValue());
@@ -283,14 +284,14 @@ public class ItemLauncher {
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
-                        if (response.getIsFolderItem() && response.getBaseItemType() != BaseItemType.Series) {
+                        if (response.getIsFolderItem() && ModelCompat.asSdk(response).getType() != BaseItemKind.SERIES) {
                             // open generic folder browsing
                             Intent intent = new Intent(activity, GenericGridActivity.class);
                             intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(response)));
 
                             activity.startActivity(intent);
 
-                        } else if (response.getBaseItemType() == BaseItemType.Audio) {
+                        } else if (ModelCompat.asSdk(response).getType() == BaseItemKind.AUDIO) {
                             PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
                             //produce item menu
 //                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
@@ -299,7 +300,7 @@ public class ItemLauncher {
                         } else {
                             Intent intent = new Intent(activity, FullDetailsActivity.class);
                             intent.putExtra("ItemId", response.getId());
-                            if (response.getBaseItemType() == BaseItemType.Program) {
+                            if (ModelCompat.asSdk(response).getType() == BaseItemKind.PROGRAM) {
                                 // TODO: Seems like this is never used...
                                 intent.putExtra("ItemType", response.getBaseItemType().name());
 
@@ -342,7 +343,7 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(response.getBaseItemType());
+                                    Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(response).getType());
                                     Intent intent = new Intent(activity, newActivity);
                                     KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(items);
                                     intent.putExtra("Position", 0);
@@ -366,7 +367,7 @@ public class ItemLauncher {
                             @Override
                             public void onResponse(List<BaseItemDto> response) {
                                 // TODO Check whether this usage of BaseItemType.valueOf is okay.
-                                Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(BaseItemType.valueOf(channel.getType()));
+                                Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(BaseItemKind.valueOf(channel.getType()));
                                 Intent intent = new Intent(activity, newActivity);
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                                 intent.putExtra("Position", 0);
@@ -432,32 +433,17 @@ public class ItemLauncher {
                         Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId(UUID.randomUUID().toString());
+                        folder.setBaseItemType(BaseItemType.Folder);
                         folder.setName(activity.getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));
                         activity.startActivity(recordings);
-                        break;
-
-                    case LiveTvOption.VIDEO_QUEUE_OPTION_ID:
-                        Intent queueIntent = new Intent(activity, ItemListActivity.class);
-                        queueIntent.putExtra("ItemId", ItemListActivity.VIDEO_QUEUE);
-                        //Resume first item if needed
-                        List<BaseItemDto> items = KoinJavaComponent.<MediaManager>get(MediaManager.class).getCurrentVideoQueue();
-                        if (items != null) {
-                            BaseItemDto first = items.size() > 0 ? items.get(0) : null;
-                            if (first != null && first.getUserData() != null) {
-                                Long resume = first.getUserData().getPlaybackPositionTicks() / 10000;
-                                queueIntent.putExtra("Position", resume.intValue());
-
-                            }
-                        }
-
-                        activity.startActivity(queueIntent);
                         break;
 
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
                         Intent seriesIntent = new Intent(activity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
+                        seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
                         seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));

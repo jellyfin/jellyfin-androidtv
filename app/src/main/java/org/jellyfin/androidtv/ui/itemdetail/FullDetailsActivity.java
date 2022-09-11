@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.itemdetail;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -256,9 +255,9 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
                 // if last playback event exists, and event time is greater than last sync or within 2 seconds of current time
                 // the third condition accounts for a situation where a sync (dataRefresh) coincides with the end of playback
-                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist) {
+                if (lastPlaybackTime > 0 && (lastPlaybackTime > mLastUpdated.getTimeInMillis() || System.currentTimeMillis() - lastPlaybackTime < 2000) && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST) {
                     org.jellyfin.sdk.model.api.BaseItemDto lastPlayedItem = dataRefreshService.getValue().getLastPlayedItem();
-                    if (mBaseItem.getBaseItemType() == BaseItemType.Episode && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
+                    if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && lastPlayedItem != null && !mBaseItem.getId().equals(lastPlayedItem.getId().toString()) && lastPlayedItem.getType() == BaseItemKind.EPISODE) {
                         Timber.i("Re-loading after new episode playback");
                         loadItem(lastPlayedItem.getId().toString());
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
@@ -270,7 +269,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                                 if (!isFinishing()) {
                                     mBaseItem = response;
                                     if (mResumeButton != null) {
-                                        boolean resumeVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
+                                        boolean resumeVisible = (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                         mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                         if (response.getCanResume()) {
                                             mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
@@ -385,6 +384,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             // create base item from our timer
             BaseItemDto item = new BaseItemDto();
             item.setId(mSeriesTimerInfo.getId());
+            item.setBaseItemType(BaseItemType.Folder);
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
             item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
@@ -428,7 +428,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
             // Figure image size
             Double aspect = ImageUtils.getImageAspectRatio(item, false);
-            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, item.getBaseItemType() == BaseItemType.Person || item.getBaseItemType() == BaseItemType.MusicArtist ? 300 : 200);
+            posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
@@ -436,7 +436,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
             String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, 600, true);
             if (primaryImageUrl == null) {
-                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mActivity, mBaseItem, false, posterHeight);
+                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
@@ -451,7 +451,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonType.Director);
 
                     InfoItem firstRow;
-                    if (item.getBaseItemType() == BaseItemType.Series) {
+                    if (ModelCompat.asSdk(item).getType() == BaseItemKind.SERIES) {
                         firstRow = new InfoItem(
                                 getString(R.string.lbl_seasons),
                                 String.format("%d", Utils.getSafeValue(item.getChildCount(), 0)));
@@ -822,10 +822,10 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     private String getEndTime() {
-        if (mBaseItem != null && mBaseItem.getBaseItemType() != BaseItemType.MusicArtist && mBaseItem.getBaseItemType() != BaseItemType.Person) {
+        if (mBaseItem != null && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
             Long runtime = Utils.getSafeValue(mBaseItem.getRunTimeTicks(), mBaseItem.getOriginalRunTimeTicks());
             if (runtime != null && runtime > 0) {
-                long endTimeTicks = mBaseItem.getBaseItemType() == BaseItemType.Program && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
+                long endTimeTicks = ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PROGRAM && mBaseItem.getEndDate() != null ? TimeUtils.convertToLocalDate(mBaseItem.getEndDate()).getTime() : System.currentTimeMillis() + runtime / 10000;
                 if (mBaseItem.getCanResume()) {
                     endTimeTicks = System.currentTimeMillis() + ((runtime - mBaseItem.getUserData().getPlaybackPositionTicks()) / 10000);
                 }
@@ -837,8 +837,9 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     private void addItemToQueue() {
-        if (mBaseItem.getBaseItemType() == BaseItemType.Audio || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
-            if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+        org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
+        if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
+            if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                 PlaybackHelper.getItemsToPlay(mBaseItem, false, false, new Response<List<BaseItemDto>>() {
                     @Override
                     public void onResponse(List<BaseItemDto> response) {
@@ -875,14 +876,14 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     private TextUnderButton shuffleButton = null;
     private TextUnderButton goToSeriesButton = null;
     private TextUnderButton queueButton = null;
-    private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
     private TextUnderButton playButton = null;
     private TextUnderButton trailerButton = null;
 
     private void addButtons(int buttonSize) {
+        org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         String buttonLabel;
-        if (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
+        if (baseItem.getType() == BaseItemKind.SERIES) {
             buttonLabel = getString(R.string.lbl_play_next_up);
         } else {
             long startPos = 0;
@@ -894,7 +895,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         mResumeButton = TextUnderButton.create(this, R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBaseItem.getBaseItemType() == BaseItemType.Series) {
+                if (baseItem.getType() == BaseItemKind.SERIES) {
                     //play next up
                     NextUpQuery nextUpQuery = new NextUpQuery();
                     nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
@@ -925,7 +926,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         });
 
         //playButton becomes playWith button
-        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (mBaseItem.getBaseItemType() == BaseItemType.Series || mBaseItem.getBaseItemType() == BaseItemType.Movie || mBaseItem.getBaseItemType() == BaseItemType.Video || mBaseItem.getBaseItemType() == BaseItemType.Episode)) {
+        if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (baseItem.getType() == BaseItemKind.SERIES || baseItem.getType() == BaseItemKind.MOVIE || baseItem.getType() == BaseItemKind.VIDEO || baseItem.getType() == BaseItemKind.EPISODE)) {
             playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 3, getString(R.string.play_with), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -937,9 +938,9 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             });
             mDetailsOverviewRow.addAction(playButton);
         } else { //here playButton is only a play button
-            if (BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
+            if (BaseItemExtensionsKt.canPlay(baseItem)) {
                 mDetailsOverviewRow.addAction(mResumeButton);
-                boolean resumeButtonVisible = (mBaseItem.getBaseItemType() == BaseItemType.Series && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
+                boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
                 playButton = TextUnderButton.create(this, R.drawable.ic_play, buttonSize, 2, getString(BaseItemExtensionsKt.isLiveTv(ModelCompat.asSdk(mBaseItem)) ? R.string.lbl_tune_to_channel : mBaseItem.getIsFolderItem() ? R.string.lbl_play_all : R.string.lbl_play), new View.OnClickListener() {
@@ -957,10 +958,10 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     playButton.requestFocus();
                 }
 
-                boolean isMusic = mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum
-                        || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist
-                        || mBaseItem.getBaseItemType() == BaseItemType.Audio
-                        || (mBaseItem.getBaseItemType() == BaseItemType.Playlist && MediaType.Audio.equals(mBaseItem.getMediaType()));
+                boolean isMusic = baseItem.getType() == BaseItemKind.MUSIC_ALBUM
+                        || baseItem.getType() == BaseItemKind.MUSIC_ARTIST
+                        || baseItem.getType() == BaseItemKind.AUDIO
+                        || (baseItem.getType() == BaseItemKind.PLAYLIST && MediaType.Audio.equals(mBaseItem.getMediaType()));
 
                 if (isMusic) {
                     queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
@@ -972,7 +973,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     mDetailsOverviewRow.addAction(queueButton);
                 }
 
-                if (mBaseItem.getIsFolderItem() || mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                if (mBaseItem.getIsFolderItem() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                     shuffleButton = TextUnderButton.create(this, R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -982,7 +983,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     mDetailsOverviewRow.addAction(shuffleButton);
                 }
 
-                if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                if (baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
                     TextUnderButton imix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 0, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1171,7 +1172,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
         UserItemDataDto userData = mBaseItem.getUserData();
         if (userData != null && mProgramInfo == null) {
-            if (mBaseItem.getBaseItemType() != BaseItemType.MusicArtist && mBaseItem.getBaseItemType() != BaseItemType.Person) {
+            if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
                 mWatchedToggleButton = TextUnderButton.create(this, R.drawable.ic_watch, buttonSize, 0, getString(R.string.lbl_watched), markWatchedListener);
                 mWatchedToggleButton.setActivated(userData.getPlayed());
                 mDetailsOverviewRow.addAction(mWatchedToggleButton);
@@ -1188,7 +1189,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             mDetailsOverviewRow.addAction(favButton);
         }
 
-        if (mBaseItem.getBaseItemType() == BaseItemType.Episode && mBaseItem.getSeriesId() != null) {
+        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && mBaseItem.getSeriesId() != null) {
             //add the prev button first so it will be there in proper position - we'll show it later if needed
             mPrevButton = TextUnderButton.create(this, R.drawable.ic_previous_episode, buttonSize, 3, getString(R.string.lbl_previous_episode), new View.OnClickListener() {
                 @Override
@@ -1244,11 +1245,10 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             }));
 
             //Delete
-            final Activity activity = this;
             TextUnderButton del = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_cancel_series), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(activity)
+                    new AlertDialog.Builder(FullDetailsActivity.this)
                             .setTitle(R.string.lbl_delete)
                             .setMessage(getString(R.string.msg_cancel_entire_series))
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
@@ -1256,14 +1256,14 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                                     apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
-                                            Utils.showToast(activity, mSeriesTimerInfo.getName() + " Canceled");
+                                            Utils.showToast(FullDetailsActivity.this, mSeriesTimerInfo.getName() + " Canceled");
                                             dataRefreshService.getValue().setLastDeletedItemId(mSeriesTimerInfo.getId());
                                             finish();
                                         }
 
                                         @Override
                                         public void onError(Exception ex) {
-                                            Utils.showToast(activity, ex.getLocalizedMessage());
+                                            Utils.showToast(FullDetailsActivity.this, ex.getLocalizedMessage());
                                         }
                                     });
                                 }
@@ -1323,20 +1323,13 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     more.getMenu().getItem(5).setVisible(true);
                 }
 
-                if (deleteButton == null || ViewKt.isVisible(deleteButton)) {
-                    more.getMenu().getItem(6).setVisible(false);
-                } else if (deleteButton != null) {
-                    more.getMenu().getItem(6).setVisible(true);
-                }
-
                 more.show();
             }
         });
 
         moreButton.setVisibility(View.GONE);
         mDetailsOverviewRow.addAction(moreButton);
-        if (mBaseItem.getBaseItemType() != BaseItemType.Episode) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
-
+        if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.EPISODE) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
     }
 
     private void addVersionsMenu(View v) {
@@ -1377,7 +1370,6 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         if (trailerButton != null) actionsList.add(trailerButton);
         if (favButton != null) actionsList.add(favButton);
         if (goToSeriesButton != null) actionsList.add(goToSeriesButton);
-        if (deleteButton != null) actionsList.add(deleteButton);
 
         // reverse the list so the less important actions are hidden first
         Collections.reverse(actionsList);
@@ -1442,7 +1434,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     PlaybackHelper.getItemsToPlay(mBaseItem, false , false, new Response<List<BaseItemDto>>() {
                         @Override
                         public void onResponse(List<BaseItemDto> response) {
-                            if (mBaseItem.getBaseItemType() == BaseItemType.MusicArtist) {
+                            if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ARTIST) {
                                 mediaManager.getValue().playNow(FullDetailsActivity.this, response, false);
                             } else {
                                 Intent intent = new Intent(FullDetailsActivity.this, ExternalPlayerActivity.class);
@@ -1594,16 +1586,16 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        PlaybackHelper.getItemsToPlay(item, pos == 0 && item.getBaseItemType() == BaseItemType.Movie, shuffle, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(item, pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
             @Override
             public void onResponse(List<BaseItemDto> response) {
                 PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                 if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, item)) return;
 
-                if (item.getBaseItemType() == BaseItemType.MusicArtist) {
+                if (ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(FullDetailsActivity.this, response, shuffle);
                 } else {
-                    Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(item.getBaseItemType());
+                    Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(item).getType());
                     Intent intent = new Intent(FullDetailsActivity.this, activity);
                     mediaManager.getValue().setCurrentVideoQueue(response);
                     intent.putExtra("Position", pos);
@@ -1616,7 +1608,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     protected void play(final BaseItemDto[] items, final int pos, final boolean shuffle) {
         List<BaseItemDto> itemsToPlay = Arrays.asList(items);
-        Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(items[0].getBaseItemType());
+        Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(items[0]).getType());
         Intent intent = new Intent(this, activity);
         if (shuffle) Collections.shuffle(itemsToPlay);
         mediaManager.getValue().setCurrentVideoQueue(itemsToPlay);

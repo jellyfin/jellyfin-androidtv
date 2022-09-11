@@ -81,6 +81,7 @@ import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -909,7 +910,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             do {
                 BaseItemDto empty = new BaseItemDto();
                 empty.setId(UUID.randomUUID().toString());
-                empty.setType("FOLDER");
+                empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
@@ -939,7 +940,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 // fill empty time slot
                 BaseItemDto empty = new BaseItemDto();
                 empty.setId(UUID.randomUUID().toString());
-                empty.setType("FOLDER");
+                empty.setBaseItemType(BaseItemType.Folder);
                 empty.setName(getString(R.string.no_program_data));
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
@@ -1288,7 +1289,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             tvGuideBinding.guideCurrentTitle.setText(current.getName());
 
             // Update the title and subtitle
-            if (current.getBaseItemType() == BaseItemType.Episode) {
+            if (ModelCompat.asSdk(current).getType() == BaseItemKind.EPISODE) {
                 binding.itemTitle.setText(current.getSeriesName());
                 binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(current), requireContext()));
             } else {

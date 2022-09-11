@@ -22,9 +22,11 @@ import org.jellyfin.androidtv.auth.model.UnknownQuickConnectState
 import org.jellyfin.androidtv.auth.model.User
 import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
 import org.jellyfin.androidtv.auth.repository.ServerRepository
+import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.quickConnectApi
+import org.jellyfin.sdk.model.DeviceInfo
 import timber.log.Timber
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
@@ -33,6 +35,7 @@ class UserLoginViewModel(
 	jellyfin: Jellyfin,
 	private val serverRepository: ServerRepository,
 	private val authenticationRepository: AuthenticationRepository,
+	private val defaultDeviceInfo: DeviceInfo,
 ) : ViewModel() {
 	private val _loginState = MutableStateFlow<LoginState?>(null)
 	val loginState = _loginState.asStateFlow()
@@ -74,6 +77,7 @@ class UserLoginViewModel(
 		_quickConnectState.emit(UnknownQuickConnectState)
 		quickConnectSecret = null
 		quickConnectApi.baseUrl = server.address
+		quickConnectApi.deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID())
 
 		try {
 			val response by quickConnectApi.quickConnectApi.initiate()

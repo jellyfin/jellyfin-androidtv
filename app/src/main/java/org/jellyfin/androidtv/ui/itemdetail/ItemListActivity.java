@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.itemdetail;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +55,7 @@ import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
@@ -73,7 +73,6 @@ public class ItemListActivity extends FragmentActivity {
     private int BUTTON_SIZE;
     // Use fake UUID's to avoid crashing when converting to SDK
     public static final String FAV_SONGS = "11111111-0000-0000-0000-000000000001";
-    public static final String VIDEO_QUEUE = "11111111-0000-0000-0000-000000000002";
 
     private TextView mTitle;
     private TextView mGenreRow;
@@ -151,7 +150,7 @@ public class ItemListActivity extends FragmentActivity {
         mItemList.setRowClickedListener(new ItemRowView.RowClickedListener() {
             @Override
             public void onRowClicked(ItemRowView row) {
-                showMenu(row, row.getItem().getBaseItemType() != BaseItemType.Audio);
+                showMenu(row, ModelCompat.asSdk(row.getItem()).getType() != BaseItemKind.AUDIO);
             }
         });
 
@@ -206,24 +205,7 @@ public class ItemListActivity extends FragmentActivity {
         mAudioEventListener.onPlaybackStateChange(mediaManager.getValue().isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, mediaManager.getValue().getCurrentAudioItem());
 
         if (!firstTime && dataRefreshService.getValue().getLastPlayback() > lastUpdated.getTimeInMillis()) {
-            if (mItemId.equals(VIDEO_QUEUE)) {
-                //update this in case it changed - delay to allow for the changes
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mItems = mediaManager.getValue().getCurrentVideoQueue();
-                        if (mItems != null && mItems.size() > 0) {
-                            mItemList.clear();
-                            mCurrentRow = null;
-                            mItemList.addItems(mItems);
-                            lastUpdated = Calendar.getInstance();
-                        } else {
-                            //nothing left in queue
-                            finish();
-                        }
-                    }
-                }, 750);
-            } else if (MediaType.Video.equals(mBaseItem.getMediaType())) {
+            if (MediaType.Video.equals(mBaseItem.getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -313,7 +295,7 @@ public class ItemListActivity extends FragmentActivity {
                 return true;
             }
         });
-        if (row.getItem().getBaseItemType() == BaseItemType.Audio) {
+        if (ModelCompat.asSdk(row.getItem()).getType() == BaseItemKind.AUDIO) {
             MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -342,27 +324,6 @@ public class ItemListActivity extends FragmentActivity {
                 item.setIsFolder(true);
                 setBaseItem(item);
                 break;
-            case VIDEO_QUEUE:
-                BaseItemDto queue = new BaseItemDto();
-                queue.setId(VIDEO_QUEUE);
-                queue.setName(getString(R.string.lbl_current_queue));
-                queue.setOverview(getString(R.string.desc_current_video_queue));
-                queue.setPlayAccess(PlayAccess.Full);
-                queue.setMediaType(MediaType.Video);
-                queue.setBaseItemType(BaseItemType.Playlist);
-                queue.setIsFolder(true);
-                if (mediaManager.getValue().getCurrentVideoQueue() != null) {
-                    long runtime = 0;
-                    int children = 0;
-                    for (BaseItemDto video : mediaManager.getValue().getCurrentVideoQueue()) {
-                        runtime += video.getRunTimeTicks() != null ? video.getRunTimeTicks() : 0;
-                        children += 1;
-                    }
-                    queue.setCumulativeRunTimeTicks(runtime);
-                    queue.setChildCount(children);
-                }
-                setBaseItem(queue);
-                break;
             default:
                 apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
@@ -387,7 +348,7 @@ public class ItemListActivity extends FragmentActivity {
         updatePoster(mBaseItem);
 
         //get items
-        if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
+        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PLAYLIST) {
             // Have to use different query here
             switch (mItemId) {
                 case FAV_SONGS:
@@ -404,13 +365,6 @@ public class ItemListActivity extends FragmentActivity {
                     favSongs.setSortBy(new String[]{ItemSortBy.Random});
                     favSongs.setLimit(150);
                     apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
-                    break;
-                case VIDEO_QUEUE:
-                    //Show current queue
-                    mTitle.setText(mBaseItem.getName());
-                    mItemList.addItems(mediaManager.getValue().getCurrentVideoQueue());
-                    mItems.addAll(mediaManager.getValue().getCurrentVideoQueue());
-                    updateBackdrop();
                     break;
                 default:
                     PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
@@ -478,9 +432,6 @@ public class ItemListActivity extends FragmentActivity {
             case FAV_SONGS:
                 mPoster.setImageResource(R.drawable.favorites);
                 break;
-            case VIDEO_QUEUE:
-                mPoster.setImageResource(R.drawable.ic_video_queue);
-                break;
             default:
                 Double aspect = ImageUtils.getImageAspectRatio(item, false);
                 String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
@@ -510,7 +461,7 @@ public class ItemListActivity extends FragmentActivity {
             if (shuffle) {
                 Collections.shuffle(items);
             }
-            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(mBaseItem.getBaseItemType());
+            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(mBaseItem).getType());
             Intent intent = new Intent(mActivity, activity);
             //Resume item if needed
             BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
@@ -547,7 +498,7 @@ public class ItemListActivity extends FragmentActivity {
             boolean hidePlayButton = false;
             TextUnderButton queueButton = null;
             // add to queue if a queue exists and mBaseItem is a MusicAlbum
-            if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum && mediaManager.getValue().hasAudioQueueItems()) {
+            if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM && mediaManager.getValue().hasAudioQueueItems()) {
                 queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -574,15 +525,8 @@ public class ItemListActivity extends FragmentActivity {
                     @Override
                     public void onClick(View v) {
                         if (mItems.size() > 0) {
-                            if (mBaseItem.getId().equals(VIDEO_QUEUE)
-                                    || mBaseItem.getId().equals(FAV_SONGS)
-                                    || mBaseItem.getBaseItemType() == BaseItemType.Playlist
-                                    || mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
-                                play(mItems, true);
-                            } else {
-                                //use server retrieval in order to get all items
-                                PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
-                            }
+                            //use server retrieval in order to get all items
+                            PlaybackHelper.retrieveAndPlay(mBaseItem.getId(), true, mActivity);
                         } else {
                             Utils.showToast(mActivity, R.string.msg_no_playable_items);
                         }
@@ -595,7 +539,7 @@ public class ItemListActivity extends FragmentActivity {
             }
         }
 
-        if (mBaseItem.getBaseItemType() == BaseItemType.MusicAlbum) {
+        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ALBUM) {
             TextUnderButton mix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -609,64 +553,26 @@ public class ItemListActivity extends FragmentActivity {
         }
 
         if (!mItemId.equals(FAV_SONGS)) {
-            if (!mItemId.equals(VIDEO_QUEUE)) {
-                //Favorite
-                TextUnderButton fav = TextUnderButton.create(this, R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        UserItemDataDto data = mBaseItem.getUserData();
-                        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
-                            @Override
-                            public void onResponse(UserItemDataDto response) {
-                                mBaseItem.setUserData(response);
-                                ((TextUnderButton)v).setActivated(response.getIsFavorite());
-                                dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
-                            }
-                        });
-                    }
-                });
-                fav.setActivated(mBaseItem.getUserData().getIsFavorite());
-                mButtonRow.addView(fav);
-                fav.setOnFocusChangeListener((v, hasFocus) -> {
-                    if (hasFocus) mScrollView.smoothScrollTo(0, 0);
-                });
-            }
-
-            if (mBaseItem.getBaseItemType() == BaseItemType.Playlist) {
-                if (VIDEO_QUEUE.equals(mBaseItem.getId())) {
-                    mButtonRow.addView(TextUnderButton.create(this, R.drawable.ic_save, buttonSize, 2, getString(R.string.lbl_save_as_playlist), new View.OnClickListener() {
+            //Favorite
+            TextUnderButton fav = TextUnderButton.create(this, R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    UserItemDataDto data = mBaseItem.getUserData();
+                    apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
                         @Override
-                        public void onClick(View v) {
-                            mediaManager.getValue().saveVideoQueue(mActivity);
-                        }
-                    }));
-                }
-
-                if (mBaseItem.getId().equals(VIDEO_QUEUE)) {
-                    TextUnderButton delete = TextUnderButton.create(this, R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View v) {
-                            new AlertDialog.Builder(mActivity)
-                                    .setTitle(R.string.lbl_clear_queue)
-                                    .setMessage(R.string.clear_expanded)
-                                    .setPositiveButton(R.string.lbl_clear, (dialog, whichButton) -> {
-                                        mediaManager.getValue().setCurrentVideoQueue(new ArrayList<BaseItemDto>());
-                                        dataRefreshService.getValue().setLastVideoQueueChange(System.currentTimeMillis());
-                                        finish();
-                                    })
-                                    .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {
-                                    })
-                                    .show()
-                                    .getButton(AlertDialog.BUTTON_NEGATIVE).requestFocus();
+                        public void onResponse(UserItemDataDto response) {
+                            mBaseItem.setUserData(response);
+                            ((TextUnderButton)v).setActivated(response.getIsFavorite());
+                            dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
                         }
                     });
-
-                    mButtonRow.addView(delete);
-                    delete.setOnFocusChangeListener((v, hasFocus) -> {
-                        if (hasFocus) mScrollView.smoothScrollTo(0, 0);
-                    });
                 }
-            }
+            });
+            fav.setActivated(mBaseItem.getUserData().getIsFavorite());
+            mButtonRow.addView(fav);
+            fav.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) mScrollView.smoothScrollTo(0, 0);
+            });
         }
 
         if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {

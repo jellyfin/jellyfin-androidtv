@@ -57,6 +57,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.koin.java.KoinJavaComponent;
 
@@ -351,15 +352,15 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
 
     private void refreshCurrentItem() {
         if (mCurrentItem != null &&
-                mCurrentItem.getBaseItemType() != BaseItemType.Photo &&
-                mCurrentItem.getBaseItemType() != BaseItemType.MusicArtist &&
-                mCurrentItem.getBaseItemType() != BaseItemType.MusicAlbum &&
-                mCurrentItem.getBaseItemType() != BaseItemType.Playlist
+                mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO &&
+                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST &&
+                mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM &&
+                mCurrentItem.getBaseItemType() != BaseItemKind.PLAYLIST
         ) {
             mCurrentItem.refresh(new EmptyResponse() {
                 @Override
                 public void onResponse() {
-                    ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow) mCurrentRow).getAdapter();
+                    ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
                     adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }
             });
@@ -434,6 +435,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                         Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
+                        seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
                         seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
@@ -450,6 +452,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
                         Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
+                        folder.setBaseItemType(BaseItemType.Folder);
                         folder.setId(UUID.randomUUID().toString());
                         folder.setName(getString(R.string.lbl_recorded_tv));
                         recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));

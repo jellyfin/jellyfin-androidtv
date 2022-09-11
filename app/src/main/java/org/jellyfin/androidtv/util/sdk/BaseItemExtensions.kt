@@ -132,10 +132,10 @@ fun BaseItemDto.getSubName(context: Context): String? = when (type) {
 }
 
 fun BaseItemDto.buildChapterItems(api: ApiClient): List<ChapterItemInfo> = chapters?.mapIndexed { i, dto ->
-	ChapterItemInfo().apply {
-		itemId = id.toString()
-		name = dto.name
-		startPositionTicks = dto.startPositionTicks
+	ChapterItemInfo(
+		itemId = id,
+		name = dto.name,
+		startPositionTicks = dto.startPositionTicks,
 		imagePath = when {
 			dto.imageTag != null -> api.imageApi.getItemImageUrl(
 				itemId = id,
@@ -144,6 +144,6 @@ fun BaseItemDto.buildChapterItems(api: ApiClient): List<ChapterItemInfo> = chapt
 				imageIndex = i,
 			)
 			else -> null
-		}
-	}
+		},
+	)
 }.orEmpty()

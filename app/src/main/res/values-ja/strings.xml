@@ -194,7 +194,6 @@
     <string name="lbl_bitstream_dts">ビットストリームDTSオーディオ</string>
     <string name="lbl_in_x_days">%d 日で</string>
     <string name="lbl_refresh_switching">リフレッシュレート切り替え中</string>
-    <string name="lbl_current_queue">現在のキュー</string>
     <string name="lbl_bitstream_ac3">ビットストリームドルビーデジタル・オーディオ</string>
     <string name="lbl_new_premieres">新しいプレミア</string>
     <string name="lbl_instant_mix">インスタントミックス</string>
@@ -359,7 +358,6 @@
     <string name="pref_video_player_external">外部アプリ</string>
     <string name="pref_video_player_auto">自動選択</string>
     <string name="lbl_my_media">マイメディア</string>
-    <string name="desc_current_video_queue">現在再生のためにリストに入れられているビデオ作品</string>
     <string name="msg_external_path">この機能は、ネットワークパスまたはパス置換を使用してサーバー上のライブラリを適切に設定し、使用しているクライアントがネットワークを介してこれらの場所に直接アクセスできる場合にのみ機能します。</string>
     <string name="lbl_fit">通常</string>
     <string name="sum_enable_cinema_mode">サーバーによって有効にされていると、ムービーの再生前にイントロとプレビューを再生します</string>

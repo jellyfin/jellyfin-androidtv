@@ -8,11 +8,11 @@ plugins {
 
 android {
 	namespace = "org.jellyfin.androidtv"
-	compileSdk = 32
+	compileSdk = 33
 
 	defaultConfig {
 		minSdk = 21
-		targetSdk = 32
+		targetSdk = 33
 
 		// Release version
 		applicationId = namespace
@@ -92,7 +92,10 @@ val versionTxt by tasks.registering {
 
 dependencies {
 	// Jellyfin
-	implementation(projects.playback)
+	implementation(projects.playback.core)
+	implementation(projects.playback.exoplayer)
+	implementation(projects.playback.jellyfin)
+	implementation(projects.playback.ui)
 	implementation(projects.preference)
 	implementation(libs.jellyfin.apiclient)
 	implementation(libs.jellyfin.sdk) {

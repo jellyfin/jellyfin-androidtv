@@ -42,7 +42,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
@@ -51,6 +50,7 @@ import org.jellyfin.apiclient.model.library.PlayAccess;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.apiclient.model.session.PlayMethod;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -541,7 +541,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     return;
                 }
 
-                isLiveTv = item.getBaseItemType() == BaseItemType.TvChannel;
+                isLiveTv = ModelCompat.asSdk(item).getType() == BaseItemKind.TV_CHANNEL;
                 startSpinner();
 
                 // undo setting mSeekPosition for liveTV
@@ -1316,7 +1316,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     public void updateTvProgramInfo() {
         // Get the current program info when playing a live TV channel
         final BaseItemDto channel = getCurrentlyPlayingItem();
-        if (channel.getBaseItemType() == BaseItemType.TvChannel) {
+        if (ModelCompat.asSdk(channel).getType() == BaseItemKind.TV_CHANNEL) {
             apiClient.getValue().GetLiveTvChannelAsync(channel.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
@@ -1436,7 +1436,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         Timber.d("Moving to next queue item. Index: %s", (mCurrentIndex + 1));
         if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED
-                && curItem.getBaseItemType() != BaseItemType.Trailer) {
+                && ModelCompat.asSdk(curItem).getType() != BaseItemKind.TRAILER) {
             mCurrentIndex++;
             mediaManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             spinnerOff = false;
