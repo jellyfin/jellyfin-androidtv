@@ -33,7 +33,7 @@ class SelectQualityAction (
 		}
 
 		it.toString().removeSuffix(".0") to value
-	}.values
+	}
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_quality)
@@ -49,7 +49,7 @@ class SelectQualityAction (
 		qualityMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 
 		qualityMenu.setOnMenuItemClickListener { menuItem ->
-			qualityController.currentQuality = qualityProfiles.elementAt(menuItem.itemId)
+			qualityController.currentQuality = qualityProfiles.keys.elementAt(menuItem.itemId)
 			playbackController.refreshStream()
 			qualityMenu.dismiss()
 			true
@@ -63,13 +63,13 @@ class SelectQualityAction (
 		view: View,
 		qualityController: VideoQualityController
 	) = PopupMenu(context, view, Gravity.END).apply {
-		qualityProfiles.forEachIndexed { i, selected ->
+		qualityProfiles.values.forEachIndexed { i, selected ->
 			// Since this is purely numeric data, coerce to en_us to keep the linter happy
 			menu.add(0, i, i, selected)
 		}
 
 		menu.setGroupCheckable(0, true, true)
-		menu.getItem(qualityProfiles.indexOf(qualityController.currentQuality)).isChecked = true
+		menu.getItem(qualityProfiles.keys.indexOf(qualityController.currentQuality)).isChecked = true
 	}
 
 }
