@@ -11,19 +11,15 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
-import org.koin.java.KoinJavaComponent
-import org.koin.java.KoinJavaComponent.get
 
 class SelectQualityAction (
 	context: Context,
 	customPlaybackTransportControlGlue: CustomPlaybackTransportControlGlue,
-	playbackController: PlaybackController
+	userPreferences: UserPreferences
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 
-	private var previousQualitySelection = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.maxBitrate]
-
-
-	private val qualityController = VideoQualityController(previousQualitySelection)
+	private var previousQualitySelection = userPreferences[UserPreferences.maxBitrate]
+	private val qualityController = VideoQualityController(previousQualitySelection, userPreferences)
 	private val qualityProfiles = qualityOptions.associate {
 
 		val value = when {
@@ -64,7 +60,6 @@ class SelectQualityAction (
 		qualityController: VideoQualityController
 	) = PopupMenu(context, view, Gravity.END).apply {
 		qualityProfiles.values.forEachIndexed { i, selected ->
-			// Since this is purely numeric data, coerce to en_us to keep the linter happy
 			menu.add(0, i, i, selected)
 		}
 
