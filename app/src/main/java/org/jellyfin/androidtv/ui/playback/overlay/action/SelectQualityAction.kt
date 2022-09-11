@@ -5,9 +5,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.constant.QualityProfiles
+import org.jellyfin.androidtv.constant.qualityOptions
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.UserPreferences.Companion.maxBitrate
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
@@ -21,13 +20,20 @@ class SelectQualityAction (
 	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 
-	private var previousQualitySelection = QualityProfiles.fromPreference(
-		get<UserPreferences>(UserPreferences::class.java)[maxBitrate]
-	)
+	private var previousQualitySelection = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.maxBitrate]
 
 
 	private val qualityController = VideoQualityController(previousQualitySelection)
-	private val qualityProfiles = QualityProfiles.values()
+	private val qualityProfiles = qualityOptions.associate {
+
+		val value = when {
+			it == 0.0 -> context.getString(R.string.bitrate_auto)
+			it >= 1.0 -> context.getString(R.string.bitrate_mbit, it)
+			else -> context.getString(R.string.bitrate_kbit, it * 1000.0)
+		}
+
+		it.toString().removeSuffix(".0") to value
+	}.values
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_quality)
@@ -43,29 +49,13 @@ class SelectQualityAction (
 		qualityMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 
 		qualityMenu.setOnMenuItemClickListener { menuItem ->
-			qualityController.currentQuality = qualityProfiles[menuItem.itemId]
+			qualityController.currentQuality = qualityProfiles.elementAt(menuItem.itemId)
 			playbackController.refreshStream()
 			qualityMenu.dismiss()
 			true
 		}
 
 		qualityMenu.show()
-	}
-
-	private fun formatQuality(quality: String, context: Context): String {
-
-		val conv = quality.toDouble()
-
-		@Suppress("MagicNumber")
-		val value = when {
-			conv == 0.0 -> context.getString(R.string.bitrate_auto)
-			conv >= 1.0 -> context.getString(R.string.bitrate_mbit, conv)
-			else -> context.getString(R.string.bitrate_kbit, conv * 1000.0)
-		}
-
-		conv.toString().removeSuffix(".0") to value
-
-		return value
 	}
 
 	private fun populateMenu(
@@ -75,7 +65,7 @@ class SelectQualityAction (
 	) = PopupMenu(context, view, Gravity.END).apply {
 		qualityProfiles.forEachIndexed { i, selected ->
 			// Since this is purely numeric data, coerce to en_us to keep the linter happy
-			menu.add(0, i, i, formatQuality(selected.quality, context))
+			menu.add(0, i, i, selected)
 		}
 
 		menu.setGroupCheckable(0, true, true)

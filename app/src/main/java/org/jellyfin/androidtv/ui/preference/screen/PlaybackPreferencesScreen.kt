@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.preference.screen
 
 import android.app.AlertDialog
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.constant.QualityProfiles
+import org.jellyfin.androidtv.constant.qualityOptions
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
@@ -97,17 +97,15 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 			@Suppress("MagicNumber")
 			list {
 				setTitle(R.string.pref_max_bitrate_title)
-				entries = enumValues<QualityProfiles>().associate {
-
-					val transform = it.quality.toDouble()
+				entries = qualityOptions.associate {
 
 					val value = when {
-						transform == 0.0 -> getString(R.string.bitrate_auto)
-						transform >= 1.0 -> getString(R.string.bitrate_mbit, transform)
-						else -> getString(R.string.bitrate_kbit, transform * 1000.0)
+						it == 0.0 -> getString(R.string.bitrate_auto)
+						it >= 1.0 -> getString(R.string.bitrate_mbit, it)
+						else -> getString(R.string.bitrate_kbit, it * 1000.0)
 					}
 
-					transform.toString().removeSuffix(".0") to value
+					it.toString().removeSuffix(".0") to value
 				}
 				bind(userPreferences, UserPreferences.maxBitrate)
 			}
