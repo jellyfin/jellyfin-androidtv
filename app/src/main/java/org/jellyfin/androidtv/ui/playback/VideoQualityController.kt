@@ -4,18 +4,11 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 
 class VideoQualityController(
 	previousQualitySelection: String,
-	userPreferences: UserPreferences
+	private val userPreferences: UserPreferences,
 ) {
-
-	var userPreferences = userPreferences
 	var currentQuality = previousQualitySelection
-	set(value) {
-		userPreferences[UserPreferences.maxBitrate] = value
-
-		field = value
-	}
-
-	init {
-		currentQuality = previousQualitySelection
-	}
+		set(value) {
+			userPreferences[UserPreferences.maxBitrate] = value
+			field = value
+		}
 }

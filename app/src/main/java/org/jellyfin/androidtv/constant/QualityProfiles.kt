@@ -13,16 +13,15 @@ private val qualityOptions = setOf(
 )
 
 @Suppress("MagicNumber")
-fun qualityProfiles(context: Context): Map<String,String> {
-	val strings = qualityOptions.associate {
-		val value = when {
-			it == 0.0 -> context.getString(R.string.bitrate_auto)
-			it >= 1.0 -> context.getString(R.string.bitrate_mbit, it)
-			else -> context.getString(R.string.bitrate_kbit, it * 1000.0)
-		}
-
-		it.toString().removeSuffix(".0") to value
+fun getQualityProfiles(
+	context: Context
+): Map<String, String> = qualityOptions.associate {
+	val value = when {
+		it == 0.0 -> context.getString(R.string.bitrate_auto)
+		it >= 1.0 -> context.getString(R.string.bitrate_mbit, it)
+		else -> context.getString(R.string.bitrate_kbit, it * 1000.0)
 	}
-	return strings
+
+	it.toString().removeSuffix(".0") to value
 }
 
