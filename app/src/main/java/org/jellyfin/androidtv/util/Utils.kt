@@ -1,142 +1,117 @@
-package org.jellyfin.androidtv.util;
+package org.jellyfin.androidtv.util
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.media.AudioManager;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.AudioBehavior;
-import org.jellyfin.sdk.model.api.UserDto;
-import org.koin.java.KoinJavaComponent;
-
-import java.util.Arrays;
-import java.util.Iterator;
-
-import timber.log.Timber;
+import android.content.Context
+import android.media.AudioManager
+import android.widget.Toast
+import org.jellyfin.androidtv.preference.UserPreferences
+import org.jellyfin.androidtv.preference.UserPreferences.Companion.audioBehaviour
+import org.jellyfin.androidtv.preference.constant.AudioBehavior
+import org.jellyfin.sdk.model.api.UserDto
+import org.koin.java.KoinJavaComponent.get
+import timber.log.Timber
+import kotlin.math.roundToInt
 
 /**
  * A collection of utility methods, all static.
  */
-public class Utils {
-    /**
-     * Shows a (long) toast
-     *
-     * @param context
-     * @param msg
-     */
-    public static void showToast(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-    }
+object Utils {
+	/**
+	 * Shows a (long) toast
+	 */
+	@JvmStatic
+	@Deprecated(
+		message = "Use Toast.makeText",
+		replaceWith = ReplaceWith(
+			expression = "Toast.makeText(context, msg, Toast.LENGTH_LONG).show()",
+			imports = ["android.widget.Toast"]
+		)
+	)
+	fun showToast(context: Context?, msg: String?) {
+		Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+	}
 
-    /**
-     * Shows a (long) toast.
-     *
-     * @param context
-     * @param resourceId
-     */
-    public static void showToast(Context context, int resourceId) {
-        Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show();
-    }
+	/**
+	 * Shows a (long) toast.
+	 */
+	@JvmStatic
+	@Deprecated(
+		message = "Use Toast.makeText",
+		replaceWith = ReplaceWith(
+			expression = "Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show()",
+			imports = ["android.widget.Toast"]
+		)
+	)
+	fun showToast(context: Context, resourceId: Int) {
+		Toast.makeText(context, context.getString(resourceId), Toast.LENGTH_LONG).show()
+	}
 
-    public static int convertDpToPixel(@NonNull Context ctx, int dp) {
-        return convertDpToPixel(ctx, (float) dp);
-    }
+	@JvmStatic
+	fun convertDpToPixel(ctx: Context, dp: Int): Int = (dp * ctx.resources.displayMetrics.density).roundToInt()
 
-    public static int convertDpToPixel(@NonNull Context ctx, float dp) {
-        float density = ctx.getResources().getDisplayMetrics().density;
-        return Math.round(dp * density);
-    }
+	@JvmStatic
+	fun isTrue(value: Boolean?): Boolean = value == true
 
-    public static boolean isTrue(Boolean value) {
-        return value != null && value;
-    }
+	/**
+	 * A null safe version of `String.equalsIgnoreCase`.
+	 */
+	@JvmStatic
+	fun equalsIgnoreCase(str1: String?, str2: String?): Boolean = when {
+		str1 == null && str2 == null -> true
+		str1 == null || str2 == null -> false
+		else -> str1.equals(str2, ignoreCase = true)
+	}
 
-    /**
-     * A null safe version of {@code String.equalsIgnoreCase}.
-     */
-    public static boolean equalsIgnoreCase(String str1, String str2) {
-        if (str1 == null && str2 == null) {
-            return true;
-        }
-        if (str1 == null || str2 == null) {
-            return false;
-        }
-        return str1.equalsIgnoreCase(str2);
-    }
+	@JvmStatic
+	fun <T> getSafeValue(value: T?, defaultValue: T): T = value ?: defaultValue
 
-    public static <T> T getSafeValue(T value, T defaultValue) {
-        if (value == null) return defaultValue;
-        return value;
-    }
+	@JvmStatic
+	fun isEmpty(value: String?): Boolean = value.isNullOrEmpty()
 
-    public static boolean isEmpty(String value) {
-        return value == null || value.equals("");
-    }
+	@JvmStatic
+	fun isNonEmpty(value: String?): Boolean = !value.isNullOrEmpty()
 
-    public static boolean isNonEmpty(String value) {
-        return value != null && !value.equals("");
-    }
+	@JvmStatic
+	fun join(separator: String, items: Iterable<String?>): String = items.joinToString(separator = separator)
 
-    public static String join(String separator, Iterable<String> items) {
-        StringBuilder builder = new StringBuilder();
+	@JvmStatic
+	fun join(separator: String, vararg items: String?): String = join(separator, items.toList())
 
-        Iterator<String> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            builder.append(iterator.next());
+	@JvmStatic
+	fun getMaxBitrate(): Int {
+		val maxRate = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.maxBitrate]
+		val autoRate = get<AutoBitrate>(AutoBitrate::class.java).bitrate
 
-            if (iterator.hasNext()) {
-                builder.append(separator);
-            }
-        }
+		return when {
+			maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null -> autoRate.toInt()
+			else -> (maxRate.toFloat() * 1000000).toInt()
+		}
+	}
 
-        return builder.toString();
-    }
+	@JvmStatic
+	fun getThemeColor(context: Context, resourceId: Int): Int {
+		val styledAttributes = context.theme.obtainStyledAttributes(intArrayOf(resourceId))
+		val themeColor = styledAttributes.getColor(0, 0)
+		styledAttributes.recycle()
+		return themeColor
+	}
 
-    public static String join(String separator, String... items) {
-        return join(separator, Arrays.asList(items));
-    }
+	@JvmStatic
+	fun downMixAudio(context: Context): Boolean {
+		val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+		if (am.isBluetoothA2dpOn) {
+			Timber.i("Downmixing audio due to wired headset")
+			return true
+		}
 
-    public static int getMaxBitrate() {
-        String maxRate = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMaxBitrate());
-        Long autoRate = KoinJavaComponent.<AutoBitrate>get(AutoBitrate.class).getBitrate();
-        if (maxRate.equals(UserPreferences.MAX_BITRATE_AUTO) && autoRate != null) {
-            return autoRate.intValue();
-        } else {
-            return (int) (Float.parseFloat(maxRate) * 1_000_000);
-        }
-    }
+		return get<UserPreferences>(UserPreferences::class.java)[audioBehaviour] === AudioBehavior.DOWNMIX_TO_STEREO
+	}
 
-    public static int getThemeColor(@NonNull Context context, int resourceId) {
-        TypedArray styledAttributes = context.getTheme()
-                .obtainStyledAttributes(new int[]{resourceId});
-        int themeColor = styledAttributes.getColor(0, 0);
-        styledAttributes.recycle();
+	@JvmStatic
+	fun getSafeSeekPosition(position: Long, duration: Long): Long = when {
+		position >= duration -> (duration - 1000).coerceAtLeast(0)
+		else -> position.coerceAtLeast(0)
+	}
 
-        return themeColor;
-    }
-
-    public static boolean downMixAudio(@NonNull Context context) {
-        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        if (am.isBluetoothA2dpOn()) {
-            Timber.i("Downmixing audio due to wired headset");
-            return true;
-        }
-
-        return KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioBehaviour()) == AudioBehavior.DOWNMIX_TO_STEREO;
-    }
-
-    public static long getSafeSeekPosition(long position, long duration) {
-        if (position < 0 || duration < 0)
-            return 0;
-        if (position >= duration)
-            return Math.max(duration - 1000, 0);
-        return position;
-    }
-
-    public static boolean canManageRecordings(UserDto user) {
-        return user != null && user.getPolicy().getEnableLiveTvManagement();
-    }
+	@JvmStatic
+	fun canManageRecordings(user: UserDto?): Boolean = user?.policy?.enableLiveTvManagement == true
 }
