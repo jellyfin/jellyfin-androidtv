@@ -1,77 +1,53 @@
-package org.jellyfin.androidtv.util;
+package org.jellyfin.androidtv.util
 
-import android.os.Build;
+import android.os.Build
 
-import androidx.annotation.NonNull;
+object DeviceUtils {
+	// Chromecast with Google TV
+	private const val CHROMECAST_GOOGLE_TV = "Chromecast"
+	private const val FIRE_TV_PREFIX = "AFT"
 
-import java.util.Arrays;
+	// Fire TV Stick Models
+	private const val FIRE_STICK_MODEL_GEN_1 = "AFTM"
+	private const val FIRE_STICK_MODEL_GEN_2 = "AFTT"
+	private const val FIRE_STICK_MODEL_GEN_3 = "AFTSSS"
+	private const val FIRE_STICK_LITE_MODEL = "AFTSS"
+	private const val FIRE_STICK_4K_MODEL = "AFTMM"
+	private const val FIRE_STICK_4K_MAX_MODEL = "AFTKA"
 
-public class DeviceUtils {
-    // Chromecast with Google TV
-    private static final String CHROMECAST_GOOGLE_TV = "Chromecast";
+	// Fire TV Cube Models
+	private const val FIRE_CUBE_MODEL_GEN_1 = "AFTA"
+	private const val FIRE_CUBE_MODEL_GEN_2 = "AFTR"
 
-    private static final String FIRE_TV_PREFIX = "AFT";
-    // Fire TV Stick Models
-    private static final String FIRE_STICK_MODEL_GEN_1 = "AFTM";
-    private static final String FIRE_STICK_MODEL_GEN_2 = "AFTT";
-    private static final String FIRE_STICK_MODEL_GEN_3 = "AFTSSS";
-    private static final String FIRE_STICK_LITE_MODEL = "AFTSS";
-    private static final String FIRE_STICK_4K_MODEL = "AFTMM";
-    private static final String FIRE_STICK_4K_MAX_MODEL = "AFTKA";
-    // Fire TV Cube Models
-    private static final String FIRE_CUBE_MODEL_GEN_1 = "AFTA";
-    private static final String FIRE_CUBE_MODEL_GEN_2 = "AFTR";
-    // Fire TV (Box) Models
-    private static final String FIRE_TV_MODEL_GEN_1 = "AFTB";
-    private static final String FIRE_TV_MODEL_GEN_2 = "AFTS";
-    private static final String FIRE_TV_MODEL_GEN_3 = "AFTN";
-    // Nvidia Shield TV Model
-    private static final String SHIELD_TV_MODEL = "SHIELD Android TV";
+	// Fire TV (Box) Models
+	private const val FIRE_TV_MODEL_GEN_1 = "AFTB"
+	private const val FIRE_TV_MODEL_GEN_2 = "AFTS"
+	private const val FIRE_TV_MODEL_GEN_3 = "AFTN"
 
-    private static final String UNKNOWN = "Unknown";
+	// Nvidia Shield TV Model
+	private const val SHIELD_TV_MODEL = "SHIELD Android TV"
+	private const val UNKNOWN = "Unknown"
 
-    @NonNull
-    static String getBuildModel() {
-        // Stub to allow for mock injection
-        return Build.MODEL != null ? Build.MODEL : UNKNOWN;
-    }
+	// Stub to allow for mock injection
+	fun getBuildModel(): String = Build.MODEL ?: UNKNOWN
 
-    public static boolean isChromecastWithGoogleTV() {
-        return getBuildModel().equals(CHROMECAST_GOOGLE_TV);
-    }
+	@JvmStatic val isChromecastWithGoogleTV: Boolean get() = getBuildModel() == CHROMECAST_GOOGLE_TV
+	@JvmStatic val isFireTv: Boolean get() = getBuildModel().startsWith(FIRE_TV_PREFIX)
+	@JvmStatic val isFireTvStickGen1: Boolean get() = getBuildModel() == FIRE_STICK_MODEL_GEN_1
+	@JvmStatic val isFireTvStick4k: Boolean get() = getBuildModel() in listOf(FIRE_STICK_4K_MODEL, FIRE_STICK_4K_MAX_MODEL)
+	@JvmStatic val isShieldTv: Boolean get() = getBuildModel() == SHIELD_TV_MODEL
 
-    public static boolean isFireTv() {
-        return getBuildModel().startsWith(FIRE_TV_PREFIX);
-    }
+	@JvmStatic
+	fun has4kVideoSupport(): Boolean = getBuildModel() != UNKNOWN && getBuildModel() !in listOf(
+		// These devices only support a max video resolution of 1080p
+		FIRE_STICK_MODEL_GEN_1,
+		FIRE_STICK_MODEL_GEN_2,
+		FIRE_STICK_MODEL_GEN_3,
+		FIRE_STICK_LITE_MODEL,
+		FIRE_TV_MODEL_GEN_1,
+		FIRE_TV_MODEL_GEN_2
+	)
 
-    public static boolean isFireTvStickGen1() {
-        return getBuildModel().equals(FIRE_STICK_MODEL_GEN_1);
-    }
-
-    public static boolean isFireTvStick4k() {
-        return Arrays.asList(FIRE_STICK_4K_MODEL, FIRE_STICK_4K_MAX_MODEL)
-            .contains(getBuildModel());
-    }
-
-    public static boolean isShieldTv() {
-        return getBuildModel().equals(SHIELD_TV_MODEL);
-    }
-
-    public static boolean has4kVideoSupport() {
-        String buildModel = getBuildModel();
-
-        return !Arrays.asList(
-                // These devices only support a max video resolution of 1080p
-                FIRE_STICK_MODEL_GEN_1,
-                FIRE_STICK_MODEL_GEN_2,
-                FIRE_STICK_MODEL_GEN_3,
-                FIRE_STICK_LITE_MODEL,
-                FIRE_TV_MODEL_GEN_1,
-                FIRE_TV_MODEL_GEN_2
-        ).contains(buildModel) && !buildModel.equals(UNKNOWN);
-    }
-
-    public static boolean is60() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    }
+	@JvmStatic
+	fun is60(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }

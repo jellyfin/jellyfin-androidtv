@@ -114,7 +114,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		/**
 		 * Enable AC3
 		 */
-		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1())
+		var ac3Enabled = booleanPreference("pref_bitstream_ac3", !DeviceUtils.isFireTvStickGen1)
 
 		/**
 		 * Default audio delay in milliseconds for libVLC
@@ -218,7 +218,7 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 				putInt("libvlc_audio_delay", it.getLong("libvlc_audio_delay", 0).toInt())
 
 				// Disable AC3 (Dolby Digital) on Fire Stick Gen 1 devices
-				if (DeviceUtils.isFireTvStickGen1()) putBoolean("pref_bitstream_ac3", false)
+				if (DeviceUtils.isFireTvStickGen1) putBoolean("pref_bitstream_ac3", false)
 			}
 
 			// v0.13.3 to v0.13.4

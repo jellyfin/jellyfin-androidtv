@@ -18,5 +18,5 @@ enum class AudioBehavior {
 	DOWNMIX_TO_STEREO
 }
 
-val defaultAudioBehavior = if (DeviceUtils.isChromecastWithGoogleTV()) AudioBehavior.DOWNMIX_TO_STEREO
+val defaultAudioBehavior = if (DeviceUtils.isChromecastWithGoogleTV) AudioBehavior.DOWNMIX_TO_STEREO
 	else AudioBehavior.DIRECT_STREAM
