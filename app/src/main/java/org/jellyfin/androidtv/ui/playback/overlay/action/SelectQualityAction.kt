@@ -5,7 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.constant.qualityOptions
+import org.jellyfin.androidtv.constant.qualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
@@ -20,16 +20,7 @@ class SelectQualityAction (
 
 	private var previousQualitySelection = userPreferences[UserPreferences.maxBitrate]
 	private val qualityController = VideoQualityController(previousQualitySelection, userPreferences)
-	private val qualityProfiles = qualityOptions.associate {
-
-		val value = when {
-			it == 0.0 -> context.getString(R.string.bitrate_auto)
-			it >= 1.0 -> context.getString(R.string.bitrate_mbit, it)
-			else -> context.getString(R.string.bitrate_kbit, it * 1000.0)
-		}
-
-		it.toString().removeSuffix(".0") to value
-	}
+	private val qualityProfiles = qualityProfiles(context)
 
 	init {
 		initializeWithIcon(R.drawable.ic_select_quality)
