@@ -493,4 +493,5 @@
     <string name="server_setup_incomplete">A szerver beállítása nem fejeződött be. Nyissa meg a Jellyfint egy webböngészőben a beállítás befejezéséhez a bejelentkezés előtt.</string>
     <string name="episode_name_special">speciális</string>
     <string name="enable_picture_viewer_title">Az új képnézegető engedélyezése</string>
+    <string name="lbl_quality_profile">Minőségi profil</string>
 </resources>
