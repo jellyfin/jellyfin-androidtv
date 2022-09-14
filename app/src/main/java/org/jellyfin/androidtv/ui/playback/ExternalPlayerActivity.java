@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
+import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -30,6 +31,7 @@ import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
+import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -39,6 +41,7 @@ import org.koin.java.KoinJavaComponent;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -70,12 +73,17 @@ public class ExternalPlayerActivity extends FragmentActivity {
     static final String API_MX_TITLE = "title";
     static final String API_MX_SEEK_POSITION = "position";
     static final String API_MX_FILENAME = "filename";
+    static final String API_MX_SECURE_URI = "secure_uri";
     static final String API_MX_RETURN_RESULT = "return_result";
     static final String API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW";
     static final String API_MX_RESULT_POSITION = "position";
     static final String API_MX_RESULT_END_BY = "end_by";
     static final String API_MX_RESULT_END_BY_USER = "user";
     static final String API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion";
+    static final String API_MX_SUBS = "subs";
+    static final String API_MX_SUBS_NAME = "subs.name";
+    static final String API_MX_SUBS_FILENAME = "subs.filename";
+    static final String API_MX_SUBS_ENABLE = "subs.enable";
 
     // https://wiki.videolan.org/Android_Player_Intents/
     static final String API_VLC_TITLE = "title";
@@ -83,6 +91,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     static final String API_VLC_FROM_START = "from_start";
     static final String API_VLC_RESULT_ID = "org.videolan.vlc.player.result";
     static final String API_VLC_RESULT_POSITION = "extra_position";
+    static final String API_VLC_SUBS_ENABLE = "subtitles_location";
 
     // https://www.vimu.tv/player-api
     static final String API_VIMU_TITLE = "forcename";
@@ -401,6 +410,11 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 external.putExtra(API_MX_FILENAME, file.getName());
             }
         }
+
+        // updated by Joshua.Li
+        external.putExtra(API_MX_SECURE_URI, true);
+        this.adaptExternalSubtitles(mCurrentStreamInfo, external);
+
         //End player API params
 
         Timber.i("Starting external playback of path: %s and mime: video/%s at position/ms: %s",path,container,mPosition);
@@ -414,6 +428,51 @@ public class ExternalPlayerActivity extends FragmentActivity {
             noPlayerError = true;
             Timber.e(e, "Error launching external player");
             handlePlayerError();
+        }
+    }
+
+    /**
+     * Adapt external subtitles for external players. (e.g., MX Player, MPV, VLC, nPlayer)
+     * External subtitles have higher priority than embedded subtitles.
+     * @param mediaStreamInfo
+     * @param playerIntent
+     */
+    private void adaptExternalSubtitles(StreamInfo mediaStreamInfo, Intent playerIntent) {
+
+        List<SubtitleStreamInfo> externalSubs = mediaStreamInfo.GetSubtitleProfiles(false,
+                apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken()).stream()
+            .filter(stream -> stream.getDeliveryMethod() == SubtitleDeliveryMethod.External && stream.getUrl() != null)
+            .collect(Collectors.toList());
+
+        Uri[] subUrls = externalSubs.stream().map(stream -> Uri.parse(stream.getUrl())).toArray(Uri[]::new);
+        String[] subNames = externalSubs.stream().map(SubtitleStreamInfo::getDisplayTitle).toArray(String[]::new);
+        String[] subLanguages = externalSubs.stream().map(SubtitleStreamInfo::getName).toArray(String[]::new);
+
+        // select subtitle
+        Integer selectedSubStreamIndex = mediaStreamInfo.getMediaSource().getDefaultSubtitleStreamIndex();
+        Uri selectedSubUrl = null;
+        if (selectedSubStreamIndex != null) {
+            selectedSubUrl = externalSubs.stream()
+                .filter(stream -> stream.getIndex() == selectedSubStreamIndex)
+                .map(stream -> Uri.parse(stream.getUrl()))
+                .findFirst()
+                .orElse(null);
+        }
+        if (selectedSubUrl == null && subUrls.length > 0) {
+            selectedSubUrl = subUrls[0];
+        }
+
+        // MX Player API / MPV
+        playerIntent.putExtra(API_MX_SUBS, subUrls);
+        playerIntent.putExtra(API_MX_SUBS_NAME, subNames);
+        playerIntent.putExtra(API_MX_SUBS_FILENAME, subLanguages);
+        if (selectedSubUrl != null) {
+            playerIntent.putExtra(API_MX_SUBS_ENABLE, new Uri[] {selectedSubUrl});
+        }
+
+        // VLC
+        if (selectedSubUrl != null) {
+            playerIntent.putExtra(API_VLC_SUBS_ENABLE, selectedSubUrl);
         }
     }
 }

@@ -76,5 +76,8 @@ object Codec {
 		const val SUB = "sub"
 		const val SUBRIP = "subrip"
 		const val VTT = "vtt"
+		const val SMIL = "smil"
+		const val TTML = "ttml"
+		const val WEBVTT = "webvtt"
 	}
 }
