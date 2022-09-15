@@ -1,1 +1,1 @@
-Android TV版本的Jellyfin
+Jellyfin - 您的移动媒体库！
