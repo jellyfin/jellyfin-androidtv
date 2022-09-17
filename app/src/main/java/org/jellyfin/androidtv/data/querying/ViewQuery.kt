@@ -1,5 +1,3 @@
-package org.jellyfin.androidtv.data.querying;
+package org.jellyfin.androidtv.data.querying
 
-public class ViewQuery {
-    //Dummy indicator class
-}
+object ViewQuery

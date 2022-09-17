@@ -669,7 +669,7 @@ public class BrowseGridFragment extends Fragment {
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getUpcomingQuery(), mCardPresenter, null);
                 break;
             case Views:
-                mAdapter = new ItemRowAdapter(requireContext(), new ViewQuery(), mCardPresenter, null);
+                mAdapter = new ItemRowAdapter(requireContext(), ViewQuery.INSTANCE, mCardPresenter, null);
                 break;
             case SimilarSeries:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, null);

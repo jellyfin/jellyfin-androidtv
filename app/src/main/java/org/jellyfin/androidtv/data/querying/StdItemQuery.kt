@@ -1,26 +1,25 @@
-package org.jellyfin.androidtv.data.querying;
+package org.jellyfin.androidtv.data.querying
 
-import org.jellyfin.androidtv.auth.repository.UserRepository;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.koin.java.KoinJavaComponent;
+import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.apiclient.model.querying.ItemFields
+import org.jellyfin.apiclient.model.querying.ItemQuery
+import org.koin.java.KoinJavaComponent.get
 
-public class StdItemQuery extends ItemQuery {
-    public StdItemQuery(ItemFields[] fields) {
-        if (fields == null) {
-            fields = new ItemFields[]{
-                    ItemFields.PrimaryImageAspectRatio,
-                    ItemFields.Overview,
-                    ItemFields.ItemCounts,
-                    ItemFields.DisplayPreferencesId,
-                    ItemFields.ChildCount
-            };
-        }
-        setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        setFields(fields);
-    }
+class StdItemQuery @JvmOverloads constructor(
+	fields: Array<ItemFields> = defaultFields
+) : ItemQuery() {
+	companion object {
+		val defaultFields = arrayOf(
+			ItemFields.PrimaryImageAspectRatio,
+			ItemFields.Overview,
+			ItemFields.ItemCounts,
+			ItemFields.DisplayPreferencesId,
+			ItemFields.ChildCount
+		)
+	}
 
-    public StdItemQuery() {
-        this(null);
-    }
+	init {
+		userId = get<UserRepository>(UserRepository::class.java).currentUser.value!!.id.toString()
+		setFields(fields)
+	}
 }
