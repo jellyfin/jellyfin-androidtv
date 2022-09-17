@@ -9,6 +9,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
+import com.bumptech.glide.Glide
+import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,6 +64,19 @@ class JellyfinApplication : Application() {
 		// Detect auto bitrate
 		// running in a different scope to prevent slow startups
 		ProcessLifecycleOwner.get().lifecycleScope.launch { autoBitrate.detect() }
+	}
+
+	override fun onLowMemory() {
+		super.onLowMemory()
+
+		BlurHash.clearCache()
+		Glide.with(this).onLowMemory()
+	}
+
+	override fun onTrimMemory(level: Int) {
+		super.onTrimMemory(level)
+
+		Glide.with(this).onTrimMemory(level)
 	}
 
 	override fun attachBaseContext(base: Context?) {
