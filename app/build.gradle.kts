@@ -144,6 +144,7 @@ dependencies {
 	implementation(libs.bundles.markwon)
 
 	// Image utility
+	implementation(libs.blurhash)
 	implementation(libs.glide.core)
 	kapt(libs.glide.compiler)
 	implementation(libs.kenburnsview)

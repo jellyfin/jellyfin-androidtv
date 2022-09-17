@@ -10,11 +10,11 @@ import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.util.BlurHashDecoder
 import kotlin.math.round
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -60,7 +60,7 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Only show blurhash if an image is going to be loaded from the network
 			if (url != null && blurHash != null) withContext(Dispatchers.IO) {
-				val blurHashBitmap = BlurHashDecoder.decode(
+				val blurHashBitmap = BlurHash.decode(
 					blurHash,
 					if (aspectRatio > 1) round(blurHashResolution * aspectRatio).toInt() else blurHashResolution,
 					if (aspectRatio >= 1) blurHashResolution else round(blurHashResolution / aspectRatio).toInt(),

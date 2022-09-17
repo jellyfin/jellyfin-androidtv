@@ -18,6 +18,7 @@ androidx-startup = "1.1.1"
 androidx-tvprovider = "1.1.0-alpha01"
 androidx-window = "1.0.0"
 androidx-work = "2.7.1"
+blurhash = "0.1.0"
 detekt = "1.21.0"
 exoplayer = "2.18.1"
 glide = "4.13.2"
@@ -95,6 +96,7 @@ markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
 markwon-html = { module = "io.noties.markwon:html", version.ref = "markwon" }
 
 # Image utility
+blurhash = { module = "com.vanniktech:blurhash", version.ref = "blurhash" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 kenburnsview = { module = "com.flaviofaria:kenburnsview", version.ref = "kenburnsview" }
