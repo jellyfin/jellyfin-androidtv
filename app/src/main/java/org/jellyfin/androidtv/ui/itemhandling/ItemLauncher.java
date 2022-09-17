@@ -251,7 +251,7 @@ public class ItemLauncher {
             case Person:
                 //Start details fragment
                 Intent intent = new Intent(activity, FullDetailsActivity.class);
-                intent.putExtra("ItemId", rowItem.getPerson().getId());
+                intent.putExtra("ItemId", rowItem.getPerson().getId().toString());
                 if (noHistory) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 }
