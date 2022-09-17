@@ -274,11 +274,11 @@ public class InfoLayoutHelper {
                 StringBuilder sb = new StringBuilder();
                 if (item.getPremiereDate() != null) {
                     sb.append(context.getString(R.string.lbl_born));
-                    sb.append(DateFormat.getMediumDateFormat(context).format(item.getPremiereDate()));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.getDate(item.getPremiereDate())));
                 }
                 if (item.getEndDate() != null) {
                     sb.append("  |  Died ");
-                    sb.append(DateFormat.getMediumDateFormat(context).format(item.getEndDate()));
+                    sb.append(DateFormat.getMediumDateFormat(context).format(TimeUtils.getDate(item.getEndDate())));
                     sb.append(" (");
                     sb.append(TimeUtils.numYears(TimeUtils.getDate(item.getPremiereDate()), TimeUtils.getDate(item.getEndDate())));
                     sb.append(")");
