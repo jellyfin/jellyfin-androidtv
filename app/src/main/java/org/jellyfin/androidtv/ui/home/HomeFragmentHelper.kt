@@ -28,8 +28,7 @@ class HomeFragmentHelper(
 	}
 
 	fun loadLibraryTiles(): HomeFragmentRow {
-		val query = ViewQuery()
-		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_my_media), query))
+		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_my_media), ViewQuery))
 	}
 
 	fun loadResume(title: String, includeMediaTypes: Array<String>): HomeFragmentRow {

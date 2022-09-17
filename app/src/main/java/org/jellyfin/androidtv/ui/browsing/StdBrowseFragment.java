@@ -129,7 +129,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getUpcomingQuery(), mCardPresenter, mRowsAdapter);
                     break;
                 case Views:
-                    rowAdapter = new ItemRowAdapter(requireContext(), new ViewQuery(), mCardPresenter, mRowsAdapter);
+                    rowAdapter = new ItemRowAdapter(requireContext(), ViewQuery.INSTANCE, mCardPresenter, mRowsAdapter);
                     break;
                 case SimilarSeries:
                     rowAdapter = new ItemRowAdapter(requireContext(), def.getSimilarQuery(), QueryType.SimilarSeries, mCardPresenter, mRowsAdapter);
