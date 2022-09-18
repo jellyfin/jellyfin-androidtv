@@ -1,5 +1,5 @@
-package org.jellyfin.androidtv.ui;
+package org.jellyfin.androidtv.ui
 
-public abstract class ScrollViewListener {
-    public abstract void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy);
+fun interface ScrollViewListener {
+	fun onScrollChanged(scrollView: ObservableScrollView?, x: Int, y: Int, oldx: Int, oldy: Int)
 }

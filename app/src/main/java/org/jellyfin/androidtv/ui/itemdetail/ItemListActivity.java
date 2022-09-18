@@ -245,6 +245,12 @@ public class ItemListActivity extends FragmentActivity {
                 mCurrentlyPlayingRow.updateCurrentTime(pos);
             }
         }
+
+        @Override
+        public void onQueueStatusChanged(boolean hasQueue) {}
+
+        @Override
+        public void onQueueReplaced() { }
     };
 
     private void showMenu(final ItemRowView row, boolean showOpen) {

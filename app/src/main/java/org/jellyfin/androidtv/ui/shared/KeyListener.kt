@@ -1,7 +1,7 @@
-package org.jellyfin.androidtv.ui.shared;
+package org.jellyfin.androidtv.ui.shared
 
-import android.view.KeyEvent;
+import android.view.KeyEvent
 
-public interface KeyListener {
-    public boolean onKeyUp(int key, KeyEvent event);
+fun interface KeyListener {
+	fun onKeyUp(key: Int, event: KeyEvent): Boolean
 }

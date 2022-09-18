@@ -1,5 +1,5 @@
-package org.jellyfin.androidtv.ui.playback;
+package org.jellyfin.androidtv.ui.playback
 
-public interface PlaybackListener {
-    void onEvent();
+fun interface PlaybackListener {
+	fun onEvent()
 }

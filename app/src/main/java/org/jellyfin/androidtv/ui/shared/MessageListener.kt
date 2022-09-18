@@ -1,7 +1,7 @@
-package org.jellyfin.androidtv.ui.shared;
+package org.jellyfin.androidtv.ui.shared
 
-import org.jellyfin.androidtv.constant.CustomMessage;
+import org.jellyfin.androidtv.constant.CustomMessage
 
-public interface MessageListener {
-    public void onMessageReceived(CustomMessage message);
+fun interface MessageListener {
+	fun onMessageReceived(message: CustomMessage)
 }

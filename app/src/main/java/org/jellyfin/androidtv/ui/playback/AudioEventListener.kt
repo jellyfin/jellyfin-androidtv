@@ -1,17 +1,10 @@
-package org.jellyfin.androidtv.ui.playback;
+package org.jellyfin.androidtv.ui.playback
 
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemDto
 
-public interface AudioEventListener {
-    public default void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
-    }
-
-    public default void onProgress(long pos) {
-    }
-
-    public default void onQueueStatusChanged(boolean hasQueue) {
-    }
-
-    public default void onQueueReplaced() {
-    }
+interface AudioEventListener {
+	fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: BaseItemDto?) = Unit
+	fun onProgress(pos: Long) = Unit
+	fun onQueueStatusChanged(hasQueue: Boolean) = Unit
+	fun onQueueReplaced() = Unit
 }

@@ -1,11 +1,11 @@
-package org.jellyfin.androidtv.ui.livetv;
+package org.jellyfin.androidtv.ui.livetv
 
-import android.widget.RelativeLayout;
+import android.widget.RelativeLayout
 
-public interface LiveTvGuide {
-    public void displayChannels(int start, int max);
-    public long getCurrentLocalStartDate();
-    public void showProgramOptions();
-    public void setSelectedProgram(RelativeLayout programView);
-    public void refreshFavorite(String channelId);
+interface LiveTvGuide {
+	fun displayChannels(start: Int, max: Int)
+	fun getCurrentLocalStartDate(): Long
+	fun showProgramOptions()
+	fun setSelectedProgram(programView: RelativeLayout)
+	fun refreshFavorite(channelId: String)
 }

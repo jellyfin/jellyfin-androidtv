@@ -1,7 +1,5 @@
-package org.jellyfin.androidtv.ui.browsing;
+package org.jellyfin.androidtv.ui.browsing
 
-import java.util.List;
-
-public interface RowLoader {
-    void loadRows(List<BrowseRowDef> rows);
+interface RowLoader {
+	fun loadRows(rows: MutableList<BrowseRowDef>)
 }

@@ -157,7 +157,7 @@ class HomeFragment : StdRowsFragment(), AudioEventListener {
 		}
 	}
 
-	override fun loadRows(rows: List<BrowseRowDef>) {
+	override fun loadRows(rows: MutableList<BrowseRowDef>) {
 		// Override to make sure it is ignored because we manage our own rows
 	}
 }
