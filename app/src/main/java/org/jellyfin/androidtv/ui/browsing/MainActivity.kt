@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity(R.layout.fragment_content_view) {
-	private val backgroundService: BackgroundService by inject<BackgroundService>()
+	private val backgroundService by inject<BackgroundService>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
