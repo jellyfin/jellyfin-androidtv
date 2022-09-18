@@ -397,4 +397,5 @@
     <string name="auto_sign_in">Automatska prijava</string>
     <string name="pref_show_backdrop_description">Promijeni pozadinsku sliku u označene stavke</string>
     <string name="lbl_playback_speed">Brzina reprodukcije</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer</string>
 </resources>
