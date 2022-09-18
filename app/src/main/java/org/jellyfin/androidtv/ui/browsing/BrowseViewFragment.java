@@ -5,6 +5,7 @@ import static org.koin.java.KoinJavaComponent.inject;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -16,6 +17,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -458,7 +460,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+    protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
         if (isLiveTvLibrary) {
             //Views row
             HeaderItem gridHeader = new HeaderItem(mRowsAdapter.size(), getString(R.string.lbl_views));

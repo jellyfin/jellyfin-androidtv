@@ -60,6 +60,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
@@ -132,7 +133,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     private String mPrevItemId;
 
     private RowsSupportFragment mRowsFragment;
-    private ArrayObjectAdapter mRowsAdapter;
+    private MutableObjectAdapter<Row> mRowsAdapter;
 
     private MyDetailsOverviewRowPresenter mDorPresenter;
     private MyDetailsOverviewRow mDetailsOverviewRow;
@@ -210,7 +211,8 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                         }
                     });
 
-                    mRowsAdapter.removeItems(1, mRowsAdapter.size()-1); // delete all but detail row
+                    mRowsAdapter.clear();
+                    mRowsAdapter.add(mDetailsOverviewRow);
                     //re-retrieve the schedule after giving it a second to rebuild
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -492,7 +494,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
             mListRowPresenter = new CustomListRowPresenter(Utils.convertDpToPixel(mActivity, 10));
             ps.addClassPresenter(ListRow.class, mListRowPresenter);
-            mRowsAdapter = new ArrayObjectAdapter(ps);
+            mRowsAdapter = new MutableObjectAdapter<Row>(ps);
             mRowsFragment.setAdapter(mRowsAdapter);
             mRowsAdapter.add(detailsOverviewRow);
 
@@ -516,7 +518,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         }
     }
 
-    protected void addItemRow(ArrayObjectAdapter parent, ItemRowAdapter row, int index, String headerText) {
+    protected void addItemRow(MutableObjectAdapter<Row> parent, ItemRowAdapter row, int index, String headerText) {
         HeaderItem header = new HeaderItem(index, headerText);
         ListRow listRow = new ListRow(header, row);
         parent.add(listRow);
@@ -524,7 +526,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         row.Retrieve();
     }
 
-    protected void addAdditionalRows(ArrayObjectAdapter adapter) {
+    protected void addAdditionalRows(MutableObjectAdapter<Row> adapter) {
         Timber.d("Item type: %s", mBaseItem.getBaseItemType().toString());
         switch (mBaseItem.getBaseItemType()) {
             case Movie:
@@ -748,7 +750,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     }
 
-    private void addInfoRows(ArrayObjectAdapter adapter) {
+    private void addInfoRows(MutableObjectAdapter<Row> adapter) {
         if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
                 if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.leanback.app.RowsSupportFragment
-import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.OnItemViewSelectedListener
@@ -33,6 +32,7 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.jellyfin.androidtv.util.KeyProcessor
@@ -69,7 +69,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		adapter = ArrayObjectAdapter(PositionableListRowPresenter())
+		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter())
 		backgroundService.attach(requireActivity())
 
 		val currentUser = userRepository.currentUser.value
@@ -125,9 +125,9 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 				val cardPresenter = CardPresenter()
 
 				// Add rows in order
-				notificationsRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as ArrayObjectAdapter)
-				nowPlaying.addToRowsAdapter(requireContext(), cardPresenter, adapter as ArrayObjectAdapter)
-				for (row in rows) row.addToRowsAdapter(requireContext(), cardPresenter, adapter as ArrayObjectAdapter)
+				notificationsRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
+				nowPlaying.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
+				for (row in rows) row.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 
 				// Manually set focus if focusedByDefault is not available
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) view?.requestFocus()
@@ -184,14 +184,14 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 
 		// Update audio queue
 		Timber.i("Updating audio queue in HomeFragment (onResume)")
-		nowPlaying.update(requireContext(), adapter as ArrayObjectAdapter)
+		nowPlaying.update(requireContext(), adapter as MutableObjectAdapter<Row>)
 	}
 
 	override fun onQueueStatusChanged(hasQueue: Boolean) {
 		if (activity == null || requireActivity().isFinishing) return
 
 		Timber.i("Updating audio queue in HomeFragment (onQueueStatusChanged)")
-		nowPlaying.update(requireContext(), adapter as ArrayObjectAdapter)
+		nowPlaying.update(requireContext(), adapter as MutableObjectAdapter<Row>)
 	}
 
 	private fun refreshRows() {

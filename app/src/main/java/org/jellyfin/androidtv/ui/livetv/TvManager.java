@@ -9,10 +9,10 @@ import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.preference.LiveTvPreferences;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -280,7 +281,7 @@ public class TvManager {
         return null;
     }
 
-    public static void getScheduleRowsAsync(Context context, TimerQuery query, final Presenter presenter, final ArrayObjectAdapter rowAdapter, final Response<Integer> outerResponse) {
+    public static void getScheduleRowsAsync(Context context, TimerQuery query, final Presenter presenter, final MutableObjectAdapter<Row> rowAdapter, final Response<Integer> outerResponse) {
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvTimersAsync(query, new Response<TimerInfoDtoResult>() {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
@@ -330,7 +331,7 @@ public class TvManager {
 
     }
 
-    private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, ArrayObjectAdapter rowAdapter) {
+    private static void addRow(Context context, List<BaseItemDto> timers, Presenter presenter, MutableObjectAdapter<Row> rowAdapter) {
         ItemRowAdapter scheduledAdapter = new ItemRowAdapter(context, timers, presenter, rowAdapter, true);
         scheduledAdapter.Retrieve();
         ListRow scheduleRow = new ListRow(new HeaderItem(TimeUtils.getFriendlyDate(context, TimeUtils.convertToLocalDate(timers.get(0).getStartDate()), true)), scheduledAdapter);

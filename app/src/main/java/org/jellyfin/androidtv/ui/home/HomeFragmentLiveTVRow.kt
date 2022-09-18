@@ -23,6 +23,7 @@ import org.jellyfin.androidtv.ui.browsing.UserViewActivity
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -32,7 +33,7 @@ class HomeFragmentLiveTVRow(
 	private val activity: Activity,
 	private val userRepository: UserRepository,
 ) : HomeFragmentRow, OnItemViewClickedListener {
-	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
+	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
 		val adapter = ArrayObjectAdapter(GridButtonPresenter())
 
