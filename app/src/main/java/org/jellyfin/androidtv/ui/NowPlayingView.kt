@@ -80,7 +80,7 @@ class NowPlayingView @JvmOverloads constructor(
 	}
 
 	private var audioEventListener: AudioEventListener = object : AudioEventListener {
-		override fun onPlaybackStateChange(newState: PlaybackController.PlaybackState?, currentItem: BaseItemDto?) {
+		override fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: BaseItemDto?) {
 			when {
 				currentItem == null -> Unit
 				newState == PlaybackController.PlaybackState.PLAYING -> setInfo(currentItem)
