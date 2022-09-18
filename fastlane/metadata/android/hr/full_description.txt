@@ -1,0 +1,14 @@
+Vaši medijski sadržaji, pod vašim uvjetima.
+
+Projekt Jellyfin je medijski poslužitelj besplatnog aplikacija otvorenog koda. Bez naknada, bez praćenja, bez skrivenog plana. Nabavite naš besplatni poslužitelj za prikupljanje svih vaših audio zapisa, video zapisa, fotografija i ostalog na jednom mjestu.
+
+Za korištenja aplikacije morate imati Jellyfin poslužitelj postavljen i pokrenut. Saznajte više na <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
+
+S Jellyfin poslužiteljem možete:
+
+* Gledati TV uživo i snimljene emisije s vašeg Jellyfin poslužitelja (potreban je dodatni hardver/usluge)
+* Streaming na Chromecast uređaj na vašoj mreži
+* Streaming svojih medijskih sadržaja na svoj Android uređaj
+* Pregledajte svoju zbirku u sučelju jednostavnom za korištenje
+
+Ovo je službena Jellyfin popratna aplikacija za Android TV. Hvala što koristite Jellyfin!

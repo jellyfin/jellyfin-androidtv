@@ -1,0 +1,3 @@
+Hvala što koristite Jellyfin na Android TV-u! Uvijek se preporučuje korištenje najnovijeg Jellyfin poslužitelja.
+
+Za više informacija pogledajte naš blog na jellyfin.org ili pročitajte cijeli dnevnik promjena na GitHubu.
