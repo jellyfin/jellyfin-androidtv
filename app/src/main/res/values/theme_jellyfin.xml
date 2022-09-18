@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Jellyfin" parent="Theme.Leanback">
+    <style name="Theme.Jellyfin" parent="@style/Theme.AppCompat.Leanback">
         <!-- Colors -->
         <item name="android:colorPrimary">@color/grey</item>
         <item name="android:colorPrimaryDark">@color/grey</item>
