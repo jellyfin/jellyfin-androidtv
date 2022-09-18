@@ -74,7 +74,7 @@ import java.util.TimeZone;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class ItemRowAdapter extends ArrayObjectAdapter {
+public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private ItemQuery mQuery;
     private NextUpQuery mNextUpQuery;
     private SeasonQuery mSeasonQuery;
@@ -785,7 +785,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -861,7 +861,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -907,7 +907,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -937,7 +937,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -1002,7 +1002,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                                         } else if (existing.getBaseItem().getParentIndexNumber() > item.getParentIndexNumber()) {
                                             //Replace the newer item with the earlier season
                                             Timber.d("Replacing newer episode 1 with an older season for %s", item.getSeriesName());
-                                            adapter.replace(existingPos, new BaseRowItem(i++, item, preferParentThumb, false));
+                                            adapter.set(existingPos, new BaseRowItem(i++, item, preferParentThumb, false));
                                         } // otherwise, just ignore this newer season premiere since we have the older one already
 
                                     } else {
@@ -1154,7 +1154,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -1193,7 +1193,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -1245,7 +1245,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     } else if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us
@@ -1535,7 +1535,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
                     if (prevItems > 0) {
                         // remove previous items as we re-retrieved
                         // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeItems(0, prevItems);
+                        removeAt(0, prevItems);
                     }
                 } else {
                     // no results - don't show us

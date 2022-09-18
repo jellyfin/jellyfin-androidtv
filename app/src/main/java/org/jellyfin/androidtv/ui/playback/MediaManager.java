@@ -573,7 +573,7 @@ public class MediaManager {
             if (mManagedAudioQueue != null) {
                 mManagedAudioQueue.remove(mCurrentAudioQueue.get(ndx));
             }
-            mCurrentAudioQueue.removeItems(ndx, 1);
+            mCurrentAudioQueue.removeAt(ndx, 1);
             mCurrentAudioQueuePosition--;
             mCurrentAudioPosition = 0;
             if (ndx >= 0 && ndx < mCurrentAudioQueue.size()) {
@@ -584,7 +584,7 @@ public class MediaManager {
             }
         } else {
             //just remove it
-            mCurrentAudioQueue.removeItems(ndx, 1);
+            mCurrentAudioQueue.removeAt(ndx, 1);
             if (mCurrentAudioQueuePosition > ndx) mCurrentAudioQueuePosition--;
         }
 
@@ -869,11 +869,11 @@ public class MediaManager {
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
         if (rowItem != null) {
             rowItem.setIsPlaying(playing);
-            mCurrentAudioQueue.notifyArrayItemRangeChanged(mCurrentAudioQueuePosition, 1);
+            mCurrentAudioQueue.notifyItemRangeChanged(mCurrentAudioQueuePosition, 1);
             if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 0) {
                 BaseRowItem managedItem = (BaseRowItem) mManagedAudioQueue.get(0);
                 managedItem.setIsPlaying(playing);
-                mManagedAudioQueue.notifyArrayItemRangeChanged(0, 1);
+                mManagedAudioQueue.notifyItemRangeChanged(0, 1);
             }
         }
     }
@@ -888,7 +888,7 @@ public class MediaManager {
         stopAudio(false);
         if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 1) {
             //don't remove last item as it causes framework crashes
-            mManagedAudioQueue.removeItems(0, 1);
+            mManagedAudioQueue.removeAt(0, 1);
         }
         int ndx = mCurrentAudioQueuePosition +1;
         if (ndx >= mCurrentAudioQueue.size()) ndx = 0;

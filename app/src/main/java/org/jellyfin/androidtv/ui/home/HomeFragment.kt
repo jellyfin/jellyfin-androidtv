@@ -210,7 +210,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 			item.refresh(object : EmptyResponse() {
 				override fun onResponse() {
 					val adapter = currentRow?.adapter as? ItemRowAdapter
-					adapter?.notifyArrayItemRangeChanged(adapter.indexOf(item), 1)
+					adapter?.notifyItemRangeChanged(adapter.indexOf(item), 1)
 				}
 			})
 		}

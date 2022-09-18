@@ -225,7 +225,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
                 @Override
                 public void onResponse() {
                     ItemRowAdapter adapter = (ItemRowAdapter) ((ListRow)mCurrentRow).getAdapter();
-                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                    adapter.notifyItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }
             });
 
