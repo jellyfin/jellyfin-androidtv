@@ -159,7 +159,7 @@ public class ItemLauncher {
                             Timber.d("playing audio item");
                             List<BaseItemDto> audioItemsAsList = new ArrayList<>();
 
-                            for (Object item : adapter.unmodifiableList()) {
+                            for (Object item : adapter) {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }

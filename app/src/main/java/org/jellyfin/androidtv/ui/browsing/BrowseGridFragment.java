@@ -956,7 +956,7 @@ public class BrowseGridFragment extends Fragment {
                 @Override
                 public void onResponse() {
 
-                    mAdapter.notifyArrayItemRangeChanged(mAdapter.indexOf(mCurrentItem), 1);
+                    mAdapter.notifyItemRangeChanged(mAdapter.indexOf(mCurrentItem), 1);
                     //Now - if filtered make sure we still pass
                     if (mAdapter.getFilters() != null) {
                         if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {

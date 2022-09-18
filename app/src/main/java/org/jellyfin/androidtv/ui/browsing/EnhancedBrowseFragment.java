@@ -362,7 +362,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                 @Override
                 public void onResponse() {
                     ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
-                    adapter.notifyArrayItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
+                    adapter.notifyItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }
             });
         }
