@@ -5,12 +5,14 @@ import android.os.Handler;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -158,7 +160,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     }
 
     @Override
-    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+    protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), getString(R.string.lbl_views));
 
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();

@@ -10,6 +10,7 @@ import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.PresenterSelector;
+import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -30,6 +31,7 @@ import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment;
 import org.jellyfin.androidtv.ui.browsing.EnhancedBrowseFragment;
 import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
@@ -104,7 +106,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
     private List<ChapterItemInfo> mChapters;
     private List<BaseItemDto> mItems;
 
-    private ArrayObjectAdapter mParent;
+    private MutableObjectAdapter<Row> mParent;
     private ListRow mRow;
     private int chunkSize = 0;
 
@@ -146,7 +148,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         return queryType;
     }
 
-    public ArrayObjectAdapter getParent() {
+    public MutableObjectAdapter<Row> getParent() {
         return mParent;
     }
 
@@ -158,11 +160,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.reRetrieveTriggers = reRetrieveTriggers;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         this(context, query, chunkSize, preferParentThumb, false, presenter, parent);
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -177,7 +179,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, ArrayObjectAdapter parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, PresenterSelector presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -192,11 +194,11 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, ItemQuery query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent) {
         this(context, query, chunkSize, preferParentThumb, staticHeight, presenter, parent, QueryType.Items);
     }
 
-    public ItemRowAdapter(Context context, ArtistsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, ArtistsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -210,7 +212,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.AlbumArtists;
     }
 
-    public ItemRowAdapter(Context context, NextUpQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, NextUpQuery query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -221,7 +223,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, SeriesTimerQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, SeriesTimerQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -229,7 +231,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.SeriesTimer;
     }
 
-    public ItemRowAdapter(Context context, LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, LatestItemsQuery query, boolean preferParentThumb, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -240,7 +242,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, BaseItemPerson[] people, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, BaseItemPerson[] people, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -249,7 +251,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.StaticPeople;
     }
 
-    public ItemRowAdapter(Context context, List<ChapterItemInfo> chapters, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, List<ChapterItemInfo> chapters, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -258,7 +260,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.StaticChapters;
     }
 
-    public ItemRowAdapter(Context context, List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, List<BaseItemDto> items, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -266,7 +268,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, List<BaseItemDto> items, Presenter presenter, ArrayObjectAdapter parent, boolean staticItems) { // last param is just for sig
+    public ItemRowAdapter(Context context, List<BaseItemDto> items, Presenter presenter, MutableObjectAdapter<Row> parent, boolean staticItems) { // last param is just for sig
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -274,7 +276,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.StaticItems;
     }
 
-    public ItemRowAdapter(Context context, SpecialsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, SpecialsQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -282,7 +284,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Specials;
     }
 
-    public ItemRowAdapter(Context context, AdditionalPartsQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, AdditionalPartsQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -290,7 +292,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.AdditionalParts;
     }
 
-    public ItemRowAdapter(Context context, TrailersQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, TrailersQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -298,7 +300,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Trailers;
     }
 
-    public ItemRowAdapter(Context context, LiveTvChannelQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, LiveTvChannelQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -310,7 +312,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.LiveTvChannel;
     }
 
-    public ItemRowAdapter(Context context, RecommendedProgramQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, RecommendedProgramQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -319,7 +321,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, RecordingQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, RecordingQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -329,7 +331,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         staticHeight = true;
     }
 
-    public ItemRowAdapter(Context context, SimilarItemsQuery query, QueryType queryType, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, SimilarItemsQuery query, QueryType queryType, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -338,7 +340,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         this.queryType = queryType;
     }
 
-    public ItemRowAdapter(Context context, UpcomingEpisodesQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, UpcomingEpisodesQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -347,7 +349,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Upcoming;
     }
 
-    public ItemRowAdapter(Context context, SeasonQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, SeasonQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -356,7 +358,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Season;
     }
 
-    public ItemRowAdapter(Context context, PersonsQuery query, int chunkSize, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, PersonsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -369,7 +371,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Persons;
     }
 
-    public ItemRowAdapter(Context context, SearchQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, SearchQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -379,7 +381,7 @@ public class ItemRowAdapter extends ArrayObjectAdapter {
         queryType = QueryType.Search;
     }
 
-    public ItemRowAdapter(Context context, ViewQuery query, Presenter presenter, ArrayObjectAdapter parent) {
+    public ItemRowAdapter(Context context, ViewQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
         super(presenter);
         this.context = context;
         mParent = parent;

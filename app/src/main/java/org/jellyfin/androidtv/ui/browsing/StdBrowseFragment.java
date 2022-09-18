@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BrowseSupportFragment;
-import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.OnItemViewClickedListener;
@@ -34,6 +33,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -53,7 +53,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
     protected ListRow mCurrentRow;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
-    protected ArrayObjectAdapter mRowsAdapter;
+    protected MutableObjectAdapter<Row> mRowsAdapter;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     private TextClock mClock;
@@ -109,7 +109,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
-        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
+        mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter();
 
         for (BrowseRowDef def : rows) {
@@ -167,7 +167,7 @@ public class StdBrowseFragment extends BrowseSupportFragment implements RowLoade
         setAdapter(mRowsAdapter);
     }
 
-    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+    protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
 
     }
 

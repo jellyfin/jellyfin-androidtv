@@ -2,14 +2,15 @@ package org.jellyfin.androidtv.ui.search
 
 import android.content.Context
 import androidx.leanback.app.SearchSupportFragment
-import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ObjectAdapter
+import androidx.leanback.widget.Row
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import kotlin.time.Duration.Companion.milliseconds
 
 class SearchProvider(
@@ -20,7 +21,7 @@ class SearchProvider(
 		private val SEARCH_DELAY = 600.milliseconds
 	}
 
-	private val rowsAdapter = ArrayObjectAdapter(CustomListRowPresenter())
+	private val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 	private var previousQuery: String? = null
 	private val searchRunnable = SearchRunnable(context, rowsAdapter)
 	private var searchJob: Job? = null

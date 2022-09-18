@@ -1,22 +1,22 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.content.Context
-import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.Row
 import org.jellyfin.androidtv.constant.QueryType
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
-
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.koin.java.KoinJavaComponent.get
 
 class HomeFragmentBrowseRowDefRow(
 	private val browseRowDef: BrowseRowDef
 ) : HomeFragmentRow {
-	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: ArrayObjectAdapter) {
+	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {
 		val header = HeaderItem(browseRowDef.headerText)
 		val preferParentThumb = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
 

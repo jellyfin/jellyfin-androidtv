@@ -61,6 +61,7 @@ import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -1321,7 +1322,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         if (chapters != null && !chapters.isEmpty()) {
             // create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(item), api.getValue()), new CardPresenter(true, 220), new ArrayObjectAdapter());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(item), api.getValue()), new CardPresenter(true, 220), new MutableObjectAdapter<Row>());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.chapters)), chapterAdapter);

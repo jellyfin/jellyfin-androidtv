@@ -45,6 +45,7 @@ import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.ui.shared.KeyListener;
@@ -94,7 +95,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     protected RowsSupportFragment mRowsFragment;
     protected CompositeClickedListener mClickedListener = new CompositeClickedListener();
     protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
-    protected ArrayObjectAdapter mRowsAdapter;
+    protected MutableObjectAdapter<Row> mRowsAdapter;
     protected ArrayList<BrowseRowDef> mRows = new ArrayList<>();
     protected CardPresenter mCardPresenter;
     protected BaseRowItem mCurrentItem;
@@ -138,7 +139,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                     .findFragmentById(R.id.rowsFragment);
         }
 
-        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
+        mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mRowsFragment.setAdapter(mRowsAdapter);
 
         return binding.getRoot();
@@ -220,7 +221,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     }
 
     public void loadRows(List<BrowseRowDef> rows) {
-        mRowsAdapter = new ArrayObjectAdapter(new PositionableListRowPresenter());
+        mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mCardPresenter = new CardPresenter(false, 280);
         ClassPresenterSelector ps = new ClassPresenterSelector();
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
@@ -287,7 +288,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
         mRowsFragment.setAdapter(mRowsAdapter);
     }
 
-    protected void addAdditionalRows(ArrayObjectAdapter rowAdapter) {
+    protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
         if (!showViews) return;
 
         HeaderItem gridHeader = new HeaderItem(rowAdapter.size(), getString(R.string.lbl_views));

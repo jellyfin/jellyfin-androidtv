@@ -2,13 +2,14 @@ package org.jellyfin.androidtv.ui.search;
 
 import android.content.Context;
 
-import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Row;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
+import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 
@@ -18,11 +19,11 @@ import timber.log.Timber;
 
 public class SearchRunnable {
     private Context context;
-    private ArrayObjectAdapter mRowsAdapter;
+    private MutableObjectAdapter<Row> mRowsAdapter;
     private ArrayList<ItemRowAdapter> searchItemRows;
     private int searchesReceived;
 
-    public SearchRunnable(Context context, ArrayObjectAdapter adapter) {
+    public SearchRunnable(Context context, MutableObjectAdapter<Row> adapter) {
         this.context = context;
         this.mRowsAdapter = adapter;
         this.searchItemRows = new ArrayList<>();
