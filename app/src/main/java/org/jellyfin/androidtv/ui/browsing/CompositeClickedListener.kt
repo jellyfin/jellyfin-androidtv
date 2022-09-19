@@ -13,8 +13,8 @@ class CompositeClickedListener : OnItemViewClickedListener {
 	override fun onItemClicked(
 		itemViewHolder: Presenter.ViewHolder?,
 		item: Any?,
-		rowViewHolder: RowPresenter.ViewHolder,
-		row: Row,
+		rowViewHolder: RowPresenter.ViewHolder?,
+		row: Row?,
 	) {
 		for (listener in listeners) {
 			listener.onItemClicked(itemViewHolder, item, rowViewHolder, row)
