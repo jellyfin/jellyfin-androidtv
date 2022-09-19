@@ -97,7 +97,7 @@ public class CardPresenter extends Presenter {
         public void setItem(BaseRowItem m, ImageType imageType, int lHeight, int pHeight, int sHeight) {
             mItem = m;
             isUserView = false;
-            switch (mItem.getItemType()) {
+            switch (mItem.getBaseRowType()) {
 
                 case BaseItem:
                     BaseItemDto itemDto = mItem.getBaseItem();
@@ -193,7 +193,7 @@ public class CardPresenter extends Presenter {
                                 aspect = ImageUtils.ASPECT_RATIO_2_3;
                             break;
                     }
-                    cardHeight = !m.isStaticHeight() ? (aspect > 1 ? lHeight : pHeight) : sHeight;
+                    cardHeight = !m.getStaticHeight() ? (aspect > 1 ? lHeight : pHeight) : sHeight;
                     cardWidth = (int) (aspect * cardHeight);
                     if (cardWidth < 10) {
                         cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -233,7 +233,7 @@ public class CardPresenter extends Presenter {
                     double tvAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER :
                         imageType.equals(ImageType.THUMB) ? ImageUtils.ASPECT_RATIO_16_9 :
                         Utils.getSafeValue(channel.getPrimaryImageAspectRatio(), 1.0);
-                    cardHeight = !m.isStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? tvAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((tvAspect) * cardHeight);
                     if (cardWidth < 10) {
                         cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -244,7 +244,7 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_tv);
                     break;
                 case LiveTvProgram:
-                    BaseItemDto program = mItem.getProgramInfo();
+                    BaseItemDto program = mItem.getBaseItem();
                     Double programAspect = program.getPrimaryImageAspectRatio();
                     if (Utils.isTrue(program.getIsMovie())) {
                         // The server reports the incorrect image aspect ratio for movies, so we are overriding it here
@@ -252,7 +252,7 @@ public class CardPresenter extends Presenter {
                     } else if (programAspect == null) {
                         programAspect = ImageUtils.ASPECT_RATIO_16_9;
                     }
-                    cardHeight = !m.isStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? programAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((programAspect) * cardHeight);
                     if (cardWidth < 10) {
                         cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -274,9 +274,9 @@ public class CardPresenter extends Presenter {
                     mCardView.setCardType(BaseCardView.CARD_TYPE_INFO_UNDER);
                     break;
                 case LiveTvRecording:
-                    BaseItemDto recording = mItem.getRecordingInfo();
+                    BaseItemDto recording = mItem.getBaseItem();
                     double recordingAspect = imageType.equals(ImageType.BANNER) ? ASPECT_RATIO_BANNER : (imageType.equals(ImageType.THUMB) ? ImageUtils.ASPECT_RATIO_16_9 : Utils.getSafeValue(recording.getPrimaryImageAspectRatio(), ImageUtils.ASPECT_RATIO_7_9));
-                    cardHeight = !m.isStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? recordingAspect > 1 ? lHeight : pHeight : sHeight;
                     cardWidth = (int) ((recordingAspect) * cardHeight);
                     if (cardWidth < 10) {
                         cardWidth = 230;  //Guard against zero size images causing picasso to barf
@@ -285,13 +285,13 @@ public class CardPresenter extends Presenter {
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
                     break;
                 case Person:
-                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageUtils.ASPECT_RATIO_7_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
                     break;
                 case Chapter:
-                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageUtils.ASPECT_RATIO_16_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_chapter);
@@ -316,13 +316,13 @@ public class CardPresenter extends Presenter {
                     }
                     break;
                 case GridButton:
-                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageUtils.ASPECT_RATIO_7_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
                     break;
                 case SeriesTimer:
-                    cardHeight = !m.isStaticHeight() ? pHeight : sHeight;
+                    cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageUtils.ASPECT_RATIO_16_9 * cardHeight);
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_land_series_timer);
@@ -372,9 +372,6 @@ public class CardPresenter extends Presenter {
             return;
         }
         BaseRowItem rowItem = (BaseRowItem) item;
-        if (!rowItem.isValid()) {
-            return;
-        }
 
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.setItem(rowItem, mImageType, 260, 300, mStaticHeight);
@@ -385,7 +382,7 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setOverlayInfo(rowItem);
         }
         holder.mCardView.showFavIcon(rowItem.isFavorite());
-        if (rowItem.isPlaying()) {
+        if (rowItem.getPlaying()) {
             holder.mCardView.setPlayingIndicator(true);
         } else {
             holder.mCardView.setPlayingIndicator(false);

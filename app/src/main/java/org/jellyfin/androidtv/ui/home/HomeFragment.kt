@@ -169,7 +169,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 
 		//React to deletion
 		val dataRefreshService = get<DataRefreshService>(DataRefreshService::class.java)
-		if (activity != null && !requireActivity().isFinishing && currentRow != null && currentItem != null && currentItem!!.itemId != null && currentItem!!.itemId.equals(dataRefreshService.lastDeletedItemId)) {
+		if (activity != null && !requireActivity().isFinishing && currentRow != null && currentItem != null && currentItem!!.getItemId() != null && currentItem!!.getItemId().equals(dataRefreshService.lastDeletedItemId)) {
 			(currentRow!!.adapter as ItemRowAdapter).remove(currentItem)
 			dataRefreshService.lastDeletedItemId = null
 		}
@@ -203,7 +203,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 
 	private fun refreshCurrentItem() {
 		currentItem?.let { item ->
-			if (item.baseItemType == BaseItemKind.USER_VIEW || item.baseItemType == BaseItemKind.COLLECTION_FOLDER) return
+			if (item.getBaseItemType() == BaseItemKind.USER_VIEW || item.getBaseItemType() == BaseItemKind.COLLECTION_FOLDER) return
 
 			Timber.d("Refresh item ${item.getFullName(requireContext())}")
 

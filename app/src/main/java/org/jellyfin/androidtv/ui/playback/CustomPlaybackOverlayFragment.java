@@ -382,7 +382,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof BaseRowItem) {
                 BaseRowItem rowItem = (BaseRowItem) item;
-                switch (rowItem.getItemType()) {
+                switch (rowItem.getBaseRowType()) {
                     case Chapter:
                         Long start = rowItem.getChapterInfo().getStartPositionTicks() / 10000;
                         mPlaybackController.seek(start);

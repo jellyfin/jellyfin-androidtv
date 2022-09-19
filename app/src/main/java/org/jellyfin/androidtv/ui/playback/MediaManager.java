@@ -180,7 +180,7 @@ public class MediaManager {
                 mManagedAudioQueue.Retrieve();
             }
             if (mManagedAudioQueue.size() > 0 && isPlayingAudio()) {
-                ((BaseRowItem)mManagedAudioQueue.get(0)).setIsPlaying(true);
+                ((BaseRowItem)mManagedAudioQueue.get(0)).setPlaying(true);
             } else if (mManagedAudioQueue.size() < 1) {
                 Timber.d("error creating managed audio queue from size of: %s", mCurrentAudioQueue.size());
             }
@@ -868,11 +868,11 @@ public class MediaManager {
         if (mCurrentAudioQueuePosition < 0) return;
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
         if (rowItem != null) {
-            rowItem.setIsPlaying(playing);
+            rowItem.setPlaying(playing);
             mCurrentAudioQueue.notifyItemRangeChanged(mCurrentAudioQueuePosition, 1);
             if (mManagedAudioQueue != null && mManagedAudioQueue.size() > 0) {
                 BaseRowItem managedItem = (BaseRowItem) mManagedAudioQueue.get(0);
-                managedItem.setIsPlaying(playing);
+                managedItem.setPlaying(playing);
                 mManagedAudioQueue.notifyItemRangeChanged(0, 1);
             }
         }
