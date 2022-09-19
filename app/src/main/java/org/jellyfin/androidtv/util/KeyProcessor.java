@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
@@ -65,12 +66,12 @@ public class KeyProcessor {
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (!rowItem.isBaseItem() || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).pauseAudio();
                     return true;
                 }
 
-                switch (rowItem.getItemType()) {
+                switch (rowItem.getBaseRowType()) {
 
                     case BaseItem:
                         BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
@@ -139,7 +140,7 @@ public class KeyProcessor {
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
-                        PlaybackHelper.retrieveAndPlay(rowItem.getProgramInfo().getChannelId(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId(), false, activity);
                         return true;
                     case GridButton:
                         break;
@@ -156,7 +157,7 @@ public class KeyProcessor {
                 Timber.d("Menu for: %s", rowItem.getFullName(activity));
 
                 //Create a contextual menu based on item
-                switch (rowItem.getItemType()) {
+                switch (rowItem.getBaseRowType()) {
 
                     case BaseItem:
                         BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());

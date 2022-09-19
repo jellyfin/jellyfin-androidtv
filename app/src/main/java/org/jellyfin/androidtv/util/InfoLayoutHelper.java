@@ -36,7 +36,7 @@ public class InfoLayoutHelper {
     private static NumberFormat nfp = NumberFormat.getPercentInstance();
 
     public static void addInfoRow(Context context, BaseRowItem item, LinearLayout layout, boolean includeRuntime, boolean includeEndtime) {
-        switch (item.getItemType()) {
+        switch (item.getBaseRowType()) {
 
             case BaseItem:
                 addInfoRow(context, ModelCompat.asSdk(item.getBaseItem()), layout, includeRuntime, includeEndtime);

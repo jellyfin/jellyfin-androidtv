@@ -1348,7 +1348,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     }
                     for (BaseItemDto item : response) {
                         item.setName(context.getString(R.string.lbl_trailer) + (i + 1));
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false, BaseRowItem.SelectAction.Play));
+                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, false, BaseRowItemSelectAction.Play));
                     }
                     totalItems = response.length;
                     setItemsLoaded(itemsLoaded + i);

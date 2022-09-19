@@ -95,7 +95,7 @@ public class ItemLauncher {
     public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaAdapter(adapter);
 
-        switch (rowItem.getItemType()) {
+        switch (rowItem.getBaseRowType()) {
 
             case BaseItem:
                 final BaseItemDto baseItem = rowItem.getBaseItem();
@@ -251,7 +251,7 @@ public class ItemLauncher {
             case Person:
                 //Start details fragment
                 Intent intent = new Intent(activity, FullDetailsActivity.class);
-                intent.putExtra("ItemId", rowItem.getPerson().getId().toString());
+                intent.putExtra("ItemId", rowItem.getBasePerson().getId().toString());
                 if (noHistory) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 }
@@ -319,7 +319,7 @@ public class ItemLauncher {
                 });
                 break;
             case LiveTvProgram:
-                BaseItemDto program = rowItem.getProgramInfo();
+                BaseItemDto program = rowItem.getBaseItem();
                 switch (rowItem.getSelectAction()) {
 
                     case ShowDetails:
@@ -385,14 +385,14 @@ public class ItemLauncher {
                     case ShowDetails:
                         //Start details fragment for display and playback
                         Intent recIntent = new Intent(activity, FullDetailsActivity.class);
-                        recIntent.putExtra("ItemId", rowItem.getRecordingInfo().getId());
+                        recIntent.putExtra("ItemId", rowItem.getBaseItem().getId());
 
                         activity.startActivity(recIntent);
                         break;
                     case Play:
-                        if (rowItem.getRecordingInfo().getPlayAccess() == PlayAccess.Full) {
+                        if (rowItem.getBaseItem().getPlayAccess() == PlayAccess.Full) {
                             //Just play it directly but need to retrieve as base item
-                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(rowItem.getRecordingInfo().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(rowItem.getBaseItem().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(rowItem.getBaseItemType());
