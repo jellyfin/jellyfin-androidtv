@@ -2,9 +2,9 @@ package org.jellyfin.androidtv.data.compat;
 
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
 import org.jellyfin.apiclient.model.dlna.EncodingContext;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class AudioOptions.
@@ -50,13 +50,13 @@ public class AudioOptions {
         ItemId = value;
     }
 
-    private ArrayList<MediaSourceInfo> MediaSources;
+    private List<MediaSourceInfo> MediaSources;
 
-    public final ArrayList<MediaSourceInfo> getMediaSources() {
+    public final List<MediaSourceInfo> getMediaSources() {
         return MediaSources;
     }
 
-    public final void setMediaSources(ArrayList<MediaSourceInfo> value) {
+    public final void setMediaSources(List<MediaSourceInfo> value) {
         MediaSources = value;
     }
 

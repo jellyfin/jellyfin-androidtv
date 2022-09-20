@@ -35,6 +35,7 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -104,7 +105,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     private BaseItemPerson[] mPersons;
     private List<ChapterItemInfo> mChapters;
-    private List<BaseItemDto> mItems;
+    private List<org.jellyfin.sdk.model.api.BaseItemDto> mItems;
 
     private MutableObjectAdapter<Row> mParent;
     private ListRow mRow;
@@ -260,7 +261,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         queryType = QueryType.StaticChapters;
     }
 
-    public ItemRowAdapter(Context context, List<BaseItemDto> items, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
+    public ItemRowAdapter(Context context, List<org.jellyfin.sdk.model.api.BaseItemDto> items, Presenter presenter, MutableObjectAdapter<Row> parent, QueryType queryType) {
         super(presenter);
         this.context = context;
         mParent = parent;
@@ -272,7 +273,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         super(presenter);
         this.context = context;
         mParent = parent;
-        mItems = items;
+        mItems = JavaCompat.mapBaseItemCollection(items);
         queryType = QueryType.StaticItems;
     }
 
@@ -738,7 +739,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     private void loadStaticItems() {
         if (mItems != null) {
-            for (BaseItemDto item : mItems) {
+            for (org.jellyfin.sdk.model.api.BaseItemDto item : mItems) {
                 add(new BaseRowItem(item));
             }
             itemsLoaded = mItems.size();
@@ -752,7 +753,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private void loadStaticAudioItems() {
         if (mItems != null) {
             int i = 0;
-            for (BaseItemDto item : mItems) {
+            for (org.jellyfin.sdk.model.api.BaseItemDto item : mItems) {
                 add(new AudioQueueItem(i++, item));
             }
             itemsLoaded = i;
@@ -1048,11 +1049,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     } else {
                         //If this was for a single series, get the rest of the episodes in the season
                         if (query.getSeriesId() != null) {
-                            BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
+                            org.jellyfin.sdk.model.api.BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
                             if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
                                 StdItemQuery rest = new StdItemQuery();
                                 rest.setUserId(query.getUserId());
-                                rest.setParentId(first.getSeasonId());
+                                rest.setParentId(first.getSeasonId().toString());
                                 rest.setStartIndex(first.getIndexNumber());
                                 apiClient.getValue().GetItemsAsync(rest, new Response<ItemsResult>() {
                                     @Override

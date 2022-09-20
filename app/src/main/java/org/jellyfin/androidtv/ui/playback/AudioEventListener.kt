@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui.playback
 
-import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemDto
 
 interface AudioEventListener {
 	fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: BaseItemDto?) = Unit

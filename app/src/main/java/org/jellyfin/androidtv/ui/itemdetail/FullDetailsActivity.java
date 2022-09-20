@@ -73,6 +73,7 @@ import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -429,16 +430,16 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
             BaseItemDto item = params[0];
 
             // Figure image size
-            Double aspect = ImageUtils.getImageAspectRatio(item, false);
+            Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(mActivity, 160) : Utils.convertDpToPixel(mActivity, ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
             posterWidth = (int)((aspect) * posterHeight);
             if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(mActivity, 150);  //Guard against zero size images causing picasso to barf
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
 
-            String primaryImageUrl = ImageUtils.getLogoImageUrl(mBaseItem, 600, true);
+            String primaryImageUrl = ImageUtils.getLogoImageUrl(ModelCompat.asSdk(mBaseItem), 600, true);
             if (primaryImageUrl == null) {
-                primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, posterHeight);
+                primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(mBaseItem), false, posterHeight);
                 if (item.getRunTimeTicks() != null && item.getRunTimeTicks() > 0 && item.getUserData() != null && item.getUserData().getPlaybackPositionTicks() > 0)
                     mDetailsOverviewRow.setProgress(((int) (item.getUserData().getPlaybackPositionTicks() * 100.0 / item.getRunTimeTicks())));
             }
@@ -842,17 +843,17 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                PlaybackHelper.getItemsToPlay(mBaseItem, false, false, new Response<List<BaseItemDto>>() {
+                PlaybackHelper.getItemsToPlay(baseItem, false, false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
                     @Override
-                    public void onResponse(List<BaseItemDto> response) {
+                    public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                         mediaManager.getValue().addToAudioQueue(response);
                     }
                 });
             } else {
-                mediaManager.getValue().addToAudioQueue(Arrays.asList(mBaseItem));
+                mediaManager.getValue().addToAudioQueue(Arrays.asList(baseItem));
             }
         } else {
-            mediaManager.getValue().addToVideoQueue(mBaseItem);
+            mediaManager.getValue().addToVideoQueue(baseItem);
         }
     }
 
@@ -989,7 +990,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     TextUnderButton imix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 0, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            PlaybackHelper.playInstantMix(FullDetailsActivity.this, mBaseItem);
+                            PlaybackHelper.playInstantMix(FullDetailsActivity.this, baseItem);
                         }
                     });
                     mDetailsOverviewRow.addAction(imix);
@@ -1433,9 +1434,9 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
                     return true;
                 case R.id.play_with_external:
                     systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                    PlaybackHelper.getItemsToPlay(mBaseItem, false , false, new Response<List<BaseItemDto>>() {
+                    PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false , false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
                         @Override
-                        public void onResponse(List<BaseItemDto> response) {
+                        public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                             if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ARTIST) {
                                 mediaManager.getValue().playNow(FullDetailsActivity.this, response, false);
                             } else {
@@ -1588,11 +1589,11 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        PlaybackHelper.getItemsToPlay(item, pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
             @Override
-            public void onResponse(List<BaseItemDto> response) {
+            public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                 PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, item)) return;
+                if (playbackLauncher.interceptPlayRequest(FullDetailsActivity.this, ModelCompat.asSdk(item))) return;
 
                 if (ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST) {
                     mediaManager.getValue().playNow(FullDetailsActivity.this, response, shuffle);
@@ -1613,7 +1614,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
         Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(items[0]).getType());
         Intent intent = new Intent(this, activity);
         if (shuffle) Collections.shuffle(itemsToPlay);
-        mediaManager.getValue().setCurrentVideoQueue(itemsToPlay);
+        mediaManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(itemsToPlay));
         intent.putExtra("Position", pos);
         startActivity(intent);
 

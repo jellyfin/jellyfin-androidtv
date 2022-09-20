@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -44,6 +46,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -228,14 +231,14 @@ public class ItemListActivity extends FragmentActivity {
 
     private AudioEventListener mAudioEventListener = new AudioEventListener() {
         @Override
-        public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
+        public void onPlaybackStateChange(@NonNull PlaybackController.PlaybackState newState, @Nullable org.jellyfin.sdk.model.api.BaseItemDto currentItem) {
             Timber.i("Got playback state change event %s for item %s", newState.toString(), currentItem != null ? currentItem.getName() : "<unknown>");
 
             if (newState != PlaybackController.PlaybackState.PLAYING || currentItem == null) {
                 if (mCurrentlyPlayingRow != null) mCurrentlyPlayingRow.updateCurrentTime(-1);
                 mCurrentlyPlayingRow = mItemList.updatePlaying(null);
             } else {
-                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId());
+                mCurrentlyPlayingRow = mItemList.updatePlaying(currentItem.getId().toString());
             }
         }
 
@@ -289,13 +292,13 @@ public class ItemListActivity extends FragmentActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (row.getItem().getMediaType()) {
                     case MediaType.Video:
-                        mediaManager.getValue().addToVideoQueue(row.getItem());
+                        mediaManager.getValue().addToVideoQueue(ModelCompat.asSdk(row.getItem()));
                         break;
                     case MediaType.Audio:
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(ItemListActivity.this, row.getItem())) break;
+                        if (playbackLauncher.interceptPlayRequest(ItemListActivity.this, ModelCompat.asSdk(row.getItem()))) break;
 
-                        mediaManager.getValue().queueAudioItem(row.getItem());
+                        mediaManager.getValue().queueAudioItem(ModelCompat.asSdk(row.getItem()));
                         break;
                 }
                 return true;
@@ -306,7 +309,7 @@ public class ItemListActivity extends FragmentActivity {
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    PlaybackHelper.playInstantMix(ItemListActivity.this, row.getItem());
+                    PlaybackHelper.playInstantMix(ItemListActivity.this, ModelCompat.asSdk(row.getItem()));
                     return true;
                 }
             });
@@ -439,8 +442,8 @@ public class ItemListActivity extends FragmentActivity {
                 mPoster.setImageResource(R.drawable.favorites);
                 break;
             default:
-                Double aspect = ImageUtils.getImageAspectRatio(item, false);
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(item);
+                Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
+                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(item));
                 mPoster.setPadding(0, 0, 0, 0);
                 mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(this, R.drawable.ic_album), aspect, 0);
                 break;
@@ -459,7 +462,7 @@ public class ItemListActivity extends FragmentActivity {
 
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-        if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? items.get(0) : null)) return;
+        if (playbackLauncher.interceptPlayRequest(this, items.size() > 0 ? ModelCompat.asSdk(items.get(0)) : null)) return;
 
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
@@ -475,11 +478,11 @@ public class ItemListActivity extends FragmentActivity {
                 Long pos = item.getUserData().getPlaybackPositionTicks() / 10000;
                 intent.putExtra("Position", pos.intValue());
             }
-            mediaManager.getValue().setCurrentVideoQueue(items);
+            mediaManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
             mediaManager.getValue().setCurrentMediaPosition(ndx);
             startActivity(intent);
         } else {
-            mediaManager.getValue().playNow(this, items, ndx, shuffle);
+            mediaManager.getValue().playNow(this, JavaCompat.mapBaseItemCollection(items), ndx, shuffle);
         }
     }
 
@@ -508,7 +511,7 @@ public class ItemListActivity extends FragmentActivity {
                 queueButton = TextUnderButton.create(this, R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mediaManager.getValue().addToAudioQueue(mItems);
+                        mediaManager.getValue().addToAudioQueue(JavaCompat.mapBaseItemCollection(mItems));
                     }
                 });
                 hidePlayButton = true;
@@ -549,7 +552,7 @@ public class ItemListActivity extends FragmentActivity {
             TextUnderButton mix = TextUnderButton.create(this, R.drawable.ic_mix, buttonSize, 2, getString(R.string.lbl_instant_mix), new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    PlaybackHelper.playInstantMix(ItemListActivity.this, mBaseItem);
+                    PlaybackHelper.playInstantMix(ItemListActivity.this, ModelCompat.asSdk(mBaseItem));
                 }
             });
             mButtonRow.addView(mix);

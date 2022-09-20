@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -43,10 +45,9 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import kotlin.Lazy;
 import timber.log.Timber;
@@ -91,7 +92,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     private AudioNowPlayingActivity mActivity;
     private final Handler mLoopHandler = new Handler();
 
-    private BaseItemDto mBaseItem;
+    private org.jellyfin.sdk.model.api.BaseItemDto mBaseItem;
     private ListRow mQueueRow;
 
     private boolean queueRowHasFocus = false;
@@ -350,7 +351,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
 
     private AudioEventListener audioEventListener = new AudioEventListener() {
         @Override
-        public void onPlaybackStateChange(PlaybackController.PlaybackState newState, BaseItemDto currentItem) {
+        public void onPlaybackStateChange(@NonNull PlaybackController.PlaybackState newState, @Nullable org.jellyfin.sdk.model.api.BaseItemDto currentItem) {
             Timber.d("**** Got playstate change: %s", newState.toString());
             if (newState == PlaybackController.PlaybackState.PLAYING && currentItem != mBaseItem) {
                 // new item started
@@ -469,12 +470,12 @@ public class AudioNowPlayingActivity extends BaseActivity {
         });
     }
 
-    private String getArtistName(BaseItemDto item) {
+    private String getArtistName(org.jellyfin.sdk.model.api.BaseItemDto item) {
         String artistName = item.getArtists() != null && item.getArtists().size() > 0 ? item.getArtists().get(0) : item.getAlbumArtist();
         return artistName != null ? artistName : "";
     }
 
-    private void updateInfo(BaseItemDto item) {
+    private void updateInfo(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (item != null) {
             mArtistName.setText(getArtistName(item));
             mSongTitle.setText(item.getName());
@@ -499,7 +500,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
     }
 
     private void addGenres(TextView textView) {
-        ArrayList<String> genres = mBaseItem.getGenres();
+        List<String> genres = mBaseItem.getGenres();
         textView.setText(genres == null ? "" : TextUtils.join(" / ", genres));
     }
 
@@ -513,7 +514,7 @@ public class AudioNowPlayingActivity extends BaseActivity {
             if (ssActive) {
                 stopScreenSaver();
             } else {
-                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ModelCompat.asSdk(((BaseRowItem) item).getBaseItem()).getUserData(), mActivity);
+                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), mActivity);
             }
         }
     }

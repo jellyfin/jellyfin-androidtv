@@ -41,7 +41,6 @@ import org.jellyfin.androidtv.ui.picture.PictureViewerActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageHelper;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import kotlin.Lazy;
@@ -84,7 +83,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         if (pictureViewerRewriteEnabled) {
             Intent intent = PictureViewerActivity.Companion.createIntent(
                     this,
-                    ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()),
+                    mediaManager.getValue().getCurrentMediaItem().getBaseItem(),
                     getIntent().getBooleanExtra("Play", false),
                     mediaManager.getValue().getCurrentMediaAdapter().getSortBy(),
                     mediaManager.getValue().getCurrentMediaAdapter().getSortOrder()
@@ -113,7 +112,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
         currentImageView().pause();
         nextImageView().pause();
 
-        currentPhoto = ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem());
+        currentPhoto = mediaManager.getValue().getCurrentMediaItem().getBaseItem();
         loadImage(currentPhoto, currentImageView(), getIntent().getBooleanExtra("Play", false));
         loadImage(currentPhoto, nextImageView());
         loadNext();
@@ -169,7 +168,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
                     if (isLoadingPrev || isTransitioning)
                         return true; //swallow too fast requests
                     if (isPlaying) stop();
-                    currentPhoto = ModelCompat.asSdk(mediaManager.getValue().prevMedia().getBaseItem());
+                    currentPhoto = mediaManager.getValue().prevMedia().getBaseItem();
                     nextImage.setImageDrawable(currentImageView().getDrawable());
                     nextImageView().setImageDrawable(prevImage.getDrawable());
                     transition(750);
@@ -204,7 +203,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (isPlaying) stop();
             hideThumbPanel();
             mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), currentImageView());
+            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
             nextImageView().setAlpha(0f);
             currentImageView().resume();
             loadNext();
@@ -228,7 +227,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
             if (isPlaying) stop();
             hideThumbPanel();
             mediaManager.getValue().setCurrentMediaPosition(mPopupRowPresenter.getPosition());
-            loadImage(ModelCompat.asSdk(mediaManager.getValue().getCurrentMediaItem().getBaseItem()), currentImageView());
+            loadImage(mediaManager.getValue().getCurrentMediaItem().getBaseItem(), currentImageView());
             nextImageView().setAlpha(0f);
             loadNext();
 
@@ -245,7 +244,7 @@ public class PhotoPlayerActivity extends FragmentActivity {
     }
 
     private void next(int transDuration) {
-        currentPhoto = ModelCompat.asSdk(mediaManager.getValue().nextMedia().getBaseItem());
+        currentPhoto = mediaManager.getValue().nextMedia().getBaseItem();
         prevImage.setImageDrawable(currentImageView().getDrawable());
         nextImageView().setImageDrawable(nextImage.getDrawable());
         transition(transDuration);
@@ -292,12 +291,12 @@ public class PhotoPlayerActivity extends FragmentActivity {
 
     private void loadNext() {
         if (mediaManager.getValue().hasNextMediaItem())
-            loadImage(ModelCompat.asSdk(mediaManager.getValue().peekNextMediaItem().getBaseItem()), nextImage);
+            loadImage(mediaManager.getValue().peekNextMediaItem().getBaseItem(), nextImage);
     }
 
     private void loadPrev() {
         if (mediaManager.getValue().hasPrevMediaItem())
-            loadImage(ModelCompat.asSdk(mediaManager.getValue().peekPrevMediaItem().getBaseItem()), prevImage);
+            loadImage(mediaManager.getValue().peekPrevMediaItem().getBaseItem(), prevImage);
     }
 
     private void transition(int duration) {

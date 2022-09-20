@@ -16,8 +16,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.entities.ImageType
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -62,12 +60,12 @@ class NowPlayingView @JvmOverloads constructor(
 		if (!isInEditMode) mediaManager.removeAudioEventListener(audioEventListener)
 	}
 
-	private fun setInfo(item: BaseItemDto) {
+	private fun setInfo(item: org.jellyfin.sdk.model.api.BaseItemDto) {
 		val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_album)
-		val blurHash = item.imageBlurHashes?.get(ImageType.Primary)?.get(item.imageTags?.get(ImageType.Primary))
+		val blurHash = item.imageBlurHashes?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY)?.get(item.imageTags?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY))
 		binding.npIcon.load(ImageUtils.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
 
-		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks / 10_000 else 0)
+		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks!! / 10_000 else 0)
 		binding.npDesc.text = if (item.albumArtist != null) item.albumArtist else item.name
 	}
 
@@ -80,7 +78,7 @@ class NowPlayingView @JvmOverloads constructor(
 	}
 
 	private var audioEventListener: AudioEventListener = object : AudioEventListener {
-		override fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: BaseItemDto?) {
+		override fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: org.jellyfin.sdk.model.api.BaseItemDto?) {
 			when {
 				currentItem == null -> Unit
 				newState == PlaybackController.PlaybackState.PLAYING -> setInfo(currentItem)

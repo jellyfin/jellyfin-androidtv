@@ -6,7 +6,7 @@ import android.content.Intent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
 import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackForwardingActivity
-import org.jellyfin.apiclient.model.dto.BaseItemDto
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 
 interface PlaybackLauncher {

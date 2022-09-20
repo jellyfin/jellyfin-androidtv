@@ -9,9 +9,9 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 @Deprecated
 public class StreamBuilder
 {
-    public static SubtitleProfile GetSubtitleProfile(MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod)
+    public static SubtitleProfile GetSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod)
     {
-        if (playMethod != PlayMethod.Transcode && !subtitleStream.getIsExternal())
+        if (playMethod != PlayMethod.Transcode && !subtitleStream.isExternal())
         {
             // Look for supported embedded subs
             for (SubtitleProfile profile : subtitleProfiles)
@@ -26,7 +26,7 @@ public class StreamBuilder
                     continue;
                 }
 
-                if (subtitleStream.getIsTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat()) && Utils.equalsIgnoreCase(profile.getFormat(), subtitleStream.getCodec()))
+                if (subtitleStream.isTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat()) && Utils.equalsIgnoreCase(profile.getFormat(), subtitleStream.getCodec()))
                 {
                     return profile;
                 }
@@ -42,7 +42,7 @@ public class StreamBuilder
         return (tempVar2 != null) ? tempVar2 : (tempVar3 != null) ? tempVar3 : tempVar;
     }
 
-    private static SubtitleProfile GetExternalSubtitleProfile(MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod, boolean allowConversion)
+    private static SubtitleProfile GetExternalSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod, boolean allowConversion)
     {
         for (SubtitleProfile profile : subtitleProfiles)
         {
@@ -61,7 +61,7 @@ public class StreamBuilder
                 continue;
             }
 
-            if ((profile.getMethod() == SubtitleDeliveryMethod.External && subtitleStream.getIsTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat())) || (profile.getMethod() == SubtitleDeliveryMethod.Hls && subtitleStream.getIsTextSubtitleStream()))
+            if ((profile.getMethod() == SubtitleDeliveryMethod.External && subtitleStream.isTextSubtitleStream() == MediaStream.IsTextFormat(profile.getFormat())) || (profile.getMethod() == SubtitleDeliveryMethod.Hls && subtitleStream.isTextSubtitleStream()))
             {
                 boolean requiresConversion = !Utils.equalsIgnoreCase(subtitleStream.getCodec(), profile.getFormat());
 
@@ -75,7 +75,7 @@ public class StreamBuilder
                     continue;
                 }
 
-                if (subtitleStream.getIsTextSubtitleStream() && subtitleStream.getSupportsExternalStream() && subtitleStream.SupportsSubtitleConversionTo(profile.getFormat()))
+                if (subtitleStream.isTextSubtitleStream() && subtitleStream.getSupportsExternalStream() && supportsSubtitleConversionTo(subtitleStream, profile.getFormat()))
                 {
                     return profile;
                 }
@@ -83,5 +83,16 @@ public class StreamBuilder
         }
 
         return null;
+    }
+
+    public static boolean supportsSubtitleConversionTo(org.jellyfin.sdk.model.api.MediaStream mediaStream, String codec)
+    {
+        if (!mediaStream.isTextSubtitleStream())
+        {
+            return false;
+        }
+
+        // Can't convert from this
+        return !("ass".equalsIgnoreCase(mediaStream.getCodec()) || "ssa".equalsIgnoreCase(mediaStream.getCodec()) || "ass".equalsIgnoreCase(codec) || "ssa".equalsIgnoreCase(codec));
     }
 }

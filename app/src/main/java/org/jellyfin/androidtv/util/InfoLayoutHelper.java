@@ -17,7 +17,6 @@ import org.jellyfin.androidtv.preference.constant.RatingType;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.MediaStream;
@@ -39,7 +38,7 @@ public class InfoLayoutHelper {
         switch (item.getBaseRowType()) {
 
             case BaseItem:
-                addInfoRow(context, ModelCompat.asSdk(item.getBaseItem()), layout, includeRuntime, includeEndtime);
+                addInfoRow(context, item.getBaseItem(), layout, includeRuntime, includeEndtime);
                 break;
             default:
                 addSubText(context, item, layout);

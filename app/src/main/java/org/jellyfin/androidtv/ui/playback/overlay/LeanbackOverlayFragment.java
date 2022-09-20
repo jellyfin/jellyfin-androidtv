@@ -9,7 +9,6 @@ import androidx.leanback.app.PlaybackSupportFragment;
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import kotlin.Lazy;
 
@@ -70,7 +69,7 @@ public class LeanbackOverlayFragment extends PlaybackSupportFragment {
     }
 
     public void mediaInfoChanged() {
-        BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
+        org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = playbackController.getCurrentlyPlayingItem();
         if (currentlyPlayingItem == null) return;
 
         playerGlue.invalidatePlaybackControls();

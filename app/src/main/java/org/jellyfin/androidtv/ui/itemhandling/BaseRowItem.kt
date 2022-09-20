@@ -4,8 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ImageType
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.GridButton
@@ -15,32 +20,33 @@ import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
-import org.jellyfin.apiclient.interaction.ApiClient
 import org.jellyfin.apiclient.interaction.EmptyResponse
-import org.jellyfin.apiclient.interaction.Response
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.SearchHint
-import org.koin.java.KoinJavaComponent.get
+import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.time.temporal.ChronoUnit
+import org.jellyfin.apiclient.interaction.ApiClient as LegacyApiClient
 
-open class BaseRowItem private constructor(
+open class BaseRowItem protected constructor(
 	val baseRowType: BaseRowType,
 	var index: Int = 0,
 	val staticHeight: Boolean = false,
 	val preferParentThumb: Boolean = false,
 	val selectAction: BaseRowItemSelectAction = BaseRowItemSelectAction.ShowDetails,
 	var playing: Boolean = false,
-	var baseItem: BaseItemDto? = null,
+	var baseItem: org.jellyfin.sdk.model.api.BaseItemDto? = null,
 	val basePerson: BaseItemPerson? = null,
 	val chapterInfo: ChapterItemInfo? = null,
 	val searchHint: SearchHint? = null,
-	val channelInfo: ChannelInfoDto? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
 ) {
@@ -62,6 +68,15 @@ open class BaseRowItem private constructor(
 		staticHeight = staticHeight,
 		preferParentThumb = preferParentThumb,
 		selectAction = selectAction,
+		baseItem = item.asSdk(),
+	)
+
+	constructor(item: org.jellyfin.sdk.model.api.BaseItemDto) : this(
+		baseRowType = when (item.type) {
+			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
+			BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording
+			else -> BaseRowType.BaseItem
+		},
 		baseItem = item,
 	)
 
@@ -71,7 +86,7 @@ open class BaseRowItem private constructor(
 	) : this(
 		index = index,
 		baseRowType = BaseRowType.LiveTvChannel,
-		channelInfo = item,
+		baseItem = item.asSdk(),
 	)
 
 	constructor(
@@ -133,13 +148,13 @@ open class BaseRowItem private constructor(
 		BaseItemKind.PERSON,
 		BaseItemKind.PLAYLIST,
 		BaseItemKind.MUSIC_ARTIST
-	).contains(baseItem?.asSdk()?.type)
+	).contains(baseItem?.type)
 
 	fun getImageUrl(context: Context, imageType: ImageType, maxHeight: Int) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
-			val apiClient by inject<ApiClient>(ApiClient::class.java)
+			val apiClient by inject<LegacyApiClient>(LegacyApiClient::class.java)
 			when (imageType) {
 				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, maxHeight)
 				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, maxHeight)
@@ -155,10 +170,7 @@ open class BaseRowItem private constructor(
 		BaseRowType.LiveTvRecording -> ImageUtils.getPrimaryImageUrl(baseItem!!, preferParentThumb, maxHeight)
 		BaseRowType.Person -> ImageUtils.getPrimaryImageUrl(basePerson!!, maxHeight)
 		BaseRowType.Chapter -> chapterInfo?.imagePath
-		BaseRowType.LiveTvChannel -> {
-			val apiClient by inject<ApiClient>(ApiClient::class.java)
-			ImageUtils.getPrimaryImageUrl(channelInfo, apiClient)
-		}
+		BaseRowType.LiveTvChannel -> ImageUtils.getPrimaryImageUrl(baseItem!!)
 		BaseRowType.GridButton -> ImageUtils.getResourceUrl(context, gridButton!!.imageRes)
 		BaseRowType.SeriesTimer -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer)
 		BaseRowType.SearchHint -> when {
@@ -168,28 +180,25 @@ open class BaseRowItem private constructor(
 		}
 	}
 
-	fun getBaseItemType() = baseItem?.asSdk()?.type
+	fun getBaseItemType() = baseItem?.type
 
 	fun isFavorite(): Boolean = baseItem?.userData?.isFavorite == true
-	fun isFolder(): Boolean = baseItem?.isFolderItem == true
+	fun isFolder(): Boolean = baseItem?.isFolder == true
 	fun isPlayed(): Boolean = baseItem?.userData?.played == true
 
-	fun getCardName(context: Context): String? {
-		val item = baseItem?.asSdk()
-		return when {
-			item?.type == BaseItemKind.AUDIO && item.albumArtist != null -> item.albumArtist
-			item?.type == BaseItemKind.AUDIO && item.album != null -> item.album
-			else -> getFullName(context)
-		}
+	fun getCardName(context: Context): String? = when {
+		baseItem?.type == BaseItemKind.AUDIO && baseItem!!.albumArtist != null -> baseItem!!.albumArtist
+		baseItem?.type == BaseItemKind.AUDIO && baseItem!!.album != null -> baseItem!!.album
+		else -> getFullName(context)
 	}
 
 	fun getFullName(context: Context) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> baseItem?.asSdk()?.getFullName(context)
+		BaseRowType.LiveTvRecording -> baseItem?.getFullName(context)
 		BaseRowType.Person -> basePerson?.name
 		BaseRowType.Chapter -> chapterInfo?.name
-		BaseRowType.LiveTvChannel -> channelInfo?.name
+		BaseRowType.LiveTvChannel -> baseItem?.name
 		BaseRowType.GridButton -> gridButton?.text
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
 		BaseRowType.SearchHint -> listOfNotNull(searchHint?.series, searchHint?.name).joinToString(" - ")
@@ -198,14 +207,14 @@ open class BaseRowItem private constructor(
 	fun getName(context: Context) = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvRecording,
-		BaseRowType.LiveTvProgram -> when (baseItem?.asSdk()?.type) {
+		BaseRowType.LiveTvProgram -> when (baseItem?.type) {
 			BaseItemKind.AUDIO -> getFullName(context)
 			else -> baseItem?.name
 		}
 		BaseRowType.Person -> basePerson?.name
 		BaseRowType.Chapter -> chapterInfo?.name
 		BaseRowType.SearchHint -> searchHint?.name
-		BaseRowType.LiveTvChannel -> channelInfo?.name
+		BaseRowType.LiveTvChannel -> baseItem?.name
 		BaseRowType.GridButton -> gridButton?.text
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
 	}
@@ -213,20 +222,20 @@ open class BaseRowItem private constructor(
 	fun getItemId() = when (baseRowType) {
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
-		BaseRowType.LiveTvRecording -> baseItem?.id
+		BaseRowType.LiveTvChannel,
+		BaseRowType.LiveTvRecording -> baseItem?.id.toString()
 		BaseRowType.Person -> basePerson?.id?.toString()
 		BaseRowType.Chapter -> chapterInfo?.itemId?.toString()
-		BaseRowType.LiveTvChannel -> channelInfo?.id
 		BaseRowType.GridButton -> null
 		BaseRowType.SearchHint -> searchHint?.itemId?.toString()
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.id
 	}
 
 	fun getSubText(context: Context) = when (baseRowType) {
-		BaseRowType.BaseItem -> baseItem?.asSdk()?.getSubName(context)
+		BaseRowType.BaseItem -> baseItem?.getSubName(context)
 		BaseRowType.Person -> basePerson?.role
 		BaseRowType.Chapter -> chapterInfo?.startPositionTicks?.div(10000)?.let(TimeUtils::formatMillis)
-		BaseRowType.LiveTvChannel -> channelInfo?.number
+		BaseRowType.LiveTvChannel -> baseItem?.number
 		BaseRowType.LiveTvProgram -> baseItem?.episodeTitle ?: baseItem?.channelName
 		BaseRowType.LiveTvRecording -> {
 			val title = listOfNotNull(
@@ -235,11 +244,11 @@ open class BaseRowItem private constructor(
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(SimpleDateFormat("d MMM").format(TimeUtils.convertToLocalDate(baseItem!!.startDate)))
+				append(SimpleDateFormat("d MMM").format(baseItem!!.startDate))
 				append(" ")
-				append((DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem!!.startDate))))
+				append((DateFormat.getTimeFormat(context).format(baseItem!!.startDate)))
 				append(" - ")
-				append(DateFormat.getTimeFormat(context).format(TimeUtils.convertToLocalDate(baseItem!!.endDate)))
+				append(DateFormat.getTimeFormat(context).format(baseItem!!.endDate))
 			}
 
 			"$title $timestamp"
@@ -269,7 +278,7 @@ open class BaseRowItem private constructor(
 			val start = baseItem?.startDate
 			val end = baseItem?.endDate
 
-			if (start != null && end != null) (end.time - start.time) * 10000
+			if (start != null && end != null) (start.until(end, ChronoUnit.MILLIS)) * 10000
 			else 0
 		}
 		else -> 0
@@ -277,7 +286,7 @@ open class BaseRowItem private constructor(
 
 	fun getChildCountStr(): String? {
 		// Playlist
-		if (baseItem?.asSdk()?.type == BaseItemKind.PLAYLIST) {
+		if (baseItem?.type == BaseItemKind.PLAYLIST) {
 			val childCount = baseItem?.cumulativeRunTimeTicks?.let {
 				TimeUtils.formatMillis(it / 10000)
 			}
@@ -285,7 +294,7 @@ open class BaseRowItem private constructor(
 		}
 
 		// Folder
-		if (isFolder() && baseItem?.asSdk()?.type != BaseItemKind.MUSIC_ARTIST) {
+		if (isFolder() && baseItem?.type != BaseItemKind.MUSIC_ARTIST) {
 			val childCount = baseItem?.childCount
 			if (childCount != null && childCount > 0) return childCount.toString()
 		}
@@ -295,48 +304,50 @@ open class BaseRowItem private constructor(
 	}
 
 	fun getBadgeImage(context: Context): Drawable? {
-		val item = baseItem?.asSdk()
-
 		return when (baseRowType) {
 			BaseRowType.BaseItem -> when {
-				item?.type == BaseItemKind.MOVIE && item.criticRating != null -> when {
-					item.criticRating!! > 59f -> R.drawable.ic_rt_fresh
+				baseItem?.type == BaseItemKind.MOVIE && baseItem!!.criticRating != null -> when {
+					baseItem!!.criticRating!! > 59f -> R.drawable.ic_rt_fresh
 					else -> R.drawable.ic_rt_rotten
 				}
-				item?.type == BaseItemKind.PROGRAM && item.timerId != null -> when {
-					item.seriesTimerId != null -> R.drawable.ic_record_series_red
+				baseItem?.type == BaseItemKind.PROGRAM && baseItem!!.timerId != null -> when {
+					baseItem!!.seriesTimerId != null -> R.drawable.ic_record_series_red
 					else -> R.drawable.ic_record_red
 				}
 				else -> R.drawable.blank10x10
 			}
 			BaseRowType.Person,
 			BaseRowType.LiveTvProgram -> when {
-				item?.seriesTimerId != null -> R.drawable.ic_record_series_red
-				item?.timerId != null -> R.drawable.ic_record_red
+				baseItem?.seriesTimerId != null -> R.drawable.ic_record_series_red
+				baseItem?.timerId != null -> R.drawable.ic_record_red
 				else -> R.drawable.blank10x10
 			}
 			else -> R.drawable.blank10x10
 		}.let { ContextCompat.getDrawable(context, it) }
 	}
 
-	// TODO rewrite with SDK (requires type change for [baseItem])
-	fun refresh(outerResponse: EmptyResponse) {
+	@JvmOverloads
+	fun refresh(
+		outerResponse: EmptyResponse,
+		scope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
+	) {
 		if (baseRowType == BaseRowType.BaseItem) {
 			val id = getItemId()
-			val apiClient by inject<ApiClient>(ApiClient::class.java)
-			val user = get<UserRepository>(UserRepository::class.java).currentUser.value
+			val api by inject<ApiClient>(ApiClient::class.java)
 
-			if (id.isNullOrBlank() || user == null) {
+			if (id.isNullOrBlank()) {
 				Timber.w("Skipping call to BaseRowItem.refresh()")
 				return
 			}
 
-			apiClient.GetItemAsync(id, user.id.toString(), object : Response<BaseItemDto>() {
-				override fun onResponse(response: BaseItemDto) {
-					baseItem = response
+			scope.launch(Dispatchers.IO) {
+				val response by api.userLibraryApi.getItem(itemId = id.toUUID())
+				baseItem = response
+
+				withContext(Dispatchers.Main) {
 					outerResponse.onResponse()
 				}
-			})
+			}
 		}
 	}
 }

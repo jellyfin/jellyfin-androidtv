@@ -34,6 +34,7 @@ import org.jellyfin.apiclient.model.entities.SortOrder as LegacySortOrder
 import org.jellyfin.apiclient.model.entities.Video3DFormat as LegacyVideo3DFormat
 import org.jellyfin.apiclient.model.entities.VideoType as LegacyVideoType
 import org.jellyfin.apiclient.model.library.PlayAccess as LegacyPlayAccess
+import org.jellyfin.apiclient.model.livetv.ChannelInfoDto as LegacyChannelInfoDto
 import org.jellyfin.apiclient.model.livetv.ChannelType as LegacyChannelType
 import org.jellyfin.apiclient.model.livetv.DayPattern as LegacyDayPattern
 import org.jellyfin.apiclient.model.livetv.KeepUntil as LegacyKeepUntil
@@ -639,6 +640,24 @@ fun LegacySearchHint.asSdk(): ModernSearchHint = ModernSearchHint(
 	episodeCount = this.episodeCount,
 	channelId = this.channelId.toUUID(),
 	channelName = this.channelName,
+	primaryImageAspectRatio = this.primaryImageAspectRatio,
+)
+
+fun LegacyChannelInfoDto.asSdk() = ModernBaseItemDto(
+	name = this.name,
+	serverId = this.serverId,
+	id = this.id.toUUID(),
+//	externalId = this.externalId,
+	mediaSources = this.mediaSources?.map { it.asSdk() },
+	imageTags = this.imageTags?.asSdk(),
+	number = this.number,
+	playAccess = this.playAccess?.asSdk(),
+//	serviceName = this.serviceName,
+	channelType = this.channelType?.asSdk(),
+	type = BaseItemKind.from(this.type)!!,
+	mediaType = this.mediaType,
+	userData = this.userData?.asSdk(),
+	currentProgram = this.currentProgram?.asSdk(),
 	primaryImageAspectRatio = this.primaryImageAspectRatio,
 )
 
