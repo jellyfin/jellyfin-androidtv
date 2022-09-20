@@ -10,7 +10,9 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -30,8 +32,6 @@ import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,22 +40,22 @@ import timber.log.Timber;
 public class PlaybackHelper {
     private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
 
-    public static void getItemsToPlay(final BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<BaseItemDto>> outerResponse) {
+    public static void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
         UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
 
-        final List<BaseItemDto> items = new ArrayList<>();
+        final List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
 
-        switch (mainItem.getBaseItemType()) {
-            case Episode:
+        switch (mainItem.getType()) {
+            case EPISODE:
                 items.add(mainItem);
                 if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
                     KoinJavaComponent.<MediaManager>get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
-                        if (mainItem.getSeasonId() != null) episodeQuery.setSeasonId(mainItem.getSeasonId());
-                        episodeQuery.setSeriesId(mainItem.getSeriesId());
+                        if (mainItem.getSeasonId() != null) episodeQuery.setSeasonId(mainItem.getSeasonId().toString());
+                        episodeQuery.setSeriesId(mainItem.getSeriesId().toString());
                         episodeQuery.setUserId(userId.toString());
                         episodeQuery.setIsVirtualUnaired(false);
                         episodeQuery.setIsMissing(false);
@@ -79,7 +79,7 @@ public class PlaybackHelper {
                                     for (BaseItemDto item : response.getItems()) {
                                         if (foundMainItem) {
                                             if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < ITEM_QUERY_LIMIT) {
-                                                items.add(item);
+                                                items.add(ModelCompat.asSdk(item));
                                                 numAdded++;
                                             } else {
                                                 //stop adding when we hit a missing one or we have reached the limit
@@ -101,12 +101,12 @@ public class PlaybackHelper {
                     outerResponse.onResponse(items);
                 }
                 break;
-            case Series:
-            case Season:
-            case BoxSet:
-            case Folder:
+            case SERIES:
+            case SEASON:
+            case BOX_SET:
+            case FOLDER:
                 //get all videos
-                query.setParentId(mainItem.getId());
+                query.setParentId(mainItem.getId().toString());
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
@@ -126,18 +126,20 @@ public class PlaybackHelper {
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        Collections.addAll(items, response.getItems());
+                        for (BaseItemDto item : response.getItems()) {
+                            items.add(ModelCompat.asSdk(item));
+                        }
                         outerResponse.onResponse(items);
                     }
                 });
                 break;
-            case MusicAlbum:
-            case MusicArtist:
+            case MUSIC_ALBUM:
+            case MUSIC_ARTIST:
                 //get all songs
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setMediaTypes(new String[]{MediaType.Audio});
-                query.setSortBy(ModelCompat.asSdk(mainItem).getType() == BaseItemKind.MUSIC_ARTIST ?
+                query.setSortBy(mainItem.getType() == BaseItemKind.MUSIC_ARTIST ?
                         new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
                             new String[] {ItemSortBy.SortName});
                 query.setRecursive(true);
@@ -148,19 +150,19 @@ public class PlaybackHelper {
                         ItemFields.ChildCount
                 });
                 query.setUserId(userId.toString());
-                query.setArtistIds(new String[]{mainItem.getId()});
+                query.setArtistIds(new String[]{mainItem.getId().toString()});
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        outerResponse.onResponse(Arrays.asList(response.getItems()));
+                        outerResponse.onResponse(JavaCompat.mapBaseItemArray(response.getItems()));
                     }
                 });
                 break;
-            case Playlist:
+            case PLAYLIST:
                 if (mainItem.getId().equals(ItemListActivity.FAV_SONGS)) {
                     query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
                 } else {
-                    query.setParentId(mainItem.getId());
+                    query.setParentId(mainItem.getId().toString());
                 }
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
@@ -179,27 +181,27 @@ public class PlaybackHelper {
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(query, new Response<ItemsResult>() {
                     @Override
                     public void onResponse(ItemsResult response) {
-                        outerResponse.onResponse(Arrays.asList(response.getItems()));
+                        outerResponse.onResponse(JavaCompat.mapBaseItemArray(response.getItems()));
                     }
                 });
                 break;
 
-            case Program:
+            case PROGRAM:
                 if (mainItem.getParentId() == null) {
                     outerResponse.onError(new Exception("No Channel ID"));
                     return;
                 }
 
                 //We retrieve the channel the program is on (which should be the program's parent)
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mainItem.getParentId(), userId.toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mainItem.getParentId().toString(), userId.toString(), new Response<BaseItemDto>() {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         // fill in info about the specific program for display
-                        response.setPremiereDate(mainItem.getPremiereDate());
-                        response.setEndDate(mainItem.getEndDate());
+                        response.setPremiereDate(TimeUtils.getDate(mainItem.getPremiereDate()));
+                        response.setEndDate(TimeUtils.getDate(mainItem.getEndDate()));
                         response.setOfficialRating(mainItem.getOfficialRating());
                         response.setRunTimeTicks(mainItem.getRunTimeTicks());
-                        items.add(response);
+                        items.add(ModelCompat.asSdk(response));
                         outerResponse.onResponse(items);
                     }
 
@@ -210,35 +212,39 @@ public class PlaybackHelper {
                 });
                 break;
 
-            case TvChannel:
+            case TV_CHANNEL:
                 // Retrieve full channel info for display
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId(), userId.toString(), new Response<ChannelInfoDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvChannelAsync(mainItem.getId().toString(), userId.toString(), new Response<ChannelInfoDto>() {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
-                        BaseItemDto program = response.getCurrentProgram();
+                        org.jellyfin.sdk.model.api.BaseItemDto program = ModelCompat.asSdk(response.getCurrentProgram());
+                        org.jellyfin.sdk.model.api.BaseItemDto item = mainItem;
                         if (program != null) {
-                            mainItem.setPremiereDate(program.getStartDate());
-                            mainItem.setEndDate(program.getEndDate());
-                            mainItem.setOfficialRating(program.getOfficialRating());
-                            mainItem.setRunTimeTicks(program.getRunTimeTicks());
+                            item = JavaCompat.copyWithDates(
+                                mainItem,
+                                program.getStartDate(),
+                                program.getEndDate(),
+                                program.getOfficialRating(),
+                                program.getRunTimeTicks()
+                            );
                         }
-                        addMainItem(mainItem, items, outerResponse);
+                        addMainItem(item, items, outerResponse);
                     }
                 });
                 break;
 
             default:
-                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(ModelCompat.asSdk(mainItem).getType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
+                if (allowIntros && !KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).useExternalPlayer(mainItem.getType()) && KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getCinemaModeEnabled())) {
                     //Intros
-                    KoinJavaComponent.<ApiClient>get(ApiClient.class).GetIntrosAsync(mainItem.getId(), userId.toString(), new Response<ItemsResult>() {
+                    KoinJavaComponent.<ApiClient>get(ApiClient.class).GetIntrosAsync(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
                         @Override
                         public void onResponse(ItemsResult response) {
                             if (response.getTotalRecordCount() > 0){
 
                                 for (BaseItemDto intro : response.getItems()) {
                                     intro.setBaseItemType(BaseItemType.Trailer);
-                                    items.add(intro);
+                                    items.add(ModelCompat.asSdk(intro));
                                 }
                                 Timber.i("%d intro items added for playback.", response.getTotalRecordCount());
                             }
@@ -260,23 +266,23 @@ public class PlaybackHelper {
         }
     }
 
-    public static void play(final BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
+    public static void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
-        getItemsToPlay(item, pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<BaseItemDto>>() {
+        getItemsToPlay(item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
             @Override
-            public void onResponse(List<BaseItemDto> response) {
-                switch (item.getBaseItemType()) {
-                    case MusicAlbum:
-                    case MusicArtist:
+            public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                switch (item.getType()) {
+                    case MUSIC_ALBUM:
+                    case MUSIC_ARTIST:
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         break;
-                    case Playlist:
+                    case PLAYLIST:
                         if (MediaType.Audio.equals(item.getMediaType())) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         } else {
-                            BaseItemKind itemType = response.size() > 0 ? ModelCompat.asSdk(response.get(0)).getType() : null;
+                            BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;
                             Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
                             Intent intent = new Intent(activity, newActivity);
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
@@ -286,14 +292,14 @@ public class PlaybackHelper {
                             activity.startActivity(intent);
                         }
                         break;
-                    case Audio:
+                    case AUDIO:
                         if (response.size() > 0) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response.get(0));
                         }
                         break;
 
                     default:
-                        Class newActivity = playbackLauncher.getPlaybackActivityClass(ModelCompat.asSdk(item).getType());
+                        Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getType());
                         Intent intent = new Intent(activity, newActivity);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
                         intent.putExtra("Position", pos);
@@ -324,7 +330,7 @@ public class PlaybackHelper {
             @Override
             public void onResponse(BaseItemDto response) {
                 Long pos = position != null ? position / 10000 : response.getUserData() != null ? (response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll() : 0;
-                play(response, pos.intValue(), shuffle, activity);
+                play(ModelCompat.asSdk(response), pos.intValue(), shuffle, activity);
             }
 
             @Override
@@ -335,16 +341,16 @@ public class PlaybackHelper {
         });
     }
 
-    public static void playInstantMix(Context context, BaseItemDto item) {
+    public static void playInstantMix(Context context, org.jellyfin.sdk.model.api.BaseItemDto item) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
         if (playbackLauncher.interceptPlayRequest(context, item)) return;
 
-        String seedId = item.getId();
+        String seedId = item.getId().toString();
         getInstantMixAsync(seedId, new Response<BaseItemDto[]>() {
             @Override
             public void onResponse(BaseItemDto[] response) {
                 if (response.length > 0) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, Arrays.asList(response), false);
+                    KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(context, JavaCompat.mapBaseItemArray(response), false);
                 } else {
                     Utils.showToast(context, R.string.msg_no_playable_items);
                 }
@@ -375,15 +381,17 @@ public class PlaybackHelper {
         });
     }
 
-    private static void addMainItem(BaseItemDto mainItem, final List<BaseItemDto> items, final Response<List<BaseItemDto>> outerResponse) {
+    private static void addMainItem(org.jellyfin.sdk.model.api.BaseItemDto mainItem, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
             UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
-            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetAdditionalParts(mainItem.getId(), userId.toString(), new Response<ItemsResult>() {
+            KoinJavaComponent.<ApiClient>get(ApiClient.class).GetAdditionalParts(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {
-                    Collections.addAll(items, response.getItems());
+                    for (BaseItemDto item : response.getItems()) {
+                        items.add(ModelCompat.asSdk(item));
+                    }
                     outerResponse.onResponse(items);
                 }
             });

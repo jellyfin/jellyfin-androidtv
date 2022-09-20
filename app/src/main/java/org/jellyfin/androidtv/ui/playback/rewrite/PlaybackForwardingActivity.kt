@@ -5,10 +5,9 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.apiclient.model.dto.BaseItemDto
-import org.jellyfin.apiclient.model.dto.BaseItemType
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -58,16 +57,16 @@ class PlaybackForwardingActivity : FragmentActivity() {
 	private fun findItemId(): UUID? {
 		val extra = intent.getStringExtra(EXTRA_ITEM_ID)?.toUUIDOrNull()
 
-		var first: BaseItemDto? = null
-		var best: BaseItemDto? = null
+		var first: org.jellyfin.sdk.model.api.BaseItemDto? = null
+		var best: org.jellyfin.sdk.model.api.BaseItemDto? = null
 
 		for (item in mediaManager.currentVideoQueue ?: emptyList()) {
 			if (first == null) first = item
-			if (best == null && item.baseItemType !== BaseItemType.Trailer) best = item
+			if (best == null && item.type !== BaseItemKind.TRAILER) best = item
 
 			if (first != null && best != null) break
 		}
 
-		return extra ?: best?.id?.toUUIDOrNull() ?: first?.id?.toUUIDOrNull()
+		return extra ?: best?.id ?: first?.id
 	}
 }

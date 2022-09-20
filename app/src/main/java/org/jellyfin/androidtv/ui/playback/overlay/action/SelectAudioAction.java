@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
-import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStream;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;

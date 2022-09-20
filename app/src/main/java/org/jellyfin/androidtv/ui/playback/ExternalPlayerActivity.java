@@ -28,10 +28,9 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 import org.jellyfin.sdk.model.api.BaseItemKind;
@@ -46,7 +45,7 @@ import timber.log.Timber;
 
 public class ExternalPlayerActivity extends FragmentActivity {
 
-    List<BaseItemDto> mItemsToPlay;
+    List<org.jellyfin.sdk.model.api.BaseItemDto> mItemsToPlay;
     int mCurrentNdx = 0;
     StreamInfo mCurrentStreamInfo;
 
@@ -119,7 +118,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         long playerFinishedTime = System.currentTimeMillis();
         Timber.d("Returned from player, result <%d>, extra data <%s>", resultCode, data);
-        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         long runtime = item.getRunTimeTicks() != null ? item.getRunTimeTicks() / RUNTIME_TICKS_TO_MS : 0;
         int pos = 0;
         // look for result position in API's
@@ -175,7 +174,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
+                                markPlayed(mItemsToPlay.get(mCurrentNdx).getId().toString());
                                 playNext();
                             }
                         })
@@ -192,7 +191,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         })
                         .show();
             } else {
-                markPlayed(mItemsToPlay.get(mCurrentNdx).getId());
+                markPlayed(mItemsToPlay.get(mCurrentNdx).getId().toString());
                 playNext();
             }
 
@@ -288,8 +287,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         //Get playback info for current item
         mCurrentNdx = ndx;
-        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
-        isLiveTv = ModelCompat.asSdk(item).getType() == BaseItemKind.TV_CHANNEL;
+        org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        isLiveTv = item.getType() == BaseItemKind.TV_CHANNEL;
 
         if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
             // Just pass the path directly
@@ -299,13 +298,13 @@ public class ExternalPlayerActivity extends FragmentActivity {
         } else {
             //Build options for player
             VideoOptions options = new VideoOptions();
-            options.setItemId(item.getId());
+            options.setItemId(item.getId().toString());
             options.setMediaSources(item.getMediaSources());
             options.setMaxBitrate(Utils.getMaxBitrate());
             options.setProfile(new ExternalPlayerProfile());
 
             // Get playback info for each player and then decide on which one to use
-            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, item.getResumePositionTicks(), apiClient.getValue(), new Response<StreamInfo>() {
+            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, JavaCompat.getResumePositionTicks(item), apiClient.getValue(), new Response<StreamInfo>() {
                 @Override
                 public void onResponse(StreamInfo response) {
                     mCurrentStreamInfo = response;
@@ -359,7 +358,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             finish();
             return;
         }
-        BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
+        org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         if (item == null) {
             Timber.e("Error getting item to play for Ndx: <%d>.", mCurrentNdx);
             finish();
@@ -373,7 +372,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         String full_title = "";
         Context context = getBaseContext();
         if (context != null) {
-            full_title = BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(item), context);
+            full_title = BaseItemExtensionsKt.getDisplayName(item, context);
         }
         if (full_title.isEmpty()) {
             full_title = item.getName();

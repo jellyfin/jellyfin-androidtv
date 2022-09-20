@@ -4,6 +4,7 @@ import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
+import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.QueryStringDictionary;
 import org.jellyfin.apiclient.interaction.Response;
@@ -95,7 +96,7 @@ public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
         } else {
             streamInfo.setMediaType(DlnaProfileType.Audio);
         }
-        streamInfo.setMediaSource(mediaSourceInfo);
+        streamInfo.setMediaSource(ModelCompat.asSdk(mediaSourceInfo));
         streamInfo.setRunTimeTicks(mediaSourceInfo.getRunTimeTicks());
 
         streamInfo.setContext(options.getContext());

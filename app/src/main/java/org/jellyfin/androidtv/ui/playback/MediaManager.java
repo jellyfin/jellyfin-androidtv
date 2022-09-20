@@ -37,11 +37,10 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
 import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.jellyfin.sdk.model.DeviceInfo;
@@ -71,7 +70,7 @@ public class MediaManager {
     private List<Integer>  mUnShuffledAudioQueueIndexes;
 
     private int mCurrentAudioQueuePosition = -1;
-    private BaseItemDto mCurrentAudioItem;
+    private org.jellyfin.sdk.model.api.BaseItemDto mCurrentAudioItem;
     private StreamInfo mCurrentAudioStreamInfo;
     private long mCurrentAudioPosition;
 
@@ -94,7 +93,7 @@ public class MediaManager {
 
     private boolean mRepeat;
 
-    private List<BaseItemDto> mCurrentVideoQueue;
+    private List<org.jellyfin.sdk.model.api.BaseItemDto> mCurrentVideoQueue;
 
     public MediaManager(Context context) {
         this.context = context;
@@ -114,14 +113,14 @@ public class MediaManager {
         return mCurrentMediaPosition;
     }
 
-    public void setCurrentVideoQueue(List<BaseItemDto> items) {
+    public void setCurrentVideoQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         if (items == null || items.size() < 1) {
             clearVideoQueue();
             return;
         }
 
         // protect against items secretly being an Arrays.asList(), which are fixed-size
-        List<BaseItemDto> newMutableItems = new ArrayList<>();
+        List<org.jellyfin.sdk.model.api.BaseItemDto> newMutableItems = new ArrayList<>();
         for (int i = 0; i < items.size(); i++){
             newMutableItems.add(items.get(i));
         }
@@ -129,7 +128,7 @@ public class MediaManager {
         mCurrentMediaPosition = 0;
     }
 
-    public List<BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
+    public List<org.jellyfin.sdk.model.api.BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
     public int getCurrentAudioQueuePosition() { return hasAudioQueueItems() && mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; }
@@ -137,7 +136,7 @@ public class MediaManager {
     public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(getCurrentAudioQueuePosition() + 1); }
     public String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
-    public BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
+    public org.jellyfin.sdk.model.api.BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
 
     public boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
     public boolean isRepeatMode() { return mRepeat; }
@@ -172,7 +171,7 @@ public class MediaManager {
                     mManagedAudioQueue.add(mCurrentAudioQueue.get(i));
                 }
             } else {
-                List<BaseItemDto> managedItems = new ArrayList<>();
+                List<org.jellyfin.sdk.model.api.BaseItemDto> managedItems = new ArrayList<>();
                 for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
                 }
@@ -417,7 +416,7 @@ public class MediaManager {
 
     }
 
-    private void createAudioQueue(List<BaseItemDto> items) {
+    private void createAudioQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         mCurrentAudioQueue = new ItemRowAdapter(context, items, new CardPresenter(true, Utils.convertDpToPixel(context, 140)), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         mManagedAudioQueue = null;
@@ -489,16 +488,16 @@ public class MediaManager {
 
         if (mCurrentVideoQueue != null) {
             for (int i = 0; i < mCurrentVideoQueue.size(); i++) {
-                result.add(mCurrentVideoQueue.get(i).getId());
+                result.add(mCurrentVideoQueue.get(i).getId().toString());
             }
         }
 
         return result;
     }
 
-    public int queueAudioItem(BaseItemDto item) {
+    public int queueAudioItem(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentAudioQueue == null) {
-            createAudioQueue(new ArrayList<BaseItemDto>());
+            createAudioQueue(new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>());
             clearUnShuffledQueue();
         }
         pushToUnShuffledQueue(item);
@@ -507,7 +506,7 @@ public class MediaManager {
         return mCurrentAudioQueue.size()-1;
     }
 
-    public int addToVideoQueue(BaseItemDto item) {
+    public int addToVideoQueue(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
         videoQueueModified = true;
@@ -515,7 +514,7 @@ public class MediaManager {
         dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
 
         long total = System.currentTimeMillis();
-        for (BaseItemDto video :
+        for (org.jellyfin.sdk.model.api.BaseItemDto video :
                 mCurrentVideoQueue) {
             total += video.getRunTimeTicks() / 10000;
         }
@@ -533,7 +532,7 @@ public class MediaManager {
         stopAudio(releasePlayer);
         clearUnShuffledQueue();
         if (mCurrentAudioQueue == null) {
-            createAudioQueue(new ArrayList<BaseItemDto>());
+            createAudioQueue(new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>());
         }
         else {
             mCurrentAudioQueue.clear();
@@ -543,13 +542,13 @@ public class MediaManager {
         if (mManagedAudioQueue != null) mManagedAudioQueue.clear();
     }
 
-    public void addToAudioQueue(List<BaseItemDto> items) {
+    public void addToAudioQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(items);
             clearUnShuffledQueue();
         } else {
             int ndx = mCurrentAudioQueue.size();
-            for (BaseItemDto item : items) {
+            for (org.jellyfin.sdk.model.api.BaseItemDto item : items) {
                 AudioQueueItem queueItem = new AudioQueueItem(ndx++, item);
                 mCurrentAudioQueue.add(queueItem);
                 if (mManagedAudioQueue != null) mManagedAudioQueue.add(queueItem);
@@ -613,14 +612,14 @@ public class MediaManager {
         return audioInitialized;
     }
 
-    public void playNow(Context context, final List<BaseItemDto> items, int position, boolean shuffle) {
+    public void playNow(Context context, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, int position, boolean shuffle) {
         if (!ensureInitialized()) return;
 
         boolean fireQueueReplaceEvent = hasAudioQueueItems();
 
-        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
+        List<org.jellyfin.sdk.model.api.BaseItemDto> list = new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>();
         for (int i = 0; i < items.size(); i++){
-            if (ModelCompat.asSdk(items.get(i)).getType() == BaseItemKind.AUDIO) {
+            if (items.get(i).getType() == BaseItemKind.AUDIO) {
                 list.add(items.get(i));
             } else if (i < position) {
                 position--;
@@ -635,19 +634,19 @@ public class MediaManager {
             fireQueueReplaced();
     }
 
-    public void playNow(Context context, final List<BaseItemDto> items, boolean shuffle) {
+    public void playNow(Context context, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, boolean shuffle) {
         playNow(context, items, 0, shuffle);
     }
 
-    public void playNow(Context context, final BaseItemDto item) {
+    public void playNow(Context context, final org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (!ensureInitialized()) return;
 
-        List<BaseItemDto> list = new ArrayList<BaseItemDto>();
+        List<org.jellyfin.sdk.model.api.BaseItemDto> list = new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>();
         list.add(item);
         playNow(context, list, false);
     }
 
-    private void playNowInternal(Context context, List<BaseItemDto> items, int position, boolean shuffle) {
+    private void playNowInternal(Context context, List<org.jellyfin.sdk.model.api.BaseItemDto> items, int position, boolean shuffle) {
         if (items == null || items.size() == 0) return;
         if (position < 0 || position >= items.size()) position = 0;
         // stop current item before queue is cleared so it can still be referenced
@@ -696,13 +695,13 @@ public class MediaManager {
         return true;
     }
 
-    private void playInternal(final BaseItemDto item, final int pos) {
+    private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos) {
         if (!ensureInitialized()) return;
 
         ensureAudioFocus();
         final ApiClient apiClient = KoinJavaComponent.<ApiClient>get(ApiClient.class);
         AudioOptions options = new AudioOptions();
-        options.setItemId(item.getId());
+        options.setItemId(item.getId().toString());
         Integer maxBitrate = Utils.getMaxBitrate();
         if (maxBitrate != null) options.setMaxBitrate(maxBitrate);
         options.setMediaSources(item.getMediaSources());
@@ -715,7 +714,7 @@ public class MediaManager {
         options.setProfile(profile);
 
         DeviceInfo deviceInfo = KoinJavaComponent.<org.jellyfin.sdk.api.client.ApiClient>get(org.jellyfin.sdk.api.client.ApiClient.class).getDeviceInfo();
-        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(deviceInfo, options, item.getResumePositionTicks(), apiClient, new Response<StreamInfo>() {
+        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getAudioStreamInfo(deviceInfo, options, JavaCompat.getResumePositionTicks(item), apiClient, new Response<StreamInfo>() {
             @Override
             public void onResponse(StreamInfo response) {
                 mCurrentAudioItem = item;
@@ -760,7 +759,7 @@ public class MediaManager {
 
     }
 
-    private void pushToUnShuffledQueue(BaseItemDto newItem) {
+    private void pushToUnShuffledQueue(org.jellyfin.sdk.model.api.BaseItemDto newItem) {
         if (isShuffleMode()) {
             mUnShuffledAudioQueueIndexes.add(mUnShuffledAudioQueueIndexes.size());
         }
@@ -808,7 +807,7 @@ public class MediaManager {
                 4) create a new queue from the list
 
          */
-        BaseItemDto[] items = new BaseItemDto[isShuffleMode() ? mUnShuffledAudioQueueIndexes.size() : mCurrentAudioQueue.size()];
+        org.jellyfin.sdk.model.api.BaseItemDto[] items = new org.jellyfin.sdk.model.api.BaseItemDto[isShuffleMode() ? mUnShuffledAudioQueueIndexes.size() : mCurrentAudioQueue.size()];
 
         if (isShuffleMode()) {
             Timber.d("queue is already shuffled, restoring original order");
@@ -833,7 +832,7 @@ public class MediaManager {
             }
         }
 
-        List<BaseItemDto> itemsList = new ArrayList<>();
+        List<org.jellyfin.sdk.model.api.BaseItemDto> itemsList = new ArrayList<>();
         for(int i = 0; i < items.length; i++) {
             if (items[i] == getCurrentAudioItem()) {
                 mCurrentAudioQueuePosition = i;
@@ -845,7 +844,7 @@ public class MediaManager {
         fireQueueReplaced();
     }
 
-    public BaseItemDto getNextAudioItem() {
+    public org.jellyfin.sdk.model.api.BaseItemDto getNextAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return null;
 
         int ndx = mCurrentAudioQueuePosition+1;
@@ -853,7 +852,7 @@ public class MediaManager {
         return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
-    public BaseItemDto getPrevAudioItem() {
+    public org.jellyfin.sdk.model.api.BaseItemDto getPrevAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == 0)) return null;
 
         int ndx = mCurrentAudioQueuePosition-1;

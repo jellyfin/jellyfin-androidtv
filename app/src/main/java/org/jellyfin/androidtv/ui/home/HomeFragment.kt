@@ -36,7 +36,6 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.jellyfin.androidtv.util.KeyProcessor
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.apiclient.interaction.EmptyResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
@@ -251,7 +250,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 
 				(row.adapter as? ItemRowAdapter)?.loadMoreItemsIfNeeded(item.index.toLong())
 
-				backgroundService.setBackground(item.baseItem?.asSdk())
+				backgroundService.setBackground(item.baseItem)
 			}
 		}
 	}

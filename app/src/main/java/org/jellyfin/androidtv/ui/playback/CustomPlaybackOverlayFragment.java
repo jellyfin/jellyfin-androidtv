@@ -76,13 +76,13 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackEvent;
 import org.jellyfin.apiclient.model.mediainfo.SubtitleTrackInfo;
 import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.api.ChapterInfo;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -120,7 +120,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private String mFirstFocusChannelId;
 
     private PlaybackController mPlaybackController;
-    private List<BaseItemDto> mItemsToPlay;
+    private List<org.jellyfin.sdk.model.api.BaseItemDto> mItemsToPlay;
 
     private Animation fadeOut;
     private Animation slideUp;
@@ -625,8 +625,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                 @Override
                 public void onResponse(BaseItemDto response) {
-                    List<BaseItemDto> items = new ArrayList<BaseItemDto>();
-                    items.add(response);
+                    List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>();
+                    items.add(ModelCompat.asSdk(response));
                     mPlaybackController.setItems(items);
                     mPlaybackController.play(0);
                 }
@@ -807,7 +807,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             Timber.d("*** Display programs pre-execute");
             tvGuideBinding.channels.removeAllViews();
             tvGuideBinding.programRows.removeAllViews();
-            mFirstFocusChannelId = mPlaybackController.getCurrentlyPlayingItem().getId();
+            mFirstFocusChannelId = mPlaybackController.getCurrentlyPlayingItem().getId().toString();
 
             if (mCurrentDisplayChannelStartNdx > 0) {
                 // Show a paging row for channels above
@@ -1135,11 +1135,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }, 500);
     }
 
-    private int getCurrentChapterIndex(BaseItemDto item, long pos) {
+    private int getCurrentChapterIndex(org.jellyfin.sdk.model.api.BaseItemDto item, long pos) {
         int ndx = 0;
         Timber.d("*** looking for chapter at pos: %d", pos);
         if (item.getChapters() != null) {
-            for (ChapterInfoDto chapter : item.getChapters()) {
+            for (ChapterInfo chapter : item.getChapters()) {
                 Timber.d("*** chapter %d has pos: %d", ndx, chapter.getStartPositionTicks());
                 if (chapter.getStartPositionTicks() > pos) return ndx - 1;
                 ndx++;
@@ -1148,8 +1148,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         return ndx - 1;
     }
 
-    public void toggleRecording(BaseItemDto item) {
-        final BaseItemDto program = item.getCurrentProgram();
+    public void toggleRecording(org.jellyfin.sdk.model.api.BaseItemDto item) {
+        final org.jellyfin.sdk.model.api.BaseItemDto program = item.getCurrentProgram();
 
         if (program != null) {
             if (program.getTimerId() != null) {
@@ -1169,7 +1169,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             .show();
                 }
             } else {
-                if (Utils.isTrue(program.getIsSeries())) {
+                if (Utils.isTrue(program.isSeries())) {
                     new AlertDialog.Builder(requireContext())
                             .setTitle(R.string.lbl_record_series)
                             .setMessage(R.string.msg_record_entire_series)
@@ -1183,7 +1183,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     }
 
-    private void cancelRecording(BaseItemDto program, boolean series) {
+    private void cancelRecording(org.jellyfin.sdk.model.api.BaseItemDto program, boolean series) {
         if (program != null) {
             if (series) {
                 apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
@@ -1217,12 +1217,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         }
     }
 
-    private void recordProgram(final BaseItemDto program, final boolean series) {
+    private void recordProgram(final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean series) {
         if (program != null) {
             apiClient.getValue().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
                 @Override
                 public void onResponse(SeriesTimerInfoDto response) {
-                    response.setProgramId(program.getId());
+                    response.setProgramId(program.getId().toString());
                     if (series) {
                         apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
                             @Override
@@ -1280,7 +1280,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     public void updateDisplay() {
-        BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
+        org.jellyfin.sdk.model.api.BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
         if (current != null && getActivity() != null && !getActivity().isFinishing()) {
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
@@ -1290,9 +1290,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             tvGuideBinding.guideCurrentTitle.setText(current.getName());
 
             // Update the title and subtitle
-            if (ModelCompat.asSdk(current).getType() == BaseItemKind.EPISODE) {
+            if (current.getType() == BaseItemKind.EPISODE) {
                 binding.itemTitle.setText(current.getSeriesName());
-                binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(ModelCompat.asSdk(current), requireContext()));
+                binding.itemSubtitle.setText(BaseItemExtensionsKt.getDisplayName(current, requireContext()));
             } else {
                 binding.itemTitle.setText(current.getName());
             }
@@ -1317,12 +1317,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private void prepareChapterAdapter() {
-        BaseItemDto item = mPlaybackController.getCurrentlyPlayingItem();
-        List<ChapterInfoDto> chapters = item.getChapters();
+        org.jellyfin.sdk.model.api.BaseItemDto item = mPlaybackController.getCurrentlyPlayingItem();
+        List<ChapterInfo> chapters = item.getChapters();
 
         if (chapters != null && !chapters.isEmpty()) {
             // create chapter row for later use
-            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(item), api.getValue()), new CardPresenter(true, 220), new MutableObjectAdapter<Row>());
+            ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), BaseItemExtensionsKt.buildChapterItems(item, api.getValue()), new CardPresenter(true, 220), new MutableObjectAdapter<Row>());
             chapterAdapter.Retrieve();
             if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
             mChapterRow = new ListRow(new HeaderItem(requireContext().getString(R.string.chapters)), chapterAdapter);

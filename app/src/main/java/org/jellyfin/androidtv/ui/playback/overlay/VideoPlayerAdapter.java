@@ -7,9 +7,7 @@ import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.ChapterInfoDto;
+import org.jellyfin.sdk.model.api.ChapterInfo;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.List;
@@ -101,11 +99,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean hasSubs() {
-        return StreamHelper.getSubtitleStreams(ModelCompat.asSdk(playbackController.getCurrentMediaSource())).size() > 0;
+        return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
     }
 
     boolean hasMultiAudio() {
-        return StreamHelper.getAudioStreams(ModelCompat.asSdk(playbackController.getCurrentMediaSource())).size() > 1;
+        return StreamHelper.getAudioStreams(playbackController.getCurrentMediaSource()).size() > 1;
     }
 
     boolean hasNextItem() {
@@ -147,18 +145,18 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean canRecordLiveTv() {
-        BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
+        org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         return currentlyPlayingItem.getCurrentProgram() != null
                 && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
     }
 
     void toggleRecording() {
-        BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
+        org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         getMasterOverlayFragment().toggleRecording(currentlyPlayingItem);
     }
 
     boolean isRecording() {
-        BaseItemDto currentProgram = getCurrentlyPlayingItem().getCurrentProgram();
+        org.jellyfin.sdk.model.api.BaseItemDto currentProgram = getCurrentlyPlayingItem().getCurrentProgram();
         if (currentProgram == null) {
             return false;
         } else {
@@ -166,7 +164,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         }
     }
 
-    BaseItemDto getCurrentlyPlayingItem() {
+    org.jellyfin.sdk.model.api.BaseItemDto getCurrentlyPlayingItem() {
         return playbackController.getCurrentlyPlayingItem();
     }
 
@@ -175,8 +173,8 @@ public class VideoPlayerAdapter extends PlayerAdapter {
     }
 
     boolean hasChapters() {
-        BaseItemDto item = getCurrentlyPlayingItem();
-        List<ChapterInfoDto> chapters = item.getChapters();
+        org.jellyfin.sdk.model.api.BaseItemDto item = getCurrentlyPlayingItem();
+        List<ChapterInfo> chapters = item.getChapters();
         return chapters != null && chapters.size() > 0;
     }
 }

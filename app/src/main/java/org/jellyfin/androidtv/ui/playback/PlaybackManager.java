@@ -8,13 +8,13 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.PlaybackErrorCode;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.mediainfo.PlaybackInfoRequest;
 import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 import org.jellyfin.sdk.model.DeviceInfo;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
+import org.jellyfin.sdk.model.api.MediaStream;
 
 import java.util.ArrayList;
 

@@ -56,7 +56,7 @@ public class KeyProcessor {
     public static final int MENU_TOGGLE_SHUFFLE = 13;
 
     private static String mCurrentItemId;
-    private static org.jellyfin.apiclient.model.dto.BaseItemDto mCurrentItem;
+    private static BaseItemDto mCurrentItem;
     private static Activity mCurrentActivity;
     private static int mCurrentRowItemNdx;
     private static boolean isMusic;
@@ -74,7 +74,7 @@ public class KeyProcessor {
                 switch (rowItem.getBaseRowType()) {
 
                     case BaseItem:
-                        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
+                        BaseItemDto item = rowItem.getBaseItem();
                         if (!BaseItemExtensionsKt.canPlay(item)) return false;
                         switch (item.getType()) {
                             case AUDIO:
@@ -140,7 +140,7 @@ public class KeyProcessor {
                         return true;
                     case LiveTvProgram:
                         // retrieve channel this program belongs to and play
-                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId(), false, activity);
+                        PlaybackHelper.retrieveAndPlay(rowItem.getBaseItem().getChannelId().toString(), false, activity);
                         return true;
                     case GridButton:
                         break;
@@ -158,9 +158,8 @@ public class KeyProcessor {
 
                 //Create a contextual menu based on item
                 switch (rowItem.getBaseRowType()) {
-
                     case BaseItem:
-                        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
+                        BaseItemDto item = rowItem.getBaseItem();
                         switch (item.getType()) {
                             case MOVIE:
                             case EPISODE:
@@ -201,7 +200,7 @@ public class KeyProcessor {
     }
 
     public static PopupMenu createItemMenu(BaseRowItem rowItem, UserItemDataDto userData, Activity activity) {
-        BaseItemDto item = ModelCompat.asSdk(rowItem.getBaseItem());
+        BaseItemDto item = rowItem.getBaseItem();
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
 
@@ -293,10 +292,10 @@ public class KeyProcessor {
         return menu;
     }
 
-    private static void createPlayMenu(org.jellyfin.apiclient.model.dto.BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
+    private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
-        if (!isMusic && ModelCompat.asSdk(item).getType() != BaseItemKind.PLAYLIST) {
+        if (!isMusic && item.getType() != BaseItemKind.PLAYLIST) {
             menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
         }
         menu.getMenu().add(0, MENU_PLAY, order++, R.string.lbl_play_all);
@@ -335,9 +334,9 @@ public class KeyProcessor {
                     return true;
                 case MENU_ADD_QUEUE:
                     if (isMusic) {
-                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<org.jellyfin.apiclient.model.dto.BaseItemDto>>() {
+                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
                             @Override
-                            public void onResponse(List<org.jellyfin.apiclient.model.dto.BaseItemDto> response) {
+                            public void onResponse(List<BaseItemDto> response) {
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).addToAudioQueue(response);
                             }
 
@@ -351,7 +350,7 @@ public class KeyProcessor {
                         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
                             @Override
                             public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                KoinJavaComponent.<MediaManager>get(MediaManager.class).addToVideoQueue(response);
+                                KoinJavaComponent.<MediaManager>get(MediaManager.class).addToVideoQueue(ModelCompat.asSdk(response));
                             }
 
                             @Override
@@ -430,7 +429,7 @@ public class KeyProcessor {
         ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
         CoroutineUtils.runBlocking((scope, continuation) ->
-                itemMutationRepository.setPlayed(ModelCompat.asSdk(mCurrentItem).getId(), played, continuation)
+                itemMutationRepository.setPlayed(mCurrentItem.getId(), played, continuation)
         );
 
         if (mCurrentActivity instanceof BaseActivity)
@@ -441,7 +440,7 @@ public class KeyProcessor {
         ItemMutationRepository itemMutationRepository = KoinJavaComponent.<ItemMutationRepository>get(ItemMutationRepository.class);
 
         CoroutineUtils.runBlocking((scope, continuation) ->
-                itemMutationRepository.setFavorite(ModelCompat.asSdk(mCurrentItem).getId(), favorite, continuation)
+                itemMutationRepository.setFavorite(mCurrentItem.getId(), favorite, continuation)
         );
 
         if (mCurrentActivity instanceof BaseActivity)

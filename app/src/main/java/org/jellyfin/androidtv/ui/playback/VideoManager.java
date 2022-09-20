@@ -37,9 +37,9 @@ import com.google.common.collect.ImmutableSet;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.MediaStream;
-import org.jellyfin.apiclient.model.entities.MediaStreamType;
+import org.jellyfin.sdk.model.api.MediaSourceInfo;
+import org.jellyfin.sdk.model.api.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -360,7 +360,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public boolean isSeekable() {
         if (!isInitialized())
             return false;
-        boolean canSeek = false;
+        boolean canSeek;
         if (isNativeMode())
             canSeek = mExoPlayer.isCurrentMediaItemSeekable();
         else {
@@ -432,7 +432,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<MediaStream> allStreams) {
+    private int offsetStreamIndex(int index, boolean adjustByAdding, boolean indexStartsAtOne, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (index < 0 || allStreams == null)
             return -1;
 
@@ -444,8 +444,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         // use indexStartsAtOne=true when the player's tracks list uses indexes/IDs starting at 1
         // MediaStream indexes/IDs start at 0
 
-        for (MediaStream stream : allStreams) {
-            if (!stream.getIsExternal())
+        for (org.jellyfin.sdk.model.api.MediaStream stream : allStreams) {
+            if (!stream.isExternal())
                 break;
             index += adjustByAdding ? 1 : -1;
         }
@@ -454,7 +454,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return index < 0 || index >= allStreams.size() ? -1 : index;
     }
 
-    public boolean setSubtitleTrack(int index, @Nullable List<MediaStream> allStreams) {
+    public boolean setSubtitleTrack(int index, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (isNativeMode() || allStreams == null)
             return false;
 
@@ -480,13 +480,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     }
 
-    public int getExoPlayerTrack(@Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
+    public int getExoPlayerTrack(@Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (!nativeMode || !isInitialized() || streamType == null || allStreams == null)
             return -1;
-        if (streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+        if (streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return -1;
 
-        int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
 
         int matchedIndex = -2;
         Tracks exoTracks = mExoPlayer.getCurrentTracks();
@@ -528,13 +528,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return exoTrackID;
     }
 
-    public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || allStreams == null || streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+    public boolean setExoPlayerTrack(int index, @Nullable org.jellyfin.sdk.model.api.MediaStreamType streamType, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
+        if (!nativeMode || !isInitialized() || allStreams == null || streamType != org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE && streamType != org.jellyfin.sdk.model.api.MediaStreamType.AUDIO)
             return false;
 
-        int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
-        MediaStream candidate = allStreams.get(index);
-        if (candidate.getIsExternal() || candidate.getType() != streamType)
+        int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+        org.jellyfin.sdk.model.api.MediaStream candidate = allStreams.get(index);
+        if (candidate.isExternal() || candidate.getType() != streamType)
             return false;
 
         int exoTrackID = offsetStreamIndex(index, false, true, allStreams);
@@ -543,7 +543,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         // print the streams for debugging
         for (MediaStream stream : allStreams) {
-            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.getIsExternal());
+            Timber.d("MediaStream track %s type %s label %s codec %s isExternal %s", stream.getIndex(), stream.getType(), stream.getTitle(), stream.getCodec(), stream.isExternal());
         }
 
         // design choices for exoplayer track selection overrides:
@@ -602,7 +602,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         try {
             TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
             mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
-            if (streamType == MediaStreamType.Subtitle)
+            if (streamType == MediaStreamType.SUBTITLE)
                 mExoPlayerSelectionParams.setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_NONE));
             mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
         } catch (Exception e) {
@@ -612,7 +612,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return true;
     }
 
-    public int getVLCAudioTrack(@Nullable List<MediaStream> allStreams) {
+    public int getVLCAudioTrack(@Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (!isInitialized() || nativeMode)
             return -1;
 
@@ -622,7 +622,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         return ndx;
     }
 
-    public int setVLCAudioTrack(int ndx, @Nullable List<MediaStream> allStreams) {
+    public int setVLCAudioTrack(int ndx, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
         if (!isInitialized() || isNativeMode())
             return -1;
 
@@ -740,8 +740,8 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     public void setVideoTrack(MediaSourceInfo mediaSource) {
         if (!nativeMode && mediaSource != null && mediaSource.getMediaStreams() != null) {
-            for (MediaStream stream : mediaSource.getMediaStreams()) {
-                if (stream.getType() == MediaStreamType.Video && stream.getIndex() >= 0) {
+            for (org.jellyfin.sdk.model.api.MediaStream stream : mediaSource.getMediaStreams()) {
+                if (stream.getType() == org.jellyfin.sdk.model.api.MediaStreamType.VIDEO && stream.getIndex() >= 0) {
                     Timber.d("Setting video index to: %d", stream.getIndex());
                     mVlcPlayer.setVideoTrack(stream.getIndex());
                     return;
@@ -780,8 +780,6 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 options.add("--video-filter=deinterlace");
                 options.add("--deinterlace-mode=Bob");
             }
-//            options.add("--subsdec-encoding");
-//            options.add("Universal (UTF-8)");
             options.add("--audio-desync");
             options.add(String.valueOf(KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getLibVLCAudioDelay())));
             options.add("-v");
