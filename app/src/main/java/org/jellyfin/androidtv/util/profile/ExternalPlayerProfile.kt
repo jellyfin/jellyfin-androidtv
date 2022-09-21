@@ -24,12 +24,6 @@ class ExternalPlayerProfile : DeviceProfile() {
 			}
 		)
 
-		transcodingProfiles = emptyArray()
-
-		containerProfiles = emptyArray()
-
-		codecProfiles = emptyArray()
-
 		subtitleProfiles = arrayOf(
 			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
