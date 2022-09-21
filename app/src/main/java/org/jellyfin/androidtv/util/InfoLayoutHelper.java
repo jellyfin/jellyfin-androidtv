@@ -295,8 +295,8 @@ public class InfoLayoutHelper {
             case PROGRAM:
             case TV_CHANNEL:
                 if (item.getStartDate() != null && item.getEndDate() != null) {
-                    date.setText(DateFormat.getTimeFormat(context).format(item.getStartDate())
-                            + "-"+ DateFormat.getTimeFormat(context).format(item.getEndDate()));
+                    date.setText(DateFormat.getTimeFormat(context).format(TimeUtils.getDate(item.getStartDate()))
+                            + "-"+ DateFormat.getTimeFormat(context).format(TimeUtils.getDate(item.getEndDate())));
                     layout.addView(date);
                     addSpacer(context, layout, "    ");
                 }
