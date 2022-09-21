@@ -244,11 +244,11 @@ open class BaseRowItem protected constructor(
 			).joinToString(" - ")
 
 			val timestamp = buildString {
-				append(SimpleDateFormat("d MMM").format(baseItem!!.startDate))
+				append(SimpleDateFormat("d MMM").format(TimeUtils.getDate(baseItem!!.startDate)))
 				append(" ")
-				append((DateFormat.getTimeFormat(context).format(baseItem!!.startDate)))
+				append((DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem!!.startDate))))
 				append(" - ")
-				append(DateFormat.getTimeFormat(context).format(baseItem!!.endDate))
+				append(DateFormat.getTimeFormat(context).format(TimeUtils.getDate(baseItem!!.endDate)))
 			}
 
 			"$title $timestamp"

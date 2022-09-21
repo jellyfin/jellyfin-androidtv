@@ -71,8 +71,8 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	val dateFormat = DateFormat.getTimeFormat(context)
 	append(context.getString(
 		R.string.lbl_time_range,
-		dateFormat.format(startDate),
-		dateFormat.format(endDate)
+		dateFormat.format(TimeUtils.getDate(startDate)),
+		dateFormat.format(TimeUtils.getDate(endDate))
 	))
 }
 
