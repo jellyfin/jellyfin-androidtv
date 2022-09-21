@@ -411,7 +411,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             }
         }
 
-        // updated by Joshua.Li
+        // updated by sunrisela
         external.putExtra(API_MX_SECURE_URI, true);
         this.adaptExternalSubtitles(mCurrentStreamInfo, external);
 
@@ -435,8 +435,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
      * Adapt external subtitles for external players. (e.g., MX Player, MPV, VLC, nPlayer)
      * External subtitles have higher priority than embedded subtitles.
      *
-     * @param mediaStreamInfo
-     * @param playerIntent
+     * @param mediaStreamInfo Current media stream info used to get subtitle profiles.
+     * @param playerIntent Put player API params of sub urls.
      */
     private void adaptExternalSubtitles(StreamInfo mediaStreamInfo, Intent playerIntent) {
 
