@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+	namespace = "org.jellyfin.preference"
 	compileSdk = 33
 
 	defaultConfig {

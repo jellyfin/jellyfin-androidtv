@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+	namespace = "org.jellyfin.playback.exoplayer"
 	compileSdk = 33
 
 	defaultConfig {
