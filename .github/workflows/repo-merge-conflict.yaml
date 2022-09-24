@@ -1,4 +1,4 @@
-name: Merge conflict labeler
+name: Repo / Label merge conflict
 
 on:
   push:
@@ -8,8 +8,9 @@ on:
 
 jobs:
   triage:
-    runs-on: ubuntu-20.04
-    if: github.repository == 'jellyfin/jellyfin-androidtv'
+    name: Triage
+    runs-on: ubuntu-22.04
+    if: ${{ contains(github.repository_owner, 'jellyfin') }}
     steps:
       - uses: eps1lon/actions-label-merge-conflict@b8bf8341285ec9a4567d4318ba474fee998a6919 # tag=v2.0.1
         with:

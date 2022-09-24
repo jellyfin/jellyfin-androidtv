@@ -1,4 +1,4 @@
-name: App Publish
+name: App / Publish
 
 on:
   push:
@@ -6,21 +6,24 @@ on:
       - v*
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
-    if: ${{ github.repository == 'jellyfin/jellyfin-androidtv' }}
+  publish:
+    name: Publish
+    runs-on: ubuntu-22.04
+    if: ${{ contains(github.repository_owner, 'jellyfin') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
       - name: Setup Java
         uses: actions/setup-java@d854b6da19cdadd9a010605529e522c2393ebd38 # tag=v3
         with:
-          distribution: adopt
-          java-version: 11
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@c295a4096e1d2c453eaf1f65c6f96686e26bd8be # tag=v2
       - name: Set JELLYFIN_VERSION
         run: echo "JELLYFIN_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
       - name: Assemble release files
-        run: ./gradlew --no-daemon --info assemble bundleRelease versionTxt
+        run: ./gradlew assemble bundleRelease versionTxt
       - name: Sign APK
         id: signApk
         uses: r0adkll/sign-android-release@349ebdef58775b1e0d8099458af0816dc79b6407 # tag=v1
@@ -30,7 +33,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-      - name: Sign AAB
+      - name: Sign app bundle
         id: signAab
         uses: r0adkll/sign-android-release@349ebdef58775b1e0d8099458af0816dc79b6407 # tag=v1
         with:
