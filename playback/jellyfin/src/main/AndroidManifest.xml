@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.jellyfin.playback.jellyfin" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

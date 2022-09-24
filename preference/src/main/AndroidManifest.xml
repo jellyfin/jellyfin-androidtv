@@ -1,7 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.jellyfin.preference">
-
-    <application>
-
-    </application>
-</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />
