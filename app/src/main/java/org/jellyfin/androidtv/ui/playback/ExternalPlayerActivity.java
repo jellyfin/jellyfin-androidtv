@@ -410,8 +410,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 external.putExtra(API_MX_FILENAME, file.getName());
             }
         }
-
-        // updated by sunrisela
+        
         external.putExtra(API_MX_SECURE_URI, true);
         this.adaptExternalSubtitles(mCurrentStreamInfo, external);
 
