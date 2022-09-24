@@ -218,7 +218,7 @@ public class PlaybackHelper {
                     @Override
                     public void onResponse(ChannelInfoDto response) {
                         // get current program info and fill it into our item
-                        org.jellyfin.sdk.model.api.BaseItemDto program = ModelCompat.asSdk(response.getCurrentProgram());
+                        org.jellyfin.sdk.model.api.BaseItemDto program = response.getCurrentProgram() != null ? ModelCompat.asSdk(response.getCurrentProgram()) : null;
                         org.jellyfin.sdk.model.api.BaseItemDto item = mainItem;
                         if (program != null) {
                             item = JavaCompat.copyWithDates(
