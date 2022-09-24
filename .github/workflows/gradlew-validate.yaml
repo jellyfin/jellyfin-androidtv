@@ -1,4 +1,4 @@
-name: Gradle validate
+name: Gradle / Validate wrapper
 
 on:
   push:
@@ -13,7 +13,8 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-20.04
+    name: Validate
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3

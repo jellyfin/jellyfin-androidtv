@@ -1,4 +1,4 @@
-name: App Lint
+name: App / Lint
 
 on:
   push:
@@ -9,24 +9,24 @@ on:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   lint:
-    permissions:
-      contents: read  # for actions/checkout to fetch code
-      security-events: write  # for github/codeql-action/upload-sarif to upload SARIF results
-    runs-on: ubuntu-20.04
+    name: Lint
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
       - name: Setup Java
         uses: actions/setup-java@d854b6da19cdadd9a010605529e522c2393ebd38 # tag=v3
         with:
-          distribution: adopt
-          java-version: 11
-          cache: gradle
-      - name: Run detekt and lint task
-        run: ./gradlew --build-cache --no-daemon --info detekt lint
+          distribution: temurin
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@c295a4096e1d2c453eaf1f65c6f96686e26bd8be # tag=v2
+      - name: Run detekt and lint tasks
+        run: ./gradlew detekt lint
       - name: Upload SARIF files
         uses: github/codeql-action/upload-sarif@86f3159a697a097a813ad9bfa0002412d97690a4 # tag=v2
         if: ${{ always() }}
