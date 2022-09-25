@@ -37,7 +37,7 @@ leakcanary = "2.9.1"
 libvlc = "3.5.1"
 markwon = "4.6.2"
 mockk = "1.13.1"
-slf4j-timber = "3.1"
+slf4j-timber = "0.0.4"
 timber = "5.0.1"
 
 [plugins]
@@ -109,7 +109,7 @@ acra-toast = { module = "ch.acra:acra-toast", version.ref = "acra" }
 aboutlibraries = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutlibraries" }
 
 # Logging
-slf4j-timber = { module = "com.arcao:slf4j-timber", version.ref = "slf4j-timber" }
+slf4j-timber = { module = "io.github.unveloper:slf4j-timber", version.ref = "slf4j-timber" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # Debugging
