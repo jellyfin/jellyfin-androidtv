@@ -87,7 +87,7 @@
         android:layout_marginEnd="40sp"
         android:layout_alignParentEnd="true" />
 
-    <ImageView
+    <org.jellyfin.androidtv.ui.AsyncImageView
         android:layout_width="150sp"
         android:layout_height="150sp"
         android:id="@+id/programImage"

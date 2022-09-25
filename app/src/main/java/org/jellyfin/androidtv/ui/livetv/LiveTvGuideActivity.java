@@ -15,17 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.core.content.ContextCompat;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
@@ -74,7 +74,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     private TextView mChannelStatus;
     private TextView mFilterStatus;
     private TextView mSummary;
-    private ImageView mImage;
+    private AsyncImageView mImage;
     private LinearLayout mInfoRow;
     private LinearLayout mChannels;
     private LinearLayout mTimeline;
@@ -776,12 +776,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         if (mSelectedProgram.getId() != null) {
             mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(mSelectedProgram));
-            int imageSize = Utils.convertDpToPixel(this, 150);
-            Glide.with(mActivity)
-                    .load(url)
-                    .override(imageSize, imageSize)
-                    .centerInside()
-                    .into(mImage);
+            mImage.load(url, null, ContextCompat.getDrawable(this, R.drawable.blank10x10), 0, 0);
         } else {
             mImage.setImageResource(R.drawable.blank10x10);
         }
