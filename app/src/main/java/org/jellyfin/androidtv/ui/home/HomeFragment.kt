@@ -41,7 +41,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.android.ext.android.inject
-import org.koin.java.KoinJavaComponent.get
 import timber.log.Timber
 
 class HomeFragment : RowsSupportFragment(), AudioEventListener {
@@ -52,6 +51,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 	private val userRepository by inject<UserRepository>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
+	private val dataRefreshService by inject<DataRefreshService>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -167,7 +167,6 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 		super.onResume()
 
 		//React to deletion
-		val dataRefreshService = get<DataRefreshService>(DataRefreshService::class.java)
 		if (activity != null && !requireActivity().isFinishing && currentRow != null && currentItem != null && currentItem!!.getItemId() != null && currentItem!!.getItemId().equals(dataRefreshService.lastDeletedItemId)) {
 			(currentRow!!.adapter as ItemRowAdapter).remove(currentItem)
 			dataRefreshService.lastDeletedItemId = null

@@ -11,14 +11,17 @@ import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
-import org.koin.java.KoinJavaComponent.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class HomeFragmentBrowseRowDefRow(
 	private val browseRowDef: BrowseRowDef
-) : HomeFragmentRow {
+) : HomeFragmentRow, KoinComponent {
+	private val userPreferences by inject<UserPreferences>()
+
 	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {
 		val header = HeaderItem(browseRowDef.headerText)
-		val preferParentThumb = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.seriesThumbnailsEnabled]
+		val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 		// Some of these members are probably never used and could be removed
 		val rowAdapter = when (browseRowDef.queryType) {

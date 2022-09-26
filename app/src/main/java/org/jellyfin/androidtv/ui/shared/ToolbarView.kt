@@ -11,18 +11,19 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.ViewToolbarBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
-import org.koin.java.KoinJavaComponent.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 class ToolbarView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,
 	defStyleRes: Int = 0,
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), KoinComponent {
 	private val binding = ViewToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
 	init {
-		val clockBehavior = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.clockBehavior]
+		val clockBehavior = get<UserPreferences>()[UserPreferences.clockBehavior]
 		binding.toolbarClock.isVisible = clockBehavior != ClockBehavior.NEVER && clockBehavior != ClockBehavior.IN_VIDEO
 
 		val style = context.theme.obtainStyledAttributes(attrs, R.styleable.JellyfinTheme, defStyleAttr, defStyleRes)
