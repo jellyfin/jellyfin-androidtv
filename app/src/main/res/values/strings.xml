@@ -121,6 +121,7 @@
     <string name="msg_remote_already_playing">Remote play request ignored.  Please stop current item first.</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Downmix to stereo</string>
+    <string name="pref_audio_night_mode">Audio night mode (experimental)</string>
     <string name="lbl_audio_output">Audio output</string>
     <string name="lbl_goto_series">Go to Series</string>
     <string name="lbl_enable_debug">Debug options</string>
@@ -184,6 +185,7 @@
     <string name="lbl_new_premieres">New Premieres</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital audio</string>
     <string name="desc_bitstream_ac3">Requires capable hardware</string>
+    <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="lbl_auto_crop">Auto Crop</string>
     <string name="lbl_stretch">Stretch</string>

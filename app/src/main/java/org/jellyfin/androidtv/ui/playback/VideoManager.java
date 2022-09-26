@@ -3,7 +3,11 @@ package org.jellyfin.androidtv.ui.playback;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.media.audiofx.DynamicsProcessing;
+import android.media.audiofx.DynamicsProcessing.Limiter;
+import android.media.audiofx.Equalizer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -60,6 +64,9 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private int mZoomMode = ZOOM_FIT;
 
     private PlaybackOverlayActivity mActivity;
+    private Equalizer mEqualizer;
+    private DynamicsProcessing mDynamicsProcessing;
+    private Limiter mLimiter;
     private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
@@ -84,6 +91,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private long mMetaDuration = -1;
     private long mMetaVLCStreamStartPosition = -1;
     private long lastExoPlayerPosition = -1;
+    private boolean nightModeEnabled = false;
 
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
@@ -98,8 +106,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         mSubtitlesSurface = view.findViewById(R.id.subtitles_surface);
         mSubtitlesSurface.setZOrderMediaOverlay(true);
         mSubtitlesSurface.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        nightModeEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getAudioNightMode());
 
         mExoPlayer = configureExoplayerBuilder(activity).build();
+
+        // Volume normalisation (audio night mode).
+        if (nightModeEnabled) enableAudioNightMode(mExoPlayer.getAudioSessionId());
+
         mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
                                                             .buildUpon()
                                                             .setDisabledTrackTypes(ImmutableSet.of(C.TRACK_TYPE_TEXT))
@@ -997,6 +1010,38 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
         }
     };
+
+    private void enableAudioNightMode(int audioSessionId) {
+        // Equaliser variables.
+        short eqDefault = (short) 0;
+        short eqSmallBoost = (short) 2;
+        short eqBigBoost = (short) 3;
+        mEqualizer = new Equalizer(0, audioSessionId);
+
+        // Compressor variables.
+        int attackTime = 30;
+        int releaseTime = 300;
+        int ratio = 10;
+        int threshold = -24;
+        int postGain = 3;
+
+        // Mid range boost to make dialogue louder.
+        mEqualizer.setBandLevel((short) 0, eqDefault);
+        mEqualizer.setBandLevel((short) 1, eqSmallBoost);
+        mEqualizer.setBandLevel((short) 2, eqBigBoost);
+        mEqualizer.setBandLevel((short) 3, eqSmallBoost);
+        mEqualizer.setBandLevel((short) 4, eqDefault);
+        mEqualizer.setEnabled(true);
+
+        // Compression of audio (available >= android.P only).
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            mDynamicsProcessing = new DynamicsProcessing(audioSessionId);
+            mLimiter = new Limiter(true, true, 1, attackTime, releaseTime, ratio, threshold, postGain);
+            mLimiter.setEnabled(true);
+            mDynamicsProcessing.setLimiterAllChannelsTo(mLimiter);
+            mDynamicsProcessing.setEnabled(true);
+        }
+    }
 
     @Override
     public void onNewVideoLayout(IVLCVout vout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {

@@ -107,6 +107,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var audioBehaviour = enumPreference("audio_behavior", defaultAudioBehavior)
 
 		/**
+		 * Preferred behavior for audio streaming.
+		 */
+		var audioNightMode = enumPreference("audio_night_mode", false)
+
+		/**
 		 * Enable DTS
 		 */
 		var dtsEnabled = booleanPreference("pref_bitstream_dts", false)
