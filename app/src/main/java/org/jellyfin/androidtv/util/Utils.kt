@@ -7,14 +7,15 @@ import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.audioBehaviour
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.sdk.model.api.UserDto
-import org.koin.java.KoinJavaComponent.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import timber.log.Timber
 import kotlin.math.roundToInt
 
 /**
  * A collection of utility methods, all static.
  */
-object Utils {
+object Utils : KoinComponent {
 	/**
 	 * Shows a (long) toast
 	 */
@@ -78,8 +79,8 @@ object Utils {
 
 	@JvmStatic
 	fun getMaxBitrate(): Int {
-		val maxRate = get<UserPreferences>(UserPreferences::class.java)[UserPreferences.maxBitrate]
-		val autoRate = get<AutoBitrate>(AutoBitrate::class.java).bitrate
+		val maxRate = get<UserPreferences>()[UserPreferences.maxBitrate]
+		val autoRate = get<AutoBitrate>().bitrate
 
 		return when {
 			maxRate == UserPreferences.MAX_BITRATE_AUTO && autoRate != null -> autoRate.toInt()
@@ -103,7 +104,7 @@ object Utils {
 			return true
 		}
 
-		return get<UserPreferences>(UserPreferences::class.java)[audioBehaviour] === AudioBehavior.DOWNMIX_TO_STEREO
+		return get<UserPreferences>()[audioBehaviour] === AudioBehavior.DOWNMIX_TO_STEREO
 	}
 
 	@JvmStatic

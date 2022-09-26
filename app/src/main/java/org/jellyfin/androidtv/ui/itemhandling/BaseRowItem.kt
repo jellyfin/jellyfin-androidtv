@@ -30,7 +30,8 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
 import org.jellyfin.sdk.model.api.SearchHint
 import org.jellyfin.sdk.model.serializer.toUUID
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.temporal.ChronoUnit
@@ -49,7 +50,7 @@ open class BaseRowItem protected constructor(
 	val searchHint: SearchHint? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
-) {
+) : KoinComponent {
 	// Start of constructor hell
 	@JvmOverloads
 	constructor(
@@ -154,7 +155,7 @@ open class BaseRowItem protected constructor(
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvProgram,
 		BaseRowType.LiveTvRecording -> {
-			val apiClient by inject<LegacyApiClient>(LegacyApiClient::class.java)
+			val apiClient = get<LegacyApiClient>()
 			when (imageType) {
 				ImageType.BANNER -> ImageUtils.getBannerImageUrl(baseItem, apiClient, maxHeight)
 				ImageType.THUMB -> ImageUtils.getThumbImageUrl(baseItem, apiClient, maxHeight)
@@ -333,7 +334,7 @@ open class BaseRowItem protected constructor(
 	) {
 		if (baseRowType == BaseRowType.BaseItem) {
 			val id = getItemId()
-			val api by inject<ApiClient>(ApiClient::class.java)
+			val api = get<ApiClient>()
 
 			if (id.isNullOrBlank()) {
 				Timber.w("Skipping call to BaseRowItem.refresh()")

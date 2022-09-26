@@ -3,11 +3,12 @@ package org.jellyfin.androidtv.data.querying
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.ItemQuery
-import org.koin.java.KoinJavaComponent.get
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 class StdItemQuery @JvmOverloads constructor(
 	fields: Array<ItemFields> = defaultFields
-) : ItemQuery() {
+) : ItemQuery(), KoinComponent {
 	companion object {
 		val defaultFields = arrayOf(
 			ItemFields.PrimaryImageAspectRatio,
@@ -19,7 +20,7 @@ class StdItemQuery @JvmOverloads constructor(
 	}
 
 	init {
-		userId = get<UserRepository>(UserRepository::class.java).currentUser.value!!.id.toString()
+		userId = get<UserRepository>().currentUser.value!!.id.toString()
 		setFields(fields)
 	}
 }
