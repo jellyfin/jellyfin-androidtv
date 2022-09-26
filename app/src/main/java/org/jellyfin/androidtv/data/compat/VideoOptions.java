@@ -1,11 +1,5 @@
 package org.jellyfin.androidtv.data.compat;
 
-/**
- * Class VideoOptions.
- *
- * @deprecated
- */
-@Deprecated
 public class VideoOptions extends AudioOptions {
     private Integer AudioStreamIndex;
     private Integer SubtitleStreamIndex;

@@ -608,6 +608,6 @@ public class ItemListActivity extends FragmentActivity {
         if(item.getBackdropCount() == 0 && mItems != null && mItems.size() >= 1)
             item = mItems.get(new Random().nextInt(mItems.size()));
 
-        backgroundService.getValue().setBackground(item);
+        backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
     }
 }

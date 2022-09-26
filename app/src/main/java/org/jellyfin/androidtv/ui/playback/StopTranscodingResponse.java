@@ -9,7 +9,6 @@ import org.jellyfin.sdk.model.DeviceInfo;
 
 import timber.log.Timber;
 
-@Deprecated
 public class StopTranscodingResponse extends EmptyResponse {
     private PlaybackManager playbackManager;
     private final DeviceInfo deviceInfo;

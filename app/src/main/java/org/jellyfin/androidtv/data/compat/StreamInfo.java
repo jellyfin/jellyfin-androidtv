@@ -16,12 +16,6 @@ import org.jellyfin.sdk.model.api.MediaStreamType;
 
 import java.util.ArrayList;
 
-/**
- * Class StreamInfo.
- *
- * @deprecated
- */
-@Deprecated
 public class StreamInfo {
     private static final String START_TIME_TICKS = "StartTimeTicks";
     private static final String SUBTITLE_STREAM_INDEX = "SubtitleStreamIndex";

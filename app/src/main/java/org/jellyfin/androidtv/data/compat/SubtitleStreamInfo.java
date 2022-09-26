@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.data.compat;
 
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 
-@Deprecated
 public class SubtitleStreamInfo {
     private String Url;
 
