@@ -20,7 +20,6 @@ import org.jellyfin.sdk.model.DeviceInfo;
 
 import java.util.ArrayList;
 
-@Deprecated
 public class GetPlaybackInfoResponse extends Response<PlaybackInfoResponse> {
     private PlaybackManager playbackManager;
     private final DeviceInfo deviceInfo;

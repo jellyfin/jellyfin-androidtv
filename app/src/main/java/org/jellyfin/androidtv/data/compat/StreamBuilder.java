@@ -6,7 +6,6 @@ import org.jellyfin.apiclient.model.dlna.SubtitleProfile;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.session.PlayMethod;
 
-@Deprecated
 public class StreamBuilder
 {
     public static SubtitleProfile GetSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod)

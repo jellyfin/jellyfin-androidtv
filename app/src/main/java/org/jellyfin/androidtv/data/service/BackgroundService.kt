@@ -30,7 +30,6 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.sdk.Jellyfin
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -41,7 +40,6 @@ import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.ExecutionException
-import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto
 
 class BackgroundService(
 	private val context: Context,
@@ -144,15 +142,6 @@ class BackgroundService(
 			)
 		}
 	}
-
-	/**
-	 * Use all available backdrops from [baseItem] as background.
-	 */
-	@Deprecated(
-		"Use the SDK instead of the legacy apiclient",
-		ReplaceWith("setBackground(baseItem?.asSdk())", "org.jellyfin.androidtv.util.sdk.compat.asSdk")
-	)
-	fun setBackground(baseItem: LegacyBaseItemDto?) = setBackground(baseItem?.asSdk())
 
 	/**
 	 * Use all available backdrops from [baseItem] as background.

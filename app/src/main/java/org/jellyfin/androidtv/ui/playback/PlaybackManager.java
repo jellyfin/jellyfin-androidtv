@@ -18,12 +18,6 @@ import org.jellyfin.sdk.model.api.MediaStream;
 
 import java.util.ArrayList;
 
-/**
- * Reimplementation of the PlaybackManager class from the apiclient with local item support removed.
- *
- * @deprecated
- */
-@Deprecated
 public class PlaybackManager {
     private final org.jellyfin.sdk.api.client.ApiClient api;
 

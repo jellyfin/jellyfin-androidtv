@@ -6,12 +6,6 @@ import org.jellyfin.sdk.model.api.MediaSourceInfo;
 
 import java.util.List;
 
-/**
- * Class AudioOptions.
- *
- * @deprecated
- */
-@Deprecated
 public class AudioOptions {
     public AudioOptions() {
         setContext(EncodingContext.Streaming);

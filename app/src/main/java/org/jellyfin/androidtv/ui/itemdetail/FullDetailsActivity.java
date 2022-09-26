@@ -507,7 +507,7 @@ public class FullDetailsActivity extends BaseActivity implements RecordingIndica
 
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
-        backgroundService.getValue().setBackground(item);
+        backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
         if (mBaseItem != null) {
             if (mChannelId != null) {
                 mBaseItem.setParentId(mChannelId);
