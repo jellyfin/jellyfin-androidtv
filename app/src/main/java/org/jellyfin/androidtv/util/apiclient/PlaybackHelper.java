@@ -18,7 +18,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -77,15 +76,16 @@ public class PlaybackHelper {
                                     boolean foundMainItem = false;
                                     int numAdded = 0;
                                     for (BaseItemDto item : response.getItems()) {
+                                        org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(item);
                                         if (foundMainItem) {
-                                            if (!LocationType.Virtual.equals(item.getLocationType()) && numAdded < ITEM_QUERY_LIMIT) {
-                                                items.add(ModelCompat.asSdk(item));
+                                            if (!baseItem.getLocationType().equals(org.jellyfin.sdk.model.api.LocationType.VIRTUAL) && numAdded < ITEM_QUERY_LIMIT) {
+                                                items.add(baseItem);
                                                 numAdded++;
                                             } else {
                                                 //stop adding when we hit a missing one or we have reached the limit
                                                 break;
                                             }
-                                        } else if (item.getId() != null && item.getId().equals(mainItem.getId())) {
+                                        } else if (baseItem.getId() != null && baseItem.getId().equals(mainItem.getId())) {
                                             foundMainItem = true;
                                         }
                                     }
