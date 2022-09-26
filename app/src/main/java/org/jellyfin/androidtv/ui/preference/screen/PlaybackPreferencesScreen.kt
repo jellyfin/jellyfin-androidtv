@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
 import android.app.AlertDialog
+import android.os.Build
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -154,6 +155,13 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.lbl_audio_output)
 				bind(userPreferences, UserPreferences.audioBehaviour)
 				depends { userPreferences[UserPreferences.videoPlayer] != PreferredVideoPlayer.EXTERNAL }
+			}
+
+			checkbox {
+				setTitle(R.string.pref_audio_night_mode)
+				setContent(R.string.desc_audio_night_mode)
+				bind(userPreferences, UserPreferences.audioNightMode)
+				depends { Build.VERSION.SDK_INT >= Build.VERSION_CODES.P }
 			}
 
 			checkbox {
