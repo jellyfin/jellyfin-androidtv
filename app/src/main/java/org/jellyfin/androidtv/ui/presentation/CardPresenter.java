@@ -405,14 +405,14 @@ public class CardPresenter extends Presenter {
             Map<String, String> blurHashMap;
             String imageTag;
             if (aspect == ASPECT_RATIO_BANNER) {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
-                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Banner);
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.BANNER);
             } else if (aspect == ImageUtils.ASPECT_RATIO_16_9 && !isUserView && (rowItem.getBaseItemType() != BaseItemKind.EPISODE || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY) || (rowItem.getPreferParentThumb() && rowItem.getBaseItem().getParentThumbImageTag() != null))) {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
-                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY)) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Thumb);
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
+                imageTag = (rowItem.getPreferParentThumb() || !rowItem.getBaseItem().getImageTags().containsKey(org.jellyfin.sdk.model.api.ImageType.PRIMARY)) ? rowItem.getBaseItem().getParentThumbImageTag() : rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.THUMB);
             } else {
-                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
-                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.apiclient.model.entities.ImageType.Primary);
+                blurHashMap = rowItem.getBaseItem().getImageBlurHashes().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
+                imageTag = rowItem.getBaseItem().getImageTags().get(org.jellyfin.sdk.model.api.ImageType.PRIMARY);
             }
 
             if (blurHashMap != null && !blurHashMap.isEmpty() && imageTag != null && blurHashMap.get(imageTag) != null) {
