@@ -108,9 +108,11 @@ class ServerFragment : Fragment() {
 
 		onServerChange(server)
 
-		lifecycleScope.launchWhenCreated {
-			val updated = startupViewModel.updateServer(server)
-			if (updated) startupViewModel.getServer(server.id)?.let(::onServerChange)
+		lifecycleScope.launch {
+			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				val updated = startupViewModel.updateServer(server)
+				if (updated) startupViewModel.getServer(server.id)?.let(::onServerChange)
+			}
 		}
 
 		return binding.root
