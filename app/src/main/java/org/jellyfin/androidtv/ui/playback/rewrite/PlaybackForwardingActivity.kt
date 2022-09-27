@@ -3,7 +3,10 @@ package org.jellyfin.androidtv.ui.playback.rewrite
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -37,20 +40,22 @@ class PlaybackForwardingActivity : FragmentActivity() {
 			return
 		}
 
-		lifecycleScope.launchWhenCreated {
-			// Get fresh info from API in SDK format
-			val item by api.userLibraryApi.getItem(itemId = itemId)
+		lifecycleScope.launch {
+			lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+				// Get fresh info from API in SDK format
+				val item by api.userLibraryApi.getItem(itemId = itemId)
 
-			// Log info
-			Toast.makeText(
-				this@PlaybackForwardingActivity,
-				"Found item of type ${item.type} - ${item.name} (${item.id}",
-				Toast.LENGTH_LONG
-			).show()
-			Timber.i(item.toString())
+				// Log info
+				Toast.makeText(
+					this@PlaybackForwardingActivity,
+					"Found item of type ${item.type} - ${item.name} (${item.id}",
+					Toast.LENGTH_LONG
+				).show()
+				Timber.i(item.toString())
 
-			// TODO: Create queue, send to new playback manager, start new player UI
-			finishAfterTransition()
+				// TODO: Create queue, send to new playback manager, start new player UI
+				finishAfterTransition()
+			}
 		}
 	}
 
