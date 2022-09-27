@@ -44,7 +44,7 @@ class SearchProvider(
 		searchJob?.cancel()
 		searchJob = lifecycle.coroutineScope.launch {
 			if (delayed) delay(SEARCH_DELAY)
-			searchRunnable.run(query)
+			searchRunnable.search(query)
 		}
 
 		return true
