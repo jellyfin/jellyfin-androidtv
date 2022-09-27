@@ -1,107 +1,82 @@
-package org.jellyfin.androidtv.ui.search;
+package org.jellyfin.androidtv.ui.search
 
-import static org.koin.java.KoinJavaComponent.inject;
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.leanback.app.RowsSupportFragment
+import androidx.leanback.widget.BaseOnItemViewClickedListener
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.OnItemViewSelectedListener
+import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.databinding.FragmentSearchTextBinding
+import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
+import org.koin.java.KoinJavaComponent.inject
 
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
+class TextSearchFragment : Fragment(), TextWatcher, TextView.OnEditorActionListener {
+	private lateinit var searchProvider: SearchProvider
+	private val backgroundService = inject<BackgroundService>(BackgroundService::class.java)
 
-import androidx.fragment.app.Fragment;
-import androidx.leanback.app.RowsSupportFragment;
-import androidx.leanback.widget.ListRow;
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.databinding.FragmentSearchTextBinding;
-import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener;
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+		backgroundService.value.attach(requireActivity())
 
-import kotlin.Lazy;
+		// Create provider
+		searchProvider = SearchProvider(requireContext(), lifecycle)
+	}
 
-public class TextSearchFragment extends Fragment implements TextWatcher, TextView.OnEditorActionListener {
-    protected CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+		FragmentSearchTextBinding.inflate(inflater, container, false).root
 
-    private SearchProvider searchProvider;
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-    private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
+		// Add event listeners
+		requireActivity().findViewById<EditText>(R.id.search_bar).apply {
+			addTextChangedListener(this@TextSearchFragment)
+			setOnEditorActionListener(this@TextSearchFragment)
+		}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		// Set up result fragment
+		val rowsSupportFragment = childFragmentManager.findFragmentById(R.id.results_frame) as? RowsSupportFragment
+		rowsSupportFragment?.adapter = searchProvider.resultsAdapter
 
-        searchProvider = new SearchProvider(getContext(), getLifecycle());
-    }
+		rowsSupportFragment?.onItemViewClickedListener = BaseOnItemViewClickedListener<ListRow> { _, item, _, row ->
+			if (item !is BaseRowItem) return@BaseOnItemViewClickedListener
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return FragmentSearchTextBinding.inflate(inflater, container, false).getRoot();
-    }
+			val adapter = row.adapter as ItemRowAdapter
+			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, activity)
+		}
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+		rowsSupportFragment?.onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
+			if (item is BaseRowItem) backgroundService.value.setBackground(item.searchHint!!)
+			else backgroundService.value.clearBackgrounds()
+		}
+	}
 
-        backgroundService.getValue().attach(requireActivity());
+	override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
+	override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) = Unit
 
-        // Add event listeners
-        EditText searchBar = getActivity().findViewById(R.id.search_bar);
-        searchBar.addTextChangedListener(this);
-        searchBar.setOnEditorActionListener(this);
+	override fun afterTextChanged(editable: Editable) {
+		searchProvider.onQueryTextChange(editable.toString())
+	}
 
-        // Set up result fragment
-        RowsSupportFragment rowsSupportFragment = (RowsSupportFragment) getChildFragmentManager().findFragmentById(R.id.results_frame);
-        rowsSupportFragment.setAdapter(searchProvider.getResultsAdapter());
+	override fun onEditorAction(view: TextView, actionId: Int, event: KeyEvent): Boolean {
+		// Detect keyboard "submit" actions
+		if (actionId == EditorInfo.IME_ACTION_SEARCH) searchProvider.onQueryTextSubmit(view.text.toString())
 
-        rowsSupportFragment.setOnItemViewSelectedListener(mSelectedListener);
-        mSelectedListener.registerListener((itemViewHolder, item, rowViewHolder, row) -> {
-            if (!(item instanceof BaseRowItem)) {
-                backgroundService.getValue().clearBackgrounds();
-            } else {
-                BaseRowItem rowItem = (BaseRowItem) item;
-                backgroundService.getValue().setBackground(rowItem.getSearchHint());
-            }
-        });
-
-        // Create click listener
-        rowsSupportFragment.setOnItemViewClickedListener((itemViewHolder, item, rowViewHolder, row) -> {
-            if (!(item instanceof BaseRowItem)) return;
-
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
-        });
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // No implementation
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // No implementation
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        searchProvider.onQueryTextChange(s.toString());
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        // Detect keyboard "submit" actions
-        if (actionId == EditorInfo.IME_ACTION_SEARCH)
-            searchProvider.onQueryTextSubmit(v.getText().toString());
-
-        // Return "false" to automatically close keyboard
-        return false;
-    }
+		// Return "false" to automatically close keyboard
+		return false
+	}
 }
-
