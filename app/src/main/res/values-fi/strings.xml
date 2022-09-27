@@ -494,4 +494,6 @@
     <string name="enable_picture_viewer_title">Ota uusi kuvankatselu käyttöön</string>
     <string name="episode_name_special">erikoisjakso</string>
     <string name="lbl_quality_profile">Laatuprofiili</string>
+    <string name="desc_audio_night_mode">Tasoittaa äänenvoimakkuuden eroja automaattisesti</string>
+    <string name="pref_audio_night_mode">Äänen yötila (kokeellinen)</string>
 </resources>
