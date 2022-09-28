@@ -12,7 +12,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
+import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -319,14 +319,14 @@ public class KeyProcessor {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListFragment.FAV_SONGS)) {
                         PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (mCurrentItemId.equals(ItemListActivity.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(ItemListFragment.FAV_SONGS)) {
                         PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);

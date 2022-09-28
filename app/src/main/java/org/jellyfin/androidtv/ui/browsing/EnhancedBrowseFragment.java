@@ -38,6 +38,7 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
+import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -110,7 +111,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseItemDto item = new BaseItemDto();
-        item.setId(ItemListActivity.FAV_SONGS);
+        item.setId(ItemListFragment.FAV_SONGS);
         item.setBaseItemType(BaseItemType.Playlist);
         item.setIsFolder(true);
 
@@ -425,7 +426,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
 
                     case FAVSONGS:
                         Intent favIntent = new Intent(getActivity(), ItemListActivity.class);
-                        favIntent.putExtra("ItemId", ItemListActivity.FAV_SONGS);
+                        favIntent.putExtra("ItemId", ItemListFragment.FAV_SONGS);
                         favIntent.putExtra("ParentId", mFolder.getId());
 
                         requireActivity().startActivity(favIntent);
