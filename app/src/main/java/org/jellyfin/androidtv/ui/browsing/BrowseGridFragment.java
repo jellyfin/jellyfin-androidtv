@@ -54,7 +54,6 @@ import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.KeyListener;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
@@ -80,7 +79,7 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
-public class BrowseGridFragment extends Fragment {
+public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final static int CHUNK_SIZE_MINIMUM = 25;
 
     private String mainTitle;
@@ -216,6 +215,18 @@ public class BrowseGridFragment extends Fragment {
         createGrid();
         loadGrid();
         addTools();
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+
+        if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+            mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
+            mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
+            mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
+        }
+        return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
     }
 
     @Override
@@ -913,18 +924,6 @@ public class BrowseGridFragment extends Fragment {
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
         if (mActivity != null) {
-            mActivity.registerKeyListener(new KeyListener() {
-                @Override
-                public boolean onKeyUp(int key, KeyEvent event) {
-                    if (key == KeyEvent.KEYCODE_MEDIA_PLAY || key == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                        mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
-                        mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
-                        mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
-                    }
-                    return KeyProcessor.HandleKey(key, mCurrentItem, mActivity);
-                }
-            });
-
             mActivity.registerMessageListener(new MessageListener() {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
