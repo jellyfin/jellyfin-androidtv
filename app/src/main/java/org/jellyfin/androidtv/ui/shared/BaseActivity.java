@@ -1,7 +1,5 @@
 package org.jellyfin.androidtv.ui.shared;
 
-import android.view.KeyEvent;
-
 import androidx.fragment.app.FragmentActivity;
 
 import org.jellyfin.androidtv.constant.CustomMessage;
@@ -11,7 +9,6 @@ import kotlin.ReplaceWith;
 
 @Deprecated(message = "Use FragmentActivity instead", replaceWith = @ReplaceWith(expression = "FragmentActivity", imports = {}))
 public abstract class BaseActivity extends FragmentActivity {
-    private KeyListener keyListener;
     private MessageListener messageListener;
 
     public BaseActivity() {
@@ -20,10 +17,6 @@ public abstract class BaseActivity extends FragmentActivity {
 
     public BaseActivity(int fragmentContentView) {
         super(fragmentContentView);
-    }
-
-    public void registerKeyListener(KeyListener listener) {
-        keyListener = listener;
     }
 
     public void registerMessageListener(MessageListener listener) {
@@ -38,10 +31,5 @@ public abstract class BaseActivity extends FragmentActivity {
         if (messageListener != null) {
             messageListener.onMessageReceived(message);
         }
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return keyListener != null ? keyListener.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event) : super.onKeyUp(keyCode, event);
     }
 }

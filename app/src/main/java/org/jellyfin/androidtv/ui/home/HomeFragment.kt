@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.home
 
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.leanback.app.RowsSupportFragment
@@ -43,7 +44,7 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class HomeFragment : RowsSupportFragment(), AudioEventListener {
+class HomeFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListener {
 	private val api by inject<ApiClient>()
 	private val backgroundService by inject<BackgroundService>()
 	private val mediaManager by inject<MediaManager>()
@@ -144,7 +145,6 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 		}
 
 		(activity as? BaseActivity)?.let { activity ->
-			activity.registerKeyListener { key, _ -> KeyProcessor.HandleKey(key, currentItem, activity) }
 			activity.registerMessageListener { message ->
 				when (message) {
 					CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
@@ -154,6 +154,11 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener {
 		}
 		// Subscribe to Audio messages
 		mediaManager.addAudioEventListener(this)
+	}
+
+	override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+		if (event?.action != KeyEvent.ACTION_DOWN) return false
+		return KeyProcessor.HandleKey(keyCode, currentItem, activity)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

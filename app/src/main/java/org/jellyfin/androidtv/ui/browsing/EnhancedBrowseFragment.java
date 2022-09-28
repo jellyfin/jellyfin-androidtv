@@ -48,7 +48,6 @@ import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.KeyListener;
 import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -69,7 +68,7 @@ import java.util.UUID;
 import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 
-public class EnhancedBrowseFragment extends Fragment implements RowLoader {
+public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.OnKeyListener {
     protected FragmentActivity mActivity;
 
     protected TextView mTitle;
@@ -331,13 +330,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
         mRowsFragment.setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
         if (mActivity != null && mActivity instanceof BaseActivity) {
-            ((BaseActivity) mActivity).registerKeyListener(new KeyListener() {
-                @Override
-                public boolean onKeyUp(int key, KeyEvent event) {
-                    return KeyProcessor.HandleKey(key, mCurrentItem, ((BaseActivity) mActivity));
-                }
-            });
-
             ((BaseActivity) mActivity).registerMessageListener(new MessageListener() {
                 @Override
                 public void onMessageReceived(CustomMessage message) {
@@ -349,6 +341,12 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+        return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
     }
 
     private void refreshCurrentItem() {
