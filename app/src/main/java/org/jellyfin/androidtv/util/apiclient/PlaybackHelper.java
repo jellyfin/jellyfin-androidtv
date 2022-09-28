@@ -7,7 +7,7 @@ import android.content.Intent;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
+import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -159,7 +159,7 @@ public class PlaybackHelper {
                 });
                 break;
             case PLAYLIST:
-                if (mainItem.getId().equals(ItemListActivity.FAV_SONGS)) {
+                if (mainItem.getId().equals(ItemListFragment.FAV_SONGS)) {
                     query.setFilters(new ItemFilter[] {ItemFilter.IsFavoriteOrLikes});
                 } else {
                     query.setParentId(mainItem.getId().toString());
