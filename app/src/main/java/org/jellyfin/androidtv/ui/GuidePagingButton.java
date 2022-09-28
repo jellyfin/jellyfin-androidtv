@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.databinding.ProgramGridCellBinding;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
 import org.jellyfin.androidtv.util.Utils;
 
 public class GuidePagingButton extends RelativeLayout {
@@ -32,7 +32,7 @@ public class GuidePagingButton extends RelativeLayout {
 
         setBackgroundColor(Utils.getThemeColor(activity, R.attr.buttonDefaultNormalBackground));
         setFocusable(true);
-        setOnClickListener(v -> guide.displayChannels(start, LiveTvGuideActivity.PAGE_SIZE));
+        setOnClickListener(v -> guide.displayChannels(start, LiveTvGuideFragment.PAGE_SIZE));
     }
 
     @Override
