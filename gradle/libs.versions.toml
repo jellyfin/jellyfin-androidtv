@@ -31,6 +31,7 @@ kenburnsview = "1.0.7"
 koin = "3.2.2"
 kotest = "5.4.2"
 kotlin = "1.7.20"
+kotlin-ksp = "1.7.20-1.0.6"
 kotlinx-coroutines = "1.6.4"
 kotlinx-serialization = "1.4.0"
 leakcanary = "2.9.1"
@@ -43,6 +44,7 @@ timber = "5.0.1"
 [plugins]
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
@@ -97,8 +99,8 @@ markwon-html = { module = "io.noties.markwon:html", version.ref = "markwon" }
 
 # Image utility
 blurhash = { module = "com.vanniktech:blurhash", version.ref = "blurhash" }
-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 kenburnsview = { module = "com.flaviofaria:kenburnsview", version.ref = "kenburnsview" }
 
 # Crash Reporting
