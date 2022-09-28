@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -19,12 +20,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.databinding.LiveTvGuideBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
 import org.jellyfin.androidtv.ui.GuideChannelHeader;
@@ -61,14 +66,13 @@ import java.util.UUID;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
+public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     public static final int GUIDE_ROW_HEIGHT_DP = 55;
     public static final int GUIDE_ROW_WIDTH_PER_MIN_DP = 7;
     public static final int PAGE_SIZE = 75;
     public static final int NORMAL_HOURS = 9;
     public static final int FILTERED_HOURS = 4;
 
-    private LiveTvGuideActivity mActivity;
     private TextView mDisplayDate;
     private TextView mTitle;
     private TextView mChannelStatus;
@@ -106,33 +110,30 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        guideRowHeightPx = Utils.convertDpToPixel(requireContext(), GUIDE_ROW_HEIGHT_DP);
+        guideRowWidthPerMinPx = Utils.convertDpToPixel(requireContext(), GUIDE_ROW_WIDTH_PER_MIN_DP);
 
-        mActivity = this;
+        LiveTvGuideBinding binding = LiveTvGuideBinding.inflate(getLayoutInflater(), container, false);
 
-        guideRowHeightPx = Utils.convertDpToPixel(this, GUIDE_ROW_HEIGHT_DP);
-        guideRowWidthPerMinPx = Utils.convertDpToPixel(this, GUIDE_ROW_WIDTH_PER_MIN_DP);
-
-        setContentView(R.layout.live_tv_guide);
-
-        mDisplayDate = findViewById(R.id.displayDate);
-        mTitle = findViewById(R.id.title);
-        mSummary = findViewById(R.id.summary);
-        mChannelStatus = findViewById(R.id.channelsStatus);
-        mFilterStatus = findViewById(R.id.filterStatus);
+        mDisplayDate = binding.displayDate;
+        mTitle = binding.title;
+        mSummary = binding.summary;
+        mChannelStatus = binding.channelsStatus;
+        mFilterStatus = binding.filterStatus;
         mChannelStatus.setTextColor(Color.GRAY);
         mFilterStatus.setTextColor(Color.GRAY);
-        mInfoRow = findViewById(R.id.infoRow);
-        mImage = findViewById(R.id.programImage);
-        mChannels = findViewById(R.id.channels);
-        mTimeline = findViewById(R.id.timeline);
-        mProgramRows = findViewById(R.id.programRows);
-        mSpinner = findViewById(R.id.spinner);
+        mInfoRow = binding.infoRow;
+        mImage = binding.programImage;
+        mChannels = binding.channels;
+        mTimeline = binding.timeline;
+        mProgramRows = binding.programRows;
+        mSpinner = binding.spinner;
         mSpinner.setVisibility(View.VISIBLE);
 
-        View mFilterButton = findViewById(R.id.filterButton);
+        View mFilterButton = binding.filterButton;
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +142,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         });
         mFilterButton.setContentDescription(getString(R.string.lbl_filters));
 
-        View mOptionsButton = findViewById(R.id.optionsButton);
+        View mOptionsButton = binding.optionsButton;
         mOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +151,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         });
         mOptionsButton.setContentDescription(getString(R.string.lbl_other_options));
 
-        View mDateButton = findViewById(R.id.dateButton);
+        View mDateButton = binding.dateButton;
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +160,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         });
         mDateButton.setContentDescription(getString(R.string.lbl_select_date));
 
-        mResetButton = findViewById(R.id.resetButton);
+        mResetButton = binding.resetButton;
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,8 +169,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         });
 
         mProgramRows.setFocusable(false);
-        mChannelScroller = findViewById(R.id.channelScroller);
-        ObservableScrollView programVScroller = findViewById(R.id.programVScroller);
+        mChannelScroller = binding.channelScroller;
+        ObservableScrollView programVScroller = binding.programVScroller;
         programVScroller.setScrollViewListener(new ScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -183,14 +184,14 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             }
         });
 
-        mTimelineScroller = findViewById(R.id.timelineHScroller);
+        mTimelineScroller = binding.timelineHScroller;
         mTimelineScroller.setFocusable(false);
         mTimelineScroller.setFocusableInTouchMode(false);
         mTimeline.setFocusable(false);
         mTimeline.setFocusableInTouchMode(false);
         mChannelScroller.setFocusable(false);
         mChannelScroller.setFocusableInTouchMode(false);
-        ObservableHorizontalScrollView programHScroller = findViewById(R.id.programHScroller);
+        ObservableHorizontalScrollView programHScroller = binding.programHScroller;
         programHScroller.setScrollViewListener(new HorizontalScrollViewListener() {
             @Override
             public void onScrollChanged(ObservableHorizontalScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -205,12 +206,14 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mChannelScroller.setFocusable(false);
 
         //Register to receive message from popup
-        registerMessageListener(new MessageListener() {
+        ((BaseActivity) requireActivity()).registerMessageListener(new MessageListener() {
             @Override
             public void onMessageReceived(CustomMessage message) {
                 if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
             }
         });
+
+        return binding.getRoot();
     }
 
     private int getGuideHours() {
@@ -248,7 +251,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         mFilters.load();
@@ -264,7 +267,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
 
         if (mDisplayProgramsTask != null) {
@@ -276,7 +279,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
 
         if (mCurrentLocalGuideStart > System.currentTimeMillis()) {
@@ -285,17 +288,23 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP) return onKeyUp(keyCode, event);
+        else if (event.getAction() == KeyEvent.ACTION_DOWN && event.isLongPress()) return onKeyLongPress(keyCode);
+        else if (event.getAction() == KeyEvent.ACTION_DOWN) return onKeyDown(keyCode, event);
+        return false;
+    }
+
+    private boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 event.startTracking();
                 return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
 
-    @Override
-    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+    private boolean onKeyLongPress(int keyCode) {
         switch (keyCode){
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if (mSelectedProgramView instanceof ProgramGridCell)
@@ -304,11 +313,10 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     toggleFavorite();
                 return true;
         }
-        return super.onKeyLongPress(keyCode, event);
+        return false;
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    private boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 // bring up filter selection
@@ -319,7 +327,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     Date curUTC = TimeUtils.convertToUtcDate(new Date());
                     if (mSelectedProgramView instanceof ProgramGridCell) {
                         if (mSelectedProgram.getStartDate().before(curUTC))
-                            PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                            PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireActivity());
                         else
                             showProgramOptions();
                         return true;
@@ -332,19 +340,19 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, this);
+                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireActivity());
                     return true;
                 }
 
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (getCurrentFocus() instanceof ProgramGridCell
+                if (requireActivity().getCurrentFocus() instanceof ProgramGridCell
                         && mSelectedProgramView != null
                         && ((ProgramGridCell)mSelectedProgramView).isLast()) {
                     requestGuidePage(mCurrentLocalGuideEnd);
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (getCurrentFocus() instanceof ProgramGridCell
+                if (requireActivity().getCurrentFocus() instanceof ProgramGridCell
                         && mSelectedProgramView != null
                         && ((ProgramGridCell)mSelectedProgramView).isFirst()
                         && TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate()).getTime() > System.currentTimeMillis()) {
@@ -354,7 +362,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 break;
         }
 
-        return super.onKeyUp(keyCode, event);
+        return false;
     }
 
     View.OnClickListener datePickedListener = new View.OnClickListener() {
@@ -387,10 +395,10 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         FrameLayout scrollPane = (FrameLayout) getLayoutInflater().inflate(R.layout.horizontal_scroll_pane, null);
         LinearLayout scrollItems = scrollPane.findViewById(R.id.scrollItems);
         for (long increment = 0; increment < 15; increment++) {
-            scrollItems.addView(new FriendlyDateButton(this, System.currentTimeMillis() + (increment * 86400000), datePickedListener));
+            scrollItems.addView(new FriendlyDateButton(requireContext(), System.currentTimeMillis() + (increment * 86400000), datePickedListener));
         }
 
-        dateDialog = new AlertDialog.Builder(this)
+        dateDialog = new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.lbl_select_date)
                 .setView(scrollPane)
                 .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
@@ -404,7 +412,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     private void requestGuidePage(final long startTime) {
-        new AlertDialog.Builder(mActivity)
+        new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.lbl_load_guide_data)
                 .setMessage(startTime > mCurrentLocalGuideStart ? getString(R.string.msg_live_tv_next, getGuideHours()) : getString(R.string.msg_live_tv_prev, getGuideHours()))
                 .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
@@ -439,10 +447,10 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null) {
-            mDetailPopup = new LiveProgramDetailPopup(this, this, mSummary.getWidth()+20, new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup((BaseActivity) requireActivity(), this, mSummary.getWidth()+20, new EmptyResponse() {
                 @Override
                 public void onResponse() {
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, mActivity);
+                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                 }
             });
         }
@@ -452,14 +460,14 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
     }
 
     public void showFilterOptions() {
-        Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+        Intent settingsIntent = new Intent(requireContext(), PreferencesActivity.class);
         settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, GuideFiltersScreen.class.getCanonicalName());
         startActivity(settingsIntent);
         TvManager.forceReload();
     }
 
     public void showOptions() {
-        Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+        Intent settingsIntent = new Intent(requireContext(), PreferencesActivity.class);
         settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, GuideOptionsScreen.class.getCanonicalName());
         startActivity(settingsIntent);
         TvManager.forceReload();
@@ -520,12 +528,12 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                     pageUpStart = 0;
                 }
 
-                TextView placeHolder = new TextView(mActivity);
+                TextView placeHolder = new TextView(requireContext());
                 placeHolder.setHeight(guideRowHeightPx);
                 mChannels.addView(placeHolder);
                 displayedChannels = 0;
 
-                mProgramRows.addView(new GuidePagingButton(mActivity, mActivity, pageUpStart, getString(R.string.lbl_load_channels)+mAllChannels.get(pageUpStart).getNumber() + " - "+mAllChannels.get(mCurrentDisplayChannelStartNdx-1).getNumber()));
+                mProgramRows.addView(new GuidePagingButton(requireActivity(), LiveTvGuideFragment.this, pageUpStart, getString(R.string.lbl_load_channels)+mAllChannels.get(pageUpStart).getNumber() + " - "+mAllChannels.get(mCurrentDisplayChannelStartNdx-1).getNumber()));
             }
         }
 
@@ -557,10 +565,10 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 }
                 prevRow = row;
 
-                runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        GuideChannelHeader header = getChannelHeader(mActivity, channel);
+                        GuideChannelHeader header = getChannelHeader(requireContext(), channel);
                         mChannels.addView(header);
                         header.loadImage();
                         mProgramRows.addView(row);
@@ -587,11 +595,11 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 int pageDnEnd = mCurrentDisplayChannelEndNdx + PAGE_SIZE;
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size()-1;
 
-                TextView placeHolder = new TextView(mActivity);
+                TextView placeHolder = new TextView(requireContext());
                 placeHolder.setHeight(guideRowHeightPx);
                 mChannels.addView(placeHolder);
 
-                mProgramRows.addView(new GuidePagingButton(mActivity, mActivity, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
+                mProgramRows.addView(new GuidePagingButton(requireActivity(), LiveTvGuideFragment.this, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels)+mAllChannels.get(mCurrentDisplayChannelEndNdx+1).getNumber() + " - "+mAllChannels.get(pageDnEnd).getNumber()));
             }
 
             mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
@@ -615,7 +623,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
 
-        LinearLayout programRow = new LinearLayout(this);
+        LinearLayout programRow = new LinearLayout(requireContext());
 
         if (programs.size() == 0) {
             if (mFilters.any()) return null; // don't show rows with no program data
@@ -630,7 +638,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 empty.setChannelId(channelId);
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*slot) * 60000))));
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(mCurrentLocalGuideStart + ((30*(slot+1)) * 60000))));
-                ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
+                ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(30 * guideRowWidthPerMinPx, guideRowHeightPx));
                 programRow.addView(cell);
@@ -663,7 +671,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
                 empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
                 Long duration = (start - prevEnd);
                 empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
-                ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
+                ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
                 cell.setId(currentCellId++);
                 cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 if (prevEnd == mCurrentLocalGuideStart) {
@@ -676,7 +684,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             prevEnd = end;
             Long duration = (end - start) / 60000;
             if (duration > 0) {
-                ProgramGridCell program = new ProgramGridCell(this, this, item, false);
+                ProgramGridCell program = new ProgramGridCell(requireContext(), this, item, false);
                 program.setId(currentCellId++);
                 program.setLayoutParams(new ViewGroup.LayoutParams(duration.intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
                 if (start == mCurrentLocalGuideStart) {
@@ -701,7 +709,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
             empty.setStartDate(TimeUtils.convertToUtcDate(new Date(prevEnd)));
             Long duration = (mCurrentLocalGuideEnd - prevEnd);
             empty.setEndDate(TimeUtils.convertToUtcDate(new Date(prevEnd+duration)));
-            ProgramGridCell cell = new ProgramGridCell(this, this, empty, false);
+            ProgramGridCell cell = new ProgramGridCell(requireContext(), this, empty, false);
             cell.setId(currentCellId++);
             cell.setLayoutParams(new ViewGroup.LayoutParams(((Long)(duration / 60000)).intValue() * guideRowWidthPerMinPx, guideRowHeightPx));
             programRow.addView(cell);
@@ -718,7 +726,7 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mCurrentGuideStart.set(Calendar.MILLISECOND, 0);
         mCurrentLocalGuideStart = mCurrentGuideStart.getTimeInMillis();
 
-        mDisplayDate.setText(TimeUtils.getFriendlyDate(this, mCurrentGuideStart.getTime()));
+        mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
         int oneHour = 60 * guideRowWidthPerMinPx;
@@ -728,8 +736,8 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
         mTimeline.removeAllViews();
         while (current.before(mCurrentGuideEnd)) {
-            TextView time = new TextView(this);
-            time.setText(android.text.format.DateFormat.getTimeFormat(this).format(current.getTime()));
+            TextView time = new TextView(requireContext());
+            time.setText(android.text.format.DateFormat.getTimeFormat(requireContext()).format(current.getTime()));
             time.setWidth(interval == 30 ? halfHour : oneHour);
             mTimeline.addView(time);
             current.add(Calendar.MINUTE, interval);
@@ -771,12 +779,12 @@ public class LiveTvGuideActivity extends BaseActivity implements LiveTvGuide {
         mSummary.setText(mSelectedProgram.getOverview());
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(mSelectedProgram), mInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(requireContext(), ModelCompat.asSdk(mSelectedProgram), mInfoRow, false, false);
 
         if (mSelectedProgram.getId() != null) {
-            mDisplayDate.setText(TimeUtils.getFriendlyDate(this, TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
+            mDisplayDate.setText(TimeUtils.getFriendlyDate(requireContext(), TimeUtils.convertToLocalDate(mSelectedProgram.getStartDate())));
             String url = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(mSelectedProgram));
-            mImage.load(url, null, ContextCompat.getDrawable(this, R.drawable.blank10x10), 0, 0);
+            mImage.load(url, null, ContextCompat.getDrawable(requireContext(), R.drawable.blank10x10), 0, 0);
         } else {
             mImage.setImageResource(R.drawable.blank10x10);
         }

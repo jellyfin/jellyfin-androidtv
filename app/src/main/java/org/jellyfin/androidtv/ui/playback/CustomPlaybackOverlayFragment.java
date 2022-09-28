@@ -55,7 +55,7 @@ import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
@@ -815,7 +815,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageUpStart < 0) pageUpStart = 0;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP));
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
                 displayedChannels = 0;
 
@@ -877,7 +877,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size() - 1;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP));
+                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
 
                 tvGuideBinding.programRows.addView(new GuidePagingButton(requireActivity(), guide, mCurrentDisplayChannelEndNdx + 1, getString(R.string.lbl_load_channels) + mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber() + " - " + mAllChannels.get(pageDnEnd).getNumber()));
@@ -899,8 +899,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
-        int guideRowHeightPx = Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_HEIGHT_DP);
-        int guideRowWidthPerMinPx = Utils.convertDpToPixel(getContext(), LiveTvGuideActivity.GUIDE_ROW_WIDTH_PER_MIN_DP);
+        int guideRowHeightPx = Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP);
+        int guideRowWidthPerMinPx = Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_WIDTH_PER_MIN_DP);
 
         LinearLayout programRow = new LinearLayout(requireContext());
         if (programs.size() == 0) {
