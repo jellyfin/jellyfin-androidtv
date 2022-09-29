@@ -254,7 +254,7 @@
     <string name="pref_next_up_timeout_title">Tijdsduur timer \'volgende item\'</string>
     <string name="pref_theme_emerald">Klassiek smaragd</string>
     <string name="pref_theme_dark">Donker (Standaard)</string>
-    <string name="grid_direction_vertical">Verticaal (experimenteel)</string>
+    <string name="grid_direction_vertical">Verticaal</string>
     <string name="grid_direction_horizontal">Horizontaal</string>
     <string name="grid_direction">Raster-richting</string>
     <string name="pref_device_model">Apparaat-model</string>
@@ -472,4 +472,13 @@
     <string name="lbl_subtitle_delay">Vertraging Ondertiteling</string>
     <string name="lbl_adjust">Aanpassen</string>
     <string name="state_disabled">Uitgeschakeld</string>
+    <string name="pref_crash_report_logs">Logboeken bijvoegen</string>
+    <string name="live_tv_preferences">Live TV opties</string>
+    <string name="pref_refresh_rate_scale_on_device">Schaal op apparaat</string>
+    <string name="pref_refresh_rate_scale_on_tv">Schaal op TV</string>
+    <string name="image_size_xlarge">Extra groot</string>
+    <string name="image_size_smallest">Kleinste</string>
+    <string name="image_type_poster">Poster</string>
+    <string name="pref_audio_night_mode">Audio nacht modus (experimenteel)</string>
+    <string name="lbl_additional_parts">Extra onderdelen</string>
 </resources>
