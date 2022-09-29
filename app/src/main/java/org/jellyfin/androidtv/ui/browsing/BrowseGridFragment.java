@@ -155,7 +155,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity) getActivity();
         backgroundService.getValue().attach(requireActivity());
 
-        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), requireActivity().getIntent().getStringExtra(Extras.Folder));
+        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getArguments().getString(Extras.Folder));
         mParentId = mFolder.getId();
         mainTitle = mFolder.getName();
         libraryPreferences = preferencesRepository.getValue().getLibraryPreferences(Objects.requireNonNull(mFolder.getDisplayPreferencesId()));
@@ -588,7 +588,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     break;
                 case CollectionType.Music:
                     //Special queries needed for album artists
-                    String includeType = requireActivity().getIntent().getStringExtra(Extras.IncludeType);
+                    String includeType = getArguments().getString(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
                         ArtistsQuery albumArtists = new ArtistsQuery();
                         albumArtists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());

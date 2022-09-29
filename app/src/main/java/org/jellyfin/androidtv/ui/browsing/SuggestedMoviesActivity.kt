@@ -13,7 +13,7 @@ class SuggestedMoviesActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<SuggestedMoviesFragment>(R.id.content_view)
+			replace<SuggestedMoviesFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

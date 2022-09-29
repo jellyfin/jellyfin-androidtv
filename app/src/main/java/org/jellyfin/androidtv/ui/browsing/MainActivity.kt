@@ -20,8 +20,8 @@ class MainActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<HomeToolbarFragment>(R.id.content_view)
-			add<HomeFragment>(R.id.content_view)
+			replace<HomeToolbarFragment>(R.id.content_view, args = intent.extras)
+			add<HomeFragment>(R.id.content_view, args = intent.extras)
 		}
 
 		backgroundService.attach(this)

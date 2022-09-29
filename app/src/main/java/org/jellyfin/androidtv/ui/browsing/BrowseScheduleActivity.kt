@@ -13,7 +13,7 @@ class BrowseScheduleActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<BrowseScheduleFragment>(R.id.content_view)
+			replace<BrowseScheduleFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

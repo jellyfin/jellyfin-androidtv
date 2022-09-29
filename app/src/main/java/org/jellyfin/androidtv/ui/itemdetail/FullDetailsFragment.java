@@ -182,13 +182,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         mDorPresenter = new MyDetailsOverviewRowPresenter(markdownRenderer.getValue());
 
-        mItemId = requireActivity().getIntent().getStringExtra("ItemId");
-        mChannelId = requireActivity().getIntent().getStringExtra("ChannelId");
-        String programJson = requireActivity().getIntent().getStringExtra("ProgramInfo");
+        mItemId = getArguments().getString("ItemId");
+        mChannelId = getArguments().getString("ChannelId");
+        String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
             mProgramInfo = serializer.getValue().DeserializeFromString(programJson, BaseItemDto.class);
         }
-        String timerJson = requireActivity().getIntent().getStringExtra("SeriesTimer");
+        String timerJson = getArguments().getString("SeriesTimer");
         if (timerJson != null) {
             mSeriesTimerInfo = serializer.getValue().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
         }

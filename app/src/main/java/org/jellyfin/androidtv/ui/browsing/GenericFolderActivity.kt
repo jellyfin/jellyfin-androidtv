@@ -13,7 +13,7 @@ class GenericFolderActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<GenericFolderFragment>(R.id.content_view)
+			replace<GenericFolderFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

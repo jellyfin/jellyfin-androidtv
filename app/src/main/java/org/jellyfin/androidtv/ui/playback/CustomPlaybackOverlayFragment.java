@@ -306,9 +306,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         requireActivity().getOnBackPressedDispatcher().addCallback(backPressedCallback);
 
-
-        Intent intent = requireActivity().getIntent();
-        int startPos = intent.getIntExtra("Position", 0);
+        int startPos = getArguments().getInt("Position", 0);
 
         // start playing
         mPlaybackController.play(startPos);

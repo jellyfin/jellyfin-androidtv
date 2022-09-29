@@ -161,7 +161,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     protected void setupViews() {
-        mFolder = serializer.getValue().DeserializeFromString(requireActivity().getIntent().getStringExtra(Extras.Folder), BaseItemDto.class);
+        mFolder = serializer.getValue().DeserializeFromString(getArguments().getString(Extras.Folder), BaseItemDto.class);
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
