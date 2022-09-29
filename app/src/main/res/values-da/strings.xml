@@ -77,7 +77,7 @@
     <string name="msg_cannot_play">Denne fil kan ikke afspilles</string>
     <string name="lbl_no_items">Ingen filer</string>
     <string name="lbl_empty">Tom</string>
-    <string name="lbl_tv_queuing">Sat alle følgende episode i kø</string>
+    <string name="lbl_tv_queuing">Sæt alle følgende episoder i kø</string>
     <string name="sum_tv_queuing">Tilføj resten af sæsonen til afspilningskøen når en episode afspilles</string>
     <string name="lbl_search_hint">Søg i tekst (vælg tastatur)</string>
     <string name="lbl_play_first_unwatched">Afspil første ikke afspillede</string>
@@ -159,12 +159,12 @@
     <string name="btn_clear_all">Ryd alle</string>
     <string name="btn_filter">Filter</string>
     <string name="lbl_ended">SLUTTET</string>
-    <string name="lbl__continuing">FORTSÆTTELSE</string>
-    <string name="lbl_display_preferences">Skærm præferencer</string>
+    <string name="lbl__continuing">FORTSÆTTER</string>
+    <string name="lbl_display_preferences">Skærm indstillinger</string>
     <string name="btn_done">Færdig</string>
     <string name="lbl_starting_with">Begynd med dem, hvis navn starter med</string>
     <string name="lbl_rating">Anmeldelse</string>
-    <string name="lbl_critic_rating">Kritik anmeldelse</string>
+    <string name="lbl_critic_rating">Kritiker anmeldelse</string>
     <string name="lbl_premier_date">Premiere dato</string>
     <string name="lbl_date_added">Dato Tilføjet</string>
     <string name="lbl_name">Navn</string>
@@ -182,8 +182,8 @@
     <string name="lbl_bitstream_dts">Bitstream DTS lyd</string>
     <string name="desc_premieres">Vis en kolonne med nye episoder for alle serier du ser</string>
     <string name="lbl_show_premieres">Vis sæson premiere</string>
-    <string name="lbl_refresh_switching">Aktiver justering af billedehastigheds frekvens</string>
-    <string name="lbl_show_backdrop">Vis Backdrop mens du browser</string>
+    <string name="lbl_refresh_switching">Automatisk opdateringsfrekvens</string>
+    <string name="lbl_show_backdrop">Vis backdrop mens du browser</string>
     <string name="lbl_open">Åbn</string>
     <string name="lbl_play_next_up">Afspil Næste</string>
     <string name="lbl_clear_queue">Ryd afspilningskøen</string>
@@ -199,7 +199,7 @@
     <string name="lbl_guide_option_number">Kanal Nummer</string>
     <string name="lbl_guide_option_played">Senest afspillet</string>
     <string name="lbl_sort_by">Sorter efter</string>
-    <string name="lbl_premiere">Premiere</string>
+    <string name="lbl_premiere">Præmiere</string>
     <string name="lbl_guest_stars">Gæstestjerner</string>
     <string name="lbl_hours">Timer</string>
     <string name="lbl_minute">Minut</string>
@@ -268,7 +268,7 @@
     <string name="bitrate_auto">Auto</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
-    <string name="lbl_sign_in">Log Venligst Ind</string>
+    <string name="lbl_sign_in">Log venligst ind</string>
     <string name="play_with">Afspil med</string>
     <string name="play_with_external_app">Afspil med ekstern app</string>
     <string name="play_with_exo_player">Afspil med ExoPlayer</string>
@@ -324,7 +324,7 @@
     <string name="lbl_episode_marks">Kun på afsnit</string>
     <string name="lbl_hide_unwatched_count">Skjul ikke afspillede antal</string>
     <string name="pref_watched_indicator">Vis indikator for afspillet</string>
-    <string name="login_help_description">Jellyfin kræver en server at forbinde med. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
+    <string name="login_help_description">Jellyfin kræver en server at forbinde til. Besøg vores dokumentation på docs.jellyfin.org for at komme igang med Jellyfin.</string>
     <string name="login_help_title">Brug for hjælp\?</string>
     <string name="connect_manually_by_address">Indtast server adresse</string>
     <string name="discovered_servers_empty">Ingen servere fundet på lokalt netværk.</string>
@@ -392,7 +392,7 @@
     <string name="lbl_community_rating">Fællesskab anmeldelse</string>
     <string name="state_disabled">Deaktiveret</string>
     <string name="server_setup_incomplete">Opsætningen af denne server er ikke blevet gennemført. Åbn Jellyfin i en browser for at færdiggøre opsætningen før du logger ind.</string>
-    <string name="crash_report_toast">Oops! Noget gik galt, en nedbrud rapport r sendt til din Jellyfin server.</string>
+    <string name="crash_report_toast">Ups! Noget gik galt, der er sendt en rapport om nedbruddet til din Jellyfin server.</string>
     <string name="pref_crash_report_logs_disabled">Logfiler vil ikke blive inkluderet i nedbrud rapporten</string>
     <string name="pref_crash_report_logs_enabled">Logfiler vil blive inkluderet i nedbrudsrapportering</string>
     <string name="pref_crash_report_logs">Inkluder logfiler</string>
@@ -489,4 +489,11 @@
     <string name="lbl_record_only_new">Optager kun nye afsnit</string>
     <string name="lbl_start_end_on_schedule">Starter som planlagt og slutter som planlagt</string>
     <string name="lbl_starting_on_schedule_ending_after">Starter som planlagt og slutter %1$s som planlagt</string>
+    <string name="episode_name_special">Ekstramateriale</string>
+    <string name="enable_picture_viewer_title">Aktiver ny billedefremviser</string>
+    <string name="lbl_quality_profile">Kvalitets profil</string>
+    <string name="desc_audio_night_mode">Udligner lydstyrke automatisk</string>
+    <string name="lbl_shuffle_queue">Slå blanding til/fra</string>
+    <string name="pref_audio_night_mode">Nattemodus for lyd (eksperimentel)</string>
+    <string name="lbl_additional_parts">Yderligere dele</string>
 </resources>
