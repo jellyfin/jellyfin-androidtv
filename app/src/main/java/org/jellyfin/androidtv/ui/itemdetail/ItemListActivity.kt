@@ -13,7 +13,7 @@ class ItemListActivity : FragmentActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			add<ItemListFragment>(R.id.content_view)
+			add<ItemListFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

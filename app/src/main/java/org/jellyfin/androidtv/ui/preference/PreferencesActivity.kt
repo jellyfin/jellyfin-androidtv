@@ -3,9 +3,10 @@ package org.jellyfin.androidtv.ui.preference
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
 
-class PreferencesActivity : FragmentActivity() {
+class PreferencesActivity : FragmentActivity(R.layout.fragment_content_view) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -14,7 +15,7 @@ class PreferencesActivity : FragmentActivity() {
 
 		supportFragmentManager
 			.beginTransaction()
-			.replace(android.R.id.content, PreferencesFragment().apply {
+			.replace(R.id.content_view, PreferencesFragment().apply {
 				// Set screen
 				arguments = bundleOf(
 					PreferencesFragment.EXTRA_SCREEN to screen,

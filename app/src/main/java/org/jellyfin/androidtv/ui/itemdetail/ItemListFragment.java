@@ -156,7 +156,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
         backgroundService.getValue().attach(requireActivity());
 
-        mItemId = requireActivity().getIntent().getStringExtra("ItemId");
+        mItemId = getArguments().getString("ItemId");
         loadItem(mItemId);
 
         return binding.getRoot();
@@ -365,7 +365,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                             ItemFields.Genres,
                             ItemFields.ChildCount
                     });
-                    favSongs.setParentId(requireActivity().getIntent().getStringExtra("ParentId"));
+                    favSongs.setParentId(getArguments().getString("ParentId"));
                     favSongs.setIncludeItemTypes(new String[] {"Audio"});
                     favSongs.setRecursive(true);
                     favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});

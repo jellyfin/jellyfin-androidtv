@@ -13,7 +13,7 @@ class GenericGridActivity : FragmentActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			add<BrowseGridFragment>(R.id.content_view)
+			add<BrowseGridFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

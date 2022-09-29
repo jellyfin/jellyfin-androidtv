@@ -13,7 +13,7 @@ class BrowseRecordingsActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<BrowseRecordingsFragment>(R.id.content_view)
+			replace<BrowseRecordingsFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
@@ -14,7 +15,7 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NextUpActivity : FragmentActivity() {
+class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
 	companion object {
 		const val EXTRA_ID = "id"
 		const val EXTRA_USE_EXTERNAL_PLAYER = "useExternalPlayer"
@@ -55,7 +56,7 @@ class NextUpActivity : FragmentActivity() {
 		// Add fragment
 		supportFragmentManager
 			.beginTransaction()
-			.add(android.R.id.content, NextUpFragment())
+			.add(R.id.content_view, NextUpFragment())
 			.commit()
 
 		// Load item info

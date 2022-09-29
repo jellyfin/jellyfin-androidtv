@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.speech.SpeechRecognizer
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import org.jellyfin.androidtv.R
 
-class SearchActivity : FragmentActivity() {
+class SearchActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val isSpeechEnabled by lazy {
 		SpeechRecognizer.isRecognitionAvailable(this)
 			&& ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED
@@ -25,7 +26,7 @@ class SearchActivity : FragmentActivity() {
 		// Add fragment
 		supportFragmentManager
 			.beginTransaction()
-			.replace(android.R.id.content, searchFragment)
+			.replace(R.id.content_view, searchFragment)
 			.commit()
 	}
 

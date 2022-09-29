@@ -13,7 +13,7 @@ class CollectionActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			replace<CollectionFragment>(R.id.content_view)
+			replace<CollectionFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 

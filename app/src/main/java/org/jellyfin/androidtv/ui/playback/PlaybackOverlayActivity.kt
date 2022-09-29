@@ -8,13 +8,16 @@ import android.view.View
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.koin.android.ext.android.inject
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-class PlaybackOverlayActivity : BaseActivity() {
+class PlaybackOverlayActivity : BaseActivity(R.layout.fragment_content_view) {
 	private val playbackControllerContainer by inject<PlaybackControllerContainer>()
 	var keyListener: View.OnKeyListener? = null
 
@@ -27,15 +30,14 @@ class PlaybackOverlayActivity : BaseActivity() {
 
 		// Hide system bars
 		WindowCompat.setDecorFitsSystemWindows(window, false)
-		WindowInsetsControllerCompat(window, findViewById(android.R.id.content)).apply {
+		WindowInsetsControllerCompat(window, findViewById(R.id.content_view)).apply {
 			hide(WindowInsetsCompat.Type.systemBars())
 			systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 		}
 
-		supportFragmentManager
-			.beginTransaction()
-			.replace(android.R.id.content, CustomPlaybackOverlayFragment())
-			.commit()
+		supportFragmentManager.commit {
+			add<CustomPlaybackOverlayFragment>(R.id.content_view, args = intent.extras)
+		}
 	}
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {

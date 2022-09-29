@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import org.jellyfin.androidtv.R
 
-class GroupedItemsActivity : FragmentActivity() {
+class GroupedItemsActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val groupingType get() = intent.extras?.getString(EXTRA_GROUPING_TYPE)?.let { GroupingType.valueOf(it) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,8 +14,8 @@ class GroupedItemsActivity : FragmentActivity() {
 
 		supportFragmentManager.commit {
 			when (requireNotNull(groupingType)) {
-				GroupingType.GENRE -> replace<ByGenreFragment>(android.R.id.content)
-				GroupingType.LETTER -> replace<ByLetterFragment>(android.R.id.content)
+				GroupingType.GENRE -> replace<ByGenreFragment>(R.id.content_view, args = intent.extras)
+				GroupingType.LETTER -> replace<ByLetterFragment>(R.id.content_view, args = intent.extras)
 			}
 		}
 	}

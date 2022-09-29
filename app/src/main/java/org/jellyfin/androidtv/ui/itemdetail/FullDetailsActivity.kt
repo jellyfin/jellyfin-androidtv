@@ -13,7 +13,7 @@ class FullDetailsActivity : BaseActivity(R.layout.fragment_content_view) {
 		super.onCreate(savedInstanceState)
 
 		supportFragmentManager.commit {
-			add<FullDetailsFragment>(R.id.content_view)
+			add<FullDetailsFragment>(R.id.content_view, args = intent.extras)
 		}
 	}
 
