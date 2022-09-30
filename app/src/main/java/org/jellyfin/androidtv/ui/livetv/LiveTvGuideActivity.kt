@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.ui.livetv
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.shared.BaseActivity
 
-class LiveTvGuideActivity : BaseActivity(R.layout.fragment_content_view) {
+class LiveTvGuideActivity : FragmentActivity(R.layout.fragment_content_view) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 

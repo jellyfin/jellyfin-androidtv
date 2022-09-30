@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.constant
 
-enum class CustomMessage {
-	RefreshCurrentItem,
-	ActionComplete,
+sealed interface CustomMessage {
+	object RefreshCurrentItem : CustomMessage
+	object ActionComplete : CustomMessage
 }

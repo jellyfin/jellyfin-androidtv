@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
@@ -19,7 +20,6 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
@@ -432,8 +432,8 @@ public class KeyProcessor {
                 itemMutationRepository.setPlayed(mCurrentItem.getId(), played, continuation)
         );
 
-        if (mCurrentActivity instanceof BaseActivity)
-            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
+        CustomMessageRepository customMessageRepository = KoinJavaComponent.<CustomMessageRepository>get(CustomMessageRepository.class);
+        customMessageRepository.pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
     }
 
     private static void toggleFavorite(boolean favorite) {
@@ -443,8 +443,8 @@ public class KeyProcessor {
                 itemMutationRepository.setFavorite(mCurrentItem.getId(), favorite, continuation)
         );
 
-        if (mCurrentActivity instanceof BaseActivity)
-            ((BaseActivity) mCurrentActivity).sendMessage(CustomMessage.RefreshCurrentItem);
+        CustomMessageRepository customMessageRepository = KoinJavaComponent.<CustomMessageRepository>get(CustomMessageRepository.class);
+        customMessageRepository.pushMessage(CustomMessage.RefreshCurrentItem.INSTANCE);
     }
 }
 

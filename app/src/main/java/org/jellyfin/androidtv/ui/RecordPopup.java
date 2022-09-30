@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -49,7 +50,7 @@ public class RecordPopup {
     int mPosTop;
     boolean mRecordSeries;
 
-    BaseActivity mActivity;
+    Activity mActivity;
     TextView mDTitle;
     LinearLayout mDTimeline;
     View mSeriesOptions;
@@ -66,8 +67,9 @@ public class RecordPopup {
     ArrayList<Integer> mPaddingValues = new ArrayList<>(Arrays.asList(0,60,300,900,1800,3600,5400,7200,10800));
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
-    public RecordPopup(BaseActivity activity, View anchorView, int left, int top, int width) {
+    public RecordPopup(Activity activity, View anchorView, int left, int top, int width) {
         mActivity = activity;
         mAnchorView = anchorView;
         mPosLeft = left;
@@ -140,7 +142,7 @@ public class RecordPopup {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
-                            mActivity.sendMessage(CustomMessage.ActionComplete);
+                            customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
                             Utils.showToast(mActivity, R.string.msg_settings_updated);
                         }
 
@@ -163,7 +165,7 @@ public class RecordPopup {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
-                            mActivity.sendMessage(CustomMessage.ActionComplete);
+                            customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
                             // we have to re-retrieve the program to get the timer id
                             apiClient.getValue().GetLiveTvProgramAsync(mProgramId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override

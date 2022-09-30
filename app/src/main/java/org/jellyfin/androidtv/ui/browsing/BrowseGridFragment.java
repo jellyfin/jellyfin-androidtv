@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.UserViewsRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.HorizontalGridBrowseBinding;
@@ -53,8 +55,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.MessageListener;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -83,7 +83,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final static int CHUNK_SIZE_MINIMUM = 25;
 
     private String mainTitle;
-    private BaseActivity mActivity;
+    private Activity mActivity;
     private BaseRowItem mCurrentItem;
     private CompositeClickedListener mClickedListener = new CompositeClickedListener();
     private CompositeSelectedListener mSelectedListener = new CompositeSelectedListener();
@@ -120,6 +120,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -152,7 +153,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
         }
 
-        if (getActivity() instanceof BaseActivity) mActivity = (BaseActivity) getActivity();
+        mActivity = getActivity();
         backgroundService.getValue().attach(requireActivity());
 
         mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getArguments().getString(Extras.Folder));
@@ -923,19 +924,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mClickedListener.registerListener(new ItemViewClickedListener());
         mSelectedListener.registerListener(new ItemViewSelectedListener());
 
-        if (mActivity != null) {
-            mActivity.registerMessageListener(new MessageListener() {
-                @Override
-                public void onMessageReceived(CustomMessage message) {
-                    switch (message) {
-
-                        case RefreshCurrentItem:
-                            refreshCurrentItem();
-                            break;
-                    }
-                }
-            });
-        }
+        CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
+            if (message.equals(CustomMessage.RefreshCurrentItem.INSTANCE)) refreshCurrentItem();
+            return null;
+        });
     }
 
     private void refreshCurrentItem() {

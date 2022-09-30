@@ -46,6 +46,7 @@ import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityFullDetailsBinding;
 import org.jellyfin.androidtv.preference.SystemPreferences;
@@ -67,8 +68,7 @@ import org.jellyfin.androidtv.ui.presentation.CustomListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.InfoCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.MyDetailsOverviewRowPresenter;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.MessageListener;
+import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
@@ -162,6 +162,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     @Nullable
     @Override
@@ -193,33 +194,30 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mSeriesTimerInfo = serializer.getValue().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
         }
 
-        ((BaseActivity)requireActivity()).registerMessageListener(new MessageListener() {
-            @Override
-            public void onMessageReceived(CustomMessage message) {
-                if (message == CustomMessage.ActionComplete && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
-                    //update info
-                    apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
-                        @Override
-                        public void onResponse(SeriesTimerInfoDto response) {
-                            mSeriesTimerInfo = response;
-                            mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
-                            mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
-                        }
-                    });
+        CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
+            if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
+                //update info
+                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                    @Override
+                    public void onResponse(SeriesTimerInfoDto response) {
+                        mSeriesTimerInfo = response;
+                        mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
+                        mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
+                    }
+                });
 
-                    mRowsAdapter.clear();
-                    mRowsAdapter.add(mDetailsOverviewRow);
-                    //re-retrieve the schedule after giving it a second to rebuild
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            addAdditionalRows(mRowsAdapter);
+                mRowsAdapter.clear();
+                mRowsAdapter.add(mDetailsOverviewRow);
+                //re-retrieve the schedule after giving it a second to rebuild
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addAdditionalRows(mRowsAdapter);
 
-                        }
-                    }, 1500);
-                }
-
+                    }
+                }, 1500);
             }
+            return null;
         });
 
         loadItem(mItemId);
@@ -1458,7 +1456,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             int width = Utils.convertDpToPixel(requireContext(), 600);
             Point size = new Point();
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
-            mRecordPopup = new RecordPopup((BaseActivity) (requireActivity()), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
+            mRecordPopup = new RecordPopup(requireActivity(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
         apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
             @Override

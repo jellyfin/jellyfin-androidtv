@@ -34,6 +34,7 @@ import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
@@ -48,8 +49,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.MessageListener;
+import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
@@ -105,6 +105,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -330,18 +331,11 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         mRowsFragment.setOnItemViewSelectedListener(mSelectedListener);
         mSelectedListener.registerListener(new ItemViewSelectedListener());
-        if (mActivity != null && mActivity instanceof BaseActivity) {
-            ((BaseActivity) mActivity).registerMessageListener(new MessageListener() {
-                @Override
-                public void onMessageReceived(CustomMessage message) {
-                    switch (message) {
-                        case RefreshCurrentItem:
-                            refreshCurrentItem();
-                            break;
-                    }
-                }
-            });
-        }
+
+        CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
+            if (message.equals(CustomMessage.RefreshCurrentItem.INSTANCE)) refreshCurrentItem();
+            return null;
+        });
     }
 
     @Override
