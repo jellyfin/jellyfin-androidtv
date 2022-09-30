@@ -492,4 +492,8 @@
     <string name="image_size_smallest">Minsta</string>
     <string name="image_type_poster">Affisch</string>
     <string name="lbl_additional_parts">Ytterligare Komponenter</string>
+    <string name="episode_name_special">specialavsnitt</string>
+    <string name="lbl_quality_profile">Kvalitetsprofil</string>
+    <string name="desc_audio_night_mode">Jämnar ut ljudnivån automatiskt</string>
+    <string name="pref_audio_night_mode">Automatiskt nattläge (experimentellt)</string>
 </resources>
