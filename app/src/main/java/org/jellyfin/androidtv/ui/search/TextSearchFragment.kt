@@ -72,7 +72,7 @@ class TextSearchFragment : Fragment(), TextWatcher, TextView.OnEditorActionListe
 		searchProvider.onQueryTextChange(editable.toString())
 	}
 
-	override fun onEditorAction(view: TextView, actionId: Int, event: KeyEvent): Boolean {
+	override fun onEditorAction(view: TextView, actionId: Int, event: KeyEvent?): Boolean {
 		// Detect keyboard "submit" actions
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) searchProvider.onQueryTextSubmit(view.text.toString())
 

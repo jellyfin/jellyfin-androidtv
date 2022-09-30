@@ -23,10 +23,10 @@ import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.browsing.MainActivity
-import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.androidtv.ui.search.SearchActivity
 import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
@@ -38,8 +38,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.UUID
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	companion object {
@@ -54,6 +52,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
 	private val backgroundService: BackgroundService by inject()
+	private val navigationRepository: NavigationRepository by inject()
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -121,36 +120,23 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 		(application as? JellyfinApplication)?.onSessionStart()
 
 		// Create intent
-		val intent = when {
+		when {
 			// Search is requested
-			intent.action === Intent.ACTION_SEARCH -> {
-				Intent(this, SearchActivity::class.java).apply {
-					action = intent.action
-					data = intent.data
-					putExtras(intent)
-				}
-			}
+			intent.action === Intent.ACTION_SEARCH -> navigationRepository.navigate(Destinations.search)
 			// Item is requested
 			itemId != null -> when {
 				// Item is a user view - need to get info from API and create the intent
 				// using the ItemLauncher
 				itemIsUserView -> {
 					val item by api.userLibraryApi.getItem(itemId = itemId)
-					suspendCoroutine { continuation ->
-						ItemLauncher.createUserViewIntent(item, this) { intent ->
-							continuation.resume(intent)
-						}
-					}
+					ItemLauncher.launchUserView(item)
 				}
 				// Item is not a user view
-				else -> Intent(this, FullDetailsActivity::class.java).apply {
-					putExtra(EXTRA_ITEM_ID, itemId.toString())
-				}
+				else -> navigationRepository.navigate(Destinations.itemDetails(itemId))
 			}
-			// Launch default
-			else -> null
-		} ?: Intent(this, MainActivity::class.java)
+		}
 
+		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 		Timber.d("Opening next activity $intent")

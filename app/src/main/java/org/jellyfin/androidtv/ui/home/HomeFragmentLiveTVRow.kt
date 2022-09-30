@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.home
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
@@ -10,17 +9,12 @@ import androidx.leanback.widget.OnItemViewClickedListener
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
-import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.constant.LiveTvOption
 import org.jellyfin.androidtv.ui.GridButton
-import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity
-import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity
-import org.jellyfin.androidtv.ui.browsing.UserViewActivity
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
@@ -32,6 +26,7 @@ import java.util.UUID
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
 	private val userRepository: UserRepository,
+	private val navigationRepository: NavigationRepository,
 ) : HomeFragmentRow, OnItemViewClickedListener {
 	override fun addToRowsAdapter(context: Context, cardPresenter: CardPresenter, rowsAdapter: MutableObjectAdapter<Row>) {
 		val header = HeaderItem(rowsAdapter.size().toLong(), activity.getString(R.string.pref_live_tv_cat))
@@ -55,47 +50,24 @@ class HomeFragmentLiveTVRow(
 		if (item !is GridButton) return
 
 		when (item.id) {
-			LiveTvOption.LIVE_TV_GUIDE_OPTION_ID -> {
-				activity.startActivity(
-					Intent(activity, LiveTvGuideActivity::class.java)
-				)
-			}
+			LiveTvOption.LIVE_TV_GUIDE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvGuide)
+			LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvSchedule)
 			LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID -> {
-				activity.startActivity(
-					Intent(activity, BrowseRecordingsActivity::class.java).apply {
-						putExtra(
-							Extras.Folder,
-							Json.encodeToString(
-								BaseItemDto(
-									id = UUID(0L, 0L),
-									name = activity.getString(R.string.lbl_recorded_tv),
-									type = BaseItemKind.FOLDER,
-								)
-							))
-					}
+				val folder = BaseItemDto(
+					id = UUID.randomUUID(),
+					type = BaseItemKind.FOLDER,
+					name = activity.getString(R.string.lbl_recorded_tv),
 				)
-			}
-			LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID -> {
-				activity.startActivity(
-					Intent(activity, BrowseScheduleActivity::class.java)
-				)
+				navigationRepository.navigate(Destinations.libraryBrowser(folder))
 			}
 			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> {
-				activity.startActivity(
-					Intent(activity, UserViewActivity::class.java).apply {
-						putExtra(
-							Extras.Folder,
-							Json.encodeToString(
-								BaseItemDto(
-									id = UUID(0L, 0L),
-									name = activity.getString(R.string.lbl_series_recordings),
-									collectionType = "SeriesTimers",
-									type = BaseItemKind.FOLDER,
-								)
-							)
-						)
-					}
+				val folder = BaseItemDto(
+					id = UUID.randomUUID(),
+					type = BaseItemKind.FOLDER,
+					collectionType = "SeriesTimers",
+					name = activity.getString(R.string.lbl_series_recordings),
 				)
+				navigationRepository.navigate(Destinations.libraryBrowser(folder))
 			}
 		}
 	}

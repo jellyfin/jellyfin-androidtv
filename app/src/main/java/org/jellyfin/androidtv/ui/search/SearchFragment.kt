@@ -4,18 +4,19 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.speech.SpeechRecognizer
+import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import org.jellyfin.androidtv.R
 
-class SearchActivity : FragmentActivity(R.layout.fragment_content_view) {
+class SearchFragment : Fragment(R.layout.fragment_content_view) {
 	private val isSpeechEnabled by lazy {
-		SpeechRecognizer.isRecognitionAvailable(this)
-			&& ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED
+		SpeechRecognizer.isRecognitionAvailable(requireContext())
+			&& ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED
 	}
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
 		// Determine fragment to use
 		val searchFragment = when {
@@ -24,16 +25,9 @@ class SearchActivity : FragmentActivity(R.layout.fragment_content_view) {
 		}
 
 		// Add fragment
-		supportFragmentManager
+		childFragmentManager
 			.beginTransaction()
 			.replace(R.id.content_view, searchFragment)
 			.commit()
-	}
-
-	override fun onSearchRequested(): Boolean {
-		// Reset layout
-		recreate()
-
-		return true
 	}
 }

@@ -60,6 +60,8 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
@@ -105,6 +107,7 @@ import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.jellyfin.sdk.model.constant.PersonType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -163,6 +166,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     @Nullable
     @Override
@@ -866,9 +870,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private void gotoSeries() {
-        Intent intent = new Intent(requireContext(), FullDetailsFragment.class);
-        intent.putExtra("ItemId", mBaseItem.getSeriesId());
-        requireContext().startActivity(intent);
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mBaseItem.getSeriesId())));
     }
 
     private TextUnderButton favButton = null;
@@ -1194,9 +1196,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 @Override
                 public void onClick(View v) {
                     if (mPrevItemId != null) {
-                        Intent intent = new Intent(requireContext(), FullDetailsFragment.class);
-                        intent.putExtra("ItemId", mPrevItemId);
-                        requireContext().startActivity(intent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mPrevItemId)));
                     }
                 }
             });
