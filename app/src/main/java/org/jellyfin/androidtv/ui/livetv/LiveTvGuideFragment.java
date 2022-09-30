@@ -29,6 +29,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.databinding.LiveTvGuideBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.FriendlyDateButton;
@@ -41,8 +42,7 @@ import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
-import org.jellyfin.androidtv.ui.shared.MessageListener;
+import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -109,6 +109,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Handler mHandler = new Handler();
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     @Nullable
     @Override
@@ -205,12 +206,10 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         mChannels.setFocusable(false);
         mChannelScroller.setFocusable(false);
 
-        //Register to receive message from popup
-        ((BaseActivity) requireActivity()).registerMessageListener(new MessageListener() {
-            @Override
-            public void onMessageReceived(CustomMessage message) {
-                if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
-            }
+        // Register to receive message from popup
+        CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
+            if (message.equals(CustomMessage.ActionComplete.INSTANCE)) dismissProgramOptions();
+            return null;
         });
 
         return binding.getRoot();
@@ -447,7 +446,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null) {
-            mDetailPopup = new LiveProgramDetailPopup((BaseActivity) requireActivity(), this, mSummary.getWidth()+20, new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), this, mSummary.getWidth()+20, new EmptyResponse() {
                 @Override
                 public void onResponse() {
                     PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());

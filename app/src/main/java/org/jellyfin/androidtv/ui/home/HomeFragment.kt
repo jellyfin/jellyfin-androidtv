@@ -12,7 +12,9 @@ import androidx.leanback.widget.OnItemViewSelectedListener
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.CustomMessage
 import org.jellyfin.androidtv.constant.HomeSectionType
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
@@ -35,7 +38,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
-import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.apiclient.interaction.EmptyResponse
 import org.jellyfin.sdk.api.client.ApiClient
@@ -53,6 +55,7 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListen
 	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
 	private val dataRefreshService by inject<DataRefreshService>()
+	private val customMessageRepository by inject<CustomMessageRepository>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -144,14 +147,17 @@ class HomeFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListen
 			registerListener(ItemViewSelectedListener())
 		}
 
-		(activity as? BaseActivity)?.let { activity ->
-			activity.registerMessageListener { message ->
-				when (message) {
-					CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
-					else -> Unit
+		lifecycleScope.launch {
+			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				customMessageRepository.message.collect { message ->
+					when (message) {
+						CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
+						else -> Unit
+					}
 				}
 			}
 		}
+
 		// Subscribe to Audio messages
 		mediaManager.addAudioEventListener(this)
 	}

@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.ui.itemdetail
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.shared.BaseActivity
 
-class FullDetailsActivity : BaseActivity(R.layout.fragment_content_view) {
+class FullDetailsActivity : FragmentActivity(R.layout.fragment_content_view) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 

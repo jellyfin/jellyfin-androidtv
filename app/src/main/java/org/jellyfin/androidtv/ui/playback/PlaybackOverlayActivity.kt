@@ -8,16 +8,16 @@ import android.view.View
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.shared.BaseActivity
 import org.koin.android.ext.android.inject
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-class PlaybackOverlayActivity : BaseActivity(R.layout.fragment_content_view) {
+class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val playbackControllerContainer by inject<PlaybackControllerContainer>()
 	var keyListener: View.OnKeyListener? = null
 

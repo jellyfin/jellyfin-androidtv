@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +23,6 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.ui.shared.BaseActivity;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
@@ -45,7 +45,7 @@ public class LiveProgramDetailPopup {
     private PopupWindow mPopup;
     private BaseItemDto mProgram;
     private ProgramGridCell mSelectedProgramView;
-    private BaseActivity mActivity;
+    private Activity mActivity;
     private LiveTvGuide mTvGuide;
     private TextView mDTitle;
     private TextView mDSummary;
@@ -65,7 +65,7 @@ public class LiveProgramDetailPopup {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
-    public LiveProgramDetailPopup(BaseActivity activity, LiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
+    public LiveProgramDetailPopup(Activity activity, LiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
         mActivity = activity;
         mTvGuide = tvGuide;
         mTuneAction = tuneAction;

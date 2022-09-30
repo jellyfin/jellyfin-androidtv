@@ -41,6 +41,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -64,6 +65,7 @@ import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.shared.PaddedLineBackgroundSpan;
+import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
@@ -151,6 +153,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
+    private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -300,8 +303,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.channelScroller.setFocusable(false);
 
         // register to receive message from popup
-        ((PlaybackOverlayActivity) requireActivity()).registerMessageListener(message -> {
-            if (message.equals(CustomMessage.ActionComplete)) dismissProgramOptions();
+        CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
+            if (message.equals(CustomMessage.ActionComplete.INSTANCE)) dismissProgramOptions();
+            return null;
         });
 
         requireActivity().getOnBackPressedDispatcher().addCallback(backPressedCallback);
@@ -675,9 +679,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             backPressedCallback.remove();
             backPressedCallback = null;
         }
-
-        ((PlaybackOverlayActivity) requireActivity()).removeMessageListener();
-        ((PlaybackOverlayActivity) requireActivity()).setKeyListener(null);
 
         // end playback from here if this fragment belongs to the current session.
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
