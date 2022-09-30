@@ -5,7 +5,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,7 +40,8 @@ import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
 import org.jellyfin.androidtv.ui.ScrollViewListener;
-import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
@@ -110,6 +110,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     @Nullable
     @Override
@@ -459,16 +460,12 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     }
 
     public void showFilterOptions() {
-        Intent settingsIntent = new Intent(requireContext(), PreferencesActivity.class);
-        settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, GuideFiltersScreen.class.getCanonicalName());
-        startActivity(settingsIntent);
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuideFilterPreferences());
         TvManager.forceReload();
     }
 
     public void showOptions() {
-        Intent settingsIntent = new Intent(requireContext(), PreferencesActivity.class);
-        settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, GuideOptionsScreen.class.getCanonicalName());
-        startActivity(settingsIntent);
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuideOptionPreferences());
         TvManager.forceReload();
     }
 

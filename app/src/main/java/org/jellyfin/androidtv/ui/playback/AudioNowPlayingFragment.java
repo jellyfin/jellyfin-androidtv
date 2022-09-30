@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -39,9 +38,9 @@ import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.ActivityAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ClockUserView;
-import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
@@ -102,6 +101,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
 
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     private PopupMenu popupMenu;
 
@@ -230,9 +230,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                     stopScreenSaver();
                     lastUserInteraction = System.currentTimeMillis();
                 } else {
-                    Intent album = new Intent(requireActivity(), ItemListActivity.class);
-                    album.putExtra("ItemId", mBaseItem.getAlbumId());
-                    requireActivity().startActivity(album);
+                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(mBaseItem.getAlbumId()));
                 }
             }
         });
@@ -247,9 +245,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                     stopScreenSaver();
                     lastUserInteraction = System.currentTimeMillis();
                 } else if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
-                    Intent artist = new Intent(requireActivity(), FullDetailsActivity.class);
-                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
-                    requireActivity().startActivity(artist);
+                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mBaseItem.getAlbumArtists().get(0).getId()));
                 }
             }
         });

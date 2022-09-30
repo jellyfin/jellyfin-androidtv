@@ -20,8 +20,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.FragmentToolbarHomeBinding
-import org.jellyfin.androidtv.ui.preference.PreferencesActivity
-import org.jellyfin.androidtv.ui.search.SearchActivity
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.koin.android.ext.android.inject
@@ -30,13 +30,13 @@ class HomeToolbarFragment : Fragment() {
 	private lateinit var binding: FragmentToolbarHomeBinding
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
+	private val navigationRepository by inject<NavigationRepository>()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentToolbarHomeBinding.inflate(inflater, container, false)
 
 		binding.settings.setOnClickListener {
-			val settingsIntent = Intent(activity, PreferencesActivity::class.java)
-			activity?.startActivity(settingsIntent)
+			navigationRepository.navigate(Destinations.userPreferences)
 		}
 
 		binding.switchUsers.setOnClickListener {
@@ -44,8 +44,7 @@ class HomeToolbarFragment : Fragment() {
 		}
 
 		binding.search.setOnClickListener {
-			val settingsIntent = Intent(activity, SearchActivity::class.java)
-			activity?.startActivity(settingsIntent)
+			navigationRepository.navigate(Destinations.search)
 		}
 
 		return binding.root

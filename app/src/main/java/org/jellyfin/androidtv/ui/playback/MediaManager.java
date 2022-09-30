@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.ui.playback;
 
-import android.app.Activity;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
@@ -30,8 +30,9 @@ import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
-import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.DeviceUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
@@ -56,6 +57,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import kotlin.Lazy;
 import timber.log.Timber;
 
 public class MediaManager {
@@ -94,6 +96,8 @@ public class MediaManager {
     private boolean mRepeat;
 
     private List<org.jellyfin.sdk.model.api.BaseItemDto> mCurrentVideoQueue;
+
+    private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     public MediaManager(Context context) {
         this.context = context;
@@ -661,13 +665,8 @@ public class MediaManager {
         if (shuffle) shuffleAudioQueue();
         playFrom(position);
 
-        Activity activity = ContextExtensionsKt.getActivity(context);
-        if (activity != null && activity.getClass() != AudioNowPlayingActivity.class) {
-            Intent nowPlaying = new Intent(context, AudioNowPlayingActivity.class);
-            context.startActivity(nowPlaying);
-        } else {
-            Toast.makeText(context,items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
-        }
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.getNowPlaying());
+        Toast.makeText(context,items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
     public boolean playFrom(int ndx) {

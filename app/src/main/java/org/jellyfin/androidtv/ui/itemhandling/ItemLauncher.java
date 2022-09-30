@@ -1,29 +1,16 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-
-import androidx.core.util.Consumer;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
-import org.jellyfin.androidtv.constant.Extras;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
-import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsActivity;
-import org.jellyfin.androidtv.ui.browsing.BrowseScheduleActivity;
-import org.jellyfin.androidtv.ui.browsing.CollectionActivity;
-import org.jellyfin.androidtv.ui.browsing.GenericFolderActivity;
-import org.jellyfin.androidtv.ui.browsing.GenericGridActivity;
-import org.jellyfin.androidtv.ui.browsing.UserViewActivity;
-import org.jellyfin.androidtv.ui.itemdetail.FullDetailsActivity;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
-import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
-import org.jellyfin.androidtv.ui.playback.AudioNowPlayingActivity;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.Utils;
@@ -38,65 +25,45 @@ import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.PlayAccess;
 import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.constant.CollectionType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
 public class ItemLauncher {
-    public static void launch(BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
-        launch(rowItem, adapter, pos, activity, false);
-    }
-
-    public static void createUserViewIntent(final org.jellyfin.sdk.model.api.BaseItemDto baseItem, final Context context, final Consumer<Intent> callback) {
+    public static void launchUserView(final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
+        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
-        Intent intent;
+
         switch (baseItem.getCollectionType()) {
             case CollectionType.Movies:
             case CollectionType.TvShows:
                 LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
                 if (!enableSmartScreen) {
-                    // open grid browsing
-                    intent = new Intent(context, GenericGridActivity.class);
-                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
+                    navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(baseItem));
                 } else {
-                    // open user view browsing
-                    intent = new Intent(context, UserViewActivity.class);
-                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
+                    navigationRepository.navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
                 }
                 break;
             case CollectionType.Music:
             case CollectionType.LiveTv:
-                // open user view browsing
-                intent = new Intent(context, UserViewActivity.class);
-                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
+                navigationRepository.navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
                 break;
             default:
-                // open generic folder browsing
-                intent = new Intent(context, GenericGridActivity.class);
-                intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
+                navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(baseItem));
         }
-
-        callback.accept(intent);
     }
 
-    public static void launchUserView(final org.jellyfin.sdk.model.api.BaseItemDto baseItem, final Activity activity, final boolean finishParent) {
-        createUserViewIntent(baseItem, activity, intent -> {
-            activity.startActivity(intent);
-            if (finishParent) activity.finishAfterTransition();
-        });
-    }
-
-    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity, final boolean noHistory) {
+    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
+        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaAdapter(adapter);
 
         switch (rowItem.getBaseRowType()) {
-
             case BaseItem:
                 org.jellyfin.sdk.model.api.BaseItemDto baseItem = rowItem.getBaseItem();
                 try {
@@ -109,32 +76,16 @@ public class ItemLauncher {
                 switch (baseItem.getType()) {
                     case USER_VIEW:
                     case COLLECTION_FOLDER:
-                        launchUserView(baseItem, activity, false);
+                        launchUserView(baseItem);
                         return;
                     case SERIES:
                     case MUSIC_ARTIST:
-                        //Start activity for details display
-                        Intent intent = new Intent(activity, FullDetailsActivity.class);
-                        intent.putExtra("ItemId", baseItem.getId().toString());
-                        if (noHistory) {
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        }
-
-                        activity.startActivity(intent);
-
+                        navigationRepository.navigate(Destinations.INSTANCE.itemDetails(baseItem.getId()));
                         return;
 
                     case MUSIC_ALBUM:
                     case PLAYLIST:
-                        //Start activity for song list display
-                        Intent songListIntent = new Intent(activity, ItemListActivity.class);
-                        songListIntent.putExtra("ItemId", baseItem.getId().toString());
-                        if (noHistory) {
-                            songListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        }
-
-                        activity.startActivity(songListIntent);
-
+                        navigationRepository.navigate(Destinations.INSTANCE.itemList(baseItem.getId()));
                         return;
 
                     case AUDIO:
@@ -143,15 +94,14 @@ public class ItemLauncher {
                             return;
 
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem())) return;
+                        if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem()))
+                            return;
 
                         MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
                         if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getCurrentAudioItem().getId())) {
-                            // otherwise, open AudioNowPlayingActivity
-                            Intent nowPlaying = new Intent(activity, AudioNowPlayingActivity.class);
-                            activity.startActivity(nowPlaying);
+                            navigationRepository.navigate(Destinations.INSTANCE.getNowPlaying());
                         } else if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && pos < mediaManager.getCurrentAudioQueueSize()) {
                             Timber.d("playing audio queue item");
                             mediaManager.playFrom(pos);
@@ -168,34 +118,15 @@ public class ItemLauncher {
 
                         return;
                     case SEASON:
-                        //Start activity for enhanced browse
-                        Intent seasonIntent = new Intent(activity, GenericFolderActivity.class);
-                        seasonIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
-                        if (noHistory) {
-                            seasonIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        }
-
-                        activity.startActivity(seasonIntent);
-
+                        navigationRepository.navigate(Destinations.INSTANCE.folderBrowser(baseItem));
                         return;
 
                     case BOX_SET:
-                        // open collection browsing
-                        Intent collectionIntent = new Intent(activity, CollectionActivity.class);
-                        collectionIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
-                        if (noHistory) {
-                            collectionIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        }
-
-                        activity.startActivity(collectionIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.collectionBrowser(baseItem));
                         return;
 
                     case PHOTO:
-                        // open photo player
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaPosition(pos);
-                        Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
-
-                        activity.startActivity(photoIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.getPicturePlayer());
                         return;
 
                 }
@@ -209,24 +140,12 @@ public class ItemLauncher {
                         baseItem = JavaCompat.copyWithDisplayPreferencesId(baseItem, baseItem.getId().toString());
                     }
 
-                    Intent intent = new Intent(activity, GenericGridActivity.class);
-                    intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), baseItem));
-                    if (noHistory) {
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    }
-
-                    activity.startActivity(intent);
+                    navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(baseItem));
                 } else {
                     switch (rowItem.getSelectAction()) {
 
                         case ShowDetails:
-                            //Start details fragment for display and playback
-                            Intent intent = new Intent(activity, FullDetailsActivity.class);
-                            intent.putExtra("ItemId", baseItem.getId().toString());
-                            if (noHistory) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            }
-                            activity.startActivity(intent);
+                            navigationRepository.navigate(Destinations.INSTANCE.itemDetails(baseItem.getId()));
                             break;
                         case Play:
                             if (baseItem.getPlayAccess() == org.jellyfin.sdk.model.api.PlayAccess.FULL) {
@@ -250,14 +169,7 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
-                //Start details fragment
-                Intent intent = new Intent(activity, FullDetailsActivity.class);
-                intent.putExtra("ItemId", rowItem.getBasePerson().getId().toString());
-                if (noHistory) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                }
-
-                activity.startActivity(intent);
+                navigationRepository.navigate(Destinations.INSTANCE.itemDetails(rowItem.getBasePerson().getId()));
 
                 break;
             case Chapter:
@@ -286,12 +198,7 @@ public class ItemLauncher {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (response.getIsFolderItem() && ModelCompat.asSdk(response).getType() != BaseItemKind.SERIES) {
-                            // open generic folder browsing
-                            Intent intent = new Intent(activity, GenericGridActivity.class);
-                            intent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(response)));
-
-                            activity.startActivity(intent);
-
+                            navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(response)));
                         } else if (ModelCompat.asSdk(response).getType() == BaseItemKind.AUDIO) {
                             PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
                             //produce item menu
@@ -299,16 +206,11 @@ public class ItemLauncher {
                             return;
 
                         } else {
-                            Intent intent = new Intent(activity, FullDetailsActivity.class);
-                            intent.putExtra("ItemId", response.getId().toString());
                             if (ModelCompat.asSdk(response).getType() == BaseItemKind.PROGRAM) {
-                                // TODO: Seems like this is never used...
-                                intent.putExtra("ItemType", response.getBaseItemType().name());
-
-                                intent.putExtra("ChannelId", response.getChannelId());
-                                intent.putExtra("ProgramInfo", Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(response)));
+                                navigationRepository.navigate(Destinations.INSTANCE.channelDetails(UUIDSerializerKt.toUUID(response.getId()), UUIDSerializerKt.toUUID(response.getChannelId()), ModelCompat.asSdk(response)));
+                            } else {
+                                navigationRepository.navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(response.getId())));
                             }
-                            activity.startActivity(intent);
                         }
                     }
 
@@ -324,17 +226,7 @@ public class ItemLauncher {
                 switch (rowItem.getSelectAction()) {
 
                     case ShowDetails:
-                        //Start details fragment for display and playback
-                        Intent programIntent = new Intent(activity, FullDetailsActivity.class);
-                        programIntent.putExtra("ItemId", program.getId().toString());
-
-                        // TODO Seems unused
-                        programIntent.putExtra("ItemType", program.getType().name());
-
-                        programIntent.putExtra("ChannelId", program.getChannelId());
-                        programIntent.putExtra("ProgramInfo", Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), program));
-
-                        activity.startActivity(programIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.channelDetails(program.getId(), program.getChannelId(), program));
                         break;
                     case Play:
                         if (program.getPlayAccess() == org.jellyfin.sdk.model.api.PlayAccess.FULL) {
@@ -384,11 +276,7 @@ public class ItemLauncher {
                 switch (rowItem.getSelectAction()) {
 
                     case ShowDetails:
-                        //Start details fragment for display and playback
-                        Intent recIntent = new Intent(activity, FullDetailsActivity.class);
-                        recIntent.putExtra("ItemId", rowItem.getBaseItem().getId().toString());
-
-                        activity.startActivity(recIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.itemDetails(rowItem.getBaseItem().getId()));
                         break;
                     case Play:
                         if (rowItem.getBaseItem().getPlayAccess() == PlayAccess.FULL) {
@@ -413,48 +301,35 @@ public class ItemLauncher {
                 break;
 
             case SeriesTimer:
-                //Start details fragment for display and playback
-                Intent timerIntent = new Intent(activity, FullDetailsActivity.class);
-                timerIntent.putExtra("ItemId", rowItem.getItemId());
-                timerIntent.putExtra("ItemType", "SeriesTimer");
-                timerIntent.putExtra("SeriesTimer", Json.Default.encodeToString(org.jellyfin.sdk.model.api.SeriesTimerInfoDto.Companion.serializer(), ModelCompat.asSdk(rowItem.getSeriesTimerInfo())));
-
-                activity.startActivity(timerIntent);
+                navigationRepository.navigate(Destinations.INSTANCE.seriesTimerDetails(UUIDSerializerKt.toUUID(rowItem.getItemId()), ModelCompat.asSdk(rowItem.getSeriesTimerInfo())));
                 break;
 
 
             case GridButton:
                 switch (rowItem.getGridButton().getId()) {
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
-                        Intent guide = new Intent(activity, LiveTvGuideActivity.class);
-                        activity.startActivity(guide);
+                        navigationRepository.navigate(Destinations.INSTANCE.getLiveTvGuide());
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        Intent recordings = new Intent(activity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
                         folder.setId(UUID.randomUUID().toString());
                         folder.setBaseItemType(BaseItemType.Folder);
                         folder.setName(activity.getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));
-                        activity.startActivity(recordings);
+                        navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(folder)));
                         break;
 
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        Intent seriesIntent = new Intent(activity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
                         seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
                         seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
-
-                        activity.startActivity(seriesIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(seriesTimers)));
                         break;
 
                     case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
-                        Intent schedIntent = new Intent(activity, BrowseScheduleActivity.class);
-                        activity.startActivity(schedIntent);
+                        navigationRepository.navigate(Destinations.INSTANCE.getLiveTvSchedule());
                         break;
                 }
                 break;

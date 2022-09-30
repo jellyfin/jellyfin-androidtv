@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.browsing;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -51,8 +50,9 @@ import org.jellyfin.androidtv.ui.AlphaPickerView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
-import org.jellyfin.androidtv.ui.preference.PreferencesActivity;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -121,6 +121,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     private int mCardsScreenEst = 0;
     private int mCardsScreenStride = 0;
@@ -863,13 +864,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent settingsIntent = new Intent(getActivity(), PreferencesActivity.class);
-                settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN, DisplayPreferencesScreen.class.getCanonicalName());
-                Bundle screenArgs = new Bundle();
-                screenArgs.putString(DisplayPreferencesScreen.ARG_PREFERENCES_ID, mFolder.getDisplayPreferencesId());
-                screenArgs.putBoolean(DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION, userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType()));
-                settingsIntent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, screenArgs);
-                requireActivity().startActivity(settingsIntent);
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.displayPreferences(mFolder.getDisplayPreferencesId(), userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType())));
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));

@@ -132,66 +132,14 @@
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".ui.browsing.GenericFolderActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.UserViewActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.CollectionActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.GroupedItemsActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
             android:name=".ui.preference.PreferencesActivity"
             android:theme="@style/Theme.Jellyfin.Preferences" />
-
-        <activity
-            android:name=".ui.browsing.SuggestedMoviesActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.itemdetail.FullDetailsActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.livetv.LiveTvGuideActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.GenericGridActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.BrowseRecordingsActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.browsing.BrowseScheduleActivity"
-            android:screenOrientation="landscape" />
 
         <activity
             android:name=".ui.itemdetail.PhotoPlayerActivity"
             android:screenOrientation="landscape" />
 
         <activity android:name=".ui.picture.PictureViewerActivity" />
-
-        <activity
-            android:name=".ui.itemdetail.ItemListActivity"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.playback.AudioNowPlayingActivity"
-            android:screenOrientation="landscape" />
 
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
 

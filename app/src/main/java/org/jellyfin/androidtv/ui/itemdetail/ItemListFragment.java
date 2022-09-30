@@ -37,6 +37,8 @@ import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
@@ -61,6 +63,7 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -103,6 +106,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     @Nullable
     @Override
@@ -586,10 +590,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             TextUnderButton artist = TextUnderButton.create(requireContext(), R.drawable.ic_user, buttonSize, 4, getString(R.string.lbl_open_artist), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent artist = new Intent(requireContext(), FullDetailsActivity.class);
-                    artist.putExtra("ItemId", mBaseItem.getAlbumArtists().get(0).getId());
-                    requireContext().startActivity(artist);
-
+                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mBaseItem.getAlbumArtists().get(0).getId())));
                 }
             });
             mButtonRow.addView(artist);

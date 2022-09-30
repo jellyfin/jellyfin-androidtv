@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserPreferences.Companion.clockBehavior
@@ -48,8 +49,8 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 		super.onCreate(savedInstanceState)
 
 		// Parse intent
-		folder = Json.decodeFromString<BaseItemDto>(arguments?.getString(GroupedItemsActivity.EXTRA_FOLDER)!!)
-		includeType = arguments?.getString(GroupedItemsActivity.EXTRA_INCLUDE_TYPE)
+		folder = Json.decodeFromString<BaseItemDto>(arguments?.getString(Extras.Folder)!!)
+		includeType = arguments?.getString(Extras.IncludeType)
 
 		// Attach background service
 		backgroundService.attach(requireActivity())
@@ -124,7 +125,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 		val showClock = userPreferences[clockBehavior]
 		if (showClock !== ClockBehavior.ALWAYS && showClock !== ClockBehavior.IN_MENUS) return
 
-		val root = requireActivity().findViewById<ViewGroup>(R.id.content_view)
+		val root = requireActivity().findViewById<ViewGroup>(R.id.browse_frame)
 
 		// Move the title to the left to make way for the clock
 		val titleView = root.findViewById<TextView>(R.id.title_text)

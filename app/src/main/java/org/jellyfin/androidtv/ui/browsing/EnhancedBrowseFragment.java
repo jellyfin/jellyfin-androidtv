@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -38,12 +37,12 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListActivity;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
-import org.jellyfin.androidtv.ui.livetv.LiveTvGuideActivity;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
@@ -60,6 +59,7 @@ import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
+import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -67,7 +67,6 @@ import java.util.List;
 import java.util.UUID;
 
 import kotlin.Lazy;
-import kotlinx.serialization.json.Json;
 
 public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.OnKeyListener {
     protected FragmentActivity mActivity;
@@ -106,6 +105,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -367,95 +367,61 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
-                        Intent folderIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        folderIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        requireActivity().startActivity(folderIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder)));
                         break;
 
                     case ALBUMS:
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AL");
-
-                        Intent albumsIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        albumsIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        albumsIntent.putExtra(Extras.IncludeType, "MusicAlbum");
-                        requireActivity().startActivity(albumsIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder), "MusicAlbum"));
                         break;
 
                     case ARTISTS:
                         mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
 
-                        Intent artistsIntent = new Intent(getActivity(), GenericGridActivity.class);
-                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        artistsIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, "AlbumArtist");
-                        requireActivity().startActivity(artistsIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder), "AlbumArtist"));
                         break;
 
                     case BY_LETTER:
-                        Intent letterIntent = new Intent(getActivity(), GroupedItemsActivity.class);
-                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.LETTER.toString());
-                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        letterIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
-
-                        requireActivity().startActivity(letterIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByLetter(ModelCompat.asSdk(mFolder), itemTypeString));
                         break;
 
                     case GENRES:
-                        Intent genreIntent = new Intent(getActivity(), GroupedItemsActivity.class);
-                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_GROUPING_TYPE, GroupedItemsActivity.GroupingType.GENRE.toString());
-                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_FOLDER, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        genreIntent.putExtra(GroupedItemsActivity.EXTRA_INCLUDE_TYPE, itemTypeString);
-
-                        requireActivity().startActivity(genreIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(ModelCompat.asSdk(mFolder), itemTypeString));
                         break;
 
                     case SUGGESTED:
-                        Intent suggIntent = new Intent(getActivity(), SuggestedMoviesActivity.class);
-                        suggIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(mFolder)));
-                        suggIntent.putExtra(Extras.IncludeType, itemTypeString);
-
-                        requireActivity().startActivity(suggIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySuggestions(ModelCompat.asSdk(mFolder)));
                         break;
 
                     case FAVSONGS:
-                        Intent favIntent = new Intent(getActivity(), ItemListActivity.class);
-                        favIntent.putExtra("ItemId", ItemListFragment.FAV_SONGS);
-                        favIntent.putExtra("ParentId", mFolder.getId());
-
-                        requireActivity().startActivity(favIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(UUIDSerializerKt.toUUID(ItemListFragment.FAV_SONGS), UUIDSerializerKt.toUUID(mFolder.getId())));
                         break;
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        Intent seriesIntent = new Intent(mActivity, UserViewActivity.class);
                         BaseItemDto seriesTimers = new BaseItemDto();
                         seriesTimers.setId(UUID.randomUUID().toString());
                         seriesTimers.setBaseItemType(BaseItemType.Folder);
                         seriesTimers.setCollectionType("SeriesTimers");
-                        seriesTimers.setName(mActivity.getString(R.string.lbl_series_recordings));
-                        seriesIntent.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(seriesTimers)));
-
-                        requireActivity().startActivity(seriesIntent);
+                        seriesTimers.setName(requireContext().getString(R.string.lbl_series_recordings));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(seriesTimers)));
                         break;
 
                     case SCHEDULE:
                     case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:
-                        Intent schedIntent = new Intent(mActivity, BrowseScheduleActivity.class);
-                        requireActivity().startActivity(schedIntent);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvSchedule());
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        Intent recordings = new Intent(mActivity, BrowseRecordingsActivity.class);
                         BaseItemDto folder = new BaseItemDto();
-                        folder.setBaseItemType(BaseItemType.Folder);
                         folder.setId(UUID.randomUUID().toString());
-                        folder.setName(getString(R.string.lbl_recorded_tv));
-                        recordings.putExtra(Extras.Folder, Json.Default.encodeToString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), ModelCompat.asSdk(folder)));
-                        mActivity.startActivity(recordings);
+                        folder.setBaseItemType(BaseItemType.Folder);
+                        folder.setName(requireContext().getString(R.string.lbl_recorded_tv));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(folder)));
                         break;
 
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
-                        Intent guide = new Intent(mActivity, LiveTvGuideActivity.class);
-                        mActivity.startActivity(guide);
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvGuide());
                         break;
 
                     default:
