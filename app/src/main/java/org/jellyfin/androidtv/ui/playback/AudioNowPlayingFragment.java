@@ -373,7 +373,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         public void onProgress(long pos) {
             // start the screensaver after 60 seconds without user input
             // skip setting the time here if the screensaver will be started since startScreensaver() does it
-            if (!ssActive && mediaManager.getValue().isPlayingAudio() && System.currentTimeMillis() - lastUserInteraction > 2000) {
+            if (!ssActive && mediaManager.getValue().isPlayingAudio() && System.currentTimeMillis() - lastUserInteraction > 60000) {
                 startScreenSaver();
             } else {
                 setCurrentTime(pos);
