@@ -7,6 +7,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.data.model.DataRefreshService
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper
@@ -18,6 +21,7 @@ import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.api.sockets.SocketInstanceState
 import org.jellyfin.sdk.api.sockets.addGeneralCommandsListener
 import org.jellyfin.sdk.api.sockets.addListener
+import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
 import org.jellyfin.sdk.model.api.PlaystateCommand
@@ -37,6 +41,7 @@ class SocketHandler(
 	private val dataRefreshService: DataRefreshService,
 	private val mediaManager: MediaManager,
 	private val playbackControllerContainer: PlaybackControllerContainer,
+	private val navigationRepository: NavigationRepository,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
 	val state = socketInstance.state
@@ -49,6 +54,7 @@ class SocketHandler(
 				supportedCommands = listOf(
 					GeneralCommandType.DISPLAY_MESSAGE,
 					GeneralCommandType.SEND_STRING,
+					GeneralCommandType.DISPLAY_CONTENT,
 				),
 			)
 		} catch (err: ApiClientException) {
@@ -73,9 +79,12 @@ class SocketHandler(
 			// General commands
 			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
 				val itemId by message
-				val itemUuid = itemId?.toUUIDOrNull()
+				val itemType by message
 
-				if (itemUuid != null) onDisplayContent(itemUuid)
+				val itemUuid = itemId?.toUUIDOrNull()
+				val itemKind = itemType?.let { type -> BaseItemKind.values().find { value -> value.serialName.equals(type, true) } }
+
+				if (itemUuid != null && itemKind != null) onDisplayContent(itemUuid, itemKind)
 			}
 			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_MESSAGE, GeneralCommandType.SEND_STRING)) { message ->
 				val header by message
@@ -138,10 +147,7 @@ class SocketHandler(
 		}
 	}
 
-	// FIXME: Add an ItemLauncher function that accepts SDK BaseItemDto
-	// Add "GeneralCommandType.DISPLAY_CONTENT" to supportedCommands in capabilities to receive
-	// these messages. Otherwise this function is never called.
-	private fun onDisplayContent(itemId: UUID) {
+	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) {
 		val playbackController = playbackControllerContainer.playbackController
 
 		if (playbackController?.isPlaying == true || playbackController?.isPaused == true) {
@@ -151,9 +157,13 @@ class SocketHandler(
 
 		Timber.i("Launching $itemId")
 
-		coroutineScope.launch {
-			val item by api.userLibraryApi.getItem(itemId = itemId)
-			// ItemLauncher.launch(item)
+		when (itemKind) {
+			BaseItemKind.USER_VIEW,
+			BaseItemKind.COLLECTION_FOLDER -> coroutineScope.launch {
+				val item by api.userLibraryApi.getItem(itemId = itemId)
+				ItemLauncher.launchUserView(item)
+			}
+			else -> navigationRepository.navigate(Destinations.itemDetails(itemId))
 		}
 	}
 

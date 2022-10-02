@@ -69,7 +69,7 @@ val appModule = module {
 
 	single { get<ApiClient>().ws() }
 
-	single { SocketHandler(get(), get(), get(), get(), get(), get()) }
+	single { SocketHandler(get(), get(), get(), get(), get(), get(), get()) }
 
 	// Old apiclient
 	single { GsonJsonSerializer() }
