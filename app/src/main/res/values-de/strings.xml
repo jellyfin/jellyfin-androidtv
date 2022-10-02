@@ -493,4 +493,7 @@
     <string name="pref_crash_reports">Absturzberichte an Server senden</string>
     <string name="pref_telemetry_description">Absturzberichte senden, Logs einschließen</string>
     <string name="lbl_additional_parts">Weitere Teile</string>
+    <string name="lbl_quality_profile">Qualitätsprofil</string>
+    <string name="desc_audio_night_mode">Passt die Audiolautstärke automatisch an</string>
+    <string name="pref_audio_night_mode">Audio Nachtmodus (experimentell)</string>
 </resources>
