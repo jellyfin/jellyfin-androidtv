@@ -493,4 +493,7 @@
     <string name="pref_crash_reports_disabled">Los informes de fallos no serán enviados</string>
     <string name="pref_crash_reports_enabled">Los informes de fallos serán enviados al último servidor utilizado</string>
     <string name="pref_crash_reports">Enviar informes de fallos al servidor</string>
+    <string name="lbl_quality_profile">Perfil de calidad</string>
+    <string name="desc_audio_night_mode">Nivela el volumen de audio automáticamente</string>
+    <string name="pref_audio_night_mode">Modo nocturno de audio (experimental)</string>
 </resources>
