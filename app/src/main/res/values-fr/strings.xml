@@ -493,4 +493,7 @@
     <string name="image_type_poster">Affiche</string>
     <string name="episode_name_special">special</string>
     <string name="enable_picture_viewer_title">Activer la nouvelle visionneuse d\'images</string>
+    <string name="lbl_quality_profile">Profil de qualité</string>
+    <string name="desc_audio_night_mode">Nivellement automatique du volume audio</string>
+    <string name="pref_audio_night_mode">Mode nuit audio (expérimental)</string>
 </resources>
