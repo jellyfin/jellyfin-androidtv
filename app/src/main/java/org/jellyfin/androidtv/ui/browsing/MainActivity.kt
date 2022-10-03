@@ -13,7 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
-import org.jellyfin.androidtv.ui.navigation.Destination
+import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.koin.android.ext.android.inject
 
@@ -37,40 +37,48 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 		backgroundService.attach(this)
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
+		supportFragmentManager.addOnBackStackChangedListener {
+			if (supportFragmentManager.backStackEntryCount == 0)
+				navigationRepository.reset()
+		}
+
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				navigationRepository.currentDestination.collect { destination ->
-					updateDestination(destination)
+				navigationRepository.currentAction.collect { action ->
+					handleNavigationAction(action)
 					backPressedCallback.isEnabled = navigationRepository.canGoBack
 				}
 			}
 		}
 	}
 
-	private fun updateDestination(destination: Destination) {
-		when (destination) {
-			is Destination.Fragment -> supportFragmentManager.commit {
-				val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
-				val isSameFragment = currentFragment != null &&
-					destination.fragment.isInstance(currentFragment) &&
-					currentFragment.arguments == destination.arguments
+	private fun handleNavigationAction(action: NavigationAction) = when (action) {
+		is NavigationAction.NavigateFragment -> supportFragmentManager.commit {
+			val destination = action.destination
+			val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
+			val isSameFragment = currentFragment != null &&
+				destination.fragment.isInstance(currentFragment) &&
+				currentFragment.arguments == destination.arguments
 
-				if (!isSameFragment) {
-					if (currentFragment != null) remove(currentFragment)
-					add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
-				}
+			if (!isSameFragment) {
+				if (currentFragment != null) remove(currentFragment)
+				add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
 			}
 
-			is Destination.Activity -> {
-				val intent = Intent(this@MainActivity, destination.activity.java)
-				intent.putExtras(destination.extras)
-				startActivity(intent)
-
-				// Always pop after starting an activity to prevent it from reopening
-				// because the last destination is always opened when resuming MainActivity
-				navigationRepository.goBack()
-			}
+			if (action.addToBackStack) addToBackStack(null)
 		}
+
+		is NavigationAction.NavigateActivity -> {
+			val destination = action.destination
+			val intent = Intent(this@MainActivity, destination.activity.java)
+			intent.putExtras(destination.extras)
+			startActivity(intent)
+			action.onOpened()
+		}
+
+		NavigationAction.GoBack -> supportFragmentManager.popBackStack()
+
+		NavigationAction.Nothing -> Unit
 	}
 
 	// Forward key events to fragments
