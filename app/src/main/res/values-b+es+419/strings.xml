@@ -493,4 +493,7 @@
     <string name="input_password">Contraseña</string>
     <string name="input_username">Nombre de usuario</string>
     <string name="action_use_quickconnect">Usar Conexión rápida</string>
+    <string name="lbl_quality_profile">Perfil de calidad</string>
+    <string name="desc_audio_night_mode">Baja el volumen del audio automáticamente</string>
+    <string name="pref_audio_night_mode">Audio en modo nocturno (experimental)</string>
 </resources>
