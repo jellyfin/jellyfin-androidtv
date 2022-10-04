@@ -1,13 +1,13 @@
 package org.jellyfin.androidtv.util.apiclient;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
+import org.jellyfin.androidtv.ui.navigation.Destination;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.TimeUtils;
@@ -268,6 +268,7 @@ public class PlaybackHelper {
 
     public static void play(final org.jellyfin.sdk.model.api.BaseItemDto item, final int pos, final boolean shuffle, final Context activity) {
         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
+        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
         if (playbackLauncher.interceptPlayRequest(activity, item)) return;
 
         getItemsToPlay(item, pos == 0 && item.getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
@@ -283,13 +284,9 @@ public class PlaybackHelper {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         } else {
                             BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;
-                            Class newActivity = playbackLauncher.getPlaybackActivityClass(itemType);
-                            Intent intent = new Intent(activity, newActivity);
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                            intent.putExtra("Position", pos);
-                            if (!(activity instanceof Activity))
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            activity.startActivity(intent);
+                            Destination destination = playbackLauncher.getPlaybackDestination(itemType, pos);
+                            navigationRepository.navigate(destination);
                         }
                         break;
                     case AUDIO:
@@ -299,13 +296,9 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        Class newActivity = playbackLauncher.getPlaybackActivityClass(item.getType());
-                        Intent intent = new Intent(activity, newActivity);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                        intent.putExtra("Position", pos);
-                        if (!(activity instanceof Activity))
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent);
+                        Destination destination = playbackLauncher.getPlaybackDestination(item.getType(), pos);
+                        navigationRepository.navigate(destination);
                 }
             }
         });

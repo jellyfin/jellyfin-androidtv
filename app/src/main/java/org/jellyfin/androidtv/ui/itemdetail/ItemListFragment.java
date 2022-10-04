@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.itemdetail;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -37,6 +36,7 @@ import org.jellyfin.androidtv.ui.ItemRowView;
 import org.jellyfin.androidtv.ui.TextUnderButton;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
+import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.AudioEventListener;
@@ -472,17 +472,16 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             if (shuffle) {
                 Collections.shuffle(items);
             }
-            Class activity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(mBaseItem).getType());
-            Intent intent = new Intent(requireContext(), activity);
-            //Resume item if needed
+
+            int pos = 0;
             BaseItemDto item = items.size() > 0 ? items.get(ndx) : null;
             if (item != null && item.getUserData() != null) {
-                Long pos = item.getUserData().getPlaybackPositionTicks() / 10000;
-                intent.putExtra("Position", pos.intValue());
+                pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
             }
             mediaManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
             mediaManager.getValue().setCurrentMediaPosition(ndx);
-            startActivity(intent);
+            Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(mBaseItem).getType(), pos);
+            navigationRepository.getValue().navigate(destination);
         } else {
             mediaManager.getValue().playNow(requireContext(), JavaCompat.mapBaseItemCollection(items), ndx, shuffle);
         }

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.playback.nextup
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -9,8 +8,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
-import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,6 +22,7 @@ class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 	private val viewModel: NextUpViewModel by viewModel()
 	private val backgroundService: BackgroundService by inject()
+	private val navigationRepository: NavigationRepository by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -36,8 +36,8 @@ class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
 						// Open next item
 						NextUpState.PLAY_NEXT -> {
 							when (useExternalPlayer) {
-								true -> startActivity(Intent(this@NextUpActivity, ExternalPlayerActivity::class.java))
-								false -> startActivity(Intent(this@NextUpActivity, PlaybackOverlayActivity::class.java))
+								true -> navigationRepository.navigate(Destinations.externalPlayer(0))
+								false -> navigationRepository.navigate(Destinations.videoPlayer(0))
 							}
 							finish()
 						}
