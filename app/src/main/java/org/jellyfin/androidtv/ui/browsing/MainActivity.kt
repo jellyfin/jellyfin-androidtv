@@ -43,6 +43,8 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 				navigationRepository.reset()
 		}
 
+		if (savedInstanceState == null) navigationRepository.reset()
+
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				navigationRepository.currentAction.collect { action ->
