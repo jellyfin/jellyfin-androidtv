@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -26,9 +27,9 @@ import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -46,6 +47,7 @@ public class LiveProgramDetailPopup {
     private BaseItemDto mProgram;
     private ProgramGridCell mSelectedProgramView;
     private Activity mActivity;
+    private final Lifecycle lifecycle;
     private LiveTvGuide mTvGuide;
     private TextView mDTitle;
     private TextView mDSummary;
@@ -57,7 +59,7 @@ public class LiveProgramDetailPopup {
     private Button mFirstButton;
     private Button mSeriesSettingsButton;
 
-    private EmptyResponse mTuneAction;
+    private EmptyLifecycleAwareResponse mTuneAction;
 
     private View mAnchor;
     private int mPosLeft;
@@ -65,8 +67,9 @@ public class LiveProgramDetailPopup {
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
 
-    public LiveProgramDetailPopup(Activity activity, LiveTvGuide tvGuide, int width, EmptyResponse tuneAction) {
+    public LiveProgramDetailPopup(Activity activity, Lifecycle lifecycle, LiveTvGuide tvGuide, int width, EmptyLifecycleAwareResponse tuneAction) {
         mActivity = activity;
+        this.lifecycle = lifecycle;
         mTvGuide = tvGuide;
         mTuneAction = tuneAction;
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -138,9 +141,11 @@ public class LiveProgramDetailPopup {
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                            apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyLifecycleAwareResponse(lifecycle) {
                                 @Override
                                 public void onResponse() {
+                                    if (!getActive()) return;
+
                                     selectedGridView.setRecTimer(null);
                                     program.setTimerId(null);
                                     dismiss();
@@ -149,6 +154,8 @@ public class LiveProgramDetailPopup {
 
                                 @Override
                                 public void onError(Exception ex) {
+                                    if (!getActive()) return;
+
                                     Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
                                 }
                             });
@@ -171,9 +178,11 @@ public class LiveProgramDetailPopup {
                             apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(SeriesTimerInfoDto response) {
-                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(lifecycle) {
                                         @Override
                                         public void onResponse() {
+                                            if (!getActive()) return;
+
                                             // we have to re-retrieve the program to get the timer id
                                             apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
@@ -189,6 +198,8 @@ public class LiveProgramDetailPopup {
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            if (!getActive()) return;
+
                                             Timber.e(ex, "Error creating recording");
                                             Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                         }
@@ -224,9 +235,11 @@ public class LiveProgramDetailPopup {
                                         .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                                                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyLifecycleAwareResponse(lifecycle) {
                                                     @Override
                                                     public void onResponse() {
+                                                        if (!getActive()) return;
+
                                                         selectedGridView.setRecSeriesTimer(null);
                                                         program.setSeriesTimerId(null);
                                                         mSeriesSettingsButton.setVisibility(View.GONE);
@@ -236,6 +249,8 @@ public class LiveProgramDetailPopup {
 
                                                     @Override
                                                     public void onError(Exception ex) {
+                                                        if (!getActive()) return;
+
                                                         Utils.showToast(mActivity, R.string.msg_unable_to_cancel);
                                                     }
                                                 });
@@ -257,9 +272,11 @@ public class LiveProgramDetailPopup {
                                 apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgram.getId(), new Response<SeriesTimerInfoDto>() {
                                     @Override
                                     public void onResponse(SeriesTimerInfoDto response) {
-                                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(lifecycle) {
                                             @Override
                                             public void onResponse() {
+                                                if (!getActive()) return;
+
                                                 // we have to re-retrieve the program to get the timer id
                                                 apiClient.getValue().GetLiveTvProgramAsync(mProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                     @Override
@@ -276,6 +293,8 @@ public class LiveProgramDetailPopup {
 
                                             @Override
                                             public void onError(Exception ex) {
+                                                if (!getActive()) return;
+
                                                 Timber.e(ex, "Error creating recording");
                                                 Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                                             }
@@ -339,7 +358,7 @@ public class LiveProgramDetailPopup {
         tune.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTuneAction != null) mTuneAction.onResponse();
+                if (mTuneAction != null && mTuneAction.getActive()) mTuneAction.onResponse();
                 mPopup.dismiss();
             }
         });
@@ -405,7 +424,7 @@ public class LiveProgramDetailPopup {
     private RecordPopup mRecordPopup;
 
     public void showRecordingOptions(final boolean recordSeries) {
-        if (mRecordPopup == null) mRecordPopup = new RecordPopup(mActivity, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
+        if (mRecordPopup == null) mRecordPopup = new RecordPopup(mActivity, lifecycle, mAnchor, mPosLeft, mPosTop, mPopup.getWidth());
         apiClient.getValue().GetLiveTvSeriesTimerAsync(mProgram.getSeriesTimerId(), new Response<SeriesTimerInfoDto>() {
             @Override
             public void onResponse(SeriesTimerInfoDto response) {

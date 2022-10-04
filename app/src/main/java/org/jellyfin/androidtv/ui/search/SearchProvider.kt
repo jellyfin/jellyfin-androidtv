@@ -23,7 +23,7 @@ class SearchProvider(
 
 	private val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 	private var previousQuery: String? = null
-	private val searchRunnable = SearchRunnable(context, rowsAdapter)
+	private val searchRunnable = SearchRunnable(context, lifecycle, rowsAdapter)
 	private var searchJob: Job? = null
 
 	override fun getResultsAdapter(): ObjectAdapter = rowsAdapter

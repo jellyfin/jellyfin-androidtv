@@ -23,8 +23,8 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -152,7 +152,7 @@ public class TvManager {
         return ndx;
     }
 
-    public static void getProgramsAsync(int startNdx, int endNdx, final Calendar start, Calendar endTime, final EmptyResponse outerResponse) {
+    public static void getProgramsAsync(int startNdx, int endNdx, final Calendar start, Calendar endTime, final EmptyLifecycleAwareResponse outerResponse) {
         start.set(Calendar.MINUTE, start.get(Calendar.MINUTE) >= 30 ? 30 : 0);
         start.set(Calendar.SECOND, 1);
         if (forceReload || needLoadTime == null || start.after(needLoadTime) || !mProgramsDict.containsKey(channelIds[startNdx]) || !mProgramsDict.containsKey(channelIds[endNdx])) {
@@ -178,12 +178,12 @@ public class TvManager {
                     buildProgramsDict(response.getItems(), start);
                     Timber.d("*** Programs retrieval finished");
 
-                    outerResponse.onResponse();
+                    if (outerResponse.getActive()) outerResponse.onResponse();
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    outerResponse.onError(exception);
+                    if (outerResponse.getActive()) outerResponse.onError(exception);
                 }
             });
 

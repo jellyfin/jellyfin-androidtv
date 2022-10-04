@@ -71,10 +71,10 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -778,9 +778,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.channelsStatus.setText("");
         tvGuideBinding.filterStatus.setText("");
         final CustomPlaybackOverlayFragment self = this;
-        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyResponse() {
+        TvManager.getProgramsAsync(mCurrentDisplayChannelStartNdx, mCurrentDisplayChannelEndNdx, mCurrentGuideStart, mCurrentGuideEnd, new EmptyLifecycleAwareResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!getActive()) return;
+
                 Timber.d("*** Programs response");
                 if (mDisplayProgramsTask != null) mDisplayProgramsTask.cancel(true);
                 mDisplayProgramsTask = new DisplayProgramsTask(self);
@@ -1071,9 +1073,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showProgramOptions() {
         if (mSelectedProgram == null) return;
         if (mDetailPopup == null)
-            mDetailPopup = new LiveProgramDetailPopup(((PlaybackOverlayActivity) requireActivity()), this, Utils.convertDpToPixel(requireContext(), 600), new EmptyResponse() {
+            mDetailPopup = new LiveProgramDetailPopup(requireActivity(), getLifecycle(), this, Utils.convertDpToPixel(requireContext(), 600), new EmptyLifecycleAwareResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!getActive()) return;
+
                     switchChannel(mSelectedProgram.getChannelId());
                 }
             });
@@ -1185,9 +1189,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void cancelRecording(org.jellyfin.sdk.model.api.BaseItemDto program, boolean series) {
         if (program != null) {
             if (series) {
-                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyResponse() {
+                apiClient.getValue().CancelLiveTvSeriesTimerAsync(program.getSeriesTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
                     @Override
                     public void onResponse() {
+                        if (!getActive()) return;
+
                         Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                         mPlaybackController.updateTvProgramInfo();
                         TvManager.forceReload();
@@ -1195,13 +1201,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     @Override
                     public void onError(Exception ex) {
+                        if (!getActive()) return;
+
                         Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
                     }
                 });
             } else {
-                apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyResponse() {
+                apiClient.getValue().CancelLiveTvTimerAsync(program.getTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
                     @Override
                     public void onResponse() {
+                        if (!getActive()) return;
+
                         Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                         mPlaybackController.updateTvProgramInfo();
                         TvManager.forceReload();
@@ -1209,6 +1219,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                     @Override
                     public void onError(Exception ex) {
+                        if (!getActive()) return;
+
                         Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
                     }
                 });
@@ -1223,9 +1235,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 public void onResponse(SeriesTimerInfoDto response) {
                     response.setProgramId(program.getId().toString());
                     if (series) {
-                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                        apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                             @Override
                             public void onResponse() {
+                                if (!getActive()) return;
+
                                 Utils.showToast(requireContext(), R.string.msg_set_to_record);
                                 mPlaybackController.updateTvProgramInfo();
                                 TvManager.forceReload();
@@ -1233,13 +1247,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             @Override
                             public void onError(Exception ex) {
+                                if (!getActive()) return;
+
                                 Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                             }
                         });
                     } else {
-                        apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                        apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                             @Override
                             public void onResponse() {
+                                if (!getActive()) return;
+
                                 Utils.showToast(requireContext(), R.string.msg_set_to_record);
                                 mPlaybackController.updateTvProgramInfo();
                                 TvManager.forceReload();
@@ -1247,6 +1265,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                             @Override
                             public void onError(Exception ex) {
+                                if (!getActive()) return;
+
                                 Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                             }
                         });

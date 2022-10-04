@@ -4,17 +4,19 @@ import android.content.Context
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.Row
+import androidx.lifecycle.Lifecycle
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
-import org.jellyfin.apiclient.interaction.EmptyResponse
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse
 import org.jellyfin.apiclient.model.search.SearchQuery
 import org.jellyfin.sdk.model.api.BaseItemKind
 import timber.log.Timber
 
 class SearchRunnable(
 	private val context: Context,
+	private val lifecycle: Lifecycle,
 	private val rowsAdapter: MutableObjectAdapter<Row>,
 ) {
 	companion object {
@@ -39,8 +41,10 @@ class SearchRunnable(
 		var responses = 0
 		val adapters = mutableListOf<ItemRowAdapter>()
 
-		val finishedListener = object : EmptyResponse() {
+		val finishedListener = object : EmptyLifecycleAwareResponse(lifecycle) {
 			override fun onResponse() {
+				if (!active) return
+
 				responses++
 
 				if (responses != adapters.size) return
@@ -49,7 +53,9 @@ class SearchRunnable(
 				for (adapter in adapters) adapter.addToParentIfResultsReceived()
 			}
 
-			override fun onError(ex: Exception) {
+			override fun onError(ex: java.lang.Exception?) {
+				if (!active) return
+
 				Timber.e(ex, "Something went wrong while retrieving search results")
 				onResponse()
 			}

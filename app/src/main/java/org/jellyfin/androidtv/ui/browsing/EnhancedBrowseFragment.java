@@ -51,9 +51,9 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
@@ -342,9 +342,11 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM &&
                 mCurrentItem.getBaseItemType() != BaseItemKind.PLAYLIST
         ) {
-            mCurrentItem.refresh(new EmptyResponse() {
+            mCurrentItem.refresh(new EmptyLifecycleAwareResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!getActive()) return;
+
                     ItemRowAdapter adapter = (ItemRowAdapter) mCurrentRow.getAdapter();
                     adapter.notifyItemRangeChanged(adapter.indexOf(mCurrentItem), 1);
                 }

@@ -16,11 +16,11 @@ import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.GridButton
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse
 import org.jellyfin.androidtv.util.apiclient.getSeriesOverview
 import org.jellyfin.androidtv.util.sdk.compat.asSdk
 import org.jellyfin.androidtv.util.sdk.getFullName
 import org.jellyfin.androidtv.util.sdk.getSubName
-import org.jellyfin.apiclient.interaction.EmptyResponse
 import org.jellyfin.apiclient.model.dto.BaseItemDto
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
@@ -329,7 +329,7 @@ open class BaseRowItem protected constructor(
 
 	@JvmOverloads
 	fun refresh(
-		outerResponse: EmptyResponse,
+		outerResponse: EmptyLifecycleAwareResponse,
 		scope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope,
 	) {
 		if (baseRowType == BaseRowType.BaseItem) {
@@ -345,7 +345,7 @@ open class BaseRowItem protected constructor(
 				val response by api.userLibraryApi.getItem(itemId = id.toUUID())
 				baseItem = response
 
-				withContext(Dispatchers.Main) {
+				if (outerResponse.active) withContext(Dispatchers.Main) {
 					outerResponse.onResponse()
 				}
 			}

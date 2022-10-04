@@ -77,13 +77,13 @@ import org.jellyfin.androidtv.util.MarkdownRenderer;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
@@ -1029,7 +1029,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
@@ -1060,9 +1060,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                 }
                             });
                         } else {
-                            apiClient.getValue().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyResponse() {
+                            apiClient.getValue().CancelLiveTvTimerAsync(mProgramInfo.getTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
                                 @Override
                                 public void onResponse() {
+                                    if (!getActive()) return;
+
                                     setRecTimer(null);
                                     dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
                                     Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
@@ -1070,6 +1072,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                 @Override
                                 public void onError(Exception ex) {
+                                    if (!getActive()) return;
+
                                     Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
                                 }
                             });
@@ -1091,9 +1095,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
                                 @Override
                                 public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
-                                    apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
+                                    apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                                         @Override
                                         public void onResponse() {
+                                            if (!getActive()) return;
+
                                             // we have to re-retrieve the program to get the timer id
                                             apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
@@ -1108,6 +1114,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            if (!getActive()) return;
+
                                             Timber.e(ex, "Error creating recording");
                                             Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                                         }
@@ -1129,9 +1137,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                     .setPositiveButton(R.string.lbl_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            apiClient.getValue().CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyResponse() {
+                                            apiClient.getValue().CancelLiveTvSeriesTimerAsync(mProgramInfo.getSeriesTimerId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
                                                 @Override
                                                 public void onResponse() {
+                                                    if (!getActive()) return;
+
                                                     setRecSeriesTimer(null);
                                                     setRecTimer(null);
                                                     dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
@@ -1140,6 +1150,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                                 @Override
                                                 public void onError(Exception ex) {
+                                                    if (!getActive()) return;
+
                                                     Utils.showToast(requireContext(), R.string.msg_unable_to_cancel);
                                                 }
                                             });
@@ -1247,9 +1259,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             .setMessage(getString(R.string.msg_cancel_entire_series))
                             .setPositiveButton(R.string.lbl_cancel_series, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyResponse() {
+                                    apiClient.getValue().CancelLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new EmptyLifecycleAwareResponse(getLifecycle()) {
                                         @Override
                                         public void onResponse() {
+                                            if (!getActive()) return;
+
                                             Utils.showToast(requireContext(), mSeriesTimerInfo.getName() + " Canceled");
                                             dataRefreshService.getValue().setLastDeletedItemId(mSeriesTimerInfo.getId());
                                             requireActivity().finish();
@@ -1257,6 +1271,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            if (!getActive()) return;
+
                                             Utils.showToast(requireContext(), ex.getLocalizedMessage());
                                         }
                                     });
@@ -1449,7 +1465,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             int width = Utils.convertDpToPixel(requireContext(), 600);
             Point size = new Point();
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
-            mRecordPopup = new RecordPopup(requireActivity(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
+            mRecordPopup = new RecordPopup(requireActivity(), getLifecycle(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
         apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
             @Override
@@ -1459,9 +1475,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     mRecordPopup.show();
                 } else {
                     //just record with defaults
-                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
+                    apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                         @Override
                         public void onResponse() {
+                            if (!getActive()) return;
+
                             // we have to re-retrieve the program to get the timer id
                             apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
@@ -1474,6 +1492,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                         @Override
                         public void onError(Exception ex) {
+                            if (!getActive()) return;
+
                             Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                         }
                     });
