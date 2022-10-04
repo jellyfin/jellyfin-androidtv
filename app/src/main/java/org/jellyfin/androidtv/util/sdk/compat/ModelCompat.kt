@@ -444,11 +444,13 @@ fun LegacyMediaStream.asSdk(): ModernMediaStream = ModernMediaStream(
 	isAnamorphic = this.isAnamorphic,
 )
 
-fun LegacyMediaStreamType.asSdk(): ModernMediaStreamType = when (this) {
+fun LegacyMediaStreamType?.asSdk(): ModernMediaStreamType = when (this) {
 	LegacyMediaStreamType.Audio -> ModernMediaStreamType.AUDIO
 	LegacyMediaStreamType.Video -> ModernMediaStreamType.VIDEO
 	LegacyMediaStreamType.Subtitle -> ModernMediaStreamType.SUBTITLE
 	LegacyMediaStreamType.EmbeddedImage -> ModernMediaStreamType.EMBEDDED_IMAGE
+	// Note: The apiclient doesn't have the DATA member and defaults to "null"
+	null -> ModernMediaStreamType.DATA
 }
 
 fun LegacySubtitleDeliveryMethod.asSdk(): ModernSubtitleDeliveryMethod = when (this) {
