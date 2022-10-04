@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
@@ -82,10 +83,14 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	// Forward key events to fragments
+	private fun Fragment.onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean {
+		var result = childFragmentManager.fragments.any { it.onKeyEvent(keyCode, event) }
+		if (!result && this is View.OnKeyListener) result = onKey(currentFocus, keyCode, event)
+		return result
+	}
+
 	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean = supportFragmentManager.fragments
-		.filter { it.isVisible }
-		.filterIsInstance<View.OnKeyListener>()
-		.any { it.onKey(currentFocus, keyCode, event) }
+		.any { it.onKeyEvent(keyCode, event) }
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyDown(keyCode, event)
