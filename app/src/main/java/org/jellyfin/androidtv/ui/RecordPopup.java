@@ -20,14 +20,16 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.lifecycle.Lifecycle;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
@@ -51,6 +53,7 @@ public class RecordPopup {
     boolean mRecordSeries;
 
     Activity mActivity;
+    private final Lifecycle lifecycle;
     TextView mDTitle;
     LinearLayout mDTimeline;
     View mSeriesOptions;
@@ -69,8 +72,9 @@ public class RecordPopup {
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
-    public RecordPopup(Activity activity, View anchorView, int left, int top, int width) {
+    public RecordPopup(Activity activity, Lifecycle lifecycle, View anchorView, int left, int top, int width) {
         mActivity = activity;
+        this.lifecycle = lifecycle;
         mAnchorView = anchorView;
         mPosLeft = left;
         mPosTop = top;
@@ -138,7 +142,7 @@ public class RecordPopup {
                     mCurrentOptions.setRecordAnyChannel(mAnyChannel.isChecked());
                     mCurrentOptions.setRecordAnyTime(mAnyTime.isChecked());
 
-                    apiClient.getValue().UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyResponse() {
+                    apiClient.getValue().UpdateLiveTvSeriesTimerAsync(mCurrentOptions, new EmptyLifecycleAwareResponse(lifecycle) {
                         @Override
                         public void onResponse() {
                             mPopup.dismiss();
@@ -161,9 +165,11 @@ public class RecordPopup {
                     updated.setIsPrePaddingRequired(mCurrentOptions.getIsPrePaddingRequired());
                     updated.setIsPostPaddingRequired(mCurrentOptions.getIsPostPaddingRequired());
 
-                    apiClient.getValue().UpdateLiveTvTimerAsync(updated, new EmptyResponse() {
+                    apiClient.getValue().UpdateLiveTvTimerAsync(updated, new EmptyLifecycleAwareResponse(lifecycle) {
                         @Override
                         public void onResponse() {
+                            if (!getActive()) return;
+
                             mPopup.dismiss();
                             customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
                             // we have to re-retrieve the program to get the timer id
@@ -179,6 +185,8 @@ public class RecordPopup {
 
                         @Override
                         public void onError(Exception ex) {
+                            if (!getActive()) return;
+
                             Utils.showToast(mActivity, R.string.msg_unable_to_create_recording);
                         }
                     });

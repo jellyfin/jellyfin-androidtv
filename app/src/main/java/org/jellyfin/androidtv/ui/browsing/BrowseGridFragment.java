@@ -26,6 +26,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -60,7 +61,7 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.model.api.BaseItemDto;
@@ -644,8 +645,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mAdapter != null) {
                 mHandler.postDelayed(() -> {
-                    if (mActivity != null && mActivity.isFinishing()) return;
-                    if (getActivity() != null && getActivity().isFinishing()) return;
+                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
                     if (mAdapter != null && mAdapter.size() > 0) {
                         if (!mAdapter.ReRetrieveIfNeeded()) {
                             refreshCurrentItem();
@@ -715,9 +715,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         filters.setFavoriteOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterFavoritesOnly()));
         filters.setUnwatchedOnly(libraryPreferences.get(LibraryPreferences.Companion.getFilterUnwatchedOnly()));
 
-        mAdapter.setRetrieveFinishedListener(new EmptyResponse() {
+        mAdapter.setRetrieveFinishedListener(new EmptyLifecycleAwareResponse(getLifecycle()) {
             @Override
             public void onResponse() {
+                if (!getActive()) return;
+
                 setStatusText(mFolder.getName());
                 if (mCurrentItem == null) { // don't mess-up pos via loadMoreItemsIfNeeded
                     setItem(null);
@@ -939,9 +941,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
                 && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));
-            mCurrentItem.refresh(new EmptyResponse() {
+            mCurrentItem.refresh(new EmptyLifecycleAwareResponse(getLifecycle()) {
                 @Override
                 public void onResponse() {
+                    if (!getActive()) return;
 
                     mAdapter.notifyItemRangeChanged(mAdapter.indexOf(mCurrentItem), 1);
                     //Now - if filtered make sure we still pass
@@ -972,6 +975,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Runnable mDelayedSetItem = new Runnable() {
         @Override
         public void run() {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
             backgroundService.getValue().setBackground(mCurrentItem.getBaseItem());
             setItem(mCurrentItem);
         }

@@ -40,7 +40,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter
 import org.jellyfin.androidtv.util.KeyProcessor
-import org.jellyfin.apiclient.interaction.EmptyResponse
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -218,8 +218,10 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 
 			Timber.d("Refresh item ${item.getFullName(requireContext())}")
 
-			item.refresh(object : EmptyResponse() {
+			item.refresh(object : EmptyLifecycleAwareResponse(lifecycle) {
 				override fun onResponse() {
+					if (!active) return
+
 					val adapter = currentRow?.adapter as? ItemRowAdapter
 					adapter?.notifyItemRangeChanged(adapter.indexOf(item), 1)
 				}

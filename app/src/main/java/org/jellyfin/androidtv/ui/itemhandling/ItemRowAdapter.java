@@ -34,10 +34,10 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.ui.presentation.TextItemPresenter;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
@@ -97,7 +97,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private SortOrder sortOrder;
     private FilterOptions mFilters;
 
-    private EmptyResponse mRetrieveFinishedListener;
+    private EmptyLifecycleAwareResponse mRetrieveFinishedListener;
 
     private ChangeTriggerType[] reRetrieveTriggers = new ChangeTriggerType[]{};
     private Calendar lastFullRetrieve;
@@ -1560,13 +1560,13 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     protected void notifyRetrieveFinished(@Nullable Exception exception) {
         setCurrentlyRetrieving(false);
-        if (mRetrieveFinishedListener != null) {
+        if (mRetrieveFinishedListener != null && mRetrieveFinishedListener.getActive()) {
             if (exception == null) mRetrieveFinishedListener.onResponse();
             else mRetrieveFinishedListener.onError(exception);
         }
     }
 
-    public void setRetrieveFinishedListener(EmptyResponse response) {
+    public void setRetrieveFinishedListener(EmptyLifecycleAwareResponse response) {
         this.mRetrieveFinishedListener = response;
     }
 
