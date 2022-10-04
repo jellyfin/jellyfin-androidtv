@@ -1,17 +1,19 @@
 package org.jellyfin.androidtv.ui.playback
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer
+import org.jellyfin.androidtv.ui.navigation.Destination
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.activityDestination
 import org.jellyfin.androidtv.ui.playback.rewrite.PlaybackForwardingActivity
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 
 interface PlaybackLauncher {
 	fun useExternalPlayer(itemType: BaseItemKind?): Boolean
-	fun getPlaybackActivityClass(itemType: BaseItemKind?): Class<out Activity>
+	fun getPlaybackDestination(itemType: BaseItemKind?, position: Int): Destination
 	fun interceptPlayRequest(context: Context, item: BaseItemDto?): Boolean
 }
 
@@ -31,9 +33,9 @@ class GarbagePlaybackLauncher(
 		else -> false
 	}
 
-	override fun getPlaybackActivityClass(itemType: BaseItemKind?) = when {
-		useExternalPlayer(itemType) -> ExternalPlayerActivity::class.java
-		else -> PlaybackOverlayActivity::class.java
+	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) = when {
+		useExternalPlayer(itemType) -> Destinations.externalPlayer(position)
+		else -> Destinations.videoPlayer(position)
 	}
 
 	override fun interceptPlayRequest(context: Context, item: BaseItemDto?): Boolean = false
@@ -41,7 +43,9 @@ class GarbagePlaybackLauncher(
 
 class RewritePlaybackLauncher : PlaybackLauncher {
 	override fun useExternalPlayer(itemType: BaseItemKind?) = false
-	override fun getPlaybackActivityClass(itemType: BaseItemKind?) = PlaybackForwardingActivity::class.java
+	override fun getPlaybackDestination(itemType: BaseItemKind?, position: Int) =
+		activityDestination<PlaybackForwardingActivity>()
+
 	override fun interceptPlayRequest(context: Context, item: BaseItemDto?): Boolean {
 		if (item == null) return false
 

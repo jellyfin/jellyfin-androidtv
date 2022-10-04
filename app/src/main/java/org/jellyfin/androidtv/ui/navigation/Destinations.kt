@@ -21,6 +21,8 @@ import org.jellyfin.androidtv.ui.livetv.GuideFiltersScreen
 import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
+import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
+import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
@@ -136,4 +138,11 @@ object Destinations {
 	// Playback
 	val picturePlayer = activityDestination<PhotoPlayerActivity>()
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
+	fun externalPlayer(position: Int?) = activityDestination<ExternalPlayerActivity>(
+		"Position" to (position ?: 0)
+	)
+
+	fun videoPlayer(position: Int?) = activityDestination<PlaybackOverlayActivity>(
+		"Position" to (position ?: 0)
+	)
 }

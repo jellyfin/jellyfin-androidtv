@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -9,6 +8,7 @@ import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
+import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
@@ -154,11 +154,9 @@ public class ItemLauncher {
                                 PlaybackHelper.getItemsToPlay(baseItem, baseItem.getType() == BaseItemKind.MOVIE, false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
                                     @Override
                                     public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
-                                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(itemType);
-                                        Intent intent = new Intent(activity, newActivity);
                                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                                        intent.putExtra("Position", 0);
-                                        activity.startActivity(intent);
+                                        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(itemType, 0);
+                                        navigationRepository.navigate(destination);
                                     }
                                 });
                             } else {
@@ -181,11 +179,9 @@ public class ItemLauncher {
                         List<BaseItemDto> items = new ArrayList<>();
                         items.add(response);
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
-                        Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(response).getType());
-                        Intent intent = new Intent(activity, newActivity);
                         Long start = chapter.getStartPositionTicks() / 10000;
-                        intent.putExtra("Position", start.intValue());
-                        activity.startActivity(intent);
+                        Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(response).getType(), start.intValue());
+                        navigationRepository.navigate(destination);
                     }
                 });
 
@@ -236,11 +232,9 @@ public class ItemLauncher {
                                 public void onResponse(BaseItemDto response) {
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
-                                    Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(ModelCompat.asSdk(response).getType());
-                                    Intent intent = new Intent(activity, newActivity);
                                     KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
-                                    intent.putExtra("Position", 0);
-                                    activity.startActivity(intent);
+                                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(response).getType(), 0);
+                                    navigationRepository.navigate(destination);
 
                                 }
                             });
@@ -259,13 +253,9 @@ public class ItemLauncher {
                         PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(response), false, false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
                             @Override
                             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
-                                // TODO Check whether this usage of BaseItemType.valueOf is okay.
-                                Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(channel.getType());
-                                Intent intent = new Intent(activity, newActivity);
                                 KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
-                                intent.putExtra("Position", 0);
-                                activity.startActivity(intent);
-
+                                Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(channel.getType(), 0);
+                                navigationRepository.navigate(destination);
                             }
                         });
                     }
@@ -284,13 +274,11 @@ public class ItemLauncher {
                             KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(rowItem.getBaseItem().getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
-                                    Class newActivity = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackActivityClass(rowItem.getBaseItemType());
-                                    Intent intent = new Intent(activity, newActivity);
                                     List<BaseItemDto> items = new ArrayList<>();
                                     items.add(response);
                                     KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
-                                    intent.putExtra("Position", 0);
-                                    activity.startActivity(intent);
+                                    Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(rowItem.getBaseItemType(), 0);
+                                    navigationRepository.navigate(destination);
                                 }
                             });
                         } else {
