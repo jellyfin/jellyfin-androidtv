@@ -864,7 +864,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         mSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.displayPreferences(mFolder.getDisplayPreferencesId(), userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType())));
+                boolean allowViewSelection = userViewsRepository.getValue().allowViewSelection(mFolder.getCollectionType());
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.displayPreferences(mFolder.getDisplayPreferencesId(), allowViewSelection));
             }
         });
         mSettingsButton.setContentDescription(getString(R.string.lbl_settings));
