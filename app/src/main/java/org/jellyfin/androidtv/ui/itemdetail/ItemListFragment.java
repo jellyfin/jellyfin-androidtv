@@ -48,6 +48,7 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
@@ -77,8 +78,6 @@ import timber.log.Timber;
 
 public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private int BUTTON_SIZE;
-    // Use fake UUID's to avoid crashing when converting to SDK
-    public static final String FAV_SONGS = "11111111-0000-0000-0000-000000000001";
 
     private TextView mTitle;
     private TextView mGenreRow;
@@ -323,26 +322,23 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
     private void loadItem(String id) {
         //Special case handling
-        switch (id) {
-            case FAV_SONGS:
-                BaseItemDto item = new BaseItemDto();
-                item.setId(FAV_SONGS);
-                item.setName(getString(R.string.lbl_favorites));
-                item.setOverview(getString(R.string.desc_automatic_fav_songs));
-                item.setPlayAccess(PlayAccess.Full);
-                item.setMediaType(MediaType.Audio);
-                item.setBaseItemType(BaseItemType.Playlist);
-                item.setIsFolder(true);
-                setBaseItem(item);
-                break;
-            default:
-                apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        setBaseItem(response);
-                    }
-                });
-                break;
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS().getId().toString().equals(id)) {
+            BaseItemDto item = new BaseItemDto();
+            item.setId(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString());
+            item.setName(getString(R.string.lbl_favorites));
+            item.setOverview(getString(R.string.desc_automatic_fav_songs));
+            item.setPlayAccess(PlayAccess.Full);
+            item.setMediaType(MediaType.Audio);
+            item.setBaseItemType(BaseItemType.Playlist);
+            item.setIsFolder(true);
+            setBaseItem(item);
+        } else {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                @Override
+                public void onResponse(BaseItemDto response) {
+                    setBaseItem(response);
+                }
+            });
         }
     }
 
@@ -361,35 +357,31 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         //get items
         if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.PLAYLIST) {
             // Have to use different query here
-            switch (mItemId) {
-                case FAV_SONGS:
-                    //Get favorited and liked songs from this area
-                    StdItemQuery favSongs = new StdItemQuery(new ItemFields[] {
-                            ItemFields.PrimaryImageAspectRatio,
-                            ItemFields.Genres,
-                            ItemFields.ChildCount
-                    });
-                    favSongs.setParentId(getArguments().getString("ParentId"));
-                    favSongs.setIncludeItemTypes(new String[] {"Audio"});
-                    favSongs.setRecursive(true);
-                    favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
-                    favSongs.setSortBy(new String[]{ItemSortBy.Random});
-                    favSongs.setLimit(150);
-                    apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
-                    break;
-                default:
-                    PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
-                    playlistSongs.setId(mBaseItem.getId());
-                    playlistSongs.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                    playlistSongs.setFields(new ItemFields[]{
-                            ItemFields.PrimaryImageAspectRatio,
-                            ItemFields.Genres,
-                            ItemFields.Chapters,
-                            ItemFields.ChildCount
-                    });
-                    playlistSongs.setLimit(150);
-                    apiClient.getValue().GetPlaylistItems(playlistSongs, itemResponse);
-                    break;
+            if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {//Get favorited and liked songs from this area
+                StdItemQuery favSongs = new StdItemQuery(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Genres,
+                        ItemFields.ChildCount
+                });
+                favSongs.setParentId(getArguments().getString("ParentId"));
+                favSongs.setIncludeItemTypes(new String[]{"Audio"});
+                favSongs.setRecursive(true);
+                favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
+                favSongs.setSortBy(new String[]{ItemSortBy.Random});
+                favSongs.setLimit(150);
+                apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
+            } else {
+                PlaylistItemQuery playlistSongs = new PlaylistItemQuery();
+                playlistSongs.setId(mBaseItem.getId());
+                playlistSongs.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
+                playlistSongs.setFields(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Genres,
+                        ItemFields.Chapters,
+                        ItemFields.ChildCount
+                });
+                playlistSongs.setLimit(150);
+                apiClient.getValue().GetPlaylistItems(playlistSongs, itemResponse);
             }
         } else {
             StdItemQuery songs = new StdItemQuery();
@@ -439,16 +431,13 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     };
 
     private void updatePoster(BaseItemDto item){
-        switch (mItemId) {
-            case FAV_SONGS:
-                mPoster.setImageResource(R.drawable.favorites);
-                break;
-            default:
-                Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
-                String primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(item));
-                mPoster.setPadding(0, 0, 0, 0);
-                mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
-                break;
+        if (FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {
+            mPoster.setImageResource(R.drawable.favorites);
+        } else {
+            Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
+            String primaryImageUrl = ImageUtils.getPrimaryImageUrl(ModelCompat.asSdk(item));
+            mPoster.setPadding(0, 0, 0, 0);
+            mPoster.load(primaryImageUrl, null, ContextCompat.getDrawable(requireContext(), R.drawable.ic_album), aspect, 0);
         }
     }
 
@@ -562,7 +551,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             });
         }
 
-        if (!mItemId.equals(FAV_SONGS)) {
+        if (!FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString().equals(mItemId)) {
             //Favorite
             TextUnderButton fav = TextUnderButton.create(requireContext(), R.drawable.ic_heart, buttonSize,2, getString(R.string.lbl_favorite), new View.OnClickListener() {
                 @Override

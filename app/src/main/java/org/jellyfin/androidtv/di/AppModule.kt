@@ -30,7 +30,6 @@ import org.jellyfin.androidtv.util.sdk.legacy
 import org.jellyfin.apiclient.AppInfo
 import org.jellyfin.apiclient.android
 import org.jellyfin.apiclient.logging.AndroidLogger
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer
 import org.jellyfin.sdk.android.androidDevice
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.createJellyfin
@@ -72,8 +71,6 @@ val appModule = module {
 	single { SocketHandler(get(), get(), get(), get(), get(), get(), get()) }
 
 	// Old apiclient
-	single { GsonJsonSerializer() }
-
 	single {
 		JellyfinApiClient {
 			appInfo = AppInfo("Android TV", BuildConfig.VERSION_NAME)

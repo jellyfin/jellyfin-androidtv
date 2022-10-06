@@ -5,7 +5,7 @@ package org.jellyfin.androidtv.util.apiclient
 import android.content.Context
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.util.TimeUtils
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 
 fun SeriesTimerInfoDto.getSeriesOverview(context: Context) = buildString {
 	if (recordNewOnly) appendLine(context.getString(R.string.lbl_record_only_new))

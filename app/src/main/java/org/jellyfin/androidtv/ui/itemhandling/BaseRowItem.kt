@@ -268,7 +268,7 @@ open class BaseRowItem protected constructor(
 		BaseRowType.BaseItem,
 		BaseRowType.LiveTvRecording,
 		BaseRowType.LiveTvProgram -> baseItem?.overview
-		BaseRowType.SeriesTimer -> seriesTimerInfo?.getSeriesOverview(context)
+		BaseRowType.SeriesTimer -> seriesTimerInfo?.asSdk()?.getSeriesOverview(context)
 		else -> null
 	}.orEmpty()
 

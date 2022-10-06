@@ -74,7 +74,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 });
                 resumeMovies.setIncludeItemTypes(new String[]{"Movie"});
                 resumeMovies.setRecursive(true);
-                resumeMovies.setParentId(mFolder.getId());
+                resumeMovies.setParentId(mFolder.getId().toString());
                 resumeMovies.setImageTypeLimit(1);
                 resumeMovies.setLimit(50);
                 resumeMovies.setCollapseBoxSetItems(false);
@@ -93,7 +93,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                         ItemFields.MediaSources,
                         ItemFields.MediaStreams
                 });
-                latestMovies.setParentId(mFolder.getId());
+                latestMovies.setParentId(mFolder.getId().toString());
                 latestMovies.setLimit(50);
                 latestMovies.setImageTypeLimit(1);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestMovies, new ChangeTriggerType[]{ChangeTriggerType.MoviePlayback, ChangeTriggerType.LibraryUpdated}));
@@ -110,7 +110,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 });
                 favorites.setIncludeItemTypes(new String[]{"Movie"});
                 favorites.setRecursive(true);
-                favorites.setParentId(mFolder.getId());
+                favorites.setParentId(mFolder.getId().toString());
                 favorites.setImageTypeLimit(1);
                 favorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favorites.setSortBy(new String[]{ItemSortBy.SortName});
@@ -137,7 +137,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                 nextUpQuery.setLimit(50);
-                nextUpQuery.setParentId(mFolder.getId());
+                nextUpQuery.setParentId(mFolder.getId().toString());
                 nextUpQuery.setImageTypeLimit(1);
                 nextUpQuery.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
@@ -158,7 +158,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                     });
                     newQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                     newQuery.setIncludeItemTypes(new String[]{"Episode"});
-                    newQuery.setParentId(mFolder.getId());
+                    newQuery.setParentId(mFolder.getId().toString());
                     newQuery.setRecursive(true);
                     newQuery.setIsVirtualUnaired(false);
                     newQuery.setIsMissing(false);
@@ -182,7 +182,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 });
                 latestSeries.setIncludeItemTypes(new String[]{"Episode"});
                 latestSeries.setGroupItems(true);
-                latestSeries.setParentId(mFolder.getId());
+                latestSeries.setParentId(mFolder.getId().toString());
                 latestSeries.setLimit(50);
                 latestSeries.setImageTypeLimit(1);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestSeries, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
@@ -191,7 +191,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 StdItemQuery tvFavorites = new StdItemQuery();
                 tvFavorites.setIncludeItemTypes(new String[]{"Series"});
                 tvFavorites.setRecursive(true);
-                tvFavorites.setParentId(mFolder.getId());
+                tvFavorites.setParentId(mFolder.getId().toString());
                 tvFavorites.setImageTypeLimit(1);
                 tvFavorites.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 tvFavorites.setSortBy(new String[]{ItemSortBy.SortName});
@@ -210,7 +210,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 latestAlbums.setIncludeItemTypes(new String[]{"Audio"});
                 latestAlbums.setGroupItems(true);
                 latestAlbums.setImageTypeLimit(1);
-                latestAlbums.setParentId(mFolder.getId());
+                latestAlbums.setParentId(mFolder.getId().toString());
                 latestAlbums.setLimit(50);
                 mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latestAlbums, new ChangeTriggerType[]{ChangeTriggerType.LibraryUpdated}));
 
@@ -218,7 +218,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 StdItemQuery lastPlayed = new StdItemQuery();
                 lastPlayed.setIncludeItemTypes(new String[]{"Audio"});
                 lastPlayed.setRecursive(true);
-                lastPlayed.setParentId(mFolder.getId());
+                lastPlayed.setParentId(mFolder.getId().toString());
                 lastPlayed.setImageTypeLimit(1);
                 lastPlayed.setFilters(new ItemFilter[]{ItemFilter.IsPlayed});
                 lastPlayed.setSortBy(new String[]{ItemSortBy.DatePlayed});
@@ -231,7 +231,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 StdItemQuery favAlbums = new StdItemQuery();
                 favAlbums.setIncludeItemTypes(new String[]{"MusicAlbum", "MusicArtist"});
                 favAlbums.setRecursive(true);
-                favAlbums.setParentId(mFolder.getId());
+                favAlbums.setParentId(mFolder.getId().toString());
                 favAlbums.setImageTypeLimit(1);
                 favAlbums.setFilters(new ItemFilter[]{ItemFilter.IsFavorite});
                 favAlbums.setSortBy(new String[]{ItemSortBy.SortName});
@@ -430,7 +430,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 final UUID userId = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId();
 
                 ItemQuery query = new ItemQuery();
-                query.setParentId(mFolder.getId());
+                query.setParentId(mFolder.getId().toString());
                 query.setUserId(userId.toString());
                 query.setImageTypeLimit(1);
                 query.setSortBy(new String[]{ItemSortBy.SortName});
