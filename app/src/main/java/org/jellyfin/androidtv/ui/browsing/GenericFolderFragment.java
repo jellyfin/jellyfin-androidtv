@@ -5,10 +5,8 @@ import android.os.Bundle;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
-import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 
@@ -29,19 +27,17 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
 
     @Override
     protected void setupQueries(RowLoader rowLoader) {
-        BaseItemDto folder = ModelCompat.asSdk(mFolder);
-
-        if (Utils.getSafeValue(folder.getChildCount(), 0) > 0 ||
-                folder.getType() == BaseItemKind.CHANNEL ||
-                folder.getType() == BaseItemKind.CHANNEL_FOLDER_ITEM ||
-                folder.getType() == BaseItemKind.USER_VIEW ||
-                folder.getType() == BaseItemKind.COLLECTION_FOLDER) {
-            boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(folder.getType());
+        if (Utils.getSafeValue(mFolder.getChildCount(), 0) > 0 ||
+                mFolder.getType() == BaseItemKind.CHANNEL ||
+                mFolder.getType() == BaseItemKind.CHANNEL_FOLDER_ITEM ||
+                mFolder.getType() == BaseItemKind.USER_VIEW ||
+                mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
+            boolean showSpecialViews = Arrays.asList(showSpecialViewTypes).contains(mFolder.getType());
 
             if (showSpecialViews) {
-                if (folder.getType() != BaseItemKind.CHANNEL_FOLDER_ITEM) {
+                if (mFolder.getType() != BaseItemKind.CHANNEL_FOLDER_ITEM) {
                     StdItemQuery resume = new StdItemQuery();
-                    resume.setParentId(folder.getId().toString());
+                    resume.setParentId(mFolder.getId().toString());
                     resume.setLimit(50);
                     resume.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
                     resume.setSortBy(new String[]{ItemSortBy.DatePlayed});
@@ -50,7 +46,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
                 }
 
                 StdItemQuery latest = new StdItemQuery();
-                latest.setParentId(folder.getId().toString());
+                latest.setParentId(mFolder.getId().toString());
                 latest.setLimit(50);
                 latest.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latest.setSortBy(new String[]{ItemSortBy.DateCreated});
@@ -60,8 +56,8 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
             }
 
             StdItemQuery byName = new StdItemQuery();
-            byName.setParentId(folder.getId().toString());
-            String header = (folder.getType() == BaseItemKind.SEASON) ? folder.getName() : getString(R.string.lbl_by_name);
+            byName.setParentId(mFolder.getId().toString());
+            String header = (mFolder.getType() == BaseItemKind.SEASON) ? mFolder.getName() : getString(R.string.lbl_by_name);
             mRows.add(new BrowseRowDef(header, byName, 100));
 
             rowLoader.loadRows(mRows);

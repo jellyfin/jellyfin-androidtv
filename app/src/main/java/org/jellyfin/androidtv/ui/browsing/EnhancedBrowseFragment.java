@@ -37,7 +37,6 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.EnhancedDetailBrowseBinding;
 import org.jellyfin.androidtv.ui.GridButton;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -52,21 +51,19 @@ import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.MarkdownRenderer;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
+import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.constant.CollectionType;
-import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import kotlin.Lazy;
+import kotlinx.serialization.json.Json;
 
 public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.OnKeyListener {
     protected FragmentActivity mActivity;
@@ -100,7 +97,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     protected BaseRowItem mCurrentItem;
     protected ListRow mCurrentRow;
 
-    private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
@@ -110,12 +106,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BaseItemDto item = new BaseItemDto();
-        item.setId(ItemListFragment.FAV_SONGS);
-        item.setBaseItemType(BaseItemType.Playlist);
-        item.setIsFolder(true);
-
-        favSongsRowItem = new BaseRowItem(0, item);
+        favSongsRowItem = new BaseRowItem(FakeBaseItem.INSTANCE.getFAV_SONGS());
     }
 
     @Nullable
@@ -162,7 +153,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     protected void setupViews() {
-        mFolder = serializer.getValue().DeserializeFromString(getArguments().getString(Extras.Folder), BaseItemDto.class);
+        mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getArguments().getString(Extras.Folder));
         if (mFolder == null) return;
 
         if (mFolder.getCollectionType() != null) {
@@ -367,44 +358,40 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             if (item instanceof GridButton) {
                 switch (((GridButton) item).getId()) {
                     case GRID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder)));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder));
                         break;
 
                     case ALBUMS:
-                        mFolder.setDisplayPreferencesId(mFolder.getId() + "AL");
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder), "MusicAlbum"));
+                        mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AL");
+
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "MusicAlbum"));
                         break;
 
                     case ARTISTS:
-                        mFolder.setDisplayPreferencesId(mFolder.getId() + "AR");
+                        mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AR");
 
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(mFolder), "AlbumArtist"));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "AlbumArtist"));
                         break;
 
                     case BY_LETTER:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByLetter(ModelCompat.asSdk(mFolder), itemTypeString));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByLetter(mFolder, itemTypeString));
                         break;
 
                     case GENRES:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(ModelCompat.asSdk(mFolder), itemTypeString));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryByGenres(mFolder, itemTypeString));
                         break;
 
                     case SUGGESTED:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySuggestions(ModelCompat.asSdk(mFolder)));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySuggestions(mFolder));
                         break;
 
                     case FAVSONGS:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(UUIDSerializerKt.toUUID(ItemListFragment.FAV_SONGS), UUIDSerializerKt.toUUID(mFolder.getId())));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(FakeBaseItem.INSTANCE.getFAV_SONGS_ID(), mFolder.getId()));
                         break;
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        BaseItemDto seriesTimers = new BaseItemDto();
-                        seriesTimers.setId(UUID.randomUUID().toString());
-                        seriesTimers.setBaseItemType(BaseItemType.Folder);
-                        seriesTimers.setCollectionType("SeriesTimers");
-                        seriesTimers.setName(requireContext().getString(R.string.lbl_series_recordings));
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(seriesTimers)));
+                       navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
                         break;
 
                     case SCHEDULE:
@@ -413,11 +400,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        BaseItemDto folder = new BaseItemDto();
-                        folder.setId(UUID.randomUUID().toString());
-                        folder.setBaseItemType(BaseItemType.Folder);
-                        folder.setName(requireContext().getString(R.string.lbl_recorded_tv));
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(folder)));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getTV_RECORDINGS()));
                         break;
 
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:

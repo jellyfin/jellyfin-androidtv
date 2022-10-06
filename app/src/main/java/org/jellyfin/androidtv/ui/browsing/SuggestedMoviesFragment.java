@@ -26,7 +26,7 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
     @Override
     protected void setupQueries(final RowLoader rowLoader) {
         StdItemQuery lastPlayed = new StdItemQuery();
-        lastPlayed.setParentId(mFolder.getId());
+        lastPlayed.setParentId(mFolder.getId().toString());
         lastPlayed.setIncludeItemTypes(new String[]{"Movie"});
         lastPlayed.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         lastPlayed.setSortOrder(SortOrder.Descending);

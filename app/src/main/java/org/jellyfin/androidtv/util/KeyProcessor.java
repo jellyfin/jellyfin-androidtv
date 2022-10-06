@@ -13,7 +13,6 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -23,6 +22,7 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
@@ -316,14 +316,14 @@ public class KeyProcessor {
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case MENU_PLAY:
-                    if (mCurrentItemId.equals(ItemListFragment.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
                         PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(mCurrentItemId, false, mCurrentActivity);
                     }
                     return true;
                 case MENU_PLAY_SHUFFLE:
-                    if (mCurrentItemId.equals(ItemListFragment.FAV_SONGS)) {
+                    if (mCurrentItemId.equals(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString())) {
                         PlaybackHelper.play(mCurrentItem, 0, false, mCurrentActivity);
                     } else {
                         PlaybackHelper.retrieveAndPlay(mCurrentItemId, true, mCurrentActivity);

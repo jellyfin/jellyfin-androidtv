@@ -91,7 +91,6 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
-import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -101,9 +100,9 @@ import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
-import org.jellyfin.apiclient.serialization.GsonJsonSerializer;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.jellyfin.sdk.model.constant.PersonType;
@@ -118,6 +117,7 @@ import java.util.Date;
 import java.util.List;
 
 import kotlin.Lazy;
+import kotlinx.serialization.json.Json;
 import timber.log.Timber;
 
 public class FullDetailsFragment extends Fragment implements RecordingIndicatorView, View.OnKeyListener {
@@ -133,7 +133,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     private DisplayMetrics mMetrics;
 
-    protected BaseItemDto mProgramInfo;
+    protected org.jellyfin.sdk.model.api.BaseItemDto mProgramInfo;
     protected SeriesTimerInfoDto mSeriesTimerInfo;
     protected String mItemId;
     protected String mChannelId;
@@ -158,7 +158,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
-    private Lazy<GsonJsonSerializer> serializer = inject(GsonJsonSerializer.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
@@ -191,20 +190,20 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mChannelId = getArguments().getString("ChannelId");
         String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
-            mProgramInfo = serializer.getValue().DeserializeFromString(programJson, BaseItemDto.class);
+            mProgramInfo =Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);
         }
         String timerJson = getArguments().getString("SeriesTimer");
         if (timerJson != null) {
-            mSeriesTimerInfo = serializer.getValue().DeserializeFromString(timerJson, SeriesTimerInfoDto.class);
+            mSeriesTimerInfo = Json.Default.decodeFromString(SeriesTimerInfoDto.Companion.serializer(), timerJson);
         }
 
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
             if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
                 //update info
-                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
                     @Override
-                    public void onResponse(SeriesTimerInfoDto response) {
-                        mSeriesTimerInfo = response;
+                    public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
+                        mSeriesTimerInfo = ModelCompat.asSdk(response);
                         mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
                         mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
                     }
@@ -369,12 +368,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void loadItem(String id) {
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
-            final FullDetailsFragment us = this;
             apiClient.getValue().GetLiveTvChannelAsync(mChannelId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
-                    mProgramInfo = response.getCurrentProgram();
-                    mItemId = mProgramInfo.getId();
+                    mProgramInfo = ModelCompat.asSdk(response.getCurrentProgram());
+                    mItemId = mProgramInfo.getId().toString();
                     apiClient.getValue().GetItemAsync(mItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                         @Override
                         public void onResponse(BaseItemDto response) {
@@ -408,16 +406,15 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     @Override
     public void setRecTimer(String id) {
-        mProgramInfo.setTimerId(id);
+        mProgramInfo = JavaCompat.copyWithTimerId(mProgramInfo, id);
         if (mRecordButton != null) mRecordButton.setActivated(id != null);
     }
 
-    private int posterWidth;
     private int posterHeight;
 
     @Override
     public void setRecSeriesTimer(String id) {
-        if (mProgramInfo != null) mProgramInfo.setSeriesTimerId(id);
+        if (mProgramInfo != null) mProgramInfo = JavaCompat.copyWithTimerId(mProgramInfo, id);
         if (mRecSeriesButton != null) mRecSeriesButton.setActivated(id != null);
         if (mSeriesSettingsButton != null) mSeriesSettingsButton.setVisibility(id == null ? View.GONE : View.VISIBLE);
 
@@ -432,8 +429,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             // Figure image size
             Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
-            posterWidth = (int)((aspect) * posterHeight);
-            if (posterHeight < 10) posterWidth = Utils.convertDpToPixel(requireContext(), 150);  //Guard against zero size images causing picasso to barf
 
             mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
 
@@ -511,8 +506,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (mBaseItem != null) {
             if (mChannelId != null) {
                 mBaseItem.setParentId(mChannelId);
-                mBaseItem.setPremiereDate(mProgramInfo.getStartDate());
-                mBaseItem.setEndDate(mProgramInfo.getEndDate());
+                mBaseItem.setPremiereDate(TimeUtils.getDate(mProgramInfo.getStartDate()));
+                mBaseItem.setEndDate(TimeUtils.getDate(mProgramInfo.getEndDate()));
                 mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
             }
             new BuildDorTask().execute(item);
@@ -1031,17 +1026,17 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
                             //Create one-off recording with defaults
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
                                 @Override
-                                public void onResponse(SeriesTimerInfoDto response) {
+                                public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
                                     apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
-                                                    mProgramInfo = response;
+                                                    mProgramInfo = ModelCompat.asSdk(response);
                                                     setRecSeriesTimer(response.getSeriesTimerId());
                                                     setRecTimer(response.getTimerId());
                                                     Utils.showToast(requireContext(), R.string.msg_set_to_record);
@@ -1069,7 +1064,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                 @Override
                                 public void onResponse() {
                                     setRecTimer(null);
-                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
+                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
                                     Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                                 }
 
@@ -1087,23 +1082,23 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 mDetailsOverviewRow.addAction(mRecordButton);
             }
 
-            if (mProgramInfo.getIsSeries() != null && mProgramInfo.getIsSeries()) {
+            if (mProgramInfo.isSeries() != null && mProgramInfo.isSeries()) {
                 mRecSeriesButton= TextUnderButton.create(requireContext(), R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
                             //Create series recording with default options
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId(), new Response<SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
                                 @Override
-                                public void onResponse(SeriesTimerInfoDto response) {
+                                public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
                                     apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyResponse() {
                                         @Override
                                         public void onResponse() {
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
-                                                    mProgramInfo = response;
+                                                    mProgramInfo = ModelCompat.asSdk(response);
                                                     setRecSeriesTimer(response.getSeriesTimerId());
                                                     setRecTimer(response.getTimerId());
                                                     Utils.showToast(requireContext(), R.string.msg_set_to_record);
@@ -1139,7 +1134,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                                 public void onResponse() {
                                                     setRecSeriesTimer(null);
                                                     setRecTimer(null);
-                                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
+                                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
                                                     Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                                                 }
 
@@ -1239,7 +1234,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 @Override
                 public void onClick(View v) {
                     //show recording options
-                    showRecordingOptions(mSeriesTimerInfo.getId(), mBaseItem, true);
+                    showRecordingOptions(mSeriesTimerInfo.getId(), ModelCompat.asSdk(mBaseItem), true);
                 }
             }));
 
@@ -1449,17 +1444,17 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     };
 
     RecordPopup mRecordPopup;
-    public void showRecordingOptions(String id, final BaseItemDto program, final boolean recordSeries) {
+    public void showRecordingOptions(String id, final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(requireContext(), 600);
             Point size = new Point();
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(requireActivity(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
-        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<SeriesTimerInfoDto>() {
+        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
             @Override
-            public void onResponse(SeriesTimerInfoDto response) {
-                if (recordSeries || Utils.isTrue(program.getIsSports())) {
+            public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
+                if (recordSeries || Utils.isTrue(program.isSports())) {
                     mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
                     mRecordPopup.show();
                 } else {
@@ -1468,7 +1463,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         @Override
                         public void onResponse() {
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     setRecTimer(response.getTimerId());

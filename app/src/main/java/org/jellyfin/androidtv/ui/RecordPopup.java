@@ -29,9 +29,9 @@ import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerInfoDto;
+import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -167,9 +167,9 @@ public class RecordPopup {
                             mPopup.dismiss();
                             customMessageRepository.getValue().pushMessage(CustomMessage.ActionComplete.INSTANCE);
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
                                 @Override
-                                public void onResponse(BaseItemDto response) {
+                                public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
                                     mSelectedView.setRecTimer(response.getTimerId());
                                     mSelectedView.setRecSeriesTimer(response.getSeriesTimerId());
                                 }
@@ -202,7 +202,7 @@ public class RecordPopup {
     }
 
     public void setContent(Context context, BaseItemDto program, SeriesTimerInfoDto current, RecordingIndicatorView selectedView, boolean recordSeries) {
-        mProgramId = program.getId();
+        mProgramId = program.getId().toString();
         mCurrentOptions = current;
         mRecordSeries = recordSeries;
         mSelectedView = selectedView;
@@ -254,7 +254,7 @@ public class RecordPopup {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
-        Date local = TimeUtils.convertToLocalDate(program.getStartDate());
+        Date local = TimeUtils.convertToLocalDate(TimeUtils.getDate(program.getStartDate()));
         TextView on = new TextView(mActivity);
         on.setText(mActivity.getString(R.string.lbl_on));
         timelineRow.addView(on);

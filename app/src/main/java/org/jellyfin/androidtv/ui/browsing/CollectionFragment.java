@@ -27,17 +27,17 @@ public class CollectionFragment extends EnhancedBrowseFragment {
                     ItemFields.MediaStreams,
                     ItemFields.MediaSources
             });
-            movies.setParentId(mFolder.getId());
+            movies.setParentId(mFolder.getId().toString());
             movies.setIncludeItemTypes(new String[]{"Movie"});
             mRows.add(new BrowseRowDef(getString(R.string.lbl_movies), movies, 100));
 
             StdItemQuery series = new StdItemQuery();
-            series.setParentId(mFolder.getId());
+            series.setParentId(mFolder.getId().toString());
             series.setIncludeItemTypes(new String[]{"Series"});
             mRows.add(new BrowseRowDef(getString(R.string.lbl_tv_series), series, 100));
 
             StdItemQuery others = new StdItemQuery();
-            others.setParentId(mFolder.getId());
+            others.setParentId(mFolder.getId().toString());
             others.setExcludeItemTypes(new String[]{"Movie", "Series"});
             mRows.add(new BrowseRowDef(getString(R.string.lbl_other), others, 100));
 
