@@ -237,8 +237,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		override fun onItemClicked(
 			itemViewHolder: Presenter.ViewHolder?,
 			item: Any?,
-			rowViewHolder: RowPresenter.ViewHolder,
-			row: Row,
+			rowViewHolder: RowPresenter.ViewHolder?,
+			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
 			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, activity)
@@ -249,8 +249,8 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		override fun onItemSelected(
 			itemViewHolder: Presenter.ViewHolder?,
 			item: Any?,
-			rowViewHolder: RowPresenter.ViewHolder,
-			row: Row,
+			rowViewHolder: RowPresenter.ViewHolder?,
+			row: Row?,
 		) {
 			if (item !is BaseRowItem) {
 				currentItem = null
