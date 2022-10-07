@@ -475,7 +475,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
             }
 
-            mDetailsOverviewRow.setImageBitmap(primaryImageUrl);
+            mDetailsOverviewRow.setImageDrawable(primaryImageUrl);
 
             return mDetailsOverviewRow;
         }
