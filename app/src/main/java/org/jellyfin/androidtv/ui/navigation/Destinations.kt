@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity
 import org.jellyfin.androidtv.ui.livetv.GuideFiltersScreen
 import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
+import org.jellyfin.androidtv.ui.picture.PictureViewerFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
 import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
@@ -29,6 +30,7 @@ import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
 import org.jellyfin.androidtv.ui.search.SearchFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
+import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
 
 @Suppress("TooManyFunctions")
@@ -136,8 +138,16 @@ object Destinations {
 	val liveTvGuideOptionPreferences = preferenceDestination<GuideOptionsScreen>()
 
 	// Playback
-	val picturePlayer = activityDestination<PhotoPlayerActivity>()
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
+	val photoPlayer = activityDestination<PhotoPlayerActivity>()
+	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String, albumSortOrder: SortOrder) =
+		fragmentDestination<PictureViewerFragment>(
+			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),
+			PictureViewerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy,
+			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to Json.Default.encodeToString(albumSortOrder),
+			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
+		)
+
 	fun externalPlayer(position: Int?) = activityDestination<ExternalPlayerActivity>(
 		"Position" to (position ?: 0)
 	)

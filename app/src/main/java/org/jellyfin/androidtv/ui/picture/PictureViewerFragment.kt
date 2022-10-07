@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
 import org.jellyfin.androidtv.ui.AsyncImageView
@@ -21,13 +23,39 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.SortOrder
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PictureViewerFragment : Fragment(), View.OnKeyListener {
+	companion object {
+		const val ARGUMENT_ITEM_ID = "item_id"
+		const val ARGUMENT_ALBUM_SORT_BY = "album_sort_by"
+		const val ARGUMENT_ALBUM_SORT_ORDER = "album_sort_order"
+		const val ARGUMENT_AUTO_PLAY = "auto_play"
+	}
+
 	private val pictureViewerViewModel by sharedViewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private lateinit var binding: FragmentPictureViewerBinding
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		// Load requested item in viewmodel
+		lifecycleScope.launch {
+			val itemId = requireNotNull(arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull())
+			val albumSortBy = requireNotNull(arguments?.getString(ARGUMENT_ALBUM_SORT_BY))
+			val albumSortOrder = requireNotNull(arguments?.getString(ARGUMENT_ALBUM_SORT_ORDER)).let {
+				Json.Default.decodeFromString<SortOrder>(it)
+			}
+			pictureViewerViewModel.loadItem(itemId, albumSortBy, albumSortOrder)
+
+			val autoPlay = arguments?.getBoolean(ARGUMENT_AUTO_PLAY) == true
+			if (autoPlay) pictureViewerViewModel.startPresentation()
+		}
+	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		binding = FragmentPictureViewerBinding.inflate(inflater, container, false)

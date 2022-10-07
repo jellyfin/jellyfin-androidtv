@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
+import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -72,6 +73,7 @@ public class ItemLauncher {
                     //swallow it
                 }
 
+                MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
                 //specialized type handling
                 switch (baseItem.getType()) {
                     case USER_VIEW:
@@ -96,8 +98,6 @@ public class ItemLauncher {
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                         if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem()))
                             return;
-
-                        MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
                         if (mediaManager.hasAudioQueueItems() && rowItem instanceof AudioQueueItem && rowItem.getBaseItem().getId().equals(mediaManager.getCurrentAudioItem().getId())) {
@@ -126,7 +126,20 @@ public class ItemLauncher {
                         return;
 
                     case PHOTO:
-                        navigationRepository.navigate(Destinations.INSTANCE.getPicturePlayer());
+                        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaPosition(pos);
+
+                        UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
+                        boolean pictureViewerRewriteEnabled = userPreferences.get(UserPreferences.Companion.getPictureViewerRewriteEnabled());
+                        if (pictureViewerRewriteEnabled) {
+                            navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
+                                    mediaManager.getCurrentMediaItem().getBaseItem().getId(),
+                                    false,
+                                    mediaManager.getCurrentMediaAdapter().getSortBy(),
+                                    mediaManager.getCurrentMediaAdapter().getSortOrder()
+                            ));
+                        } else {
+                            navigationRepository.navigate(Destinations.INSTANCE.getPhotoPlayer());
+                        }
                         return;
 
                 }
