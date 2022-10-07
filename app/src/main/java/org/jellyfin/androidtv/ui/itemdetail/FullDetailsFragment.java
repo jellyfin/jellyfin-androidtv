@@ -205,7 +205,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
                         mSeriesTimerInfo = ModelCompat.asSdk(response);
                         mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
-                        mDorPresenter.getSummaryView().setText(mBaseItem.getOverview());
+                        mDorPresenter.getViewHolder().setSummary(mBaseItem.getOverview());
                     }
                 });
 
@@ -327,7 +327,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public void run() {
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
-                    mDorPresenter.updateEndTime(getEndTime());
+                    mDorPresenter.getViewHolder().setInfoValue3(getEndTime());
                     mLoopHandler.postDelayed(this, 15000);
                 }
             }
@@ -771,7 +771,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     public void setTitle(String title) {
-        mDorPresenter.setTitle(title);
+        mDorPresenter.getViewHolder().setTitle(title);
     }
 
     private void updatePlayedDate() {
