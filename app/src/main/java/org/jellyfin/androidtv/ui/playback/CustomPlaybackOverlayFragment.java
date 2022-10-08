@@ -1005,7 +1005,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
-            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
                 apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
@@ -1122,7 +1122,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showQuickChannelChanger() {
         showChapterPanel();
         mHandler.postDelayed(() -> {
-            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
             if (ndx > 0) {
@@ -1135,7 +1135,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showChapterSelector() {
         showChapterPanel();
         mHandler.postDelayed(() -> {
-            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
             if (ndx > 0) {

@@ -439,7 +439,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             mLoopHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                     updateSSInfo();
                 }
@@ -452,7 +452,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 mPoster.setKeepScreenOn(playing);
                 if (!playing) {

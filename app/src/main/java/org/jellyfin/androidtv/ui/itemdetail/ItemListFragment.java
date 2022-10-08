@@ -214,7 +214,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                         mItemList.refresh();
                         lastUpdated = Calendar.getInstance();

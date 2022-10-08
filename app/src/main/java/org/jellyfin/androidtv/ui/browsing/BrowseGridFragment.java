@@ -645,7 +645,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mAdapter != null) {
                 mHandler.postDelayed(() -> {
-                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                     if (mAdapter != null && mAdapter.size() > 0) {
                         if (!mAdapter.ReRetrieveIfNeeded()) {
@@ -730,7 +730,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 if (mAdapter.getTotalItems() == 0) {
                     binding.toolBar.requestFocus();
                     mHandler.postDelayed(() -> {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                         binding.title.setText(mFolder.getName());
                     }, 500);
@@ -980,7 +980,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private final Runnable mDelayedSetItem = new Runnable() {
         @Override
         public void run() {
-            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             backgroundService.getValue().setBackground(mCurrentItem.getBaseItem());
             setItem(mCurrentItem);

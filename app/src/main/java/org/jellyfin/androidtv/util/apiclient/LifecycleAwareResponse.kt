@@ -6,7 +6,7 @@ import org.jellyfin.apiclient.interaction.Response
 abstract class LifecycleAwareResponse<T>(
 	private val lifecycle: Lifecycle,
 ) : Response<T>() {
-	val active get() = lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)
+	val active get() = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
 
 	override fun triggerInnerResponse() {
 		if (!active) return
