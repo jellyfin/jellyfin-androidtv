@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -213,6 +214,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                         mItemList.refresh();
                         lastUpdated = Calendar.getInstance();
 

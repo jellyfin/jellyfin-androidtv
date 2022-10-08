@@ -646,6 +646,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             if (mAdapter != null) {
                 mHandler.postDelayed(() -> {
                     if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                     if (mAdapter != null && mAdapter.size() > 0) {
                         if (!mAdapter.ReRetrieveIfNeeded()) {
                             refreshCurrentItem();
@@ -728,7 +729,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 if (mAdapter.getTotalItems() == 0) {
                     binding.toolBar.requestFocus();
-                    mHandler.postDelayed(() -> binding.title.setText(mFolder.getName()), 500);
+                    mHandler.postDelayed(() -> {
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
+                        binding.title.setText(mFolder.getName());
+                    }, 500);
                 } else {
                     if (mGridView != null) mGridView.requestFocus();
                 }

@@ -25,6 +25,7 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.CustomMessage;
@@ -196,7 +197,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mActivity.isFinishing()) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                         for (int i = 0; i < mRowsAdapter.size(); i++) {
                             if (mRowsAdapter.get(i) instanceof ListRow) {
                                 if (((ListRow) mRowsAdapter.get(i)).getAdapter() instanceof ItemRowAdapter && !mActivity.isFinishing()) {

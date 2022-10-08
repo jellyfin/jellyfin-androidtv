@@ -6,6 +6,7 @@ import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.Row;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -145,6 +146,8 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                             mRowsFragment.setSelectedPosition(0, true);
                         }
                     }, 500);

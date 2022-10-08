@@ -34,6 +34,7 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -215,6 +216,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                         addAdditionalRows(mRowsAdapter);
 
                     }
@@ -250,6 +253,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                 long lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
                 Timber.d("current time %s last playback event time %s last refresh time %s", System.currentTimeMillis(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
 
@@ -326,6 +331,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mClockLoop = new Runnable() {
             @Override
             public void run() {
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
                     mDorPresenter.getViewHolder().setInfoValue3(getEndTime());
                     mLoopHandler.postDelayed(this, 15000);

@@ -32,6 +32,7 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
@@ -438,6 +439,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             mLoopHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                     updateSSInfo();
                 }
             }, 750);
@@ -449,6 +452,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                 mPoster.setKeepScreenOn(playing);
                 if (!playing) {
                     mPlayPauseButton.setImageResource(R.drawable.ic_play);
