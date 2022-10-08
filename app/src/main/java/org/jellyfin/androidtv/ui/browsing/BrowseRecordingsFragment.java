@@ -146,7 +146,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                             mRowsFragment.setSelectedPosition(0, true);
                         }

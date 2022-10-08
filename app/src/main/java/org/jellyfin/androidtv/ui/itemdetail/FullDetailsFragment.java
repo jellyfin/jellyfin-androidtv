@@ -216,7 +216,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                         addAdditionalRows(mRowsAdapter);
 
@@ -253,7 +253,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 long lastPlaybackTime = dataRefreshService.getValue().getLastPlayback();
                 Timber.d("current time %s last playback event time %s last refresh time %s", System.currentTimeMillis(), lastPlaybackTime, mLastUpdated.getTimeInMillis());
@@ -331,7 +331,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mClockLoop = new Runnable() {
             @Override
             public void run() {
-                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
                     mDorPresenter.getViewHolder().setInfoValue3(getEndTime());

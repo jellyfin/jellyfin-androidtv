@@ -569,7 +569,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                         GuideChannelHeader header = getChannelHeader(requireContext(), channel);
                         mChannels.addView(header);
@@ -755,7 +755,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
-            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
