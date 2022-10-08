@@ -36,6 +36,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -1004,6 +1005,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
                 apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
@@ -1119,6 +1122,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showQuickChannelChanger() {
         showChapterPanel();
         mHandler.postDelayed(() -> {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
             int ndx = TvManager.getAllChannelsIndex(TvManager.getLastLiveTvChannel());
             if (ndx > 0) {
                 mPopupRowPresenter.setPosition(ndx);
@@ -1130,6 +1135,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void showChapterSelector() {
         showChapterPanel();
         mHandler.postDelayed(() -> {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
             int ndx = getCurrentChapterIndex(mPlaybackController.getCurrentlyPlayingItem(), mPlaybackController.getCurrentPosition() * 10000);
             if (ndx > 0) {
                 mPopupRowPresenter.setPosition(ndx);

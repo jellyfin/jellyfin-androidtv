@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -249,6 +250,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
         mReportLoop = new Runnable() {
             @Override
             public void run() {
+                if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                 ReportingHelper.reportProgress(playbackController, mItemsToPlay.get(mCurrentNdx), mCurrentStreamInfo, mPosition * RUNTIME_TICKS_TO_MS, false);
                 mHandler.postDelayed(this, 15000);
             }
@@ -410,7 +413,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
                 external.putExtra(API_MX_FILENAME, file.getName());
             }
         }
-        
+
         external.putExtra(API_MX_SECURE_URI, true);
         this.adaptExternalSubtitles(mCurrentStreamInfo, external);
 

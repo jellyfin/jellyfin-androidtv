@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -568,6 +569,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
                         GuideChannelHeader header = getChannelHeader(requireContext(), channel);
                         mChannels.addView(header);
                         header.loadImage();
@@ -752,6 +755,8 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
     private Runnable detailUpdateTask = new Runnable() {
         @Override
         public void run() {
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.INITIALIZED)) return;
+
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
                 KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
                     @Override
