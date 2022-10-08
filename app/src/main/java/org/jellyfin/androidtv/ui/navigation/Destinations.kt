@@ -140,11 +140,11 @@ object Destinations {
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
 	val photoPlayer = activityDestination<PhotoPlayerActivity>()
-	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String, albumSortOrder: SortOrder) =
+	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String?, albumSortOrder: SortOrder?) =
 		fragmentDestination<PictureViewerFragment>(
 			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),
 			PictureViewerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy,
-			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to Json.Default.encodeToString(albumSortOrder),
+			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.let { Json.Default.encodeToString(it) },
 			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
 		)
 
