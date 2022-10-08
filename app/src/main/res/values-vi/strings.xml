@@ -467,7 +467,7 @@
     <string name="pref_audio">Âm thanh</string>
     <string name="lbl_subtitle_delay">Độ Trễ Phụ Đề</string>
     <string name="lbl_adjust">Điều chỉnh</string>
-    <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi đến máy chủ Jellyfin của bạn.</string>
+    <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi tới máy chủ Jellyfin của bạn.</string>
     <string name="pref_crash_report_logs_disabled">Nhật ký sẽ không được đưa vào báo cáo sự cố</string>
     <string name="pref_crash_report_logs_enabled">Nhật ký sẽ được đưa vào báo cáo sự cố</string>
     <string name="pref_crash_report_logs">Bao gồm nhật ký</string>
@@ -481,4 +481,10 @@
     <string name="image_size_xlarge">Cực Lớn</string>
     <string name="image_size_smallest">Nhỏ nhất</string>
     <string name="lbl_additional_parts">Phần Bổ Sung</string>
+    <string name="episode_name_special">đặc biệt</string>
+    <string name="enable_picture_viewer_title">Bật trình xem ảnh mới</string>
+    <string name="server_setup_incomplete">Việc thiết lập máy chủ này chưa được hoàn tất. Mở Jellyfin trong trình duyệt web để hoàn tất thiết lập trước khi đăng nhập.</string>
+    <string name="lbl_quality_profile">Hồ sơ chất lượng</string>
+    <string name="desc_audio_night_mode">Tự động điều chỉnh âm lượng âm thanh</string>
+    <string name="pref_audio_night_mode">Chế độ âm thanh ban đêm (thử nghiệm)</string>
 </resources>
