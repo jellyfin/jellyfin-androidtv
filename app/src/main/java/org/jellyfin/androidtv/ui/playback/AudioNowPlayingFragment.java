@@ -418,7 +418,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     };
 
     private void updatePoster() {
-        if (requireActivity().isFinishing()) return;
         // Figure image size
         Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
         int posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireActivity(), 150) : Utils.convertDpToPixel(requireActivity(), 250);

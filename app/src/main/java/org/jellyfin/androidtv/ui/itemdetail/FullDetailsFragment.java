@@ -369,7 +369,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private static List<BaseItemKind> buttonTypeList = Arrays.asList(buttonTypes);
 
     private void updateWatched() {
-        if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null && !requireActivity().isFinishing()) {
+        if (mWatchedToggleButton != null && mBaseItem != null && mBaseItem.getUserData() != null) {
             mWatchedToggleButton.setActivated(mBaseItem.getUserData().getPlayed());
         }
     }
@@ -499,7 +499,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         protected void onPostExecute(MyDetailsOverviewRow detailsOverviewRow) {
             super.onPostExecute(detailsOverviewRow);
 
-            if (requireActivity().isFinishing()) return;
+            if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             ClassPresenterSelector ps = new ClassPresenterSelector();
             ps.addClassPresenter(MyDetailsOverviewRow.class, mDorPresenter);
