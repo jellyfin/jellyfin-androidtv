@@ -20,8 +20,8 @@ import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -312,17 +312,21 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 recordings.setLimit(40);
 
                 //Do a straight query and then split the returned items into logical groups
-                apiClient.getValue().GetLiveTvRecordingsAsync(recordings, new Response<ItemsResult>() {
+                apiClient.getValue().GetLiveTvRecordingsAsync(recordings, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                     @Override
                     public void onResponse(ItemsResult response) {
+                        if (!getActive()) return;
+
                         final ItemsResult recordingsResponse = response;
                         final long ticks24 = 1000 * 60 * 60 * 24;
 
                         // Also get scheduled recordings for next 24 hours
                         final TimerQuery scheduled = new TimerQuery();
-                        apiClient.getValue().GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
+                        apiClient.getValue().GetLiveTvTimersAsync(scheduled, new LifecycleAwareResponse<TimerInfoDtoResult>(getLifecycle()) {
                             @Override
                             public void onResponse(TimerInfoDtoResult response) {
+                                if (!getActive()) return;
+
                                 List<BaseItemDto> nearTimers = new ArrayList<>();
                                 long next24 = System.currentTimeMillis() + ticks24;
                                 //Get scheduled items for next 24 hours
@@ -414,6 +418,8 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
 
                     @Override
                     public void onError(Exception exception) {
+                        if (!getActive()) return;
+
                         Utils.showToast(getContext(), exception.getLocalizedMessage());
                     }
                 });
@@ -435,9 +441,11 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 query.setImageTypeLimit(1);
                 query.setSortBy(new String[]{ItemSortBy.SortName});
 
-                apiClient.getValue().GetItemsAsync(query, new Response<ItemsResult>() {
+                apiClient.getValue().GetItemsAsync(query, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                     @Override
                     public void onResponse(ItemsResult response) {
+                        if (!getActive()) return;
+
                         if (response.getTotalRecordCount() > 0) {
                             for (BaseItemDto item : response.getItems()) {
                                 ItemQuery rowQuery = new StdItemQuery();

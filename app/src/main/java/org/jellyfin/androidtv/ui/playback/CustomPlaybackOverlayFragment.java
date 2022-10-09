@@ -73,10 +73,10 @@ import org.jellyfin.androidtv.util.TextUtilsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -454,9 +454,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         GuideChannelHeader header = (GuideChannelHeader)mSelectedProgramView;
         UserItemDataDto data = header.getChannel().getUserData();
         if (data != null) {
-            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
                 @Override
                 public void onResponse(UserItemDataDto response) {
+                    if (!getActive()) return;
+
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
@@ -625,9 +627,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             mPlaybackController.stop();
             if (hideGuide)
                 hideGuide();
-            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
+                    if (!getActive()) return;
+
                     List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>();
                     items.add(ModelCompat.asSdk(response));
                     mPlaybackController.setItems(items);
@@ -636,6 +640,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
                 @Override
                 public void onError(Exception exception) {
+                    if (!getActive()) return;
+
                     Utils.showToast(getContext(), R.string.msg_video_playback_error);
                     finish();
                 }
@@ -745,9 +751,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private void loadGuide() {
         tvGuideBinding.spinner.setVisibility(View.VISIBLE);
         fillTimeLine(GUIDE_HOURS);
-        TvManager.loadAllChannels(new Response<Integer>() {
+        TvManager.loadAllChannels(new LifecycleAwareResponse<Integer>(getLifecycle()) {
             @Override
             public void onResponse(Integer ndx) {
+                if (!getActive()) return;
+
                 if (ndx >= PAGE_SIZE) {
                     // last channel is not in first page so grab a set where it will be in the middle
                     ndx = ndx - (PAGE_SIZE / 2);
@@ -1008,15 +1016,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        if (!getActive()) return;
+
                         mSelectedProgram = response;
                         detailUpdateInternal();
                     }
 
                     @Override
                     public void onError(Exception exception) {
+                        if (!getActive()) return;
+
                         Timber.e(exception, "Unable to get program details");
                         detailUpdateInternal();
                     }
@@ -1237,9 +1249,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void recordProgram(final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean series) {
         if (program != null) {
-            apiClient.getValue().GetDefaultLiveTvTimerInfo(new Response<SeriesTimerInfoDto>() {
+            apiClient.getValue().GetDefaultLiveTvTimerInfo(new LifecycleAwareResponse<SeriesTimerInfoDto>(getLifecycle()) {
                 @Override
                 public void onResponse(SeriesTimerInfoDto response) {
+                    if (!getActive()) return;
+
                     response.setProgramId(program.getId().toString());
                     if (series) {
                         apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
@@ -1359,9 +1373,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private void prepareChannelAdapter() {
         // create quick channel change row
-        TvManager.loadAllChannels(new Response<Integer>() {
+        TvManager.loadAllChannels(new LifecycleAwareResponse<Integer>(getLifecycle()) {
             @Override
             public void onResponse(Integer response) {
+                if (!getActive()) return;
+
                 ArrayObjectAdapter channelAdapter = new ArrayObjectAdapter(new ChannelCardPresenter());
                 channelAdapter.addAll(0, TvManager.getAllChannels());
                 if (mChapterRow != null) mPopupRowAdapter.remove(mChapterRow);
