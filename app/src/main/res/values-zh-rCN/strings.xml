@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">载入视频失败</string>
+    <string name="video_error_unknown_error">加载视频失败</string>
     <string name="btn_cancel">取消</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_playback">回放</string>
@@ -93,7 +93,7 @@
     <string name="lbl_cancel_recording">取消录制</string>
     <string name="lbl_search">搜索</string>
     <string name="pref_authentication_cat">认证</string>
-    <string name="loading">载入中…</string>
+    <string name="loading">正在加载…</string>
     <string name="lbl_all_items">所有项目</string>
     <string name="msg_cancel_entire_series">你确定要取消整个系列吗\?</string>
     <string name="lbl_resume_preroll">简介</string>
@@ -494,4 +494,6 @@
     <string name="episode_name_special">别称</string>
     <string name="enable_picture_viewer_title">启用新的图片查看器</string>
     <string name="lbl_quality_profile">质量配置</string>
+    <string name="desc_audio_night_mode">自动调平音量</string>
+    <string name="pref_audio_night_mode">音频夜间模式（实验性）</string>
 </resources>
