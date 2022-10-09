@@ -16,8 +16,8 @@ import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.entities.LocationType;
@@ -113,9 +113,11 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     private void addNext24Timers() {
         final TimerQuery scheduled = new TimerQuery();
         final long ticks24 = 1000 * 60 * 60 * 24;
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvTimersAsync(scheduled, new Response<TimerInfoDtoResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetLiveTvTimersAsync(scheduled, new LifecycleAwareResponse<TimerInfoDtoResult>(getLifecycle()) {
             @Override
             public void onResponse(TimerInfoDtoResult response) {
+                if (!getActive()) return;
+
                 List<BaseItemDto> nearTimers = new ArrayList<>();
                 long next24 = System.currentTimeMillis() + ticks24;
                 //Get scheduled items for next 24 hours
@@ -156,8 +158,10 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
 
             @Override
             public void onError(Exception exception) {
-                    Utils.showToast(getContext(), exception.getLocalizedMessage());
-                    }
+                if (!getActive()) return;
+
+                Utils.showToast(getContext(), exception.getLocalizedMessage());
+            }
 
         });
     }

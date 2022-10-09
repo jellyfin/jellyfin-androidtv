@@ -49,10 +49,10 @@ import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -223,9 +223,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private void load() {
         fillTimeLine(mCurrentLocalGuideStart, getGuideHours());
-        TvManager.loadAllChannels(new Response<Integer>() {
+        TvManager.loadAllChannels(new LifecycleAwareResponse<Integer>(getLifecycle()) {
             @Override
             public void onResponse(Integer ndx) {
+                if (!getActive()) return;
+
                 if (ndx  >= PAGE_SIZE) {
                     // last channel is not in first page so grab a set where it will be in the middle
                     ndx = ndx - (PAGE_SIZE / 2);
@@ -378,9 +380,11 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
         GuideChannelHeader header = (GuideChannelHeader)mSelectedProgramView;
         UserItemDataDto data = header.getChannel().getUserData();
         if (data != null) {
-            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+            apiClient.getValue().UpdateFavoriteStatusAsync(header.getChannel().getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
                 @Override
                 public void onResponse(UserItemDataDto response) {
+                    if (!getActive()) return;
+
                     header.getChannel().setUserData(response);
                     header.findViewById(R.id.favImage).setVisibility(response.getIsFavorite() ? View.VISIBLE : View.GONE);
                     DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
@@ -758,15 +762,19 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
             if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
             if (mSelectedProgram.getOverview() == null && mSelectedProgram.getId() != null) {
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mSelectedProgram.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        if (!getActive()) return;
+
                         mSelectedProgram = response;
                         detailUpdateInternal();
                     }
 
                     @Override
                     public void onError(Exception exception) {
+                        if (!getActive()) return;
+
                         Timber.e(exception, "Unable to get program details");
                         detailUpdateInternal();
                     }

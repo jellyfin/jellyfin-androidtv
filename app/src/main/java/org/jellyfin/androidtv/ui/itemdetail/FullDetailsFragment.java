@@ -79,13 +79,13 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.BaseItemUtils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.TrailerUtils;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
@@ -201,9 +201,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
             if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
                 //update info
-                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
+                apiClient.getValue().GetLiveTvSeriesTimerAsync(mSeriesTimerInfo.getId(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
                     @Override
                     public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
+                        if (!getActive()) return;
+
                         mSeriesTimerInfo = ModelCompat.asSdk(response);
                         mBaseItem.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
                         mDorPresenter.getViewHolder().setSummary(mBaseItem.getOverview());
@@ -268,29 +270,29 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
                     } else {
                         Timber.d("Updating info after playback");
-                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                        apiClient.getValue().GetItemAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                             @Override
                             public void onResponse(BaseItemDto response) {
-                                if (!requireActivity().isFinishing()) {
-                                    mBaseItem = response;
-                                    if (mResumeButton != null) {
-                                        boolean resumeVisible = (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
-                                        mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
-                                        if (response.getCanResume()) {
-                                            mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
-                                        }
-                                        if (resumeVisible) {
-                                            mResumeButton.requestFocus();
-                                        } else if (playButton != null && ViewKt.isVisible(playButton)) {
-                                            playButton.requestFocus();
-                                        }
-                                        showMoreButtonIfNeeded();
+                                if (!getActive()) return;
+
+                                mBaseItem = response;
+                                if (mResumeButton != null) {
+                                    boolean resumeVisible = (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
+                                    mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
+                                    if (response.getCanResume()) {
+                                        mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
                                     }
-                                    updatePlayedDate();
-                                    updateWatched();
-                                    //updatePoster();
-                                    mLastUpdated = Calendar.getInstance();
+                                    if (resumeVisible) {
+                                        mResumeButton.requestFocus();
+                                    } else if (playButton != null && ViewKt.isVisible(playButton)) {
+                                        playButton.requestFocus();
+                                    }
+                                    showMoreButtonIfNeeded();
                                 }
+                                updatePlayedDate();
+                                updateWatched();
+                                //updatePoster();
+                                mLastUpdated = Calendar.getInstance();
                             }
                         });
                     }
@@ -375,14 +377,18 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void loadItem(String id) {
         if (mChannelId != null && mProgramInfo == null) {
             // if we are displaying a live tv channel - we want to get whatever is showing now on that channel
-            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<ChannelInfoDto>() {
+            apiClient.getValue().GetLiveTvChannelAsync(mChannelId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<ChannelInfoDto>(getLifecycle()) {
                 @Override
                 public void onResponse(ChannelInfoDto response) {
+                    if (!getActive()) return;
+
                     mProgramInfo = ModelCompat.asSdk(response.getCurrentProgram());
                     mItemId = mProgramInfo.getId().toString();
-                    apiClient.getValue().GetItemAsync(mItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                    apiClient.getValue().GetItemAsync(mItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                         @Override
                         public void onResponse(BaseItemDto response) {
+                            if (!getActive()) return;
+
                             setBaseItem(response);
                         }
                     });
@@ -400,9 +406,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
             setBaseItem(item);
         } else {
-            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
+                    if (!getActive()) return;
+
                     setBaseItem(response);
                 }
             });
@@ -746,7 +754,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             case SeriesTimer:
                 TimerQuery scheduled = new TimerQuery();
                 scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-                TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new Response<Integer>());
+                TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {});
                 break;
         }
 
@@ -807,14 +815,18 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
 
         // Local trailer
-        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId(), new Response<BaseItemDto[]>() {
+        apiClient.getValue().GetLocalTrailersAsync(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), mBaseItem.getId(), new LifecycleAwareResponse<BaseItemDto[]>(getLifecycle()) {
             @Override
             public void onResponse(BaseItemDto[] response) {
+                if (!getActive()) return;
+
                 play(response, 0, false);
             }
 
             @Override
             public void onError(Exception exception) {
+                if (!getActive()) return;
+
                 Timber.e(exception, "Error retrieving trailers for playback");
                 Utils.showToast(requireContext(), R.string.msg_video_playback_error);
             }
@@ -845,9 +857,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         if (baseItem.getType() == BaseItemKind.AUDIO || baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
             if (baseItem.getType() == BaseItemKind.MUSIC_ALBUM || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
-                PlaybackHelper.getItemsToPlay(baseItem, false, false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
+                PlaybackHelper.getItemsToPlay(baseItem, false, false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                        if (!getActive()) return;
+
                         mediaManager.getValue().addToAudioQueue(response);
                     }
                 });
@@ -861,9 +875,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
     private void toggleFavorite() {
         UserItemDataDto data = mBaseItem.getUserData();
-        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+        apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
+                if (!getActive()) return;
+
                 mBaseItem.setUserData(response);
                 favButton.setActivated(response.getIsFavorite());
                 dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());
@@ -903,9 +919,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     NextUpQuery nextUpQuery = new NextUpQuery();
                     nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                     nextUpQuery.setSeriesId(mBaseItem.getId());
-                    apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new Response<ItemsResult>() {
+                    apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                         @Override
                         public void onResponse(ItemsResult response) {
+                            if (!getActive()) return;
+
                             if (response.getItems().length > 0) {
                                 play(response.getItems()[0], 0 , false);
                             } else {
@@ -915,6 +933,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                         @Override
                         public void onError(Exception exception) {
+                            if (!getActive()) return;
+
                             Timber.e(exception, "Error playing next up episode");
                             Utils.showToast(requireContext(), getString(R.string.msg_video_playback_error));
                         }
@@ -1033,16 +1053,22 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onClick(View v) {
                         if (mProgramInfo.getTimerId() == null) {
                             //Create one-off recording with defaults
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
                                 @Override
                                 public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
+                                    if (!getActive()) return;
+
                                     apiClient.getValue().CreateLiveTvTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
                                         @Override
                                         public void onResponse() {
+                                            if (!getActive()) return;
+
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
+                                                    if (!getActive()) return;
+
                                                     mProgramInfo = ModelCompat.asSdk(response);
                                                     setRecSeriesTimer(response.getSeriesTimerId());
                                                     setRecTimer(response.getTimerId());
@@ -1054,6 +1080,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                         @Override
                                         public void onError(Exception ex) {
+                                            if (!getActive()) return;
+
                                             Timber.e(ex, "Error creating recording");
                                             Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                                         }
@@ -1062,6 +1090,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                 @Override
                                 public void onError(Exception exception) {
+                                    if (!getActive()) return;
+
                                     Timber.e(exception, "Error creating recording");
                                     Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                                 }
@@ -1099,7 +1129,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
                             //Create series recording with default options
-                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
+                            apiClient.getValue().GetDefaultLiveTvTimerInfo(mProgramInfo.getId().toString(), new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
                                 @Override
                                 public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
                                     apiClient.getValue().CreateLiveTvSeriesTimerAsync(response, new EmptyLifecycleAwareResponse(getLifecycle()) {
@@ -1108,9 +1138,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                             if (!getActive()) return;
 
                                             // we have to re-retrieve the program to get the timer id
-                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                                                 @Override
                                                 public void onResponse(BaseItemDto response) {
+                                                    if (!getActive()) return;
+
                                                     mProgramInfo = ModelCompat.asSdk(response);
                                                     setRecSeriesTimer(response.getSeriesTimerId());
                                                     setRecTimer(response.getTimerId());
@@ -1131,6 +1163,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                 @Override
                                 public void onError(Exception exception) {
+                                    if (!getActive()) return;
+
                                     Timber.e(exception, "Error creating recording");
                                     Utils.showToast(requireContext(), R.string.msg_unable_to_create_recording);
                                 }
@@ -1222,9 +1256,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             adjacent.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
             adjacent.setSeriesId(mBaseItem.getSeriesId());
             adjacent.setAdjacentTo(mBaseItem.getId());
-            apiClient.getValue().GetEpisodesAsync(adjacent, new Response<ItemsResult>() {
+            apiClient.getValue().GetEpisodesAsync(adjacent, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
                 @Override
                 public void onResponse(ItemsResult response) {
+                    if (!getActive()) return;
+
                     if (response.getTotalRecordCount() > 0) {
                         //Just look at first item - if it isn't us, then it is the prev episode
                         if (!mBaseItem.getId().equals(response.getItems()[0].getId())) {
@@ -1362,9 +1398,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 selectedVersionPopupIndex = menuItem.getItemId();
-                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                     @Override
                     public void onResponse(BaseItemDto response) {
+                        if (!getActive()) return;
+
                         mBaseItem = response;
                     }
                 });
@@ -1448,9 +1486,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     return true;
                 case R.id.play_with_external:
                     systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                    PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false , false, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
+                    PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false , false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
                         @Override
                         public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                            if (!getActive()) return;
+
                             if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ARTIST) {
                                 mediaManager.getValue().playNow(requireContext(), response, false);
                             } else {
@@ -1474,9 +1514,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
             mRecordPopup = new RecordPopup(requireActivity(), getLifecycle(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
         }
-        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new Response<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>() {
+        apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
             @Override
             public void onResponse(org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto response) {
+                if (!getActive()) return;
+
                 if (recordSeries || Utils.isTrue(program.isSports())) {
                     mRecordPopup.setContent(requireContext(), program, response, FullDetailsFragment.this, recordSeries);
                     mRecordPopup.show();
@@ -1488,7 +1530,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             if (!getActive()) return;
 
                             // we have to re-retrieve the program to get the timer id
-                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+                            apiClient.getValue().GetLiveTvProgramAsync(mProgramInfo.getId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                                 @Override
                                 public void onResponse(BaseItemDto response) {
                                     setRecTimer(response.getTimerId());
@@ -1555,7 +1597,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     };
 
     private void markPlayed() {
-        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkPlayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), null, new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -1580,7 +1622,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     private void markUnPlayed() {
-        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<UserItemDataDto>() {
+        apiClient.getValue().MarkUnplayedAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
             @Override
             public void onResponse(UserItemDataDto response) {
                 mBaseItem.setUserData(response);
@@ -1605,9 +1647,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     protected void play(final BaseItemDto item, final int pos, final boolean shuffle) {
-        PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new Response<List<org.jellyfin.sdk.model.api.BaseItemDto>>() {
+        PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(item), pos == 0 && ModelCompat.asSdk(item).getType() == BaseItemKind.MOVIE, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
             @Override
             public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                if (!getActive()) return;
+
                 PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
                 if (playbackLauncher.interceptPlayRequest(requireContext(), ModelCompat.asSdk(item))) return;
 

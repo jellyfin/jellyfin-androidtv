@@ -47,13 +47,13 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
@@ -336,9 +336,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             item.setIsFolder(true);
             setBaseItem(item);
         } else {
-            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
+            apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
+                    if (!getActive()) return;
+
                     setBaseItem(response);
                 }
             });
@@ -402,9 +404,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         }
     }
 
-    private Response<ItemsResult> itemResponse = new Response<ItemsResult>() {
+    private LifecycleAwareResponse<ItemsResult> itemResponse = new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
         @Override
         public void onResponse(ItemsResult response) {
+            if (!getActive()) return;
+
             mTitle.setText(mBaseItem.getName());
             if (mBaseItem.getName().length() > 32) {
                 // scale down the title so more will fit
@@ -428,6 +432,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
 
         @Override
         public void onError(Exception exception) {
+            if (!getActive()) return;
+
             Timber.e(exception, "Error loading");
             Utils.showToast(requireContext(), exception.getLocalizedMessage());
         }
@@ -560,9 +566,11 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 @Override
                 public void onClick(final View v) {
                     UserItemDataDto data = mBaseItem.getUserData();
-                    apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new Response<UserItemDataDto>() {
+                    apiClient.getValue().UpdateFavoriteStatusAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), !data.getIsFavorite(), new LifecycleAwareResponse<UserItemDataDto>(getLifecycle()) {
                         @Override
                         public void onResponse(UserItemDataDto response) {
+                            if (!getActive()) return;
+
                             mBaseItem.setUserData(response);
                             ((TextUnderButton)v).setActivated(response.getIsFavorite());
                             dataRefreshService.getValue().setLastFavoriteUpdate(System.currentTimeMillis());

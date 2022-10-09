@@ -6,8 +6,8 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
+import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse;
 import org.jellyfin.apiclient.interaction.ApiClient;
-import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.querying.ItemFields;
@@ -34,9 +34,11 @@ public class SuggestedMoviesFragment extends EnhancedBrowseFragment {
         lastPlayed.setLimit(8);
         lastPlayed.setRecursive(true);
 
-        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(lastPlayed, new Response<ItemsResult>() {
+        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemsAsync(lastPlayed, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
             @Override
             public void onResponse(ItemsResult response) {
+                if (!getActive()) return;
+
                 for (BaseItemDto item : response.getItems()) {
                     SimilarItemsQuery similar = new SimilarItemsQuery();
                     similar.setId(item.getId());
