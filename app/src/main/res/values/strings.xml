@@ -118,7 +118,6 @@
     <string name="lbl_only_new_episodes">Only New Episodes</string>
     <string name="lbl_repeat_options">Repeat Options</string>
     <string name="msg_cancel_entire_series">Are you sure you want to cancel this ENTIRE SERIES?</string>
-    <string name="msg_remote_already_playing">Remote play request ignored.  Please stop current item first.</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Downmix to stereo</string>
     <string name="pref_audio_night_mode">Audio night mode (experimental)</string>
@@ -141,13 +140,10 @@
     <string name="lbl_display_preferences">Display Preferences</string>
     <string name="lbl__continuing"> CONTINUING </string>
     <string name="lbl_ended"> ENDED </string>
-    <string name="btn_filter">Filter</string>
-    <string name="btn_clear_all">Clear All</string>
     <string name="lbl_filters">Live TV filters</string>
     <string name="msg_subtitles_loading">Subtitles loading…</string>
     <string name="msg_unable_load_subs">Unable to load subtitle</string>
     <string name="msg_burn_sub_warning">Burning in subtitles. This may take a few seconds…</string>
-    <string name="lbl_recording">Recording</string>
     <string name="lbl_no_recordings">No Recordings Available</string>
     <string name="lbl_live_tv_guide">Live TV Guide</string>
     <string name="lbl_recorded_tv">Recorded TV</string>
@@ -212,7 +208,6 @@
     <string name="lbl_sports">Sports</string>
     <string name="lbl_kids">Kids</string>
     <string name="lbl_recent_recordings">Recent Recordings</string>
-    <string name="lbl_all_recordings">All Recordings</string>
     <string name="lbl_repeat">Repeat</string>
     <string name="lbl_new">New</string>
     <string name="lbl_live">Live</string>
@@ -293,8 +288,6 @@
     <string name="mark_watched_message">The item didn\'t appear to play as long as its duration. Mark watched?</string>
     <string name="no_player">No Player</string>
     <string name="no_player_message">It doesn\'t appear you have a video capable app installed.  This option requires you install a 3rd party application for playing video content.</string>
-    <string name="lbl_clear">Clear</string>
-    <string name="clear_expanded">Clear current video queue?</string>
     <string name="episode_missing">Episode Missing</string>
     <string name="episode_missing_message">This episode is missing from your library.  Would you like to skip it and continue to the next one?</string>
     <string name="episode_missing_message_2">This episode is missing from your library.  Playback will stop.</string>
@@ -310,10 +303,6 @@
     <string name="msg_queue_saved">Queue saved as new playlist: %1$s</string>
     <string name="msg_added_to_video">%1$s added to video queue. Ends: %2$s</string>
     <string name="audio_error">Unable to play audio %1$s</string>
-    <string name="playing_error">Error setting played status</string>
-    <string name="favorite_error">Error setting favorite status</string>
-    <string name="lbl_deleted">%1$s Deleted</string>
-    <string name="not_deleted">Item NOT Deleted</string>
     <string name="turn_off">Turn this option off</string>
     <string name="just_one">Just this one</string>
     <string name="play_with_vlc">Play with LibVLC</string>
