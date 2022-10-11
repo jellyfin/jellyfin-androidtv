@@ -442,7 +442,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
      */
     private void adaptExternalSubtitles(StreamInfo mediaStreamInfo, Intent playerIntent) {
 
-        List<SubtitleStreamInfo> externalSubs = mediaStreamInfo.GetSubtitleProfiles(false,
+        List<SubtitleStreamInfo> externalSubs = mediaStreamInfo.getSubtitleProfiles(false,
                 apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken()).stream()
             .filter(stream -> stream.getDeliveryMethod() == SubtitleDeliveryMethod.External && stream.getUrl() != null)
             .collect(Collectors.toList());

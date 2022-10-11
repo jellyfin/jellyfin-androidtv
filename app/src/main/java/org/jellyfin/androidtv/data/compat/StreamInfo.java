@@ -175,7 +175,7 @@ public class StreamInfo {
         return getPlayMethod() == PlayMethod.DirectStream || getPlayMethod() == PlayMethod.DirectPlay;
     }
 
-    public final String ToUrl(String baseUrl, String accessToken) {
+    public final String toUrl(String baseUrl, String accessToken) {
         if (!Utils.isEmpty(getMediaUrl())) {
             return getMediaUrl();
         }
@@ -189,7 +189,7 @@ public class StreamInfo {
         }
 
         ArrayList<String> list = new ArrayList<String>();
-        for (NameValuePair pair : BuildParams(this, accessToken, false)) {
+        for (NameValuePair pair : buildParams(this, accessToken, false)) {
             if (Utils.isEmpty(pair.getValue())) {
                 continue;
             }
@@ -210,10 +210,10 @@ public class StreamInfo {
 
         String queryString = Utils.join("&", list);
 
-        return GetUrl(baseUrl, queryString);
+        return getUrl(baseUrl, queryString);
     }
 
-    private String GetUrl(String baseUrl, String queryString) {
+    private String getUrl(String baseUrl, String queryString) {
         if (Utils.isEmpty(baseUrl)) {
             throw new IllegalArgumentException(baseUrl);
         }
@@ -230,7 +230,7 @@ public class StreamInfo {
         return String.format("%1$s/videos/%2$s/stream%3$s?%4$s", baseUrl, getItemId(), extension, queryString);
     }
 
-    private static ArrayList<NameValuePair> BuildParams(StreamInfo item, String accessToken, boolean isDlna) {
+    private static ArrayList<NameValuePair> buildParams(StreamInfo item, String accessToken, boolean isDlna) {
         ArrayList<NameValuePair> list = new ArrayList<NameValuePair>();
 
         String audioCodecs = item.getAudioCodecs().length == 0 ? "" : Utils.join(",", item.getAudioCodecs());
@@ -287,11 +287,11 @@ public class StreamInfo {
         return list;
     }
 
-    public final ArrayList<SubtitleStreamInfo> GetSubtitleProfiles(boolean includeSelectedTrackOnly, String baseUrl, String accessToken) {
-        return GetSubtitleProfiles(includeSelectedTrackOnly, false, baseUrl, accessToken);
+    public final ArrayList<SubtitleStreamInfo> getSubtitleProfiles(boolean includeSelectedTrackOnly, String baseUrl, String accessToken) {
+        return getSubtitleProfiles(includeSelectedTrackOnly, false, baseUrl, accessToken);
     }
 
-    public final ArrayList<SubtitleStreamInfo> GetSubtitleProfiles(boolean includeSelectedTrackOnly, boolean enableAllProfiles, String baseUrl, String accessToken) {
+    public final ArrayList<SubtitleStreamInfo> getSubtitleProfiles(boolean includeSelectedTrackOnly, boolean enableAllProfiles, String baseUrl, String accessToken) {
         ArrayList<SubtitleStreamInfo> list = new ArrayList<SubtitleStreamInfo>();
 
         // HLS will preserve timestamps so we can just grab the full subtitle stream
@@ -300,7 +300,7 @@ public class StreamInfo {
         if (!includeSelectedTrackOnly) {
             for (org.jellyfin.sdk.model.api.MediaStream stream : getMediaSource().getMediaStreams()) {
                 if (stream.getType() == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE) {
-                    AddSubtitleProfiles(list, stream, enableAllProfiles, baseUrl, accessToken, startPositionTicks);
+                    addSubtitleProfiles(list, stream, enableAllProfiles, baseUrl, accessToken, startPositionTicks);
                 }
             }
         }
@@ -308,22 +308,22 @@ public class StreamInfo {
         return list;
     }
 
-    private void AddSubtitleProfiles(ArrayList<SubtitleStreamInfo> list, org.jellyfin.sdk.model.api.MediaStream stream, boolean enableAllProfiles, String baseUrl, String accessToken, long startPositionTicks) {
+    private void addSubtitleProfiles(ArrayList<SubtitleStreamInfo> list, org.jellyfin.sdk.model.api.MediaStream stream, boolean enableAllProfiles, String baseUrl, String accessToken, long startPositionTicks) {
         if (enableAllProfiles) {
             for (SubtitleProfile profile : getDeviceProfile().getSubtitleProfiles()) {
-                SubtitleStreamInfo info = GetSubtitleStreamInfo(stream, baseUrl, accessToken, startPositionTicks, new SubtitleProfile[]{profile});
+                SubtitleStreamInfo info = getSubtitleStreamInfo(stream, baseUrl, accessToken, startPositionTicks, new SubtitleProfile[]{profile});
 
                 list.add(info);
             }
         } else {
-            SubtitleStreamInfo info = GetSubtitleStreamInfo(stream, baseUrl, accessToken, startPositionTicks, getDeviceProfile().getSubtitleProfiles());
+            SubtitleStreamInfo info = getSubtitleStreamInfo(stream, baseUrl, accessToken, startPositionTicks, getDeviceProfile().getSubtitleProfiles());
 
             list.add(info);
         }
     }
 
-    private SubtitleStreamInfo GetSubtitleStreamInfo(org.jellyfin.sdk.model.api.MediaStream stream, String baseUrl, String accessToken, long startPositionTicks, SubtitleProfile[] subtitleProfiles) {
-        SubtitleProfile subtitleProfile = StreamBuilder.GetSubtitleProfile(stream, subtitleProfiles, getPlayMethod());
+    private SubtitleStreamInfo getSubtitleStreamInfo(org.jellyfin.sdk.model.api.MediaStream stream, String baseUrl, String accessToken, long startPositionTicks, SubtitleProfile[] subtitleProfiles) {
+        SubtitleProfile subtitleProfile = StreamBuilder.getSubtitleProfile(stream, subtitleProfiles, getPlayMethod());
         SubtitleStreamInfo tempVar = new SubtitleStreamInfo();
         String tempVar2 = stream.getLanguage();
         tempVar.setName((tempVar2 != null) ? tempVar2 : "Unknown");
@@ -348,11 +348,11 @@ public class StreamInfo {
         return info;
     }
 
-    public final ArrayList<MediaStream> GetSelectableAudioStreams() {
-        return GetSelectableStreams(MediaStreamType.AUDIO);
+    public final ArrayList<MediaStream> getSelectableAudioStreams() {
+        return getSelectableStreams(MediaStreamType.AUDIO);
     }
 
-    public final ArrayList<org.jellyfin.sdk.model.api.MediaStream> GetSelectableStreams(MediaStreamType type) {
+    public final ArrayList<org.jellyfin.sdk.model.api.MediaStream> getSelectableStreams(MediaStreamType type) {
         ArrayList<org.jellyfin.sdk.model.api.MediaStream> list = new ArrayList<org.jellyfin.sdk.model.api.MediaStream>();
 
         for (org.jellyfin.sdk.model.api.MediaStream stream : getMediaSource().getMediaStreams()) {

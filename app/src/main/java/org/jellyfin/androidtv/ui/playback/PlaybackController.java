@@ -793,7 +793,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
         // get subtitle info
-        mSubtitleStreams = response.GetSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
+        mSubtitleStreams = response.getSubtitleProfiles(false, apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken());
         mDefaultSubIndex = response.getMediaSource().getDefaultSubtitleStreamIndex() != null ? response.getMediaSource().getDefaultSubtitleStreamIndex() : mDefaultSubIndex;
         setDefaultAudioIndex(response);
         Timber.d("default audio index set to %s remote default %s", mDefaultAudioIndex, response.getMediaSource().getDefaultAudioStreamIndex());

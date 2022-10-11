@@ -8,7 +8,7 @@ import org.jellyfin.apiclient.model.session.PlayMethod;
 
 public class StreamBuilder
 {
-    public static SubtitleProfile GetSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod)
+    public static SubtitleProfile getSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod)
     {
         if (playMethod != PlayMethod.Transcode && !subtitleStream.isExternal())
         {
@@ -36,12 +36,12 @@ public class StreamBuilder
         SubtitleProfile tempVar = new SubtitleProfile();
         tempVar.setMethod(SubtitleDeliveryMethod.Encode);
         tempVar.setFormat(subtitleStream.getCodec());
-        SubtitleProfile tempVar2 = GetExternalSubtitleProfile(subtitleStream, subtitleProfiles, playMethod, false);
-        SubtitleProfile tempVar3 = GetExternalSubtitleProfile(subtitleStream, subtitleProfiles, playMethod, true);
+        SubtitleProfile tempVar2 = getExternalSubtitleProfile(subtitleStream, subtitleProfiles, playMethod, false);
+        SubtitleProfile tempVar3 = getExternalSubtitleProfile(subtitleStream, subtitleProfiles, playMethod, true);
         return (tempVar2 != null) ? tempVar2 : (tempVar3 != null) ? tempVar3 : tempVar;
     }
 
-    private static SubtitleProfile GetExternalSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod, boolean allowConversion)
+    private static SubtitleProfile getExternalSubtitleProfile(org.jellyfin.sdk.model.api.MediaStream subtitleStream, SubtitleProfile[] subtitleProfiles, PlayMethod playMethod, boolean allowConversion)
     {
         for (SubtitleProfile profile : subtitleProfiles)
         {
