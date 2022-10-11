@@ -724,7 +724,7 @@ public class MediaManager {
                     DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, "ATV/ExoPlayer");
 
                     mExoPlayer.setPlayWhenReady(true);
-                    Uri mediaUri = Uri.parse(response.ToUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
+                    Uri mediaUri = Uri.parse(response.toUrl(apiClient.getApiUrl(), apiClient.getAccessToken()));
                     MediaItem source = new MediaItem.Builder().setUri(mediaUri).build();
                     mExoPlayer.setMediaSource(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(source));
                     mExoPlayer.prepare();
