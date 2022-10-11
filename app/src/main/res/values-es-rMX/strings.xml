@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Solo episodios nuevos</string>
     <string name="lbl_repeat_options">Opciones de repetición</string>
     <string name="msg_cancel_entire_series">¿Estás seguro de querer cancelar esta SERIE COMPLETA\?</string>
-    <string name="msg_remote_already_playing">Solicitud de reproducción remota ignorada. Por favor, primero detén el elemento actual.</string>
     <string name="pref_audio_direct">Directo</string>
     <string name="pref_audio_compat">Remezclar a estéreo</string>
     <string name="lbl_audio_output">Salida de audio</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Preferencias de pantalla</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_ended">FINALIZADO</string>
-    <string name="btn_filter">Filtro</string>
     <string name="btn_clear_all">Limpiar todo</string>
     <string name="lbl_filters">Filtros de TV en vivo</string>
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="msg_unable_load_subs">No fue posible cargar el subtítulo</string>
     <string name="msg_burn_sub_warning">Quemando los subtítulos. Esto puede tomar algunos segundos…</string>
-    <string name="lbl_recording">Grabando</string>
     <string name="lbl_no_recordings">No hay grabaciones disponibles</string>
     <string name="lbl_live_tv_guide">Guía de TV en vivo</string>
     <string name="lbl_recorded_tv">Grabaciones de TV</string>
@@ -212,7 +209,6 @@
     <string name="lbl_episode_not_record">Esta muestra NO grabará</string>
     <string name="lbl_schedule">Programar</string>
     <string name="lbl_live">En vivo</string>
-    <string name="lbl_all_recordings">Todas las grabaciones</string>
     <string name="lbl_recent_recordings">Grabaciones recientes</string>
     <string name="lbl_kids">Niños</string>
     <string name="no_program_data">Información del programa no disponible</string>
@@ -268,9 +264,7 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="just_one">Unicamente esto</string>
     <string name="turn_off">Desactive esta opción</string>
-    <string name="not_deleted">Elemento NO Eliminado</string>
     <string name="lbl_deleted">Se ha eliminado %1$s</string>
-    <string name="favorite_error">Error al introducir el estado de favorito</string>
     <string name="playing_error">Error al introducir el estado de reproducido</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
@@ -286,7 +280,6 @@
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar al siguiente\?</string>
     <string name="episode_missing">Episodio Faltante</string>
-    <string name="clear_expanded">¿Desea limpiar la cola de reproducción de videos\?</string>
     <string name="lbl_clear">Limpiar</string>
     <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir videos.</string>
     <string name="no_player">Reproductor no encontrado</string>

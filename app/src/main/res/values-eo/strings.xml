@@ -51,7 +51,6 @@
     <string name="lbl_albums">Albumoj</string>
     <string name="lbl_programs">Programoj</string>
     <string name="lbl_filters">Eteraj TD filtriloj</string>
-    <string name="btn_filter">Filtru</string>
     <string name="lbl_rating">Taksado</string>
     <string name="lbl_name">Nomo</string>
     <string name="lbl_from">de</string>
@@ -180,7 +179,6 @@
     <string name="lbl_tomatoes">Tomatoj</string>
     <string name="lbl_stars">Steloj</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_clear">Malplenigu</string>
     <string name="lbl_Reset">Restarigu</string>
     <string name="pref_about_title">Pri</string>
     <string name="pref_video_player_vlc">libVLC</string>
@@ -194,7 +192,6 @@
     <string name="lbl_stretch">Streĉa</string>
     <string name="lbl_warning">Averto</string>
     <string name="lbl_song">Kanto</string>
-    <string name="lbl_recording">Rikordado</string>
     <string name="lbl_ended">FINIS</string>
     <string name="lbl__continuing">DAŬRIGANTE</string>
     <string name="btn_done">Farite</string>
@@ -235,7 +232,6 @@
     <string name="play_with_vlc">Ludi kun libVLC</string>
     <string name="play_with_exo_player">Ludi kun ExoPlayer</string>
     <string name="just_one">Nur ĉi tiu</string>
-    <string name="not_deleted">Aĵo NE Forigita</string>
     <string name="seek_error">Nekapable serĉi</string>
     <string name="lbl_load_guide_data">Ŝarĝi Gvidilajn Datenojn</string>
     <string name="pref_subtitle_track_button">Butono de subteksttrako</string>
@@ -280,7 +276,6 @@
     <string name="pref_clock_display_browsing">Dum foliumado</string>
     <string name="pref_clock_display">Montri horloĝon</string>
     <string name="play_with">Ludi per</string>
-    <string name="lbl_deleted">%1$s Forigita</string>
     <string name="episode_missing">Epizodo Mankanta</string>
     <string name="no_player">Neniu Ludilo</string>
     <string name="mark_watched">Marki Spektita</string>
@@ -307,7 +302,6 @@
     <string name="lbl_on_schedule">Laŭplane</string>
     <string name="lbl_series_recordings">Seriaj Rikordoj</string>
     <string name="msg_settings_updated">Preferoj ĝisdatigitaj</string>
-    <string name="lbl_all_recordings">Ĉiuj Rukordoj</string>
     <string name="lbl_recent_recordings">Lastatempaj Rikordoj</string>
     <string name="lbl_select_date">Elekti Daton</string>
     <string name="lbl_auto_crop">Aŭtomata Stuco</string>
@@ -322,7 +316,6 @@
     <string name="msg_items_added">" ajoj aldonitaj"</string>
     <string name="lbl_recorded_tv">Rikordita TV</string>
     <string name="msg_subtitles_loading">Subtekstoj ŝarĝante…</string>
-    <string name="btn_clear_all">Malplenigi Ĉion</string>
     <string name="lbl_display_preferences">Montraj Preferoj</string>
     <string name="lbl_premier_date">Premiera Dato</string>
     <string name="lbl_sorted_by">ordigita laŭ</string>
@@ -335,7 +328,6 @@
     <string name="msg_unable_load_subs">Ne eblas ŝargi subtekston</string>
     <string name="lbl_starting_with">komencante per tiuj, kies nomo komenciĝas per</string>
     <string name="desc_debug">Provizu kromajn informojn por sencimigi</string>
-    <string name="msg_remote_already_playing">Teleluda peto ignorita. Halti nunan aĵon unue.</string>
     <string name="msg_cancel_entire_series">Ĉu vi certas, ke vi volas rezini ĉi tiun TUTAN SERION\?</string>
     <string name="lbl_record_any_time">Rikordi iam ajn</string>
     <string name="lbl_record_any_channel">Rikordi sur iu ajn kanalo</string>
@@ -373,13 +365,11 @@
     <string name="login_invalid_credentials">Nevalida uzantnomo kaj/aŭ pasvorto</string>
     <string name="play_with_external_app">Ludi per ekstera apo</string>
     <string name="turn_off">Malŝalti ĉi tiun opcion</string>
-    <string name="favorite_error">Eraro pri parametro de favorata stato</string>
     <string name="playing_error">Eraro pri parametro de ludita stato</string>
     <string name="msg_no_items">Neniuj aĵoj por ludi</string>
     <string name="subtitle_error">Ne eblas elekti subtekston</string>
     <string name="msg_live_tv_prev">Ĉu ŝargi antaŭajn %1$d horojn\?</string>
     <string name="msg_live_tv_next">Ĉu ŝargi sekvajn %1$d horojn\?</string>
-    <string name="clear_expanded">Ĉu forigi nunan videovicon\?</string>
     <string name="pref_next_up_behavior_title">Montri informojn pri sekva video</string>
     <string name="pref_next_up_timeout_title">Tempumila daŭro de Sekva plue</string>
     <string name="lbl_start_favorites">Metu Favoratojn ĉe Komenco</string>

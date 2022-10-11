@@ -117,11 +117,9 @@
     <string name="lbl_display_preferences">ディスプレイ設定</string>
     <string name="lbl__continuing">続いている</string>
     <string name="lbl_ended">既に終了</string>
-    <string name="btn_filter">フィルター</string>
     <string name="btn_clear_all">全てをクリア</string>
     <string name="lbl_filters">フィルター</string>
     <string name="msg_subtitles_loading">字幕を読み込み中…</string>
-    <string name="lbl_recording">録画中</string>
     <string name="pref_live_tv_cat">ライブテレビ</string>
     <string name="lbl_albums">アルバム</string>
     <string name="lbl_song">曲</string>
@@ -150,7 +148,6 @@
     <string name="lbl_sports">スポーツ</string>
     <string name="lbl_kids">子供</string>
     <string name="lbl_recent_recordings">最近の録画</string>
-    <string name="lbl_all_recordings">全ての録画</string>
     <string name="lbl_repeat">重複</string>
     <string name="lbl_new">新しい</string>
     <string name="lbl_live">生放送</string>
@@ -217,7 +214,6 @@
     <string name="lbl_no_recordings">録画はありません</string>
     <string name="desc_bitstream_ac3">ハードウェア要件を満たす必要があります</string>
     <string name="lbl_pause">一時停止</string>
-    <string name="msg_remote_already_playing">リモートプレイリクエストは無視されます。最初に現在のアイテムを停止してください。</string>
     <string name="lbl_record_any_channel">任意のチャンネルで録音</string>
     <string name="lbl_end_padding">パディングの終わり</string>
     <string name="lbl_begin_padding">パディングを開始</string>
@@ -322,9 +318,7 @@
     <string name="play_with_exo_player">ExoPlayerで再生</string>
     <string name="play_with_vlc">libVLCで再生</string>
     <string name="turn_off">このオプションをオフにする</string>
-    <string name="not_deleted">アイテムは削除されていません</string>
     <string name="lbl_deleted">%1$s 削除済み</string>
-    <string name="favorite_error">お気に入りの登録エラー</string>
     <string name="playing_error">視聴履歴の設定エラー</string>
     <string name="audio_error">オーディオを再生できません %1$s</string>
     <string name="msg_queue_saved">キューは新しいプレイリスト” %1$s”として保存されました</string>
@@ -337,7 +331,6 @@
     <string name="episode_missing_message_2">このエピソードはあなたのライブラリから欠落しています。再生は停止します。</string>
     <string name="episode_missing_message">このエピソードはあなたのライブラリから欠落しています。スキップして次のものに進みますか\?</string>
     <string name="episode_missing">エピソードがありません</string>
-    <string name="clear_expanded">現在のビデオキューをクリアしますか\?</string>
     <string name="no_player_message">ビデオ対応アプリがインストールされていないようです。このオプションでは、ビデオコンテンツを再生するためのサードパーティのアプリケーションをインストールする必要があります。</string>
     <string name="mark_watched">視聴済みにする</string>
     <string name="bitrate_auto">自動</string>

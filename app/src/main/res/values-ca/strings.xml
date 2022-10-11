@@ -115,12 +115,10 @@
     <string name="lbl_recorded_tv">Gravat a TV</string>
     <string name="lbl_live_tv_guide">Guia de TV en directe</string>
     <string name="lbl_no_recordings">No hi ha gravacions disponibles</string>
-    <string name="lbl_recording">Gravant</string>
     <string name="msg_burn_sub_warning">Afegint subtítols. Això pot trigar uns segons…</string>
     <string name="msg_unable_load_subs">No es pot carregar el subtítol</string>
     <string name="msg_subtitles_loading">Carregant subtítols…</string>
     <string name="lbl_filters">Filtres de TV en directe</string>
-    <string name="btn_clear_all">Esborra-ho tot</string>
     <string name="btn_filter">Filtre</string>
     <string name="lbl_ended">FINALITZAT</string>
     <string name="lbl__continuing">CONTINUANT</string>
@@ -142,7 +140,6 @@
     <string name="lbl_audio_output">Sortida d\'àudio</string>
     <string name="pref_audio_compat">Reduir a estèreo</string>
     <string name="pref_audio_direct">Directe</string>
-    <string name="msg_remote_already_playing">S\'ha ignorat la sol·licitud de reproducció remota. Si us plau, atureu primer l\'element actual.</string>
     <string name="msg_cancel_entire_series">Esteu segur que voleu cancel·lar TOTA aquesta SÈRIE\?</string>
     <string name="lbl_repeat_options">Opcions de repetició</string>
     <string name="lbl_only_new_episodes">Només episodis nous</string>
@@ -238,7 +235,6 @@
     <string name="lbl_live">Directe</string>
     <string name="lbl_new">Nou</string>
     <string name="lbl_repeat">Repetir</string>
-    <string name="lbl_all_recordings">Totes les gravacions</string>
     <string name="lbl_recent_recordings">Gravacions recents</string>
     <string name="lbl_kids">Nens</string>
     <string name="lbl_sports">Esports</string>
@@ -272,9 +268,7 @@
     <string name="play_with_vlc">Reproduir amb LibVLC</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
-    <string name="not_deleted">L\'element NO s\'ha suprimit</string>
     <string name="lbl_deleted">%1$s suprimit</string>
-    <string name="favorite_error">Error en establir l\'estat de favorit</string>
     <string name="playing_error">S\'ha produït un error en configurar l\'estat de reproducció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
     <string name="msg_added_to_video">S\'ha afegit %1$s a la cua de vídeos. Finalitza: %2$s</string>
@@ -291,7 +285,6 @@
     <string name="episode_missing_message_2">Falta aquest episodi a la biblioteca. La reproducció s’aturarà.</string>
     <string name="episode_missing_message">Falta aquest episodi a la biblioteca. Voleu ometre\'l i continuar amb el següent\?</string>
     <string name="episode_missing">Falta l’episodi</string>
-    <string name="clear_expanded">Voleu esborrar la cua de vídeo actual\?</string>
     <string name="lbl_clear">Netejar</string>
     <string name="no_player_message">Sembla que no teniu instal·lada cap aplicació compatible amb vídeo. Aquesta opció requereix que instal·leu una aplicació de tercers per reproduir contingut de vídeo.</string>
     <string name="no_player">Sense reproductor</string>

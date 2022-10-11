@@ -30,7 +30,6 @@
     <string name="msg_settings_updated">Asetukset päivitettiin</string>
     <string name="lbl_series_settings">Sarjan asetukset</string>
     <string name="lbl_new">Uusi</string>
-    <string name="lbl_all_recordings">Kaikki tallenteet</string>
     <string name="lbl_kids">Lapset</string>
     <string name="lbl_sports">Urheilu</string>
     <string name="no_program_data">Ohjelmatietoja ei ole</string>
@@ -47,10 +46,8 @@
     <string name="lbl_up_next_colon">"Seuraavaksi: "</string>
     <string name="lbl_recorded_tv">Televisiotallenteet</string>
     <string name="lbl_no_recordings">Tallenteita ei ole</string>
-    <string name="lbl_recording">Tallennetaan</string>
     <string name="msg_unable_load_subs">Tekstitystä ei voitu ladata</string>
     <string name="msg_subtitles_loading">Tekstityksiä ladataan…</string>
-    <string name="btn_clear_all">Tyhjennä kaikki</string>
     <string name="pref_audio_direct">Muuntamaton</string>
     <string name="lbl_only_new_episodes">Vain uudet jaksot</string>
     <string name="lbl_program_ended">Ohjelma päättyi</string>
@@ -136,7 +133,6 @@
     <string name="pref_live_tv_cat">Televisio</string>
     <string name="lbl_live_tv_guide">Ohjelmaopas</string>
     <string name="lbl_filters">Television suodattimet</string>
-    <string name="btn_filter">Suodata</string>
     <string name="lbl_rating">Arvio</string>
     <string name="lbl_critic_rating">Kriitikoiden arvio</string>
     <string name="lbl_premier_date">Ensiesitys</string>
@@ -184,7 +180,6 @@
     <string name="lbl_enable_debug">Vianselvitysasetukset</string>
     <string name="lbl_goto_series">Siirry sarjaan</string>
     <string name="pref_audio_compat">Alasmiksaa stereoksi</string>
-    <string name="msg_remote_already_playing">Etätoistopyyntöä ei huomioitu. Pysäytä nykyinen kohde ensin.</string>
     <string name="msg_cancel_entire_series">Haluatko varmasti päättää KOKO SARJAN\?</string>
     <string name="lbl_repeat_options">Toistoasetukset</string>
     <string name="lbl_record_any_time">Tallenna koska tahansa</string>
@@ -350,9 +345,7 @@
     <string name="play_with_vlc">Toista LibVLC-soittimella</string>
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
-    <string name="not_deleted">Kohdetta EI poistettu</string>
     <string name="lbl_deleted">%1$s poistettiin</string>
-    <string name="favorite_error">Virhe määritettäessä suosikkitilaa</string>
     <string name="playing_error">Virhe määritettäessä toistotilaa</string>
     <string name="msg_added_to_video">\'%1$s\' lisättiin videojonoon. Päättyy: %2$s</string>
     <string name="msg_queue_saved">Jono tallennettiin toistolistaksi: %1$s</string>
@@ -367,7 +360,6 @@
     <string name="episode_missing_message">Jaksoa ei ole kirjastossa. Haluatko ohittaa sen ja jatkaa seuraavaan jaksoon\?</string>
     <string name="episode_missing_message_2">Jaksoa ei ole kirjastossa. Toisto pysäytetään.</string>
     <string name="episode_missing">Jakso puuttuu</string>
-    <string name="clear_expanded">Tyhjennetäänkö nykyinen jono\?</string>
     <string name="lbl_clear">Tyhjennä</string>
     <string name="no_player_message">Videotoistoon kykenevää sovellusta ei näytä olevan asennettuna. Tämä valinta tarvitsee ulkopuolisen videoiden toistosovelluksen.</string>
     <string name="no_player">Ei soitinta</string>

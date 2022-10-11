@@ -28,7 +28,6 @@
     <string name="lbl_always">Bob tro</string>
     <string name="lbl_tomatoes">Tomatos</string>
     <string name="lbl_stars">Seren</string>
-    <string name="lbl_clear">Clirio</string>
     <string name="lbl_Reset">Ailosod</string>
     <string name="pref_about_title">Ynghylch</string>
     <string name="lbl_hours">oriau</string>
@@ -41,7 +40,6 @@
     <string name="lbl_zoom">Nesáu</string>
     <string name="lbl_warning">Rhybudd</string>
     <string name="lbl_song">Cân</string>
-    <string name="lbl_recording">Recordio</string>
     <string name="lbl_ended">Wedi gorffen</string>
     <string name="lbl__continuing">Wrthi\'n bwrw ymlaen</string>
     <string name="btn_done">Wedi gorffen</string>
@@ -110,7 +108,6 @@
     <string name="lbl_albums">Albwmau</string>
     <string name="lbl_programs">Rhaglenni</string>
     <string name="lbl_filters">Hidlyddion</string>
-    <string name="btn_filter">Hidlo</string>
     <string name="lbl_name">Enw</string>
     <string name="lbl_never">Byth</string>
     <string name="lbl_ok">Iawn</string>

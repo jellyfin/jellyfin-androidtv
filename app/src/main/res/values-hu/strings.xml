@@ -8,7 +8,6 @@
     <string name="btn_cancel">Mégsem</string>
     <string name="loading">Betöltés…</string>
     <string name="video_error_unknown_error">Nem sikerült betölteni a videót</string>
-    <string name="btn_filter">Szűrő</string>
     <string name="lbl_more_like_this">Több ehhez hasonló</string>
     <string name="lbl_new">Új</string>
     <string name="lbl_play_trailers">Előzetes(ek) lejátszása</string>
@@ -180,7 +179,6 @@
     <string name="lbl_schedule">Ütemezés</string>
     <string name="lbl_live">Élő</string>
     <string name="lbl_repeat">Ismétlés</string>
-    <string name="lbl_all_recordings">Minden felvétel</string>
     <string name="lbl_recent_recordings">Jelenlegi felvételek</string>
     <string name="lbl_kids">Gyerekek</string>
     <string name="lbl_sports">Sport</string>
@@ -231,12 +229,10 @@
     <string name="lbl_recorded_tv">Felvett TV-k</string>
     <string name="lbl_live_tv_guide">Élő TV-újság</string>
     <string name="lbl_no_recordings">Nincs elérhető felvétel</string>
-    <string name="lbl_recording">Felvétel</string>
     <string name="msg_burn_sub_warning">Feliratok beégetése. Ez eltarthat pár másodpercig…</string>
     <string name="msg_unable_load_subs">Feliratok betöltése sikertelen</string>
     <string name="msg_subtitles_loading">Feliratok betöltése…</string>
     <string name="lbl_filters">TV Csatorna Szűrők</string>
-    <string name="btn_clear_all">Mind törlése</string>
     <string name="lbl_ended">VÉGET ÉRT</string>
     <string name="lbl__continuing">ÚJ RÉSZEK VÁRHATÓAK</string>
     <string name="lbl_display_preferences">Megjelenítési beállítások</string>
@@ -253,7 +249,6 @@
     <string name="desc_debug">Hibakereséssel kapcsolatos további információk mutatása</string>
     <string name="lbl_enable_debug">Hibakeresési lehetőségek</string>
     <string name="lbl_goto_series">Ugrás a sorozatokhoz</string>
-    <string name="msg_remote_already_playing">Távoli lejátszási kérelem figyelmen kívül lett hagyva. Állítsa le a jelenlegi médiaelem lejátszását előbb.</string>
     <string name="grid_direction_vertical">Függőleges</string>
     <string name="grid_direction_horizontal">Vízszintes</string>
     <string name="grid_direction">Rács irány</string>
@@ -266,7 +261,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automatikus</string>
-    <string name="clear_expanded">Törli az aktuális videósort\?</string>
     <string name="lbl_clear">Töröl</string>
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
@@ -277,7 +271,6 @@
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
     <string name="lbl_pause">Szünet</string>
-    <string name="favorite_error">Hiba a kedvencek állapotának beállításakor</string>
     <string name="playing_error">Hiba a lejátszási állapot beállításakor</string>
     <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
     <string name="msg_added_to_video">%1$s hozzáadva a videósorhoz. Vége: %2$s</string>
@@ -304,7 +297,6 @@
     <string name="play_with_vlc">Lejátszás LibVLC-vel</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
-    <string name="not_deleted">Az elem NINCS törölve</string>
     <string name="lbl_deleted">%1$s törölve</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
     <string name="lbl_tomatoes">Paradicsomok</string>

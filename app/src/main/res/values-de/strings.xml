@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Nur neue Episoden</string>
     <string name="lbl_repeat_options">Wiederholungsoptionen</string>
     <string name="msg_cancel_entire_series">Möchtest du die KOMPLETTE SERIE wirklich abbrechen\?</string>
-    <string name="msg_remote_already_playing">Anfrage zur ferngesteuerten Wiedergabe ignoriert. Bitte stoppe zuerst die aktuelle Wiedergabe.</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="pref_audio_compat">Heruntermischen zu Stereo</string>
     <string name="lbl_audio_output">Audio-Ausgabe</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Zeige Einstellungen</string>
     <string name="lbl__continuing">FORTGESETZT</string>
     <string name="lbl_ended">BEENDET</string>
-    <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Lösche alle</string>
     <string name="lbl_filters">Fernseh-Filter</string>
     <string name="msg_subtitles_loading">Lade Untertitel…</string>
     <string name="msg_unable_load_subs">Untertitel konnten nicht geladen werden</string>
     <string name="msg_burn_sub_warning">Untertitel werden eingebrannt. Dies kann ein paar Sekunden dauern…</string>
-    <string name="lbl_recording">Aufnahme</string>
     <string name="lbl_no_recordings">Keine Aufnahmen verfügbar</string>
     <string name="lbl_live_tv_guide">TV Programmübersicht</string>
     <string name="lbl_recorded_tv">TV Aufnahmen</string>
@@ -208,7 +205,6 @@
     <string name="lbl_live">Live</string>
     <string name="lbl_new">Neu</string>
     <string name="lbl_repeat">Wiederholen</string>
-    <string name="lbl_all_recordings">Alle Aufnahmen</string>
     <string name="lbl_recent_recordings">Kürzliche Aufnahmen</string>
     <string name="lbl_kids">Kinder</string>
     <string name="lbl_sports">Sport</string>
@@ -268,9 +264,7 @@
     <string name="bitrate_auto">Automatisch</string>
     <string name="just_one">Nur dieses eine</string>
     <string name="turn_off">Diese Option ausschalten</string>
-    <string name="not_deleted">Element NICHT Gelöscht</string>
     <string name="lbl_deleted">%1$s Gelöscht</string>
-    <string name="favorite_error">Fehler beim Setzen des Favoritenstatus</string>
     <string name="playing_error">Fehler beim Setzen des Wiedergabestatus</string>
     <string name="audio_error">Audio kann nicht abgespielt werden %1$s</string>
     <string name="msg_added_to_video">%1$s zur Video-Warteschlange hinzugefügt. Endet: %2$s</string>
@@ -287,7 +281,6 @@
     <string name="episode_missing_message_2">Diese Episode fehlt in deiner Bibliothek. Die Wiedergabe wird angehalten.</string>
     <string name="episode_missing_message">Diese Episode fehlt in deiner Bibliothek. Möchtest du sie überspringen und mit der nächsten Episode fortfahren\?</string>
     <string name="episode_missing">Episode fehlt</string>
-    <string name="clear_expanded">Aktuelle Video-Warteschlange löschen\?</string>
     <string name="lbl_clear">Löschen</string>
     <string name="no_player_message">Es scheint nicht, dass du eine videofähige Anwendung installiert haben. Diese Option erfordert die Installation einer Drittanbieteranwendung zur Wiedergabe von Videoinhalten.</string>
     <string name="no_player">Kein Player vorhanden</string>

@@ -19,11 +19,9 @@
     <string name="pref_authentication_cat">Overenie</string>
     <string name="loading">Načítavanie…</string>
     <string name="video_error_unknown_error">Načítanie videa zlyhalo</string>
-    <string name="lbl_recording">Nahrávanie</string>
     <string name="msg_unable_load_subs">Titulky sa nedajú načítať</string>
     <string name="msg_subtitles_loading">Titulky sa načítajú…</string>
     <string name="lbl_filters">Filtre pre živú TV</string>
-    <string name="btn_clear_all">Vyčistiť všetko</string>
     <string name="btn_filter">Filter</string>
     <string name="lbl_ended">UKONČENÝ</string>
     <string name="lbl__continuing">POKRAČUJÚCI</string>
@@ -168,7 +166,6 @@
     <string name="lbl_live">Naživo</string>
     <string name="lbl_new">Nové</string>
     <string name="lbl_repeat">Opakovať</string>
-    <string name="lbl_all_recordings">Všetky nahrávky</string>
     <string name="lbl_recent_recordings">Nedávne nahrávky</string>
     <string name="lbl_kids">Deti</string>
     <string name="lbl_sports">Športy</string>
@@ -226,7 +223,6 @@
     <string name="msg_burn_sub_warning">Vypaľovanie titulkov do obrazu. Môže to chvíľu trvať…</string>
     <string name="lbl_starting_with">začať s tými, ktorých meno začína s</string>
     <string name="desc_debug">Poskytnúť extra informácie pre debugovanie</string>
-    <string name="msg_remote_already_playing">Požiadavka vzdialeného prehrávania bola odignorovaná. Prosím, najskôr zastavte súčasnú položku.</string>
     <string name="lbl_tune_to_channel">Naladiť na kanál</string>
     <string name="lbl_unwatched">Nepozreté</string>
     <string name="msg_no_playable_items">Žiadne prehrateľné položky</string>
@@ -279,9 +275,7 @@
     <string name="play_with_vlc">Prehrať pomocou LibVLC</string>
     <string name="just_one">Len túto jednu</string>
     <string name="turn_off">Vypnúť túto možnosť</string>
-    <string name="not_deleted">Položka NEBOLA vymazaná</string>
     <string name="lbl_deleted">%1$s vymazaný</string>
-    <string name="favorite_error">Chyba pri nastavení stavu o obľúbení</string>
     <string name="playing_error">Chyba pri nastavení stavu o prehratí</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
     <string name="msg_added_to_video">Položka %1$s bola pridaná do video fronty. Koniec o: %2$s</string>
@@ -298,7 +292,6 @@
     <string name="episode_missing_message_2">Táto epizóda chýba vo vašej knižnici. Prehrávanie bude zastavené.</string>
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>
     <string name="episode_missing">Chýbajúca epizóda</string>
-    <string name="clear_expanded">Vyčistiť aktuálnu frontu pre video\?</string>
     <string name="lbl_clear">Vyčistiť</string>
     <string name="no_player_message">Zdá sa, že nemáte nainštalovaný požadovaný prehrávač videa. Táto možnosť vyžaduje inštaláciu aplikácie tretej strany pre prehrávanie video obsahu.</string>
     <string name="pref_video_player_choose">Vždy sa opýtať</string>

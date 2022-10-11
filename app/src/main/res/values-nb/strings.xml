@@ -106,7 +106,6 @@
     <string name="lbl_only_new_episodes">Bare nye episoder</string>
     <string name="lbl_repeat_options">Gjentakelsesalternativer</string>
     <string name="msg_cancel_entire_series">Er du sikker på at du vil avbryte HELE SERIEN\?</string>
-    <string name="msg_remote_already_playing">Forespørsel om fjernavspilling ignorert. Vennligst stopp nåværende element først.</string>
     <string name="pref_audio_direct">Direkte</string>
     <string name="pref_audio_compat">Miks ned til stereo</string>
     <string name="lbl_audio_output">Lydutgang</string>
@@ -127,13 +126,11 @@
     <string name="lbl_display_preferences">Visningsinnstillinger</string>
     <string name="lbl__continuing">PÅGÅENDE</string>
     <string name="lbl_ended">AVSLUTTET</string>
-    <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Fjern alt</string>
     <string name="lbl_filters">Filtre</string>
     <string name="msg_subtitles_loading">Laster undertekster…</string>
     <string name="msg_unable_load_subs">Kunne ikke laste undertekster</string>
     <string name="msg_burn_sub_warning">Innbrenning av teksting kan ta noen minutter. Vennligst vent…</string>
-    <string name="lbl_recording">Opptak</string>
     <string name="lbl_no_recordings">Ingen opptak tilgjengelige</string>
     <string name="lbl_live_tv_guide">TV-guide</string>
     <string name="lbl_recorded_tv">TV-opptak</string>
@@ -197,7 +194,6 @@
     <string name="lbl_live">Direkte</string>
     <string name="lbl_new">Ny</string>
     <string name="lbl_repeat">Gjenta</string>
-    <string name="lbl_all_recordings">Alle opptak</string>
     <string name="lbl_recent_recordings">Nylige opptak</string>
     <string name="lbl_kids">Barne-TV</string>
     <string name="lbl_sports">Sport</string>
@@ -268,9 +264,7 @@
     <string name="bitrate_auto">Automatisk</string>
     <string name="just_one">Kun denne</string>
     <string name="turn_off">Slå av dette alternativet</string>
-    <string name="not_deleted">Elementet IKKE slettet</string>
     <string name="lbl_deleted">%1$s Slettet</string>
-    <string name="favorite_error">Feil under lagring av favorittstatus</string>
     <string name="playing_error">Feil under lagring av avspilt status</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>
     <string name="msg_added_to_video">%1$s lagt til i videokøen. Slutter: %2$s</string>
@@ -287,7 +281,6 @@
     <string name="episode_missing_message_2">Denne episoden mangler fra biblioteket ditt. Avspillingen stopper.</string>
     <string name="episode_missing_message">Denne episoden mangler fra biblioteket ditt. Vil du hoppe over det og fortsette til neste\?</string>
     <string name="episode_missing">Episode mangler</string>
-    <string name="clear_expanded">Tømme gjeldende videokø\?</string>
     <string name="lbl_clear">Tømme</string>
     <string name="no_player_message">Det ser ikke ut til at du har en videokompatibel app installert. Dette alternativet krever at du installerer et tredjepartsprogram for avspilling av videoinnhold.</string>
     <string name="no_player">Ingen spiller</string>

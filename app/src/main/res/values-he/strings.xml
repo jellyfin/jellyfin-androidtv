@@ -41,12 +41,10 @@
     <string name="lbl_recorded_tv">הקלטות</string>
     <string name="lbl_live_tv_guide">לוח שידורים</string>
     <string name="lbl_no_recordings">אין הקלטות</string>
-    <string name="lbl_recording">מקליט</string>
     <string name="msg_burn_sub_warning">צורב כתוביות. פעולה זו עשויה להימשך מספר שניות…</string>
     <string name="msg_unable_load_subs">לא מסוגל לטעון כתוביות</string>
     <string name="msg_subtitles_loading">כתובית נטענת…</string>
     <string name="lbl_filters">מסנני שידורים חיים</string>
-    <string name="btn_clear_all">נקה הכל</string>
     <string name="btn_filter">מסנן</string>
     <string name="lbl_ended">הסתיים</string>
     <string name="lbl__continuing">ממשיך</string>
@@ -68,7 +66,6 @@
     <string name="lbl_audio_output">יציאת שמע</string>
     <string name="pref_audio_compat">מיקס סאונד עבור סטריאו (2.0)</string>
     <string name="pref_audio_direct">ישיר</string>
-    <string name="msg_remote_already_playing">מתעלם מבקשת ניגון מרוחק. נא לעצור את הניגון הקיים קודם.</string>
     <string name="msg_cancel_entire_series">האם אתה בטוח שברצונך לבטל את כל הסדרה\?</string>
     <string name="lbl_repeat_options">אפשרויות חזרה</string>
     <string name="lbl_only_new_episodes">רק פרקים חדשים</string>
@@ -218,7 +215,6 @@
     <string name="lbl_live">שידור חי</string>
     <string name="lbl_new">חדש</string>
     <string name="lbl_repeat">חזור</string>
-    <string name="lbl_all_recordings">כל ההקלטות</string>
     <string name="lbl_recent_recordings">הקלטות אחרונות</string>
     <string name="lbl_kids">ילדים</string>
     <string name="lbl_sports">ספורט</string>
@@ -237,9 +233,7 @@
     <string name="play_with_vlc">נגן בעזרת libVLC</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
-    <string name="not_deleted">לא נמחק</string>
     <string name="lbl_deleted">%1$s נמחק</string>
-    <string name="playing_error">תקלה בהדלקת סטטוס ׳נצפה׳</string>
     <string name="favorite_error">תקלה בהדלקת סטטוס ׳מועדף׳</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
     <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
@@ -256,7 +250,6 @@
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>
     <string name="episode_missing">פרק חסר</string>
-    <string name="clear_expanded">לנקות תור ניגון\?</string>
     <string name="lbl_clear">נקה</string>
     <string name="no_player_message">לא נראה שיש אפליקציה המסוגלת לנגן וידאו. תכונה זו דורשת שתותקן במכשיר תוכנה חיצונית המסוגלת לנגן וידאו.</string>
     <string name="no_player">אין נגן</string>

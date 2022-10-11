@@ -134,12 +134,10 @@
     <string name="lbl_recorded_tv">Registrazione TV</string>
     <string name="lbl_live_tv_guide">Guida TV Diretta</string>
     <string name="lbl_no_recordings">Nessuna Registrazione Disponibile</string>
-    <string name="lbl_recording">Registrazione</string>
     <string name="msg_burn_sub_warning">Scrittura dei sottotitoli in corso. Potrebbero volerci alcuni secondi…</string>
     <string name="msg_unable_load_subs">Impossibile caricare i sottotitoli</string>
     <string name="msg_subtitles_loading">Caricamento sottotitoli…</string>
     <string name="lbl_filters">Filtri TV Diretta</string>
-    <string name="btn_clear_all">Cancella Tutti</string>
     <string name="btn_filter">Filtro</string>
     <string name="lbl_ended">FINITO</string>
     <string name="lbl__continuing">CONTINUA</string>
@@ -158,7 +156,6 @@
     <string name="desc_debug">Provvedi extra informazioni per il debugging</string>
     <string name="pref_audio_compat">Downmix a stereo</string>
     <string name="pref_audio_direct">Diretto</string>
-    <string name="msg_remote_already_playing">Richiesta di riproduzione remota ignorata. Per favore, prima ferma la riproduzione corrente.</string>
     <string name="lbl_repeat_options">Ripeti Opzioni</string>
     <string name="lbl_record_any_time">Registra in qualunque momento</string>
     <string name="lbl_end_padding">Finisci Riempimento</string>
@@ -189,7 +186,6 @@
     <string name="lbl_live">In diretta</string>
     <string name="lbl_new">Nuovo</string>
     <string name="lbl_repeat">Ripeti</string>
-    <string name="lbl_all_recordings">Tutte le registrazioni</string>
     <string name="lbl_recent_recordings">Registrazioni recenti</string>
     <string name="lbl_kids">Per bambini</string>
     <string name="lbl_sports">Sport</string>
@@ -268,7 +264,6 @@
     <string name="bitrate_auto">Automatico</string>
     <string name="audio_error">Impossibile riprodurre audio %1$s</string>
     <string name="mark_watched">Segna come visto</string>
-    <string name="not_deleted">Oggetto NON eliminato</string>
     <string name="play_with">Riproduci con</string>
     <string name="play_with_external_app">Riproduci con app esterna</string>
     <string name="play_with_exo_player">Riproduci con ExoPlayer</string>
@@ -283,7 +278,6 @@
     <string name="too_many_errors">Troppi errori. Interrompo</string>
     <string name="lbl_new_playlist_name">Inserisci un nome per la nuova playlist</string>
     <string name="episode_missing">Episodio mancante</string>
-    <string name="clear_expanded">Cancellare la coda di riproduzione\?</string>
     <string name="lbl_clear">Cancella</string>
     <string name="mark_watched_message">Il contenuto non sembra essere stato riprodotto per intero. Segnare come visto\?</string>
     <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
@@ -308,9 +302,7 @@
     <string name="lbl_stars">Stelle</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
-    <string name="lbl_deleted">%1$s Rimosso</string>
     <string name="favorite_error">Errore durante il salvataggio dello stato di Preferito</string>
-    <string name="playing_error">Errore durante il salvataggio dello stato di Visto</string>
     <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
     <string name="msg_queue_saved">Coda salvata come nuova playlist: %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>

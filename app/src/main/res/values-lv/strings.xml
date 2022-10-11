@@ -45,7 +45,6 @@
     <string name="lbl_live">Tiešsaistes</string>
     <string name="lbl_new">Jauns</string>
     <string name="lbl_repeat">Atkārtot</string>
-    <string name="lbl_all_recordings">Visi Ieraksti</string>
     <string name="lbl_recent_recordings">Nesenie Ieraksti</string>
     <string name="lbl_kids">Bērnu</string>
     <string name="lbl_sports">Sports</string>
@@ -88,11 +87,9 @@
     <string name="lbl_recorded_tv">Ierakstītais TV</string>
     <string name="lbl_live_tv_guide">Tiešsaistes TV Ceļvedis</string>
     <string name="lbl_no_recordings">Nav Pieejami Ieraksti</string>
-    <string name="lbl_recording">Ieraksta</string>
     <string name="msg_unable_load_subs">Neizdevās ielādēt subtitrus</string>
     <string name="msg_subtitles_loading">Subtitri lādējas…</string>
     <string name="lbl_filters">Filtri</string>
-    <string name="btn_clear_all">Notīrīt Visu</string>
     <string name="btn_filter">Filtrēt</string>
     <string name="lbl_display_preferences">Displeja Iestatījumi</string>
     <string name="btn_done">Pabeigts</string>
@@ -244,7 +241,6 @@
     <string name="desc_debug">Padot papildus informāciju priekš atkļūdošanas</string>
     <string name="pref_audio_compat">Samiksēt uz Stereo</string>
     <string name="pref_audio_direct">Tieši</string>
-    <string name="msg_remote_already_playing">Attālinātais atskaņošanas pieprasījums ignorēts. Lūdzu vispirms apturi pašreizējo vienumu.</string>
     <string name="msg_cancel_entire_series">Vai tu tiešām gribi atcelt šo VISU SĒRIJU\?</string>
     <string name="lbl_repeat_options">Atkārtot Opcijas</string>
     <string name="lbl_directed_by">Režisēja</string>

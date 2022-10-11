@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Apenas Novos Episódios</string>
     <string name="lbl_repeat_options">Repetir Opções</string>
     <string name="msg_cancel_entire_series">Deseja realmente cancelar esta SÉRIE COMPLETA?</string>
-    <string name="msg_remote_already_playing">Pedido de reprodução remota ignorado. Por favor, primeiro pare o item atual.</string>
     <string name="pref_audio_direct">Direto</string>
     <string name="pref_audio_compat">Downmix para estéreo</string>
     <string name="lbl_audio_output">Saída de áudio</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Preferências de Exibição</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_ended">FINALIZADO</string>
-    <string name="btn_filter">Filtrar</string>
     <string name="btn_clear_all">Limpar Todos</string>
     <string name="lbl_filters">Filtros</string>
     <string name="msg_subtitles_loading">Carregando legendas…</string>
     <string name="msg_unable_load_subs">Não foi possível carregar a legenda</string>
     <string name="msg_burn_sub_warning">Incorporando legendas. Isso pode levar alguns segundos…</string>
-    <string name="lbl_recording">Gravando</string>
     <string name="lbl_no_recordings">Sem Gravações Disponíveis</string>
     <string name="lbl_live_tv_guide">Guia da TV ao Vivo</string>
     <string name="lbl_recorded_tv">TV Gravada</string>
@@ -206,7 +203,6 @@
     <string name="lbl_live">Ao Vivo</string>
     <string name="lbl_new">Novo</string>
     <string name="lbl_repeat">Repetir</string>
-    <string name="lbl_all_recordings">Todas as Gravações</string>
     <string name="lbl_recent_recordings">Gravações Recentes</string>
     <string name="lbl_kids">Crianças</string>
     <string name="lbl_sports">Esportes</string>
@@ -266,7 +262,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automático</string>
-    <string name="clear_expanded">Limpar lista de reprodução de vídeos atual\?</string>
     <string name="lbl_clear">Limpar</string>
     <string name="no_player_message">Parece que você nao tem nenhum app para reprodução de vídeo instalado. Essa opção requer que você instale um reprodutor de vídeos de terceiros.</string>
     <string name="no_player">Nenhum reprodutor de vídeo</string>
@@ -280,9 +275,7 @@
     <string name="play_with_vlc">Reproduzir com LibVLC</string>
     <string name="just_one">Apenas essa</string>
     <string name="turn_off">Desabilite essa opção</string>
-    <string name="not_deleted">Item NÃO deletado</string>
     <string name="lbl_deleted">%1$s deletado</string>
-    <string name="favorite_error">Erro ao definir o status favorito</string>
     <string name="playing_error">Erro ao definir o status de reprodução</string>
     <string name="audio_error">Não foi possível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à fila de vídeo. Termina às: %2$s</string>

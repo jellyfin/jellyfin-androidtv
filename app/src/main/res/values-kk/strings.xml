@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Tek jaña telebölımder</string>
     <string name="lbl_repeat_options">Qaitalau opsialary</string>
     <string name="msg_cancel_entire_series">Şynymen osy TELEHİKAİANYÑ BÄRIN boldyrmau qajet pe\?</string>
-    <string name="msg_remote_already_playing">Qaşyqtan oinatu sūranysy elenbeidı. Aldynan ağymdağy tarmaqty toqtatyñyz.</string>
     <string name="pref_audio_direct">Tıkelei</string>
     <string name="pref_audio_compat">Stereoğa kemıtıp mikşerleu</string>
     <string name="lbl_audio_output">Dybys şyğysy</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Beineleu teñşelımderı</string>
     <string name="lbl__continuing">JALĞASUDA</string>
     <string name="lbl_ended">AİAQTALĞAN</string>
-    <string name="btn_filter">Süzu</string>
     <string name="btn_clear_all">Barlyğyn tazalau</string>
     <string name="lbl_filters">Efirlık TD süzgılerı</string>
     <string name="msg_subtitles_loading">Subtitrler jüktelude…</string>
     <string name="msg_unable_load_subs">Subtitrlerdı jükteu mümkın emes</string>
     <string name="msg_burn_sub_warning">Subtitrler oiyp berılude. Būl bırneşe sekunt aluy mümkın…</string>
-    <string name="lbl_recording">Jazba</string>
     <string name="lbl_no_recordings">Jazbalar qol jetımdı emes</string>
     <string name="lbl_live_tv_guide">Efirlık telegid</string>
     <string name="lbl_recorded_tv">Jazylğan TD</string>
@@ -232,7 +229,6 @@
     <string name="lbl_guide_option_played">Soñğy oinatylğan</string>
     <string name="lbl_at_any_time">Kezkelgen uaqytta</string>
     <string name="lbl_episode_not_record">Būl körsetım JAZYLMAIDY</string>
-    <string name="lbl_all_recordings">Barlyq jazbalar</string>
     <string name="lbl_recent_recordings">Eñ keiıñgı jazbalar</string>
     <string name="no_program_data">Berılım turaly aqparat joq</string>
     <string name="msg_record_entire_series">Bükıl telehikaiany jazamyz ba\?</string>
@@ -257,14 +253,12 @@
     <string name="pref_video_player_choose">Äldeqaşan sūrau</string>
     <string name="lbl_tv_filter_status">kelesı %1$d sağat üşın</string>
     <string name="lbl_tv_channel_status">%1$d %2$d arnadan</string>
-    <string name="not_deleted">Tarmaq JOİYLMADY</string>
     <string name="lbl_deleted">%1$s joiyldy</string>
     <string name="seek_error">Izdeu mümkın emes</string>
     <string name="msg_live_tv_prev">Aldyñğy %1$d sağat jüktelsın be\?</string>
     <string name="msg_live_tv_next">Kelesı %1$d sağat jüktelsın be\?</string>
     <string name="lbl_load_guide_data">Telegid derekterın jükteu</string>
     <string name="episode_missing">Telebölım joq</string>
-    <string name="lbl_clear">Tazalau</string>
     <string name="no_player">Oinatqyş joq</string>
     <string name="mark_watched">Qaralğan</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
@@ -303,7 +297,6 @@
     <string name="play_with_vlc">libVLC arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
-    <string name="favorite_error">Tañdauly küiın ornatu qatesı</string>
     <string name="playing_error">Oinatylu küiın ornatu qatesı</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>
     <string name="msg_added_to_video">%1$s beine kezegıne qosyldy. Aiaqtaluy: %2$s</string>
@@ -312,7 +305,6 @@
     <string name="subtitle_error">Subtitrlerdı tañdau mümkın emes</string>
     <string name="player_error">Oinatqyş qatesı paida boldy. Äreket qaitalanady…</string>
     <string name="lbl_new_playlist_name">Jaña oinatu tızımınıñ atauyn engızıñız</string>
-    <string name="clear_expanded">Ağymdağy beine kezegın tazartu kerek pe\?</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>

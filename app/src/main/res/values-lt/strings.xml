@@ -46,7 +46,6 @@
     <string name="pref_playback">Grojimas</string>
     <string name="msg_subtitles_loading">Subtitrai kraunami…</string>
     <string name="lbl_filters">Filtrai</string>
-    <string name="btn_filter">Filtruoti</string>
     <string name="lbl_ended">BAIGĖSI</string>
     <string name="lbl_display_preferences">Ekrano Nustatymai</string>
     <string name="btn_done">Baigta</string>

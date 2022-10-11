@@ -128,7 +128,6 @@
     <string name="lbl_schedule">Розклад</string>
     <string name="lbl_new">Нові</string>
     <string name="lbl_repeat">Повтор</string>
-    <string name="lbl_all_recordings">Усі записи</string>
     <string name="lbl_recent_recordings">Останні записи</string>
     <string name="lbl_kids">Дитячі</string>
     <string name="no_program_data">Дані програми недоступні</string>
@@ -143,7 +142,6 @@
     <string name="lbl_goto_series">Перейти до серіалу</string>
     <string name="lbl_audio_output">Аудіо вихід</string>
     <string name="pref_audio_compat">Зведення до стерео</string>
-    <string name="msg_remote_already_playing">Запит на віддалене відтворення відхилено. Спершу зупиніть поточний елемент.</string>
     <string name="msg_cancel_entire_series">Ви дійсно хочете скасувати ВЕСЬ СЕРІАЛ\?</string>
     <string name="lbl_repeat_options">Опції повтору</string>
     <string name="lbl_only_new_episodes">Тільки нові епізоди</string>
@@ -240,12 +238,10 @@
     <string name="lbl_recorded_tv">ТБ-записи</string>
     <string name="lbl_live_tv_guide">ТБ-програма</string>
     <string name="lbl_no_recordings">Немає доступних записів</string>
-    <string name="lbl_recording">Запис</string>
     <string name="msg_burn_sub_warning">Готуємо субтитри. Це може зайняти деякий час…</string>
     <string name="msg_unable_load_subs">Не вдається завантажити субтитри</string>
     <string name="msg_subtitles_loading">Завантаження субтитрів…</string>
     <string name="lbl_filters">Фільтри телебачення наживо</string>
-    <string name="btn_clear_all">Очистити все</string>
     <string name="btn_filter">Фільтр</string>
     <string name="lbl_ended">ЗАКІНЧЕНО</string>
     <string name="lbl__continuing">ПРОДОВЖЕННЯ</string>
@@ -284,7 +280,6 @@
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
     <string name="episode_missing">Відсутній епізод</string>
-    <string name="clear_expanded">Очистити поточну чергу відео\?</string>
     <string name="lbl_clear">Очистити</string>
     <string name="no_player_message">Схоже, у вас не встановлено програму з підтримкою відео. Для цього параметра потрібно встановити сторонню програму для відтворення відеовмісту.</string>
     <string name="no_player">Немає відтворювача</string>
@@ -465,9 +460,7 @@
     <string name="play_with_vlc">Грати з LibVLC</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкнути цю опцію</string>
-    <string name="not_deleted">Елемент НЕ Видалено</string>
     <string name="lbl_deleted">%1$s Видалено</string>
-    <string name="favorite_error">Помилка під час додавання в обрані</string>
     <string name="playing_error">Помилка під час встановлення статусу переглянутості</string>
     <string name="audio_error">Неможливо програти звук %1$s</string>
     <string name="msg_added_to_video">%1$s додано до відеочерги. Закінчується: %2$s</string>

@@ -103,7 +103,6 @@
     <string name="lbl_audio_output">خروجی صدا</string>
     <string name="pref_audio_compat">کاهش به استریو</string>
     <string name="pref_audio_direct">مستقیم</string>
-    <string name="msg_remote_already_playing">درخواست پخش از راه دور نادیده گرفته شد. لطفاً ابتدا مورد فعلی را متوقف کنید.</string>
     <string name="msg_cancel_entire_series">آیا مطمئن هستید که می خواهید تمام این سریال را لغو کنید؟</string>
     <string name="lbl_repeat_options">گزینه‌ها را دوباره تکرار کنید</string>
     <string name="lbl_only_new_episodes">فقط قسمت های جدید</string>
@@ -147,12 +146,10 @@
     <string name="pref_live_tv_cat">تلویزیون زنده</string>
     <string name="lbl_recorded_tv">برنامه های تلویزیونی ضبط شده</string>
     <string name="lbl_no_recordings">هیچ ضبطی در دسترس نمی‌باشد</string>
-    <string name="lbl_recording">درحال ضبط</string>
     <string name="msg_burn_sub_warning">چسباندن زیرنویس میتوانید تا چند دقیقه به طول بیانجامد. لطفاً صبور باشید…</string>
     <string name="msg_unable_load_subs">نمایش زیرنویس امکان پذیر نیست</string>
     <string name="msg_subtitles_loading">درحال بارگذاری زیرنویس ها…</string>
     <string name="lbl_filters">فیلتر ها</string>
-    <string name="btn_clear_all">پاک کردن همه</string>
     <string name="btn_filter">فیلتر</string>
     <string name="lbl_ended">پایان</string>
     <string name="lbl__continuing">ادامه دارد</string>
@@ -199,7 +196,6 @@
     <string name="lbl_live">زنده</string>
     <string name="lbl_new">جدید</string>
     <string name="lbl_repeat">تکرار</string>
-    <string name="lbl_all_recordings">تمام ضبط ها</string>
     <string name="lbl_recent_recordings">ضبط های اخیر</string>
     <string name="lbl_kids">کودکان</string>
     <string name="lbl_sports">ورزش ها</string>
@@ -384,9 +380,7 @@
     <string name="play_with_vlc">پخش با LibVLC</string>
     <string name="just_one">فقط اینبار</string>
     <string name="turn_off">این گزینه را غیرفعال کن</string>
-    <string name="lbl_deleted">%1$s حذف شد</string>
     <string name="not_deleted">مورد حذف نشد</string>
-    <string name="favorite_error">خطا در تنظیم وضعیت مورد علاقه</string>
     <string name="playing_error">خطا در تنظیم وضعیت پخش شده</string>
     <string name="audio_error">پخش صدای %1$s امکان پذیر نیست</string>
     <string name="msg_added_to_video">%1$s به صف ویدئویی اضافه شد. پایان: %2$s</string>
@@ -447,7 +441,6 @@
     <string name="episode_missing_message_2">این قسمت در کتابخانه شما موجود نیست. پخش متوقف خواهد شد.</string>
     <string name="episode_missing_message">این قسمت در کتابخانه شما موجود نیست. آیا می خواهید آن را رد کنید و به مورد بعدی ادامه دهید؟</string>
     <string name="episode_missing">قسمت گم شده</string>
-    <string name="clear_expanded">پاک کردن صف ویدئوی فعلی؟</string>
     <string name="lbl_clear">پاک کردن</string>
     <string name="no_player_message">به نظر نمی‌رسد برنامه سازگار با ویدئو نصب شده باشد.این گزینه نیازمند نصب یک برنامه شخص ثالث برای پخش محتوای ویدئویی می‌باشد.</string>
     <string name="no_player">بدون پخش کننده</string>

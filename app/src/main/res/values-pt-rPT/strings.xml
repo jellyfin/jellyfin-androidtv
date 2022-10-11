@@ -107,7 +107,6 @@
     <string name="lbl_only_new_episodes">Apenas Novos Episódios</string>
     <string name="lbl_repeat_options">Repetir Opções</string>
     <string name="msg_cancel_entire_series">Tem a certeza que deseja cancelar a SÉRIE COMPLETA?</string>
-    <string name="msg_remote_already_playing">Pedido de reprodução remota ignorado. Por favor, primeiro pare o item atual.</string>
     <string name="pref_audio_direct">Direto</string>
     <string name="pref_audio_compat">Downmix para estéreo</string>
     <string name="lbl_audio_output">Saída de Áudio</string>
@@ -128,13 +127,11 @@
     <string name="lbl_display_preferences">Preferências de Exibição</string>
     <string name="lbl__continuing">A Continuar</string>
     <string name="lbl_ended">TERMINADO</string>
-    <string name="btn_filter">Filtro</string>
     <string name="btn_clear_all">Limpar Tudo</string>
     <string name="lbl_filters">Filtros</string>
     <string name="msg_subtitles_loading">A Carregar as Legendas…</string>
     <string name="msg_unable_load_subs">Não foi possível carregar as legendas</string>
     <string name="msg_burn_sub_warning">Legendas embutidas podem demorar alguns minutos. Por favor, aguarde…</string>
-    <string name="lbl_recording">A Gravar</string>
     <string name="lbl_no_recordings">Sem Gravações Disponíveis</string>
     <string name="lbl_live_tv_guide">Guia TV</string>
     <string name="lbl_recorded_tv">Gravações TV</string>
@@ -222,7 +219,6 @@
     <string name="lbl_live">Directo</string>
     <string name="lbl_new">Novo</string>
     <string name="lbl_repeat">Repetir</string>
-    <string name="lbl_all_recordings">Todas as gravações</string>
     <string name="lbl_recent_recordings">Gravações recentes</string>
     <string name="lbl_kids">Crianças</string>
     <string name="lbl_sports">Desporto</string>
@@ -269,9 +265,7 @@
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>
-    <string name="not_deleted">Item NÃO apagado</string>
     <string name="lbl_deleted">%1$s apagado</string>
-    <string name="favorite_error">Ocorreu um erro a marcar como favorito</string>
     <string name="playing_error">Ocorreu um erro a marcar como reproduzido</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à lista de reprodução. Termina: %2$s</string>
@@ -288,7 +282,6 @@
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
     <string name="episode_missing">Espisódio em Falta</string>
-    <string name="clear_expanded">Limpar lista de reprodução\?</string>
     <string name="lbl_clear">Limpar</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>
     <string name="mark_watched">Marcar como Visto</string>

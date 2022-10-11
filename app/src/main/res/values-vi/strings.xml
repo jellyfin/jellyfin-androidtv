@@ -115,12 +115,10 @@
     <string name="lbl_recorded_tv">Đã ghi lại TV</string>
     <string name="lbl_live_tv_guide">Hướng dẫn truyền hình trực tiếp</string>
     <string name="lbl_no_recordings">Không có bản ghi nào</string>
-    <string name="lbl_recording">Ghi</string>
     <string name="msg_burn_sub_warning">Ghi phụ đề. Điều này có thể mất một vài giây…</string>
     <string name="msg_unable_load_subs">Không thể tải phụ đề</string>
     <string name="msg_subtitles_loading">Đang tải phụ đề…</string>
     <string name="lbl_filters">Bộ lọc TV trực tiếp</string>
-    <string name="btn_clear_all">Xóa Hết</string>
     <string name="btn_filter">Bộ lọc</string>
     <string name="lbl_ended">ĐÃ HẾT</string>
     <string name="lbl__continuing">ĐANG TIẾP TỤC</string>
@@ -140,7 +138,6 @@
     <string name="lbl_enable_debug">Tùy chọn gỡ lỗi</string>
     <string name="lbl_goto_series">Đi tới Loạt Phim</string>
     <string name="lbl_audio_output">Đầu ra âm thanh</string>
-    <string name="msg_remote_already_playing">Yêu cầu phát từ xa bị bỏ qua. Trước tiên hãy dừng mục hiện tại.</string>
     <string name="msg_cancel_entire_series">Bạn có chắc chắn muốn hủy TOÀN BỘ LOẠT PHIM này không\?</string>
     <string name="lbl_repeat_options">Tùy chọn lặp lại</string>
     <string name="lbl_only_new_episodes">Chỉ các tập mới</string>
@@ -182,7 +179,6 @@
     <string name="lbl_live">Trực Tiếp</string>
     <string name="lbl_new">Mới</string>
     <string name="lbl_repeat">Lặp Lại</string>
-    <string name="lbl_all_recordings">Tất Cả Các Bản Ghi</string>
     <string name="lbl_recent_recordings">Bản Ghi Gần Đây</string>
     <string name="lbl_kids">Trẻ Em</string>
     <string name="lbl_sports">Thể Thao</string>
@@ -223,9 +219,7 @@
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
-    <string name="not_deleted">Mục KHÔNG bị xóa</string>
     <string name="lbl_deleted">Đã xóa %1$s</string>
-    <string name="favorite_error">Lỗi khi đặt trạng thái yêu thích</string>
     <string name="playing_error">Lỗi khi đặt trạng thái đã phát</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
     <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
@@ -241,7 +235,6 @@
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
     <string name="episode_missing_message">Tập này bị thiếu trong thư viện của bạn. Bạn có muốn bỏ qua nó và tiếp tục phần tiếp theo không\?</string>
     <string name="episode_missing">Thiếu tập phim</string>
-    <string name="clear_expanded">Xóa hàng đợi video hiện tại\?</string>
     <string name="lbl_clear">Làm sạch</string>
     <string name="no_player_message">Có vẻ như bạn không có ứng dụng có thể phát video được cài đặt. Tùy chọn này yêu cầu bạn cài đặt ứng dụng của bên thứ 3 để phát nội dung video.</string>
     <string name="no_player">Không có trình phát</string>

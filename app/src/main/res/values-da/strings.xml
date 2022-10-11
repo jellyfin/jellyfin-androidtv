@@ -151,12 +151,10 @@
     <string name="lbl_recorded_tv">Optaget TV</string>
     <string name="lbl_live_tv_guide">Live TV guide</string>
     <string name="lbl_no_recordings">Ingen optagelser tilgængelige</string>
-    <string name="lbl_recording">Optager</string>
     <string name="msg_burn_sub_warning">Indbrænding af undertekster. Dette kan tage nogle sekunder…</string>
     <string name="msg_unable_load_subs">Kan ikke indlæse undertekster</string>
     <string name="msg_subtitles_loading">Undertekster indlæser…</string>
     <string name="lbl_filters">Live TV Filtre</string>
-    <string name="btn_clear_all">Ryd alle</string>
     <string name="btn_filter">Filter</string>
     <string name="lbl_ended">SLUTTET</string>
     <string name="lbl__continuing">FORTSÆTTER</string>
@@ -172,7 +170,6 @@
     <string name="lbl_sorted_by">Sorter efter</string>
     <string name="lbl_all_items">Alle filer</string>
     <string name="pref_audio_compat">Nedjuster til Stereo</string>
-    <string name="msg_remote_already_playing">Fjernafspilning ignoreret. Stop venligst din aktuelle afspilning først.</string>
     <string name="btn_got_it">Forstået</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Kræver hardwareunderstøttelse</string>
@@ -216,7 +213,6 @@
     <string name="lbl_live">Live</string>
     <string name="lbl_new">Ny</string>
     <string name="lbl_repeat">Gentag</string>
-    <string name="lbl_all_recordings">Alle Optagelser</string>
     <string name="lbl_recent_recordings">Seneste optagelser</string>
     <string name="lbl_kids">Børn</string>
     <string name="lbl_sports">Sport</string>
@@ -275,9 +271,7 @@
     <string name="play_with_vlc">Afspil med LibVLC</string>
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
-    <string name="not_deleted">Fil IKKE Slettet</string>
     <string name="lbl_deleted">%1$s Slettet</string>
-    <string name="favorite_error">Fejl under ændring af favorit status</string>
     <string name="playing_error">Fejl under ændring af afspillet status</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
     <string name="msg_added_to_video">%1$s tilføjet til video kø. Færdig om: %2$s</string>
@@ -294,7 +288,6 @@
     <string name="episode_missing_message_2">Dette afsnit mangler fra dit bibliotek. Afspilningen stopper.</string>
     <string name="episode_missing_message">Dette afsnit mangler fra dit bibliotek. Vil du springe den over og fortsætte til den næste\?</string>
     <string name="episode_missing">Afsnit mangler</string>
-    <string name="clear_expanded">Ryd nuværende video kø\?</string>
     <string name="lbl_clear">Ryd</string>
     <string name="no_player_message">Det ser ikke ud til at du har en app der understøtter video afspilning. Denne handling kræver en tredjeparts applikation for at kunne afspille videoindhold.</string>
     <string name="mark_watched_message">Filen varede ikke lige så land tid som dens varighed. Marker som afspillet\?</string>

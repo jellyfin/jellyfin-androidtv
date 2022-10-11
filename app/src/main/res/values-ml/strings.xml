@@ -21,7 +21,6 @@
     <string name="video_error_unknown_error">വീഡിയോ ലോഡുചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു</string>
     <string name="server_connection_failed">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല</string>
     <string name="lbl_playback_control_ends">%1$s ൽ അവസാനിക്കുന്നു</string>
-    <string name="lbl_deleted">%1$s ഇല്ലാതാക്കി</string>
     <string name="audio_error">%1$s ഓഡിയോ പ്ലേ ചെയ്യാൻ കഴിയില്ല</string>
     <string name="msg_added_to_video">വീഡിയോ ക്യൂവിൽ %1$s ചേർത്തു. അവസാനിക്കുന്നു: %2$s</string>
     <string name="msg_queue_saved">ക്യൂ പുതിയ പ്ലേലിസ്റ്റായി സംരക്ഷിച്ചു: %1$s</string>
@@ -102,9 +101,7 @@
     <string name="play_with_vlc">LibVLC ഉപയോഗിച്ച് കളിക്കുക</string>
     <string name="just_one">ഇത് മാത്രം</string>
     <string name="turn_off">ഈ ഓപ്‌ഷൻ ഓഫാക്കുക</string>
-    <string name="not_deleted">ഇനം ഇല്ലാതാക്കി</string>
     <string name="favorite_error">പ്രിയപ്പെട്ട നില ക്രമീകരിക്കുന്നതിൽ പിശക്</string>
-    <string name="playing_error">പ്ലേ ചെയ്ത സ്റ്റാറ്റസ് ക്രമീകരിക്കുന്നതിൽ പിശക്</string>
     <string name="msg_no_items">കളിക്കാൻ ഇനങ്ങളൊന്നുമില്ല</string>
     <string name="subtitle_error">ഉപശീർഷകം തിരഞ്ഞെടുക്കാനായില്ല</string>
     <string name="too_many_errors">വളരെയധികം പിശകുകൾ. ഉപേക്ഷിക്കുന്നു</string>
@@ -114,7 +111,6 @@
     <string name="episode_missing_message_2">ഈ എപ്പിസോഡ് നിങ്ങളുടെ ലൈബ്രറിയിൽ കാണുന്നില്ല. പ്ലേബാക്ക് നിർത്തും.</string>
     <string name="episode_missing_message">ഈ എപ്പിസോഡ് നിങ്ങളുടെ ലൈബ്രറിയിൽ കാണുന്നില്ല. ഇത് ഒഴിവാക്കി അടുത്തതിലേക്ക് തുടരാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ\?</string>
     <string name="episode_missing">എപ്പിസോഡ് കാണുന്നില്ല</string>
-    <string name="clear_expanded">നിലവിലെ വീഡിയോ ക്യൂ മായ്‌ക്കണോ\?</string>
     <string name="lbl_clear">മായ്‌ക്കുക</string>
     <string name="no_player_message">നിങ്ങൾക്ക് വീഡിയോ ശേഷിയുള്ള അപ്ലിക്കേഷൻ ഇൻസ്റ്റാളുചെയ്‌തതായി തോന്നുന്നില്ല. വീഡിയോ ഉള്ളടക്കം പ്ലേ ചെയ്യുന്നതിനായി ഒരു മൂന്നാം കക്ഷി ആപ്ലിക്കേഷൻ ഇൻസ്റ്റാൾ ചെയ്യാൻ ഈ ഓപ്ഷന് ആവശ്യമാണ്.</string>
     <string name="no_player">പ്ലെയർ ഇല്ല</string>
@@ -181,7 +177,6 @@
     <string name="lbl_schedule">പട്ടിക</string>
     <string name="lbl_new">പുതിയത്</string>
     <string name="lbl_repeat">ആവർത്തിച്ച്</string>
-    <string name="lbl_all_recordings">എല്ലാ റെക്കോർഡിംഗുകളും</string>
     <string name="lbl_recent_recordings">സമീപകാല റെക്കോർഡിംഗുകൾ</string>
     <string name="lbl_kids">കുട്ടികൾ</string>
     <string name="no_program_data">&lt;പ്രോഗ്രാം ഡാറ്റയൊന്നും ലഭ്യമല്ല&gt;</string>
@@ -233,10 +228,8 @@
     <string name="lbl_recorded_tv">റെക്കോർഡുചെയ്‌ത ടിവി</string>
     <string name="lbl_live_tv_guide">തത്സമയ ടിവി ഗൈഡ്</string>
     <string name="lbl_no_recordings">റെക്കോർഡിംഗുകളൊന്നും ലഭ്യമല്ല</string>
-    <string name="lbl_recording">റെക്കോർഡിംഗ്</string>
     <string name="msg_unable_load_subs">സബ്‌ടൈറ്റിൽ ലോഡുചെയ്യാനായില്ല</string>
     <string name="lbl_filters">ഫിൽട്ടറുകൾ</string>
-    <string name="btn_clear_all">എല്ലാം മായ്ക്കുക</string>
     <string name="btn_filter">ഫിൽട്ടർ ചെയ്യുക</string>
     <string name="lbl_ended">അവസാനിച്ചു</string>
     <string name="lbl__continuing">തുടരുന്നു</string>
@@ -257,7 +250,6 @@
     <string name="lbl_goto_series">സീരീസിലേക്ക് പോകുക</string>
     <string name="lbl_audio_output">ഓഡിയോ put ട്ട്‌പുട്ട്</string>
     <string name="pref_audio_compat">ഡ Ste ൺ‌മിക്സ് ടു സ്റ്റീരിയോ</string>
-    <string name="msg_remote_already_playing">വിദൂര പ്ലേ അഭ്യർത്ഥന അവഗണിച്ചു. ആദ്യം നിലവിലെ ഇനം നിർത്തുക.</string>
     <string name="msg_cancel_entire_series">ഈ സമ്പൂർണ്ണ സീരീസ് റദ്ദാക്കണമെന്ന് നിങ്ങൾക്ക് ഉറപ്പാണോ\?</string>
     <string name="lbl_repeat_options">ഓപ്ഷനുകൾ ആവർത്തിക്കുക</string>
     <string name="lbl_only_new_episodes">പുതിയ എപ്പിസോഡുകൾ മാത്രം</string>

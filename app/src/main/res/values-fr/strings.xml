@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Uniquement les nouveaux épisodes</string>
     <string name="lbl_repeat_options">Options de répétition</string>
     <string name="msg_cancel_entire_series">Êtes-vous sûr de vouloir annuler cette SERIE ENTIERE \?</string>
-    <string name="msg_remote_already_playing">Requête de lecture à distance ignorée. Veuillez arrêter la lecture de l\'élément en cours d\'abord.</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Sous-mixer en stéréo</string>
     <string name="lbl_audio_output">Sortie audio</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Préférences d\'affichage</string>
     <string name="lbl__continuing">EN PRODUCTION</string>
     <string name="lbl_ended">TERMINÉ</string>
-    <string name="btn_filter">Filtre</string>
     <string name="btn_clear_all">Tout effacer</string>
     <string name="lbl_filters">Filtres TV Live</string>
     <string name="msg_subtitles_loading">Chargement des sous-titres…</string>
     <string name="msg_unable_load_subs">Impossible de charger les sous-titres</string>
     <string name="msg_burn_sub_warning">L\'incrustation des sous-titres peut prendre quelques minutes. Merci de patienter…</string>
-    <string name="lbl_recording">Enregistrement</string>
     <string name="lbl_no_recordings">Aucun enregistrement disponible</string>
     <string name="lbl_live_tv_guide">Programme de la TV en direct</string>
     <string name="lbl_recorded_tv">TV enregistrée</string>
@@ -169,7 +166,6 @@
     <string name="btn_got_it">Ok</string>
     <string name="desc_bitstream_ac3">Nécessite un matériel compatible</string>
     <string name="desc_premieres">Afficher une rangée pour les nouveaux 1ers épisodes des séries que vous regardez</string>
-    <string name="lbl_all_recordings">Tous les enregistrements</string>
     <string name="lbl_bitstream_ac3">Flux audio Dolby Digital</string>
     <string name="lbl_bitstream_dts">Flux audio DTS</string>
     <string name="lbl_clear_queue">Effacer la file d\'attente</string>
@@ -274,7 +270,6 @@
     <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
     <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le sauter et continuer avec le suivant \?</string>
     <string name="episode_missing">Épisode manquant</string>
-    <string name="clear_expanded">Vider la file d\'attente de vidéos \?</string>
     <string name="lbl_clear">Vider</string>
     <string name="no_player_message">Aucune application capable de lire des vidéos ne semble installée. Cette option nécessite l\'installation d\'une application tierce de lecture vidéo.</string>
     <string name="no_player">Aucun lecteur</string>
@@ -288,9 +283,7 @@
     <string name="lbl_load_guide_data">Charger données du Guide</string>
     <string name="mark_watched">Marquer comme lue</string>
     <string name="turn_off">Désactiver cette option</string>
-    <string name="not_deleted">Élément NON Supprimé</string>
     <string name="lbl_deleted">%1$s Supprimé</string>
-    <string name="favorite_error">Erreur d\'enregistrement du statut favori</string>
     <string name="playing_error">Erreur d\'enregistrement du statut de lecture</string>
     <string name="just_one">Celui-ci uniquement</string>
     <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>

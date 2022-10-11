@@ -82,7 +82,6 @@
     <string name="msg_unable_load_subs">Субтитрите не могат да се заредят</string>
     <string name="msg_subtitles_loading">Субтитрите се зареждат…</string>
     <string name="lbl_filters">Филтри</string>
-    <string name="btn_clear_all">Изчисти всичко</string>
     <string name="btn_filter">Филтър</string>
     <string name="lbl_ended">ПРИКЛЮЧИЛ</string>
     <string name="lbl__continuing">ПРОДЪЛЖАВА</string>
@@ -105,7 +104,6 @@
     <string name="lbl_audio_output">Аудио изход</string>
     <string name="pref_audio_compat">Намаляване до стерео</string>
     <string name="pref_audio_direct">Директно</string>
-    <string name="msg_remote_already_playing">Заявката за отдалечено възпроизвеждане е игнорирана. Моля първо спрете текущия елемент.</string>
     <string name="msg_cancel_entire_series">Сигурни ли сте, че искате да отмените ВСИЧКИ СЕРИИ\?</string>
     <string name="lbl_repeat_options">Опции за повторение</string>
     <string name="lbl_only_new_episodes">Само нови епизоди</string>
@@ -141,7 +139,6 @@
     <string name="lbl_artists">Артисти</string>
     <string name="lbl_albums">Албуми</string>
     <string name="lbl_programs">Програми</string>
-    <string name="lbl_recording">Записване</string>
     <string name="lbl_episodes">Епизоди</string>
     <string name="lbl_album">Албум</string>
     <string name="lbl_runs">Изпълнява</string>

@@ -84,9 +84,7 @@
     <string name="play_with_vlc">Репродукуј са libVLC</string>
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
-    <string name="not_deleted">Ставка НИЈЕ избрисана</string>
     <string name="lbl_deleted">%1$s обрисан</string>
-    <string name="favorite_error">Грешка при подешавању омиљеног статуса</string>
     <string name="playing_error">Грешка приликом подешавања статуса репродукције</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
     <string name="msg_added_to_video">%1$s додато у ред за видео. Завршава се у: %2$s</string>
@@ -103,7 +101,6 @@
     <string name="episode_missing_message_2">Ова епизода недостаје у вашој библиотеци. Репродукција ће се зауставити.</string>
     <string name="episode_missing_message">Ова епизода недостаје у вашој библиотеци. Да ли бисте желели да га прескочите и наставите на следећи\?</string>
     <string name="episode_missing">Недостаје епизода</string>
-    <string name="clear_expanded">Очисти тренутни ред видео записа\?</string>
     <string name="lbl_clear">Очисти</string>
     <string name="no_player_message">Изгледа да немате инсталирану апликацију за видео. Ова опција захтева инсталирање независне апликације за репродукцију видео садржаја.</string>
     <string name="no_player">Нема плејера</string>
@@ -181,7 +178,6 @@
     <string name="lbl_live">Уживо</string>
     <string name="lbl_new">Ново</string>
     <string name="lbl_repeat">Понови</string>
-    <string name="lbl_all_recordings">Сви снимци</string>
     <string name="lbl_recent_recordings">Скорашњи снимци</string>
     <string name="lbl_kids">Дечији</string>
     <string name="lbl_sports">Спорт</string>
@@ -239,12 +235,10 @@
     <string name="lbl_recorded_tv">Снимљен ТВ програм</string>
     <string name="lbl_live_tv_guide">ТВ водич уживо</string>
     <string name="lbl_no_recordings">Нема доступних снимака</string>
-    <string name="lbl_recording">Снима се</string>
     <string name="msg_burn_sub_warning">Спајање титлова са видеом може потрајати пар минута. Будите стрпљиви…</string>
     <string name="msg_unable_load_subs">Није могуће учитати титл</string>
     <string name="msg_subtitles_loading">Учитавам титлове…</string>
     <string name="lbl_filters">Филтери</string>
-    <string name="btn_clear_all">Уклони све</string>
     <string name="btn_filter">Филтер</string>
     <string name="lbl_ended">ЗАВРШЕНА</string>
     <string name="lbl__continuing">НАСТАВЉА СЕ</string>
@@ -266,7 +260,6 @@
     <string name="lbl_audio_output">Аудио излаз</string>
     <string name="pref_audio_compat">Споји у стерео звук</string>
     <string name="pref_audio_direct">Директна репродукција</string>
-    <string name="msg_remote_already_playing">Захтев за даљинско пуштање је занемарен. Прво зауставите тренутну ставку.</string>
     <string name="msg_cancel_entire_series">Јесте ли сигурни да желите да откажете ЦЕЛУ СЕРИЈУ\?</string>
     <string name="lbl_repeat_options">Опције понављања</string>
     <string name="lbl_only_new_episodes">Само нове епизоде</string>

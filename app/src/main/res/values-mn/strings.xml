@@ -101,7 +101,6 @@
     <string name="lbl_record_any_time">Ямар ч үед бичлэг хийх</string>
     <string name="lbl_only_new_episodes">Зөвхөн шинэ ангиуд</string>
     <string name="lbl_repeat_options">Сонголтуудыг давтана уу</string>
-    <string name="msg_remote_already_playing">Алсаас тоглуулах хүсэлтийг хэрэгсэхгүй болгосон байна. Эхлээд одоогийн зүйлийг зогсооно уу.</string>
     <string name="pref_audio_direct">Зам</string>
     <string name="lbl_audio_output">Дууны гаралт</string>
     <string name="lbl_goto_series">Цуврал уруу шилжих</string>
@@ -120,12 +119,10 @@
     <string name="lbl_display_preferences">Харуулах тохиргоог хийх</string>
     <string name="lbl__continuing">ХОЛБООТОЙ</string>
     <string name="lbl_ended">ДУУССАН</string>
-    <string name="btn_filter">Шүүлтүүр</string>
     <string name="btn_clear_all">Бүгдийг арилгах</string>
     <string name="lbl_filters">Шүүлтүүрүүд</string>
     <string name="msg_subtitles_loading">Хадмалуудыг ачаалж байна…</string>
     <string name="msg_unable_load_subs">Хадмал орчуулгыг ачаалах боломжгүй байна</string>
-    <string name="lbl_recording">Бичлэг хийж байна</string>
     <string name="lbl_no_recordings">Ямар ч бичлэг байхгүй байна</string>
     <string name="lbl_live_tv_guide">Хөтөлбөр</string>
     <string name="lbl_recorded_tv">Бичигдсэн ТВ</string>

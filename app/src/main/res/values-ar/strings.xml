@@ -11,11 +11,9 @@
     <string name="lbl_songs">الأغاني</string>
     <string name="lbl_song">الأغنية</string>
     <string name="lbl_artists">الفنانين</string>
-    <string name="lbl_recording">التسجيلات</string>
     <string name="lbl_no_recordings">لا يوجد تسجيلات متاحة</string>
     <string name="msg_unable_load_subs">عرض الترجمة غير ممكن</string>
     <string name="lbl_filters">مصافي</string>
-    <string name="btn_clear_all">مسح الكل</string>
     <string name="btn_filter">تصفية</string>
     <string name="lbl_ended">إنتهى</string>
     <string name="lbl_display_preferences">خيارات الشاشة</string>
@@ -34,7 +32,6 @@
     <string name="lbl_enable_debug">خيارات المطورين</string>
     <string name="lbl_goto_series">الذهاب إلى المسلسلات</string>
     <string name="lbl_audio_output">مخرج الصوت</string>
-    <string name="msg_remote_already_playing">تم تجاهل طلب التشغيل عن بعد. من فضلك أوقف العنصر الحالي أولا.</string>
     <string name="msg_cancel_entire_series">هل أنت متأكد من إلغاء هذا المسلسل بالكامل؟</string>
     <string name="lbl_repeat_options">خيارات الإعادة</string>
     <string name="lbl_only_new_episodes">الحلقات الجديدة فقط</string>
@@ -150,7 +147,6 @@
     <string name="lbl_next_item">العنصر التالي</string>
     <string name="lbl_open_album">فتح صفحة الألبوم</string>
     <string name="lbl_open_artist">فتح صفحة الفنان</string>
-    <string name="favorite_error">خطأ في تعيين حالة المفضلة</string>
     <string name="playing_error">خطأ في تحديد حالة التشغيل</string>
     <string name="audio_error">تعذر تشغيل الصوت %1$s</string>
     <string name="msg_added_to_video">تمت إضافة %1$s إلى قائمة إنتظار الفيديو. ينتهي: %2$s</string>
@@ -166,7 +162,6 @@
     <string name="episode_missing_message_2">هذه الحلقة مفقودة من مكتبتك. سيتوقف التشغيل.</string>
     <string name="episode_missing_message">هذه الحلقة مفقودة من مكتبتك. هل ترغب في تخطيها والمتابعة إلى الحلقة التالية؟</string>
     <string name="episode_missing">الحلقة مفقودة</string>
-    <string name="clear_expanded">مسح قائمة فيديو الإنتظار الحالية؟</string>
     <string name="lbl_clear">مسح</string>
     <string name="no_player_message">لا يبدو أن لديك تطبيقًا قادر على تشغيل الفيديو. يتطلب هذا الخيار تثبيت تطبيق تابع لجهة ثالثة لتشغيل محتوى الفيديو.</string>
     <string name="no_player">لا مشغل</string>
@@ -236,7 +231,6 @@
     <string name="lbl_schedule">جدول</string>
     <string name="lbl_new">جديد</string>
     <string name="lbl_repeat">تكرار</string>
-    <string name="lbl_all_recordings">كل التسجيلات</string>
     <string name="lbl_recent_recordings">التسجيلات الأخيرة</string>
     <string name="lbl_kids">الأطفال</string>
     <string name="no_program_data">لا يوجد بيانات برنامج متاحة</string>
@@ -288,7 +282,6 @@
     <string name="lbl_use_series_thumbnails">تفضيل الصورة المصغرة للمسلسلات</string>
     <string name="image_type_banner">لافتة</string>
     <string name="lbl_auto_crop">قص تلقائي</string>
-    <string name="lbl_deleted">حذف %1$s</string>
     <string name="lbl_special">الخاص</string>
     <string name="lbl_hide_unwatched_count">إخفاء عدد التي لم يتم مشاهدتها</string>
     <string name="login_help_description">Jellyfin يستلزم خادم للإتصال به. قم بزيارة وثائقنا على docs.jellyfin.org او قم بمسح رمز QR للبدأ مع Jellyfin.</string>
@@ -367,7 +360,6 @@
     <string name="play_with_vlc">تشغيل بواسطة LibVLC</string>
     <string name="just_one">لهاته المرة فقط</string>
     <string name="turn_off">تعطيل هاته الخاصية</string>
-    <string name="not_deleted">لم يتم حذف العنصر</string>
     <string name="lbl_colored_backgrounds">خلفيات ملونة</string>
     <string name="lbl_fit">عادي</string>
     <string name="lbl_stretch">ملأ الشاشة</string>

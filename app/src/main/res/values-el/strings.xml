@@ -134,12 +134,10 @@
     <string name="lbl_warning">Προειδοποίηση</string>
     <string name="lbl_live_tv_guide">Πρόγραμμα ζωντανής τηλεόρασης</string>
     <string name="lbl_no_recordings">Δεν υπάρχουν εγγραφές</string>
-    <string name="lbl_recording">Γίνεται καταγραφή</string>
     <string name="msg_burn_sub_warning">Η ενσωμάτωση υποτίτλων στο βίντεο μπορεί να κρατήσει μερικά λεπτά. Παρακαλώ περιμένετε…</string>
     <string name="msg_unable_load_subs">Δεν μπορεί να φορτωθεί ο υπότιτλος</string>
     <string name="msg_subtitles_loading">Φόρτωση υποτίτλων…</string>
     <string name="lbl_filters">Φίλτρα Ζωντανής Τηλεόρασης</string>
-    <string name="btn_clear_all">Εκκαθάριση όλων</string>
     <string name="btn_filter">Φίλτρα</string>
     <string name="lbl_ended">ΟΛΟΚΛΗΡΩΘΗΚΕ</string>
     <string name="lbl__continuing">ΣΥΝΕΧΙΖΕΤΑΙ</string>
@@ -161,7 +159,6 @@
     <string name="lbl_audio_output">Έξοδος ήχου</string>
     <string name="pref_audio_compat">Μετατροπή σε Stereo</string>
     <string name="pref_audio_direct">Άμεσο</string>
-    <string name="msg_remote_already_playing">Το αίτημα απομακρυσμένης αναπαραγωγής αγνοήθηκε. Παρακαλώ σταματήστε το τρέχον αντικείμενο πρώτα.</string>
     <string name="msg_cancel_entire_series">Είστε σίγουρος ότι θέλετε να ακυρώσετε ΟΛΟΚΛΗΡΗ ΤΗ ΣΕΙΡΑ;</string>
     <string name="lbl_repeat_options">Επιλογές επανάληψης</string>
     <string name="lbl_only_new_episodes">Μόνο νέα επεισόδια</string>
@@ -214,7 +211,6 @@
     <string name="lbl_live">Ζωντανό</string>
     <string name="lbl_new">Νέο</string>
     <string name="lbl_repeat">Επανάληψη</string>
-    <string name="lbl_all_recordings">Όλες οι εγγραφές</string>
     <string name="lbl_recent_recordings">Πρόσφατες εγγραφές</string>
     <string name="lbl_kids">Παιδικά</string>
     <string name="lbl_sports">Αθλητικά</string>
@@ -290,7 +286,6 @@
     <string name="player_error">Σφάλμα προγράμματος αναπαραγωγής. Γίνεται ξανά απόπειρα…</string>
     <string name="seek_error">Αδυναμία αναζήτησης</string>
     <string name="msg_live_tv_prev">Φόρτωση των προηγούμενων %1$d ωρών;</string>
-    <string name="clear_expanded">Εκκαθάριση της παρούσας ουράς βίντεο;</string>
     <string name="no_player_message">Δεν υπάρχει κάποια εφαρμογή για αναπαραγωγή βίντεο. Αυτή η επιλογή απαιτεί την εγκατάσταση κάποιας τρίτης εφαρμογής για την αναπαραγωγή περιεχομένου βίντεο.</string>
     <string name="no_player">Δεν υπάρχει πρόγραμμα αναπαραγωγής</string>
     <string name="mark_watched_message">Αυτό το αντικείμενο δεν φαίνεται να έχει αναπαραχθεί για διάστημα ίσο με τη διάρκεια του. Να επιλεχθεί ως \"έχει προβληθεί\";</string>
@@ -302,7 +297,6 @@
     <string name="lbl_guest_stars">Καλεσμένοι Στάρ</string>
     <string name="lbl_episode_not_record">Αυτή η εμφάνιση ΔΕΝ θα καταγραφεί</string>
     <string name="lbl_stretch">Τέντωμα</string>
-    <string name="playing_error">Σφάλμα κατά τον ορισμό της κατάστασης αναπαραγωγής</string>
     <string name="lbl_starting_early_ending_after">Ξεκινάει στις %1$s και τελειώνει στις %2$s έπειτα από προγραμματισμό</string>
     <string name="server_issue_ssl_handshake">Η χειραψία μέσω SSL απέτυχε</string>
     <string name="server_issue_timeout">Το χρονικό όριο της σύνδεσης έληξε</string>
@@ -409,9 +403,7 @@
     <string name="login_invalid_credentials">Μη έγκυρο όνομα χρήστη και/ή κωδικός</string>
     <string name="server_connection_failed_candidates">Δεν είναι δυνατή η σύνδεση με το διακοσμητή, δοκιμάστηκαν οι ακόλουθες διευθύνσεις: %1$s</string>
     <string name="lbl_playback_control_ends">Τελειώνει στις %1$s</string>
-    <string name="not_deleted">Το στοιχείο ΔΕΝ διαγράφηκε</string>
     <string name="lbl_deleted">%1$s Διαγράφηκαν</string>
-    <string name="favorite_error">Σφάλμα κατά τον ορισμό κατάστασης αγαπημένων</string>
     <string name="audio_error">Δεν είναι δυνατή η αναπαραγωγή ήχου %1$s</string>
     <string name="subtitle_error">Δεν είναι δυνατή η επιλογή υποτίτλων</string>
     <string name="msg_live_tv_next">Φόρτωση των επόμενων %1$d ωρών;</string>
@@ -420,7 +412,6 @@
     <string name="episode_missing_message_2">Αυτό το επεισόδιο λείπει από τη βιβλιοθήκη σας. Η αναπαραγωγή θα σταματήσει.</string>
     <string name="episode_missing_message">Αυτό το επεισόδιο λείπει από τη βιβλιοθήκη σας. Θέλετε να το προσπεράσετε και να συνεχίσετε στο επόμενο;</string>
     <string name="episode_missing">Λείπει επεισόδιο</string>
-    <string name="lbl_clear">Εκκαθάριση</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="pref_app_theme">Θέμα Εφαρμογής</string>
     <string name="pref_next_up_timeout_disabled">∞</string>

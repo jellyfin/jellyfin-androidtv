@@ -139,7 +139,6 @@
     <string name="lbl_enable_debug">除錯選項</string>
     <string name="lbl_goto_series">轉到系列</string>
     <string name="lbl_audio_output">音訊輸出</string>
-    <string name="msg_remote_already_playing">遠端播放請求被忽略。請先停止當前項目。</string>
     <string name="msg_cancel_entire_series">你確定要取消 整 個 系 列 嗎\?</string>
     <string name="lbl_only_new_episodes">只有新集數</string>
     <string name="lbl_record_any_time">在任何時候記錄</string>
@@ -193,7 +192,6 @@
     <string name="no_program_data">沒有可用的程式數據</string>
     <string name="lbl_kids">兒童</string>
     <string name="lbl_recent_recordings">最近的紀錄</string>
-    <string name="lbl_all_recordings">所有記錄</string>
     <string name="lbl_repeat">重複</string>
     <string name="lbl_new">新的</string>
     <string name="lbl_schedule">日程</string>
@@ -207,9 +205,7 @@
     <string name="lbl_minutes">分鐘</string>
     <string name="lbl__continuing">正在繼續</string>
     <string name="lbl_ended">已完結</string>
-    <string name="btn_filter">過濾器</string>
     <string name="btn_clear_all">清除全部</string>
-    <string name="lbl_recording">記錄中</string>
     <string name="lbl_no_recordings">沒有可用的紀錄</string>
     <string name="lbl_live_tv_guide">電視直播指南</string>
     <string name="lbl_recorded_tv">已記錄電視</string>
@@ -320,9 +316,7 @@
     <string name="play_with_vlc">用 LibVLC 播放</string>
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
-    <string name="not_deleted">項目「未」被刪除</string>
     <string name="lbl_deleted">%1$s 已刪除</string>
-    <string name="favorite_error">無法設為最愛</string>
     <string name="playing_error">無法設為已播放狀態</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
     <string name="msg_added_to_video">%1$s 已加入影片隊列。%2$s 後結束</string>
@@ -339,7 +333,6 @@
     <string name="episode_missing_message_2">您的收藏庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>
-    <string name="clear_expanded">清空目前的影片佇列？</string>
     <string name="lbl_clear">清空</string>
     <string name="no_player_message">您似乎沒有可以播放影片的程式。這個選項需要您安裝第三方程式來播放影片。</string>
     <string name="no_player">無播放器</string>

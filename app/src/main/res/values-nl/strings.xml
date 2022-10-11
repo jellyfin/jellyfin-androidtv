@@ -105,7 +105,6 @@
     <string name="lbl_only_new_episodes">Alleen nieuwe afleveringen</string>
     <string name="lbl_repeat_options">Herhalingsinstellingen</string>
     <string name="msg_cancel_entire_series">Weet je zeker dat je de hele serie wil annuleren\?</string>
-    <string name="msg_remote_already_playing">Afspelen op afstand opdracht genegeerd, stop eerst het huidige onderdeel.</string>
     <string name="pref_audio_direct">Direct</string>
     <string name="pref_audio_compat">Naar stereo mixen</string>
     <string name="lbl_audio_output">Geluidsuitgang</string>
@@ -126,13 +125,11 @@
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
-    <string name="btn_filter">Filter</string>
     <string name="btn_clear_all">Alles wissen</string>
     <string name="lbl_filters">Filters</string>
     <string name="msg_subtitles_loading">Ondertiteling wordt geladen…</string>
     <string name="msg_unable_load_subs">Ondertiteling kan niet worden geladen</string>
     <string name="msg_burn_sub_warning">Ondertiteling aan het inbranden. Dit kan enkele seconden duren, even geduld…</string>
-    <string name="lbl_recording">Opnemen</string>
     <string name="lbl_no_recordings">Geen opnames beschikbaar</string>
     <string name="lbl_live_tv_guide">Live TV-gids</string>
     <string name="lbl_recorded_tv">TV-opnamen</string>
@@ -205,7 +202,6 @@
     <string name="lbl_live">Live</string>
     <string name="lbl_new">Nieuw</string>
     <string name="lbl_repeat">Herhalen</string>
-    <string name="lbl_all_recordings">Alle opnamen</string>
     <string name="lbl_recent_recordings">Recente opnamen</string>
     <string name="lbl_kids">Kinderen</string>
     <string name="lbl_sports">Sport</string>
@@ -271,16 +267,13 @@
     <string name="lbl_tv_filter_status">voor de volgende %1$d uur</string>
     <string name="lbl_tv_channel_status">%1$d van %2$d kanalen</string>
     <string name="player_error">Speler heeft errors gekregen. Zal opnieuw proberen…</string>
-    <string name="lbl_clear">Leegmaken</string>
     <string name="play_with">Speel af met</string>
     <string name="play_with_external_app">Speel af met een extern programma</string>
     <string name="play_with_exo_player">Speel af met ExoPlayer</string>
     <string name="play_with_vlc">Speel af met LibVLC</string>
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie af</string>
-    <string name="not_deleted">Item NIET Verwijderd</string>
     <string name="lbl_deleted">%1$s Verwijderd</string>
-    <string name="favorite_error">Error bij het aanpassen van favoriete status</string>
     <string name="playing_error">Error bij het aanpassen van gespeelde status</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>
     <string name="msg_added_to_video">%1$s toegevoegd aan de videowachtrij. Eindigt om: %2$s</string>
@@ -294,7 +287,6 @@
     <string name="episode_missing_message_2">Deze aflevering mist van uw collectie. Afspelen zal stoppen.</string>
     <string name="episode_missing_message">De aflevering mist van uw collectie. Zou u deze willen overslaan en verder gaan met de volgende\?</string>
     <string name="episode_missing">Aflevering mist</string>
-    <string name="clear_expanded">Huidige wachtlijst leegmaken\?</string>
     <string name="no_player_message">Het ziet ernaar uit dat je geen applicatie geïnstalleerd hebt die video capabel is. Deze optie vereist dat u een 3de partij applicatie moet installeren om video inhoud af te spelen.</string>
     <string name="no_player">Geen speler</string>
     <string name="lbl_subtitle_track">Selecteer een ondertiteling</string>

@@ -109,11 +109,9 @@
     <string name="pref_live_tv_cat">Telewizja</string>
     <string name="lbl_live_tv_guide">Przewodnik TV</string>
     <string name="lbl_no_recordings">Brak nagrań</string>
-    <string name="lbl_recording">Nagrywanie</string>
     <string name="msg_unable_load_subs">Nie można wczytać napisów</string>
     <string name="msg_subtitles_loading">Wczytuję napisy…</string>
     <string name="lbl_filters">Filtry</string>
-    <string name="btn_clear_all">Wyczyść Wszystko</string>
     <string name="btn_filter">Filtr</string>
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Właściwości</string>
@@ -128,7 +126,6 @@
     <string name="lbl_enable_debug">Opcje debugowania</string>
     <string name="lbl_audio_output">Wyjście audio</string>
     <string name="pref_audio_compat">Downmix do stereo</string>
-    <string name="msg_remote_already_playing">Zignorowano zdalne żądanie odtważania. Proszę zatrzymać aktualne odtwarzanie.</string>
     <string name="lbl_only_new_episodes">Tylko nowe odcinki</string>
     <string name="lbl_similar_items_library">Podobne elementy w Bibliotece</string>
     <string name="lbl_program_ended">Program zakończony</string>
@@ -196,7 +193,6 @@
     <string name="lbl_live">Na żywo</string>
     <string name="lbl_new">Nowy</string>
     <string name="lbl_repeat">Powtórz</string>
-    <string name="lbl_all_recordings">Wszystkie nagrania</string>
     <string name="lbl_recent_recordings">Najnowsze nagrania</string>
     <string name="lbl_kids">Dzieci</string>
     <string name="lbl_sports">Sport</string>
@@ -269,9 +265,7 @@
     <string name="lbl_load_guide_data">Załaduj dane przewodnika</string>
     <string name="just_one">Tylko to</string>
     <string name="turn_off">Wyłącz tę opcję</string>
-    <string name="not_deleted">Element nie został usunięty</string>
     <string name="lbl_deleted">Usunięto %1$s</string>
-    <string name="favorite_error">Błąd podczas ustawiania statusu ulubionych</string>
     <string name="playing_error">Błąd podczas ustawiania statusu odtwarzania</string>
     <string name="audio_error">Nie można odtworzyć dźwięku: %1$s</string>
     <string name="msg_added_to_video">%1$s zostało dodane do kolejki. Kolejka kończy się za: %2$s</string>
@@ -289,7 +283,6 @@
     <string name="episode_missing_message_2">Tego epizodu nie ma w twojej bibliotece. Odtwarzanie zostanie zatrzymane.</string>
     <string name="episode_missing_message">Tego epizodu nie ma w twojej bibliotece. Czy chciałbyś go pominąć i odtworzyć następny epizod\?</string>
     <string name="episode_missing">Brakuje epizodu</string>
-    <string name="clear_expanded">Czy wyczyścić obecną kolejkę video\?</string>
     <string name="lbl_clear">Wyczyść</string>
     <string name="no_player_message">Wydaje się że nie masz zainstalowanej aplikacji do odtwarzania video. Ta opcja wymaga zainstalowanej zewnętrznej aplikacji do odtwarzania video.</string>
     <string name="no_player">Brak aplikacji odtwarzającej</string>
