@@ -28,6 +28,7 @@ import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
+import org.jellyfin.androidtv.ui.playback.PlaybackManager;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChannelBarChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChapterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ClosedCaptionsAction;
@@ -179,7 +180,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
         skipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(context);
         skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
-        selectAudioAction = new SelectAudioAction(context, this);
+        selectAudioAction = new SelectAudioAction(context, this, KoinJavaComponent.get(PlaybackManager.class));
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
         closedCaptionsAction.setLabels(new String[]{context.getString(R.string.lbl_subtitle_track)});
