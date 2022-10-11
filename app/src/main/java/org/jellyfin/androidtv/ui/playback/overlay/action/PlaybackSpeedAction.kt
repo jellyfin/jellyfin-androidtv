@@ -26,7 +26,8 @@ class PlaybackSpeedAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		leanbackOverlayFragment: LeanbackOverlayFragment,
-		context: Context, view: View
+		context: Context,
+		view: View,
 	) {
 		val speedMenu = populateMenu(context, view, speedController)
 
