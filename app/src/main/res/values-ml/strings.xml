@@ -101,7 +101,6 @@
     <string name="play_with_vlc">LibVLC ഉപയോഗിച്ച് കളിക്കുക</string>
     <string name="just_one">ഇത് മാത്രം</string>
     <string name="turn_off">ഈ ഓപ്‌ഷൻ ഓഫാക്കുക</string>
-    <string name="favorite_error">പ്രിയപ്പെട്ട നില ക്രമീകരിക്കുന്നതിൽ പിശക്</string>
     <string name="msg_no_items">കളിക്കാൻ ഇനങ്ങളൊന്നുമില്ല</string>
     <string name="subtitle_error">ഉപശീർഷകം തിരഞ്ഞെടുക്കാനായില്ല</string>
     <string name="too_many_errors">വളരെയധികം പിശകുകൾ. ഉപേക്ഷിക്കുന്നു</string>
@@ -111,7 +110,6 @@
     <string name="episode_missing_message_2">ഈ എപ്പിസോഡ് നിങ്ങളുടെ ലൈബ്രറിയിൽ കാണുന്നില്ല. പ്ലേബാക്ക് നിർത്തും.</string>
     <string name="episode_missing_message">ഈ എപ്പിസോഡ് നിങ്ങളുടെ ലൈബ്രറിയിൽ കാണുന്നില്ല. ഇത് ഒഴിവാക്കി അടുത്തതിലേക്ക് തുടരാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ\?</string>
     <string name="episode_missing">എപ്പിസോഡ് കാണുന്നില്ല</string>
-    <string name="lbl_clear">മായ്‌ക്കുക</string>
     <string name="no_player_message">നിങ്ങൾക്ക് വീഡിയോ ശേഷിയുള്ള അപ്ലിക്കേഷൻ ഇൻസ്റ്റാളുചെയ്‌തതായി തോന്നുന്നില്ല. വീഡിയോ ഉള്ളടക്കം പ്ലേ ചെയ്യുന്നതിനായി ഒരു മൂന്നാം കക്ഷി ആപ്ലിക്കേഷൻ ഇൻസ്റ്റാൾ ചെയ്യാൻ ഈ ഓപ്ഷന് ആവശ്യമാണ്.</string>
     <string name="no_player">പ്ലെയർ ഇല്ല</string>
     <string name="mark_watched_message">ഇനത്തിന്റെ ദൈർഘ്യം ഉള്ളിടത്തോളം പ്ലേ ചെയ്യുന്നതായി തോന്നുന്നില്ല. മാർക്ക് കണ്ടോ\?</string>
@@ -230,7 +228,6 @@
     <string name="lbl_no_recordings">റെക്കോർഡിംഗുകളൊന്നും ലഭ്യമല്ല</string>
     <string name="msg_unable_load_subs">സബ്‌ടൈറ്റിൽ ലോഡുചെയ്യാനായില്ല</string>
     <string name="lbl_filters">ഫിൽട്ടറുകൾ</string>
-    <string name="btn_filter">ഫിൽട്ടർ ചെയ്യുക</string>
     <string name="lbl_ended">അവസാനിച്ചു</string>
     <string name="lbl__continuing">തുടരുന്നു</string>
     <string name="lbl_display_preferences">പ്രദർശന മുൻ‌ഗണനകൾ</string>

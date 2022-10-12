@@ -191,7 +191,6 @@
     <string name="msg_unable_load_subs">字幕加载失败</string>
     <string name="msg_subtitles_loading">加载字幕中……</string>
     <string name="lbl_filters">过滤器</string>
-    <string name="btn_filter">过滤器</string>
     <string name="lbl_ended">已完结</string>
     <string name="lbl__continuing">正在继续</string>
     <string name="lbl_display_preferences">显示偏好</string>
@@ -262,7 +261,6 @@
     <string name="bitrate_kbit">%1$,.0f 千比特/秒</string>
     <string name="bitrate_mbit">%1$,.0f 兆比特/秒</string>
     <string name="bitrate_auto">自动码率</string>
-    <string name="lbl_clear">清除</string>
     <string name="no_player_message">你似乎没有安装可播放视频的应用。此选项需要您安装第三方应用来播放视频内容。</string>
     <string name="no_player">无播放器</string>
     <string name="mark_watched">标记为已观看</string>
@@ -270,7 +268,6 @@
     <string name="lbl_tv_channel_status">%2$d 个频道中的第 %1$d 个</string>
     <string name="just_one">只选此项</string>
     <string name="turn_off">将此选项关闭</string>
-    <string name="lbl_deleted">%1$s已删除</string>
     <string name="playing_error">无法设置已播放状态</string>
     <string name="audio_error">无法播放音频%1$s</string>
     <string name="msg_queue_saved">使用保存项目新建列表： %1$s</string>

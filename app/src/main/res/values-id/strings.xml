@@ -96,7 +96,6 @@
     <string name="lbl_albums">Album</string>
     <string name="lbl_programs">Program</string>
     <string name="lbl_no_recordings">Tidak Ada Rekaman Tersedia</string>
-    <string name="btn_filter">Filter</string>
     <string name="lbl_ended">SELESAI</string>
     <string name="lbl__continuing">MELANJUTKAN</string>
     <string name="lbl_display_preferences">Preferensi Tampilan</string>
@@ -278,7 +277,6 @@
     <string name="episode_missing_message_2">Episode ini tidak ada di pustaka anda. Pemutaran akan berhenti.</string>
     <string name="episode_missing_message">Episode ini tidak ada di pustaka anda. Apakah anda ingin melompati dan melanjutkan ke episode selanjutnya\?</string>
     <string name="episode_missing">Episode Hilang</string>
-    <string name="lbl_clear">Bersihkan</string>
     <string name="no_player_message">Sepertinya anda tidak memiliki pemutar video. Opsi ini membutuhkan anda memasang aplikasi pihak ketiga untuk memutar video.</string>
     <string name="no_player">Tak Ada Pemutar</string>
     <string name="mark_watched_message">Item tidak tampak sudah diputar sepanjang durasi item. Tandai telah ditonton\?</string>

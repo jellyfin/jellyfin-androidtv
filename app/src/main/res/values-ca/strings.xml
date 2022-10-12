@@ -119,7 +119,6 @@
     <string name="msg_unable_load_subs">No es pot carregar el subtítol</string>
     <string name="msg_subtitles_loading">Carregant subtítols…</string>
     <string name="lbl_filters">Filtres de TV en directe</string>
-    <string name="btn_filter">Filtre</string>
     <string name="lbl_ended">FINALITZAT</string>
     <string name="lbl__continuing">CONTINUANT</string>
     <string name="lbl_display_preferences">Preferències de visualització</string>
@@ -268,7 +267,6 @@
     <string name="play_with_vlc">Reproduir amb LibVLC</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
-    <string name="lbl_deleted">%1$s suprimit</string>
     <string name="playing_error">S\'ha produït un error en configurar l\'estat de reproducció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
     <string name="msg_added_to_video">S\'ha afegit %1$s a la cua de vídeos. Finalitza: %2$s</string>
@@ -285,7 +283,6 @@
     <string name="episode_missing_message_2">Falta aquest episodi a la biblioteca. La reproducció s’aturarà.</string>
     <string name="episode_missing_message">Falta aquest episodi a la biblioteca. Voleu ometre\'l i continuar amb el següent\?</string>
     <string name="episode_missing">Falta l’episodi</string>
-    <string name="lbl_clear">Netejar</string>
     <string name="no_player_message">Sembla que no teniu instal·lada cap aplicació compatible amb vídeo. Aquesta opció requereix que instal·leu una aplicació de tercers per reproduir contingut de vídeo.</string>
     <string name="no_player">Sense reproductor</string>
     <string name="mark_watched_message">L\'element no semblava reproduir-se mentre durés. Marcar com vist\?</string>

@@ -126,7 +126,6 @@
     <string name="lbl_display_preferences">Visningsinnstillinger</string>
     <string name="lbl__continuing">PÅGÅENDE</string>
     <string name="lbl_ended">AVSLUTTET</string>
-    <string name="btn_clear_all">Fjern alt</string>
     <string name="lbl_filters">Filtre</string>
     <string name="msg_subtitles_loading">Laster undertekster…</string>
     <string name="msg_unable_load_subs">Kunne ikke laste undertekster</string>
@@ -264,7 +263,6 @@
     <string name="bitrate_auto">Automatisk</string>
     <string name="just_one">Kun denne</string>
     <string name="turn_off">Slå av dette alternativet</string>
-    <string name="lbl_deleted">%1$s Slettet</string>
     <string name="playing_error">Feil under lagring av avspilt status</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>
     <string name="msg_added_to_video">%1$s lagt til i videokøen. Slutter: %2$s</string>
@@ -281,7 +279,6 @@
     <string name="episode_missing_message_2">Denne episoden mangler fra biblioteket ditt. Avspillingen stopper.</string>
     <string name="episode_missing_message">Denne episoden mangler fra biblioteket ditt. Vil du hoppe over det og fortsette til neste\?</string>
     <string name="episode_missing">Episode mangler</string>
-    <string name="lbl_clear">Tømme</string>
     <string name="no_player_message">Det ser ikke ut til at du har en videokompatibel app installert. Dette alternativet krever at du installerer et tredjepartsprogram for avspilling av videoinnhold.</string>
     <string name="no_player">Ingen spiller</string>
     <string name="mark_watched_message">Elementet så ikke ut til å spille så lenge som varigheten. Marker sett\?</string>

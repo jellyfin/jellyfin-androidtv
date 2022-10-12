@@ -82,7 +82,6 @@
     <string name="msg_unable_load_subs">Субтитрите не могат да се заредят</string>
     <string name="msg_subtitles_loading">Субтитрите се зареждат…</string>
     <string name="lbl_filters">Филтри</string>
-    <string name="btn_filter">Филтър</string>
     <string name="lbl_ended">ПРИКЛЮЧИЛ</string>
     <string name="lbl__continuing">ПРОДЪЛЖАВА</string>
     <string name="lbl_display_preferences">Настройки на дисплея</string>

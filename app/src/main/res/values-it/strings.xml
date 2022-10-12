@@ -138,7 +138,6 @@
     <string name="msg_unable_load_subs">Impossibile caricare i sottotitoli</string>
     <string name="msg_subtitles_loading">Caricamento sottotitoli…</string>
     <string name="lbl_filters">Filtri TV Diretta</string>
-    <string name="btn_filter">Filtro</string>
     <string name="lbl_ended">FINITO</string>
     <string name="lbl__continuing">CONTINUA</string>
     <string name="lbl_display_preferences">Mostra Preferenze</string>
@@ -278,7 +277,6 @@
     <string name="too_many_errors">Troppi errori. Interrompo</string>
     <string name="lbl_new_playlist_name">Inserisci un nome per la nuova playlist</string>
     <string name="episode_missing">Episodio mancante</string>
-    <string name="lbl_clear">Cancella</string>
     <string name="mark_watched_message">Il contenuto non sembra essere stato riprodotto per intero. Segnare come visto\?</string>
     <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
     <string name="lbl_audio_track">Seleziona traccia audio</string>
@@ -302,7 +300,6 @@
     <string name="lbl_stars">Stelle</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
-    <string name="favorite_error">Errore durante il salvataggio dello stato di Preferito</string>
     <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
     <string name="msg_queue_saved">Coda salvata come nuova playlist: %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>

@@ -345,7 +345,6 @@
     <string name="play_with_vlc">Toista LibVLC-soittimella</string>
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
-    <string name="lbl_deleted">%1$s poistettiin</string>
     <string name="playing_error">Virhe määritettäessä toistotilaa</string>
     <string name="msg_added_to_video">\'%1$s\' lisättiin videojonoon. Päättyy: %2$s</string>
     <string name="msg_queue_saved">Jono tallennettiin toistolistaksi: %1$s</string>
@@ -360,7 +359,6 @@
     <string name="episode_missing_message">Jaksoa ei ole kirjastossa. Haluatko ohittaa sen ja jatkaa seuraavaan jaksoon\?</string>
     <string name="episode_missing_message_2">Jaksoa ei ole kirjastossa. Toisto pysäytetään.</string>
     <string name="episode_missing">Jakso puuttuu</string>
-    <string name="lbl_clear">Tyhjennä</string>
     <string name="no_player_message">Videotoistoon kykenevää sovellusta ei näytä olevan asennettuna. Tämä valinta tarvitsee ulkopuolisen videoiden toistosovelluksen.</string>
     <string name="no_player">Ei soitinta</string>
     <string name="mark_watched_message">Kohdetta ei ilmeisesti toistettu kokonaan. Merkitäänkö se katsotuksi\?</string>

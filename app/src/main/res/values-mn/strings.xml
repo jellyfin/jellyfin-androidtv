@@ -119,7 +119,6 @@
     <string name="lbl_display_preferences">Харуулах тохиргоог хийх</string>
     <string name="lbl__continuing">ХОЛБООТОЙ</string>
     <string name="lbl_ended">ДУУССАН</string>
-    <string name="btn_clear_all">Бүгдийг арилгах</string>
     <string name="lbl_filters">Шүүлтүүрүүд</string>
     <string name="msg_subtitles_loading">Хадмалуудыг ачаалж байна…</string>
     <string name="msg_unable_load_subs">Хадмал орчуулгыг ачаалах боломжгүй байна</string>

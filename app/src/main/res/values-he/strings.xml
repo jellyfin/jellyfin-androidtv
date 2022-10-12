@@ -45,7 +45,6 @@
     <string name="msg_unable_load_subs">לא מסוגל לטעון כתוביות</string>
     <string name="msg_subtitles_loading">כתובית נטענת…</string>
     <string name="lbl_filters">מסנני שידורים חיים</string>
-    <string name="btn_filter">מסנן</string>
     <string name="lbl_ended">הסתיים</string>
     <string name="lbl__continuing">ממשיך</string>
     <string name="lbl_display_preferences">הצג העדפות</string>
@@ -233,7 +232,6 @@
     <string name="play_with_vlc">נגן בעזרת libVLC</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
-    <string name="lbl_deleted">%1$s נמחק</string>
     <string name="favorite_error">תקלה בהדלקת סטטוס ׳מועדף׳</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
     <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
@@ -250,7 +248,6 @@
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>
     <string name="episode_missing">פרק חסר</string>
-    <string name="lbl_clear">נקה</string>
     <string name="no_player_message">לא נראה שיש אפליקציה המסוגלת לנגן וידאו. תכונה זו דורשת שתותקן במכשיר תוכנה חיצונית המסוגלת לנגן וידאו.</string>
     <string name="no_player">אין נגן</string>
     <string name="mark_watched_message">לא נראה שזמן הריצה תואם את הזמן הצפוי, האם לסמן כנצפה\?</string>

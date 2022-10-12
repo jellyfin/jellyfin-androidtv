@@ -66,7 +66,6 @@
     <string name="msg_unable_load_subs">Altyazı yüklenemedi</string>
     <string name="msg_subtitles_loading">Altyazılar yükleniyor…</string>
     <string name="lbl_filters">Filtreler</string>
-    <string name="btn_filter">Filtre</string>
     <string name="lbl_ended">BİTTİ</string>
     <string name="lbl__continuing">DEVAM EDİYOR</string>
     <string name="lbl_display_preferences">Görüntüleme Tercihleri</string>
@@ -215,7 +214,6 @@
     <string name="play_with_vlc">libVLC ile oynat</string>
     <string name="just_one">Sadece bu</string>
     <string name="turn_off">Bu seçeneği kapat</string>
-    <string name="lbl_deleted">%1$s Silindi</string>
     <string name="playing_error">Oynatma durumu ayarlanırken hata</string>
     <string name="audio_error">Ses oynatılamıyor %1$s</string>
     <string name="msg_added_to_video">%1$s öğre video oynatma kuyruğuna eklendi. Bitiş Zamanı: %2$s</string>
@@ -232,7 +230,6 @@
     <string name="episode_missing_message_2">Bu bölüm kütüphanenizde eksik. Oynatma duracak.</string>
     <string name="episode_missing_message">Bu bölüm kütüphanenizde eksil. Bunu atlayıp bir sonrakine geçmek ister misiniz\?</string>
     <string name="episode_missing">Bölüm Eksik</string>
-    <string name="lbl_clear">Temizle</string>
     <string name="no_player_message">Yüklü video oynatma özellikli bir uygulamanız olmadığı görülüyor. Bu seçenek, video içeriğini oynatmak için 3. taraf bir uygulama yüklemenizi gerektirir.</string>
     <string name="no_player">Oynatıcı Yok</string>
     <string name="mark_watched_message">Öğe, süresi kadar oynamış görünmüyor. İzlendi olarak işaretle\?</string>

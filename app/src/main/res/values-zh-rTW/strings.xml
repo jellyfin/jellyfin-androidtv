@@ -205,7 +205,6 @@
     <string name="lbl_minutes">分鐘</string>
     <string name="lbl__continuing">正在繼續</string>
     <string name="lbl_ended">已完結</string>
-    <string name="btn_clear_all">清除全部</string>
     <string name="lbl_no_recordings">沒有可用的紀錄</string>
     <string name="lbl_live_tv_guide">電視直播指南</string>
     <string name="lbl_recorded_tv">已記錄電視</string>
@@ -316,7 +315,6 @@
     <string name="play_with_vlc">用 LibVLC 播放</string>
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
-    <string name="lbl_deleted">%1$s 已刪除</string>
     <string name="playing_error">無法設為已播放狀態</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
     <string name="msg_added_to_video">%1$s 已加入影片隊列。%2$s 後結束</string>
@@ -333,7 +331,6 @@
     <string name="episode_missing_message_2">您的收藏庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>
-    <string name="lbl_clear">清空</string>
     <string name="no_player_message">您似乎沒有可以播放影片的程式。這個選項需要您安裝第三方程式來播放影片。</string>
     <string name="no_player">無播放器</string>
     <string name="mark_watched_message">您似乎還沒看完這個項目。確定要標記為已觀看嗎？</string>

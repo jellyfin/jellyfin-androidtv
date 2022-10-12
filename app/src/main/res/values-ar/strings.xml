@@ -14,7 +14,6 @@
     <string name="lbl_no_recordings">لا يوجد تسجيلات متاحة</string>
     <string name="msg_unable_load_subs">عرض الترجمة غير ممكن</string>
     <string name="lbl_filters">مصافي</string>
-    <string name="btn_filter">تصفية</string>
     <string name="lbl_ended">إنتهى</string>
     <string name="lbl_display_preferences">خيارات الشاشة</string>
     <string name="btn_done">تم</string>
@@ -147,7 +146,6 @@
     <string name="lbl_next_item">العنصر التالي</string>
     <string name="lbl_open_album">فتح صفحة الألبوم</string>
     <string name="lbl_open_artist">فتح صفحة الفنان</string>
-    <string name="playing_error">خطأ في تحديد حالة التشغيل</string>
     <string name="audio_error">تعذر تشغيل الصوت %1$s</string>
     <string name="msg_added_to_video">تمت إضافة %1$s إلى قائمة إنتظار الفيديو. ينتهي: %2$s</string>
     <string name="msg_queue_saved">تم حفظ قائمة الإنتظار كقائمة تشغيل جديدة: %1$s</string>
@@ -162,7 +160,6 @@
     <string name="episode_missing_message_2">هذه الحلقة مفقودة من مكتبتك. سيتوقف التشغيل.</string>
     <string name="episode_missing_message">هذه الحلقة مفقودة من مكتبتك. هل ترغب في تخطيها والمتابعة إلى الحلقة التالية؟</string>
     <string name="episode_missing">الحلقة مفقودة</string>
-    <string name="lbl_clear">مسح</string>
     <string name="no_player_message">لا يبدو أن لديك تطبيقًا قادر على تشغيل الفيديو. يتطلب هذا الخيار تثبيت تطبيق تابع لجهة ثالثة لتشغيل محتوى الفيديو.</string>
     <string name="no_player">لا مشغل</string>
     <string name="mark_watched_message">يبدو أن العنصر لم يتم تشغيله لكامل مدته. هل نضع علامة \"تمت مشاهدته\"؟</string>

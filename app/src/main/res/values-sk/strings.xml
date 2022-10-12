@@ -22,7 +22,6 @@
     <string name="msg_unable_load_subs">Titulky sa nedajú načítať</string>
     <string name="msg_subtitles_loading">Titulky sa načítajú…</string>
     <string name="lbl_filters">Filtre pre živú TV</string>
-    <string name="btn_filter">Filter</string>
     <string name="lbl_ended">UKONČENÝ</string>
     <string name="lbl__continuing">POKRAČUJÚCI</string>
     <string name="lbl_display_preferences">Predvoľby zobrazenia</string>
@@ -275,7 +274,6 @@
     <string name="play_with_vlc">Prehrať pomocou LibVLC</string>
     <string name="just_one">Len túto jednu</string>
     <string name="turn_off">Vypnúť túto možnosť</string>
-    <string name="lbl_deleted">%1$s vymazaný</string>
     <string name="playing_error">Chyba pri nastavení stavu o prehratí</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
     <string name="msg_added_to_video">Položka %1$s bola pridaná do video fronty. Koniec o: %2$s</string>
@@ -292,7 +290,6 @@
     <string name="episode_missing_message_2">Táto epizóda chýba vo vašej knižnici. Prehrávanie bude zastavené.</string>
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>
     <string name="episode_missing">Chýbajúca epizóda</string>
-    <string name="lbl_clear">Vyčistiť</string>
     <string name="no_player_message">Zdá sa, že nemáte nainštalovaný požadovaný prehrávač videa. Táto možnosť vyžaduje inštaláciu aplikácie tretej strany pre prehrávanie video obsahu.</string>
     <string name="pref_video_player_choose">Vždy sa opýtať</string>
     <string name="lbl_tv_filter_status">ďalších %1$d hodín</string>

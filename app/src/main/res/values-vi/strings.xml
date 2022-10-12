@@ -119,7 +119,6 @@
     <string name="msg_unable_load_subs">Không thể tải phụ đề</string>
     <string name="msg_subtitles_loading">Đang tải phụ đề…</string>
     <string name="lbl_filters">Bộ lọc TV trực tiếp</string>
-    <string name="btn_filter">Bộ lọc</string>
     <string name="lbl_ended">ĐÃ HẾT</string>
     <string name="lbl__continuing">ĐANG TIẾP TỤC</string>
     <string name="lbl_display_preferences">Tùy Chọn Hiển Thị</string>
@@ -219,7 +218,6 @@
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
-    <string name="lbl_deleted">Đã xóa %1$s</string>
     <string name="playing_error">Lỗi khi đặt trạng thái đã phát</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
     <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
@@ -235,7 +233,6 @@
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
     <string name="episode_missing_message">Tập này bị thiếu trong thư viện của bạn. Bạn có muốn bỏ qua nó và tiếp tục phần tiếp theo không\?</string>
     <string name="episode_missing">Thiếu tập phim</string>
-    <string name="lbl_clear">Làm sạch</string>
     <string name="no_player_message">Có vẻ như bạn không có ứng dụng có thể phát video được cài đặt. Tùy chọn này yêu cầu bạn cài đặt ứng dụng của bên thứ 3 để phát nội dung video.</string>
     <string name="no_player">Không có trình phát</string>
     <string name="mark_watched_message">Mục này dường như không phát được lâu như thời lượng của nó. Đánh dấu đã xem\?</string>

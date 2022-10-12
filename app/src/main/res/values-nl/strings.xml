@@ -125,7 +125,6 @@
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
-    <string name="btn_clear_all">Alles wissen</string>
     <string name="lbl_filters">Filters</string>
     <string name="msg_subtitles_loading">Ondertiteling wordt geladen…</string>
     <string name="msg_unable_load_subs">Ondertiteling kan niet worden geladen</string>
@@ -273,7 +272,6 @@
     <string name="play_with_vlc">Speel af met LibVLC</string>
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie af</string>
-    <string name="lbl_deleted">%1$s Verwijderd</string>
     <string name="playing_error">Error bij het aanpassen van gespeelde status</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>
     <string name="msg_added_to_video">%1$s toegevoegd aan de videowachtrij. Eindigt om: %2$s</string>

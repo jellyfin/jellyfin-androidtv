@@ -105,7 +105,6 @@
     <string name="pref_playback">பின்னணி</string>
     <string name="just_one">இது ஒன்று</string>
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
-    <string name="lbl_deleted">%1$s நீக்கப்பட்டது</string>
     <string name="playing_error">இயக்கிய நிலையை அமைப்பதில் பிழை</string>
     <string name="audio_error">ஆடியோ %1$s ஐ இயக்க முடியவில்லை</string>
     <string name="msg_added_to_video">வீடியோ வரிசையில் %1$s சேர்க்கப்பட்டது. முடிவடைகிறது: %2$s</string>
@@ -122,7 +121,6 @@
     <string name="episode_missing_message_2">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. பின்னணி நிறுத்தப்படும்.</string>
     <string name="episode_missing_message">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. அதைத் தவிர்த்துவிட்டு அடுத்ததைத் தொடர விரும்புகிறீர்களா\?</string>
     <string name="episode_missing">அத்தியாயம் காணவில்லை</string>
-    <string name="lbl_clear">அழி</string>
     <string name="no_player_message">உங்களிடம் வீடியோ திறன் பயன்பாடு நிறுவப்பட்டுள்ளதாகத் தெரியவில்லை. இந்த விருப்பத்திற்கு வீடியோ உள்ளடக்கத்தை இயக்குவதற்கு 3 வது தரப்பு பயன்பாட்டை நிறுவ வேண்டும்.</string>
     <string name="no_player">பிளேயர் இல்லை</string>
     <string name="mark_watched_message">உருப்படி அதன் கால அளவு வரை இயக்க தெரியவில்லை. பார்த்ததாகக் குறிக்கவா\?</string>
@@ -255,7 +253,6 @@
     <string name="msg_unable_load_subs">வசனத்தை ஏற்ற முடியவில்லை</string>
     <string name="msg_subtitles_loading">வசன வரிகள் ஏற்றுதல்…</string>
     <string name="lbl_filters">வடிப்பான்கள்</string>
-    <string name="btn_filter">வடிகட்டு</string>
     <string name="lbl_ended">முடிந்தது</string>
     <string name="lbl__continuing">தொடர்கிறது</string>
     <string name="lbl_display_preferences">காட்சி விருப்பத்தேர்வுகள்</string>

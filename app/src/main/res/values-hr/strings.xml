@@ -84,7 +84,6 @@
     <string name="msg_unable_load_subs">Nije moguće učitati podnapis</string>
     <string name="msg_subtitles_loading">Podnapisi se učitavaju…</string>
     <string name="lbl_filters">Filteri</string>
-    <string name="btn_filter">Filter</string>
     <string name="lbl_ended">ZAVRŠENO</string>
     <string name="lbl__continuing">NASTAVLJA SE</string>
     <string name="lbl_display_preferences">Prikaži postavke</string>
@@ -162,7 +161,6 @@
     <string name="play_with_vlc">Reproduciraj sa libVLC</string>
     <string name="just_one">Samo ovu</string>
     <string name="turn_off">Ugasi ovu postavku</string>
-    <string name="lbl_deleted">%1$s obrisan</string>
     <string name="playing_error">Greška u postavljanju statusa reprodukcije</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
     <string name="msg_added_to_video">%1$s dodan u red videozapisa. Završava: %2$s</string>
@@ -179,7 +177,6 @@
     <string name="episode_missing_message_2">Ova epizoda nedostaje u vašoj biblioteci. Reprodukcija će stati.</string>
     <string name="episode_missing_message">Ova epizoda nedostaje u vašoj biblioteci. Želite li ju preskočiti i nastaviti s idućom\?</string>
     <string name="episode_missing">Epizoda nedostaje</string>
-    <string name="lbl_clear">Očisti</string>
     <string name="no_player_message">Čini se da nemate instaliranu aplikaciju za reproduciranje videozapisa. Ova opcija zahtijeva instalaciju aplikacije treće strane za reprodukciju video sadržaja.</string>
     <string name="no_player">Nema izvođača</string>
     <string name="mark_watched_message">Stavka se nije reproducirala do kraja. Označiti ju kao pogledanu\?</string>

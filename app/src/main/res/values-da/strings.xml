@@ -155,7 +155,6 @@
     <string name="msg_unable_load_subs">Kan ikke indlæse undertekster</string>
     <string name="msg_subtitles_loading">Undertekster indlæser…</string>
     <string name="lbl_filters">Live TV Filtre</string>
-    <string name="btn_filter">Filter</string>
     <string name="lbl_ended">SLUTTET</string>
     <string name="lbl__continuing">FORTSÆTTER</string>
     <string name="lbl_display_preferences">Skærm indstillinger</string>
@@ -271,7 +270,6 @@
     <string name="play_with_vlc">Afspil med LibVLC</string>
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
-    <string name="lbl_deleted">%1$s Slettet</string>
     <string name="playing_error">Fejl under ændring af afspillet status</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
     <string name="msg_added_to_video">%1$s tilføjet til video kø. Færdig om: %2$s</string>
@@ -288,7 +286,6 @@
     <string name="episode_missing_message_2">Dette afsnit mangler fra dit bibliotek. Afspilningen stopper.</string>
     <string name="episode_missing_message">Dette afsnit mangler fra dit bibliotek. Vil du springe den over og fortsætte til den næste\?</string>
     <string name="episode_missing">Afsnit mangler</string>
-    <string name="lbl_clear">Ryd</string>
     <string name="no_player_message">Det ser ikke ud til at du har en app der understøtter video afspilning. Denne handling kræver en tredjeparts applikation for at kunne afspille videoindhold.</string>
     <string name="mark_watched_message">Filen varede ikke lige så land tid som dens varighed. Marker som afspillet\?</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>

@@ -125,7 +125,6 @@
     <string name="lbl_display_preferences">Beineleu teñşelımderı</string>
     <string name="lbl__continuing">JALĞASUDA</string>
     <string name="lbl_ended">AİAQTALĞAN</string>
-    <string name="btn_clear_all">Barlyğyn tazalau</string>
     <string name="lbl_filters">Efirlık TD süzgılerı</string>
     <string name="msg_subtitles_loading">Subtitrler jüktelude…</string>
     <string name="msg_unable_load_subs">Subtitrlerdı jükteu mümkın emes</string>
@@ -253,7 +252,6 @@
     <string name="pref_video_player_choose">Äldeqaşan sūrau</string>
     <string name="lbl_tv_filter_status">kelesı %1$d sağat üşın</string>
     <string name="lbl_tv_channel_status">%1$d %2$d arnadan</string>
-    <string name="lbl_deleted">%1$s joiyldy</string>
     <string name="seek_error">Izdeu mümkın emes</string>
     <string name="msg_live_tv_prev">Aldyñğy %1$d sağat jüktelsın be\?</string>
     <string name="msg_live_tv_next">Kelesı %1$d sağat jüktelsın be\?</string>
@@ -297,7 +295,6 @@
     <string name="play_with_vlc">libVLC arqyly oinatu</string>
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
-    <string name="playing_error">Oinatylu küiın ornatu qatesı</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>
     <string name="msg_added_to_video">%1$s beine kezegıne qosyldy. Aiaqtaluy: %2$s</string>
     <string name="msg_queue_saved">Kezek jaña oinatu tızımı retınde saqtaldy: %1$s</string>

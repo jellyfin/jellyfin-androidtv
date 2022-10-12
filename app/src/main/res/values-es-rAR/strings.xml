@@ -86,7 +86,6 @@
     <string name="play_with_vlc">Reproducir con LibVLC</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
-    <string name="lbl_deleted">Se ha eliminado %1$s</string>
     <string name="playing_error">Error al introducir estado de reproducción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
@@ -103,7 +102,6 @@
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
     <string name="episode_missing">Episodio Faltante</string>
-    <string name="lbl_clear">Limpiar</string>
     <string name="no_player_message">No parece tener instalada una aplicación para reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
     <string name="no_player">Reproductor no encontrado</string>
     <string name="mark_watched_message">Este elemento no parece haberse reproducido completo. ¿Desea marcarlo como visto de todas formas\?</string>
@@ -241,7 +239,6 @@
     <string name="msg_unable_load_subs">No fue posible cargar el subtítulo</string>
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="lbl_filters">Filtros</string>
-    <string name="btn_filter">Filtro</string>
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_display_preferences">Preferencias de pantalla</string>

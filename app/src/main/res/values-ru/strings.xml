@@ -126,7 +126,6 @@
     <string name="lbl_display_preferences">Предпочтения отображения</string>
     <string name="lbl__continuing">ПРОДОЛЖАЕТСЯ</string>
     <string name="lbl_ended">ЗАВЕРШИЛСЯ</string>
-    <string name="btn_clear_all">Очистить всё</string>
     <string name="lbl_filters">Фильтры эфирного ТВ</string>
     <string name="msg_subtitles_loading">Субтитры загружаются…</string>
     <string name="msg_unable_load_subs">Невозможно загрузить субтитры</string>
@@ -268,7 +267,6 @@
     <string name="play_with_vlc">Воспроизвести с libVLC</string>
     <string name="just_one">Только этот один</string>
     <string name="turn_off">Отключить эту опцию</string>
-    <string name="favorite_error">Ошибка задания статуса избранного</string>
     <string name="msg_queue_saved">Очередь сохранена как новый плей-лист: %1$s</string>
     <string name="msg_no_items">Нет элементов для воспроизведения</string>
     <string name="subtitle_error">Невозможно выбрать субтитры</string>
@@ -282,7 +280,6 @@
     <string name="episode_missing_message">Этот эпизод отсутствует в медиатеке. Пропустить его и перейти к следующему\?</string>
     <string name="episode_missing_message_2">Этот эпизод отсутствует в медиатеке. Воспроизведение будет остановлено.</string>
     <string name="episode_missing">Эпизод отсутствует</string>
-    <string name="lbl_clear">Очистить</string>
     <string name="no_player_message">Не найдено приложение поддерживающее видео. Эта опция требует установки стороннего проигрывателя видео.</string>
     <string name="mark_watched">Как просмотрено</string>
     <string name="pref_video_player_choose">Всегда спрашивать</string>

@@ -127,7 +127,6 @@
     <string name="lbl_display_preferences">Preferências de Exibição</string>
     <string name="lbl__continuing">A Continuar</string>
     <string name="lbl_ended">TERMINADO</string>
-    <string name="btn_clear_all">Limpar Tudo</string>
     <string name="lbl_filters">Filtros</string>
     <string name="msg_subtitles_loading">A Carregar as Legendas…</string>
     <string name="msg_unable_load_subs">Não foi possível carregar as legendas</string>
@@ -265,7 +264,6 @@
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>
-    <string name="lbl_deleted">%1$s apagado</string>
     <string name="playing_error">Ocorreu um erro a marcar como reproduzido</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à lista de reprodução. Termina: %2$s</string>
@@ -282,7 +280,6 @@
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
     <string name="episode_missing">Espisódio em Falta</string>
-    <string name="lbl_clear">Limpar</string>
     <string name="mark_watched_message">A reprodução deste item não pareceu ser tão longa como a sua duração. Marcar como visto\?</string>
     <string name="mark_watched">Marcar como Visto</string>
     <string name="login_username_field_empty">O nome de usuário não pode ser vazio</string>

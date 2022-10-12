@@ -84,7 +84,6 @@
     <string name="play_with_vlc">Репродукуј са libVLC</string>
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
-    <string name="lbl_deleted">%1$s обрисан</string>
     <string name="playing_error">Грешка приликом подешавања статуса репродукције</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
     <string name="msg_added_to_video">%1$s додато у ред за видео. Завршава се у: %2$s</string>
@@ -101,7 +100,6 @@
     <string name="episode_missing_message_2">Ова епизода недостаје у вашој библиотеци. Репродукција ће се зауставити.</string>
     <string name="episode_missing_message">Ова епизода недостаје у вашој библиотеци. Да ли бисте желели да га прескочите и наставите на следећи\?</string>
     <string name="episode_missing">Недостаје епизода</string>
-    <string name="lbl_clear">Очисти</string>
     <string name="no_player_message">Изгледа да немате инсталирану апликацију за видео. Ова опција захтева инсталирање независне апликације за репродукцију видео садржаја.</string>
     <string name="no_player">Нема плејера</string>
     <string name="mark_watched_message">Изгледа да ова ставка није репродукована колико траје. Означи као гледано\?</string>
@@ -239,7 +237,6 @@
     <string name="msg_unable_load_subs">Није могуће учитати титл</string>
     <string name="msg_subtitles_loading">Учитавам титлове…</string>
     <string name="lbl_filters">Филтери</string>
-    <string name="btn_filter">Филтер</string>
     <string name="lbl_ended">ЗАВРШЕНА</string>
     <string name="lbl__continuing">НАСТАВЉА СЕ</string>
     <string name="lbl_display_preferences">Прикажи поставке</string>

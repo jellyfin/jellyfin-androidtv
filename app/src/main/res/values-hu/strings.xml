@@ -261,7 +261,6 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Automatikus</string>
-    <string name="lbl_clear">Töröl</string>
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
     <string name="mark_watched">Megtekintettnek jelölés</string>
@@ -271,7 +270,6 @@
     <string name="lbl_subtitle_track">Feliratsáv kiválasztása</string>
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
     <string name="lbl_pause">Szünet</string>
-    <string name="playing_error">Hiba a lejátszási állapot beállításakor</string>
     <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
     <string name="msg_added_to_video">%1$s hozzáadva a videósorhoz. Vége: %2$s</string>
     <string name="msg_queue_saved">A sor új mentési listaként mentve: %1$s</string>
@@ -297,7 +295,6 @@
     <string name="play_with_vlc">Lejátszás LibVLC-vel</string>
     <string name="just_one">Csak ezt az egyet</string>
     <string name="turn_off">Kapcsold ki ezt az opciót</string>
-    <string name="lbl_deleted">%1$s törölve</string>
     <string name="pref_default_rating">Alapértelmezett minősítési típus</string>
     <string name="lbl_tomatoes">Paradicsomok</string>
     <string name="lbl_stars">Csillagok</string>

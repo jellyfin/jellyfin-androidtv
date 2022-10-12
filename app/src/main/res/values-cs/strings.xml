@@ -125,7 +125,6 @@
     <string name="lbl_display_preferences">Předvolby zobrazení</string>
     <string name="lbl__continuing">POKRAČOVÁNÍ</string>
     <string name="lbl_ended">UKONČENO</string>
-    <string name="btn_clear_all">Smazat vše</string>
     <string name="lbl_filters">Filtry živé TV</string>
     <string name="msg_subtitles_loading">Načítají se titulky…</string>
     <string name="msg_unable_load_subs">Nelze načíst titulky</string>
@@ -264,7 +263,6 @@
     <string name="bitrate_auto">Automaticky</string>
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
-    <string name="lbl_deleted">%1$s smazáno</string>
     <string name="playing_error">Nastavení zhlédnutého stavu se nezdařilo</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
     <string name="msg_added_to_video">Položka %1$s přidána do fronty. Konec v: %2$s</string>
@@ -281,7 +279,6 @@
     <string name="episode_missing_message_2">Tato epizoda není ve vaší knihovně. Přehrávání bude zastaveno.</string>
     <string name="episode_missing_message">Tato epizoda není ve vaší knihovně. Chcete ji přeskočit a pokračovat další epizodou\?</string>
     <string name="episode_missing">Chybějící epizoda</string>
-    <string name="lbl_clear">Smazat</string>
     <string name="no_player_message">Zdá se, že nemá nainstalovaný přehrávač videa. Tato možnost vyžaduje přítomnost externí aplikace umožňující přehrávání videa.</string>
     <string name="no_player">Žádný přehrávač</string>
     <string name="mark_watched_message">Zdá se, že položka nebyla přehrávána celá. Označit přesto jako zhlédnutou\?</string>

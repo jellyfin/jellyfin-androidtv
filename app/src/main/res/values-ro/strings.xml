@@ -172,7 +172,6 @@
     <string name="msg_unable_load_subs">Nu s-a putut încărca subtitrarea</string>
     <string name="msg_subtitles_loading">Se încarcă subtitrarea…</string>
     <string name="lbl_filters">Filtre</string>
-    <string name="btn_filter">Filtru</string>
     <string name="lbl_ended">TERMINAT</string>
     <string name="lbl__continuing">CONTINUÂND</string>
     <string name="lbl_display_preferences">Preferințe afișare</string>
@@ -274,7 +273,6 @@
     <string name="episode_missing_message_2">Acest episod lipsește din bibliotecă. Redarea se va opri.</string>
     <string name="episode_missing_message">Acest episod lipsește din biblioteca. Doriți să îl săriți și să continuați cu următorul\?</string>
     <string name="episode_missing">Episod lipsă</string>
-    <string name="lbl_clear">Golește</string>
     <string name="no_player_message">Se pare că nu aveți instalată o aplicație capabilă de redare video. Această opțiune necesită instalarea unei aplicații terță parte pentru redarea conținutului video.</string>
     <string name="no_player">Fără soft de redare</string>
     <string name="mark_watched_message">Elementul nu pare să fi redat atât timp cât are durata. Marcați ca urmărit\?</string>
@@ -285,7 +283,6 @@
     <string name="lbl_subtitle_track">Selectează pista subtitrare</string>
     <string name="lbl_audio_track">Selectează pista audio</string>
     <string name="lbl_pause">Pauză</string>
-    <string name="playing_error">Eroare la setarea statusului de redare</string>
     <string name="audio_error">Imposibil de redat sunetul %1$s</string>
     <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
     <string name="msg_queue_saved">Coada salvată ca listă de redare nouă: %1$s</string>
@@ -298,7 +295,6 @@
     <string name="play_with_vlc">Rulează cu LibVLC</string>
     <string name="just_one">Doar pe aceasta</string>
     <string name="turn_off">Dezactivați această opțiune</string>
-    <string name="lbl_deleted">%1$s Șters</string>
     <string name="login_username_field_empty">Numele de utilizator nu poate fi vid</string>
     <string name="login_server_unavailable">Nu s-a putut conecta la server</string>
     <string name="login_invalid_credentials">Nume de utilizator și/sau parolă greșite</string>

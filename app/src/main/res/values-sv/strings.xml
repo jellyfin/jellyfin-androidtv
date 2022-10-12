@@ -115,7 +115,6 @@
     <string name="msg_unable_load_subs">Kan inte ladda undertext</string>
     <string name="msg_subtitles_loading">Undertexter laddas…</string>
     <string name="lbl_filters">Filter för direktsänd TV</string>
-    <string name="btn_filter">Filtrera</string>
     <string name="lbl_ended">AVSLUTAD</string>
     <string name="lbl__continuing">FORTSÄTTER</string>
     <string name="lbl_display_preferences">Visningspreferenser</string>
@@ -274,7 +273,6 @@
     <string name="pref_video_player_choose">Fråga alltid</string>
     <string name="just_one">Endast denna</string>
     <string name="turn_off">Avaktivera denna inställning</string>
-    <string name="lbl_deleted">%1$s raderad</string>
     <string name="playing_error">Fel när speladstatus sattes</string>
     <string name="audio_error">Kunde inte spela ljud %1$s</string>
     <string name="msg_added_to_video">%1$s tillagd i videokö. Slutar: %2$s</string>
@@ -288,7 +286,6 @@
     <string name="episode_missing_message_2">Detta avsnitt saknas i ditt bibliotek. Uppspelningen stoppas.</string>
     <string name="episode_missing_message">Detta avsnitt saknas från ditt bibliotek. Vill du hoppa över det och fortsätta med nästa\?</string>
     <string name="episode_missing">Avsnitt saknas</string>
-    <string name="lbl_clear">Rensa</string>
     <string name="no_player_message">Det verkar som att du inte har någon app som kan spela upp video. Detta alternativ kräver att du installerar en tredjepartsapp för att spela videoinnehåll.</string>
     <string name="no_player">Ingen spelare</string>
     <string name="mark_watched_message">Videon verkar inte ha helt spelats upp till sin fulla längd. Markera som spelad ändå\?</string>

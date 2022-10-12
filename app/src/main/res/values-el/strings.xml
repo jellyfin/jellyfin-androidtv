@@ -138,7 +138,6 @@
     <string name="msg_unable_load_subs">Δεν μπορεί να φορτωθεί ο υπότιτλος</string>
     <string name="msg_subtitles_loading">Φόρτωση υποτίτλων…</string>
     <string name="lbl_filters">Φίλτρα Ζωντανής Τηλεόρασης</string>
-    <string name="btn_filter">Φίλτρα</string>
     <string name="lbl_ended">ΟΛΟΚΛΗΡΩΘΗΚΕ</string>
     <string name="lbl__continuing">ΣΥΝΕΧΙΖΕΤΑΙ</string>
     <string name="lbl_display_preferences">Προτιμήσεις προβολής</string>
@@ -403,7 +402,6 @@
     <string name="login_invalid_credentials">Μη έγκυρο όνομα χρήστη και/ή κωδικός</string>
     <string name="server_connection_failed_candidates">Δεν είναι δυνατή η σύνδεση με το διακοσμητή, δοκιμάστηκαν οι ακόλουθες διευθύνσεις: %1$s</string>
     <string name="lbl_playback_control_ends">Τελειώνει στις %1$s</string>
-    <string name="lbl_deleted">%1$s Διαγράφηκαν</string>
     <string name="audio_error">Δεν είναι δυνατή η αναπαραγωγή ήχου %1$s</string>
     <string name="subtitle_error">Δεν είναι δυνατή η επιλογή υποτίτλων</string>
     <string name="msg_live_tv_next">Φόρτωση των επόμενων %1$d ωρών;</string>

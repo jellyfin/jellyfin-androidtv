@@ -103,7 +103,6 @@
     <string name="lbl_no_recordings">Noben posnetek ni na voljo</string>
     <string name="msg_unable_load_subs">Podnapisov ni bilo možno naložiti</string>
     <string name="lbl_filters">Filtri televizije v živo</string>
-    <string name="btn_filter">Filter</string>
     <string name="lbl_ended">ZAKLJUČENO</string>
     <string name="lbl__continuing">SE NADALJUJE</string>
     <string name="msg_subtitles_loading">Podnapisi se nalagajo…</string>
@@ -179,14 +178,12 @@
     <string name="play_with_vlc">Predvajaj z LibVLC</string>
     <string name="just_one">Samo tega</string>
     <string name="turn_off">Izklopi to možnost</string>
-    <string name="lbl_deleted">%1$s izbrisan</string>
     <string name="audio_error">Ne morem predvajati avdia %1$s</string>
     <string name="msg_no_items">Ni elementov za predvajanje</string>
     <string name="subtitle_error">Ne morem izbrati sledi podnapisov</string>
     <string name="too_many_errors">Preveč napak. Predajam se</string>
     <string name="lbl_new_playlist_name">Vnesi ime za nov seznam predvajanja</string>
     <string name="episode_missing">Manjkajoča epizoda</string>
-    <string name="lbl_clear">Počisti</string>
     <string name="no_player">Ni predvajalnika</string>
     <string name="mark_watched">Označi kot ogledano</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
