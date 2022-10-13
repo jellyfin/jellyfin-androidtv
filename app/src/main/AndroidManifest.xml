@@ -135,10 +135,6 @@
             android:name=".ui.preference.PreferencesActivity"
             android:theme="@style/Theme.Jellyfin.Preferences" />
 
-        <activity
-            android:name=".ui.itemdetail.PhotoPlayerActivity"
-            android:screenOrientation="landscape" />
-
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
 
         <activity

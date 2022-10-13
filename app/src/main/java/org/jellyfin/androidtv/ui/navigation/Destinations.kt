@@ -16,7 +16,6 @@ import org.jellyfin.androidtv.ui.browsing.SuggestedMoviesFragment
 import org.jellyfin.androidtv.ui.home.HomeFragment
 import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment
-import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity
 import org.jellyfin.androidtv.ui.livetv.GuideFiltersScreen
 import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
@@ -139,7 +138,6 @@ object Destinations {
 
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
-	val photoPlayer = activityDestination<PhotoPlayerActivity>()
 	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String?, albumSortOrder: SortOrder?) =
 		fragmentDestination<PictureViewerFragment>(
 			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),

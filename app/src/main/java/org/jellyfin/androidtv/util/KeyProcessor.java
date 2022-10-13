@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.util;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository;
-import org.jellyfin.androidtv.ui.itemdetail.PhotoPlayerActivity;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
@@ -106,10 +104,13 @@ public class KeyProcessor {
                                 createPlayMenu(rowItem.getBaseItem(), true, MediaType.Audio.equals(item.getMediaType()), activity);
                                 return true;
                             case PHOTO:
-                                // open photo player
-                                Intent photoIntent = new Intent(activity, PhotoPlayerActivity.class);
-                                photoIntent.putExtra("Play", true);
-                                activity.startActivity(photoIntent);
+                                NavigationRepository navigationRepository = KoinJavaComponent.get(NavigationRepository.class);
+                                navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
+                                        rowItem.getBaseItem().getId(),
+                                        true,
+                                        ItemSortBy.SortName,
+                                        org.jellyfin.sdk.model.api.SortOrder.ASCENDING
+                                ));
                                 return true;
                         }
                         break;
