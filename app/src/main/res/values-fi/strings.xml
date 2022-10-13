@@ -345,7 +345,6 @@
     <string name="play_with_vlc">Toista LibVLC-soittimella</string>
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
-    <string name="playing_error">Virhe määritettäessä toistotilaa</string>
     <string name="msg_added_to_video">\'%1$s\' lisättiin videojonoon. Päättyy: %2$s</string>
     <string name="msg_queue_saved">Jono tallennettiin toistolistaksi: %1$s</string>
     <string name="msg_no_items">Ei toistettavia kohteita</string>

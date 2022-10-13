@@ -315,7 +315,6 @@
     <string name="play_with_vlc">用 LibVLC 播放</string>
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
-    <string name="playing_error">無法設為已播放狀態</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
     <string name="msg_added_to_video">%1$s 已加入影片隊列。%2$s 後結束</string>
     <string name="msg_queue_saved">隊列已存為新播放清單：%1$s</string>

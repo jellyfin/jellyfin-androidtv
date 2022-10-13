@@ -268,7 +268,6 @@
     <string name="lbl_tv_channel_status">%2$d 个频道中的第 %1$d 个</string>
     <string name="just_one">只选此项</string>
     <string name="turn_off">将此选项关闭</string>
-    <string name="playing_error">无法设置已播放状态</string>
     <string name="audio_error">无法播放音频%1$s</string>
     <string name="msg_queue_saved">使用保存项目新建列表： %1$s</string>
     <string name="msg_no_items">无播放项目</string>

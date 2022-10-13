@@ -161,7 +161,6 @@
     <string name="play_with_vlc">Reproduciraj sa libVLC</string>
     <string name="just_one">Samo ovu</string>
     <string name="turn_off">Ugasi ovu postavku</string>
-    <string name="playing_error">Greška u postavljanju statusa reprodukcije</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
     <string name="msg_added_to_video">%1$s dodan u red videozapisa. Završava: %2$s</string>
     <string name="msg_queue_saved">Red spremljen kao nova lista za reprodukciju: %1$s</string>

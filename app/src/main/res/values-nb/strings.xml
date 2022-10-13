@@ -263,7 +263,6 @@
     <string name="bitrate_auto">Automatisk</string>
     <string name="just_one">Kun denne</string>
     <string name="turn_off">Slå av dette alternativet</string>
-    <string name="playing_error">Feil under lagring av avspilt status</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>
     <string name="msg_added_to_video">%1$s lagt til i videokøen. Slutter: %2$s</string>
     <string name="msg_queue_saved">Kø lagret som ny spilleliste: %1$s</string>

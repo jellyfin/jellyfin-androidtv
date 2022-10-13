@@ -267,7 +267,6 @@
     <string name="play_with_vlc">Reproduir amb LibVLC</string>
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
-    <string name="playing_error">S\'ha produït un error en configurar l\'estat de reproducció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
     <string name="msg_added_to_video">S\'ha afegit %1$s a la cua de vídeos. Finalitza: %2$s</string>
     <string name="msg_queue_saved">La cua s\'ha desat com a nova llista de reproducció: %1$s</string>

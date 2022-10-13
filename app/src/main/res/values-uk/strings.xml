@@ -458,7 +458,6 @@
     <string name="play_with_vlc">Грати з LibVLC</string>
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкнути цю опцію</string>
-    <string name="playing_error">Помилка під час встановлення статусу переглянутості</string>
     <string name="audio_error">Неможливо програти звук %1$s</string>
     <string name="msg_added_to_video">%1$s додано до відеочерги. Закінчується: %2$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>

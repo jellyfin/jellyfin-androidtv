@@ -274,7 +274,6 @@
     <string name="play_with_vlc">Prehrať pomocou LibVLC</string>
     <string name="just_one">Len túto jednu</string>
     <string name="turn_off">Vypnúť túto možnosť</string>
-    <string name="playing_error">Chyba pri nastavení stavu o prehratí</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
     <string name="msg_added_to_video">Položka %1$s bola pridaná do video fronty. Koniec o: %2$s</string>
     <string name="msg_queue_saved">Fronta bola uložená ako nový playlist: %1$s</string>

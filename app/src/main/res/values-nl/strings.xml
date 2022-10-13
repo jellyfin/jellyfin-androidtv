@@ -272,7 +272,6 @@
     <string name="play_with_vlc">Speel af met LibVLC</string>
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie af</string>
-    <string name="playing_error">Error bij het aanpassen van gespeelde status</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>
     <string name="msg_added_to_video">%1$s toegevoegd aan de videowachtrij. Eindigt om: %2$s</string>
     <string name="msg_queue_saved">Wachtrij opgeslagen als nieuwe afspeellijst: %1$s</string>

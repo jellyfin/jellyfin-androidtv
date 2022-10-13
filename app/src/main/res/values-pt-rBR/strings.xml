@@ -273,7 +273,6 @@
     <string name="play_with_vlc">Reproduzir com LibVLC</string>
     <string name="just_one">Apenas essa</string>
     <string name="turn_off">Desabilite essa opção</string>
-    <string name="playing_error">Erro ao definir o status de reprodução</string>
     <string name="audio_error">Não foi possível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à fila de vídeo. Termina às: %2$s</string>
     <string name="msg_queue_saved">Fila salva como nova lista de reprodução: %1$s</string>

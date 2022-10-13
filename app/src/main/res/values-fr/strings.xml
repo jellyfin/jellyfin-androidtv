@@ -281,7 +281,6 @@
     <string name="lbl_load_guide_data">Charger données du Guide</string>
     <string name="mark_watched">Marquer comme lue</string>
     <string name="turn_off">Désactiver cette option</string>
-    <string name="playing_error">Erreur d\'enregistrement du statut de lecture</string>
     <string name="just_one">Celui-ci uniquement</string>
     <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
     <string name="lbl_tv_channel_status">%1$d sur %2$d canaux</string>

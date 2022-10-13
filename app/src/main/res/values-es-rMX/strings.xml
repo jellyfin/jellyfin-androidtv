@@ -263,7 +263,6 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="just_one">Unicamente esto</string>
     <string name="turn_off">Desactive esta opción</string>
-    <string name="playing_error">Error al introducir el estado de reproducido</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
     <string name="msg_queue_saved">Cola de reproducción guardada como nueva lista: %1$s</string>

@@ -105,7 +105,6 @@
     <string name="pref_playback">பின்னணி</string>
     <string name="just_one">இது ஒன்று</string>
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
-    <string name="playing_error">இயக்கிய நிலையை அமைப்பதில் பிழை</string>
     <string name="audio_error">ஆடியோ %1$s ஐ இயக்க முடியவில்லை</string>
     <string name="msg_added_to_video">வீடியோ வரிசையில் %1$s சேர்க்கப்பட்டது. முடிவடைகிறது: %2$s</string>
     <string name="msg_queue_saved">வரிசை புதிய பிளேலிஸ்டாக சேமிக்கப்பட்டது: %1$s</string>

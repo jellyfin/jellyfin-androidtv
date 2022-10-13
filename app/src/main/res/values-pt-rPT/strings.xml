@@ -264,7 +264,6 @@
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>
-    <string name="playing_error">Ocorreu um erro a marcar como reproduzido</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à lista de reprodução. Termina: %2$s</string>
     <string name="msg_queue_saved">Fila de reprodução gravada como nova lista de reprodução: %1$s</string>

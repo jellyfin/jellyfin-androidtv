@@ -263,7 +263,6 @@
     <string name="bitrate_auto">Automaticky</string>
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
-    <string name="playing_error">Nastavení zhlédnutého stavu se nezdařilo</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
     <string name="msg_added_to_video">Položka %1$s přidána do fronty. Konec v: %2$s</string>
     <string name="msg_queue_saved">Fronta k přehrávání byla uložena do nového seznamu: %1$s</string>

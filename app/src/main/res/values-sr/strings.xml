@@ -84,7 +84,6 @@
     <string name="play_with_vlc">Репродукуј са libVLC</string>
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
-    <string name="playing_error">Грешка приликом подешавања статуса репродукције</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
     <string name="msg_added_to_video">%1$s додато у ред за видео. Завршава се у: %2$s</string>
     <string name="msg_queue_saved">Ред је сачуван као нова плејлиста: %1$s</string>

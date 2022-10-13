@@ -218,7 +218,6 @@
     <string name="lbl_runs">Chạy</string>
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
-    <string name="playing_error">Lỗi khi đặt trạng thái đã phát</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
     <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
     <string name="msg_queue_saved">Hàng đợi được lưu dưới dạng danh sách phát mới: %1$s</string>

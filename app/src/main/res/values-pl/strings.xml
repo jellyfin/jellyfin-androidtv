@@ -264,7 +264,6 @@
     <string name="lbl_load_guide_data">Załaduj dane przewodnika</string>
     <string name="just_one">Tylko to</string>
     <string name="turn_off">Wyłącz tę opcję</string>
-    <string name="playing_error">Błąd podczas ustawiania statusu odtwarzania</string>
     <string name="audio_error">Nie można odtworzyć dźwięku: %1$s</string>
     <string name="msg_added_to_video">%1$s zostało dodane do kolejki. Kolejka kończy się za: %2$s</string>
     <string name="msg_queue_saved">Kolejka zapisana jako nowa playlista: %1$s</string>

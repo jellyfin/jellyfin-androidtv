@@ -202,7 +202,6 @@
     <string name="play_with_exo_player">ExoPlayer로 재생</string>
     <string name="play_with_vlc">libVLC로 재생</string>
     <string name="turn_off">옵션 끄기</string>
-    <string name="playing_error">재생 상태 설정 오류</string>
     <string name="msg_added_to_video">%1$s 가 비디오 대기열에 추가됨. 종료: %2$s</string>
     <string name="msg_queue_saved">신규 재생 목록에 저장된 대기열: %1$s</string>
     <string name="msg_no_items">재생할 항목이 비어 있음</string>

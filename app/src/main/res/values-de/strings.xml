@@ -263,7 +263,6 @@
     <string name="bitrate_auto">Automatisch</string>
     <string name="just_one">Nur dieses eine</string>
     <string name="turn_off">Diese Option ausschalten</string>
-    <string name="playing_error">Fehler beim Setzen des Wiedergabestatus</string>
     <string name="audio_error">Audio kann nicht abgespielt werden %1$s</string>
     <string name="msg_added_to_video">%1$s zur Video-Warteschlange hinzugefügt. Endet: %2$s</string>
     <string name="msg_queue_saved">Warteschlange als neue Wiedergabeliste gespeichert: %1$s</string>

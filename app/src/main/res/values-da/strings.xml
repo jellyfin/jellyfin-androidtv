@@ -270,7 +270,6 @@
     <string name="play_with_vlc">Afspil med LibVLC</string>
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
-    <string name="playing_error">Fejl under ændring af afspillet status</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
     <string name="msg_added_to_video">%1$s tilføjet til video kø. Færdig om: %2$s</string>
     <string name="msg_queue_saved">Kø gemt som ny afspilningsliste: %1$s</string>

@@ -273,7 +273,6 @@
     <string name="pref_video_player_choose">Fråga alltid</string>
     <string name="just_one">Endast denna</string>
     <string name="turn_off">Avaktivera denna inställning</string>
-    <string name="playing_error">Fel när speladstatus sattes</string>
     <string name="audio_error">Kunde inte spela ljud %1$s</string>
     <string name="msg_added_to_video">%1$s tillagd i videokö. Slutar: %2$s</string>
     <string name="msg_queue_saved">Kö sparad som ny spellista: %1$s</string>

@@ -379,7 +379,6 @@
     <string name="play_with_vlc">پخش با LibVLC</string>
     <string name="just_one">فقط اینبار</string>
     <string name="turn_off">این گزینه را غیرفعال کن</string>
-    <string name="playing_error">خطا در تنظیم وضعیت پخش شده</string>
     <string name="audio_error">پخش صدای %1$s امکان پذیر نیست</string>
     <string name="msg_added_to_video">%1$s به صف ویدئویی اضافه شد. پایان: %2$s</string>
     <string name="msg_queue_saved">صف به عنوان لیست پخش جدید ذخیره شد: %1$s</string>

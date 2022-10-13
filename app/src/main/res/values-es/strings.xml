@@ -263,7 +263,6 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
-    <string name="playing_error">Error actualizando el estado de reproducción</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la lista de reproducción actual. Termina: %2$s</string>
