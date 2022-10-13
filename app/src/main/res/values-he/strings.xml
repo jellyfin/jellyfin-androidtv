@@ -232,7 +232,6 @@
     <string name="play_with_vlc">נגן בעזרת libVLC</string>
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
-    <string name="favorite_error">תקלה בהדלקת סטטוס ׳מועדף׳</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
     <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
     <string name="msg_queue_saved">תור נשמר בתור רשימת ניגון: %1$s</string>
@@ -462,4 +461,28 @@
     <string name="lbl_adjust">התאם</string>
     <string name="lbl_shuffle_queue">החלף מצב ערבוב</string>
     <string name="state_disabled">מושבת</string>
+    <string name="pref_telemetry_category">דיווח על קריסה</string>
+    <string name="pref_crash_report_logs">כלול יומנים</string>
+    <string name="pref_crash_report_logs_disabled">יומנים לא ייכללו בדוחות קריסה</string>
+    <string name="image_size_xlarge">גדול מאוד</string>
+    <string name="lbl_additional_parts">חלקים נוספים</string>
+    <string name="pref_audio_night_mode">מצב לילה אודיו (ניסיוני)</string>
+    <string name="desc_audio_night_mode">משפר את עוצמת השמע באופן אוטומטי</string>
+    <string name="lbl_quality_profile">פרופיל איכות</string>
+    <string name="image_type_poster">פּוֹסטֵר</string>
+    <string name="image_size_smallest">הכי קטן</string>
+    <string name="license_artifact">חפץ</string>
+    <string name="pref_refresh_rate_scale_on_tv">קנה מידה בטלוויזיה</string>
+    <string name="pref_refresh_rate_scale_on_device">קנה מידה במכשיר</string>
+    <string name="app_notification_uimode_invalid">אפליקציה זו מותאמת לטלוויזיות. אנו ממליצים להשתמש באפליקציה שלנו לנייד במכשירים אחרים.</string>
+    <string name="server_unsupported_notification">שרת זה משתמש בגרסת Jellyfin %1$s שאינה נתמכת. עדכן ל-Jellyfin %2$s כדי להמשיך להשתמש באפליקציה.</string>
+    <string name="pref_telemetry_description">שלח דוחות קריסה, כולל יומנים</string>
+    <string name="pref_crash_reports">שלח דוחות קריסה לשרת</string>
+    <string name="pref_crash_reports_enabled">דוחות קריסה יישלחו לשרת האחרון שבו השתמשת</string>
+    <string name="pref_crash_reports_disabled">לא יוגשו דוחות קריסה</string>
+    <string name="pref_crash_report_logs_enabled">יומנים ייכללו בדוחות קריסה</string>
+    <string name="server_setup_incomplete">ההגדרה של שרת זה לא הושלמה. פתח את Jellyfin בדפדפן אינטרנט כדי לסיים את ההגדרה לפני הכניסה.</string>
+    <string name="enable_picture_viewer_title">הפעל את מציג התמונות החדש</string>
+    <string name="episode_name_special">מיוחד</string>
+    <string name="crash_report_toast">אופס! משהו השתבש, דוח קריסה נשלח לשרת Jellyfin שלך.</string>
 </resources>
