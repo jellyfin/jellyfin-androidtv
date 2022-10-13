@@ -257,7 +257,7 @@
     <string name="pref_subtitle_track_button">כפתור כתוביות</string>
     <string name="pref_audio_track_button">כפתור רצועת שמע</string>
     <string name="lbl_unknown_key">לא ידוע (%1s)</string>
-    <string name="grid_direction_vertical">אנכי (נסיוני)</string>
+    <string name="grid_direction_vertical">אנכי</string>
     <string name="grid_direction_horizontal">אופקי</string>
     <string name="grid_direction">כיוון הטבלה</string>
     <string name="pref_device_model">מודל המכשיר</string>
