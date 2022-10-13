@@ -64,6 +64,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		binding.actionNext.setOnClickListener { pictureViewerViewModel.showNext() }
 		binding.actionPlayPause.setOnClickListener { pictureViewerViewModel.togglePresentation() }
 		binding.root.setOnClickListener { toggleActions() }
+		binding.actionPlayPause.requestFocus()
 		return binding.root
 	}
 

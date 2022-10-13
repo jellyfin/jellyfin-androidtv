@@ -33,7 +33,6 @@
         android:layout_marginBottom="27dp"
         android:background="@drawable/button_bar_back"
         android:padding="12dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
