@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.preference.LibraryPreferences;
 import org.jellyfin.androidtv.preference.PreferencesRepository;
-import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -128,18 +127,12 @@ public class ItemLauncher {
                     case PHOTO:
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaPosition(pos);
 
-                        UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
-                        boolean pictureViewerRewriteEnabled = userPreferences.get(UserPreferences.Companion.getPictureViewerRewriteEnabled());
-                        if (pictureViewerRewriteEnabled) {
-                            navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
-                                    mediaManager.getCurrentMediaItem().getBaseItem().getId(),
-                                    false,
-                                    mediaManager.getCurrentMediaAdapter().getSortBy(),
-                                    mediaManager.getCurrentMediaAdapter().getSortOrder()
-                            ));
-                        } else {
-                            navigationRepository.navigate(Destinations.INSTANCE.getPhotoPlayer());
-                        }
+                        navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
+                                mediaManager.getCurrentMediaItem().getBaseItem().getId(),
+                                false,
+                                mediaManager.getCurrentMediaAdapter().getSortBy(),
+                                mediaManager.getCurrentMediaAdapter().getSortOrder()
+                        ));
                         return;
 
                 }
