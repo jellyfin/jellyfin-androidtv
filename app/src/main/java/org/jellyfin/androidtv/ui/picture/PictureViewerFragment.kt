@@ -11,6 +11,8 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
@@ -28,6 +30,7 @@ import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import kotlin.time.Duration.Companion.seconds
 
 class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	companion object {
@@ -35,11 +38,14 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		const val ARGUMENT_ALBUM_SORT_BY = "album_sort_by"
 		const val ARGUMENT_ALBUM_SORT_ORDER = "album_sort_order"
 		const val ARGUMENT_AUTO_PLAY = "auto_play"
+		private val AUTO_HIDE_ACTIONS_DURATION = 4.seconds
 	}
 
 	private val pictureViewerViewModel by sharedViewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private lateinit var binding: FragmentPictureViewerBinding
+
+	private var actionHideTimer: Job? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -60,11 +66,25 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		binding = FragmentPictureViewerBinding.inflate(inflater, container, false)
-		binding.actionPrevious.setOnClickListener { pictureViewerViewModel.showPrevious() }
-		binding.actionNext.setOnClickListener { pictureViewerViewModel.showNext() }
-		binding.actionPlayPause.setOnClickListener { pictureViewerViewModel.togglePresentation() }
+		binding.actionPrevious.setOnClickListener {
+			pictureViewerViewModel.showPrevious()
+			resetHideActionsTimer()
+		}
+		binding.actionNext.setOnClickListener {
+			pictureViewerViewModel.showNext()
+			resetHideActionsTimer()
+		}
+		binding.actionPlayPause.setOnClickListener {
+			pictureViewerViewModel.togglePresentation()
+			resetHideActionsTimer()
+		}
 		binding.root.setOnClickListener { toggleActions() }
 		binding.actionPlayPause.requestFocus()
+		arrayOf(binding.actionPrevious, binding.actionPlayPause, binding.actionNext).forEach {
+			it.setOnFocusChangeListener { _, _ ->
+				resetHideActionsTimer()
+			}
+		}
 		return binding.root
 	}
 
@@ -87,7 +107,10 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 
 	private val keyHandler = createKeyHandler {
 		keyDown(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE)
-			.body { pictureViewerViewModel.togglePresentation() }
+			.body {
+				pictureViewerViewModel.togglePresentation()
+				resetHideActionsTimer()
+			}
 
 		keyDown(KeyEvent.KEYCODE_DPAD_LEFT)
 			.condition { !binding.actions.isVisible }
@@ -147,6 +170,22 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	fun toggleActions(): Boolean {
 		return if (binding.actions.isVisible) hideActions()
 		else showActions()
+	}
+
+	private fun resetHideActionsTimer() {
+		// Cancel existing timer (if it exists)
+		actionHideTimer?.cancel()
+
+		// Don't start the timer when already invisible
+		if (!binding.actions.isVisible) return
+
+		// Create new timer
+		actionHideTimer = lifecycleScope.launch {
+			delay(AUTO_HIDE_ACTIONS_DURATION)
+
+			// Only auto-hide when there is an active presenation
+			if (pictureViewerViewModel.presentationActive.value) hideActions()
+		}
 	}
 
 	private fun AsyncImageView.load(item: BaseItemDto) {
