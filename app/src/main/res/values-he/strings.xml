@@ -270,7 +270,7 @@
     <string name="pref_about_title">אודות</string>
     <string name="pref_video_player_choose">שאל תמיד</string>
     <string name="pref_video_player_external">נגן חיצוני</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_exoplayer">אקסופליר</string>
     <string name="pref_video_player_auto">בחר אוטומאטית</string>
     <string name="pref_theme_emerald">אזמרגד קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
@@ -298,7 +298,7 @@
     <string name="lbl_tomatoes">עגבניות</string>
     <string name="lbl_stars">כוכבים</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f קילוביט לשניה</string>
     <string name="bitrate_mbit">‭%1$,.0f Mbit/s</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_item">פריט</string>
