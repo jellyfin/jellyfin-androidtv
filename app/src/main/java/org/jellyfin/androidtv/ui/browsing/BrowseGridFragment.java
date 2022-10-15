@@ -185,12 +185,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         binding = HorizontalGridBrowseBinding.inflate(inflater, container, false);
-
-        // Hide the description because we don't have room for it
-        binding.npBug.showDescription(false);
-
         return binding.getRoot();
     }
 

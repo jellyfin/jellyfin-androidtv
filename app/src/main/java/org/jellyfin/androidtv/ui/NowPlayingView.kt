@@ -2,103 +2,148 @@ package org.jellyfin.androidtv.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.AbstractComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.core.view.setPadding
+import androidx.tv.material3.ClickableSurfaceDefaults
+import androidx.tv.material3.ProvideTextStyle
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.databinding.ViewNowPlayingBinding
+import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.rememberMediaItem
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
-import org.jellyfin.androidtv.ui.playback.AudioEventListener
 import org.jellyfin.androidtv.ui.playback.MediaManager
-import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.util.ImageHelper
-import org.jellyfin.androidtv.util.TimeUtils
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import org.jellyfin.sdk.model.api.ImageType
+import org.koin.compose.koinInject
+
+@Composable
+fun NowPlayingComposable() {
+	val mediaManager = koinInject<MediaManager>()
+	val navigationRepository = koinInject<NavigationRepository>()
+	val imageHelper = koinInject<ImageHelper>()
+
+	val (item, progress) = rememberMediaItem(mediaManager)
+
+	AnimatedVisibility(
+		visible = item != null,
+		enter = fadeIn(),
+		exit = fadeOut(),
+	) {
+		Surface(
+			onClick = { navigationRepository.navigate(Destinations.nowPlaying) },
+			colors = ClickableSurfaceDefaults.colors(
+				containerColor = colorResource(id = R.color.button_default_normal_background),
+				focusedContainerColor = colorResource(id = R.color.button_default_highlight_background),
+				contentColor = colorResource(id = R.color.button_default_normal_text),
+				focusedContentColor = colorResource(id = R.color.button_default_highlight_text),
+			),
+			scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
+			shape = ClickableSurfaceDefaults.shape(
+				shape = RoundedCornerShape(4.dp),
+			),
+			modifier = Modifier
+				.widthIn(0.dp, 250.dp)
+		) {
+			Box(
+				modifier = Modifier
+					.align(Alignment.BottomStart)
+					.fillMaxWidth()
+					.height(1.dp)
+					.drawWithContent {
+						// Background
+						drawRect(Color.White, alpha = 0.4f)
+						// Foreground
+						drawRect(Color.White, size = size.copy(width = size.width * progress))
+					}
+			)
+
+			ProvideTextStyle(
+				value = TextStyle.Default.copy(
+					fontSize = 12.sp,
+				)
+			) {
+				Row(
+					horizontalArrangement = Arrangement.spacedBy(10.dp),
+					verticalAlignment = Alignment.CenterVertically,
+					modifier = Modifier
+						.padding(5.dp)
+				) {
+					val primaryImageTag = item?.imageTags?.get(ImageType.PRIMARY)
+					val (imageItemId, imageTag) = when {
+						primaryImageTag != null -> item.id to primaryImageTag
+						(item?.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
+						else -> null to null
+					}
+					val imageUrl = when {
+						imageItemId != null && imageTag != null -> imageHelper.getImageUrl(
+							itemId = imageItemId,
+							imageType = ImageType.PRIMARY,
+							imageTag = imageTag
+						)
+
+						else -> null
+					}
+					val imageBlurHash = imageTag?.let { tag ->
+						item?.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag)
+					}
+
+					AsyncImage(
+						url = imageUrl,
+						blurHash = imageBlurHash,
+						placeholder = ContextCompat.getDrawable(LocalContext.current, R.drawable.ic_album),
+						aspectRatio = item?.primaryImageAspectRatio ?: 1.0,
+						modifier = Modifier
+							.size(35.dp)
+							.clip(RoundedCornerShape(4.dp)),
+						scaleType = ImageView.ScaleType.CENTER_CROP,
+					)
+
+					Column(
+						verticalArrangement = Arrangement.SpaceAround,
+					) {
+						// Name
+						Text(text = item?.name.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+						Text(text = item?.albumArtist.orEmpty(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+					}
+				}
+			}
+		}
+	}
+}
 
 class NowPlayingView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
-	defStyleAttr: Int = 0,
-	defStyleRes: Int = R.style.Button_Default,
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), KoinComponent {
-	val binding = ViewNowPlayingBinding.inflate(LayoutInflater.from(context), this, true)
-
-	private val mediaManager by inject<MediaManager>()
-	private val navigationRepository by inject<NavigationRepository>()
-	private val imageHelper by inject<ImageHelper>()
-	private var currentDuration: String = ""
-
-	init {
-		setPadding(0)
-
-		if (!isInEditMode) setOnClickListener {
-			navigationRepository.navigate(Destinations.nowPlaying)
-		}
-	}
-
-	override fun onAttachedToWindow() {
-		super.onAttachedToWindow()
-
-		if (!isInEditMode) {
-			// hook our events
-			mediaManager.addAudioEventListener(audioEventListener)
-
-			if (mediaManager.hasAudioQueueItems()) {
-				isVisible = true
-				setInfo(mediaManager.currentAudioItem!!)
-				setStatus(mediaManager.currentAudioPosition)
-			} else isVisible = false
-		}
-	}
-
-	override fun onDetachedFromWindow() {
-		super.onDetachedFromWindow()
-
-		if (!isInEditMode) mediaManager.removeAudioEventListener(audioEventListener)
-	}
-
-	private fun setInfo(item: org.jellyfin.sdk.model.api.BaseItemDto) {
-		val placeholder = ContextCompat.getDrawable(context, R.drawable.ic_album)
-		val blurHash = item.imageBlurHashes?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY)?.get(item.imageTags?.get(org.jellyfin.sdk.model.api.ImageType.PRIMARY))
-		binding.npIcon.load(imageHelper.getPrimaryImageUrl(item), blurHash, placeholder, item.primaryImageAspectRatio ?: 1.0)
-
-		currentDuration = TimeUtils.formatMillis(if (item.runTimeTicks != null) item.runTimeTicks!! / 10_000 else 0)
-		binding.npDesc.text = if (item.albumArtist != null) item.albumArtist else item.name
-	}
-
-	private fun setStatus(pos: Long) {
-		binding.npStatus.text = resources.getString(R.string.lbl_status, TimeUtils.formatMillis(pos), currentDuration)
-	}
-
-	fun showDescription(show: Boolean) {
-		binding.npDesc.isVisible = show
-	}
-
-	private var audioEventListener: AudioEventListener = object : AudioEventListener {
-		override fun onPlaybackStateChange(newState: PlaybackController.PlaybackState, currentItem: org.jellyfin.sdk.model.api.BaseItemDto?) {
-			when {
-				currentItem == null -> Unit
-				newState == PlaybackController.PlaybackState.PLAYING -> setInfo(currentItem)
-				newState == PlaybackController.PlaybackState.IDLE && isShown -> setStatus(mediaManager.currentAudioPosition)
-			}
-		}
-
-		override fun onProgress(pos: Long) {
-			if (isShown) setStatus(pos)
-		}
-
-		override fun onQueueStatusChanged(hasQueue: Boolean) {
-			isVisible = hasQueue
-
-			if (hasQueue) {
-				// may have just added one so update display
-				setInfo(mediaManager.currentAudioItem!!)
-				setStatus(mediaManager.currentAudioPosition)
-			}
-		}
-	}
+	defStyle: Int = 0
+) : AbstractComposeView(context, attrs, defStyle) {
+	@Composable
+	override fun Content() = NowPlayingComposable()
 }
