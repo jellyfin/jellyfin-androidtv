@@ -10,6 +10,7 @@
  - [joern-h](https://github.com/joern-h)
  - [Niels van Velzen](https://github.com/nielsvanvelzen)
  - [GodTamIt](https://github.com/GodTamIt)
+ - [sparky3387](https://github.com/sparky3387)
 
 # Emby Contributors
 

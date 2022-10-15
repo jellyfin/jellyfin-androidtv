@@ -50,6 +50,7 @@ import org.jellyfin.androidtv.ui.GuideChannelHeader;
 import org.jellyfin.androidtv.ui.GuidePagingButton;
 import org.jellyfin.androidtv.ui.HorizontalScrollViewListener;
 import org.jellyfin.androidtv.ui.LiveProgramDetailPopup;
+
 import org.jellyfin.androidtv.ui.ObservableHorizontalScrollView;
 import org.jellyfin.androidtv.ui.ObservableScrollView;
 import org.jellyfin.androidtv.ui.ProgramGridCell;
@@ -142,13 +143,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private LeanbackOverlayFragment leanbackOverlayFragment;
 
     // Subtitle fields
-    private static final int SUBTITLE_PADDING = 8;
+    private static final int SUBTITLE_PADDING = 20;
     private static final long SUBTITLE_RENDER_INTERVAL_MS = 50;
     private SubtitleTrackInfo subtitleTrackInfo;
     private int currentSubtitleIndex = 0;
-    private int subtitlesSize = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultSubtitlesSize());
     private long lastSubtitlePositionMs = 0;
-    private boolean subtitlesBackgroundEnabled = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
+    private final UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
+    private final int subtitlesSize = userPreferences.get(UserPreferences.Companion.getDefaultSubtitlesSize());
+    private final boolean subtitlesBackgroundEnabled = userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
+    private final int subtitlesPosition = userPreferences.get(UserPreferences.Companion.getSubtitlePosition());
+    private final int subtitlesStrokeWidth = userPreferences.get(UserPreferences.Companion.getSubtitleStrokeSize());
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
@@ -256,6 +260,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
         // Subtitles font size configuration
         binding.subtitlesText.setTextSize(subtitlesSize);
+
+        // Subtitles font position (margin bottom)
+        if (subtitlesPosition > 0) {
+            ViewGroup.MarginLayoutParams currentLayoutParams = (ViewGroup.MarginLayoutParams)binding.subtitlesText.getLayoutParams();
+            currentLayoutParams.bottomMargin = (8 + Utils.convertDpToPixel(requireContext(), subtitlesPosition));
+            binding.subtitlesText.setLayoutParams(currentLayoutParams);
+        }
+
+        // Subtitles stroke width
+        if (subtitlesStrokeWidth > 0 && !subtitlesBackgroundEnabled) {
+            binding.subtitlesText.setStrokeWidth(subtitlesStrokeWidth);
+        }
 
         //pre-load animations
         fadeOut = AnimationUtils.loadAnimation(requireContext(), R.anim.abc_fade_out);
