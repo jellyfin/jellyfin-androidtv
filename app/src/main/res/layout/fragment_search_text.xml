@@ -41,6 +41,7 @@
         android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:privateImeOptions="horizontalAlignment=right"
         app:layout_constraintBottom_toBottomOf="@id/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/search_icon"
