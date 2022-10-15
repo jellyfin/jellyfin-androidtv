@@ -481,7 +481,6 @@
     <string name="pref_telemetry_description">Odoslať hlásenia chýb, vrátane logov</string>
     <string name="pref_telemetry_category">Hlásenie chýb</string>
     <string name="episode_name_special">špeciál</string>
-    <string name="enable_picture_viewer_title">Povoliť nový prehliadač obrázkov</string>
     <string name="lbl_quality_profile">Kvalitatívne profily</string>
     <string name="desc_audio_night_mode">Automaticky vyrovnáva hlasitosť zvuku</string>
     <string name="pref_audio_night_mode">Nočný zvukový mód (experimentálny)</string>

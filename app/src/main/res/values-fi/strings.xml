@@ -480,7 +480,6 @@
     <string name="pref_telemetry_description">Lähetä kaatumisilmoituksia ja sisällytä lokitiedot</string>
     <string name="server_unsupported_notification">Palvelin käyttää Jellyfin-versiota %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin versioon %2$s.</string>
     <string name="server_setup_incomplete">Tämän palvelimen määritys on kesken. Ennen kirjautumista, avaa Jellyfin verkkoselaimessa ja viimeistele määritys.</string>
-    <string name="enable_picture_viewer_title">Ota uusi kuvankatselu käyttöön</string>
     <string name="episode_name_special">erikoisjakso</string>
     <string name="lbl_quality_profile">Laatuprofiili</string>
     <string name="desc_audio_night_mode">Tasoittaa äänenvoimakkuuden eroja automaattisesti</string>

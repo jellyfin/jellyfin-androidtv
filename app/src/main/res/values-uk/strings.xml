@@ -471,7 +471,6 @@
     <string name="image_type_poster">Постер</string>
     <string name="lbl_additional_parts">Додаткові частини</string>
     <string name="episode_name_special">спеціальні</string>
-    <string name="enable_picture_viewer_title">Увімкнути новий засіб перегляду зображень</string>
     <string name="server_setup_incomplete">Налаштування цього сервера не завершено. Відкрийте Jellyfin у веб-браузері, щоб завершити налаштування перед входом.</string>
     <string name="crash_report_toast">Ой! Щось пішло не так, на ваш сервер Jellyfin надіслано звіт про збій.</string>
     <string name="pref_crash_report_logs_disabled">Журнали не будуть включені до звітів про збої</string>

@@ -481,7 +481,6 @@
     <string name="pref_telemetry_category">Összeomlási jelentés</string>
     <string name="server_setup_incomplete">A szerver beállítása nem fejeződött be. Nyissa meg a Jellyfint egy webböngészőben a beállítás befejezéséhez a bejelentkezés előtt.</string>
     <string name="episode_name_special">speciális</string>
-    <string name="enable_picture_viewer_title">Az új képnézegető engedélyezése</string>
     <string name="lbl_quality_profile">Minőségi profil</string>
     <string name="desc_audio_night_mode">Automatikusan kiegyenlíti a hangerőt</string>
     <string name="pref_audio_night_mode">Éjszakai Audio Mód (kísérleti)</string>

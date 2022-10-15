@@ -464,7 +464,6 @@
     <string name="lbl_adjust">Ajustar</string>
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="episode_name_special">Especial</string>
-    <string name="enable_picture_viewer_title">Habilitar nuevo visor de imágenes</string>
     <string name="server_setup_incomplete">La configuración del servidor no ha sido completada. Abre Jellyfin en un navegador web para finalizar la configuración antes de iniciar sesión.</string>
     <string name="crash_report_toast">¡Ups! ocurrió un error, un reporte de fallos fue enviado a tu servidor Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Los registros no serán incluidos en los reportes de fallos</string>

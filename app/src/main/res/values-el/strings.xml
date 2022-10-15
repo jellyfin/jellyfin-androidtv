@@ -464,7 +464,6 @@
     <string name="action_login">Σύνδεση</string>
     <string name="action_use_password">Χρησιμοποιήστε ένα password</string>
     <string name="episode_name_special">έκτακτο</string>
-    <string name="enable_picture_viewer_title">Ενεργοποίηση νέου προγράμματος προβολής εικόνων</string>
     <string name="server_setup_incomplete">Η παραμετροποίηση του διακομιστή δεν έχει ολοκληρωθεί. Ανοίξτε το Jellyfin σε έναν φυλλομετρητή για να ολοκληρώσετε την παραμετροποίηση πριν τη σύνδεσή σας.</string>
     <string name="crash_report_toast">Ωπα! Κάτι πήγε στραβά. Μία αναφορά σφάλματος απεστάλει στον διακομστή του Jellyfin σας.</string>
     <string name="pref_crash_report_logs_disabled">Τα αρχεία καταγραφήςδεν θα συμπεριληφθούν στις αναφορές σφαλμάτων</string>

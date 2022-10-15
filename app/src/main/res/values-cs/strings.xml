@@ -479,7 +479,6 @@
     <string name="lbl_additional_parts">Další díly</string>
     <string name="state_disabled">Zakázáno</string>
     <string name="episode_name_special">speciál</string>
-    <string name="enable_picture_viewer_title">Povolit nový prohlížeč obrázků</string>
     <string name="pref_refresh_rate_scale_on_device">Měřítko na zařízení</string>
     <string name="pref_refresh_rate_scale_on_tv">Měřítko na TV přijímači</string>
 </resources>

@@ -479,7 +479,6 @@
     <string name="lbl_start_end_on_schedule">Starter som planlagt og slutter som planlagt</string>
     <string name="lbl_starting_on_schedule_ending_after">Starter som planlagt og slutter %1$s som planlagt</string>
     <string name="episode_name_special">Ekstramateriale</string>
-    <string name="enable_picture_viewer_title">Aktiver ny billedefremviser</string>
     <string name="lbl_quality_profile">Kvalitets profil</string>
     <string name="desc_audio_night_mode">Udligner lydstyrke automatisk</string>
     <string name="lbl_shuffle_queue">Slå blanding til/fra</string>

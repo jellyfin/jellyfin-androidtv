@@ -481,7 +481,6 @@
     <string name="pref_crash_reports_disabled">不提交崩溃报告</string>
     <string name="server_setup_incomplete">此服务器的设置尚未完成。 在浏览器中打开 Jellyfin 以完成设置，然后再登录。</string>
     <string name="episode_name_special">别称</string>
-    <string name="enable_picture_viewer_title">启用新的图片查看器</string>
     <string name="lbl_quality_profile">质量配置</string>
     <string name="desc_audio_night_mode">自动调平音量</string>
     <string name="pref_audio_night_mode">音频夜间模式（实验性）</string>

@@ -482,7 +482,6 @@
     <string name="server_setup_incomplete">La configurazione di questo server non è stata ancora ultimata. Connettersi prima a Jellyfin tramite Browser e terminare la configurazione.</string>
     <string name="pref_audio_night_mode">Modalità audio notturna (sperimentale)</string>
     <string name="episode_name_special">speciale</string>
-    <string name="enable_picture_viewer_title">Abilita il nuovo visualizzatore di foto</string>
     <string name="lbl_quality_profile">Profilo qualità</string>
     <string name="desc_audio_night_mode">Livella automaticamente il volume audio</string>
 </resources>

@@ -482,7 +482,6 @@
     <string name="pref_crash_reports_disabled">לא יוגשו דוחות קריסה</string>
     <string name="pref_crash_report_logs_enabled">יומנים ייכללו בדוחות קריסה</string>
     <string name="server_setup_incomplete">ההגדרה של שרת זה לא הושלמה. פתח את Jellyfin בדפדפן אינטרנט כדי לסיים את ההגדרה לפני הכניסה.</string>
-    <string name="enable_picture_viewer_title">הפעל את מציג התמונות החדש</string>
     <string name="episode_name_special">מיוחד</string>
     <string name="crash_report_toast">אופס! משהו השתבש, דוח קריסה נשלח לשרת Jellyfin שלך.</string>
 </resources>
