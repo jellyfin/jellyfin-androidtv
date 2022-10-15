@@ -26,10 +26,15 @@ android {
 
 	buildFeatures {
 		viewBinding = true
+		compose = true
 	}
 
 	compileOptions {
 		isCoreLibraryDesugaringEnabled = true
+	}
+
+	composeOptions {
+		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
 	buildTypes {
@@ -128,6 +133,7 @@ dependencies {
 	implementation(libs.androidx.window)
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.startup)
+	implementation(libs.bundles.androidx.compose)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)
