@@ -13,6 +13,7 @@ import org.jellyfin.androidtv.preference.constant.RefreshRateSwitchingBehavior
 import org.jellyfin.androidtv.ui.preference.custom.DurationSeekBarPreference
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.checkbox
+import org.jellyfin.androidtv.ui.preference.dsl.colorList
 import org.jellyfin.androidtv.ui.preference.dsl.enum
 import org.jellyfin.androidtv.ui.preference.dsl.list
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
@@ -52,7 +53,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.nextUpTimeout)
 				depends {
 					userPreferences[UserPreferences.mediaQueuingEnabled]
-						&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
+							&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
 				}
 			}
 
@@ -137,6 +138,41 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_subtitles_background_title)
 				setContent(R.string.pref_subtitles_background_summary)
 				bind(userPreferences, UserPreferences.subtitlesBackgroundEnabled)
+			}
+
+			@Suppress("MagicNumber")
+			colorList {
+				setTitle(R.string.lbl_subtitle_fg)
+				entries = mapOf(
+					0xFFFFFFFF to context.getString(R.string.color_white),
+					0XFF000000 to context.getString(R.string.color_black),
+					0xFF7F7F7F to context.getString(R.string.color_darkgrey),
+					0xFFC80000 to context.getString(R.string.color_red),
+					0xFF00C800 to context.getString(R.string.color_green),
+					0xFF0000C8 to context.getString(R.string.color_blue),
+					0xFFEEDC00 to context.getString(R.string.color_yellow),
+					0xFFD60080 to context.getString(R.string.color_pink),
+					0xFF009FDA to context.getString(R.string.color_cyan),
+				)
+				bind(userPreferences, UserPreferences.subtitlesTextColor)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.lbl_subtitle_stroke)
+				min = 0
+				max = 24
+				increment = 2
+				bind(userPreferences, UserPreferences.subtitleStrokeSize)
+			}
+
+			@Suppress("MagicNumber")
+			seekbar {
+				setTitle(R.string.lbl_subtitle_position)
+				min = 0
+				max = 300
+				increment = 10
+				bind(userPreferences, UserPreferences.subtitlePosition)
 			}
 
 			@Suppress("MagicNumber")

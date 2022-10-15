@@ -231,6 +231,9 @@
     <string name="lbl_guide_option_played">Last Played</string>
     <string name="lbl_guide_option_number">Channel Number</string>
     <string name="lbl_resume_preroll">Resume pre-roll</string>
+    <string name="lbl_subtitle_fg">Subtitle text color</string>
+    <string name="lbl_subtitle_stroke">Subtitle stroke size</string>
+    <string name="lbl_subtitle_position">Subtitle offset from bottom</string>
     <string name="lbl_resume_from">Resume from %1$s</string>
     <string name="lbl_more_like_this">More Like This</string>
     <string name="lbl_previous_episode">Previous Episode</string>
@@ -430,6 +433,15 @@
     <string name="searchable_settings_description">Media</string>
     <string name="pref_subtitles_background_title">Enable background</string>
     <string name="pref_subtitles_background_summary">Show a black background behind the subtitles</string>
+    <string name="color_white">White</string>
+    <string name="color_black">Black</string>
+    <string name="color_darkgrey">Dark Grey</string>
+    <string name="color_red">Red</string>
+    <string name="color_green">Green</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_cyan">Cyan</string>
     <string name="pref_subtitles_size">Text size</string>
     <string name="server_issue_unable_to_connect">Unable to connect</string>
     <string name="server_issue_invalid_product">Server software is incompatible</string>

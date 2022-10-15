@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.enumPreference
 import org.jellyfin.preference.intPreference
+import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.migration.putEnum
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
@@ -187,6 +188,21 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Set default subtitles font size
 		 */
 		var defaultSubtitlesSize = intPreference("subtitles_size", 28)
+
+		/**
+		 * Set default subtitles stroke size
+		 */
+		var subtitleStrokeSize = intPreference("subtitles_stroke_size", 0)
+
+		/**
+		 * Set default subtitles position
+		 */
+		var subtitlePosition = intPreference("subtitles_position", 40)
+
+		/**
+		 * Foreground Color for the Subtitles
+		 */
+		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
 	}
 
 	init {

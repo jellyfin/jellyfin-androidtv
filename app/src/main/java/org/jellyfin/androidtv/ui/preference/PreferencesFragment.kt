@@ -13,8 +13,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapDialogFragment
 import org.jellyfin.androidtv.ui.preference.custom.ButtonRemapPreference
+import org.jellyfin.androidtv.ui.preference.custom.ColorListPreference
+import org.jellyfin.androidtv.ui.preference.custom.ColorPickerDialogFragment
 import org.jellyfin.androidtv.ui.preference.custom.RichListDialogFragment
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
+import timber.log.Timber
 
 class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 	override fun onPreferenceStartInitialScreen() {
@@ -45,6 +48,7 @@ class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 			// Custom
 			is ButtonRemapPreference -> ButtonRemapDialogFragment.newInstance(pref.key)
 			is RichListPreference<*> -> RichListDialogFragment.newInstance(pref.key)
+			is ColorListPreference<*> -> ColorPickerDialogFragment.newInstance(pref.key)
 			is ListPreference -> RichListDialogFragment.newInstance(pref.key)
 
 			// Leanback
