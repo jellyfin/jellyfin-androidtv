@@ -481,4 +481,7 @@
     <string name="image_size_xlarge">Extra-grande</string>
     <string name="image_size_smallest">El más pequeño</string>
     <string name="image_type_poster">Póster</string>
+    <string name="pref_audio_night_mode">Audio en modo nocturno (experimental)</string>
+    <string name="desc_audio_night_mode">Baja el volumen del audio automáticamente</string>
+    <string name="lbl_quality_profile">Perfil de calidad</string>
 </resources>
