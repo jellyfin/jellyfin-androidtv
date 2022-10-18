@@ -481,4 +481,7 @@
     <string name="pref_crash_reports">Надіслати звіти про збої на сервері</string>
     <string name="pref_telemetry_description">Надіслати звіти про збої, включаючи журнали</string>
     <string name="pref_telemetry_category">Звіт про збої</string>
+    <string name="pref_audio_night_mode">Нічний режим аудіо (експериментальний)</string>
+    <string name="desc_audio_night_mode">Автоматично вирівнює гучність звуку</string>
+    <string name="lbl_quality_profile">Профіль якості</string>
 </resources>
