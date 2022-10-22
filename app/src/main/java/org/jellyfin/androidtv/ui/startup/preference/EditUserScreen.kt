@@ -17,11 +17,12 @@ class EditUserScreen : OptionsFragment() {
 	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val screen by optionsScreen {
-		val serverUUID = requireNotNull(requireArguments().get(ARG_SERVER_UUID)) { "Missing server id" }
-		val userUUID = requireNotNull(requireArguments().get(ARG_USER_UUID)) { "Missing user id" }
-
-		require(serverUUID is UUID) { "Server id is malformed" }
-		require(userUUID is UUID) { "Server id is malformed" }
+		val serverUUID = requireNotNull(
+			requireArguments().getParcelable(ARG_SERVER_UUID, UUID::class.java)
+		) { "Missing server id" }
+		val userUUID = requireNotNull(
+			requireArguments().getParcelable(ARG_USER_UUID, UUID::class.java)
+		) { "Missing user id" }
 
 		val server = requireNotNull(startupViewModel.getServer(serverUUID)) { "Server not found" }
 		val user = requireNotNull(

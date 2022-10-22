@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.integration
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.res.ResourcesCompat
@@ -73,7 +74,7 @@ class LeanbackChannelWorker(
 		// Check for leanback support
 		context.packageManager.hasSystemFeature("android.software.leanback")
 		// Check for "android.media.tv" provider to workaround a false-positive in the previous check
-		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
+		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, PackageManager.ComponentInfoFlags.of(0)) != null
 
 	/**
 	 * Update all channels for the currently authenticated user.

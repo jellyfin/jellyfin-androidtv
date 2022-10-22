@@ -22,7 +22,7 @@ class EditServerScreen : OptionsFragment() {
 
 	override val screen by optionsScreen {
 		val serverUUID = requireNotNull(
-			requireArguments().get(ARG_SERVER_UUID) as? UUID
+			requireArguments().getParcelable(ARG_SERVER_UUID, UUID::class.java)
 		) { "Server null or malformed uuid" }
 
 		val server = requireNotNull(startupViewModel.getServer(serverUUID)) { "Server not found" }

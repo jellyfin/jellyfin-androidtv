@@ -35,8 +35,13 @@ class FadeViewSwitcherLayout @JvmOverloads constructor(
 	fun showPreviousView() = showView(previousViewId)
 	fun hideAllViews() = showView(VIEW_NONE)
 
+	@Suppress("UNCHECKED_CAST")
 	fun <V : View> getNextView() = getChildAt(nextViewId) as V
+
+	@Suppress("UNCHECKED_CAST")
 	fun <V : View> getCurrentView() = if (currentView == VIEW_NONE) null else currentView as V
+
+	@Suppress("UNCHECKED_CAST")
 	fun <V : View> getPreviousView() = getChildAt(previousViewId) as V
 
 	fun showView(@IntRange(from = -1) view: Int) {
