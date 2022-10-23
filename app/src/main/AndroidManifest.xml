@@ -101,6 +101,12 @@
             android:exported="true"
             android:initOrder="10" />
 
+        <provider
+            android:name=".integration.provider.ImageProvider"
+            android:authorities="${applicationId}.integration.provider.ImageProvider"
+            android:exported="true"
+            android:initOrder="10" />
+
         <!-- Authentication -->
         <activity
             android:name=".ui.startup.StartupActivity"
