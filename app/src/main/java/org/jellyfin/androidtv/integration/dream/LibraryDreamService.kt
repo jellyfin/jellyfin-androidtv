@@ -1,21 +1,52 @@
 package org.jellyfin.androidtv.integration.dream
 
-import android.graphics.drawable.Drawable
 import android.service.dreams.DreamService
-import android.view.LayoutInflater
-import androidx.core.view.isVisible
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import android.text.format.DateUtils
+import android.widget.ImageView
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jellyfin.androidtv.databinding.DreamLibraryBinding
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -26,26 +57,154 @@ import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.get
 import timber.log.Timber
-import java.util.concurrent.ExecutionException
+import kotlin.time.Duration.Companion.seconds
+
+fun Modifier.overscan(): Modifier = then(padding(48.dp, 27.dp))
+
+@Composable
+fun DreamHeader(
+	showLogo: Boolean,
+	showClock: Boolean,
+) {
+	Row(
+		horizontalArrangement = Arrangement.SpaceBetween,
+		modifier = Modifier
+			.fillMaxWidth()
+			.overscan(),
+	) {
+		// Logo
+		AnimatedVisibility(
+			visible = showLogo,
+			enter = fadeIn(),
+			exit = fadeOut(),
+			modifier = Modifier.height(41.dp),
+		) {
+			Image(
+				painter = painterResource(R.drawable.app_logo),
+				contentDescription = stringResource(R.string.app_name),
+			)
+		}
+
+		Spacer(
+			modifier = Modifier
+				.fillMaxWidth(0f)
+		)
+
+		// Clock
+		AnimatedVisibility(
+			visible = showClock,
+			enter = fadeIn(),
+			exit = fadeOut(),
+		) {
+			Text(
+				text = DateUtils.formatDateTime(LocalContext.current, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME),
+				style = TextStyle(
+					color = Color.White,
+					fontSize = 20.sp,
+					shadow = Shadow(
+						color = Color.Black,
+						blurRadius = 2f,
+					)
+				),
+			)
+		}
+	}
+}
+
+@Composable
+fun ZoomBox(
+	initialValue: Float = 1f,
+	targetValue: Float = 2f,
+	durationMillis: Int = 1_000,
+	content: @Composable BoxScope.() -> Unit,
+) {
+	val transition = rememberInfiniteTransition()
+	val scale by transition.animateFloat(
+		initialValue = initialValue,
+		targetValue = targetValue,
+		animationSpec = infiniteRepeatable(
+			animation = tween(durationMillis, easing = LinearEasing),
+			repeatMode = RepeatMode.Reverse
+		)
+	)
+
+	Box(
+		modifier = Modifier.graphicsLayer {
+			scaleX = scale
+			scaleY = scale
+		},
+		content = content,
+	)
+}
+
+@Composable
+fun DreamLibraryCarousel(
+	currentItem: BaseItemDto?
+) {
+	val api = get<ApiClient>()
+
+	Box(
+		modifier = Modifier.fillMaxSize()
+	) {
+		Crossfade(
+			targetState = currentItem,
+			animationSpec = tween(durationMillis = 1_000),
+		) { item ->
+			if (item != null) {
+				// Image
+				val tag = item.backdropImageTags?.randomOrNull()
+					?: item.imageTags?.get(ImageType.BACKDROP)
+
+				ZoomBox(
+					initialValue = 1f,
+					targetValue = 1.1f,
+					durationMillis = 30_000,
+				) {
+					AsyncImage(
+						url = api.imageApi.getItemImageUrl(
+							itemId = item.id,
+							imageType = ImageType.BACKDROP,
+							tag = tag,
+							format = ImageFormat.WEBP,
+						),
+						scaleType = ImageView.ScaleType.CENTER_CROP,
+						modifier = Modifier.fillMaxSize(),
+					)
+				}
+
+				// Overlay
+				Row(
+					modifier = Modifier
+						.align(Alignment.BottomStart)
+						.overscan(),
+				) {
+					Text(
+						text = item.name.orEmpty(),
+						style = TextStyle(
+							color = Color.White,
+							fontSize = 32.sp,
+							shadow = Shadow(
+								color = Color.Black,
+								blurRadius = 2f,
+							)
+						),
+					)
+				}
+			}
+		}
+	}
+}
 
 /**
  * An Android [DreamService] (screensaver) that shows TV series and movies from all libraries.
  * Use `adb shell am start -n "com.android.systemui/.Somnambulator"` to start after changing the
  * default screensaver in the device settings.
  */
-class LibraryDreamService : DreamService() {
-	companion object {
-		const val INITIAL_DELAY = 2_000L // 2s
-		const val UPDATE_DELAY = 30_000L // 30s
-		const val TRANSITION_DURATION = 1_000L // 1s
-	}
-
-	private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+class LibraryDreamService : DreamServiceCompat() {
 	private val api: ApiClient by inject()
 	private val userPreferences: UserPreferences by inject()
-
-	private lateinit var binding: DreamLibraryBinding
 
 	override fun onAttachedToWindow() {
 		super.onAttachedToWindow()
@@ -53,25 +212,48 @@ class LibraryDreamService : DreamService() {
 		isInteractive = false
 		isFullscreen = true
 
-		binding = DreamLibraryBinding.inflate(LayoutInflater.from(window.context), null, false)
-		binding.clock.isVisible = when (userPreferences[UserPreferences.clockBehavior]) {
-			ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
-			else -> false
-		}
+		setContent {
+			var currentItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
-		setContentView(binding.root)
-	}
+			LaunchedEffect(true) {
+				delay(2.seconds)
 
-	override fun onDreamingStarted() {
-		super.onDreamingStarted()
-
-		scope.launch {
-			delay(INITIAL_DELAY)
-
-			while (isActive) {
-				update()
-				delay(UPDATE_DELAY)
+				while (true) {
+					currentItem = getRandomItem()
+					delay(30.seconds)
+				}
 			}
+			Box(
+				modifier = Modifier.fillMaxSize()
+			) {
+				// Background
+				AnimatedVisibility(
+					visible = currentItem == null,
+					enter = fadeIn(),
+					exit = fadeOut(),
+					modifier = Modifier
+						.align(Alignment.Center)
+						.width(400.dp),
+				) {
+					Image(
+						painter = painterResource(R.drawable.app_logo),
+						contentDescription = getString(R.string.app_name),
+					)
+				}
+
+				// Carousel
+				DreamLibraryCarousel(currentItem)
+
+				// Header overlay
+				DreamHeader(
+					showLogo = currentItem != null,
+					showClock = when (userPreferences[UserPreferences.clockBehavior]) {
+						ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
+						else -> false
+					}
+				)
+			}
+
 		}
 	}
 
@@ -88,56 +270,5 @@ class LibraryDreamService : DreamService() {
 	} catch (err: ApiClientException) {
 		Timber.e(err)
 		null
-	}
-
-	private suspend fun loadBackdrop(item: BaseItemDto): Drawable? {
-		val tag = item.backdropImageTags?.randomOrNull()
-			?: item.imageTags?.get(ImageType.BACKDROP)
-
-		val url = api.imageApi.getItemImageUrl(
-			itemId = item.id,
-			imageType = ImageType.BACKDROP,
-			tag = tag,
-			format = ImageFormat.WEBP,
-		)
-
-		return withContext(Dispatchers.IO) {
-			// Sometimes the backdrop doesn't exist
-			// make sure to return a null value in those cases
-			try {
-				Glide.with(binding.root)
-					.load(url)
-					.submit()
-					.get()
-			} catch (err: ExecutionException) {
-				Timber.e(err)
-				null
-			}
-		}
-	}
-
-	private suspend fun update() {
-		val item = getRandomItem()
-		val background = item?.let { loadBackdrop(it) }
-
-		withContext(Dispatchers.Main) {
-			if (item == null || background == null) {
-				binding.itemSwitcher.hideAllViews()
-			} else with(binding.itemSwitcher) {
-				getNextView<LibraryDreamItemView>().setItem(
-					item = LibraryDreamItem(
-						baseItem = item,
-						background = background,
-					)
-				)
-				showNextView()
-			}
-		}
-	}
-
-	override fun onDreamingStopped() {
-		super.onDreamingStopped()
-
-		scope.cancel()
 	}
 }
