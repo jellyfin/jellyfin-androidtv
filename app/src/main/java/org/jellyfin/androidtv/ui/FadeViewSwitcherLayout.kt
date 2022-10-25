@@ -6,7 +6,6 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.FrameLayout
 import androidx.annotation.IntRange
-import org.jellyfin.androidtv.integration.dream.LibraryDreamService
 
 class FadeViewSwitcherLayout @JvmOverloads constructor(
 	context: Context,
@@ -50,13 +49,13 @@ class FadeViewSwitcherLayout @JvmOverloads constructor(
 	private fun View.fadeIn() {
 		alpha = 1f
 		startAnimation(AlphaAnimation(0f, 1f).apply {
-			duration = LibraryDreamService.TRANSITION_DURATION
+			duration = 1_000
 			fillAfter = true
 		})
 	}
 
 	private fun View.fadeOut() = startAnimation(AlphaAnimation(1f, 0f).apply {
-		duration = LibraryDreamService.TRANSITION_DURATION
+		duration = 1_000
 		fillAfter = true
 	})
 }
