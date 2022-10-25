@@ -21,6 +21,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
+import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
@@ -160,7 +161,7 @@ class LeanbackChannelWorker(
 			.filter { userViewsRepository.isSupported(it.collectionType) }
 			.map { item ->
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
-					api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY).toUri()
+					ImageProvider.getImageUri(api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY))
 				else
 					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv).toUri()
 
@@ -184,35 +185,31 @@ class LeanbackChannelWorker(
 	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
 	 * image when preferred.
 	 */
-	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri {
-		if (type == BaseItemKind.MOVIE) {
-			return api.imageApi.getItemImageUrl(
-				itemId = id,
-				imageType = ImageType.PRIMARY,
-				format = ImageFormat.WEBP,
-				width = 106.dp(context),
-				height = 153.dp(context),
-			).let(Uri::parse)
-		}
+	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
+		type == BaseItemKind.MOVIE -> api.imageApi.getItemImageUrl(
+			itemId = id,
+			imageType = ImageType.PRIMARY,
+			format = ImageFormat.WEBP,
+			width = 106.dp(context),
+			height = 153.dp(context),
+		)
 
-		return when {
-			(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true)
-				&& parentThumbItemId != null -> api.imageApi.getItemImageUrl(
-				itemId = parentThumbItemId!!,
-				imageType = ImageType.THUMB,
-				format = ImageFormat.WEBP,
-				width = 272.dp(context),
-				height = 153.dp(context),
-			)
-			else -> api.imageApi.getItemImageUrl(
-				itemId = id,
-				imageType = ImageType.PRIMARY,
-				format = ImageFormat.WEBP,
-				width = 272.dp(context),
-				height = 153.dp(context),
-			)
-		}.let(Uri::parse)
-	}
+		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true) && parentThumbItemId != null -> api.imageApi.getItemImageUrl(
+			itemId = parentThumbItemId!!,
+			imageType = ImageType.THUMB,
+			format = ImageFormat.WEBP,
+			width = 272.dp(context),
+			height = 153.dp(context),
+		)
+
+		else -> api.imageApi.getItemImageUrl(
+			itemId = id,
+			imageType = ImageType.PRIMARY,
+			format = ImageFormat.WEBP,
+			width = 272.dp(context),
+			height = 153.dp(context),
+		)
+	}.let(ImageProvider::getImageUri)
 
 	/**
 	 * Gets the resume and next up episodes. The returned pair contains two lists:
