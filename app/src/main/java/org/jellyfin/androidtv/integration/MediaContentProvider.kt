@@ -12,6 +12,7 @@ import android.provider.BaseColumns
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
@@ -102,9 +103,8 @@ class MediaContentProvider : ContentProvider(), KoinComponent {
 
 		MatrixCursor(columns).also { cursor ->
 			searchResult?.items?.forEach { item ->
-				// Note: Image loading might fail if the image is served over HTTP
 				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
-					api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY)
+					ImageProvider.getImageUri(api.imageApi.getItemImageUrl(item.id, ImageType.PRIMARY))
 				else
 					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv)
 
