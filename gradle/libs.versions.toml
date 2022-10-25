@@ -92,9 +92,6 @@ koin-android-core = { module = "io.insert-koin:koin-android", version.ref = "koi
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 
-# GSON
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-
 # Media players
 exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
 jellyfin-exoplayer-ffmpegextension = { group = "org.jellyfin.exoplayer", name = "exoplayer-ffmpeg-extension", version.ref = "jellyfin-exoplayer-ffmpegextension" }
