@@ -24,4 +24,8 @@ data class QueueEntryMetadata(
 	val trackNumber: Long? = null,
 	val writer: String? = null,
 	val year: Long? = null,
-)
+) {
+	companion object {
+		val Empty = QueueEntryMetadata()
+	}
+}

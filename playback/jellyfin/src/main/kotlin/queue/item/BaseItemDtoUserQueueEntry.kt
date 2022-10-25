@@ -1,5 +1,6 @@
 package org.jellyfin.playback.jellyfin.queue.item
 
+import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.core.queue.item.QueueEntryMetadata
 import org.jellyfin.playback.core.queue.item.UserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
@@ -11,7 +12,8 @@ import kotlin.time.Duration.Companion.nanoseconds
 class BaseItemDtoUserQueueEntry private constructor(
 	val baseItem: BaseItemDto,
 	override val metadata: QueueEntryMetadata,
-) : UserQueueEntry() {
+	base: QueueEntry,
+) : QueueEntry by base {
 	companion object {
 		fun build(api: ApiClient, baseItem: BaseItemDto): BaseItemDtoUserQueueEntry {
 			val metadata = QueueEntryMetadata(
@@ -41,7 +43,7 @@ class BaseItemDtoUserQueueEntry private constructor(
 				}
 			)
 
-			return BaseItemDtoUserQueueEntry(baseItem, metadata)
+			return BaseItemDtoUserQueueEntry(baseItem, metadata, UserQueueEntry())
 		}
 
 		/**
