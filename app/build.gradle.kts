@@ -138,9 +138,6 @@ dependencies {
 	// Dependency Injection
 	implementation(libs.bundles.koin)
 
-	// GSON
-	implementation(libs.gson)
-
 	// Media players
 	implementation(libs.exoplayer)
 	implementation(libs.jellyfin.exoplayer.ffmpegextension)
