@@ -1,2 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="byletter_letters">అఆఇఈఉఊఎఏఐఒఓఔఅఅంఅఃకఖగఘఙచఛజఝఞటఠడఢణతథదధనపఫబభమయరలవశషసహళక్షఱ</string>
+    <string name="lbl_continue_watching">చూడటం కొనసాగించు</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_by_name">పేరు ప్రకారం</string>
+    <string name="lbl_latest_additions">తాజా చేర్పులు</string>
+    <string name="video_error_unknown_error">వీడియోను లోడ్ చేయడంలో విఫలమైంది</string>
+    <string name="loading">లోడింగ్…</string>
+    <string name="btn_cancel">రద్దు</string>
+    <string name="pref_playback">ప్లేబ్యాక్</string>
+    <string name="pref_max_bitrate_title">గరిష్ట స్ట్రీమింగ్ బిట్‌రేట్</string>
+    <string name="settings_title">ప్రాధాన్యతలు</string>
+    <string name="pref_authentication_cat">ప్రమాణీకరణ</string>
+    <string name="chapters">అధ్యాయాలు</string>
+    <string name="state_disabled">నిలిపివేయబడింది</string>
+    <string name="lbl_settings">ప్రాధాన్యతలు</string>
+    <string name="lbl_next_up">తదుపరి</string>
+    <string name="lbl_on_now">ఇప్పుడు</string>
+    <string name="lbl_views">వీక్షణలు</string>
+    <string name="lbl_by_letter">అక్షరం ద్వారా</string>
+    <string name="lbl_suggested">సిఫార్సు చేయబడింది</string>
+    <string name="lbl_genres">శైలులు</string>
+    <string name="lbl_search">వెతకండి</string>
+    <string name="msg_not_implemented">" అమలు చేయలేదు"</string>
+    <string name="lbl_latest">తాజా</string>
+    <string name="lbl_favorites">ఇష్టమైనవి</string>
+    <string name="lbl_coming_up">రాబోయే</string>
+    <string name="lbl_favorite_channels">ఇష్టమైన ఛానెల్‌లు</string>
+    <string name="lbl_other_channels">ఇతర ఛానెల్‌లు</string>
+    <string name="lbl_collections">సేకరణలు</string>
+    <string name="lbl_movies">సినిమాలు</string>
+    <string name="lbl_tv_series">టీవీ సీరియల్</string>
+    <string name="lbl_other">ఇతర</string>
+    <string name="lbl_because_you_watched">"ఎందుకంటే మీరు చూశారు "</string>
+    <string name="lbl_play_all">అన్నింటినీ Play చేయండి</string>
+    <string name="lbl_shuffle_all">అన్నీ షఫుల్ చేయండి</string>
+    <string name="lbl_play">ప్లే</string>
+    <string name="lbl_pause">పాజ్</string>
+    <string name="lbl_cancel">రద్దు</string>
+    <string name="lbl_cancel_recording">రికార్డింగ్‌ని రద్దు చేయండి</string>
+</resources>
