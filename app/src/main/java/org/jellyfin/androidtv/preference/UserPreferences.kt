@@ -185,22 +185,22 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var subtitlesBackgroundEnabled = booleanPreference("subtitles_background_enabled", true)
 
 		/**
-		 * Set default subtitles font size
+		 * Subtitles font size
 		 */
-		var defaultSubtitlesSize = intPreference("subtitles_size", 28)
+		var subtitlesSize = intPreference("subtitles_size", 28)
 
 		/**
-		 * Set default subtitles stroke size
+		 * Subtitles stroke size
 		 */
 		var subtitleStrokeSize = intPreference("subtitles_stroke_size", 0)
 
 		/**
-		 * Set default subtitles position
+		 * Subtitles position
 		 */
 		var subtitlePosition = intPreference("subtitles_position", 40)
 
 		/**
-		 * Foreground Color for the Subtitles
+		 * Subtitles foreground color
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
 	}

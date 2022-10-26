@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.ui.preference.custom.ColorListPreference
+import org.jellyfin.androidtv.ui.preference.custom.ColorPickerDialogFragment
 import java.util.UUID
 
 class OptionsColorList(
@@ -16,7 +17,7 @@ class OptionsColorList(
 	}
 
 	override fun build(category: PreferenceCategory, container: OptionsUpdateFunContainer) {
-		val pref = ColorListPreference<String>(context).also {
+		val pref = ColorListPreference(context).also {
 			it.isPersistent = false
 			it.key = UUID.randomUUID().toString()
 			category.addPreference(it)
@@ -25,7 +26,7 @@ class OptionsColorList(
 			it.title = title
 			it.dialogTitle = title
 			it.summaryProvider = ColorListPreference.SimpleSummaryProvider.instance
-			it.setItems(entries)
+			it.items = entries.map { entry -> ColorPickerDialogFragment.ColorListItem(entry.key, entry.value) }
 			it.entryValues = entries.keys.map { longitems -> longitems.toString() }.toTypedArray()
 			it.entries = entries.values.toTypedArray()
 			it.value = binder.get().toString()

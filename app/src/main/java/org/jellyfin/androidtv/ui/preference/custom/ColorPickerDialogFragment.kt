@@ -31,18 +31,15 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	private lateinit var binding: PreferenceColorListBinding
 	private lateinit var adapter: RecyclerView.Adapter<*>
 
-	private fun <K> ColorListPreference<K>.createAdapter() = Adapter(
-		items = getItems(),
-		selectedValue = value
-	)
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		adapter = when (val preference = preference) {
-			// Adapt ListPreference to ColorListItems
-			is ColorListPreference<*> -> preference.createAdapter()
-			else -> throw NotImplementedError()
-		}
+
+		val colorListPreference = preference as? ColorListPreference ?: throw NotImplementedError()
+
+		adapter = Adapter(
+			items = colorListPreference.items,
+			selectedValue = colorListPreference.value
+		)
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -70,75 +67,66 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	/**
 	 * Items used in [Adapter].
 	 */
-	sealed class ColorListItem<K> {
-		data class ColorListOption<K>(
-			val key: Long,
-			val title: String,
-			val summary: String? = null
-		) : ColorListItem<K>()
-	}
+	data class ColorListItem(
+		val key: Long,
+		val title: String,
+		val summary: String? = null
+	)
 
-	inner class Adapter<K>(
-		private val items: List<ColorListItem<K>>,
-		private var selectedValue: K? = null,
+	inner class Adapter(
+		private val items: List<ColorListItem>,
+		private var selectedValue: String? = null,
 	) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 		override fun getItemCount() = items.size
 
-		override fun getItemViewType(position: Int) = when (items[position]) {
-			is ColorListItem.ColorListOption<*> -> R.layout.preference_color_list_option
-		}
+		override fun getItemViewType(position: Int) = R.layout.preference_color_list_option
 
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 			val inflater = LayoutInflater.from(parent.context)
 			val view = inflater.inflate(viewType, parent, false)
-			return when (viewType) {
-				R.layout.preference_color_list_option -> OptionViewHolder(view, ::onItemClick)
-				else -> throw NotImplementedError()
-			}
+			return OptionViewHolder(view, ::onItemClick)
 		}
 
-		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (val item = items[position]) {
+		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+			holder as OptionViewHolder
 
-			is ColorListItem.ColorListOption<*> -> {
-				holder as OptionViewHolder
-				holder.button.isChecked = item.key.toString() == selectedValue
+			val item = items[position]
+			holder.button.isChecked = item.key.toString() == selectedValue
 
-				var buttontint: Int
-				if (holder.button.isChecked) {
+			val buttontint = when {
+				holder.button.isChecked -> when (item.key) {
 					@Suppress("MagicNumber")
-					buttontint =
-						if (item.key == 0xFFEEDC00 || item.key == 0xFFEEDC00)
-							R.color.button_default_disabled_text
-						else R.color.button_default_normal_text
-				} else {
-					buttontint = R.color.transparent
+					0xFFEEDC00 -> R.color.button_default_disabled_text
+					else -> R.color.button_default_normal_text
 				}
-				holder.buttonbg.background = context?.let{ResourcesCompat.getDrawable(
-					it.resources,R.drawable.subtitle_background,it.theme)}
-				holder.buttonfg.backgroundTintList = ColorStateList.valueOf(item.key.toString().toLong().toInt())
-				holder.buttontint.buttonTintList =
-					context?.let { context ->
-						ContextCompat.getColor(context, buttontint).let {
-							ColorStateList.valueOf(it)
-						}
-					}
-				holder.title.text = item.title
-				holder.summary.text = item.summary
-				holder.summary.isVisible = item.summary?.isNotBlank() == true
+				else -> R.color.transparent
 			}
+			holder.buttonbg.background = context?.let {
+				ResourcesCompat.getDrawable(it.resources, R.drawable.subtitle_background, it.theme)
+			}
+			holder.buttonfg.backgroundTintList = ColorStateList.valueOf(item.key.toString().toLong().toInt())
+			holder.buttontint.buttonTintList =
+				context?.let { context ->
+					ContextCompat.getColor(context, buttontint).let {
+						ColorStateList.valueOf(it)
+					}
+				}
+			holder.title.text = item.title
+			holder.summary.text = item.summary
+			holder.summary.isVisible = item.summary?.isNotBlank() == true
 		}
 
 		fun onItemClick(viewHolder: OptionViewHolder) {
 			val index = viewHolder.absoluteAdapterPosition
 			if (index == RecyclerView.NO_POSITION) return
 
-			val item = items[index] as ColorListItem.ColorListOption<K>
+			val item = items[index]
 			if (preference.callChangeListener(item.key)) {
 				when (val preference = preference) {
-					is ListPreference -> preference.value = item.key as String
+					is ListPreference -> preference.value = item.key.toString()
 				}
 
-				selectedValue = item.key as K
+				selectedValue = item.key.toString()
 			}
 
 			parentFragmentManager.popBackStack()

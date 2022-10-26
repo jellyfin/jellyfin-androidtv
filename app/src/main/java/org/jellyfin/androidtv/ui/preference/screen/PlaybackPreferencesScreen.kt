@@ -53,7 +53,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.nextUpTimeout)
 				depends {
 					userPreferences[UserPreferences.mediaQueuingEnabled]
-							&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
+						&& userPreferences[UserPreferences.nextUpBehavior] != NextUpBehavior.DISABLED
 				}
 			}
 
@@ -180,7 +180,7 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_subtitles_size)
 				min = 10
 				max = 38
-				bind(userPreferences, UserPreferences.defaultSubtitlesSize)
+				bind(userPreferences, UserPreferences.subtitlesSize)
 			}
 		}
 
