@@ -529,7 +529,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     public boolean setExoPlayerTrack(int index, @Nullable MediaStreamType streamType, @Nullable List<MediaStream> allStreams) {
-        if (!nativeMode || !isInitialized() || allStreams == null || streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
+        if (!nativeMode || !isInitialized() || allStreams == null || allStreams.isEmpty() || streamType != MediaStreamType.Subtitle && streamType != MediaStreamType.Audio)
             return false;
 
         int chosenTrackType = streamType == MediaStreamType.Subtitle ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
