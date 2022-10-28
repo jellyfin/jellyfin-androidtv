@@ -20,4 +20,6 @@ class CompositeSelectedListener : OnItemViewSelectedListener {
 			listener.onItemSelected(itemViewHolder, item, rowViewHolder, row)
 		}
 	}
+
+	fun removeListeners() = listeners.clear()
 }

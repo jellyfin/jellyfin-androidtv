@@ -20,4 +20,6 @@ class CompositeClickedListener : OnItemViewClickedListener {
 			listener.onItemClicked(itemViewHolder, item, rowViewHolder, row)
 		}
 	}
+
+	fun removeListeners() = listeners.clear()
 }
