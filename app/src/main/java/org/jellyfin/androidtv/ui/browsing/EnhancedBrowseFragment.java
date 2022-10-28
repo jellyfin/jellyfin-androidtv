@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -146,7 +147,20 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         setupViews();
         setupQueries(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         setupEventListeners();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mClickedListener.removeListeners();
+        mSelectedListener.removeListeners();
     }
 
     protected void setupQueries(RowLoader rowLoader) {
