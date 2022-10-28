@@ -64,6 +64,8 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 				currentFragment.arguments == destination.arguments
 
 			if (!isSameFragment) {
+				setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+
 				if (currentFragment != null) remove(currentFragment)
 				add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
 			}
