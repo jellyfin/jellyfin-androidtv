@@ -476,4 +476,14 @@
     <string name="lbl_adjust">Προσαρμογή</string>
     <string name="state_disabled">Ανενεργό</string>
     <string name="lbl_additional_parts">Πρόσθετα Μέρη</string>
+    <string name="color_white">Λευκό</string>
+    <string name="color_black">Μαύρο</string>
+    <string name="color_darkgrey">Σκούρο Γκρι</string>
+    <string name="color_yellow">Κίτρινο</string>
+    <string name="lbl_subtitle_fg">Χρώμα κειμένου υποτίτλων</string>
+    <string name="color_red">Κόκκινο</string>
+    <string name="color_green">Πράσινο</string>
+    <string name="color_blue">Μπλε</string>
+    <string name="color_pink">Ροζ</string>
+    <string name="color_cyan">Κυανό</string>
 </resources>
