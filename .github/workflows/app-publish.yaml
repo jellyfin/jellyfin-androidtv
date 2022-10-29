@@ -51,7 +51,7 @@ jobs:
           mv ${{ steps.signAab.outputs.signedReleaseFile }} build/jellyfin-publish/jellyfin-androidtv-v${{ env.JELLYFIN_VERSION }}-release.aab
           mv app/build/version.txt build/jellyfin-publish/
       - name: Upload release archive to GitHub release
-        uses: alexellis/upload-assets@5586bc227f8525a5e3525e6edf64da5350bfb5b1 # tag=0.3.0
+        uses: alexellis/upload-assets@259de5111cb56966d046ced998941e93f91d2c93 # tag=0.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
         with:
