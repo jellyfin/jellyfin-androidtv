@@ -17,6 +17,9 @@ complexity:
 naming:
   InvalidPackageDeclaration:
     active: false
+  FunctionNaming:
+    ignoreAnnotated:
+      - Composable
 
 style:
   # Allow TODO and FIXME comments
