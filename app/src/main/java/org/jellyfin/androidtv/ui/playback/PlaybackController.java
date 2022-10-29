@@ -418,7 +418,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             newPos = getRealTimeProgress();
             // live tv
         } else if (hasInitializedVideoManager()) {
-            if (!isPlaying() && mSeekPosition != -1) {
+            if (currentSkipPos != 0 || (!isPlaying() && mSeekPosition != -1)) {
                 newPos = mSeekPosition;
                 // use seekPosition until playback starts
             } else if (isPlaying()) {
@@ -1295,9 +1295,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public void skip(int msec) {
         if (hasInitializedVideoManager() && (isPlaying() || isPaused()) && spinnerOff && mVideoManager.getCurrentPosition() > 0) { //guard against skipping before playback has truly begun
-            pause();
             mHandler.removeCallbacks(skipRunnable);
-            stopReportLoop();
             refreshCurrentPosition();
             currentSkipPos = Utils.getSafeSeekPosition((currentSkipPos == 0 ? mCurrentPosition : currentSkipPos) + msec, getDuration());
 
