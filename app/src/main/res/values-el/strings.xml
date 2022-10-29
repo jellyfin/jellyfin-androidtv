@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="video_error_unknown_error">Απέτυχε να φορτώσει το βίντεο</string>
+    <string name="video_error_unknown_error">Αποτυχία φόρτωσης βίντεο</string>
     <string name="btn_cancel">Ακύρωση</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pref_live_tv_cat">LIVE TV</string>
@@ -299,10 +299,10 @@
     <string name="lbl_starting_early_ending_after">Ξεκινάει στις %1$s και τελειώνει στις %2$s έπειτα από προγραμματισμό</string>
     <string name="server_issue_ssl_handshake">Η χειραψία μέσω SSL απέτυχε</string>
     <string name="server_issue_timeout">Το χρονικό όριο της σύνδεσης έληξε</string>
-    <string name="server_issue_outdated_version">Ο διακοσμητής χρησιμοποιεί την έκδοση %1$s αλλά πρέπει να έχει την %2$s ή νεότερη</string>
-    <string name="server_issue_unsupported_version">Ο διακοσμητής χρησιμοποιεί την έκδοση %1$s, η οποία δεν υποστηρίζεται</string>
-    <string name="server_issue_missing_version">Δεν μπορεί να καθοριστεί η έκδοση του διακοσμητή</string>
-    <string name="server_issue_invalid_product">Το λογισμικό του διακοσμητή δεν είναι συμβατό</string>
+    <string name="server_issue_outdated_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s αλλά πρέπει να έχει την %2$s ή νεότερη</string>
+    <string name="server_issue_unsupported_version">Ο διακομιστής χρησιμοποιεί την έκδοση %1$s, η οποία δεν υποστηρίζεται</string>
+    <string name="server_issue_missing_version">Δεν μπορεί να καθοριστεί η έκδοση του διακομιστή</string>
+    <string name="server_issue_invalid_product">Το λογισμικό του διακομιστή δεν είναι συμβατό</string>
     <string name="server_issue_unable_to_connect">Αδυναμία σύνδεσης</string>
     <string name="pref_subtitles_size">Μέγεθος υποτίτλων</string>
     <string name="pref_subtitles_background_summary">Προβολή μαύρου φόντου πίσω από τους υπότιτλους</string>
@@ -359,10 +359,10 @@
     <string name="who_is_watching">Ποιος παρακολουθεί\?</string>
     <string name="no_user_warning">Δεν μπορέσαμε να βρούμε κανένα χρήστη!
 \nΠροσθέστε ένα νέο χρήστη πατώντας το κουμπί \"Προσθήκη χρήστη\".</string>
-    <string name="server_unsupported">Ο διακοσμητής πρέπει να ενημερωθεί. Η παρούσα έκδοση είναι η %1$s αλλά η εφαρμογή απαιτεί την %2$s ή νεότερη</string>
-    <string name="welcome_content">Συνδεθείτε στο διακοσμητή σας για να ξεκινήσετε.</string>
+    <string name="server_unsupported">Ο διακομιστής πρέπει να ενημερωθεί. Η παρούσα έκδοση είναι η %1$s αλλά η εφαρμογή απαιτεί την %2$s ή νεότερη</string>
+    <string name="welcome_content">Συνδεθείτε στο διακομιστή σας για να ξεκινήσετε.</string>
     <string name="welcome_title">Καλωσορίσατε στο Jellyfin!</string>
-    <string name="saved_servers">Αποθηκευμένοι διακοσμητές</string>
+    <string name="saved_servers">Αποθηκευμένοι διακομιστές</string>
     <string name="press_to_close">Πιέστε για να κλείσετε</string>
     <string name="no_network_permissions">Το Jellyfin απαιτεί δικαιώματα δικτύου για να λειτουργήσει</string>
     <string name="lbl_switch_user">Αλλαγή χρήστη</string>
@@ -375,10 +375,10 @@
     <string name="lbl_use_series_thumbnails">Προτίμηση μικρογραφιών σειρών</string>
     <string name="lbl_episode_marks">Μόνο σε επεισόδια</string>
     <string name="pref_watched_indicator">Εμφάνιση ενδείξεων ως \"Έχουν παρακολουθηθεί\"</string>
-    <string name="login_help_description">Το Jellyfin χρειάζεται έναν διακοσμητή για να συνδεθεί με αυτόν. Επισκεφτείτε την τεκμηρίωσή μας στο docs.jellyfin.org ή σκανάρετε τον κωδικό QR για να ξεκινήσετε με το Jellyfin.</string>
+    <string name="login_help_description">Το Jellyfin χρειάζεται έναν διακομιστή για να συνδεθεί με αυτόν. Επισκεφτείτε την τεκμηρίωσή μας στο docs.jellyfin.org ή σκανάρετε τον κωδικό QR για να ξεκινήσετε με το Jellyfin.</string>
     <string name="login_help_title">Χρειάζεστε βοήθεια\?</string>
-    <string name="connect_manually_by_address">Εισάγετε τη διεύθυνση του διακοσμητή</string>
-    <string name="discovered_servers_empty">Δε βρέθηκαν διακοσμητές στο τοπικό δίκτυο.</string>
+    <string name="connect_manually_by_address">Εισάγετε τη διεύθυνση του διακομιστή</string>
+    <string name="discovered_servers_empty">Δε βρέθηκαν διακομιστές στο τοπικό δίκτυο.</string>
     <string name="discovered_servers_title">Διακομιστές που ανακαλύφθηκαν</string>
     <string name="lbl_hidden">Κρυμμένο</string>
     <string name="pref_developer_link_description">Προχωρημένα και πειραματικά χαρακτηριστικά</string>
@@ -386,21 +386,21 @@
     <string name="image_size_large">Μεγάλο</string>
     <string name="image_size_medium">Μεσαίο</string>
     <string name="image_size_small">Μικρό</string>
-    <string name="image_type_banner">Εξώφυλλο</string>
+    <string name="image_type_banner">Αφίσα</string>
     <string name="image_type_thumbnail">Μικρογραφία</string>
     <string name="enable_smart_view_description">Η έξυπνη οθόνη απεικονίζει σχετικά αντικείμενα αντί για πλέγμα</string>
     <string name="enable_smart_view">Ενεργοποίηση έξυπνης οθόνης</string>
     <string name="lbl_sign_out">Αποσύνδεση</string>
     <string name="lbl_remove">Αφαίρεση</string>
-    <string name="lbl_server">Διακοσμητής</string>
-    <string name="lbl_remove_server">Αφαίρεση διακοσμητή</string>
+    <string name="lbl_server">Διακομιστής</string>
+    <string name="lbl_remove_server">Αφαίρεση διακομιστή</string>
     <string name="lbl_sign_out_content">Απαίτηση σύνδεσης την επόμενη φορά</string>
     <string name="lbl_remove_user_content">Αφαίρεση λογαριασμού</string>
     <string name="lbl_remove_users">Αυτό θα αφαιρέσει όλους του συσχετιζόμενους χρήστες</string>
-    <string name="lbl_manage_servers">Διαχείριση διακοσμητών</string>
+    <string name="lbl_manage_servers">Διαχείριση διακομιστών</string>
     <string name="login_username_field_empty">Το όνομα χρήστη δεν μπορεί να είναι κενό</string>
     <string name="login_invalid_credentials">Μη έγκυρο όνομα χρήστη και/ή κωδικός</string>
-    <string name="server_connection_failed_candidates">Δεν είναι δυνατή η σύνδεση με το διακοσμητή, δοκιμάστηκαν οι ακόλουθες διευθύνσεις: %1$s</string>
+    <string name="server_connection_failed_candidates">Δεν είναι δυνατή η σύνδεση με τον διακομιστή, προσπαθώντας στις ακόλουθες διευθύνσεις: %1$s</string>
     <string name="lbl_playback_control_ends">Τελειώνει στις %1$s</string>
     <string name="audio_error">Δεν είναι δυνατή η αναπαραγωγή ήχου %1$s</string>
     <string name="subtitle_error">Δεν είναι δυνατή η επιλογή υποτίτλων</string>
@@ -486,4 +486,12 @@
     <string name="color_blue">Μπλε</string>
     <string name="color_pink">Ροζ</string>
     <string name="color_cyan">Κυανό</string>
+    <string name="pref_customization_description">Θέμα, αρχική, επαναχαρτογράφηση</string>
+    <string name="pref_audio_night_mode">Νυχτερινή λειτουργία ήχου (πειραματική)</string>
+    <string name="desc_audio_night_mode">Αυτόματη μείωση της έντασης του ήχου</string>
+    <string name="lbl_subtitle_stroke">Μέγεθος περιγράμματος υποτίτλων</string>
+    <string name="lbl_subtitle_position">Απόσταση υποτίτλων από το κάτω μέρος</string>
+    <string name="action_connect">Σύνδεση</string>
+    <string name="pref_home_description">Διαμόρφωση ενοτήτων που εμφανίζονται</string>
+    <string name="lbl_user_last_used">Χρησιμοποιήθηκε τελευταία την %1$s στις %2$s</string>
 </resources>
