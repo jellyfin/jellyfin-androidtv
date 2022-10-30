@@ -16,6 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.BuildConfig
+import org.jellyfin.androidtv.R
 
 class ImageProvider : ContentProvider() {
 	override fun onCreate(): Boolean = true
@@ -35,6 +36,7 @@ class ImageProvider : ContentProvider() {
 		ProcessLifecycleOwner.get().lifecycleScope.launch(Dispatchers.IO) {
 			Glide.with(context!!)
 				.asBitmap()
+				.error(R.drawable.placeholder_icon)
 				.load(src)
 				.into(object : CustomTarget<Bitmap>() {
 					override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {

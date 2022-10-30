@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="100dp"
+        android:drawable="@drawable/app_icon_foreground"
+        android:left="100dp"
+        android:right="100dp"
+        android:top="100dp" />
+</layer-list>
