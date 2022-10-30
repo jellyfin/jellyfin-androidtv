@@ -90,19 +90,23 @@ import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
+import org.jellyfin.apiclient.model.entities.LocationType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
+import org.jellyfin.apiclient.model.entities.SortOrder;
 import org.jellyfin.apiclient.model.livetv.ChannelInfoDto;
 import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.EpisodeQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.querying.LatestItemsQuery;
 import org.jellyfin.apiclient.model.querying.NextUpQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.ItemFilter;
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
@@ -153,6 +157,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private Runnable mClockLoop;
 
     private BaseItemDto mBaseItem;
+    private BaseItemDto mResumableItem = null;
 
     private ArrayList<MediaSourceInfo> versions;
     private int selectedVersionPopupIndex = 0;
@@ -167,6 +172,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private Lazy<MarkdownRenderer> markdownRenderer = inject(MarkdownRenderer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+
+    private ItemQuery resumableEpisodes = new ItemQuery();
 
     @Nullable
     @Override
@@ -197,6 +204,19 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (timerJson != null) {
             mSeriesTimerInfo = Json.Default.decodeFromString(SeriesTimerInfoDto.Companion.serializer(), timerJson);
         }
+
+        resumableEpisodes.setIncludeItemTypes(new String[]{"Episode"});
+        resumableEpisodes.setMediaTypes(new String[]{"Video"});
+        resumableEpisodes.setRecursive(true);
+        resumableEpisodes.setImageTypeLimit(0);
+        resumableEpisodes.setEnableTotalRecordCount(false);
+        resumableEpisodes.setCollapseBoxSetItems(false);
+        resumableEpisodes.setExcludeLocationTypes(new LocationType[]{LocationType.Virtual});
+        resumableEpisodes.setLimit(1);
+        resumableEpisodes.setFilters(new org.jellyfin.apiclient.model.querying.ItemFilter[]{org.jellyfin.apiclient.model.querying.ItemFilter.IsResumable});
+        resumableEpisodes.setSortBy(new String[]{"DatePlayed"});
+        resumableEpisodes.setSortOrder(SortOrder.Descending);
+        resumableEpisodes.setUserId(KoinJavaComponent.<UserRepository>get(org.jellyfin.androidtv.auth.repository.UserRepository .class).getCurrentUser().getValue().getId().toString());
 
         CoroutineUtils.readCustomMessagesOnLifecycle(getLifecycle(), customMessageRepository.getValue(), message -> {
             if (message.equals(CustomMessage.ActionComplete.INSTANCE) && mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
@@ -268,6 +288,26 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         Timber.i("Re-loading after new episode playback");
                         loadItem(lastPlayedItem.getId().toString());
                         dataRefreshService.getValue().setLastPlayedItem(null); //blank this out so a detail screen we back up to doesn't also do this
+                    } else if ((ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES) && (mResumableItem!=null)) {
+                        apiClient.getValue().GetItemsAsync(resumableEpisodes, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
+                            @Override
+                            public void onResponse(ItemsResult response) {
+                                if (!getActive()) return;
+                                if (response.getTotalRecordCount()==1) {
+                                    mResumableItem = response.getItems()[0];
+                                    mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((mResumableItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
+                                } else {
+                                    //I think i need to put nextup code in here, but would like testing first
+                                    mResumableItem = null;
+                                }
+                            }
+                        });
+                        mResumeButton.setOnClickListener(v -> {
+                            {
+                                Long pos = mResumableItem.getUserData().getPlaybackPositionTicks() / 10000;
+                                play(mResumableItem, pos.intValue() - getResumePreroll(), false);
+                            }
+                        });
                     } else {
                         Timber.d("Updating info after playback");
                         apiClient.getValue().GetItemAsync(mBaseItem.getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
@@ -406,6 +446,15 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
             setBaseItem(item);
         } else {
+            apiClient.getValue().GetItemsAsync(resumableEpisodes, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
+                @Override
+                public void onResponse(ItemsResult response) {
+                    if (!getActive()) return;
+                    if (response.getTotalRecordCount()==1) {
+                        mResumableItem = response.getItems()[0];
+                    }
+                }
+            });
             apiClient.getValue().GetItemAsync(id, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                 @Override
                 public void onResponse(BaseItemDto response) {
@@ -902,51 +951,53 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private void addButtons(int buttonSize) {
         org.jellyfin.sdk.model.api.BaseItemDto baseItem = ModelCompat.asSdk(mBaseItem);
         String buttonLabel;
-        if (baseItem.getType() == BaseItemKind.SERIES) {
+        if ((baseItem.getType() == BaseItemKind.SERIES) && (mResumableItem==null)) {
             buttonLabel = getString(R.string.lbl_play_next_up);
         } else {
+            BaseItemDto itemToResume = (mResumableItem==null) ? mBaseItem : mResumableItem;
             long startPos = 0;
-            if (mBaseItem.getCanResume()) {
-                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
+            if (itemToResume.getCanResume()) {
+                startPos = (itemToResume.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
         mResumeButton = TextUnderButton.create(requireContext(), R.drawable.ic_resume, buttonSize, 2, buttonLabel, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (baseItem.getType() == BaseItemKind.SERIES) {
-                    //play next up
-                    NextUpQuery nextUpQuery = new NextUpQuery();
-                    nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                    nextUpQuery.setSeriesId(mBaseItem.getId());
-                    apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
-                        @Override
-                        public void onResponse(ItemsResult response) {
-                            if (!getActive()) return;
+                if ((baseItem.getType() == BaseItemKind.SERIES) && (mResumableItem==null)) {
+                        //play next up
+                        NextUpQuery nextUpQuery = new NextUpQuery();
+                        nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
+                        nextUpQuery.setSeriesId(mBaseItem.getId());
 
-                            if (response.getItems().length > 0) {
-                                play(response.getItems()[0], 0 , false);
-                            } else {
-                                Utils.showToast(requireContext(), "Unable to find next up episode");
+                        apiClient.getValue().GetNextUpEpisodesAsync(nextUpQuery, new LifecycleAwareResponse<ItemsResult>(getLifecycle()) {
+                            @Override
+                            public void onResponse(ItemsResult response) {
+                                if (!getActive()) return;
+
+                                if (response.getItems().length > 0) {
+                                    play(response.getItems()[0], 0, false);
+                                } else {
+                                    Utils.showToast(requireContext(), "Unable to find next up episode");
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(Exception exception) {
-                            if (!getActive()) return;
+                            @Override
+                            public void onError(Exception exception) {
+                                if (!getActive()) return;
 
-                            Timber.e(exception, "Error playing next up episode");
-                            Utils.showToast(requireContext(), getString(R.string.msg_video_playback_error));
-                        }
-                    });
-                } else {
-                    //resume
-                    Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-                    play(mBaseItem, pos.intValue() - getResumePreroll(), false);
-
+                                Timber.e(exception, "Error playing next up episode");
+                                Utils.showToast(requireContext(), getString(R.string.msg_video_playback_error));
+                            }
+                        });
+                    } else {
+                        Long pos = mResumableItem.getUserData().getPlaybackPositionTicks() / 10000;
+                        play(mResumableItem, pos.intValue() - getResumePreroll(), false);
+                    }
                 }
-            }
-        });
+            });
+
+
 
         //playButton becomes playWith button
         if (userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.CHOOSE && (baseItem.getType() == BaseItemKind.SERIES || baseItem.getType() == BaseItemKind.MOVIE || baseItem.getType() == BaseItemKind.VIDEO || baseItem.getType() == BaseItemKind.EPISODE)) {
