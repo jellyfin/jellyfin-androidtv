@@ -119,22 +119,22 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 		// Start session
 		(application as? JellyfinApplication)?.onSessionStart()
 
-		// Create intent
-		when {
+		// Create destination
+		val destination = when {
 			// Search is requested
-			intent.action === Intent.ACTION_SEARCH -> navigationRepository.navigate(Destinations.search)
-			// Item is requested
-			itemId != null -> when {
-				// Item is a user view - need to get info from API and create the intent
-				// using the ItemLauncher
-				itemIsUserView -> {
-					val item by api.userLibraryApi.getItem(itemId = itemId)
-					ItemLauncher.launchUserView(item)
-				}
-				// Item is not a user view
-				else -> navigationRepository.navigate(Destinations.itemDetails(itemId))
+			intent.action === Intent.ACTION_SEARCH -> Destinations.search
+			// User view item is requested
+			itemId != null && itemIsUserView -> {
+				val item by api.userLibraryApi.getItem(itemId = itemId)
+				ItemLauncher.getUserViewDestination(item)
 			}
+			// Other item is requested
+			itemId != null -> Destinations.itemDetails(itemId)
+			// No destination requested, use default
+			else -> null
 		}
+
+		if (destination != null) navigationRepository.reset(destination)
 
 		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history

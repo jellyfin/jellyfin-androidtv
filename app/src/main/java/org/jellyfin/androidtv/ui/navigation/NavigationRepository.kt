@@ -41,8 +41,9 @@ interface NavigationRepository {
 
 	/**
 	 * Reset navigation to it's initial state and remvoe all history.
+	 * Optionally use a [Destination.Fragment] instead of the default destination.
 	 */
-	fun reset()
+	fun reset(destination: Destination.Fragment? = null)
 }
 
 class NavigationRepositoryImpl(
@@ -84,10 +85,11 @@ class NavigationRepositoryImpl(
 		return true
 	}
 
-	override fun reset() {
+	override fun reset(destination: Destination.Fragment?) {
 		fragmentHistory.clear()
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false))
-		Timber.d("Navigating to $initialDestination")
+		val actualDestination = destination ?: initialDestination
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false))
+		Timber.d("Navigating to $actualDestination")
 	}
 }
 

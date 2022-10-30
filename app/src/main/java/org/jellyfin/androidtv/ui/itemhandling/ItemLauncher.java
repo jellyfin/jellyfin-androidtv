@@ -36,26 +36,28 @@ import timber.log.Timber;
 
 public class ItemLauncher {
     public static void launchUserView(final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
-        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
 
+        NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
+        Destination destination = getUserViewDestination(baseItem);
+
+        navigationRepository.navigate(destination);
+    }
+
+    public static Destination.Fragment getUserViewDestination(final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
         switch (baseItem.getCollectionType()) {
             case CollectionType.Movies:
             case CollectionType.TvShows:
                 LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
-                if (!enableSmartScreen) {
-                    navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(baseItem));
-                } else {
-                    navigationRepository.navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
-                }
-                break;
+
+                if (!enableSmartScreen) return Destinations.INSTANCE.libraryBrowser(baseItem);
+                else return Destinations.INSTANCE.librarySmartScreen(baseItem);
             case CollectionType.Music:
             case CollectionType.LiveTv:
-                navigationRepository.navigate(Destinations.INSTANCE.librarySmartScreen(baseItem));
-                break;
+                return Destinations.INSTANCE.librarySmartScreen(baseItem);
             default:
-                navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(baseItem));
+                return Destinations.INSTANCE.libraryBrowser(baseItem);
         }
     }
 
