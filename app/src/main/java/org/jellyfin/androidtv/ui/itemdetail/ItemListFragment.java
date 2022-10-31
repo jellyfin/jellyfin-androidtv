@@ -29,7 +29,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.databinding.ActivityItemListBinding;
+import org.jellyfin.androidtv.databinding.FragmentItemListBinding;
 import org.jellyfin.androidtv.databinding.ViewRowDetailsBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ItemListView;
@@ -111,7 +111,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ActivityItemListBinding binding = ActivityItemListBinding.inflate(getLayoutInflater(), container, false);
+        FragmentItemListBinding binding = FragmentItemListBinding.inflate(getLayoutInflater(), container, false);
 
         BUTTON_SIZE = Utils.convertDpToPixel(requireContext(), 35);
 
