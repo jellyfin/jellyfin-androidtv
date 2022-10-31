@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ contains(github.repository_owner, 'jellyfin') }}
     steps:
-      - uses: eps1lon/actions-label-merge-conflict@b8bf8341285ec9a4567d4318ba474fee998a6919 # tag=v2.0.1
+      - uses: eps1lon/actions-label-merge-conflict@fd1f295ee7443d13745804bc49fe158e240f6c6e # tag=v2.1.0
         with:
           dirtyLabel: merge conflict
           repoToken: ${{ secrets.JF_BOT_TOKEN }}
