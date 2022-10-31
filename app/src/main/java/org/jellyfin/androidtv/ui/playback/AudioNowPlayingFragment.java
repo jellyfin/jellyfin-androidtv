@@ -36,7 +36,7 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.databinding.ActivityAudioNowPlayingBinding;
+import org.jellyfin.androidtv.databinding.FragmentAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
 import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
@@ -109,7 +109,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ActivityAudioNowPlayingBinding binding = ActivityAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
+        FragmentAudioNowPlayingBinding binding = FragmentAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
 
         lastUserInteraction = System.currentTimeMillis();
 

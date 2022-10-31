@@ -49,7 +49,7 @@ import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
 import org.jellyfin.androidtv.data.service.BackgroundService;
-import org.jellyfin.androidtv.databinding.ActivityFullDetailsBinding;
+import org.jellyfin.androidtv.databinding.FragmentFullDetailsBinding;
 import org.jellyfin.androidtv.preference.SystemPreferences;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
@@ -171,7 +171,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ActivityFullDetailsBinding binding = ActivityFullDetailsBinding.inflate(getLayoutInflater(), container, false);
+        FragmentFullDetailsBinding binding = FragmentFullDetailsBinding.inflate(getLayoutInflater(), container, false);
 
         BUTTON_SIZE = Utils.convertDpToPixel(requireContext(), 40);
         backgroundService.getValue().attach(requireActivity());
