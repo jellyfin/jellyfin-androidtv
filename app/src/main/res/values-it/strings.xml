@@ -484,4 +484,15 @@
     <string name="episode_name_special">speciale</string>
     <string name="lbl_quality_profile">Profilo qualità</string>
     <string name="desc_audio_night_mode">Livella automaticamente il volume audio</string>
+    <string name="lbl_subtitle_fg">Colore sottotitoli</string>
+    <string name="lbl_subtitle_stroke"></string>
+    <string name="color_white">Bianco</string>
+    <string name="color_black">Nero</string>
+    <string name="color_darkgrey">Grigio Scuro</string>
+    <string name="color_red">Rosso</string>
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Blu</string>
+    <string name="color_yellow">Giallo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_cyan">Celeste</string>
 </resources>
