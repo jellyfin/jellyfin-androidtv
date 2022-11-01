@@ -849,25 +849,10 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(query.getEnableTotalRecordCount() ? response.getTotalRecordCount() : response.getItems().length);
-                    int i = getItemsLoaded();
-                    int prevItems = i == 0 && size() > 0 ? size() : 0;
-                    for (BaseItemDto item : response.getItems()) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
 
-                    }
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    if (getItemsLoaded() == 0) {
-                        removeRow();
-                    }
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                } else if (getItemsLoaded() == 0) {
+                    removeRow();
                 }
 
                 notifyRetrieveFinished();

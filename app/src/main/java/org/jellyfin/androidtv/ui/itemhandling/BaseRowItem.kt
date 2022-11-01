@@ -351,4 +351,9 @@ open class BaseRowItem protected constructor(
 			}
 		}
 	}
+
+	override fun equals(other: Any?): Boolean {
+		if (other is BaseRowItem) return other.getItemId() == getItemId()
+		return super.equals(other)
+	}
 }
