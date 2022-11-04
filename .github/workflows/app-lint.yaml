@@ -28,7 +28,7 @@ jobs:
       - name: Run detekt and lint tasks
         run: ./gradlew detekt lint
       - name: Upload SARIF files
-        uses: github/codeql-action/upload-sarif@18fe527fa8b29f134bb91f32f1a5dc5abb15ed7f # tag=v2
+        uses: github/codeql-action/upload-sarif@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898 # tag=v2
         if: ${{ always() }}
         with:
           sarif_file: .
