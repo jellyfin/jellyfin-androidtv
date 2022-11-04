@@ -1457,6 +1457,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     return true;
                 case R.id.playTrailers:
                     playTrailers();
+                    return true;
                 case R.id.gotoSeries:
                     gotoSeries();
                     return true;
