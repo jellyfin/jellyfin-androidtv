@@ -134,7 +134,7 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 			else -> null
 		}
 
-		if (destination != null) navigationRepository.reset(destination)
+		navigationRepository.reset(destination)
 
 		val intent = Intent(this, MainActivity::class.java)
 		// Clear navigation history
