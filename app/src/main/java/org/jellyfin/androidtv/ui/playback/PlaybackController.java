@@ -1532,7 +1532,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 updateTvProgramInfo();
             }
             if (mFragment != null && finishedInitialSeek)
-                mFragment.updateSubtitles(mCurrentPosition);
+                mFragment.updateSubtitles(mCurrentPosition - getSubtitleDelay());
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);
