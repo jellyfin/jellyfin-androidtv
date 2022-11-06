@@ -1,10 +1,8 @@
 package org.jellyfin.androidtv.ui.home
 
-import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.leanback.app.RowsSupportFragment
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.OnItemViewClickedListener
@@ -133,9 +131,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				notificationsRow.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				nowPlaying.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
 				for (row in rows) row.addToRowsAdapter(requireContext(), cardPresenter, adapter as MutableObjectAdapter<Row>)
-
-				// Manually set focus if focusedByDefault is not available
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) view?.requestFocus()
 			}
 		}
 
@@ -167,13 +162,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
 		if (event?.action != KeyEvent.ACTION_DOWN) return false
 		return KeyProcessor.HandleKey(keyCode, currentItem, activity)
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		// Make sure to focus the cards instead of the toolbar
-		ViewCompat.setFocusedByDefault(view, true)
 	}
 
 	override fun onResume() {
