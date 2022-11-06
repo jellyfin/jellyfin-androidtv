@@ -481,4 +481,8 @@
     <string name="episode_name_special">speciál</string>
     <string name="pref_refresh_rate_scale_on_device">Měřítko na zařízení</string>
     <string name="pref_refresh_rate_scale_on_tv">Měřítko na TV přijímači</string>
+    <string name="pref_audio_night_mode">Noční režim zvuku (experimentální)</string>
+    <string name="desc_audio_night_mode">Automatické vyrovnání hladiny zvuku</string>
+    <string name="lbl_quality_profile">Profil kvality</string>
+    <string name="lbl_subtitle_fg">Barva textu titulků</string>
 </resources>
