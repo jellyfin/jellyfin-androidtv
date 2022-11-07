@@ -345,7 +345,10 @@ public class InfoLayoutHelper {
                 addBlockText(context, layout, "8K");
             }
 
-            addSpacer(context, layout, "  ");
+            addSpacer(context, layout, " ");
+
+            addVideoCodecDetails(context, layout, item.getMediaStreams().get(0));
+
         }
         if (Utils.isTrue(item.getHasSubtitles())) {
             addBlockText(context, layout, "CC");
@@ -360,6 +363,16 @@ public class InfoLayoutHelper {
             String status = continuing ? context.getString(R.string.lbl__continuing) : context.getString(R.string.lbl_ended);
             addBlockText(context, layout, status, textSize-4, Color.LTGRAY, continuing ? R.drawable.green_gradient : R.drawable.red_gradient);
             addSpacer(context, layout, "  ");
+        }
+    }
+
+    private static void addVideoCodecDetails(Context context, LinearLayout layout, MediaStream stream) {
+        if (stream != null) {
+            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
+                String codec = stream.getCodec().toUpperCase();
+                addBlockText(context, layout, codec);
+                addSpacer(context, layout, "  ");
+            }
         }
     }
 
