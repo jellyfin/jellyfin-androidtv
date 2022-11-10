@@ -103,7 +103,7 @@
     <string name="lbl_mark_unplayed">Pažymėti kaip nepaleistą</string>
     <string name="sum_tv_queuing">Pridėti likusias sezono dalis į eilę kai bus paleistas epizodas</string>
     <string name="lbl_mark_played">Pažymėti kaip paleistą</string>
-    <string name="lbl_begin_padding">Programa pasibaigė</string>
+    <string name="lbl_begin_padding"></string>
     <string name="lbl_similar_items_library">Panašūs failai bibliotekoje</string>
     <string name="lbl_record_any_time">Įrašyti betkuriuo metu</string>
     <string name="lbl_goto_series">Keliauti į serialus</string>
@@ -132,4 +132,27 @@
     <string name="lbl_all_items">Visi failai</string>
     <string name="lbl_community_rating">Visuomenės reitingas</string>
     <string name="lbl_starting_with">Prasideda su tais kurių vardai prasideda</string>
+    <string name="msg_recording_now">Įrašoma dabar</string>
+    <string name="crash_report_toast">Klaida! Kažkas įvyko, programos išsijungtimo reportas buvo įrašytas į jūsų Jellyfin serverį.</string>
+    <string name="pref_audio_direct">Tiesiogiai</string>
+    <string name="pref_live_tv_cat">Gyva televizija</string>
+    <string name="msg_burn_sub_warning">Įrašinėjami subtitrai, tai gali užtrukti kelias sekundes…</string>
+    <string name="server_setup_incomplete">Serverio konfiguravimas nepabaigtas. Atidarykite jellyfin naršyklėje, kad pabaigtumėte konfiguraciją.</string>
+    <string name="lbl_programs">Programos</string>
+    <string name="lbl_album">Albumas</string>
+    <string name="lbl_playlists">Grojaraščiai</string>
+    <string name="msg_items_added">" te"</string>
+    <string name="lbl_live_tv_guide">TV gidas</string>
+    <string name="lbl_recorded_tv">Įrašyta televizija</string>
+    <string name="lbl_episodes">Epizodai</string>
+    <string name="msg_error_live_stream">Įvyko klaida transliuojant televiziją. Bandoma paleist iš naujo…</string>
+    <string name="lbl_albums">Albumai</string>
+    <string name="lbl_artists">Artistai</string>
+    <string name="lbl_song">Daina</string>
+    <string name="lbl_songs">Dainos</string>
+    <string name="msg_cancel_entire_series">Ar esat tikri, kad norite nutraukti VISAS SERIJAS\?</string>
+    <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
+    <string name="lbl_repeat_options">Kartojimo nustatymai</string>
+    <string name="lbl_warning">Įspėjimas</string>
+    <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
 </resources>
