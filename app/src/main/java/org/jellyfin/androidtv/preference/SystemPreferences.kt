@@ -64,5 +64,10 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 * Chosen player for play with button. Changes every time user chooses a player with "play with" button.
 		 */
 		var chosenPlayer = enumPreference("chosen_player", PreferredVideoPlayer.VLC)
+
+		/**
+		 * The version name for the latest dismissed beta notification or empty if none.
+		 */
+		val dismissedBetaNotificationVersion = stringPreference("dismissed_beta_notification_version", "")
 	}
 }
