@@ -93,7 +93,7 @@ val appModule = module {
 
 	single<UserRepository> { UserRepositoryImpl() }
 	single<UserViewsRepository> { UserViewsRepositoryImpl(get()) }
-	single<NotificationsRepository> { NotificationsRepositoryImpl(get(), get()) }
+	single<NotificationsRepository> { NotificationsRepositoryImpl(get(), get(), get()) }
 	single<ItemMutationRepository> { ItemMutationRepositoryImpl(get(), get()) }
 	single<CustomMessageRepository> { CustomMessageRepositoryImpl() }
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }

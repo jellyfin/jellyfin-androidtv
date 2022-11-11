@@ -497,4 +497,5 @@
     <string name="crash_report_toast">Oops! Something went wrong, a crash report was sent to your Jellyfin server.</string>
     <string name="server_setup_incomplete">The setup of this server has not been completed. Open Jellyfin in a web browser to finish setup before signing in.</string>
     <string name="episode_name_special">special</string>
+    <string name="app_notification_beta">App updated to %1$s\nThank you for participating in the Jellyfin beta program</string>
 </resources>

@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.res.Configuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.AppNotification
+import org.jellyfin.androidtv.preference.SystemPreferences
 
 interface NotificationsRepository {
 	val notifications: StateFlow<List<AppNotification>>
@@ -18,19 +20,22 @@ interface NotificationsRepository {
 class NotificationsRepositoryImpl(
 	private val context: Context,
 	private val uiModeManager: UiModeManager,
+	private val systemPreferences: SystemPreferences,
 ) : NotificationsRepository {
 	override val notifications = MutableStateFlow(emptyList<AppNotification>())
 
 	override fun dismissNotification(item: AppNotification) {
 		notifications.value = notifications.value.filter { it != item }
+		item.dismiss()
 	}
 
 	override fun addDefaultNotifications() {
 		addUiModeNotification()
+		addBetaNotification()
 	}
 
-	private fun addNotification(message: String) {
-		notifications.value = notifications.value + AppNotification(message)
+	private fun addNotification(message: String, dismiss: () -> Unit = {}) {
+		notifications.value = notifications.value + AppNotification(message, dismiss)
 	}
 
 	private fun addUiModeNotification() {
@@ -41,6 +46,18 @@ class NotificationsRepositoryImpl(
 
 		if (invalidUiMode && isTouch && !hasHdmiCec) {
 			addNotification(context.getString(R.string.app_notification_uimode_invalid))
+		}
+	}
+
+	private fun addBetaNotification() {
+		val dismissedVersion = systemPreferences[SystemPreferences.dismissedBetaNotificationVersion]
+		val currentVersion = BuildConfig.VERSION_NAME
+		val isBeta = currentVersion.lowercase().contains("beta")
+
+		if (isBeta && currentVersion != dismissedVersion) {
+			addNotification(context.getString(R.string.app_notification_beta, currentVersion)) {
+				systemPreferences[SystemPreferences.dismissedBetaNotificationVersion] = currentVersion
+			}
 		}
 	}
 }
