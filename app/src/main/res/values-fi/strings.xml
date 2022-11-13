@@ -496,4 +496,6 @@
     <string name="color_yellow">Keltainen</string>
     <string name="color_pink">Pinkki</string>
     <string name="color_cyan">Syaani</string>
+    <string name="app_notification_beta">Sovellus päivitettiin versioon %1$s
+\nKiitos osallistumisesta Jellyfinin betatestaukseen</string>
 </resources>
