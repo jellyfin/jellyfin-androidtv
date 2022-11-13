@@ -30,7 +30,7 @@ class SelectQualityAction(
 		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context, view: View
 	) {
-		val qualityMenu = PopupMenu(context, view, Gravity.END).apply {
+		PopupMenu(context, view, Gravity.END).apply {
 			qualityProfiles.values.forEachIndexed { i, selected ->
 				menu.add(0, i, i, selected)
 			}
