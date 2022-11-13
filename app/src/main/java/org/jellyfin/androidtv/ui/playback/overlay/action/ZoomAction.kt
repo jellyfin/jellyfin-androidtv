@@ -25,8 +25,6 @@ class ZoomAction(
 		view: View,
 	) = PopupMenu(context, view, Gravity.END).apply {
 		with(menu) {
-			setGroupCheckable(0, true, false)
-
 			add(
 				0,
 				VideoManager.ZOOM_AUTO_CROP,
@@ -53,6 +51,8 @@ class ZoomAction(
 			).apply {
 				isChecked = playbackController.zoomMode == VideoManager.ZOOM_STRETCH
 			}
+
+			setGroupCheckable(0, true, false)
 		}
 
 		setOnDismissListener { leanbackOverlayFragment.setFading(true) }

@@ -33,8 +33,6 @@ class ClosedCaptionsAction(
 
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
-				setGroupCheckable(0, true, false)
-
 				for (sub in playbackController.subtitleStreams) {
 					add(0, sub.index, sub.index, sub.displayTitle).apply {
 						isChecked = sub.index == playbackController.subtitleStreamIndex
@@ -44,6 +42,8 @@ class ClosedCaptionsAction(
 				add(0, -1, 0, context.getString(R.string.lbl_none)).apply {
 					isChecked = playbackController.subtitleStreamIndex == -1
 				}
+
+				setGroupCheckable(0, true, false)
 			}
 			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { item ->

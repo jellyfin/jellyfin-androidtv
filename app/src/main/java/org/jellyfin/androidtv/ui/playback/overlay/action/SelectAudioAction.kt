@@ -31,12 +31,12 @@ class SelectAudioAction(
 
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
-				setGroupCheckable(0, true, false)
 				for (track in audioTracks) {
 					add(0, track.index, track.index, track.displayTitle).apply {
 						isChecked = currentAudioIndex == track.index
 					}
 				}
+				setGroupCheckable(0, true, false)
 			}
 
 			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
