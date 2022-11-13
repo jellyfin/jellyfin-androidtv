@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.auth.repository
 
+import arrow.core.Either
+import arrow.core.continuations.either
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +19,7 @@ import org.jellyfin.androidtv.preference.constant.UserSelectBehavior.SPECIFIC_US
 import org.jellyfin.androidtv.util.sdk.forUser
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
+import org.jellyfin.sdk.api.client.exception.TimeoutException
 import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
@@ -30,19 +33,21 @@ data class Session(
 	val accessToken: String,
 )
 
-enum class SessionRepositoryState {
-	READY,
-	RESTORING_SESSION,
-	SWITCHING_SESSION,
+sealed class SessionError {
+	object ServerOffline : SessionError()
+	object UnsupportedServerVersion : SessionError()
+	object AuthenticationError : SessionError()
+	object Uninitialized : SessionError()
+	/// Requested destruction by client code
+	object Destroyed : SessionError()
 }
 
 interface SessionRepository {
-	val currentSession: StateFlow<Session?>
-	val state: StateFlow<SessionRepositoryState>
+	val currentSession: StateFlow<Either<SessionError, Session>>
 
-	suspend fun restoreSession()
-	suspend fun switchCurrentSession(userId: UUID): Boolean
-	fun destroyCurrentSession()
+	suspend fun restoreSession(): Either<SessionError, Unit>
+	suspend fun switchCurrentSession(userId: UUID): Either<SessionError, Unit>
+	suspend fun destroyCurrentSession()
 }
 
 class SessionRepositoryImpl(
@@ -58,117 +63,157 @@ class SessionRepositoryImpl(
 	private val telemetryPreferences: TelemetryPreferences,
 ) : SessionRepository {
 	private val currentSessionMutex = Mutex()
-	private val _currentSession = MutableStateFlow<Session?>(null)
+	private val _currentSession = MutableStateFlow<Either<SessionError, Session>>(Either.Left(
+		SessionError.Uninitialized
+	))
 	override val currentSession = _currentSession.asStateFlow()
-	private val _state = MutableStateFlow(SessionRepositoryState.READY)
-	override val state = _state.asStateFlow()
 
-	override suspend fun restoreSession(): Unit = currentSessionMutex.withLock {
-		Timber.d("Restoring session")
-		_state.value = SessionRepositoryState.RESTORING_SESSION
 
-		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
+	override suspend fun restoreSession(): Either<SessionError, Unit> = currentSessionMutex.withLock {
+		either {
+			Timber.d("Restoring session")
 
-		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
-		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
+			if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate])
+				Either.Right(destroyCurrentSessionInternal())
 
-		when (behavior) {
-			DISABLED -> destroyCurrentSession()
-			LAST_USER -> setCurrentSession(createLastUserSession())
-			SPECIFIC_USER -> setCurrentSession(createUserSession(userId))
+			when (authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]) {
+				DISABLED -> destroyCurrentSessionInternal()
+				// TODO: Handle UUID null by destroying session
+				LAST_USER -> {
+					val lastUserId =
+						authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
+					lastUserId?.let {
+						setCurrentSession(createUserSession(it).bind()).bind()
+					}
+				}
+				// TODO: Handle UUID null by destroying session
+				SPECIFIC_USER -> {
+					val userId =
+						authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
+					userId?.let {
+						setCurrentSession(createUserSession(it).bind()).bind()
+					}
+				}
+			}
 		}
-
-		_state.value = SessionRepositoryState.READY
 	}
 
-	override suspend fun switchCurrentSession(userId: UUID): Boolean {
-		// No change in user - don't switch
-		if (currentSession.value?.userId == userId) return false
+	override suspend fun switchCurrentSession(userId: UUID): Either<SessionError, Unit> = currentSessionMutex.withLock {
+		either {
+			// No change in user - don't switch
+			val currentSessionValue = currentSession.value
+			if (currentSessionValue is Either.Right<Session?>
+				&& currentSessionValue.value?.userId == userId
+			) {
+				Either.Right(Unit)
+			}
 
-		_state.value = SessionRepositoryState.SWITCHING_SESSION
-		Timber.d("Switching current session to user $userId")
+			Timber.d("Switching current session to user $userId")
 
-		val session = createUserSession(userId)
-		if (session == null) {
-			Timber.d("Could not switch to non-existing session for user $userId")
-			return false
+			val session = createUserSession(userId).tapLeft {
+				Timber.d("Could not switch to non-existing session for user $userId, error: $it")
+			}.bind()
+
+			val switched = setCurrentSession(session)
+			switched.bind()
 		}
-
-		val switched = setCurrentSession(session)
-		_state.value = SessionRepositoryState.READY
-		return switched
 	}
 
-	override fun destroyCurrentSession() {
-		Timber.d("Destroying current session")
 
+	override suspend fun destroyCurrentSession() = currentSessionMutex.withLock {
+		destroyCurrentSessionInternal()
+		_currentSession.value = Either.Left(SessionError.Destroyed)
+	}
+
+	private fun destroyCurrentSessionInternal() {
 		userRepository.updateCurrentUser(null)
-		_currentSession.value = null
 		userApiClient.applySession(null)
 		apiBinder.updateSession(null, userApiClient.deviceInfo)
-		_state.value = SessionRepositoryState.READY
+		Timber.d("Destroyed current session")
 	}
 
-	private suspend fun setCurrentSession(session: Session?): Boolean {
-		if (session != null) {
-			// No change in session - don't switch
-			if (currentSession.value?.userId == session.userId) return true
+	private suspend fun setCurrentSession(session: Session): Either<SessionError, Unit> {
+		// No change in session - don't switch
+		val currentSessionValue = currentSession.value
+		if (currentSessionValue is Either.Right<Session?>
+			&& currentSessionValue.value?.userId == session.userId) {
+			return Either.Right(Unit)
+		}
 
-			// Update last active user
-			authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
+		// Update last active user
+		authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
-			// Check if server version is supported
-			val server = serverRepository.getServer(session.serverId)
-			if (server == null || !server.versionSupported) return false
+		// Check if server is reachable and version is supported
+		when (val serverResult = serverRepository.getServer(session.serverId)) {
+			is Either.Left -> {
+				when (serverResult.value) {
+					ServerRetrievalError.UnknownServer -> TODO()
+					ServerRetrievalError.Unreachable -> {
+						_currentSession.value = Either.Left(SessionError.ServerOffline)
+						return Either.Left(SessionError.ServerOffline)
+					}
+				}
+			}
+			is Either.Right -> {
+				if (!serverResult.value.versionSupported) {
+					_currentSession.value = Either.Left(SessionError.UnsupportedServerVersion)
+					return Either.Left(SessionError.UnsupportedServerVersion)
+				}
+			}
 		}
 
 		// Update session after binding the apiclient settings
-		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
+		val deviceInfo = defaultDeviceInfo.forUser(session.userId)
+
 		val success = apiBinder.updateSession(session, deviceInfo)
-		Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
+		Timber.d("Updated current session. userId=${session.userId} apiBindingSuccess=${success}")
 
-		if (success) {
-			userApiClient.applySession(session, deviceInfo)
+		if (!success) {
+			Timber.e("Failed to update apiBinder session")
+			destroyCurrentSessionInternal()
+			// TODO: Proper error return value?
+			_currentSession.value = Either.Left(SessionError.AuthenticationError)
+			return Either.Left(SessionError.AuthenticationError)
+		}
 
-			if (session != null) {
-				// Update crash reporting URL
-				val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
-				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
-				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
+		userApiClient.applySession(session, deviceInfo)
 
-				try {
-					val user by userApiClient.userApi.getCurrentUser()
-					userRepository.updateCurrentUser(user)
-				} catch (err: ApiClientException) {
-					Timber.e(err, "Unable to authenticate: bad response when getting user info")
-					destroyCurrentSession()
-					return false
-				}
-			} else {
-				userRepository.updateCurrentUser(null)
+		// Update crash reporting URL
+		val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
+		telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
+		telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
+
+		try {
+			val user by userApiClient.userApi.getCurrentUser()
+			userRepository.updateCurrentUser(user)
+		} catch (err: ApiClientException) {
+			Timber.e(err, "Unable to authenticate: bad response when getting user info")
+			destroyCurrentSessionInternal()
+
+			// TODO: Differentiate on Error here
+			val error = when (err) {
+				is TimeoutException -> SessionError.ServerOffline
+				else -> SessionError.AuthenticationError
 			}
-			preferencesRepository.onSessionChanged()
-			_currentSession.value = session
-		} else destroyCurrentSession()
 
-		return success
+			_currentSession.value = Either.Left(error)
+			return Either.Left(error)
+		}
+		preferencesRepository.onSessionChanged()
+		_currentSession.value = Either.Right(session)
+		return Either.Right(Unit)
 	}
 
-	private fun createLastUserSession(): Session? {
-		val lastUserId = authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
-		return createUserSession(lastUserId)
-	}
-
-	private fun createUserSession(userId: UUID?): Session? {
-		if (userId == null) return null
-
+	private fun createUserSession(userId: UUID): Either<SessionError, Session> {
 		val account = accountManagerStore.getAccount(userId)
-		if (account?.accessToken == null) return null
+		if (account?.accessToken == null) return Either.Left(SessionError.AuthenticationError)
 
-		return Session(
-			userId = account.id,
-			serverId = account.server,
-			accessToken = account.accessToken
+		return Either.Right(
+			Session(
+				userId = account.id,
+				serverId = account.server,
+				accessToken = account.accessToken
+			)
 		)
 	}
 

@@ -96,7 +96,7 @@ class AuthPreferencesScreen : OptionsFragment() {
 
 		// Disallow changing the "always authenticate" option from the login screen
 		// because that would allow a kid to disable the function to access a parent's account
-		if (sessionRepository.currentSession.value != null) {
+		if (sessionRepository.currentSession.value.isRight()) {
 			category {
 				setTitle(R.string.advanced_settings)
 

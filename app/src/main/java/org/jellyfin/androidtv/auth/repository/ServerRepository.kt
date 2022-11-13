@@ -1,10 +1,10 @@
 package org.jellyfin.androidtv.auth.repository
 
+import arrow.core.Either
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
@@ -41,13 +41,18 @@ interface ServerRepository {
 	suspend fun loadDiscoveryServers()
 
 	fun addServer(address: String): Flow<ServerAdditionState>
-	suspend fun getServer(id: UUID): Server?
+	suspend fun getServer(id: UUID): Either<ServerRetrievalError, Server>
 	suspend fun updateServer(server: Server): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
 
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
 	}
+}
+
+sealed class ServerRetrievalError {
+	object UnknownServer: ServerRetrievalError()
+	object Unreachable: ServerRetrievalError()
 }
 
 class ServerRepositoryImpl(
@@ -158,17 +163,18 @@ class ServerRepositoryImpl(
 		}
 	}
 
-	override suspend fun getServer(id: UUID): Server? {
-		val server = authenticationStore.getServer(id) ?: return null
+	override suspend fun getServer(id: UUID): Either<ServerRetrievalError, Server> {
+		val server = authenticationStore.getServer(id) ?: return Either.Left(ServerRetrievalError.UnknownServer)
 
-		val updatedServer = try {
-			updateServerInternal(id, server)
+		return try {
+			val updatedServer = updateServerInternal(id, server)
+
+			return Either.Right((updatedServer ?: server).asServer(id))
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to update server")
-			null
+			// TODO: Differentiate error
+			Either.Left(ServerRetrievalError.Unreachable)
 		}
-
-		return (updatedServer ?: server).asServer(id)
 	}
 
 	override suspend fun updateServer(server: Server): Boolean {

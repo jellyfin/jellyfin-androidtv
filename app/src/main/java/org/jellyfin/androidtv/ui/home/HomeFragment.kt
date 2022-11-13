@@ -40,7 +40,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		}
 
 		binding.switchUsers.setOnClickListener {
-			switchUser()
+			lifecycleScope.launch {
+				switchUser()
+			}
 		}
 
 		binding.search.setOnClickListener {
@@ -89,7 +91,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 			})
 	}
 
-	private fun switchUser() {
+	private suspend fun switchUser() {
 		sessionRepository.destroyCurrentSession()
 
 		// Open login activity

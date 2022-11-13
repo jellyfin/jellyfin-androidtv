@@ -39,7 +39,7 @@ class AuthenticatedUserCallbacks(
 
 		if (name in ignoredClassNames) {
 			Timber.i("Activity $name is ignored")
-		} else if (sessionRepository.currentSession.value == null) {
+		} else if (sessionRepository.currentSession.value.isLeft()) {
 			Timber.w("Activity $name started without a session, bouncing to StartupActivity")
 			startActivity(Intent(this, StartupActivity::class.java))
 			finish()

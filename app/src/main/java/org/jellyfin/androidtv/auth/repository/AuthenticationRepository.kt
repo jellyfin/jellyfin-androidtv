@@ -171,7 +171,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
-		val authenticated = sessionRepository.switchCurrentSession(user.id)
+		val authenticated = sessionRepository.switchCurrentSession(user.id).isRight()
 
 		if (authenticated) {
 			// Update last use in store

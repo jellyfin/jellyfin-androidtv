@@ -13,13 +13,13 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.filter
+import arrow.core.Either
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.repository.SessionError
 import org.jellyfin.androidtv.auth.repository.SessionRepository
-import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.browsing.MainActivity
@@ -75,33 +75,50 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
 
+		supportFragmentManager.setFragmentResultListener("showServerSelection", this) {
+			requestKey, _ ->
+				if (requestKey == "showServerSelection") {
+					showServerSelection()
+				}
+		}
+
 		// Ensure basic permissions
 		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
 	}
 
 	private fun onPermissionsGranted() = lifecycleScope.launch {
 		lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-			sessionRepository.state.filter { it == SessionRepositoryState.READY }.collect {
-				val session = sessionRepository.currentSession.value
-				if (session != null) {
-					Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
+			showSplash()
+			sessionRepository.currentSession.collect { currentSessionResult ->
+				when(currentSessionResult) {
+					is Either.Right -> {
+						Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
-					showSplash()
+						val currentUser = userRepository.currentUser.first { it != null }
+						Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
-					val currentUser = userRepository.currentUser.first { it != null }
-					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
-
-					lifecycleScope.launch {
-						openNextActivity()
+						lifecycleScope.launch {
+							openNextActivity()
+						}
 					}
-				} else {
-					// Clear audio queue in case left over from last run
-					mediaManager.clearAudioQueue()
-					mediaManager.clearVideoQueue()
+					is Either.Left -> {
+						Timber.i("Error restoring session: ${currentSessionResult.value}")
+						// TODO Properly handle the error types here
+						when (currentSessionResult.value) {
+							SessionError.ServerOffline, SessionError.Uninitialized -> {
+								// Ignore
+							}
+							else -> {
+								// Clear audio queue in case left over from last run
+								mediaManager.clearAudioQueue()
+								mediaManager.clearVideoQueue()
 
-					val server = startupViewModel.getLastServer()
-					if (server != null) showServer(server.id)
-					else showServerSelection()
+								val server = startupViewModel.getLastServer()
+								if (server != null) showServer(server.id)
+								else showServerSelection()
+							}
+						}
+					}
 				}
 			}
 		}

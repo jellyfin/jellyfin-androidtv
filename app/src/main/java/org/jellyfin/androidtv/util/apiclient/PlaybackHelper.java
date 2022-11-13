@@ -41,7 +41,7 @@ public class PlaybackHelper {
     private static final int ITEM_QUERY_LIMIT = 150; // limit the number of items retrieved for playback
 
     public static void getItemsToPlay(final org.jellyfin.sdk.model.api.BaseItemDto mainItem, boolean allowIntros, final boolean shuffle, final Response<List<org.jellyfin.sdk.model.api.BaseItemDto>> outerResponse) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().orNull().getUserId();
 
         final List<org.jellyfin.sdk.model.api.BaseItemDto> items = new ArrayList<>();
         ItemQuery query = new ItemQuery();
@@ -319,7 +319,7 @@ public class PlaybackHelper {
     }
 
     public static void retrieveAndPlay(String id, final boolean shuffle, final Long position, final Context activity) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().orNull().getUserId();
         KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(id, userId.toString(), new Response<BaseItemDto>() {
             @Override
             public void onResponse(BaseItemDto response) {
@@ -353,7 +353,7 @@ public class PlaybackHelper {
     }
 
     public static void getInstantMixAsync(String seedId, final Response<BaseItemDto[]> outerResponse) {
-        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+        UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().orNull().getUserId();
         SimilarItemsQuery query = new SimilarItemsQuery();
         query.setId(seedId);
         query.setUserId(userId.toString());
@@ -379,7 +379,7 @@ public class PlaybackHelper {
         items.add(mainItem);
         if (mainItem.getPartCount() != null && mainItem.getPartCount() > 1) {
             // get additional parts
-            UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().getUserId();
+            UUID userId = KoinJavaComponent.<SessionRepository>get(SessionRepository.class).getCurrentSession().getValue().orNull().getUserId();
             KoinJavaComponent.<ApiClient>get(ApiClient.class).GetAdditionalParts(mainItem.getId().toString(), userId.toString(), new Response<ItemsResult>() {
                 @Override
                 public void onResponse(ItemsResult response) {

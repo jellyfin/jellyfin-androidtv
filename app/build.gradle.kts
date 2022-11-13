@@ -117,6 +117,10 @@ dependencies {
 	implementation(libs.kotlinx.coroutines)
 	implementation(libs.kotlinx.serialization.json)
 
+	// Arrow
+	implementation(platform("io.arrow-kt:arrow-stack:1.1.2"))
+	implementation("io.arrow-kt:arrow-core")
+
 	// Android(x)
 	implementation(libs.androidx.core)
 	implementation(libs.androidx.activity)
