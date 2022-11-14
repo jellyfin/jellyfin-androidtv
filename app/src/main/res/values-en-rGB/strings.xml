@@ -496,4 +496,6 @@
     <string name="color_yellow">Yellow</string>
     <string name="color_pink">Pink</string>
     <string name="color_cyan">Cyan</string>
+    <string name="app_notification_beta">App updated to %1$s
+\nThank you for participating in the Jellyfin beta program</string>
 </resources>
