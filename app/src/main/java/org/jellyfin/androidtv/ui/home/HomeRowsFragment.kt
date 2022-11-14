@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,6 +45,7 @@ import org.jellyfin.sdk.api.client.extensions.liveTvApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import kotlin.time.Duration.Companion.seconds
 
 class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListener {
 	private val api by inject<ApiClient>()
@@ -194,9 +196,12 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	}
 
 	private fun refreshRows() {
-		repeat(adapter.size()) { i ->
-			val rowAdapter = (adapter[i] as? ListRow)?.adapter as? ItemRowAdapter
-			rowAdapter?.ReRetrieveIfNeeded()
+		lifecycleScope.launch(Dispatchers.IO) {
+			delay(1.5.seconds)
+			repeat(adapter.size()) { i ->
+				val rowAdapter = (adapter[i] as? ListRow)?.adapter as? ItemRowAdapter
+				rowAdapter?.ReRetrieveIfNeeded()
+			}
 		}
 	}
 
