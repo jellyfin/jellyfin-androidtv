@@ -496,4 +496,6 @@
     <string name="color_yellow">Citromsárga</string>
     <string name="color_pink">Rózsaszín</string>
     <string name="color_cyan">Cián</string>
+    <string name="app_notification_beta">Az alkalmazás frissítve a következőre: %1$s
+\nKöszönjük, hogy részt vett a Jellyfin béta programban</string>
 </resources>
