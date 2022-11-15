@@ -57,7 +57,6 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
-import org.jellyfin.apiclient.model.search.SearchHint;
 import org.jellyfin.apiclient.model.search.SearchHintResult;
 import org.jellyfin.apiclient.model.search.SearchQuery;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
@@ -765,30 +764,22 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     private void retrieveViews() {
-        final ItemRowAdapter adapter = this;
         final UserDto user = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
         apiClient.getValue().GetUserViews(user.getId().toString(), new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {
-                if (response.getTotalRecordCount() > 0) {
-                    int i = 0;
-                    int prevItems = Math.max(adapter.size(), 0);
-                    for (BaseItemDto item : response.getItems()) {
-                        //re-map the display prefs id to our actual id
-                        item.setDisplayPreferencesId(item.getId());
+                if (response.getItems() != null && response.getItems().length > 0) {
+                    setTotalItems(response.getTotalRecordCount());
+
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> {
                         if (userViewsRepository.getValue().isSupported(item.getCollectionType())) {
-                            adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
+                            item.setDisplayPreferencesId(item.getId());
+                            return new BaseRowItem(i, item, preferParentThumb, staticHeight);
+                        } else {
+                            return null;
                         }
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
+                    });
+                } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
 
@@ -802,27 +793,24 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 notifyRetrieveFinished(exception);
             }
         });
-
     }
 
     private void retrieve(SearchQuery query) {
-        final ItemRowAdapter adapter = this;
         apiClient.getValue().GetSearchHintsAsync(query, new Response<SearchHintResult>() {
             @Override
             public void onResponse(SearchHintResult response) {
                 if (response.getSearchHints() != null && response.getSearchHints().length > 0) {
-                    int i = 0;
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    for (SearchHint item : response.getSearchHints()) {
+                    setTotalItems(response.getTotalRecordCount());
+
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getSearchHints(), (item, i) -> {
                         if (userViewsRepository.getValue().isSupported(item.getType())) {
-                            i++;
-                            adapter.add(new BaseRowItem(ModelCompat.asSdk(item)));
+                            return new BaseRowItem(ModelCompat.asSdk(item));
+                        } else {
+                            return null;
                         }
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
+                    });
+                } else if (getItemsLoaded() == 0) {
+                    removeRow();
                 }
 
                 notifyRetrieveFinished();
@@ -830,11 +818,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
             @Override
             public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving search results");
+                Timber.e(exception, "Error retrieving items");
+                removeRow();
                 notifyRetrieveFinished(exception);
             }
         });
-
     }
 
     public void addToParentIfResultsReceived() {
@@ -881,26 +869,20 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             public void onResponse(ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
                     setTotalItems(response.getTotalRecordCount());
-                    int i = getItemsLoaded();
-                    int prevItems = i == 0 && size() > 0 ? size() : 0;
-                    for (BaseItemDto item : response.getItems()) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                    }
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    setTotalItems(0);
+
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
 
                 notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error retrieving items");
+                removeRow();
+                notifyRetrieveFinished(exception);
             }
         });
     }
@@ -911,26 +893,20 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             public void onResponse(BaseItemDto[] response) {
                 if (response != null && response.length > 0) {
                     setTotalItems(response.length);
-                    int i = getItemsLoaded();
-                    int prevItems = i == 0 && size() > 0 ? size() : 0;
-                    for (BaseItemDto item : response) {
-                        add(new BaseRowItem(i++, item, getPreferParentThumb(), isStaticHeight()));
-                    }
-                    setItemsLoaded(i);
-                    if (i == 0) {
-                        removeRow();
-                    } else if (prevItems > 0) {
-                        // remove previous items as we re-retrieved
-                        // this is done this way instead of clearing the adapter to avoid bugs in the framework elements
-                        removeAt(0, prevItems);
-                    }
-                } else {
-                    // no results - don't show us
-                    setTotalItems(0);
+
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response, (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                } else if (getItemsLoaded() == 0) {
                     removeRow();
                 }
 
                 notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error retrieving items");
+                removeRow();
+                notifyRetrieveFinished(exception);
             }
         });
     }

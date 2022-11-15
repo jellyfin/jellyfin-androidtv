@@ -4,7 +4,7 @@ import timber.log.Timber
 
 fun <T : Any> ItemRowAdapter.setItems(
 	items: Array<T>,
-	transform: (T, Int) -> BaseRowItem,
+	transform: (T, Int) -> BaseRowItem?,
 ) {
 	Timber.d("Creating items from $itemsLoaded existing and ${items.size} new, adapter size is ${size()}")
 
@@ -15,13 +15,14 @@ fun <T : Any> ItemRowAdapter.setItems(
 		}
 
 		// Add loaded items
-		items.forEachIndexed { index, item ->
-			add(transform(item, itemsLoaded + index))
+		val mappedItems = items.mapIndexedNotNull { index, item ->
+			transform(item, itemsLoaded + index)
 		}
+		mappedItems.forEach { add(it) }
 
 		// Add current items after loaded items
-		repeat(size() - itemsLoaded - items.size) {
-			add(this@setItems.get(it + itemsLoaded + items.size))
+		repeat(size() - itemsLoaded - mappedItems.size) {
+			add(this@setItems.get(it + itemsLoaded + mappedItems.size))
 		}
 	}
 
