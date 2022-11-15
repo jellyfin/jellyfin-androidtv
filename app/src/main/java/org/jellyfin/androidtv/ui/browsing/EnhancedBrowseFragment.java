@@ -109,6 +109,12 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         favSongsRowItem = new BaseRowItem(FakeBaseItem.INSTANCE.getFAV_SONGS());
+
+        mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
+        backgroundService.getValue().attach(requireActivity());
+
+        setupViews();
+        setupQueries(this);
     }
 
     @Nullable
@@ -133,20 +139,9 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                     .findFragmentById(R.id.rowsFragment);
         }
 
-        mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
         mRowsFragment.setAdapter(mRowsAdapter);
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        backgroundService.getValue().attach(requireActivity());
-
-        setupViews();
-        setupQueries(this);
     }
 
     @Override
@@ -211,7 +206,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
+                            return;
 
                         for (int i = 0; i < mRowsAdapter.size(); i++) {
                             if (mRowsAdapter.get(i) instanceof ListRow) {
@@ -293,7 +289,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         addAdditionalRows(mRowsAdapter);
 
-        mRowsFragment.setAdapter(mRowsAdapter);
+        if (mRowsFragment != null) mRowsFragment.setAdapter(mRowsAdapter);
     }
 
     protected void addAdditionalRows(MutableObjectAdapter<Row> rowAdapter) {
@@ -409,7 +405,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                       navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
                         break;
 
                     case SCHEDULE:
@@ -470,7 +466,8 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
             mTitle.setText(rowItem.getName(requireContext()));
 
             String summary = rowItem.getSummary(requireContext());
-            if (summary != null) mSummary.setText(markdownRenderer.getValue().toMarkdownSpanned(summary));
+            if (summary != null)
+                mSummary.setText(markdownRenderer.getValue().toMarkdownSpanned(summary));
             else mSummary.setText(null);
 
             InfoLayoutHelper.addInfoRow(requireContext(), rowItem, mInfoRow, true, true);
