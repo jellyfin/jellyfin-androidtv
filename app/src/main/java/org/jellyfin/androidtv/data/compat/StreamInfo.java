@@ -298,6 +298,8 @@ public class StreamInfo {
         long startPositionTicks = getPlayMethod() == PlayMethod.Transcode ? getStartPositionTicks() : 0;
 
         if (!includeSelectedTrackOnly) {
+            if (getMediaSource() == null) return list;
+
             for (org.jellyfin.sdk.model.api.MediaStream stream : getMediaSource().getMediaStreams()) {
                 if (stream.getType() == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE) {
                     addSubtitleProfiles(list, stream, enableAllProfiles, baseUrl, accessToken, startPositionTicks);
