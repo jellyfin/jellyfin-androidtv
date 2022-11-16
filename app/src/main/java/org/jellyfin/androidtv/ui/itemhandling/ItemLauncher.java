@@ -2,6 +2,8 @@ package org.jellyfin.androidtv.ui.itemhandling;
 
 import android.app.Activity;
 
+import androidx.annotation.Nullable;
+
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.LiveTvOption;
@@ -35,7 +37,7 @@ import java.util.UUID;
 import timber.log.Timber;
 
 public class ItemLauncher {
-    public static void launchUserView(final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
+    public static void launchUserView(@Nullable final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
         Timber.d("**** Collection type: %s", baseItem.getCollectionType());
 
         NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
@@ -44,8 +46,11 @@ public class ItemLauncher {
         navigationRepository.navigate(destination);
     }
 
-    public static Destination.Fragment getUserViewDestination(final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
-        switch (baseItem.getCollectionType()) {
+    public static Destination.Fragment getUserViewDestination(@Nullable final org.jellyfin.sdk.model.api.BaseItemDto baseItem) {
+        String collectionType = baseItem == null ? null : baseItem.getCollectionType();
+        if (collectionType == null) collectionType = "";
+
+        switch (collectionType) {
             case CollectionType.Movies:
             case CollectionType.TvShows:
                 LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
