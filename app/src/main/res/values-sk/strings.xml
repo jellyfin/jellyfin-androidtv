@@ -484,4 +484,18 @@
     <string name="lbl_quality_profile">Kvalitatívne profily</string>
     <string name="desc_audio_night_mode">Automaticky vyrovnáva hlasitosť zvuku</string>
     <string name="pref_audio_night_mode">Nočný zvukový mód (experimentálny)</string>
+    <string name="color_green">Zelená</string>
+    <string name="app_notification_beta">Aplikácia bola aktualizovaná na verziu %1$s
+\nĎakujeme za účasť v Jellyfin Beta programe</string>
+    <string name="lbl_subtitle_fg">Farba textu titulkov</string>
+    <string name="lbl_subtitle_stroke">Veľkosť obrysu titulkov</string>
+    <string name="lbl_subtitle_position">Dolné odsadenie titulkov</string>
+    <string name="color_white">Biela</string>
+    <string name="color_black">Čierna</string>
+    <string name="color_darkgrey">Tmavošedá</string>
+    <string name="color_red">Červená</string>
+    <string name="color_blue">Modrá</string>
+    <string name="color_yellow">Žltá</string>
+    <string name="color_pink">Ružová</string>
+    <string name="color_cyan">Tyrkysová</string>
 </resources>
