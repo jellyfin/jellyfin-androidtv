@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.R;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -162,8 +163,12 @@ public class TimeUtils {
     }
 
     public static Date getDate(LocalDateTime date) {
+        return getDate(date, ZoneOffset.UTC);
+    }
+
+    public static Date getDate(LocalDateTime date, ZoneId zone) {
         if (date == null) return null;
 
-        return Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(date.atZone(zone).toInstant());
     }
 }
