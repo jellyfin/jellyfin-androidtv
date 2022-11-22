@@ -16,6 +16,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
@@ -35,6 +36,8 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		applyTheme()
+
 		backgroundService.attach(this)
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
@@ -53,6 +56,12 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 				}
 			}
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		applyTheme()
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
