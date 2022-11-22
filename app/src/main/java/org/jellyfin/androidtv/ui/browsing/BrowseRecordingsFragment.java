@@ -1,7 +1,11 @@
 package org.jellyfin.androidtv.ui.browsing;
 
+import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.HeaderItem;
 import androidx.leanback.widget.ListRow;
@@ -40,9 +44,15 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mTitle.setText(getString(R.string.lbl_loading_elipses));
+    }
+
+    @Override
     protected void setupQueries(final RowLoader rowLoader) {
         showViews = true;
-        mTitle.setText(getString(R.string.lbl_loading_elipses));
         //Latest Recordings
         RecordingQuery recordings = new RecordingQuery();
         recordings.setFields(new ItemFields[]{
@@ -53,7 +63,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         recordings.setEnableImages(true);
         recordings.setLimit(40);
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 40));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), recordings, 40));
 
         //Movies
         RecordingQuery movies = new RecordingQuery();
@@ -65,7 +75,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         movies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         movies.setEnableImages(true);
         movies.setIsMovie(true);
-        BrowseRowDef moviesDef = new BrowseRowDef(mActivity.getString(R.string.lbl_movies), movies, 60);
+        BrowseRowDef moviesDef = new BrowseRowDef(getString(R.string.lbl_movies), movies, 60);
 
         //Shows
         RecordingQuery shows = new RecordingQuery();
@@ -77,7 +87,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         shows.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         shows.setEnableImages(true);
         shows.setIsSeries(true);
-        BrowseRowDef showsDef = new BrowseRowDef(mActivity.getString(R.string.lbl_tv_series), shows, 60);
+        BrowseRowDef showsDef = new BrowseRowDef(getString(R.string.lbl_tv_series), shows, 60);
 
         mRows.add(showsDef);
         mRows.add(moviesDef);
@@ -92,7 +102,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         sports.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         sports.setEnableImages(true);
         sports.setIsSports(true);
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_sports), sports, 60));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_sports), sports, 60));
 
         //Kids
         RecordingQuery kids = new RecordingQuery();
@@ -104,7 +114,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         kids.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         kids.setEnableImages(true);
         kids.setIsKids(true);
-        mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_kids), kids, 60));
+        mRows.add(new BrowseRowDef(getString(R.string.lbl_kids), kids, 60));
 
         rowLoader.loadRows(mRows);
         addNext24Timers();
@@ -173,7 +183,7 @@ public class BrowseRecordingsFragment extends EnhancedBrowseFragment {
         GridButtonPresenter mGridPresenter = new GridButtonPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(new GridButton(SCHEDULE, getString(R.string.lbl_schedule), R.drawable.tile_port_time));
-        gridRowAdapter.add(new GridButton(SERIES, mActivity.getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer));
+        gridRowAdapter.add(new GridButton(SERIES, getString(R.string.lbl_series_recordings), R.drawable.tile_port_series_timer));
         rowAdapter.add(new ListRow(gridHeader, gridRowAdapter));
     }
 }

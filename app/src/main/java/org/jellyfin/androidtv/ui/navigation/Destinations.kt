@@ -5,6 +5,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.ui.browsing.BrowseGridFragment
+import org.jellyfin.androidtv.ui.browsing.BrowseRecordingsFragment
 import org.jellyfin.androidtv.ui.browsing.BrowseScheduleFragment
 import org.jellyfin.androidtv.ui.browsing.BrowseViewFragment
 import org.jellyfin.androidtv.ui.browsing.ByGenreFragment
@@ -133,6 +134,7 @@ object Destinations {
 	// Live TV
 	val liveTvGuide = fragmentDestination<LiveTvGuideFragment>()
 	val liveTvSchedule = fragmentDestination<BrowseScheduleFragment>()
+	val liveTvRecordings = fragmentDestination<BrowseRecordingsFragment>()
 	val liveTvGuideFilterPreferences = preferenceDestination<GuideFiltersScreen>()
 	val liveTvGuideOptionPreferences = preferenceDestination<GuideOptionsScreen>()
 

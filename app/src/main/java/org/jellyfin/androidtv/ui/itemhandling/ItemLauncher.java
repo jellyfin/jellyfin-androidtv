@@ -313,11 +313,7 @@ public class ItemLauncher {
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        BaseItemDto folder = new BaseItemDto();
-                        folder.setId(UUID.randomUUID().toString());
-                        folder.setBaseItemType(BaseItemType.Folder);
-                        folder.setName(activity.getString(R.string.lbl_recorded_tv));
-                        navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(folder)));
+                        navigationRepository.navigate(Destinations.INSTANCE.getLiveTvRecordings());
                         break;
 
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:

@@ -64,10 +64,4 @@ object FakeBaseItem {
 		type = BaseItemKind.FOLDER,
 		collectionType = "SeriesTimers",
 	)
-
-	val TV_RECORDINGS_ID = UUID.fromString("11111111-0000-0000-0000-000000000003")
-	val TV_RECORDINGS = BaseItemDto(
-		id = TV_RECORDINGS_ID,
-		type = BaseItemKind.FOLDER,
-	)
 }

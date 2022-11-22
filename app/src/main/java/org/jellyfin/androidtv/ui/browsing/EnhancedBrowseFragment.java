@@ -163,6 +163,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     protected void setupViews() {
+        if (!getArguments().containsKey(Extras.Folder)) return;
         mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getArguments().getString(Extras.Folder));
         if (mFolder == null) return;
 
@@ -414,7 +415,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         break;
 
                     case LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getTV_RECORDINGS()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.getLiveTvRecordings());
                         break;
 
                     case LiveTvOption.LIVE_TV_GUIDE_OPTION_ID:
