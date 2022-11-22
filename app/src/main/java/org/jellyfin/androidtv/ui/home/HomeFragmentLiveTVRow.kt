@@ -52,14 +52,7 @@ class HomeFragmentLiveTVRow(
 		when (item.id) {
 			LiveTvOption.LIVE_TV_GUIDE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvGuide)
 			LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvSchedule)
-			LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID -> {
-				val folder = BaseItemDto(
-					id = UUID.randomUUID(),
-					type = BaseItemKind.FOLDER,
-					name = activity.getString(R.string.lbl_recorded_tv),
-				)
-				navigationRepository.navigate(Destinations.libraryBrowser(folder))
-			}
+			LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvRecordings)
 			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> {
 				val folder = BaseItemDto(
 					id = UUID.randomUUID(),
