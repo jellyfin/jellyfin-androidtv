@@ -485,4 +485,17 @@
     <string name="desc_audio_night_mode">Passt die Audiolautstärke automatisch an</string>
     <string name="pref_audio_night_mode">Audio Nachtmodus (experimentell)</string>
     <string name="lbl_subtitle_fg">Untertitel Schirftfarbe</string>
+    <string name="app_notification_beta">App aktualisiert zu %1$s
+\nVielen Dank für die Teilnahme am Jellyfin-Beta-Programm</string>
+    <string name="lbl_subtitle_stroke">Untertitel-Strichstärke</string>
+    <string name="lbl_subtitle_position">Untertitel-Abstand von unten</string>
+    <string name="color_white">Weiß</string>
+    <string name="color_black">Schwarz</string>
+    <string name="color_darkgrey">Dunkelgrau</string>
+    <string name="color_red">Rot</string>
+    <string name="color_green">Grün</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_yellow">Gelb</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_cyan">Türkis</string>
 </resources>
