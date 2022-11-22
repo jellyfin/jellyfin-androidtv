@@ -56,6 +56,7 @@ object FakeBaseItem {
 		id = FAV_SONGS_ID,
 		type = BaseItemKind.PLAYLIST,
 		isFolder = true,
+		displayPreferencesId = FAV_SONGS_ID.toString(),
 	)
 
 	val SERIES_TIMERS_ID = UUID.fromString("11111111-0000-0000-0000-000000000002")
@@ -63,6 +64,7 @@ object FakeBaseItem {
 		id = SERIES_TIMERS_ID,
 		type = BaseItemKind.FOLDER,
 		collectionType = "SeriesTimers",
+		displayPreferencesId = SERIES_TIMERS_ID.toString(),
 	)
 
 	val TV_RECORDINGS_ID = UUID.fromString("11111111-0000-0000-0000-000000000003")
