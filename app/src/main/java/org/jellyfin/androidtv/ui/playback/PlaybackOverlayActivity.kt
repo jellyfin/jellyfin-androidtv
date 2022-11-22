@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
 
 /**
@@ -23,6 +24,8 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		applyTheme()
 
 		// Workaround for Sony Bravia devices that show a "grey" background on HDR videos
 		// Note: Should NOT be applied to the decorView as this introduces artifacts
