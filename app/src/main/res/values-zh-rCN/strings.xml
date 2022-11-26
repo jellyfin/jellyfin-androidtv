@@ -485,4 +485,17 @@
     <string name="desc_audio_night_mode">自动调平音量</string>
     <string name="pref_audio_night_mode">音频夜间模式（实验性）</string>
     <string name="lbl_subtitle_fg">字幕文字颜色</string>
+    <string name="app_notification_beta">应用更新到 %1$s
+\n感谢您参与 Jellyfin 测试版计划</string>
+    <string name="lbl_subtitle_stroke">字幕大小</string>
+    <string name="lbl_subtitle_position">字幕距底部的偏移量</string>
+    <string name="color_white">白色</string>
+    <string name="color_black">黑色</string>
+    <string name="color_darkgrey">深灰色</string>
+    <string name="color_red">红色</string>
+    <string name="color_green">绿色</string>
+    <string name="color_blue">蓝色</string>
+    <string name="color_yellow">黄色</string>
+    <string name="color_pink">粉红色</string>
+    <string name="color_cyan">青色</string>
 </resources>
