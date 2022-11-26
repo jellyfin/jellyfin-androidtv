@@ -374,7 +374,7 @@
     <string name="lbl_use_series_thumbnails_description">Χρήση μικρογραφιών σειρών κατά την απεικόνιση των επεισοδίων</string>
     <string name="lbl_use_series_thumbnails">Προτίμηση μικρογραφιών σειρών</string>
     <string name="lbl_episode_marks">Μόνο σε επεισόδια</string>
-    <string name="pref_watched_indicator">Εμφάνιση ενδείξεων ως \"Έχουν παρακολουθηθεί\"</string>
+    <string name="pref_watched_indicator">Εμφάνιση δεικτών \"Έχουν παρακολουθηθεί\"</string>
     <string name="login_help_description">Το Jellyfin χρειάζεται έναν διακομιστή για να συνδεθεί με αυτόν. Επισκεφτείτε την τεκμηρίωσή μας στο docs.jellyfin.org ή σκανάρετε τον κωδικό QR για να ξεκινήσετε με το Jellyfin.</string>
     <string name="login_help_title">Χρειάζεστε βοήθεια\?</string>
     <string name="connect_manually_by_address">Εισάγετε τη διεύθυνση του διακομιστή</string>
@@ -494,4 +494,8 @@
     <string name="action_connect">Σύνδεση</string>
     <string name="pref_home_description">Διαμόρφωση ενοτήτων που εμφανίζονται</string>
     <string name="lbl_user_last_used">Χρησιμοποιήθηκε τελευταία την %1$s στις %2$s</string>
+    <string name="lbl_begin_padding">Έναρξη συμπλήρωσης</string>
+    <string name="app_notification_beta">Η εφαρμογή ενημερώθηκε στη(ν) %1$s
+\nΣας ευχαριστούμε για τη συμμετοχή σας στο πρόγραμμα Jellyfin beta</string>
+    <string name="lbl_end_padding">Τέλος συμπλήρωσης</string>
 </resources>
