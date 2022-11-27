@@ -406,7 +406,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
                     case SERIES:
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.librarySmartScreen(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
                         break;
 
                     case SCHEDULE:

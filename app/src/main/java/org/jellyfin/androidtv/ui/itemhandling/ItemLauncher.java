@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import androidx.annotation.Nullable;
 
-import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.LiveTvOption;
 import org.jellyfin.androidtv.data.model.ChapterItemInfo;
@@ -17,12 +16,12 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
 import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.PlayAccess;
 import org.jellyfin.sdk.model.api.SearchHint;
@@ -32,7 +31,6 @@ import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -317,12 +315,7 @@ public class ItemLauncher {
                         break;
 
                     case LiveTvOption.LIVE_TV_SERIES_OPTION_ID:
-                        BaseItemDto seriesTimers = new BaseItemDto();
-                        seriesTimers.setId(UUID.randomUUID().toString());
-                        seriesTimers.setBaseItemType(BaseItemType.Folder);
-                        seriesTimers.setCollectionType("SeriesTimers");
-                        seriesTimers.setName(activity.getString(R.string.lbl_series_recordings));
-                        navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(seriesTimers)));
+                        navigationRepository.navigate(Destinations.INSTANCE.librarySmartScreen(FakeBaseItem.INSTANCE.getSERIES_TIMERS()));
                         break;
 
                     case LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID:

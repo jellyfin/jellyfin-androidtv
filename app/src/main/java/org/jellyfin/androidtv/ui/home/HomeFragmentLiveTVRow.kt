@@ -19,9 +19,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.androidtv.ui.presentation.GridButtonPresenter
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 import org.jellyfin.androidtv.util.Utils
-import org.jellyfin.sdk.model.api.BaseItemDto
-import org.jellyfin.sdk.model.api.BaseItemKind
-import java.util.UUID
+import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem
 
 class HomeFragmentLiveTVRow(
 	private val activity: Activity,
@@ -53,15 +51,7 @@ class HomeFragmentLiveTVRow(
 			LiveTvOption.LIVE_TV_GUIDE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvGuide)
 			LiveTvOption.LIVE_TV_SCHEDULE_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvSchedule)
 			LiveTvOption.LIVE_TV_RECORDINGS_OPTION_ID -> navigationRepository.navigate(Destinations.liveTvRecordings)
-			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> {
-				val folder = BaseItemDto(
-					id = UUID.randomUUID(),
-					type = BaseItemKind.FOLDER,
-					collectionType = "SeriesTimers",
-					name = activity.getString(R.string.lbl_series_recordings),
-				)
-				navigationRepository.navigate(Destinations.libraryBrowser(folder))
-			}
+			LiveTvOption.LIVE_TV_SERIES_OPTION_ID -> navigationRepository.navigate(Destinations.librarySmartScreen(FakeBaseItem.SERIES_TIMERS))
 		}
 	}
 }
