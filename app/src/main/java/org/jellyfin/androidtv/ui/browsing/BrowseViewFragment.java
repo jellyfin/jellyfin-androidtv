@@ -376,7 +376,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                                     });
                                     recordings.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
                                     recordings.setEnableImages(true);
-                                    mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_recent_recordings), recordings, 50));
+                                    mRows.add(new BrowseRowDef(getString(R.string.lbl_recent_recordings), recordings, 50));
                                     rowLoader.loadRows(mRows);
 
                                     //Now insert our smart rows
@@ -427,7 +427,7 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
                 break;
 
             case "seriestimers":
-                mRows.add(new BrowseRowDef(mActivity.getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_series_recordings), new SeriesTimerQuery()));
                 rowLoader.loadRows(mRows);
                 break;
             default:
