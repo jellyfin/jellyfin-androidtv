@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.ClassPresenterSelector;
@@ -68,8 +67,6 @@ import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
 
 public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.OnKeyListener {
-    protected FragmentActivity mActivity;
-
     protected TextView mTitle;
     private LinearLayout mInfoRow;
     private TextView mSummary;
@@ -121,8 +118,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         EnhancedDetailBrowseBinding binding = EnhancedDetailBrowseBinding.inflate(inflater, container, false);
-
-        mActivity = getActivity();
 
         mTitle = binding.title;
         mInfoRow = binding.infoRow;
@@ -345,7 +340,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
-        return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
+        return KeyProcessor.HandleKey(keyCode, mCurrentItem, requireActivity());
     }
 
     private void refreshCurrentItem() {
@@ -423,7 +418,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         break;
 
                     default:
-                        Toast.makeText(getActivity(), item.toString() + getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), item.toString() + getString(R.string.msg_not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

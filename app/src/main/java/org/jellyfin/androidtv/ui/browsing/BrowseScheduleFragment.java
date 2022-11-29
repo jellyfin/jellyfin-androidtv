@@ -15,12 +15,6 @@ public class BrowseScheduleFragment extends EnhancedBrowseFragment {
     @Override
     protected void setupQueries(final RowLoader rowLoader) {
         TvManager.getScheduleRowsAsync(requireContext(), new TimerQuery(), new CardPresenter(true), mRowsAdapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {
-            @Override
-            public void onResponse(Integer response) {
-                if (!getActive()) return;
-
-                if (response == 0) mActivity.setTitle("No Scheduled Recordings");
-            }
         });
     }
 }
