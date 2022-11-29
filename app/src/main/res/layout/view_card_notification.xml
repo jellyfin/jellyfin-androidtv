@@ -4,6 +4,8 @@
     android:layout_width="280dp"
     android:layout_height="90dp"
     android:background="@color/cardview_dark_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:padding="12dp">
 
     <TextView
