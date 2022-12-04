@@ -222,10 +222,10 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
     public void loadRows(List<BrowseRowDef> rows) {
         mRowsAdapter = new MutableObjectAdapter<Row>(new PositionableListRowPresenter());
-        mCardPresenter = new CardPresenter(false, 280);
+        mCardPresenter = new CardPresenter(false, 140);
         ClassPresenterSelector ps = new ClassPresenterSelector();
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
-        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 310, 280));
+        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 155, 140));
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText());

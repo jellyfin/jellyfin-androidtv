@@ -179,7 +179,7 @@ public class MediaManager {
                 for (int i = getCurrentAudioQueuePosition(); i < mCurrentAudioQueue.size(); i++) {
                     managedItems.add(((BaseRowItem)mCurrentAudioQueue.get(i)).getBaseItem());
                 }
-                mManagedAudioQueue = new ItemRowAdapter(context, managedItems, new CardPresenter(true, Utils.convertDpToPixel(context, 150)), null, QueryType.StaticAudioQueueItems);
+                mManagedAudioQueue = new ItemRowAdapter(context, managedItems, new CardPresenter(true, 150), null, QueryType.StaticAudioQueueItems);
                 mManagedAudioQueue.Retrieve();
             }
             if (mManagedAudioQueue.size() > 0 && isPlayingAudio()) {

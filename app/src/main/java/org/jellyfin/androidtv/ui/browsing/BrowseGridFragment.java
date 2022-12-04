@@ -141,8 +141,9 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         // init with some working defaults
         DisplayMetrics display = requireContext().getResources().getDisplayMetrics();
-        mGridHeight = display.heightPixels - (int) Math.round(display.density * 130.6); // top + bottom in dp, elements scale with density so adjust accordingly
-        mGridWidth = display.widthPixels;
+        // top + bottom in dp, elements scale with density so adjust accordingly
+        mGridHeight = Math.round(display.heightPixels / getResources().getDisplayMetrics().density - 130.6f);
+        mGridWidth = Math.round(display.widthPixels / getResources().getDisplayMetrics().density);
 
         sortOptions = new HashMap<>();
         {
@@ -195,8 +196,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 }
                 // prevent adaption on minor size delta's
                 if (Math.abs(mGridHeight - binding.rowsFragment.getHeight()) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(mGridWidth - binding.rowsFragment.getWidth()) > MIN_GRIDSIZE_CHANGE_DELTA) {
-                    mGridHeight = binding.rowsFragment.getHeight();
-                    mGridWidth = binding.rowsFragment.getWidth();
+                    mGridHeight = Math.round(binding.rowsFragment.getHeight() / getResources().getDisplayMetrics().density);
+                    mGridWidth = Math.round(binding.rowsFragment.getWidth() / getResources().getDisplayMetrics().density);
                     Timber.d("Auto-Adapting grid size to height <%s> width <%s>", binding.rowsFragment.getHeight(), binding.rowsFragment.getWidth());
                     mDirty = true;
                     determiningPosterSize = true;
@@ -645,7 +646,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             //Re-retrieve anything that needs it but delay slightly so we don't take away gui landing
             if (mAdapter != null) {
                 mHandler.postDelayed(() -> {
-                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
+                        return;
 
                     if (mAdapter != null && mAdapter.size() > 0) {
                         if (!mAdapter.ReRetrieveIfNeeded()) {
@@ -730,7 +732,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 if (mAdapter.getTotalItems() == 0) {
                     binding.toolBar.requestFocus();
                     mHandler.postDelayed(() -> {
-                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                        if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED))
+                            return;
 
                         binding.title.setText(mFolder.getName());
                     }, 500);
