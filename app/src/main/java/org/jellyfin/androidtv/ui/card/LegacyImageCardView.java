@@ -83,12 +83,12 @@ public class LegacyImageCardView extends BaseCardView {
 
     public void setMainImageDimensions(int width, int height) {
         ViewGroup.LayoutParams lp = binding.mainImage.getLayoutParams();
-        lp.width = width;
-        lp.height = height;
+        lp.width = Math.round(width * getResources().getDisplayMetrics().density);
+        lp.height = Math.round(height * getResources().getDisplayMetrics().density);
         binding.mainImage.setLayoutParams(lp);
-        if (mBanner != null) mBanner.setX(width - BANNER_SIZE);
+        if (mBanner != null) mBanner.setX(lp.width - BANNER_SIZE);
         ViewGroup.LayoutParams lp2 = binding.resumeProgress.getLayoutParams();
-        lp2.width = width;
+        lp2.width = lp.width;
         binding.resumeProgress.setLayoutParams(lp2);
     }
 

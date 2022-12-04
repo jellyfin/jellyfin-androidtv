@@ -550,7 +550,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 1, getString(R.string.lbl_cast_crew));
                 }
 
@@ -567,7 +567,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
-                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, chapterAdapter, 2, getString(R.string.lbl_chapters));
                 }
 
@@ -590,7 +590,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Cast/Crew
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_cast_crew));
                 }
 
@@ -675,7 +675,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
-                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(requireContext(), nextUpQuery, false, new CardPresenter(true, 260), adapter);
+                ItemRowAdapter nextUpAdapter = new ItemRowAdapter(requireContext(), nextUpQuery, false, new CardPresenter(true, 130), adapter);
                 addItemRow(adapter, nextUpAdapter, 0, getString(R.string.lbl_next_up));
 
                 SeasonQuery seasons = new SeasonQuery();
@@ -700,7 +700,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 addItemRow(adapter, upcomingAdapter, 2, getString(R.string.lbl_upcoming));
 
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
-                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 260), adapter);
+                    ItemRowAdapter seriesCastAdapter = new ItemRowAdapter(requireContext(), ModelCompat.asSdk(mBaseItem.getPeople()), new CardPresenter(true, 130), adapter);
                     addItemRow(adapter, seriesCastAdapter, 3, getString(R.string.lbl_cast_crew));
 
                 }
@@ -725,7 +725,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
                     nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
                     nextEpisodes.setLimit(20);
-                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), nextEpisodes, 0 , false, true, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), nextEpisodes, 0 , false, true, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode));
                 }
 
@@ -736,7 +736,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         if (person.getType() == PersonType.GuestStar) guests.add(person);
                     }
                     if (guests.size() > 0) {
-                        ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 260), adapter);
+                        ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 130), adapter);
                         addItemRow(adapter, castAdapter, 0, getString(R.string.lbl_guest_stars));
                     }
                 }
@@ -744,7 +744,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 //Chapters
                 if (mBaseItem.getChapters() != null && mBaseItem.getChapters().size() > 0) {
                     List<ChapterItemInfo> chapters = BaseItemExtensionsKt.buildChapterItems(ModelCompat.asSdk(mBaseItem), api.getValue());
-                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 240), adapter);
+                    ItemRowAdapter chapterAdapter = new ItemRowAdapter(requireContext(), chapters, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, chapterAdapter, 1, getString(R.string.lbl_chapters));
                 }
 

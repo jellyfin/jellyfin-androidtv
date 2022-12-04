@@ -9,8 +9,8 @@ import org.jellyfin.androidtv.ui.card.LegacyImageCardView
 
 class GridButtonPresenter @JvmOverloads constructor(
 	private val showinfo: Boolean = true,
-	private val width: Int = 220,
-	private val height: Int = 220,
+	private val width: Int = 110,
+	private val height: Int = 110,
 ) : Presenter() {
 	class ViewHolder(
 		private val cardView: LegacyImageCardView,
