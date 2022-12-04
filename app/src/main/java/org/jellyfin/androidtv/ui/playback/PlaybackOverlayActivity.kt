@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.ui.validateAuthentication
 import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
 
@@ -24,6 +25,8 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		if (!validateAuthentication()) return
 
 		applyTheme()
 
@@ -41,6 +44,12 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 		supportFragmentManager.commit {
 			add<CustomPlaybackOverlayFragment>(R.id.content_view, args = intent.extras)
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		if (!validateAuthentication()) return
 	}
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {

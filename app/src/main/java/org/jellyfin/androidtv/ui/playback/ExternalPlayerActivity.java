@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
+import org.jellyfin.androidtv.auth.ui.ActivityAuthenticationExtensionsKt;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
@@ -106,6 +107,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (!ActivityAuthenticationExtensionsKt.validateAuthentication(this)) return;
+
         backgroundService.getValue().attach(this);
 
         mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
@@ -125,6 +128,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (!ActivityAuthenticationExtensionsKt.validateAuthentication(this)) return;
 
         long playerFinishedTime = System.currentTimeMillis();
         Timber.d("Returned from player, result <%d>, extra data <%s>", resultCode, data);
