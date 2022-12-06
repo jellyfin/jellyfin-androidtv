@@ -104,6 +104,7 @@ import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
+import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.jellyfin.sdk.model.constant.MediaType;
 import org.jellyfin.sdk.model.constant.PersonType;
@@ -891,10 +892,29 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(mBaseItem.getSeriesId())));
     }
 
+    private void deleteItem() {
+        Timber.i("Showing item delete confirmation");
+        new AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.item_delete_confirm_title))
+                .setMessage(getString(R.string.item_delete_confirm_message))
+                .setNegativeButton(R.string.lbl_no, null)
+                .setPositiveButton(R.string.lbl_delete, (dialog, which) -> {
+                    FullDetailsFragmentHelperKt.deleteItem(
+                            this,
+                            api.getValue(),
+                            ModelCompat.asSdk(mBaseItem),
+                            dataRefreshService.getValue(),
+                            navigationRepository.getValue()
+                    );
+                })
+                .show();
+    }
+
     private TextUnderButton favButton = null;
     private TextUnderButton shuffleButton = null;
     private TextUnderButton goToSeriesButton = null;
     private TextUnderButton queueButton = null;
+    private TextUnderButton deleteButton = null;
     private TextUnderButton moreButton;
     private TextUnderButton playButton = null;
     private TextUnderButton trailerButton = null;
@@ -1103,7 +1123,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                     if (!getActive()) return;
 
                                     setRecTimer(null);
-                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
+                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
                                     Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                                 }
 
@@ -1185,7 +1205,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                                     setRecSeriesTimer(null);
                                                     setRecTimer(null);
-                                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId().toString());
+                                                    dataRefreshService.getValue().setLastDeletedItemId(mProgramInfo.getId());
                                                     Utils.showToast(requireContext(), R.string.msg_recording_cancelled);
                                                 }
 
@@ -1283,6 +1303,24 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             mDetailsOverviewRow.addAction(goToSeriesButton);
         }
 
+        if (userPreferences.getValue().get(UserPreferences.Companion.getMediaManagementEnabled())) {
+            boolean deletableItem = false;
+            UserDto currentUser = KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue();
+            if (mBaseItem.getBaseItemType() == BaseItemType.Recording && currentUser.getPolicy().getEnableLiveTvManagement() && mBaseItem.getCanDelete())
+                deletableItem = true;
+            else if (mBaseItem.getCanDelete()) deletableItem = true;
+
+            if (deletableItem) {
+                deleteButton = TextUnderButton.create(requireContext(), R.drawable.ic_delete, buttonSize, 0, getString(R.string.lbl_delete), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteItem();
+                    }
+                });
+                mDetailsOverviewRow.addAction(deleteButton);
+            }
+        }
+
         if (mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
             //Settings
             mDetailsOverviewRow.addAction(TextUnderButton.create(requireContext(), R.drawable.ic_settings, buttonSize, 0, getString(R.string.lbl_series_settings), new View.OnClickListener() {
@@ -1308,7 +1346,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                             if (!getActive()) return;
 
                                             Utils.showToast(requireContext(), mSeriesTimerInfo.getName() + " Canceled");
-                                            dataRefreshService.getValue().setLastDeletedItemId(mSeriesTimerInfo.getId());
+                                            dataRefreshService.getValue().setLastDeletedItemId(UUIDSerializerKt.toUUID(mSeriesTimerInfo.getId()));
                                             requireActivity().finish();
                                         }
 
