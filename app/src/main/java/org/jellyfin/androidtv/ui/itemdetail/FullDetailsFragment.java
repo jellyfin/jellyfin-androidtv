@@ -401,7 +401,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             item.setId(mSeriesTimerInfo.getId());
             item.setBaseItemType(BaseItemType.Folder);
             item.setSeriesTimerId(mSeriesTimerInfo.getId());
-            item.setBaseItemType(BaseItemType.SeriesTimer);
             item.setName(mSeriesTimerInfo.getName());
             item.setOverview(BaseItemUtils.getSeriesOverview(mSeriesTimerInfo, requireContext()));
 
