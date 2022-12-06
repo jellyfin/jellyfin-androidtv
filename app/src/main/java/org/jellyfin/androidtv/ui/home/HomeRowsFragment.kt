@@ -170,8 +170,9 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		super.onResume()
 
 		//React to deletion
-		if (currentRow != null && currentItem != null && currentItem!!.getItemId() != null && currentItem!!.getItemId().equals(dataRefreshService.lastDeletedItemId)) {
+		if (currentRow != null && currentItem != null && currentItem?.baseItem != null && currentItem!!.baseItem!!.id == dataRefreshService.lastDeletedItemId) {
 			(currentRow!!.adapter as ItemRowAdapter).remove(currentItem)
+			currentItem = null
 			dataRefreshService.lastDeletedItemId = null
 		}
 

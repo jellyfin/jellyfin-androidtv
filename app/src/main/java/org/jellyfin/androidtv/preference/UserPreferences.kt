@@ -52,6 +52,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var premieresEnabled = booleanPreference("pref_enable_premieres", false)
 
+		/**
+		 * Enable management of media like deleting items when the user has sufficient permisisons.
+		 */
+		var mediaManagementEnabled = booleanPreference("enable_media_management", false)
+
 		/* Playback - General*/
 		/**
 		 * Maximum bitrate in megabit for playback. A value of [MAX_BITRATE_AUTO] is used when
