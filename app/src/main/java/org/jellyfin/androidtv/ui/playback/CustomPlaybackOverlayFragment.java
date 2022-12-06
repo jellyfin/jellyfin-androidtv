@@ -428,7 +428,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             } else if (mGuideVisible) {
                 hideGuide();
             } else if (!requireActivity().isFinishing()) {
-                requireActivity().finish();
+                onStop();
             }
         }
     };
