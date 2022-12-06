@@ -318,7 +318,6 @@ public class MediaManager {
                 if(!Utils.downMixAudio(context)) {
                     mVlcPlayer.setAudioDigitalOutputEnabled(true);
                 } else {
-                    mVlcPlayer.setAudioOutput("opensles_android");
                     mVlcPlayer.setAudioOutputDevice("hdmi");
                 }
 
