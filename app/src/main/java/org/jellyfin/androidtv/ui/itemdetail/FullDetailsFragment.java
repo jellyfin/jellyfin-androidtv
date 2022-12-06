@@ -110,6 +110,7 @@ import org.jellyfin.sdk.model.constant.PersonType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -522,7 +523,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             if (mChannelId != null) {
                 mBaseItem.setParentId(mChannelId);
                 mBaseItem.setPremiereDate(TimeUtils.getDate(mProgramInfo.getStartDate()));
-                mBaseItem.setEndDate(TimeUtils.getDate(mProgramInfo.getEndDate()));
+                mBaseItem.setEndDate(TimeUtils.getDate(mProgramInfo.getEndDate(), ZoneId.systemDefault()));
                 mBaseItem.setRunTimeTicks(mProgramInfo.getRunTimeTicks());
             }
             new BuildDorTask().execute(item);
