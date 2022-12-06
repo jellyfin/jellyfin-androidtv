@@ -262,7 +262,7 @@ public class RecordPopup {
         timelineRow.removeAllViews();
         if (program.getStartDate() == null) return;
 
-        Date local = TimeUtils.convertToLocalDate(TimeUtils.getDate(program.getStartDate()));
+        Date local = TimeUtils.getDate(program.getStartDate());
         TextView on = new TextView(mActivity);
         on.setText(mActivity.getString(R.string.lbl_on));
         timelineRow.addView(on);
