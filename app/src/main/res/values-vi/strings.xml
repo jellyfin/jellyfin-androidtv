@@ -479,4 +479,13 @@
     <string name="color_white">Trắng</string>
     <string name="color_black">Đen</string>
     <string name="color_darkgrey">Xám Đen</string>
+    <string name="app_notification_beta">Ứng dụng được cập nhật lên %1$s
+\nCảm ơn bạn đã tham gia chương trình Jellyfin beta</string>
+    <string name="lbl_subtitle_stroke">Kích thước nét phụ đề</string>
+    <string name="color_red">Đỏ</string>
+    <string name="color_green">Xanh lá</string>
+    <string name="color_blue">Xanh lam</string>
+    <string name="color_yellow">Vàng</string>
+    <string name="color_pink">Hồng</string>
+    <string name="color_cyan">Lục lam</string>
 </resources>
