@@ -427,7 +427,7 @@
     <string name="lbl_auto_crop">Retallament Automàtic</string>
     <string name="lbl_community_rating">Puntuació de la Comunitat</string>
     <string name="pref_show_backdrop_description">Canvia el fons de pantalla segons els elements seleccionats</string>
-    <string name="crash_report_toast">Vaja! Alguna cosa ha anat malament, s\'ha enviat un informe de fallada al teu servidor de Jellyfin.</string>
+    <string name="crash_report_toast">Vaja! Alguna cosa ha anat malament, s\'ha enviat un informe de error al teu servidor de Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Els registres no s\'inclouran als informes de fallada</string>
     <string name="pref_crash_report_logs_enabled">Els registres s\'inclouran als informes de fallada</string>
     <string name="pref_crash_report_logs">Inclou registres</string>
@@ -479,4 +479,23 @@
     <string name="lbl_shuffle_queue">Alternar mode aleatori</string>
     <string name="lbl_additional_parts">Parts addicionals</string>
     <string name="state_disabled">Desactivat</string>
+    <string name="pref_audio_night_mode">Mode de so nocturn (experimental)</string>
+    <string name="desc_audio_night_mode">Anivella automàticament el volum de l\'àudio</string>
+    <string name="lbl_subtitle_fg">Color del text del subtítol</string>
+    <string name="lbl_subtitle_stroke">Mida del traç del subtítol</string>
+    <string name="color_white">Blanc</string>
+    <string name="server_setup_incomplete">La configuració d\'aquest servidor no s\'ha completat. Obre Jellyfin en un navegador web per a finalitzar la configuració abans d\'iniciar la sessió.</string>
+    <string name="episode_name_special">especial</string>
+    <string name="app_notification_beta">Aplicació actualitzada a %1$s
+\nGràcies per participar en el programa Jellyfin beta</string>
+    <string name="lbl_quality_profile">Perfil de qualitat</string>
+    <string name="lbl_subtitle_position">Desplaçament del subtítol des de la part inferior</string>
+    <string name="color_black">Negre</string>
+    <string name="color_darkgrey">Gris fosc</string>
+    <string name="color_red">Vermell</string>
+    <string name="color_green">Verd</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_yellow">Groc</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_cyan">Blau clar</string>
 </resources>
