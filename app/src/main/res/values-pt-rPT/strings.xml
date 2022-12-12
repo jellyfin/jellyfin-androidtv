@@ -257,7 +257,7 @@
     <string name="lbl_premiere">Estreia</string>
     <string name="lbl_episode_not_record">Esta série NÃO gravará</string>
     <string name="lbl_bitstream_dts">Bitstream do áudio DTS</string>
-    <string name="desc_premieres">Mostrar uma lista de novos episódios pilotos para as series que assista</string>
+    <string name="desc_premieres">Mostrar uma lista de novos episódios piloto para as séries a que assiste</string>
     <string name="lbl_refresh_switching">Altera Taxa de Atualização (Refresh Rate)</string>
     <string name="lbl_show_backdrop">Mostrar Pano de Fundo Enquanto Navega</string>
     <string name="msg_external_path">Esta funcionalidade apenas funcionará se montou corretamente a sua biblioteca no servidor com caminhos de rede ou substituição de caminhos e se o cliente que está a utilizar pode aceder diretamente a estes locais pela rede.</string>
