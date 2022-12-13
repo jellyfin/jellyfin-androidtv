@@ -301,7 +301,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
         org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         isLiveTv = item.getType() == BaseItemKind.TV_CHANNEL;
 
-
         //Build options for player
         VideoOptions options = new VideoOptions();
         options.setItemId(item.getId().toString());
