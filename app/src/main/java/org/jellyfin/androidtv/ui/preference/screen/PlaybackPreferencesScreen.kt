@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
-import android.app.AlertDialog
 import android.os.Build
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.constant.getQualityProfiles
@@ -101,27 +100,6 @@ class PlaybackPreferencesScreen : OptionsFragment() {
 				setTitle(R.string.pref_max_bitrate_title)
 				entries = getQualityProfiles(context)
 				bind(userPreferences, UserPreferences.maxBitrate)
-			}
-
-			checkbox {
-				setTitle(R.string.pref_use_direct_path_title)
-				setContent(R.string.pref_use_direct_path_summary)
-				bind {
-					get { userPreferences[UserPreferences.externalVideoPlayerSendPath] }
-					set {
-						if (it) {
-							AlertDialog.Builder(activity)
-								.setTitle(R.string.lbl_warning)
-								.setMessage(R.string.msg_external_path)
-								.setPositiveButton(R.string.btn_got_it, null)
-								.show()
-						}
-
-						userPreferences[UserPreferences.externalVideoPlayerSendPath] = it
-					}
-					default { userPreferences.getDefaultValue(UserPreferences.externalVideoPlayerSendPath) }
-				}
-				depends { userPreferences[UserPreferences.videoPlayer] == PreferredVideoPlayer.EXTERNAL }
 			}
 
 			enum<RefreshRateSwitchingBehavior> {
