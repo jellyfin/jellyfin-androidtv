@@ -190,7 +190,6 @@
     <string name="lbl_playback_speed">Playback Speed</string>
     <string name="lbl_quality_profile">Quality profile</string>
     <string name="lbl_subtitle_track">Select subtitle track</string>
-    <string name="msg_external_path">This feature will only work if you have properly set up your library on the server with network paths or path substitution and the client you are using can directly access these locations over the network.</string>
     <string name="btn_got_it">Got it</string>
     <string name="lbl_clear_queue">Clear Queue</string>
     <string name="lbl_play_next_up">Play Next Up</string>
@@ -240,8 +239,6 @@
     <string name="lbl_next_episode">Next Episode</string>
     <string name="lbl_album_name">Album name</string>
     <string name="lbl_song_title">Song Title</string>
-    <string name="pref_use_direct_path_title">Pass Direct Path for external player</string>
-    <string name="pref_use_direct_path_summary">Pass the file system path instead of streaming URL</string>
     <string name="lbl_tv_channel_status">%1$d of %2$d channels</string>
     <string name="lbl_tv_filter_status"> for next %1$d hours</string>
     <string name="lbl_news">News</string>

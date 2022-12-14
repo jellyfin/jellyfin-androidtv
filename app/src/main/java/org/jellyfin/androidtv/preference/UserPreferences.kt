@@ -96,11 +96,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var refreshRateSwitchingBehavior = enumPreference("refresh_rate_switching_behavior", RefreshRateSwitchingBehavior.DISABLED)
 
-		/**
-		 * Send a path instead to the external player
-		 */
-		var externalVideoPlayerSendPath = booleanPreference("pref_send_path_external", false)
-
 		/* Playback - Audio related */
 		/**
 		 * Preferred behavior for audio streaming.

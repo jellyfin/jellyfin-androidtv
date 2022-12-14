@@ -36,7 +36,6 @@ import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod;
 import org.jellyfin.apiclient.model.dto.UserItemDataDto;
-import org.jellyfin.apiclient.model.session.PlayMethod;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
@@ -80,7 +79,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
     static final String API_MX_RESULT_ID = "com.mxtech.intent.result.VIEW";
     static final String API_MX_RESULT_POSITION = "position";
     static final String API_MX_RESULT_END_BY = "end_by";
-    static final String API_MX_RESULT_END_BY_USER = "user";
     static final String API_MX_RESULT_END_BY_PLAYBACK_COMPLETION = "playback_completion";
     static final String API_MX_SUBS = "subs";
     static final String API_MX_SUBS_NAME = "subs.name";
@@ -88,8 +86,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
     static final String API_MX_SUBS_ENABLE = "subs.enable";
 
     // https://wiki.videolan.org/Android_Player_Intents/
-    static final String API_VLC_TITLE = "title";
-    static final String API_VLC_SEEK_POSITION = "position";
     static final String API_VLC_FROM_START = "from_start";
     static final String API_VLC_RESULT_ID = "org.videolan.vlc.player.result";
     static final String API_VLC_RESULT_POSITION = "extra_position";
@@ -101,7 +97,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
     static final String API_VIMU_RESUME = "forceresume";
     static final String API_VIMU_RESULT_POSITION = "position";
     static final int API_VIMU_RESULT_PLAYBACK_COMPLETED = 1;
-    static final int API_VIMU_RESULT_PLAYBACK_INTERRUPTED = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,15 +132,15 @@ public class ExternalPlayerActivity extends FragmentActivity {
         long runtime = item.getRunTimeTicks() != null ? item.getRunTimeTicks() / RUNTIME_TICKS_TO_MS : 0;
         int pos = 0;
         // look for result position in API's
-         if (data != null) {
-             if (data.hasExtra(API_MX_RESULT_POSITION)) {
-                 pos = data.getIntExtra(API_MX_RESULT_POSITION, 0);
-             } else if (data.hasExtra(API_VLC_RESULT_POSITION)) {
-                 pos = data.getIntExtra(API_VLC_RESULT_POSITION, 0);
-             } else if (data.hasExtra(API_VIMU_RESULT_POSITION)) {
-                 pos = data.getIntExtra(API_VIMU_RESULT_POSITION, 0);
-             }
-         }
+        if (data != null) {
+            if (data.hasExtra(API_MX_RESULT_POSITION)) {
+                pos = data.getIntExtra(API_MX_RESULT_POSITION, 0);
+            } else if (data.hasExtra(API_VLC_RESULT_POSITION)) {
+                pos = data.getIntExtra(API_VLC_RESULT_POSITION, 0);
+            } else if (data.hasExtra(API_VIMU_RESULT_POSITION)) {
+                pos = data.getIntExtra(API_VIMU_RESULT_POSITION, 0);
+            }
+        }
         // check for playback completion in API's
         if (pos == 0 && data != null) {
             if (Objects.equals(data.getAction(), API_MX_RESULT_ID)) {
@@ -153,14 +148,12 @@ public class ExternalPlayerActivity extends FragmentActivity {
                     pos = (int) runtime;
                     Timber.i("Detected playback completion for MX player.");
                 }
-            }
-            else if (Objects.equals(data.getAction(), API_VLC_RESULT_ID)) {
+            } else if (Objects.equals(data.getAction(), API_VLC_RESULT_ID)) {
                 if (resultCode == Activity.RESULT_OK) {
                     pos = (int) runtime;
                     Timber.i("Detected playback completion for VLC player.");
                 }
-            }
-            else if (resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED) {
+            } else if (resultCode == API_VIMU_RESULT_PLAYBACK_COMPLETED) {
                 pos = (int) runtime;
                 Timber.i("Detected playback completion for Vimu player.");
             }
@@ -221,7 +214,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void handlePlayerError() {
-        if (!mediaManager.getValue().isVideoQueueModified()) mediaManager.getValue().clearVideoQueue();
+        if (!mediaManager.getValue().isVideoQueueModified())
+            mediaManager.getValue().clearVideoQueue();
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.no_player)
@@ -307,66 +301,46 @@ public class ExternalPlayerActivity extends FragmentActivity {
         org.jellyfin.sdk.model.api.BaseItemDto item = mItemsToPlay.get(mCurrentNdx);
         isLiveTv = item.getType() == BaseItemKind.TV_CHANNEL;
 
-        if (!isLiveTv && userPreferences.getValue().get(UserPreferences.Companion.getExternalVideoPlayerSendPath())) {
-            // Just pass the path directly
-            mCurrentStreamInfo = new StreamInfo();
-            mCurrentStreamInfo.setPlayMethod(PlayMethod.DirectPlay);
-            startExternalActivity(preparePath(item.getPath()), item.getContainer() != null ? item.getContainer() : "*");
-        } else {
-            //Build options for player
-            VideoOptions options = new VideoOptions();
-            options.setItemId(item.getId().toString());
-            options.setMediaSources(item.getMediaSources());
-            options.setMaxBitrate(Utils.getMaxBitrate());
-            options.setProfile(new ExternalPlayerProfile());
+        //Build options for player
+        VideoOptions options = new VideoOptions();
+        options.setItemId(item.getId().toString());
+        options.setMediaSources(item.getMediaSources());
+        options.setMaxBitrate(Utils.getMaxBitrate());
+        options.setProfile(new ExternalPlayerProfile());
 
-            // Get playback info for each player and then decide on which one to use
-            KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, JavaCompat.getResumePositionTicks(item), apiClient.getValue(), new Response<StreamInfo>() {
-                @Override
-                public void onResponse(StreamInfo response) {
-                    mCurrentStreamInfo = response;
+        // Get playback info for each player and then decide on which one to use
+        KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).getVideoStreamInfo(api.getValue().getDeviceInfo(), options, JavaCompat.getResumePositionTicks(item), apiClient.getValue(), new Response<StreamInfo>() {
+            @Override
+            public void onResponse(StreamInfo response) {
+                mCurrentStreamInfo = response;
 
-                    //Construct a static URL to sent to player
-                    //String url = KoinJavaComponent.<ApiClient>get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
+                //Construct a static URL to sent to player
+                //String url = KoinJavaComponent.<ApiClient>get(ApiClient.class).getApiUrl() + "/videos/" + response.getItemId() + "/stream?static=true&mediaSourceId=" + response.getMediaSourceId();
 
-                    String url = response.getMediaUrl();
-                    //And request an activity to play it
-                    startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
-                }
+                String url = response.getMediaUrl();
+                //And request an activity to play it
+                startExternalActivity(url, response.getMediaSource().getContainer() != null ? response.getMediaSource().getContainer() : "*");
+            }
 
-                @Override
-                public void onError(Exception exception) {
-                    Timber.e(exception, "Error getting playback stream info");
-                    if (exception instanceof PlaybackException) {
-                        PlaybackException ex = (PlaybackException) exception;
-                        switch (ex.getErrorCode()) {
-                            case NotAllowed:
-                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_not_allowed));
-                                break;
-                            case NoCompatibleStream:
-                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_incompatible));
-                                break;
-                            case RateLimitExceeded:
-                                Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_restricted));
-                                break;
-                        }
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error getting playback stream info");
+                if (exception instanceof PlaybackException) {
+                    PlaybackException ex = (PlaybackException) exception;
+                    switch (ex.getErrorCode()) {
+                        case NotAllowed:
+                            Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_not_allowed));
+                            break;
+                        case NoCompatibleStream:
+                            Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_incompatible));
+                            break;
+                        case RateLimitExceeded:
+                            Utils.showToast(ExternalPlayerActivity.this, getString(R.string.msg_playback_restricted));
+                            break;
                     }
                 }
-
-            });
-        }
-    }
-
-
-    protected String preparePath(String rawPath) {
-        if (rawPath == null || rawPath.isEmpty() || rawPath.trim().isEmpty()) return "";
-        if (!rawPath.contains("://")) {
-            rawPath = rawPath.replace("\\\\",""); // remove UNC prefix if there
-            //prefix with smb
-            rawPath = "smb://"+rawPath;
-        }
-
-        return rawPath.replaceAll("\\\\","/");
+            }
+        });
     }
 
     protected void startExternalActivity(String path, String container) {
@@ -383,7 +357,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         }
 
         Intent external = new Intent(Intent.ACTION_VIEW);
-        external.setDataAndType(Uri.parse(path), "video/"+container);
+        external.setDataAndType(Uri.parse(path), "video/" + container);
 
         // build full title string
         String full_title = "";
@@ -395,7 +369,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
             full_title = item.getName();
         }
         if (item.getProductionYear() != null && item.getProductionYear() > 0) {
-            full_title += " - ("+ item.getProductionYear().toString() +")";
+            full_title += " - (" + item.getProductionYear().toString() + ")";
         }
 
         //Start player API params
@@ -424,7 +398,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         //End player API params
 
-        Timber.i("Starting external playback of path: %s and mime: video/%s at position/ms: %s",path,container,mPosition);
+        Timber.i("Starting external playback of path: %s and mime: video/%s at position/ms: %s", path, container, mPosition);
 
         try {
             mLastPlayerStart = System.currentTimeMillis();
@@ -443,14 +417,14 @@ public class ExternalPlayerActivity extends FragmentActivity {
      * External subtitles have higher priority than embedded subtitles.
      *
      * @param mediaStreamInfo Current media stream info used to get subtitle profiles.
-     * @param playerIntent Put player API params of sub urls.
+     * @param playerIntent    Put player API params of sub urls.
      */
     private void adaptExternalSubtitles(StreamInfo mediaStreamInfo, Intent playerIntent) {
 
         List<SubtitleStreamInfo> externalSubs = mediaStreamInfo.getSubtitleProfiles(false,
-                apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken()).stream()
-            .filter(stream -> stream.getDeliveryMethod() == SubtitleDeliveryMethod.External && stream.getUrl() != null)
-            .collect(Collectors.toList());
+                        apiClient.getValue().getApiUrl(), apiClient.getValue().getAccessToken()).stream()
+                .filter(stream -> stream.getDeliveryMethod() == SubtitleDeliveryMethod.External && stream.getUrl() != null)
+                .collect(Collectors.toList());
 
         Uri[] subUrls = externalSubs.stream().map(stream -> Uri.parse(stream.getUrl())).toArray(Uri[]::new);
         String[] subNames = externalSubs.stream().map(SubtitleStreamInfo::getDisplayTitle).toArray(String[]::new);
@@ -461,10 +435,10 @@ public class ExternalPlayerActivity extends FragmentActivity {
         Uri selectedSubUrl = null;
         if (selectedSubStreamIndex != null) {
             selectedSubUrl = externalSubs.stream()
-                .filter(stream -> stream.getIndex() == selectedSubStreamIndex)
-                .map(stream -> Uri.parse(stream.getUrl()))
-                .findFirst()
-                .orElse(null);
+                    .filter(stream -> stream.getIndex() == selectedSubStreamIndex)
+                    .map(stream -> Uri.parse(stream.getUrl()))
+                    .findFirst()
+                    .orElse(null);
         }
         if (selectedSubUrl == null && subUrls.length > 0) {
             selectedSubUrl = subUrls[0];
@@ -475,7 +449,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         playerIntent.putExtra(API_MX_SUBS_NAME, subNames);
         playerIntent.putExtra(API_MX_SUBS_FILENAME, subLanguages);
         if (selectedSubUrl != null) {
-            playerIntent.putExtra(API_MX_SUBS_ENABLE, new Uri[] {selectedSubUrl});
+            playerIntent.putExtra(API_MX_SUBS_ENABLE, new Uri[]{selectedSubUrl});
         }
 
         // VLC
