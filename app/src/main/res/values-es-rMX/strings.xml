@@ -180,7 +180,6 @@
     <string name="lbl_sports">Deportes</string>
     <string name="lbl_just_this_once">Solo esta vez</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_use_direct_path_summary">Pasar la ruta del sistema de archivos en lugar de la URL de transmisión</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa al reproductor externo</string>
     <string name="lbl_song_title">Título de la canción</string>
     <string name="lbl_album_name">Nombre del álbum</string>
@@ -219,7 +218,6 @@
     <string name="lbl_watched">Visto</string>
     <string name="lbl_series">Series</string>
     <string name="lbl_select_date">Seleccionar fecha</string>
-    <string name="msg_external_path">Esta característica solo funcionará si has configurado correctamente tu biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que estás utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
     <string name="lbl_favorite">Favorito</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="loading">Cargando…</string>

@@ -148,7 +148,6 @@
     <string name="lbl_audio_delay">Độ Trễ Âm Thanh</string>
     <string name="lbl_new_only">Chỉ Những Thứ Mới</string>
     <string name="lbl_news">Tin Tức</string>
-    <string name="pref_use_direct_path_summary">Thông qua đường dẫn hệ thống tệp thay vì truyền trực tuyến URL</string>
     <string name="pref_use_direct_path_title">Thông qua đường dẫn trực tiếp cho trình phát bên ngoài</string>
     <string name="lbl_song_title">Tựa bài hát</string>
     <string name="lbl_album_name">Tên Album</string>
@@ -194,7 +193,6 @@
     <string name="lbl_play_next_up">Phát Kế Tiếp</string>
     <string name="lbl_clear_queue">Xóa hàng đợi</string>
     <string name="btn_got_it">Hiểu rồi</string>
-    <string name="msg_external_path">Tính năng này sẽ chỉ hoạt động nếu bạn đã thiết lập đúng thư viện của mình trên máy chủ với các đường dẫn mạng hoặc thay thế đường dẫn và ứng dụng khách bạn đang sử dụng có thể truy cập trực tiếp các vị trí này qua mạng.</string>
     <string name="lbl_zoom">Thu Phóng</string>
     <string name="desc_bitstream_ac3">Yêu cầu phần cứng có khả năng</string>
     <string name="lbl_bitstream_ac3">Âm thanh kỹ thuật số Dolby Bitstream</string>

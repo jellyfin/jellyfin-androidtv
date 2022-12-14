@@ -181,7 +181,6 @@
     <string name="desc_bitstream_ac3">نیازمند سخت افزار سازگار</string>
     <string name="lbl_clear_queue">پاک کردن صف</string>
     <string name="btn_got_it">فهمیدم</string>
-    <string name="msg_external_path">این ویژگی تنها در صورتی کار می کند که کتابخانه خود را به درستی روی سرور با استفاده از مسیرهای شبکه یا مسیرهای جایگزین تنظیم کرده باشید و کاربر شما بتواند مستقیماً به این مکان ها از طریق شبکه دسترسی داشته باشد.</string>
     <string name="lbl_refresh_switching">تعویض سرعت تازه سازی</string>
     <string name="pref_show_backdrop_description">تغییر پس زمینه به تصاویر انتخاب شده</string>
     <string name="lbl_show_backdrop">نمایش تصاویر پس زمینه</string>
@@ -225,10 +224,8 @@
     <string name="lbl_seconds">ثانیه</string>
     <string name="lbl_at_any_time">در هر زمان</string>
     <string name="lbl_series_recordings">ضبط های سریال</string>
-    <string name="pref_use_direct_path_title">دادن مسیر مستقیم به پخش کننده خارجی</string>
     <string name="lbl_song_title">عنوان آهنگ</string>
     <string name="lbl_album_name">نام آلبوم</string>
-    <string name="pref_use_direct_path_summary">پاس دادن مسیر سیستمی فایل بجای آدرس URL</string>
     <string name="home_section_resume_book">ادامه خواندن</string>
     <string name="pref_direct_stream_live_on">تغییر کدگذاری غیرفعال است</string>
     <string name="pref_direct_stream_live_off">در صورت لزوم از تغییر کدگذاری استفاده می شود</string>

@@ -138,7 +138,6 @@
     <string name="lbl_sorted_by">ordenado por</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_use_direct_path_summary">Pase la ruta del sistema de archivos en lugar de transmitir URL</string>
     <string name="pref_use_direct_path_title">Pasar ruta directa para reproductor externo</string>
     <string name="lbl_song_title">Título de la canción</string>
     <string name="lbl_album_name">Nombre del álbum</string>
@@ -182,7 +181,6 @@
     <string name="lbl_play_next_up">Reproducir siguiente</string>
     <string name="lbl_clear_queue">Limpiar cola</string>
     <string name="btn_got_it">Entendido</string>
-    <string name="msg_external_path">Esta característica solo funcionará si ha configurado correctamente su biblioteca en el servidor con rutas de red o sustitución de rutas y el cliente que está utilizando puede acceder directamente a estas ubicaciones a través de la red.</string>
     <string name="lbl_zoom">Agrandar</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
     <string name="lbl_new_premieres">Estrenos nuevos</string>

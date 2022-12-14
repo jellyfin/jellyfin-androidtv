@@ -187,7 +187,6 @@
     <string name="lbl_play_next_up">Reproduir següent</string>
     <string name="lbl_clear_queue">Esborrar cua</string>
     <string name="btn_got_it">Ho tinc</string>
-    <string name="msg_external_path">Aquesta funció només funcionarà si heu configurat correctament la biblioteca al servidor amb camins de xarxa o substitució de camins i el client que utilitzeu pot accedir directament a aquestes ubicacions a través de la xarxa.</string>
     <string name="lbl_subtitle_track">Selecciona la pista de subtítols</string>
     <string name="lbl_audio_track">Seleccioneu la pista d\'àudio</string>
     <string name="lbl_image_type">Tipus de imatge</string>
@@ -203,7 +202,6 @@
     <string name="lbl_news">Noticies</string>
     <string name="lbl_tv_filter_status">per les pròximes %1$d hores</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canals</string>
-    <string name="pref_use_direct_path_summary">Passeu la ruta de sistema de fitxers en lloc de l\'URL de reproducció</string>
     <string name="pref_use_direct_path_title">Passa la ruta directa per a un reproductor extern</string>
     <string name="lbl_song_title">Títol de cançó</string>
     <string name="lbl_album_name">Nom de l\'àlbum</string>

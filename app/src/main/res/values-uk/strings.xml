@@ -118,7 +118,6 @@
     <string name="lbl_cast_crew">Актори/знімальна група</string>
     <string name="lbl_tv_series">Серіали</string>
     <string name="lbl_pause">Пауза</string>
-    <string name="pref_use_direct_path_summary">Передавати системний шлях замість URL потоку</string>
     <string name="pref_use_direct_path_title">Передати прямий шлях зовнішньому програвачу</string>
     <string name="lbl_resume_preroll">Продовжити пре-рол</string>
     <string name="lbl_at_any_time">У будь-який час</string>
@@ -191,7 +190,6 @@
     <string name="lbl_play_next_up">Грати далі</string>
     <string name="lbl_clear_queue">Очистити чергу</string>
     <string name="btn_got_it">Добре</string>
-    <string name="msg_external_path">Ця функція працюватиме лише в тому випадку, якщо ви правильно налаштували свою медіатеку на сервері з мережевими шляхами або заміною шляхів, а клієнт, який ви використовуєте, може отримати прямий доступ до цих місць через мережу.</string>
     <string name="lbl_subtitle_track">Вибрати доріжку субтитрів</string>
     <string name="lbl_playback_speed">Швидкість відтворення</string>
     <string name="lbl_audio_track">Вибрати звукову доріжку</string>

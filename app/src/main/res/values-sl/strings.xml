@@ -268,7 +268,6 @@
     <string name="lbl_refresh_switching">Spremeni hitrost osveževanja</string>
     <string name="lbl_show_backdrop">Prikaži ozadje</string>
     <string name="lbl_clear_queue">Počisti čakalno vrsto</string>
-    <string name="pref_use_direct_path_summary">Posreduj pot do datoteke na sistemu namesto povezavo do neposrednega pretakanja</string>
     <string name="lbl_show_indicators">Prikaži indikatorje za</string>
     <string name="no_program_data">Podatki o programu niso na voljo</string>
     <string name="lbl_bitstream_dts">Bitni pretok DTS zvoka</string>
@@ -277,9 +276,7 @@
     <string name="lbl_play_next_up">Predvajaj naslednje</string>
     <string name="lbl_end_padding">Končni zamik</string>
     <string name="lbl_begin_padding">Začetni zamik</string>
-    <string name="pref_use_direct_path_title">Posreduj neposredno pot zunanjemu predvajalniku</string>
     <string name="lbl_resume_preroll">Nadaljuj pre-roll</string>
-    <string name="msg_external_path">Ta funkcija bo delovala le, če ste pravilno nastavili omrežne poti oz. nadomestne poti v vaši knjižnici na strežniku in jih hkrati vaš odjemalec lahko dostopa.</string>
     <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
     <string name="msg_added_to_video">%1$s dodan v čakalno vrsto. Konec: %2$s</string>
     <string name="msg_queue_saved">Čakalna vrsta shranjena kot seznam predvajanja: %1$s</string>

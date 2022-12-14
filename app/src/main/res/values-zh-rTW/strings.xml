@@ -219,7 +219,6 @@
     <string name="desc_automatic_fav_songs">自動生成的喜愛歌曲播放清單</string>
     <string name="lbl_new_premieres">新的首映</string>
     <string name="desc_bitstream_ac3">需要有能力的硬體</string>
-    <string name="msg_external_path">只有在使用網路路徑或路徑替換且在伺服器上正確設置媒體庫，並使用的客戶機可以透過網路直接訪問這位址時，此功能才會生效。</string>
     <string name="lbl_play_next_up">播放下一個</string>
     <string name="lbl_show_backdrop">顯示背景</string>
     <string name="lbl_refresh_switching">切換幀率</string>
@@ -231,7 +230,6 @@
     <string name="lbl_guide_option_played">最後播放</string>
     <string name="lbl_guide_option_number">通道編號</string>
     <string name="lbl_resume_preroll">恢復前置簡介</string>
-    <string name="pref_use_direct_path_title">向外部播放器傳遞直連路徑</string>
     <string name="pref_use_direct_path_summary">傳遞文件系統路徑而不是串流位置</string>
     <string name="lbl_news">新聞</string>
     <string name="lbl_new_only">只有新的</string>

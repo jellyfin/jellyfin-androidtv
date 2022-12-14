@@ -206,7 +206,6 @@
     <string name="lbl_series">Telehikaia</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="loading">Jüktelude…</string>
-    <string name="msg_external_path">Būl mümkındık serverde tasyğyşhanañyzdy jelı joldary nemese jol almastyru arqyly dūrys ornatqan jağdaida ğana jūmys ısteidı jäne paidalanatyn tūtynğyş osy oryndarğa jelı arqyly tıkelei qatynai alady.</string>
     <string name="pref_use_direct_path_summary">Taratym URL ornyna fail jüiesındegı jolyn ötkızıñız</string>
     <string name="lbl_image_size">Suret ölşemı</string>
     <string name="lbl_image_type">Suret türı</string>
@@ -220,7 +219,6 @@
     <string name="lbl_audio_delay">Dybys kıdıruı</string>
     <string name="lbl_new_only">Tek qana jaña</string>
     <string name="lbl_news">Jañalar</string>
-    <string name="pref_use_direct_path_title">Syrtqy oinatqyş üşın tıkelei şyğaru</string>
     <string name="lbl_song_title">Äuen atauy</string>
     <string name="lbl_next_episode">Kelesı telebölım</string>
     <string name="lbl_previous_episode">Aldyñğy telebölım</string>

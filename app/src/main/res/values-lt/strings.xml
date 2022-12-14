@@ -231,7 +231,6 @@
     <string name="lbl_guide_option_played">Paskutinis paleistas</string>
     <string name="lbl_guide_option_number">Kanalo numeris</string>
     <string name="lbl_resume_from">Pratęsti nuo %1$s</string>
-    <string name="pref_use_direct_path_summary">Nurodykite sistemini kelią, o ne URL</string>
     <string name="lbl_premieres">Premjeros</string>
     <string name="lbl_image_type">Paveikslėlio tipas</string>
     <string name="pref_theme_dark">Tamsus (numatytas)</string>
@@ -312,7 +311,6 @@
     <string name="home_section_i">Namų skyrius %1$d</string>
     <string name="welcome_content">Prisijunkite prie savo serverio, kad pradėtumėte.</string>
     <string name="sort_accounts_by">Rušiuoti vartotojus pagal</string>
-    <string name="pref_use_direct_path_title">Pateikite tiesioginį išorinio grotuvo kelią</string>
     <string name="mark_watched_message">Šis failas nebuvo peržiūrėtas iki galo. Pažymėti kaip peržiūrėtą\?</string>
     <string name="subtitle_error">Nepavyko pasirinkti subtitrų</string>
     <string name="lbl_starting_early_ending_after">Prasideda %1$s anksčiau ir baigiasi %2$s po nustatyto laiko</string>
@@ -376,7 +374,6 @@
     <string name="lbl_one_episode">1 Epizodas</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
     <string name="lbl_direct_stream_live">Tiesioginė gyvos TV transliacija</string>
-    <string name="msg_external_path">Ši funkcija veiks tik tuo atveju, jei tinkamai nustatėte savo biblioteką serveryje su tinklo keliais arba kelių pakeitimu, o jūsų naudojamas vartotojas gali tiesiogiai pasiekti šias vietas tinkle.</string>
     <string name="desc_premieres">Rodyti bet kurios žiūrimos serijos naujų serijų bandomąsias versijas</string>
     <string name="lbl_just_this_once">Tik šį kartą</string>
     <string name="lbl_resume_preroll">Tęsti iš anksto</string>

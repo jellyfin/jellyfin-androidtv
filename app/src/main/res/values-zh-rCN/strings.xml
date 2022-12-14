@@ -103,7 +103,6 @@
     <string name="lbl_premier_date">首映时间</string>
     <string name="pref_audio_compat">混合立体声</string>
     <string name="lbl_on">上</string>
-    <string name="pref_use_direct_path_summary">传递文件系统路径而不是流的URL</string>
     <string name="pref_use_direct_path_title">向外部播放器传递直连路径</string>
     <string name="lbl_song_title">歌曲标题</string>
     <string name="lbl_album_name">专辑名</string>
@@ -150,7 +149,6 @@
     <string name="lbl_play_next_up">播放下一个</string>
     <string name="lbl_clear_queue">清除队列</string>
     <string name="btn_got_it">好的</string>
-    <string name="msg_external_path">只有在使用网络路径或路径替换在服务器上正确设置了库，并且使用的客户机可以通过网络直接访问这些位置时，此功能才会起作用。</string>
     <string name="lbl_zoom">变焦</string>
     <string name="desc_bitstream_ac3">需要有能力的硬件</string>
     <string name="lbl_bitstream_ac3">比特流杜比数字音频</string>

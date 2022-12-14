@@ -138,7 +138,6 @@
     <string name="lbl_user_last_used">Laste uzita sur %1$s je %2$s</string>
     <string name="server_connection_failed">Ne eblas konektiĝi al servilo</string>
     <string name="msg_queue_saved">Vico savita kiel nova ludlisto: %1$s</string>
-    <string name="pref_use_direct_path_title">Sencimigaj Opcioj</string>
     <string name="lbl_enable_debug">Sencimigaj opcioj</string>
     <string name="lbl_audio_output">Aŭdia eligo</string>
     <string name="lbl_repeat_options">Ripetaj Opcioj</string>
@@ -396,9 +395,7 @@
     <string name="mark_watched_message">La aĵo ne ŝajnis ludi tiel longe kiel ĝia daŭro. Marki spektita\?</string>
     <string name="pref_button_remapping_description">Premi ajnan butonon de la TV-teleregilo por asigni ĝin</string>
     <string name="pref_next_up_timeout_summary">Kiom longe atendi antaŭ ludi la sekvan aĵon</string>
-    <string name="pref_use_direct_path_summary">Transiri la dosiersisteman serĉvojon anstataŭ elsendflua URL-o</string>
     <string name="desc_premieres">Montri vicon de novaj pilotaj epizodoj por iu ajn serio, kiun vi spektas</string>
-    <string name="msg_external_path">Ĉi tiu rimedo nur funkcios se vi konvene starigis vian plurmeditekon sur la servilo kun retaj serĉvojoj aŭ serĉvoja anstataŭigo kaj la kliento, kiun vi uzas, povas rekte aliri ĉi tiujn lokojn per la reto.</string>
     <string name="home_section_i">Hejma sekcio %1$d</string>
     <string name="home_sections">Hejmaj sekcioj</string>
     <string name="home_section_none">Nenio</string>

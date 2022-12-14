@@ -196,7 +196,6 @@
     <string name="lbl_live_broadcasts">Suorat lähetykset</string>
     <string name="lbl_audio_delay">Äänen viive</string>
     <string name="lbl_tv_channel_status">%1$d/%2$d kanavaa</string>
-    <string name="pref_use_direct_path_summary">Välitä URL-osoitteen sijaan tiedostojärjestelmän polku</string>
     <string name="pref_use_direct_path_title">Välitä tarkka sijainti ulkoiselle soittimelle</string>
     <string name="lbl_resume_from">Jatka kohdasta %1$s</string>
     <string name="lbl_guest_stars">Vierailevat näyttelijät</string>
@@ -397,7 +396,6 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_video_player_vlc">LibVLC</string>
     <string name="lbl_resume_preroll">Toistoa jatkettaessa takaisin palattava aika</string>
-    <string name="msg_external_path">Tämä ominaisuus toimii vain, jos palvelimen kirjasto on määritetty oikein käyttäen verkkosijainteja tai sijainnin korvausta ja käytettävällä asiakassovelluksella on pääsy näihin sijainteihin verkon välityksellä.</string>
     <string name="lbl_showing">Näytetään</string>
     <string name="lbl_runs">Käynnistystä</string>
     <string name="pref_subtitles_background_title">Käytä taustaa</string>

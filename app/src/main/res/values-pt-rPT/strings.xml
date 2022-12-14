@@ -250,7 +250,6 @@
     <string name="pref_theme_dark">Escuro (Padrão)</string>
     <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
     <string name="lbl_premieres">Estreias</string>
-    <string name="pref_use_direct_path_summary">Enviar o local do sistema de arquivos ao invés da URL de streaming</string>
     <string name="pref_use_direct_path_title">Enviar Local Direto para reprodutor externo</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>
     <string name="lbl_show_indicators">Mostrar Indicadores Para</string>
@@ -260,7 +259,6 @@
     <string name="desc_premieres">Mostrar uma lista de novos episódios piloto para as séries a que assiste</string>
     <string name="lbl_refresh_switching">Altera Taxa de Atualização (Refresh Rate)</string>
     <string name="lbl_show_backdrop">Mostrar Pano de Fundo Enquanto Navega</string>
-    <string name="msg_external_path">Esta funcionalidade apenas funcionará se montou corretamente a sua biblioteca no servidor com caminhos de rede ou substituição de caminhos e se o cliente que está a utilizar pode aceder diretamente a estes locais pela rede.</string>
     <string name="no_player_message">Não parece que exista uma aplicação de reprodução de vídeo instalada. Esta opção necessita que instale uma aplicação de terceiros para reproduzir conteúdo vídeo.</string>
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>

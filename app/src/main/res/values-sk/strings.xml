@@ -121,7 +121,6 @@
     <string name="lbl_on_now">Práve teraz</string>
     <string name="pref_max_bitrate_title">Maximálny dátový tok</string>
     <string name="pref_playback">Prehrávanie</string>
-    <string name="msg_external_path">Táto funkcia bude fungovať len v prípade správneho nastavenia vašej knižnice na server so sieťovými cestami alebo nadradenými cestami a vami používaný klient má priamy prístup k týmto sieťovým lokalitám.</string>
     <string name="lbl_resume_preroll">Pre-roll pri obnovení prehrávania</string>
     <string name="lbl_image_size">Veľkosť obrázku</string>
     <string name="lbl_image_type">Typ obrázku</string>
@@ -135,7 +134,6 @@
     <string name="lbl_audio_delay">Oneskorenie zvuku</string>
     <string name="lbl_new_only">Iba nové</string>
     <string name="lbl_news">Správy</string>
-    <string name="pref_use_direct_path_summary">Prepúšťať cestu súborového systému namiesto streamovacej URL</string>
     <string name="pref_use_direct_path_title">Prepúšťať priamu cestu pre externý prehrávač</string>
     <string name="lbl_song_title">Názov skladby</string>
     <string name="lbl_album_name">Názov albumu</string>

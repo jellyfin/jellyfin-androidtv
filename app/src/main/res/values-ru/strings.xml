@@ -206,7 +206,6 @@
     <string name="lbl_watched">Просмотренное</string>
     <string name="lbl_series">Серия</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_use_direct_path_summary">Переходить по пути в файловой системе вместо URL потока</string>
     <string name="pref_use_direct_path_title">Прямой вывод на внешний проигрыватель</string>
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
@@ -221,7 +220,6 @@
     <string name="lbl_schedule">Расписание</string>
     <string name="no_program_data">Программа не доступна</string>
     <string name="lbl_just_this_once">Только на этот раз</string>
-    <string name="msg_external_path">Эта функция будет работать только при правильной настройке сетевых путей или подстановки пути медиатеки на сервере, а используемый клиент имеет прямой доступ по сети к этим расположениям.</string>
     <string name="pref_authentication_cat">Аутентификация</string>
     <string name="lbl_image_size">Размер рисунка</string>
     <string name="lbl_image_type">Тип рисунка</string>

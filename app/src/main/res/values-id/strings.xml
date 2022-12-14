@@ -159,7 +159,6 @@
     <string name="msg_subtitles_loading">Subtitel dimuat…</string>
     <string name="lbl_filters">Filters</string>
     <string name="bitrate_auto">Otomatis</string>
-    <string name="msg_external_path">Fitur ini hanya akan berfungsi jika Anda telah menyiapkan pustaka Anda dengan benar di server dengan jalur jaringan atau substitusi jalur dan klien yang Anda gunakan dapat langsung mengakses lokasi ini melalui jaringan.</string>
     <string name="sum_enable_cinema_mode">Tampilkan intro dan pratinjau sebelum pemutaran film ketika diaktifkan oleh server</string>
     <string name="lbl_yes">Iya</string>
     <string name="lbl_no">Tidak</string>
@@ -253,7 +252,6 @@
     <string name="lbl_audio_delay">Penundaan Audio</string>
     <string name="lbl_new_only">Baru Saja</string>
     <string name="lbl_news">Berita</string>
-    <string name="pref_use_direct_path_summary">Teruskan jalur sistem file alih-alih URL streaming</string>
     <string name="pref_use_direct_path_title">Lulus Jalur Langsung untuk pemutar eksternal</string>
     <string name="lbl_more_like_this">Lainnya Seperti Ini</string>
     <string name="lbl_resume_preroll">Lanjutkan Pra-Putar</string>

@@ -22,7 +22,6 @@
     <string name="lbl_play_next_up">Sıradakini Oynat</string>
     <string name="lbl_clear_queue">Kuyruğu Temizle</string>
     <string name="btn_got_it">Anladım</string>
-    <string name="msg_external_path">Bu özellik, yalnızca kütüphanenizi sunucuda ağ yolları veya yol konumu ile doğru bir şekilde kurduysanız ve kullandığınız istemci bu konumlara ağ üzerinden doğrudan erişebiliyorsa çalışacaktır.</string>
     <string name="lbl_subtitle_track">Altyazı parçası seç</string>
     <string name="lbl_audio_track">Ses parçası seç</string>
     <string name="lbl_zoom">Yakınlaşma</string>
@@ -270,7 +269,6 @@
     <string name="lbl_news">Yeniler</string>
     <string name="lbl_tv_filter_status">sonraki %1$d saat için</string>
     <string name="lbl_tv_channel_status">kanal %1$d / %2$d</string>
-    <string name="pref_use_direct_path_summary">Akış bağlantısı yerine sistem dosya yolunu gönder</string>
     <string name="pref_use_direct_path_title">Harici oynatıcı için doğrudan yolu gönder</string>
     <string name="lbl_song_title">Şarkı Başlığı</string>
     <string name="lbl_album_name">Albüm ismi</string>
