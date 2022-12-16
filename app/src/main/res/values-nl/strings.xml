@@ -125,7 +125,7 @@
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
-    <string name="lbl_filters">Live TV Filters</string>
+    <string name="lbl_filters">Live-tv-filters</string>
     <string name="msg_subtitles_loading">Ondertiteling wordt geladen…</string>
     <string name="msg_unable_load_subs">Ondertiteling kan niet worden geladen</string>
     <string name="msg_burn_sub_warning">Ondertiteling aan het inbranden. Dit kan enkele seconden duren, even geduld…</string>
@@ -231,7 +231,6 @@
     <string name="lbl_hd_programs">HD-programma\'s</string>
     <string name="lbl_live_broadcasts">Live uitzendingen</string>
     <string name="lbl_premieres">Premières</string>
-    <string name="pref_use_direct_path_title">Gebruik direct pad voor externe speler</string>
     <string name="lbl_show_indicators">Toon indicators ioor</string>
     <string name="pref_video_player_external">Externe applicatie</string>
     <string name="pref_video_player_vlc">LibVLC</string>
@@ -468,17 +467,17 @@
     <string name="image_type_poster">Poster</string>
     <string name="pref_audio_night_mode">Audio nacht modus (experimenteel)</string>
     <string name="lbl_additional_parts">Extra onderdelen</string>
-    <string name="lbl_subtitle_position">Ondertiteling compensatie van beneden</string>
-    <string name="color_darkgrey">Donker Grijs</string>
-    <string name="app_notification_uimode_invalid">Deze app is geoptimaliseerd voor de TV. We adviseren om onze mobile app te gebruiken op andere apparaten.</string>
-    <string name="server_unsupported_notification">Deze server gebruikt Jellyfin versie %1$s wat geen ondersteuning heeft. We adviseren om naar Jellyfin%2$s te updaten om verder gebruik te kunnen maken van deze app.</string>
-    <string name="pref_telemetry_category">Crash rapportage</string>
-    <string name="pref_crash_reports_disabled">Crash rapportage wordt niet gestuurd</string>
-    <string name="lbl_quality_profile">Kwaliteit Profile</string>
-    <string name="pref_crash_reports">Stuur crash rapportage naar de server</string>
-    <string name="pref_crash_reports_enabled">Crash rapportage zal worden gestuurd naar je laatst verbonden server</string>
-    <string name="lbl_subtitle_fg">Ondertitelings Text Kleur</string>
-    <string name="lbl_subtitle_stroke">Ondertiteling Letter Grote</string>
+    <string name="lbl_subtitle_position">Positie ondertiteling van onder</string>
+    <string name="color_darkgrey">Donkergrijs</string>
+    <string name="app_notification_uimode_invalid">Deze app is geoptimaliseerd voor televisies. Op andere apparaten adviseren we onze mobiele app te gebruiken.</string>
+    <string name="server_unsupported_notification">Deze server gebruikt versie %1$s van Jellyfin, die niet wordt ondersteund. We adviseren bij te werken naar Jellyfin%2$s om van deze app gebruik te kunnen maken.</string>
+    <string name="pref_telemetry_category">Crashrapportage</string>
+    <string name="pref_crash_reports_disabled">Crashrapporten worden niet verstuurd</string>
+    <string name="lbl_quality_profile">Kwaliteitsprofiel</string>
+    <string name="pref_crash_reports">Crashrapport naar server verzenden</string>
+    <string name="pref_crash_reports_enabled">Crashrapporten worden naar je laatst verbonden server verstuurd</string>
+    <string name="lbl_subtitle_fg">Tekstkleur ondertiteling</string>
+    <string name="lbl_subtitle_stroke">Lettergrootte ondertiteling</string>
     <string name="color_white">Wit</string>
     <string name="color_black">Zwart</string>
     <string name="color_red">Rood</string>
@@ -487,5 +486,5 @@
     <string name="color_yellow">Geel</string>
     <string name="color_pink">Roze</string>
     <string name="color_cyan">Cyaan</string>
-    <string name="pref_telemetry_description">Stuur crash rapportage, inclusieve logs</string>
+    <string name="pref_telemetry_description">Crashrapport versturen; logboeken bijvoegen</string>
 </resources>
