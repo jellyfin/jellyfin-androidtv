@@ -159,11 +159,15 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         });
 
         backgroundService.getValue().attach(requireActivity());
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mItemId = getArguments().getString("ItemId");
         loadItem(mItemId);
-
-        return binding.getRoot();
     }
 
     @Override
