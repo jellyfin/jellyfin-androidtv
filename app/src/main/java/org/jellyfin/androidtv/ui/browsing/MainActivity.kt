@@ -41,7 +41,6 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		applyTheme()
 
-
 		backgroundService.attach(this)
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
