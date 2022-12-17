@@ -237,7 +237,6 @@
     <string name="lbl_repeat_episodes">Gentag afsnit</string>
     <string name="lbl_show_indicators">Vis Indikatorer For</string>
     <string name="lbl_on_schedule">Til planlægning</string>
-    <string name="pref_use_direct_path_title">Giv direkte sti til ekstern afspiller</string>
     <string name="lbl_resume_preroll">Genoptag Forfilm</string>
     <string name="pref_next_up_timeout_title">Næste timer varighed</string>
     <string name="pref_next_up_timeout_summary">Hvor lang tid du skal vente inden afspilning af næste fil</string>

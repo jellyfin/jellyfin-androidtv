@@ -217,7 +217,6 @@
     <string name="lbl_news">Vijesti</string>
     <string name="lbl_tv_filter_status">za idućih %1$d sati</string>
     <string name="lbl_tv_channel_status">%1$d od %2$d kanala</string>
-    <string name="pref_use_direct_path_title">Prenesi direktan put vanjskom izvođaču</string>
     <string name="lbl_song_title">Naslov pjesme</string>
     <string name="lbl_album_name">Naslov albuma</string>
     <string name="lbl_next_episode">Sljedeća epizoda</string>

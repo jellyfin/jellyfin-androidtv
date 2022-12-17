@@ -230,7 +230,6 @@
     <string name="lbl_guide_option_played">最後播放</string>
     <string name="lbl_guide_option_number">通道編號</string>
     <string name="lbl_resume_preroll">恢復前置簡介</string>
-    <string name="pref_use_direct_path_summary">傳遞文件系統路徑而不是串流位置</string>
     <string name="lbl_news">新聞</string>
     <string name="lbl_new_only">只有新的</string>
     <string name="lbl_audio_delay">音訊延遲</string>

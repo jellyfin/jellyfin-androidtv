@@ -134,7 +134,6 @@
     <string name="lbl_audio_delay">Oneskorenie zvuku</string>
     <string name="lbl_new_only">Iba nové</string>
     <string name="lbl_news">Správy</string>
-    <string name="pref_use_direct_path_title">Prepúšťať priamu cestu pre externý prehrávač</string>
     <string name="lbl_song_title">Názov skladby</string>
     <string name="lbl_album_name">Názov albumu</string>
     <string name="lbl_next_episode">Nasledujúca epizóda</string>

@@ -107,7 +107,6 @@
     <string name="lbl_audio_delay">Decalaj audio</string>
     <string name="lbl_new_only">Doar Recente</string>
     <string name="lbl_news">Știri</string>
-    <string name="pref_use_direct_path_title">Treceți calea directă către player-ul extern</string>
     <string name="lbl_song_title">Titlul Melodiei</string>
     <string name="lbl_album_name">Numele albumului</string>
     <string name="lbl_next_episode">Episodul Următor</string>

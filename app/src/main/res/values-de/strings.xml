@@ -175,7 +175,6 @@
     <string name="desc_premieres">Zeige eine Reihe neuer Episodenpiloten für jede Serie, die du siehst</string>
     <string name="lbl_bitstream_dts">DTS Audio bitstreamen</string>
     <string name="lbl_premiere">Premiere</string>
-    <string name="pref_use_direct_path_title">Direkten Pfad an externen Player übergeben</string>
     <string name="lbl_song_title">Songtitel</string>
     <string name="lbl_album_name">Album Name</string>
     <string name="lbl_next_episode">Nächste Episode</string>

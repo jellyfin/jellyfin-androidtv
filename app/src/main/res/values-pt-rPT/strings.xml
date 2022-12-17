@@ -250,7 +250,6 @@
     <string name="pref_theme_dark">Escuro (Padrão)</string>
     <string name="lbl_colored_backgrounds">Fundos com Código de Cores</string>
     <string name="lbl_premieres">Estreias</string>
-    <string name="pref_use_direct_path_title">Enviar Local Direto para reprodutor externo</string>
     <string name="lbl_resume_preroll">Continuar Lançamentos</string>
     <string name="lbl_show_indicators">Mostrar Indicadores Para</string>
     <string name="lbl_premiere">Estreia</string>

@@ -148,7 +148,6 @@
     <string name="lbl_audio_delay">Độ Trễ Âm Thanh</string>
     <string name="lbl_new_only">Chỉ Những Thứ Mới</string>
     <string name="lbl_news">Tin Tức</string>
-    <string name="pref_use_direct_path_title">Thông qua đường dẫn trực tiếp cho trình phát bên ngoài</string>
     <string name="lbl_song_title">Tựa bài hát</string>
     <string name="lbl_album_name">Tên Album</string>
     <string name="lbl_next_episode">Tập kế tiếp</string>

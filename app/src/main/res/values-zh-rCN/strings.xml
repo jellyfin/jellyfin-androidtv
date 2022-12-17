@@ -103,7 +103,6 @@
     <string name="lbl_premier_date">首映时间</string>
     <string name="pref_audio_compat">混合立体声</string>
     <string name="lbl_on">上</string>
-    <string name="pref_use_direct_path_title">向外部播放器传递直连路径</string>
     <string name="lbl_song_title">歌曲标题</string>
     <string name="lbl_album_name">专辑名</string>
     <string name="lbl_next_episode">下一个事件</string>

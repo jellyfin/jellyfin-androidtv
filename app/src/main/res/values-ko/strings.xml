@@ -263,7 +263,6 @@
     <string name="lbl_new_only">최신 콘텐츠</string>
     <string name="lbl_on">(에)</string>
     <string name="just_one">이번 한번만</string>
-    <string name="pref_use_direct_path_title">외부 플레이어로 경로 전달</string>
     <string name="lbl_more_like_this">이와 유사한</string>
     <string name="lbl_resume_from">%1$s에서 재시작</string>
     <string name="lbl_resume_preroll">사전재생 재개</string>

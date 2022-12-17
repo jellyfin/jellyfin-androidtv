@@ -138,7 +138,6 @@
     <string name="lbl_sorted_by">ordenado por</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="pref_use_direct_path_title">Pasar ruta directa para reproductor externo</string>
     <string name="lbl_song_title">Título de la canción</string>
     <string name="lbl_album_name">Nombre del álbum</string>
     <string name="lbl_next_episode">Próximo episodio</string>

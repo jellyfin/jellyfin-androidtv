@@ -150,7 +150,6 @@
     <string name="lbl_audio_delay">Hangkésleltetés</string>
     <string name="lbl_new_only">Csak az újak</string>
     <string name="lbl_news">Újdonságok</string>
-    <string name="pref_use_direct_path_title">Direkt elérési út megadása a külső lejátszóhoz</string>
     <string name="lbl_song_title">Zeneszám címe</string>
     <string name="lbl_album_name">Albumcím</string>
     <string name="lbl_next_episode">Következő epizód</string>

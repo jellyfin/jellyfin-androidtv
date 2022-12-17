@@ -206,7 +206,6 @@
     <string name="msg_settings_updated">Preferenze aggiornate</string>
     <string name="lbl_series_settings">Preferenze Serie TV</string>
     <string name="lbl_schedule">Programmazione</string>
-    <string name="pref_use_direct_path_title">Passa il filepath diretto per il riproduttore esterno</string>
     <string name="lbl_song_title">Titolo brano</string>
     <string name="lbl_album_name">Nome Album</string>
     <string name="lbl_next_episode">Prossimo episodio</string>

@@ -162,7 +162,6 @@
     <string name="lbl_audio_delay">ஆடியோ தாமதம்</string>
     <string name="lbl_new_only">புதியது மட்டும்</string>
     <string name="lbl_news">செய்தி</string>
-    <string name="pref_use_direct_path_title">வெளிப்புற பிளேயருக்கான நேரடி பாதையை அனுப்பவும்</string>
     <string name="lbl_song_title">பாடல் தலைப்பு</string>
     <string name="lbl_album_name">ஆல்பத்தின் பெயர்</string>
     <string name="lbl_next_episode">அடுத்த அத்தியாயம்</string>

@@ -6,7 +6,6 @@
     <string name="lbl_add_favorite">Add Favourite</string>
     <string name="lbl_starting_with">beginning with those whose name starts with</string>
     <string name="lbl_mark_unplayed">Mark Unplayed</string>
-    <string name="pref_use_direct_path_title">Pass Direct Path for external player</string>
     <string name="lbl_song_title">Song Title</string>
     <string name="lbl_album_name">Album name</string>
     <string name="lbl_next_episode">Next Episode</string>
