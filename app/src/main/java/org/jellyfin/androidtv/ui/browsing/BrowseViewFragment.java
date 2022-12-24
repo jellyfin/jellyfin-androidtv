@@ -133,6 +133,24 @@ public class BrowseViewFragment extends EnhancedBrowseFragment {
             case CollectionType.TvShows:
                 itemTypeString = "Series";
 
+                //Resume
+                StdItemQuery resumeEpisodes = new StdItemQuery(new ItemFields[]{
+                        ItemFields.PrimaryImageAspectRatio,
+                        ItemFields.Overview,
+                        ItemFields.ChildCount,
+                        ItemFields.MediaSources,
+                        ItemFields.MediaStreams
+                });
+                resumeEpisodes.setIncludeItemTypes(new String[]{"Episode"});
+                resumeEpisodes.setLimit(50);
+                resumeEpisodes.setParentId(mFolder.getId().toString());
+                resumeEpisodes.setRecursive(true);
+                resumeEpisodes.setImageTypeLimit(1);
+                resumeEpisodes.setFilters(new ItemFilter[]{ItemFilter.IsResumable});
+                resumeEpisodes.setSortBy(new String[]{ItemSortBy.DatePlayed});
+                resumeEpisodes.setSortOrder(SortOrder.Descending);
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_continue_watching), resumeEpisodes, 0, new ChangeTriggerType[]{ChangeTriggerType.TvPlayback}));
+
                 //Next up
                 NextUpQuery nextUpQuery = new NextUpQuery();
                 nextUpQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
