@@ -21,9 +21,6 @@ android {
 		setProperty("archivesBaseName", "jellyfin-androidtv-v$versionName")
 	}
 
-	sourceSets["main"].java.srcDirs("src/main/kotlin")
-	sourceSets["test"].java.srcDirs("src/test/kotlin")
-
 	buildFeatures {
 		viewBinding = true
 		compose = true

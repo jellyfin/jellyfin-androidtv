@@ -12,9 +12,6 @@ android {
 		targetSdk = 33
 	}
 
-	sourceSets["main"].java.srcDirs("src/main/kotlin")
-	sourceSets["test"].java.srcDirs("src/test/kotlin")
-
 	lint {
 		lintConfig = file("$rootDir/android-lint.xml")
 		abortOnError = false
@@ -28,7 +25,15 @@ android {
 dependencies {
 	// Jellyfin
 	implementation(projects.playback.core)
-	implementation(libs.jellyfin.sdk)
+	implementation(libs.jellyfin.sdk) {
+		// Change version if desired
+		val sdkVersion = findProperty("sdk.version")?.toString()
+		when (sdkVersion) {
+			"local" -> version { strictly("latest-SNAPSHOT") }
+			"snapshot" -> version { strictly("master-SNAPSHOT") }
+			"unstable-snapshot" -> version { strictly("openapi-unstable-SNAPSHOT") }
+		}
+	}
 
 	// Logging
 	implementation(libs.timber)
