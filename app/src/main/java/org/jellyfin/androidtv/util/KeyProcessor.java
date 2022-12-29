@@ -232,8 +232,9 @@ public class KeyProcessor {
                 menu.getMenu().add(0, MENU_CLEAR_QUEUE, order++, R.string.lbl_clear_queue);
             }
         } else {
+            boolean isFolder = item.isFolder() != null && item.isFolder();
             if (BaseItemExtensionsKt.canPlay(item)) {
-                if (item.isFolder()
+                if (isFolder
                         && item.getType() != BaseItemKind.MUSIC_ALBUM
                         && item.getType() != BaseItemKind.PLAYLIST
                         && item.getType() != BaseItemKind.MUSIC_ARTIST
@@ -242,8 +243,8 @@ public class KeyProcessor {
                         && userData.getUnplayedItemCount() > 0) {
                     menu.getMenu().add(0, MENU_PLAY_FIRST_UNWATCHED, order++, R.string.lbl_play_first_unwatched);
                 }
-                menu.getMenu().add(0, MENU_PLAY, order++, item.isFolder() ? R.string.lbl_play_all : R.string.lbl_play);
-                if (item.isFolder()) {
+                menu.getMenu().add(0, MENU_PLAY, order++, isFolder ? R.string.lbl_play_all : R.string.lbl_play);
+                if (isFolder) {
                     menu.getMenu().add(0, MENU_PLAY_SHUFFLE, order++, R.string.lbl_shuffle_all);
                 }
             }
