@@ -421,7 +421,7 @@ public class MediaManager {
     }
 
     private void createAudioQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
-        mCurrentAudioQueue = new ItemRowAdapter(context, items, new CardPresenter(true, Utils.convertDpToPixel(context, 140)), null, QueryType.StaticAudioQueueItems);
+        mCurrentAudioQueue = new ItemRowAdapter(context, items, new CardPresenter(true, 140), null, QueryType.StaticAudioQueueItems);
         mCurrentAudioQueue.Retrieve();
         mManagedAudioQueue = null;
         fireQueueStatusChange();
