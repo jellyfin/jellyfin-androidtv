@@ -50,6 +50,7 @@ class ExoPlayerProfile(
 		Codec.Audio.TRUEHD,
 		Codec.Audio.PCM_ALAW,
 		Codec.Audio.PCM_MULAW,
+		Codec.Audio.OPUS
 	)
 
 	init {
@@ -129,7 +130,6 @@ class ExoPlayerProfile(
 				Codec.Audio.OGA,
 				Codec.Audio.WEBMA,
 				Codec.Audio.APE,
-				Codec.Audio.OPUS,
 			)))
 			// Photo direct play
 			add(photoDirectPlayProfile)
