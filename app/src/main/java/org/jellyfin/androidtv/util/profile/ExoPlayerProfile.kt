@@ -50,7 +50,8 @@ class ExoPlayerProfile(
 		Codec.Audio.TRUEHD,
 		Codec.Audio.PCM_ALAW,
 		Codec.Audio.PCM_MULAW,
-		Codec.Audio.OPUS
+		Codec.Audio.OPUS,
+		Codec.Audio.FLAC
 	)
 
 	init {
@@ -123,7 +124,6 @@ class ExoPlayerProfile(
 			// Audio direct play
 			add(audioDirectPlayProfile(allSupportedAudioCodecs + arrayOf(
 				Codec.Audio.MPA,
-				Codec.Audio.FLAC,
 				Codec.Audio.WAV,
 				Codec.Audio.WMA,
 				Codec.Audio.OGG,
