@@ -494,5 +494,5 @@
     <string name="color_pink">Rose</string>
     <string name="color_cyan">Cyan</string>
     <string name="app_notification_beta">Application mise à jour en %1$s
-\nMerci de participer au programme bêta de Jellyfin.</string>
+\nMerci de participer au programme bêta de Jellyfin</string>
 </resources>
