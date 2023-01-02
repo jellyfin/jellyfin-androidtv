@@ -39,18 +39,19 @@ class ExoPlayerProfile(
 	 * Returns all audio codecs used commonly in video containers.
 	 * This does not include containers / codecs found in audio files
 	 */
-	private val allSupportedAudioCodecs = downmixSupportedAudioCodecs + arrayOf(
-		Codec.Audio.AAC_LATM,
-		Codec.Audio.ALAC,
-		Codec.Audio.AC3,
-		Codec.Audio.EAC3,
-		Codec.Audio.DCA,
-		Codec.Audio.DTS,
-		Codec.Audio.MLP,
-		Codec.Audio.TRUEHD,
-		Codec.Audio.PCM_ALAW,
-		Codec.Audio.PCM_MULAW,
-	)
+	private val allSupportedAudioCodecs = buildList {
+		addAll(downmixSupportedAudioCodecs)
+		add(Codec.Audio.AAC_LATM)
+		add(Codec.Audio.ALAC)
+		if (isAC3Enabled) add(Codec.Audio.AC3)
+		if (isAC3Enabled) add(Codec.Audio.EAC3)
+		add(Codec.Audio.DCA)
+		add(Codec.Audio.DTS)
+		add(Codec.Audio.MLP)
+		add(Codec.Audio.TRUEHD)
+		add(Codec.Audio.PCM_ALAW)
+		add(Codec.Audio.PCM_MULAW)
+	}.toTypedArray()
 
 	init {
 		name = "AndroidTV-ExoPlayer"
@@ -65,10 +66,9 @@ class ExoPlayerProfile(
 					if (deviceHevcCodecProfile.ContainsCodec(Codec.Video.HEVC, Codec.Container.TS)) add(Codec.Video.HEVC)
 					add(Codec.Video.H264)
 				}.joinToString(",")
-				audioCodec = buildList {
-					if (isAC3Enabled) add(Codec.Audio.AC3)
-					add(Codec.Audio.AAC)
-					add(Codec.Audio.MP3)
+				audioCodec = when {
+					Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
+					else -> allSupportedAudioCodecs
 				}.joinToString(",")
 				protocol = "hls"
 				copyTimestamps = false
