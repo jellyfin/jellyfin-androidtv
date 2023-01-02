@@ -323,12 +323,16 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                 }
                 return true;
             case KeyEvent.KEYCODE_MEDIA_NEXT:
-            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                 mediaManager.getValue().nextAudioItem();
                 return true;
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                mediaManager.getValue().fastForward();
+                return true;
             case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-            case KeyEvent.KEYCODE_MEDIA_REWIND:
                 mediaManager.getValue().prevAudioItem();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+                mediaManager.getValue().rewind();
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 if (ssActive) {
