@@ -99,6 +99,7 @@ public class MediaManager {
     private List<org.jellyfin.sdk.model.api.BaseItemDto> mCurrentVideoQueue;
 
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private Lazy<UserSettingPreferences> userPrefs = inject(UserSettingPreferences.class);
 
     public MediaManager(Context context) {
         this.context = context;
@@ -986,13 +987,11 @@ public class MediaManager {
     }
 
     public void fastForward() {
-        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-        seek(prefs.get(UserSettingPreferences.Companion.getSkipForwardLength()));
+        seek(userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength()));
     }
 
     public void rewind() {
-        UserSettingPreferences prefs = KoinJavaComponent.<UserSettingPreferences>get(UserSettingPreferences.class);
-        seek(-prefs.get(UserSettingPreferences.Companion.getSkipBackLength()));
+        seek(-userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
     public void seek(int offset) {
