@@ -546,6 +546,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
             return false;
 
         int chosenTrackType = streamType == org.jellyfin.sdk.model.api.MediaStreamType.SUBTITLE ? C.TRACK_TYPE_TEXT : C.TRACK_TYPE_AUDIO;
+
+        // Make sure the index is not out of bounds
+        if (index >= allStreams.size()) return false;
+
         org.jellyfin.sdk.model.api.MediaStream candidate = allStreams.get(index);
         if (candidate.isExternal() || candidate.getType() != streamType)
             return false;
