@@ -27,6 +27,7 @@ import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
+import org.jellyfin.androidtv.preference.UserSettingPreferences;
 import org.jellyfin.androidtv.ui.itemhandling.AudioQueueItem;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
@@ -98,6 +99,7 @@ public class MediaManager {
     private List<org.jellyfin.sdk.model.api.BaseItemDto> mCurrentVideoQueue;
 
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private Lazy<UserSettingPreferences> userPrefs = inject(UserSettingPreferences.class);
 
     public MediaManager(Context context) {
         this.context = context;
@@ -967,7 +969,6 @@ public class MediaManager {
         }
     }
 
-
     public void resumeAudio() {
         if (mCurrentAudioItem != null && getIsAudioPlayerInitialized()) {
             ensureAudioFocus();
@@ -982,6 +983,32 @@ public class MediaManager {
         } else if (hasAudioQueueItems()) {
             //play from start
             playInternal(mCurrentAudioItem != null ? mCurrentAudioItem : ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem(), mCurrentAudioItem != null ? getCurrentAudioQueuePosition() : 0);
+        }
+    }
+
+    public void fastForward() {
+        seek(userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength()));
+    }
+
+    public void rewind() {
+        seek(-userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipBackLength()));
+    }
+
+    public void seek(int offset) {
+        if (mCurrentAudioItem != null && isPlayingAudio()) {
+            if (nativeMode) {
+                Timber.d("Fast forward %d with ExoPlayer", offset);
+                if (mExoPlayer.isCurrentMediaItemSeekable()) {
+                    mCurrentAudioPosition = Utils.getSafeSeekPosition(mExoPlayer.getCurrentPosition() + offset, mExoPlayer.getDuration());
+                    mExoPlayer.seekTo(mCurrentAudioPosition);
+                }
+            } else {
+                Timber.d("Fast forward %d with VLC Player", offset);
+                if (mVlcPlayer.isSeekable()) {
+                    mCurrentAudioPosition = Utils.getSafeSeekPosition(mVlcPlayer.getTime() + offset, mVlcPlayer.getLength());
+                    mVlcPlayer.setTime(mCurrentAudioPosition);
+                }
+            }
         }
     }
 
