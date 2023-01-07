@@ -1,0 +1,1 @@
+Cliente de televisión para Jellyfin, El sistema multimedia de software gratuito
