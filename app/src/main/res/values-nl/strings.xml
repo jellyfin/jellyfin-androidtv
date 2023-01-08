@@ -86,7 +86,7 @@
     <string name="lbl_mark_unplayed">Markeer als niet afgespeeld</string>
     <string name="lbl_mark_played">Markeer als afgespeeld</string>
     <string name="lbl_remove_favorite">Verwijder favoriet</string>
-    <string name="lbl_add_favorite">Voeg favoriet toe</string>
+    <string name="lbl_add_favorite">Favoriet toevoegen</string>
     <string name="msg_no_playable_items">Geen afspeelbare items</string>
     <string name="lbl_unwatched">Ongezien</string>
     <string name="lbl_load_channels">"Laad kanalen "</string>
@@ -162,7 +162,7 @@
     <string name="msg_item_added">" item toegevoegd"</string>
     <string name="desc_automatic_fav_songs">Automatische afspeellijst van favoriete nummers</string>
     <string name="lbl_clear_queue">Wachtrij leegmaken</string>
-    <string name="lbl_play_next_up">Eerstvolgende afspelen</string>
+    <string name="lbl_play_next_up">Volgende afspelen</string>
     <string name="lbl_open">Openen</string>
     <string name="lbl_watched">Bekeken</string>
     <string name="lbl_favorite">Favoriet</string>
@@ -207,7 +207,7 @@
     <string name="lbl_just_this_once">Alleen deze keer</string>
     <string name="lbl_select_date">Kies datum</string>
     <string name="lbl_image_size">Afbeeldingsformaat</string>
-    <string name="lbl_repeat_episodes">Herhaal afleveringen</string>
+    <string name="lbl_repeat_episodes">Afleveringen herhalen</string>
     <string name="lbl_new_episodes">Nieuwe afleveringen</string>
     <string name="lbl_new_only">Alleen nieuwe resultaten</string>
     <string name="lbl_song_title">Titel van het nummer</string>
@@ -358,7 +358,7 @@
     <string name="lbl_one_song">1 Liedje</string>
     <string name="lbl_num_songs">%1$d Liedjes</string>
     <string name="lbl_one_episode">1 Aflevering</string>
-    <string name="lbl_num_episodes">%1$d Afleveringen</string>
+    <string name="lbl_num_episodes">%1$d afleveringen</string>
     <string name="lbl_on_channel">Op %1$s</string>
     <string name="lbl_on_any_channel">Op elk kanaal</string>
     <string name="lbl_record_all">Alle afleveringen worden opgenomen</string>
