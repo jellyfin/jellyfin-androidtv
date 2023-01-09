@@ -188,27 +188,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         // Hide the description because we don't have room for it
         binding.npBug.showDescription(false);
 
-        // NOTE: we only get the 100% correct grid size if we render it once, so hook into it here
-        binding.rowsFragment.post(() -> {
-            if (binding.rowsFragment.getHeight() > 0 && binding.rowsFragment.getWidth() > 0) {
-                if (mGridView == null) {
-                    return;
-                }
-                // prevent adaption on minor size delta's
-                if (Math.abs(mGridHeight - binding.rowsFragment.getHeight()) > MIN_GRIDSIZE_CHANGE_DELTA || Math.abs(mGridWidth - binding.rowsFragment.getWidth()) > MIN_GRIDSIZE_CHANGE_DELTA) {
-                    mGridHeight = Math.round(binding.rowsFragment.getHeight() / getResources().getDisplayMetrics().density);
-                    mGridWidth = Math.round(binding.rowsFragment.getWidth() / getResources().getDisplayMetrics().density);
-                    Timber.d("Auto-Adapting grid size to height <%s> width <%s>", binding.rowsFragment.getHeight(), binding.rowsFragment.getWidth());
-                    mDirty = true;
-                    determiningPosterSize = true;
-                    setAutoCardGridValues();
-                    createGrid();
-                    loadGrid();
-                    determiningPosterSize = false;
-                }
-            }
-        });
-
         return binding.getRoot();
     }
 
