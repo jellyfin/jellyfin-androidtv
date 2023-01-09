@@ -71,7 +71,7 @@
     <string name="btn_got_it">Mengerti</string>
     <string name="lbl_zoom">Perbesar</string>
     <string name="desc_bitstream_ac3">Membutuhkan perangkat keras yang mumpuni</string>
-    <string name="desc_automatic_fav_songs">Daftar putar otomatis dari lagu favorit dan disukai</string>
+    <string name="desc_automatic_fav_songs">Daftar putar otomatis dari lagu favorit</string>
     <string name="msg_item_added">" item ditambahkan"</string>
     <string name="lbl_delete">Hapus</string>
     <string name="lbl_save_as_playlist">Simpan sebagai Daftar Putar</string>
@@ -289,4 +289,5 @@
     <string name="lbl_stretch">Perpanjang</string>
     <string name="lbl_auto_crop">Potong Otomatis</string>
     <string name="lbl_community_rating">Peringkat Komunitas</string>
+    <string name="lbl_shuffle_queue">Acak</string>
 </resources>
