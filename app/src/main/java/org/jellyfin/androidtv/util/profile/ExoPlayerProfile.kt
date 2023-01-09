@@ -53,6 +53,10 @@ class ExoPlayerProfile(
 		add(Codec.Audio.PCM_MULAW)
 	}.toTypedArray()
 
+	private val allSupportedAudioCodecsWithoutFFmpegExperimental = allSupportedAudioCodecs
+		.filterNot { it == Codec.Audio.DCA || it == Codec.Audio.TRUEHD }
+		.toTypedArray()
+
 	init {
 		name = "AndroidTV-ExoPlayer"
 
@@ -68,7 +72,7 @@ class ExoPlayerProfile(
 				}.joinToString(",")
 				audioCodec = when {
 					Utils.downMixAudio(context) -> downmixSupportedAudioCodecs
-					else -> allSupportedAudioCodecs
+					else -> allSupportedAudioCodecsWithoutFFmpegExperimental
 				}.joinToString(",")
 				protocol = "hls"
 				copyTimestamps = false
