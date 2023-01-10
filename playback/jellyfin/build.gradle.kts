@@ -12,6 +12,10 @@ android {
 		targetSdk = 33
 	}
 
+	compileOptions {
+		isCoreLibraryDesugaringEnabled = true
+	}
+
 	lint {
 		lintConfig = file("$rootDir/android-lint.xml")
 		abortOnError = false
@@ -37,6 +41,9 @@ dependencies {
 
 	// Logging
 	implementation(libs.timber)
+
+	// Compatibility (desugaring)
+	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
 	testImplementation(libs.kotest.runner.junit5)
