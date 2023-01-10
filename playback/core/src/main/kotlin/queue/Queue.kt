@@ -7,6 +7,5 @@ import org.jellyfin.playback.core.queue.item.QueueEntry
  * the currently playing item and future items.
  */
 interface Queue {
-	// Item retrieval
 	suspend fun getItem(index: Int): QueueEntry?
 }
