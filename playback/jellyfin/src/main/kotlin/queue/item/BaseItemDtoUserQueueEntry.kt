@@ -7,6 +7,8 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import java.time.Year
+import java.util.UUID
 import kotlin.time.Duration.Companion.nanoseconds
 
 class BaseItemDtoUserQueueEntry private constructor(
@@ -16,34 +18,48 @@ class BaseItemDtoUserQueueEntry private constructor(
 ) : QueueEntry by base {
 	companion object {
 		fun build(api: ApiClient, baseItem: BaseItemDto): BaseItemDtoUserQueueEntry {
+			// Create metadata
 			val metadata = QueueEntryMetadata(
 				mediaId = baseItem.id.toString(),
 				title = baseItem.name,
 				artist = baseItem.albumArtist,
 				album = baseItem.album,
-				date = baseItem.dateCreated?.toString(),
+				date = baseItem.dateCreated,
 				displayDescription = baseItem.overview,
 				displayTitle = baseItem.name,
-				duration = baseItem.runTimeTicks?.ticks?.inWholeMilliseconds,
+				duration = baseItem.runTimeTicks?.ticks,
 				genre = baseItem.genres?.joinToString(", "),
-				year = baseItem.productionYear?.toLong(),
-				artUri = baseItem.imageTags?.get(ImageType.PRIMARY)?.let { tag ->
-					api.imageApi.getItemImageUrl(
-						itemId = baseItem.id,
-						imageType = ImageType.PRIMARY,
-						tag = tag,
-					)
-				},
-				albumArtUri = baseItem.albumPrimaryImageTag?.let { tag ->
-					api.imageApi.getItemImageUrl(
-						itemId = baseItem.albumId ?: baseItem.id,
-						imageType = ImageType.PRIMARY,
-						tag = tag,
-					)
-				}
+				year = baseItem.productionYear?.let { Year.of(it) },
+				artUri = api.getPrimaryImageUrl(
+					itemId = baseItem.id,
+					tag = baseItem.imageTags?.get(ImageType.PRIMARY)
+				),
+				albumArtUri = api.getPrimaryImageUrl(
+					itemId = baseItem.albumId ?: baseItem.id,
+					tag = baseItem.albumPrimaryImageTag,
+				)
 			)
 
-			return BaseItemDtoUserQueueEntry(baseItem, metadata, UserQueueEntry())
+			// Return entry
+			return BaseItemDtoUserQueueEntry(
+				baseItem = baseItem,
+				metadata = metadata,
+				base = UserQueueEntry()
+			)
+		}
+
+		/**
+		 * Helper extension function to get the URL of the primary image by item id and tag.
+		 */
+		private fun ApiClient.getPrimaryImageUrl(itemId: UUID?, tag: String?): String? = when {
+			// Invalid item id / tag
+			itemId == null || tag == null -> null
+			// Valid item id & tag
+			else -> imageApi.getItemImageUrl(
+				itemId = itemId,
+				imageType = ImageType.PRIMARY,
+				tag = tag,
+			)
 		}
 
 		/**
