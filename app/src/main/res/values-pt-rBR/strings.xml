@@ -493,4 +493,6 @@
     <string name="pref_crash_report_logs_disabled">Registros não serão incluídos nos relatórios de falhas</string>
     <string name="server_setup_incomplete">A configuração desse servidor não foi concluída. Abra o Jellyfin em um navegador para concluir a configuração antes de fazer login.</string>
     <string name="episode_name_special">especial</string>
+    <string name="app_notification_beta">Aplicativo atualizado para %1$s
+\nObrigado por participar do programa beta do Jellyfin</string>
 </resources>
