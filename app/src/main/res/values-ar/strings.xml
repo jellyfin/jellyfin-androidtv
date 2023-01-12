@@ -15,7 +15,7 @@
     <string name="msg_unable_load_subs">عرض الترجمة غير ممكن</string>
     <string name="lbl_filters">تصفية اختيارات البث التلفزيوني المباشر</string>
     <string name="lbl_ended">إنتهى</string>
-    <string name="lbl_display_preferences">خيارات الشاشة</string>
+    <string name="lbl_display_preferences">خيارات العرض</string>
     <string name="btn_done">تم</string>
     <string name="lbl_starting_with">بدءاً بمن تبدأ أسماؤهم ب</string>
     <string name="lbl_rating">التقييم</string>
@@ -114,7 +114,7 @@
     <string name="lbl_other_channels">قنوات أخرى</string>
     <string name="lbl_favorite_channels">القنوات المفضلة</string>
     <string name="lbl_coming_up">التالي</string>
-    <string name="lbl_favorites">المفضلات</string>
+    <string name="lbl_favorites">المفضلة</string>
     <string name="lbl_by_name">بالاسم</string>
     <string name="lbl_latest">الأحدث</string>
     <string name="msg_not_implemented">" غير مفعل"</string>
@@ -366,12 +366,12 @@
     <string name="licenses_link">التراخيص</string>
     <string name="lbl_tomatoes">طماطم</string>
     <string name="player_error">واجهت مشكلة. سأعيد المحاولة …</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
-    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f كيلوبت في الثانية</string>
+    <string name="bitrate_mbit">%1$,.0f ميݠابت في الثانية</string>
     <string name="grid_direction_vertical">عمودي</string>
     <string name="grid_direction">اتجاه الشبكة</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_vlc">مشغل LibVLC</string>
+    <string name="pref_video_player_exoplayer">مشغل ExoPlayer</string>
     <string name="lbl_premiere">العرض الأول</string>
     <string name="lbl_live">مباشر</string>
     <string name="lbl_sports">الرياضة</string>
@@ -493,4 +493,6 @@
     <string name="input_password">كلمة المرور</string>
     <string name="input_username">اسم المستخدم</string>
     <string name="episode_name_special">خاص</string>
+    <string name="pref_refresh_rate_scale_on_tv">تصعيد على شاشة التلفاز</string>
+    <string name="pref_refresh_rate_scale_on_device">تصعيد على جهاز</string>
 </resources>
