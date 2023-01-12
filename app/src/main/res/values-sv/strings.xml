@@ -493,4 +493,6 @@
     <string name="color_yellow">Gul</string>
     <string name="color_pink">Rosa</string>
     <string name="color_cyan">Ljusblå</string>
+    <string name="app_notification_beta">Appen uppdaterades till %1$s
+\nTack för att du deltar i Jellyfins uttestningsprogram</string>
 </resources>
