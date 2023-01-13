@@ -487,4 +487,6 @@
     <string name="color_pink">Roze</string>
     <string name="color_cyan">Cyaan</string>
     <string name="pref_telemetry_description">Crashrapport versturen; logboeken bijvoegen</string>
+    <string name="desc_audio_night_mode">Vlakt audiovolume automatisch uit</string>
+    <string name="episode_name_special">special</string>
 </resources>
