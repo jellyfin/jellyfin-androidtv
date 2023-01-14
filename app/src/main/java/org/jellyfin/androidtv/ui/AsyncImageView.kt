@@ -10,6 +10,8 @@ import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,15 +71,23 @@ class AsyncImageView @JvmOverloads constructor(
 			}
 
 			// Start loading image or placeholder
-			Glide.with(this@AsyncImageView)
-				.load(url ?: placeholder).apply {
+			if (url == null) {
+				Glide.with(this@AsyncImageView).load(placeholder).apply {
+					if (circleCrop) circleCrop()
+				}.into(this@AsyncImageView)
+			} else {
+				val glideUrl = GlideUrl(url, LazyHeaders.Builder().apply {
+					setHeader("Accept", "*/*")
+				}.build())
+
+				Glide.with(this@AsyncImageView).load(glideUrl).apply {
 					placeholder(placeholderOrBlurHash)
 					error(placeholder)
 					if (circleCrop) circleCrop()
 					// FIXME: Glide is unable to scale the image when transitions are enabled
 					//transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
-				}
-				.into(this@AsyncImageView)
+				}.into(this@AsyncImageView)
+			}
 		}
 	}
 }
