@@ -124,7 +124,7 @@
     <string name="lbl_views">طريقة العرض</string>
     <string name="lbl_on_now">يعرض الآن</string>
     <string name="lbl_next_up">الحلقة التالية</string>
-    <string name="lbl_continue_watching">متابعة المشاهدة</string>
+    <string name="lbl_continue_watching">استئناف المشاهدة</string>
     <string name="lbl_settings">الإعدادات</string>
     <string name="chapters">الأجزاء</string>
     <string name="settings_title">الإعدادات</string>
@@ -406,7 +406,7 @@
     <string name="home_section_next_up">التالي</string>
     <string name="home_section_active_recordings">تسجيلات نشطة</string>
     <string name="home_section_resume_audio">واصل الاستماع</string>
-    <string name="home_section_resume">استمر في المشاهدة</string>
+    <string name="home_section_resume">استئناف المشاهدة</string>
     <string name="home_section_library_small">الوسائط الخاصة بي (صغيرة)</string>
     <string name="home_section_library">الوسائط الخاصة بي</string>
     <string name="home_section_latest_media">أحدث الوسائط</string>
