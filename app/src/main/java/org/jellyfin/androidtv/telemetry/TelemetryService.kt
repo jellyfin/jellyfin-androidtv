@@ -32,6 +32,7 @@ object TelemetryService {
 			buildConfigClass = BuildConfig::class.java
 			sharedPreferencesName = TelemetryPreferences.SHARED_PREFERENCES_NAME
 			pluginLoader = AcraPluginLoader(AcraReportSenderFactory::class.java)
+			applicationLogFileLines = 250
 
 			toast {
 				text = context.getString(R.string.crash_report_toast)
