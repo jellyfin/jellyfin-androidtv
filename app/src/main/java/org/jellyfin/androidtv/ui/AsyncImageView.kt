@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
+import org.jellyfin.sdk.api.client.ApiClient
 import kotlin.math.round
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -77,7 +78,7 @@ class AsyncImageView @JvmOverloads constructor(
 				}.into(this@AsyncImageView)
 			} else {
 				val glideUrl = GlideUrl(url, LazyHeaders.Builder().apply {
-					setHeader("Accept", "*/*")
+					setHeader("Accept", ApiClient.HEADER_ACCEPT)
 				}.build())
 
 				Glide.with(this@AsyncImageView).load(glideUrl).apply {
