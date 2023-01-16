@@ -18,7 +18,7 @@
     <string name="lbl_genres">Жанры</string>
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не реализовано"</string>
-    <string name="lbl_latest">Крайние</string>
+    <string name="lbl_latest">Недавно добавлено</string>
     <string name="lbl_by_name">По названиям</string>
     <string name="lbl_favorites">Избранное</string>
     <string name="lbl_coming_up">Ожидаемое</string>
