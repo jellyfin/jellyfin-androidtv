@@ -32,6 +32,7 @@ dependencies {
 
 	// ExoPlayer
 	implementation(libs.exoplayer)
+	implementation(libs.jellyfin.exoplayer.ffmpegextension)
 
 	// Logging
 	implementation(libs.timber)
