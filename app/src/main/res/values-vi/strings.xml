@@ -485,4 +485,5 @@
     <string name="color_yellow">Vàng</string>
     <string name="color_pink">Hồng</string>
     <string name="color_cyan">Lục lam</string>
+    <string name="lbl_subtitle_position">Độ lệch phụ đề từ dưới lên</string>
 </resources>
