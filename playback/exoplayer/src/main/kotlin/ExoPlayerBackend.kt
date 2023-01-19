@@ -64,14 +64,10 @@ class ExoPlayerBackend(
 			setUri(stream.url)
 		}.build()
 
-		if (exoPlayer.mediaItemCount == 0) {
-			exoPlayer.setMediaItem(mediaItem)
-		} else {
-			// Remove old items
-			while (exoPlayer.mediaItemCount > 1) exoPlayer.removeMediaItem(0)
-			// Add new item
-			exoPlayer.addMediaItem(mediaItem)
-		}
+		// Remove any old preloaded items (skips the first which is the playing item)
+		while (exoPlayer.mediaItemCount > 1) exoPlayer.removeMediaItem(0)
+		// Add new item
+		exoPlayer.addMediaItem(mediaItem)
 
 		exoPlayer.prepare()
 	}
