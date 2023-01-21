@@ -62,6 +62,7 @@ object Codec {
 		const val MPEG2VIDEO = "mpeg2video"
 		const val VP8 = "vp8"
 		const val VP9 = "vp9"
+		const val AV1 = "av1"
 	}
 
 	object Subtitle {

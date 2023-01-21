@@ -5,6 +5,7 @@ import org.jellyfin.androidtv.constant.Codec
 import org.jellyfin.androidtv.util.DeviceUtils
 import org.jellyfin.androidtv.util.Utils
 import org.jellyfin.androidtv.util.profile.ProfileHelper.audioDirectPlayProfile
+import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceAV1CodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.deviceHevcCodecProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoLevelProfileCondition
 import org.jellyfin.androidtv.util.profile.ProfileHelper.h264VideoProfileCondition
@@ -114,7 +115,8 @@ class ExoPlayerProfile(
 						Codec.Video.VP8,
 						Codec.Video.VP9,
 						Codec.Video.MPEG,
-						Codec.Video.MPEG2VIDEO
+						Codec.Video.MPEG2VIDEO,
+						Codec.Video.AV1
 					).joinToString(",")
 
 					audioCodec = when {
@@ -190,6 +192,8 @@ class ExoPlayerProfile(
 			})
 			// HEVC profile
 			add(deviceHevcCodecProfile)
+			// AV1 profile
+			add(deviceAV1CodecProfile)
 			// Limit video resolution support for older devices
 			if (!DeviceUtils.has4kVideoSupport()) {
 				add(CodecProfile().apply {

@@ -3,10 +3,21 @@ package org.jellyfin.androidtv.util.profile
 import android.media.MediaCodecInfo.CodecProfileLevel
 import android.media.MediaCodecList
 import android.media.MediaFormat
+import android.os.Build
 import timber.log.Timber
 
 class MediaCodecCapabilitiesTest {
 	private val mediaCodecList by lazy { MediaCodecList(MediaCodecList.REGULAR_CODECS) }
+
+	fun supportsAV1(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+		hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_AV1)
+
+	fun supportsAV1Main10(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+		hasDecoder(
+			MediaFormat.MIMETYPE_VIDEO_AV1,
+			CodecProfileLevel.AV1ProfileMain10,
+			CodecProfileLevel.AV1Level5
+		)
 
 	fun supportsHevc(): Boolean = hasCodecForMime(MediaFormat.MIMETYPE_VIDEO_HEVC)
 
