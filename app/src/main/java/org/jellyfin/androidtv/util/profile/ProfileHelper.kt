@@ -21,6 +21,48 @@ object ProfileHelper {
 
 	private val MediaTest by lazy { MediaCodecCapabilitiesTest() }
 
+	val deviceAV1CodecProfile by lazy {
+		CodecProfile().apply {
+			type = CodecType.Video
+			codec = Codec.Video.AV1
+
+			conditions = when {
+				!MediaTest.supportsAV1() -> {
+					// The following condition is a method to exclude all AV1
+					Timber.i("*** Does NOT support AV1")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.Equals,
+							ProfileConditionValue.VideoProfile,
+							"none"
+						)
+					)
+				}
+				!MediaTest.supportsAV1Main10() -> {
+					Timber.i("*** Does NOT support AV1 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.NotEquals,
+							ProfileConditionValue.VideoProfile,
+							"Main 10"
+						)
+					)
+				}
+				else -> {
+					// supports all AV1
+					Timber.i("*** Supports AV1 10 bit")
+					arrayOf(
+						ProfileCondition(
+							ProfileConditionType.NotEquals,
+							ProfileConditionValue.VideoProfile,
+							"none"
+						)
+					)
+				}
+			}
+		}
+	}
+
 	val deviceHevcCodecProfile by lazy {
 		CodecProfile().apply {
 			type = CodecType.Video
