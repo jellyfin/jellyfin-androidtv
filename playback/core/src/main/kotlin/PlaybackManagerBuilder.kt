@@ -5,7 +5,7 @@ import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.plugin.PlaybackPlugin
 import org.jellyfin.playback.core.plugin.PlayerService
 
-class PlaybackManagerBuilder() {
+class PlaybackManagerBuilder {
 	private val factories = mutableListOf<PlaybackPlugin>()
 
 	fun install(pluginFactory: PlaybackPlugin) {

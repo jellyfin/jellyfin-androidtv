@@ -10,8 +10,8 @@ import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.api.sockets.addPlayStateCommandsListener
 import org.jellyfin.sdk.api.sockets.listener.SocketListener
 import org.jellyfin.sdk.model.api.PlaystateCommand
+import org.jellyfin.sdk.model.extensions.ticks
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.nanoseconds
 
 class PlaySessionSocketService(
 	private val socketInstance: SocketInstance,
@@ -52,9 +52,4 @@ class PlaySessionSocketService(
 			}
 		}
 	}
-
-	/**
-	 * Convert ticks to duration
-	 */
-	private val Long.ticks get() = div(100L).nanoseconds
 }
