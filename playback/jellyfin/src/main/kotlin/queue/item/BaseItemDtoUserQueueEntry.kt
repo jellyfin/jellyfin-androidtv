@@ -7,9 +7,9 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.extensions.ticks
 import java.time.Year
 import java.util.UUID
-import kotlin.time.Duration.Companion.nanoseconds
 
 class BaseItemDtoUserQueueEntry private constructor(
 	val baseItem: BaseItemDto,
@@ -61,10 +61,5 @@ class BaseItemDtoUserQueueEntry private constructor(
 				tag = tag,
 			)
 		}
-
-		/**
-		 * Convert ticks to duration
-		 */
-		private val Long.ticks get() = div(100L).nanoseconds
 	}
 }

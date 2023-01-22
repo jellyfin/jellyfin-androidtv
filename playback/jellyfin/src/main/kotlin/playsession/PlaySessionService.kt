@@ -17,8 +17,7 @@ import org.jellyfin.sdk.model.api.PlaybackStartInfo
 import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.api.QueueItem
 import org.jellyfin.sdk.model.api.RepeatMode
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
+import org.jellyfin.sdk.model.extensions.inWholeTicks
 
 class PlaySessionService(
 	private val api: ApiClient,
@@ -119,9 +118,4 @@ class PlaySessionService(
 			nowPlayingQueue = getQueue(),
 		))
 	}
-
-	/**
-	 * The value of this duration expressed as a [Long] number of ticks.
-	 */
-	private val Duration.inWholeTicks: Long get() = toLong(DurationUnit.NANOSECONDS).div(100L)
 }
