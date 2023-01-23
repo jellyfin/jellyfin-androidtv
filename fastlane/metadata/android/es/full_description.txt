@@ -1,6 +1,6 @@
 Tus medios, en tus términos.
 
-El proyecto Jellyfin es un servidor de medios, de software libre y código abierto. Sin cobros, seguimiento o agenda oculta. Obtén nuestro servidor para organizar tus audios, videos, fotos y mas en un solo lugar.
+El proyecto Jellyfin es un servidor de medios, de software libre y código abierto. Sin cobros, seguimiento o motivos ocultos. Obtén nuestro servidor para organizar tus audios, videos, fotos y mas en un solo lugar.
 
 Para usar la app, debes tener un servidor Jellyfin configurado y en marcha. Conoce mas en <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
