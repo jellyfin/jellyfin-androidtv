@@ -202,7 +202,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+        if (event.getAction() != KeyEvent.ACTION_UP) return false;
 
         if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
             mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
