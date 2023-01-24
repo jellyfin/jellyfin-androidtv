@@ -339,7 +339,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+        if (event.getAction() != KeyEvent.ACTION_UP) return false;
         return KeyProcessor.HandleKey(keyCode, mCurrentItem, requireActivity());
     }
 
