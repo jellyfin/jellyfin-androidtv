@@ -162,7 +162,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	}
 
 	override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-		if (event?.action != KeyEvent.ACTION_DOWN) return false
+		if (event?.action != KeyEvent.ACTION_UP) return false
 		return KeyProcessor.HandleKey(keyCode, currentItem, activity)
 	}
 
