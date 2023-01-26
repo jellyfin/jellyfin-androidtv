@@ -481,4 +481,18 @@
     <string name="server_setup_incomplete">ההגדרה של שרת זה לא הושלמה. פתח את Jellyfin בדפדפן אינטרנט כדי לסיים את ההגדרה לפני הכניסה.</string>
     <string name="episode_name_special">מיוחד</string>
     <string name="crash_report_toast">אופס! משהו השתבש, דוח קריסה נשלח לשרת Jellyfin שלך.</string>
+    <string name="app_notification_beta">האפליקציה עודכנה ל%1$s
+\nתודה על השתתפותך בתוכנית הבטא של ג\'ליפין</string>
+    <string name="color_black">שחור</string>
+    <string name="lbl_subtitle_fg">צבע הכתוביות</string>
+    <string name="lbl_subtitle_stroke">גודל הכתוביות</string>
+    <string name="lbl_subtitle_position">מרווח הכתוביות מהתחתית</string>
+    <string name="color_white">לבן</string>
+    <string name="color_red">אדום</string>
+    <string name="color_green">ירוק</string>
+    <string name="color_blue">כחול</string>
+    <string name="color_yellow">צהוב</string>
+    <string name="color_darkgrey">אפור כהה</string>
+    <string name="color_cyan">טורקיז</string>
+    <string name="color_pink">ורוד</string>
 </resources>
