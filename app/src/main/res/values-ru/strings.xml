@@ -28,7 +28,7 @@
     <string name="lbl_movies">Фильмы</string>
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
-    <string name="lbl_latest_additions">Крайние добавления</string>
+    <string name="lbl_latest_additions">Последние добавления</string>
     <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
     <string name="lbl_play_all">Воспр. все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
@@ -194,7 +194,7 @@
     <string name="lbl_live">Эфир</string>
     <string name="lbl_new">Новое</string>
     <string name="lbl_repeat">Повтор</string>
-    <string name="lbl_recent_recordings">Крайние записи</string>
+    <string name="lbl_recent_recordings">Недавние записи</string>
     <string name="lbl_kids">Детское</string>
     <string name="lbl_sports">Спорт</string>
     <string name="msg_record_entire_series">Записать всю серию\?</string>
@@ -406,7 +406,7 @@
     <string name="home_section_resume">Продолжение просмотра</string>
     <string name="home_section_library_small">Мои медиаданные (компактно)</string>
     <string name="home_section_library">Мои медиаданные</string>
-    <string name="home_section_latest_media">Крайние медиаданные</string>
+    <string name="home_section_latest_media">Последние медиаданные</string>
     <string name="home_prefs">Главное</string>
     <string name="searchable_settings_description">Медиаданные</string>
     <string name="searchable_hint">Поиск Jellyfin</string>
