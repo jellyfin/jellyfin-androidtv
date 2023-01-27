@@ -430,7 +430,6 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (!(item instanceof BaseRowItem)) return;
 
-            mediaManager.getValue().setCurrentMediaTitle(row.getHeaderItem().getName());
             ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), getActivity());
         }
     }

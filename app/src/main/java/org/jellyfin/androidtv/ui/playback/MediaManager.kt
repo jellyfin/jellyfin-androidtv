@@ -8,7 +8,6 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 interface MediaManager {
 	var currentMediaAdapter: ItemRowAdapter?
 	fun hasAudioQueueItems(): Boolean
-	fun hasVideoQueueItems(): Boolean
 	var currentMediaPosition: Int
 	var currentVideoQueue: List<BaseItemDto?>?
 	val currentAudioQueueSize: Int
@@ -28,8 +27,6 @@ interface MediaManager {
 	fun removeAudioEventListener(listener: AudioEventListener?)
 	fun initAudio(): Boolean
 	fun saveAudioQueue(context: Context?)
-	fun saveVideoQueue(context: Context?)
-	fun saveQueue(context: Context?, type: Int)
 	fun queueAudioItem(item: BaseItemDto?): Int
 	fun addToVideoQueue(item: BaseItemDto?): Int
 	fun clearAudioQueue()
@@ -58,13 +55,6 @@ interface MediaManager {
 	fun seek(offset: Int)
 	fun getMediaItem(pos: Int): BaseRowItem?
 	val currentMediaItem: BaseRowItem?
-	fun nextMedia(): BaseRowItem?
-	fun prevMedia(): BaseRowItem?
-	fun peekNextMediaItem(): BaseRowItem?
-	fun peekPrevMediaItem(): BaseRowItem?
-	fun hasNextMediaItem(): Boolean
-	fun hasPrevMediaItem(): Boolean
-	var currentMediaTitle: String?
 	var isVideoQueueModified: Boolean
 	fun clearVideoQueue()
 }
