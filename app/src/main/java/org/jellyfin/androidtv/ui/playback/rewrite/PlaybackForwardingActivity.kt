@@ -67,7 +67,7 @@ class PlaybackForwardingActivity : FragmentActivity() {
 
 		for (item in mediaManager.currentVideoQueue ?: emptyList()) {
 			if (first == null) first = item
-			if (best == null && item.type !== BaseItemKind.TRAILER) best = item
+			if (item != null && item.type !== BaseItemKind.TRAILER) best = item
 
 			if (first != null && best != null) break
 		}

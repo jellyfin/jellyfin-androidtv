@@ -295,7 +295,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         updateButtons(mediaManager.getValue().isPlayingAudio());
 
         // load the item duration and set the position to 0 since it won't be set elsewhere until playback is initialized
-        if (!mediaManager.getValue().getIsAudioPlayerInitialized())
+        if (!mediaManager.getValue().isAudioPlayerInitialized())
             setCurrentTime(0);
     }
 
@@ -389,7 +389,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             Timber.d("Queue status changed");
             if (hasQueue) {
                 loadItem();
-                if (mediaManager.getValue().getIsAudioPlayerInitialized()) {
+                if (mediaManager.getValue().isAudioPlayerInitialized()) {
                     updateButtons(mediaManager.getValue().isPlayingAudio());
                 }
             } else {
