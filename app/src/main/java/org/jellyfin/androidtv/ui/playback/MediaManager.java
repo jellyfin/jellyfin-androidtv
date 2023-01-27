@@ -65,7 +65,6 @@ public class MediaManager {
     private Context context;
     private ItemRowAdapter mCurrentMediaAdapter;
     private int mCurrentMediaPosition = -1;
-    private String currentMediaTitle;
 
     private ItemRowAdapter mCurrentAudioQueue;
     private ItemRowAdapter mManagedAudioQueue;
@@ -109,7 +108,6 @@ public class MediaManager {
         return mCurrentMediaAdapter;
     }
     public boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
-    public boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
     public void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
         this.mCurrentMediaAdapter = currentMediaAdapter;
@@ -429,18 +427,7 @@ public class MediaManager {
         fireQueueStatusChange();
     }
 
-    private static final int TYPE_AUDIO = 0;
-    private static final int TYPE_VIDEO = 1;
-
     public void saveAudioQueue(Context context) {
-        saveQueue(context, TYPE_AUDIO);
-    }
-
-    public void saveVideoQueue(Context context) {
-        saveQueue(context, TYPE_VIDEO);
-    }
-
-    public void saveQueue(Context context, final int type) {
         //Get a name and save as playlist
         final EditText name = new EditText(context);
         name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -454,9 +441,9 @@ public class MediaManager {
                         final String text = name.getText().toString();
                         PlaylistCreationRequest request = new PlaylistCreationRequest();
                         request.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                        request.setMediaType(type == TYPE_AUDIO ? MediaType.Audio : MediaType.Video);
+                        request.setMediaType(MediaType.Audio);
                         request.setName(text);
-                        request.setItemIdList(type == TYPE_AUDIO ? getCurrentAudioQueueItemIds() : getCurrentVideoQueueItemIds());
+                        request.setItemIdList(getCurrentAudioQueueItemIds());
                         KoinJavaComponent.<ApiClient>get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
                             @Override
                             public void onResponse(PlaylistCreationResult response) {
@@ -489,24 +476,12 @@ public class MediaManager {
         return result;
     }
 
-    private ArrayList<String> getCurrentVideoQueueItemIds() {
-        ArrayList<String> result = new ArrayList<>();
-
-        if (mCurrentVideoQueue != null) {
-            for (int i = 0; i < mCurrentVideoQueue.size(); i++) {
-                result.add(mCurrentVideoQueue.get(i).getId().toString());
-            }
-        }
-
-        return result;
-    }
-
     public int queueAudioItem(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>());
             clearUnShuffledQueue();
         }
-        pushToUnShuffledQueue(item);
+        pushToUnShuffledQueue();
         mCurrentAudioQueue.add(new AudioQueueItem(mCurrentAudioQueue.size(), item));
         fireQueueStatusChange();
         return mCurrentAudioQueue.size()-1;
@@ -558,7 +533,7 @@ public class MediaManager {
                 AudioQueueItem queueItem = new AudioQueueItem(ndx++, item);
                 mCurrentAudioQueue.add(queueItem);
                 if (mManagedAudioQueue != null) mManagedAudioQueue.add(queueItem);
-                pushToUnShuffledQueue(item);
+                pushToUnShuffledQueue();
             }
             fireQueueStatusChange();
         }
@@ -760,7 +735,7 @@ public class MediaManager {
 
     }
 
-    private void pushToUnShuffledQueue(org.jellyfin.sdk.model.api.BaseItemDto newItem) {
+    private void pushToUnShuffledQueue() {
         if (isShuffleMode()) {
             mUnShuffledAudioQueueIndexes.add(mUnShuffledAudioQueueIndexes.size());
         }
@@ -1026,42 +1001,6 @@ public class MediaManager {
     }
 
     public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
-
-    public BaseRowItem nextMedia() {
-        if (hasNextMediaItem()) {
-            mCurrentMediaPosition++;
-            mCurrentMediaAdapter.loadMoreItemsIfNeeded(mCurrentMediaPosition);
-        }
-
-        return getCurrentMediaItem();
-    }
-
-    public BaseRowItem prevMedia() {
-        if (hasPrevMediaItem()) {
-            mCurrentMediaPosition--;
-        }
-
-        return getCurrentMediaItem();
-    }
-
-    public BaseRowItem peekNextMediaItem() {
-        return hasNextMediaItem() ? getMediaItem(mCurrentMediaPosition +1) : null;
-    }
-
-    public BaseRowItem peekPrevMediaItem() {
-        return hasPrevMediaItem() ? getMediaItem(mCurrentMediaPosition -1) : null;
-    }
-
-    public boolean hasNextMediaItem() { return mCurrentMediaAdapter.size() > mCurrentMediaPosition +1; }
-    public boolean hasPrevMediaItem() { return mCurrentMediaPosition > 0; }
-
-    public String getCurrentMediaTitle() {
-        return currentMediaTitle;
-    }
-
-    public void setCurrentMediaTitle(String currentMediaTitle) {
-        this.currentMediaTitle = currentMediaTitle;
-    }
 
     public boolean isVideoQueueModified() {
         return videoQueueModified;
