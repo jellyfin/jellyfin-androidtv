@@ -207,7 +207,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
             mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
             mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
-            mediaManager.getValue().setCurrentMediaTitle(mFolder.getName());
         }
         return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
     }
