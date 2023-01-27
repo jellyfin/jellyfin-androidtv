@@ -48,7 +48,7 @@ class NowPlayingView @JvmOverloads constructor(
 
 			if (mediaManager.hasAudioQueueItems()) {
 				isVisible = true
-				setInfo(mediaManager.currentAudioItem)
+				setInfo(mediaManager.currentAudioItem!!)
 				setStatus(mediaManager.currentAudioPosition)
 			} else isVisible = false
 		}
@@ -95,7 +95,7 @@ class NowPlayingView @JvmOverloads constructor(
 
 			if (hasQueue) {
 				// may have just added one so update display
-				setInfo(mediaManager.currentAudioItem)
+				setInfo(mediaManager.currentAudioItem!!)
 				setStatus(mediaManager.currentAudioPosition)
 			}
 		}

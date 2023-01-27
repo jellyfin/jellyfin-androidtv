@@ -19,7 +19,6 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.picture.PictureViewerViewModel
-import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
@@ -86,8 +85,6 @@ val appModule = module {
 	}
 
 	// Non API related
-	single { MediaManager(get()) }
-
 	single { DataRefreshService() }
 	single { PlaybackControllerContainer() }
 

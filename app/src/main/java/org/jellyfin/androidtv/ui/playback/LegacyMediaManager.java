@@ -61,7 +61,7 @@ import java.util.Random;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class MediaManager {
+public class LegacyMediaManager implements MediaManager {
     private Context context;
     private ItemRowAdapter mCurrentMediaAdapter;
     private int mCurrentMediaPosition = -1;
@@ -101,24 +101,30 @@ public class MediaManager {
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private Lazy<UserSettingPreferences> userPrefs = inject(UserSettingPreferences.class);
 
-    public MediaManager(Context context) {
+    public LegacyMediaManager(Context context) {
         this.context = context;
     }
 
+    @Override
     public ItemRowAdapter getCurrentMediaAdapter() {
         return mCurrentMediaAdapter;
     }
+    @Override
     public boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
+    @Override
     public boolean hasVideoQueueItems() { return mCurrentVideoQueue != null && mCurrentVideoQueue.size() > 0; }
 
+    @Override
     public void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
         this.mCurrentMediaAdapter = currentMediaAdapter;
     }
 
+    @Override
     public int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
 
+    @Override
     public void setCurrentVideoQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         if (items == null || items.size() < 1) {
             clearVideoQueue();
@@ -134,23 +140,34 @@ public class MediaManager {
         mCurrentMediaPosition = 0;
     }
 
+    @Override
     public List<org.jellyfin.sdk.model.api.BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
+    @Override
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
+    @Override
     public int getCurrentAudioQueuePosition() { return hasAudioQueueItems() && mCurrentAudioQueuePosition >= 0 ? mCurrentAudioQueuePosition : 0; }
+    @Override
     public long getCurrentAudioPosition() { return mCurrentAudioPosition; }
+    @Override
     public String getCurrentAudioQueueDisplayPosition() { return Integer.toString(getCurrentAudioQueuePosition() + 1); }
+    @Override
     public String getCurrentAudioQueueDisplaySize() { return mCurrentAudioQueue != null ? Integer.toString(mCurrentAudioQueue.size()) : "0"; }
 
+    @Override
     public org.jellyfin.sdk.model.api.BaseItemDto getCurrentAudioItem() { return mCurrentAudioItem != null ? mCurrentAudioItem : hasAudioQueueItems() ? ((BaseRowItem)mCurrentAudioQueue.get(0)).getBaseItem() : null; }
 
+    @Override
     public boolean toggleRepeat() { mRepeat = !mRepeat; return mRepeat; }
+    @Override
     public boolean isRepeatMode() { return mRepeat; }
 
-    public boolean getIsAudioPlayerInitialized() {
+    @Override
+    public boolean isAudioPlayerInitialized() {
         return audioInitialized && (nativeMode ? mExoPlayer != null : mVlcPlayer != null);
     }
 
+    @Override
     public boolean isShuffleMode() {
         if (mUnShuffledAudioQueueIndexes != null) {
             return true;
@@ -162,12 +179,15 @@ public class MediaManager {
         mUnShuffledAudioQueueIndexes = null;
     }
 
+    @Override
     public ItemRowAdapter getCurrentAudioQueue() { return mCurrentAudioQueue; }
+    @Override
     public ItemRowAdapter getManagedAudioQueue() {
         createManagedAudioQueue();
         return mManagedAudioQueue;
     }
 
+    @Override
     public void createManagedAudioQueue() {
         if (mCurrentAudioQueue != null) {
             if (mManagedAudioQueue != null) {
@@ -192,15 +212,18 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void addAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.add(listener);
         Timber.d("Added event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
+    @Override
     public void removeAudioEventListener(AudioEventListener listener) {
         mAudioEventListeners.remove(listener);
         Timber.d("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
 
+    @Override
     public boolean initAudio() {
         Timber.d("initializing audio");
         if (mAudioManager == null) mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -221,7 +244,7 @@ public class MediaManager {
     }
 
     private void reportProgress() {
-        if (mCurrentAudioItem == null || !getIsAudioPlayerInitialized()) {
+        if (mCurrentAudioItem == null || !isAudioPlayerInitialized()) {
             stopProgressLoop();
             return;
         }
@@ -432,14 +455,17 @@ public class MediaManager {
     private static final int TYPE_AUDIO = 0;
     private static final int TYPE_VIDEO = 1;
 
+    @Override
     public void saveAudioQueue(Context context) {
         saveQueue(context, TYPE_AUDIO);
     }
 
+    @Override
     public void saveVideoQueue(Context context) {
         saveQueue(context, TYPE_VIDEO);
     }
 
+    @Override
     public void saveQueue(Context context, final int type) {
         //Get a name and save as playlist
         final EditText name = new EditText(context);
@@ -501,6 +527,7 @@ public class MediaManager {
         return result;
     }
 
+    @Override
     public int queueAudioItem(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(new ArrayList<org.jellyfin.sdk.model.api.BaseItemDto>());
@@ -512,6 +539,7 @@ public class MediaManager {
         return mCurrentAudioQueue.size()-1;
     }
 
+    @Override
     public int addToVideoQueue(org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
         mCurrentVideoQueue.add(item);
@@ -529,10 +557,12 @@ public class MediaManager {
         return mCurrentVideoQueue.size()-1;
     }
 
+    @Override
     public void clearAudioQueue() {
         clearAudioQueue(false);
     }
 
+    @Override
     public void clearAudioQueue(boolean releasePlayer) {
         Timber.d("clearing the audio queue");
         stopAudio(releasePlayer);
@@ -548,6 +578,7 @@ public class MediaManager {
         if (mManagedAudioQueue != null) mManagedAudioQueue.clear();
     }
 
+    @Override
     public void addToAudioQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
         if (mCurrentAudioQueue == null) {
             createAudioQueue(items);
@@ -566,6 +597,7 @@ public class MediaManager {
         Toast.makeText(context, items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
+    @Override
     public void removeFromAudioQueue(int ndx) {
         if (!hasAudioQueueItems() || ndx > getCurrentAudioQueueSize()) return;
 
@@ -604,10 +636,11 @@ public class MediaManager {
         fireQueueStatusChange();
     }
 
-    public boolean isPlayingAudio() { return getIsAudioPlayerInitialized() && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
+    @Override
+    public boolean isPlayingAudio() { return isAudioPlayerInitialized() && (nativeMode ? mExoPlayer.isPlaying() : mVlcPlayer.isPlaying()); }
 
     private boolean ensureInitialized() {
-        if (!audioInitialized || !getIsAudioPlayerInitialized()) {
+        if (!audioInitialized || !isAudioPlayerInitialized()) {
             audioInitialized = initAudio();
         }
 
@@ -618,6 +651,7 @@ public class MediaManager {
         return audioInitialized;
     }
 
+    @Override
     public void playNow(Context context, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, int position, boolean shuffle) {
         if (!ensureInitialized()) return;
 
@@ -640,10 +674,12 @@ public class MediaManager {
             fireQueueReplaced();
     }
 
+    @Override
     public void playNow(Context context, final List<org.jellyfin.sdk.model.api.BaseItemDto> items, boolean shuffle) {
         playNow(context, items, 0, shuffle);
     }
 
+    @Override
     public void playNow(Context context, final org.jellyfin.sdk.model.api.BaseItemDto item) {
         if (!ensureInitialized()) return;
 
@@ -671,6 +707,7 @@ public class MediaManager {
         Toast.makeText(context,items.size() + (items.size() > 1 ? context.getString(R.string.msg_items_added) : context.getString(R.string.msg_item_added)), Toast.LENGTH_LONG).show();
     }
 
+    @Override
     public boolean playFrom(int ndx) {
         if (mCurrentAudioQueue == null || ndx >= mCurrentAudioQueue.size()) return false;
 
@@ -777,6 +814,7 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void shuffleAudioQueue() {
         if (!hasAudioQueueItems()) return;
 
@@ -845,6 +883,7 @@ public class MediaManager {
         fireQueueReplaced();
     }
 
+    @Override
     public org.jellyfin.sdk.model.api.BaseItemDto getNextAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == mCurrentAudioQueue.size() - 1)) return null;
 
@@ -853,6 +892,7 @@ public class MediaManager {
         return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
+    @Override
     public org.jellyfin.sdk.model.api.BaseItemDto getPrevAudioItem() {
         if (mCurrentAudioQueue == null || mCurrentAudioQueue.size() == 0 || (!mRepeat && mCurrentAudioQueuePosition == 0)) return null;
 
@@ -861,9 +901,12 @@ public class MediaManager {
         return ((BaseRowItem)mCurrentAudioQueue.get(ndx)).getBaseItem();
     }
 
+    @Override
     public boolean hasNextAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition < mCurrentAudioQueue.size()-1); }
+    @Override
     public boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
 
+    @Override
     public void updateCurrentAudioItemPlaying(boolean playing) {
         if (mCurrentAudioQueuePosition < 0) return;
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
@@ -878,6 +921,7 @@ public class MediaManager {
         }
     }
 
+    @Override
     public int nextAudioItem() {
         //turn off indicator for current item
         if (mCurrentAudioQueuePosition >= 0) {
@@ -896,6 +940,7 @@ public class MediaManager {
         return ndx;
     }
 
+    @Override
     public int prevAudioItem() {
         if (mCurrentAudioQueue == null || (!mRepeat && mCurrentAudioQueue.size() == 0)) return -1;
         if (isPlayingAudio() && mCurrentAudioPosition > 10000) {
@@ -920,11 +965,12 @@ public class MediaManager {
     }
 
     private void stop() {
-        if (!getIsAudioPlayerInitialized()) return ;
+        if (!isAudioPlayerInitialized()) return ;
         if (nativeMode) mExoPlayer.stop();
         else mVlcPlayer.stop();
     }
 
+    @Override
     public void stopAudio(boolean releasePlayer) {
         if (mCurrentAudioItem != null) {
             Timber.d("Stopping audio");
@@ -944,11 +990,12 @@ public class MediaManager {
     }
 
     private void pause() {
-        if (!getIsAudioPlayerInitialized()) return;
+        if (!isAudioPlayerInitialized()) return;
         if (nativeMode) mExoPlayer.setPlayWhenReady(false);
         else mVlcPlayer.pause();
     }
 
+    @Override
     public void pauseAudio() {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             updateCurrentAudioItemPlaying(false);
@@ -961,6 +1008,7 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void playPauseAudio() {
         if (isPaused()) {
             resumeAudio();
@@ -969,8 +1017,9 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void resumeAudio() {
-        if (mCurrentAudioItem != null && getIsAudioPlayerInitialized()) {
+        if (mCurrentAudioItem != null && isAudioPlayerInitialized()) {
             ensureAudioFocus();
             if (nativeMode) mExoPlayer.setPlayWhenReady(true);
             else mVlcPlayer.play();
@@ -986,14 +1035,17 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void fastForward() {
         seek(userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipForwardLength()));
     }
 
+    @Override
     public void rewind() {
         seek(-userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
+    @Override
     public void seek(int offset) {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             if (nativeMode) {
@@ -1012,6 +1064,7 @@ public class MediaManager {
         }
     }
 
+    @Override
     public void setCurrentMediaPosition(int currentMediaPosition) {
         if (currentMediaPosition < 0) return;
         if (mCurrentMediaAdapter == null && mCurrentVideoQueue == null) return;
@@ -1021,12 +1074,15 @@ public class MediaManager {
         mCurrentMediaPosition = currentMediaPosition;
     }
 
+    @Override
     public BaseRowItem getMediaItem(int pos) {
         return mCurrentMediaAdapter != null && mCurrentMediaAdapter.size() > pos ? (BaseRowItem) mCurrentMediaAdapter.get(pos) : null;
     }
 
+    @Override
     public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
 
+    @Override
     public BaseRowItem nextMedia() {
         if (hasNextMediaItem()) {
             mCurrentMediaPosition++;
@@ -1036,6 +1092,7 @@ public class MediaManager {
         return getCurrentMediaItem();
     }
 
+    @Override
     public BaseRowItem prevMedia() {
         if (hasPrevMediaItem()) {
             mCurrentMediaPosition--;
@@ -1044,33 +1101,42 @@ public class MediaManager {
         return getCurrentMediaItem();
     }
 
+    @Override
     public BaseRowItem peekNextMediaItem() {
         return hasNextMediaItem() ? getMediaItem(mCurrentMediaPosition +1) : null;
     }
 
+    @Override
     public BaseRowItem peekPrevMediaItem() {
         return hasPrevMediaItem() ? getMediaItem(mCurrentMediaPosition -1) : null;
     }
 
+    @Override
     public boolean hasNextMediaItem() { return mCurrentMediaAdapter.size() > mCurrentMediaPosition +1; }
+    @Override
     public boolean hasPrevMediaItem() { return mCurrentMediaPosition > 0; }
 
+    @Override
     public String getCurrentMediaTitle() {
         return currentMediaTitle;
     }
 
+    @Override
     public void setCurrentMediaTitle(String currentMediaTitle) {
         this.currentMediaTitle = currentMediaTitle;
     }
 
+    @Override
     public boolean isVideoQueueModified() {
         return videoQueueModified;
     }
 
+    @Override
     public void setVideoQueueModified(boolean videoQueueModified) {
         this.videoQueueModified = videoQueueModified;
     }
 
+    @Override
     public void clearVideoQueue() {
         mCurrentVideoQueue = new ArrayList<>();
         videoQueueModified = false;
