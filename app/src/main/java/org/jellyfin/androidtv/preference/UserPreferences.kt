@@ -155,9 +155,14 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var debuggingEnabled = booleanPreference("pref_enable_debug", false)
 
 		/**
-		 * Use playback rewrite module
+		 * Use playback rewrite module for video
 		 */
-		var playbackRewriteEnabled = booleanPreference("playback_new", false)
+		var playbackRewriteVideoEnabled = booleanPreference("playback_new", false)
+
+		/**
+		 * Use playback rewrite module for audio
+		 */
+		var playbackRewriteAudioEnabled = booleanPreference("playback_new_audio", false)
 
 		/**
 		 * When to show the clock.

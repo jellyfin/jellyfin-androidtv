@@ -24,12 +24,20 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 			}
 
 			// Only show in debug mode
+			// some strings are hardcoded because these options don't show in beta/release builds
 			if (BuildConfig.DEVELOPMENT) {
 				checkbox {
-					setTitle(R.string.enable_playback_module_title)
+					title = "Enable new playback module for video"
 					setContent(R.string.enable_playback_module_description)
 
-					bind(userPreferences, UserPreferences.playbackRewriteEnabled)
+					bind(userPreferences, UserPreferences.playbackRewriteVideoEnabled)
+				}
+
+				checkbox {
+					title = "Enable new playback module for audio"
+					setContent(R.string.enable_playback_module_description)
+
+					bind(userPreferences, UserPreferences.playbackRewriteAudioEnabled)
 				}
 			}
 		}
