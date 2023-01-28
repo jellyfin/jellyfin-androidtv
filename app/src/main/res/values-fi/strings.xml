@@ -495,4 +495,10 @@
     <string name="color_cyan">Syaani</string>
     <string name="app_notification_beta">Sovellus päivitettiin versioon %1$s
 \nKiitos osallistumisesta Jellyfinin betatestaukseen</string>
+    <string name="item_deleted">%1$s postettiin</string>
+    <string name="item_deletion_failed">Kohdetta %1$s ei voitu poistaa</string>
+    <string name="pref_enable_media_management">Ota median hallinta käyttöön</string>
+    <string name="pref_enable_media_management_description">Näytä selattaessa median hallintavalinta</string>
+    <string name="item_delete_confirm_title">Poista kohde</string>
+    <string name="item_delete_confirm_message">Haluatko varmasti poistaa kohteen\? Toimintoa ei ole mahdollista perua.</string>
 </resources>
