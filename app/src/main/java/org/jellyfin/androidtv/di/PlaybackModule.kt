@@ -11,11 +11,20 @@ import org.koin.dsl.module
 
 val playbackModule = module {
 	single { PlaybackManager(get()) }
-	single<MediaManager> { LegacyMediaManager(get()) }
+	single { LegacyMediaManager(get()) }
+
+	factory<MediaManager> {
+		val preferences = get<UserPreferences>()
+		val useRewrite = preferences[UserPreferences.playbackRewriteAudioEnabled] && BuildConfig.DEVELOPMENT
+
+		// TODO Return RewriteMediaManager when merged to master
+		if (useRewrite) get<LegacyMediaManager>()
+		else get<LegacyMediaManager>()
+	}
 
 	factory {
 		val preferences = get<UserPreferences>()
-		val useRewrite = preferences[UserPreferences.playbackRewriteEnabled] && BuildConfig.DEVELOPMENT
+		val useRewrite = preferences[UserPreferences.playbackRewriteVideoEnabled] && BuildConfig.DEVELOPMENT
 
 		if (useRewrite) RewritePlaybackLauncher()
 		else GarbagePlaybackLauncher(get())
