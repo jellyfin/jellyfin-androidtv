@@ -495,4 +495,10 @@
     <string name="crash_report_toast">Oeps! Er is iets misgegaan; er is een crashrapport naar je Jellyfin-server verzonden.</string>
     <string name="pref_crash_report_logs_enabled">Logboeken worden bijgevoegd bij crashrapporten</string>
     <string name="server_setup_incomplete">Het instellen van deze server is nog niet voltooid. Open Jellyfin eerst in een webbrowser om het instellen te voltooien.</string>
+    <string name="pref_enable_media_management">Mediabeheer inschakelen</string>
+    <string name="item_delete_confirm_title">Item verwijderen</string>
+    <string name="item_deleted">%1$s verwijderd</string>
+    <string name="item_deletion_failed">%1$s kon niet verwijderd worden</string>
+    <string name="pref_enable_media_management_description">Optie tonen om media te beheren tijdens het bladeren</string>
+    <string name="item_delete_confirm_message">Weet je zeker dat je dit item wilt verwijderen\? Dit kan niet worden teruggedraaid.</string>
 </resources>
