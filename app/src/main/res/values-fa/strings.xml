@@ -285,7 +285,6 @@
     <string name="alphabetical">بر اساس حروف الفبا</string>
     <string name="last_use">بیشترین استفاده های اخیر</string>
     <string name="enable_playback_module_description">این یک قابلیت آزمایشی است. هیچ پشتیبانی ای ارائه نشده.</string>
-    <string name="enable_playback_module_title">فعالسازی ماژول پخش جدید</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">۱ آهنگ</string>

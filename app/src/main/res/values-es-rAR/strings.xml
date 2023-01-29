@@ -442,6 +442,5 @@
     <string name="alphabetical">Alfabético</string>
     <string name="last_use">Más recientemente usado</string>
     <string name="enable_playback_module_description">Ésta característica es experimental. No tiene soporte.</string>
-    <string name="enable_playback_module_title">Habilitar nuevo módulo de reproducción</string>
     <string name="lbl_shuffle_queue">Alternar aleatorio</string>
 </resources>

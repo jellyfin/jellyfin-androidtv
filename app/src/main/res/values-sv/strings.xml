@@ -365,7 +365,6 @@
     <string name="alphabetical">Alfabetiskt</string>
     <string name="last_use">Senast använt</string>
     <string name="enable_playback_module_description">Detta är en experimentell funktion. Inget stöd befordras.</string>
-    <string name="enable_playback_module_title">Aktivera ny uppspelningsmodul</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 låt</string>

@@ -302,7 +302,6 @@
     <string name="image_type_banner">Pano</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_refresh_switching">Promjena brzine osvježavanja</string>
-    <string name="enable_playback_module_title">Omogući novi modul za reprodukciju</string>
     <string name="lbl_start_end_on_schedule">Počinje i završava prema rasporedu</string>
     <string name="lbl_special">Specijalno</string>
     <string name="lbl_switch_user">Promjena korisnika</string>

@@ -287,7 +287,6 @@
     <string name="always_authenticate_description">تفعيل هاته الخاصية يعطل تسجيل الدخول الآلي</string>
     <string name="alphabetical">أبجدي</string>
     <string name="enable_playback_module_description">هاته ميزة تجريبية. لا يوجد دعم مقدم.</string>
-    <string name="enable_playback_module_title">تفعيل النموذج الجديد للعرض</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_one_song">1 أغنية</string>
     <string name="lbl_num_songs">%1$d أغاني</string>

@@ -300,7 +300,6 @@
     <string name="lbl_episode_range">Е%1$d–%2$d</string>
     <string name="lbl_episode_number">Е%1$d</string>
     <string name="lbl_episode_marks">Тільки на епізодах</string>
-    <string name="enable_playback_module_title">Увімкнути новий модуль відтворення</string>
     <string name="live_tv_preferences">Налаштування телебачення наживо</string>
     <string name="action_connect">Підʼєднатися</string>
     <string name="pref_refresh_rate_scale_on_device">Масштабувати на пристрої</string>

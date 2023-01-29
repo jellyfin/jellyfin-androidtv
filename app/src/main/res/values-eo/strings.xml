@@ -357,7 +357,6 @@
     <string name="lbl_episode_not_record">Ĉi tiu serio NE rikordos</string>
     <string name="lbl_show_premieres">Montri sezonajn premierojn</string>
     <string name="always_authenticate">Ĉiam peti identigilojn</string>
-    <string name="enable_playback_module_title">Ebligi novan ludadan modulon</string>
     <string name="lbl_record_all">Rikordigos Ĉiujn Epizodojn</string>
     <string name="pref_developer_link_description">Altnivelaj kaj eksperimentaj funkcioj</string>
     <string name="login_username_field_empty">Uzantnomo ne povas esti malplena</string>

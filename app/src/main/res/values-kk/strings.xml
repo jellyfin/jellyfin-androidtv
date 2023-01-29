@@ -376,7 +376,6 @@
     <string name="lbl_starting_early_ending_on_schedule">%1$s kezınen erterek bastalady jäne keste boiynşa aiaqtalady</string>
     <string name="lbl_starting_early_ending_after">%1$s kezınen erterek bastalady jäne kestedegı %2$s kezınen keiınrek aiaqtalady</string>
     <string name="enable_playback_module_description">Bul eksperimenttık mümkındık. Eşqandai qoldau körsetılmeidı.</string>
-    <string name="enable_playback_module_title">Jaña oynatu modülın qosu</string>
     <string name="lbl_fit">Kädımgı</string>
     <string name="lbl_stretch">Sozu</string>
     <string name="lbl_auto_crop">Avtomatty qiyp alu</string>

@@ -381,7 +381,6 @@
     <string name="alphabetical">Абецедно</string>
     <string name="last_use">Најскорије коришћен</string>
     <string name="enable_playback_module_description">Ово је експериментална карактеристика. Подршка није обезбеђена.</string>
-    <string name="enable_playback_module_title">Омогућите нови модул за репродукцију</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Песма</string>

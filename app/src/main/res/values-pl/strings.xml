@@ -381,7 +381,6 @@
     <string name="alphabetical">Alfabetycznie</string>
     <string name="last_use">Ostatnio używane</string>
     <string name="enable_playback_module_description">Jest to funkcja eksperymentalna. Nie jest zapewnione żadne wsparcie.</string>
-    <string name="enable_playback_module_title">Włącz nowy moduł odtwarzania</string>
     <string name="lbl_fit">Normalny</string>
     <string name="lbl_stretch">Rozciągnij</string>
     <string name="lbl_auto_crop">Automatyczne Przycinanie</string>

@@ -335,7 +335,6 @@
     <string name="alphabetical">Αλφαβητικά</string>
     <string name="last_use">Πιο πρόσφατα χρησιμοποιημένα</string>
     <string name="enable_playback_module_description">Αυτό είναι ένα πειραματικό χαρακτηριστικό. Δεν παρέχεται υποστήριξη.</string>
-    <string name="enable_playback_module_title">Ενεργοποίηση νέας μονάδας αναπαραγωγής</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Τραγούδι</string>

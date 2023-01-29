@@ -429,7 +429,6 @@
     <string name="alphabetical">אלפביתי</string>
     <string name="last_use">שומש לאחרונה</string>
     <string name="enable_playback_module_description">זהו פיצ\'ר נסיוני. איננו תומכים בו.</string>
-    <string name="enable_playback_module_title">הפעל תוסף נגינה חדש</string>
     <string name="lbl_on_any_channel">עבור כל ערוץ</string>
     <string name="lbl_record_all">יקליט את כל הפרקים</string>
     <string name="lbl_record_only_new">יקליט רק פרקים חדשים</string>

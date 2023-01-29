@@ -384,7 +384,6 @@
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Étirer</string>
     <string name="lbl_auto_crop">Recadrage automatique</string>
-    <string name="enable_playback_module_title">Activer le nouveau module de lecture</string>
     <string name="lbl_community_rating">Note de la communauté</string>
     <string name="select_version">Version</string>
     <string name="license_license">Licence</string>

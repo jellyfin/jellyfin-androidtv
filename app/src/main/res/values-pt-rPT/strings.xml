@@ -360,7 +360,6 @@
     <string name="alphabetical">Alfabética</string>
     <string name="last_use">Usado mais recentemente</string>
     <string name="enable_playback_module_description">Esta funcionalidade é experimental. Nenhum suporte é fornecido.</string>
-    <string name="enable_playback_module_title">Ativar novo módulo de reprodução</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Música</string>

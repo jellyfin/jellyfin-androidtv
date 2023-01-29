@@ -423,7 +423,6 @@
     <string name="alphabetical">Alfabetic</string>
     <string name="last_use">Cel mai recent utilizat</string>
     <string name="enable_playback_module_description">Această caracteristică este experimentala. Nu se va oferi asistență.</string>
-    <string name="enable_playback_module_title">Activează modulul nou de redare</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Melodie</string>

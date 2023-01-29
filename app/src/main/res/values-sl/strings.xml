@@ -341,7 +341,6 @@
     <string name="alphabetical">Abecedno</string>
     <string name="last_use">Nazadnje uporabljeno</string>
     <string name="enable_playback_module_description">Ta funkcija je eksperimentalna. Zanjo ni nobene podpore.</string>
-    <string name="enable_playback_module_title">Omogoči novi modul za predvajanje</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Pesem</string>

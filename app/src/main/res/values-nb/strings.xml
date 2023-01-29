@@ -367,7 +367,6 @@
     <string name="pref_next_up_behavior_title">Vis info om neste video</string>
     <string name="lbl_fit">Normal</string>
     <string name="enable_playback_module_description">Dette er en eksperimentell funksjon. Det gis ingen støtte.</string>
-    <string name="enable_playback_module_title">Skru på ny avspillingsmodul</string>
     <string name="lbl_num_songs">%1$d Sanger</string>
     <string name="lbl_on_any_channel">På hvilken som helst kanal</string>
     <string name="lbl_next_up_minimal">Uten miniatyrbilde</string>

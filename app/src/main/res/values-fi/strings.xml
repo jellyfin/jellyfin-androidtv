@@ -409,7 +409,6 @@
     <string name="always_authenticate_description">\t</string>
     <string name="alphabetical">Aakkosellinen</string>
     <string name="last_use">Viimeksi käytetty</string>
-    <string name="enable_playback_module_title">Käytä uutta toistomoduulia</string>
     <string name="enable_playback_module_description">Kokeellinen ominaisuus, jolle ei tarjota tukea.</string>
     <string name="lbl_one_song">1 kappale</string>
     <string name="lbl_num_songs">%1$d kappaletta</string>

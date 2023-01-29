@@ -346,7 +346,6 @@
     <string name="alphabetical">Alfabèticament</string>
     <string name="last_use">Més utilitzat</string>
     <string name="enable_playback_module_description">Això és una funció experimental que no disposa de suport.</string>
-    <string name="enable_playback_module_title">Activa el nou mòdul de reproducció</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">1 Cançó</string>

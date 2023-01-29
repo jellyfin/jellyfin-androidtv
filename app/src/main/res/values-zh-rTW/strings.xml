@@ -395,7 +395,6 @@
     <string name="alphabetical">按字母排序</string>
     <string name="last_use">最近使用</string>
     <string name="enable_playback_module_description">這是實驗性的功能。不提供支援。</string>
-    <string name="enable_playback_module_title">啟用新的播放模組</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_one_song">一首歌</string>
