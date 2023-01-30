@@ -492,4 +492,12 @@
     <string name="desc_audio_night_mode">Automatycznie wyrównuje poziom głośności</string>
     <string name="lbl_adjust">Dopasuj</string>
     <string name="state_disabled">Wyłączone</string>
+    <string name="app_notification_beta">Aplikacja zaktualizowana do wersji %1$s
+\nDziękujemy za uczestnictwo w beta testach Jellyfin</string>
+    <string name="item_deleted">Usunięto %1$s</string>
+    <string name="item_deletion_failed">Nie można usunąć %1$s</string>
+    <string name="pref_enable_media_management_description">Pokaż opcje zarządzania podczas przeglądania biblioteki</string>
+    <string name="item_delete_confirm_message">Czy na pewno chcesz to usunąć\? Ta akcja nie może być cofnięta.</string>
+    <string name="pref_enable_media_management">Włącz zarządzanie multimediami</string>
+    <string name="item_delete_confirm_title">Usuń przedmiot</string>
 </resources>
