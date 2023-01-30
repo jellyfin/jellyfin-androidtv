@@ -480,4 +480,24 @@
     <string name="pref_audio_night_mode">Нічний режим аудіо (експериментальний)</string>
     <string name="desc_audio_night_mode">Автоматично вирівнює гучність звуку</string>
     <string name="lbl_quality_profile">Профіль якості</string>
+    <string name="item_deleted">%1$s видалено</string>
+    <string name="item_deletion_failed">Не вдалося видалити %1$s</string>
+    <string name="pref_enable_media_management">Увімкнути керування медіафайлами</string>
+    <string name="item_delete_confirm_message">Ви впевнені, що хочете видалити цей елемент\? Цю дію не можна скасувати.</string>
+    <string name="pref_enable_media_management_description">Показати опцію керування медіа під час перегляду</string>
+    <string name="item_delete_confirm_title">Видалити елемент</string>
+    <string name="color_pink">Рожевий</string>
+    <string name="color_blue">Синій</string>
+    <string name="color_white">Білий</string>
+    <string name="color_yellow">Жовтий</string>
+    <string name="app_notification_beta">Додаток оновлено до %1$s
+\nДякуємо за участь у бета-програмі Jellyfin</string>
+    <string name="lbl_subtitle_fg">Колір тексту субтитрів</string>
+    <string name="lbl_subtitle_stroke">Розмір штриха субтитрів</string>
+    <string name="lbl_subtitle_position">Зміщення субтитрів від низу</string>
+    <string name="color_darkgrey">Темно-сірий</string>
+    <string name="color_black">Чорний</string>
+    <string name="color_green">Зелений</string>
+    <string name="color_red">Червоний</string>
+    <string name="color_cyan">Блакитний</string>
 </resources>
