@@ -65,6 +65,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
 
@@ -106,7 +107,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
 
         backgroundService.getValue().attach(this);
 
-        mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
+        mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
 
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(this, getString(R.string.msg_no_playable_items));
@@ -189,8 +190,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
                         .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (!mediaManager.getValue().isVideoQueueModified()) {
-                                    mediaManager.getValue().clearVideoQueue();
+                                if (!videoQueueManager.getValue().isVideoQueueModified()) {
+                                    videoQueueManager.getValue().clearVideoQueue();
                                 } else {
                                     mItemsToPlay.remove(0);
                                 }
@@ -214,8 +215,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
     }
 
     private void handlePlayerError() {
-        if (!mediaManager.getValue().isVideoQueueModified())
-            mediaManager.getValue().clearVideoQueue();
+        if (!videoQueueManager.getValue().isVideoQueueModified())
+            videoQueueManager.getValue().clearVideoQueue();
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.no_player)
@@ -273,7 +274,7 @@ public class ExternalPlayerActivity extends FragmentActivity {
         if (mItemsToPlay.size() > 0) {
             if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED) {
                 // Set to "modified" so the queue won't be cleared
-                mediaManager.getValue().setVideoQueueModified(true);
+                videoQueueManager.getValue().setVideoQueueModified(true);
 
                 Intent intent = new Intent(this, NextUpActivity.class);
                 intent.putExtra(NextUpActivity.EXTRA_ID, mItemsToPlay.get(mCurrentNdx).getId());

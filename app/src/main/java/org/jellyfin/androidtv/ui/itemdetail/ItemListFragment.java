@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.ui.playback.AudioEventListener;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.InfoLayoutHelper;
 import org.jellyfin.androidtv.util.Utils;
@@ -106,6 +107,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private final Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
     @Nullable
@@ -294,25 +296,19 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 return true;
             }
         });
-        MenuItem queue = menu.getMenu().add(0, 2, order++, R.string.lbl_add_to_queue);
-        queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (row.getItem().getMediaType()) {
-                    case MediaType.Video:
-                        mediaManager.getValue().addToVideoQueue(ModelCompat.asSdk(row.getItem()));
-                        break;
-                    case MediaType.Audio:
-                        PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(requireContext(), ModelCompat.asSdk(row.getItem()))) break;
-
-                        mediaManager.getValue().queueAudioItem(ModelCompat.asSdk(row.getItem()));
-                        break;
-                }
-                return true;
-            }
-        });
         if (ModelCompat.asSdk(row.getItem()).getType() == BaseItemKind.AUDIO) {
+            MenuItem queue = menu.getMenu().add(0, 2, order++, R.string.lbl_add_to_queue);
+            queue.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
+                    if (playbackLauncher.interceptPlayRequest(requireContext(), ModelCompat.asSdk(row.getItem()))) return true;
+
+                    mediaManager.getValue().queueAudioItem(ModelCompat.asSdk(row.getItem()));
+                    return true;
+                }
+            });
+
             MenuItem mix = menu.getMenu().add(0, 1, order++, R.string.lbl_instant_mix);
             mix.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -480,8 +476,8 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             if (item != null && item.getUserData() != null) {
                 pos = Math.toIntExact(item.getUserData().getPlaybackPositionTicks() / 10000);
             }
-            mediaManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
-            mediaManager.getValue().setCurrentMediaPosition(ndx);
+            videoQueueManager.getValue().setCurrentVideoQueue(JavaCompat.mapBaseItemCollection(items));
+            videoQueueManager.getValue().setCurrentMediaPosition(ndx);
             Destination destination = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class).getPlaybackDestination(ModelCompat.asSdk(mBaseItem).getType(), pos);
             navigationRepository.getValue().navigate(destination);
         } else {

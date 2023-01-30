@@ -54,7 +54,6 @@ import org.videolan.libvlc.Media;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -83,7 +82,6 @@ public class LegacyMediaManager implements MediaManager {
     private AudioManager mAudioManager;
     private boolean audioInitialized = false;
     private boolean nativeMode = false;
-    private boolean videoQueueModified = false;
 
     private List<AudioEventListener> mAudioEventListeners = new ArrayList<>();
 
@@ -94,8 +92,6 @@ public class LegacyMediaManager implements MediaManager {
     private long lastUniqueProgressEvent = -1;
 
     private boolean mRepeat;
-
-    private List<org.jellyfin.sdk.model.api.BaseItemDto> mCurrentVideoQueue;
 
     private Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
     private Lazy<UserSettingPreferences> userPrefs = inject(UserSettingPreferences.class);
@@ -120,25 +116,6 @@ public class LegacyMediaManager implements MediaManager {
     public int getCurrentMediaPosition() {
         return mCurrentMediaPosition;
     }
-
-    @Override
-    public void setCurrentVideoQueue(List<org.jellyfin.sdk.model.api.BaseItemDto> items) {
-        if (items == null || items.size() < 1) {
-            clearVideoQueue();
-            return;
-        }
-
-        // protect against items secretly being an Arrays.asList(), which are fixed-size
-        List<org.jellyfin.sdk.model.api.BaseItemDto> newMutableItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++){
-            newMutableItems.add(items.get(i));
-        }
-        mCurrentVideoQueue = newMutableItems;
-        mCurrentMediaPosition = 0;
-    }
-
-    @Override
-    public List<org.jellyfin.sdk.model.api.BaseItemDto> getCurrentVideoQueue() { return mCurrentVideoQueue; }
 
     @Override
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
@@ -512,24 +489,6 @@ public class LegacyMediaManager implements MediaManager {
     }
 
     @Override
-    public int addToVideoQueue(org.jellyfin.sdk.model.api.BaseItemDto item) {
-        if (mCurrentVideoQueue == null) mCurrentVideoQueue = new ArrayList<>();
-        mCurrentVideoQueue.add(item);
-        videoQueueModified = true;
-        DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-        dataRefreshService.setLastVideoQueueChange(System.currentTimeMillis());
-
-        long total = System.currentTimeMillis();
-        for (org.jellyfin.sdk.model.api.BaseItemDto video :
-                mCurrentVideoQueue) {
-            total += video.getRunTimeTicks() / 10000;
-        }
-
-        Utils.showToast(context, context.getString(R.string.msg_added_to_video, item.getName(), android.text.format.DateFormat.getTimeFormat(context).format(new Date(total))));
-        return mCurrentVideoQueue.size()-1;
-    }
-
-    @Override
     public void clearAudioQueue() {
         clearAudioQueue(false);
     }
@@ -878,8 +837,7 @@ public class LegacyMediaManager implements MediaManager {
     @Override
     public boolean hasPrevAudioItem() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0 && (mRepeat || mCurrentAudioQueuePosition > 0); }
 
-    @Override
-    public void updateCurrentAudioItemPlaying(boolean playing) {
+    private void updateCurrentAudioItemPlaying(boolean playing) {
         if (mCurrentAudioQueuePosition < 0) return;
         BaseRowItem rowItem = (BaseRowItem) mCurrentAudioQueue.get(mCurrentAudioQueuePosition);
         if (rowItem != null) {
@@ -1039,9 +997,8 @@ public class LegacyMediaManager implements MediaManager {
     @Override
     public void setCurrentMediaPosition(int currentMediaPosition) {
         if (currentMediaPosition < 0) return;
-        if (mCurrentMediaAdapter == null && mCurrentVideoQueue == null) return;
+        if (mCurrentMediaAdapter == null) return;
         if (mCurrentMediaAdapter != null && currentMediaPosition > mCurrentMediaAdapter.size()) return;
-        if (mCurrentVideoQueue != null && currentMediaPosition > mCurrentVideoQueue.size()) return;
 
         mCurrentMediaPosition = currentMediaPosition;
     }
@@ -1053,21 +1010,4 @@ public class LegacyMediaManager implements MediaManager {
 
     @Override
     public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
-
-    @Override
-    public boolean isVideoQueueModified() {
-        return videoQueueModified;
-    }
-
-    @Override
-    public void setVideoQueueModified(boolean videoQueueModified) {
-        this.videoQueueModified = videoQueueModified;
-    }
-
-    @Override
-    public void clearVideoQueue() {
-        mCurrentVideoQueue = new ArrayList<>();
-        videoQueueModified = false;
-        mCurrentMediaPosition = -1;
-    }
 }

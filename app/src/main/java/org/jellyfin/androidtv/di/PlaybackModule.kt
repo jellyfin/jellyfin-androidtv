@@ -7,10 +7,12 @@ import org.jellyfin.androidtv.ui.playback.LegacyMediaManager
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.playback.PlaybackManager
 import org.jellyfin.androidtv.ui.playback.RewritePlaybackLauncher
+import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.koin.dsl.module
 
 val playbackModule = module {
 	single { PlaybackManager(get()) }
+	single { VideoQueueManager() }
 	single { LegacyMediaManager(get()) }
 
 	factory<MediaManager> {
