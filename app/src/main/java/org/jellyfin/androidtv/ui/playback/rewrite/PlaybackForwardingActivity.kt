@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import org.jellyfin.androidtv.ui.playback.MediaManager
+import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemKind
@@ -21,7 +21,7 @@ class PlaybackForwardingActivity : FragmentActivity() {
 		const val EXTRA_ITEM_ID: String = "item_id"
 	}
 
-	private val mediaManager by inject<MediaManager>()
+	private val videoQueueManager by inject<VideoQueueManager>()
 	private val api by inject<ApiClient>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,11 +65,11 @@ class PlaybackForwardingActivity : FragmentActivity() {
 		var first: org.jellyfin.sdk.model.api.BaseItemDto? = null
 		var best: org.jellyfin.sdk.model.api.BaseItemDto? = null
 
-		for (item in mediaManager.currentVideoQueue ?: emptyList()) {
+		for (item in videoQueueManager.getCurrentVideoQueue()) {
 			if (first == null) first = item
-			if (item != null && item.type !== BaseItemKind.TRAILER) best = item
+			if (item.type !== BaseItemKind.TRAILER) best = item
 
-			if (first != null && best != null) break
+			if (best != null) break
 		}
 
 		return extra ?: best?.id ?: first?.id

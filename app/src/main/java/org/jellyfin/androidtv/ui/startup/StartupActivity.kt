@@ -106,7 +106,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 				} else {
 					// Clear audio queue in case left over from last run
 					mediaManager.clearAudioQueue()
-					mediaManager.clearVideoQueue()
 
 					val server = startupViewModel.getLastServer()
 					if (server != null) showServer(server.id)

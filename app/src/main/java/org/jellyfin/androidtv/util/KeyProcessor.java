@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.widget.PopupMenu;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
@@ -21,7 +20,6 @@ import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
-import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.entities.SortOrder;
@@ -332,32 +330,17 @@ public class KeyProcessor {
                     }
                     return true;
                 case MENU_ADD_QUEUE:
-                    if (isMusic) {
-                        PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
-                            @Override
-                            public void onResponse(List<BaseItemDto> response) {
-                                KoinJavaComponent.<MediaManager>get(MediaManager.class).addToAudioQueue(response);
-                            }
+                    PlaybackHelper.getItemsToPlay(mCurrentItem, false, false, new Response<List<BaseItemDto>>() {
+                        @Override
+                        public void onResponse(List<BaseItemDto> response) {
+                            KoinJavaComponent.<MediaManager>get(MediaManager.class).addToAudioQueue(response);
+                        }
 
-                            @Override
-                            public void onError(Exception exception) {
-                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
-                            }
-                        });
-
-                    } else {
-                        KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(mCurrentItemId, KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<org.jellyfin.apiclient.model.dto.BaseItemDto>() {
-                            @Override
-                            public void onResponse(org.jellyfin.apiclient.model.dto.BaseItemDto response) {
-                                KoinJavaComponent.<MediaManager>get(MediaManager.class).addToVideoQueue(ModelCompat.asSdk(response));
-                            }
-
-                            @Override
-                            public void onError(Exception exception) {
-                                Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
-                            }
-                        });
-                    }
+                        @Override
+                        public void onError(Exception exception) {
+                            Utils.showToast(mCurrentActivity, R.string.msg_cannot_play_time);
+                        }
+                    });
                     return true;
                 case MENU_PLAY_FIRST_UNWATCHED:
                     StdItemQuery query = new StdItemQuery();

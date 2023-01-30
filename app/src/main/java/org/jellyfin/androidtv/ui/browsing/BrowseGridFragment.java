@@ -915,15 +915,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     }
 
     private void refreshCurrentItem() {
-        if (mediaManager.getValue().getCurrentMediaPosition() >= 0) {
-            mCurrentItem = mediaManager.getValue().getCurrentMediaItem();
-
-            if (mGridPresenter instanceof HorizontalGridPresenter)
-                ((HorizontalGridPresenter) mGridPresenter).setPosition(mediaManager.getValue().getCurrentMediaPosition());
-            // Don't do anything for vertical grids as the presenter does not allow setting the position
-
-            mediaManager.getValue().setCurrentMediaPosition(-1); // re-set so it doesn't mess with parent views
-        }
         if (mCurrentItem != null && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO && mCurrentItem.getBaseItemType() != BaseItemKind.PHOTO_ALBUM
                 && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ARTIST && mCurrentItem.getBaseItemType() != BaseItemKind.MUSIC_ALBUM) {
             Timber.d("Refresh item \"%s\"", mCurrentItem.getFullName(requireContext()));

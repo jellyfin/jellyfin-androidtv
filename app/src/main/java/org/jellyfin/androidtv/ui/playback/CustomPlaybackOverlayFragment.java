@@ -156,6 +156,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
 
@@ -176,14 +177,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         ((PlaybackOverlayActivity) requireActivity()).setKeyListener(keyListener);
 
-        mItemsToPlay = mediaManager.getValue().getCurrentVideoQueue();
+        mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(getContext(), getString(R.string.msg_no_playable_items));
             requireActivity().finish();
             return;
         }
 
-        int mediaPosition = mediaManager.getValue().getCurrentMediaPosition();
+        int mediaPosition = videoQueueManager.getValue().getCurrentMediaPosition();
 
         playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this, mediaPosition));
         mPlaybackController = playbackControllerContainer.getValue().getPlaybackController();

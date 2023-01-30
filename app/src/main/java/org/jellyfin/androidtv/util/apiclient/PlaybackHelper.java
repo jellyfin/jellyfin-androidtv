@@ -5,11 +5,11 @@ import android.content.Context;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.SessionRepository;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment;
 import org.jellyfin.androidtv.ui.navigation.Destination;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackLauncher;
+import org.jellyfin.androidtv.ui.playback.VideoQueueManager;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
@@ -50,7 +50,6 @@ public class PlaybackHelper {
             case EPISODE:
                 items.add(mainItem);
                 if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMediaQueuingEnabled())) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).setVideoQueueModified(false); // we are automatically creating new queue
                     //add subsequent episodes
                     if (mainItem.getSeriesId() != null && mainItem.getId() != null) {
                         EpisodeQuery episodeQuery = new EpisodeQuery();
@@ -285,7 +284,7 @@ public class PlaybackHelper {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, shuffle);
                         } else {
                             BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;
-                            KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
+                            KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
                             Destination destination = playbackLauncher.getPlaybackDestination(itemType, pos);
                             navigationRepository.navigate(destination);
                         }
@@ -297,7 +296,7 @@ public class PlaybackHelper {
                         break;
 
                     default:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentVideoQueue(response);
+                        KoinJavaComponent.<VideoQueueManager>get(VideoQueueManager.class).setCurrentVideoQueue(response);
                         Destination destination = playbackLauncher.getPlaybackDestination(item.getType(), pos);
                         navigationRepository.navigate(destination);
                 }
