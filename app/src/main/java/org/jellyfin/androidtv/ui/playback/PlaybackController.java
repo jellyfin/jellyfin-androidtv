@@ -67,7 +67,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Lazy<PlaybackManager> playbackManager = inject(PlaybackManager.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
     private Lazy<SystemPreferences> systemPreferences = inject(SystemPreferences.class);
-    private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
+    private Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<DataRefreshService> dataRefreshService = inject(DataRefreshService.class);
 
@@ -107,7 +107,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private long mCurrentTranscodeStartTime;
     private boolean isLiveTv = false;
     private boolean directStreamLiveTv;
-    private String liveTvChannelName = "";
     private boolean useVlc;
 
     private boolean vlcErrorEncountered;
@@ -140,10 +139,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         // Set default value for useVlc field
         // when set to auto the default will be exoplayer
         useVlc = userPreferences.getValue().get(UserPreferences.Companion.getVideoPlayer()) == PreferredVideoPlayer.VLC;
-    }
-
-    public void clearFragment() {
-        mFragment = null;
     }
 
     public boolean hasFragment() {
@@ -261,10 +256,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public boolean hasPreviousItem() {
         return mItems != null && mCurrentIndex - 1 >= 0;
-    }
-
-    public org.jellyfin.sdk.model.api.BaseItemDto getPreviousItem() {
-        return hasPreviousItem() ? mItems.get(mCurrentIndex - 1) : null;
     }
 
     public boolean isPlaying() {
@@ -616,7 +607,6 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     private void playInternal(final org.jellyfin.sdk.model.api.BaseItemDto item, final Long position, final VideoOptions vlcOptions, final VideoOptions internalOptions) {
         if (isLiveTv) {
-            liveTvChannelName = " (" + item.getName() + ")";
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId().toString());
             //Choose appropriate player now to avoid opening two streams
@@ -1180,7 +1170,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             stop();
             resetPlayerErrors();
             mCurrentIndex++;
-            mediaManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
@@ -1193,7 +1183,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             stop();
             resetPlayerErrors();
             mCurrentIndex--;
-            mediaManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             Timber.d("Moving to index: %d out of %d total items.", mCurrentIndex, mItems.size());
             spinnerOff = false;
             play(0);
@@ -1433,7 +1423,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED
                 && curItem.getType() != BaseItemKind.TRAILER) {
             mCurrentIndex++;
-            mediaManager.getValue().setCurrentMediaPosition(mCurrentIndex);
+            videoQueueManager.getValue().setCurrentMediaPosition(mCurrentIndex);
             spinnerOff = false;
 
             // Show "Next Up" fragment

@@ -1,14 +1,11 @@
 package org.jellyfin.androidtv.ui.playback
 
 import android.content.Context
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.sdk.model.api.BaseItemDto
 
 interface MediaManager {
-	var currentMediaAdapter: ItemRowAdapter?
 	fun hasAudioQueueItems(): Boolean
-	var currentMediaPosition: Int
 	val currentAudioQueueSize: Int
 	val currentAudioQueuePosition: Int
 	val currentAudioPosition: Long
@@ -24,7 +21,6 @@ interface MediaManager {
 	fun createManagedAudioQueue()
 	fun addAudioEventListener(listener: AudioEventListener)
 	fun removeAudioEventListener(listener: AudioEventListener)
-	fun initAudio(): Boolean
 	fun saveAudioQueue(context: Context?)
 	fun queueAudioItem(item: BaseItemDto?): Int
 	fun clearAudioQueue()
@@ -49,7 +45,4 @@ interface MediaManager {
 	fun resumeAudio()
 	fun fastForward()
 	fun rewind()
-	fun seek(offset: Int)
-	fun getMediaItem(pos: Int): BaseRowItem?
-	val currentMediaItem: BaseRowItem?
 }
