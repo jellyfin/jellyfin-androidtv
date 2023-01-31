@@ -494,4 +494,10 @@
     <string name="episode_name_special">especial</string>
     <string name="app_notification_beta">Aplicativo atualizado para %1$s
 \nObrigado por participar do programa beta do Jellyfin</string>
+    <string name="item_deleted">%1$s deletado</string>
+    <string name="pref_enable_media_management">Ativar o gerenciamento de mídia</string>
+    <string name="item_delete_confirm_title">Deletar item</string>
+    <string name="pref_enable_media_management_description">Mostrar a opção para gerenciar mídia durante a navegação</string>
+    <string name="item_deletion_failed">Não foi possível deletar %1$s</string>
+    <string name="item_delete_confirm_message">Você tem certeza que deseja deletar este item\? Esta ação não poderá ser desfeita.</string>
 </resources>
