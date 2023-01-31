@@ -53,7 +53,6 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher;
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
-import org.jellyfin.androidtv.ui.playback.MediaManager;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.HorizontalGridPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
@@ -117,7 +116,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     private int mGridPaddingTop = 0;
 
     private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
-    private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
     private final Lazy<PreferencesRepository> preferencesRepository = inject(PreferencesRepository.class);
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private final Lazy<UserRepository> userRepository = inject(UserRepository.class);
@@ -203,11 +201,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) return false;
-
-        if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-            mediaManager.getValue().setCurrentMediaAdapter(mAdapter);
-            mediaManager.getValue().setCurrentMediaPosition(mCurrentItem.getIndex());
-        }
         return KeyProcessor.HandleKey(keyCode, mCurrentItem, mActivity);
     }
 

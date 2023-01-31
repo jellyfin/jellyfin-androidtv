@@ -62,8 +62,6 @@ import timber.log.Timber;
 
 public class LegacyMediaManager implements MediaManager {
     private Context context;
-    private ItemRowAdapter mCurrentMediaAdapter;
-    private int mCurrentMediaPosition = -1;
 
     private ItemRowAdapter mCurrentAudioQueue;
     private ItemRowAdapter mManagedAudioQueue;
@@ -101,21 +99,7 @@ public class LegacyMediaManager implements MediaManager {
     }
 
     @Override
-    public ItemRowAdapter getCurrentMediaAdapter() {
-        return mCurrentMediaAdapter;
-    }
-    @Override
     public boolean hasAudioQueueItems() { return mCurrentAudioQueue != null && mCurrentAudioQueue.size() > 0; }
-
-    @Override
-    public void setCurrentMediaAdapter(ItemRowAdapter currentMediaAdapter) {
-        this.mCurrentMediaAdapter = currentMediaAdapter;
-    }
-
-    @Override
-    public int getCurrentMediaPosition() {
-        return mCurrentMediaPosition;
-    }
 
     @Override
     public int getCurrentAudioQueueSize() { return mCurrentAudioQueue != null ? mCurrentAudioQueue.size() : 0; }
@@ -197,8 +181,7 @@ public class LegacyMediaManager implements MediaManager {
         Timber.d("Removed event listener.  Total listeners: %d", mAudioEventListeners.size());
     }
 
-    @Override
-    public boolean initAudio() {
+    private boolean initAudio() {
         Timber.d("initializing audio");
         if (mAudioManager == null) mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
@@ -975,8 +958,7 @@ public class LegacyMediaManager implements MediaManager {
         seek(-userPrefs.getValue().get(UserSettingPreferences.Companion.getSkipBackLength()));
     }
 
-    @Override
-    public void seek(int offset) {
+    private void seek(int offset) {
         if (mCurrentAudioItem != null && isPlayingAudio()) {
             if (nativeMode) {
                 Timber.d("Fast forward %d with ExoPlayer", offset);
@@ -993,21 +975,4 @@ public class LegacyMediaManager implements MediaManager {
             }
         }
     }
-
-    @Override
-    public void setCurrentMediaPosition(int currentMediaPosition) {
-        if (currentMediaPosition < 0) return;
-        if (mCurrentMediaAdapter == null) return;
-        if (mCurrentMediaAdapter != null && currentMediaPosition > mCurrentMediaAdapter.size()) return;
-
-        mCurrentMediaPosition = currentMediaPosition;
-    }
-
-    @Override
-    public BaseRowItem getMediaItem(int pos) {
-        return mCurrentMediaAdapter != null && mCurrentMediaAdapter.size() > pos ? (BaseRowItem) mCurrentMediaAdapter.get(pos) : null;
-    }
-
-    @Override
-    public BaseRowItem getCurrentMediaItem() { return getMediaItem(mCurrentMediaPosition); }
 }

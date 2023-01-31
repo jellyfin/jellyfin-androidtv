@@ -67,7 +67,6 @@ public class ItemLauncher {
 
     public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
         NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
-        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaAdapter(adapter);
 
         switch (rowItem.getBaseRowType()) {
             case BaseItem:
@@ -131,13 +130,11 @@ public class ItemLauncher {
                         return;
 
                     case PHOTO:
-                        KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaPosition(pos);
-
                         navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
-                                mediaManager.getCurrentMediaItem().getBaseItem().getId(),
+                                rowItem.getBaseItem().getId(),
                                 false,
-                                mediaManager.getCurrentMediaAdapter().getSortBy(),
-                                mediaManager.getCurrentMediaAdapter().getSortOrder()
+                                adapter.getSortBy(),
+                                adapter.getSortOrder()
                         ));
                         return;
 
