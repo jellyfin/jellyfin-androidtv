@@ -981,7 +981,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             });
             mDetailsOverviewRow.addAction(playButton);
 
-            if (mBaseItem.getIsFolderItem() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
+            if (mBaseItem.getIsFolderItem()) {
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1523,34 +1523,32 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
     };
 
-    private PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+    private final PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             return playWithItemMenu(item, false);
         }
     };
 
-    private PopupMenu.OnMenuItemClickListener shuffleWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+    private final PopupMenu.OnMenuItemClickListener shuffleWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             return playWithItemMenu(item, true);
         }
     };
 
-    private boolean playWithItemMenu(MenuItem item, boolean shuffle){
-        switch (item.getItemId()) {
-
-            case R.id.play_with_vlc:
-                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
+    private boolean playWithItemMenu(MenuItem item, boolean shuffle) {
+            if (item.getItemId() == R.id.play_with_vlc) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.VLC);
                 play(mBaseItem, 0, shuffle);
                 return true;
-            case R.id.play_with_exo:
-                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
+            } else if (item.getItemId() == R.id.play_with_exo) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.EXOPLAYER);
                 play(mBaseItem, 0, shuffle);
                 return true;
-            case R.id.play_with_external:
-                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false , shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+            } else if (item.getItemId() == R.id.play_with_external) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.EXTERNAL);
+                PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
                     @Override
                     public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
                         if (!getActive()) return;
@@ -1564,8 +1562,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                 });
                 return true;
-
-        }
+            }
         return false;
     }
 
