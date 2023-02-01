@@ -494,4 +494,10 @@
     <string name="color_cyan">Cyan</string>
     <string name="app_notification_beta">Application mise à jour en %1$s
 \nMerci de participer au programme bêta de Jellyfin</string>
+    <string name="item_delete_confirm_title">Supprimer l\'élément</string>
+    <string name="item_deleted">%1$ssupprimé</string>
+    <string name="item_deletion_failed">Impossible à supprimer%1$s</string>
+    <string name="pref_enable_media_management">Activer la gestion des médias</string>
+    <string name="pref_enable_media_management_description">Afficher l\'option pour gérer les médias pendant la navigation</string>
+    <string name="item_delete_confirm_message">Êtes-vous sûr de bien vouloir supprimer cet élément \? Cette action ne peut pas être annulée.</string>
 </resources>
