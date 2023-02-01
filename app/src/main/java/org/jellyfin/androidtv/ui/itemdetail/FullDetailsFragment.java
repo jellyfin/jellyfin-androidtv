@@ -980,6 +980,19 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
             mDetailsOverviewRow.addAction(playButton);
+
+            if (mBaseItem.getIsFolderItem()) {
+                shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PopupMenu more = new PopupMenu(requireContext(), view);
+                        more.inflate(R.menu.menu_details_play_with);
+                        more.setOnMenuItemClickListener(shuffleWithMenuListener);
+                        more.show();
+                    }
+                });
+                mDetailsOverviewRow.addAction(shuffleButton);
+            }
         } else { //here playButton is only a play button
             if (BaseItemExtensionsKt.canPlay(baseItem)) {
                 mDetailsOverviewRow.addAction(mResumeButton);
@@ -1510,40 +1523,48 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
     };
 
-    private PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+    private final PopupMenu.OnMenuItemClickListener playWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-
-                case R.id.play_with_vlc:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.VLC);
-                    play(mBaseItem, 0, false);
-                    return true;
-                case R.id.play_with_exo:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXOPLAYER);
-                    play(mBaseItem, 0, false);
-                    return true;
-                case R.id.play_with_external:
-                    systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(),PreferredVideoPlayer.EXTERNAL);
-                    PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false , false, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
-                        @Override
-                        public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
-                            if (!getActive()) return;
-
-                            if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ARTIST) {
-                                mediaManager.getValue().playNow(requireContext(), response, false);
-                            } else {
-                                videoQueueManager.getValue().setCurrentVideoQueue(response);
-                                navigationRepository.getValue().navigate(Destinations.INSTANCE.externalPlayer(0));
-                            }
-                        }
-                    });
-                    return true;
-
-            }
-            return false;
+            return playWithItemMenu(item, false);
         }
     };
+
+    private final PopupMenu.OnMenuItemClickListener shuffleWithMenuListener = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            return playWithItemMenu(item, true);
+        }
+    };
+
+    private boolean playWithItemMenu(MenuItem item, boolean shuffle) {
+            if (item.getItemId() == R.id.play_with_vlc) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.VLC);
+                play(mBaseItem, 0, shuffle);
+                return true;
+            } else if (item.getItemId() == R.id.play_with_exo) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.EXOPLAYER);
+                play(mBaseItem, 0, shuffle);
+                return true;
+            } else if (item.getItemId() == R.id.play_with_external) {
+                systemPreferences.getValue().set(SystemPreferences.Companion.getChosenPlayer(), PreferredVideoPlayer.EXTERNAL);
+                PlaybackHelper.getItemsToPlay(ModelCompat.asSdk(mBaseItem), false, shuffle, new LifecycleAwareResponse<List<org.jellyfin.sdk.model.api.BaseItemDto>>(getLifecycle()) {
+                    @Override
+                    public void onResponse(List<org.jellyfin.sdk.model.api.BaseItemDto> response) {
+                        if (!getActive()) return;
+
+                        if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.MUSIC_ARTIST) {
+                            mediaManager.getValue().playNow(requireContext(), response, false);
+                        } else {
+                            videoQueueManager.getValue().setCurrentVideoQueue(response);
+                            navigationRepository.getValue().navigate(Destinations.INSTANCE.externalPlayer(0));
+                        }
+                    }
+                });
+                return true;
+            }
+        return false;
+    }
 
     RecordPopup mRecordPopup;
     public void showRecordingOptions(String id, final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean recordSeries) {
