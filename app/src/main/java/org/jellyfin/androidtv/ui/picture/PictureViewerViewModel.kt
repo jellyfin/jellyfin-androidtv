@@ -40,6 +40,13 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 		)
 		album = albumResponse.items.orEmpty()
 		albumIndex = album.indexOfFirst { it.id == id }
+
+		// In some rare cases the album of the image might be empty when the
+		// files are considered invalid by the server
+		if (album.isEmpty()) {
+			album = listOf(itemResponse)
+			albumIndex = 0
+		}
 	}
 
 	// Album actions
