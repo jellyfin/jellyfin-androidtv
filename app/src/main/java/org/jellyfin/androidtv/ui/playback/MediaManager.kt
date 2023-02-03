@@ -18,7 +18,6 @@ interface MediaManager {
 	val isShuffleMode: Boolean
 	val currentAudioQueue: ItemRowAdapter?
 	val managedAudioQueue: ItemRowAdapter?
-	fun createManagedAudioQueue()
 	fun addAudioEventListener(listener: AudioEventListener)
 	fun removeAudioEventListener(listener: AudioEventListener)
 	fun saveAudioQueue(context: Context?)
@@ -28,9 +27,9 @@ interface MediaManager {
 	fun addToAudioQueue(items: List<BaseItemDto>)
 	fun removeFromAudioQueue(ndx: Int)
 	val isPlayingAudio: Boolean
-	fun playNow(context: Context?, items: List<BaseItemDto>, position: Int, shuffle: Boolean)
-	fun playNow(context: Context?, items: List<BaseItemDto>, shuffle: Boolean)
-	fun playNow(context: Context?, item: BaseItemDto)
+	fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean)
+	fun playNow(context: Context, items: List<BaseItemDto>, shuffle: Boolean)
+	fun playNow(context: Context, item: BaseItemDto)
 	fun playFrom(ndx: Int): Boolean
 	fun shuffleAudioQueue()
 	val nextAudioItem: BaseItemDto?
