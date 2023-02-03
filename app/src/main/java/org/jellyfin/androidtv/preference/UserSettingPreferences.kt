@@ -14,8 +14,8 @@ class UserSettingPreferences(
 	app = "emby",
 ) {
 	companion object {
-		val skipBackLength = intPreference("skipBackLength", 10000)
-		val skipForwardLength = intPreference("skipForwardLength", 30000)
+		val skipBackLength = intPreference("skipBackLength", 10_000)
+		val skipForwardLength = intPreference("skipForwardLength", 30_000)
 
 		val homesection0 = enumPreference("homesection0", HomeSectionType.LIBRARY_TILES_SMALL)
 		val homesection1 = enumPreference("homesection1", HomeSectionType.RESUME)

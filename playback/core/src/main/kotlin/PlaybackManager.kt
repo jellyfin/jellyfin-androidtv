@@ -13,13 +13,14 @@ import kotlin.reflect.KClass
 class PlaybackManager internal constructor(
 	val backend: PlayerBackend,
 	private val services: MutableList<PlayerService>,
-	private val mediaStreamResolvers: List<MediaStreamResolver>,
+	mediaStreamResolvers: List<MediaStreamResolver>,
+	val options: PlaybackManagerOptions,
 	parentJob: Job? = null,
 ) {
 	val repository = PlaybackRepository()
 
 	private val job = SupervisorJob(parentJob)
-	val state = MutablePlayerstate()
+	val state = MutablePlayerstate(options)
 
 	init {
 		state.setBackend(backend)
