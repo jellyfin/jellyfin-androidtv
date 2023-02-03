@@ -145,8 +145,7 @@ public class LegacyMediaManager implements MediaManager {
         return mManagedAudioQueue;
     }
 
-    @Override
-    public void createManagedAudioQueue() {
+    private void createManagedAudioQueue() {
         if (mCurrentAudioQueue != null) {
             if (mManagedAudioQueue != null) {
                 //re-create existing one
