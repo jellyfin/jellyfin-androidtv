@@ -12,7 +12,6 @@ import org.jellyfin.playback.core.queue.EmptyQueue
 import org.jellyfin.playback.core.queue.Queue
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 interface PlayerState {
 	val queue: StateFlow<Queue>
@@ -45,7 +44,9 @@ interface PlayerState {
 	fun setSpeed(speed: Float)
 }
 
-class MutablePlayerstate : PlayerState {
+class MutablePlayerstate(
+	private val options: PlaybackManagerOptions,
+) : PlayerState {
 	private val _queue = MutableStateFlow<Queue>(EmptyQueue)
 	override val queue: StateFlow<Queue> get() = _queue.asStateFlow()
 
@@ -118,13 +119,11 @@ class MutablePlayerstate : PlayerState {
 	}
 
 	override fun fastForward(amount: Duration?) {
-		// TODO use user preference instead of hardcoded "10.seconds"
-		seekRelative(amount ?: 10.seconds)
+		seekRelative(amount ?: options.defaultFastForwardAmount.value)
 	}
 
 	override fun rewind(amount: Duration?) {
-		// TODO use user preference instead of hardcoded "10.seconds"
-		seekRelative(-(amount ?: 10.seconds))
+		seekRelative(-(amount ?: options.defaultRewindAmount.value))
 	}
 
 	override fun setSpeed(speed: Float) {

@@ -7,6 +7,7 @@ import org.jellyfin.playback.core.plugin.PlayerService
 
 class PlaybackManagerBuilder {
 	private val factories = mutableListOf<PlaybackPlugin>()
+	val options = PlaybackManagerOptions()
 
 	fun install(pluginFactory: PlaybackPlugin) {
 		factories.add(pluginFactory)
@@ -35,7 +36,7 @@ class PlaybackManagerBuilder {
 
 		// Only support a single backend right now
 		require(backends.size == 1)
-		return PlaybackManager(backends.first(), services, mediaStreamResolvers)
+		return PlaybackManager(backends.first(), services, mediaStreamResolvers, options)
 	}
 }
 
