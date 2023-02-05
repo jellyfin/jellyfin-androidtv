@@ -494,4 +494,10 @@
     <string name="crash_report_toast">OOps! Algo correu mal. Um relatório foi enviado para o ser servidor Jellyfin.</string>
     <string name="pref_refresh_rate_scale_on_device">Escala no dispositivo</string>
     <string name="episode_name_special">especial</string>
+    <string name="pref_enable_media_management">Activar gestão de media</string>
+    <string name="item_delete_confirm_title">Apagar item</string>
+    <string name="item_deleted">%1$s apagado</string>
+    <string name="item_deletion_failed">Não foi possível apagar %1$s</string>
+    <string name="pref_enable_media_management_description">Mostrar opção para gerir media enquanto navega</string>
+    <string name="item_delete_confirm_message">Tem a certeza que pretende apagar este item\? Esta ação não é irreversível.</string>
 </resources>
