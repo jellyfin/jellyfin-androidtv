@@ -499,5 +499,5 @@
     <string name="item_deletion_failed">Nie je možné vymazať %1$s</string>
     <string name="pref_enable_media_management">Povoliť správu medií</string>
     <string name="pref_enable_media_management_description">Zobraziť možnosti na správu medií počas prehliadania</string>
-    <string name="item_delete_confirm_message">Naozaj chcete odstrániť túto položku\? Túto akciu nie je možné vrátiť späť.</string>
+    <string name="item_delete_confirm_message">Naozaj chcete odstrániť túto položku zo servera\? Túto akciu nie je možné vrátiť späť.</string>
 </resources>
