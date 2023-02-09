@@ -499,5 +499,5 @@
     <string name="item_deleted">%1$s 已删除</string>
     <string name="pref_enable_media_management">启用媒体文件管理</string>
     <string name="item_delete_confirm_title">删除</string>
-    <string name="item_delete_confirm_message">此删除操作无法撤销，确认要删除吗？</string>
+    <string name="item_delete_confirm_message">您确定要从服务器删除此项目吗？此操作无法撤消。</string>
 </resources>
