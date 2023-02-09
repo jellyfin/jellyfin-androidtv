@@ -497,7 +497,7 @@
     <string name="item_deleted">%1$s deleted</string>
     <string name="item_deletion_failed">Unable to delete %1$s</string>
     <string name="pref_enable_media_management_description">Show option to manage media while browsing</string>
-    <string name="item_delete_confirm_message">Are you sure you want to delete this item\? This action cannot be undone.</string>
+    <string name="item_delete_confirm_message">Are you sure you want to delete this item from the server\? This action cannot be undone.</string>
     <string name="pref_enable_media_management">Enable media management</string>
     <string name="item_delete_confirm_title">Delete item</string>
 </resources>
