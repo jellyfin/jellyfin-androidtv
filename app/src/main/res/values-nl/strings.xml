@@ -499,5 +499,5 @@
     <string name="item_deleted">%1$s verwijderd</string>
     <string name="item_deletion_failed">%1$s kon niet verwijderd worden</string>
     <string name="pref_enable_media_management_description">Optie tonen om media te beheren tijdens het bladeren</string>
-    <string name="item_delete_confirm_message">Weet je zeker dat je dit item wilt verwijderen\? Dit kan niet worden teruggedraaid.</string>
+    <string name="item_delete_confirm_message">Weet je zeker dat je dit item van de server wilt verwijderen\? Dit kan niet worden teruggedraaid.</string>
 </resources>
