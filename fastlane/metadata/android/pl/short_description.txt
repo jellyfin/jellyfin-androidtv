@@ -1,1 +1,1 @@
-Klient telewizyjny do Jellyfina, darmowego systemu multimedialnego
+Klient telewizyjny do Jellyfin, darmowego systemu multimedialnego
