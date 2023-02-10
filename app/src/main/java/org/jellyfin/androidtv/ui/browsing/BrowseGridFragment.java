@@ -937,8 +937,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     //Now - if filtered make sure we still pass
                     if (mAdapter.getFilters() != null) {
                         if ((mAdapter.getFilters().isFavoriteOnly() && !mCurrentItem.isFavorite()) || (mAdapter.getFilters().isUnwatchedOnly() && mCurrentItem.isPlayed())) {
-                            //if we are about to remove last item, throw focus to toolbar so framework doesn't crash
-                            if (mAdapter.size() == 1) binding.toolBar.requestFocus();
+                            // if we are about to remove the current item, throw focus to toolbar so framework doesn't crash
+                            binding.toolBar.requestFocus();
                             mAdapter.remove(mCurrentItem);
                             mAdapter.setTotalItems(mAdapter.getTotalItems() - 1);
                             updateCounter(mCurrentItem.getIndex());

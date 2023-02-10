@@ -446,6 +446,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             default:
                 mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
         }
+        removeRow();
     }
 
     public void setPosition(int pos) {
