@@ -31,7 +31,6 @@ jellyfin-apiclient = "v0.7.10"
 jellyfin-exoplayer-ffmpegextension = "2.18.2+1"
 jellyfin-sdk = "1.4.1"
 junit = "4.13.2"
-kenburnsview = "1.0.7"
 koin = "3.3.3"
 koin-compose = "3.4.2"
 kotest = "5.5.5"
@@ -108,7 +107,6 @@ markwon-html = { module = "io.noties.markwon:html", version.ref = "markwon" }
 blurhash = { module = "com.vanniktech:blurhash", version.ref = "blurhash" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
-kenburnsview = { module = "com.flaviofaria:kenburnsview", version.ref = "kenburnsview" }
 
 # Crash Reporting
 acra-core = { module = "ch.acra:acra-core", version.ref = "acra" }

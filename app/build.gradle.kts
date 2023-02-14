@@ -147,7 +147,6 @@ dependencies {
 	implementation(libs.blurhash)
 	implementation(libs.glide.core)
 	ksp(libs.glide.ksp)
-	implementation(libs.kenburnsview)
 
 	// Crash Reporting
 	implementation(libs.bundles.acra)
