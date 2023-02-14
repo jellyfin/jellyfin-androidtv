@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +46,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
 import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.overscan
+import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -60,8 +61,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.get
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
-
-fun Modifier.overscan(): Modifier = then(padding(48.dp, 27.dp))
 
 @Composable
 fun DreamHeader(
@@ -98,8 +97,9 @@ fun DreamHeader(
 			enter = fadeIn(),
 			exit = fadeOut(),
 		) {
+			val time = rememberCurrentTime()
 			Text(
-				text = DateUtils.formatDateTime(LocalContext.current, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME),
+				text = DateUtils.formatDateTime(LocalContext.current, time, DateUtils.FORMAT_SHOW_TIME),
 				style = TextStyle(
 					color = Color.White,
 					fontSize = 20.sp,
