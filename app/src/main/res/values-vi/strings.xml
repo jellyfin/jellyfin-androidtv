@@ -485,4 +485,10 @@
     <string name="color_pink">Hồng</string>
     <string name="color_cyan">Lục lam</string>
     <string name="lbl_subtitle_position">Độ lệch phụ đề từ dưới lên</string>
+    <string name="item_deletion_failed">Không thể xóa %1$s</string>
+    <string name="pref_enable_media_management">Bật quản lý phương tiện</string>
+    <string name="pref_enable_media_management_description">Hiển thị tùy chọn để quản lý phương tiện trong khi duyệt</string>
+    <string name="item_delete_confirm_message">Bạn có chắc chắn muốn xóa mục này khỏi máy chủ không\? Hành động này không thể được hoàn tác.</string>
+    <string name="item_deleted">Đã xóa %1$s</string>
+    <string name="item_delete_confirm_title">Xóa mục</string>
 </resources>
