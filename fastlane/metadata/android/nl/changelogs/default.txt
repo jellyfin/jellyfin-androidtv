@@ -1,0 +1,3 @@
+Bedankt voor het gebruik van Jellyfin op Android TV! Het wordt altijd aanbevolen om de nieuwste uitgebrachte Jellyfin Server te gebruiken.
+
+Voor meer informatie, bekijk onze blog op jellyfin.org of lees de volledige changelog op GitHub.
