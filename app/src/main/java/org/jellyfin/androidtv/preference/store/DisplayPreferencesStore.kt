@@ -72,6 +72,9 @@ abstract class DisplayPreferencesStore(
 				displayPreferencesDto = DisplayPreferencesDto.empty()
 			}
 
+			// TMP for reproduction
+			throw err
+
 			return false
 		}
 	}
