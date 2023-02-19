@@ -31,6 +31,7 @@ fun DreamView(
 		when (content) {
 			DreamContent.Logo -> DreamContentLogo()
 			is DreamContent.LibraryShowcase -> DreamContentLibraryShowcase(content)
+			is DreamContent.NowPlaying -> DreamContentNowPlaying(content)
 		}
 	}
 

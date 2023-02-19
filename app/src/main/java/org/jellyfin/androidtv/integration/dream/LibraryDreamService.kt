@@ -14,6 +14,8 @@ import org.jellyfin.androidtv.integration.dream.composable.DreamView
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
+import org.jellyfin.androidtv.ui.composable.rememberMediaItem
+import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -34,6 +36,7 @@ import kotlin.time.Duration.Companion.seconds
 class LibraryDreamService : DreamServiceCompat() {
 	private val api: ApiClient by inject()
 	private val userPreferences: UserPreferences by inject()
+	private val mediaManager: MediaManager by inject()
 
 	override fun onAttachedToWindow() {
 		super.onAttachedToWindow()
@@ -42,19 +45,24 @@ class LibraryDreamService : DreamServiceCompat() {
 		isFullscreen = true
 
 		setContent {
-			var content by remember { mutableStateOf<DreamContent>(DreamContent.Logo) }
+			var libraryShowcase by remember { mutableStateOf<DreamContent.LibraryShowcase?>(null) }
+			val mediaItem by rememberMediaItem(mediaManager)
 
 			LaunchedEffect(true) {
 				delay(2.seconds)
 
 				while (true) {
-					content = getRandomLibraryShowcase() ?: DreamContent.Logo
+					libraryShowcase = getRandomLibraryShowcase()
 					delay(30.seconds)
 				}
 			}
 
 			DreamView(
-				content = content,
+				content = when {
+					mediaItem != null -> DreamContent.NowPlaying(mediaItem)
+					libraryShowcase != null -> libraryShowcase!!
+					else -> DreamContent.Logo
+				},
 				showClock = when (userPreferences[UserPreferences.clockBehavior]) {
 					ClockBehavior.ALWAYS, ClockBehavior.IN_MENUS -> true
 					else -> false
@@ -77,7 +85,8 @@ class LibraryDreamService : DreamServiceCompat() {
 				!item.backdropImageTags.isNullOrEmpty()
 			} ?: return null
 
-			val tag = item.backdropImageTags!!.randomOrNull() ?: item.imageTags?.get(ImageType.BACKDROP)
+			val tag = item.backdropImageTags!!.randomOrNull()
+				?: item.imageTags?.get(ImageType.BACKDROP)
 
 			val backdropUrl = api.imageApi.getItemImageUrl(
 				itemId = item.id,
