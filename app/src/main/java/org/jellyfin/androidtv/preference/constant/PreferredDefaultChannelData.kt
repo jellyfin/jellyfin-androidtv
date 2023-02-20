@@ -1,9 +1,14 @@
-package org.jellyfin.androidtv.integration
+package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 
 enum class PreferredDefaultChannelData {
+	/**
+	 * Nothing. Disable recommended section
+	 */
+	@EnumDisplayOptions(R.string.home_section_none)
+	NONE,
 	/**
 	 * My media libraries
 	 */

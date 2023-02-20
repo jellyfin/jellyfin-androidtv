@@ -3,7 +3,7 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
-import org.jellyfin.androidtv.integration.PreferredDefaultChannelData
+import org.jellyfin.androidtv.preference.constant.PreferredDefaultChannelData
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
