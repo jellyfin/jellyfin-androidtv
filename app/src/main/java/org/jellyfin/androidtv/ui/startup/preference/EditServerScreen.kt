@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.util.getValue
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.text.DateFormat
@@ -22,7 +23,7 @@ class EditServerScreen : OptionsFragment() {
 
 	override val screen by optionsScreen {
 		val serverUUID = requireNotNull(
-			requireArguments().get(ARG_SERVER_UUID) as? UUID
+			requireArguments().getValue<UUID>(ARG_SERVER_UUID)
 		) { "Server null or malformed uuid" }
 
 		val server = requireNotNull(startupViewModel.getServer(serverUUID)) { "Server not found" }
