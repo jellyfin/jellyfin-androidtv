@@ -1,6 +1,9 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import android.os.Build
+import androidx.tvprovider.media.tv.TvContractCompat
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.integration.PreferredDefaultChannelData
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
@@ -97,6 +100,27 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			shortcut {
 				setTitle(R.string.pref_subtitle_track_button)
 				bind(userPreferences, UserPreferences.shortcutSubtitleTrack)
+			}
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+			// Check for leanback support
+			requireContext().packageManager.hasSystemFeature("android.software.leanback")
+			// Check for "android.media.tv" provider to workaround a false-positive in the previous check
+			&& requireContext().packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null) {
+			category {
+				setTitle(R.string.pref_leanback)
+
+				if (context.packageManager.hasSystemFeature("com.google.android.feature.AMATI_EXPERIENCE")) {
+					enum<PreferredDefaultChannelData> {
+						setTitle(R.string.pref_leanback_gtv_channel)
+						bind(userPreferences, UserPreferences.leanbackPreferredDefaultChannel)
+					}
+				}
+				checkbox {
+					setTitle(R.string.pref_leanback_display_backdrop)
+					setContent(R.string.pref_leanback_display_backdrop_description)
+					bind(userPreferences, UserPreferences.leanbackDisplayBackdrop)
+				}
 			}
 		}
 	}

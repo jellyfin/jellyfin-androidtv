@@ -7,9 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.net.toUri
 import androidx.tvprovider.media.tv.Channel
 import androidx.tvprovider.media.tv.ChannelLogoUtils
 import androidx.tvprovider.media.tv.PreviewProgram
@@ -26,7 +26,6 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
-import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
@@ -37,19 +36,19 @@ import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.tvShowsApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.api.client.extensions.userViewsApi
-import org.jellyfin.sdk.model.api.BaseItem
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageFormat
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.ItemFields
 import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import org.jellyfin.sdk.model.extensions.ticks
+
 
 /**
  * Manages channels on the android tv home screen.
@@ -135,6 +134,7 @@ class LeanbackChannelWorker(
 					.build()
 			)
 			val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
+			val preferBackdrop = userPreferences[UserPreferences.leanbackDisplayBackdrop]
 
 			// Add new items
 			listOf(
@@ -142,11 +142,26 @@ class LeanbackChannelWorker(
 				Pair(latestMedia, latestMediaChannel),
 				Pair(latestMovies, latestMoviesChannel),
 				Pair(latestEpisodes, latestEpisodesChannel),
-				Pair(myMedia, myMediaChannel)
+				Pair(
+					when (userPreferences[UserPreferences.leanbackPreferredDefaultChannel]) {
+						PreferredDefaultChannelData.MY_MEDIA -> myMedia
+						PreferredDefaultChannelData.LATEST_EPISODES -> latestEpisodes
+						PreferredDefaultChannelData.LATEST_MEDIA -> latestMedia
+						PreferredDefaultChannelData.LATEST_MOVIES -> latestMovies
+						PreferredDefaultChannelData.NEXT_UP -> nextUpItems
+						PreferredDefaultChannelData.RESUME_WATCHING -> resumeItems
+					}, myMediaChannel
+				)
 			).forEach { (items, channel) ->
 				Timber.d("Updating channel %s", channel)
 				items.map { item ->
-					createPreviewProgram(channel, item, preferParentThumb)
+					createPreviewProgram(
+						channel,
+						item,
+						preferParentThumb,
+						if (items == nextUpItems || items == resumeItems) false else preferBackdrop,
+						items == resumeItems
+					)
 				}.let {
 					context.contentResolver.bulkInsert(
 						TvContractCompat.PreviewPrograms.CONTENT_URI,
@@ -225,7 +240,17 @@ class LeanbackChannelWorker(
 	 * Gets the poster art for an item. Uses the [preferParentThumb] parameter to fetch the series
 	 * image when preferred.
 	 */
-	private fun BaseItemDto.getPosterArtImageUrl(preferParentThumb: Boolean): Uri = when {
+	private fun BaseItemDto.getPosterArtImageUrl(
+		preferParentThumb: Boolean,
+		preferBackdrop: Boolean = false
+	): Uri = when {
+		preferBackdrop -> api.imageApi.getItemImageUrl(
+			itemId = id,
+			imageType = ImageType.BACKDROP,
+			format = ImageFormat.WEBP,
+			width = 272.dp(context),
+			height = 153.dp(context),
+		)
 		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> api.imageApi.getItemImageUrl(
 			itemId = id,
 			imageType = ImageType.PRIMARY,
@@ -269,7 +294,7 @@ class LeanbackChannelWorker(
 				).content.items.orEmpty()
 			}
 
-			val nextup = async {
+			val nextUp = async {
 				api.tvShowsApi.getNextUp(
 					userId = api.userId,
 					imageTypeLimit = 1,
@@ -279,7 +304,7 @@ class LeanbackChannelWorker(
 			}
 
 			// Concat
-			Pair(resume.await(), nextup.await())
+			Pair(resume.await(), nextUp.await())
 		}
 
 	private suspend fun getLatestMedia(): Triple<List<BaseItemDto>, List<BaseItemDto>, List<BaseItemDto>> =
@@ -327,10 +352,15 @@ class LeanbackChannelWorker(
 	private fun createPreviewProgram(
 		channelUri: Uri,
 		item: BaseItemDto,
-		preferParentThumb: Boolean
+		preferParentThumb: Boolean,
+		preferBackdrop: Boolean,
+		isResume: Boolean = false
 	): ContentValues {
-		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
-
+		var useBackdrop = preferBackdrop
+		if (item.type == BaseItemKind.COLLECTION_FOLDER) {
+			useBackdrop = false
+		}
+		val imageUri = item.getPosterArtImageUrl(preferParentThumb, useBackdrop)
 		val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
 		val episodeString = when {
@@ -364,14 +394,27 @@ class LeanbackChannelWorker(
 			)
 			.setDurationMillis(
 				if (item.runTimeTicks?.ticks != null) {
-					item.runTimeTicks!!.ticks.inWholeMilliseconds.toInt()
+					// If we are resuming, we need to show remaining time, cause GoogleTV
+					// ignores setLastPlaybackPositionMillis
+					item.runTimeTicks!!.ticks.inWholeMilliseconds.toInt() - item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt()
 				} else 0
 			)
 			.setPosterArtUri(imageUri)
-			.setPosterArtAspectRatio(if (item.type == BaseItemKind.EPISODE || item.type == BaseItemKind.COLLECTION_FOLDER) TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9 else TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER)
+			.setPosterArtAspectRatio(
+				if (useBackdrop
+					|| item.type == BaseItemKind.EPISODE
+					|| item.type == BaseItemKind.COLLECTION_FOLDER
+				)
+					TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
+				else
+					TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
+			)
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
-				if (item.type == BaseItemKind.COLLECTION_FOLDER) putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
+				if (item.type == BaseItemKind.COLLECTION_FOLDER) putExtra(
+					StartupActivity.EXTRA_ITEM_IS_USER_VIEW,
+					true
+				)
 			})
 			.build()
 			.toContentValues()

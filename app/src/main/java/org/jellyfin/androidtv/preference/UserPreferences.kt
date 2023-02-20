@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.preference
 import android.content.Context
 import android.view.KeyEvent
 import androidx.preference.PreferenceManager
+import org.jellyfin.androidtv.integration.PreferredDefaultChannelData
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.AudioBehavior
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
@@ -208,6 +209,16 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Subtitles foreground color
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
+
+		/**
+		 * Preferred default channel data source. Can be changed only on GoogleTV
+		 */
+		var leanbackPreferredDefaultChannel = enumPreference("leanback_preferred_default_channel", PreferredDefaultChannelData.MY_MEDIA)
+
+		/**
+		 * Whether to display primary or backdrop
+		 */
+		var leanbackDisplayBackdrop = booleanPreference("leanback_display_backdrop", false)
 	}
 
 	init {
