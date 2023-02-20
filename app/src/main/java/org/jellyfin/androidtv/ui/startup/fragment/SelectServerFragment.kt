@@ -30,11 +30,11 @@ import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.getSummary
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SelectServerFragment : Fragment() {
 	private lateinit var binding: FragmentSelectServerBinding
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 
 	@Suppress("LongMethod")
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

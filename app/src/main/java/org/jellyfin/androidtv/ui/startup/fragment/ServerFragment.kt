@@ -41,14 +41,14 @@ import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class ServerFragment : Fragment() {
 	companion object {
 		const val ARG_SERVER_ID = "server_id"
 	}
 
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 	private val markdownRenderer: MarkdownRenderer by inject()
 	private val authenticationRepository: AuthenticationRepository by inject()
 	private val serverUserRepository: ServerUserRepository by inject()

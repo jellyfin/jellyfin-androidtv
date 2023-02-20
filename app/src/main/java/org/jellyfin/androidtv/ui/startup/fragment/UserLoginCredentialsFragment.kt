@@ -18,10 +18,10 @@ import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.databinding.FragmentUserLoginCredentialsBinding
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginCredentialsFragment : Fragment() {
-	private val userLoginViewModel: UserLoginViewModel by sharedViewModel()
+	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private lateinit var binding: FragmentUserLoginCredentialsBinding
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
