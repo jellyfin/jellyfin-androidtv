@@ -496,4 +496,8 @@
     <string name="app_notification_beta">App aggiornata a %1$s
 \nGrazie per la partecipazione al programma Jellyfin beta</string>
     <string name="pref_enable_media_management_description">Mostra l\'opzione per gestire i media durante la navigazione</string>
+    <string name="item_delete_confirm_message">Sei sicuro di voler eliminare questo elemento dal server\? L\'operazione non può essere annullata.</string>
+    <string name="lbl_subtitle_stroke">Dimensione sottotitoli</string>
+    <string name="item_delete_confirm_title">Elimina elemento</string>
+    <string name="lbl_subtitle_position">Distanza sottotitoli dal fondo</string>
 </resources>
