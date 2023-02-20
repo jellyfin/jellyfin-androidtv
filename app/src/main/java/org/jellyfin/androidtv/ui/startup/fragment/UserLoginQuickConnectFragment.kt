@@ -21,10 +21,10 @@ import org.jellyfin.androidtv.auth.model.UnknownQuickConnectState
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.databinding.FragmentUserLoginQuickConnectBinding
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginQuickConnectFragment : Fragment() {
-	private val userLoginViewModel: UserLoginViewModel by sharedViewModel()
+	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private lateinit var binding: FragmentUserLoginQuickConnectBinding
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

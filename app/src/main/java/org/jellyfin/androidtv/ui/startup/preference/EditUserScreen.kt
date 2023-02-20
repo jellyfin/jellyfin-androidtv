@@ -8,11 +8,11 @@ import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.util.UUID
 
 class EditUserScreen : OptionsFragment() {
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 	private val authenticationRepository by inject<AuthenticationRepository>()
 	private val serverUserRepository: ServerUserRepository by inject()
 

@@ -18,7 +18,7 @@ import org.jellyfin.androidtv.databinding.FragmentUserLoginBinding
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginFragment : Fragment() {
 	companion object {
@@ -28,7 +28,7 @@ class UserLoginFragment : Fragment() {
 		const val TAG_LOGIN_METHOD = "login_method"
 	}
 
-	private val userLoginViewModel: UserLoginViewModel by sharedViewModel()
+	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private val backgroundService: BackgroundService by inject()
 	private lateinit var binding: FragmentUserLoginBinding
 

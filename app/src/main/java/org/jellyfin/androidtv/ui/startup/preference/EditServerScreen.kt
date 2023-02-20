@@ -9,13 +9,13 @@ import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.text.DateFormat
 import java.util.Date
 import java.util.UUID
 
 class EditServerScreen : OptionsFragment() {
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val rebuildOnResume = true
