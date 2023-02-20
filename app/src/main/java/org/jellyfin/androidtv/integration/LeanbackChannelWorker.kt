@@ -95,10 +95,10 @@ class LeanbackChannelWorker(
 			val (resumeItems, nextUpItems) = getNextUpItems()
 			// Get latest media
 			val (latestEpisodes, latestMovies, latestMedia) = getLatestMedia()
+			val myMedia = getMyMedia()
 			// Delete current items from the channels
 			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
 			// Get channel URIs
-			// Get default channel, my_media
 			val myMediaChannel = getChannelUri(
 				"my_media", Channel.Builder()
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
@@ -106,7 +106,6 @@ class LeanbackChannelWorker(
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 					.build(), default = true
 			)
-			// Get next_up channel
 			val nextUpChannel = getChannelUri(
 				"next_up", Channel.Builder()
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
@@ -114,7 +113,6 @@ class LeanbackChannelWorker(
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 					.build()
 			)
-			// Get latest_media channel
 			val latestMediaChannel = getChannelUri(
 				"latest_media", Channel.Builder()
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
@@ -122,7 +120,6 @@ class LeanbackChannelWorker(
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 					.build()
 			)
-			// Get latest_movies channel
 			val latestMoviesChannel = getChannelUri(
 				"latest_movies", Channel.Builder()
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
@@ -137,8 +134,6 @@ class LeanbackChannelWorker(
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 					.build()
 			)
-			// Update various channels
-			updateMyMedia(myMediaChannel)
 			val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 			// Add new items
@@ -146,7 +141,8 @@ class LeanbackChannelWorker(
 				Pair(nextUpItems, nextUpChannel),
 				Pair(latestMedia, latestMediaChannel),
 				Pair(latestMovies, latestMoviesChannel),
-				Pair(latestEpisodes, latestEpisodesChannel)
+				Pair(latestEpisodes, latestEpisodesChannel),
+				Pair(myMedia, myMediaChannel)
 			).forEach { (items, channel) ->
 				Timber.d("Updating channel %s", channel)
 				items.map { item ->
@@ -216,38 +212,13 @@ class LeanbackChannelWorker(
 	 * Updates the "my media" row with current media libraries.
 	 */
 	@Suppress("RestrictedApi")
-	private suspend fun updateMyMedia(channelUri: Uri) {
+	private suspend fun getMyMedia(): List<BaseItemDto> {
 		val response by api.userViewsApi.getUserViews(includeHidden = false)
 
 		// Add new items
-		val items = response.items
+		return response.items
 			.orEmpty()
 			.filter { userViewsRepository.isSupported(it.collectionType) }
-			.map { item ->
-				val imageUri = if (item.imageTags?.contains(ImageType.PRIMARY) == true)
-					ImageProvider.getImageUri(
-						api.imageApi.getItemImageUrl(
-							item.id,
-							ImageType.PRIMARY
-						)
-					)
-				else
-					ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv).toUri()
-
-				PreviewProgram.Builder()
-					.setChannelId(ContentUris.parseId(channelUri))
-					.setType(TvContractCompat.PreviewPrograms.TYPE_CHANNEL)
-					.setTitle(item.name)
-					.setPosterArtUri(imageUri)
-					.setPosterArtAspectRatio(TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9)
-					.setIntent(Intent(context, StartupActivity::class.java).apply {
-						putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
-						putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
-					})
-					.build()
-					.toContentValues()
-			}.toTypedArray()
-		context.contentResolver.bulkInsert(TvContractCompat.PreviewPrograms.CONTENT_URI, items)
 	}
 
 	/**
@@ -385,7 +356,6 @@ class LeanbackChannelWorker(
 			.setSeasonNumber(seasonString, item.parentIndexNumber ?: 0)
 			.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
 			.setDescription(item.overview)
-			.setItemCount(item.userData?.unplayedItemCount ?: 0)
 			.setReleaseDate(
 				if (item.premiereDate != null) {
 					val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -398,9 +368,10 @@ class LeanbackChannelWorker(
 				} else 0
 			)
 			.setPosterArtUri(imageUri)
-			.setPosterArtAspectRatio(if (item.type == BaseItemKind.EPISODE) TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9 else TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER)
+			.setPosterArtAspectRatio(if (item.type == BaseItemKind.EPISODE || item.type == BaseItemKind.COLLECTION_FOLDER) TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9 else TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER)
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
+				if (item.type == BaseItemKind.COLLECTION_FOLDER) putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, true)
 			})
 			.build()
 			.toContentValues()
