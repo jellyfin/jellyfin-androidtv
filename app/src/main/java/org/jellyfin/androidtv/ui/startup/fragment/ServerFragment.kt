@@ -20,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
 import org.jellyfin.androidtv.auth.model.PrivateUser
@@ -80,7 +81,8 @@ class ServerFragment : Fragment() {
 							UserLoginFragment.ARG_USERNAME to user.name,
 						))
 						// Errors
-						ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+						ServerUnavailableState,
+						is ApiClientErrorLoginState-> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
 						is ServerVersionNotSupported -> Toast.makeText(
 							context,
 							getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),
