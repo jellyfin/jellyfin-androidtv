@@ -134,7 +134,6 @@
     <string name="lbl_up_next_colon">"次: "</string>
     <string name="lbl_now_playing">再生中</string>
     <string name="lbl_play_from_here">ここから再生</string>
-    <string name="lbl_save_as_playlist">プレイリストとして保存</string>
     <string name="lbl_delete">削除</string>
     <string name="msg_item_added">" 項目を追加しました"</string>
     <string name="lbl_zoom">拡大</string>
@@ -316,13 +315,11 @@
     <string name="play_with_vlc">libVLCで再生</string>
     <string name="turn_off">このオプションをオフにする</string>
     <string name="audio_error">オーディオを再生できません %1$s</string>
-    <string name="msg_queue_saved">キューは新しいプレイリスト” %1$s”として保存されました</string>
     <string name="msg_no_items">再生するアイテムがありません</string>
     <string name="subtitle_error">字幕を選択できません</string>
     <string name="too_many_errors">エラーが多すぎます。断念します</string>
     <string name="player_error">プレイヤーエラーが発生しました。再試行します…</string>
     <string name="lbl_load_guide_data">ガイドデータの読み込み</string>
-    <string name="lbl_new_playlist_name">新しいプレイリストの名前を入力してください</string>
     <string name="episode_missing_message_2">このエピソードはあなたのライブラリから欠落しています。再生は停止します。</string>
     <string name="episode_missing_message">このエピソードはあなたのライブラリから欠落しています。スキップして次のものに進みますか\?</string>
     <string name="episode_missing">エピソードがありません</string>

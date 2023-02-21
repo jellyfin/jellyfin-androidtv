@@ -138,7 +138,6 @@
     <string name="msg_no_playable_items">Brak elementów do odtworzenia</string>
     <string name="lbl_runs">Trwa</string>
     <string name="lbl_delete">Usuń</string>
-    <string name="lbl_save_as_playlist">Zapisz jako playlistę</string>
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
     <string name="lbl_remove_from_queue">Usuń z kolejki</string>
     <string name="lbl_now_playing">Obecnie Odtwarzane</string>
@@ -263,7 +262,6 @@
     <string name="turn_off">Wyłącz tę opcję</string>
     <string name="audio_error">Nie można odtworzyć dźwięku: %1$s</string>
     <string name="msg_added_to_video">%1$s zostało dodane do kolejki. Kolejka kończy się za: %2$s</string>
-    <string name="msg_queue_saved">Kolejka zapisana jako nowa playlista: %1$s</string>
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
@@ -271,7 +269,6 @@
     <string name="seek_error">Niemożliwe do odnalezienia</string>
     <string name="msg_live_tv_prev">Załaduj poprzednie %1$d godzin\?</string>
     <string name="msg_live_tv_next">Załaduj następne %1$d godzin\?</string>
-    <string name="lbl_new_playlist_name">Podaj nazwę nowej playlisty</string>
     <string name="lbl_tv_filter_status">przez następne %1$d godzin</string>
     <string name="lbl_tv_channel_status">%1$d z %2$d kanałów</string>
     <string name="episode_missing_message_2">Tego epizodu nie ma w twojej bibliotece. Odtwarzanie zostanie zatrzymane.</string>

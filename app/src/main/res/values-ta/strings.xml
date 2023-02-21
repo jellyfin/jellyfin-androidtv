@@ -107,7 +107,6 @@
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
     <string name="audio_error">ஆடியோ %1$s ஐ இயக்க முடியவில்லை</string>
     <string name="msg_added_to_video">வீடியோ வரிசையில் %1$s சேர்க்கப்பட்டது. முடிவடைகிறது: %2$s</string>
-    <string name="msg_queue_saved">வரிசை புதிய பிளேலிஸ்டாக சேமிக்கப்பட்டது: %1$s</string>
     <string name="msg_no_items">இயக்க உருப்படிகள் இல்லை</string>
     <string name="subtitle_error">வசனத்தைத் தேர்ந்தெடுக்க முடியவில்லை</string>
     <string name="too_many_errors">பல பிழைகள். விடப்பட்டது</string>
@@ -116,7 +115,6 @@
     <string name="msg_live_tv_prev">முந்தைய %1$d மணிநேரத்தை ஏற்றவா\?</string>
     <string name="msg_live_tv_next">அடுத்த %1$d மணிநேரத்தை ஏற்றவா\?</string>
     <string name="lbl_load_guide_data">வழிகாட்டி தரவை ஏற்றவும்</string>
-    <string name="lbl_new_playlist_name">புதிய பிளேலிஸ்ட்டுக்கு ஒரு பெயரை உள்ளிடவும்</string>
     <string name="episode_missing_message_2">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. பின்னணி நிறுத்தப்படும்.</string>
     <string name="episode_missing_message">இந்த அத்தியாயம் உங்கள் நூலகத்தில் இல்லை. அதைத் தவிர்த்துவிட்டு அடுத்ததைத் தொடர விரும்புகிறீர்களா\?</string>
     <string name="episode_missing">அத்தியாயம் காணவில்லை</string>
@@ -215,7 +213,6 @@
     <string name="desc_automatic_fav_songs">பிடித்த பாடல்களின் தானியங்கி பிளேலிஸ்ட்</string>
     <string name="msg_item_added">" உருப்படி சேர்க்கப்பட்டது"</string>
     <string name="lbl_delete">நீக்கு</string>
-    <string name="lbl_save_as_playlist">பிளேலிஸ்டாக சேமிக்கவும்</string>
     <string name="lbl_instant_mix">உடனடி கலவை</string>
     <string name="lbl_goto_now_playing">இப்போது இயக்கப்படுவதற்கு செல்லவும்</string>
     <string name="lbl_remove_from_queue">வரிசையில் இருந்து அகற்று</string>

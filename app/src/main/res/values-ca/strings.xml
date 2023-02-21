@@ -85,7 +85,6 @@
     <string name="desc_automatic_fav_songs">Llista de reproducció automàtica de cançons preferides</string>
     <string name="msg_item_added">" element afegit"</string>
     <string name="lbl_delete">Eliminar</string>
-    <string name="lbl_save_as_playlist">Desar com a llista de reproducció</string>
     <string name="lbl_instant_mix">Barreja instantània</string>
     <string name="lbl_goto_now_playing">Anar a Reproduint</string>
     <string name="lbl_remove_from_queue">Eliminar de la cua</string>
@@ -266,7 +265,6 @@
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
     <string name="msg_added_to_video">S\'ha afegit %1$s a la cua de vídeos. Finalitza: %2$s</string>
-    <string name="msg_queue_saved">La cua s\'ha desat com a nova llista de reproducció: %1$s</string>
     <string name="msg_no_items">No hi ha elements per reproduir</string>
     <string name="subtitle_error">No es pot seleccionar el subtítol</string>
     <string name="too_many_errors">Hi ha massa errors. Renunciar</string>
@@ -275,7 +273,6 @@
     <string name="msg_live_tv_prev">Carregar %1$d hores anteriors\?</string>
     <string name="msg_live_tv_next">Carregar les properes %1$d hores\?</string>
     <string name="lbl_load_guide_data">Carrega les dades de la guia</string>
-    <string name="lbl_new_playlist_name">Introduïu un nom per a la nova llista de reproducció</string>
     <string name="episode_missing_message_2">Falta aquest episodi a la biblioteca. La reproducció s’aturarà.</string>
     <string name="episode_missing_message">Falta aquest episodi a la biblioteca. Voleu ometre\'l i continuar amb el següent\?</string>
     <string name="episode_missing">Falta l’episodi</string>

@@ -196,7 +196,6 @@
     <string name="desc_automatic_fav_songs">Kedvenc zenékből álló automata lejátszási lista</string>
     <string name="msg_item_added">" elem hozzáadva"</string>
     <string name="lbl_delete">Törlés</string>
-    <string name="lbl_save_as_playlist">Mentés lejátszási listaként</string>
     <string name="lbl_instant_mix">Instant keverés</string>
     <string name="lbl_goto_now_playing">Ugrás a most játszotthoz</string>
     <string name="lbl_remove_from_queue">Eltávolítás a várakozási listából</string>
@@ -269,7 +268,6 @@
     <string name="lbl_pause">Szünet</string>
     <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
     <string name="msg_added_to_video">%1$s hozzáadva a videósorhoz. Vége: %2$s</string>
-    <string name="msg_queue_saved">A sor új mentési listaként mentve: %1$s</string>
     <string name="msg_no_items">Nincsen lejátszható elem(ek)</string>
     <string name="subtitle_error">Nem lehet kiválasztani a feliratot</string>
     <string name="too_many_errors">Túl sok hiba. Feladom</string>
@@ -278,7 +276,6 @@
     <string name="msg_live_tv_prev">Betöltöd az előző %1$d órát\?</string>
     <string name="msg_live_tv_next">Betöltöd a következő %1$d órát\?</string>
     <string name="lbl_load_guide_data">Útmutató adatok betöltése</string>
-    <string name="lbl_new_playlist_name">Adj nevet az új lejátszási listának</string>
     <string name="episode_missing_message_2">Ez az epizód hiányzik a könyvtáradból. A lejátszás megáll.</string>
     <string name="episode_missing_message">Ez az epizód hiányzik a könyvtáradból. Szeretnéd kihagyni, és folytatni az azután következővel\?</string>
     <string name="episode_missing">Epizód hiányzik</string>

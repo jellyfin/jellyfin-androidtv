@@ -128,7 +128,6 @@
     <string name="lbl_up_next_colon">"다음: "</string>
     <string name="lbl_now_playing">현재 재생중</string>
     <string name="lbl_instant_mix">인스턴스 믹스</string>
-    <string name="lbl_save_as_playlist">플레이리스트로 저장</string>
     <string name="lbl_delete">제거</string>
     <string name="msg_item_added">" 항목 추가됨"</string>
     <string name="lbl_bitstream_ac3">비트스트림 Dolby Digital 오디오</string>
@@ -203,11 +202,9 @@
     <string name="play_with_vlc">libVLC로 재생</string>
     <string name="turn_off">옵션 끄기</string>
     <string name="msg_added_to_video">%1$s 가 비디오 대기열에 추가됨. 종료: %2$s</string>
-    <string name="msg_queue_saved">신규 재생 목록에 저장된 대기열: %1$s</string>
     <string name="msg_no_items">재생할 항목이 비어 있음</string>
     <string name="subtitle_error">자막을 선택할 수 없습니다</string>
     <string name="player_error">플레이어 오류가 발생했습니다. 다시 시도중…</string>
-    <string name="lbl_new_playlist_name">신규 재생 목록 입력</string>
     <string name="episode_missing_message_2">이 에피소드가 라이브러리에 없습니다. 재생이 중지됩니다.</string>
     <string name="episode_missing_message">이 에피소드가 라이브러리에 없습니다. 건너 뛰고 다음 편을 시청 하시겠습니까\?</string>
     <string name="episode_missing">누락된 에피소드</string>

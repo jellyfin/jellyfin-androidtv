@@ -157,7 +157,6 @@
     <string name="lbl_remove_from_queue">Kezekten alastau</string>
     <string name="lbl_goto_now_playing">Qazır oinatyludağyna baru</string>
     <string name="lbl_instant_mix">Lezdık qospa</string>
-    <string name="lbl_save_as_playlist">Oinatu tızımı retınde saqtau</string>
     <string name="lbl_delete">Joiu</string>
     <string name="msg_item_added">" tarmaq üstelgen"</string>
     <string name="desc_automatic_fav_songs">Tañdauly jäne ūnatylğan äuenderdıñ avtomatty oinatu tızımı</string>
@@ -294,11 +293,9 @@
     <string name="turn_off">Būl opsiany öşıru</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>
     <string name="msg_added_to_video">%1$s beine kezegıne qosyldy. Aiaqtaluy: %2$s</string>
-    <string name="msg_queue_saved">Kezek jaña oinatu tızımı retınde saqtaldy: %1$s</string>
     <string name="msg_no_items">Oinaityn tarmaqtar joq</string>
     <string name="subtitle_error">Subtitrlerdı tañdau mümkın emes</string>
     <string name="player_error">Oinatqyş qatesı paida boldy. Äreket qaitalanady…</string>
-    <string name="lbl_new_playlist_name">Jaña oinatu tızımınıñ atauyn engızıñız</string>
     <string name="pref_button_remapping_description">Ony tağaiyndau üşın TD-pültındegı kez kelgen tüimeşıktı basyñyz</string>
     <string name="pref_next_up_timeout_summary">Kelesı tarmaqty oinağanğa deiın qanşa kütu kerek</string>
     <string name="too_many_errors">Qateler öte köp. Bas tartu</string>

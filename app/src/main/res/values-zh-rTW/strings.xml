@@ -102,7 +102,6 @@
     <string name="lbl_zoom">變焦</string>
     <string name="lbl_bitstream_ac3">比特流杜比數位音訊</string>
     <string name="lbl_delete">刪除</string>
-    <string name="lbl_save_as_playlist">作為播放列表保存</string>
     <string name="lbl_goto_now_playing">轉到正在播放</string>
     <string name="lbl_remove_from_queue">從佇列中刪除</string>
     <string name="lbl_play_from_here">從這裡播放</string>
@@ -314,7 +313,6 @@
     <string name="turn_off">關閉此選項</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
     <string name="msg_added_to_video">%1$s 已加入影片隊列。%2$s 後結束</string>
-    <string name="msg_queue_saved">隊列已存為新播放清單：%1$s</string>
     <string name="msg_no_items">無項目可供播放</string>
     <string name="subtitle_error">無法選擇字幕</string>
     <string name="too_many_errors">出現過多錯誤，放棄重試</string>
@@ -323,7 +321,6 @@
     <string name="msg_live_tv_prev">要載入前 %1$d 小時的內容嗎？</string>
     <string name="msg_live_tv_next">要載入下 %1$d 小時的內容嗎？</string>
     <string name="lbl_load_guide_data">載入指南資料</string>
-    <string name="lbl_new_playlist_name">輸入新播放清單的名稱</string>
     <string name="episode_missing_message_2">您的收藏庫中沒有這一集。即將停止播放。</string>
     <string name="episode_missing_message">您的收藏庫中沒有這一集。您要跳過並繼續觀看下一集嗎？</string>
     <string name="episode_missing">缺少集數</string>

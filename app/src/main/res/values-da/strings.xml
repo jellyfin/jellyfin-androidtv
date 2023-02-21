@@ -121,7 +121,6 @@
     <string name="lbl_series">Serier</string>
     <string name="msg_item_added">" Fil tilføjet"</string>
     <string name="lbl_delete">Slet</string>
-    <string name="lbl_save_as_playlist">Gem som Afspilningsliste</string>
     <string name="lbl_instant_mix">Øjeblikkelig blanding</string>
     <string name="lbl_goto_now_playing">Gå til Afspiller Nu</string>
     <string name="lbl_remove_from_queue">Fjern fra Kø</string>
@@ -269,7 +268,6 @@
     <string name="turn_off">Slå denne indstilling fra</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
     <string name="msg_added_to_video">%1$s tilføjet til video kø. Færdig om: %2$s</string>
-    <string name="msg_queue_saved">Kø gemt som ny afspilningsliste: %1$s</string>
     <string name="msg_no_items">Ingen filer at afspille</string>
     <string name="subtitle_error">Kan ikke vælge undertekst</string>
     <string name="too_many_errors">For mange fejl. Giver op</string>
@@ -278,7 +276,6 @@
     <string name="msg_live_tv_prev">Indlæs sidste %1$d timer\?</string>
     <string name="msg_live_tv_next">Indlæs næste %1$d timer\?</string>
     <string name="lbl_load_guide_data">Indlæs Guide Data</string>
-    <string name="lbl_new_playlist_name">Indtast et navn for den nye afspilningsliste</string>
     <string name="episode_missing_message_2">Dette afsnit mangler fra dit bibliotek. Afspilningen stopper.</string>
     <string name="episode_missing_message">Dette afsnit mangler fra dit bibliotek. Vil du springe den over og fortsætte til den næste\?</string>
     <string name="episode_missing">Afsnit mangler</string>

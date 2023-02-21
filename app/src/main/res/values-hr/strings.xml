@@ -163,7 +163,6 @@
     <string name="turn_off">Ugasi ovu postavku</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
     <string name="msg_added_to_video">%1$s dodan u red videozapisa. Završava: %2$s</string>
-    <string name="msg_queue_saved">Red spremljen kao nova lista za reprodukciju: %1$s</string>
     <string name="msg_no_items">Nema stavki za reprodukciju</string>
     <string name="subtitle_error">Nije moguće odabrati titl</string>
     <string name="too_many_errors">Previše grešaka. Odustajem</string>
@@ -172,7 +171,6 @@
     <string name="msg_live_tv_prev">Učitaj prethodnih %1$d sati\?</string>
     <string name="msg_live_tv_next">Učitaj sljedećih %1$d sati\?</string>
     <string name="lbl_load_guide_data">Učitaj podatke TV rasporeda</string>
-    <string name="lbl_new_playlist_name">Unesite naslov nove liste za reprodukciju</string>
     <string name="episode_missing_message_2">Ova epizoda nedostaje u vašoj biblioteci. Reprodukcija će stati.</string>
     <string name="episode_missing_message">Ova epizoda nedostaje u vašoj biblioteci. Želite li ju preskočiti i nastaviti s idućom\?</string>
     <string name="episode_missing">Epizoda nedostaje</string>
@@ -271,7 +269,6 @@
     <string name="desc_automatic_fav_songs">Automatski popis omiljenih pjesama</string>
     <string name="msg_item_added">" stavka dodana"</string>
     <string name="lbl_delete">Obriši</string>
-    <string name="lbl_save_as_playlist">Spremi listu za reprodukciju</string>
     <string name="lbl_instant_mix">Instant Mix</string>
     <string name="lbl_goto_now_playing">Idi na reprodukciju</string>
     <string name="lbl_remove_from_queue">Ukloni iz reda</string>

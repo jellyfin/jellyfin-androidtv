@@ -151,7 +151,6 @@
     <string name="lbl_now_playing">Přehráváno</string>
     <string name="lbl_play_from_here">Přehrát odtud</string>
     <string name="lbl_remove_from_queue">Odebrat z fronty</string>
-    <string name="lbl_save_as_playlist">Uložit jako Playlist</string>
     <string name="lbl_delete">Smazat</string>
     <string name="msg_item_added">" položka přidána"</string>
     <string name="lbl_instant_mix">Okamžitý mix</string>
@@ -262,7 +261,6 @@
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
     <string name="msg_added_to_video">Položka %1$s přidána do fronty. Konec v: %2$s</string>
-    <string name="msg_queue_saved">Fronta k přehrávání byla uložena do nového seznamu: %1$s</string>
     <string name="msg_no_items">Neexistuje nic k přehrávání</string>
     <string name="subtitle_error">Není možné vybrat titulky</string>
     <string name="too_many_errors">Došlo k příliš mnoha chybám. Další pokus již nebude proveden</string>
@@ -271,7 +269,6 @@
     <string name="msg_live_tv_prev">Načíst předchozích %1$d hodin\?</string>
     <string name="msg_live_tv_next">Načíst dalších %1$d hodin\?</string>
     <string name="lbl_load_guide_data">Načíst data programového průvodce</string>
-    <string name="lbl_new_playlist_name">Zadejte název nového seznamu pro přehrávání</string>
     <string name="episode_missing_message_2">Tato epizoda není ve vaší knihovně. Přehrávání bude zastaveno.</string>
     <string name="episode_missing_message">Tato epizoda není ve vaší knihovně. Chcete ji přeskočit a pokračovat další epizodou\?</string>
     <string name="episode_missing">Chybějící epizoda</string>

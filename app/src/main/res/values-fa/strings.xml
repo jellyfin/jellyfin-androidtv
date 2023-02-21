@@ -118,7 +118,6 @@
     <string name="msg_no_playable_items">هیچ موردی برای نمایش وجود ندارد</string>
     <string name="msg_item_added">" مورد اضافه شد"</string>
     <string name="lbl_delete">حذف</string>
-    <string name="lbl_save_as_playlist">ذخیره به عنوان لیست پخش</string>
     <string name="lbl_goto_now_playing">برو به درحال پخش</string>
     <string name="lbl_remove_from_queue">حذف از صف</string>
     <string name="lbl_play_from_here">پخش از اینجا</string>
@@ -377,7 +376,6 @@
     <string name="turn_off">این گزینه را غیرفعال کن</string>
     <string name="audio_error">پخش صدای %1$s امکان پذیر نیست</string>
     <string name="msg_added_to_video">%1$s به صف ویدئویی اضافه شد. پایان: %2$s</string>
-    <string name="msg_queue_saved">صف به عنوان لیست پخش جدید ذخیره شد: %1$s</string>
     <string name="msg_no_items">هیچ موردی برای پخش وجود ندارد</string>
     <string name="subtitle_error">امکان انتخاب زیرنویس وجود ندارد</string>
     <string name="too_many_errors">خطا خیلی زیاد بود. بیخیال شدیم</string>
@@ -430,7 +428,6 @@
     <string name="msg_live_tv_prev">بارگیری %1$d ساعت قبلی؟</string>
     <string name="msg_live_tv_next">بارگیری %1$d ساعت بعدی؟</string>
     <string name="lbl_load_guide_data">بارگیری داده های راهنما</string>
-    <string name="lbl_new_playlist_name">نام جدیدی برای لیست پخش وارد کنید</string>
     <string name="episode_missing_message_2">این قسمت در کتابخانه شما موجود نیست. پخش متوقف خواهد شد.</string>
     <string name="episode_missing_message">این قسمت در کتابخانه شما موجود نیست. آیا می خواهید آن را رد کنید و به مورد بعدی ادامه دهید؟</string>
     <string name="episode_missing">قسمت گم شده</string>

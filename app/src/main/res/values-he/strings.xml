@@ -10,7 +10,6 @@
     <string name="desc_automatic_fav_songs">רשימת השמעה אוטומטית של שירים מועדפים</string>
     <string name="msg_item_added">" נוסף"</string>
     <string name="lbl_delete">מחק</string>
-    <string name="lbl_save_as_playlist">שמור כרשימת השמעה</string>
     <string name="lbl_instant_mix">מיקס מהיר</string>
     <string name="lbl_goto_now_playing">עבור למנגן עכשיו</string>
     <string name="lbl_remove_from_queue">הסר מהתור</string>
@@ -231,7 +230,6 @@
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
     <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
-    <string name="msg_queue_saved">תור נשמר בתור רשימת ניגון: %1$s</string>
     <string name="msg_no_items">אין מה לנגן</string>
     <string name="subtitle_error">לא ניתן לבחור כתובית</string>
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
@@ -240,7 +238,6 @@
     <string name="msg_live_tv_prev">לטעון את %1$d השעות הקודמות\?</string>
     <string name="msg_live_tv_next">לטעון את %1$d השעות הבאות\?</string>
     <string name="lbl_load_guide_data">טען את לוח השידורים</string>
-    <string name="lbl_new_playlist_name">הכנס שם עבור רשימת הנגינה</string>
     <string name="episode_missing_message_2">הפרק לא קיים בספרייה. הניגון יופסק.</string>
     <string name="episode_missing_message">הפרק חסר בספרייה. האם תרצה לדלג עליו ולעבור לפרק הבא\?</string>
     <string name="episode_missing">פרק חסר</string>
