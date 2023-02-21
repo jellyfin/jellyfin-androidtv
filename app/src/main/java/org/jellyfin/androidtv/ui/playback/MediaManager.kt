@@ -20,7 +20,6 @@ interface MediaManager {
 	val managedAudioQueue: ItemRowAdapter?
 	fun addAudioEventListener(listener: AudioEventListener)
 	fun removeAudioEventListener(listener: AudioEventListener)
-	fun saveAudioQueue(context: Context?)
 	fun queueAudioItem(item: BaseItemDto?): Int
 	fun clearAudioQueue()
 	fun clearAudioQueue(releasePlayer: Boolean)
