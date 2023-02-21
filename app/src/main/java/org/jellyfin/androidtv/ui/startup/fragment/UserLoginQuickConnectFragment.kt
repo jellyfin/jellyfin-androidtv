@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
 import org.jellyfin.androidtv.auth.model.ConnectedQuickConnectState
@@ -21,10 +22,10 @@ import org.jellyfin.androidtv.auth.model.UnknownQuickConnectState
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.databinding.FragmentUserLoginQuickConnectBinding
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginQuickConnectFragment : Fragment() {
-	private val userLoginViewModel: UserLoginViewModel by sharedViewModel()
+	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private lateinit var binding: FragmentUserLoginQuickConnectBinding
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -66,7 +67,8 @@ class UserLoginQuickConnectFragment : Fragment() {
 					))
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
 					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
-					ServerUnavailableState -> binding.error.setText(R.string.login_server_unavailable)
+					ServerUnavailableState,
+					is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
 					// Do nothing because the activity will respond to the new session
 					AuthenticatedState -> Unit
 					// Not initialized

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
+import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
@@ -94,7 +95,7 @@ class AuthenticationRepositoryImpl(
 			return@flow
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to sign in as $username")
-			emit(RequireSignInState)
+			emit(ApiClientErrorLoginState(err))
 			return@flow
 		}
 
@@ -106,9 +107,13 @@ class AuthenticationRepositoryImpl(
 		val result = try {
 			val response = api.userApi.authenticateWithQuickConnect(secret)
 			response.content
+		} catch (err: TimeoutException) {
+			Timber.e(err, "Failed to connect to server")
+			emit(ServerUnavailableState)
+			return@flow
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to sign in with Quick Connect secret")
-			emit(RequireSignInState)
+			emit(ApiClientErrorLoginState(err))
 			return@flow
 		}
 
@@ -145,9 +150,13 @@ class AuthenticationRepositoryImpl(
 			val userInfo by userApiClient.userApi.getCurrentUser()
 			authenticateFinish(server, userInfo, user.accessToken.orEmpty())
 			emit(AuthenticatedState)
+		} catch (err: TimeoutException) {
+			Timber.e(err, "Failed to connect to server")
+			emit(ServerUnavailableState)
+			return@flow
 		} catch (err: ApiClientException) {
 			Timber.e(err, "Unable to get current user data")
-			emit(RequireSignInState)
+			emit(ApiClientErrorLoginState(err))
 		}
 	}
 

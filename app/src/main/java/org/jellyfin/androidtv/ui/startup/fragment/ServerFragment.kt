@@ -20,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
 import org.jellyfin.androidtv.auth.model.PrivateUser
@@ -40,14 +41,14 @@ import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MarkdownRenderer
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class ServerFragment : Fragment() {
 	companion object {
 		const val ARG_SERVER_ID = "server_id"
 	}
 
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 	private val markdownRenderer: MarkdownRenderer by inject()
 	private val authenticationRepository: AuthenticationRepository by inject()
 	private val serverUserRepository: ServerUserRepository by inject()
@@ -80,7 +81,8 @@ class ServerFragment : Fragment() {
 							UserLoginFragment.ARG_USERNAME to user.name,
 						))
 						// Errors
-						ServerUnavailableState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+						ServerUnavailableState,
+						is ApiClientErrorLoginState-> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
 						is ServerVersionNotSupported -> Toast.makeText(
 							context,
 							getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),

@@ -7,21 +7,23 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.util.getValue
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.util.UUID
 
 class EditUserScreen : OptionsFragment() {
-	private val startupViewModel: StartupViewModel by sharedViewModel()
+	private val startupViewModel: StartupViewModel by activityViewModel()
 	private val authenticationRepository by inject<AuthenticationRepository>()
 	private val serverUserRepository: ServerUserRepository by inject()
 
 	override val screen by optionsScreen {
-		val serverUUID = requireNotNull(requireArguments().get(ARG_SERVER_UUID)) { "Missing server id" }
-		val userUUID = requireNotNull(requireArguments().get(ARG_USER_UUID)) { "Missing user id" }
-
-		require(serverUUID is UUID) { "Server id is malformed" }
-		require(userUUID is UUID) { "Server id is malformed" }
+		val serverUUID = requireNotNull(
+			requireArguments().getValue<UUID>(ARG_SERVER_UUID)
+		) { "Missing server id" }
+		val userUUID = requireNotNull(
+			requireArguments().getValue<UUID>(ARG_USER_UUID)
+		) { "Missing user id" }
 
 		val server = requireNotNull(startupViewModel.getServer(serverUUID)) { "Server not found" }
 		val user = requireNotNull(
