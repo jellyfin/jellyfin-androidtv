@@ -159,7 +159,6 @@
     <string name="lbl_remove_from_queue">Remover da Fila</string>
     <string name="lbl_goto_now_playing">Ir para A Reproduzir</string>
     <string name="lbl_instant_mix">Mix Instantâneo</string>
-    <string name="lbl_save_as_playlist">Guardar como Lista de Reprodução</string>
     <string name="lbl_delete">Remover</string>
     <string name="msg_item_added">" item adicionado"</string>
     <string name="desc_automatic_fav_songs">Lista automática de músicas favoritas</string>
@@ -263,7 +262,6 @@
     <string name="turn_off">Desative esta opção</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
     <string name="msg_added_to_video">%1$s adicionado à lista de reprodução. Termina: %2$s</string>
-    <string name="msg_queue_saved">Fila de reprodução gravada como nova lista de reprodução: %1$s</string>
     <string name="msg_no_items">Sem itens para reproduzir</string>
     <string name="subtitle_error">Impossível selecionar legendas</string>
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
@@ -272,7 +270,6 @@
     <string name="msg_live_tv_prev">Carregar as %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">Carregar as próximas %1$d horas\?</string>
     <string name="lbl_load_guide_data">Carregar Programação</string>
-    <string name="lbl_new_playlist_name">Introduza um nome para a nova lista de reprodução</string>
     <string name="episode_missing_message_2">Este episódio está em falta na sua biblioteca. A reprodução irá parar.</string>
     <string name="episode_missing_message">Este episódio está em falta na sua biblioteca. Deseja continuar para o seguinte\?</string>
     <string name="episode_missing">Espisódio em Falta</string>

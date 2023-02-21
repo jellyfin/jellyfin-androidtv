@@ -157,7 +157,6 @@
     <string name="lbl_remove_from_queue">Entferne aus Warteschlange</string>
     <string name="lbl_goto_now_playing">Gehe zur aktuellen Wiedergabe</string>
     <string name="lbl_instant_mix">Schnellmix</string>
-    <string name="lbl_save_as_playlist">Als Wiedergabeliste speichern</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
@@ -262,7 +261,6 @@
     <string name="turn_off">Diese Option ausschalten</string>
     <string name="audio_error">Audio kann nicht abgespielt werden %1$s</string>
     <string name="msg_added_to_video">%1$s zur Video-Warteschlange hinzugefügt. Endet: %2$s</string>
-    <string name="msg_queue_saved">Warteschlange als neue Wiedergabeliste gespeichert: %1$s</string>
     <string name="msg_no_items">Keine Elemente zum Spielen</string>
     <string name="subtitle_error">Untertitel können nicht ausgewählt werden</string>
     <string name="too_many_errors">Zu viele Fehler. Es wird aufgegeben</string>
@@ -271,7 +269,6 @@
     <string name="msg_live_tv_prev">Vorherige %1$d Stunden laden\?</string>
     <string name="msg_live_tv_next">Nächste %1$d Stunden laden\?</string>
     <string name="lbl_load_guide_data">Guide-Daten laden</string>
-    <string name="lbl_new_playlist_name">Gebe einen Namen für die neue Wiedergabeliste ein</string>
     <string name="episode_missing_message_2">Diese Episode fehlt in deiner Bibliothek. Die Wiedergabe wird angehalten.</string>
     <string name="episode_missing_message">Diese Episode fehlt in deiner Bibliothek. Möchtest du sie überspringen und mit der nächsten Episode fortfahren\?</string>
     <string name="episode_missing">Episode fehlt</string>

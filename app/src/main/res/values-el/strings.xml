@@ -28,7 +28,6 @@
     <string name="lbl_remove_from_queue">Κατάργηση από την ουρά</string>
     <string name="lbl_goto_now_playing">Πηγαίνετε στο Now Playing</string>
     <string name="lbl_instant_mix">Άμεση Mix</string>
-    <string name="lbl_save_as_playlist">Αποθήκευση ως λίστα αναπαραγωγής</string>
     <string name="lbl_delete">Διαγράφω</string>
     <string name="msg_item_added">" αντικείμενο προστέθηκε"</string>
     <string name="desc_automatic_fav_songs">Αυτόματη λίστα αναπαραγωγής από τα αγαπημένα τραγούδια</string>
@@ -277,7 +276,6 @@
     <string name="lbl_hide_unwatched_count">Απόκρυψη μετρητή μη προσβληθέντων</string>
     <string name="lbl_user_server">%1$s από %2$s</string>
     <string name="msg_added_to_video">%1$s προστέθηκε στην ουρά αναπαραγωγής. Τελειώνει σε %2$s</string>
-    <string name="msg_queue_saved">Η ουρά αποθηκεύτηκε ως νέα αναπαραγωγή: %1$s</string>
     <string name="msg_no_items">Δεν υπάρχουν αντικείμενα για αναπαραγωγή</string>
     <string name="too_many_errors">Πάρα πολλά σφάλματα. Εγκατάλειψη</string>
     <string name="player_error">Σφάλμα προγράμματος αναπαραγωγής. Γίνεται ξανά απόπειρα…</string>
@@ -403,7 +401,6 @@
     <string name="subtitle_error">Δεν είναι δυνατή η επιλογή υποτίτλων</string>
     <string name="msg_live_tv_next">Φόρτωση των επόμενων %1$d ωρών;</string>
     <string name="lbl_load_guide_data">Φόρτωση Δεδομένων Πλοήγησης</string>
-    <string name="lbl_new_playlist_name">Εισάγετε ένα όνομα για τη νέα λίστα αναπαραγωγής</string>
     <string name="episode_missing_message_2">Αυτό το επεισόδιο λείπει από τη βιβλιοθήκη σας. Η αναπαραγωγή θα σταματήσει.</string>
     <string name="episode_missing_message">Αυτό το επεισόδιο λείπει από τη βιβλιοθήκη σας. Θέλετε να το προσπεράσετε και να συνεχίσετε στο επόμενο;</string>
     <string name="episode_missing">Λείπει επεισόδιο</string>

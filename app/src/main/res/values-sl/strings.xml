@@ -144,7 +144,6 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="msg_item_added">" dodan element"</string>
     <string name="lbl_delete">Izbriši</string>
-    <string name="lbl_save_as_playlist">Shrani kot seznam predvajanja</string>
     <string name="lbl_instant_mix">Takojšnji miks</string>
     <string name="lbl_goto_now_playing">Pojdi na Trenutno se predvaja</string>
     <string name="lbl_remove_from_queue">Odstrani iz vrste</string>
@@ -182,7 +181,6 @@
     <string name="msg_no_items">Ni elementov za predvajanje</string>
     <string name="subtitle_error">Ne morem izbrati sledi podnapisov</string>
     <string name="too_many_errors">Preveč napak. Predajam se</string>
-    <string name="lbl_new_playlist_name">Vnesi ime za nov seznam predvajanja</string>
     <string name="episode_missing">Manjkajoča epizoda</string>
     <string name="no_player">Ni predvajalnika</string>
     <string name="mark_watched">Označi kot ogledano</string>
@@ -279,7 +277,6 @@
     <string name="lbl_resume_preroll">Nadaljuj pre-roll</string>
     <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
     <string name="msg_added_to_video">%1$s dodan v čakalno vrsto. Konec: %2$s</string>
-    <string name="msg_queue_saved">Čakalna vrsta shranjena kot seznam predvajanja: %1$s</string>
     <string name="seek_error">Iskanje ni mogoče</string>
     <string name="msg_live_tv_next">Prenesi naslednjih %1$d ur\?</string>
     <string name="msg_live_tv_prev">Prenesi prejšnjih %1$d ur\?</string>

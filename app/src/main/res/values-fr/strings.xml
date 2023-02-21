@@ -157,7 +157,6 @@
     <string name="lbl_remove_from_queue">Retirer de la liste de lecture</string>
     <string name="lbl_goto_now_playing">Aller la chanson en cours de lecture</string>
     <string name="lbl_instant_mix">Mix instantané</string>
-    <string name="lbl_save_as_playlist">Sauveg. comme liste de lecture</string>
     <string name="lbl_delete">Supprimer</string>
     <string name="msg_item_added">" élément ajouté"</string>
     <string name="desc_automatic_fav_songs">Liste de lecture automatique des chansons favorites</string>
@@ -258,11 +257,9 @@
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="bitrate_auto">Auto</string>
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
-    <string name="msg_queue_saved">File d\'attente sauvée comme nouvelle liste de lecture : %1$s</string>
     <string name="msg_no_items">Aucun élément à jouer</string>
     <string name="subtitle_error">Impossible de choisir le sous-titre</string>
     <string name="too_many_errors">Trop d\'erreurs. Abandon</string>
-    <string name="lbl_new_playlist_name">Entrez un nom pour la nouvelle liste de lecture</string>
     <string name="episode_missing_message_2">Cet épisode manque dans votre bibliothèque. La lecture sera arrêtée.</string>
     <string name="episode_missing_message">Cet épisode manque dans votre bibliothèque. Voulez-vous le sauter et continuer avec le suivant \?</string>
     <string name="episode_missing">Épisode manquant</string>

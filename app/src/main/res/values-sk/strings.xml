@@ -186,7 +186,6 @@
     <string name="desc_automatic_fav_songs">Automatický playlist obľúbených skladieb</string>
     <string name="msg_item_added">" položka pridaná"</string>
     <string name="lbl_delete">Vymazať</string>
-    <string name="lbl_save_as_playlist">Uložiť ako Playlist</string>
     <string name="lbl_instant_mix">Okamžitý mix</string>
     <string name="lbl_goto_now_playing">Prejsť na práve prehrávané</string>
     <string name="lbl_remove_from_queue">Odstrániť z fronty</string>
@@ -273,7 +272,6 @@
     <string name="turn_off">Vypnúť túto možnosť</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
     <string name="msg_added_to_video">Položka %1$s bola pridaná do video fronty. Koniec o: %2$s</string>
-    <string name="msg_queue_saved">Fronta bola uložená ako nový playlist: %1$s</string>
     <string name="msg_no_items">Žiadne položky na prehranie</string>
     <string name="subtitle_error">Nie je možné vybrať titulky</string>
     <string name="too_many_errors">Príliš veľa chýb. Vzdávam sa</string>
@@ -282,7 +280,6 @@
     <string name="msg_live_tv_prev">Načítať predchádzajúcich %1$d hodín\?</string>
     <string name="msg_live_tv_next">Načítať ďalších %1$d hodín\?</string>
     <string name="lbl_load_guide_data">Načítať dáta programového sprievodcu</string>
-    <string name="lbl_new_playlist_name">Zadajte názov nového playlistu</string>
     <string name="episode_missing_message_2">Táto epizóda chýba vo vašej knižnici. Prehrávanie bude zastavené.</string>
     <string name="episode_missing_message">Táto epizóda chýba vo vašej knižnici. Chcete ju preskočiť a pokračovať nasledujúcou epizódou\?</string>
     <string name="episode_missing">Chýbajúca epizóda</string>

@@ -163,7 +163,6 @@
     <string name="lbl_new_premieres">Nuevos estrenos</string>
     <string name="desc_automatic_fav_songs">Lista de reproducción automática de las canciones favoritas</string>
     <string name="msg_item_added">" elemento agregado"</string>
-    <string name="lbl_save_as_playlist">Guardar como lista de reproducción</string>
     <string name="lbl_instant_mix">Mix instantáneo</string>
     <string name="lbl_goto_now_playing">Ir a Reproduciendo ahora</string>
     <string name="lbl_remove_from_queue">Eliminar de la cola</string>
@@ -268,7 +267,6 @@
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
-    <string name="msg_queue_saved">Cola de reproducción guardada como lista: %1$s</string>
     <string name="msg_no_items">No hay elementos para reproducir</string>
     <string name="subtitle_error">No se pudo seleccionar el subtítulo</string>
     <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
@@ -276,7 +274,6 @@
     <string name="msg_live_tv_prev">¿Desea cargar las %1$d horas anteriores\?</string>
     <string name="msg_live_tv_next">¿Desea cargar las %1$d horas siguientes\?</string>
     <string name="lbl_load_guide_data">Cargar Guía de Programas</string>
-    <string name="lbl_new_playlist_name">Introduzca un nombre para la nueva lista de reproducción</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo y continuar con el que sigue\?</string>
     <string name="episode_missing">Episodio Faltante</string>

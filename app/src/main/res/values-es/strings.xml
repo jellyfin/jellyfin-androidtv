@@ -186,7 +186,6 @@
     <string name="desc_automatic_fav_songs">Lista de reproducción automática de canciones favoritas</string>
     <string name="msg_item_added">" Elemento agregado"</string>
     <string name="lbl_delete">Eliminar</string>
-    <string name="lbl_save_as_playlist">Guardar como una lista de reproducción</string>
     <string name="lbl_instant_mix">Mezcla instantánea</string>
     <string name="lbl_goto_now_playing">Ir a Reproduciendo ahora</string>
     <string name="lbl_remove_from_queue">Eliminar de la cola</string>
@@ -263,7 +262,6 @@
     <string name="audio_error">No se puede reproducir audio %1$s</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
     <string name="msg_added_to_video">Se ha agregado %1$s a la lista de reproducción actual. Termina: %2$s</string>
-    <string name="msg_queue_saved">Lista de reproducción actual guardada como: %1$s</string>
     <string name="msg_no_items">No hay elementos para reproducir</string>
     <string name="too_many_errors">Demasiados errores. Deteniendo la reproducción</string>
     <string name="player_error">Se ha encontrado un error en el reproductor. Re-intentando…</string>
@@ -271,7 +269,6 @@
     <string name="msg_live_tv_next">¿Desea cargar las siguientes %1$d horas\?</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo\?</string>
-    <string name="lbl_new_playlist_name">Introduzca un nombre para la nueva lista</string>
     <string name="episode_missing">Episodio Faltante</string>
     <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
     <string name="no_player">No hay repoductor de Video</string>

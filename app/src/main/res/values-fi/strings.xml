@@ -41,7 +41,6 @@
     <string name="lbl_play_next_up">Toista seuraava</string>
     <string name="lbl_clear_queue">Tyhjennä jono</string>
     <string name="btn_got_it">Selvä</string>
-    <string name="lbl_save_as_playlist">Tallenna soittolistana</string>
     <string name="lbl_remove_from_queue">Poista jonosta</string>
     <string name="lbl_up_next_colon">"Seuraavaksi: "</string>
     <string name="lbl_recorded_tv">Televisiotallenteet</string>
@@ -344,7 +343,6 @@
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
     <string name="msg_added_to_video">\'%1$s\' lisättiin videojonoon. Päättyy: %2$s</string>
-    <string name="msg_queue_saved">Jono tallennettiin toistolistaksi: %1$s</string>
     <string name="msg_no_items">Ei toistettavia kohteita</string>
     <string name="subtitle_error">Tekstitystä ei voida valita</string>
     <string name="too_many_errors">Liian monta virhettä. Luovutetaan</string>
@@ -352,7 +350,6 @@
     <string name="msg_live_tv_prev">Ladataanko edelliset %1$d tuntia\?</string>
     <string name="msg_live_tv_next">Ladataanko seuraavat %1$d tuntia\?</string>
     <string name="lbl_load_guide_data">Lataa ohjelmaoppaan tiedot</string>
-    <string name="lbl_new_playlist_name">Syötä uuden toistolistan nimi</string>
     <string name="episode_missing_message">Jaksoa ei ole kirjastossa. Haluatko ohittaa sen ja jatkaa seuraavaan jaksoon\?</string>
     <string name="episode_missing_message_2">Jaksoa ei ole kirjastossa. Toisto pysäytetään.</string>
     <string name="episode_missing">Jakso puuttuu</string>

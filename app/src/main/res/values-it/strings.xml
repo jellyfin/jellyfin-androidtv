@@ -91,7 +91,6 @@
     <string name="lbl_remove_from_queue">Rimuovi dalla Coda</string>
     <string name="lbl_goto_now_playing">Vai a \"In riproduzione\"</string>
     <string name="lbl_instant_mix">Mix Istantaneo</string>
-    <string name="lbl_save_as_playlist">Salva come una Playlist</string>
     <string name="lbl_delete">Elimina</string>
     <string name="msg_item_added">" elemento aggiunto"</string>
     <string name="lbl_enable_debug">Opzioni di debug</string>
@@ -272,7 +271,6 @@
     <string name="lbl_tv_channel_status">%1$d di %2$d canali</string>
     <string name="msg_no_items">Nessun contenuto da riprodurre</string>
     <string name="too_many_errors">Troppi errori. Interrompo</string>
-    <string name="lbl_new_playlist_name">Inserisci un nome per la nuova playlist</string>
     <string name="episode_missing">Episodio mancante</string>
     <string name="mark_watched_message">Il contenuto non sembra essere stato riprodotto per intero. Segnare come visto\?</string>
     <string name="lbl_subtitle_track">Seleziona traccia sottotitoli</string>
@@ -298,7 +296,6 @@
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
     <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
-    <string name="msg_queue_saved">Coda salvata come nuova playlist: %1$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>
     <string name="msg_live_tv_prev">Carico le precedenti %1$d ore\?</string>
     <string name="msg_live_tv_next">Carico le prossime %1$d ore\?</string>

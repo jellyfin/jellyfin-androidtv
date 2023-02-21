@@ -61,7 +61,6 @@
     <string name="lbl_bitstream_ac3">Bit-straumēt Dolby Digital audio</string>
     <string name="msg_item_added">" vienums pievienots"</string>
     <string name="lbl_delete">Izdzēst</string>
-    <string name="lbl_save_as_playlist">Saglabāt kā Atskaņošanas Sarakstu</string>
     <string name="lbl_remove_from_queue">Noņemt no Rindas</string>
     <string name="lbl_play_from_here">Atskaņot no Šejienes</string>
     <string name="lbl_now_playing">Pašlaik Atskaņo</string>

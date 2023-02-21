@@ -2,15 +2,11 @@ package org.jellyfin.androidtv.ui.playback;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.InputType;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.ExoPlayer;
@@ -22,7 +18,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import org.jellyfin.androidtv.R;
-import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.compat.AudioOptions;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
@@ -43,11 +38,8 @@ import org.jellyfin.androidtv.util.sdk.compat.JavaCompat;
 import org.jellyfin.apiclient.interaction.ApiClient;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dlna.DeviceProfile;
-import org.jellyfin.apiclient.model.playlists.PlaylistCreationRequest;
-import org.jellyfin.apiclient.model.playlists.PlaylistCreationResult;
 import org.jellyfin.sdk.model.DeviceInfo;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.MediaType;
 import org.koin.java.KoinJavaComponent;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -406,56 +398,6 @@ public class LegacyMediaManager implements MediaManager {
         mCurrentAudioQueue.Retrieve();
         mManagedAudioQueue = null;
         fireQueueStatusChange();
-    }
-
-    @Override
-    public void saveAudioQueue(Context context) {
-        //Get a name and save as playlist
-        final EditText name = new EditText(context);
-        name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.lbl_save_as_playlist)
-                .setMessage(R.string.lbl_new_playlist_name)
-                .setView(name)
-                .setPositiveButton(R.string.btn_done, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String text = name.getText().toString();
-                        PlaylistCreationRequest request = new PlaylistCreationRequest();
-                        request.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                        request.setMediaType(MediaType.Audio);
-                        request.setName(text);
-                        request.setItemIdList(getCurrentAudioQueueItemIds());
-                        KoinJavaComponent.<ApiClient>get(ApiClient.class).CreatePlaylist(request, new Response<PlaylistCreationResult>() {
-                            @Override
-                            public void onResponse(PlaylistCreationResult response) {
-                                Toast.makeText(context, context.getString(R.string.msg_queue_saved, text), Toast.LENGTH_LONG).show();
-                                DataRefreshService dataRefreshService = KoinJavaComponent.<DataRefreshService>get(DataRefreshService.class);
-                                dataRefreshService.setLastLibraryChange(System.currentTimeMillis());
-                            }
-
-                            @Override
-                            public void onError(Exception exception) {
-                                Timber.e(exception, "Exception creating playlist");
-                            }
-                        });
-                    }
-                })
-                .show();
-
-    }
-
-    private ArrayList<String> getCurrentAudioQueueItemIds() {
-        ArrayList<String> result = new ArrayList<>();
-
-        if (mCurrentAudioQueue != null) {
-            for (int i = 0; i < mCurrentAudioQueue.size(); i++) {
-                AudioQueueItem item = (AudioQueueItem) mCurrentAudioQueue.get(i);
-                result.add(item.getItemId());
-            }
-        }
-
-        return result;
     }
 
     @Override

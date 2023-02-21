@@ -205,7 +205,6 @@
     <string name="desc_automatic_fav_songs">Автоматичний список відтворення обраних пісень</string>
     <string name="msg_item_added">" елементів додано"</string>
     <string name="lbl_delete">Видалити</string>
-    <string name="lbl_save_as_playlist">Зберегти як плейліст</string>
     <string name="lbl_instant_mix">Миттєвий мікс</string>
     <string name="lbl_goto_now_playing">Перейти до \"Відтворюється\"</string>
     <string name="lbl_remove_from_queue">Видалити з черги</string>
@@ -263,7 +262,6 @@
     <string name="lbl_now_playing_track">%1$s з %2$s</string>
     <string name="lbl_loading_elipses">Завантажую…</string>
     <string name="lbl_play_trailers">Програти трейлери</string>
-    <string name="msg_queue_saved">Черга збережена як новий список відтворення: %1$s</string>
     <string name="msg_no_items">Нема елементів для відтворення</string>
     <string name="subtitle_error">Не вдається вибрати субтитри</string>
     <string name="too_many_errors">Забагато помилок. Здаюсь</string>
@@ -272,7 +270,6 @@
     <string name="msg_live_tv_prev">Завантажити попередні %1$d годин\?</string>
     <string name="msg_live_tv_next">Завантажити наступні %1$d годин\?</string>
     <string name="lbl_load_guide_data">Завантажте дані керування</string>
-    <string name="lbl_new_playlist_name">Введіть назву для нового списку відтворення</string>
     <string name="episode_missing_message_2">Цей епізод відсутній у вашій медіатеці. Відтворення зупиниться.</string>
     <string name="episode_missing_message">Цей епізод відсутній у вашій медіатеці. Бажаєте пропустити його й перейти до наступного\?</string>
     <string name="episode_missing">Відсутній епізод</string>

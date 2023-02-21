@@ -154,7 +154,6 @@
     <string name="desc_automatic_fav_songs">喜爱歌曲的自动播放列表</string>
     <string name="msg_item_added">" 已加入项目"</string>
     <string name="lbl_delete">删除</string>
-    <string name="lbl_save_as_playlist">作为播放列表保存</string>
     <string name="lbl_instant_mix">实时混合</string>
     <string name="lbl_goto_now_playing">转到正在播放</string>
     <string name="lbl_remove_from_queue">从队列中删除</string>
@@ -266,14 +265,12 @@
     <string name="just_one">只选此项</string>
     <string name="turn_off">将此选项关闭</string>
     <string name="audio_error">无法播放音频%1$s</string>
-    <string name="msg_queue_saved">使用保存项目新建列表： %1$s</string>
     <string name="msg_no_items">无播放项目</string>
     <string name="subtitle_error">无法选择字幕</string>
     <string name="too_many_errors">发生太多错误。放弃操作</string>
     <string name="player_error">发生播放错误。即将重试……</string>
     <string name="seek_error">无法查找</string>
     <string name="lbl_load_guide_data">加载指南数据</string>
-    <string name="lbl_new_playlist_name">输入新播放列表的名称</string>
     <string name="episode_missing_message_2">库中缺失当前剧集。播放将终止。</string>
     <string name="episode_missing_message">库内不包含该剧集。是否跳过并继续观看下一集？</string>
     <string name="episode_missing">剧集缺失</string>

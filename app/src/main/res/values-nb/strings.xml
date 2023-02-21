@@ -158,7 +158,6 @@
     <string name="lbl_remove_from_queue">Fjern fra kø</string>
     <string name="lbl_goto_now_playing">Gå til nåværende spor</string>
     <string name="lbl_instant_mix">Miks</string>
-    <string name="lbl_save_as_playlist">Lagre som spilleliste</string>
     <string name="lbl_delete">Slett</string>
     <string name="msg_item_added">" element lagt til"</string>
     <string name="desc_automatic_fav_songs">Automatisk spilleliste av favorittsanger</string>
@@ -262,7 +261,6 @@
     <string name="turn_off">Slå av dette alternativet</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>
     <string name="msg_added_to_video">%1$s lagt til i videokøen. Slutter: %2$s</string>
-    <string name="msg_queue_saved">Kø lagret som ny spilleliste: %1$s</string>
     <string name="msg_no_items">Ingen elementer å spille av</string>
     <string name="subtitle_error">Kan ikke velge undertekst</string>
     <string name="too_many_errors">For mange feil. Gir opp</string>
@@ -271,7 +269,6 @@
     <string name="msg_live_tv_prev">Last forrige %1$d timer\?</string>
     <string name="msg_live_tv_next">Last inn neste %1$d timer\?</string>
     <string name="lbl_load_guide_data">Last guide data</string>
-    <string name="lbl_new_playlist_name">Skriv inn et navn på den nye spillelisten</string>
     <string name="episode_missing_message_2">Denne episoden mangler fra biblioteket ditt. Avspillingen stopper.</string>
     <string name="episode_missing_message">Denne episoden mangler fra biblioteket ditt. Vil du hoppe over det og fortsette til neste\?</string>
     <string name="episode_missing">Episode mangler</string>

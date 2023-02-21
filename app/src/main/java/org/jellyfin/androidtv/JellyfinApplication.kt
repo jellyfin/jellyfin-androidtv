@@ -51,7 +51,7 @@ class JellyfinApplication : Application() {
 			// Recreate periodic workers
 			workManager.enqueueUniquePeriodicWork(
 				LeanbackChannelWorker.PERIODIC_UPDATE_REQUEST_NAME,
-				ExistingPeriodicWorkPolicy.REPLACE,
+				ExistingPeriodicWorkPolicy.UPDATE,
 				PeriodicWorkRequestBuilder<LeanbackChannelWorker>(1, TimeUnit.HOURS)
 					.setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.MINUTES)
 					.build()

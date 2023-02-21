@@ -86,7 +86,6 @@
     <string name="turn_off">Искључите ову опцију</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
     <string name="msg_added_to_video">%1$s додато у ред за видео. Завршава се у: %2$s</string>
-    <string name="msg_queue_saved">Ред је сачуван као нова плејлиста: %1$s</string>
     <string name="msg_no_items">Нема ставки за репродукцију</string>
     <string name="subtitle_error">Није могуће одабрати титл</string>
     <string name="too_many_errors">Превише грешака. Одустајем</string>
@@ -95,7 +94,6 @@
     <string name="msg_live_tv_prev">Учитај претходних %1$d сати\?</string>
     <string name="msg_live_tv_next">Учитај следећих %1$d сати\?</string>
     <string name="lbl_load_guide_data">Учитајте податке водича</string>
-    <string name="lbl_new_playlist_name">Унесите име за нову листу песама</string>
     <string name="episode_missing_message_2">Ова епизода недостаје у вашој библиотеци. Репродукција ће се зауставити.</string>
     <string name="episode_missing_message">Ова епизода недостаје у вашој библиотеци. Да ли бисте желели да га прескочите и наставите на следећи\?</string>
     <string name="episode_missing">Недостаје епизода</string>
@@ -199,7 +197,6 @@
     <string name="desc_automatic_fav_songs">Аутоматска листа за репродукцију омиљених и вољених песама</string>
     <string name="msg_item_added">" ставка је додата"</string>
     <string name="lbl_delete">Обриши</string>
-    <string name="lbl_save_as_playlist">Сачувај као листу за пуштање</string>
     <string name="lbl_instant_mix">Тренутни микс</string>
     <string name="lbl_goto_now_playing">Иди на пуштено сада</string>
     <string name="lbl_remove_from_queue">Уклони из реда</string>

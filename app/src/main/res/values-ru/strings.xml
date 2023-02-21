@@ -158,7 +158,6 @@
     <string name="lbl_remove_from_queue">Изъять из очереди</string>
     <string name="lbl_goto_now_playing">Перейти к воспроизводящемуся</string>
     <string name="lbl_instant_mix">Автомикс</string>
-    <string name="lbl_save_as_playlist">Сохранить как плей-лист</string>
     <string name="lbl_delete">Удалить</string>
     <string name="msg_item_added">" элемент добавлен"</string>
     <string name="desc_automatic_fav_songs">Автоматический плей-лист избранных и нравящихся композиций</string>
@@ -264,7 +263,6 @@
     <string name="play_with_vlc">Воспроизвести с libVLC</string>
     <string name="just_one">Только этот один</string>
     <string name="turn_off">Отключить эту опцию</string>
-    <string name="msg_queue_saved">Очередь сохранена как новый плей-лист: %1$s</string>
     <string name="msg_no_items">Нет элементов для воспроизведения</string>
     <string name="subtitle_error">Невозможно выбрать субтитры</string>
     <string name="too_many_errors">Слишком много ошибок. Отказ от попыток</string>
@@ -273,7 +271,6 @@
     <string name="msg_live_tv_prev">Загрузить предыдущие %1$d часов\?</string>
     <string name="msg_live_tv_next">Загрузить следующие %1$d часов\?</string>
     <string name="lbl_load_guide_data">Загрузить данные телегида</string>
-    <string name="lbl_new_playlist_name">Введите имя нового плей-листа</string>
     <string name="episode_missing_message">Этот эпизод отсутствует в медиатеке. Пропустить его и перейти к следующему\?</string>
     <string name="episode_missing_message_2">Этот эпизод отсутствует в медиатеке. Воспроизведение будет остановлено.</string>
     <string name="episode_missing">Эпизод отсутствует</string>

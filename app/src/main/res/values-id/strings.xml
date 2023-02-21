@@ -74,7 +74,6 @@
     <string name="desc_automatic_fav_songs">Daftar putar otomatis dari lagu favorit</string>
     <string name="msg_item_added">" item ditambahkan"</string>
     <string name="lbl_delete">Hapus</string>
-    <string name="lbl_save_as_playlist">Simpan sebagai Daftar Putar</string>
     <string name="lbl_remove_from_queue">Hapus dari Antrean</string>
     <string name="lbl_play_from_here">Mainkan dari Sini</string>
     <string name="lbl_now_playing">Sedang dimainkan</string>
@@ -261,7 +260,6 @@
     <string name="lbl_pause">Jeda</string>
     <string name="audio_error">Kesalahan dalam memutar audio %1$s</string>
     <string name="msg_added_to_video">%1$s ditambahkan ke antrian video. Berakhir: %2$s</string>
-    <string name="msg_queue_saved">Urutan disimpan sebagai daftar putar baru: %1$s</string>
     <string name="msg_no_items">Tidak ada item untuk diputar</string>
     <string name="subtitle_error">Kesalahan memilih subtitel</string>
     <string name="too_many_errors">Terlalu banyak kesalahan. Menyerah</string>
@@ -270,7 +268,6 @@
     <string name="msg_live_tv_prev">Muat %1$d jam sebelumnya\?</string>
     <string name="msg_live_tv_next">Muat %1$d jam selanjutnya\?</string>
     <string name="lbl_load_guide_data">Muat Data Pandu</string>
-    <string name="lbl_new_playlist_name">Masukkan nama untuk daftar putar baru</string>
     <string name="episode_missing_message_2">Episode ini tidak ada di pustaka anda. Pemutaran akan berhenti.</string>
     <string name="episode_missing_message">Episode ini tidak ada di pustaka anda. Apakah anda ingin melompati dan melanjutkan ke episode selanjutnya\?</string>
     <string name="episode_missing">Episode Hilang</string>

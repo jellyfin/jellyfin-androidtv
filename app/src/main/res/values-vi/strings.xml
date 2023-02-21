@@ -199,7 +199,6 @@
     <string name="desc_automatic_fav_songs">Danh sách bài hát yêu thích tự động</string>
     <string name="msg_item_added">" đã thêm mục"</string>
     <string name="lbl_delete">Xóa</string>
-    <string name="lbl_save_as_playlist">Lưu vào danh sách phát</string>
     <string name="lbl_instant_mix">Kết hợp tức thì</string>
     <string name="lbl_goto_now_playing">Đi tới Đang phát</string>
     <string name="lbl_remove_from_queue">Xóa Khỏi Hàng Đợi</string>
@@ -217,7 +216,6 @@
     <string name="turn_off">Tắt tùy chọn này</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
     <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
-    <string name="msg_queue_saved">Hàng đợi được lưu dưới dạng danh sách phát mới: %1$s</string>
     <string name="msg_no_items">Không có mục nào để phát</string>
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
@@ -225,7 +223,6 @@
     <string name="msg_live_tv_prev">Tải %1$d giờ trước đó\?</string>
     <string name="msg_live_tv_next">Tải %1$d giờ tiếp theo\?</string>
     <string name="lbl_load_guide_data">Tải dữ liệu hướng dẫn</string>
-    <string name="lbl_new_playlist_name">Nhập tên cho danh sách phát mới</string>
     <string name="episode_missing_message_2">Tập này bị thiếu trong thư viện của bạn. Phát lại sẽ dừng.</string>
     <string name="episode_missing_message">Tập này bị thiếu trong thư viện của bạn. Bạn có muốn bỏ qua nó và tiếp tục phần tiếp theo không\?</string>
     <string name="episode_missing">Thiếu tập phim</string>

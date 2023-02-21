@@ -21,7 +21,6 @@
     <string name="lbl_remove_from_queue">Elimină din listă</string>
     <string name="lbl_goto_now_playing">Mergi la Redare curentă</string>
     <string name="lbl_instant_mix">Mix instant</string>
-    <string name="lbl_save_as_playlist">Salvează ca listă de redare</string>
     <string name="lbl_delete">Șterge</string>
     <string name="msg_item_added">" element adăugat"</string>
     <string name="desc_automatic_fav_songs">Crearea automată a unei liste de redare din cântecele marcate ca favorite si placute</string>
@@ -266,7 +265,6 @@
     <string name="msg_live_tv_prev">Încărcați anterior %1$d ore\?</string>
     <string name="msg_live_tv_next">Încărcați următoarele %1$d ore\?</string>
     <string name="lbl_load_guide_data">Încărcați datele ghidului</string>
-    <string name="lbl_new_playlist_name">Introduceți un nume pentru noua listă de redare</string>
     <string name="episode_missing_message_2">Acest episod lipsește din bibliotecă. Redarea se va opri.</string>
     <string name="episode_missing_message">Acest episod lipsește din biblioteca. Doriți să îl săriți și să continuați cu următorul\?</string>
     <string name="episode_missing">Episod lipsă</string>
@@ -282,7 +280,6 @@
     <string name="lbl_pause">Pauză</string>
     <string name="audio_error">Imposibil de redat sunetul %1$s</string>
     <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
-    <string name="msg_queue_saved">Coada salvată ca listă de redare nouă: %1$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Se termină la %1$s</string>
     <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>

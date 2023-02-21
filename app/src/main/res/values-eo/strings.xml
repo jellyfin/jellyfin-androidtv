@@ -90,7 +90,6 @@
     <string name="pref_playback">Ludado</string>
     <string name="byletter_letters">ABCĈDEFGĜHĤIJĴKLMNOPRSŜTUŬVZ</string>
     <string name="btn_cancel">Rezignu</string>
-    <string name="lbl_new_playlist_name">Entajpi nomon por la nova ludlisto</string>
     <string name="connect_manually_by_address">Entajpi servilan adreson</string>
     <string name="lbl_valid_server_address">Entajpi la servilan adreson (IP aŭ domajna/maŝina nomo)</string>
     <string name="lbl_enter_server_address">Entajpi servilan adreson</string>
@@ -137,7 +136,6 @@
     <string name="discovered_servers_empty">Neniuj serviloj troviĝis en loka reto.</string>
     <string name="lbl_user_last_used">Laste uzita sur %1$s je %2$s</string>
     <string name="server_connection_failed">Ne eblas konektiĝi al servilo</string>
-    <string name="msg_queue_saved">Vico savita kiel nova ludlisto: %1$s</string>
     <string name="lbl_enable_debug">Sencimigaj opcioj</string>
     <string name="lbl_audio_output">Aŭdia eligo</string>
     <string name="lbl_repeat_options">Ripetaj Opcioj</string>
@@ -245,7 +243,6 @@
     <string name="lbl_refresh_switching">Ŝanĝi oftecon de aktualigoj</string>
     <string name="lbl_play_next_up">Ludi Sekvan Plue</string>
     <string name="desc_bitstream_ac3">Bezonas kapablan aparataron</string>
-    <string name="lbl_save_as_playlist">Savi kiel Ludlisto</string>
     <string name="lbl_remove_from_queue">Forigi de Vico</string>
     <string name="lbl_play_from_here">Ludi de Ĉi tie</string>
     <string name="lbl_live_tv_guide">TV-etera Gvidilo</string>
