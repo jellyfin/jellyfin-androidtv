@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
@@ -15,18 +17,22 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ui.validateAuthentication
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
+class MainActivity : FragmentActivity(R.layout.activity_main) {
 	companion object {
 		private const val FRAGMENT_TAG_CONTENT = "content"
 	}
 
 	private val backgroundService by inject<BackgroundService>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
 
 	private val backPressedCallback = object : OnBackPressedCallback(false) {
 		override fun handleOnBackPressed() {
@@ -56,8 +62,13 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 				navigationRepository.currentAction.collect { action ->
 					handleNavigationAction(action)
 					backPressedCallback.isEnabled = navigationRepository.canGoBack
+					screensaverViewModel.notifyInteraction(false)
 				}
 			}
+		}
+
+		findViewById<ComposeView>(R.id.screensaver).setContent {
+			InAppScreensaver()
 		}
 	}
 
@@ -67,6 +78,17 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 		if (!validateAuthentication()) return
 
 		applyTheme()
+
+		screensaverViewModel.activityPaused = false
+
+		if (screensaverViewModel.enabled) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		else  window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+	}
+
+	override fun onPause() {
+		super.onPause()
+
+		screensaverViewModel.activityPaused = true
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
@@ -107,12 +129,26 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 		return result
 	}
 
-	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean = supportFragmentManager.fragments
-		.any { it.onKeyEvent(keyCode, event) }
+	private fun onKeyEvent(keyCode: Int, event: KeyEvent?): Boolean {
+		// Ignore the key event that closes the screensaver
+		if (screensaverViewModel.visible.value) {
+			screensaverViewModel.notifyInteraction(canCancel = event?.action == KeyEvent.ACTION_UP)
+			return true
+		}
+
+		return supportFragmentManager.fragments
+			.any { it.onKeyEvent(keyCode, event) }
+	}
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyDown(keyCode, event)
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
+
+	override fun onUserInteraction() {
+		super.onUserInteraction()
+
+		screensaverViewModel.notifyInteraction(false)
+	}
 }

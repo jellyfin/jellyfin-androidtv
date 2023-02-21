@@ -497,4 +497,20 @@
     <string name="pref_enable_media_management_description">Show option to manage media while browsing</string>
     <string name="item_delete_confirm_title">Delete item</string>
     <string name="item_delete_confirm_message">Are you sure you want to delete this item from the server? This action cannot be undone.</string>
+    <string name="pref_screensaver">Screensaver</string>
+    <string name="pref_screensaver_inapp_enabled">Use in-app screensaver</string>
+    <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
+    <string name="pref_screensaver_inapp_timeout">Start screensaver after</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s second</item>
+        <item quantity="other">%1$s seconds</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minute</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hour</item>
+        <item quantity="other">%1$s hours</item>
+    </plurals>
 </resources>
