@@ -63,7 +63,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
-    private ImageButton mSaveButton;
     private ClockUserView mClock;
     private TextView mCounter;
     private ScrollView mScrollView;
@@ -190,21 +189,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
-
-        mSaveButton = binding.saveBtn;
-        mSaveButton.setContentDescription(getString(R.string.lbl_save_as_playlist));
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().saveAudioQueue(requireActivity());
-                }
-                lastUserInteraction = System.currentTimeMillis();
-            }
-        });
-        mSaveButton.setOnFocusChangeListener(mainAreaFocusListener);
 
         mShuffleButton = binding.shuffleBtn;
         mShuffleButton.setContentDescription(getString(R.string.lbl_shuffle_queue));
@@ -466,7 +450,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
                 }
                 mRepeatButton.setActivated(mediaManager.getValue().isRepeatMode());
-                mSaveButton.setEnabled(mediaManager.getValue().getCurrentAudioQueueSize() > 1);
                 mPrevButton.setEnabled(mediaManager.getValue().hasPrevAudioItem());
                 mNextButton.setEnabled(mediaManager.getValue().hasNextAudioItem());
                 mShuffleButton.setEnabled(mediaManager.getValue().getCurrentAudioQueueSize() > 1);
