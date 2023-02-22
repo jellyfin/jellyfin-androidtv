@@ -480,7 +480,7 @@
     <string name="item_deleted">%1$s видалено</string>
     <string name="item_deletion_failed">Не вдалося видалити %1$s</string>
     <string name="pref_enable_media_management">Увімкнути керування медіафайлами</string>
-    <string name="item_delete_confirm_message">Ви впевнені, що хочете видалити цей елемент\? Цю дію не можна скасувати.</string>
+    <string name="item_delete_confirm_message">Ви впевнені, що бажаєте видалити цей елемент із сервера\? Цю дію не можна скасувати.</string>
     <string name="pref_enable_media_management_description">Показати опцію керування медіа під час перегляду</string>
     <string name="item_delete_confirm_title">Видалити елемент</string>
     <string name="color_pink">Рожевий</string>
