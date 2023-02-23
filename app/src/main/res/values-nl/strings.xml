@@ -232,7 +232,7 @@
     <string name="lbl_premieres">Premières</string>
     <string name="lbl_show_indicators">Indicators tonen voor</string>
     <string name="pref_video_player_external">Externe applicatie</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimenteel)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch selecteren</string>
     <string name="lbl_my_media">Mijn media</string>
