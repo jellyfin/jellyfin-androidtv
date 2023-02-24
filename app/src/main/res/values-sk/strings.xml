@@ -232,7 +232,7 @@
     <string name="lbl_last_played">"Naposledy pozreté "</string>
     <string name="lbl_watched">Pozreté</string>
     <string name="pref_video_player_external">Externá aplikácia</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimentálne)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Vybrať automaticky</string>
     <string name="lbl_my_media">Moje médiá</string>
