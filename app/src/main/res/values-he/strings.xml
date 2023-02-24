@@ -491,4 +491,8 @@
     <string name="color_darkgrey">אפור כהה</string>
     <string name="color_cyan">טורקיז</string>
     <string name="color_pink">ורוד</string>
+    <string name="pref_enable_media_management">הפעל סידור מדיה</string>
+    <string name="item_delete_confirm_message">אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת\? אי אפשר לשחזר את הפעולה הזאת.</string>
+    <string name="pref_enable_media_management_description">הראה אפשרויות לסדר את המדיה בזמן שימוש</string>
+    <string name="item_delete_confirm_title">מחיקת פריט</string>
 </resources>
