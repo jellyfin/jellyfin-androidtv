@@ -20,6 +20,7 @@ import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
 import org.jellyfin.androidtv.ui.AsyncImageView
+import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.util.createKeyHandler
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -30,6 +31,7 @@ import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 class PictureViewerFragment : Fragment(), View.OnKeyListener {
@@ -41,6 +43,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		private val AUTO_HIDE_ACTIONS_DURATION = 4.seconds
 	}
 
+	private val screensaverViewModel by activityViewModel<ScreensaverViewModel>()
 	private val pictureViewerViewModel by activityViewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private lateinit var binding: FragmentPictureViewerBinding
@@ -61,6 +64,17 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 
 			val autoPlay = arguments?.getBoolean(ARGUMENT_AUTO_PLAY) == true
 			if (autoPlay) pictureViewerViewModel.startPresentation()
+		}
+
+		// Add a screensaver lock when the slide show is active
+		lifecycleScope.launch {
+			var lock: (() -> Unit)? = null
+			pictureViewerViewModel.presentationActive.collect { active ->
+				Timber.i("presentationActive=$active")
+				lock?.invoke()
+
+				if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
+			}
 		}
 	}
 
