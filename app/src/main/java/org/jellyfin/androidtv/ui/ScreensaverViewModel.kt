@@ -1,5 +1,8 @@
 package org.jellyfin.androidtv.ui
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -14,6 +17,7 @@ class ScreensaverViewModel(
 	private val userPreferences: UserPreferences,
 ) : ViewModel() {
 	private var timer: Job? = null
+	private var locks = 0
 	val enabled get() = userPreferences[UserPreferences.screensaverInAppEnabled]
 	private val timeout get() = userPreferences[UserPreferences.screensaverInAppTimeout].milliseconds
 
@@ -39,11 +43,49 @@ class ScreensaverViewModel(
 		}
 
 		// Create new timer to show screensaver when enabled
-		if (enabled && !activityPaused) {
+		if (enabled && !activityPaused && locks == 0) {
 			timer = viewModelScope.launch {
 				delay(timeout)
 				_visible.value = true
 			}
+		}
+	}
+
+	/**
+	 * Create a lock that prevents the screensaver for running until the returned function is called
+	 * or the lifecycle is destroyed.
+	 *
+	 * @return Function to cancel the lock
+	 */
+	fun addLifecycleLock(lifecycle: Lifecycle): () -> Unit {
+		if (lifecycle.currentState == Lifecycle.State.DESTROYED) return {}
+
+		val lock = ScreensaverLock(lifecycle)
+		lock.activate()
+		return lock::cancel
+	}
+
+	private inner class ScreensaverLock(private val lifecycle: Lifecycle) : LifecycleEventObserver {
+		private var active: Boolean = false
+
+		override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+			if (event == Lifecycle.Event.ON_DESTROY) cancel()
+		}
+
+		fun activate() {
+			if (active) return
+			lifecycle.addObserver(this)
+			locks++
+			notifyInteraction(true)
+			active = true
+		}
+
+		fun cancel() {
+			if (!active) return
+			locks--
+			lifecycle.removeObserver(this)
+			notifyInteraction(false)
+			active = false
 		}
 	}
 }
