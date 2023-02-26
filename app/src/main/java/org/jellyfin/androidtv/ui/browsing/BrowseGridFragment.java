@@ -155,7 +155,6 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         }
 
         mActivity = getActivity();
-        backgroundService.getValue().attach(requireActivity());
 
         mFolder = Json.Default.decodeFromString(BaseItemDto.Companion.serializer(), getArguments().getString(Extras.Folder));
         mParentId = mFolder.getId();

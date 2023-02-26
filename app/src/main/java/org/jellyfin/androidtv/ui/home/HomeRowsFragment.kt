@@ -75,7 +75,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		super.onCreate(savedInstanceState)
 
 		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter())
-		backgroundService.attach(requireActivity())
 
 		val currentUser = userRepository.currentUser.value
 		if (currentUser == null) {
