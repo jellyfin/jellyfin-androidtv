@@ -15,8 +15,6 @@ class LeanbackSearchFragment : SearchSupportFragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		backgroundService.value.attach(requireActivity())
-
 		// Create provider
 		val searchProvider = SearchProvider(requireContext(), lifecycle)
 		setSearchResultProvider(searchProvider)

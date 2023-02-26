@@ -158,7 +158,6 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             }
         });
 
-        backgroundService.getValue().attach(requireActivity());
         return binding.getRoot();
     }
 

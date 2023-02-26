@@ -256,7 +256,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mCurrentPos = binding.currentPos;
         mRemainingTime = binding.remainingTime;
 
-        backgroundService.getValue().attach(requireActivity());
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
