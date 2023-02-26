@@ -97,6 +97,13 @@ class LeanbackChannelWorker(
 			// Delete current items from the channels
 			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
 			// Get channel URIs
+			val latestMediaChannel = getChannelUri(
+				"latest_media", Channel.Builder()
+					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+					.setDisplayName(context.getString(R.string.home_section_latest_media))
+					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+					.build(), default = true
+			)
 			val myMediaChannel = getChannelUri(
 				"my_media", Channel.Builder()
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
@@ -110,13 +117,6 @@ class LeanbackChannelWorker(
 					.setDisplayName(context.getString(R.string.lbl_next_up))
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
 					.build()
-			)
-			val latestMediaChannel = getChannelUri(
-				"latest_media", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.home_section_latest_media))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build(), default = true
 			)
 			val latestMoviesChannel = getChannelUri(
 				"latest_movies", Channel.Builder()
