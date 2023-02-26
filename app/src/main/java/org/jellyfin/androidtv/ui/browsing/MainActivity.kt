@@ -35,11 +35,11 @@ class MainActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		applyTheme()
+
 		super.onCreate(savedInstanceState)
 
 		if (!validateAuthentication()) return
-
-		applyTheme()
 
 		backgroundService.attach(this)
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
