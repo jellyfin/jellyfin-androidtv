@@ -102,7 +102,7 @@ class LeanbackChannelWorker(
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
 					.setDisplayName(context.getString(R.string.lbl_my_media))
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build(), default = true
+					.build()
 			)
 			val nextUpChannel = getChannelUri(
 				"next_up", Channel.Builder()
@@ -116,7 +116,7 @@ class LeanbackChannelWorker(
 					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
 					.setDisplayName(context.getString(R.string.home_section_latest_media))
 					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build()
+					.build(), default = true
 			)
 			val latestMoviesChannel = getChannelUri(
 				"latest_movies", Channel.Builder()
