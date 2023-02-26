@@ -70,9 +70,9 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-
 		applyTheme()
+
+		super.onCreate(savedInstanceState)
 
 		backgroundService.attach(this)
 

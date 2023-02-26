@@ -24,11 +24,11 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 	var keyListener: View.OnKeyListener? = null
 
 	public override fun onCreate(savedInstanceState: Bundle?) {
+		applyTheme()
+
 		super.onCreate(savedInstanceState)
 
 		if (!validateAuthentication()) return
-
-		applyTheme()
 
 		// Workaround for Sony Bravia devices that show a "grey" background on HDR videos
 		// Note: Should NOT be applied to the decorView as this introduces artifacts
