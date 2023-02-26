@@ -30,8 +30,6 @@ class TextSearchFragment : Fragment(), TextWatcher, TextView.OnEditorActionListe
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		backgroundService.value.attach(requireActivity())
-
 		// Create provider
 		searchProvider = SearchProvider(requireContext(), lifecycle)
 	}
