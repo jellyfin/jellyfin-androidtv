@@ -24,7 +24,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
-import org.jellyfin.androidtv.preference.constant.PreferredDefaultChannelData
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
@@ -142,17 +141,7 @@ class LeanbackChannelWorker(
 				Pair(latestMedia, latestMediaChannel),
 				Pair(latestMovies, latestMoviesChannel),
 				Pair(latestEpisodes, latestEpisodesChannel),
-				Pair(
-					when (userPreferences[UserPreferences.leanbackPreferredDefaultChannel]) {
-						PreferredDefaultChannelData.NONE -> emptyList()
-						PreferredDefaultChannelData.MY_MEDIA -> myMedia
-						PreferredDefaultChannelData.LATEST_EPISODES -> latestEpisodes
-						PreferredDefaultChannelData.LATEST_MEDIA -> latestMedia
-						PreferredDefaultChannelData.LATEST_MOVIES -> latestMovies
-						PreferredDefaultChannelData.NEXT_UP -> nextUpItems
-						PreferredDefaultChannelData.RESUME_WATCHING -> resumeItems
-					}, myMediaChannel
-				)
+				Pair(myMedia, myMediaChannel)
 			).forEach { (items, channel) ->
 				Timber.d("Updating channel %s", channel)
 				items.map { item ->

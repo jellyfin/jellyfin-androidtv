@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.preference.screen
 import android.os.Build
 import androidx.tvprovider.media.tv.TvContractCompat
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.preference.constant.PreferredDefaultChannelData
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.AppTheme
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
@@ -110,12 +109,6 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			category {
 				setTitle(R.string.pref_leanback)
 
-				if (context.packageManager.hasSystemFeature("com.google.android.feature.AMATI_EXPERIENCE")) {
-					enum<PreferredDefaultChannelData> {
-						setTitle(R.string.pref_leanback_gtv_channel)
-						bind(userPreferences, UserPreferences.leanbackPreferredDefaultChannel)
-					}
-				}
 				checkbox {
 					setTitle(R.string.pref_leanback_display_backdrop)
 					setContent(R.string.pref_leanback_display_backdrop_description)
