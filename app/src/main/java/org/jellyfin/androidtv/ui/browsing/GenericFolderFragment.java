@@ -51,7 +51,7 @@ public class GenericFolderFragment extends EnhancedBrowseFragment {
                 latest.setFilters(new ItemFilter[]{ItemFilter.IsUnplayed});
                 latest.setSortBy(new String[]{ItemSortBy.DateCreated});
                 latest.setSortOrder(SortOrder.Descending);
-                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest_additions), latest, 0));
+                mRows.add(new BrowseRowDef(getString(R.string.lbl_latest), latest, 0));
 
             }
 
