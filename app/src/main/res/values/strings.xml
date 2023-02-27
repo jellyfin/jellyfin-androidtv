@@ -23,7 +23,8 @@
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Search</string>
     <string name="msg_not_implemented">" not implemented"</string>
-    <string name="lbl_latest">Latest</string>
+    <string name="lbl_latest">Recently added</string>
+    <string name="lbl_latest_in">Recently added in %1$s</string>
     <string name="lbl_by_name">By Name</string>
     <string name="lbl_favorites">Favorites</string>
     <string name="lbl_coming_up">Coming Up</string>
@@ -33,7 +34,6 @@
     <string name="lbl_movies">Movies</string>
     <string name="lbl_tv_series">TV Series</string>
     <string name="lbl_other">Other</string>
-    <string name="lbl_latest_additions">Latest Additions</string>
     <string name="lbl_because_you_watched">"Because you watched "</string>
     <string name="lbl_play_all">Play All</string>
     <string name="lbl_shuffle_all">Shuffle All</string>
@@ -407,7 +407,7 @@
     <string name="license_license">License</string>
     <string name="home_prefs">Home</string>
     <string name="home_sections">Home sections</string>
-    <string name="home_section_latest_media">Latest media</string>
+    <string name="home_section_latest_media">Recently added media</string>
     <string name="home_section_library">My media</string>
     <string name="home_section_library_small">My media (small)</string>
     <string name="home_section_resume">Continue watching</string>
