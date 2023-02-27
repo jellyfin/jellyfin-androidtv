@@ -300,6 +300,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
+            case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 event.startTracking();
                 return true;
@@ -309,6 +310,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
 
     private boolean onKeyLongPress(int keyCode) {
         switch (keyCode){
+            case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if (mSelectedProgramView instanceof ProgramGridCell)
                     showProgramOptions();
@@ -325,6 +327,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 // bring up filter selection
                 showFilterOptions();
                 break;
+            case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
                     Date curUTC = TimeUtils.convertToUtcDate(new Date());
