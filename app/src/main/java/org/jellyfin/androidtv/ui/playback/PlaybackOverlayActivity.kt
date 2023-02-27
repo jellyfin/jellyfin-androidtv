@@ -57,7 +57,7 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 		if (keyListener?.onKey(currentFocus, keyCode, event) == true)
 			return true
 
-		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
 			val frag = supportFragmentManager.fragments[0]
 			if (frag is CustomPlaybackOverlayFragment) {
 				frag.onKeyUp(keyCode, event)
@@ -83,7 +83,7 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 	}
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
 			event?.startTracking()
 			return true
 		}
@@ -92,7 +92,7 @@ class PlaybackOverlayActivity : FragmentActivity(R.layout.fragment_content_view)
 	}
 
 	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
-		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
 			val frag = supportFragmentManager.fragments[0]
 			if (frag is CustomPlaybackOverlayFragment) {
 				frag.onKeyLongPress(keyCode, event)
