@@ -497,4 +497,20 @@
     <string name="item_deletion_failed">%1$s kon niet verwijderd worden</string>
     <string name="pref_enable_media_management_description">Optie tonen om media te beheren tijdens het bladeren</string>
     <string name="item_delete_confirm_message">Weet je zeker dat je dit item van de server wilt verwijderen\? Dit kan niet worden teruggedraaid.</string>
+    <string name="pref_screensaver">Schermbeveiliging</string>
+    <string name="pref_screensaver_inapp_timeout">Schermbeveiliging starten na</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s seconde</item>
+        <item quantity="other">%1$s seconden</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Schermbeveiliging van app gebruiken</string>
+    <string name="pref_screensaver_inapp_enabled_description">Toon de Jellyfin-schermbeveiliging als de app geopend is</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuut</item>
+        <item quantity="other">%1$s minuten</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s uur</item>
+        <item quantity="other">%1$s uur</item>
+    </plurals>
 </resources>
