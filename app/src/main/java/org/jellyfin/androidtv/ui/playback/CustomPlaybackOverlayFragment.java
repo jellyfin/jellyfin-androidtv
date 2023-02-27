@@ -594,7 +594,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                             }
                         }
 
-                        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mPlaybackController.canSeek()) {
+                        if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER)
+                                && mPlaybackController.canSeek()) {
                             // if the player is playing and the overlay is hidden, this will pause
                             // if the player is paused and then 'back' is pressed to hide the overlay, this will play
                             mPlaybackController.playPause();
