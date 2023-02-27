@@ -75,7 +75,7 @@ object TelemetryService {
 			connection.requestMethod = "POST"
 			connection.doOutput = true
 			connection.outputStream.apply {
-				write(errorContent.toReport().toByteArray())
+				write(removePersonalInfo(errorContent).toByteArray())
 				flush()
 				close()
 			}
@@ -83,6 +83,18 @@ object TelemetryService {
 			connection.inputStream.close()
 		} catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
 			throw ReportSenderException("Unable to send crash report to server", e)
+		}
+
+		private fun removePersonalInfo(errorContent: CrashReportData): String {
+			var report = errorContent.toReport()
+
+			if (url.isNullOrBlank()) return report
+
+			// Assume the last server address matches the report address
+			// We then strip off the protocol and the client log path to get the service domain/IP
+			val serverDomain =
+				url.replace("^https?://".toRegex(), "").replace("/ClientLog/Document", "")
+			return report.replace(serverDomain, "<SERVER_ADDRESS>")
 		}
 
 		private fun StringBuilder.appendSection(name: String, content: StringBuilder.() -> Unit) {
