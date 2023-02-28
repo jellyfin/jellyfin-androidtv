@@ -26,6 +26,7 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
+import org.jellyfin.androidtv.util.ContextExtensionsKt;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse;
@@ -81,14 +82,14 @@ public class RecordPopup {
 
         mPaddingDisplayOptions = new ArrayList<>(Arrays.asList(
                 mActivity.getString(R.string.lbl_on_schedule),
-                "1  " + mActivity.getString(R.string.lbl_minute),
-                "5  " + mActivity.getString(R.string.lbl_minutes),
-                "15 " + mActivity.getString(R.string.lbl_minutes),
-                "30 " + mActivity.getString(R.string.lbl_minutes),
-                "60 " + mActivity.getString(R.string.lbl_minutes),
-                "90 " + mActivity.getString(R.string.lbl_minutes),
-                "2  " + mActivity.getString(R.string.lbl_hours),
-                "3  " + mActivity.getString(R.string.lbl_hours)
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 1),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 5),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 15),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 30),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 60),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.minutes, 90),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.hours, 2),
+                ContextExtensionsKt.getQuantityString(activity, R.plurals.hours, 3)
         ));
 
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
