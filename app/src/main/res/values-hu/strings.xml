@@ -38,7 +38,7 @@
     <string name="msg_unable_to_cancel">Felvétel törlése sikertelen</string>
     <string name="lbl_shuffle_all">Összes keverése</string>
     <string name="lbl_by_name">Név alapján</string>
-    <string name="lbl_latest">Legújabb</string>
+    <string name="lbl_latest">Nemrég hozzáadott</string>
     <string name="msg_not_implemented">" nem implementált"</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_by_letter">Betű szerint</string>
@@ -131,7 +131,7 @@
     <string name="pref_media_player">Kedvelt médialejátszó</string>
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_video_player_external">Külső alkalmazás</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (kísérleti)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatikus kiválasztás</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
@@ -395,7 +395,7 @@
     <string name="home_section_resume">Megtekintés folytatása</string>
     <string name="home_section_library_small">Médiatáram (kicsi)</string>
     <string name="home_section_library">Médiatáram</string>
-    <string name="home_section_latest_media">Legújabb média</string>
+    <string name="home_section_latest_media">Nemrég hozzáadott média</string>
     <string name="home_sections">Kezdőoldal szekciók</string>
     <string name="home_prefs">Kezdőlap</string>
     <string name="searchable_settings_description">Média</string>
@@ -490,5 +490,22 @@
     <string name="item_deletion_failed">Nem sikerült törölni %1$s-t</string>
     <string name="pref_enable_media_management">Médiakezelés engedélyezése</string>
     <string name="pref_enable_media_management_description">Médiakezelés engedélyezése opció mutatása böngészés közben</string>
-    <string name="item_delete_confirm_message">Biztos vagy benne hogy törölni szeretnéd ezt az elemet\? Ez a művelet nem vonható vissza.</string>
+    <string name="item_delete_confirm_message">Biztos vagy benne hogy törölni szeretnéd ezt az elemet a szerverről\? Ez a művelet nem vonható vissza.</string>
+    <string name="pref_screensaver">Képernyőkímélő</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s perc</item>
+        <item quantity="other">%1$s percek</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Alkalmazáson belüli képernyővédőt</string>
+    <string name="pref_screensaver_inapp_timeout">Képernyővédő indítása ennyi idő után</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s óra</item>
+        <item quantity="other">%1$s órák</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%1$s másodperc</item>
+        <item quantity="other">%1$s másodpercek</item>
+    </plurals>
+    <string name="lbl_latest_in">Hozááadva %1$s</string>
+    <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
 </resources>
