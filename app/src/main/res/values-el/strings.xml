@@ -46,7 +46,6 @@
     <string name="lbl_cancel">Ακύρωση</string>
     <string name="lbl_play">Αναπαραγωγή</string>
     <string name="lbl_play_all">Αναπαραγωγή Όλων</string>
-    <string name="lbl_latest_additions">Τελευταίες Προσθήκες</string>
     <string name="lbl_other">Άλλα</string>
     <string name="lbl_tv_series">Τηλεοπτικές Σειρές</string>
     <string name="lbl_movies">Ταινίες</string>
@@ -194,7 +193,6 @@
     <string name="lbl_sort_by">Ταξινόμηση κατά</string>
     <string name="lbl_premiere">Πρεμιέρα</string>
     <string name="lbl_on_schedule">Σε πρόγραμμα</string>
-    <string name="lbl_minutes">Λεπτά</string>
     <string name="lbl_at_any_time">Σε οποιαδήποτε ώρα</string>
     <string name="lbl_series_recordings">Εγγραφές Σειρών</string>
     <string name="lbl_save">Αποθήκευση</string>

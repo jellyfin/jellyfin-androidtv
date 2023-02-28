@@ -90,7 +90,6 @@
     <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
     <string name="lbl_loading_elipses">Loading…</string>
     <string name="lbl_on_schedule">On Schedule</string>
-    <string name="lbl_minutes">Minutes</string>
     <string name="lbl_at_any_time">At Any Time</string>
     <string name="lbl_select_date">Select Date</string>
     <string name="lbl_in_x_days">In %d days</string>
@@ -185,7 +184,6 @@
     <string name="lbl_shuffle_all">Shuffle All</string>
     <string name="lbl_play_all">Play All</string>
     <string name="lbl_because_you_watched">"Because you watched "</string>
-    <string name="lbl_latest_additions">Latest Additions</string>
     <string name="lbl_other">Other</string>
     <string name="lbl_tv_series">TV Programmes</string>
     <string name="lbl_movies">Films</string>

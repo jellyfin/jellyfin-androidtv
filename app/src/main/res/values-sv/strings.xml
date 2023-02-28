@@ -44,7 +44,6 @@
     <string name="lbl_premiere">Premiär</string>
     <string name="lbl_guest_stars">Gästmedverkande</string>
     <string name="lbl_on_schedule">Enligt schema</string>
-    <string name="lbl_minutes">Minuter</string>
     <string name="lbl_at_any_time">Närsomhelst</string>
     <string name="lbl_series_recordings">Serieinspelningar</string>
     <string name="lbl_save">Spara</string>
@@ -209,7 +208,6 @@
     <string name="lbl_shuffle_all">Blanda alla</string>
     <string name="lbl_play_all">Spela upp alla</string>
     <string name="lbl_because_you_watched">"Eftersom du tittat på "</string>
-    <string name="lbl_latest_additions">Senast tillagt</string>
     <string name="lbl_other">Annat</string>
     <string name="lbl_tv_series">TV-serier</string>
     <string name="lbl_movies">Filmer</string>

@@ -32,7 +32,6 @@
     <string name="lbl_sort_by">Kārtot pēc</string>
     <string name="lbl_premiere">Pirmizrāde</string>
     <string name="lbl_guest_stars">Viesu Zvaigznes</string>
-    <string name="lbl_minutes">Minūtes</string>
     <string name="lbl_at_any_time">Jebkurā Laikā</string>
     <string name="lbl_series_recordings">Sēriju Ieraksti</string>
     <string name="lbl_save">Saglabāt</string>
@@ -221,7 +220,6 @@
     <string name="lbl_shuffle_all">Jaukt Visu</string>
     <string name="msg_set_to_record">Programma uzstādīta ierakstīšanai</string>
     <string name="lbl_play">Atskaņot</string>
-    <string name="lbl_latest_additions">Jaunākie Pievienojumi</string>
     <string name="lbl_other_channels">Citi Kanāli</string>
     <string name="lbl_bitstream_dts">Bit-straumēt DTS Audio</string>
     <string name="lbl_instant_mix">Tiešā Jaukšana</string>

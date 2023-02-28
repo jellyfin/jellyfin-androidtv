@@ -28,7 +28,6 @@
     <string name="lbl_movies">Фильмы</string>
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
-    <string name="lbl_latest_additions">Последние добавления</string>
     <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
     <string name="lbl_play_all">Воспр. все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
@@ -208,7 +207,6 @@
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Крайнее воспроизведение</string>
-    <string name="lbl_minutes">мин</string>
     <string name="lbl_series_recordings">Записанные серии</string>
     <string name="lbl_episode_not_record">Эта передача НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>

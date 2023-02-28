@@ -45,7 +45,6 @@
     <string name="lbl_resume_from">Lanjutkan dari %1$s</string>
     <string name="lbl_guest_stars">Bintang tamu</string>
     <string name="lbl_on_schedule">Sesuai jadwal</string>
-    <string name="lbl_minutes">Menit</string>
     <string name="lbl_at_any_time">Kapan saja</string>
     <string name="lbl_series_recordings">Rekaman Seri</string>
     <string name="lbl_save">Simpan</string>
@@ -188,7 +187,6 @@
     <string name="lbl_shuffle_all">Acak Semua</string>
     <string name="lbl_play_all">Mainkan Semua</string>
     <string name="lbl_because_you_watched">"Karena Anda menyaksikan "</string>
-    <string name="lbl_latest_additions">Penambahan Terbaru</string>
     <string name="lbl_other">Lain</string>
     <string name="lbl_tv_series">Serial TV</string>
     <string name="lbl_movies">Film</string>

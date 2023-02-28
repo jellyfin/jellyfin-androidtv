@@ -66,7 +66,6 @@
     <string name="lbl_play">Lejátszás</string>
     <string name="lbl_play_all">Összes Lejátszása</string>
     <string name="lbl_because_you_watched">"Amiért megnézted ezt: {0} "</string>
-    <string name="lbl_latest_additions">Legújabb Tartalmak</string>
     <string name="lbl_other">Egyéb</string>
     <string name="lbl_tv_series">Sorozatok</string>
     <string name="lbl_movies">Filmek</string>
@@ -162,7 +161,6 @@
     <string name="lbl_premiere">Premier</string>
     <string name="lbl_guest_stars">Vendégsztárok</string>
     <string name="lbl_on_schedule">Ütemezve</string>
-    <string name="lbl_minutes">Perc</string>
     <string name="lbl_at_any_time">bármikor</string>
     <string name="lbl_series_recordings">Filmsorozat felvételek</string>
     <string name="lbl_save">Mentés</string>

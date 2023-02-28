@@ -76,7 +76,6 @@
     <string name="lbl_shuffle_all">அனைத்தையும் கலக்கு</string>
     <string name="lbl_play_all">அனைத்தையும் இயக்கு</string>
     <string name="lbl_because_you_watched">"நீங்கள் பார்த்ததால் "</string>
-    <string name="lbl_latest_additions">சமீபத்திய சேர்த்தல்கள்</string>
     <string name="lbl_other">மற்றவை</string>
     <string name="lbl_tv_series">தொலைக்காட்சி தொடர்கள்</string>
     <string name="lbl_movies">திரைப்படங்கள்</string>
@@ -174,7 +173,6 @@
     <string name="lbl_premiere">பிரீமியர்</string>
     <string name="lbl_guest_stars">விருந்தினர் நட்சத்திரங்கள்</string>
     <string name="lbl_on_schedule">அட்டவணைப்படி</string>
-    <string name="lbl_minutes">நிமிடங்கள்</string>
     <string name="lbl_at_any_time">எந்த நேரத்திலும்</string>
     <string name="lbl_series_recordings">தொடர் பதிவுகள்</string>
     <string name="lbl_save">சேமி</string>

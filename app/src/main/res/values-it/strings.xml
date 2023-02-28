@@ -26,7 +26,6 @@
     <string name="lbl_movies">Film</string>
     <string name="lbl_tv_series">Serie TV</string>
     <string name="lbl_other">Altro</string>
-    <string name="lbl_latest_additions">Ultime Aggiunte</string>
     <string name="lbl_because_you_watched">"Perché hai guardato "</string>
     <string name="lbl_play_all">Riproduci tutto</string>
     <string name="lbl_shuffle_all">Riproduci tutto a caso</string>
@@ -194,7 +193,6 @@
     <string name="lbl_bitstream_dts">Bitstream Audio DTS</string>
     <string name="desc_premieres">Mostra una fila di nuovi episodi per ogni serie che stai guardando</string>
     <string name="lbl_on_schedule">In programmazione</string>
-    <string name="lbl_minutes">Minuti</string>
     <string name="lbl_at_any_time">In qualsiasi momento</string>
     <string name="lbl_series_recordings">Registrazioni di Serie TV</string>
     <string name="lbl_save">Salva</string>

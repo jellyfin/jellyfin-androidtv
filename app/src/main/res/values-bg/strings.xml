@@ -117,7 +117,6 @@
     <string name="msg_video_playback_error">"Грешка при възпроизвеждане на видео - "</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_cast_crew">Актьори/Екип</string>
-    <string name="lbl_latest_additions">Последни допълнения</string>
     <string name="lbl_coming_up">Очакван</string>
     <string name="msg_not_implemented">" не реализиран"</string>
     <string name="lbl_record_any_time">Записвай по всяко време</string>

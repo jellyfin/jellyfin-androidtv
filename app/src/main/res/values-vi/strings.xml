@@ -70,7 +70,6 @@
     <string name="lbl_shuffle_all">Toàn Bộ Ngẫu Nhiên</string>
     <string name="lbl_play_all">Phát Tất Cả</string>
     <string name="lbl_because_you_watched">"Bởi vì bạn đã xem "</string>
-    <string name="lbl_latest_additions">Bổ Sung Gần Đây Nhất</string>
     <string name="lbl_other">Khác</string>
     <string name="lbl_tv_series">Chương Trình TV</string>
     <string name="lbl_movies">Phim</string>
@@ -161,7 +160,6 @@
     <string name="lbl_premiere">Công Chiếu</string>
     <string name="lbl_guest_stars">Ngôi sao khách mời</string>
     <string name="lbl_on_schedule">Đúng Tiến Độ</string>
-    <string name="lbl_minutes">Phút</string>
     <string name="lbl_at_any_time">Bất cứ lúc nào</string>
     <string name="lbl_series_recordings">Bản Ghi Loạt Phim Bộ</string>
     <string name="lbl_save">Lưu</string>

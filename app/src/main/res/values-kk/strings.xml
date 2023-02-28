@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmder</string>
     <string name="lbl_tv_series">Telehikaialar</string>
     <string name="lbl_other">Basqa</string>
-    <string name="lbl_latest_additions">Eñ keiıngı üsteuler</string>
     <string name="lbl_because_you_watched">"Öitkenı qaradyñyz "</string>
     <string name="lbl_play_all">Bärın oinatu</string>
     <string name="lbl_shuffle_all">Bärın aralastyru</string>
@@ -182,7 +181,6 @@
     <string name="lbl_premiere">Tūsaukeserı</string>
     <string name="lbl_guest_stars">Şaqyrylğan aktör</string>
     <string name="lbl_on_schedule">Is kestesı boiynşa</string>
-    <string name="lbl_minutes">min</string>
     <string name="lbl_series_recordings">Telehikaia jazbalary</string>
     <string name="lbl_save">Saqtau</string>
     <string name="msg_settings_updated">Teñşelımder jañartyldy</string>

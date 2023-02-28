@@ -53,7 +53,6 @@
     <string name="lbl_shuffle_all">Premešaj vse</string>
     <string name="lbl_play_all">Predvajaj vse</string>
     <string name="lbl_because_you_watched">"Ker ste gledali "</string>
-    <string name="lbl_latest_additions">Najnovejši dodatki</string>
     <string name="lbl_other">Ostalo</string>
     <string name="lbl_tv_series">TV Serije</string>
     <string name="lbl_movies">FIlmi</string>
@@ -232,7 +231,6 @@
     <string name="lbl_premiere">Premiera</string>
     <string name="lbl_guest_stars">Posebni gostje</string>
     <string name="lbl_on_schedule">Na urniku</string>
-    <string name="lbl_minutes">Minute</string>
     <string name="lbl_at_any_time">Ob katerem koli času</string>
     <string name="lbl_series_recordings">Posnetki serij</string>
     <string name="lbl_save">Shrani</string>

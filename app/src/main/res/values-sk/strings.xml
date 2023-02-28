@@ -108,7 +108,6 @@
     <string name="lbl_play">Prehrať</string>
     <string name="lbl_shuffle_all">Zamiešať všetko</string>
     <string name="lbl_because_you_watched">"Pretože ste pozerali "</string>
-    <string name="lbl_latest_additions">Najnovšie pridané</string>
     <string name="lbl_collections">Kolekcie</string>
     <string name="lbl_other_channels">Ostatné kanály</string>
     <string name="lbl_favorite_channels">Obľúbené kanály</string>
@@ -147,7 +146,6 @@
     <string name="lbl_premiere">Premiéra</string>
     <string name="lbl_guest_stars">Hosťujúce hviezdy</string>
     <string name="lbl_on_schedule">Naplánované</string>
-    <string name="lbl_minutes">minút/y</string>
     <string name="lbl_at_any_time">Kedykoľvek</string>
     <string name="lbl_series_recordings">Nahrávky sérií</string>
     <string name="lbl_save">Uložiť</string>

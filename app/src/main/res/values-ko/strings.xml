@@ -21,7 +21,6 @@
     <string name="lbl_collections">컬렉션</string>
     <string name="lbl_movies">영화</string>
     <string name="lbl_tv_series">TV 시리즈</string>
-    <string name="lbl_latest_additions">최근 추가됨</string>
     <string name="lbl_because_you_watched">"시청했기 때문에 "</string>
     <string name="lbl_play_all">모두 재생</string>
     <string name="lbl_shuffle_all">모두 셔플</string>
@@ -149,7 +148,6 @@
     <string name="msg_settings_updated">설정 업데이트됨</string>
     <string name="lbl_save">저장</string>
     <string name="lbl_series_recordings">시리즈 노고하</string>
-    <string name="lbl_minute">분</string>
     <string name="lbl_sort_by">정렬</string>
     <string name="lbl_guide_option_played">최근 재생됨</string>
     <string name="lbl_guide_option_number">채널 번호</string>

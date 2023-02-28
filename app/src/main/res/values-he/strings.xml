@@ -144,7 +144,6 @@
     <string name="lbl_shuffle_all">ערבוב</string>
     <string name="lbl_play_all">נגן הכל</string>
     <string name="lbl_because_you_watched">"בגלל שצפית "</string>
-    <string name="lbl_latest_additions">נוספו לאחרונה</string>
     <string name="lbl_other">אחר</string>
     <string name="lbl_tv_series">סדרות</string>
     <string name="lbl_movies">סרטים</string>
@@ -195,7 +194,6 @@
     <string name="lbl_premiere">פרימיירה</string>
     <string name="lbl_guest_stars">שחקנים אורחים</string>
     <string name="lbl_on_schedule">בזמן</string>
-    <string name="lbl_minutes">דקות</string>
     <string name="lbl_at_any_time">בכל זמן</string>
     <string name="lbl_series_recordings">הקלטות סדרה</string>
     <string name="lbl_save">שמירה</string>

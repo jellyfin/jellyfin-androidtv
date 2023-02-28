@@ -166,7 +166,6 @@
     <string name="lbl_shuffle_all">Hepsini Karıştır</string>
     <string name="lbl_play_all">Hepsini Oynat</string>
     <string name="lbl_because_you_watched">"Şunları izlediğiniz için "</string>
-    <string name="lbl_latest_additions">Son Eklenenler</string>
     <string name="lbl_other">Diğer</string>
     <string name="lbl_tv_series">Diziler</string>
     <string name="lbl_movies">Filmler</string>
@@ -280,7 +279,6 @@
     <string name="lbl_premiere">Prömier</string>
     <string name="lbl_guest_stars">Konuk Oyuncular</string>
     <string name="lbl_on_schedule">Zamanında</string>
-    <string name="lbl_minutes">Dakika</string>
     <string name="lbl_at_any_time">Herhangi bir Zamanda</string>
     <string name="lbl_series_recordings">Seri Kayıtları</string>
     <string name="lbl_save">Kaydet</string>

@@ -157,7 +157,6 @@
     <string name="lbl_sort_by">ഇങ്ങനെ അടുക്കുക</string>
     <string name="lbl_guest_stars">അതിഥി നക്ഷത്രങ്ങൾ</string>
     <string name="lbl_on_schedule">ഷെഡ്യൂളിൽ</string>
-    <string name="lbl_minutes">മിനിറ്റ്</string>
     <string name="lbl_at_any_time">ഏതു സമയത്തും</string>
     <string name="lbl_series_recordings">സീരീസ് റെക്കോർഡിംഗുകൾ</string>
     <string name="lbl_save">രക്ഷിക്കും</string>
@@ -330,7 +329,6 @@
     <string name="lbl_shuffle_all">എല്ലാം ഇളക്കുക</string>
     <string name="lbl_play_all">എല്ലാം പ്രവർത്തിപ്പിക്കുക</string>
     <string name="lbl_because_you_watched">"കാരണം നിങ്ങൾ കണ്ടു "</string>
-    <string name="lbl_latest_additions">ഏറ്റവും പുതിയ കൂട്ടിച്ചേർക്കലുകൾ</string>
     <string name="lbl_other">മറ്റുള്ളവ</string>
     <string name="lbl_tv_series">TV പരമ്പര</string>
     <string name="lbl_movies">സിനിമകൾ</string>

@@ -19,7 +19,6 @@
     <string name="lbl_shuffle_all">Перемішати усе</string>
     <string name="lbl_play_all">Відтворити усі</string>
     <string name="lbl_because_you_watched">"На основі ваших переглядів "</string>
-    <string name="lbl_latest_additions">Нещодавно додані</string>
     <string name="lbl_other">Інше</string>
     <string name="lbl_movies">Фільми</string>
     <string name="lbl_collections">Колекції</string>
@@ -59,7 +58,6 @@
     <string name="lbl_premiere">Прем‘єра</string>
     <string name="lbl_guest_stars">Запрошені Зірки</string>
     <string name="lbl_on_schedule">На Майбутнє</string>
-    <string name="lbl_minutes">Хвилини</string>
     <string name="lbl_save">Зберегти</string>
     <string name="lbl_watched">Переглянуто</string>
     <string name="msg_recording_now">Записується зараз</string>

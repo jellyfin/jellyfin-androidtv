@@ -29,7 +29,6 @@
     <string name="lbl_save">Guardar</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
-    <string name="lbl_minute">Minuto</string>
     <string name="lbl_guest_stars">Estrellas invitadas</string>
     <string name="lbl_premiere">Estreno</string>
     <string name="lbl_sort_by">Ordenar por</string>
@@ -232,7 +231,6 @@
     <string name="lbl_cancel_recording">Cancelar grabación</string>
     <string name="lbl_shuffle_all">Mezclar todos</string>
     <string name="lbl_play_all">Reproducir todos</string>
-    <string name="lbl_latest_additions">Últimas adiciones</string>
     <string name="lbl_other_channels">Otros canales</string>
     <string name="lbl_favorite_channels">Canales favoritos</string>
     <string name="lbl_by_name">Por nombre</string>

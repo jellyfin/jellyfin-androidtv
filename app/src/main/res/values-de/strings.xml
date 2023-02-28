@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filme</string>
     <string name="lbl_tv_series">Serien</string>
     <string name="lbl_other">Sonstiges</string>
-    <string name="lbl_latest_additions">Zuletzt hinzugefügt</string>
     <string name="lbl_because_you_watched">"Weil du Folgendes angesehen hast: "</string>
     <string name="lbl_play_all">Alle abspielen</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
@@ -187,7 +186,6 @@
     <string name="lbl_sort_by">Sortieren nach</string>
     <string name="lbl_guest_stars">Gastauftritte</string>
     <string name="lbl_on_schedule">Planmäßig</string>
-    <string name="lbl_minutes">Minuten</string>
     <string name="lbl_series_recordings">Aufnahmen von Serien</string>
     <string name="lbl_save">Speichern</string>
     <string name="msg_settings_updated">Einstellungen aktualisiert</string>

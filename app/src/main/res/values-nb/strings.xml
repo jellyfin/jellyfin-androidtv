@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmer</string>
     <string name="lbl_tv_series">TV-serier</string>
     <string name="lbl_other">Annet</string>
-    <string name="lbl_latest_additions">Nylig lagt til</string>
     <string name="lbl_because_you_watched">"Fordi du så på "</string>
     <string name="lbl_play_all">Spill alle</string>
     <string name="lbl_shuffle_all">Spill av alt i tilfeldig rekkefølge</string>
@@ -175,7 +174,6 @@
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_guest_stars">Gjesteskuespillere</string>
     <string name="lbl_on_schedule">På planen</string>
-    <string name="lbl_minutes">Minutter</string>
     <string name="lbl_at_any_time">Når som helst</string>
     <string name="lbl_series_recordings">Serieopptak</string>
     <string name="lbl_save">Lagre</string>

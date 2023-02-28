@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_tv_series">Seriály</string>
     <string name="lbl_other">Další</string>
-    <string name="lbl_latest_additions">Nejnověji přidáno</string>
     <string name="lbl_because_you_watched">"Protože jste sledovali "</string>
     <string name="lbl_play_all">Přehrát vše</string>
     <string name="lbl_shuffle_all">Náhodně</string>
@@ -197,7 +196,6 @@
     <string name="lbl_premiere">Premiéra</string>
     <string name="lbl_guest_stars">Hostující hvězdy</string>
     <string name="lbl_on_schedule">Naplánováno</string>
-    <string name="lbl_minutes">minut</string>
     <string name="lbl_at_any_time">Kdykoli</string>
     <string name="lbl_series_recordings">Nahrávky sérií</string>
     <string name="lbl_save">Uložit</string>

@@ -26,7 +26,6 @@
     <string name="lbl_movies">电影</string>
     <string name="lbl_tv_series">电视剧</string>
     <string name="lbl_other">其它</string>
-    <string name="lbl_latest_additions">最新增加</string>
     <string name="lbl_because_you_watched">"因为你已观看 "</string>
     <string name="lbl_play_all">全部播放</string>
     <string name="lbl_shuffle_all">随机播放</string>
@@ -116,7 +115,6 @@
     <string name="lbl_premiere">首映</string>
     <string name="lbl_guest_stars">访客的星星</string>
     <string name="lbl_on_schedule">在计划上</string>
-    <string name="lbl_minutes">分钟</string>
     <string name="lbl_at_any_time">随时</string>
     <string name="lbl_series_recordings">系列记录</string>
     <string name="lbl_save">保存</string>
