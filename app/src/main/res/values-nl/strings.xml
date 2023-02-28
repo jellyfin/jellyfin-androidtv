@@ -189,11 +189,8 @@
     <string name="lbl_next_episode">Volgende aflevering</string>
     <string name="lbl_previous_episode">Vorige aflevering</string>
     <string name="lbl_sort_by">Sorteren op</string>
-    <string name="lbl_hours">Uren</string>
     <string name="lbl_minute">Minuut</string>
-    <string name="lbl_hour">Uur</string>
     <string name="lbl_minutes">Minuten</string>
-    <string name="lbl_seconds">Seconden</string>
     <string name="lbl_save">Opslaan</string>
     <string name="msg_settings_updated">Voorkeuren bijgewerkt</string>
     <string name="lbl_live">Live</string>

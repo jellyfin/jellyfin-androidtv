@@ -203,11 +203,8 @@
     <string name="lbl_sort_by">Organizar por</string>
     <string name="lbl_guest_stars">Estrelas de convidados</string>
     <string name="lbl_on_schedule">Na agenda</string>
-    <string name="lbl_hours">Horas</string>
     <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hour">Horas</string>
     <string name="lbl_minutes">Minutos</string>
-    <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">A qualquer momento</string>
     <string name="lbl_series_recordings">Séries gravando</string>
     <string name="lbl_save">Guardar</string>

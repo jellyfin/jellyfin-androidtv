@@ -208,11 +208,8 @@
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Крайнее воспроизведение</string>
-    <string name="lbl_hours">час</string>
     <string name="lbl_minute">мин</string>
-    <string name="lbl_hour">час</string>
     <string name="lbl_minutes">мин</string>
-    <string name="lbl_seconds">с</string>
     <string name="lbl_series_recordings">Записанные серии</string>
     <string name="lbl_episode_not_record">Эта передача НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>

@@ -174,11 +174,8 @@
     <string name="lbl_premiere">பிரீமியர்</string>
     <string name="lbl_guest_stars">விருந்தினர் நட்சத்திரங்கள்</string>
     <string name="lbl_on_schedule">அட்டவணைப்படி</string>
-    <string name="lbl_hours">மணி</string>
     <string name="lbl_minute">நிமிடம்</string>
-    <string name="lbl_hour">மணி</string>
     <string name="lbl_minutes">நிமிடங்கள்</string>
-    <string name="lbl_seconds">விநாடிகள்</string>
     <string name="lbl_at_any_time">எந்த நேரத்திலும்</string>
     <string name="lbl_series_recordings">தொடர் பதிவுகள்</string>
     <string name="lbl_save">சேமி</string>

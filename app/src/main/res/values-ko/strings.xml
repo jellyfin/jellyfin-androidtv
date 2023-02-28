@@ -149,11 +149,8 @@
     <string name="msg_settings_updated">설정 업데이트됨</string>
     <string name="lbl_save">저장</string>
     <string name="lbl_series_recordings">시리즈 노고하</string>
-    <string name="lbl_seconds">초</string>
     <string name="lbl_minutes">분</string>
-    <string name="lbl_hour">시간</string>
     <string name="lbl_minute">분</string>
-    <string name="lbl_hours">시간</string>
     <string name="lbl_sort_by">정렬</string>
     <string name="lbl_guide_option_played">최근 재생됨</string>
     <string name="lbl_guide_option_number">채널 번호</string>

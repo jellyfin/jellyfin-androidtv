@@ -120,11 +120,8 @@
     <string name="lbl_premiere">Premieră</string>
     <string name="lbl_guest_stars">Vedete Invitate</string>
     <string name="lbl_on_schedule">La timp</string>
-    <string name="lbl_hours">Ore</string>
     <string name="lbl_minute">Minut</string>
-    <string name="lbl_hour">Oră</string>
     <string name="lbl_minutes">Minute</string>
-    <string name="lbl_seconds">Secunde</string>
     <string name="lbl_at_any_time">Oricând</string>
     <string name="lbl_series_recordings">Înregistrările Serialului</string>
     <string name="lbl_save">Salvează</string>

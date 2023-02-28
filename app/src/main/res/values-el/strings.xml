@@ -194,11 +194,8 @@
     <string name="lbl_sort_by">Ταξινόμηση κατά</string>
     <string name="lbl_premiere">Πρεμιέρα</string>
     <string name="lbl_on_schedule">Σε πρόγραμμα</string>
-    <string name="lbl_hours">Ώρες</string>
     <string name="lbl_minute">Λεπτό</string>
-    <string name="lbl_hour">Ώρες</string>
     <string name="lbl_minutes">Λεπτά</string>
-    <string name="lbl_seconds">Δευτερόλεπτα</string>
     <string name="lbl_at_any_time">Σε οποιαδήποτε ώρα</string>
     <string name="lbl_series_recordings">Εγγραφές Σειρών</string>
     <string name="lbl_save">Αποθήκευση</string>

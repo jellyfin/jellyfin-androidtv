@@ -209,11 +209,8 @@
     <string name="lbl_sort_by">ترتيب حسب</string>
     <string name="lbl_guest_stars">النجوم الضيوف</string>
     <string name="lbl_on_schedule">في الموعد المحدد</string>
-    <string name="lbl_hours">ساعات</string>
     <string name="lbl_minute">دقيقة</string>
-    <string name="lbl_hour">ساعة</string>
     <string name="lbl_minutes">دقائق</string>
-    <string name="lbl_seconds">ثواني</string>
     <string name="lbl_at_any_time">في أي وقت</string>
     <string name="lbl_series_recordings">تسجيلات المسلسلات</string>
     <string name="lbl_save">حفظ</string>

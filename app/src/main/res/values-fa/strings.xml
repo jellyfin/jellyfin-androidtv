@@ -216,11 +216,8 @@
     <string name="lbl_premiere">اولین نمایش</string>
     <string name="lbl_guest_stars">ستاره های میهمان</string>
     <string name="lbl_on_schedule">طبق برنامه</string>
-    <string name="lbl_hours">ساعت</string>
     <string name="lbl_minute">دقیقه</string>
-    <string name="lbl_hour">ساعت</string>
     <string name="lbl_minutes">دقیقه</string>
-    <string name="lbl_seconds">ثانیه</string>
     <string name="lbl_at_any_time">در هر زمان</string>
     <string name="lbl_series_recordings">ضبط های سریال</string>
     <string name="lbl_song_title">عنوان آهنگ</string>

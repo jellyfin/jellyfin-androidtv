@@ -154,11 +154,8 @@
     <string name="msg_settings_updated">設定を更新しました</string>
     <string name="lbl_save">保存</string>
     <string name="lbl_at_any_time">随時</string>
-    <string name="lbl_seconds">秒</string>
     <string name="lbl_minutes">分</string>
-    <string name="lbl_hour">時間</string>
     <string name="lbl_minute">分</string>
-    <string name="lbl_hours">時間</string>
     <string name="lbl_on_schedule">予定通り</string>
     <string name="lbl_sort_by">並び順</string>
     <string name="lbl_guide_option_played">最後に再生</string>

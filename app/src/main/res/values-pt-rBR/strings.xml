@@ -186,11 +186,8 @@
     <string name="lbl_premiere">Estreia</string>
     <string name="lbl_guest_stars">Convidados Especiais</string>
     <string name="lbl_on_schedule">Na programação</string>
-    <string name="lbl_hours">Horas</string>
     <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hour">Hora</string>
     <string name="lbl_minutes">Minutos</string>
-    <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">A Qualquer Momento</string>
     <string name="lbl_save">Salvar</string>
     <string name="msg_settings_updated">Preferências atualizadas</string>

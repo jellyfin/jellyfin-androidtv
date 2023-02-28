@@ -229,11 +229,8 @@
     <string name="lbl_premiere">Premijera</string>
     <string name="lbl_guest_stars">Gostujuće uloge</string>
     <string name="lbl_on_schedule">Po rasporedu</string>
-    <string name="lbl_hours">Sati</string>
     <string name="lbl_minute">Minuta</string>
-    <string name="lbl_hour">Sat</string>
     <string name="lbl_minutes">Minute</string>
-    <string name="lbl_seconds">Sekunde</string>
     <string name="lbl_at_any_time">Bilo kada</string>
     <string name="lbl_series_recordings">Snimke serija</string>
     <string name="lbl_save">Spremi</string>

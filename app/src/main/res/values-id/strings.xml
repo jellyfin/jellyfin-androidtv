@@ -45,11 +45,8 @@
     <string name="lbl_resume_from">Lanjutkan dari %1$s</string>
     <string name="lbl_guest_stars">Bintang tamu</string>
     <string name="lbl_on_schedule">Sesuai jadwal</string>
-    <string name="lbl_hours">Jam</string>
     <string name="lbl_minute">Menit</string>
-    <string name="lbl_hour">Jam</string>
     <string name="lbl_minutes">Menit</string>
-    <string name="lbl_seconds">Detik</string>
     <string name="lbl_at_any_time">Kapan saja</string>
     <string name="lbl_series_recordings">Rekaman Seri</string>
     <string name="lbl_save">Simpan</string>

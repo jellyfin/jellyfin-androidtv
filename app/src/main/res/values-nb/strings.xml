@@ -175,11 +175,8 @@
     <string name="lbl_premiere">Premiere</string>
     <string name="lbl_guest_stars">Gjesteskuespillere</string>
     <string name="lbl_on_schedule">På planen</string>
-    <string name="lbl_hours">Timer</string>
     <string name="lbl_minute">Minutt</string>
-    <string name="lbl_hour">Time</string>
     <string name="lbl_minutes">Minutter</string>
-    <string name="lbl_seconds">Sekunder</string>
     <string name="lbl_at_any_time">Når som helst</string>
     <string name="lbl_series_recordings">Serieopptak</string>
     <string name="lbl_save">Lagre</string>

@@ -30,11 +30,8 @@
     <string name="lbl_stars">Seren</string>
     <string name="lbl_Reset">Ailosod</string>
     <string name="pref_about_title">Ynghylch</string>
-    <string name="lbl_hours">oriau</string>
     <string name="lbl_minute">munud</string>
-    <string name="lbl_hour">awr</string>
     <string name="lbl_minutes">munudau</string>
-    <string name="lbl_seconds">eiliadau</string>
     <string name="lbl_open">Agor</string>
     <string name="lbl_stretch">Ymestyn</string>
     <string name="lbl_zoom">Nesáu</string>
