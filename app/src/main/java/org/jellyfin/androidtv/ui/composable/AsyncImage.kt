@@ -33,7 +33,7 @@ fun AsyncImage(
 		modifier = modifier,
 		factory = { context ->
 			AsyncImageView(context).also { view ->
-				view.scaleType = scaleType
+				view.scaleType = scaleType ?: ImageView.ScaleType.FIT_CENTER
 			}
 		},
 		update = { view ->
