@@ -90,7 +90,6 @@
     <string name="msg_playback_not_allowed">Playback not allowed at this time</string>
     <string name="lbl_loading_elipses">Loading…</string>
     <string name="lbl_on_schedule">On Schedule</string>
-    <string name="lbl_minute">Minute</string>
     <string name="lbl_minutes">Minutes</string>
     <string name="lbl_at_any_time">At Any Time</string>
     <string name="lbl_select_date">Select Date</string>

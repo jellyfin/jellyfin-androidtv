@@ -125,7 +125,6 @@
     <string name="lbl_resume_from">從%1$s繼續</string>
     <string name="lbl_sort_by">排序按照</string>
     <string name="lbl_guest_stars">客串明星</string>
-    <string name="lbl_minute">分鐘</string>
     <string name="watch_now">立即播放</string>
     <string name="pref_app_theme">應用程式主題</string>
     <string name="msg_burn_sub_warning">燒錄字幕中。這可能需要花幾秒鐘…</string>
@@ -198,7 +197,6 @@
     <string name="lbl_save">保存</string>
     <string name="lbl_series_recordings">系列記錄</string>
     <string name="lbl_at_any_time">隨時</string>
-    <string name="lbl_minutes">分鐘</string>
     <string name="lbl__continuing">正在繼續</string>
     <string name="lbl_ended">已完結</string>
     <string name="lbl_no_recordings">沒有可用的紀錄</string>

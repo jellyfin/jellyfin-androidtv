@@ -181,11 +181,9 @@
     <string name="lbl_guest_stars">Stars invitées</string>
     <string name="lbl_guide_option_number">Numéro de chaine</string>
     <string name="lbl_guide_option_played">Dernier élément joué</string>
-    <string name="lbl_hours">Heures</string>
     <string name="lbl_in_x_days">Dans %d jours</string>
     <string name="lbl_just_this_once">Juste cette fois</string>
     <string name="lbl_live">Direct</string>
-    <string name="lbl_minutes">Minutes</string>
     <string name="lbl_more_like_this">Plus du même genre</string>
     <string name="lbl_new">Nouveau</string>
     <string name="lbl_recent_recordings">Enregistrements récents</string>

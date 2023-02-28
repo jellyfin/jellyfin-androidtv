@@ -222,7 +222,6 @@
     <string name="msg_settings_updated">Nustatymai atnaujinti</string>
     <string name="lbl_save">Išsaugoti</string>
     <string name="lbl_series_recordings">Serijų įrašymai</string>
-    <string name="lbl_minute">Minute</string>
     <string name="lbl_guide_option_played">Paskutinis paleistas</string>
     <string name="lbl_guide_option_number">Kanalo numeris</string>
     <string name="lbl_resume_from">Pratęsti nuo %1$s</string>

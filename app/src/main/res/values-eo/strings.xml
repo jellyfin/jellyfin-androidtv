@@ -180,7 +180,6 @@
     <string name="pref_about_title">Pri</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_news">Novaj</string>
-    <string name="lbl_minute">Minuto</string>
     <string name="lbl_minutes">minutoj</string>
     <string name="lbl_zoom">Zoma</string>
     <string name="lbl_stretch">Streĉa</string>
