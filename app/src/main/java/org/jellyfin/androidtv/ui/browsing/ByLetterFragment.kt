@@ -15,6 +15,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 		val numbersQuery = StdItemQuery().apply {
 			parentId = folder?.id?.toString()
 			sortBy = arrayOf(ItemSortBy.SortName)
+			includeType?.let { includeItemTypes = arrayOf(it) }
 			nameLessThan = letters.substring(0, 1)
 			recursive = true
 		}
