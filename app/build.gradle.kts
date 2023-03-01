@@ -6,6 +6,9 @@ plugins {
 	alias(libs.plugins.aboutlibraries)
 }
 
+// Apply workaround
+apply("baselineWorkaround.gradle")
+
 android {
 	namespace = "org.jellyfin.androidtv"
 	compileSdk = 33
