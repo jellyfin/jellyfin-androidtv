@@ -109,7 +109,7 @@
     <string name="msg_not_implemented">" ei ole toteutettu"</string>
     <string name="lbl_search">Haku</string>
     <string name="lbl_genres">Lajityypit</string>
-    <string name="lbl_latest">Uusimmat</string>
+    <string name="lbl_latest">Viimeksi lisätyt</string>
     <string name="lbl_delete">Poista</string>
     <string name="lbl_open_album">Avaa albumi</string>
     <string name="lbl_open_artist">Avaa esittäjä</string>
@@ -270,7 +270,7 @@
     <string name="home_section_next_up">Seuraavaksi</string>
     <string name="home_section_active_recordings">Aktiiviset tallennukset</string>
     <string name="home_section_resume">Jatka katselua</string>
-    <string name="home_section_latest_media">Viimeisin media</string>
+    <string name="home_section_latest_media">Viimeksi lisätty media</string>
     <string name="home_sections">Päävalikon osiot</string>
     <string name="home_prefs">Päävalikko</string>
     <string name="license_license">Lisenssi</string>
@@ -507,4 +507,5 @@
         <item quantity="one">%1$s tunti</item>
         <item quantity="other">%1$s tuntia</item>
     </plurals>
+    <string name="lbl_latest_in">Viimeksi lisätyt: %1$s</string>
 </resources>
