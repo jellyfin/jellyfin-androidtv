@@ -245,7 +245,7 @@
     <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
     <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
-    <string name="pref_video_player_vlc">Odtwarzacz VLC</string>
+    <string name="pref_video_player_vlc">Odtwarzacz VLC (doświadczalny)</string>
     <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>
     <string name="lbl_resume_preroll">Wznów przed filmem</string>
     <string name="lbl_series_recordings">Nagrywanie seryjne</string>
@@ -427,7 +427,7 @@
     <string name="home_section_active_recordings">Aktywne nagrania</string>
     <string name="home_section_library_small">Moje media (małe)</string>
     <string name="home_section_library">Moje media</string>
-    <string name="home_section_latest_media">Najnowsze media</string>
+    <string name="home_section_latest_media">Ostatnio dodane media</string>
     <string name="home_sections">Sekcje domowe</string>
     <string name="license_artifact">Aretfakt</string>
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
@@ -491,4 +491,27 @@
     <string name="item_delete_confirm_message">Czy na pewno chcesz to usunąć\? Ta akcja nie może być cofnięta.</string>
     <string name="pref_enable_media_management">Włącz zarządzanie multimediami</string>
     <string name="item_delete_confirm_title">Usuń przedmiot</string>
+    <string name="pref_screensaver">Wygaszacz ekranu</string>
+    <string name="pref_screensaver_inapp_enabled_description">Pokaż wygaszacz ekranu Jellyfin podczas uruchomienia aplikacji</string>
+    <string name="pref_screensaver_inapp_enabled">Użyj wbudowanego wygaszacza ekranu</string>
+    <string name="pref_screensaver_inapp_timeout">Uruchom wygaszacz ekranu po</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunda</item>
+        <item quantity="few">%1$s sekundy</item>
+        <item quantity="many">%1$s sekund</item>
+        <item quantity="other">%1$s sekund</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuta</item>
+        <item quantity="few">%1$s minuty</item>
+        <item quantity="many">%1$s minut</item>
+        <item quantity="other">%1$s minut</item>
+    </plurals>
+    <string name="lbl_latest_in">Ostatnio dodane w %1$s</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s godzina</item>
+        <item quantity="few">%1$s godziny</item>
+        <item quantity="many">%1$s godzin</item>
+        <item quantity="other">%1$s godzin</item>
+    </plurals>
 </resources>
