@@ -17,7 +17,7 @@
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Zoeken</string>
     <string name="msg_not_implemented">" niet geïmplementeerd"</string>
-    <string name="lbl_latest">Nieuwste</string>
+    <string name="lbl_latest">Onlangs toegevoegd</string>
     <string name="lbl_by_name">Op naam</string>
     <string name="lbl_favorites">Favorieten</string>
     <string name="lbl_coming_up">Aankomend</string>
@@ -384,7 +384,7 @@
     <string name="home_section_resume_audio">Verder luisteren</string>
     <string name="home_section_resume">Verder kijken</string>
     <string name="home_section_library">Mijn media</string>
-    <string name="home_section_latest_media">Recente media</string>
+    <string name="home_section_latest_media">Onlangs toegevoegde media</string>
     <string name="license_license">Licentie</string>
     <string name="license_author">Auteur</string>
     <string name="license_website">Website</string>
@@ -507,4 +507,5 @@
         <item quantity="one">%1$s uur</item>
         <item quantity="other">%1$s uur</item>
     </plurals>
+    <string name="lbl_latest_in">Onlangs toegevoegd aan %1$s</string>
 </resources>
