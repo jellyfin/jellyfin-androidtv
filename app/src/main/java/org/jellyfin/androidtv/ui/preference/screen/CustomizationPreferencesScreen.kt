@@ -60,6 +60,12 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 			}
 
 			checkbox {
+				setTitle(R.string.pref_enable_maturity_ratings)
+				setContent(R.string.pref_enable_maturity_ratings_description)
+				bind(userPreferences, UserPreferences.maturityRatingsEnabled)
+			}
+
+			checkbox {
 				setTitle(R.string.lbl_show_premieres)
 				setContent(R.string.desc_premieres)
 				bind(userPreferences, UserPreferences.premieresEnabled)

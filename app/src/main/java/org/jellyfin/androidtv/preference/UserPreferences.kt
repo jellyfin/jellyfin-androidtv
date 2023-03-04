@@ -176,6 +176,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		var defaultRatingType = enumPreference("pref_rating_type", RatingType.RATING_TOMATOES)
 
 		/**
+		 * Sets whether to display content maturity ratings
+		 */
+		var maturityRatingsEnabled = booleanPreference("pref_enable_maturity_ratings", true)
+
+		/**
 		 * Set when watched indicators should show on MyImageCardViews
 		 */
 		var watchedIndicatorBehavior = enumPreference("pref_watched_indicator_behavior", WatchedIndicatorBehavior.ALWAYS)

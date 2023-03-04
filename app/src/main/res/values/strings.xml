@@ -496,6 +496,8 @@
     <string name="pref_screensaver_inapp_enabled">Use in-app screensaver</string>
     <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
     <string name="pref_screensaver_inapp_timeout">Start screensaver after</string>
+    <string name="pref_enable_maturity_ratings">Display content maturity ratings</string>
+    <string name="pref_enable_maturity_ratings_description">Shows maturity ratings whilst browsing content</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>

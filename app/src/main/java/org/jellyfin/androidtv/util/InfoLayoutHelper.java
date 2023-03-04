@@ -100,7 +100,8 @@ public class InfoLayoutHelper {
         }
         if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
         addSeriesStatus(context, item, layout);
-        addRatingAndRes(context, item, layout);
+        addMaturityRating(context, item, layout);
+        addMediaResolution(context, item, layout);
         addMediaDetails(context, audioStream, layout);
     }
 
@@ -325,11 +326,17 @@ public class InfoLayoutHelper {
 
     }
 
-    private static void addRatingAndRes(Context context, BaseItemDto item, LinearLayout layout) {
+    private static void addMaturityRating(Context context, BaseItemDto item, LinearLayout layout) {
+        if (!KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getMaturityRatingsEnabled()))
+            return;
+
         if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
             addBlockText(context, layout, item.getOfficialRating());
             addSpacer(context, layout, "  ");
         }
+    }
+
+    private static void addMediaResolution(Context context, BaseItemDto item, LinearLayout layout) {
         if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null && item.getMediaStreams().get(0).getHeight() != null) {
             int width = item.getMediaStreams().get(0).getWidth();
             int height = item.getMediaStreams().get(0).getHeight();
