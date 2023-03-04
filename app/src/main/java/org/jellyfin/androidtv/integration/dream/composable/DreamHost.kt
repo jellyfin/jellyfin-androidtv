@@ -27,6 +27,7 @@ import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.koin.androidx.compose.get
 import timber.log.Timber
+import java.util.concurrent.ExecutionException
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -75,6 +76,8 @@ private suspend fun getRandomLibraryShowcase(api: ApiClient, context: Context): 
 			!item.backdropImageTags.isNullOrEmpty()
 		} ?: return null
 
+		Timber.i("Loading random library showcase item ${item.id}")
+
 		val tag = item.backdropImageTags!!.randomOrNull()
 			?: item.imageTags?.get(ImageType.BACKDROP)
 
@@ -86,7 +89,12 @@ private suspend fun getRandomLibraryShowcase(api: ApiClient, context: Context): 
 		)
 
 		val backdrop = withContext(Dispatchers.IO) {
-			Glide.with(context).asBitmap().load(backdropUrl).submit().get()
+			try {
+				Glide.with(context).asBitmap().load(backdropUrl).submit().get()
+			} catch (err: ExecutionException) {
+				Timber.e("Unable to retrieve image for item ${item.id}", err)
+				null
+			}
 		} ?: return null
 
 		return DreamContent.LibraryShowcase(item, backdrop)
