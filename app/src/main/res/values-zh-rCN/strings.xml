@@ -9,14 +9,14 @@
     <string name="chapters">章节</string>
     <string name="lbl_settings">偏好</string>
     <string name="lbl_continue_watching">继续观看</string>
-    <string name="lbl_next_up">下一个</string>
+    <string name="lbl_next_up">接下来</string>
     <string name="lbl_on_now">正在观看</string>
     <string name="lbl_views">观看次数</string>
     <string name="lbl_by_letter">字母顺序</string>
     <string name="lbl_suggested">推荐欣赏</string>
     <string name="lbl_genres">风格类型</string>
     <string name="msg_not_implemented">" 未实装"</string>
-    <string name="lbl_latest">最新上映</string>
+    <string name="lbl_latest">最近添加</string>
     <string name="lbl_by_name">名称顺序</string>
     <string name="lbl_favorites">我的收藏</string>
     <string name="lbl_coming_up">即将上映</string>
@@ -233,7 +233,7 @@
     <string name="pref_next_up_timeout_summary">播放下一项目之前的等待时间</string>
     <string name="pref_media_player">首选播放器</string>
     <string name="pref_about_title">关于</string>
-    <string name="pref_video_player_vlc">LibVLC（VLC解码器）</string>
+    <string name="pref_video_player_vlc">LibVLC（实验性的）</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系统播放器）</string>
     <string name="pref_libvlc_audio_delay_title">libVLC 的默认音频延迟</string>
     <string name="pref_app_theme">应用程序主题</string>
@@ -397,7 +397,7 @@
     <string name="home_section_resume">继续观看</string>
     <string name="home_section_library_small">我的媒体（小）</string>
     <string name="home_section_library">我的媒体</string>
-    <string name="home_section_latest_media">最新媒体</string>
+    <string name="home_section_latest_media">新增媒体</string>
     <string name="home_sections">首页部分</string>
     <string name="home_prefs">首页</string>
     <string name="pref_subtitles_size">字体大小</string>
@@ -438,16 +438,16 @@
     <string name="pref_refresh_rate_scale_on_device">在设备上缩放</string>
     <string name="pref_refresh_rate_scale_on_tv">在电视上缩放</string>
     <string name="login_quickconnect_step_3">3. 输入以下代码：</string>
-    <string name="login_quickconnect_step_2">2. 打开用户菜单，进入Quick Connect 页面</string>
-    <string name="login_quickconnect_step_1">1. 在手机或网络浏览器上打开 Jellyfin 应用程序，并使用您的帐户登录</string>
+    <string name="login_quickconnect_step_2">2. 打开用户菜单，进入 Quick Connect 页面</string>
+    <string name="login_quickconnect_step_1">1. 在手机或浏览器上打开 Jellyfin 应用程序，并使用您的帐户登录</string>
     <string name="login_other_options">其他选项：</string>
     <string name="login_connect_to">连接到 %1$s</string>
     <string name="input_password">密码</string>
     <string name="input_username">用户名</string>
-    <string name="action_use_quickconnect">使用QuickConnect</string>
+    <string name="action_use_quickconnect">使用 QuickConnect</string>
     <string name="action_use_password">使用密码</string>
-    <string name="action_login">登入</string>
-    <string name="state_disabled">禁用</string>
+    <string name="action_login">登录</string>
+    <string name="state_disabled">已禁用</string>
     <string name="live_tv_preferences">直播电视选项</string>
     <string name="lbl_subtitle_delay">字幕延迟</string>
     <string name="lbl_adjust">调节</string>
@@ -455,13 +455,13 @@
     <string name="image_size_xlarge">更大</string>
     <string name="image_size_smallest">最小</string>
     <string name="lbl_additional_parts">附加组件</string>
-    <string name="app_notification_uimode_invalid">这个APP是为电视优化的。我们建议在其他设备上使用我们的移动APP。</string>
+    <string name="app_notification_uimode_invalid">该应用是为电视优化的。我们建议在其它设备上使用我们的移动应用。</string>
     <string name="pref_crash_reports_enabled">崩溃报告将发送到您上次使用的服务器</string>
     <string name="pref_crash_reports">发送崩溃报告到服务器</string>
     <string name="pref_telemetry_description">发送崩溃报告，包括日志</string>
     <string name="pref_telemetry_category">崩溃报告</string>
-    <string name="server_unsupported_notification">此服务器使用的Jellyfin %1$s版本不受支持。请更新到Jellyfin %2$s版本以继续使用该程序。</string>
-    <string name="crash_report_toast">哎呀！出了点问题，崩溃日志已经发送到你的Jellyfin服务器。</string>
+    <string name="server_unsupported_notification">此服务器使用的 Jellyfin %1$s 版本不受支持。请更新到 Jellyfin %2$s 版本以继续使用该程序。</string>
+    <string name="crash_report_toast">哎呀！出了点问题，崩溃日志已经发送到你的 Jellyfin 服务器。</string>
     <string name="pref_crash_report_logs_disabled">日志将不会包含再崩溃报告中</string>
     <string name="pref_crash_report_logs_enabled">日志将包含在崩溃报告中</string>
     <string name="pref_crash_report_logs">包含日志</string>
@@ -491,4 +491,18 @@
     <string name="pref_enable_media_management">启用媒体文件管理</string>
     <string name="item_delete_confirm_title">删除</string>
     <string name="item_delete_confirm_message">您确定要从服务器删除此项目吗？此操作无法撤消。</string>
+    <string name="pref_screensaver_inapp_enabled">使用应用内的屏保</string>
+    <string name="pref_screensaver_inapp_enabled_description">在应用开启时显示 Jellyfin 屏保</string>
+    <string name="pref_screensaver_inapp_timeout">在多长时间后开始屏保</string>
+    <string name="pref_screensaver">屏幕保护程序</string>
+    <plurals name="minutes">
+        <item quantity="other">%1$s 分钟</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="other">%1$s 秒</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%1$s 小时</item>
+    </plurals>
+    <string name="lbl_latest_in">最近添加于 %1$s</string>
 </resources>
