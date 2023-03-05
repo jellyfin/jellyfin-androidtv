@@ -20,11 +20,10 @@ class GuideAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
-		leanbackOverlayFragment.hideOverlay()
+		videoPlayerAdapter.leanbackOverlayFragment.hideOverlay()
 		videoPlayerAdapter.masterOverlayFragment.showGuide()
 	}
 }

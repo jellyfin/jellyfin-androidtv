@@ -22,11 +22,10 @@ class ZoomAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		return PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				add(
@@ -59,7 +58,7 @@ class ZoomAction(
 				setGroupCheckable(0, true, false)
 			}
 
-			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { item ->
 				playbackController.setZoom(item.itemId)
 				true

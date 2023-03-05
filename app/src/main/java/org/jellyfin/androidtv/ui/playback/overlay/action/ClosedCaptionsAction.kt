@@ -23,7 +23,6 @@ class ClosedCaptionsAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
@@ -33,7 +32,7 @@ class ClosedCaptionsAction(
 			return
 		}
 
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				for (sub in playbackController.subtitleStreams) {
@@ -48,7 +47,7 @@ class ClosedCaptionsAction(
 
 				setGroupCheckable(0, true, false)
 			}
-			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { item ->
 				playbackController.switchSubtitleStream(item.itemId)
 				true
