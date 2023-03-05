@@ -8,6 +8,7 @@ import androidx.leanback.widget.PlaybackControlsRow
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
+import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 
 abstract class CustomAction(
 	private val context: Context,
@@ -25,6 +26,7 @@ abstract class CustomAction(
 
 	open fun handleClickAction(
 		playbackController: PlaybackController,
+		videoPlayerAdapter: VideoPlayerAdapter,
 		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View,
