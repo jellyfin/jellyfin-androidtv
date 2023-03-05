@@ -1,11 +1,18 @@
 plugins {
 	alias(libs.plugins.detekt)
+	java
 }
 
 buildscript {
 	dependencies {
 		classpath(libs.android.gradle)
 		classpath(libs.kotlin.gradle)
+	}
+}
+
+java {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of("17"))
 	}
 }
 
