@@ -9,6 +9,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
+import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import timber.log.Timber
 
 class ClosedCaptionsAction(
@@ -21,9 +22,10 @@ class ClosedCaptionsAction(
 
 	override fun handleClickAction(
 		playbackController: PlaybackController,
+		videoPlayerAdapter: VideoPlayerAdapter,
 		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
-		view: View,
+		view: View
 	) {
 		if (playbackController.currentStreamInfo == null) {
 			Timber.w("StreamInfo null trying to obtain subtitles")
@@ -31,6 +33,7 @@ class ClosedCaptionsAction(
 			return
 		}
 
+		leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			with(menu) {
 				for (sub in playbackController.subtitleStreams) {
