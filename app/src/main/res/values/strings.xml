@@ -383,10 +383,6 @@
     <string name="lbl_record_all">Will record all episodes</string>
     <string name="lbl_on_any_channel">On any channel</string>
     <string name="lbl_on_channel">On %1$s</string>
-    <string name="lbl_num_episodes">%1$d episodes</string>
-    <string name="lbl_one_episode">1 episode</string>
-    <string name="lbl_num_songs">%1$d songs</string>
-    <string name="lbl_one_song">1 song</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="enable_playback_module_description">This is an experimental feature. No support is provided.</string>
@@ -507,5 +503,13 @@
     <plurals name="hours">
         <item quantity="one">%1$s hour</item>
         <item quantity="other">%1$s hours</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s track</item>
+        <item quantity="other">%1$s tracks</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s episode</item>
+        <item quantity="other">%1$s episodes</item>
     </plurals>
 </resources>
