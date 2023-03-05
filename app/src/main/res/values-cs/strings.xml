@@ -338,9 +338,7 @@
     <string name="press_to_close">Stisknutím zavřete</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 skladba</string>
     <string name="lbl_num_songs">%1$d skladeb</string>
-    <string name="lbl_one_episode">1 díl</string>
     <string name="lbl_num_episodes">%1$d dílů</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na všech kanálech</string>

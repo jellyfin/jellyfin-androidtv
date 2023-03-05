@@ -343,9 +343,7 @@
     <string name="lbl_starting_early_ending_after">Začína o %1$s skôr a končí o %2$s neskôr</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 skladba</string>
     <string name="lbl_num_songs">%1$d skladieb</string>
-    <string name="lbl_one_episode">1 epizóda</string>
     <string name="lbl_num_episodes">%1$d epizód</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na akomkoľvek kanáli</string>

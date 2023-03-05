@@ -334,9 +334,7 @@
     <string name="enable_playback_module_description">Ta funkcija je eksperimentalna. Zanjo ni nobene podpore.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Pesem</string>
     <string name="lbl_num_songs">%1$d Pesmi</string>
-    <string name="lbl_one_episode">1 Epizoda</string>
     <string name="lbl_num_episodes">%1$d Epizod</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na katerem koli kanalu</string>

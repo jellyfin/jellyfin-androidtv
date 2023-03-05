@@ -345,9 +345,7 @@
     <string name="enable_playback_module_description">Dit is een experimentele functie. Ondersteuning wordt niet verleend.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Liedje</string>
     <string name="lbl_num_songs">%1$d Liedjes</string>
-    <string name="lbl_one_episode">1 Aflevering</string>
     <string name="lbl_num_episodes">%1$d afleveringen</string>
     <string name="lbl_on_channel">Op %1$s</string>
     <string name="lbl_on_any_channel">Op elk kanaal</string>

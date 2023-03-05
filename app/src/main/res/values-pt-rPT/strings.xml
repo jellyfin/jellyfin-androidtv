@@ -353,9 +353,7 @@
     <string name="enable_playback_module_description">Esta funcionalidade é experimental. Nenhum suporte é fornecido.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Música</string>
     <string name="lbl_num_songs">%1$d Músicas</string>
-    <string name="lbl_one_episode">1 Episódio</string>
     <string name="lbl_num_episodes">%1$d Episódios</string>
     <string name="lbl_on_channel">Em %1$s</string>
     <string name="lbl_on_any_channel">Em qualquer canal</string>

@@ -284,7 +284,6 @@
     <string name="grid_direction">Напрямок сітки</string>
     <string name="pref_device_model">Модель пристрою</string>
     <string name="pref_app_theme">Тема програми</string>
-    <string name="lbl_one_episode">1 Епізод</string>
     <string name="lbl_num_episodes">%1$d Епізодів</string>
     <string name="lbl_record_all">Записуватиме всі епізоди</string>
     <string name="lbl_record_only_new">Записуватиме тільки нові епізоди</string>
@@ -366,7 +365,6 @@
     <string name="enable_playback_module_description">Це експериментальна можливість. Підтримка не надається.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Пісня</string>
     <string name="lbl_num_songs">%1$d Пісень</string>
     <string name="lbl_on_channel">На %1$s</string>
     <string name="lbl_on_any_channel">На будь якому каналі</string>

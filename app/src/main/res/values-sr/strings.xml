@@ -374,9 +374,7 @@
     <string name="enable_playback_module_description">Ово је експериментална карактеристика. Подршка није обезбеђена.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Песма</string>
     <string name="lbl_num_songs">%1$d Песама</string>
-    <string name="lbl_one_episode">1 Епизода</string>
     <string name="lbl_num_episodes">%1$d Епизода</string>
     <string name="lbl_on_channel">На %1$s</string>
     <string name="lbl_on_any_channel">На било којем каналу</string>

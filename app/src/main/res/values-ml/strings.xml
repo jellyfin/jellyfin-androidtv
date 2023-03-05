@@ -31,7 +31,6 @@
     <string name="lbl_resume_from">%1$s ൽ നിന്ന് ആരംഭിക്കുക</string>
     <string name="lbl_in_x_days">%d ദിവസങ്ങളിൽ</string>
     <string name="lbl_now_playing_album">%1$s മുതൽ</string>
-    <string name="lbl_one_song">1 ഗാനം</string>
     <string name="lbl_one_episode">1 എപ്പിസോഡ്</string>
     <string name="lbl_on_any_channel">ഏത് ചാനലിലും</string>
     <string name="lbl_record_all">എല്ലാ എപ്പിസോഡുകളും റെക്കോർഡുചെയ്യും</string>
@@ -243,7 +242,6 @@
     <string name="lbl_record_any_channel">ഏത് ചാനലിലും റെക്കോർഡുചെയ്യുക</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d ഗാനങ്ങൾ</string>
     <string name="lbl_num_episodes">%1$d എപ്പിസോഡുകൾ</string>
     <string name="lbl_on_channel">%1$s ന്</string>
     <string name="lbl_starting_on_schedule_ending_after">ഷെഡ്യൂളിൽ ആരംഭിച്ച് ഷെഡ്യൂളിന് ശേഷം %1$s അവസാനിക്കുന്നു</string>

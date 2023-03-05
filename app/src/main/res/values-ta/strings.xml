@@ -354,9 +354,7 @@
     <string name="pref_next_up_behavior_title">அடுத்த வீடியோ தகவலைக் காட்டு</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 பாடல்</string>
     <string name="lbl_num_songs">%1$d பாடல்கள்</string>
-    <string name="lbl_one_episode">1 அத்தியாயம்</string>
     <string name="lbl_num_episodes">%1$d அத்தியாயங்கள்</string>
     <string name="lbl_on_channel">%1$s இல்</string>
     <string name="lbl_on_any_channel">எந்த சேனலிலும்</string>

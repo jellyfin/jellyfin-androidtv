@@ -279,9 +279,7 @@
     <string name="alphabetical">أبجدي</string>
     <string name="enable_playback_module_description">هاته ميزة تجريبية. لا يوجد دعم مقدم.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="lbl_one_song">1 أغنية</string>
     <string name="lbl_num_songs">%1$d أغاني</string>
-    <string name="lbl_one_episode">1 حلقة</string>
     <string name="lbl_num_episodes">%1$d حلقات</string>
     <string name="lbl_on_channel">على %1$s</string>
     <string name="lbl_on_any_channel">على أي قناة</string>

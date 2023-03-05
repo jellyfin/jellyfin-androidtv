@@ -333,9 +333,7 @@
     <string name="alphabetical">Alfabetik</string>
     <string name="last_use">En son kullanılan</string>
     <string name="enable_playback_module_description">Bu deneysel bir özelliktir. Herhangi bir destek sunulmaz.</string>
-    <string name="lbl_one_song">1 Şarkı</string>
     <string name="lbl_num_episodes">%1$d Bölüm</string>
-    <string name="lbl_num_songs">%1$d Şarkı</string>
     <string name="lbl_one_episode">1 Bölüm</string>
     <string name="lbl_on_channel">%1$s\'da</string>
     <string name="lbl_on_any_channel">Herhangi Bir Kanalda</string>

@@ -335,9 +335,7 @@
     <string name="user_picker_disable_summary">Alltid vis innloggingsskjermen</string>
     <string name="user_picker_disable_title">Deaktiver</string>
     <string name="auto_sign_in">Automatisk innlogging</string>
-    <string name="lbl_one_song">1 Sang</string>
     <string name="lbl_one_episode">1 Episode</string>
-    <string name="lbl_num_episodes">%1$d Episoder</string>
     <string name="lbl_on_channel">På %1$s</string>
     <string name="lbl_record_all">Tar opp alle episoder</string>
     <string name="lbl_record_only_new">Tar bare opp nye episoder</string>
@@ -358,7 +356,6 @@
     <string name="pref_next_up_behavior_title">Vis info om neste video</string>
     <string name="lbl_fit">Normal</string>
     <string name="enable_playback_module_description">Dette er en eksperimentell funksjon. Det gis ingen støtte.</string>
-    <string name="lbl_num_songs">%1$d Sanger</string>
     <string name="lbl_on_any_channel">På hvilken som helst kanal</string>
     <string name="lbl_next_up_minimal">Uten miniatyrbilde</string>
     <string name="lbl_next_up_extended">Med miniatyrbilde</string>

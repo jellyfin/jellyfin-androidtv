@@ -342,14 +342,11 @@
     <string name="lbl_starting_early_ending_after">Początek %1$s wcześniej i koniec %2$s po zaplanowanym zakonczeniu</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Odcinków</string>
     <string name="lbl_on_any_channel">Na wszystkich kanałach</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_one_song">1 piosenka</string>
     <string name="lbl_num_songs">%1$d Piosenek</string>
-    <string name="lbl_one_episode">1 odcinek</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_record_only_new">Nagrywaj tylko nowe</string>
     <string name="lbl_next_up_minimal">Bez miniaturek</string>

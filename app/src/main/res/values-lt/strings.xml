@@ -250,7 +250,6 @@
     <string name="login_invalid_credentials">Neteisingas slapyvardis ir/arba slaptažodis</string>
     <string name="user_picker_last_user_title">Nesenai žiūrėtą</string>
     <string name="lbl_on_any_channel">Ant betkurio kanalo</string>
-    <string name="lbl_num_songs">%1$d Dainos</string>
     <string name="always_authenticate_description">Įjungiant šią funkcija bus išjungtas automatinis prisijungimas</string>
     <string name="license_description">Aprašymas</string>
     <string name="home_section_library">Mano media</string>
@@ -269,7 +268,6 @@
     <string name="lbl_playback_control_ends">Baigsis %1$s</string>
     <string name="lbl_hidden">Paslėpta</string>
     <string name="grid_direction">Tinklelio kryptis</string>
-    <string name="lbl_one_song">1 Daina</string>
     <string name="licenses_link">Licencija</string>
     <string name="license_website">Puslapis</string>
     <string name="license_repository">Repozitorija</string>
@@ -319,7 +317,6 @@
     <string name="who_is_watching">Kas žiūri\?</string>
     <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi laiku</string>
     <string name="lbl_record_only_new">Įrašys tik naujus epizodus</string>
-    <string name="lbl_num_episodes">%1$d Epizodai</string>
     <string name="color_black">Juoda</string>
     <string name="color_white">Balta</string>
     <string name="color_darkgrey">Mėlyna</string>
@@ -361,7 +358,6 @@
     <string name="lbl_sign_out_content">Reikės priisjungti kitą kartą bandant naudotis</string>
     <string name="enable_smart_view_description">Išmanusis ekranas rodo atitinkamus elementus, o ne tinklelį</string>
     <string name="pref_developer_link">Programuotojo pasirinkimai</string>
-    <string name="lbl_one_episode">1 Epizodas</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
     <string name="lbl_direct_stream_live">Tiesioginė gyvos TV transliacija</string>
     <string name="desc_premieres">Rodyti bet kurios žiūrimos serijos naujų serijų bandomąsias versijas</string>

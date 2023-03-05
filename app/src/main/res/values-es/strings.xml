@@ -354,9 +354,7 @@
     <string name="pref_next_up_behavior_title">Mostrar la información del siguiente vídeo</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 canción</string>
     <string name="lbl_num_songs">%1$d canciones</string>
-    <string name="lbl_one_episode">1 episodio</string>
     <string name="lbl_num_episodes">%1$d episodios</string>
     <string name="lbl_on_channel">En %1$s</string>
     <string name="lbl_on_any_channel">De cualquier canal</string>

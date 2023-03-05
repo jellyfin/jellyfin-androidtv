@@ -455,9 +455,7 @@
     <string name="enable_playback_module_description">Dette er en eksperimentel funktion. Der ydes ikke support.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 sang</string>
     <string name="lbl_num_songs">%1$d sange</string>
-    <string name="lbl_one_episode">1 afsnit</string>
     <string name="lbl_num_episodes">%1$d afsnit</string>
     <string name="lbl_on_channel">Den %1$s</string>
     <string name="lbl_on_any_channel">På hvilken som helst kanal</string>

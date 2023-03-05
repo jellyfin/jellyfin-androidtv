@@ -338,9 +338,7 @@
     <string name="lbl_community_rating">דירוג הקהילה</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">שיר 1</string>
     <string name="lbl_num_songs">%1$d שירים</string>
-    <string name="lbl_one_episode">פרק 1</string>
     <string name="lbl_num_episodes">%1$d פרקים</string>
     <string name="lbl_on_channel">על %1$s</string>
     <string name="lbl_starting_on_schedule_ending_after">מתחיל בזמן ומסיים %1$s לאחר לוח הזמנים</string>

@@ -388,9 +388,7 @@
     <string name="enable_playback_module_description">這是實驗性的功能。不提供支援。</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">一首歌</string>
     <string name="lbl_num_songs">%1$d 首歌曲</string>
-    <string name="lbl_one_episode">1集</string>
     <string name="lbl_num_episodes">%1$d劇集</string>
     <string name="lbl_on_channel">在%1$s</string>
     <string name="lbl_on_any_channel">在任何頻道上</string>

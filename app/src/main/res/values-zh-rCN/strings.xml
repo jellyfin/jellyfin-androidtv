@@ -345,16 +345,13 @@
     <string name="saved_servers">已保存的服务器</string>
     <string name="press_to_close">点击关闭</string>
     <string name="pref_next_up_behavior_title">显示下一个视频信息</string>
-    <string name="lbl_num_songs">%1$d 歌曲</string>
     <string name="lbl_one_episode">一集</string>
-    <string name="lbl_num_episodes">%1$d 剧集</string>
     <string name="lbl_record_all">录制所有剧集</string>
     <string name="lbl_record_only_new">仅录制新剧集</string>
     <string name="lbl_start_end_on_schedule">按计划开始和结束</string>
     <string name="lbl_special">特别篇</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">一首歌</string>
     <string name="lbl_on_any_channel">在任何频道</string>
     <string name="lbl_next_up_minimal">不附带缩略图</string>
     <string name="lbl_next_up_extended">附加缩略图</string>
