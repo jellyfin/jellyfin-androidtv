@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
+import androidx.annotation.NonNull;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -130,10 +131,12 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         this.customPlaybackOverlayFragment = customPlaybackOverlayFragment;
     }
 
+    @NonNull
     public CustomPlaybackOverlayFragment getMasterOverlayFragment() {
         return customPlaybackOverlayFragment;
     }
 
+    @NonNull
     public LeanbackOverlayFragment getLeanbackOverlayFragment() {
         return leanbackOverlayFragment;
     }
