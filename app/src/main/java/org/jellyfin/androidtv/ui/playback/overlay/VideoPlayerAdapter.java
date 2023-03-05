@@ -134,7 +134,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         return customPlaybackOverlayFragment;
     }
 
-    LeanbackOverlayFragment getLeanbackOverlayFragment() {
+    public LeanbackOverlayFragment getLeanbackOverlayFragment() {
         return leanbackOverlayFragment;
     }
 

@@ -27,14 +27,13 @@ class PlaybackSpeedAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
-		view: View,
+		view: View
 	) {
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		val speedMenu = populateMenu(context, view, speedController)
 
-		speedMenu.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+		speedMenu.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 
 		speedMenu.setOnMenuItemClickListener { menuItem ->
 			speedController.currentSpeed = speeds[menuItem.itemId]

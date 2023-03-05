@@ -23,11 +23,10 @@ class SelectAudioAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		val audioTracks = playbackManager.getInPlaybackSelectableAudioStreams(playbackController.currentStreamInfo)
 			?: return
 		val currentAudioIndex = playbackController.audioStreamIndex
@@ -42,7 +41,7 @@ class SelectAudioAction(
 				setGroupCheckable(0, true, false)
 			}
 
-			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { item ->
 				playbackController.switchAudioStream(item.itemId)
 				true

@@ -27,7 +27,6 @@ abstract class CustomAction(
 	open fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View,
 	) {}

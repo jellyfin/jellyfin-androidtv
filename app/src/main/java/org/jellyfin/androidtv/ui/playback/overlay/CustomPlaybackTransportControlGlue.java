@@ -305,7 +305,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     public void onCustomActionClicked(Action action, View view) {
         // Handle custom action clicks which require a popup menu
         if (action instanceof CustomAction){
-            ((CustomAction) action).handleClickAction(playbackController, getPlayerAdapter(), getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
+            ((CustomAction) action).handleClickAction(playbackController, getPlayerAdapter(), getContext(), view);
         }
 
         if (action == playbackSpeedAction) {
@@ -391,10 +391,10 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         VideoPlayerAdapter playerAdapter = getPlayerAdapter();
 
         if (playerAdapter.hasSubs() && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
-            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter(), getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
+            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         if (playerAdapter.hasMultiAudio() && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
-            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
+            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
     }

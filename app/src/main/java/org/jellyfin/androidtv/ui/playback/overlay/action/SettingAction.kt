@@ -22,17 +22,16 @@ class SettingAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
 		subtitlesPresent = videoPlayerAdapter.hasSubs()
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		return SettingsPopup(context, view,
 			{ value -> playbackController.audioDelay = value },
 			{ value -> playbackController.subtitleDelay = value }
 		).apply {
-			popupWindow.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			popupWindow.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 		}.show(
 			subtitlesPresent,
 			playbackController.audioDelay,

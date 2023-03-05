@@ -21,7 +21,6 @@ class PreviousLiveTvChannelAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {

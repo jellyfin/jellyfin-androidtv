@@ -29,11 +29,10 @@ class SelectQualityAction(
 	override fun handleClickAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
 		context: Context,
 		view: View
 	) {
-		leanbackOverlayFragment.setFading(false)
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			qualityProfiles.values.forEachIndexed { i, selected ->
 				menu.add(0, i, i, selected)
@@ -44,7 +43,7 @@ class SelectQualityAction(
 				item.isChecked = true
 			}
 
-			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { menuItem ->
 				qualityController.currentQuality = qualityProfiles.keys.elementAt(menuItem.itemId)
 				playbackController.refreshStream()
