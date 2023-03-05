@@ -96,7 +96,6 @@
     <string name="lbl_name">이름</string>
     <string name="lbl_date_added">추가된 날짜</string>
     <string name="lbl_rating">평점</string>
-    <string name="btn_done">완료</string>
     <string name="lbl_display_preferences">환경 설정 표시</string>
     <string name="lbl_filters">필터</string>
     <string name="msg_subtitles_loading">자막 로딩 중…</string>
@@ -118,13 +117,11 @@
     <string name="lbl_enable_cinema_mode">시네마 모드</string>
     <string name="sum_enable_cinema_mode">서버에서 활성화한 경우, 영화 재생 전에 인트로 및 미리보기 표시</string>
     <string name="lbl_playlists">플레이리스트</string>
-    <string name="lbl_warning">경고</string>
     <string name="msg_items_added">" 항목 추가됨"</string>
     <string name="lbl_open_artist">아티스트 열기</string>
     <string name="lbl_open_album">앨범 열기</string>
     <string name="lbl_next_item">다음 항목</string>
     <string name="lbl_prev_item">이전 항목</string>
-    <string name="lbl_up_next_colon">"다음: "</string>
     <string name="lbl_now_playing">현재 재생중</string>
     <string name="lbl_instant_mix">인스턴스 믹스</string>
     <string name="lbl_delete">제거</string>
@@ -195,7 +192,6 @@
     <string name="play_with_exo_player">ExoPlayer로 재생</string>
     <string name="play_with_vlc">libVLC로 재생</string>
     <string name="turn_off">옵션 끄기</string>
-    <string name="msg_added_to_video">%1$s 가 비디오 대기열에 추가됨. 종료: %2$s</string>
     <string name="msg_no_items">재생할 항목이 비어 있음</string>
     <string name="subtitle_error">자막을 선택할 수 없습니다</string>
     <string name="player_error">플레이어 오류가 발생했습니다. 다시 시도중…</string>

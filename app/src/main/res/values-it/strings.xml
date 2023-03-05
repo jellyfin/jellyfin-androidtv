@@ -123,7 +123,6 @@
     <string name="lbl_search">Cerca</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="loading">Caricamento…</string>
-    <string name="lbl_warning">Attenzione</string>
     <string name="lbl_playlists">Playlist</string>
     <string name="lbl_programs">Programmi</string>
     <string name="lbl_direct_stream_live">Streaming TV diretto</string>
@@ -139,7 +138,6 @@
     <string name="lbl_ended">FINITO</string>
     <string name="lbl__continuing">CONTINUA</string>
     <string name="lbl_display_preferences">Mostra Preferenze</string>
-    <string name="btn_done">Finito</string>
     <string name="lbl_starting_with">inizia da quelli il cui nome inizia con</string>
     <string name="lbl_rating">Voto</string>
     <string name="lbl_critic_rating">Voto Critica</string>
@@ -166,7 +164,6 @@
     <string name="lbl_search_hint">Cerca testo (seleziona per utilizzare la tastiera)</string>
     <string name="lbl_play_trailers">Riproduci Trailers</string>
     <string name="pref_authentication_cat">Autenticazione</string>
-    <string name="lbl_up_next_colon">"Prossima: "</string>
     <string name="lbl_show_premieres">Mostra le anteprime di stagione</string>
     <string name="lbl_refresh_switching">Cambio frequenza di aggiornamento</string>
     <string name="lbl_show_backdrop">Mostra gli sfondi</string>
@@ -289,7 +286,6 @@
     <string name="lbl_stars">Stelle</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Finisce alle %1$s</string>
-    <string name="msg_added_to_video">%1$s aggiunto alla coda video. Finisce: %2$s</string>
     <string name="player_error">Errore nel Player. Riprovo…</string>
     <string name="msg_live_tv_prev">Carico le precedenti %1$d ore\?</string>
     <string name="msg_live_tv_next">Carico le prossime %1$d ore\?</string>
@@ -336,7 +332,6 @@
     <string name="no_network_permissions">Jellyfin richiede i permessi di rete per funzionare</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Brani</string>
     <string name="lbl_num_episodes">%1$d Episodi</string>
     <string name="lbl_on_channel">Su %1$s</string>
     <string name="lbl_on_any_channel">Su Qualsiasi Canale</string>

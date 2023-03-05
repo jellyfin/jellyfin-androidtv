@@ -83,14 +83,12 @@
     <string name="lbl_remove_from_queue">Ta bort från kö</string>
     <string name="lbl_play_from_here">Spela upp härifrån</string>
     <string name="lbl_now_playing">Spelas upp nu</string>
-    <string name="lbl_up_next_colon">"Nästkommande: "</string>
     <string name="lbl_prev_item">Föregående föremål</string>
     <string name="lbl_next_item">Nästa föremål</string>
     <string name="lbl_open_album">Öppna album</string>
     <string name="lbl_open_artist">Öppna artist</string>
     <string name="lbl_add_to_queue">Lägg till kö</string>
     <string name="msg_items_added">" föremål tillagt"</string>
-    <string name="lbl_warning">Varning</string>
     <string name="lbl_playlists">Spellistor</string>
     <string name="sum_enable_cinema_mode">Spela upp intros och trailers innan filmen påbörjas</string>
     <string name="lbl_enable_cinema_mode">Bioläge</string>
@@ -109,7 +107,6 @@
     <string name="lbl_ended">AVSLUTAD</string>
     <string name="lbl__continuing">FORTSÄTTER</string>
     <string name="lbl_display_preferences">Visningspreferenser</string>
-    <string name="btn_done">Klar</string>
     <string name="lbl_starting_with">enligt dem vars namn börjar med</string>
     <string name="lbl_rating">Betyg</string>
     <string name="lbl_critic_rating">Kritikerbetyg</string>
@@ -264,7 +261,6 @@
     <string name="just_one">Endast denna</string>
     <string name="turn_off">Avaktivera denna inställning</string>
     <string name="audio_error">Kunde inte spela ljud %1$s</string>
-    <string name="msg_added_to_video">%1$s tillagd i videokö. Slutar: %2$s</string>
     <string name="too_many_errors">För många fel. Ger upp</string>
     <string name="player_error">Spelarfel påträffat. Försöker igen…</string>
     <string name="msg_live_tv_prev">Ladda föregående %1$d timmar\?</string>
@@ -358,7 +354,6 @@
     <string name="enable_playback_module_description">Detta är en experimentell funktion. Inget stöd befordras.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d låtar</string>
     <string name="lbl_num_episodes">%1$d avsnitt</string>
     <string name="lbl_on_channel">På %1$s</string>
     <string name="lbl_on_any_channel">På vilken kanal som helst</string>

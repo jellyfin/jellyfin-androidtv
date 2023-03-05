@@ -120,7 +120,6 @@
     <string name="lbl_critic_rating">Beoordeling critici</string>
     <string name="lbl_rating">Beoordeling</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
-    <string name="btn_done">Klaar</string>
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
@@ -150,7 +149,6 @@
     <string name="lbl_open_album">Album openen</string>
     <string name="lbl_next_item">Volgend item</string>
     <string name="lbl_prev_item">Vorig item</string>
-    <string name="lbl_up_next_colon">"Hierna: "</string>
     <string name="lbl_now_playing">Nu afspelen</string>
     <string name="lbl_play_from_here">Vanaf hier afspelen</string>
     <string name="lbl_remove_from_queue">Verwijderen uit wachtrij</string>
@@ -178,7 +176,6 @@
     <string name="desc_bitstream_ac3">Vereist geschikte hardware</string>
     <string name="lbl_bitstream_ac3">Dolby Digital audio bitstreamen</string>
     <string name="lbl_new_premieres">Nieuwe premières</string>
-    <string name="lbl_warning">Waarschuwing</string>
     <string name="lbl_now_playing_album">van %1$s</string>
     <string name="lbl_now_playing_track">%1$s van %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
@@ -263,7 +260,6 @@
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie uit</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>
-    <string name="msg_added_to_video">%1$s toegevoegd aan de videowachtrij. Eindigt om: %2$s</string>
     <string name="msg_no_items">Geen items om af te spelen</string>
     <string name="subtitle_error">Kan ondertiteling niet selecteren</string>
     <string name="too_many_errors">Te veel fouten. Opgegeven</string>
@@ -345,7 +341,6 @@
     <string name="enable_playback_module_description">Dit is een experimentele functie. Ondersteuning wordt niet verleend.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Liedjes</string>
     <string name="lbl_num_episodes">%1$d afleveringen</string>
     <string name="lbl_on_channel">Op %1$s</string>
     <string name="lbl_on_any_channel">Op elk kanaal</string>

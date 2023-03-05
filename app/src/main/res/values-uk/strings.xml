@@ -204,14 +204,12 @@
     <string name="lbl_remove_from_queue">Видалити з черги</string>
     <string name="lbl_play_from_here">Грати звідси</string>
     <string name="lbl_now_playing">Відтворюється</string>
-    <string name="lbl_up_next_colon">"На рівень вище: "</string>
     <string name="lbl_prev_item">Попередній</string>
     <string name="lbl_next_item">Наступний</string>
     <string name="lbl_open_album">Відкрити альбом</string>
     <string name="lbl_open_artist">Відкрити виконавця</string>
     <string name="lbl_add_to_queue">Додати до черги</string>
     <string name="msg_items_added">" елементів додано"</string>
-    <string name="lbl_warning">Увага</string>
     <string name="lbl_playlists">Списки відтворення</string>
     <string name="sum_enable_cinema_mode">Відтворюйте доступні вступи та попередні перегляди перед початком фільму</string>
     <string name="lbl_enable_cinema_mode">Режим \"Кінотеатр\"</string>
@@ -235,7 +233,6 @@
     <string name="lbl_ended">ЗАКІНЧЕНО</string>
     <string name="lbl__continuing">ПРОДОВЖЕННЯ</string>
     <string name="lbl_display_preferences">Налаштування відображення</string>
-    <string name="btn_done">Добре</string>
     <string name="lbl_starting_with">починаючи з тих, чиє ім’я починається на</string>
     <string name="lbl_rating">Рейтинг</string>
     <string name="lbl_community_rating">Оцінка спільноти</string>
@@ -284,7 +281,6 @@
     <string name="grid_direction">Напрямок сітки</string>
     <string name="pref_device_model">Модель пристрою</string>
     <string name="pref_app_theme">Тема програми</string>
-    <string name="lbl_num_episodes">%1$d Епізодів</string>
     <string name="lbl_record_all">Записуватиме всі епізоди</string>
     <string name="lbl_record_only_new">Записуватиме тільки нові епізоди</string>
     <string name="lbl_episode_range">Е%1$d–%2$d</string>
@@ -365,7 +361,6 @@
     <string name="enable_playback_module_description">Це експериментальна можливість. Підтримка не надається.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Пісень</string>
     <string name="lbl_on_channel">На %1$s</string>
     <string name="lbl_on_any_channel">На будь якому каналі</string>
     <string name="lbl_start_end_on_schedule">Починається і закінчується за розкладом</string>
@@ -444,7 +439,6 @@
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкнути цю опцію</string>
     <string name="audio_error">Неможливо програти звук %1$s</string>
-    <string name="msg_added_to_video">%1$s додано до відеочерги. Закінчується: %2$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>
     <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>

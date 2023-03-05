@@ -121,7 +121,6 @@
     <string name="lbl_critic_rating">Kritikervurdering</string>
     <string name="lbl_rating">Aldersgrense</string>
     <string name="lbl_starting_with">som starter med dem hvis navn starter med</string>
-    <string name="btn_done">Ferdig</string>
     <string name="lbl_display_preferences">Visningsinnstillinger</string>
     <string name="lbl__continuing">PÅGÅENDE</string>
     <string name="lbl_ended">AVSLUTTET</string>
@@ -151,7 +150,6 @@
     <string name="lbl_open_album">Åpne album</string>
     <string name="lbl_next_item">Neste element</string>
     <string name="lbl_prev_item">Forrige element</string>
-    <string name="lbl_up_next_colon">"Neste: "</string>
     <string name="lbl_now_playing">Spilles nå</string>
     <string name="lbl_play_from_here">Spill av herfra</string>
     <string name="lbl_remove_from_queue">Fjern fra kø</string>
@@ -205,7 +203,6 @@
     <string name="desc_bitstream_ac3">Krever støttet maskinvare</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital-lyd</string>
     <string name="lbl_new_premieres">Nye premierer</string>
-    <string name="lbl_warning">Advarsel</string>
     <string name="lbl_now_playing_album">fra %1$s</string>
     <string name="lbl_now_playing_track">%1$s av %2$s</string>
     <string name="lbl_watched">Sett</string>
@@ -254,7 +251,6 @@
     <string name="just_one">Kun denne</string>
     <string name="turn_off">Slå av dette alternativet</string>
     <string name="audio_error">Kan ikke spille av lyd %1$s</string>
-    <string name="msg_added_to_video">%1$s lagt til i videokøen. Slutter: %2$s</string>
     <string name="msg_no_items">Ingen elementer å spille av</string>
     <string name="subtitle_error">Kan ikke velge undertekst</string>
     <string name="too_many_errors">For mange feil. Gir opp</string>
@@ -335,7 +331,6 @@
     <string name="user_picker_disable_summary">Alltid vis innloggingsskjermen</string>
     <string name="user_picker_disable_title">Deaktiver</string>
     <string name="auto_sign_in">Automatisk innlogging</string>
-    <string name="lbl_one_episode">1 Episode</string>
     <string name="lbl_on_channel">På %1$s</string>
     <string name="lbl_record_all">Tar opp alle episoder</string>
     <string name="lbl_record_only_new">Tar bare opp nye episoder</string>

@@ -36,14 +36,12 @@
     <string name="lbl_remove_from_queue">Kuyruktan Sil</string>
     <string name="lbl_play_from_here">Buradan Oynat</string>
     <string name="lbl_now_playing">Şuan Oynayan</string>
-    <string name="lbl_up_next_colon">"Sıradaki: "</string>
     <string name="lbl_next_item">Sonraki Öğe</string>
     <string name="lbl_prev_item">Önceki Öğe</string>
     <string name="lbl_open_album">Albümü Aç</string>
     <string name="lbl_open_artist">Sanatçıyı Aç</string>
     <string name="lbl_add_to_queue">Kuyruğa Ekle</string>
     <string name="msg_items_added">" öğe eklendi"</string>
-    <string name="lbl_warning">Uyarı</string>
     <string name="lbl_playlists">Oynatma Listeleri</string>
     <string name="sum_enable_cinema_mode">Sunucu tarafından etkinleştirildiğinde film oynatma işleminden önce tanıtımları ve önizlemeleri göster</string>
     <string name="lbl_enable_cinema_mode">Sinema Modu</string>
@@ -67,7 +65,6 @@
     <string name="lbl_ended">BİTTİ</string>
     <string name="lbl__continuing">DEVAM EDİYOR</string>
     <string name="lbl_display_preferences">Görüntüleme Tercihleri</string>
-    <string name="btn_done">Bitti</string>
     <string name="lbl_starting_with">adı şununla başlayanlardan başlayarak</string>
     <string name="lbl_rating">Puan</string>
     <string name="lbl_critic_rating">Kritik Puanı</string>
@@ -212,7 +209,6 @@
     <string name="just_one">Sadece bu</string>
     <string name="turn_off">Bu seçeneği kapat</string>
     <string name="audio_error">Ses oynatılamıyor %1$s</string>
-    <string name="msg_added_to_video">%1$s öğre video oynatma kuyruğuna eklendi. Bitiş Zamanı: %2$s</string>
     <string name="msg_no_items">Oynatıclacak öğe bulunmuyor</string>
     <string name="subtitle_error">Altyazı seçilemedi</string>
     <string name="too_many_errors">Çok fazla hata. Bırakılıyor</string>
@@ -333,7 +329,6 @@
     <string name="alphabetical">Alfabetik</string>
     <string name="last_use">En son kullanılan</string>
     <string name="enable_playback_module_description">Bu deneysel bir özelliktir. Herhangi bir destek sunulmaz.</string>
-    <string name="lbl_num_episodes">%1$d Bölüm</string>
     <string name="lbl_one_episode">1 Bölüm</string>
     <string name="lbl_on_channel">%1$s\'da</string>
     <string name="lbl_on_any_channel">Herhangi Bir Kanalda</string>

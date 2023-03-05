@@ -114,7 +114,6 @@
     <string name="lbl_critic_rating">Зэрэглэл</string>
     <string name="lbl_rating">Зэрэглэл</string>
     <string name="lbl_starting_with">тэднээс нэрнээс эхэлнэ</string>
-    <string name="btn_done">Дуусгах</string>
     <string name="lbl_display_preferences">Харуулах тохиргоог хийх</string>
     <string name="lbl__continuing">ХОЛБООТОЙ</string>
     <string name="lbl_ended">ДУУССАН</string>
@@ -134,14 +133,12 @@
     <string name="lbl_episodes">Бүлгүүд</string>
     <string name="sum_enable_cinema_mode">Сервер идэвхжүүлсэн үед киног тоглуулж эхлэхээс өмнө танилцуулга болон урьдчилан танилцуулгыг үзүүлэх</string>
     <string name="lbl_playlists">Тоглуулах жагсаалт</string>
-    <string name="lbl_warning">Анхааруулга</string>
     <string name="msg_items_added">" зүйлийг нэмсэн"</string>
     <string name="lbl_add_to_queue">Дараалалд нэмэх</string>
     <string name="lbl_open_artist">Чөлөөт уран бүтээлч</string>
     <string name="lbl_open_album">Цомог нээх</string>
     <string name="lbl_next_item">Дараах</string>
     <string name="lbl_prev_item">Өмнөх</string>
-    <string name="lbl_up_next_colon">"Дараа нь: "</string>
     <string name="lbl_now_playing">Одоо тоглож байгаа</string>
     <string name="lbl_play_from_here">Эндээс тоглоорой</string>
     <string name="lbl_remove_from_queue">Дарааллаас хасах</string>

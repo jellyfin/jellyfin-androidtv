@@ -45,11 +45,9 @@
     <string name="lbl_remove_from_queue">Remove from Queue</string>
     <string name="lbl_play_from_here">Play from Here</string>
     <string name="lbl_now_playing">Now Playing</string>
-    <string name="lbl_up_next_colon">"Up Next: "</string>
     <string name="lbl_filters">Live TV filters</string>
     <string name="lbl_ended">ENDED</string>
     <string name="lbl__continuing">CONTINUING</string>
-    <string name="btn_done">Done</string>
     <string name="lbl_from">from</string>
     <string name="lbl_sorted_by">sorted by</string>
     <string name="lbl_all_items">All Items</string>
@@ -108,7 +106,6 @@
     <string name="lbl_open_artist">Open Artist</string>
     <string name="lbl_add_to_queue">Add to Queue</string>
     <string name="msg_items_added">" items added"</string>
-    <string name="lbl_warning">Warning</string>
     <string name="lbl_playlists">Playlists</string>
     <string name="sum_enable_cinema_mode">Play available intros and previews before starting a movie</string>
     <string name="lbl_enable_cinema_mode">Cinema mode</string>
@@ -254,7 +251,6 @@
     <string name="just_one">Just this one</string>
     <string name="turn_off">Turn this option off</string>
     <string name="audio_error">Unable to play audio %1$s</string>
-    <string name="msg_added_to_video">%1$s added to video queue. Ends: %2$s</string>
     <string name="msg_no_items">No items to play</string>
     <string name="subtitle_error">Unable to select subtitle</string>
     <string name="too_many_errors">Too many errors. Giving up</string>
@@ -351,7 +347,6 @@
     <string name="enable_playback_module_description">This is an experimental feature. No support is provided.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Songs</string>
     <string name="lbl_num_episodes">%1$d Episodes</string>
     <string name="lbl_on_channel">On %1$s</string>
     <string name="lbl_on_any_channel">On Any Channel</string>

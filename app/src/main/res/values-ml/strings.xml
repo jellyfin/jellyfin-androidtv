@@ -22,7 +22,6 @@
     <string name="server_connection_failed">സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല</string>
     <string name="lbl_playback_control_ends">%1$s ൽ അവസാനിക്കുന്നു</string>
     <string name="audio_error">%1$s ഓഡിയോ പ്ലേ ചെയ്യാൻ കഴിയില്ല</string>
-    <string name="msg_added_to_video">വീഡിയോ ക്യൂവിൽ %1$s ചേർത്തു. അവസാനിക്കുന്നു: %2$s</string>
     <string name="msg_live_tv_prev">മുമ്പത്തെ %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
     <string name="msg_live_tv_next">അടുത്ത %1$d മണിക്കൂർ ലോഡുചെയ്യണോ\?</string>
     <string name="lbl_unknown_key">അജ്ഞാതം (%1s)</string>
@@ -31,7 +30,6 @@
     <string name="lbl_resume_from">%1$s ൽ നിന്ന് ആരംഭിക്കുക</string>
     <string name="lbl_in_x_days">%d ദിവസങ്ങളിൽ</string>
     <string name="lbl_now_playing_album">%1$s മുതൽ</string>
-    <string name="lbl_one_episode">1 എപ്പിസോഡ്</string>
     <string name="lbl_on_any_channel">ഏത് ചാനലിലും</string>
     <string name="lbl_record_all">എല്ലാ എപ്പിസോഡുകളും റെക്കോർഡുചെയ്യും</string>
     <string name="lbl_record_only_new">പുതിയ എപ്പിസോഡുകൾ മാത്രം റെക്കോർഡുചെയ്യും</string>
@@ -193,14 +191,12 @@
     <string name="lbl_remove_from_queue">ക്യൂവിൽ നിന്ന് നീക്കംചെയ്യുക</string>
     <string name="lbl_play_from_here">ഇവിടെ നിന്ന് പ്ലേ ചെയ്യുക</string>
     <string name="lbl_now_playing">ഇപ്പോൾ പ്ലേ ചെയ്യുന്നു</string>
-    <string name="lbl_up_next_colon">"മുകളിലേക്ക് അടുത്തത്: "</string>
     <string name="lbl_prev_item">മുമ്പത്തെ ഇനം</string>
     <string name="lbl_next_item">അടുത്ത ഇനം</string>
     <string name="lbl_open_album">ആൽബം തുറക്കുക</string>
     <string name="lbl_open_artist">ഓപ്പൺ ആർട്ടിസ്റ്റ്</string>
     <string name="lbl_add_to_queue">ക്യൂവിലേക്ക് ചേർക്കുക</string>
     <string name="msg_items_added">" ഇനങ്ങൾ ചേർത്തു"</string>
-    <string name="lbl_warning">മുന്നറിയിപ്പ്</string>
     <string name="lbl_playlists">പ്ലേലിസ്റ്റുകൾ</string>
     <string name="sum_enable_cinema_mode">സെർവർ പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ മൂവി പ്ലേബാക്കിന് മുമ്പ് ആമുഖങ്ങളും പ്രിവ്യൂകളും കാണിക്കുക</string>
     <string name="lbl_enable_cinema_mode">സിനിമാ മോഡ്</string>
@@ -219,7 +215,6 @@
     <string name="lbl_ended">അവസാനിച്ചു</string>
     <string name="lbl__continuing">തുടരുന്നു</string>
     <string name="lbl_display_preferences">പ്രദർശന മുൻ‌ഗണനകൾ</string>
-    <string name="btn_done">ചെയ്‌തു</string>
     <string name="lbl_starting_with">പേര് ആരംഭിക്കുന്നവരുടെ ആരംഭം</string>
     <string name="lbl_rating">റേറ്റിംഗ്</string>
     <string name="lbl_critic_rating">ക്രിട്ടിക് റേറ്റിംഗ്</string>
@@ -242,7 +237,6 @@
     <string name="lbl_record_any_channel">ഏത് ചാനലിലും റെക്കോർഡുചെയ്യുക</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d എപ്പിസോഡുകൾ</string>
     <string name="lbl_on_channel">%1$s ന്</string>
     <string name="lbl_starting_on_schedule_ending_after">ഷെഡ്യൂളിൽ ആരംഭിച്ച് ഷെഡ്യൂളിന് ശേഷം %1$s അവസാനിക്കുന്നു</string>
     <string name="lbl_starting_early_ending_on_schedule">%1$s ആരംഭിച്ച് ഷെഡ്യൂളിൽ അവസാനിക്കുന്നു</string>

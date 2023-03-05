@@ -47,7 +47,6 @@
     <string name="lbl_filters">Filtrai</string>
     <string name="lbl_ended">BAIGĖSI</string>
     <string name="lbl_display_preferences">Ekrano Nustatymai</string>
-    <string name="btn_done">Baigta</string>
     <string name="lbl_rating">Įvertinimas</string>
     <string name="lbl_critic_rating">Kritikų Įvertinimas</string>
     <string name="lbl_date_added">Pridėjimo data</string>
@@ -150,7 +149,6 @@
     <string name="msg_cancel_entire_series">Ar esat tikri, kad norite nutraukti VISAS SERIJAS\?</string>
     <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
     <string name="lbl_repeat_options">Kartojimo nustatymai</string>
-    <string name="lbl_warning">Įspėjimas</string>
     <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
     <string name="lbl_new">Nauji</string>
     <string name="lbl_more_like_this">Daugiau kaip šis</string>
@@ -187,7 +185,6 @@
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
     <string name="lbl_subtitle_fg">Subtitrų teksto spalva</string>
     <string name="lbl_image_size">Paveikslėlio dydis</string>
-    <string name="lbl_up_next_colon">"Toliau bus rodoma "</string>
     <string name="msg_record_entire_series">Įrašyti visas serijas\?</string>
     <string name="lbl_kids">Vaikų</string>
     <string name="lbl_repeat">Kartoti</string>
@@ -375,7 +372,6 @@
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
     <string name="play_with_exo_player">Paleisti per ExoPlayer</string>
-    <string name="msg_added_to_video">%1$s pridėta į video eilę. Baigsis: %2$s</string>
     <string name="lbl_stars">Žvaigždės</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display">Rodyti laiką</string>

@@ -37,7 +37,6 @@
     <string name="lbl_clear_queue">Tyhjennä jono</string>
     <string name="btn_got_it">Selvä</string>
     <string name="lbl_remove_from_queue">Poista jonosta</string>
-    <string name="lbl_up_next_colon">"Seuraavaksi: "</string>
     <string name="lbl_recorded_tv">Televisiotallenteet</string>
     <string name="lbl_no_recordings">Tallenteita ei ole</string>
     <string name="msg_unable_load_subs">Tekstitystä ei voitu ladata</string>
@@ -113,7 +112,6 @@
     <string name="lbl_delete">Poista</string>
     <string name="lbl_open_album">Avaa albumi</string>
     <string name="lbl_open_artist">Avaa esittäjä</string>
-    <string name="lbl_warning">Varoitus</string>
     <string name="lbl_playlists">Soittolistat</string>
     <string name="lbl_enable_cinema_mode">Teatteritila</string>
     <string name="lbl_episodes">Jaksot</string>
@@ -229,7 +227,6 @@
     <string name="lbl_ended">PÄÄTTYNYT</string>
     <string name="lbl__continuing">JATKUU</string>
     <string name="lbl_display_preferences">Näyttöasetukset</string>
-    <string name="btn_done">Valmis</string>
     <string name="lbl_community_rating">Yhteisön arvio</string>
     <string name="desc_debug">Toimita lisätietoja vianselvitystä varten</string>
     <string name="lbl_now_playing_album">albumilta %1$s</string>
@@ -336,7 +333,6 @@
     <string name="play_with_vlc">Toista LibVLC-soittimella</string>
     <string name="just_one">Vain tämä kappale</string>
     <string name="turn_off">Poista valinta käytöstä</string>
-    <string name="msg_added_to_video">\'%1$s\' lisättiin videojonoon. Päättyy: %2$s</string>
     <string name="msg_no_items">Ei toistettavia kohteita</string>
     <string name="subtitle_error">Tekstitystä ei voida valita</string>
     <string name="too_many_errors">Liian monta virhettä. Luovutetaan</string>
@@ -401,9 +397,7 @@
     <string name="alphabetical">Aakkosellinen</string>
     <string name="last_use">Viimeksi käytetty</string>
     <string name="enable_playback_module_description">Kokeellinen ominaisuus, jolle ei tarjota tukea.</string>
-    <string name="lbl_num_songs">%1$d kappaletta</string>
     <string name="lbl_on_channel">Kanavalla %1$s</string>
-    <string name="lbl_num_episodes">%1$d jaksoa</string>
     <string name="lbl_on_any_channel">Miltä tahansa kanavalta</string>
     <string name="lbl_record_all">Kaikki jaksot tallennetaan</string>
     <string name="lbl_next_up_minimal">Ilman thumbnail-kuvaa</string>

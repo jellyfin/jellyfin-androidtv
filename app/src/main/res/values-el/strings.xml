@@ -22,7 +22,6 @@
     <string name="lbl_open_album">Ανοίξτε Άλμπουμ</string>
     <string name="lbl_next_item">επόμενο αντικείμενο</string>
     <string name="lbl_prev_item">προηγούμενο αντικείμενο</string>
-    <string name="lbl_up_next_colon">"Αμέσως μετά: "</string>
     <string name="lbl_now_playing">Τώρα παίζει</string>
     <string name="lbl_play_from_here">Αναπαραγωγή από εδώ</string>
     <string name="lbl_remove_from_queue">Κατάργηση από την ουρά</string>
@@ -128,7 +127,6 @@
     <string name="desc_bitstream_ac3">Απαιτεί υλικό με τις δυνατότητες αυτές</string>
     <string name="lbl_bitstream_ac3">Bitstream ήχου Dolby Digital</string>
     <string name="lbl_new_premieres">Νέες πρεμιέρες</string>
-    <string name="lbl_warning">Προειδοποίηση</string>
     <string name="lbl_live_tv_guide">Πρόγραμμα ζωντανής τηλεόρασης</string>
     <string name="lbl_no_recordings">Δεν υπάρχουν εγγραφές</string>
     <string name="msg_burn_sub_warning">Η ενσωμάτωση υποτίτλων στο βίντεο μπορεί να κρατήσει μερικά λεπτά. Παρακαλώ περιμένετε…</string>
@@ -138,7 +136,6 @@
     <string name="lbl_ended">ΟΛΟΚΛΗΡΩΘΗΚΕ</string>
     <string name="lbl__continuing">ΣΥΝΕΧΙΖΕΤΑΙ</string>
     <string name="lbl_display_preferences">Προτιμήσεις προβολής</string>
-    <string name="btn_done">Ολοκληρώθηκε</string>
     <string name="lbl_starting_with">ξεκινώντας με τα στοιχεία που το όνομα τους ξεκινά με</string>
     <string name="lbl_rating">Βαθμολογία</string>
     <string name="lbl_critic_rating">Βαθμολογία κριτικών</string>
@@ -269,7 +266,6 @@
     <string name="lbl_community_rating">Βαθμολογία Κοινού</string>
     <string name="lbl_hide_unwatched_count">Απόκρυψη μετρητή μη προσβληθέντων</string>
     <string name="lbl_user_server">%1$s από %2$s</string>
-    <string name="msg_added_to_video">%1$s προστέθηκε στην ουρά αναπαραγωγής. Τελειώνει σε %2$s</string>
     <string name="msg_no_items">Δεν υπάρχουν αντικείμενα για αναπαραγωγή</string>
     <string name="too_many_errors">Πάρα πολλά σφάλματα. Εγκατάλειψη</string>
     <string name="player_error">Σφάλμα προγράμματος αναπαραγωγής. Γίνεται ξανά απόπειρα…</string>
@@ -329,7 +325,6 @@
     <string name="enable_playback_module_description">Αυτό είναι ένα πειραματικό χαρακτηριστικό. Δεν παρέχεται υποστήριξη.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Τραγούδια</string>
     <string name="lbl_num_episodes">%1$d Επεισόδια</string>
     <string name="lbl_on_channel">Σε %1$s</string>
     <string name="lbl_on_any_channel">Σε Κάθε Κανάλι</string>

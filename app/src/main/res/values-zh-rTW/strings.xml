@@ -166,7 +166,6 @@
     <string name="msg_recording_now">正在記錄中</string>
     <string name="lbl_runs">執行</string>
     <string name="lbl_display_preferences">顯示偏好</string>
-    <string name="btn_done">完成</string>
     <string name="lbl_starting_with">以某人的名字開頭</string>
     <string name="lbl_rating">評等</string>
     <string name="lbl_critic_rating">評等</string>
@@ -205,7 +204,6 @@
     <string name="msg_error_live_stream">無法串流電視直播。將會重試……</string>
     <string name="lbl_direct_stream_live">串流電視直播</string>
     <string name="lbl_programs">程式</string>
-    <string name="lbl_warning">警告</string>
     <string name="lbl_up_next_colon">"下一個: "</string>
     <string name="lbl_instant_mix">即時混合</string>
     <string name="msg_item_added">" 已加入項目"</string>
@@ -306,7 +304,6 @@
     <string name="just_one">就是這個</string>
     <string name="turn_off">關閉此選項</string>
     <string name="audio_error">無法播放音檔 %1$s</string>
-    <string name="msg_added_to_video">%1$s 已加入影片隊列。%2$s 後結束</string>
     <string name="msg_no_items">無項目可供播放</string>
     <string name="subtitle_error">無法選擇字幕</string>
     <string name="too_many_errors">出現過多錯誤，放棄重試</string>
@@ -388,7 +385,6 @@
     <string name="enable_playback_module_description">這是實驗性的功能。不提供支援。</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d 首歌曲</string>
     <string name="lbl_num_episodes">%1$d劇集</string>
     <string name="lbl_on_channel">在%1$s</string>
     <string name="lbl_on_any_channel">在任何頻道上</string>

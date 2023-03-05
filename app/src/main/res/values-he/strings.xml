@@ -15,14 +15,12 @@
     <string name="lbl_remove_from_queue">הסר מהתור</string>
     <string name="lbl_play_from_here">נגן מכאן</string>
     <string name="lbl_now_playing">מנגן עכשיו</string>
-    <string name="lbl_up_next_colon">"הבא בתור "</string>
     <string name="lbl_prev_item">הקודם</string>
     <string name="lbl_next_item">הבא</string>
     <string name="lbl_open_album">פתח אלבום</string>
     <string name="lbl_open_artist">פתח אמן</string>
     <string name="lbl_add_to_queue">הוסף לתור</string>
     <string name="msg_items_added">" נוספו"</string>
-    <string name="lbl_warning">אזהרה</string>
     <string name="lbl_playlists">רשימת ניגון</string>
     <string name="sum_enable_cinema_mode">הראה קדימונים לפני הסרט (אם מאופשר בשרת)</string>
     <string name="lbl_enable_cinema_mode">מצב קולנוע</string>
@@ -46,7 +44,6 @@
     <string name="lbl_ended">הסתיים</string>
     <string name="lbl__continuing">ממשיך</string>
     <string name="lbl_display_preferences">הצג העדפות</string>
-    <string name="btn_done">הסתיים</string>
     <string name="lbl_starting_with">מתחיל עם אלה ששמותיהם מתחילים באות</string>
     <string name="lbl_rating">דירוג</string>
     <string name="lbl_critic_rating">דירוג מבקרים</string>
@@ -223,7 +220,6 @@
     <string name="just_one">רק את זה</string>
     <string name="turn_off">כבה את האופציה הזו</string>
     <string name="audio_error">לא יכול לנגן שמע ‎%1$s</string>
-    <string name="msg_added_to_video">%1$s נוסף לתור. מסתים ב: %2$s</string>
     <string name="msg_no_items">אין מה לנגן</string>
     <string name="subtitle_error">לא ניתן לבחור כתובית</string>
     <string name="too_many_errors">יותר מדי תקלות. מוותר</string>
@@ -338,7 +334,6 @@
     <string name="lbl_community_rating">דירוג הקהילה</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d שירים</string>
     <string name="lbl_num_episodes">%1$d פרקים</string>
     <string name="lbl_on_channel">על %1$s</string>
     <string name="lbl_starting_on_schedule_ending_after">מתחיל בזמן ומסיים %1$s לאחר לוח הזמנים</string>

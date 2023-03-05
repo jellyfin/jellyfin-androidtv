@@ -105,7 +105,6 @@
     <string name="just_one">இது ஒன்று</string>
     <string name="turn_off">இந்த விருப்பத்தை அணைக்கவும்</string>
     <string name="audio_error">ஆடியோ %1$s ஐ இயக்க முடியவில்லை</string>
-    <string name="msg_added_to_video">வீடியோ வரிசையில் %1$s சேர்க்கப்பட்டது. முடிவடைகிறது: %2$s</string>
     <string name="msg_no_items">இயக்க உருப்படிகள் இல்லை</string>
     <string name="subtitle_error">வசனத்தைத் தேர்ந்தெடுக்க முடியவில்லை</string>
     <string name="too_many_errors">பல பிழைகள். விடப்பட்டது</string>
@@ -212,14 +211,12 @@
     <string name="lbl_remove_from_queue">வரிசையில் இருந்து அகற்று</string>
     <string name="lbl_play_from_here">இங்கிருந்து இயக்கு</string>
     <string name="lbl_now_playing">தற்பொழுது இயக்கப்படுவது</string>
-    <string name="lbl_up_next_colon">"அடுத்து: "</string>
     <string name="lbl_prev_item">முந்தைய உருப்படி</string>
     <string name="lbl_next_item">அடுத்த உருப்படி</string>
     <string name="lbl_open_album">ஆல்பத்தைத் திறக்கவும்</string>
     <string name="lbl_open_artist">கலைஞரை திறக்கவும்</string>
     <string name="lbl_add_to_queue">வரிசையில் சேர்</string>
     <string name="msg_items_added">" உருப்படிகள் சேர்க்கப்பட்டன"</string>
-    <string name="lbl_warning">எச்சரிக்கை</string>
     <string name="lbl_playlists">பிளேலிஸ்ட்கள்</string>
     <string name="sum_enable_cinema_mode">ஒரு திரைப்படத்தைத் தொடங்குவதற்கு முன் கிடைக்கக்கூடிய அறிமுகங்களையும் முன்னோட்டங்களையும் இயக்கவும்</string>
     <string name="lbl_enable_cinema_mode">சினிமா பயன்முறை</string>
@@ -243,7 +240,6 @@
     <string name="lbl_ended">முடிந்தது</string>
     <string name="lbl__continuing">தொடர்கிறது</string>
     <string name="lbl_display_preferences">காட்சி விருப்பத்தேர்வுகள்</string>
-    <string name="btn_done">முடிந்தது</string>
     <string name="lbl_starting_with">உடன் தொடங்கும் பெயர்களுடன் தொடங்குகிறது</string>
     <string name="lbl_rating">மதிப்பீடு</string>
     <string name="lbl_critic_rating">விமர்சன மதிப்பீடு</string>
@@ -354,7 +350,6 @@
     <string name="pref_next_up_behavior_title">அடுத்த வீடியோ தகவலைக் காட்டு</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d பாடல்கள்</string>
     <string name="lbl_num_episodes">%1$d அத்தியாயங்கள்</string>
     <string name="lbl_on_channel">%1$s இல்</string>
     <string name="lbl_on_any_channel">எந்த சேனலிலும்</string>

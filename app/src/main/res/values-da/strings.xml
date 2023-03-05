@@ -125,14 +125,12 @@
     <string name="lbl_remove_from_queue">Fjern fra Kø</string>
     <string name="lbl_play_from_here">Afspil Herfra</string>
     <string name="lbl_now_playing">Spiller nu</string>
-    <string name="lbl_up_next_colon">"Næste: "</string>
     <string name="lbl_prev_item">Forrige fil</string>
     <string name="lbl_next_item">Næste fil</string>
     <string name="lbl_open_album">Åbn Album</string>
     <string name="lbl_open_artist">Åbn Kunstner</string>
     <string name="lbl_add_to_queue">Tilføj til Kø</string>
     <string name="msg_items_added">" Filer tilføjet"</string>
-    <string name="lbl_warning">Advarsel</string>
     <string name="lbl_playlists">Afspilningslister</string>
     <string name="sum_enable_cinema_mode">Afspil tilgængelig intro og trailere inden afspilning af en film</string>
     <string name="lbl_enable_cinema_mode">Biograftilstand</string>
@@ -156,7 +154,6 @@
     <string name="lbl_ended">AFSLUTTET</string>
     <string name="lbl__continuing">FORTSÆTTER</string>
     <string name="lbl_display_preferences">Skærm indstillinger</string>
-    <string name="btn_done">Færdig</string>
     <string name="lbl_starting_with">Begynd med dem, hvis navn starter med</string>
     <string name="lbl_rating">Vurdering</string>
     <string name="lbl_critic_rating">Kritikervurdering</string>
@@ -261,7 +258,6 @@
     <string name="just_one">Kun denne ene</string>
     <string name="turn_off">Slå denne indstilling fra</string>
     <string name="audio_error">Kunne ikke afspille lyd %1$s</string>
-    <string name="msg_added_to_video">%1$s tilføjet til video kø. Færdig om: %2$s</string>
     <string name="msg_no_items">Ingen filer at afspille</string>
     <string name="subtitle_error">Kan ikke vælge undertekst</string>
     <string name="too_many_errors">For mange fejl. Giver op</string>
@@ -455,7 +451,6 @@
     <string name="enable_playback_module_description">Dette er en eksperimentel funktion. Der ydes ikke support.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d sange</string>
     <string name="lbl_num_episodes">%1$d afsnit</string>
     <string name="lbl_on_channel">Den %1$s</string>
     <string name="lbl_on_any_channel">På hvilken som helst kanal</string>

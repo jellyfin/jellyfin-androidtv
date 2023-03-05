@@ -120,7 +120,6 @@
     <string name="lbl_critic_rating">Synşylar bağalauy</string>
     <string name="lbl_rating">Jastas sanaty</string>
     <string name="lbl_starting_with">kımnıñ aty osymen bastalğandardan bastap</string>
-    <string name="btn_done">Daiyn</string>
     <string name="lbl_display_preferences">Beineleu teñşelımderı</string>
     <string name="lbl__continuing">JALĞASUDA</string>
     <string name="lbl_ended">AİAQTALĞAN</string>
@@ -150,7 +149,6 @@
     <string name="lbl_open_album">Älbomdy aşu</string>
     <string name="lbl_next_item">Kelesı tarmaq</string>
     <string name="lbl_prev_item">Aldyñğy tarmaq</string>
-    <string name="lbl_up_next_colon">"Kezektegı: "</string>
     <string name="lbl_now_playing">Qazır oinatyluda</string>
     <string name="lbl_play_from_here">Būl aradan oinatu</string>
     <string name="lbl_remove_from_queue">Kezekten alastau</string>
@@ -223,7 +221,6 @@
     <string name="msg_record_entire_series">Bükıl telehikaiany jazamyz ba\?</string>
     <string name="lbl_just_this_once">Tek osy ret</string>
     <string name="lbl_select_date">Kün tañdau</string>
-    <string name="lbl_warning">Eskertu</string>
     <string name="pref_authentication_cat">Tüpnūsqalyq rastama</string>
     <string name="pref_libvlc_audio_delay_title">libVLC üşın dybystyñ ädepkı kıdırısı</string>
     <string name="watch_now">Qazır köru</string>
@@ -286,7 +283,6 @@
     <string name="just_one">Tek osy rette</string>
     <string name="turn_off">Būl opsiany öşıru</string>
     <string name="audio_error">%1$s dybysyn oinatu mümkın emes</string>
-    <string name="msg_added_to_video">%1$s beine kezegıne qosyldy. Aiaqtaluy: %2$s</string>
     <string name="msg_no_items">Oinaityn tarmaqtar joq</string>
     <string name="subtitle_error">Subtitrlerdı tañdau mümkın emes</string>
     <string name="player_error">Oinatqyş qatesı paida boldy. Äreket qaitalanady…</string>
@@ -354,7 +350,6 @@
     <string name="pref_next_up_behavior_title">Kelesı beine aqparyn körsetu</string>
     <string name="lbl_time_range">%1$s—%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d äuen</string>
     <string name="lbl_num_episodes">%1$d telebölim</string>
     <string name="lbl_on_channel">%1$s kezinde</string>
     <string name="lbl_on_any_channel">Qaisybır arnadan</string>

@@ -84,7 +84,6 @@
     <string name="just_one">Само овај</string>
     <string name="turn_off">Искључите ову опцију</string>
     <string name="audio_error">Није могуће репродуковати аудио %1$s</string>
-    <string name="msg_added_to_video">%1$s додато у ред за видео. Завршава се у: %2$s</string>
     <string name="msg_no_items">Нема ставки за репродукцију</string>
     <string name="subtitle_error">Није могуће одабрати титл</string>
     <string name="too_many_errors">Превише грешака. Одустајем</string>
@@ -196,14 +195,12 @@
     <string name="lbl_remove_from_queue">Уклони из реда</string>
     <string name="lbl_play_from_here">Репродукуј одавде</string>
     <string name="lbl_now_playing">Пуштено сада</string>
-    <string name="lbl_up_next_colon">"Следеће за репродукцију: "</string>
     <string name="lbl_prev_item">Претходна ставка</string>
     <string name="lbl_next_item">Следећа ставка</string>
     <string name="lbl_open_album">Отвори албум</string>
     <string name="lbl_open_artist">Отвори уметника</string>
     <string name="lbl_add_to_queue">Додај у ред чекања</string>
     <string name="msg_items_added">" ставка је додата"</string>
-    <string name="lbl_warning">Упозорење</string>
     <string name="lbl_playlists">Листа за пуштање</string>
     <string name="sum_enable_cinema_mode">Прикажите увод и прегледе пре репродукције филма када их сервер омогући</string>
     <string name="lbl_enable_cinema_mode">Биоскопски режим</string>
@@ -227,7 +224,6 @@
     <string name="lbl_ended">ЗАВРШЕНА</string>
     <string name="lbl__continuing">НАСТАВЉА СЕ</string>
     <string name="lbl_display_preferences">Прикажи поставке</string>
-    <string name="btn_done">Готово</string>
     <string name="lbl_starting_with">почев од оних чије име почиње са</string>
     <string name="lbl_rating">Оцена</string>
     <string name="lbl_critic_rating">Оцена критичара</string>
@@ -374,7 +370,6 @@
     <string name="enable_playback_module_description">Ово је експериментална карактеристика. Подршка није обезбеђена.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Песама</string>
     <string name="lbl_num_episodes">%1$d Епизода</string>
     <string name="lbl_on_channel">На %1$s</string>
     <string name="lbl_on_any_channel">На било којем каналу</string>

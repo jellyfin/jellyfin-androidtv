@@ -93,7 +93,6 @@
     <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="lbl_warning">Ostrzeżenie</string>
     <string name="lbl_playlists">Playlisty</string>
     <string name="sum_enable_cinema_mode">Odtwórz zwiastuny i informacje wprowadzające przez seansem</string>
     <string name="lbl_enable_cinema_mode">Tryb kinowy</string>
@@ -113,7 +112,6 @@
     <string name="lbl_filters">Filtry TV na żywo</string>
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Właściwości</string>
-    <string name="btn_done">Gotowe</string>
     <string name="lbl_rating">Ocena</string>
     <string name="lbl_critic_rating">Ocena Krytyków</string>
     <string name="lbl_premier_date">Data Premiery</string>
@@ -140,7 +138,6 @@
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
     <string name="lbl_remove_from_queue">Usuń z kolejki</string>
     <string name="lbl_now_playing">Obecnie Odtwarzane</string>
-    <string name="lbl_up_next_colon">"Następne: "</string>
     <string name="lbl_prev_item">Poprzedni element</string>
     <string name="lbl_next_item">Następny element</string>
     <string name="lbl_open_album">Pokaż Album</string>
@@ -255,7 +252,6 @@
     <string name="just_one">Tylko to</string>
     <string name="turn_off">Wyłącz tę opcję</string>
     <string name="audio_error">Nie można odtworzyć dźwięku: %1$s</string>
-    <string name="msg_added_to_video">%1$s zostało dodane do kolejki. Kolejka kończy się za: %2$s</string>
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
@@ -346,7 +342,6 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_num_songs">%1$d Piosenek</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_record_only_new">Nagrywaj tylko nowe</string>
     <string name="lbl_next_up_minimal">Bez miniaturek</string>

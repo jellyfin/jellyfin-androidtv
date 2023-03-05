@@ -85,7 +85,6 @@
     <string name="lbl_ended">ПРИКЛЮЧИЛ</string>
     <string name="lbl__continuing">ПРОДЪЛЖАВА</string>
     <string name="lbl_display_preferences">Настройки на дисплея</string>
-    <string name="btn_done">Готово</string>
     <string name="lbl_starting_with">като се започне от тези, чието име започва с</string>
     <string name="lbl_rating">Рейтинг</string>
     <string name="lbl_community_rating">Рейтинг на общността</string>

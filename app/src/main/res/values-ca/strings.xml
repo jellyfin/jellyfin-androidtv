@@ -89,14 +89,12 @@
     <string name="lbl_remove_from_queue">Eliminar de la cua</string>
     <string name="lbl_play_from_here">Reproduir des d\'aquí</string>
     <string name="lbl_now_playing">Reproduint</string>
-    <string name="lbl_up_next_colon">"Pujar la següent: "</string>
     <string name="lbl_prev_item">Anterior element</string>
     <string name="lbl_next_item">Següent element</string>
     <string name="lbl_open_album">Obrir Àlbum</string>
     <string name="lbl_open_artist">Obrir Artista</string>
     <string name="lbl_add_to_queue">Afegeix a la cua</string>
     <string name="msg_items_added">" elements afegits"</string>
-    <string name="lbl_warning">Avís</string>
     <string name="lbl_playlists">Llistes de reproducció</string>
     <string name="sum_enable_cinema_mode">Mostra les presentacions i les previsualitzacions disponibles abans de la reproducció de pel·lícules</string>
     <string name="lbl_enable_cinema_mode">Mode Cinema</string>
@@ -120,7 +118,6 @@
     <string name="lbl_ended">FINALITZAT</string>
     <string name="lbl__continuing">CONTINUANT</string>
     <string name="lbl_display_preferences">Preferències de visualització</string>
-    <string name="btn_done">Fet</string>
     <string name="lbl_starting_with">començant per aquells el nom del qual comença per</string>
     <string name="lbl_rating">Valoració</string>
     <string name="lbl_critic_rating">Crítica</string>
@@ -258,7 +255,6 @@
     <string name="just_one">Només aquest</string>
     <string name="turn_off">Desactivar aquesta opció</string>
     <string name="audio_error">No es pot reproduir l\'àudio %1$s</string>
-    <string name="msg_added_to_video">S\'ha afegit %1$s a la cua de vídeos. Finalitza: %2$s</string>
     <string name="msg_no_items">No hi ha elements per reproduir</string>
     <string name="subtitle_error">No es pot seleccionar el subtítol</string>
     <string name="too_many_errors">Hi ha massa errors. Renunciar</string>
@@ -339,7 +335,6 @@
     <string name="enable_playback_module_description">Això és una funció experimental que no disposa de suport.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Cançons</string>
     <string name="lbl_num_episodes">%1$d Episodis</string>
     <string name="lbl_on_channel">A %1$s</string>
     <string name="lbl_on_any_channel">A qualsevol canal</string>

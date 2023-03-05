@@ -120,7 +120,6 @@
     <string name="lbl_critic_rating">Hodnocení kritiků</string>
     <string name="lbl_rating">Hodnocení</string>
     <string name="lbl_starting_with">"začít s těmi, jejichž jméno začíná na"</string>
-    <string name="btn_done">Hotovo</string>
     <string name="lbl_display_preferences">Předvolby zobrazení</string>
     <string name="lbl__continuing">POKRAČOVÁNÍ</string>
     <string name="lbl_ended">UKONČENO</string>
@@ -169,7 +168,6 @@
     <string name="lbl_new_premieres">Nové premiéry</string>
     <string name="desc_automatic_fav_songs">Automatický seznam oblíbených skladeb</string>
     <string name="lbl_goto_now_playing">Přejít k Právě hraje</string>
-    <string name="lbl_up_next_colon">"Další: "</string>
     <string name="lbl_warning">Varování</string>
     <string name="sum_enable_cinema_mode">Zobrazovat úvodníky a náhledy před přehráváním filmu</string>
     <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
@@ -254,7 +252,6 @@
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
-    <string name="msg_added_to_video">Položka %1$s přidána do fronty. Konec v: %2$s</string>
     <string name="msg_no_items">Neexistuje nic k přehrávání</string>
     <string name="subtitle_error">Není možné vybrat titulky</string>
     <string name="too_many_errors">Došlo k příliš mnoha chybám. Další pokus již nebude proveden</string>
@@ -338,7 +335,6 @@
     <string name="press_to_close">Stisknutím zavřete</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d skladeb</string>
     <string name="lbl_num_episodes">%1$d dílů</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na všech kanálech</string>

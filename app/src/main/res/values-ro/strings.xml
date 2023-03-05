@@ -15,7 +15,6 @@
     <string name="lbl_open_album">Deschide albumul</string>
     <string name="lbl_next_item">Elementul următor</string>
     <string name="lbl_prev_item">Elementul anterior</string>
-    <string name="lbl_up_next_colon">"Urmează: "</string>
     <string name="lbl_now_playing">Se redă acum</string>
     <string name="lbl_play_from_here">Redă de aici</string>
     <string name="lbl_remove_from_queue">Elimină din listă</string>
@@ -150,7 +149,6 @@
     <string name="desc_bitstream_ac3">Necesită un hardware capabil</string>
     <string name="lbl_bitstream_ac3">Stream audio Dolby Digital</string>
     <string name="lbl_new_premieres">Premiere Noi</string>
-    <string name="lbl_warning">Atenție</string>
     <string name="lbl_programs">Programe</string>
     <string name="lbl_direct_stream_live">Direct stream TV live</string>
     <string name="msg_error_live_stream">A apărut o eroare în transmisia TV în direct. Voi încerca din nou…</string>
@@ -165,7 +163,6 @@
     <string name="lbl_ended">TERMINAT</string>
     <string name="lbl__continuing">CONTINUÂND</string>
     <string name="lbl_display_preferences">Preferințe afișare</string>
-    <string name="btn_done">Realizat</string>
     <string name="lbl_starting_with">începând cu cei al căror nume începe cu</string>
     <string name="lbl_critic_rating">Rating Critic</string>
     <string name="lbl_premier_date">Data Lansării</string>
@@ -273,7 +270,6 @@
     <string name="lbl_audio_track">Selectează pista audio</string>
     <string name="lbl_pause">Pauză</string>
     <string name="audio_error">Imposibil de redat sunetul %1$s</string>
-    <string name="msg_added_to_video">%1$s a fost adăugat la coada video. Se încheie: %2$s</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">Se termină la %1$s</string>
     <string name="lbl_sign_in">Vă rugăm, autentificați-vă</string>
@@ -416,7 +412,6 @@
     <string name="enable_playback_module_description">Această caracteristică este experimentala. Nu se va oferi asistență.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d Melodi</string>
     <string name="lbl_num_episodes">%1$d Episoade</string>
     <string name="lbl_on_channel">Pe %1$s</string>
     <string name="lbl_on_any_channel">Pe Orice Canal</string>

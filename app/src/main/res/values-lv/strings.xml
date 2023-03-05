@@ -59,14 +59,12 @@
     <string name="lbl_remove_from_queue">Noņemt no Rindas</string>
     <string name="lbl_play_from_here">Atskaņot no Šejienes</string>
     <string name="lbl_now_playing">Pašlaik Atskaņo</string>
-    <string name="lbl_up_next_colon">"Nākamis: "</string>
     <string name="lbl_prev_item">Iepriekšējais Vienums</string>
     <string name="lbl_next_item">Nākamais Vienums</string>
     <string name="lbl_open_album">Atvēŗt Albumu</string>
     <string name="lbl_open_artist">Atvēŗt Izpildītāju</string>
     <string name="lbl_add_to_queue">Pievienot Rindai</string>
     <string name="msg_items_added">" vienumi pievienoti"</string>
-    <string name="lbl_warning">Brīdinājums</string>
     <string name="lbl_playlists">Atskaņošanas Saraksti</string>
     <string name="sum_enable_cinema_mode">Rādīt ievadus un priekškatījumus pirms filmu atskaņošanas, kad iespējots serverī</string>
     <string name="lbl_enable_cinema_mode">Teātra Režīms</string>
@@ -85,7 +83,6 @@
     <string name="msg_subtitles_loading">Subtitri lādējas…</string>
     <string name="lbl_filters">Filtri</string>
     <string name="lbl_display_preferences">Displeja Iestatījumi</string>
-    <string name="btn_done">Pabeigts</string>
     <string name="lbl_starting_with">sākot ar tiem, kuru nosaukums sākas ar</string>
     <string name="lbl_rating">Reitings</string>
     <string name="lbl_critic_rating">Kritiķu Reitings</string>

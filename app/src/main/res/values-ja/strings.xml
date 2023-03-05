@@ -112,7 +112,6 @@
     <string name="lbl_premier_date">公開された日付</string>
     <string name="lbl_critic_rating">評論家の評価</string>
     <string name="lbl_rating">評価</string>
-    <string name="btn_done">完成</string>
     <string name="lbl_display_preferences">ディスプレイ設定</string>
     <string name="lbl__continuing">続いている</string>
     <string name="lbl_ended">既に終了</string>
@@ -125,12 +124,10 @@
     <string name="lbl_album">アルバム</string>
     <string name="lbl_enable_cinema_mode">映画モード</string>
     <string name="lbl_playlists">プレイリスト</string>
-    <string name="lbl_warning">注意</string>
     <string name="msg_items_added">" 項目を追加しました"</string>
     <string name="lbl_open_album">アルバムを表示</string>
     <string name="lbl_next_item">次の項目</string>
     <string name="lbl_prev_item">前の項目</string>
-    <string name="lbl_up_next_colon">"次: "</string>
     <string name="lbl_now_playing">再生中</string>
     <string name="lbl_play_from_here">ここから再生</string>
     <string name="lbl_delete">削除</string>

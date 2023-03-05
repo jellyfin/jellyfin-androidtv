@@ -25,7 +25,6 @@
     <string name="lbl_ended">UKONČENÝ</string>
     <string name="lbl__continuing">POKRAČUJÚCI</string>
     <string name="lbl_display_preferences">Predvoľby zobrazenia</string>
-    <string name="btn_done">Hotovo</string>
     <string name="lbl_rating">Hodnotenie</string>
     <string name="lbl_critic_rating">Hodnotenie kritikov</string>
     <string name="lbl_premier_date">Dátum premiéry</string>
@@ -185,14 +184,12 @@
     <string name="lbl_remove_from_queue">Odstrániť z fronty</string>
     <string name="lbl_play_from_here">Spustiť odtiaľto</string>
     <string name="lbl_now_playing">Práve prehrávané</string>
-    <string name="lbl_up_next_colon">"Nasleduje: "</string>
     <string name="lbl_prev_item">Predchádzajúca položka</string>
     <string name="lbl_next_item">Nasledujúca položka</string>
     <string name="lbl_open_album">Otvoriť album</string>
     <string name="lbl_open_artist">Otvoriť interpreta</string>
     <string name="lbl_add_to_queue">Pridať do fronty</string>
     <string name="msg_items_added">" položky pridané"</string>
-    <string name="lbl_warning">Varovanie</string>
     <string name="lbl_playlists">Playlist</string>
     <string name="sum_enable_cinema_mode">Prehrať dostupné intrá a ukážky pred začatím filmu</string>
     <string name="lbl_enable_cinema_mode">Kino režim</string>
@@ -265,7 +262,6 @@
     <string name="just_one">Len túto jednu</string>
     <string name="turn_off">Vypnúť túto možnosť</string>
     <string name="audio_error">Nie je možné spustiť zvuk %1$s</string>
-    <string name="msg_added_to_video">Položka %1$s bola pridaná do video fronty. Koniec o: %2$s</string>
     <string name="msg_no_items">Žiadne položky na prehranie</string>
     <string name="subtitle_error">Nie je možné vybrať titulky</string>
     <string name="too_many_errors">Príliš veľa chýb. Vzdávam sa</string>
@@ -343,7 +339,6 @@
     <string name="lbl_starting_early_ending_after">Začína o %1$s skôr a končí o %2$s neskôr</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d skladieb</string>
     <string name="lbl_num_episodes">%1$d epizód</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na akomkoľvek kanáli</string>
