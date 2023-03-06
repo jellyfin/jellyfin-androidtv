@@ -104,19 +104,19 @@
     <string name="lbl_on">上</string>
     <string name="lbl_song_title">歌曲标题</string>
     <string name="lbl_album_name">专辑名</string>
-    <string name="lbl_next_episode">下一个事件</string>
-    <string name="lbl_previous_episode">先前的事件</string>
-    <string name="lbl_more_like_this">更多像这个的</string>
+    <string name="lbl_next_episode">下一集</string>
+    <string name="lbl_previous_episode">上一集</string>
+    <string name="lbl_more_like_this">更多类似</string>
     <string name="lbl_resume_from">自%1$s恢复</string>
-    <string name="lbl_guide_option_number">通道编号</string>
+    <string name="lbl_guide_option_number">频道编号</string>
     <string name="lbl_guide_option_played">最后播放</string>
     <string name="lbl_show_indicators">显示指标</string>
     <string name="lbl_sort_by">排序</string>
     <string name="lbl_premiere">首映</string>
-    <string name="lbl_guest_stars">访客的星星</string>
+    <string name="lbl_guest_stars">访客评分</string>
     <string name="lbl_on_schedule">在计划上</string>
     <string name="lbl_at_any_time">随时</string>
-    <string name="lbl_series_recordings">系列记录</string>
+    <string name="lbl_series_recordings">系列录制</string>
     <string name="lbl_save">保存</string>
     <string name="msg_settings_updated">已更新首选项</string>
     <string name="lbl_series_settings">系列偏好</string>
@@ -125,10 +125,10 @@
     <string name="lbl_live">直播</string>
     <string name="lbl_new">新的</string>
     <string name="lbl_repeat">重复</string>
-    <string name="lbl_recent_recordings">最近的记录</string>
+    <string name="lbl_recent_recordings">最近的录制</string>
     <string name="lbl_kids">儿童</string>
     <string name="lbl_sports">体育</string>
-    <string name="no_program_data">无可用程序数据</string>
+    <string name="no_program_data">无可用节目数据</string>
     <string name="msg_record_entire_series">记录整个系列\?</string>
     <string name="lbl_just_this_once">就这一次</string>
     <string name="lbl_select_date">选择日期</string>
@@ -153,7 +153,7 @@
     <string name="lbl_remove_from_queue">从队列中删除</string>
     <string name="lbl_play_from_here">从这里播放</string>
     <string name="lbl_now_playing">正在播放</string>
-    <string name="lbl_prev_item">以前的项目</string>
+    <string name="lbl_prev_item">前一个项目</string>
     <string name="lbl_next_item">下一个项目</string>
     <string name="lbl_open_album">查看专辑</string>
     <string name="lbl_open_artist">查看艺术家</string>
@@ -195,19 +195,19 @@
     <string name="lbl_audio_output">音频输出</string>
     <string name="pref_audio_direct">直接</string>
     <string name="lbl_repeat_options">重复的选项</string>
-    <string name="lbl_only_new_episodes">仅新集数</string>
+    <string name="lbl_only_new_episodes">仅新剧集</string>
     <string name="lbl_record_any_time">在任何时候记录</string>
     <string name="lbl_record_any_channel">在任何通道上录音</string>
     <string name="lbl_similar_items_library">您库中的类似项</string>
     <string name="lbl_end_padding">结束填充</string>
-    <string name="lbl_program_ended">程序结束</string>
+    <string name="lbl_program_ended">节目结束</string>
     <string name="lbl_begin_padding">开始填充</string>
-    <string name="msg_will_record">将会记录</string>
-    <string name="msg_recording_now">正在记录中</string>
-    <string name="lbl_tune_to_channel">切换通道</string>
+    <string name="msg_will_record">将会录制</string>
+    <string name="msg_recording_now">正在录制中</string>
+    <string name="lbl_tune_to_channel">切换频道</string>
     <string name="lbl_tomorrow">明天</string>
     <string name="lbl_today">今天</string>
-    <string name="lbl_load_channels">"加载通道 "</string>
+    <string name="lbl_load_channels">"加载频道 "</string>
     <string name="lbl_unwatched">未观看</string>
     <string name="msg_no_playable_items">没有可播放的项目</string>
     <string name="lbl_image_size">图像尺寸</string>
@@ -216,9 +216,9 @@
     <string name="lbl_colored_backgrounds">颜色背景编码</string>
     <string name="lbl_hd_programs">高清节目</string>
     <string name="lbl_live_broadcasts">直播</string>
-    <string name="lbl_repeat_episodes">重复事件</string>
+    <string name="lbl_repeat_episodes">重播剧集</string>
     <string name="lbl_premieres">第一次播放</string>
-    <string name="lbl_new_episodes">新事件</string>
+    <string name="lbl_new_episodes">新剧集</string>
     <string name="lbl_audio_delay">音频延迟</string>
     <string name="lbl_new_only">只有新的</string>
     <string name="lbl_news">新闻</string>
@@ -497,4 +497,10 @@
         <item quantity="other">%1$s 小时</item>
     </plurals>
     <string name="lbl_latest_in">最近添加于 %1$s</string>
+    <plurals name="tracks">
+        <item quantity="other">%1$s 曲目</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">%1$s 剧集</item>
+    </plurals>
 </resources>
