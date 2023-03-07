@@ -36,7 +36,7 @@
     <string name="msg_unable_to_create_recording">无法录制</string>
     <string name="msg_recording_cancelled">录制已取消</string>
     <string name="msg_unable_to_cancel">无法取消录制</string>
-    <string name="lbl_cast_crew">演员/工作人员</string>
+    <string name="lbl_cast_crew">演员 &amp; 工作人员</string>
     <string name="lbl_chapters">章节</string>
     <string name="lbl_specials">特典</string>
     <string name="lbl_trailers">预告</string>
@@ -73,9 +73,9 @@
     <string name="sum_tv_queuing">将此剧季的剩余内容添加到播放队列中</string>
     <string name="lbl_now_playing_album">来自 %1$s</string>
     <string name="lbl_now_playing_track">%1$s 中的 %2$s</string>
-    <string name="lbl_add_favorite">添加我的最爱</string>
-    <string name="lbl_remove_favorite">移除我的最爱</string>
-    <string name="lbl_mark_played">标记已播放</string>
+    <string name="lbl_add_favorite">添加收藏</string>
+    <string name="lbl_remove_favorite">移除收藏</string>
+    <string name="lbl_mark_played">标记为已播放</string>
     <string name="lbl_mark_unplayed">标记为未播放</string>
     <string name="lbl_play_first_unwatched">播放未观看中的第一部影片</string>
     <string name="lbl_search_hint">搜索文本(选择键盘)</string>
@@ -148,7 +148,7 @@
     <string name="desc_automatic_fav_songs">喜爱歌曲的自动播放列表</string>
     <string name="msg_item_added">" 已加入项目"</string>
     <string name="lbl_delete">删除</string>
-    <string name="lbl_instant_mix">实时混合</string>
+    <string name="lbl_instant_mix">速成合辑</string>
     <string name="lbl_goto_now_playing">转到正在播放</string>
     <string name="lbl_remove_from_queue">从队列中删除</string>
     <string name="lbl_play_from_here">从这里播放</string>
@@ -170,7 +170,7 @@
     <string name="lbl_artists">艺术家</string>
     <string name="lbl_albums">专辑</string>
     <string name="lbl_programs">程序</string>
-    <string name="lbl_direct_stream_live">直接流直播电视</string>
+    <string name="lbl_direct_stream_live">串流电视直播</string>
     <string name="msg_error_live_stream">无法获取电视直播流。将会重试……</string>
     <string name="pref_live_tv_cat">电视直播</string>
     <string name="lbl_recorded_tv">已记录电视</string>
@@ -436,7 +436,7 @@
     <string name="login_connect_to">连接到 %1$s</string>
     <string name="input_password">密码</string>
     <string name="input_username">用户名</string>
-    <string name="action_use_quickconnect">使用 QuickConnect</string>
+    <string name="action_use_quickconnect">使用 Quick Connect</string>
     <string name="action_use_password">使用密码</string>
     <string name="action_login">登录</string>
     <string name="state_disabled">已禁用</string>
