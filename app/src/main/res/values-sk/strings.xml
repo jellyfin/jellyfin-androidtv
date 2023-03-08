@@ -71,7 +71,7 @@
     <string name="lbl_enter_server_address">Zadať adresu serveru</string>
     <string name="lbl_yes">Áno</string>
     <string name="lbl_no">Nie</string>
-    <string name="lbl_play_trailers">Prehrať trailer</string>
+    <string name="lbl_play_trailers">Prehrať trailer(y)</string>
     <string name="lbl_trailer">"Trailer "</string>
     <string name="lbl_bracket_unknown">Neznáme</string>
     <string name="msg_video_playback_error">"Chyba pri prehrávaní videa - "</string>
@@ -94,7 +94,7 @@
     <string name="lbl_trailers">Trailery</string>
     <string name="lbl_specials">Bonusový materiál</string>
     <string name="lbl_chapters">Kapitoly</string>
-    <string name="lbl_cast_crew">Obsadenie/Štáb</string>
+    <string name="lbl_cast_crew">Obsadenie a štáb</string>
     <string name="msg_unable_to_cancel">Nie je možné zrušiť nahrávku</string>
     <string name="msg_recording_cancelled">Nahrávanie zrušené</string>
     <string name="msg_unable_to_create_recording">Nie je možné vytvoriť nahrávku</string>
@@ -339,7 +339,6 @@
     <string name="lbl_starting_early_ending_after">Začína o %1$s skôr a končí o %2$s neskôr</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d epizód</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na akomkoľvek kanáli</string>
     <string name="lbl_record_all">Budú sa nahrávať všetky epizódy</string>
@@ -484,4 +483,34 @@
     <string name="pref_enable_media_management">Povoliť správu medií</string>
     <string name="pref_enable_media_management_description">Zobraziť možnosti na správu medií počas prehliadania</string>
     <string name="item_delete_confirm_message">Naozaj chcete odstrániť túto položku zo servera\? Túto akciu nie je možné vrátiť späť.</string>
+    <string name="pref_screensaver">Šetrič obrazovky</string>
+    <string name="pref_screensaver_inapp_enabled_description">Zobrazovať šetrič obrazovky vstavaný v Jellyfine, dokým je aplikácia otvorená</string>
+    <string name="pref_screensaver_inapp_timeout">Spustiť šetrič obrazovky po</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s stopa</item>
+        <item quantity="few">%1$s stopy</item>
+        <item quantity="other">%1$s stôp</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minúte</item>
+        <item quantity="few">%1$s minútach</item>
+        <item quantity="other">%1$s minútach</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Použiť vstavaný šetrič obrazovky</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizóda</item>
+        <item quantity="few">%1$s epizódy</item>
+        <item quantity="other">%1$s epizód</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunde</item>
+        <item quantity="few">%1$s sekundách</item>
+        <item quantity="other">%1$s sekundách</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hodine</item>
+        <item quantity="few">%1$s hodinách</item>
+        <item quantity="other">%1$s hodinách</item>
+    </plurals>
+    <string name="lbl_latest_in">Najnovšie v %1$s</string>
 </resources>
