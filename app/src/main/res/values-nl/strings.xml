@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Opname maken mislukt</string>
     <string name="msg_recording_cancelled">Opname geannuleerd</string>
     <string name="msg_unable_to_cancel">Niet in staat om opname te annuleren</string>
-    <string name="lbl_cast_crew">Cast/crew</string>
+    <string name="lbl_cast_crew">Cast en crew</string>
     <string name="lbl_chapters">Hoofdstukken</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>
@@ -92,12 +92,12 @@
     <string name="lbl_today">Vandaag</string>
     <string name="lbl_tomorrow">Morgen</string>
     <string name="lbl_on">Aan</string>
-    <string name="lbl_tune_to_channel">Schakel naar kanaal</string>
+    <string name="lbl_tune_to_channel">Naar kanaal schakelen</string>
     <string name="msg_recording_now">Nu aan het opnemen</string>
     <string name="msg_will_record">Wordt opgenomen</string>
-    <string name="lbl_begin_padding">Voorlooptijd (minuten)</string>
+    <string name="lbl_begin_padding">Voorlooptijd</string>
     <string name="lbl_program_ended">Programma afgelopen</string>
-    <string name="lbl_end_padding">nalooptijd (minuten)</string>
+    <string name="lbl_end_padding">Nalooptijd</string>
     <string name="lbl_similar_items_library">Vergelijkbare items in je bibliotheek</string>
     <string name="lbl_record_any_channel">Neem op elk kanaal op</string>
     <string name="lbl_record_any_time">Neem op elk tijdstip op</string>
@@ -117,7 +117,7 @@
     <string name="lbl_name">Naam</string>
     <string name="lbl_date_added">Datum toegevoegd</string>
     <string name="lbl_premier_date">Premièredatum</string>
-    <string name="lbl_critic_rating">Beoordeling critici</string>
+    <string name="lbl_critic_rating">Beoordeling recensenten</string>
     <string name="lbl_rating">Beoordeling</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
@@ -152,7 +152,7 @@
     <string name="lbl_now_playing">Nu afspelen</string>
     <string name="lbl_play_from_here">Vanaf hier afspelen</string>
     <string name="lbl_remove_from_queue">Verwijderen uit wachtrij</string>
-    <string name="lbl_goto_now_playing">Naar Nu afspelen gaan</string>
+    <string name="lbl_goto_now_playing">Naar nu afspelen gaan</string>
     <string name="lbl_instant_mix">Instant mix</string>
     <string name="lbl_delete">Verwijderen</string>
     <string name="msg_item_added">" item toegevoegd"</string>
@@ -195,12 +195,12 @@
     <string name="lbl_sports">Sport</string>
     <string name="msg_record_entire_series">Volledige serie opnemen\?</string>
     <string name="lbl_just_this_once">Alleen deze keer</string>
-    <string name="lbl_select_date">Kies datum</string>
+    <string name="lbl_select_date">Datum kiezen</string>
     <string name="lbl_image_size">Afbeeldingsformaat</string>
     <string name="lbl_repeat_episodes">Afleveringen herhalen</string>
     <string name="lbl_new_episodes">Nieuwe afleveringen</string>
     <string name="lbl_new_only">Alleen nieuwe</string>
-    <string name="lbl_song_title">Titel van het nummer</string>
+    <string name="lbl_song_title">Nummertitel</string>
     <string name="lbl_more_like_this">Meer zoals dit</string>
     <string name="lbl_resume_from">Hervatten vanaf %1$s</string>
     <string name="lbl_resume_preroll">Pre-roll hervatten</string>
@@ -216,7 +216,7 @@
     <string name="lbl_schedule">Inplannen</string>
     <string name="no_program_data">Geen programmadata beschikbaar</string>
     <string name="lbl_image_type">Afbeeldingstype</string>
-    <string name="lbl_start_favorites">Plaats favorieten vooraan</string>
+    <string name="lbl_start_favorites">Favorieten vooraan plaatsen</string>
     <string name="lbl_colored_backgrounds">Kleurgecodeerde achtergronden</string>
     <string name="lbl_hd_programs">HD-programma\'s</string>
     <string name="lbl_live_broadcasts">Live uitzendingen</string>
@@ -328,7 +328,7 @@
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
     <string name="lbl_switch_user">Account wisselen</string>
-    <string name="pref_theme_muted_purple">Muted Purple</string>
+    <string name="pref_theme_muted_purple">Muted purple</string>
     <string name="lbl_hide_unwatched_count">Verberg niet bekeken aantal</string>
     <string name="pref_watched_indicator">Laat bekeken indicatoren zien</string>
     <string name="press_to_close">Druk om te sluiten</string>
@@ -341,7 +341,6 @@
     <string name="enable_playback_module_description">Dit is een experimentele functie. Ondersteuning wordt niet verleend.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d afleveringen</string>
     <string name="lbl_on_channel">Op %1$s</string>
     <string name="lbl_on_any_channel">Op elk kanaal</string>
     <string name="lbl_record_all">Alle afleveringen worden opgenomen</string>
@@ -435,7 +434,7 @@
     <string name="login_connect_to">Verbinden met %1$s</string>
     <string name="input_password">Wachtwoord</string>
     <string name="input_username">Gebruikersnaam</string>
-    <string name="action_use_quickconnect">QuickConnect gebruiken</string>
+    <string name="action_use_quickconnect">Quick Connect gebruiken</string>
     <string name="action_use_password">Een wachtwoord gebruiken</string>
     <string name="action_login">Log in</string>
     <string name="lbl_subtitle_delay">Vertraging ondertiteling</string>
@@ -501,4 +500,12 @@
         <item quantity="other">%1$s uur</item>
     </plurals>
     <string name="lbl_latest_in">Onlangs toegevoegd aan %1$s</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s aflevering</item>
+        <item quantity="other">%1$s afleveringen</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s nummer</item>
+        <item quantity="other">%1$s nummers</item>
+    </plurals>
 </resources>
