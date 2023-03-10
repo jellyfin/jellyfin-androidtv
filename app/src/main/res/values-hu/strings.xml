@@ -350,7 +350,6 @@
     <string name="pref_next_up_behavior_title">A következő videó információ megjelenítése</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Epizódok</string>
     <string name="lbl_on_channel">A %1$s</string>
     <string name="lbl_on_any_channel">Bármely csatornán</string>
     <string name="lbl_record_all">Összes rész rögzítése</string>

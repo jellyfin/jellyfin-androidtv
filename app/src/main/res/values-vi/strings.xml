@@ -329,7 +329,6 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_num_episodes">%1$d Tập</string>
     <string name="lbl_on_channel">Trên %1$s</string>
     <string name="lbl_on_any_channel">Trên bất kỳ kênh nào</string>
     <string name="lbl_record_all">Sẽ ghi lại tất cả các tập</string>

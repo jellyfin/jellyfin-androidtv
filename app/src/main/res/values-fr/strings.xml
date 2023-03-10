@@ -351,7 +351,6 @@
     <string name="lbl_starting_early_ending_after">Commence %1$s plus tôt et termine %2$s après l\'heure prévue</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d épisodes</string>
     <string name="lbl_on_channel">Sur %1$s</string>
     <string name="lbl_on_any_channel">Sur n\'importe quelle chaîne</string>
     <string name="lbl_record_all">Enregistrera tous les épisodes</string>

@@ -350,7 +350,6 @@
     <string name="pref_next_up_behavior_title">Kelesı beine aqparyn körsetu</string>
     <string name="lbl_time_range">%1$s—%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d telebölim</string>
     <string name="lbl_on_channel">%1$s kezinde</string>
     <string name="lbl_on_any_channel">Qaisybır arnadan</string>
     <string name="lbl_record_all">Barlyq telebölımderdı jazady</string>

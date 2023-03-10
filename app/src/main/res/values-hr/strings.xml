@@ -333,7 +333,6 @@
     <string name="lbl_auto_crop">Automatsko obrezivanje</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_songs">%1$d pjesama</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na bilo kojem kanalu</string>
     <string name="lbl_record_all">Snimit će sve epizode</string>

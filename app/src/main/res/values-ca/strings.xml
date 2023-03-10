@@ -335,7 +335,6 @@
     <string name="enable_playback_module_description">Això és una funció experimental que no disposa de suport.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Episodis</string>
     <string name="lbl_on_channel">A %1$s</string>
     <string name="lbl_on_any_channel">A qualsevol canal</string>
     <string name="lbl_record_all">S\'enregistraràn tots els episodis</string>

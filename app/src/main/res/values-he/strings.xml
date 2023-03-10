@@ -334,7 +334,6 @@
     <string name="lbl_community_rating">דירוג הקהילה</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d פרקים</string>
     <string name="lbl_on_channel">על %1$s</string>
     <string name="lbl_starting_on_schedule_ending_after">מתחיל בזמן ומסיים %1$s לאחר לוח הזמנים</string>
     <string name="lbl_starting_early_ending_on_schedule">מתחיל %1$s מוקדם ומסיים בזמן</string>

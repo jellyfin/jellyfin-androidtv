@@ -277,7 +277,6 @@
     <string name="enable_playback_module_description">این یک قابلیت آزمایشی است. هیچ پشتیبانی ای ارائه نشده.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d قسمت</string>
     <string name="lbl_on_channel">در %1$s</string>
     <string name="lbl_on_any_channel">در همه ی کانال ها</string>
     <string name="lbl_record_all">تمام قسمت ها ضبط خواهد شد</string>

@@ -12,7 +12,6 @@
     <string name="lbl_songs">Canciones</string>
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episodios</string>
-    <string name="lbl_up_next_colon">"Siguiente: "</string>
     <string name="lbl_delete">Eliminar</string>
     <string name="lbl_bitstream_ac3">Transmisión directa de audio Dolby Digital</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
@@ -351,7 +350,6 @@
     <string name="pref_next_up_behavior_title">Mostrar información del próximo vídeo</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Episodios</string>
     <string name="lbl_on_channel">En %1$s</string>
     <string name="lbl_on_any_channel">En cualquier Canal</string>
     <string name="lbl_record_all">Grabar todos los Episodios</string>

@@ -204,7 +204,6 @@
     <string name="msg_error_live_stream">無法串流電視直播。將會重試……</string>
     <string name="lbl_direct_stream_live">串流電視直播</string>
     <string name="lbl_programs">程式</string>
-    <string name="lbl_up_next_colon">"下一個: "</string>
     <string name="lbl_instant_mix">即時混合</string>
     <string name="msg_item_added">" 已加入項目"</string>
     <string name="desc_automatic_fav_songs">自動生成的喜愛歌曲播放清單</string>
@@ -385,7 +384,6 @@
     <string name="enable_playback_module_description">這是實驗性的功能。不提供支援。</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d劇集</string>
     <string name="lbl_on_channel">在%1$s</string>
     <string name="lbl_on_any_channel">在任何頻道上</string>
     <string name="lbl_record_all">將錄製所有劇集</string>

@@ -325,7 +325,6 @@
     <string name="enable_playback_module_description">Αυτό είναι ένα πειραματικό χαρακτηριστικό. Δεν παρέχεται υποστήριξη.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Επεισόδια</string>
     <string name="lbl_on_channel">Σε %1$s</string>
     <string name="lbl_on_any_channel">Σε Κάθε Κανάλι</string>
     <string name="lbl_record_all">Θα Καταγράψει Όλα Τα Επεισόδια</string>

@@ -350,7 +350,6 @@
     <string name="pref_next_up_behavior_title">Инфо о следующем видео</string>
     <string name="lbl_time_range">%1$s—%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d эпизод(а/ов)</string>
     <string name="lbl_on_channel">В %1$s</string>
     <string name="lbl_on_any_channel">С любого канала</string>
     <string name="lbl_record_all">Записываются все эпизоды</string>

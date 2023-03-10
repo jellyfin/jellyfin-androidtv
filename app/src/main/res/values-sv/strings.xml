@@ -354,7 +354,6 @@
     <string name="enable_playback_module_description">Detta är en experimentell funktion. Inget stöd befordras.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d avsnitt</string>
     <string name="lbl_on_channel">På %1$s</string>
     <string name="lbl_on_any_channel">På vilken kanal som helst</string>
     <string name="lbl_start_end_on_schedule">Börjar och slutar enligt schemat</string>
