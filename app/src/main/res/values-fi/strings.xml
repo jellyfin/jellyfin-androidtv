@@ -104,7 +104,7 @@
     <string name="lbl_favorite_channels">Suosikkikanavat</string>
     <string name="lbl_coming_up">Tulossa</string>
     <string name="lbl_favorites">Suosikit</string>
-    <string name="lbl_by_name">Nimen mukaan</string>
+    <string name="lbl_by_name">Nimellä</string>
     <string name="msg_not_implemented">" ei ole toteutettu"</string>
     <string name="lbl_search">Haku</string>
     <string name="lbl_genres">Lajityypit</string>
@@ -150,9 +150,9 @@
     <string name="lbl_cast_crew">Näyttelijät ja henkilöstö</string>
     <string name="lbl_status">%1$s/%2$s</string>
     <string name="lbl_suggested">Ehdotukset</string>
-    <string name="lbl_by_letter">Aakkosellinen</string>
+    <string name="lbl_by_letter">Aakkosellisesti</string>
     <string name="lbl_views">Näyttökerrat</string>
-    <string name="lbl_on_now">Tulossa nyt</string>
+    <string name="lbl_on_now">Lähetetään nyt</string>
     <string name="pref_authentication_cat">Todennus</string>
     <string name="pref_max_bitrate_title">Suoratoiston enimmäisbittinopeus</string>
     <string name="video_error_unknown_error">Videon lataus epäonnistui</string>
@@ -422,7 +422,7 @@
     <string name="sort_accounts_by">Tilien lajitteluperuste</string>
     <string name="lbl_shuffle_queue">Kytke sekoitus</string>
     <string name="seek_error">Haku ei onnistu</string>
-    <string name="lbl_show_indicators">Näytä paikkamerkit kohteille</string>
+    <string name="lbl_show_indicators">Näytä merkinnät kohteille</string>
     <string name="pref_refresh_rate_scale_on_tv">Skaalaa televisiossa</string>
     <string name="pref_refresh_rate_scale_on_device">Skaalaa laitteessa</string>
     <string name="action_connect">Yhdistä</string>
