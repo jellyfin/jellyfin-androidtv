@@ -41,7 +41,7 @@ interface SessionRepository {
 	val state: StateFlow<SessionRepositoryState>
 
 	suspend fun restoreSession()
-	suspend fun switchCurrentSession(userId: UUID): Boolean
+	suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean
 	fun destroyCurrentSession()
 }
 
@@ -69,26 +69,27 @@ class SessionRepositoryImpl(
 
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
 
-		val behavior = authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]
-		val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
-
-		when (behavior) {
+		when (authenticationPreferences[AuthenticationPreferences.autoLoginUserBehavior]) {
 			DISABLED -> destroyCurrentSession()
 			LAST_USER -> setCurrentSession(createLastUserSession())
-			SPECIFIC_USER -> setCurrentSession(createUserSession(userId))
+			SPECIFIC_USER -> {
+				val serverId = authenticationPreferences[AuthenticationPreferences.autoLoginServerId].toUUIDOrNull()
+				val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
+				if (serverId != null && userId != null) setCurrentSession(createUserSession(serverId, userId))
+			}
 		}
 
 		_state.value = SessionRepositoryState.READY
 	}
 
-	override suspend fun switchCurrentSession(userId: UUID): Boolean {
+	override suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean {
 		// No change in user - don't switch
 		if (currentSession.value?.userId == userId) return false
 
 		_state.value = SessionRepositoryState.SWITCHING_SESSION
 		Timber.d("Switching current session to user $userId")
 
-		val session = createUserSession(userId)
+		val session = createUserSession(serverId, userId)
 		if (session == null) {
 			Timber.d("Could not switch to non-existing session for user $userId")
 			return false
@@ -115,6 +116,7 @@ class SessionRepositoryImpl(
 			if (currentSession.value?.userId == session.userId) return true
 
 			// Update last active user
+			authenticationPreferences[AuthenticationPreferences.lastServerId] = session.serverId.toString()
 			authenticationPreferences[AuthenticationPreferences.lastUserId] = session.userId.toString()
 
 			// Check if server version is supported
@@ -156,13 +158,14 @@ class SessionRepositoryImpl(
 
 	private fun createLastUserSession(): Session? {
 		val lastUserId = authenticationPreferences[AuthenticationPreferences.lastUserId].toUUIDOrNull()
-		return createUserSession(lastUserId)
+		val lastServerId = authenticationPreferences[AuthenticationPreferences.lastServerId].toUUIDOrNull()
+
+		return if (lastUserId != null && lastServerId != null) createUserSession(lastServerId, lastUserId)
+		else null
 	}
 
-	private fun createUserSession(userId: UUID?): Session? {
-		if (userId == null) return null
-
-		val account = accountManagerStore.getAccount(userId)
+	private fun createUserSession(serverId: UUID, userId: UUID): Session? {
+		val account = accountManagerStore.getAccount(serverId, userId)
 		if (account?.accessToken == null) return null
 
 		return Session(

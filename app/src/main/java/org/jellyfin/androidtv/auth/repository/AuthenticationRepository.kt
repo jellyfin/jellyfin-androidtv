@@ -75,7 +75,7 @@ class AuthenticationRepositoryImpl(
 		// Automatic logic is disabled when the always authenticate preference is enabled
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
 
-		val account = accountManagerStore.getAccount(user.id)
+		val account = accountManagerStore.getAccount(server.id, user.id)
 		// Try login with access token
 		return if (account?.accessToken != null) authenticateToken(server, user.withToken(account.accessToken))
 		// Try login without password
@@ -180,7 +180,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
-		val authenticated = sessionRepository.switchCurrentSession(user.id)
+		val authenticated = sessionRepository.switchCurrentSession(server.id, user.id)
 
 		if (authenticated) {
 			// Update last use in store
@@ -197,7 +197,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	override fun logout(user: User): Boolean {
-		val authInfo = accountManagerStore.getAccount(user.id) ?: return false
+		val authInfo = accountManagerStore.getAccount(user.serverId, user.id) ?: return false
 		return accountManagerStore.removeAccount(authInfo)
 	}
 
