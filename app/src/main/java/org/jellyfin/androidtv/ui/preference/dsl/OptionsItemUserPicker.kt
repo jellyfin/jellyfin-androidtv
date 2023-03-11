@@ -33,6 +33,7 @@ class OptionsItemUserPicker(
 
 	private fun MutableList<RichListItem<UserSelection>>.add(
 		behavior: UserSelectBehavior,
+		serverId: UUID? = null,
 		userId: UUID? = null,
 		title: String,
 		summary: String
@@ -40,7 +41,8 @@ class OptionsItemUserPicker(
 		RichListOption(
 			UserSelection(
 				behavior = behavior,
-				userId = userId
+				serverId = serverId,
+				userId = userId,
 			),
 			title,
 			summary
@@ -70,6 +72,7 @@ class OptionsItemUserPicker(
 
 			for (user in users) add(
 				behavior = UserSelectBehavior.SPECIFIC_USER,
+				serverId = user.serverId,
 				userId = user.id,
 				title = user.name,
 				summary = context.getString(
@@ -111,7 +114,8 @@ class OptionsItemUserPicker(
 
 	data class UserSelection(
 		val behavior: UserSelectBehavior,
-		val userId: UUID?
+		val serverId: UUID?,
+		val userId: UUID?,
 	)
 }
 

@@ -31,7 +31,7 @@ class ServerUserRepositoryImpl(
 ) : ServerUserRepository {
 	override fun getStoredServerUsers(server: Server) = authenticationStore.getUsers(server.id)
 		?.mapNotNull { (userId, userInfo) ->
-			val authInfo = accountManagerStore.getAccount(userId)
+			val authInfo = accountManagerStore.getAccount(server.id, userId)
 			PrivateUser(
 				id = authInfo?.id ?: userId,
 				serverId = authInfo?.server ?: server.id,
@@ -64,7 +64,7 @@ class ServerUserRepositoryImpl(
 		authenticationStore.removeUser(user.serverId, user.id)
 
 		// Remove authentication info from system account manager
-		accountManagerStore.getAccount(user.id)?.let { accountManagerAccount ->
+		accountManagerStore.getAccount(user.serverId, user.id)?.let { accountManagerAccount ->
 			accountManagerStore.removeAccount(accountManagerAccount)
 		}
 	}

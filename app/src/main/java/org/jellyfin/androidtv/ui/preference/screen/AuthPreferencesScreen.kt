@@ -61,7 +61,8 @@ class AuthPreferencesScreen : OptionsFragment() {
 					from(
 						authenticationPreferences,
 						AuthenticationPreferences.autoLoginUserBehavior,
-						AuthenticationPreferences.autoLoginUserId
+						AuthenticationPreferences.autoLoginServerId,
+						AuthenticationPreferences.autoLoginUserId,
 					)
 				}
 
@@ -117,25 +118,28 @@ class AuthPreferencesScreen : OptionsFragment() {
 	private fun OptionsBinder.Builder<OptionsItemUserPicker.UserSelection>.from(
 		authenticationPreferences: AuthenticationPreferences,
 		userBehaviorPreference: Preference<UserSelectBehavior>,
+		serverIdPreference: Preference<String>,
 		userIdPreference: Preference<String>,
 		onSet: ((OptionsItemUserPicker.UserSelection) -> Unit)? = null,
 	) {
 		get {
 			OptionsItemUserPicker.UserSelection(
 				authenticationPreferences[userBehaviorPreference],
-				authenticationPreferences[userIdPreference].toUUIDOrNull()
+				authenticationPreferences[serverIdPreference].toUUIDOrNull(),
+				authenticationPreferences[userIdPreference].toUUIDOrNull(),
 			)
 		}
 
 		set {
 			authenticationPreferences[userBehaviorPreference] = it.behavior
+			authenticationPreferences[serverIdPreference] = it.serverId?.toString().orEmpty()
 			authenticationPreferences[userIdPreference] = it.userId?.toString().orEmpty()
 
 			onSet?.invoke(it)
 		}
 
 		default {
-			OptionsItemUserPicker.UserSelection(UserSelectBehavior.LAST_USER, null)
+			OptionsItemUserPicker.UserSelection(UserSelectBehavior.LAST_USER, null, null)
 		}
 	}
 

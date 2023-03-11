@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.auth.store
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.os.Build
 import android.os.Bundle
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.model.AccountManagerAccount
@@ -22,6 +23,13 @@ class AccountManagerStore(
 		const val ACCOUNT_ACCESS_TOKEN_TYPE = "$ACCOUNT_TYPE.access_token"
 	}
 
+	private fun Array<Account>.filterServerAccount(server: UUID, account: UUID? = null) = filter {
+		val validServerId = accountManager.getUserData(it, ACCOUNT_DATA_SERVER)?.toUUIDOrNull() == server
+		val validUserId = account == null || accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == account
+
+		validServerId && validUserId
+	}
+
 	private fun getAccountData(account: Account): AccountManagerAccount = AccountManagerAccount(
 		id = accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUID(),
 		server = accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUID(),
@@ -31,7 +39,8 @@ class AccountManagerStore(
 
 	suspend fun putAccount(accountManagerAccount: AccountManagerAccount) {
 		var androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
+			.filterServerAccount(accountManagerAccount.server, accountManagerAccount.id)
+			.firstOrNull()
 
 		// Update credentials
 		if (androidAccount == null) {
@@ -59,12 +68,13 @@ class AccountManagerStore(
 
 	fun removeAccount(accountManagerAccount: AccountManagerAccount): Boolean {
 		val androidAccount = accountManager.getAccountsByType(ACCOUNT_TYPE)
-			.firstOrNull { accountManager.getUserData(it, ACCOUNT_DATA_ID)?.toUUIDOrNull() == accountManagerAccount.id }
+			.filterServerAccount(accountManagerAccount.server, accountManagerAccount.id)
+			.firstOrNull()
 			?: return false
 
 		// Remove current account info
 		@Suppress("DEPRECATION")
-		return if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+		return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
 			accountManager.removeAccount(androidAccount, null, null)
 			true
 		} else accountManager.removeAccountExplicitly(androidAccount)
@@ -72,11 +82,12 @@ class AccountManagerStore(
 
 	fun getAccounts() = accountManager.getAccountsByType(ACCOUNT_TYPE).map(::getAccountData)
 
-	fun getAccountsByServer(server: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).filter { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_SERVER)?.toUUIDOrNull() == server
-	}.map(::getAccountData)
+	fun getAccountsByServer(server: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE)
+		.filterServerAccount(server)
+		.map(::getAccountData)
 
-	fun getAccount(id: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE).firstOrNull { account ->
-		accountManager.getUserData(account, ACCOUNT_DATA_ID)?.toUUIDOrNull() == id
-	}?.let(::getAccountData)
+	fun getAccount(server: UUID, account: UUID) = accountManager.getAccountsByType(ACCOUNT_TYPE)
+		.filterServerAccount(server, account)
+		.firstOrNull()
+		?.let(::getAccountData)
 }
