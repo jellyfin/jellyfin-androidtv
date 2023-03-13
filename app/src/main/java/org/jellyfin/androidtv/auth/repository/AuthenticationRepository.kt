@@ -175,7 +175,13 @@ class AuthenticationRepositoryImpl(
 		)
 		authenticationStore.putUser(server.id, userInfo.id, updatedUser)
 
-		val accountManagerAccount = AccountManagerAccount(userInfo.id, server.id, updatedUser.name, accessToken)
+		val accountManagerAccount = AccountManagerAccount(
+			id = userInfo.id,
+			address = "${updatedUser.name}@${server.address}",
+			server = server.id,
+			name = updatedUser.name,
+			accessToken = accessToken,
+		)
 		accountManagerStore.putAccount(accountManagerAccount)
 	}
 
