@@ -32,6 +32,7 @@ class AccountManagerStore(
 
 	private fun getAccountData(account: Account): AccountManagerAccount = AccountManagerAccount(
 		id = accountManager.getUserData(account, ACCOUNT_DATA_ID).toUUID(),
+		address = account.name,
 		server = accountManager.getUserData(account, ACCOUNT_DATA_SERVER).toUUID(),
 		name = accountManager.getUserData(account, ACCOUNT_DATA_NAME),
 		accessToken = accountManager.peekAuthToken(account, ACCOUNT_ACCESS_TOKEN_TYPE)
@@ -44,7 +45,7 @@ class AccountManagerStore(
 
 		// Update credentials
 		if (androidAccount == null) {
-			androidAccount = Account(accountManagerAccount.name, ACCOUNT_TYPE)
+			androidAccount = Account(accountManagerAccount.address, ACCOUNT_TYPE)
 
 			accountManager.addAccountExplicitly(
 				androidAccount,
@@ -55,9 +56,14 @@ class AccountManagerStore(
 		}
 
 		// Update name
-		if (androidAccount.name != accountManagerAccount.name) {
+		if (androidAccount.name != accountManagerAccount.address) {
 			androidAccount = suspendCoroutine { continuation ->
-				accountManager.renameAccount(androidAccount, accountManagerAccount.name, { continuation.resume(it.result) }, null)
+				accountManager.renameAccount(
+					androidAccount,
+					accountManagerAccount.address,
+					{ continuation.resume(it.result) },
+					null,
+				)
 			}
 		}
 
