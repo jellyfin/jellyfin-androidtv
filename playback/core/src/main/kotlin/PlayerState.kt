@@ -3,8 +3,9 @@ package org.jellyfin.playback.core
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.jellyfin.playback.core.backend.PlayerBackend
+import org.jellyfin.playback.core.backend.BackendService
 import org.jellyfin.playback.core.backend.PlayerBackendEventListener
+import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.model.VideoSize
@@ -20,7 +21,11 @@ interface PlayerState {
 	val speed: StateFlow<Float>
 	val videoSize: StateFlow<VideoSize>
 
-	// Not reactive for performance (position would update every millisecond)
+	/**
+	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
+	 * property is not reactive to avoid performance penalties. Manually read the values every
+	 * second for UI or read when neccesary.
+	 */
 	val positionInfo: PositionInfo
 
 	// Queueing
@@ -44,8 +49,9 @@ interface PlayerState {
 	fun setSpeed(speed: Float)
 }
 
-class MutablePlayerstate(
+class MutablePlayerState(
 	private val options: PlaybackManagerOptions,
+	private val backendService: BackendService,
 ) : PlayerState {
 	private val _queue = MutableStateFlow<Queue>(EmptyQueue)
 	override val queue: StateFlow<Queue> get() = _queue.asStateFlow()
@@ -63,28 +69,20 @@ class MutablePlayerstate(
 	override val videoSize: StateFlow<VideoSize> get() = _videoSize.asStateFlow()
 
 	override val positionInfo: PositionInfo
-		get() = _backend?.getPositionInfo() ?: PositionInfo.EMPTY
+		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
 
-	private var _backend: PlayerBackend? = null
+	init {
+		backendService.addListener(object : PlayerBackendEventListener {
+			override fun onPlayStateChange(state: PlayState) {
+				_playState.value = state
+			}
 
-	fun setBackend(backend: PlayerBackend) {
-		// Remove listener from current backend
-		_backend?.setListener(null)
-		// Start listening on new backend
-		backend.setListener(BackendEventListener())
-		// Store new backend
-		_backend = backend
-	}
+			override fun onVideoSizeChange(width: Int, height: Int) {
+				_videoSize.value = VideoSize(width, height)
+			}
 
-	inner class BackendEventListener : PlayerBackendEventListener {
-		// TODO $speed
-		override fun onPlayStateChange(state: PlayState) {
-			_playState.value = state
-		}
-
-		override fun onVideoSizeChange(width: Int, height: Int) {
-			_videoSize.value = VideoSize(width, height)
-		}
+			override fun onMediaStreamEnd(mediaStream: MediaStream) = Unit
+		})
 	}
 
 	fun setCurrentEntry(currentEntry: QueueEntry?) {
@@ -97,25 +95,25 @@ class MutablePlayerstate(
 
 	override fun pause() {
 		// TODO: enqueue action when backend is not set
-		_backend?.pause()
+		backendService.backend?.pause()
 	}
 
 	override fun unpause() {
-		_backend?.play()
+		backendService.backend?.play()
 	}
 
 	override fun stop() {
-		_backend?.stop()
+		backendService.backend?.stop()
 		_queue.value = EmptyQueue
 	}
 
 	override fun seek(to: Duration) {
-		_backend?.seekTo(to)
+		backendService.backend?.seekTo(to)
 	}
 
 	private fun seekRelative(amount: Duration) {
-		val current = _backend?.getPositionInfo()?.active ?: Duration.ZERO
-		_backend?.seekTo(current + amount)
+		val current = backendService.backend?.getPositionInfo()?.active ?: Duration.ZERO
+		backendService.backend?.seekTo(current + amount)
 	}
 
 	override fun fastForward(amount: Duration?) {
@@ -128,6 +126,6 @@ class MutablePlayerstate(
 
 	override fun setSpeed(speed: Float) {
 		_speed.value = speed
-		_backend?.setSpeed(speed)
+		backendService.backend?.setSpeed(speed)
 	}
 }

@@ -2,8 +2,12 @@ package org.jellyfin.playback.core.queue
 
 import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.PlaybackManager
+import org.jellyfin.playback.core.backend.PlayerBackendEventListener
+import org.jellyfin.playback.core.mediastream.MediaStream
+import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.item.QueueEntry
+import timber.log.Timber
 
 class QueueService(
 	private val setCurrentEntry: (QueueEntry?) -> Unit,
@@ -15,11 +19,26 @@ class QueueService(
 	override suspend fun onInitialize() {
 		coroutineScope.launch {
 			// Update current queue entry when queue changes
-			state.queue.collect { setIndex(0) }
+			state.queue.collect {
+				Timber.d("Queue changed, setting index to 0")
+				setIndex(0)
+			}
+
+			manager.backendService.addListener(object : PlayerBackendEventListener {
+				override fun onPlayStateChange(state: PlayState) = Unit
+				override fun onVideoSizeChange(width: Int, height: Int) = Unit
+
+				override fun onMediaStreamEnd(mediaStream: MediaStream) {
+					// TODO: Find position based on $mediaStream instead
+					// TODO: This doesn't work as expected
+					coroutineScope.launch { next() }
+				}
+			})
 		}
 	}
 
-	private var currentItemPosition = POSITION_NONE
+	var currentItemPosition = POSITION_NONE
+		private set
 
 	// Jumping
 
