@@ -30,7 +30,7 @@ class RecordAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		videoPlayerAdapter.toggleRecording()
 	}

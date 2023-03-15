@@ -296,7 +296,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     public void onCustomActionClicked(Action action, View view) {
         // Handle custom action clicks which require a popup menu
-        if (action instanceof CustomAction){
+        if (action instanceof CustomAction) {
             ((CustomAction) action).handleClickAction(playbackController, getPlayerAdapter(), getContext(), view);
         }
 
@@ -375,7 +375,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_UP){
+        if (event.getAction() != KeyEvent.ACTION_UP) {
             // The below actions are only handled on key up
             return super.onKey(v, keyCode, event);
         }

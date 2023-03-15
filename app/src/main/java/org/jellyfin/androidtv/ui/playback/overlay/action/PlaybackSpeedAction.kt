@@ -28,7 +28,7 @@ class PlaybackSpeedAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		val speedMenu = populateMenu(context, view, speedController)

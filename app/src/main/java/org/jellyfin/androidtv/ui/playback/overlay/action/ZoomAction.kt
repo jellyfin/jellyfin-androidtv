@@ -23,7 +23,7 @@ class ZoomAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		return PopupMenu(context, view, Gravity.END).apply {

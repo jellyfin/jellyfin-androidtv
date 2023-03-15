@@ -23,7 +23,7 @@ class SettingAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		subtitlesPresent = videoPlayerAdapter.hasSubs()
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)

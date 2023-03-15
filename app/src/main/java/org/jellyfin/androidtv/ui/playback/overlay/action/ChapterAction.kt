@@ -21,7 +21,7 @@ class ChapterAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.hideOverlay()
 		videoPlayerAdapter.masterOverlayFragment.showChapterSelector();
