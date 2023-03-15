@@ -30,7 +30,7 @@ class SelectQualityAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {

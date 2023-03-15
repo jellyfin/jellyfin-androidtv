@@ -24,7 +24,7 @@ class ClosedCaptionsAction(
 		playbackController: PlaybackController,
 		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
+		view: View,
 	) {
 		if (playbackController.currentStreamInfo == null) {
 			Timber.w("StreamInfo null trying to obtain subtitles")
