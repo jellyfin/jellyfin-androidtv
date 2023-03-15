@@ -23,18 +23,18 @@ class QueueService(
 				Timber.d("Queue changed, setting index to 0")
 				setIndex(0)
 			}
-
-			manager.backendService.addListener(object : PlayerBackendEventListener {
-				override fun onPlayStateChange(state: PlayState) = Unit
-				override fun onVideoSizeChange(width: Int, height: Int) = Unit
-
-				override fun onMediaStreamEnd(mediaStream: MediaStream) {
-					// TODO: Find position based on $mediaStream instead
-					// TODO: This doesn't work as expected
-					coroutineScope.launch { next() }
-				}
-			})
 		}
+
+		manager.backendService.addListener(object : PlayerBackendEventListener {
+			override fun onPlayStateChange(state: PlayState) = Unit
+			override fun onVideoSizeChange(width: Int, height: Int) = Unit
+
+			override fun onMediaStreamEnd(mediaStream: MediaStream) {
+				// TODO: Find position based on $mediaStream instead
+				// TODO: This doesn't work as expected
+				coroutineScope.launch { next() }
+			}
+		})
 	}
 
 	var currentItemPosition = POSITION_NONE
