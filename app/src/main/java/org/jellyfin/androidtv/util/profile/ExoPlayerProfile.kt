@@ -49,6 +49,7 @@ class ExoPlayerProfile(
 		add(Codec.Audio.DCA)
 		add(Codec.Audio.DTS)
 		add(Codec.Audio.MLP)
+		add(Codec.Audio.OPUS)
 		add(Codec.Audio.TRUEHD)
 		add(Codec.Audio.PCM_ALAW)
 		add(Codec.Audio.PCM_MULAW)
