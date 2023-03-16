@@ -21,7 +21,7 @@
     <string name="lbl_by_name">Nach Name</string>
     <string name="lbl_favorites">Favoriten</string>
     <string name="lbl_coming_up">Als Nächstes</string>
-    <string name="lbl_favorite_channels">Favorite channels</string>
+    <string name="lbl_favorite_channels">Favorisierte Kanäle</string>
     <string name="lbl_other_channels">Andere Kanäle</string>
     <string name="lbl_collections">Sammlungen</string>
     <string name="lbl_movies">Filme</string>
@@ -31,11 +31,11 @@
     <string name="lbl_play_all">Alle abspielen</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
     <string name="lbl_play">Abspielen</string>
-    <string name="lbl_cancel">Abbruch</string>
+    <string name="lbl_cancel">Abbrechen</string>
     <string name="lbl_cancel_recording">Aufnahme abbrechen</string>
     <string name="lbl_cancel_series">Serie abbrechen</string>
     <string name="lbl_record_series">Serie aufnehmen</string>
-    <string name="lbl_record">Aufnahme</string>
+    <string name="lbl_record">Aufnehmen</string>
     <string name="msg_set_to_record">Sender wird aufgenommen</string>
     <string name="msg_unable_to_create_recording">Aufnahme konnte nicht erstellt werden</string>
     <string name="msg_recording_cancelled">Aufnahme abgebrochen</string>
