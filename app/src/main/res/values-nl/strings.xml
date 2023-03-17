@@ -9,7 +9,7 @@
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
     <string name="lbl_continue_watching">Verderkijken</string>
-    <string name="lbl_next_up">Volgende</string>
+    <string name="lbl_next_up">Hierna</string>
     <string name="lbl_on_now">Nu aan het afspelen</string>
     <string name="lbl_views">Weergaven</string>
     <string name="lbl_by_letter">Op alfabet</string>
@@ -399,7 +399,7 @@
     <string name="server_issue_unsupported_version">Server gebruikt niet-ondersteunde versie %1$s</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
     <string name="pref_show_backdrop_description">Verander achtergrond foto naar geselecteerd item</string>
-    <string name="pref_playback_description">Video, ondertitels, live tv, volgende video</string>
+    <string name="pref_playback_description">Video, ondertiteling, live-tv, hierna</string>
     <string name="pref_customization_description">Thema, home, afstandsbediening knoppen</string>
     <string name="server_issue_ssl_handshake">SSL-handshake mislukt</string>
     <string name="server_issue_timeout">Verbindingstime-out</string>
