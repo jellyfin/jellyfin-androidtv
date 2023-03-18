@@ -6,14 +6,14 @@
     <string name="lbl_add_favorite">Add favourite</string>
     <string name="lbl_starting_with">beginning with those whose name starts with</string>
     <string name="lbl_mark_unplayed">Mark unplayed</string>
-    <string name="lbl_song_title">Song Title</string>
+    <string name="lbl_song_title">Song title</string>
     <string name="lbl_album_name">Album name</string>
-    <string name="lbl_next_episode">Next Episode</string>
-    <string name="lbl_previous_episode">Previous Episode</string>
-    <string name="lbl_more_like_this">More Like This</string>
+    <string name="lbl_next_episode">Next episode</string>
+    <string name="lbl_previous_episode">Previous episode</string>
+    <string name="lbl_more_like_this">More like this</string>
     <string name="lbl_resume_from">Resume from %1$s</string>
     <string name="lbl_resume_preroll">Resume pre-roll</string>
-    <string name="lbl_guide_option_number">Channel Number</string>
+    <string name="lbl_guide_option_number">Channel number</string>
     <string name="lbl_guide_option_played">Last played</string>
     <string name="lbl_show_indicators">Show indicators for</string>
     <string name="lbl_sort_by">Sort by</string>
@@ -202,16 +202,16 @@
     <string name="lbl_settings">Preferences</string>
     <string name="chapters">Chapters</string>
     <string name="lbl_image_size">Image size</string>
-    <string name="lbl_image_type">Image Type</string>
+    <string name="lbl_image_type">Image type</string>
     <string name="lbl_start_favorites">Place favourites at beginning</string>
     <string name="lbl_colored_backgrounds">Colour coded backgrounds</string>
     <string name="lbl_hd_programs">HD Programs</string>
-    <string name="lbl_live_broadcasts">Live Broadcasts</string>
-    <string name="lbl_repeat_episodes">Repeat Episodes</string>
+    <string name="lbl_live_broadcasts">Live broadcasts</string>
+    <string name="lbl_repeat_episodes">Repeat episodes</string>
     <string name="lbl_premieres">Premieres</string>
-    <string name="lbl_new_episodes">New Episodes</string>
-    <string name="lbl_audio_delay">Audio Delay</string>
-    <string name="lbl_new_only">New Only</string>
+    <string name="lbl_new_episodes">New episodes</string>
+    <string name="lbl_audio_delay">Audio delay</string>
+    <string name="lbl_new_only">New only</string>
     <string name="pref_authentication_cat">Authentication</string>
     <string name="settings_title">Preferences</string>
     <string name="lbl_news">News</string>
@@ -228,7 +228,7 @@
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatically choose</string>
-    <string name="lbl_my_media">My Media</string>
+    <string name="lbl_my_media">My media</string>
     <string name="pref_libvlc_audio_delay_title">Default audio delay for LibVLC</string>
     <string name="watch_now">Watch now</string>
     <string name="pref_next_up_timeout_title">Next up timer duration</string>
@@ -238,7 +238,7 @@
     <string name="pref_theme_dark">Dark (Default)</string>
     <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
-    <string name="grid_direction">Grid Direction</string>
+    <string name="grid_direction">Grid direction</string>
     <string name="pref_device_model">Device model</string>
     <string name="lbl_Reset">Reset</string>
     <string name="pref_button_remapping_description">Press any button on the TV remote to assign it</string>
@@ -258,14 +258,14 @@
     <string name="seek_error">Unable to seek</string>
     <string name="msg_live_tv_prev">Load prev %1$d hours\?</string>
     <string name="msg_live_tv_next">Load next %1$d hours\?</string>
-    <string name="lbl_load_guide_data">Load Guide Data</string>
+    <string name="lbl_load_guide_data">Load guide data</string>
     <string name="episode_missing_message_2">This episode is missing from your library. Playback will stop.</string>
     <string name="episode_missing_message">This episode is missing from your library. Would you like to skip it and continue to the next one\?</string>
-    <string name="episode_missing">Episode Missing</string>
+    <string name="episode_missing">Episode missing</string>
     <string name="no_player_message">It doesn\'t appear you have a video capable app installed. This option requires you install a 3rd party application for playing video content.</string>
-    <string name="no_player">No Player</string>
+    <string name="no_player">No player</string>
     <string name="mark_watched_message">The item didn\'t appear to play as long as its duration. Mark watched\?</string>
-    <string name="mark_watched">Mark Watched</string>
+    <string name="mark_watched">Mark watched</string>
     <string name="lbl_tv_filter_status">for next %1$d hours</string>
     <string name="lbl_tv_channel_status">%1$d of %2$d channels</string>
     <string name="pref_video_player_choose">Always ask</string>
@@ -348,13 +348,13 @@
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">On %1$s</string>
-    <string name="lbl_on_any_channel">On Any Channel</string>
-    <string name="lbl_record_all">Will Record All Episodes</string>
-    <string name="lbl_record_only_new">Will Record Only New Episodes</string>
-    <string name="lbl_start_end_on_schedule">Starting On Schedule And Ending On Schedule</string>
-    <string name="lbl_starting_on_schedule_ending_after">Starting On Schedule And Ending %1$s After Schedule</string>
-    <string name="lbl_starting_early_ending_on_schedule">Starting %1$s Early And Ending On Schedule</string>
-    <string name="lbl_starting_early_ending_after">Starting %1$s Early And Ending %2$s After Schedule</string>
+    <string name="lbl_on_any_channel">On any channel</string>
+    <string name="lbl_record_all">Will record all episodes</string>
+    <string name="lbl_record_only_new">Will record only new episodes</string>
+    <string name="lbl_start_end_on_schedule">Starting on schedule and ending on schedule</string>
+    <string name="lbl_starting_on_schedule_ending_after">Starting on schedule and ending %1$s after schedule</string>
+    <string name="lbl_starting_early_ending_on_schedule">Starting %1$s early and ending on Schedule</string>
+    <string name="lbl_starting_early_ending_after">Starting %1$s early and ending %2$s after schedule</string>
     <string name="lbl_next_up_minimal">Without thumbnail</string>
     <string name="lbl_next_up_extended">With thumbnail</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
@@ -372,7 +372,7 @@
     <string name="saved_servers">Saved servers</string>
     <string name="press_to_close">Press to close</string>
     <string name="no_network_permissions">Jellyfin requires network permissions to function</string>
-    <string name="pref_theme_muted_purple">Muted Purple</string>
+    <string name="pref_theme_muted_purple">Muted purple</string>
     <string name="pref_next_up_behavior_title">Show next video info</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Stretch</string>
@@ -392,7 +392,7 @@
     <string name="home_section_resume">Continue watching</string>
     <string name="home_section_library_small">My media (small)</string>
     <string name="home_section_library">My media</string>
-    <string name="home_section_latest_media">Latest media</string>
+    <string name="home_section_latest_media">Recently added media</string>
     <string name="home_sections">Home sections</string>
     <string name="home_prefs">Home</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
@@ -450,13 +450,13 @@
     <string name="login_connect_to">Connecting to %1$s</string>
     <string name="input_password">Password</string>
     <string name="input_username">Username</string>
-    <string name="action_use_quickconnect">Use QuickConnect</string>
+    <string name="action_use_quickconnect">Use Quick Connect</string>
     <string name="action_use_password">Use a password</string>
     <string name="action_login">Sign in</string>
     <string name="image_size_xlarge">Extra-Large</string>
     <string name="image_size_smallest">Smallest</string>
     <string name="image_type_poster">Poster</string>
-    <string name="lbl_subtitle_delay">Subtitle Delay</string>
+    <string name="lbl_subtitle_delay">Subtitle delay</string>
     <string name="lbl_adjust">Adjust</string>
     <string name="lbl_quality_profile">Quality profile</string>
     <string name="desc_audio_night_mode">Levels out audio volume automatically</string>
@@ -468,7 +468,7 @@
     <string name="lbl_subtitle_stroke">Subtitle stroke size</string>
     <string name="color_white">White</string>
     <string name="color_black">Black</string>
-    <string name="color_darkgrey">Dark Grey</string>
+    <string name="color_darkgrey">Dark grey</string>
     <string name="color_red">Red</string>
     <string name="color_green">Green</string>
     <string name="color_blue">Blue</string>
@@ -484,4 +484,28 @@
     <string name="pref_enable_media_management">Enable media management</string>
     <string name="item_delete_confirm_title">Delete item</string>
     <string name="lbl_latest_in">Recently added in %1$s</string>
+    <string name="pref_screensaver_inapp_timeout">Start screensaver after</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minute</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s episode</item>
+        <item quantity="other">%1$s episodes</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Use in-app screensaver</string>
+    <string name="pref_screensaver">Screensaver</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s second</item>
+        <item quantity="other">%1$s seconds</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hour</item>
+        <item quantity="other">%1$s hours</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s track</item>
+        <item quantity="other">%1$s tracks</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
 </resources>
