@@ -12,21 +12,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vanniktech.blurhash.BlurHash
 import org.jellyfin.androidtv.integration.dream.model.DreamContent
 import org.jellyfin.androidtv.ui.composable.AsyncImage
+import org.jellyfin.androidtv.ui.composable.blurHashPainter
 import org.jellyfin.androidtv.ui.composable.overscan
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
@@ -49,16 +48,11 @@ fun DreamContentNowPlaying(
 		(item.albumId != null && item.albumPrimaryImageTag != null) -> item.albumId to item.albumPrimaryImageTag
 		else -> null to null
 	}
+
 	val imageBlurHash = imageTag?.let { tag -> item.imageBlurHashes?.get(ImageType.PRIMARY)?.get(tag) }
-
-	val imageBlurHashBitmap = remember {
-		if (imageBlurHash != null) BlurHash.decode(imageBlurHash, 32, 32)?.asImageBitmap()
-		else null
-	}
-
-	if (imageBlurHashBitmap != null) {
+	if (imageBlurHash != null) {
 		Image(
-			bitmap = imageBlurHashBitmap,
+			painter = blurHashPainter(imageBlurHash, IntSize(32, 32)),
 			contentDescription = null,
 			alignment = Alignment.Center,
 			contentScale = ContentScale.Crop,

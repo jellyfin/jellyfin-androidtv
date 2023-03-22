@@ -17,7 +17,7 @@
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" Nicht implementiert"</string>
-    <string name="lbl_latest">Neueste</string>
+    <string name="lbl_latest">Zuletzt hinzugefügt</string>
     <string name="lbl_by_name">Nach Name</string>
     <string name="lbl_favorites">Favoriten</string>
     <string name="lbl_coming_up">Als Nächstes</string>
@@ -25,18 +25,17 @@
     <string name="lbl_other_channels">Andere Kanäle</string>
     <string name="lbl_collections">Sammlungen</string>
     <string name="lbl_movies">Filme</string>
-    <string name="lbl_tv_series">Serien</string>
+    <string name="lbl_tv_series">TV Serien</string>
     <string name="lbl_other">Sonstiges</string>
-    <string name="lbl_latest_additions">Zuletzt hinzugefügt</string>
     <string name="lbl_because_you_watched">"Weil du Folgendes angesehen hast: "</string>
     <string name="lbl_play_all">Alle abspielen</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
     <string name="lbl_play">Abspielen</string>
-    <string name="lbl_cancel">Abbruch</string>
+    <string name="lbl_cancel">Abbrechen</string>
     <string name="lbl_cancel_recording">Aufnahme abbrechen</string>
-    <string name="lbl_cancel_series">Serien abbrechen</string>
+    <string name="lbl_cancel_series">Serie abbrechen</string>
     <string name="lbl_record_series">Serie aufnehmen</string>
-    <string name="lbl_record">Aufnahme</string>
+    <string name="lbl_record">Aufnehmen</string>
     <string name="msg_set_to_record">Sender wird aufgenommen</string>
     <string name="msg_unable_to_create_recording">Aufnahme konnte nicht erstellt werden</string>
     <string name="msg_recording_cancelled">Aufnahme abgebrochen</string>
@@ -82,7 +81,7 @@
     <string name="lbl_tv_queuing">Alle nachfolgenden Episoden in die Warteschlange einreihen</string>
     <string name="sum_tv_queuing">Füge den Rest der Staffeln der Warteschlange hinzu, wenn eine Episode abgespielt wird</string>
     <string name="lbl_search_hint">Suche Text (Auswahl für Tastatur)</string>
-    <string name="lbl_play_first_unwatched">Starte Erste ungesehen</string>
+    <string name="lbl_play_first_unwatched">Starte ungesehende zuerst</string>
     <string name="lbl_mark_unplayed">Markiere als ungesehen</string>
     <string name="lbl_mark_played">Markiere als gesehen</string>
     <string name="lbl_remove_favorite">Favorit entfernen</string>
@@ -94,7 +93,7 @@
     <string name="lbl_tomorrow">Morgen</string>
     <string name="lbl_on">am</string>
     <string name="lbl_tune_to_channel">Wechsle zu Kanal</string>
-    <string name="msg_recording_now">Nehme auf</string>
+    <string name="msg_recording_now">Aufnahme läuft</string>
     <string name="msg_will_record">Wird aufgenommen</string>
     <string name="lbl_begin_padding">Vorlauf</string>
     <string name="lbl_program_ended">Programm beendet</string>
@@ -103,12 +102,12 @@
     <string name="lbl_record_any_channel">Aufnahme auf jedem Kanal</string>
     <string name="lbl_record_any_time">Aufnahme zu jeder Zeit</string>
     <string name="lbl_only_new_episodes">Nur neue Episoden</string>
-    <string name="lbl_repeat_options">Wiederholungsoptionen</string>
+    <string name="lbl_repeat_options">Optionen wiederholen</string>
     <string name="msg_cancel_entire_series">Möchtest du die KOMPLETTE SERIE wirklich abbrechen\?</string>
     <string name="pref_audio_direct">Direkt</string>
     <string name="pref_audio_compat">Heruntermischen zu Stereo</string>
     <string name="lbl_audio_output">Audio-Ausgabe</string>
-    <string name="lbl_goto_series">Gehe zu Serien</string>
+    <string name="lbl_goto_series">Gehe zur Serie</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
     <string name="desc_debug">Extra Informationen zum Debugging übermitteln</string>
     <string name="lbl_showing">zeige</string>
@@ -121,7 +120,6 @@
     <string name="lbl_critic_rating">Kritiken</string>
     <string name="lbl_rating">Bewertung</string>
     <string name="lbl_starting_with">beginnend mit jenen, deren Namen beginnt mit</string>
-    <string name="btn_done">Erledigt</string>
     <string name="lbl_display_preferences">Zeige Einstellungen</string>
     <string name="lbl__continuing">FORTGESETZT</string>
     <string name="lbl_ended">BEENDET</string>
@@ -151,8 +149,7 @@
     <string name="lbl_open_album">Zeige Album</string>
     <string name="lbl_next_item">Nächstes Element</string>
     <string name="lbl_prev_item">Vorheriges Element</string>
-    <string name="lbl_up_next_colon">"Es folgt: "</string>
-    <string name="lbl_now_playing">Läuft</string>
+    <string name="lbl_now_playing">Läuft gerade</string>
     <string name="lbl_play_from_here">Abspielen von hier</string>
     <string name="lbl_remove_from_queue">Entferne aus Warteschlange</string>
     <string name="lbl_goto_now_playing">Gehe zur aktuellen Wiedergabe</string>
@@ -187,11 +184,6 @@
     <string name="lbl_sort_by">Sortieren nach</string>
     <string name="lbl_guest_stars">Gastauftritte</string>
     <string name="lbl_on_schedule">Planmäßig</string>
-    <string name="lbl_hours">Stunden</string>
-    <string name="lbl_minute">Minute</string>
-    <string name="lbl_hour">Stunde</string>
-    <string name="lbl_minutes">Minuten</string>
-    <string name="lbl_seconds">Sekunden</string>
     <string name="lbl_series_recordings">Aufnahmen von Serien</string>
     <string name="lbl_save">Speichern</string>
     <string name="msg_settings_updated">Einstellungen aktualisiert</string>
@@ -209,7 +201,6 @@
     <string name="lbl_just_this_once">Nur diesmal</string>
     <string name="lbl_select_date">Datum auswählen</string>
     <string name="lbl_in_x_days">In %d Tagen</string>
-    <string name="lbl_warning">Warnung</string>
     <string name="lbl_now_playing_album">von %1$s</string>
     <string name="lbl_now_playing_track">%1$s von %2$s</string>
     <string name="lbl_watched">Angesehen</string>
@@ -232,7 +223,7 @@
     <string name="lbl_news">Neuigkeiten</string>
     <string name="lbl_repeat_episodes">Folgen wiederholen</string>
     <string name="pref_video_player_external">Externe App</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimentell)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch auswählen</string>
     <string name="lbl_my_media">Meine Medien</string>
@@ -243,7 +234,7 @@
     <string name="pref_next_up_timeout_title">Dauer des Timers für die automatische Wiedergabe</string>
     <string name="pref_next_up_timeout_summary">Wie lange soll gewartet werden, bevor das nächste Element abgespielt wird</string>
     <string name="pref_app_theme">App-Thema</string>
-    <string name="pref_theme_emerald">Smaragd klassisch</string>
+    <string name="pref_theme_emerald">Klassischer Smaragd</string>
     <string name="pref_theme_dark">Dunkel (Standard)</string>
     <string name="grid_direction_vertical">Vertikal</string>
     <string name="grid_direction_horizontal">Horizontal</string>
@@ -260,7 +251,6 @@
     <string name="just_one">Nur dieses eine</string>
     <string name="turn_off">Diese Option ausschalten</string>
     <string name="audio_error">Audio kann nicht abgespielt werden %1$s</string>
-    <string name="msg_added_to_video">%1$s zur Video-Warteschlange hinzugefügt. Endet: %2$s</string>
     <string name="msg_no_items">Keine Elemente zum Spielen</string>
     <string name="subtitle_error">Untertitel können nicht ausgewählt werden</string>
     <string name="too_many_errors">Zu viele Fehler. Es wird aufgegeben</string>
@@ -360,10 +350,6 @@
     <string name="pref_next_up_behavior_title">Zeige Informationen zum nächsten Video</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Song</string>
-    <string name="lbl_num_songs">%1$d Lieder</string>
-    <string name="lbl_one_episode">1 Episode</string>
-    <string name="lbl_num_episodes">%1$d Episoden</string>
     <string name="lbl_on_channel">Auf %1$s</string>
     <string name="lbl_on_any_channel">Auf jedem Kanal</string>
     <string name="lbl_record_all">Zeichnet alle Episoden auf</string>
@@ -496,4 +482,30 @@
     <string name="item_deletion_failed">%1$s kann nicht gelöscht werden</string>
     <string name="pref_enable_media_management">Medien-Management aktivieren</string>
     <string name="item_deleted">%1$s gelöscht</string>
+    <string name="pref_screensaver">Bildschirmschoner</string>
+    <string name="pref_screensaver_inapp_enabled">Verwende In-App-Bildschirmschoner</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s Sekunde</item>
+        <item quantity="other">%1$s Sekunden</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s Stunde</item>
+        <item quantity="other">%1$s Stunden</item>
+    </plurals>
+    <string name="pref_enable_media_management_description">Option zum Verwalten von Medien beim Surfen anzeigen</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s Spur</item>
+        <item quantity="other">%1$s Spuren</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s Minute</item>
+        <item quantity="other">%1$s Minuten</item>
+    </plurals>
+    <string name="lbl_latest_in">Kürzlich in %1$s hinzugefügt</string>
+    <string name="pref_screensaver_inapp_enabled_description">Zeige Jellyfin-Bildschirmschoner, wenn die App geöffnet ist</string>
+    <string name="pref_screensaver_inapp_timeout">Starte Bildschirmschoner nach</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s Episode</item>
+        <item quantity="other">%1$s Episoden</item>
+    </plurals>
 </resources>

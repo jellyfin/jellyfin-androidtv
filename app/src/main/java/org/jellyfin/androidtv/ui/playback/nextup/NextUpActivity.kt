@@ -27,11 +27,11 @@ class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val navigationRepository: NavigationRepository by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		applyTheme()
+
 		super.onCreate(savedInstanceState)
 
 		if (!validateAuthentication()) return
-
-		applyTheme()
 
 		val useExternalPlayer = intent.getBooleanExtra(EXTRA_USE_EXTERNAL_PLAYER, false)
 

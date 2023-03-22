@@ -12,8 +12,6 @@
     <string name="lbl_songs">Canciones</string>
     <string name="lbl_album">Álbum</string>
     <string name="lbl_episodes">Episodios</string>
-    <string name="lbl_warning">Advertencia</string>
-    <string name="lbl_up_next_colon">"Siguiente: "</string>
     <string name="lbl_delete">Eliminar</string>
     <string name="lbl_bitstream_ac3">Transmisión directa de audio Dolby Digital</string>
     <string name="desc_bitstream_ac3">Requiere hardware compatible</string>
@@ -29,11 +27,6 @@
     <string name="lbl_save">Guardar</string>
     <string name="lbl_series_recordings">Grabaciones de series</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
-    <string name="lbl_seconds">Segundos</string>
-    <string name="lbl_minutes">Minutos</string>
-    <string name="lbl_hour">Hora</string>
-    <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hours">Horas</string>
     <string name="lbl_guest_stars">Estrellas invitadas</string>
     <string name="lbl_premiere">Estreno</string>
     <string name="lbl_sort_by">Ordenar por</string>
@@ -98,7 +91,6 @@
     <string name="lbl_sorted_by">ordenado por</string>
     <string name="lbl_from">desde</string>
     <string name="lbl_name">Nombre</string>
-    <string name="btn_done">Hecho</string>
     <string name="lbl__continuing">CONTINUANDO</string>
     <string name="lbl_ended">FINALIZADO</string>
     <string name="lbl_filters">Filtros de TV en vivo</string>
@@ -236,7 +228,6 @@
     <string name="lbl_cancel_recording">Cancelar grabación</string>
     <string name="lbl_shuffle_all">Mezclar todos</string>
     <string name="lbl_play_all">Reproducir todos</string>
-    <string name="lbl_latest_additions">Últimas adiciones</string>
     <string name="lbl_other_channels">Otros canales</string>
     <string name="lbl_favorite_channels">Canales favoritos</string>
     <string name="lbl_by_name">Por nombre</string>
@@ -266,7 +257,6 @@
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se pudo reproducir audio %1$s</string>
-    <string name="msg_added_to_video">Se ha agregado %1$s a la cola de reproducción. Termina: %2$s</string>
     <string name="msg_no_items">No hay elementos para reproducir</string>
     <string name="subtitle_error">No se pudo seleccionar el subtítulo</string>
     <string name="too_many_errors">Demasiados errores. Deteniéndose</string>
@@ -360,10 +350,6 @@
     <string name="pref_next_up_behavior_title">Mostrar información del próximo vídeo</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Canción</string>
-    <string name="lbl_num_songs">%1$d Canciones</string>
-    <string name="lbl_one_episode">1 Episodio</string>
-    <string name="lbl_num_episodes">%1$d Episodios</string>
     <string name="lbl_on_channel">En %1$s</string>
     <string name="lbl_on_any_channel">En cualquier Canal</string>
     <string name="lbl_record_all">Grabar todos los Episodios</string>

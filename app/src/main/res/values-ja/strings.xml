@@ -28,7 +28,6 @@
     <string name="lbl_movies">映画</string>
     <string name="lbl_tv_series">テレビ番組</string>
     <string name="lbl_other">その他</string>
-    <string name="lbl_latest_additions">最新の追加</string>
     <string name="lbl_play_all">全て再生</string>
     <string name="lbl_shuffle_all">シャッフル再生</string>
     <string name="lbl_play">再生</string>
@@ -113,7 +112,6 @@
     <string name="lbl_premier_date">公開された日付</string>
     <string name="lbl_critic_rating">評論家の評価</string>
     <string name="lbl_rating">評価</string>
-    <string name="btn_done">完成</string>
     <string name="lbl_display_preferences">ディスプレイ設定</string>
     <string name="lbl__continuing">続いている</string>
     <string name="lbl_ended">既に終了</string>
@@ -126,12 +124,10 @@
     <string name="lbl_album">アルバム</string>
     <string name="lbl_enable_cinema_mode">映画モード</string>
     <string name="lbl_playlists">プレイリスト</string>
-    <string name="lbl_warning">注意</string>
     <string name="msg_items_added">" 項目を追加しました"</string>
     <string name="lbl_open_album">アルバムを表示</string>
     <string name="lbl_next_item">次の項目</string>
     <string name="lbl_prev_item">前の項目</string>
-    <string name="lbl_up_next_colon">"次: "</string>
     <string name="lbl_now_playing">再生中</string>
     <string name="lbl_play_from_here">ここから再生</string>
     <string name="lbl_delete">削除</string>
@@ -154,11 +150,6 @@
     <string name="msg_settings_updated">設定を更新しました</string>
     <string name="lbl_save">保存</string>
     <string name="lbl_at_any_time">随時</string>
-    <string name="lbl_seconds">秒</string>
-    <string name="lbl_minutes">分</string>
-    <string name="lbl_hour">時間</string>
-    <string name="lbl_minute">分</string>
-    <string name="lbl_hours">時間</string>
     <string name="lbl_on_schedule">予定通り</string>
     <string name="lbl_sort_by">並び順</string>
     <string name="lbl_guide_option_played">最後に再生</string>

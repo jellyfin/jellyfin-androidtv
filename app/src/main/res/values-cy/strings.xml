@@ -2,7 +2,6 @@
 <resources>
     <string name="lbl_shuffle_all">Cymysgu Pobeth</string>
     <string name="lbl_play_all">Chwarae Pob Un</string>
-    <string name="lbl_latest_additions">Ychwanegiadau Diweddaraf</string>
     <string name="lbl_tv_series">Cyfres Rhaglen Deledu</string>
     <string name="lbl_other_channels">Sianeli eraill</string>
     <string name="lbl_favorite_channels">Hoff Sianeli</string>
@@ -30,19 +29,12 @@
     <string name="lbl_stars">Seren</string>
     <string name="lbl_Reset">Ailosod</string>
     <string name="pref_about_title">Ynghylch</string>
-    <string name="lbl_hours">oriau</string>
-    <string name="lbl_minute">munud</string>
-    <string name="lbl_hour">awr</string>
-    <string name="lbl_minutes">munudau</string>
-    <string name="lbl_seconds">eiliadau</string>
     <string name="lbl_open">Agor</string>
     <string name="lbl_stretch">Ymestyn</string>
     <string name="lbl_zoom">Nesáu</string>
-    <string name="lbl_warning">Rhybudd</string>
     <string name="lbl_song">Cân</string>
     <string name="lbl_ended">Wedi gorffen</string>
     <string name="lbl__continuing">Wrthi\'n bwrw ymlaen</string>
-    <string name="btn_done">Wedi gorffen</string>
     <string name="lbl_rating">Sgôr</string>
     <string name="lbl_from">o</string>
     <string name="lbl_showing">Dangos</string>

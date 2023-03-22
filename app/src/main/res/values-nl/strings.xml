@@ -9,15 +9,15 @@
     <string name="chapters">Hoofdstukken</string>
     <string name="lbl_settings">Voorkeuren</string>
     <string name="lbl_continue_watching">Verderkijken</string>
-    <string name="lbl_next_up">Volgende</string>
+    <string name="lbl_next_up">Hierna</string>
     <string name="lbl_on_now">Nu aan het afspelen</string>
-    <string name="lbl_views">Aantal weergaven</string>
-    <string name="lbl_by_letter">Op letter</string>
+    <string name="lbl_views">Weergaven</string>
+    <string name="lbl_by_letter">Op alfabet</string>
     <string name="lbl_suggested">Voorgesteld</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Zoeken</string>
     <string name="msg_not_implemented">" niet geïmplementeerd"</string>
-    <string name="lbl_latest">Nieuwste</string>
+    <string name="lbl_latest">Onlangs toegevoegd</string>
     <string name="lbl_by_name">Op naam</string>
     <string name="lbl_favorites">Favorieten</string>
     <string name="lbl_coming_up">Aankomend</string>
@@ -27,7 +27,6 @@
     <string name="lbl_movies">Films</string>
     <string name="lbl_tv_series">Tv-series</string>
     <string name="lbl_other">Overig</string>
-    <string name="lbl_latest_additions">Laatste toevoegingen</string>
     <string name="lbl_because_you_watched">"Omdat je keek naar "</string>
     <string name="lbl_play_all">Alles afspelen</string>
     <string name="lbl_shuffle_all">Alles willekeurig afspelen</string>
@@ -41,14 +40,14 @@
     <string name="msg_unable_to_create_recording">Opname maken mislukt</string>
     <string name="msg_recording_cancelled">Opname geannuleerd</string>
     <string name="msg_unable_to_cancel">Niet in staat om opname te annuleren</string>
-    <string name="lbl_cast_crew">Cast/crew</string>
+    <string name="lbl_cast_crew">Cast en crew</string>
     <string name="lbl_chapters">Hoofdstukken</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>
     <string name="lbl_items">Items</string>
     <string name="lbl_item">Item</string>
     <string name="lbl_seasons">Seizoenen</string>
-    <string name="lbl_upcoming">Straks</string>
+    <string name="lbl_upcoming">Binnenkort</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_runs">Duur</string>
     <string name="lbl_min">" min"</string>
@@ -93,12 +92,12 @@
     <string name="lbl_today">Vandaag</string>
     <string name="lbl_tomorrow">Morgen</string>
     <string name="lbl_on">Aan</string>
-    <string name="lbl_tune_to_channel">Schakel naar kanaal</string>
+    <string name="lbl_tune_to_channel">Naar kanaal schakelen</string>
     <string name="msg_recording_now">Nu aan het opnemen</string>
     <string name="msg_will_record">Wordt opgenomen</string>
-    <string name="lbl_begin_padding">Voorlooptijd (minuten)</string>
+    <string name="lbl_begin_padding">Voorlooptijd</string>
     <string name="lbl_program_ended">Programma afgelopen</string>
-    <string name="lbl_end_padding">nalooptijd (minuten)</string>
+    <string name="lbl_end_padding">Nalooptijd</string>
     <string name="lbl_similar_items_library">Vergelijkbare items in je bibliotheek</string>
     <string name="lbl_record_any_channel">Neem op elk kanaal op</string>
     <string name="lbl_record_any_time">Neem op elk tijdstip op</string>
@@ -118,10 +117,9 @@
     <string name="lbl_name">Naam</string>
     <string name="lbl_date_added">Datum toegevoegd</string>
     <string name="lbl_premier_date">Premièredatum</string>
-    <string name="lbl_critic_rating">Beoordeling critici</string>
+    <string name="lbl_critic_rating">Beoordeling recensenten</string>
     <string name="lbl_rating">Beoordeling</string>
     <string name="lbl_starting_with">"beginnend met namen die beginnen met"</string>
-    <string name="btn_done">Klaar</string>
     <string name="lbl_display_preferences">Beeldschermvoorkeuren</string>
     <string name="lbl__continuing">Wordt vervolgd</string>
     <string name="lbl_ended">Afgelopen</string>
@@ -151,11 +149,10 @@
     <string name="lbl_open_album">Album openen</string>
     <string name="lbl_next_item">Volgend item</string>
     <string name="lbl_prev_item">Vorig item</string>
-    <string name="lbl_up_next_colon">"Hierna: "</string>
     <string name="lbl_now_playing">Nu afspelen</string>
     <string name="lbl_play_from_here">Vanaf hier afspelen</string>
     <string name="lbl_remove_from_queue">Verwijderen uit wachtrij</string>
-    <string name="lbl_goto_now_playing">Naar Nu afspelen gaan</string>
+    <string name="lbl_goto_now_playing">Naar nu afspelen gaan</string>
     <string name="lbl_instant_mix">Instant mix</string>
     <string name="lbl_delete">Verwijderen</string>
     <string name="msg_item_added">" item toegevoegd"</string>
@@ -179,7 +176,6 @@
     <string name="desc_bitstream_ac3">Vereist geschikte hardware</string>
     <string name="lbl_bitstream_ac3">Dolby Digital audio bitstreamen</string>
     <string name="lbl_new_premieres">Nieuwe premières</string>
-    <string name="lbl_warning">Waarschuwing</string>
     <string name="lbl_now_playing_album">van %1$s</string>
     <string name="lbl_now_playing_track">%1$s van %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
@@ -189,11 +185,6 @@
     <string name="lbl_next_episode">Volgende aflevering</string>
     <string name="lbl_previous_episode">Vorige aflevering</string>
     <string name="lbl_sort_by">Sorteren op</string>
-    <string name="lbl_hours">Uren</string>
-    <string name="lbl_minute">Minuut</string>
-    <string name="lbl_hour">Uur</string>
-    <string name="lbl_minutes">Minuten</string>
-    <string name="lbl_seconds">Seconden</string>
     <string name="lbl_save">Opslaan</string>
     <string name="msg_settings_updated">Voorkeuren bijgewerkt</string>
     <string name="lbl_live">Live</string>
@@ -204,12 +195,12 @@
     <string name="lbl_sports">Sport</string>
     <string name="msg_record_entire_series">Volledige serie opnemen\?</string>
     <string name="lbl_just_this_once">Alleen deze keer</string>
-    <string name="lbl_select_date">Kies datum</string>
+    <string name="lbl_select_date">Datum kiezen</string>
     <string name="lbl_image_size">Afbeeldingsformaat</string>
     <string name="lbl_repeat_episodes">Afleveringen herhalen</string>
     <string name="lbl_new_episodes">Nieuwe afleveringen</string>
     <string name="lbl_new_only">Alleen nieuwe</string>
-    <string name="lbl_song_title">Titel van het nummer</string>
+    <string name="lbl_song_title">Nummertitel</string>
     <string name="lbl_more_like_this">Meer zoals dit</string>
     <string name="lbl_resume_from">Hervatten vanaf %1$s</string>
     <string name="lbl_resume_preroll">Pre-roll hervatten</string>
@@ -225,14 +216,14 @@
     <string name="lbl_schedule">Inplannen</string>
     <string name="no_program_data">Geen programmadata beschikbaar</string>
     <string name="lbl_image_type">Afbeeldingstype</string>
-    <string name="lbl_start_favorites">Plaats favorieten vooraan</string>
+    <string name="lbl_start_favorites">Favorieten vooraan plaatsen</string>
     <string name="lbl_colored_backgrounds">Kleurgecodeerde achtergronden</string>
     <string name="lbl_hd_programs">HD-programma\'s</string>
     <string name="lbl_live_broadcasts">Live uitzendingen</string>
     <string name="lbl_premieres">Premières</string>
     <string name="lbl_show_indicators">Indicators tonen voor</string>
     <string name="pref_video_player_external">Externe applicatie</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimenteel)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatisch selecteren</string>
     <string name="lbl_my_media">Mijn media</string>
@@ -269,7 +260,6 @@
     <string name="just_one">Enkel deze</string>
     <string name="turn_off">Zet deze optie uit</string>
     <string name="audio_error">Audio %1$s afspelen mislukt</string>
-    <string name="msg_added_to_video">%1$s toegevoegd aan de videowachtrij. Eindigt om: %2$s</string>
     <string name="msg_no_items">Geen items om af te spelen</string>
     <string name="subtitle_error">Kan ondertiteling niet selecteren</string>
     <string name="too_many_errors">Te veel fouten. Opgegeven</string>
@@ -338,7 +328,7 @@
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
     <string name="lbl_switch_user">Account wisselen</string>
-    <string name="pref_theme_muted_purple">Muted Purple</string>
+    <string name="pref_theme_muted_purple">Muted purple</string>
     <string name="lbl_hide_unwatched_count">Verberg niet bekeken aantal</string>
     <string name="pref_watched_indicator">Laat bekeken indicatoren zien</string>
     <string name="press_to_close">Druk om te sluiten</string>
@@ -351,10 +341,6 @@
     <string name="enable_playback_module_description">Dit is een experimentele functie. Ondersteuning wordt niet verleend.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Liedje</string>
-    <string name="lbl_num_songs">%1$d Liedjes</string>
-    <string name="lbl_one_episode">1 Aflevering</string>
-    <string name="lbl_num_episodes">%1$d afleveringen</string>
     <string name="lbl_on_channel">Op %1$s</string>
     <string name="lbl_on_any_channel">Op elk kanaal</string>
     <string name="lbl_record_all">Alle afleveringen worden opgenomen</string>
@@ -390,7 +376,7 @@
     <string name="home_section_resume_audio">Verder luisteren</string>
     <string name="home_section_resume">Verder kijken</string>
     <string name="home_section_library">Mijn media</string>
-    <string name="home_section_latest_media">Recente media</string>
+    <string name="home_section_latest_media">Onlangs toegevoegde media</string>
     <string name="license_license">Licentie</string>
     <string name="license_author">Auteur</string>
     <string name="license_website">Website</string>
@@ -413,7 +399,7 @@
     <string name="server_issue_unsupported_version">Server gebruikt niet-ondersteunde versie %1$s</string>
     <string name="lbl_playback_speed">Afspeelsnelheid</string>
     <string name="pref_show_backdrop_description">Verander achtergrond foto naar geselecteerd item</string>
-    <string name="pref_playback_description">Video, ondertitels, live tv, volgende video</string>
+    <string name="pref_playback_description">Video, ondertiteling, live-tv, hierna</string>
     <string name="pref_customization_description">Thema, home, afstandsbediening knoppen</string>
     <string name="server_issue_ssl_handshake">SSL-handshake mislukt</string>
     <string name="server_issue_timeout">Verbindingstime-out</string>
@@ -448,7 +434,7 @@
     <string name="login_connect_to">Verbinden met %1$s</string>
     <string name="input_password">Wachtwoord</string>
     <string name="input_username">Gebruikersnaam</string>
-    <string name="action_use_quickconnect">QuickConnect gebruiken</string>
+    <string name="action_use_quickconnect">Quick Connect gebruiken</string>
     <string name="action_use_password">Een wachtwoord gebruiken</string>
     <string name="action_login">Log in</string>
     <string name="lbl_subtitle_delay">Vertraging ondertiteling</string>
@@ -497,4 +483,29 @@
     <string name="item_deletion_failed">%1$s kon niet verwijderd worden</string>
     <string name="pref_enable_media_management_description">Optie tonen om media te beheren tijdens het bladeren</string>
     <string name="item_delete_confirm_message">Weet je zeker dat je dit item van de server wilt verwijderen\? Dit kan niet worden teruggedraaid.</string>
+    <string name="pref_screensaver">Schermbeveiliging</string>
+    <string name="pref_screensaver_inapp_timeout">Schermbeveiliging starten na</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s seconde</item>
+        <item quantity="other">%1$s seconden</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Schermbeveiliging van app gebruiken</string>
+    <string name="pref_screensaver_inapp_enabled_description">Toon de Jellyfin-schermbeveiliging als de app geopend is</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuut</item>
+        <item quantity="other">%1$s minuten</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s uur</item>
+        <item quantity="other">%1$s uur</item>
+    </plurals>
+    <string name="lbl_latest_in">Onlangs toegevoegd aan %1$s</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s aflevering</item>
+        <item quantity="other">%1$s afleveringen</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s nummer</item>
+        <item quantity="other">%1$s nummers</item>
+    </plurals>
 </resources>

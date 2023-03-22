@@ -66,7 +66,6 @@
     <string name="loading">Učitavanje…</string>
     <string name="lbl_trailers">Kratki prikaz</string>
     <string name="lbl_specials">Specijalno</string>
-    <string name="lbl_latest_additions">Posljednje dodano</string>
     <string name="msg_not_implemented">" nije implementirano"</string>
     <string name="lbl_views">Pregledi</string>
     <string name="lbl_on_now">Sada na programu</string>
@@ -87,7 +86,6 @@
     <string name="lbl_ended">ZAVRŠENO</string>
     <string name="lbl__continuing">NASTAVLJA SE</string>
     <string name="lbl_display_preferences">Prikaži postavke</string>
-    <string name="btn_done">Gotovo</string>
     <string name="lbl_starting_with">početi od onih čije ime počinje s</string>
     <string name="lbl_rating">Ocjena</string>
     <string name="lbl_critic_rating">Ocjena kritičara</string>
@@ -162,7 +160,6 @@
     <string name="just_one">Samo ovu</string>
     <string name="turn_off">Ugasi ovu postavku</string>
     <string name="audio_error">Nije moguće reproducirati %1$s</string>
-    <string name="msg_added_to_video">%1$s dodan u red videozapisa. Završava: %2$s</string>
     <string name="msg_no_items">Nema stavki za reprodukciju</string>
     <string name="subtitle_error">Nije moguće odabrati titl</string>
     <string name="too_many_errors">Previše grešaka. Odustajem</string>
@@ -229,11 +226,6 @@
     <string name="lbl_premiere">Premijera</string>
     <string name="lbl_guest_stars">Gostujuće uloge</string>
     <string name="lbl_on_schedule">Po rasporedu</string>
-    <string name="lbl_hours">Sati</string>
-    <string name="lbl_minute">Minuta</string>
-    <string name="lbl_hour">Sat</string>
-    <string name="lbl_minutes">Minute</string>
-    <string name="lbl_seconds">Sekunde</string>
     <string name="lbl_at_any_time">Bilo kada</string>
     <string name="lbl_series_recordings">Snimke serija</string>
     <string name="lbl_save">Spremi</string>
@@ -274,14 +266,12 @@
     <string name="lbl_remove_from_queue">Ukloni iz reda</string>
     <string name="lbl_play_from_here">Reproduciraj odavde</string>
     <string name="lbl_now_playing">Reproducira se</string>
-    <string name="lbl_up_next_colon">"Sljedeće: "</string>
     <string name="lbl_prev_item">Prethodna stavka</string>
     <string name="lbl_next_item">Sljedeća stavka</string>
     <string name="lbl_open_album">Otvori Album</string>
     <string name="lbl_open_artist">Otvori izvođača</string>
     <string name="lbl_add_to_queue">Dodaj u red</string>
     <string name="msg_items_added">" stavki dodano"</string>
-    <string name="lbl_warning">Upozorenje</string>
     <string name="lbl_playlists">Liste za reprodukciju</string>
     <string name="sum_enable_cinema_mode">Reproduciraj uvod i foršpane prije reprodukcije filma</string>
     <string name="lbl_enable_cinema_mode">Kino ugođaj</string>
@@ -343,10 +333,6 @@
     <string name="lbl_auto_crop">Automatsko obrezivanje</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 pjesma</string>
-    <string name="lbl_one_episode">1 epizoda</string>
-    <string name="lbl_num_episodes">%1$d epizoda</string>
-    <string name="lbl_num_songs">%1$d pjesama</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na bilo kojem kanalu</string>
     <string name="lbl_record_all">Snimit će sve epizode</string>

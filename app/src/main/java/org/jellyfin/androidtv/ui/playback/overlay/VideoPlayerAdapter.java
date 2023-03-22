@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback.overlay;
 
+import androidx.annotation.NonNull;
 import androidx.leanback.media.PlayerAdapter;
 
 import org.jellyfin.androidtv.auth.repository.UserRepository;
@@ -98,11 +99,11 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         getCallback().onDurationChanged(this);
     }
 
-    boolean hasSubs() {
+    public boolean hasSubs() {
         return StreamHelper.getSubtitleStreams(playbackController.getCurrentMediaSource()).size() > 0;
     }
 
-    boolean hasMultiAudio() {
+    public boolean hasMultiAudio() {
         return StreamHelper.getAudioStreams(playbackController.getCurrentMediaSource()).size() > 1;
     }
 
@@ -130,11 +131,13 @@ public class VideoPlayerAdapter extends PlayerAdapter {
         this.customPlaybackOverlayFragment = customPlaybackOverlayFragment;
     }
 
-    CustomPlaybackOverlayFragment getMasterOverlayFragment() {
+    @NonNull
+    public CustomPlaybackOverlayFragment getMasterOverlayFragment() {
         return customPlaybackOverlayFragment;
     }
 
-    LeanbackOverlayFragment getLeanbackOverlayFragment() {
+    @NonNull
+    public LeanbackOverlayFragment getLeanbackOverlayFragment() {
         return leanbackOverlayFragment;
     }
 
@@ -150,7 +153,7 @@ public class VideoPlayerAdapter extends PlayerAdapter {
                 && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue());
     }
 
-    void toggleRecording() {
+    public void toggleRecording() {
         org.jellyfin.sdk.model.api.BaseItemDto currentlyPlayingItem = getCurrentlyPlayingItem();
         getMasterOverlayFragment().toggleRecording(currentlyPlayingItem);
     }

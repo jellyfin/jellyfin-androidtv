@@ -2,7 +2,6 @@
 <resources>
     <string name="lbl_add_to_queue">إضافة إلى قائمة الإنتظار</string>
     <string name="msg_items_added">" تم إضافة العناصر"</string>
-    <string name="lbl_warning">تحذير</string>
     <string name="lbl_playlists">قوائم التشغيل</string>
     <string name="sum_enable_cinema_mode">عرض المقدمات والمختصرات قبل عرض الفيلم إذا كانت متاحة على الخادم</string>
     <string name="lbl_enable_cinema_mode">وضع السينما</string>
@@ -16,7 +15,6 @@
     <string name="lbl_filters">تصفية اختيارات البث التلفزيوني المباشر</string>
     <string name="lbl_ended">إنتهى</string>
     <string name="lbl_display_preferences">خيارات العرض</string>
-    <string name="btn_done">تم</string>
     <string name="lbl_starting_with">بدءاً بمن تبدأ أسماؤهم ب</string>
     <string name="lbl_rating">التقييم</string>
     <string name="lbl_critic_rating">تقييم النقاد</string>
@@ -106,7 +104,6 @@
     <string name="lbl_shuffle_all">خلط الكل</string>
     <string name="lbl_play_all">تشغيل الكل</string>
     <string name="lbl_because_you_watched">"لأنك شاهدت "</string>
-    <string name="lbl_latest_additions">أحدث الإضافات</string>
     <string name="lbl_other">أخرى</string>
     <string name="lbl_tv_series">المسلسلات</string>
     <string name="lbl_movies">الأفلام</string>
@@ -140,13 +137,11 @@
     <string name="lbl_remove_from_queue">أزل من قائمة الإنتظار</string>
     <string name="lbl_play_from_here">تشغيل من هنا</string>
     <string name="lbl_now_playing">يعرض الآن</string>
-    <string name="lbl_up_next_colon">"التالي: "</string>
     <string name="lbl_prev_item">العنصر السابق</string>
     <string name="lbl_next_item">العنصر التالي</string>
     <string name="lbl_open_album">فتح صفحة الألبوم</string>
     <string name="lbl_open_artist">فتح صفحة الفنان</string>
     <string name="audio_error">تعذر تشغيل الصوت %1$s</string>
-    <string name="msg_added_to_video">تمت إضافة %1$s إلى قائمة إنتظار الفيديو. ينتهي: %2$s</string>
     <string name="msg_no_items">لا توجد عناصر للتشغيل</string>
     <string name="subtitle_error">غير قادر على تحديد الترجمة</string>
     <string name="too_many_errors">العديد من الأخطاء. الاستسلام</string>
@@ -209,11 +204,6 @@
     <string name="lbl_sort_by">ترتيب حسب</string>
     <string name="lbl_guest_stars">النجوم الضيوف</string>
     <string name="lbl_on_schedule">في الموعد المحدد</string>
-    <string name="lbl_hours">ساعات</string>
-    <string name="lbl_minute">دقيقة</string>
-    <string name="lbl_hour">ساعة</string>
-    <string name="lbl_minutes">دقائق</string>
-    <string name="lbl_seconds">ثواني</string>
     <string name="lbl_at_any_time">في أي وقت</string>
     <string name="lbl_series_recordings">تسجيلات المسلسلات</string>
     <string name="lbl_save">حفظ</string>
@@ -285,10 +275,6 @@
     <string name="alphabetical">أبجدي</string>
     <string name="enable_playback_module_description">هاته ميزة تجريبية. لا يوجد دعم مقدم.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
-    <string name="lbl_one_song">1 أغنية</string>
-    <string name="lbl_num_songs">%1$d أغاني</string>
-    <string name="lbl_one_episode">1 حلقة</string>
-    <string name="lbl_num_episodes">%1$d حلقات</string>
     <string name="lbl_on_channel">على %1$s</string>
     <string name="lbl_on_any_channel">على أي قناة</string>
     <string name="lbl_record_all">سيتم تسجيل جميع الحلقات</string>

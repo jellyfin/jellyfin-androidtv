@@ -52,33 +52,13 @@ public class TimeUtils {
     }
 
     public static String formatSeconds(Context context, int seconds) {
-        // Seconds
         if (seconds < SECS_PER_MIN) {
-            return seconds + " " + context.getString(R.string.lbl_seconds);
-        }
-
-        StringBuilder builder = new StringBuilder();
-        // Minutes
-        if (seconds < SECS_PER_HR) {
-            builder.append(seconds / SECS_PER_MIN)
-                    .append(" ");
-            if (seconds < 2 * SECS_PER_MIN) {
-                builder.append(context.getString(R.string.lbl_minute));
-            } else {
-                builder.append(context.getString(R.string.lbl_minutes));
-            }
-            return builder.toString();
-        }
-
-        // Hours
-        builder.append(seconds / SECS_PER_HR)
-                .append(" ");
-        if (seconds < 2 * SECS_PER_HR) {
-            builder.append(context.getString(R.string.lbl_hour));
+            return ContextExtensionsKt.getQuantityString(context, R.plurals.seconds, seconds);
+        } else if (seconds < SECS_PER_HR) {
+            return ContextExtensionsKt.getQuantityString(context, R.plurals.minutes, seconds / SECS_PER_MIN);
         } else {
-            builder.append(context.getString(R.string.lbl_hours));
+            return ContextExtensionsKt.getQuantityString(context, R.plurals.hours, seconds / SECS_PER_HR);
         }
-        return builder.toString();
     }
 
     public static Date convertToLocalDate(Date utcDate) {

@@ -6,9 +6,9 @@ Om de app te gebruiken, moet je een Jellyfin-server hebben opgezet en draaiend h
 
 Met een Jellyfin-server kun je:
 
-* Live TV kijken en opgenomen shows bekijken vanaf jouw Jellyfin-server (extra hardware/services vereist)
+* Live-tv kijken en opgenomen shows bekijken vanaf jouw Jellyfin-server (extra hardware/diensten vereist)
 * Streamen naar een Chromecast-apparaat op jouw netwerk
-* Jouw media streamen naar jouw Android-apparaat
-* Jouw collectie bekijken in een gemakkelijk te gebruiken interface
+* Je media streamen naar je Android-apparaat
+* Je collectie bekijken in een eenvoudig te gebruiken interface
 
-Dit is de officiële Jellyfin-bijbehorende app voor Android TV. Bedankt voor het gebruik van Jellyfin!
+Dit is de officiële Jellyfin-app voor Android TV. Bedankt voor het gebruiken van Jellyfin!

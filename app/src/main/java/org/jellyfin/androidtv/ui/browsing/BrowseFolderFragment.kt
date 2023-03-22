@@ -52,9 +52,6 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 		folder = Json.decodeFromString<BaseItemDto>(arguments?.getString(Extras.Folder)!!)
 		includeType = arguments?.getString(Extras.IncludeType)
 
-		// Attach background service
-		backgroundService.attach(requireActivity())
-
 		// Set BrowseSupportFragment properties
 		title = folder?.name
 		headersState = HEADERS_DISABLED

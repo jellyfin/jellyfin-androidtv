@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoQualityController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
+import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 
 class SelectQualityAction(
 	context: Context,
@@ -27,9 +28,11 @@ class SelectQualityAction(
 
 	override fun handleClickAction(
 		playbackController: PlaybackController,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
-		context: Context, view: View
+		videoPlayerAdapter: VideoPlayerAdapter,
+		context: Context,
+		view: View,
 	) {
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
 		PopupMenu(context, view, Gravity.END).apply {
 			qualityProfiles.values.forEachIndexed { i, selected ->
 				menu.add(0, i, i, selected)
@@ -40,7 +43,7 @@ class SelectQualityAction(
 				item.isChecked = true
 			}
 
-			setOnDismissListener { leanbackOverlayFragment.setFading(true) }
+			setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
 			setOnMenuItemClickListener { menuItem ->
 				qualityController.currentQuality = qualityProfiles.keys.elementAt(menuItem.itemId)
 				playbackController.refreshStream()

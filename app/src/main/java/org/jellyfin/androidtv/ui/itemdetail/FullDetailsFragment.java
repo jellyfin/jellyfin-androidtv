@@ -178,7 +178,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         FragmentFullDetailsBinding binding = FragmentFullDetailsBinding.inflate(getLayoutInflater(), container, false);
 
         BUTTON_SIZE = Utils.convertDpToPixel(requireContext(), 40);
-        backgroundService.getValue().attach(requireActivity());
 
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);

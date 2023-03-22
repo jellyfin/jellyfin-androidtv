@@ -27,7 +27,6 @@
     <string name="lbl_movies">Films</string>
     <string name="lbl_tv_series">Séries TV</string>
     <string name="lbl_other">Autre</string>
-    <string name="lbl_latest_additions">Derniers ajouts</string>
     <string name="lbl_because_you_watched">"Parce que vous avez regardé "</string>
     <string name="lbl_play_all">Lire tout</string>
     <string name="lbl_shuffle_all">Lecture aléatoire</string>
@@ -121,7 +120,6 @@
     <string name="lbl_critic_rating">Note des critiques</string>
     <string name="lbl_rating">Critique</string>
     <string name="lbl_starting_with">Commençant par ceux dont le nom débute par</string>
-    <string name="btn_done">Terminé</string>
     <string name="lbl_display_preferences">Préférences d\'affichage</string>
     <string name="lbl__continuing">EN PRODUCTION</string>
     <string name="lbl_ended">TERMINÉ</string>
@@ -151,7 +149,6 @@
     <string name="lbl_open_album">Ouvrir l\'album</string>
     <string name="lbl_next_item">Prochain élément</string>
     <string name="lbl_prev_item">Élément précédent</string>
-    <string name="lbl_up_next_colon">"Suivant : "</string>
     <string name="lbl_now_playing">En cours de lecture</string>
     <string name="lbl_play_from_here">Lire à partir d\'ici</string>
     <string name="lbl_remove_from_queue">Retirer de la liste de lecture</string>
@@ -181,13 +178,9 @@
     <string name="lbl_guest_stars">Stars invitées</string>
     <string name="lbl_guide_option_number">Numéro de chaine</string>
     <string name="lbl_guide_option_played">Dernier élément joué</string>
-    <string name="lbl_hour">Heure</string>
-    <string name="lbl_hours">Heures</string>
     <string name="lbl_in_x_days">Dans %d jours</string>
     <string name="lbl_just_this_once">Juste cette fois</string>
     <string name="lbl_live">Direct</string>
-    <string name="lbl_minute">Minute</string>
-    <string name="lbl_minutes">Minutes</string>
     <string name="lbl_more_like_this">Plus du même genre</string>
     <string name="lbl_new">Nouveau</string>
     <string name="lbl_recent_recordings">Enregistrements récents</string>
@@ -204,7 +197,6 @@
     <string name="lbl_premiere">Première</string>
     <string name="msg_settings_updated">Préférences mises à jour</string>
     <string name="msg_record_entire_series">Enregistrer la série entière \?</string>
-    <string name="lbl_seconds">Secondes</string>
     <string name="lbl_schedule">Programmation</string>
     <string name="lbl_resume_preroll">Reprise différé</string>
     <string name="lbl_series_recordings">Enregistrement des séries</string>
@@ -214,7 +206,6 @@
     <string name="lbl_song_title">titre de la chanson</string>
     <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_watched">Vu</string>
-    <string name="lbl_warning">Avertissement</string>
     <string name="lbl_now_playing_track">%1$s sur %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="pref_authentication_cat">Identification</string>
@@ -267,7 +258,6 @@
     <string name="no_player">Aucun lecteur</string>
     <string name="mark_watched_message">L\'élément ne semble pas avoir été joué aussi longtemps que sa durée. Marquer comme vu \?</string>
     <string name="audio_error">Incapable de jouer l\'audio %1$s</string>
-    <string name="msg_added_to_video">%1$s ajouté à la liste de lecture. Prend fin : %2$s</string>
     <string name="player_error">Une erreur sur le lecteur est arrivée. Nous allons réessayer…</string>
     <string name="seek_error">Impossible de chercher</string>
     <string name="msg_live_tv_prev">Charger les %1$d précédentes heures \?</string>
@@ -361,10 +351,6 @@
     <string name="lbl_starting_early_ending_after">Commence %1$s plus tôt et termine %2$s après l\'heure prévue</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 chanson</string>
-    <string name="lbl_num_songs">%1$d chansons</string>
-    <string name="lbl_one_episode">1 épisode</string>
-    <string name="lbl_num_episodes">%1$d épisodes</string>
     <string name="lbl_on_channel">Sur %1$s</string>
     <string name="lbl_on_any_channel">Sur n\'importe quelle chaîne</string>
     <string name="lbl_record_all">Enregistrera tous les épisodes</string>

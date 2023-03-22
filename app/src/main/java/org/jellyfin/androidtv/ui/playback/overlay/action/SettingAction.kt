@@ -7,6 +7,7 @@ import org.jellyfin.androidtv.ui.SettingsPopup
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
+import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 
 class SettingAction(
 	context: Context,
@@ -20,17 +21,21 @@ class SettingAction(
 
 	override fun handleClickAction(
 		playbackController: PlaybackController,
-		leanbackOverlayFragment: LeanbackOverlayFragment,
+		videoPlayerAdapter: VideoPlayerAdapter,
 		context: Context,
-		view: View
-	) = SettingsPopup(context, view,
-		{ value -> playbackController.audioDelay = value },
-		{ value -> playbackController.subtitleDelay = value }
-	).apply {
-		popupWindow.setOnDismissListener { leanbackOverlayFragment.setFading(true) }
-	}.show(
-		subtitlesPresent,
-		playbackController.audioDelay,
-		playbackController.subtitleDelay
-	)
+		view: View,
+	) {
+		subtitlesPresent = videoPlayerAdapter.hasSubs()
+		videoPlayerAdapter.leanbackOverlayFragment.setFading(false)
+		return SettingsPopup(context, view,
+			{ value -> playbackController.audioDelay = value },
+			{ value -> playbackController.subtitleDelay = value }
+		).apply {
+			popupWindow.setOnDismissListener { videoPlayerAdapter.leanbackOverlayFragment.setFading(true) }
+		}.show(
+			subtitlesPresent,
+			playbackController.audioDelay,
+			playbackController.subtitleDelay
+		)
+	}
 }
