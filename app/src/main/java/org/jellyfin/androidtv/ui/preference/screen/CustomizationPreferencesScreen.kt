@@ -101,20 +101,5 @@ class CustomizationPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.shortcutSubtitleTrack)
 			}
 		}
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-			// Check for leanback support
-			requireContext().packageManager.hasSystemFeature("android.software.leanback")
-			// Check for "android.media.tv" provider to workaround a false-positive in the previous check
-			&& requireContext().packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null) {
-			category {
-				setTitle(R.string.pref_leanback)
-
-				checkbox {
-					setTitle(R.string.pref_leanback_display_backdrop)
-					setContent(R.string.pref_leanback_display_backdrop_description)
-					bind(userPreferences, UserPreferences.leanbackDisplayBackdrop)
-				}
-			}
-		}
 	}
 }

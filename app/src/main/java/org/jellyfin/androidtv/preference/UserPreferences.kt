@@ -209,10 +209,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
 
-		/**
-		 * Whether to display primary or backdrop
-		 */
-		var leanbackDisplayBackdrop = booleanPreference("leanback_display_backdrop", false)
 	}
 
 	init {

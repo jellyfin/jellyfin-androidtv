@@ -133,7 +133,6 @@ class LeanbackChannelWorker(
 					.build()
 			)
 			val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
-			val preferBackdrop = userPreferences[UserPreferences.leanbackDisplayBackdrop]
 
 			// Add new items
 			listOf(
@@ -148,9 +147,7 @@ class LeanbackChannelWorker(
 					createPreviewProgram(
 						channel,
 						item,
-						preferParentThumb,
-						if (items == nextUpItems || items == resumeItems) false else preferBackdrop,
-						items == resumeItems
+						preferParentThumb
 					)
 				}.let {
 					context.contentResolver.bulkInsert(
@@ -231,16 +228,8 @@ class LeanbackChannelWorker(
 	 * image when preferred.
 	 */
 	private fun BaseItemDto.getPosterArtImageUrl(
-		preferParentThumb: Boolean,
-		preferBackdrop: Boolean = false
+		preferParentThumb: Boolean
 	): Uri = when {
-		preferBackdrop -> api.imageApi.getItemImageUrl(
-			itemId = id,
-			imageType = ImageType.BACKDROP,
-			format = ImageFormat.WEBP,
-			width = 272.dp(context),
-			height = 153.dp(context),
-		)
 		type == BaseItemKind.MOVIE || type == BaseItemKind.SERIES -> api.imageApi.getItemImageUrl(
 			itemId = id,
 			imageType = ImageType.PRIMARY,
@@ -342,15 +331,9 @@ class LeanbackChannelWorker(
 	private fun createPreviewProgram(
 		channelUri: Uri,
 		item: BaseItemDto,
-		preferParentThumb: Boolean,
-		preferBackdrop: Boolean,
-		isResume: Boolean = false
+		preferParentThumb: Boolean
 	): ContentValues {
-		var useBackdrop = preferBackdrop
-		if (item.type == BaseItemKind.COLLECTION_FOLDER) {
-			useBackdrop = false
-		}
-		val imageUri = item.getPosterArtImageUrl(preferParentThumb, useBackdrop)
+		val imageUri = item.getPosterArtImageUrl(preferParentThumb)
 		val seasonString = item.parentIndexNumber?.toString().orEmpty()
 
 		val episodeString = when {
@@ -391,12 +374,8 @@ class LeanbackChannelWorker(
 			)
 			.setPosterArtUri(imageUri)
 			.setPosterArtAspectRatio(
-				if (useBackdrop
-					|| item.type == BaseItemKind.EPISODE
-					|| item.type == BaseItemKind.COLLECTION_FOLDER
-				)
-					TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
-				else
+				if (item.type == BaseItemKind.COLLECTION_FOLDER || item.type == BaseItemKind.EPISODE)
+					TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9 else
 					TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
 			)
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
@@ -461,7 +440,7 @@ class LeanbackChannelWorker(
 				item.userData?.playbackPositionTicks ?: 0 > 0 -> {
 					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
 					setLastPlaybackPositionMillis((item.userData!!.playbackPositionTicks / TICKS_IN_MILLISECOND).toInt())
-					// Use last played date to prioritze
+					// Use last played date to prioritize
 					engagement = item.userData?.lastPlayedDate
 				}
 				// First episode of the season
