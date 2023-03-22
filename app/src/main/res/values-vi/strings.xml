@@ -70,7 +70,6 @@
     <string name="lbl_shuffle_all">Toàn Bộ Ngẫu Nhiên</string>
     <string name="lbl_play_all">Phát Tất Cả</string>
     <string name="lbl_because_you_watched">"Bởi vì bạn đã xem "</string>
-    <string name="lbl_latest_additions">Bổ Sung Gần Đây Nhất</string>
     <string name="lbl_other">Khác</string>
     <string name="lbl_tv_series">Chương Trình TV</string>
     <string name="lbl_movies">Phim</string>
@@ -101,7 +100,6 @@
     <string name="btn_cancel">Hủy</string>
     <string name="loading">Đang tải…</string>
     <string name="video_error_unknown_error">Không tải được video</string>
-    <string name="lbl_warning">Cảnh báo</string>
     <string name="lbl_playlists">Danh sách phát</string>
     <string name="sum_enable_cinema_mode">Phát phần giới thiệu và bản xem trước có sẵn trước khi bắt đầu một bộ phim</string>
     <string name="lbl_enable_cinema_mode">Chế độ rạp chiếu phim</string>
@@ -122,7 +120,6 @@
     <string name="lbl_ended">ĐÃ HẾT</string>
     <string name="lbl__continuing">ĐANG TIẾP TỤC</string>
     <string name="lbl_display_preferences">Tùy Chọn Hiển Thị</string>
-    <string name="btn_done">Xong</string>
     <string name="lbl_starting_with">bắt đầu bằng những người có tên bắt đầu bằng</string>
     <string name="lbl_rating">Xếp Hạng</string>
     <string name="lbl_critic_rating">Xếp Hạng Phê Bình</string>
@@ -161,11 +158,6 @@
     <string name="lbl_premiere">Công Chiếu</string>
     <string name="lbl_guest_stars">Ngôi sao khách mời</string>
     <string name="lbl_on_schedule">Đúng Tiến Độ</string>
-    <string name="lbl_hours">Giờ</string>
-    <string name="lbl_minute">Phút</string>
-    <string name="lbl_hour">Giờ</string>
-    <string name="lbl_minutes">Phút</string>
-    <string name="lbl_seconds">Giây</string>
     <string name="lbl_at_any_time">Bất cứ lúc nào</string>
     <string name="lbl_series_recordings">Bản Ghi Loạt Phim Bộ</string>
     <string name="lbl_save">Lưu</string>
@@ -204,7 +196,6 @@
     <string name="lbl_remove_from_queue">Xóa Khỏi Hàng Đợi</string>
     <string name="lbl_play_from_here">Phát Từ Đây</string>
     <string name="lbl_now_playing">Đang Phát</string>
-    <string name="lbl_up_next_colon">"Tiếp Theo: "</string>
     <string name="lbl_prev_item">Mục Trước</string>
     <string name="lbl_next_item">Mục Kế Tiếp</string>
     <string name="lbl_open_album">Mở Album</string>
@@ -215,7 +206,6 @@
     <string name="just_one">Chỉ cái này thôi</string>
     <string name="turn_off">Tắt tùy chọn này</string>
     <string name="audio_error">Không thể phát âm thanh %1$s</string>
-    <string name="msg_added_to_video">Đã thêm %1$s vào hàng đợi video. Kết thúc: %2$s</string>
     <string name="msg_no_items">Không có mục nào để phát</string>
     <string name="subtitle_error">Không thể chọn phụ đề</string>
     <string name="too_many_errors">Có quá nhiều lỗi. Từ bỏ</string>
@@ -339,10 +329,6 @@
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_one_song">1 Bài hát</string>
-    <string name="lbl_num_songs">%1$d Bài hát</string>
-    <string name="lbl_one_episode">1 Tập</string>
-    <string name="lbl_num_episodes">%1$d Tập</string>
     <string name="lbl_on_channel">Trên %1$s</string>
     <string name="lbl_on_any_channel">Trên bất kỳ kênh nào</string>
     <string name="lbl_record_all">Sẽ ghi lại tất cả các tập</string>

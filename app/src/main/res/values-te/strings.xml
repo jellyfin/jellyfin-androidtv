@@ -4,7 +4,6 @@
     <string name="lbl_continue_watching">చూడటం కొనసాగించు</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_by_name">పేరు ప్రకారం</string>
-    <string name="lbl_latest_additions">తాజా చేర్పులు</string>
     <string name="video_error_unknown_error">వీడియోను లోడ్ చేయడంలో విఫలమైంది</string>
     <string name="loading">లోడింగ్…</string>
     <string name="btn_cancel">రద్దు</string>

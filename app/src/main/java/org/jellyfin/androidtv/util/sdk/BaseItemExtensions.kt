@@ -6,6 +6,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.ChapterItemInfo
 import org.jellyfin.androidtv.ui.livetv.TvManager
 import org.jellyfin.androidtv.util.TimeUtils
+import org.jellyfin.androidtv.util.getQuantityString
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -114,17 +115,11 @@ fun BaseItemDto.getSubName(context: Context): String? = when (type) {
 		else -> name
 	}
 	BaseItemKind.SEASON -> when {
-		childCount != null && childCount!! > 0 -> when {
-			childCount!! > 1 -> context.getString(R.string.lbl_num_episodes, childCount)
-			else -> context.getString(R.string.lbl_one_episode)
-		}
+		childCount != null && childCount!! > 0 -> context.getQuantityString(R.plurals.episodes, childCount!!)
 		else -> ""
 	}
 	BaseItemKind.MUSIC_ALBUM -> when {
-		childCount != null && childCount!! > 0 -> when {
-			childCount!! > 1 -> context.getString(R.string.lbl_num_songs, childCount)
-			else -> context.getString(R.string.lbl_one_song)
-		}
+		childCount != null && childCount!! > 0 -> context.getQuantityString(R.plurals.tracks, childCount!!)
 		else -> ""
 	}
 	BaseItemKind.AUDIO -> name

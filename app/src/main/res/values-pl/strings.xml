@@ -41,7 +41,6 @@
     <string name="lbl_shuffle_all">Losowo</string>
     <string name="lbl_play_all">Odtwórz wszystko</string>
     <string name="lbl_because_you_watched">"Propozycje po obejrzeniu "</string>
-    <string name="lbl_latest_additions">Ostatnio dodane</string>
     <string name="lbl_other">Inne</string>
     <string name="lbl_tv_series">Seriale</string>
     <string name="lbl_movies">Filmy</string>
@@ -94,7 +93,6 @@
     <string name="sum_tv_queuing">Dodaj resztę sezonu do kolejki gdy odtwarzasz odcinek</string>
     <string name="lbl_cancel_series">Anuluj serię</string>
     <string name="lbl_status">%1$s / %2$s</string>
-    <string name="lbl_warning">Ostrzeżenie</string>
     <string name="lbl_playlists">Playlisty</string>
     <string name="sum_enable_cinema_mode">Odtwórz zwiastuny i informacje wprowadzające przez seansem</string>
     <string name="lbl_enable_cinema_mode">Tryb kinowy</string>
@@ -114,7 +112,6 @@
     <string name="lbl_filters">Filtry TV na żywo</string>
     <string name="lbl_ended">ZAKOŃCZONE</string>
     <string name="lbl_display_preferences">Właściwości</string>
-    <string name="btn_done">Gotowe</string>
     <string name="lbl_rating">Ocena</string>
     <string name="lbl_critic_rating">Ocena Krytyków</string>
     <string name="lbl_premier_date">Data Premiery</string>
@@ -141,7 +138,6 @@
     <string name="lbl_goto_now_playing">Wróć do obecnie odtwarzanego</string>
     <string name="lbl_remove_from_queue">Usuń z kolejki</string>
     <string name="lbl_now_playing">Obecnie Odtwarzane</string>
-    <string name="lbl_up_next_colon">"Następne: "</string>
     <string name="lbl_prev_item">Poprzedni element</string>
     <string name="lbl_next_item">Następny element</string>
     <string name="lbl_open_album">Pokaż Album</string>
@@ -239,11 +235,6 @@
     <string name="lbl_premiere">Premiera</string>
     <string name="lbl_guest_stars">Gwiazdy występujące gościnnie</string>
     <string name="lbl_on_schedule">W harmonogramie</string>
-    <string name="lbl_hours">Godziny</string>
-    <string name="lbl_minute">Minuta</string>
-    <string name="lbl_hour">Godzina</string>
-    <string name="lbl_minutes">Minuty</string>
-    <string name="lbl_seconds">Sekundy</string>
     <string name="lbl_at_any_time">Kiedykolwiek</string>
     <string name="lbl_save">Zapisz</string>
     <string name="msg_settings_updated">Ustawienia zaktualizowane</string>
@@ -251,7 +242,7 @@
     <string name="bitrate_kbit">Szybkość transmisji %1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">Szybkość transmisji %1$,.0f Mbit/s</string>
     <string name="pref_next_up_timeout_title">Czas oczekiwania na następny odcinek</string>
-    <string name="pref_video_player_vlc">Odtwarzacz VLC</string>
+    <string name="pref_video_player_vlc">Odtwarzacz VLC (doświadczalny)</string>
     <string name="pref_video_player_exoplayer">Odtwarzacz ExoPlayer</string>
     <string name="lbl_resume_preroll">Wznów przed filmem</string>
     <string name="lbl_series_recordings">Nagrywanie seryjne</string>
@@ -261,7 +252,6 @@
     <string name="just_one">Tylko to</string>
     <string name="turn_off">Wyłącz tę opcję</string>
     <string name="audio_error">Nie można odtworzyć dźwięku: %1$s</string>
-    <string name="msg_added_to_video">%1$s zostało dodane do kolejki. Kolejka kończy się za: %2$s</string>
     <string name="msg_no_items">Brak elementu do odtworzenia</string>
     <string name="subtitle_error">Nie mogę wybrać napisów</string>
     <string name="too_many_errors">Za dużo błędów. Poddaję się</string>
@@ -348,14 +338,10 @@
     <string name="lbl_starting_early_ending_after">Początek %1$s wcześniej i koniec %2$s po zaplanowanym zakonczeniu</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_num_episodes">%1$d Odcinków</string>
     <string name="lbl_on_any_channel">Na wszystkich kanałach</string>
     <string name="lbl_episode_range">E%1$d–%2$d</string>
     <string name="lbl_episode_number">E%1$d</string>
     <string name="lbl_season_number">S%1$d</string>
-    <string name="lbl_one_song">1 piosenka</string>
-    <string name="lbl_num_songs">%1$d Piosenek</string>
-    <string name="lbl_one_episode">1 odcinek</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_record_only_new">Nagrywaj tylko nowe</string>
     <string name="lbl_next_up_minimal">Bez miniaturek</string>
@@ -433,7 +419,7 @@
     <string name="home_section_active_recordings">Aktywne nagrania</string>
     <string name="home_section_library_small">Moje media (małe)</string>
     <string name="home_section_library">Moje media</string>
-    <string name="home_section_latest_media">Najnowsze media</string>
+    <string name="home_section_latest_media">Ostatnio dodane media</string>
     <string name="home_sections">Sekcje domowe</string>
     <string name="license_artifact">Aretfakt</string>
     <string name="server_connection_failed_candidates">Nie można połączyć się z serwerem, wypróbowane adresy: %1$s</string>
@@ -497,4 +483,27 @@
     <string name="item_delete_confirm_message">Czy na pewno chcesz to usunąć\? Ta akcja nie może być cofnięta.</string>
     <string name="pref_enable_media_management">Włącz zarządzanie multimediami</string>
     <string name="item_delete_confirm_title">Usuń przedmiot</string>
+    <string name="pref_screensaver">Wygaszacz ekranu</string>
+    <string name="pref_screensaver_inapp_enabled_description">Pokaż wygaszacz ekranu Jellyfin podczas uruchomienia aplikacji</string>
+    <string name="pref_screensaver_inapp_enabled">Użyj wbudowanego wygaszacza ekranu</string>
+    <string name="pref_screensaver_inapp_timeout">Uruchom wygaszacz ekranu po</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunda</item>
+        <item quantity="few">%1$s sekundy</item>
+        <item quantity="many">%1$s sekund</item>
+        <item quantity="other">%1$s sekund</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuta</item>
+        <item quantity="few">%1$s minuty</item>
+        <item quantity="many">%1$s minut</item>
+        <item quantity="other">%1$s minut</item>
+    </plurals>
+    <string name="lbl_latest_in">Ostatnio dodane w %1$s</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s godzina</item>
+        <item quantity="few">%1$s godziny</item>
+        <item quantity="many">%1$s godzin</item>
+        <item quantity="other">%1$s godzin</item>
+    </plurals>
 </resources>

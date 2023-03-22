@@ -85,7 +85,6 @@
     <string name="lbl_ended">ПРИКЛЮЧИЛ</string>
     <string name="lbl__continuing">ПРОДЪЛЖАВА</string>
     <string name="lbl_display_preferences">Настройки на дисплея</string>
-    <string name="btn_done">Готово</string>
     <string name="lbl_starting_with">като се започне от тези, чието име започва с</string>
     <string name="lbl_rating">Рейтинг</string>
     <string name="lbl_community_rating">Рейтинг на общността</string>
@@ -117,7 +116,6 @@
     <string name="msg_video_playback_error">"Грешка при възпроизвеждане на видео - "</string>
     <string name="lbl_sd">SD</string>
     <string name="lbl_cast_crew">Актьори/Екип</string>
-    <string name="lbl_latest_additions">Последни допълнения</string>
     <string name="lbl_coming_up">Очакван</string>
     <string name="msg_not_implemented">" не реализиран"</string>
     <string name="lbl_record_any_time">Записвай по всяко време</string>

@@ -1,1 +1,1 @@
-Televisie app voor Jellyfin, het gratis software media systeem
+Televisie-app voor Jellyfin, het vrije mediasysteem

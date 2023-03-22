@@ -105,8 +105,6 @@
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Kanto</string>
-    <string name="lbl_one_episode">1 Epizodo</string>
     <string name="lbl_on_channel">Je %1$s</string>
     <string name="add_user">Aldoni konton</string>
     <string name="lbl_sign_out">Elsaluto</string>
@@ -152,7 +150,6 @@
     <string name="lbl_other_options">Aliaj Opcioj</string>
     <string name="lbl_last_played">"Laste Ludita "</string>
     <string name="lbl_directed_by">Reĵisorita de</string>
-    <string name="lbl_latest_additions">Plej Novaj Aldonoj</string>
     <string name="lbl_tv_series">TV-serio</string>
     <string name="lbl_other_channels">Aliaj Kanaloj</string>
     <string name="lbl_favorite_channels">Favorataj Kanaloj</string>
@@ -180,18 +177,11 @@
     <string name="pref_about_title">Pri</string>
     <string name="pref_video_player_vlc">libVLC</string>
     <string name="lbl_news">Novaj</string>
-    <string name="lbl_hours">Horoj</string>
-    <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hour">Horo</string>
-    <string name="lbl_minutes">minutoj</string>
-    <string name="lbl_seconds">sekundoj</string>
     <string name="lbl_zoom">Zoma</string>
     <string name="lbl_stretch">Streĉa</string>
-    <string name="lbl_warning">Averto</string>
     <string name="lbl_song">Kanto</string>
     <string name="lbl_ended">FINIS</string>
     <string name="lbl__continuing">DAŬRIGANTE</string>
-    <string name="btn_done">Farite</string>
     <string name="lbl_showing">Montrante</string>
     <string name="lbl_on">Je</string>
     <string name="lbl_tomorrow">Morgaŭ</string>
@@ -256,8 +246,6 @@
     <string name="lbl_because_you_watched">"Ĉar vi spektis "</string>
     <string name="pref_max_bitrate_title">Maksimuma elsendflua bitrapido</string>
     <string name="advanced_settings">Aldone</string>
-    <string name="lbl_num_songs">%1$d Kantoj</string>
-    <string name="lbl_num_episodes">%1$d Epizodoj</string>
     <string name="lbl_next_up_minimal">Sen avizo</string>
     <string name="lbl_next_up_extended">Kun avizo</string>
     <string name="who_is_watching">Kiu spektas\?</string>
@@ -304,7 +292,6 @@
     <string name="lbl_new_premieres">Novaj Premieroj</string>
     <string name="msg_item_added">" aĵo aldonita"</string>
     <string name="lbl_now_playing">Nun Ludante</string>
-    <string name="lbl_up_next_colon">"Plue Sekva: "</string>
     <string name="lbl_prev_item">Antaŭa Aĵo</string>
     <string name="lbl_next_item">Sekva Aĵo</string>
     <string name="lbl_open_album">Malfermi Albumon</string>
@@ -340,7 +327,6 @@
     <string name="msg_unable_to_cancel">Ne eblas rezigni rikordadon</string>
     <string name="msg_unable_to_create_recording">Ne eblas krei rikordadon</string>
     <string name="msg_set_to_record">Programo starigita por rikordi</string>
-    <string name="msg_added_to_video">%1$s aldonita al videovico. Finos: %2$s</string>
     <string name="desc_automatic_fav_songs">Aŭtomata ludlisto de favorataj kantoj</string>
     <string name="lbl_record_only_new">Rikordos Nur Novajn Epizodojn</string>
     <string name="user_picker_last_user_summary">Uzi la lastan aktivan konton</string>

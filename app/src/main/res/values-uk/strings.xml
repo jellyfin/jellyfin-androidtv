@@ -19,7 +19,6 @@
     <string name="lbl_shuffle_all">Перемішати усе</string>
     <string name="lbl_play_all">Відтворити усі</string>
     <string name="lbl_because_you_watched">"На основі ваших переглядів "</string>
-    <string name="lbl_latest_additions">Нещодавно додані</string>
     <string name="lbl_other">Інше</string>
     <string name="lbl_movies">Фільми</string>
     <string name="lbl_collections">Колекції</string>
@@ -28,7 +27,7 @@
     <string name="lbl_coming_up">Очікується наступним</string>
     <string name="lbl_favorites">Обрані</string>
     <string name="lbl_by_name">За назвою</string>
-    <string name="lbl_latest">Нещодавні</string>
+    <string name="lbl_latest">Нещодавно додане</string>
     <string name="msg_not_implemented">" не реалізовано"</string>
     <string name="lbl_search">Пошук</string>
     <string name="lbl_genres">Жанри</string>
@@ -46,24 +45,19 @@
     <string name="pref_clock_display_browsing">Під час перегляду</string>
     <string name="lbl_always">Завжди</string>
     <string name="pref_clock_display">Показати годинник</string>
-    <string name="lbl_song_title">Назва Пісні</string>
+    <string name="lbl_song_title">Назва пісні</string>
     <string name="lbl_album_name">Ім‘я альбому</string>
-    <string name="lbl_next_episode">Наступний Епізод</string>
-    <string name="lbl_previous_episode">Попередній Епізод</string>
-    <string name="lbl_more_like_this">Більше Схожого</string>
+    <string name="lbl_next_episode">Наступний епізод</string>
+    <string name="lbl_previous_episode">Попередній епізод</string>
+    <string name="lbl_more_like_this">Більше схожого</string>
     <string name="lbl_resume_from">Продовжити з %1$s</string>
-    <string name="lbl_guide_option_number">Номер Каналу</string>
-    <string name="lbl_guide_option_played">Останні Відтворення</string>
-    <string name="lbl_show_indicators">Показати Позначки Для</string>
+    <string name="lbl_guide_option_number">Номер каналу</string>
+    <string name="lbl_guide_option_played">Останні відтворення</string>
+    <string name="lbl_show_indicators">Показати позначки для</string>
     <string name="lbl_sort_by">Сортувати за</string>
     <string name="lbl_premiere">Прем‘єра</string>
-    <string name="lbl_guest_stars">Запрошені Зірки</string>
-    <string name="lbl_on_schedule">На Майбутнє</string>
-    <string name="lbl_hours">Години</string>
-    <string name="lbl_minute">Хвилина</string>
-    <string name="lbl_hour">Година</string>
-    <string name="lbl_minutes">Хвилини</string>
-    <string name="lbl_seconds">Секунди</string>
+    <string name="lbl_guest_stars">Запрошені зірки</string>
+    <string name="lbl_on_schedule">На майбутнє</string>
     <string name="lbl_save">Зберегти</string>
     <string name="lbl_watched">Переглянуто</string>
     <string name="msg_recording_now">Записується зараз</string>
@@ -115,7 +109,7 @@
     <string name="lbl_items">Елементи</string>
     <string name="lbl_specials">Додатки</string>
     <string name="lbl_chapters">Сцени</string>
-    <string name="lbl_cast_crew">Актори/знімальна група</string>
+    <string name="lbl_cast_crew">Актори і знімальна група</string>
     <string name="lbl_tv_series">Серіали</string>
     <string name="lbl_pause">Пауза</string>
     <string name="lbl_resume_preroll">Продовжити пре-рол</string>
@@ -157,7 +151,7 @@
     <string name="pref_about_title">Про</string>
     <string name="pref_video_player_choose">Завжди питати</string>
     <string name="pref_video_player_external">Зовнішня програма</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (експериментальний)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Вибрати автоматично</string>
     <string name="pref_theme_emerald">Класичний смарагдовий</string>
@@ -210,14 +204,12 @@
     <string name="lbl_remove_from_queue">Видалити з черги</string>
     <string name="lbl_play_from_here">Грати звідси</string>
     <string name="lbl_now_playing">Відтворюється</string>
-    <string name="lbl_up_next_colon">"На рівень вище: "</string>
     <string name="lbl_prev_item">Попередній</string>
     <string name="lbl_next_item">Наступний</string>
     <string name="lbl_open_album">Відкрити альбом</string>
     <string name="lbl_open_artist">Відкрити виконавця</string>
     <string name="lbl_add_to_queue">Додати до черги</string>
     <string name="msg_items_added">" елементів додано"</string>
-    <string name="lbl_warning">Увага</string>
     <string name="lbl_playlists">Списки відтворення</string>
     <string name="sum_enable_cinema_mode">Відтворюйте доступні вступи та попередні перегляди перед початком фільму</string>
     <string name="lbl_enable_cinema_mode">Режим \"Кінотеатр\"</string>
@@ -241,7 +233,6 @@
     <string name="lbl_ended">ЗАКІНЧЕНО</string>
     <string name="lbl__continuing">ПРОДОВЖЕННЯ</string>
     <string name="lbl_display_preferences">Налаштування відображення</string>
-    <string name="btn_done">Добре</string>
     <string name="lbl_starting_with">починаючи з тих, чиє ім’я починається на</string>
     <string name="lbl_rating">Рейтинг</string>
     <string name="lbl_community_rating">Оцінка спільноти</string>
@@ -290,8 +281,6 @@
     <string name="grid_direction">Напрямок сітки</string>
     <string name="pref_device_model">Модель пристрою</string>
     <string name="pref_app_theme">Тема програми</string>
-    <string name="lbl_one_episode">1 Епізод</string>
-    <string name="lbl_num_episodes">%1$d Епізодів</string>
     <string name="lbl_record_all">Записуватиме всі епізоди</string>
     <string name="lbl_record_only_new">Записуватиме тільки нові епізоди</string>
     <string name="lbl_episode_range">Е%1$d–%2$d</string>
@@ -308,7 +297,7 @@
     <string name="login_connect_to">Підключення до %1$s</string>
     <string name="input_password">Пароль</string>
     <string name="input_username">Імʼя користувача</string>
-    <string name="action_use_quickconnect">Використати QuickConnect</string>
+    <string name="action_use_quickconnect">Використати Quick Connect</string>
     <string name="action_use_password">Використати пароль</string>
     <string name="action_login">Вхід</string>
     <string name="home_section_resume_book">Продовжити читання</string>
@@ -351,7 +340,7 @@
     <string name="home_section_resume">Продовжити перегляд</string>
     <string name="home_section_library_small">Мої медіа (малі)</string>
     <string name="home_section_library">Мої медіа</string>
-    <string name="home_section_latest_media">Останні медіа</string>
+    <string name="home_section_latest_media">Нещодавно додані медіа</string>
     <string name="home_sections">Розділи домівки</string>
     <string name="home_prefs">Домівка</string>
     <string name="license_license">Ліцензія</string>
@@ -372,8 +361,6 @@
     <string name="enable_playback_module_description">Це експериментальна можливість. Підтримка не надається.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Пісня</string>
-    <string name="lbl_num_songs">%1$d Пісень</string>
     <string name="lbl_on_channel">На %1$s</string>
     <string name="lbl_on_any_channel">На будь якому каналі</string>
     <string name="lbl_start_end_on_schedule">Починається і закінчується за розкладом</string>
@@ -452,7 +439,6 @@
     <string name="just_one">Тільки цей</string>
     <string name="turn_off">Вимкнути цю опцію</string>
     <string name="audio_error">Неможливо програти звук %1$s</string>
-    <string name="msg_added_to_video">%1$s додано до відеочерги. Закінчується: %2$s</string>
     <string name="lbl_subtitle_delay">Затримка субтитрів</string>
     <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
@@ -497,4 +483,39 @@
     <string name="color_green">Зелений</string>
     <string name="color_red">Червоний</string>
     <string name="color_cyan">Блакитний</string>
+    <string name="pref_screensaver">Заставка</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s секунда</item>
+        <item quantity="few">%1$s секунди</item>
+        <item quantity="many">%1$s секунд</item>
+        <item quantity="other">%1$s секунд</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s хвилина</item>
+        <item quantity="few">%1$s хвилини</item>
+        <item quantity="many">%1$s хвилин</item>
+        <item quantity="other">%1$s хвилин</item>
+    </plurals>
+    <string name="lbl_latest_in">Нещодавно додано в %1$s</string>
+    <string name="pref_screensaver_inapp_enabled">Використовувати заставку додатку</string>
+    <string name="pref_screensaver_inapp_enabled_description">Показувати заставку Jellyfin, коли програма відкрита</string>
+    <string name="pref_screensaver_inapp_timeout">Запустити заставку після</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s година</item>
+        <item quantity="few">%1$s години</item>
+        <item quantity="many">%1$s годин</item>
+        <item quantity="other">%1$s годин</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s серія</item>
+        <item quantity="few">%1$s серії</item>
+        <item quantity="many">%1$s серій</item>
+        <item quantity="other">%1$s серій</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s доріжка</item>
+        <item quantity="few">%1$s доріжки</item>
+        <item quantity="many">%1$s доріжок</item>
+        <item quantity="other">%1$s доріжок</item>
+    </plurals>
 </resources>

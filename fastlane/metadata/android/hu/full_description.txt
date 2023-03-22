@@ -1,14 +1,14 @@
-Az Ön médiája, az Ön feltételei szerint.
+A te médiád, a te feltételeid szerint.
 
-A Jellyfin projekt egy nyílt forráskódú, ingyenes szoftveres médiaszerver. Nincsenek díjak, nincs nyomon követés, nincs rejtett napirend. Szerezze be ingyenes szerverünket, amely egy helyen gyűjti össze zenéit, videóját, fényképét és még sok mást.
+A Jellyfin projekt egy nyílt forráskódú, ingyenesen elérhető szoftver. Nincsenek díjak, nincs nyomonkövetés, nincsenek rejtett, később felmerülő zavaró tényezők . Szerezd be az ingyenes médiaszerveredet, és gyűjtsd egy helyen a zenédet, videóidat és képeidet!
 
-Az alkalmazás használatához be kell állítania és futnia kell egy Jellyfin-Szervernek. További információ a <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a> oldalon.
+Az alkalmazáshoz szükséges egy beállított és működő Jellyfin szerver. További információkat a <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a> webhelyen találhatsz.
 
-A Jellyfin rendszer a következőkre alkalmas:
+A Jellyfin szerver főbb funkciói:
 
-* Nézze meg az élő TV-t és a rögzített műsorokat a Jellyfin szerveréről (további hardver/szolgáltatás szükséges) 
-* Streamelés a hálózaton lévő Chromecast-eszközre 
-* Streamelje médiáját Android-eszközére 
-* Tekintse meg gyűjteményét egy könnyen használható felületen
+* Élő TV-nézés, felvételek készítése (további hardver/szolgáltatás szükséges)
+* Streamelj Chromecast eszközre a helyi hálózatodon.
+* Média streamelése az Android eszközeidre.
+* A gyűjteményed megtekintése egy jól használható, felhasználóbarát felületen.
 
-Ez a hivatalos Jellyfin alkalmazás az Android TV-hez. Köszönjük, hogy a Jellyfint használja!
+Ez az alkalmazás a Jellyfin hivatalos alkalmazása. Köszönjük, hogy a Jellyfint választottad!

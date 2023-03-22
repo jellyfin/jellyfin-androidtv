@@ -2,9 +2,7 @@ package org.jellyfin.androidtv.ui.playback;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -12,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -38,7 +34,6 @@ import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.FragmentAudioNowPlayingBinding;
 import org.jellyfin.androidtv.ui.AsyncImageView;
-import org.jellyfin.androidtv.ui.ClockUserView;
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
@@ -47,7 +42,6 @@ import org.jellyfin.androidtv.util.ImageUtils;
 import org.jellyfin.androidtv.util.KeyProcessor;
 import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
-import org.jellyfin.sdk.model.api.BaseItemDto;
 
 import java.util.List;
 
@@ -63,17 +57,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     private ImageButton mShuffleButton;
     private ImageButton mAlbumButton;
     private ImageButton mArtistButton;
-    private ClockUserView mClock;
     private TextView mCounter;
     private ScrollView mScrollView;
-    private ImageView mLogoImage;
-
-    private RelativeLayout mSSArea;
-    private TextView mSSTime;
-    private TextView mSSAlbumSong;
-    private TextView mSSQueueStatus;
-    private TextView mSSUpNext;
-    private String mDisplayDuration;
 
     private DisplayMetrics mMetrics;
 
@@ -89,15 +74,11 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     private RowsSupportFragment mRowsFragment;
     private ArrayObjectAdapter mRowsAdapter;
     private PositionableListRowPresenter mAudioQueuePresenter;
-    private final Handler mLoopHandler = new Handler();
 
     private org.jellyfin.sdk.model.api.BaseItemDto mBaseItem;
     private ListRow mQueueRow;
 
     private boolean queueRowHasFocus = false;
-
-    private long lastUserInteraction;
-    private boolean ssActive;
 
     private Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
     private Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -110,9 +91,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentAudioNowPlayingBinding binding = FragmentAudioNowPlayingBinding.inflate(getLayoutInflater(), container, false);
 
-        lastUserInteraction = System.currentTimeMillis();
-
-        mClock = binding.clock;
         mPoster = binding.poster;
         mArtistName = binding.artistTitle;
         mGenreRow = binding.genreRow;
@@ -121,25 +99,13 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mCurrentNdx = binding.track;
         mScrollView = binding.mainScroller;
         mCounter = binding.counter;
-        mLogoImage = binding.artistLogo;
-
-        mSSArea = binding.ssInfoArea;
-        mSSTime = binding.ssTime;
-        mSSAlbumSong = binding.ssAlbumSong;
-        mSSQueueStatus = binding.ssQueueStatus;
-        mSSUpNext = binding.ssUpNext;
 
         mPlayPauseButton = binding.playPauseBtn;
         mPlayPauseButton.setContentDescription(getString(R.string.lbl_pause));
         mPlayPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().playPauseAudio();
-                }
-                lastUserInteraction = System.currentTimeMillis();
+                mediaManager.getValue().playPauseAudio();
             }
         });
         mPlayPauseButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -149,12 +115,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().prevAudioItem();
-                }
-                lastUserInteraction = System.currentTimeMillis();
+                mediaManager.getValue().prevAudioItem();
             }
         });
         mPrevButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -164,12 +125,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().nextAudioItem();
-                }
-                lastUserInteraction = System.currentTimeMillis();
+                mediaManager.getValue().nextAudioItem();
             }
         });
         mNextButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -179,13 +135,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().toggleRepeat();
-                    updateButtons(mediaManager.getValue().isPlayingAudio());
-                }
-                lastUserInteraction = System.currentTimeMillis();
+                mediaManager.getValue().toggleRepeat();
+                updateButtons(mediaManager.getValue().isPlayingAudio());
             }
         });
         mRepeatButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -195,13 +146,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mShuffleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                } else {
-                    mediaManager.getValue().shuffleAudioQueue();
-                    updateButtons(mediaManager.getValue().isPlayingAudio());
-                }
-                lastUserInteraction = System.currentTimeMillis();
+                mediaManager.getValue().shuffleAudioQueue();
+                updateButtons(mediaManager.getValue().isPlayingAudio());
             }
         });
         mShuffleButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -211,12 +157,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                    lastUserInteraction = System.currentTimeMillis();
-                } else {
-                    navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(mBaseItem.getAlbumId()));
-                }
+                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemList(mBaseItem.getAlbumId()));
             }
         });
         mAlbumButton.setOnFocusChangeListener(mainAreaFocusListener);
@@ -226,10 +167,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mArtistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ssActive) {
-                    stopScreenSaver();
-                    lastUserInteraction = System.currentTimeMillis();
-                } else if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
+                if (mBaseItem.getAlbumArtists() != null && mBaseItem.getAlbumArtists().size() > 0) {
                     navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(mBaseItem.getAlbumArtists().get(0).getId()));
                 }
             }
@@ -240,7 +178,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         mCurrentPos = binding.currentPos;
         mRemainingTime = binding.remainingTime;
 
-        backgroundService.getValue().attach(requireActivity());
         mMetrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 
@@ -273,7 +210,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     public void onResume() {
         super.onResume();
         loadItem();
-        lastUserInteraction = System.currentTimeMillis();
         //link events
         mediaManager.getValue().addAudioEventListener(audioEventListener);
         updateButtons(mediaManager.getValue().isPlayingAudio());
@@ -295,16 +231,11 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_UP) return false;
 
-        lastUserInteraction = System.currentTimeMillis();
-
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_MEDIA_PLAY:
                 if (mediaManager.getValue().isPlayingAudio()) mediaManager.getValue().pauseAudio();
                 else mediaManager.getValue().resumeAudio();
-                if (ssActive) {
-                    stopScreenSaver();
-                }
                 return true;
             case KeyEvent.KEYCODE_MEDIA_NEXT:
                 mediaManager.getValue().nextAudioItem();
@@ -318,22 +249,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             case KeyEvent.KEYCODE_MEDIA_REWIND:
                 mediaManager.getValue().rewind();
                 return true;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (ssActive) {
-                    mediaManager.getValue().nextAudioItem();
-                    return true;
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (ssActive) {
-                    mediaManager.getValue().prevAudioItem();
-                    return true;
-                }
-        }
-
-        if (ssActive) {
-            stopScreenSaver();
-            return true;
         }
 
         return false;
@@ -349,22 +264,14 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                 updateButtons(true);
             } else {
                 updateButtons(newState == PlaybackController.PlaybackState.PLAYING);
-                if (newState == PlaybackController.PlaybackState.IDLE && !mediaManager.getValue().hasNextAudioItem())
-                    stopScreenSaver();
             }
         }
 
         @Override
         public void onProgress(long pos) {
-            // start the screensaver after 60 seconds without user input
-            // skip setting the time here if the screensaver will be started since startScreensaver() does it
-            if (!ssActive && mediaManager.getValue().isPlayingAudio() && System.currentTimeMillis() - lastUserInteraction > 60000) {
-                startScreenSaver();
-            } else {
-                setCurrentTime(pos);
-                if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
-                    mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
-                }
+            setCurrentTime(pos);
+            if (mAudioQueuePresenter != null && !queueRowHasFocus && mAudioQueuePresenter.getPosition() != mediaManager.getValue().getCurrentAudioQueuePosition()) {
+                mAudioQueuePresenter.setPosition(mediaManager.getValue().getCurrentAudioQueuePosition());
             }
         }
 
@@ -421,16 +328,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
         if (mBaseItem != null) {
             updatePoster();
             updateInfo(mBaseItem);
-            mDisplayDuration = TimeUtils.formatMillis((mBaseItem.getRunTimeTicks() != null ? mBaseItem.getRunTimeTicks() : 0) / 10000);
-            // give audio a chance to start playing before updating next info
-            mLoopHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
-
-                    updateSSInfo();
-                }
-            }, 750);
         }
     }
 
@@ -482,13 +379,9 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     }
 
     public void setCurrentTime(long time) {
-        if (ssActive) {
-            mSSTime.setText(TimeUtils.formatMillis(time) + " / " + mDisplayDuration);
-        } else {
-            mCurrentProgress.setProgress(((Long) time).intValue());
-            mCurrentPos.setText(TimeUtils.formatMillis(time));
-            mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
-        }
+        mCurrentProgress.setProgress(((Long) time).intValue());
+        mCurrentPos.setText(TimeUtils.formatMillis(time));
+        mRemainingTime.setText(mCurrentDuration > 0 ? "-" + TimeUtils.formatMillis(mCurrentDuration - time) : "");
     }
 
     private void addGenres(TextView textView) {
@@ -502,12 +395,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            lastUserInteraction = System.currentTimeMillis();
-            if (ssActive) {
-                stopScreenSaver();
-            } else {
-                popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), requireActivity());
-            }
+            popupMenu = KeyProcessor.createItemMenu((BaseRowItem) item, ((BaseRowItem) item).getBaseItem().getUserData(), requireActivity());
         }
     }
 
@@ -528,49 +416,5 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             popupMenu.dismiss();
             popupMenu = null;
         }
-    }
-
-    protected void startScreenSaver() {
-        if (ssActive) return;
-        dismissPopup();
-        mArtistName.setAlpha(.3f);
-        mGenreRow.setVisibility(View.INVISIBLE);
-        mClock.setAlpha(.3f);
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mScrollView, "alpha", 1f, 0f);
-        fadeOut.setDuration(1000);
-        fadeOut.start();
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mSSArea, "alpha", 0f, 1f);
-        fadeIn.setDuration(1000);
-        fadeIn.start();
-
-        ssActive = true;
-        setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
-    }
-
-    protected void stopScreenSaver() {
-        if (!ssActive) return;
-        if (mediaManager.getValue().hasAudioQueueItems()) {
-            mPlayPauseButton.requestFocus();
-        }
-        mLogoImage.setVisibility(View.GONE);
-        mArtistName.setAlpha(1f);
-        mGenreRow.setVisibility(View.VISIBLE);
-        mClock.setAlpha(1f);
-        setCurrentTime(mediaManager.getValue().getCurrentAudioPosition());
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mSSArea, "alpha", 1f, 0f);
-        fadeOut.setDuration(1000);
-        fadeOut.start();
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(mScrollView, "alpha", 0f, 1f);
-        fadeIn.setDuration(1000);
-        fadeIn.start();
-        lastUserInteraction = System.currentTimeMillis();
-        ssActive = false;
-    }
-
-    protected void updateSSInfo() {
-        mSSAlbumSong.setText((mBaseItem.getAlbum() != null ? mBaseItem.getAlbum() + " / " : "") + mBaseItem.getName());
-        mSSQueueStatus.setText(mediaManager.getValue().getCurrentAudioQueueDisplayPosition() + " | " + mediaManager.getValue().getCurrentAudioQueueDisplaySize());
-        BaseItemDto next = mediaManager.getValue().getNextAudioItem();
-        mSSUpNext.setText(next != null ? getString(R.string.lbl_up_next_colon) + "  " + (getArtistName(next) != null ? getArtistName(next) + " / " : "") + next.getName() : "");
     }
 }

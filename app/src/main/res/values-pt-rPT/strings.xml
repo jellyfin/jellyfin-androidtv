@@ -28,7 +28,6 @@
     <string name="lbl_movies">Filmes</string>
     <string name="lbl_tv_series">Séries de TV</string>
     <string name="lbl_other">Outro</string>
-    <string name="lbl_latest_additions">Últimas Adições</string>
     <string name="lbl_because_you_watched">"Porque viu "</string>
     <string name="lbl_play_all">Reproduzir Tudo</string>
     <string name="lbl_shuffle_all">Reproduzir Todos Aleatoriamente</string>
@@ -123,7 +122,6 @@
     <string name="lbl_critic_rating">Avaliação da Crítica</string>
     <string name="lbl_rating">Classificação</string>
     <string name="lbl_starting_with">"começando com aqueles que o nome inicia com"</string>
-    <string name="btn_done">Pronto</string>
     <string name="lbl_display_preferences">Preferências de Exibição</string>
     <string name="lbl__continuing">A Continuar</string>
     <string name="lbl_ended">TERMINADO</string>
@@ -153,7 +151,6 @@
     <string name="lbl_open_album">Álbum Livre</string>
     <string name="lbl_next_item">Item Seguinte</string>
     <string name="lbl_prev_item">Item Anterior</string>
-    <string name="lbl_up_next_colon">"Cima Seguinte: "</string>
     <string name="lbl_now_playing">A Reproduzir</string>
     <string name="lbl_play_from_here">Reproduzir daqui</string>
     <string name="lbl_remove_from_queue">Remover da Fila</string>
@@ -169,7 +166,6 @@
     <string name="desc_bitstream_ac3">Necessita material adequado</string>
     <string name="lbl_bitstream_ac3">Fluxo Dolby Digital audio</string>
     <string name="lbl_new_premieres">Novas Estreias</string>
-    <string name="lbl_warning">Aviso</string>
     <string name="lbl_now_playing_album">desde %1$s</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
     <string name="lbl_watched">Visto</string>
@@ -203,11 +199,6 @@
     <string name="lbl_sort_by">Organizar por</string>
     <string name="lbl_guest_stars">Estrelas de convidados</string>
     <string name="lbl_on_schedule">Na agenda</string>
-    <string name="lbl_hours">Horas</string>
-    <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hour">Horas</string>
-    <string name="lbl_minutes">Minutos</string>
-    <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">A qualquer momento</string>
     <string name="lbl_series_recordings">Séries gravando</string>
     <string name="lbl_save">Guardar</string>
@@ -261,7 +252,6 @@
     <string name="just_one">Apenas este</string>
     <string name="turn_off">Desative esta opção</string>
     <string name="audio_error">Impossível reproduzir áudio %1$s</string>
-    <string name="msg_added_to_video">%1$s adicionado à lista de reprodução. Termina: %2$s</string>
     <string name="msg_no_items">Sem itens para reproduzir</string>
     <string name="subtitle_error">Impossível selecionar legendas</string>
     <string name="too_many_errors">Demasiados erros. Não serão feitas mais tentativas</string>
@@ -359,10 +349,6 @@
     <string name="enable_playback_module_description">Esta funcionalidade é experimental. Nenhum suporte é fornecido.</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Música</string>
-    <string name="lbl_num_songs">%1$d Músicas</string>
-    <string name="lbl_one_episode">1 Episódio</string>
-    <string name="lbl_num_episodes">%1$d Episódios</string>
     <string name="lbl_on_channel">Em %1$s</string>
     <string name="lbl_on_any_channel">Em qualquer canal</string>
     <string name="lbl_record_all">Gravará todos os episódios</string>

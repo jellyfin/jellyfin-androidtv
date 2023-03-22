@@ -26,7 +26,6 @@
     <string name="lbl_movies">Películas</string>
     <string name="lbl_tv_series">Series de TV</string>
     <string name="lbl_other">Otro</string>
-    <string name="lbl_latest_additions">Últimas adiciones</string>
     <string name="lbl_because_you_watched">"Porque viste "</string>
     <string name="lbl_play_all">Reproducir todo</string>
     <string name="lbl_shuffle_all">Mezclar todo</string>
@@ -123,7 +122,6 @@
     <string name="lbl_open_artist">Mostrar Artista</string>
     <string name="lbl_add_to_queue">Añadir a la cola</string>
     <string name="msg_items_added">" Elemento añadido"</string>
-    <string name="lbl_warning">Aviso</string>
     <string name="lbl_playlists">Listas de reproducción</string>
     <string name="lbl_enable_cinema_mode">Modo cine</string>
     <string name="lbl_episodes">Episodios</string>
@@ -151,11 +149,6 @@
     <string name="lbl_premiere">Estreno</string>
     <string name="lbl_guest_stars">Estrellas invitadas</string>
     <string name="lbl_on_schedule">En el horario previsto</string>
-    <string name="lbl_hours">Horas</string>
-    <string name="lbl_minute">Minuto</string>
-    <string name="lbl_hour">Hora</string>
-    <string name="lbl_minutes">Minutos</string>
-    <string name="lbl_seconds">Segundos</string>
     <string name="lbl_at_any_time">En cualquier momento</string>
     <string name="lbl_save">Guardar</string>
     <string name="msg_settings_updated">Ajustes actualizados</string>
@@ -191,7 +184,6 @@
     <string name="lbl_remove_from_queue">Eliminar de la cola</string>
     <string name="lbl_play_from_here">Reproducir desde aquí</string>
     <string name="lbl_now_playing">Reproduciendo ahora</string>
-    <string name="lbl_up_next_colon">"Siguiendo "</string>
     <string name="lbl_prev_item">Elemento previo</string>
     <string name="lbl_next_item">Próximo elemento</string>
     <string name="sum_enable_cinema_mode">Mostrar vistas previas e intros disponibles antes de empezar una película</string>
@@ -206,7 +198,6 @@
     <string name="msg_subtitles_loading">Cargando subtítulos…</string>
     <string name="lbl_filters">Filtros de TV en directo</string>
     <string name="lbl_display_preferences">Mostrar preferencias</string>
-    <string name="btn_done">Hecho</string>
     <string name="lbl_starting_with">comenzando con aquellos cuyo nombre comienza con</string>
     <string name="lbl_rating">Clasificación</string>
     <string name="lbl_critic_rating">Valoración crítica</string>
@@ -261,7 +252,6 @@
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>
     <string name="lbl_tv_channel_status">%1$d de %2$d canales</string>
-    <string name="msg_added_to_video">Se ha agregado %1$s a la lista de reproducción actual. Termina: %2$s</string>
     <string name="msg_no_items">No hay elementos para reproducir</string>
     <string name="too_many_errors">Demasiados errores. Deteniendo la reproducción</string>
     <string name="player_error">Se ha encontrado un error en el reproductor. Re-intentando…</string>
@@ -360,10 +350,6 @@
     <string name="pref_next_up_behavior_title">Mostrar la información del siguiente vídeo</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 canción</string>
-    <string name="lbl_num_songs">%1$d canciones</string>
-    <string name="lbl_one_episode">1 episodio</string>
-    <string name="lbl_num_episodes">%1$d episodios</string>
     <string name="lbl_on_channel">En %1$s</string>
     <string name="lbl_on_any_channel">De cualquier canal</string>
     <string name="lbl_record_all">Grabar todos los episodios</string>

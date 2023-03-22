@@ -7,7 +7,6 @@
     <string name="lbl_play">Žiūrėti</string>
     <string name="lbl_play_all">Žiūrėti visus</string>
     <string name="lbl_because_you_watched">"Kadangi žiūrėjote "</string>
-    <string name="lbl_latest_additions">Naujausi</string>
     <string name="lbl_other">Kita</string>
     <string name="lbl_tv_series">TV serijos</string>
     <string name="lbl_movies">Filmai</string>
@@ -48,7 +47,6 @@
     <string name="lbl_filters">Filtrai</string>
     <string name="lbl_ended">BAIGĖSI</string>
     <string name="lbl_display_preferences">Ekrano Nustatymai</string>
-    <string name="btn_done">Baigta</string>
     <string name="lbl_rating">Įvertinimas</string>
     <string name="lbl_critic_rating">Kritikų Įvertinimas</string>
     <string name="lbl_date_added">Pridėjimo data</string>
@@ -110,7 +108,6 @@
     <string name="lbl_now_playing_track">%1$s iš %2$s</string>
     <string name="lbl_live">Gyvai</string>
     <string name="lbl_additional_parts">Papildomos dalys</string>
-    <string name="lbl_seconds">Sekundės</string>
     <string name="pref_audio_night_mode">Naktinė garso aplinka (ekpermentinė)</string>
     <string name="msg_unable_load_subs">Nepavyko pakrauti subtitrų</string>
     <string name="lbl_remove">Pašalinti</string>
@@ -152,7 +149,6 @@
     <string name="msg_cancel_entire_series">Ar esat tikri, kad norite nutraukti VISAS SERIJAS\?</string>
     <string name="lbl_only_new_episodes">Tik nauji epizodai</string>
     <string name="lbl_repeat_options">Kartojimo nustatymai</string>
-    <string name="lbl_warning">Įspėjimas</string>
     <string name="lbl_enable_cinema_mode">Kino teatro aplinka</string>
     <string name="lbl_new">Nauji</string>
     <string name="lbl_more_like_this">Daugiau kaip šis</string>
@@ -189,7 +185,6 @@
     <string name="lbl_repeat_episodes">Kartoti epizodus</string>
     <string name="lbl_subtitle_fg">Subtitrų teksto spalva</string>
     <string name="lbl_image_size">Paveikslėlio dydis</string>
-    <string name="lbl_up_next_colon">"Toliau bus rodoma "</string>
     <string name="msg_record_entire_series">Įrašyti visas serijas\?</string>
     <string name="lbl_kids">Vaikų</string>
     <string name="lbl_repeat">Kartoti</string>
@@ -197,7 +192,6 @@
     <string name="lbl_show_indicators">Rodyti indikatorius</string>
     <string name="lbl_open_album">Atidaryti albumą</string>
     <string name="pref_show_backdrop_description">Pakeiti dabar pasirinktų failų užsklandos paveikslelį</string>
-    <string name="lbl_minutes">Minutes</string>
     <string name="lbl_tv_channel_status">%1$d iš %2$d kanalų</string>
     <string name="lbl_tv_filter_status">kitom %1$d valandom</string>
     <string name="lbl_audio_delay">Garso vėlinimas</string>
@@ -224,9 +218,6 @@
     <string name="msg_settings_updated">Nustatymai atnaujinti</string>
     <string name="lbl_save">Išsaugoti</string>
     <string name="lbl_series_recordings">Serijų įrašymai</string>
-    <string name="lbl_hour">Valandos</string>
-    <string name="lbl_minute">Minute</string>
-    <string name="lbl_hours">Valanda</string>
     <string name="lbl_guide_option_played">Paskutinis paleistas</string>
     <string name="lbl_guide_option_number">Kanalo numeris</string>
     <string name="lbl_resume_from">Pratęsti nuo %1$s</string>
@@ -256,7 +247,6 @@
     <string name="login_invalid_credentials">Neteisingas slapyvardis ir/arba slaptažodis</string>
     <string name="user_picker_last_user_title">Nesenai žiūrėtą</string>
     <string name="lbl_on_any_channel">Ant betkurio kanalo</string>
-    <string name="lbl_num_songs">%1$d Dainos</string>
     <string name="always_authenticate_description">Įjungiant šią funkcija bus išjungtas automatinis prisijungimas</string>
     <string name="license_description">Aprašymas</string>
     <string name="home_section_library">Mano media</string>
@@ -275,7 +265,6 @@
     <string name="lbl_playback_control_ends">Baigsis %1$s</string>
     <string name="lbl_hidden">Paslėpta</string>
     <string name="grid_direction">Tinklelio kryptis</string>
-    <string name="lbl_one_song">1 Daina</string>
     <string name="licenses_link">Licencija</string>
     <string name="license_website">Puslapis</string>
     <string name="license_repository">Repozitorija</string>
@@ -325,7 +314,6 @@
     <string name="who_is_watching">Kas žiūri\?</string>
     <string name="lbl_starting_early_ending_on_schedule">Prasideda %1$s anksčiau ir baigiasi laiku</string>
     <string name="lbl_record_only_new">Įrašys tik naujus epizodus</string>
-    <string name="lbl_num_episodes">%1$d Epizodai</string>
     <string name="color_black">Juoda</string>
     <string name="color_white">Balta</string>
     <string name="color_darkgrey">Mėlyna</string>
@@ -367,7 +355,6 @@
     <string name="lbl_sign_out_content">Reikės priisjungti kitą kartą bandant naudotis</string>
     <string name="enable_smart_view_description">Išmanusis ekranas rodo atitinkamus elementus, o ne tinklelį</string>
     <string name="pref_developer_link">Programuotojo pasirinkimai</string>
-    <string name="lbl_one_episode">1 Epizodas</string>
     <string name="server_issue_timeout">Baigėsi jungimosi laikas</string>
     <string name="lbl_direct_stream_live">Tiesioginė gyvos TV transliacija</string>
     <string name="desc_premieres">Rodyti bet kurios žiūrimos serijos naujų serijų bandomąsias versijas</string>
@@ -385,7 +372,6 @@
     <string name="too_many_errors">Per daug klaidų. Pasiduodu</string>
     <string name="just_one">Tik vieną</string>
     <string name="play_with_exo_player">Paleisti per ExoPlayer</string>
-    <string name="msg_added_to_video">%1$s pridėta į video eilę. Baigsis: %2$s</string>
     <string name="lbl_stars">Žvaigždės</string>
     <string name="watch_count_overflow">99+</string>
     <string name="pref_clock_display">Rodyti laiką</string>

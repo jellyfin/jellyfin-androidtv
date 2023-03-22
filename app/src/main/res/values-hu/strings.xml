@@ -38,7 +38,7 @@
     <string name="msg_unable_to_cancel">Felvétel törlése sikertelen</string>
     <string name="lbl_shuffle_all">Összes keverése</string>
     <string name="lbl_by_name">Név alapján</string>
-    <string name="lbl_latest">Legújabb</string>
+    <string name="lbl_latest">Nemrég hozzáadott</string>
     <string name="msg_not_implemented">" nem implementált"</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_by_letter">Betű szerint</string>
@@ -66,7 +66,6 @@
     <string name="lbl_play">Lejátszás</string>
     <string name="lbl_play_all">Összes Lejátszása</string>
     <string name="lbl_because_you_watched">"Amiért megnézted ezt: {0} "</string>
-    <string name="lbl_latest_additions">Legújabb Tartalmak</string>
     <string name="lbl_other">Egyéb</string>
     <string name="lbl_tv_series">Sorozatok</string>
     <string name="lbl_movies">Filmek</string>
@@ -132,7 +131,7 @@
     <string name="pref_media_player">Kedvelt médialejátszó</string>
     <string name="pref_about_title">Rólunk</string>
     <string name="pref_video_player_external">Külső alkalmazás</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (kísérleti)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Automatikus kiválasztás</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
@@ -162,11 +161,6 @@
     <string name="lbl_premiere">Premier</string>
     <string name="lbl_guest_stars">Vendégsztárok</string>
     <string name="lbl_on_schedule">Ütemezve</string>
-    <string name="lbl_hours">Óra</string>
-    <string name="lbl_minute">Perc</string>
-    <string name="lbl_hour">Óra</string>
-    <string name="lbl_minutes">Perc</string>
-    <string name="lbl_seconds">Másodperc</string>
     <string name="lbl_at_any_time">bármikor</string>
     <string name="lbl_series_recordings">Filmsorozat felvételek</string>
     <string name="lbl_save">Mentés</string>
@@ -201,14 +195,12 @@
     <string name="lbl_remove_from_queue">Eltávolítás a várakozási listából</string>
     <string name="lbl_play_from_here">Lejátszás innen</string>
     <string name="lbl_now_playing">Jelenleg lejátszás alatt</string>
-    <string name="lbl_up_next_colon">"Következő: "</string>
     <string name="lbl_prev_item">Előző elem</string>
     <string name="lbl_next_item">Következő elem</string>
     <string name="lbl_open_album">Album megnyitása</string>
     <string name="lbl_open_artist">Előadó megnyitása</string>
     <string name="lbl_add_to_queue">Hozzáadás a várakozási listához</string>
     <string name="msg_items_added">" elem hozzáadva"</string>
-    <string name="lbl_warning">Figyelem</string>
     <string name="lbl_playlists">Lejátszási listák</string>
     <string name="sum_enable_cinema_mode">A film elindítása előtt játssza le a rendelkezésre álló bevezetőket és előzeteseket</string>
     <string name="lbl_enable_cinema_mode">Mozi mód</string>
@@ -232,7 +224,6 @@
     <string name="lbl_ended">VÉGET ÉRT</string>
     <string name="lbl__continuing">ÚJ RÉSZEK VÁRHATÓAK</string>
     <string name="lbl_display_preferences">Megjelenítési beállítások</string>
-    <string name="btn_done">Kész</string>
     <string name="lbl_rating">Értékelés</string>
     <string name="lbl_critic_rating">Kritikusok értékelése</string>
     <string name="lbl_premier_date">Megjelenési dátum</string>
@@ -267,7 +258,6 @@
     <string name="lbl_audio_track">Hangsáv kiválasztása</string>
     <string name="lbl_pause">Szünet</string>
     <string name="audio_error">Nem sikerült lejátszani a(z) %1$s hangot</string>
-    <string name="msg_added_to_video">%1$s hozzáadva a videósorhoz. Vége: %2$s</string>
     <string name="msg_no_items">Nincsen lejátszható elem(ek)</string>
     <string name="subtitle_error">Nem lehet kiválasztani a feliratot</string>
     <string name="too_many_errors">Túl sok hiba. Feladom</string>
@@ -360,10 +350,6 @@
     <string name="pref_next_up_behavior_title">A következő videó információ megjelenítése</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Dal</string>
-    <string name="lbl_num_songs">%1$d Dalok</string>
-    <string name="lbl_one_episode">1 Epizód</string>
-    <string name="lbl_num_episodes">%1$d Epizódok</string>
     <string name="lbl_on_channel">A %1$s</string>
     <string name="lbl_on_any_channel">Bármely csatornán</string>
     <string name="lbl_record_all">Összes rész rögzítése</string>
@@ -401,7 +387,7 @@
     <string name="home_section_resume">Megtekintés folytatása</string>
     <string name="home_section_library_small">Médiatáram (kicsi)</string>
     <string name="home_section_library">Médiatáram</string>
-    <string name="home_section_latest_media">Legújabb média</string>
+    <string name="home_section_latest_media">Nemrég hozzáadott média</string>
     <string name="home_sections">Kezdőoldal szekciók</string>
     <string name="home_prefs">Kezdőlap</string>
     <string name="searchable_settings_description">Média</string>
@@ -496,5 +482,22 @@
     <string name="item_deletion_failed">Nem sikerült törölni %1$s-t</string>
     <string name="pref_enable_media_management">Médiakezelés engedélyezése</string>
     <string name="pref_enable_media_management_description">Médiakezelés engedélyezése opció mutatása böngészés közben</string>
-    <string name="item_delete_confirm_message">Biztos vagy benne hogy törölni szeretnéd ezt az elemet\? Ez a művelet nem vonható vissza.</string>
+    <string name="item_delete_confirm_message">Biztos vagy benne hogy törölni szeretnéd ezt az elemet a szerverről\? Ez a művelet nem vonható vissza.</string>
+    <string name="pref_screensaver">Képernyőkímélő</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s perc</item>
+        <item quantity="other">%1$s percek</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">Alkalmazáson belüli képernyővédőt</string>
+    <string name="pref_screensaver_inapp_timeout">Képernyővédő indítása ennyi idő után</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s óra</item>
+        <item quantity="other">%1$s órák</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%1$s másodperc</item>
+        <item quantity="other">%1$s másodpercek</item>
+    </plurals>
+    <string name="lbl_latest_in">Hozááadva %1$s</string>
+    <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
 </resources>

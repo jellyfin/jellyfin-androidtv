@@ -26,19 +26,25 @@ import androidx.leanback.widget.RowPresenter;
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.preference.UserPreferences;
 import org.jellyfin.androidtv.preference.constant.ClockBehavior;
-import org.jellyfin.androidtv.ui.livetv.TvManager;
 import org.jellyfin.androidtv.ui.playback.PlaybackController;
 import org.jellyfin.androidtv.ui.playback.PlaybackManager;
+import org.jellyfin.androidtv.ui.playback.overlay.action.AndroidAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChannelBarChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ChapterAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ClosedCaptionsAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.CustomAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.FastForwardAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.GuideAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.PlayPauseAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PlaybackSpeedAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.PreviousLiveTvChannelAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.RecordAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.RewindAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectAudioAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SelectQualityAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.SettingAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.SkipNextAction;
+import org.jellyfin.androidtv.ui.playback.overlay.action.SkipPreviousAction;
 import org.jellyfin.androidtv.ui.playback.overlay.action.ZoomAction;
 import org.koin.java.KoinJavaComponent;
 
@@ -47,11 +53,11 @@ import java.util.Calendar;
 public class CustomPlaybackTransportControlGlue extends PlaybackTransportControlGlue<VideoPlayerAdapter> {
 
     // Normal playback actions
-    private PlaybackControlsRow.PlayPauseAction playPauseAction;
-    private PlaybackControlsRow.RewindAction rewindAction;
-    private PlaybackControlsRow.FastForwardAction fastForwardAction;
-    private PlaybackControlsRow.SkipPreviousAction skipPreviousAction;
-    private PlaybackControlsRow.SkipNextAction skipNextAction;
+    private PlayPauseAction playPauseAction;
+    private RewindAction rewindAction;
+    private FastForwardAction fastForwardAction;
+    private SkipPreviousAction skipPreviousAction;
+    private SkipNextAction skipNextAction;
     private SelectAudioAction selectAudioAction;
     private ClosedCaptionsAction closedCaptionsAction;
     private SelectQualityAction selectQualityAction;
@@ -175,11 +181,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     private void initActions(Context context) {
-        playPauseAction = new PlaybackControlsRow.PlayPauseAction(context);
-        rewindAction = new PlaybackControlsRow.RewindAction(context);
-        fastForwardAction = new PlaybackControlsRow.FastForwardAction(context);
-        skipPreviousAction = new PlaybackControlsRow.SkipPreviousAction(context);
-        skipNextAction = new PlaybackControlsRow.SkipNextAction(context);
+        playPauseAction = new PlayPauseAction(context);
+        rewindAction = new RewindAction(context);
+        fastForwardAction = new FastForwardAction(context);
+        skipPreviousAction = new SkipPreviousAction(context);
+        skipNextAction = new SkipNextAction(context);
         selectAudioAction = new SelectAudioAction(context, this, KoinJavaComponent.get(PlaybackManager.class));
         selectAudioAction.setLabels(new String[]{context.getString(R.string.lbl_audio_track)});
         closedCaptionsAction = new ClosedCaptionsAction(context, this);
@@ -226,53 +232,54 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
         // Primary Items
         primaryActionsAdapter.add(playPauseAction);
+        VideoPlayerAdapter playerAdapter = getPlayerAdapter();
 
-        if (canSeek()) {
+        if (playerAdapter.canSeek()) {
             primaryActionsAdapter.add(rewindAction);
             primaryActionsAdapter.add(fastForwardAction);
         }
 
-        if (hasSubs()) {
+        if (playerAdapter.hasSubs()) {
             primaryActionsAdapter.add(closedCaptionsAction);
         }
 
-        if (hasMultiAudio()) {
+        if (playerAdapter.hasMultiAudio()) {
             primaryActionsAdapter.add(selectAudioAction);
         }
 
-        if (isLiveTv()) {
+        if (playerAdapter.isLiveTv()) {
             primaryActionsAdapter.add(channelBarChannelAction);
             primaryActionsAdapter.add(guideAction);
         }
 
         // Secondary Items
-        if (isLiveTv()) {
+        if (playerAdapter.isLiveTv()) {
             secondaryActionsAdapter.add(previousLiveTvChannelAction);
-            if (canRecordLiveTv()) {
+            if (playerAdapter.canRecordLiveTv()) {
                 secondaryActionsAdapter.add(recordAction);
                 recordingStateChanged();
             }
         }
 
-        if (hasPreviousItem()) {
+        if (playerAdapter.hasPreviousItem()) {
             secondaryActionsAdapter.add(skipPreviousAction);
         }
 
-        if (hasNextItem()) {
+        if (playerAdapter.hasNextItem()) {
             secondaryActionsAdapter.add(skipNextAction);
         }
 
-        if (hasChapters()) {
+        if (playerAdapter.hasChapters()) {
             secondaryActionsAdapter.add(chapterAction);
         }
 
-        if (!isLiveTv()) {
+        if (!playerAdapter.isLiveTv()) {
             secondaryActionsAdapter.add(playbackSpeedAction);
             secondaryActionsAdapter.add(selectQualityAction);
         }
 
 
-        if (!isNativeMode()) {
+        if (!playerAdapter.isNativeMode()) {
             secondaryActionsAdapter.add(settingAction);
         } else {
             secondaryActionsAdapter.add(zoomAction);
@@ -281,65 +288,23 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public void onActionClicked(Action action) {
-        if (action == playPauseAction) {
-            if (playPauseAction.getIndex() == PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE) {
-                getPlayerAdapter().pause();
-                playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PLAY);
-            } else if (playPauseAction.getIndex() == PlaybackControlsRow.PlayPauseAction.INDEX_PLAY) {
-                getPlayerAdapter().play();
-                playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
-            }
-        } else if (action == rewindAction) {
-            getPlayerAdapter().rewind();
-        } else if (action == fastForwardAction) {
-            getPlayerAdapter().fastForward();
-        } else if (action == skipPreviousAction) {
-            getPlayerAdapter().previous();
-        } else if (action == skipNextAction) {
-            getPlayerAdapter().next();
+        if (action instanceof AndroidAction) {
+            ((AndroidAction) action).onActionClicked(getPlayerAdapter());
         }
         notifyActionChanged(action);
     }
 
     public void onCustomActionClicked(Action action, View view) {
         // Handle custom action clicks which require a popup menu
-        if (action == selectAudioAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
-        } else if (action == closedCaptionsAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
-        } else if (action == settingAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            settingAction.setSubtitlesPresent(hasSubs());
-            settingAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
-        } else if (action == playbackSpeedAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            playbackSpeedAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
+        if (action instanceof CustomAction) {
+            ((CustomAction) action).handleClickAction(playbackController, getPlayerAdapter(), getContext(), view);
+        }
+
+        if (action == playbackSpeedAction) {
             // Post a callback to calculate the new time, since Exoplayer updates this in an async fashion.
             // This is a hack, we should instead have onPlaybackParametersChanged call out to this
             // class to notify rather than poll. But communication is unidirectional at the moment:
             mHandler.postDelayed(mRefreshEndTime, 5000);  // 5 seconds
-        }  else if (action == selectQualityAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            selectQualityAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
-        } else if (action == zoomAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().setFading(false);
-            zoomAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), view);
-        } else if (action == chapterAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
-            getPlayerAdapter().getMasterOverlayFragment().showChapterSelector();
-        } else if (action == previousLiveTvChannelAction) {
-            getPlayerAdapter().getMasterOverlayFragment().switchChannel(TvManager.getPrevLiveTvChannel());
-        } else if (action == channelBarChannelAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
-            getPlayerAdapter().getMasterOverlayFragment().showQuickChannelChanger();
-        } else if (action == guideAction) {
-            getPlayerAdapter().getLeanbackOverlayFragment().hideOverlay();
-            getPlayerAdapter().getMasterOverlayFragment().showGuide();
-        } else if (action == recordAction) {
-            getPlayerAdapter().toggleRecording();
-            // Icon will be updated via callback recordingStateChanged
         }
     }
 
@@ -369,42 +334,6 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     void setInitialPlaybackDrawable() {
         playPauseAction.setIndex(PlaybackControlsRow.PlayPauseAction.INDEX_PAUSE);
         notifyActionChanged(playPauseAction);
-    }
-
-    private boolean hasSubs() {
-        return getPlayerAdapter().hasSubs();
-    }
-
-    private boolean hasMultiAudio() {
-        return getPlayerAdapter().hasMultiAudio();
-    }
-
-    private boolean hasNextItem() {
-        return getPlayerAdapter().hasNextItem();
-    }
-
-    private boolean hasPreviousItem() {
-        return getPlayerAdapter().hasPreviousItem();
-    }
-
-    private boolean isNativeMode() {
-        return getPlayerAdapter().isNativeMode();
-    }
-
-    private boolean canSeek() {
-        return getPlayerAdapter().canSeek();
-    }
-
-    private boolean isLiveTv() {
-        return getPlayerAdapter().isLiveTv();
-    }
-
-    private boolean canRecordLiveTv() {
-        return getPlayerAdapter().canRecordLiveTv();
-    }
-
-    private boolean hasChapters() {
-        return getPlayerAdapter().hasChapters();
     }
 
     void invalidatePlaybackControls() {
@@ -446,11 +375,18 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (hasSubs() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
-            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
+        if (event.getAction() != KeyEvent.ACTION_UP) {
+            // The below actions are only handled on key up
+            return super.onKey(v, keyCode, event);
         }
-        if (hasMultiAudio() && event.getAction() == KeyEvent.ACTION_UP && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
-            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter().getLeanbackOverlayFragment(), getContext(), v);
+
+        VideoPlayerAdapter playerAdapter = getPlayerAdapter();
+
+        if (playerAdapter.hasSubs() && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutSubtitleTrack())) {
+            closedCaptionsAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
+        }
+        if (playerAdapter.hasMultiAudio() && keyCode == KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getShortcutAudioTrack())) {
+            selectAudioAction.handleClickAction(playbackController, getPlayerAdapter(), getContext(), v);
         }
         return super.onKey(v, keyCode, event);
     }

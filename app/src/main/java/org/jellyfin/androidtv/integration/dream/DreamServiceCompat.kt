@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
@@ -21,7 +21,7 @@ abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
 		performAttach()
 	}
 
-	override fun getLifecycle(): Lifecycle = lifecycleRegistry
+	override val lifecycle: Lifecycle get() = lifecycleRegistry
 	override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
 
 	@CallSuper
@@ -48,7 +48,7 @@ abstract class DreamServiceCompat : DreamService(), SavedStateRegistryOwner {
 		val view = ComposeView(this)
 
 		// Inject dependencies normally added by appcompat activities
-		ViewTreeLifecycleOwner.set(view, this)
+		view.setViewTreeLifecycleOwner(this)
 		view.setViewTreeSavedStateRegistryOwner(this)
 
 		// Set content composable

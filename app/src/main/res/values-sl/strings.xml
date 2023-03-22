@@ -53,7 +53,6 @@
     <string name="lbl_shuffle_all">Premešaj vse</string>
     <string name="lbl_play_all">Predvajaj vse</string>
     <string name="lbl_because_you_watched">"Ker ste gledali "</string>
-    <string name="lbl_latest_additions">Najnovejši dodatki</string>
     <string name="lbl_other">Ostalo</string>
     <string name="lbl_tv_series">TV Serije</string>
     <string name="lbl_movies">FIlmi</string>
@@ -84,7 +83,6 @@
     <string name="lbl_play_from_here">Predvajaj od tukaj</string>
     <string name="lbl_now_playing">Trenutno se predvaja</string>
     <string name="lbl_add_to_queue">Dodaj v čakalno vrsto</string>
-    <string name="lbl_warning">Opozorilo</string>
     <string name="lbl_playlists">Seznami predvajanj</string>
     <string name="sum_enable_cinema_mode">Pokaži predoglede in napovednike pred predvajanjem filma</string>
     <string name="lbl_enable_cinema_mode">Kino način</string>
@@ -147,7 +145,6 @@
     <string name="lbl_instant_mix">Takojšnji miks</string>
     <string name="lbl_goto_now_playing">Pojdi na Trenutno se predvaja</string>
     <string name="lbl_remove_from_queue">Odstrani iz vrste</string>
-    <string name="lbl_up_next_colon">"Sledi: "</string>
     <string name="lbl_prev_item">Prejšnji element</string>
     <string name="lbl_next_item">Naslednji element</string>
     <string name="lbl_open_album">Odpri album</string>
@@ -155,7 +152,6 @@
     <string name="msg_items_added">" dodani elementi"</string>
     <string name="msg_burn_sub_warning">Pripenjam podnapise. To lahko vzame nekaj sekund…</string>
     <string name="lbl_display_preferences">Nastavitve prikaza</string>
-    <string name="btn_done">Opravljeno</string>
     <string name="lbl_starting_with">začenjam z imeni, ki se začnejo na</string>
     <string name="lbl_rating">Ocena</string>
     <string name="lbl_critic_rating">Ocena kritike</string>
@@ -232,11 +228,6 @@
     <string name="lbl_premiere">Premiera</string>
     <string name="lbl_guest_stars">Posebni gostje</string>
     <string name="lbl_on_schedule">Na urniku</string>
-    <string name="lbl_hours">Ure</string>
-    <string name="lbl_minute">Minuta</string>
-    <string name="lbl_hour">Ura</string>
-    <string name="lbl_minutes">Minute</string>
-    <string name="lbl_seconds">Sekunde</string>
     <string name="lbl_at_any_time">Ob katerem koli času</string>
     <string name="lbl_series_recordings">Posnetki serij</string>
     <string name="lbl_save">Shrani</string>
@@ -276,7 +267,6 @@
     <string name="lbl_begin_padding">Začetni zamik</string>
     <string name="lbl_resume_preroll">Nadaljuj pre-roll</string>
     <string name="pref_next_up_timeout_summary">Premor pred predvajanjem naslednjega predmeta na seznamu</string>
-    <string name="msg_added_to_video">%1$s dodan v čakalno vrsto. Konec: %2$s</string>
     <string name="seek_error">Iskanje ni mogoče</string>
     <string name="msg_live_tv_next">Prenesi naslednjih %1$d ur\?</string>
     <string name="msg_live_tv_prev">Prenesi prejšnjih %1$d ur\?</string>
@@ -340,10 +330,6 @@
     <string name="enable_playback_module_description">Ta funkcija je eksperimentalna. Zanjo ni nobene podpore.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 Pesem</string>
-    <string name="lbl_num_songs">%1$d Pesmi</string>
-    <string name="lbl_one_episode">1 Epizoda</string>
-    <string name="lbl_num_episodes">%1$d Epizod</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na katerem koli kanalu</string>
     <string name="lbl_record_all">Posname vse epizode</string>

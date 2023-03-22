@@ -20,6 +20,7 @@ import org.jellyfin.preference.longPreference
 import org.jellyfin.preference.migration.putEnum
 import org.jellyfin.preference.store.SharedPreferenceStore
 import org.jellyfin.preference.stringPreference
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * User preferences are configurable by the user and change behavior of the application.
@@ -209,6 +210,15 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var subtitlesTextColor = longPreference("subtitles_text_color", 0xFFFFFFFF)
 
+		/**
+		 * Show screensaver in app
+		 */
+		var screensaverInAppEnabled = booleanPreference("screensaver_inapp_enabled", true)
+
+		/**
+		 * Timeout before showing the screensaver in app, depends on [screensaverInAppEnabled].
+		 */
+		var screensaverInAppTimeout = longPreference("screensaver_inapp_timeout", 5.minutes.inWholeMilliseconds)
 	}
 
 	init {

@@ -205,7 +205,7 @@ public class CardPresenter extends Presenter {
                     if (showWatched && userData != null) {
                         WatchedIndicatorBehavior showIndicator = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getWatchedIndicatorBehavior());
                         if (userData.getPlayed()) {
-                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getType() == BaseItemKind.EPISODE))
+                            if (showIndicator != WatchedIndicatorBehavior.NEVER && (showIndicator != WatchedIndicatorBehavior.EPISODES_ONLY || itemDto.getType() == BaseItemKind.EPISODE) && userData.getPlayCount() > 0)
                                 mCardView.setUnwatchedCount(0);
                             else
                                 mCardView.setUnwatchedCount(-1);

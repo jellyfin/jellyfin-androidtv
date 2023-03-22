@@ -35,7 +35,6 @@
     <string name="lbl_shuffle_all">بُر زدن همه</string>
     <string name="lbl_play_all">پخش همه</string>
     <string name="lbl_because_you_watched">"بر اساس تماشای "</string>
-    <string name="lbl_latest_additions">تازه ترین افزوده ها</string>
     <string name="lbl_other">دیگر</string>
     <string name="lbl_tv_series">سریال های تلویزیونی</string>
     <string name="lbl_movies">فیلم ها</string>
@@ -122,14 +121,12 @@
     <string name="lbl_remove_from_queue">حذف از صف</string>
     <string name="lbl_play_from_here">پخش از اینجا</string>
     <string name="lbl_now_playing">درحال پخش</string>
-    <string name="lbl_up_next_colon">"بعدی: "</string>
     <string name="lbl_prev_item">مورد قبلی</string>
     <string name="lbl_next_item">مورد بعدی</string>
     <string name="lbl_open_artist">بازکردن صفحه هنرمند</string>
     <string name="lbl_open_album">باز کردن صفحه آلبوم</string>
     <string name="lbl_add_to_queue">افزودن به صف</string>
     <string name="msg_items_added">" مورد اضافه شد"</string>
-    <string name="lbl_warning">هشدار</string>
     <string name="lbl_playlists">لیست های پخش</string>
     <string name="sum_enable_cinema_mode">پخش مقدمه ها و پیش نمایش های موجود قبل از شروع فیلم</string>
     <string name="lbl_enable_cinema_mode">حالت سینما</string>
@@ -152,7 +149,6 @@
     <string name="lbl_ended">پایان</string>
     <string name="lbl__continuing">ادامه دارد</string>
     <string name="lbl_display_preferences">تنظیمات صفحه نمایش</string>
-    <string name="btn_done">تمام</string>
     <string name="lbl_starting_with">با کسانی شروع کن که نامشان با این متن آغاز میشوند</string>
     <string name="lbl_rating">رتبه بندی</string>
     <string name="lbl_community_rating">رتبه بندی مخاطبین</string>
@@ -216,11 +212,6 @@
     <string name="lbl_premiere">اولین نمایش</string>
     <string name="lbl_guest_stars">ستاره های میهمان</string>
     <string name="lbl_on_schedule">طبق برنامه</string>
-    <string name="lbl_hours">ساعت</string>
-    <string name="lbl_minute">دقیقه</string>
-    <string name="lbl_hour">ساعت</string>
-    <string name="lbl_minutes">دقیقه</string>
-    <string name="lbl_seconds">ثانیه</string>
     <string name="lbl_at_any_time">در هر زمان</string>
     <string name="lbl_series_recordings">ضبط های سریال</string>
     <string name="lbl_song_title">عنوان آهنگ</string>
@@ -286,10 +277,6 @@
     <string name="enable_playback_module_description">این یک قابلیت آزمایشی است. هیچ پشتیبانی ای ارائه نشده.</string>
     <string name="lbl_time_range">%1$s-%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">۱ آهنگ</string>
-    <string name="lbl_num_songs">%1$d آهنگ</string>
-    <string name="lbl_one_episode">۱ قسمت</string>
-    <string name="lbl_num_episodes">%1$d قسمت</string>
     <string name="lbl_on_channel">در %1$s</string>
     <string name="lbl_on_any_channel">در همه ی کانال ها</string>
     <string name="lbl_record_all">تمام قسمت ها ضبط خواهد شد</string>
@@ -375,7 +362,6 @@
     <string name="just_one">فقط اینبار</string>
     <string name="turn_off">این گزینه را غیرفعال کن</string>
     <string name="audio_error">پخش صدای %1$s امکان پذیر نیست</string>
-    <string name="msg_added_to_video">%1$s به صف ویدئویی اضافه شد. پایان: %2$s</string>
     <string name="msg_no_items">هیچ موردی برای پخش وجود ندارد</string>
     <string name="subtitle_error">امکان انتخاب زیرنویس وجود ندارد</string>
     <string name="too_many_errors">خطا خیلی زیاد بود. بیخیال شدیم</string>

@@ -45,11 +45,6 @@
     <string name="lbl_resume_from">Lanjutkan dari %1$s</string>
     <string name="lbl_guest_stars">Bintang tamu</string>
     <string name="lbl_on_schedule">Sesuai jadwal</string>
-    <string name="lbl_hours">Jam</string>
-    <string name="lbl_minute">Menit</string>
-    <string name="lbl_hour">Jam</string>
-    <string name="lbl_minutes">Menit</string>
-    <string name="lbl_seconds">Detik</string>
     <string name="lbl_at_any_time">Kapan saja</string>
     <string name="lbl_series_recordings">Rekaman Seri</string>
     <string name="lbl_save">Simpan</string>
@@ -77,14 +72,12 @@
     <string name="lbl_remove_from_queue">Hapus dari Antrean</string>
     <string name="lbl_play_from_here">Mainkan dari Sini</string>
     <string name="lbl_now_playing">Sedang dimainkan</string>
-    <string name="lbl_up_next_colon">"Berikutnya : "</string>
     <string name="lbl_prev_item">Item Sebelumnya</string>
     <string name="lbl_next_item">Item berikutnya</string>
     <string name="lbl_open_album">Buka Album</string>
     <string name="lbl_open_artist">Buka Artis</string>
     <string name="lbl_add_to_queue">Tambahkan ke Antrean</string>
     <string name="msg_items_added">" item ditambahkan"</string>
-    <string name="lbl_warning">Peringatan</string>
     <string name="lbl_playlists">Daftar Putar</string>
     <string name="lbl_enable_cinema_mode">Mode Bioskop</string>
     <string name="lbl_episodes">Semua episode</string>
@@ -98,7 +91,6 @@
     <string name="lbl_ended">SELESAI</string>
     <string name="lbl__continuing">MELANJUTKAN</string>
     <string name="lbl_display_preferences">Preferensi Tampilan</string>
-    <string name="btn_done">Selesai</string>
     <string name="lbl_all_items">Semua item</string>
     <string name="lbl_sorted_by">diurutkan berdasarkan</string>
     <string name="desc_debug">Berikan informasi tambahan untuk debugging</string>
@@ -192,7 +184,6 @@
     <string name="lbl_shuffle_all">Acak Semua</string>
     <string name="lbl_play_all">Mainkan Semua</string>
     <string name="lbl_because_you_watched">"Karena Anda menyaksikan "</string>
-    <string name="lbl_latest_additions">Penambahan Terbaru</string>
     <string name="lbl_other">Lain</string>
     <string name="lbl_tv_series">Serial TV</string>
     <string name="lbl_movies">Film</string>
@@ -259,7 +250,6 @@
     <string name="lbl_show_premieres">Tampilkan pemutaran perdana season saat menjelajah</string>
     <string name="lbl_pause">Jeda</string>
     <string name="audio_error">Kesalahan dalam memutar audio %1$s</string>
-    <string name="msg_added_to_video">%1$s ditambahkan ke antrian video. Berakhir: %2$s</string>
     <string name="msg_no_items">Tidak ada item untuk diputar</string>
     <string name="subtitle_error">Kesalahan memilih subtitel</string>
     <string name="too_many_errors">Terlalu banyak kesalahan. Menyerah</string>

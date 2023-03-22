@@ -43,7 +43,7 @@ class HomeFragmentLatestRow(
 					limit = ITEM_LIMIT
 				}
 
-				val title = String.format("%s %s", context.getString(R.string.lbl_latest), item.name)
+				val title = context.getString(R.string.lbl_latest_in, item.name)
 				HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, arrayOf(ChangeTriggerType.LibraryUpdated)))
 			}.forEach { row ->
 				// Add row to adapter

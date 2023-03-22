@@ -27,7 +27,6 @@
     <string name="lbl_movies">Filmy</string>
     <string name="lbl_tv_series">Seriály</string>
     <string name="lbl_other">Další</string>
-    <string name="lbl_latest_additions">Nejnověji přidáno</string>
     <string name="lbl_because_you_watched">"Protože jste sledovali "</string>
     <string name="lbl_play_all">Přehrát vše</string>
     <string name="lbl_shuffle_all">Náhodně</string>
@@ -121,7 +120,6 @@
     <string name="lbl_critic_rating">Hodnocení kritiků</string>
     <string name="lbl_rating">Hodnocení</string>
     <string name="lbl_starting_with">"začít s těmi, jejichž jméno začíná na"</string>
-    <string name="btn_done">Hotovo</string>
     <string name="lbl_display_preferences">Předvolby zobrazení</string>
     <string name="lbl__continuing">POKRAČOVÁNÍ</string>
     <string name="lbl_ended">UKONČENO</string>
@@ -170,8 +168,6 @@
     <string name="lbl_new_premieres">Nové premiéry</string>
     <string name="desc_automatic_fav_songs">Automatický seznam oblíbených skladeb</string>
     <string name="lbl_goto_now_playing">Přejít k Právě hraje</string>
-    <string name="lbl_up_next_colon">"Další: "</string>
-    <string name="lbl_warning">Varování</string>
     <string name="sum_enable_cinema_mode">Zobrazovat úvodníky a náhledy před přehráváním filmu</string>
     <string name="lbl_direct_stream_live">Přímý televizní přenos</string>
     <string name="msg_error_live_stream">Chyba při přenosu televizního vysílání. Opakování pokusu…</string>
@@ -197,11 +193,6 @@
     <string name="lbl_premiere">Premiéra</string>
     <string name="lbl_guest_stars">Hostující hvězdy</string>
     <string name="lbl_on_schedule">Naplánováno</string>
-    <string name="lbl_hours">hodin</string>
-    <string name="lbl_minute">minuta</string>
-    <string name="lbl_hour">hodin</string>
-    <string name="lbl_minutes">minut</string>
-    <string name="lbl_seconds">vteřin</string>
     <string name="lbl_at_any_time">Kdykoli</string>
     <string name="lbl_series_recordings">Nahrávky sérií</string>
     <string name="lbl_save">Uložit</string>
@@ -260,7 +251,6 @@
     <string name="just_one">Jen tuto</string>
     <string name="turn_off">Vypnout tuto možnost</string>
     <string name="audio_error">Není možné přehrát audio %1$s</string>
-    <string name="msg_added_to_video">Položka %1$s přidána do fronty. Konec v: %2$s</string>
     <string name="msg_no_items">Neexistuje nic k přehrávání</string>
     <string name="subtitle_error">Není možné vybrat titulky</string>
     <string name="too_many_errors">Došlo k příliš mnoha chybám. Další pokus již nebude proveden</string>
@@ -344,10 +334,6 @@
     <string name="press_to_close">Stisknutím zavřete</string>
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
-    <string name="lbl_one_song">1 skladba</string>
-    <string name="lbl_num_songs">%1$d skladeb</string>
-    <string name="lbl_one_episode">1 díl</string>
-    <string name="lbl_num_episodes">%1$d dílů</string>
     <string name="lbl_on_channel">Na %1$s</string>
     <string name="lbl_on_any_channel">Na všech kanálech</string>
     <string name="lbl_record_all">Nahrávat všechny díly</string>
