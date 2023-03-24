@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Opname maken mislukt</string>
     <string name="msg_recording_cancelled">Opname geannuleerd</string>
     <string name="msg_unable_to_cancel">Niet in staat om opname te annuleren</string>
-    <string name="lbl_cast_crew">Cast en crew</string>
+    <string name="lbl_cast_crew">Acteurs en medewerkers</string>
     <string name="lbl_chapters">Hoofdstukken</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>
@@ -298,7 +298,7 @@
     <string name="image_size_medium">Gemiddeld</string>
     <string name="image_size_small">Klein</string>
     <string name="image_type_banner">Banner</string>
-    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_thumbnail">Miniatuur</string>
     <string name="enable_smart_view_description">Smart screen toont relevante items in plaats van een raster</string>
     <string name="enable_smart_view">Smart screen inschakelen</string>
     <string name="lbl_sign_out">Uitloggen</string>
@@ -323,7 +323,7 @@
     <string name="user_picker_disable_title">Uitschakelen</string>
     <string name="auto_sign_in">Automatisch inloggen</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
-    <string name="lbl_use_series_thumbnails">Voorkeur voor serie miniaturen</string>
+    <string name="lbl_use_series_thumbnails">Voorkeur voor serieminiaturen</string>
     <string name="lbl_episode_marks">Alleen bij afleveringen</string>
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>
