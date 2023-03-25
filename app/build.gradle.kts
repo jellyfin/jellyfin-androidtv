@@ -133,9 +133,13 @@ dependencies {
 	implementation(libs.androidx.window)
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.startup)
+	implementation(libs.androidx.tv.foundation)
+	implementation(libs.androidx.tv.material)
 	val composeBom = platform(libs.androidx.compose.bom)
 	implementation(composeBom)
+	implementation(libs.androidx.compose.activity)
 	implementation(libs.androidx.compose.material)
+	implementation(libs.androidx.compose.material3)
 	implementation(libs.androidx.compose.ui.tooling.preview)
 	debugImplementation(libs.androidx.compose.ui.tooling)
 
