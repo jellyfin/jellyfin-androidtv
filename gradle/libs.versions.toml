@@ -6,10 +6,8 @@ android-gradle = "7.4.2"
 androidx-activity = "1.7.0"
 androidx-appcompat = "1.6.1"
 androidx-cardview = "1.0.0"
+androidx-compose-bom = "2023.03.00"
 androidx-compose-compiler = "1.4.4"
-androidx-compose-foundation = "1.4.0"
-androidx-compose-material = "1.4.0"
-androidx-compose-ui = "1.4.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.9.0"
 androidx-fragment = "1.5.6"
@@ -67,10 +65,11 @@ android-gradle = { module = "com.android.tools.build:gradle", version.ref = "and
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "androidx-compose-compiler" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
-androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material" }
-androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-material = { module = "androidx.compose.material:material" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
@@ -134,11 +133,6 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 acra = [
     "acra-core",
     "acra-toast",
-]
-androidx-compose = [
-    "androidx-compose-foundation",
-    "androidx-compose-material",
-    "androidx-compose-ui-tooling"
 ]
 androidx-lifecycle = [
     "androidx-lifecycle-process",

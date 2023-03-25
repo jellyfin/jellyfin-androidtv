@@ -133,7 +133,11 @@ dependencies {
 	implementation(libs.androidx.window)
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.startup)
-	implementation(libs.bundles.androidx.compose)
+	val composeBom = platform(libs.androidx.compose.bom)
+	implementation(composeBom)
+	implementation(libs.androidx.compose.material)
+	implementation(libs.androidx.compose.ui.tooling.preview)
+	debugImplementation(libs.androidx.compose.ui.tooling)
 
 	// Dependency Injection
 	implementation(libs.bundles.koin)
