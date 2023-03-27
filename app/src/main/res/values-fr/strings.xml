@@ -9,15 +9,15 @@
     <string name="chapters">Chapitres</string>
     <string name="lbl_settings">Préférences</string>
     <string name="lbl_continue_watching">Continuer la lecture</string>
-    <string name="lbl_next_up">Prochains à voir</string>
-    <string name="lbl_on_now">Actuellement</string>
+    <string name="lbl_next_up">À suivre</string>
+    <string name="lbl_on_now">En cours</string>
     <string name="lbl_views">Vues</string>
     <string name="lbl_by_letter">Par lettre</string>
-    <string name="lbl_suggested">Suggérés</string>
+    <string name="lbl_suggested">Suggestions</string>
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Rechercher</string>
     <string name="msg_not_implemented">" non implémentés"</string>
-    <string name="lbl_latest">Derniers</string>
+    <string name="lbl_latest">Récemment ajouté</string>
     <string name="lbl_by_name">Par nom</string>
     <string name="lbl_favorites">Favoris</string>
     <string name="lbl_coming_up">À venir</string>
@@ -483,4 +483,5 @@
     <string name="pref_enable_media_management">Activer la gestion des médias</string>
     <string name="pref_enable_media_management_description">Afficher l\'option pour gérer les médias pendant la navigation</string>
     <string name="item_delete_confirm_message">Êtes-vous sûr de bien vouloir supprimer cet élément \? Cette action ne peut pas être annulée.</string>
+    <string name="lbl_latest_in">Récemment ajouté dans %1$s</string>
 </resources>
