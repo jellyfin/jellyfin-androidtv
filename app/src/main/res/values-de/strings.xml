@@ -115,9 +115,9 @@
     <string name="lbl_sorted_by">sortiert nach</string>
     <string name="lbl_from">von</string>
     <string name="lbl_name">Name</string>
-    <string name="lbl_date_added">Hinzugefügt am</string>
-    <string name="lbl_premier_date">Erstaufführung</string>
-    <string name="lbl_critic_rating">Kritiken</string>
+    <string name="lbl_date_added">Datum hinzugefügt</string>
+    <string name="lbl_premier_date">Premiere</string>
+    <string name="lbl_critic_rating">Kritiker Bewertung</string>
     <string name="lbl_rating">Bewertung</string>
     <string name="lbl_starting_with">beginnend mit jenen, deren Namen beginnt mit</string>
     <string name="lbl_display_preferences">Zeige Einstellungen</string>
@@ -147,8 +147,8 @@
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
     <string name="lbl_open_artist">Zeige Künstler</string>
     <string name="lbl_open_album">Zeige Album</string>
-    <string name="lbl_next_item">Nächstes Element</string>
-    <string name="lbl_prev_item">Vorheriges Element</string>
+    <string name="lbl_next_item">Nächstes</string>
+    <string name="lbl_prev_item">vorheriges</string>
     <string name="lbl_now_playing">Läuft gerade</string>
     <string name="lbl_play_from_here">Abspielen von hier</string>
     <string name="lbl_remove_from_queue">Entferne aus Warteschlange</string>
@@ -184,7 +184,7 @@
     <string name="lbl_sort_by">Sortieren nach</string>
     <string name="lbl_guest_stars">Gastauftritte</string>
     <string name="lbl_on_schedule">Planmäßig</string>
-    <string name="lbl_series_recordings">Aufnahmen von Serien</string>
+    <string name="lbl_series_recordings">Aufgezeichnete Serien</string>
     <string name="lbl_save">Speichern</string>
     <string name="msg_settings_updated">Einstellungen aktualisiert</string>
     <string name="lbl_series_settings">Serieneinstellungen</string>
@@ -389,7 +389,7 @@
     <string name="home_section_resume">Weiterschauen</string>
     <string name="home_section_library_small">Meine Medien (klein)</string>
     <string name="home_section_library">Meine Medien</string>
-    <string name="home_section_latest_media">Neueste Medien</string>
+    <string name="home_section_latest_media">Kürzlich hinzugefügte Medien</string>
     <string name="home_sections">Startseitenabschnitte</string>
     <string name="home_prefs">Startseite</string>
     <string name="pref_subtitles_size">Textgröße</string>
@@ -459,7 +459,7 @@
     <string name="pref_crash_reports_disabled">Absturzberichte werden nicht gesendet</string>
     <string name="pref_crash_reports">Absturzberichte an Server senden</string>
     <string name="pref_telemetry_description">Absturzberichte senden, Logs einschließen</string>
-    <string name="lbl_additional_parts">Weitere Teile</string>
+    <string name="lbl_additional_parts">Zusätzliche Inhalte</string>
     <string name="lbl_quality_profile">Qualitätsprofil</string>
     <string name="desc_audio_night_mode">Passt die Audiolautstärke automatisch an</string>
     <string name="pref_audio_night_mode">Audio Nachtmodus (experimentell)</string>
