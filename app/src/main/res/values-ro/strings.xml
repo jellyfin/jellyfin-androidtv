@@ -18,7 +18,7 @@
     <string name="lbl_now_playing">Se redă acum</string>
     <string name="lbl_play_from_here">Redă de aici</string>
     <string name="lbl_remove_from_queue">Elimină din listă</string>
-    <string name="lbl_goto_now_playing">Mergi la Redare curentă</string>
+    <string name="lbl_goto_now_playing">Mergi la redarea curentă</string>
     <string name="lbl_instant_mix">Mix instant</string>
     <string name="lbl_delete">Șterge</string>
     <string name="msg_item_added">" element adăugat"</string>
@@ -84,7 +84,7 @@
     <string name="chapters">Capitole</string>
     <string name="pref_authentication_cat">Autentificare</string>
     <string name="settings_title">Preferințe</string>
-    <string name="pref_max_bitrate_title">Bitrate maxim al Streamului</string>
+    <string name="pref_max_bitrate_title">Bitrate maxim al streamului</string>
     <string name="pref_playback">Redare</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="btn_cancel">Anulare</string>
@@ -112,14 +112,14 @@
     <string name="lbl_resume_from">Reluați de la %1$s</string>
     <string name="lbl_resume_preroll">Reluați pre-rularea</string>
     <string name="lbl_guide_option_number">Număr canal</string>
-    <string name="lbl_guide_option_played">Ultima Vizionare</string>
+    <string name="lbl_guide_option_played">Ultimul vizionat</string>
     <string name="lbl_show_indicators">Afișați indicatori pentru</string>
     <string name="lbl_sort_by">Sortează după</string>
     <string name="lbl_premiere">Premieră</string>
-    <string name="lbl_guest_stars">Vedete Invitate</string>
+    <string name="lbl_guest_stars">Invitați speciali</string>
     <string name="lbl_on_schedule">La timp</string>
     <string name="lbl_at_any_time">Oricând</string>
-    <string name="lbl_series_recordings">Înregistrările Serialului</string>
+    <string name="lbl_series_recordings">Seriale înregistrate</string>
     <string name="lbl_save">Salvează</string>
     <string name="msg_settings_updated">Preferințe actualizate</string>
     <string name="lbl_series_settings">Preferințele Serialului</string>
@@ -128,7 +128,7 @@
     <string name="lbl_live">În direct</string>
     <string name="lbl_new">Nou</string>
     <string name="lbl_repeat">Repetă</string>
-    <string name="lbl_recent_recordings">Înregistrări Recente</string>
+    <string name="lbl_recent_recordings">Înregistrări recente</string>
     <string name="lbl_kids">Copii</string>
     <string name="lbl_sports">Sporturi</string>
     <string name="no_program_data">Nu există date de program disponibile</string>
@@ -143,12 +143,12 @@
     <string name="lbl_show_backdrop">Afișează fundaluri</string>
     <string name="lbl_open">Deschide</string>
     <string name="lbl_play_next_up">Rulează în continuare</string>
-    <string name="lbl_clear_queue">Golește coada</string>
+    <string name="lbl_clear_queue">Golește lista de redare</string>
     <string name="btn_got_it">Am înțeles</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="desc_bitstream_ac3">Necesită un hardware capabil</string>
     <string name="lbl_bitstream_ac3">Stream audio Dolby Digital</string>
-    <string name="lbl_new_premieres">Premiere Noi</string>
+    <string name="lbl_new_premieres">În premieră</string>
     <string name="lbl_programs">Programe</string>
     <string name="lbl_direct_stream_live">Direct stream TV live</string>
     <string name="msg_error_live_stream">A apărut o eroare în transmisia TV în direct. Voi încerca din nou…</string>
@@ -423,7 +423,7 @@
     <string name="server_connection_failed_candidates">Nu se poate conecta la server, următoarele adrese au fost încercate: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_show_backdrop_description">Schimbă imaginea de fundal în elementele selectate</string>
-    <string name="lbl_playback_speed">Viteza de Redare</string>
+    <string name="lbl_playback_speed">Viteză de redare</string>
     <string name="pref_audio_night_mode">Mod audio de noapte (experimental)</string>
     <string name="lbl_additional_parts">Părți adiționale</string>
     <string name="state_disabled">Dezactivat</string>
@@ -437,7 +437,7 @@
     <string name="pref_telemetry_category">Raportarea crash-urilor</string>
     <string name="pref_telemetry_description">Trimite raporturi de crash, include logs</string>
     <string name="pref_crash_reports_disabled">Crash-urile nu vor fi trimise</string>
-    <string name="pref_crash_report_logs">Include logs</string>
+    <string name="pref_crash_report_logs">Include fișiere logs</string>
     <string name="action_use_quickconnect">Folosește Quick Connect</string>
     <string name="login_quickconnect_step_1">1. Deschide aplicația Jellyfin pe telefon sau browser web și conectează-te cu contul tău</string>
     <string name="login_quickconnect_step_2">2. Deschide meniul utilizatorului și accesează pagina Quick Connect</string>
@@ -457,4 +457,13 @@
     <string name="color_yellow">Galben</string>
     <string name="color_pink">Roz</string>
     <string name="pref_crash_reports">Trimite crash-uri către developeri</string>
+    <string name="lbl_quality_profile">Profil de calitate</string>
+    <string name="item_deletion_failed">Nu se poate șterge %1$s</string>
+    <string name="pref_enable_media_management">Activează managementul de conținut</string>
+    <string name="crash_report_toast">Oops! Ceva nu a mers cum trebuie, un raport crash a fost trimis către serverul tău Jellyfin.</string>
+    <string name="app_notification_beta">Aplicație actualizată la %1$s
+\nMulțumim pentru participarea în programul Jellyfin beta</string>
+    <string name="server_setup_incomplete">Configurarea serverului nu a fost finalizată. Deschide Jellyfin într-un browser web pentru a finaliza configurarea înainte de a te conecta.</string>
+    <string name="item_deleted">%1$s a fost șters</string>
+    <string name="episode_name_special">special</string>
 </resources>
