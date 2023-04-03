@@ -148,7 +148,7 @@
     <string name="lbl_trailers">Fragmanlar</string>
     <string name="lbl_specials">Özel Bölümler</string>
     <string name="lbl_chapters">Bölümler</string>
-    <string name="lbl_cast_crew">Oyuncu/Ekip</string>
+    <string name="lbl_cast_crew">Oyuncu &amp; ekip</string>
     <string name="msg_unable_to_cancel">Kayıt iptal edilemedi</string>
     <string name="msg_recording_cancelled">Kayıt İptal Edildi</string>
     <string name="msg_unable_to_create_recording">Kayıt oluşturulamadı</string>
@@ -180,7 +180,7 @@
     <string name="lbl_suggested">Önerilen</string>
     <string name="lbl_by_letter">Harfe Göre</string>
     <string name="lbl_views">Görüntüleme</string>
-    <string name="lbl_on_now">Yayinda</string>
+    <string name="lbl_on_now">Yayında</string>
     <string name="lbl_next_up">Sıradaki Bölüm</string>
     <string name="lbl_continue_watching">İzlemeye Devam Et</string>
     <string name="lbl_settings">Tercihler</string>
@@ -413,4 +413,7 @@
     <string name="color_blue">Mavi</string>
     <string name="lbl_playback_speed">Oynatma Hızı</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
+    <string name="lbl_additional_parts">İlave parçalar</string>
+    <string name="state_disabled">Devre dışı</string>
+    <string name="lbl_latest_in">Son zamanlarda eklendi %1$s</string>
 </resources>
