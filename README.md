@@ -35,6 +35,9 @@
 <a href="https://www.amazon.com/gp/aw/d/B07TX7Z725">
 <img width="153" alt="Jellyfin on Amazon Appstore" src="https://jellyfin.org/images/store-icons/amazon.png"/>
 </a>
+<a href="https://f-droid.org/en/packages/org.jellyfin.androidtv/">
+<img width="153" alt="Jellyfin on F-Droid" src="https://jellyfin.org/images/store-icons/fdroid.png"/>
+</a>
 <br/>
 <a href="https://repo.jellyfin.org/releases/client/androidtv/">Download archive</a>
 </p>
