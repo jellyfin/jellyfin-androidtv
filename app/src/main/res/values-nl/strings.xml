@@ -10,7 +10,7 @@
     <string name="lbl_settings">Voorkeuren</string>
     <string name="lbl_continue_watching">Verderkijken</string>
     <string name="lbl_next_up">Hierna</string>
-    <string name="lbl_on_now">Nu aan het afspelen</string>
+    <string name="lbl_on_now">Nu bezig</string>
     <string name="lbl_views">Weergaven</string>
     <string name="lbl_by_letter">Op alfabet</string>
     <string name="lbl_suggested">Voorgesteld</string>
@@ -20,7 +20,7 @@
     <string name="lbl_latest">Onlangs toegevoegd</string>
     <string name="lbl_by_name">Op naam</string>
     <string name="lbl_favorites">Favorieten</string>
-    <string name="lbl_coming_up">Aankomend</string>
+    <string name="lbl_coming_up">Straks</string>
     <string name="lbl_favorite_channels">Favoriete kanalen</string>
     <string name="lbl_other_channels">Andere kanalen</string>
     <string name="lbl_collections">Collecties</string>
@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Opname maken mislukt</string>
     <string name="msg_recording_cancelled">Opname geannuleerd</string>
     <string name="msg_unable_to_cancel">Niet in staat om opname te annuleren</string>
-    <string name="lbl_cast_crew">Cast en crew</string>
+    <string name="lbl_cast_crew">Acteurs en medewerkers</string>
     <string name="lbl_chapters">Hoofdstukken</string>
     <string name="lbl_specials">Specials</string>
     <string name="lbl_trailers">Trailers</string>
@@ -80,7 +80,7 @@
     <string name="lbl_empty">Leeg</string>
     <string name="lbl_tv_queuing">Zet alle volgende afleveringen in de wachtrij</string>
     <string name="sum_tv_queuing">Voeg de rest van het seizoen toe aan de wachtrij als er een aflevering afgespeeld wordt</string>
-    <string name="lbl_search_hint">Tekst zoeken (selecteer voor toetsenbord)</string>
+    <string name="lbl_search_hint">Zoektekst (selecteer voor toetsenbord)</string>
     <string name="lbl_play_first_unwatched">Eerste onbekeken aflevering afspelen</string>
     <string name="lbl_mark_unplayed">Markeren als niet afgespeeld</string>
     <string name="lbl_mark_played">Markeren als afgespeeld</string>
@@ -298,7 +298,7 @@
     <string name="image_size_medium">Gemiddeld</string>
     <string name="image_size_small">Klein</string>
     <string name="image_type_banner">Banner</string>
-    <string name="image_type_thumbnail">Thumbnail</string>
+    <string name="image_type_thumbnail">Miniatuur</string>
     <string name="enable_smart_view_description">Smart screen toont relevante items in plaats van een raster</string>
     <string name="enable_smart_view">Smart screen inschakelen</string>
     <string name="lbl_sign_out">Uitloggen</string>
@@ -323,7 +323,7 @@
     <string name="user_picker_disable_title">Uitschakelen</string>
     <string name="auto_sign_in">Automatisch inloggen</string>
     <string name="lbl_use_series_thumbnails_description">Gebruik miniatuur van serie wanneer afleveringen worden getoond</string>
-    <string name="lbl_use_series_thumbnails">Voorkeur voor serie miniaturen</string>
+    <string name="lbl_use_series_thumbnails">Voorkeur voor serieminiaturen</string>
     <string name="lbl_episode_marks">Alleen bij afleveringen</string>
     <string name="lbl_sign_out_content">De volgende keer is inloggen vereist</string>
     <string name="no_network_permissions">Jellyfin heeft netwerktoestemming nodig om te functioneren</string>

@@ -284,7 +284,8 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
                     updateButtons(mediaManager.getValue().isPlayingAudio());
                 }
             } else {
-               requireActivity().finish(); // entire queue removed nothing to do here
+                if (navigationRepository.getValue().getCanGoBack()) navigationRepository.getValue().goBack();
+                else navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
             }
         }
 
