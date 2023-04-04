@@ -1,2 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="loading">लोड हो रहा है…</string>
+    <string name="pref_playback">प्लेबैक</string>
+    <string name="pref_max_bitrate_title">मैक्स स्ट्रीमिंग बिटरेट</string>
+    <string name="pref_authentication_cat">प्रमाणीकरण</string>
+    <string name="chapters">अध्याय</string>
+    <string name="lbl_settings">पसंद</string>
+    <string name="lbl_continue_watching">देखना जारी रखें</string>
+    <string name="lbl_on_now">अभी चालू है</string>
+    <string name="lbl_by_letter">पत्र के द्वारा</string>
+    <string name="lbl_suggested">सुझाव</string>
+    <string name="lbl_search">खोजें</string>
+    <string name="msg_not_implemented">" लागू नहीं किया गया है"</string>
+    <string name="lbl_latest">हाल ही में जोड़ा हुआ</string>
+    <string name="lbl_by_name">नाम से</string>
+    <string name="lbl_favorites">पसंदीदा</string>
+    <string name="lbl_coming_up">आ रहा है</string>
+    <string name="lbl_other_channels">अन्य चैनल</string>
+    <string name="lbl_movies">चलचित्र</string>
+    <string name="lbl_play">चलाये</string>
+    <string name="lbl_cancel">रद करे</string>
+    <string name="lbl_cancel_series">सीरियल रद्द करें</string>
+    <string name="msg_set_to_record">कार्यक्रम रिकॉर्ड करने के लिए सेट किया गया है</string>
+    <string name="msg_recording_cancelled">रिकॉर्डिंग रद्द कर दी गई है</string>
+    <string name="video_error_unknown_error">वीडियो लोड करने में विफल</string>
+    <string name="btn_cancel">रद्द करे</string>
+    <string name="byletter_letters">ए बी सी डी ई एफ जी आई जे के एल एम एन ओ पी क्यू आर एस टी यू वी डब्ल्यू एक्स वाई जेड</string>
+    <string name="settings_title">पसंद</string>
+    <string name="state_disabled">अक्षम</string>
+    <string name="lbl_next_up">अगला</string>
+    <string name="lbl_views">दर्शक</string>
+    <string name="lbl_genres">शैलियां</string>
+    <string name="lbl_latest_in">हाल ही में %1$s में जोड़ा गया है</string>
+    <string name="lbl_favorite_channels">पसंदीदा चैनल</string>
+    <string name="lbl_collections">संग्रह</string>
+    <string name="lbl_tv_series">टीवी सीरियल</string>
+    <string name="lbl_other">अन्य</string>
+    <string name="lbl_because_you_watched">"क्योंकि आपने देख लिया है "</string>
+    <string name="lbl_play_all">सभी चलना</string>
+    <string name="lbl_shuffle_all">सब फेरबदल करें</string>
+    <string name="lbl_pause">रोके</string>
+    <string name="lbl_cancel_recording">रिकॉर्डिंग रद्द करें</string>
+    <string name="lbl_record_series">रिकॉर्ड सीरियल</string>
+    <string name="lbl_record">रिकॉर्ड करे</string>
+    <string name="msg_unable_to_create_recording">रिकॉर्डिंग बनाने में असमर्थ</string>
+    <string name="msg_unable_to_cancel">रिकॉर्डिंग रद्द करने में असमर्थ</string>
+    <string name="lbl_cast_crew">अभिनेता वर्ग और कर्मचारी</string>
+    <string name="lbl_additional_parts">अतिरिक्त भाग</string>
+</resources>
