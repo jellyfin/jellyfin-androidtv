@@ -47,6 +47,7 @@ import org.koin.core.component.inject
 import timber.log.Timber
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import kotlin.time.Duration
 
 
 /**
@@ -59,11 +60,6 @@ class LeanbackChannelWorker(
 	workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams), KoinComponent {
 	companion object {
-		/**
-		 * Amount of ticks found in a millisecond, used for calculation.
-		 */
-		private const val TICKS_IN_MILLISECOND = 10000
-
 		const val PERIODIC_UPDATE_REQUEST_NAME = "LeanbackChannelPeriodicUpdateRequest"
 	}
 
@@ -75,10 +71,10 @@ class LeanbackChannelWorker(
 	 * Check if the app can use Leanback features and is API level 26 or higher.
 	 */
 	private val isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-			// Check for leanback support
-			context.packageManager.hasSystemFeature("android.software.leanback")
-			// Check for "android.media.tv" provider to workaround a false-positive in the previous check
-			&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
+		// Check for leanback support
+		context.packageManager.hasSystemFeature("android.software.leanback")
+		// Check for "android.media.tv" provider to workaround a false-positive in the previous check
+		&& context.packageManager.resolveContentProvider(TvContractCompat.AUTHORITY, 0) != null
 
 	/**
 	 * Update all channels for the currently authenticated user.
@@ -96,51 +92,53 @@ class LeanbackChannelWorker(
 			val myMedia = getMyMedia()
 			// Delete current items from the channels
 			context.contentResolver.delete(TvContractCompat.PreviewPrograms.CONTENT_URI, null, null)
+
 			// Get channel URIs
 			val latestMediaChannel = getChannelUri(
 				"latest_media", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.home_section_latest_media))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build(), default = true
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.home_section_latest_media))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build(),
+				default = true
 			)
 			val myMediaChannel = getChannelUri(
 				"my_media", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.lbl_my_media))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build()
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.lbl_my_media))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build()
 			)
 			val nextUpChannel = getChannelUri(
 				"next_up", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.lbl_next_up))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build()
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.lbl_next_up))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build()
 			)
 			val latestMoviesChannel = getChannelUri(
 				"latest_movies", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.lbl_movies))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build()
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.lbl_movies))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build()
 			)
 			val latestEpisodesChannel = getChannelUri(
 				"latest_episodes", Channel.Builder()
-					.setType(TvContractCompat.Channels.TYPE_PREVIEW)
-					.setDisplayName(context.getString(R.string.lbl_new_episodes))
-					.setAppLinkIntent(Intent(context, StartupActivity::class.java))
-					.build()
+				.setType(TvContractCompat.Channels.TYPE_PREVIEW)
+				.setDisplayName(context.getString(R.string.lbl_new_episodes))
+				.setAppLinkIntent(Intent(context, StartupActivity::class.java))
+				.build()
 			)
 			val preferParentThumb = userPreferences[UserPreferences.seriesThumbnailsEnabled]
 
 			// Add new items
-			listOf(
-				Pair(nextUpItems, nextUpChannel),
-				Pair(latestMedia, latestMediaChannel),
-				Pair(latestMovies, latestMoviesChannel),
-				Pair(latestEpisodes, latestEpisodesChannel),
-				Pair(myMedia, myMediaChannel)
+			arrayOf(
+				nextUpItems to nextUpChannel,
+				latestMedia to latestMediaChannel,
+				latestMovies to latestMoviesChannel,
+				latestEpisodes to latestEpisodesChannel,
+				myMedia to myMediaChannel,
 			).forEach { (items, channel) ->
 				Timber.d("Updating channel %s", channel)
 				items.map { item ->
@@ -236,6 +234,7 @@ class LeanbackChannelWorker(
 			format = ImageFormat.WEBP,
 			width = 106.dp(context),
 			height = 153.dp(context),
+			tag = imageTags?.get(ImageType.PRIMARY),
 		)
 
 		(preferParentThumb || imageTags?.contains(ImageType.PRIMARY) != true) && parentThumbItemId != null -> api.imageApi.getItemImageUrl(
@@ -244,6 +243,7 @@ class LeanbackChannelWorker(
 			format = ImageFormat.WEBP,
 			width = 272.dp(context),
 			height = 153.dp(context),
+			tag = imageTags?.get(ImageType.THUMB),
 		)
 
 		else -> api.imageApi.getItemImageUrl(
@@ -252,6 +252,7 @@ class LeanbackChannelWorker(
 			format = ImageFormat.WEBP,
 			width = 272.dp(context),
 			height = 153.dp(context),
+			tag = imageTags?.get(ImageType.PRIMARY),
 		)
 	}.let(ImageProvider::getImageUri)
 
@@ -294,10 +295,9 @@ class LeanbackChannelWorker(
 						ItemFields.OVERVIEW,
 					),
 					limit = 50,
-					userId = api.userId!!,
 					includeItemTypes = listOf(BaseItemKind.EPISODE),
 					isPlayed = false
-				).content.orEmpty()
+				).content
 			}
 
 			val latestMovies = async {
@@ -306,10 +306,9 @@ class LeanbackChannelWorker(
 						ItemFields.OVERVIEW,
 					),
 					limit = 50,
-					userId = api.userId!!,
 					includeItemTypes = listOf(BaseItemKind.MOVIE),
 					isPlayed = false
-				).content.orEmpty()
+				).content
 			}
 
 			val latestMedia = async {
@@ -318,11 +317,11 @@ class LeanbackChannelWorker(
 						ItemFields.OVERVIEW,
 					),
 					limit = 50,
-					userId = api.userId!!,
 					includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
 					isPlayed = false
-				).content.orEmpty()
+				).content
 			}
+
 			// Concat
 			Triple(latestEpisodes.await(), latestMovies.await(), latestMedia.await())
 		}
@@ -339,6 +338,7 @@ class LeanbackChannelWorker(
 		val episodeString = when {
 			item.indexNumberEnd != null && item.indexNumber != null ->
 				"${item.indexNumber}-${item.indexNumberEnd}"
+
 			else -> item.indexNumber?.toString().orEmpty()
 		}
 
@@ -360,30 +360,31 @@ class LeanbackChannelWorker(
 			.setEpisodeNumber(episodeString, item.indexNumber ?: 0)
 			.setDescription(item.overview)
 			.setReleaseDate(
-				if (item.premiereDate != null) {
-					val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-					formatter.format(item.premiereDate)
-				} else null
+				if (item.premiereDate != null) DateTimeFormatter.ISO_DATE.format(item.premiereDate)
+				else null
 			)
 			.setDurationMillis(
 				if (item.runTimeTicks?.ticks != null) {
 					// If we are resuming, we need to show remaining time, cause GoogleTV
 					// ignores setLastPlaybackPositionMillis
-					item.runTimeTicks!!.ticks.inWholeMilliseconds.toInt() - item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt()
+					val duration = item.runTimeTicks?.ticks ?: Duration.ZERO
+					val playbackPosition = item.userData?.playbackPositionTicks?.ticks
+						?: Duration.ZERO
+					(duration - playbackPosition).inWholeMilliseconds.toInt()
 				} else 0
 			)
 			.setPosterArtUri(imageUri)
 			.setPosterArtAspectRatio(
-				if (item.type == BaseItemKind.COLLECTION_FOLDER || item.type == BaseItemKind.EPISODE)
-					TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9 else
-					TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
+				when (item.type) {
+					BaseItemKind.COLLECTION_FOLDER,
+					BaseItemKind.EPISODE -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_16_9
+
+					else -> TvContractCompat.PreviewPrograms.ASPECT_RATIO_MOVIE_POSTER
+				}
 			)
 			.setIntent(Intent(context, StartupActivity::class.java).apply {
 				putExtra(StartupActivity.EXTRA_ITEM_ID, item.id.toString())
-				if (item.type == BaseItemKind.COLLECTION_FOLDER) putExtra(
-					StartupActivity.EXTRA_ITEM_IS_USER_VIEW,
-					true
-				)
+				putExtra(StartupActivity.EXTRA_ITEM_IS_USER_VIEW, item.type == BaseItemKind.COLLECTION_FOLDER)
 			})
 			.build()
 			.toContentValues()
@@ -437,9 +438,9 @@ class LeanbackChannelWorker(
 
 			when {
 				// User has started playing the episode
-				item.userData?.playbackPositionTicks ?: 0 > 0 -> {
+				(item.userData?.playbackPositionTicks ?: 0) > 0 -> {
 					setWatchNextType(WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
-					setLastPlaybackPositionMillis((item.userData!!.playbackPositionTicks / TICKS_IN_MILLISECOND).toInt())
+					setLastPlaybackPositionMillis(item.userData!!.playbackPositionTicks.ticks.inWholeMilliseconds.toInt())
 					// Use last played date to prioritize
 					engagement = item.userData?.lastPlayedDate
 				}
@@ -456,7 +457,7 @@ class LeanbackChannelWorker(
 
 			// Episode runtime has been determined
 			item.runTimeTicks?.let { runTimeTicks ->
-				setDurationMillis((runTimeTicks / TICKS_IN_MILLISECOND).toInt())
+				setDurationMillis(runTimeTicks.ticks.inWholeMilliseconds.toInt())
 			}
 
 			// Set intent to open the episode
