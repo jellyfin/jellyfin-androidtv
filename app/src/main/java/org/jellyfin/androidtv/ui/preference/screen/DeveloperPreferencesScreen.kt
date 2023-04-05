@@ -23,6 +23,12 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 				bind(userPreferences, UserPreferences.debuggingEnabled)
 			}
 
+			checkbox {
+				setTitle(R.string.enable_reactive_homepage)
+				setContent(R.string.enable_playback_module_description)
+				bind(userPreferences, UserPreferences.homeReactive)
+			}
+
 			// Only show in debug mode
 			// some strings are hardcoded because these options don't show in beta/release builds
 			if (BuildConfig.DEVELOPMENT) {
