@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ import org.jellyfin.androidtv.data.repository.CustomMessageRepository
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.browsing.CompositeClickedListener
 import org.jellyfin.androidtv.ui.browsing.CompositeSelectedListener
@@ -42,7 +44,11 @@ import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.apiclient.EmptyLifecycleAwareResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
+import org.jellyfin.sdk.api.sockets.SocketInstance
+import org.jellyfin.sdk.api.sockets.addGlobalListener
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.socket.LibraryChangedMessage
+import org.jellyfin.sdk.model.socket.UserDataChangedMessage
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
@@ -53,11 +59,13 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val mediaManager by inject<MediaManager>()
 	private val notificationsRepository by inject<NotificationsRepository>()
 	private val userRepository by inject<UserRepository>()
+	private val userPreferences by inject<UserPreferences>()
 	private val userSettingPreferences by inject<UserSettingPreferences>()
 	private val userViewsRepository by inject<UserViewsRepository>()
 	private val dataRefreshService by inject<DataRefreshService>()
 	private val customMessageRepository by inject<CustomMessageRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val socketInstance by inject<SocketInstance>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -121,6 +129,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 					rows.add(liveTVRow)
 					rows.add(helper.loadOnNow())
 				}
+
 				HomeSectionType.NONE -> Unit
 			}
 
@@ -151,6 +160,24 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 					when (message) {
 						CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
 						else -> Unit
+					}
+				}
+			}
+		}
+
+		lifecycleScope.launch {
+			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				if (userPreferences[UserPreferences.homeReactive]) {
+					val listener = socketInstance.addGlobalListener {
+						if (it is UserDataChangedMessage || it is LibraryChangedMessage) {
+							refreshRows(force = true)
+						}
+					}
+
+					try {
+						awaitCancellation()
+					} finally {
+						listener.stop()
 					}
 				}
 			}
@@ -195,12 +222,13 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		nowPlaying.update(requireContext(), adapter as MutableObjectAdapter<Row>)
 	}
 
-	private fun refreshRows() {
+	private fun refreshRows(force: Boolean = false) {
 		lifecycleScope.launch(Dispatchers.IO) {
 			delay(1.5.seconds)
 			repeat(adapter.size()) { i ->
 				val rowAdapter = (adapter[i] as? ListRow)?.adapter as? ItemRowAdapter
-				rowAdapter?.ReRetrieveIfNeeded()
+				if (force) rowAdapter?.Retrieve()
+				else rowAdapter?.ReRetrieveIfNeeded()
 			}
 		}
 	}

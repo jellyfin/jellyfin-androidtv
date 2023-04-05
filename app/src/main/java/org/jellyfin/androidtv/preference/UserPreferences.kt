@@ -219,6 +219,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Timeout before showing the screensaver in app, depends on [screensaverInAppEnabled].
 		 */
 		var screensaverInAppTimeout = longPreference("screensaver_inapp_timeout", 5.minutes.inWholeMilliseconds)
+
+		/**
+		 * Enable reactive homepage
+		 */
+		var homeReactive = booleanPreference("home_reactive", false)
 	}
 
 	init {

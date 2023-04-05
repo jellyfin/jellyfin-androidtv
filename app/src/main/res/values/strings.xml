@@ -488,6 +488,7 @@
     <string name="pref_screensaver_inapp_enabled">Use in-app screensaver</string>
     <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
     <string name="pref_screensaver_inapp_timeout">Start screensaver after</string>
+    <string name="enable_reactive_homepage">Enable reactive homepage</string>
     <plurals name="seconds">
         <item quantity="one">%1$s second</item>
         <item quantity="other">%1$s seconds</item>
