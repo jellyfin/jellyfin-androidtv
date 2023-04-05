@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="loading">Загрузка…</string>
+    <string name="lbl_search">Пошук</string>
+    <string name="lbl_loading_elipses">Загрузка…</string>
+    <string name="lbl_other">Іншае</string>
+    <string name="btn_cancel">Адмяніць</string>
+    <string name="video_error_unknown_error">Не ўдалося загрузіць відэа</string>
+    <string name="pref_playback">Прайграванне</string>
+    <string name="pref_authentication_cat">Аўтэнтыфікацыя</string>
+    <string name="chapters">Раздзелы</string>
+    <string name="lbl_settings">Налады</string>
+    <string name="lbl_genres">Жанры</string>
+    <string name="lbl_favorites">Абранае</string>
+    <string name="lbl_movies">Фільмы</string>
+    <string name="lbl_because_you_watched">"На падставе вашых праглядаў "</string>
+    <string name="lbl_pause">Паўза</string>
+    <string name="lbl_cancel">Адмяніць</string>
+    <string name="lbl_yes">Так</string>
+    <string name="lbl_continue_watching">Працягнуць прагляд</string>
+    <string name="lbl_next_up">Далей</string>
+    <string name="lbl_on_now">Зараз</string>
+    <string name="lbl_by_name">Па імені</string>
+    <string name="lbl_other_channels">Іншыя каналы</string>
+    <string name="lbl_tv_series">Серыялы</string>
 </resources>
