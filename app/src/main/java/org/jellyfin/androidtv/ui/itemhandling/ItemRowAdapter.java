@@ -995,51 +995,39 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             @Override
             public void onResponse(final ItemsResult response) {
                 if (response.getItems() != null && response.getItems().length > 0) {
-                    if (adapter.size() > 0) {
-                        adapter.clear();
-                    }
-                    int i = 0;
-                    for (BaseItemDto item : response.getItems()) {
-                        adapter.add(new BaseRowItem(i++, item, preferParentThumb, staticHeight));
-                    }
-                    totalItems = response.getTotalRecordCount();
-                    setItemsLoaded(itemsLoaded + i);
-                    if (i == 0) {
-                        removeRow();
-                        notifyRetrieveFinished();
-                    } else {
-                        //If this was for a single series, get the rest of the episodes in the season
-                        if (query.getSeriesId() != null) {
-                            org.jellyfin.sdk.model.api.BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
-                            if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
-                                StdItemQuery rest = new StdItemQuery();
-                                rest.setUserId(query.getUserId());
-                                rest.setParentId(first.getSeasonId().toString());
-                                rest.setStartIndex(first.getIndexNumber());
-                                apiClient.getValue().GetItemsAsync(rest, new Response<ItemsResult>() {
-                                    @Override
-                                    public void onResponse(ItemsResult innerResponse) {
-                                        if (response.getItems() != null) {
-                                            int n = response.getItems().length;
-                                            for (BaseItemDto item : innerResponse.getItems()) {
-                                                adapter.add(new BaseRowItem(n++, item, preferParentThumb, false));
-                                            }
-                                            totalItems += innerResponse.getTotalRecordCount();
-                                            setItemsLoaded(itemsLoaded + n);
+                    setTotalItems(response.getTotalRecordCount());
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, preferParentThumb, staticHeight));
 
+                    //If this was for a single series, get the rest of the episodes in the season
+                    if (query.getSeriesId() != null) {
+                        org.jellyfin.sdk.model.api.BaseItemDto first = adapter.size() == 1 ? ((BaseRowItem) adapter.get(0)).getBaseItem() : null;
+                        if (first != null && first.getIndexNumber() != null && first.getSeasonId() != null) {
+                            StdItemQuery rest = new StdItemQuery();
+                            rest.setUserId(query.getUserId());
+                            rest.setParentId(first.getSeasonId().toString());
+                            rest.setStartIndex(first.getIndexNumber());
+                            apiClient.getValue().GetItemsAsync(rest, new Response<ItemsResult>() {
+                                @Override
+                                public void onResponse(ItemsResult innerResponse) {
+                                    if (response.getItems() != null) {
+                                        int n = response.getItems().length;
+                                        for (BaseItemDto item : innerResponse.getItems()) {
+                                            adapter.add(new BaseRowItem(n++, item, preferParentThumb, false));
                                         }
-                                        notifyRetrieveFinished();
-                                    }
+                                        totalItems += innerResponse.getTotalRecordCount();
+                                        setItemsLoaded(itemsLoaded + n);
 
-                                    @Override
-                                    public void onError(Exception exception) {
-                                        Timber.e(exception, "Unable to retrieve subsequent episodes in next up");
-                                        notifyRetrieveFinished();
                                     }
-                                });
-                            }
+                                    notifyRetrieveFinished();
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+                                    Timber.e(exception, "Unable to retrieve subsequent episodes in next up");
+                                    notifyRetrieveFinished();
+                                }
+                            });
                         }
-
                     }
                 } else {
                     // no results - don't show us
