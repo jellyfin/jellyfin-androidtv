@@ -36,7 +36,7 @@
     <string name="msg_unable_to_create_recording">Imposible crear grabación</string>
     <string name="msg_recording_cancelled">Grabación Cancelada</string>
     <string name="msg_unable_to_cancel">No fue posible cancelar la grabación</string>
-    <string name="lbl_cast_crew">Reparto/Personal</string>
+    <string name="lbl_cast_crew">Reparto y personal</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiales</string>
     <string name="lbl_trailers">Avances</string>
@@ -75,18 +75,18 @@
     <string name="lbl_showing">Demostración</string>
     <string name="desc_debug">Proporcione información adicional para la depuración</string>
     <string name="lbl_enable_debug">Opciones de depuración</string>
-    <string name="lbl_goto_series">Ir a Series</string>
+    <string name="lbl_goto_series">Ir a series</string>
     <string name="lbl_audio_output">Salida de audio</string>
     <string name="pref_audio_compat">Remezclar a estéreo</string>
     <string name="pref_audio_direct">Directo</string>
     <string name="msg_cancel_entire_series">¿Está seguro de que desea cancelar toda la serie\?</string>
-    <string name="lbl_repeat_options">Repetir Opciones</string>
-    <string name="lbl_only_new_episodes">Solo Nuevos Episodios</string>
+    <string name="lbl_repeat_options">Repetir opciones</string>
+    <string name="lbl_only_new_episodes">Solo nuevos episodios</string>
     <string name="lbl_record_any_time">Grabar en cualquier momento</string>
     <string name="lbl_record_any_channel">Grabar en cualquier canal</string>
     <string name="lbl_similar_items_library">Elementos similares en su biblioteca</string>
-    <string name="lbl_end_padding">Finalizar el Relleno</string>
-    <string name="lbl_program_ended">Programa Finalizado</string>
+    <string name="lbl_end_padding">Finalizar el relleno</string>
+    <string name="lbl_program_ended">Programa finalizado</string>
     <string name="lbl_begin_padding">Comienza el relleno</string>
     <string name="msg_will_record">Grabará</string>
     <string name="msg_recording_now">Grabar Ahora</string>
@@ -118,8 +118,8 @@
     <string name="lbl_search">Buscar</string>
     <string name="pref_authentication_cat">Autenticación</string>
     <string name="loading">Cargando…</string>
-    <string name="lbl_open_album">Mostrar Álbum</string>
-    <string name="lbl_open_artist">Mostrar Artista</string>
+    <string name="lbl_open_album">Mostrar álbum</string>
+    <string name="lbl_open_artist">Mostrar artista</string>
     <string name="lbl_add_to_queue">Añadir a la cola</string>
     <string name="msg_items_added">" Elemento añadido"</string>
     <string name="lbl_playlists">Listas de reproducción</string>
@@ -142,7 +142,7 @@
     <string name="lbl_previous_episode">Episodio anterior</string>
     <string name="lbl_more_like_this">Más como este</string>
     <string name="lbl_resume_from">Reanudar desde %1$s</string>
-    <string name="lbl_guide_option_number">Numero de canal</string>
+    <string name="lbl_guide_option_number">Número de canal</string>
     <string name="lbl_guide_option_played">Último reproducido</string>
     <string name="lbl_show_indicators">Mostrar indicadores para</string>
     <string name="lbl_sort_by">Ordenar por</string>
@@ -180,7 +180,7 @@
     <string name="msg_item_added">" Elemento agregado"</string>
     <string name="lbl_delete">Eliminar</string>
     <string name="lbl_instant_mix">Mezcla instantánea</string>
-    <string name="lbl_goto_now_playing">Ir a Reproduciendo ahora</string>
+    <string name="lbl_goto_now_playing">Ir a reproduciendo ahora</string>
     <string name="lbl_remove_from_queue">Eliminar de la cola</string>
     <string name="lbl_play_from_here">Reproducir desde aquí</string>
     <string name="lbl_now_playing">Reproduciendo ahora</string>
@@ -209,22 +209,22 @@
     <string name="lbl_bitstream_dts">Audio bitstream DTS</string>
     <string name="lbl_refresh_switching">Cambio de frecuencia de actualización</string>
     <string name="lbl_bitstream_ac3">Audio Bitstream Dolby Digital</string>
-    <string name="lbl_new_episodes">Nuevos Episodios</string>
+    <string name="lbl_new_episodes">Nuevos episodios</string>
     <string name="lbl_news">Noticias</string>
     <string name="lbl_premieres">Estrenos</string>
     <string name="lbl_audio_delay">Retraso del audio</string>
-    <string name="lbl_new_only">Solo Nuevo</string>
+    <string name="lbl_new_only">Solo nuevo</string>
     <string name="lbl_resume_preroll">Continuar pre-cortinilla</string>
     <string name="lbl_image_type">Tipo de imagen</string>
     <string name="lbl_hd_programs">Programas HD</string>
-    <string name="lbl_repeat_episodes">Repetir Episodios</string>
+    <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="pref_video_player_external">Aplicación externa</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Seleccionar automáticamente</string>
-    <string name="lbl_my_media">Mis Medios</string>
+    <string name="lbl_my_media">Mis medios</string>
     <string name="lbl_image_size">Tamaño de la imagen</string>
-    <string name="lbl_start_favorites">Colocar Favoritos al Inicio</string>
+    <string name="lbl_start_favorites">Colocar favoritos al inicio</string>
     <string name="lbl_colored_backgrounds">Fondos codificados con colores</string>
     <string name="lbl_live_broadcasts">Emisiones en directo</string>
     <string name="pref_libvlc_audio_delay_title">Retardo de audio predeterminado para LibVLC</string>
@@ -234,7 +234,7 @@
     <string name="pref_media_player">Reproductor multimedia preferido</string>
     <string name="pref_about_title">Quienes somos</string>
     <string name="pref_app_theme">Temas de la app</string>
-    <string name="pref_theme_emerald">Esmeralda Clasico</string>
+    <string name="pref_theme_emerald">Esmeralda clásico</string>
     <string name="pref_theme_dark">Oscuro (Por Defecto)</string>
     <string name="grid_direction_vertical">Vertical</string>
     <string name="grid_direction_horizontal">Horizontal</string>
@@ -259,11 +259,11 @@
     <string name="msg_live_tv_next">¿Desea cargar las siguientes %1$d horas\?</string>
     <string name="episode_missing_message_2">Este episodio no está presente en la biblioteca. La reproducción se detendrá.</string>
     <string name="episode_missing_message">Este episodio no está presente en la biblioteca. ¿Desea omitirlo\?</string>
-    <string name="episode_missing">Episodio Faltante</string>
+    <string name="episode_missing">Episodio faltante</string>
     <string name="no_player_message">Parece que no tiene instalada una aplicación capaz de reproducir video. Esta opción requiere instalar una aplicación de terceros para reproducir video.</string>
-    <string name="no_player">No hay repoductor de Video</string>
+    <string name="no_player">No hay reproductor de vídeo</string>
     <string name="mark_watched_message">Este elemento no parece haberse reproducido completo. ¿Desea marcarlo como visto de todas formas\?</string>
-    <string name="mark_watched">Marcar como Visto</string>
+    <string name="mark_watched">Marcar como visto</string>
     <string name="lbl_tv_filter_status">Las siguientes %1$d horas</string>
     <string name="subtitle_error">Incapaz de selecionar subtítulo</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
@@ -404,7 +404,7 @@
     <string name="pref_subtitles_background_title">Activar fondo</string>
     <string name="server_connection_failed_candidates">Imposible conectar con el servidor. Dirección usada: %1$s</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
-    <string name="lbl_playback_speed">Velocidad de Reproducción</string>
+    <string name="lbl_playback_speed">Velocidad de reproducción</string>
     <string name="pref_show_backdrop_description">Cambia el fondo de pantalla según el elemento seleccionado</string>
     <string name="lbl_shuffle_queue">Cambiar a aleatorio</string>
     <string name="home_section_resume_book">Continuar leyendo</string>
@@ -483,4 +483,25 @@
     <string name="pref_enable_media_management_description">Ver opción para administrar medios mientras navegas</string>
     <string name="item_delete_confirm_title">Borrar elemento</string>
     <string name="item_delete_confirm_message">¿Estás seguro que quieres borrar este elemento del servidor\? Esta acción no puede deshacer.</string>
+    <string name="lbl_latest_in">Agregado recientemente en %1$s</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s segundo</item>
+        <item quantity="many">%1$s segundos</item>
+        <item quantity="other">%1$s segundos</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="many">%1$s minutos</item>
+        <item quantity="other">%1$s minutos</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s hora</item>
+        <item quantity="many">%1$s horas</item>
+        <item quantity="other">%1$s horas</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s episodio</item>
+        <item quantity="many">%1$s episodios</item>
+        <item quantity="other">%1$s episodios</item>
+    </plurals>
 </resources>
