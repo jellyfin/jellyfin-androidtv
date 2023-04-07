@@ -94,5 +94,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimation.SlideRight</item>
+        <item name="android:screenOrientation">behind</item>
     </style>
 </resources>

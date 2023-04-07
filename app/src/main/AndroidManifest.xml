@@ -112,7 +112,6 @@
             android:name=".ui.startup.StartupActivity"
             android:exported="true"
             android:noHistory="true"
-            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -133,25 +132,20 @@
         <!-- Main application -->
         <activity
             android:name=".ui.browsing.MainActivity"
-            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
             android:name=".ui.preference.PreferencesActivity"
-            android:screenOrientation="behind"
             android:theme="@style/Theme.Jellyfin.Preferences" />
 
         <!-- Playback related activities -->
-        <activity
-            android:name=".ui.playback.PlaybackOverlayActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".ui.playback.PlaybackOverlayActivity" />
 
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
 
         <activity
             android:name=".ui.playback.nextup.NextUpActivity"
-            android:noHistory="true"
-            android:screenOrientation="landscape" />
+            android:noHistory="true" />
 
         <!-- Playback Rewrite - Temporary -->
         <activity android:name=".ui.playback.rewrite.PlaybackForwardingActivity" />
