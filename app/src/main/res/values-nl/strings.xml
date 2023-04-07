@@ -508,4 +508,5 @@
         <item quantity="one">%1$s nummer</item>
         <item quantity="other">%1$s nummers</item>
     </plurals>
+    <string name="enable_reactive_homepage">Reactieve startpagina inschakelen</string>
 </resources>
