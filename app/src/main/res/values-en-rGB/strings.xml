@@ -508,4 +508,5 @@
         <item quantity="other">%1$s tracks</item>
     </plurals>
     <string name="pref_screensaver_inapp_enabled_description">Show the Jellyfin screensaver while the app is open</string>
+    <string name="enable_reactive_homepage">Enable reactive homepage</string>
 </resources>
