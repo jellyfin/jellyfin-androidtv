@@ -80,14 +80,7 @@ class RewriteMediaManager(
 		QueryType.StaticAudioQueueItems
 	)
 
-	override val managedAudioQueue = ItemRowAdapter(
-		context,
-		emptyList(),
-		CardPresenter(true, @Suppress("MagicNumber") 140),
-		null,
-		QueryType.StaticAudioQueueItems
-	)
-
+	override val managedAudioQueue get() = currentAudioQueue
 
 	private val audioListeners = mutableListOf<AudioEventListener>()
 	private var audioListenersJob: Job? = null
@@ -142,7 +135,6 @@ class RewriteMediaManager(
 					?: return@collect
 
 				currentAudioQueue.replaceAll(items.map(::BaseRowItem))
-				managedAudioQueue.replaceAll(items)
 
 				notifyListeners { onQueueReplaced() }
 			}
