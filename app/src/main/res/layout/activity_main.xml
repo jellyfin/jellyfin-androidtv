@@ -6,6 +6,13 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.startup.MainActivity">
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false" />
+
     <LinearLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"

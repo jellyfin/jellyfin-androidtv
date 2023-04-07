@@ -16,8 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ui.validateAuthentication
-import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
+import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
@@ -30,7 +30,6 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 		private const val FRAGMENT_TAG_CONTENT = "content"
 	}
 
-	private val backgroundService by inject<BackgroundService>()
 	private val navigationRepository by inject<NavigationRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
 
@@ -47,7 +46,6 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 
 		if (!validateAuthentication()) return
 
-		backgroundService.attach(this)
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
 		supportFragmentManager.addOnBackStackChangedListener {
@@ -65,6 +63,10 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 					screensaverViewModel.notifyInteraction(false)
 				}
 			}
+		}
+
+		findViewById<ComposeView>(R.id.background).setContent {
+			AppBackground()
 		}
 
 		findViewById<ComposeView>(R.id.screensaver).setContent {

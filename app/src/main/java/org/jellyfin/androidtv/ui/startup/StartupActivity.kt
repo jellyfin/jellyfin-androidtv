@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.add
@@ -21,7 +22,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
-import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -40,7 +41,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.UUID
 
-class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
+class StartupActivity : FragmentActivity(R.layout.activity_main) {
 	companion object {
 		const val EXTRA_ITEM_ID = "ItemId"
 		const val EXTRA_ITEM_IS_USER_VIEW = "ItemIsUserView"
@@ -52,7 +53,6 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 	private val mediaManager: MediaManager by inject()
 	private val sessionRepository: SessionRepository by inject()
 	private val userRepository: UserRepository by inject()
-	private val backgroundService: BackgroundService by inject()
 	private val navigationRepository: NavigationRepository by inject()
 
 	private val networkPermissionsRequester = registerForActivityResult(
@@ -74,7 +74,9 @@ class StartupActivity : FragmentActivity(R.layout.fragment_content_view) {
 
 		super.onCreate(savedInstanceState)
 
-		backgroundService.attach(this)
+		findViewById<ComposeView>(R.id.background).setContent {
+			AppBackground()
+		}
 
 		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
 

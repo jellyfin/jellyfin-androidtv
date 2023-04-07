@@ -1,6 +1,7 @@
 package org.jellyfin.androidtv.ui.playback.nextup
 
 import android.os.Bundle
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -8,7 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.ui.validateAuthentication
-import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.applyTheme
@@ -16,14 +17,13 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
+class NextUpActivity : FragmentActivity(R.layout.activity_main) {
 	companion object {
 		const val EXTRA_ID = "id"
 		const val EXTRA_USE_EXTERNAL_PLAYER = "useExternalPlayer"
 	}
 
 	private val viewModel: NextUpViewModel by viewModel()
-	private val backgroundService: BackgroundService by inject()
 	private val navigationRepository: NavigationRepository by inject()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +57,10 @@ class NextUpActivity : FragmentActivity(R.layout.fragment_content_view) {
 			}
 		}
 
-		// Add background manager
-		backgroundService.attach(this)
+		// Add background
+		findViewById<ComposeView>(R.id.background).setContent {
+			AppBackground()
+		}
 
 		// Add fragment
 		supportFragmentManager
