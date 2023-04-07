@@ -144,6 +144,7 @@ class RewriteMediaManager(
 					.apply {
 						// Set first as playing
 						if (isNotEmpty()) first().playing = true
+						forEachIndexed { index, item -> item.index = index }
 					}
 
 				// Update item row
