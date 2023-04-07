@@ -43,7 +43,7 @@ class RewriteMediaManager(
 		get() = currentAudioQueue.size()
 
 	override val currentAudioQueuePosition: Int
-		get() = playbackManager.queue?.currentItemPosition ?: -1
+		get() = if ((playbackManager.queue?.currentItemPosition ?: -1) >= 0) 0 else -1
 
 	override val currentAudioPosition: Long
 		get() = playbackManager.state.positionInfo.active.inWholeMilliseconds
@@ -131,10 +131,23 @@ class RewriteMediaManager(
 
 		launch {
 			playbackManager.state.currentEntry.collect {
-				val items = (playbackManager.state.queue.value as? BaseItemQueue)?.items
-					?: return@collect
+				// Get all items as BaseRowItem
+				val items = (playbackManager.state.queue.value as? BaseItemQueue)
+					?.items
+					.orEmpty()
+					.run {
+						val currentItemIndex = playbackManager.queue?.currentItemPosition ?: -1
+						// Drop previous items
+						if (currentItemIndex >= 0) drop(currentItemIndex) else this
+					}
+					.map(::BaseRowItem)
+					.apply {
+						// Set first as playing
+						if (isNotEmpty()) first().playing = true
+					}
 
-				currentAudioQueue.replaceAll(items.map(::BaseRowItem))
+				// Update item row
+				currentAudioQueue.replaceAll(items)
 
 				notifyListeners { onQueueReplaced() }
 			}
