@@ -119,7 +119,7 @@ public class LiveProgramDetailPopup {
         TvManager.setTimelineRow(mActivity, mDTimeline, program);
 
         //info row
-        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(program), mDInfoRow, false, false);
+        InfoLayoutHelper.addInfoRow(mActivity, ModelCompat.asSdk(program), mDInfoRow, false);
 
         //buttons
         mFirstButton = null;
