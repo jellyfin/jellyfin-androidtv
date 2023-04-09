@@ -477,4 +477,41 @@
     <string name="color_blue">Modrá barva</string>
     <string name="color_yellow">Žlutá barva</string>
     <string name="color_pink">Růžová barva</string>
+    <string name="pref_screensaver">Spořič obrazovky</string>
+    <string name="enable_reactive_homepage">Povolit reaktivní domovskou stránku</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s hodina</item>
+        <item quantity="few">%1$s hodiny</item>
+        <item quantity="other">%1$s hodin</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizoda</item>
+        <item quantity="few">%1$s epizody</item>
+        <item quantity="other">%1$s epizod</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minuta</item>
+        <item quantity="few">%1$s minuty</item>
+        <item quantity="other">%1$s minut</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s skladba</item>
+        <item quantity="few">%1$s skladby</item>
+        <item quantity="other">%1$s skladeb</item>
+    </plurals>
+    <string name="item_deleted">%1$s smazáno</string>
+    <string name="pref_screensaver_inapp_timeout">Spuštění spořiče obrazovky po</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s sekunda</item>
+        <item quantity="few">%1$s sekundy</item>
+        <item quantity="other">%1$s sekund</item>
+    </plurals>
+    <string name="pref_enable_media_management_description">Při procházení zobrazit možnost správy médií</string>
+    <string name="item_delete_confirm_title">Smazat položku</string>
+    <string name="item_delete_confirm_message">Opravdu chcete tuto položku ze serveru odstranit\? Tuto akci nelze vzít zpět.</string>
+    <string name="pref_screensaver_inapp_enabled">Použít spořič obrazovky v aplikaci</string>
+    <string name="item_deletion_failed">Nelze odstranit %1$s</string>
+    <string name="pref_enable_media_management">Povolit správu médií</string>
+    <string name="lbl_latest_in">Naposledy přidáno v %1$s</string>
+    <string name="pref_screensaver_inapp_enabled_description">Zobrazit Jellfin spořič obrazovky když je aplikace otevřená</string>
 </resources>
