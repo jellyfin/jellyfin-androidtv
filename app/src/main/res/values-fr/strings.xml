@@ -445,7 +445,7 @@
     <string name="lbl_adjust">Ajuster</string>
     <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s pour continuer à utiliser l\'application.</string>
     <string name="app_notification_uimode_invalid">Cette application est optimisée pour un usage sur une télévision. Nous vous recommandons d\'utiliser notre application mobile sur un autre appareil.</string>
-    <string name="server_setup_incomplete">La configuration de ce serveur est incomplète. Ouvrir Jellyfin dans un navigateur Web pour terminer la configuration avant de se connecter.</string>
+    <string name="server_setup_incomplete">La configuration de ce serveur est incomplète. Ouvrez Jellyfin dans un navigateur Web pour terminer la configuration avant de se connecter.</string>
     <string name="crash_report_toast">Oups ! Il y a eu un problème. Un rapport de plantage a été envoyé à votre serveur Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">Les logs ne seront pas inclus avec les rapports de plantage</string>
     <string name="pref_crash_report_logs_enabled">Les logs seront inclus avec les rapports de plantage</string>
@@ -478,10 +478,15 @@
     <string name="app_notification_beta">Application mise à jour en %1$s
 \nMerci de participer au programme bêta de Jellyfin</string>
     <string name="item_delete_confirm_title">Supprimer l\'élément</string>
-    <string name="item_deleted">%1$ssupprimé</string>
-    <string name="item_deletion_failed">Impossible à supprimer%1$s</string>
+    <string name="item_deleted">%1$s supprimé</string>
+    <string name="item_deletion_failed">Impossible à supprimer %1$s</string>
     <string name="pref_enable_media_management">Activer la gestion des médias</string>
     <string name="pref_enable_media_management_description">Afficher l\'option pour gérer les médias pendant la navigation</string>
-    <string name="item_delete_confirm_message">Êtes-vous sûr de bien vouloir supprimer cet élément \? Cette action ne peut pas être annulée.</string>
+    <string name="item_delete_confirm_message">Êtes-vous sûr de bien vouloir supprimer cet élément du serveur \? Cette action ne peut pas être annulée.</string>
     <string name="lbl_latest_in">Récemment ajouté dans %1$s</string>
+    <string name="pref_screensaver_inapp_enabled_description">Afficher l\'économiseur d\'écran Jellyfin lorsque l\'application est ouverte</string>
+    <string name="enable_reactive_homepage">Activer la page d\'accueil réactive</string>
+    <string name="pref_screensaver_inapp_enabled">Utiliser l\'économiseur d\'écran intégré à l\'application</string>
+    <string name="pref_screensaver_inapp_timeout">Lancer l\'économiseur d\'écran après</string>
+    <string name="pref_screensaver">Économiseur d\'écran</string>
 </resources>
