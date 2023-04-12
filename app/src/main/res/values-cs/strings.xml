@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Nelze vytvořit záznam</string>
     <string name="msg_recording_cancelled">Nahrávání zrušeno</string>
     <string name="msg_unable_to_cancel">Nelze zrušit nahrávání</string>
-    <string name="lbl_cast_crew">Herci/Štáb</string>
+    <string name="lbl_cast_crew">Herci a Štáb</string>
     <string name="lbl_chapters">Kapitoly</string>
     <string name="lbl_specials">Speciály</string>
     <string name="lbl_trailers">Upoutávky</string>
@@ -183,7 +183,7 @@
     <string name="lbl_album_name">Název alba</string>
     <string name="lbl_next_episode">Další epizoda</string>
     <string name="lbl_previous_episode">Předchozí epizoda</string>
-    <string name="lbl_more_like_this">Více takovýchto</string>
+    <string name="lbl_more_like_this">Další podobné</string>
     <string name="lbl_resume_from">Přehrát od %1$s</string>
     <string name="lbl_resume_preroll">Pokračovat v přehrávání upoutávek</string>
     <string name="lbl_guide_option_number">Číslo kanálu</string>
@@ -217,13 +217,13 @@
     <string name="lbl_repeat_episodes">Opakovat epizody</string>
     <string name="lbl_premieres">Premiéry</string>
     <string name="lbl_new_episodes">Nové epizody</string>
-    <string name="lbl_audio_delay">Spoždění zvuku</string>
+    <string name="lbl_audio_delay">Zpoždění zvuku</string>
     <string name="lbl_new_only">Pouze nové</string>
     <string name="lbl_news">Novinky</string>
     <string name="lbl_colored_backgrounds">Barevné pozadí</string>
-    <string name="lbl_live_broadcasts">Živé vysílání</string>
+    <string name="lbl_live_broadcasts">Živá vysílání</string>
     <string name="pref_video_player_external">Externí aplikace</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (experimentální)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Vybrat automaticky</string>
     <string name="lbl_my_media">Moje média</string>
@@ -387,7 +387,7 @@
     <string name="home_section_resume">Pokračovat ve sledování</string>
     <string name="home_section_library_small">Moje média (malé)</string>
     <string name="home_section_library">Moje média</string>
-    <string name="home_section_latest_media">Nejnovější média</string>
+    <string name="home_section_latest_media">Nedávno přidaná média</string>
     <string name="home_sections">Sekce Domů</string>
     <string name="home_prefs">Domů</string>
     <string name="searchable_settings_description">Média</string>
