@@ -53,7 +53,6 @@ class MyDetailsOverviewRowPresenter(
 
 				binding.fdSummaryText.maxLines = 9
 				binding.fdGenreRow.isVisible = false
-				binding.fdMainInfoRow.isVisible = false
 				binding.leftFrame.updateLayoutParams<RelativeLayout.LayoutParams> {
 					width = 100.dp(view.context)
 				}
