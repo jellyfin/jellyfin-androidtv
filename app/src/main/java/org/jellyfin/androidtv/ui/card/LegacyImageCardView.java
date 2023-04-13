@@ -35,7 +35,7 @@ public class LegacyImageCardView extends BaseCardView {
     private NumberFormat nf = NumberFormat.getInstance();
 
     public LegacyImageCardView(Context context, boolean showInfo) {
-        super(context, null, R.attr.imageCardViewStyle);
+        super(context, null, androidx.leanback.R.attr.imageCardViewStyle);
 
         if (!showInfo) {
             setCardType(CARD_TYPE_MAIN_ONLY);

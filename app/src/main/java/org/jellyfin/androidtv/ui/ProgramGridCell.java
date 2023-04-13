@@ -82,7 +82,7 @@ public class ProgramGridCell extends RelativeLayout implements RecordingIndicato
         }
 
         if (liveTvPreferences.get(LiveTvPreferences.Companion.getShowRepeatIndicator()) && Utils.isTrue(program.getIsRepeat())) {
-            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_repeat), 10, Color.GRAY, R.color.lb_default_brand_color);
+            InfoLayoutHelper.addBlockText(context, mInfoRow, context.getString(R.string.lbl_repeat), 10, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
         }
 
         if (program.getOfficialRating() != null && !program.getOfficialRating().equals("0")) {

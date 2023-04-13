@@ -43,7 +43,7 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		val styledContext = ContextThemeWrapper(activity, R.style.PreferenceThemeOverlayLeanback)
+		val styledContext = ContextThemeWrapper(activity, androidx.leanback.preference.R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
 		binding = PreferenceColorListBinding.inflate(styledInflater, container, false)
 
