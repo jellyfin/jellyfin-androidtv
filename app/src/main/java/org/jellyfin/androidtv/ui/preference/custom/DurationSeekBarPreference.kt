@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SeekBarPreference
-import org.jellyfin.androidtv.R
 
 class DurationSeekBarPreference @JvmOverloads constructor(
 	context: Context,
@@ -21,7 +20,7 @@ class DurationSeekBarPreference @JvmOverloads constructor(
 	override fun onBindViewHolder(view: PreferenceViewHolder) {
 		super.onBindViewHolder(view)
 
-		val textView = view.findViewById(R.id.seekbar_value) as TextView
+		val textView = view.findViewById(androidx.leanback.preference.R.id.seekbar_value) as TextView
 		textView.transformationMethod = object : TransformationMethod {
 			override fun onFocusChanged(view: View, sourceText: CharSequence?, focused: Boolean, direction: Int, previouslyFocusedRect: Rect) {}
 

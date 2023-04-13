@@ -176,11 +176,11 @@ public class InfoLayoutHelper {
             addBlockText(context, layout, context.getString(R.string.lbl_new), 12, Color.GRAY, R.drawable.dark_green_gradient);
             addSpacer(context, layout, "  ");
         } else if (Utils.isTrue(item.isSeries()) && !Utils.isTrue(item.isNews())) {
-            addBlockText(context, layout, context.getString(R.string.lbl_repeat), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(context, layout, context.getString(R.string.lbl_repeat), 12, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
             addSpacer(context, layout, "  ");
         }
         if (Utils.isTrue(item.isLive())) {
-            addBlockText(context, layout, context.getString(R.string.lbl_live), 12, Color.GRAY, R.color.lb_default_brand_color);
+            addBlockText(context, layout, context.getString(R.string.lbl_live), 12, Color.GRAY, androidx.leanback.R.color.lb_default_brand_color);
             addSpacer(context, layout, "  ");
 
         }
