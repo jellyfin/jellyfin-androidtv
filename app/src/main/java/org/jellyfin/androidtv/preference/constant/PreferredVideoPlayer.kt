@@ -1,36 +1,33 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class PreferredVideoPlayer {
+enum class PreferredVideoPlayer(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 *  Automatically selects between exoplayer and vlc
 	 */
-	@EnumDisplayOptions(R.string.pref_video_player_auto)
-	AUTO,
+	AUTO(R.string.pref_video_player_auto),
 
 	/**
 	 *  Force ExoPlayer
 	 */
-	@EnumDisplayOptions(R.string.pref_video_player_exoplayer)
-	EXOPLAYER,
+	EXOPLAYER(R.string.pref_video_player_exoplayer),
 
 	/**
 	 * Force libVLC
 	 */
-	@EnumDisplayOptions(R.string.pref_video_player_vlc)
-	VLC,
+	VLC(R.string.pref_video_player_vlc),
 
 	/**
 	 * Use external player
 	 */
-	@EnumDisplayOptions(R.string.pref_video_player_external)
-	EXTERNAL,
+	EXTERNAL(R.string.pref_video_player_external),
 
 	/**
 	 * Choose a player - play with button
 	 */
-	@EnumDisplayOptions(R.string.pref_video_player_choose)
-	CHOOSE
+	CHOOSE(R.string.pref_video_player_choose),
 }

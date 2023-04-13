@@ -1,22 +1,22 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 import org.jellyfin.androidtv.util.DeviceUtils
+import org.jellyfin.preference.PreferenceEnum
 
-enum class AudioBehavior {
+enum class AudioBehavior(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * Directly stream audio without any changes
 	 */
-	@EnumDisplayOptions(R.string.pref_audio_direct)
-	DIRECT_STREAM,
+	DIRECT_STREAM(R.string.pref_audio_direct),
 
 	/**
 	 * Downnmix audio to stereo. Disables the AC3, EAC3 and AAC_LATM audio codecs.
 	 */
-	@EnumDisplayOptions(R.string.pref_audio_compat)
-	DOWNMIX_TO_STEREO
+	DOWNMIX_TO_STEREO(R.string.pref_audio_compat),
 }
 
 val defaultAudioBehavior = if (DeviceUtils.isChromecastWithGoogleTV) AudioBehavior.DOWNMIX_TO_STEREO
-	else AudioBehavior.DIRECT_STREAM
+else AudioBehavior.DIRECT_STREAM

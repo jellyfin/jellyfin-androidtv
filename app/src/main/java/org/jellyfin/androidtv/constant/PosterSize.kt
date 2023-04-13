@@ -1,35 +1,32 @@
 package org.jellyfin.androidtv.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class PosterSize {
+enum class PosterSize(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * Smallest.
 	 */
-	@EnumDisplayOptions(R.string.image_size_smallest)
-	SMALLEST,
+	SMALLEST(R.string.image_size_smallest),
 	/**
 	 * Small.
 	 */
-	@EnumDisplayOptions(R.string.image_size_small)
-	SMALL,
+	SMALL(R.string.image_size_small),
 
 	/**
 	 * Medium.
 	 */
-	@EnumDisplayOptions(R.string.image_size_medium)
-	MED,
+	MED(R.string.image_size_medium),
 
 	/**
 	 * Large.
 	 */
-	@EnumDisplayOptions(R.string.image_size_large)
-	LARGE,
+	LARGE(R.string.image_size_large),
 
 	/**
 	 * Extra Large.
 	 */
-	@EnumDisplayOptions(R.string.image_size_xlarge)
-	X_LARGE
+	X_LARGE(R.string.image_size_xlarge),
 }

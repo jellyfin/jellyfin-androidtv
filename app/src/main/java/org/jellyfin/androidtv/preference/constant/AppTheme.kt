@@ -1,24 +1,23 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class AppTheme {
+enum class AppTheme(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * The default dark theme
 	 */
-	@EnumDisplayOptions(R.string.pref_theme_dark)
-	DARK,
+	DARK(R.string.pref_theme_dark),
 
 	/**
 	 * The "classic" emerald theme
 	 */
-	@EnumDisplayOptions(R.string.pref_theme_emerald)
-	EMERALD,
+	EMERALD(R.string.pref_theme_emerald),
 
 	/**
 	 * A theme with a more muted accent color, inspired by CTalvio's Monochromic CSS theme for Jellyfin Web
 	 */
-	@EnumDisplayOptions(R.string.pref_theme_muted_purple)
-	MUTED_PURPLE,
+	MUTED_PURPLE(R.string.pref_theme_muted_purple),
 }

@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
 import org.jellyfin.preference.PreferenceEnum
 
 /**
@@ -10,35 +9,17 @@ import org.jellyfin.preference.PreferenceEnum
  * https://github.com/jellyfin/jellyfin-web/blob/master/src/components/homesections/homesections.js
  */
 enum class HomeSectionType(
-	override val serializedName: String
+	override val serializedName: String,
+	override val nameRes: Int,
 ) : PreferenceEnum {
-	@EnumDisplayOptions(R.string.home_section_latest_media)
-	LATEST_MEDIA("latestmedia"),
-
-	@EnumDisplayOptions(R.string.home_section_library)
-	LIBRARY_TILES_SMALL("smalllibrarytiles"),
-
-	@EnumDisplayOptions(R.string.home_section_library_small)
-	LIBRARY_BUTTONS("librarybuttons"),
-
-	@EnumDisplayOptions(R.string.home_section_resume)
-	RESUME("resume"),
-
-	@EnumDisplayOptions(R.string.home_section_resume_audio)
-	RESUME_AUDIO("resumeaudio"),
-
-	@EnumDisplayOptions(R.string.home_section_resume_book)
-	RESUME_BOOK("resumebook"),
-
-	@EnumDisplayOptions(R.string.home_section_active_recordings)
-	ACTIVE_RECORDINGS("activerecordings"),
-
-	@EnumDisplayOptions(R.string.home_section_next_up)
-	NEXT_UP("nextup"),
-
-	@EnumDisplayOptions(R.string.home_section_livetv)
-	LIVE_TV("livetv"),
-
-	@EnumDisplayOptions(R.string.home_section_none)
-	NONE("none"),
+	LATEST_MEDIA("latestmedia", R.string.home_section_latest_media),
+	LIBRARY_TILES_SMALL("smalllibrarytiles", R.string.home_section_library),
+	LIBRARY_BUTTONS("librarybuttons", R.string.home_section_library_small),
+	RESUME("resume", R.string.home_section_resume),
+	RESUME_AUDIO("resumeaudio", R.string.home_section_resume_audio),
+	RESUME_BOOK("resumebook", R.string.home_section_resume_book),
+	ACTIVE_RECORDINGS("activerecordings", R.string.home_section_active_recordings),
+	NEXT_UP("nextup", R.string.home_section_next_up),
+	LIVE_TV("livetv", R.string.home_section_livetv),
+	NONE("none", R.string.home_section_none),
 }

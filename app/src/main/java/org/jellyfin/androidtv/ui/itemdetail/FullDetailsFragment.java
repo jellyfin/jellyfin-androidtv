@@ -1500,23 +1500,22 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     PopupMenu.OnMenuItemClickListener moreMenuListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.addFav:
-                case R.id.remFav:
-                    toggleFavorite();
-                    return true;
-                case R.id.playTrailers:
-                    playTrailers();
-                    return true;
-                case R.id.gotoSeries:
-                    gotoSeries();
-                    return true;
-                case R.id.shuffleAll:
-                    play(mBaseItem, 0, true);
-                    return true;
-                case R.id.addQueue:
-                    addItemToQueue();
-                    return true;
+            int itemId = item.getItemId();
+            if (itemId == R.id.addFav || itemId == R.id.remFav) {
+                toggleFavorite();
+                return true;
+            } else if (itemId == R.id.playTrailers) {
+                playTrailers();
+                return true;
+            } else if (itemId == R.id.gotoSeries) {
+                gotoSeries();
+                return true;
+            } else if (itemId == R.id.shuffleAll) {
+                play(mBaseItem, 0, true);
+                return true;
+            } else if (itemId == R.id.addQueue) {
+                addItemToQueue();
+                return true;
             }
             return false;
         }
