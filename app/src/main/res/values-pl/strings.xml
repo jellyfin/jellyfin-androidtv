@@ -506,4 +506,17 @@
         <item quantity="many">%1$s godzin</item>
         <item quantity="other">%1$s godzin</item>
     </plurals>
+    <string name="enable_reactive_homepage">Włącz reaktywną stronę domową</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s utwór</item>
+        <item quantity="few">%1$s utwory</item>
+        <item quantity="many">%1$s utworów</item>
+        <item quantity="other">%1$s utworów</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s odcinek</item>
+        <item quantity="few">%1$s odcinki</item>
+        <item quantity="many">%1$s odcinków</item>
+        <item quantity="other">%1$s odcinków</item>
+    </plurals>
 </resources>
