@@ -1,11 +1,11 @@
 package org.jellyfin.androidtv.auth.model
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class AuthenticationSortBy {
-	@EnumDisplayOptions(name = R.string.last_use)
-	LAST_USE,
-	@EnumDisplayOptions(name = R.string.alphabetical)
-	ALPHABETICAL
+enum class AuthenticationSortBy(
+	override val nameRes: Int
+) : PreferenceEnum {
+	LAST_USE(R.string.last_use),
+	ALPHABETICAL(R.string.alphabetical);
 }

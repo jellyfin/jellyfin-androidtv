@@ -1,24 +1,23 @@
 package org.jellyfin.androidtv.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class ImageType {
+enum class ImageType(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * Poster.
 	 */
-	@EnumDisplayOptions(R.string.image_type_poster)
-	POSTER,
+	POSTER(R.string.image_type_poster),
 
 	/**
 	 * Thumbnail.
 	 */
-	@EnumDisplayOptions(R.string.image_type_thumbnail)
-	THUMB,
+	THUMB(R.string.image_type_thumbnail),
 
 	/**
 	 * Banner.
 	 */
-	@EnumDisplayOptions(R.string.image_type_banner)
-	BANNER
+	BANNER(R.string.image_type_banner),
 }

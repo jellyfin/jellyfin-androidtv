@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.preference.PreferenceCategory
 import org.jellyfin.androidtv.ui.preference.custom.RichListPreference
 import org.jellyfin.preference.Preference
+import org.jellyfin.preference.PreferenceEnum
 import org.jellyfin.preference.store.PreferenceStore
 import java.util.UUID
 
@@ -26,17 +27,10 @@ class OptionsItemEnum<T : Enum<T>>(
 
 	private fun getEntries(): Map<T, String> {
 		return clazz.enumConstants?.mapNotNull { entry ->
-			val options = clazz
-				.getDeclaredField(entry.name)
-				.getAnnotation(EnumDisplayOptions::class.java)
-
 			when {
-				// Options set but entry is hidden
-				options?.hidden == true -> null
-				// Options not set or name not set
-				options == null || options.name == -1 -> Pair(entry, entry.name)
-				// Options set and name set
-				else -> Pair(entry, context.getString(options.name))
+				entry is PreferenceEnum && entry.hidden -> null
+				entry is PreferenceEnum && entry.nameRes != -1 -> Pair(entry, context.getString(entry.nameRes))
+				else -> Pair(entry, entry.name)
 			}
 		}?.toMap().orEmpty()
 	}
@@ -66,7 +60,7 @@ class OptionsItemEnum<T : Enum<T>>(
 			}
 		}
 
-		container +=  {
+		container += {
 			pref.isEnabled = dependencyCheckFun() && enabled
 		}
 	}

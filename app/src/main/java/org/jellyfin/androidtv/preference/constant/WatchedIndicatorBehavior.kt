@@ -1,30 +1,28 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class WatchedIndicatorBehavior {
+enum class WatchedIndicatorBehavior(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * Always show watched indicators.
 	 */
-	@EnumDisplayOptions(R.string.lbl_always)
-	ALWAYS,
+	ALWAYS(R.string.lbl_always),
 
 	/**
 	 * Hide unwatched count indicator, show watched check mark only.
 	 */
-	@EnumDisplayOptions(R.string.lbl_hide_unwatched_count)
-	HIDE_UNWATCHED,
+	HIDE_UNWATCHED(R.string.lbl_hide_unwatched_count),
 
 	/**
 	 * Hide unwatched count indicator, show watched check mark on individual episodes only.
 	 */
-	@EnumDisplayOptions(R.string.lbl_episode_marks)
-	EPISODES_ONLY,
+	EPISODES_ONLY(R.string.lbl_episode_marks),
 
 	/**
 	 * Never show watched indicators.
 	 */
-	@EnumDisplayOptions(R.string.lbl_never)
-	NEVER
+	NEVER(R.string.lbl_never),
 }

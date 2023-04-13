@@ -70,7 +70,7 @@ abstract class SharedPreferenceStore(
 
 	override fun <V : Enum<V>> setEnum(preference: Preference<*>, value: Enum<V>) =
 		setString(preference.key, when (value) {
-				is PreferenceEnum -> value.serializedName
+				is PreferenceEnum -> value.serializedName ?: value.toString()
 				else -> value.toString()
 			})
 

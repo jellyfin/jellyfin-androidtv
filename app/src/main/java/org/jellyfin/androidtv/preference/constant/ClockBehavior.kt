@@ -1,30 +1,28 @@
 package org.jellyfin.androidtv.preference.constant
 
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.ui.preference.dsl.EnumDisplayOptions
+import org.jellyfin.preference.PreferenceEnum
 
-enum class ClockBehavior {
+enum class ClockBehavior(
+	override val nameRes: Int,
+) : PreferenceEnum {
 	/**
 	 * Always show clock.
 	 */
-	@EnumDisplayOptions(R.string.lbl_always)
-	ALWAYS,
+	ALWAYS(R.string.lbl_always),
 
 	/**
 	 * Show clock in menus only.
 	 */
-	@EnumDisplayOptions(R.string.pref_clock_display_browsing)
-	IN_MENUS,
+	IN_MENUS(R.string.pref_clock_display_browsing),
 
 	/**
 	 * Show clock in video only.
 	 */
-	@EnumDisplayOptions(R.string.pref_clock_display_playback)
-	IN_VIDEO,
+	IN_VIDEO(R.string.pref_clock_display_playback),
 
 	/**
 	 * Show clock never.
 	 */
-	@EnumDisplayOptions(R.string.lbl_never)
-	NEVER
+	NEVER(R.string.lbl_never),
 }
