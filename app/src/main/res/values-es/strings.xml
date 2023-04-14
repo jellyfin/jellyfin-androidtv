@@ -267,7 +267,7 @@
     <string name="lbl_tv_filter_status">Las siguientes %1$d horas</string>
     <string name="subtitle_error">Incapaz de selecionar subtítulo</string>
     <string name="seek_error">Incapaz de retroceder o avanzar</string>
-    <string name="lbl_load_guide_data">Cargar Programación de Canales (TV Guía)</string>
+    <string name="lbl_load_guide_data">Cargar programación de canales</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con una app externa</string>
     <string name="play_with_exo_player">Reproducir con ExoPlayer</string>
