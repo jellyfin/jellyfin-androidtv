@@ -20,6 +20,7 @@ enum class QueryType {
 	StaticItems,
 	Persons,
 	StaticAudioQueueItems,
+	Artists,
 	AlbumArtists,
 	AudioPlaylists,
 	LatestItems,
