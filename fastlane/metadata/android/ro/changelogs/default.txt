@@ -1,3 +1,3 @@
-Mulțumim că folosiți Jellyfin pentru Android TV! Este recomandat să fie folosită ultima versiune de Jellyfin Server. 
+Îți mulțumim că folosiți Jellyfin pentru Android TV! Este recomandat să fie folosită ultima versiune de Jellyfin Server. 
 
 Pentru mai multe informații, vizitați blogul jellyfin.org, sau citiți modificările pe GitHub.

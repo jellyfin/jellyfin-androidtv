@@ -1,6 +1,6 @@
 Conținutul tău media, regulile tale.
 
-Proiectul Jellyfin este un server de conținut media gratuit, open source. Fără taxe, fără tracking, fără agendă ascunsă. Instalați serverul nostru gratuit pentru a aduna toate fișierele audio, video, pozele și altele într-un singur loc.
+Proiectul Jellyfin este un server de conținut media gratuit, cu sursă deschisă. Fără taxe, fără tracking, fără agendă ascunsă. Instalați serverul nostru gratuit pentru a aduna toate fișierele audio, video, pozele și altele într-un singur loc.
 
 Pentru a folosi această aplicație, trebuie să ai un server Jellyfin configurat și care rulează. Află mai multe pe <a href="https://jellyfin.org/" target="_blank">jellyfin.org</a>.
 
