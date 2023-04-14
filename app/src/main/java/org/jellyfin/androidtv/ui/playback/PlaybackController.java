@@ -1135,7 +1135,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void endPlayback(Boolean closeActivity) {
-        if (closeActivity) mFragment.getActivity().finish();
+        if (closeActivity && mFragment != null) mFragment.getActivity().finish();
         stop();
         if (mVideoManager != null)
             mVideoManager.destroy();
