@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.data.model.ChapterItemInfo;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.model.FilterOptions;
 import org.jellyfin.androidtv.data.querying.AdditionalPartsQuery;
+import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.SpecialsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.TrailersQuery;
@@ -88,6 +89,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private RecommendedProgramQuery mTvProgramQuery;
     private RecordingQuery mTvRecordingQuery;
     private ArtistsQuery mArtistsQuery;
+    private AlbumArtistsQuery mAlbumArtistsQuery;
     private LatestItemsQuery mLatestQuery;
     private SeriesTimerQuery mSeriesTimerQuery;
     private QueryType queryType;
@@ -207,6 +209,20 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         this.chunkSize = chunkSize;
         if (chunkSize > 0) {
             mArtistsQuery.setLimit(chunkSize);
+        }
+        queryType = QueryType.Artists;
+    }
+
+    public ItemRowAdapter(Context context, AlbumArtistsQuery query, int chunkSize, Presenter presenter, MutableObjectAdapter<Row> parent) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        mAlbumArtistsQuery = query;
+        mAlbumArtistsQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
+        staticHeight = true;
+        this.chunkSize = chunkSize;
+        if (chunkSize > 0) {
+            mAlbumArtistsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.AlbumArtists;
     }
@@ -410,9 +426,13 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             mSortBy = option.value;
             sortOrder = option.order;
             switch (queryType) {
-                case AlbumArtists:
+                case Artists:
                     mArtistsQuery.setSortBy(new String[]{mSortBy});
                     mArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
+                    break;
+                case AlbumArtists:
+                    mAlbumArtistsQuery.setSortBy(new String[]{mSortBy});
+                    mAlbumArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
                 default:
                     mQuery.setSortBy(new String[]{mSortBy});
@@ -440,8 +460,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     public void setFilters(FilterOptions filters) {
         mFilters = filters;
         switch (queryType) {
-            case AlbumArtists:
+            case Artists:
                 mArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
+                break;
+            case AlbumArtists:
+                mAlbumArtistsQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
                 break;
             default:
                 mQuery.setFilters(mFilters != null ? mFilters.getFilters() : null);
@@ -464,11 +487,18 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     public void setStartLetter(String value) {
         switch (queryType) {
-            case AlbumArtists:
+            case Artists:
                 if (value != null && value.equals("#")) {
                     mArtistsQuery.setNameStartsWithOrGreater(null);
                 } else {
                     mArtistsQuery.setNameStartsWithOrGreater(value);
+                }
+                break;
+            case AlbumArtists:
+                if (value != null && value.equals("#")) {
+                    mAlbumArtistsQuery.setNameStartsWithOrGreater(null);
+                } else {
+                    mAlbumArtistsQuery.setNameStartsWithOrGreater(value);
                 }
                 break;
             default:
@@ -554,7 +584,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 mTvChannelQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
 
-            case AlbumArtists:
+            case Artists:
                 if (mArtistsQuery == null) {
                     return;
                 }
@@ -565,6 +595,19 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 mArtistsQuery.setStartIndex(itemsLoaded);
                 retrieve(mArtistsQuery);
                 mArtistsQuery.setStartIndex(savedIdx); // is reused so reset
+                break;
+
+            case AlbumArtists:
+                if (mAlbumArtistsQuery == null) {
+                    return;
+                }
+                notifyRetrieveStarted();
+
+                savedIdx = mAlbumArtistsQuery.getStartIndex();
+                //set the query to go get the next chunk
+                mAlbumArtistsQuery.setStartIndex(itemsLoaded);
+                retrieve(mAlbumArtistsQuery);
+                mAlbumArtistsQuery.setStartIndex(savedIdx); // is reused so reset
                 break;
 
             default:
@@ -695,8 +738,11 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             case Search:
                 retrieve(mSearchQuery);
                 break;
-            case AlbumArtists:
+            case Artists:
                 retrieve(mArtistsQuery);
+                break;
+            case AlbumArtists:
+                retrieve(mAlbumArtistsQuery);
                 break;
             case AudioPlaylists:
                 retrieveAudioPlaylists(mQuery);
@@ -865,6 +911,30 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     }
 
     private void retrieve(ArtistsQuery query) {
+        apiClient.getValue().GetArtistsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult response) {
+                if (response.getItems() != null && response.getItems().length > 0) {
+                    setTotalItems(response.getTotalRecordCount());
+
+                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> new BaseRowItem(i, item, getPreferParentThumb(), isStaticHeight()));
+                } else if (getItemsLoaded() == 0) {
+                    removeRow();
+                }
+
+                notifyRetrieveFinished();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Timber.e(exception, "Error retrieving items");
+                removeRow();
+                notifyRetrieveFinished(exception);
+            }
+        });
+    }
+
+    private void retrieve(AlbumArtistsQuery query) {
         apiClient.getValue().GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult response) {

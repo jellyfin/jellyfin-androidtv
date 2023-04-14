@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.ui.browsing;
 
 import org.jellyfin.androidtv.constant.ChangeTriggerType;
 import org.jellyfin.androidtv.constant.QueryType;
+import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.apiclient.model.livetv.LiveTvChannelQuery;
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery;
@@ -32,6 +33,7 @@ public class BrowseRowDef {
     private SeriesTimerQuery seriesTimerQuery;
 
     private ArtistsQuery artistsQuery;
+    private AlbumArtistsQuery albumArtistsQuery;
     private SeasonQuery seasonQuery;
     private QueryType queryType;
 
@@ -79,9 +81,16 @@ public class BrowseRowDef {
         headerText = header;
         this.artistsQuery = query;
         this.chunkSize = chunkSize;
+        this.queryType = QueryType.Artists;
+        this.changeTriggers = changeTriggers;
+    }
+
+    public BrowseRowDef(String header, AlbumArtistsQuery query, int chunkSize, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.albumArtistsQuery = query;
+        this.chunkSize = chunkSize;
         this.queryType = QueryType.AlbumArtists;
         this.changeTriggers = changeTriggers;
-
     }
 
     public BrowseRowDef(String header, NextUpQuery query) {
@@ -227,6 +236,7 @@ public class BrowseRowDef {
     }
 
     public ArtistsQuery getArtistsQuery() { return artistsQuery; }
+    public AlbumArtistsQuery getAlbumArtistsQuery() { return albumArtistsQuery; }
 
     public SeriesTimerQuery getSeriesTimerQuery() { return seriesTimerQuery; }
 

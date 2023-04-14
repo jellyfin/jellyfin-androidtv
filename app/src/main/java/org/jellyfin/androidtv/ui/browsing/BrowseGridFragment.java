@@ -38,6 +38,7 @@ import org.jellyfin.androidtv.constant.ImageType;
 import org.jellyfin.androidtv.constant.PosterSize;
 import org.jellyfin.androidtv.constant.QueryType;
 import org.jellyfin.androidtv.data.model.FilterOptions;
+import org.jellyfin.androidtv.data.querying.AlbumArtistsQuery;
 import org.jellyfin.androidtv.data.querying.StdItemQuery;
 import org.jellyfin.androidtv.data.querying.ViewQuery;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
@@ -564,7 +565,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     //Special queries needed for album artists
                     String includeType = getArguments().getString(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
-                        ArtistsQuery albumArtists = new ArtistsQuery();
+                        AlbumArtistsQuery albumArtists = new AlbumArtistsQuery();
                         albumArtists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
                         albumArtists.setFields(new ItemFields[]{
                                 ItemFields.PrimaryImageAspectRatio,
@@ -573,6 +574,17 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                         });
                         albumArtists.setParentId(mParentId.toString());
                         setRowDef(new BrowseRowDef("", albumArtists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
+                        return;
+                    } else if ("Artist".equals(includeType)) {
+                        ArtistsQuery artists = new ArtistsQuery();
+                        artists.setUserId(userRepository.getValue().getCurrentUser().getValue().getId().toString());
+                        artists.setFields(new ItemFields[]{
+                                ItemFields.PrimaryImageAspectRatio,
+                                ItemFields.ItemCounts,
+                                ItemFields.ChildCount
+                        });
+                        artists.setParentId(mParentId.toString());
+                        setRowDef(new BrowseRowDef("", artists, CHUNK_SIZE_MINIMUM, new ChangeTriggerType[]{}));
                         return;
                     }
                     query.setIncludeItemTypes(new String[]{includeType != null ? includeType : "MusicAlbum"});
@@ -675,8 +687,11 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
             case LiveTvRecording:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getRecordingQuery(), chunkSize, mCardPresenter, null);
                 break;
-            case AlbumArtists:
+            case Artists:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getArtistsQuery(), chunkSize, mCardPresenter, null);
+                break;
+            case AlbumArtists:
+                mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getAlbumArtistsQuery(), chunkSize, mCardPresenter, null);
                 break;
             default:
                 mAdapter = new ItemRowAdapter(requireContext(), mRowDef.getQuery(), chunkSize, mRowDef.getPreferParentThumb(), mRowDef.isStaticHeight(), mCardPresenter, null);

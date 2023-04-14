@@ -79,6 +79,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     public static final int FAVSONGS = 9;
     protected static final int SCHEDULE = 10;
     protected static final int SERIES = 11;
+    protected static final int ALBUM_ARTISTS = 12;
     protected BaseItemDto mFolder;
     protected String itemTypeString;
     protected boolean showViews = true;
@@ -300,6 +301,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
             case "MusicAlbum":
                 gridRowAdapter.add(new GridButton(ALBUMS, getString(R.string.lbl_albums), R.drawable.tile_audio));
+                gridRowAdapter.add(new GridButton(ALBUM_ARTISTS, getString(R.string.lbl_album_artists), R.drawable.tile_album_artists));
                 gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists), R.drawable.tile_artists));
                 gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres), R.drawable.tile_genres));
                 break;
@@ -374,10 +376,16 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "MusicAlbum"));
                         break;
 
-                    case ARTISTS:
+                    case ALBUM_ARTISTS:
                         mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AR");
 
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "AlbumArtist"));
+                        break;
+
+                    case ARTISTS:
+                        mFolder = JavaCompat.copyWithDisplayPreferencesId(mFolder, mFolder.getId() + "AR");
+
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.libraryBrowser(mFolder, "Artist"));
                         break;
 
                     case BY_LETTER:
