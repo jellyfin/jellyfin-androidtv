@@ -10,7 +10,7 @@
     <string name="lbl_settings">Indstillinger</string>
     <string name="lbl_continue_watching">Se videre</string>
     <string name="lbl_next_up">Næste</string>
-    <string name="lbl_on_now">Lige nu</string>
+    <string name="lbl_on_now">Vises nu</string>
     <string name="lbl_views">Afspilninger</string>
     <string name="lbl_by_letter">Efter bogstav</string>
     <string name="lbl_suggested">Foreslået</string>
@@ -249,7 +249,7 @@
     <string name="mark_watched">Marker som afspillet</string>
     <string name="bitrate_auto">Auto</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Slutter ved %1$s</string>
+    <string name="lbl_playback_control_ends">Slutter %1$s</string>
     <string name="lbl_sign_in">Log venligst ind</string>
     <string name="play_with">Afspil med</string>
     <string name="play_with_external_app">Afspil med ekstern app</string>
@@ -347,7 +347,7 @@
     <string name="saved_servers">Gemte servere</string>
     <string name="press_to_close">Tryk for at lukke</string>
     <string name="no_network_permissions">Jellyfin skal have netværk rettigheder for at fungere</string>
-    <string name="pref_theme_muted_purple">Tavs lilla</string>
+    <string name="pref_theme_muted_purple">Afdæmpet lilla</string>
     <string name="lbl_switch_user">Skift bruger</string>
     <string name="image_size_xlarge">Ekstra stor</string>
     <string name="image_size_smallest">Mindste</string>
@@ -507,4 +507,7 @@
         <item quantity="other">%1$s episoder</item>
     </plurals>
     <string name="pref_screensaver_inapp_timeout">Start pauseskærm efter</string>
+    <string name="pref_screensaver_inapp_enabled_description">Vis Jellyfin pauseskærmen, mens appen er åben</string>
+    <string name="not_set">Ikke indstillet</string>
+    <string name="pref_screensaver_inapp_enabled">Brug pauseskærm i appen</string>
 </resources>
