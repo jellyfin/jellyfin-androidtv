@@ -504,4 +504,5 @@
         <item quantity="other">%1$s 剧集</item>
     </plurals>
     <string name="enable_reactive_homepage">启用响应式主页</string>
+    <string name="not_set">未设置</string>
 </resources>
