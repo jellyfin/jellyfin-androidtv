@@ -509,4 +509,6 @@
         <item quantity="other">%1$s jaksoa</item>
     </plurals>
     <string name="enable_reactive_homepage">Käytä reaktiivista aloitussivua</string>
+    <string name="lbl_album_artists">Albumin esittäjät</string>
+    <string name="not_set">Ei määritetty</string>
 </resources>
