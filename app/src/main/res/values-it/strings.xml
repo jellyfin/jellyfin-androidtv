@@ -486,7 +486,7 @@
     <plurals name="hours">
         <item quantity="one">%1$s ora</item>
         <item quantity="many">%1$s ore</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="pref_screensaver">Salvaschermo</string>
     <string name="pref_screensaver_inapp_enabled_description">Motra il salvaschermo Jellyfin mentre l\'app è aperta</string>
@@ -494,21 +494,26 @@
     <plurals name="minutes">
         <item quantity="one">%1$s minuto</item>
         <item quantity="many">%1$s minuti</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="seconds">
         <item quantity="one">%1$s secondo</item>
         <item quantity="many">%1$s secondi</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="tracks">
         <item quantity="one">%1$s traccia</item>
         <item quantity="many">%1$s tracce</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>
         <item quantity="many">%1$s episodi</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
+    <string name="pref_screensaver_inapp_enabled">Usa il salvaschermo integrato</string>
+    <string name="enable_reactive_homepage">Abilita la homepage reattiva</string>
+    <string name="lbl_album_artists">Artisti dell\'album</string>
+    <string name="not_set">Non impostato</string>
+    <string name="lbl_latest_in">Aggiunto di recente in %1$s</string>
 </resources>
