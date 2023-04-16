@@ -147,7 +147,7 @@
     <string name="lbl_add_to_queue">Ajouter à la liste de lecture</string>
     <string name="lbl_open_artist">Ouvrir la fiche de l\'artiste</string>
     <string name="lbl_open_album">Ouvrir l\'album</string>
-    <string name="lbl_next_item">Prochain élément</string>
+    <string name="lbl_next_item">Élément suivant</string>
     <string name="lbl_prev_item">Élément précédent</string>
     <string name="lbl_now_playing">En cours de lecture</string>
     <string name="lbl_play_from_here">Lire à partir d\'ici</string>
@@ -173,7 +173,7 @@
     <string name="lbl_show_premieres">Afficher le 1er épisode des saisons</string>
     <string name="lbl_zoom">Zoom</string>
     <string name="loading">Chargement …</string>
-    <string name="lbl_at_any_time">tout le temps</string>
+    <string name="lbl_at_any_time">Tout le temps</string>
     <string name="lbl_episode_not_record">Cet épisode ne sera pas enregistré</string>
     <string name="lbl_guest_stars">Stars invitées</string>
     <string name="lbl_guide_option_number">Numéro de chaine</string>
@@ -203,7 +203,7 @@
     <string name="lbl_previous_episode">Épisode précédent</string>
     <string name="lbl_next_episode">Épisode suivant</string>
     <string name="lbl_album_name">Nom de l\'album</string>
-    <string name="lbl_song_title">titre de la chanson</string>
+    <string name="lbl_song_title">Titre de la chanson</string>
     <string name="lbl_now_playing_album">de %1$s</string>
     <string name="lbl_watched">Vu</string>
     <string name="lbl_now_playing_track">%1$s sur %2$s</string>
@@ -217,7 +217,7 @@
     <string name="lbl_live_broadcasts">Diffusion en direct</string>
     <string name="lbl_premieres">Avant-premières</string>
     <string name="lbl_new_episodes">Nouveaux épisodes</string>
-    <string name="lbl_audio_delay">Retard audio</string>
+    <string name="lbl_audio_delay">Décalage audio</string>
     <string name="lbl_news">Actualités</string>
     <string name="lbl_colored_backgrounds">Arrière-plans de couleurs</string>
     <string name="lbl_repeat_episodes">Répéter les épisodes</string>
@@ -226,16 +226,16 @@
     <string name="pref_about_title">A propos</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Choix automatique</string>
-    <string name="lbl_my_media">Mes Médias</string>
+    <string name="lbl_my_media">Mes médias</string>
     <string name="watch_now">Regardez maintenant</string>
     <string name="pref_next_up_timeout_summary">Combien de temps attendre avant de lire l\'élément suivant</string>
     <string name="pref_media_player">Lecteur multimédia préféré</string>
     <string name="pref_video_player_external">Application externe</string>
-    <string name="pref_video_player_vlc">LibVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (expérimental)</string>
     <string name="pref_libvlc_audio_delay_title">Délai audio par défaut de la bibliothèque LibVLC</string>
     <string name="pref_app_theme">Thème de l\'application</string>
     <string name="pref_theme_dark">Sombre (Défaut)</string>
-    <string name="pref_theme_emerald">Émeraude Classique</string>
+    <string name="pref_theme_emerald">Émeraude classique</string>
     <string name="pref_device_model">Modèle de l\'appareil</string>
     <string name="grid_direction_horizontal">Horizontal</string>
     <string name="grid_direction">Sens de la grille</string>
@@ -262,8 +262,8 @@
     <string name="seek_error">Impossible de chercher</string>
     <string name="msg_live_tv_prev">Charger les %1$d précédentes heures \?</string>
     <string name="msg_live_tv_next">Charger les %1$d prochaines heures \?</string>
-    <string name="lbl_load_guide_data">Charger données du Guide</string>
-    <string name="mark_watched">Marquer comme lue</string>
+    <string name="lbl_load_guide_data">Charger données du guide</string>
+    <string name="mark_watched">Marquer comme lu</string>
     <string name="turn_off">Désactiver cette option</string>
     <string name="just_one">Celui-ci uniquement</string>
     <string name="lbl_tv_filter_status">pour les %1$d prochaines heures</string>
@@ -356,7 +356,7 @@
     <string name="lbl_record_all">Enregistrera tous les épisodes</string>
     <string name="lbl_record_only_new">N\'enregistrera que les nouveaux épisodes</string>
     <string name="lbl_start_end_on_schedule">Commence et termine à temps</string>
-    <string name="lbl_starting_on_schedule_ending_after">Commence à temps, et termine %1$s après l\'heure prévue</string>
+    <string name="lbl_starting_on_schedule_ending_after">Commence à temps et termine %1$s après l\'heure prévue</string>
     <string name="lbl_starting_early_ending_on_schedule">Commence %1$s plus tôt et termine à l\'heure prévue</string>
     <string name="advanced_settings">Avancé</string>
     <string name="always_authenticate_description">L\'activation de cette fonctionnalité désactive l\'authentification automatique</string>
@@ -388,7 +388,7 @@
     <string name="licenses_link_description">Voir les licences des bibliothèques utilisées dans l\'application Jellyfin</string>
     <string name="licenses_link">Licences</string>
     <string name="home_section_livetv">TV en direct</string>
-    <string name="home_section_latest_media">Derniers Médias</string>
+    <string name="home_section_latest_media">Derniers médias ajoutés</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_subtitles_size">Taille du texte</string>
     <string name="pref_subtitles_background_summary">Affiche un fond noir derrière les sous-titres</string>
@@ -437,7 +437,7 @@
     <string name="login_connect_to">En attente de connexion à %1$s</string>
     <string name="input_password">Mot de passe</string>
     <string name="input_username">Nom d\'utilisateur</string>
-    <string name="action_use_quickconnect">Utiliser \'QuickConnect\'</string>
+    <string name="action_use_quickconnect">Utiliser Quick Connect</string>
     <string name="action_use_password">Utiliser un mot de passe</string>
     <string name="action_login">Connexion</string>
     <string name="live_tv_preferences">Options TV Live</string>
@@ -453,7 +453,7 @@
     <string name="pref_crash_reports_disabled">Les rapports de plantage ne seront pas envoyés</string>
     <string name="pref_crash_reports_enabled">Les rapports de plantage seront envoyés à votre dernier serveur utilisé</string>
     <string name="pref_crash_reports">Envoyer les rapports de plantage au serveur</string>
-    <string name="pref_telemetry_description">Envoyer les rapports de plantage, inclure les logs</string>
+    <string name="pref_telemetry_description">Envoyer les rapports de plantage, inclure les journaux</string>
     <string name="pref_telemetry_category">Rapport de plantage</string>
     <string name="image_size_xlarge">Très grand</string>
     <string name="image_size_smallest">Très petit</string>
@@ -489,4 +489,30 @@
     <string name="pref_screensaver_inapp_enabled">Utiliser l\'économiseur d\'écran intégré à l\'application</string>
     <string name="pref_screensaver_inapp_timeout">Lancer l\'économiseur d\'écran après</string>
     <string name="pref_screensaver">Économiseur d\'écran</string>
+    <string name="not_set">Non défini</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s seconde</item>
+        <item quantity="many">%1$s secondes</item>
+        <item quantity="other">%1$s seconde(s)</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s minute</item>
+        <item quantity="many">%1$s minutes</item>
+        <item quantity="other">%1$s minute(s)</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%1$s heure</item>
+        <item quantity="many">%1$s heures</item>
+        <item quantity="other">%1$s heure(s)</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s épisode</item>
+        <item quantity="many">%1$s épisodes</item>
+        <item quantity="other">%1$s épisode(s)</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s piste</item>
+        <item quantity="many">%1$s pistes</item>
+        <item quantity="other">%1$s piste(s)</item>
+    </plurals>
 </resources>
