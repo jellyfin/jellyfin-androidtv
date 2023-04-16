@@ -9,6 +9,6 @@ Avec un serveur Jellyfin, vous pouvez :
 * Regarder et enregistrer vos émissions de télévision depuis votre serveur (matériel/services supplémentaires requis)
 * Diffuser vers un appareil Chromecast sur votre réseau
 * Diffuser vos médias sur votre appareil Android
-* Consulter votre médiathèque via une interface intuitive.
+* Consulter votre médiathèque via une interface intuitive
 
-Ceci est l'application compagnon officielle de Jellyfin pour Android TV. Merci d'utiliser Jellyfin !
+Ceci est l'application compagnon officielle de Jellyfin pour Android TV. Merci d'utiliser Jellyfin!
