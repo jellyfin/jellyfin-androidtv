@@ -172,7 +172,7 @@ open class BaseRowItem protected constructor(
 		BaseRowType.Person -> ImageUtils.getPrimaryImageUrl(basePerson!!, maxHeight)
 		BaseRowType.Chapter -> chapterInfo?.imagePath
 		BaseRowType.LiveTvChannel -> ImageUtils.getPrimaryImageUrl(baseItem!!)
-		BaseRowType.GridButton -> ImageUtils.getResourceUrl(context, gridButton!!.imageRes)
+		BaseRowType.GridButton -> gridButton?.imageRes?.let { ImageUtils.getResourceUrl(context, it) }
 		BaseRowType.SeriesTimer -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer)
 		BaseRowType.SearchHint -> when {
 			!searchHint?.primaryImageTag.isNullOrBlank() -> ImageUtils.getImageUrl(searchHint!!.itemId.toString(), org.jellyfin.apiclient.model.entities.ImageType.Primary, searchHint.primaryImageTag!!)

@@ -223,7 +223,7 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
         mCardPresenter = new CardPresenter(false, 140);
         ClassPresenterSelector ps = new ClassPresenterSelector();
         ps.addClassPresenter(BaseRowItem.class, mCardPresenter);
-        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(false, 155, 140));
+        ps.addClassPresenter(GridButton.class, new GridButtonPresenter(155, 140));
 
         for (BrowseRowDef def : rows) {
             HeaderItem header = new HeaderItem(def.getHeaderText());
@@ -295,15 +295,15 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
 
         switch (itemTypeString) {
             case "Movie":
-                gridRowAdapter.add(new GridButton(SUGGESTED, getString(R.string.lbl_suggested), R.drawable.tile_suggestions));
+                gridRowAdapter.add(new GridButton(SUGGESTED, getString(R.string.lbl_suggested)));
                 addStandardViewButtons(gridRowAdapter);
                 break;
 
             case "MusicAlbum":
-                gridRowAdapter.add(new GridButton(ALBUMS, getString(R.string.lbl_albums), R.drawable.tile_audio));
-                gridRowAdapter.add(new GridButton(ALBUM_ARTISTS, getString(R.string.lbl_album_artists), R.drawable.tile_album_artists));
-                gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists), R.drawable.tile_artists));
-                gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres), R.drawable.tile_genres));
+                gridRowAdapter.add(new GridButton(ALBUMS, getString(R.string.lbl_albums)));
+                gridRowAdapter.add(new GridButton(ALBUM_ARTISTS, getString(R.string.lbl_album_artists)));
+                gridRowAdapter.add(new GridButton(ARTISTS, getString(R.string.lbl_artists)));
+                gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres)));
                 break;
 
             default:
@@ -315,11 +315,11 @@ public class EnhancedBrowseFragment extends Fragment implements RowLoader, View.
     }
 
     protected void addStandardViewButtons(ArrayObjectAdapter gridRowAdapter) {
-        gridRowAdapter.add(new GridButton(GRID, getString(R.string.lbl_all_items), R.drawable.tile_port_grid));
-        gridRowAdapter.add(new GridButton(BY_LETTER, getString(R.string.lbl_by_letter), R.drawable.tile_letters));
-        gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres), R.drawable.tile_genres));
+        gridRowAdapter.add(new GridButton(GRID, getString(R.string.lbl_all_items)));
+        gridRowAdapter.add(new GridButton(BY_LETTER, getString(R.string.lbl_by_letter)));
+        gridRowAdapter.add(new GridButton(GENRES, getString(R.string.lbl_genres)));
         // Disabled because the screen doesn't behave properly
-        // gridRowAdapter.add(new GridButton(PERSONS, getString(R.string.lbl_performers), R.drawable.tile_actors));
+        // gridRowAdapter.add(new GridButton(PERSONS, getString(R.string.lbl_performers)));
     }
 
     protected void setupEventListeners() {
