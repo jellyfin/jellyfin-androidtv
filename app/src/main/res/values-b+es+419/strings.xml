@@ -283,7 +283,7 @@
     <string name="lbl_tomatoes">Tomates</string>
     <string name="lbl_stars">Estrellas</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Acabar en %1$s</string>
+    <string name="lbl_playback_control_ends">Termina a las %1$s</string>
     <string name="lbl_sign_in">Por favor inicie sesión</string>
     <string name="play_with">Reproducir con</string>
     <string name="play_with_external_app">Reproducir con aplicación externa</string>
