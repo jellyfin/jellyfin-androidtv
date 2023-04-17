@@ -24,17 +24,17 @@
     <string name="video_error_unknown_error">載入影片失敗</string>
     <string name="lbl_movies">電影</string>
     <string name="lbl_other_channels">其它頻道</string>
-    <string name="lbl_favorite_channels">收藏頻道</string>
-    <string name="lbl_favorites">我的收藏</string>
+    <string name="lbl_favorite_channels">我的最愛頻道</string>
+    <string name="lbl_favorites">我的最愛</string>
     <string name="lbl_by_name">依名稱排序</string>
-    <string name="lbl_latest">最新上映</string>
+    <string name="lbl_latest">最近新增</string>
     <string name="lbl_search">搜尋</string>
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_suggested">推薦欣賞</string>
     <string name="lbl_by_letter">依字母順序</string>
     <string name="lbl_views">觀看次數</string>
     <string name="lbl_on_now">正在觀看</string>
-    <string name="lbl_next_up">下一個</string>
+    <string name="lbl_next_up">接下來</string>
     <string name="lbl_repeat_options">重複的選項</string>
     <string name="msg_playback_incompatible">無法播放這該影片格式</string>
     <string name="lbl_ok">確定</string>
@@ -56,8 +56,8 @@
     <string name="lbl_tomorrow">明天</string>
     <string name="lbl_today">今天</string>
     <string name="lbl_unwatched">未觀看</string>
-    <string name="lbl_add_favorite">新增我的最愛</string>
-    <string name="lbl_remove_favorite">移除我的最愛</string>
+    <string name="lbl_add_favorite">新增收藏</string>
+    <string name="lbl_remove_favorite">移除收藏</string>
     <string name="lbl_mark_unplayed">標記為未播放</string>
     <string name="lbl_mark_played">標記為已播放</string>
     <string name="lbl_play_first_unwatched">播放未觀看中的第一部影片</string>
@@ -105,7 +105,7 @@
     <string name="lbl_remove_from_queue">從佇列中刪除</string>
     <string name="lbl_play_from_here">從這裡播放</string>
     <string name="lbl_now_playing">正在播放</string>
-    <string name="lbl_prev_item">以前的項目</string>
+    <string name="lbl_prev_item">前一個項目</string>
     <string name="lbl_next_item">下一個項目</string>
     <string name="pref_next_up_timeout_summary">播放下一項目之前的等待時間</string>
     <string name="pref_media_player">預設播放器</string>
@@ -120,7 +120,7 @@
     <string name="lbl_album_name">專輯名稱</string>
     <string name="lbl_next_episode">下一集</string>
     <string name="lbl_previous_episode">上一集</string>
-    <string name="lbl_more_like_this">類似這個的</string>
+    <string name="lbl_more_like_this">更多類似的</string>
     <string name="lbl_resume_from">從%1$s繼續</string>
     <string name="lbl_sort_by">排序按照</string>
     <string name="lbl_guest_stars">客串明星</string>
@@ -139,9 +139,9 @@
     <string name="lbl_record_any_time">在任何時候記錄</string>
     <string name="lbl_record_any_channel">在任何通道上錄音</string>
     <string name="lbl_similar_items_library">媒體庫中的類似項目</string>
-    <string name="lbl_program_ended">程序結束</string>
-    <string name="lbl_tune_to_channel">切換通道</string>
-    <string name="lbl_load_channels">"載入通道 "</string>
+    <string name="lbl_program_ended">節目結束</string>
+    <string name="lbl_tune_to_channel">切換頻道</string>
+    <string name="lbl_load_channels">"載入頻道 "</string>
     <string name="lbl_search_hint">搜尋文字（選擇鍵盤）</string>
     <string name="sum_tv_queuing">將本季之後的全部集數加入播放佇列中</string>
     <string name="lbl_tv_queuing">自動將之後的集數加入播放佇列</string>
@@ -162,8 +162,8 @@
     <string name="msg_set_to_record">用於錄製的程式</string>
     <string name="lbl_end_padding">結束填充</string>
     <string name="lbl_begin_padding">開始填充</string>
-    <string name="msg_will_record">將會記錄</string>
-    <string name="msg_recording_now">正在記錄中</string>
+    <string name="msg_will_record">將會錄製</string>
+    <string name="msg_recording_now">正在錄製中</string>
     <string name="lbl_runs">執行</string>
     <string name="lbl_display_preferences">顯示偏好</string>
     <string name="lbl_starting_with">以某人的名字開頭</string>
@@ -183,9 +183,9 @@
     <string name="lbl_in_x_days">在 %d 天裡</string>
     <string name="lbl_just_this_once">就這一次</string>
     <string name="msg_record_entire_series">記錄整個系列？</string>
-    <string name="no_program_data">沒有可用的程式數據</string>
+    <string name="no_program_data">無可用節目數據</string>
     <string name="lbl_kids">兒童</string>
-    <string name="lbl_recent_recordings">最近的紀錄</string>
+    <string name="lbl_recent_recordings">最近的錄製</string>
     <string name="lbl_repeat">重複</string>
     <string name="lbl_new">新的</string>
     <string name="lbl_schedule">日程</string>
@@ -193,7 +193,7 @@
     <string name="lbl_series_settings">系列設定</string>
     <string name="msg_settings_updated">已更新設定</string>
     <string name="lbl_save">保存</string>
-    <string name="lbl_series_recordings">系列記錄</string>
+    <string name="lbl_series_recordings">系列錄製</string>
     <string name="lbl_at_any_time">隨時</string>
     <string name="lbl__continuing">正在繼續</string>
     <string name="lbl_ended">已完結</string>
@@ -204,7 +204,7 @@
     <string name="msg_error_live_stream">無法串流電視直播。將會重試……</string>
     <string name="lbl_direct_stream_live">串流電視直播</string>
     <string name="lbl_programs">程式</string>
-    <string name="lbl_instant_mix">即時混合</string>
+    <string name="lbl_instant_mix">即時混播</string>
     <string name="msg_item_added">" 已加入項目"</string>
     <string name="desc_automatic_fav_songs">自動生成的喜愛歌曲播放清單</string>
     <string name="lbl_new_premieres">新的首映</string>
@@ -218,7 +218,7 @@
     <string name="lbl_premiere">首映</string>
     <string name="lbl_show_indicators">顯示指標</string>
     <string name="lbl_guide_option_played">最後播放</string>
-    <string name="lbl_guide_option_number">通道編號</string>
+    <string name="lbl_guide_option_number">頻道編號</string>
     <string name="lbl_resume_preroll">恢復前置簡介</string>
     <string name="lbl_news">新聞</string>
     <string name="lbl_new_only">只有新的</string>
@@ -228,7 +228,7 @@
     <string name="lbl_live_broadcasts">直播</string>
     <string name="lbl_hd_programs">高畫質節目</string>
     <string name="lbl_colored_backgrounds">顏色背景編碼</string>
-    <string name="lbl_start_favorites">將收藏放在開頭</string>
+    <string name="lbl_start_favorites">將我的最愛放在開頭</string>
     <string name="lbl_image_type">圖片格式</string>
     <string name="pref_video_player_exoplayer">ExoPlayer （系統播放器）</string>
     <string name="pref_video_player_vlc">LibVLC (VLC解碼器)</string>
@@ -363,7 +363,7 @@
     <string name="home_section_resume">繼續觀看</string>
     <string name="home_section_library_small">我的媒體（小）</string>
     <string name="home_section_library">我的媒體</string>
-    <string name="home_section_latest_media">最新媒體</string>
+    <string name="home_section_latest_media">最近新增媒體</string>
     <string name="home_sections">首頁部分</string>
     <string name="home_prefs">首頁</string>
     <string name="license_license">授權</string>
@@ -459,4 +459,51 @@
     <string name="input_username">使用者名稱</string>
     <string name="action_login">登入</string>
     <string name="state_disabled">已禁用</string>
+    <string name="lbl_adjust">調節</string>
+    <plurals name="seconds">
+        <item quantity="other">%1$s 秒</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%1$s 小時</item>
+    </plurals>
+    <string name="lbl_album_artists">專輯藝術家</string>
+    <string name="enable_reactive_homepage">啟用反應式(reactive) 主頁</string>
+    <string name="lbl_quality_profile">質量概况</string>
+    <string name="server_unsupported_notification">此伺服器使用 Jellyfin %1$s 版本不被支援。請更新到 Jellyfin %2$s 版本以繼續使用程式。</string>
+    <string name="pref_audio_night_mode">音訊夜間模式（實驗性）</string>
+    <string name="not_set">未設置</string>
+    <plurals name="minutes">
+        <item quantity="other">%1$s 分</item>
+    </plurals>
+    <string name="image_type_poster">海報</string>
+    <string name="app_notification_beta">程式已更新至 %1$s 
+\n感謝您參與 Jellyfin 測試計劃</string>
+    <string name="desc_audio_night_mode">自動平衡音量水平</string>
+    <string name="lbl_subtitle_position">字幕距底部的偏移量</string>
+    <string name="login_connect_to">正在連接伺服器 %1$s</string>
+    <string name="login_other_options">其他選項:</string>
+    <string name="pref_refresh_rate_scale_on_tv">在電視上縮放</string>
+    <string name="pref_refresh_rate_scale_on_device">在設備上縮放</string>
+    <string name="pref_enable_media_management_description">在瀏覽時顯示管理媒體文件選項</string>
+    <string name="item_delete_confirm_message">確定要從伺服器刪除此項目嗎？ 此操作無法回復。</string>
+    <string name="episode_name_special">別名</string>
+    <string name="pref_screensaver">螢幕保護程式</string>
+    <string name="pref_screensaver_inapp_enabled">使用內建螢幕保護程式</string>
+    <string name="pref_screensaver_inapp_enabled_description">程式開啟時顯示 Jellyfin 螢幕保護</string>
+    <string name="pref_screensaver_inapp_timeout">在多久後開始螢幕保護</string>
+    <plurals name="tracks">
+        <item quantity="other">%1$s 曲目</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="other">%1$s 集</item>
+    </plurals>
+    <string name="lbl_additional_parts">附加組件</string>
+    <string name="live_tv_preferences">直播電視選項</string>
+    <string name="lbl_latest_in">最近新增於 %1$s</string>
+    <string name="crash_report_toast">哎呀！出了點問題，崩潰報告已發送到您的 Jellyfin 伺服器。</string>
+    <string name="server_setup_incomplete">此伺服器的設定尚未完成。請在瀏覽器中打開 Jellyfin 以完成設定，然後再登錄。</string>
+    <string name="item_deleted">%1$s 已刪除</string>
+    <string name="item_deletion_failed">無法刪除 %1$s</string>
+    <string name="pref_enable_media_management">啟用媒體文件管理</string>
+    <string name="item_delete_confirm_title">刪除</string>
 </resources>
