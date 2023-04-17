@@ -220,7 +220,7 @@
     <string name="lbl_repeat_episodes">Repetir episodios</string>
     <string name="pref_video_player_external">Aplicación externa</string>
     <string name="pref_video_player_vlc">LibVLC (experimental)</string>
-    <string name="pref_video_player_exoplayer">ExoPlayer</string>
+    <string name="pref_video_player_exoplayer">ExoPlayer (Reproductor externo)</string>
     <string name="pref_video_player_auto">Seleccionar automáticamente</string>
     <string name="lbl_my_media">Mis medios</string>
     <string name="lbl_image_size">Tamaño de la imagen</string>
@@ -246,8 +246,8 @@
     <string name="pref_subtitle_track_button">Botón de pista de subtítulos</string>
     <string name="lbl_unknown_key">Desconocido (%1s)</string>
     <string name="bitrate_auto">Auto</string>
-    <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
-    <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
+    <string name="bitrate_kbit">%1$,.0f Kbps</string>
+    <string name="bitrate_mbit">%1$,.0f Mbps</string>
     <string name="just_one">Únicamente esto</string>
     <string name="turn_off">Desactivar esta opción</string>
     <string name="audio_error">No se puede reproducir audio %1$s</string>
@@ -436,7 +436,7 @@
     <string name="login_connect_to">Conectando a %1$s</string>
     <string name="input_password">Contraseña</string>
     <string name="input_username">Usuario</string>
-    <string name="action_use_quickconnect">Use Conexión Rápida (QuickConnect)</string>
+    <string name="action_use_quickconnect">Use Conexión Rápida (Quick Connect)</string>
     <string name="action_use_password">Use una contraseña</string>
     <string name="action_login">Iniciar Sesión</string>
     <string name="state_disabled">Desactivado</string>
@@ -504,4 +504,16 @@
         <item quantity="many">%1$s episodios</item>
         <item quantity="other">%1$s episodios</item>
     </plurals>
+    <string name="enable_reactive_homepage">Activar página de inicio reactiva</string>
+    <string name="lbl_album_artists">Artistas del álbum</string>
+    <string name="pref_screensaver_inapp_enabled">Utilizar el salvapantallas de la aplicación</string>
+    <string name="not_set">No establecido</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s pista</item>
+        <item quantity="many">%1$s pistas</item>
+        <item quantity="other">%1$s pistas</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled_description">Mostrar el salvapantallas de Jellyfin mientras la aplicación esté abierta</string>
+    <string name="pref_screensaver_inapp_timeout">Iniciar el salvapantallas después de</string>
+    <string name="pref_screensaver">Salvapantallas</string>
 </resources>
