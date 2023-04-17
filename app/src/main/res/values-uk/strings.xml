@@ -519,4 +519,6 @@
         <item quantity="other">%1$s доріжок</item>
     </plurals>
     <string name="enable_reactive_homepage">Увімкнути адаптивну домашню сторінку</string>
+    <string name="lbl_album_artists">Виконавці альбому</string>
+    <string name="not_set">Не встановлено</string>
 </resources>
