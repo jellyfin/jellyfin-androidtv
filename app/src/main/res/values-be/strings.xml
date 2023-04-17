@@ -23,4 +23,9 @@
     <string name="lbl_by_name">Па імені</string>
     <string name="lbl_other_channels">Іншыя каналы</string>
     <string name="lbl_tv_series">Серыялы</string>
+    <string name="settings_title">Налады</string>
+    <string name="byletter_letters">АБВГДЕЁЖЗІЙКЛМНОПРСТУЎФХЦЧШЫЬЭЮЯ</string>
+    <string name="state_disabled">Адключана</string>
+    <string name="lbl_views">Прагляды</string>
+    <string name="pref_max_bitrate_title">Максімальны бітрэйт трансляцыі</string>
 </resources>
