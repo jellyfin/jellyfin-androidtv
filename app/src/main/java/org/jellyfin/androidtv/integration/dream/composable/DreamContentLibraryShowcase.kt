@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
@@ -35,7 +36,7 @@ fun DreamContentLibraryShowcase(
 			contentDescription = null,
 			alignment = Alignment.Center,
 			contentScale = ContentScale.Crop,
-			modifier = Modifier.fillMaxSize()
+			modifier = Modifier.fillMaxSize().alpha(0.7f)
 		)
 	}
 
@@ -55,6 +56,8 @@ fun DreamContentLibraryShowcase(
 					blurRadius = 2f,
 				)
 			),
+			// The alpha needs to be higher than the backdrop so it's still readable
+			modifier = Modifier.alpha(0.85f)
 		)
 	}
 }

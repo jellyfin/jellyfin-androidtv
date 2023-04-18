@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +31,8 @@ fun DreamHeader(
 	showLogo: Boolean,
 	showClock: Boolean,
 ) {
+	// Alpha to avoid burn in on OLED screens
+	val alpha = 0.7f
 	Row(
 		horizontalArrangement = Arrangement.SpaceBetween,
 		modifier = Modifier
@@ -41,11 +44,14 @@ fun DreamHeader(
 			visible = showLogo,
 			enter = fadeIn(),
 			exit = fadeOut(),
-			modifier = Modifier.height(41.dp),
+			modifier = Modifier.height(41.dp).alpha(alpha),
 		) {
 			Image(
 				painter = painterResource(R.drawable.app_logo),
 				contentDescription = stringResource(R.string.app_name),
+				// We also set the alpha for the non-header logo, as this can
+				// be displayed as a fallback
+				modifier = Modifier.alpha(alpha)
 			)
 		}
 
@@ -71,6 +77,7 @@ fun DreamHeader(
 						blurRadius = 2f,
 					)
 				),
+				modifier = Modifier.alpha(alpha)
 			)
 		}
 	}
