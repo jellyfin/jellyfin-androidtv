@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -24,6 +25,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.composable.overscan
 import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 
+const val SCREENSAVER_OVERLAY_ALPHA = 0.7f
+
 @Composable
 fun DreamHeader(
 	showLogo: Boolean,
@@ -33,7 +36,8 @@ fun DreamHeader(
 		horizontalArrangement = Arrangement.SpaceBetween,
 		modifier = Modifier
 			.fillMaxWidth()
-			.overscan(),
+			.overscan()
+			.alpha(SCREENSAVER_OVERLAY_ALPHA),
 	) {
 		// Logo
 		AnimatedVisibility(

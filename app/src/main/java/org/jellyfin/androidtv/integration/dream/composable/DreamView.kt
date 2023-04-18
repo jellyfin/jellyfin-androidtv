@@ -23,7 +23,7 @@ fun DreamView(
 	AnimatedContent(
 		targetState = content,
 		transitionSpec = {
-			fadeIn(tween(durationMillis = 1_000)) togetherWith fadeOut(snap(delayMillis = 1_000))
+			fadeIn(tween(durationMillis = 1_000)) togetherWith fadeOut(tween(durationMillis = 500, delayMillis = 500))
 		},
 		label = "DreamContentTransition"
 	) { content ->
