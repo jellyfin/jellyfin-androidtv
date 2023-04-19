@@ -513,4 +513,7 @@
         <item quantity="other">%1$s hodinách</item>
     </plurals>
     <string name="lbl_latest_in">Najnovšie v %1$s</string>
+    <string name="not_set">Nie je nastavené</string>
+    <string name="lbl_album_artists">Album interpretov</string>
+    <string name="enable_reactive_homepage">Povoliť reaktívnu domovskú stránku</string>
 </resources>
