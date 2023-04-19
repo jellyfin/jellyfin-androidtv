@@ -509,4 +509,6 @@
         <item quantity="other">%1$s nummers</item>
     </plurals>
     <string name="enable_reactive_homepage">Reactieve startpagina inschakelen</string>
+    <string name="lbl_album_artists">Albumartiesten</string>
+    <string name="not_set">Niet ingesteld</string>
 </resources>
