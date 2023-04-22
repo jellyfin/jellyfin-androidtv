@@ -13,19 +13,44 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
 import org.jellyfin.apiclient.model.dlna.ContainerProfile
+import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
+import org.jellyfin.apiclient.model.dlna.EncodingContext
 import org.jellyfin.apiclient.model.dlna.ProfileCondition
 import org.jellyfin.apiclient.model.dlna.ProfileConditionType
 import org.jellyfin.apiclient.model.dlna.ProfileConditionValue
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod
+import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 class LibVlcProfile(
 	context: Context,
 	isLiveTV: Boolean = false,
-) : BaseProfile() {
+) : DeviceProfile() {
 	init {
 		name = "AndroidTV-libVLC"
+
+		maxStreamingBitrate = 20_000_000 // 20 mbps
+		maxStaticBitrate = 10_000_0000 // 10 mbps
+
+		transcodingProfiles = arrayOf(
+			// MKV video profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Video
+				this.context = EncodingContext.Streaming
+				container = Codec.Container.MKV
+				videoCodec = Codec.Video.H264
+				audioCodec = arrayOf(Codec.Audio.AAC, Codec.Audio.MP3).joinToString(",")
+				copyTimestamps = true
+			},
+			// MP3 audio profile
+			TranscodingProfile().apply {
+				type = DlnaProfileType.Audio
+				this.context = EncodingContext.Streaming
+				container = Codec.Container.MP3
+				audioCodec = Codec.Audio.MP3
+			}
+		)
 
 		directPlayProfiles = arrayOf(
 			// Video direct play

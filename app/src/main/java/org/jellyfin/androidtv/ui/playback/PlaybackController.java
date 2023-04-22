@@ -31,7 +31,6 @@ import org.jellyfin.androidtv.util.TimeUtils;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.apiclient.StreamHelper;
-import org.jellyfin.androidtv.util.profile.BaseProfile;
 import org.jellyfin.androidtv.util.profile.ExoPlayerProfile;
 import org.jellyfin.androidtv.util.profile.LibVlcProfile;
 import org.jellyfin.androidtv.util.sdk.ModelUtils;
@@ -567,18 +566,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setMaxAudioChannels(Utils.downMixAudio(mFragment.getContext()) ? 2 : null); //have to downmix at server
         internalOptions.setSubtitleStreamIndex(forcedSubtitleIndex);
         internalOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
-        DeviceProfile internalProfile = new BaseProfile();
-        if (DeviceUtils.is60() || userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())) {
-            internalProfile = new ExoPlayerProfile(
-                    mFragment.getContext(),
-                    isLiveTv,
-                    userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
-                    userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
-            );
-            Timber.i("*** Using extended Exoplayer profile options");
-        } else {
-            Timber.i("*** Using default android profile");
-        }
+        DeviceProfile internalProfile = new ExoPlayerProfile(
+                mFragment.getContext(),
+                isLiveTv,
+                userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
+                userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
+        );
         internalOptions.setProfile(internalProfile);
         return internalOptions;
     }
