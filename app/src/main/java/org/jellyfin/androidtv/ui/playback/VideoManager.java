@@ -464,7 +464,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         }
         index += indexStartsAtOne ? (adjustByAdding ? -1 : 1) : 0;
 
-        return index < 0 || index >= allStreams.size() ? -1 : index;
+        return index < 0 || index > allStreams.size() ? -1 : index;
     }
 
     public boolean setSubtitleTrack(int index, @Nullable List<org.jellyfin.sdk.model.api.MediaStream> allStreams) {
