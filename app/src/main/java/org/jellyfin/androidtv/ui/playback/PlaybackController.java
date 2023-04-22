@@ -1022,9 +1022,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                         mCurrentOptions.setSubtitleStreamIndex(index);
                         mDefaultSubIndex = index;
                     }
-                    break;
+                } else {
+                    if (!mVideoManager.setExoPlayerTrack(index, MediaStreamType.SUBTITLE, getCurrentlyPlayingItem().getMediaStreams())) {
+                        // error selecting internal subs
+                        if (mFragment != null)
+                            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_unable_load_subs));
+                    } else {
+                        mCurrentOptions.setSubtitleStreamIndex(index);
+                        mDefaultSubIndex = index;
+                    }
                 }
-                // not using vlc - fall through to external handling
+                break;
             case External:
                 if (mFragment != null) mFragment.showSubLoadingMsg(true);
 
