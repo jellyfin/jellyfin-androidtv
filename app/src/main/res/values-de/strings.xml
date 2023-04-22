@@ -508,4 +508,6 @@
         <item quantity="one">%1$s Episode</item>
         <item quantity="other">%1$s Episoden</item>
     </plurals>
+    <string name="not_set">Nicht gesetzt</string>
+    <string name="lbl_album_artists">Künstler des Albums</string>
 </resources>
