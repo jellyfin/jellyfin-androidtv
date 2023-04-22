@@ -15,6 +15,7 @@ import org.jellyfin.androidtv.util.profile.ProfileHelper.photoDirectPlayProfile
 import org.jellyfin.androidtv.util.profile.ProfileHelper.subtitleProfile
 import org.jellyfin.apiclient.model.dlna.CodecProfile
 import org.jellyfin.apiclient.model.dlna.CodecType
+import org.jellyfin.apiclient.model.dlna.DeviceProfile
 import org.jellyfin.apiclient.model.dlna.DirectPlayProfile
 import org.jellyfin.apiclient.model.dlna.DlnaProfileType
 import org.jellyfin.apiclient.model.dlna.EncodingContext
@@ -29,7 +30,7 @@ class ExoPlayerProfile(
 	isLiveTV: Boolean = false,
 	isLiveTVDirectPlayEnabled: Boolean = false,
 	isAC3Enabled: Boolean = false,
-) : BaseProfile() {
+) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
 		Codec.Audio.AAC,
 		Codec.Audio.MP3,
@@ -60,6 +61,9 @@ class ExoPlayerProfile(
 
 	init {
 		name = "AndroidTV-ExoPlayer"
+
+		maxStreamingBitrate = 20_000_000 // 20 mbps
+		maxStaticBitrate = 10_000_0000 // 10 mbps
 
 		transcodingProfiles = arrayOf(
 			// TS video profile
