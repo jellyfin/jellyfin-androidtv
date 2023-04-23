@@ -209,6 +209,7 @@ class ExoPlayerProfile(
 			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
 			subtitleProfile(Codec.Subtitle.PGS, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.PGSSUB, SubtitleDeliveryMethod.Embed),
+			subtitleProfile(Codec.Subtitle.DVBSUB, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.DVDSUB, SubtitleDeliveryMethod.Encode),
 			subtitleProfile(Codec.Subtitle.VTT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUB, SubtitleDeliveryMethod.Embed),
