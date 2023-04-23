@@ -27,8 +27,7 @@ import org.jellyfin.apiclient.model.dlna.TranscodingProfile
 
 class ExoPlayerProfile(
 	context: Context,
-	isLiveTV: Boolean = false,
-	isLiveTVDirectPlayEnabled: Boolean = false,
+	disableVideoDirectPlay: Boolean = false,
 	isAC3Enabled: Boolean = false,
 ) : DeviceProfile() {
 	private val downmixSupportedAudioCodecs = arrayOf(
@@ -93,13 +92,11 @@ class ExoPlayerProfile(
 
 		directPlayProfiles = buildList {
 			// Video direct play
-			if (!isLiveTV || isLiveTVDirectPlayEnabled) {
+			if (!disableVideoDirectPlay) {
 				add(DirectPlayProfile().apply {
 					type = DlnaProfileType.Video
 
 					container = listOfNotNull(
-						if (isLiveTV) Codec.Container.TS else null,
-						if (isLiveTV) Codec.Container.MPEGTS else null,
 						Codec.Container.M4V,
 						Codec.Container.MOV,
 						Codec.Container.XVID,

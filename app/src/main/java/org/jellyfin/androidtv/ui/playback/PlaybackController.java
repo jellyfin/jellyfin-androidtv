@@ -568,8 +568,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         internalOptions.setMediaSourceId(forcedSubtitleIndex != null ? getCurrentMediaSource().getId() : null);
         DeviceProfile internalProfile = new ExoPlayerProfile(
                 mFragment.getContext(),
-                isLiveTv,
-                userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
+                isLiveTv && !userPreferences.getValue().get(UserPreferences.Companion.getLiveTvDirectPlayEnabled()),
                 userPreferences.getValue().get(UserPreferences.Companion.getAc3Enabled())
         );
         internalOptions.setProfile(internalProfile);
