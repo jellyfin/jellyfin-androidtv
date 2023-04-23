@@ -67,6 +67,7 @@ object Codec {
 
 	object Subtitle {
 		const val ASS = "ass"
+		const val DVBSUB = "dvbsub"
 		const val DVDSUB = "dvdsub"
 		const val IDX = "idx"
 		const val PGS = "pgs"
