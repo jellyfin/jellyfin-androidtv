@@ -513,4 +513,7 @@
         <item quantity="many">%1$s horas</item>
         <item quantity="other">%1$s horas</item>
     </plurals>
+    <string name="lbl_album_artists">Artistas do álbum</string>
+    <string name="enable_reactive_homepage">Ativar página inicial reativa</string>
+    <string name="not_set">Não definido</string>
 </resources>
