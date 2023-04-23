@@ -26,7 +26,6 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:duplicateParentState="true"
             android:textSize="16sp"
             tools:text="This is the expanded text!" />
