@@ -61,11 +61,11 @@
     <string name="pref_audio_compat">מיקס סאונד עבור סטריאו (2.0)</string>
     <string name="pref_audio_direct">ישיר</string>
     <string name="msg_cancel_entire_series">האם אתה בטוח שברצונך לבטל את כל הסדרה\?</string>
-    <string name="lbl_repeat_options">אפשרויות חזרה</string>
+    <string name="lbl_repeat_options">אפשרויות ניגון חוזר</string>
     <string name="lbl_only_new_episodes">רק פרקים חדשים</string>
     <string name="lbl_record_any_time">הקלט בכל זמן</string>
     <string name="lbl_record_any_channel">הקלט בכל ערוץ</string>
-    <string name="lbl_similar_items_library">דברים דומים בספרייה שלך</string>
+    <string name="lbl_similar_items_library">תוכן דומה בספרייה שלך</string>
     <string name="lbl_end_padding">סוף עיטוף</string>
     <string name="lbl_program_ended">תכנית הסתיימה</string>
     <string name="lbl_begin_padding">תחילת עיטוף</string>
@@ -89,7 +89,7 @@
     <string name="sum_tv_queuing">הכנס את שאר העונה לתור הצפייה בזמן ניגון פרק</string>
     <string name="lbl_tv_queuing">נגן להבא את כל הפרקים הבאים</string>
     <string name="lbl_empty">ריק</string>
-    <string name="lbl_no_items">אין סרטים</string>
+    <string name="lbl_no_items">אין תוכן</string>
     <string name="msg_cannot_play">לא ניתן לנגן את הסרט</string>
     <string name="msg_cannot_play_time">לא ניתן לניגון כרגע</string>
     <string name="lbl_never">אף פעם</string>
@@ -113,7 +113,7 @@
     <string name="lbl_people">אנשים</string>
     <string name="lbl_other_options">אפשרויות נוספות</string>
     <string name="lbl_last_played">"נצפה לאחרונה "</string>
-    <string name="lbl_directed_by">הופק ע״י</string>
+    <string name="lbl_directed_by">במאי</string>
     <string name="lbl_ends">נגמר</string>
     <string name="lbl_min">" דקות"</string>
     <string name="lbl_runs">הרצות</string>
@@ -126,7 +126,7 @@
     <string name="lbl_trailers">טריילרים</string>
     <string name="lbl_specials">מיוחדים</string>
     <string name="lbl_chapters">פרקים</string>
-    <string name="lbl_cast_crew">צוות השחקנים</string>
+    <string name="lbl_cast_crew">שחקנים וצוות</string>
     <string name="msg_unable_to_cancel">ביטול ההקלטה נכשל</string>
     <string name="msg_recording_cancelled">ההקלטה בוטלה</string>
     <string name="msg_unable_to_create_recording">ביצוע ההקלטה נכשל</string>
@@ -147,7 +147,7 @@
     <string name="lbl_collections">אוספים</string>
     <string name="lbl_other_channels">ערוצים אחרים</string>
     <string name="lbl_favorite_channels">ערוצים מועדפים</string>
-    <string name="lbl_coming_up">בקרוב</string>
+    <string name="lbl_coming_up">הצפייה הבאה</string>
     <string name="lbl_favorites">מועדפים</string>
     <string name="lbl_by_name">לפי שם</string>
     <string name="lbl_latest">חדש</string>
@@ -204,7 +204,7 @@
     <string name="lbl_recent_recordings">הקלטות אחרונות</string>
     <string name="lbl_kids">ילדים</string>
     <string name="lbl_sports">ספורט</string>
-    <string name="no_program_data">&lt;אין נתונים&gt;</string>
+    <string name="no_program_data">אין מידע על התוכנית</string>
     <string name="msg_record_entire_series">להקליט את הסדרה כולה\?</string>
     <string name="lbl_just_this_once">רק הפעם</string>
     <string name="lbl_select_date">בחר תאריך</string>
@@ -256,7 +256,7 @@
     <string name="pref_video_player_external">נגן חיצוני</string>
     <string name="pref_video_player_exoplayer">אקסופליר</string>
     <string name="pref_video_player_auto">בחר אוטומאטית</string>
-    <string name="pref_theme_emerald">אזמרגד קלאסי</string>
+    <string name="pref_theme_emerald">קלאסי</string>
     <string name="pref_theme_dark">חשוך (רגיל)</string>
     <string name="lbl_my_media">המדיה שלי</string>
     <string name="lbl_image_size">גודל תמונה</string>
@@ -284,7 +284,7 @@
     <string name="watch_count_overflow">99+</string>
     <string name="bitrate_kbit">%1$,.0f קילוביט לשניה</string>
     <string name="bitrate_mbit">‭%1$,.0f Mbit/s</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">libVLC (ניסיוני)</string>
     <string name="lbl_item">פריט</string>
     <string name="lbl_items">פריטים</string>
     <string name="server_connection_failed">לא ניתן להתחבר לשרת</string>
@@ -395,7 +395,7 @@
     <string name="home_section_resume">המשך צפייה</string>
     <string name="home_section_library_small">המדיה שלי (מוקטן)</string>
     <string name="home_section_library">המדיה שלי</string>
-    <string name="home_section_latest_media">מדיה שנוגנה לאחרונה</string>
+    <string name="home_section_latest_media">מדיה שנוספה לאחרונה</string>
     <string name="home_sections">חלקות מסך הבית</string>
     <string name="license_license">רשיון</string>
     <string name="license_author">מען</string>
@@ -481,4 +481,44 @@
     <string name="item_delete_confirm_message">אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת\? אי אפשר לשחזר את הפעולה הזאת.</string>
     <string name="pref_enable_media_management_description">הראה אפשרויות לסדר את המדיה בזמן שימוש</string>
     <string name="item_delete_confirm_title">מחיקת פריט</string>
+    <string name="item_deleted">%1$s נמחקו</string>
+    <string name="item_deletion_failed">לא יכול למחוק %1$s</string>
+    <string name="pref_screensaver">שומר מסך</string>
+    <string name="pref_screensaver_inapp_enabled_description">הצג את שומר המסך בזמן שג\'ליפין פתוח</string>
+    <string name="lbl_album_artists">אלבומים</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s שיר</item>
+        <item quantity="two">%1$s שירים</item>
+        <item quantity="many">%1$s שירים</item>
+        <item quantity="other">%1$s שירים</item>
+    </plurals>
+    <string name="enable_reactive_homepage">הפעל עמוד reactive</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s שניה</item>
+        <item quantity="two">%1$s שניות</item>
+        <item quantity="many">%1$s שניות</item>
+        <item quantity="other">%1$s שניות</item>
+    </plurals>
+    <string name="not_set">לא נקבע</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s שעה</item>
+        <item quantity="two">%1$s שעות</item>
+        <item quantity="many">%1$s שעות</item>
+        <item quantity="other">%1$s שעות</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">פרק %1$s</item>
+        <item quantity="two">%1$s פרקים</item>
+        <item quantity="many">%1$s פרקים</item>
+        <item quantity="other">%1$s פרקים</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_enabled">השתמש בשומר מסך מובנה</string>
+    <string name="pref_screensaver_inapp_timeout">התחל שומר מסך אחרי</string>
+    <plurals name="minutes">
+        <item quantity="one">%1$s דקה</item>
+        <item quantity="two">%1$s דקות</item>
+        <item quantity="many">%1$s דקות</item>
+        <item quantity="other">%1$s דקות</item>
+    </plurals>
+    <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
 </resources>
