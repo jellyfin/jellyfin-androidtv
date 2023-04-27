@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
@@ -254,12 +255,17 @@ public class LegacyMediaManager implements MediaManager {
 
     private boolean createPlayer(Context context, int buffer) {
         try {
-
             // Create a new media player based on platform
             if (DeviceUtils.is60()) {
                 Timber.i("creating audio player using: exoplayer");
                 nativeMode = true;
-                mExoPlayer = new ExoPlayer.Builder(context).build();
+
+                ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
+                DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
+                defaultRendererFactory.setEnableDecoderFallback(true);
+                defaultRendererFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+                exoPlayerBuilder.setRenderersFactory(defaultRendererFactory);
+                mExoPlayer = exoPlayerBuilder.build();
                 mExoPlayer.addListener(new Player.Listener() {
                     @Override
                     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {

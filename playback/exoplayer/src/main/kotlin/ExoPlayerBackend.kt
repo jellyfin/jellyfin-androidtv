@@ -28,7 +28,12 @@ class ExoPlayerBackend(
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
 		}
+
 		ExoPlayer.Builder(context, renderersFactory)
+			.setRenderersFactory(DefaultRenderersFactory(context).apply {
+				setEnableDecoderFallback(true)
+				setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+			})
 			.build()
 			.also { player -> player.addListener(PlayerListener()) }
 	}
