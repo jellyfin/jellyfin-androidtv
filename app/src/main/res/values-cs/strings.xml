@@ -149,9 +149,9 @@
     <string name="lbl_now_playing">Přehráváno</string>
     <string name="lbl_play_from_here">Přehrát odtud</string>
     <string name="lbl_remove_from_queue">Odebrat z fronty</string>
-    <string name="lbl_delete">Smazat</string>
+    <string name="lbl_delete">Odstranit</string>
     <string name="msg_item_added">" položka přidána"</string>
-    <string name="lbl_instant_mix">Okamžitý mix</string>
+    <string name="lbl_instant_mix">Rychlý mix</string>
     <string name="lbl_in_x_days">Za %d dní</string>
     <string name="lbl_bitstream_dts">Zvuk DTS jako bitový tok</string>
     <string name="desc_premieres">Zobrazit řadu nových úvodních epizod pro každý seriál, který sledujete</string>
