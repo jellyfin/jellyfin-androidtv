@@ -72,7 +72,16 @@ open class BaseRowItem protected constructor(
 		baseItem = item.asSdk(),
 	)
 
-	constructor(item: org.jellyfin.sdk.model.api.BaseItemDto) : this(
+	@JvmOverloads
+	constructor(
+		item: org.jellyfin.sdk.model.api.BaseItemDto,
+		index: Int = 0,
+		preferParentThumb: Boolean = false,
+		staticHeight: Boolean = false,
+	) : this(
+		index = index,
+		preferParentThumb = preferParentThumb,
+		staticHeight = staticHeight,
 		baseRowType = when (item.type) {
 			BaseItemKind.PROGRAM -> BaseRowType.LiveTvProgram
 			BaseItemKind.RECORDING -> BaseRowType.LiveTvRecording

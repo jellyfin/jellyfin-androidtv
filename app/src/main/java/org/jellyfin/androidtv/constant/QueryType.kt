@@ -25,4 +25,5 @@ enum class QueryType {
 	LatestItems,
 	SeriesTimer,
 	Premieres,
+	Resume,
 }

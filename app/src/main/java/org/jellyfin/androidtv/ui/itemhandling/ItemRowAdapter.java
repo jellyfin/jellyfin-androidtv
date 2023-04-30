@@ -62,6 +62,7 @@ import org.jellyfin.apiclient.model.search.SearchQuery;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
+import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
@@ -90,6 +91,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private ArtistsQuery mArtistsQuery;
     private LatestItemsQuery mLatestQuery;
     private SeriesTimerQuery mSeriesTimerQuery;
+    private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
 
     private String mSortBy;
@@ -120,6 +122,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private boolean staticHeight = false;
 
     private final Lazy<ApiClient> apiClient = inject(ApiClient.class);
+    private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<UserViewsRepository> userViewsRepository = inject(UserViewsRepository.class);
     private Context context;
 
@@ -386,6 +389,17 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         mParent = parent;
         queryType = QueryType.Views;
         staticHeight = true;
+    }
+
+    public ItemRowAdapter(Context context, GetResumeItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, Presenter presenter, MutableObjectAdapter<Row> parent) {
+        super(presenter);
+        this.context = context;
+        mParent = parent;
+        resumeQuery = query;
+        this.chunkSize = chunkSize;
+        this.preferParentThumb = preferParentThumb;
+        this.staticHeight = staticHeight;
+        this.queryType = QueryType.Resume;
     }
 
     public void setItemsLoaded(int itemsLoaded) {
@@ -707,6 +721,9 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             case SeriesTimer:
                 retrieve(mSeriesTimerQuery);
                 break;
+            case Resume:
+                ItemRowAdapterHelperKt.retrieveResumeItems(this, api.getValue(), resumeQuery);
+            break;
         }
     }
 

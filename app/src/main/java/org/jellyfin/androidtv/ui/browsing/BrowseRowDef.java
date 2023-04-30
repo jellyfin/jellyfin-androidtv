@@ -15,6 +15,7 @@ import org.jellyfin.apiclient.model.querying.PersonsQuery;
 import org.jellyfin.apiclient.model.querying.SeasonQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
+import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
 
 public class BrowseRowDef {
     private String headerText;
@@ -33,6 +34,7 @@ public class BrowseRowDef {
 
     private ArtistsQuery artistsQuery;
     private SeasonQuery seasonQuery;
+    private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
 
     private int chunkSize = 0;
@@ -174,6 +176,16 @@ public class BrowseRowDef {
         this.queryType = QueryType.Views;
     }
 
+    public BrowseRowDef(String header, GetResumeItemsRequest query, int chunkSize, boolean preferParentThumb, boolean staticHeight, ChangeTriggerType[] changeTriggers) {
+        headerText = header;
+        this.resumeQuery = query;
+        this.chunkSize = chunkSize;
+        this.queryType = QueryType.Resume;
+        this.staticHeight = staticHeight;
+        this.preferParentThumb = preferParentThumb;
+        this.changeTriggers = changeTriggers;
+    }
+
     public int getChunkSize() {
         return chunkSize;
     }
@@ -229,6 +241,8 @@ public class BrowseRowDef {
     public ArtistsQuery getArtistsQuery() { return artistsQuery; }
 
     public SeriesTimerQuery getSeriesTimerQuery() { return seriesTimerQuery; }
+
+    public GetResumeItemsRequest getResumeQuery() { return resumeQuery; }
 
     public ChangeTriggerType[] getChangeTriggers() {
         return changeTriggers;
