@@ -4,19 +4,16 @@ import android.content.Context
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.constant.ChangeTriggerType
-import org.jellyfin.androidtv.data.querying.StdItemQuery
 import org.jellyfin.androidtv.data.querying.ViewQuery
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.BrowseRowDef
-import org.jellyfin.apiclient.model.entities.LocationType
-import org.jellyfin.apiclient.model.entities.SortOrder
 import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
-import org.jellyfin.apiclient.model.querying.ItemFilter
 import org.jellyfin.apiclient.model.querying.NextUpQuery
-import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 
 class HomeFragmentHelper(
 	private val context: Context,
@@ -31,29 +28,31 @@ class HomeFragmentHelper(
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_my_media), ViewQuery))
 	}
 
-	fun loadResume(title: String, includeMediaTypes: Array<String>): HomeFragmentRow {
-		val query = StdItemQuery().apply {
-			mediaTypes = includeMediaTypes
-			recursive = true
-			imageTypeLimit = 1
-			enableTotalRecordCount = false
-			collapseBoxSetItems = false
-			excludeLocationTypes = arrayOf(LocationType.Virtual)
-			limit = ITEM_LIMIT_RESUME
-			filters = arrayOf(ItemFilter.IsResumable)
-			sortBy = arrayOf(ItemSortBy.DatePlayed)
-			sortOrder = SortOrder.Descending
-		}
+	fun loadResume(title: String, includeMediaTypes: List<String>): HomeFragmentRow {
+		val query = GetResumeItemsRequest(
+			userId = userRepository.currentUser.value!!.id,
+			limit = ITEM_LIMIT_RESUME,
+			fields = listOf(
+				SdkItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				SdkItemFields.OVERVIEW,
+				SdkItemFields.ITEM_COUNTS,
+				SdkItemFields.DISPLAY_PREFERENCES_ID,
+				SdkItemFields.CHILD_COUNT,
+			),
+			imageTypeLimit = 1,
+			enableTotalRecordCount = false,
+			mediaTypes = includeMediaTypes,
+		)
 
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(title, query, 0, false, true, arrayOf(ChangeTriggerType.VideoQueueChange, ChangeTriggerType.TvPlayback, ChangeTriggerType.MoviePlayback)))
 	}
 
 	fun loadResumeVideo(): HomeFragmentRow {
-		return loadResume(context.getString(R.string.lbl_continue_watching), arrayOf(MediaType.Video))
+		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.Video))
 	}
 
 	fun loadResumeAudio(): HomeFragmentRow {
-		return loadResume(context.getString(R.string.lbl_continue_watching), arrayOf(MediaType.Audio))
+		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.Audio))
 	}
 
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {

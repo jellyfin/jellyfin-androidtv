@@ -1,5 +1,11 @@
 package org.jellyfin.androidtv.ui.itemhandling
 
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.itemsApi
+import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
 import timber.log.Timber
 
 fun <T : Any> ItemRowAdapter.setItems(
@@ -28,4 +34,14 @@ fun <T : Any> ItemRowAdapter.setItems(
 
 	replaceAll(allItems)
 	itemsLoaded = allItems.size
+}
+
+fun ItemRowAdapter.retrieveResumeItems(api: ApiClient, query: GetResumeItemsRequest) {
+	ProcessLifecycleOwner.get().lifecycleScope.launch {
+		val response by api.itemsApi.getResumeItems(query)
+
+		setItems(
+			items = response.items.orEmpty().toTypedArray(),
+			transform = { item, i -> BaseRowItem(item, i, preferParentThumb, isStaticHeight) })
+	}
 }
