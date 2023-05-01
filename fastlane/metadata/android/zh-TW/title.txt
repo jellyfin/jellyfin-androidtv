@@ -1,1 +1,1 @@
-Android TV版本的Jellyfin
+Android TV 版本的 Jellyfin
