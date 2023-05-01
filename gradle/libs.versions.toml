@@ -2,7 +2,7 @@
 aboutlibraries = "10.6.2"
 acra = "5.9.7"
 android-desugar = "2.0.3"
-android-gradle = "8.0.0"
+android-gradle = "8.0.1"
 androidx-activity = "1.7.1"
 androidx-appcompat = "1.6.1"
 androidx-cardview = "1.0.0"
