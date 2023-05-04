@@ -519,4 +519,5 @@
         <item quantity="many">%1$s odcinków</item>
         <item quantity="other">%1$s odcinków</item>
     </plurals>
+    <string name="not_set">Nie ustawiony</string>
 </resources>
