@@ -1525,11 +1525,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
         requireActivity().runOnUiThread(() -> {
-            // Encode whitespace as html entities
             final String htmlText = text
+                    // Encode whitespace as html entities
                     .replaceAll("\\r\\n", "<br>")
                     .replaceAll("\\n", "<br>")
-                    .replaceAll("\\\\h", "&ensp;");
+                    .replaceAll("\\\\h", "&ensp;")
+                    // Remove SSA tags
+                    .replaceAll("\\{\\\\.*?\\}", "");
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
             if (subtitlesBackgroundEnabled) {
