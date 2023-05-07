@@ -207,7 +207,9 @@ class ExoPlayerProfile(
 		}.toTypedArray()
 
 		subtitleProfiles = arrayOf(
+			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SRT, SubtitleDeliveryMethod.External),
+			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.Embed),
 			subtitleProfile(Codec.Subtitle.SUBRIP, SubtitleDeliveryMethod.External),
 			subtitleProfile(Codec.Subtitle.ASS, SubtitleDeliveryMethod.Encode),
 			subtitleProfile(Codec.Subtitle.SSA, SubtitleDeliveryMethod.Encode),
