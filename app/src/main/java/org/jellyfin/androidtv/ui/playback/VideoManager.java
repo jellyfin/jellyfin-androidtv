@@ -2,7 +2,9 @@ package org.jellyfin.androidtv.ui.playback;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.media.audiofx.DynamicsProcessing;
 import android.media.audiofx.DynamicsProcessing.Limiter;
 import android.media.audiofx.Equalizer;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -35,6 +38,7 @@ import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.CaptionStyleCompat;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.common.collect.ImmutableSet;
 
@@ -79,6 +83,13 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private Media mCurrentMedia;
     private VlcEventHandler mVlcHandler = new VlcEventHandler();
     private Handler mHandler = new Handler();
+
+    private final UserPreferences userPreferences = KoinJavaComponent.<UserPreferences>get(UserPreferences.class);
+    private final int subtitlesSize = userPreferences.get(UserPreferences.Companion.getSubtitlesSize());
+    private final long subtitlesTextColor = userPreferences.get(UserPreferences.Companion.getSubtitlesTextColor());
+    private final boolean subtitlesBackgroundEnabled = userPreferences.get(UserPreferences.Companion.getSubtitlesBackgroundEnabled());
+    private final int subtitlesPosition = userPreferences.get(UserPreferences.Companion.getSubtitlePosition());
+
     private int mVideoHeight;
     private int mVideoWidth;
     private int mVideoVisibleHeight;
@@ -119,6 +130,26 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                                                             .build());
 
         mExoPlayerView = view.findViewById(R.id.exoPlayerView);
+
+        int backgroundColor = subtitlesBackgroundEnabled ? Color.BLACK : Color.TRANSPARENT;
+        int captionStyle = subtitlesBackgroundEnabled ?
+                CaptionStyleCompat.EDGE_TYPE_NONE:
+                CaptionStyleCompat.EDGE_TYPE_OUTLINE; // For better contrast
+        mExoPlayerView.getSubtitleView().setStyle(new CaptionStyleCompat(
+                (int)subtitlesTextColor,
+                backgroundColor,
+                Color.TRANSPARENT,
+                captionStyle,
+                Color.BLACK,
+                null));
+
+        mExoPlayerView.getSubtitleView().setFixedTextSize(Dimension.PX, subtitlesSize);
+
+        // need to convert the pixels to a fraction of the display's height
+        Point size = new Point();
+        mActivity.getWindowManager().getDefaultDisplay().getSize(size);
+        mExoPlayerView.getSubtitleView().setBottomPaddingFraction(((float)(50+subtitlesPosition))/size.y);
+
         mExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.addListener(new Player.Listener() {
             @Override
