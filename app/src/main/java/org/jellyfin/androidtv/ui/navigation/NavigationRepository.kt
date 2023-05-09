@@ -23,7 +23,14 @@ interface NavigationRepository {
 	 *
 	 * @see Destinations
 	 */
-	fun navigate(destination: Destination)
+	fun navigate(destination: Destination) = navigate(destination, false)
+
+	/**
+	 * Navigate to [destination].
+	 *
+	 * @see Destinations
+	 */
+	fun navigate(destination: Destination, replace: Boolean)
 
 	/**
 	 * Whether the [goBack] function will succeed or not.
@@ -57,21 +64,24 @@ class NavigationRepositoryImpl(
 	init {
 		// Never add the initial destination to the history to prevent an empty screen when the user
 		// uses the "back" button to close the app
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false))
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false, false))
 		Timber.d("Navigating to $initialDestination")
 	}
 
-	override fun navigate(destination: Destination) {
+	override fun navigate(destination: Destination, replace: Boolean) {
 		Timber.d("Navigating to $destination")
 		val action = when (destination) {
-			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true)
+			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace)
 			is Destination.Activity -> NavigationAction.NavigateActivity(destination) {
 				Timber.d("Navigating to nothing")
 				_currentAction.tryEmit(NavigationAction.Nothing)
 			}
 		}
 		_currentAction.tryEmit(action)
-		if (destination is Destination.Fragment) fragmentHistory.push(destination)
+		if (destination is Destination.Fragment) {
+			if (replace && fragmentHistory.isNotEmpty()) fragmentHistory[fragmentHistory.lastIndex] = destination
+			else fragmentHistory.push(destination)
+		}
 	}
 
 	override val canGoBack: Boolean get() = fragmentHistory.isNotEmpty()
@@ -88,7 +98,7 @@ class NavigationRepositoryImpl(
 	override fun reset(destination: Destination.Fragment?) {
 		fragmentHistory.clear()
 		val actualDestination = destination ?: initialDestination
-		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false))
+		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false))
 		Timber.d("Navigating to $actualDestination")
 	}
 }

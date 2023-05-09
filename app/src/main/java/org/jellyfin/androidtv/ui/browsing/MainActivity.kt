@@ -84,7 +84,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 		screensaverViewModel.activityPaused = false
 
 		if (screensaverViewModel.enabled) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-		else  window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 	}
 
 	override fun onPause() {
@@ -94,21 +94,25 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
-		is NavigationAction.NavigateFragment -> supportFragmentManager.commit {
-			val destination = action.destination
-			val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
-			val isSameFragment = currentFragment != null &&
-				destination.fragment.isInstance(currentFragment) &&
-				currentFragment.arguments == destination.arguments
+		is NavigationAction.NavigateFragment -> {
+			if (action.replace) supportFragmentManager.popBackStackImmediate()
 
-			if (!isSameFragment) {
-				setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+			supportFragmentManager.commit {
+				val destination = action.destination
+				val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
+				val isSameFragment = currentFragment != null &&
+					destination.fragment.isInstance(currentFragment) &&
+					currentFragment.arguments == destination.arguments
 
-				if (currentFragment != null) remove(currentFragment)
-				add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+				if (!isSameFragment) {
+					setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+
+					if (currentFragment != null) remove(currentFragment)
+					add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+				}
+
+				if (action.addToBackStack) addToBackStack(null)
 			}
-
-			if (action.addToBackStack) addToBackStack(null)
 		}
 
 		is NavigationAction.NavigateActivity -> {
