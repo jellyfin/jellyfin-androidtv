@@ -223,7 +223,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     public void onPause() {
         super.onPause();
         dismissPopup();
-        mPoster.setKeepScreenOn(false);
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
     }
 
@@ -339,7 +338,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                mPoster.setKeepScreenOn(playing);
                 if (!playing) {
                     mPlayPauseButton.setImageResource(R.drawable.ic_play);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));
