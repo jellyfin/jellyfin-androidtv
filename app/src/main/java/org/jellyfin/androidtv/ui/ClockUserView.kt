@@ -11,9 +11,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ClockUserBugBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.ClockBehavior
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
 import org.jellyfin.androidtv.util.ImageUtils
-import org.jellyfin.androidtv.util.getActivity
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -27,15 +25,14 @@ class ClockUserView @JvmOverloads constructor(
 	private val userPreferences by inject<UserPreferences>()
 	private val userRepository by inject<UserRepository>()
 
-	init {
-		val showClock = userPreferences[UserPreferences.clockBehavior]
-
-		binding.clock.isVisible = when (showClock) {
-			ClockBehavior.ALWAYS -> true
-			ClockBehavior.NEVER -> false
-			ClockBehavior.IN_VIDEO -> context.getActivity() is PlaybackOverlayActivity
-			ClockBehavior.IN_MENUS -> context.getActivity() !is PlaybackOverlayActivity
+	var isVideoPlayer = false
+		set(value) {
+			field = value
+			updateClockVisibility()
 		}
+
+	init {
+		updateClockVisibility()
 
 		val currentUser = userRepository.currentUser.value
 
@@ -45,5 +42,16 @@ class ClockUserView @JvmOverloads constructor(
 		)
 
 		binding.clockUserImage.isVisible = currentUser != null
+	}
+
+	private fun updateClockVisibility() {
+		val showClock = userPreferences[UserPreferences.clockBehavior]
+
+		binding.clock.isVisible = when (showClock) {
+			ClockBehavior.ALWAYS -> true
+			ClockBehavior.NEVER -> false
+			ClockBehavior.IN_VIDEO -> isVideoPlayer
+			ClockBehavior.IN_MENUS -> !isVideoPlayer
+		}
 	}
 }

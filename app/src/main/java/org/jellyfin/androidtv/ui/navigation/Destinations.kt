@@ -22,8 +22,9 @@ import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
 import org.jellyfin.androidtv.ui.picture.PictureViewerFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
+import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.ExternalPlayerActivity
-import org.jellyfin.androidtv.ui.playback.PlaybackOverlayActivity
+import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
 import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
@@ -140,6 +141,7 @@ object Destinations {
 
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
+
 	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String?, albumSortOrder: SortOrder?) =
 		fragmentDestination<PictureViewerFragment>(
 			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),
@@ -152,7 +154,11 @@ object Destinations {
 		"Position" to (position ?: 0)
 	)
 
-	fun videoPlayer(position: Int?) = activityDestination<PlaybackOverlayActivity>(
+	fun videoPlayer(position: Int?) = fragmentDestination<CustomPlaybackOverlayFragment>(
 		"Position" to (position ?: 0)
+	)
+
+	fun nextUp(item: UUID) = fragmentDestination<NextUpFragment>(
+		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
 	)
 }
