@@ -1427,7 +1427,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             spinnerOff = false;
 
             // Show "Next Up" fragment
-            if (mFragment != null) mFragment.showNextUp(nextItem.getId().toString());
+            if (mFragment != null) mFragment.showNextUp(nextItem.getId());
             endPlayback();
         } else {
             next();

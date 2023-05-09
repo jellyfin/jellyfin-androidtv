@@ -152,6 +152,9 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 	override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
 
+	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean =
+		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
+
 	override fun onUserInteraction() {
 		super.onUserInteraction()
 

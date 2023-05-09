@@ -23,11 +23,10 @@ class NextUpButtonsView @JvmOverloads constructor(
 		view.fragmentNextUpButtonsPlayNext.apply {
 			// Stop timer when unfocused
 			setOnFocusChangeListener { _, focused -> if (!focused) stopTimer() }
-
-			// Add initial focus
-			requestFocus()
 		}
 	}
+
+	fun focusPlayNextButton() = view.fragmentNextUpButtonsPlayNext.requestFocus()
 
 	fun startTimer() {
 		// Cancel current timer if one is already set

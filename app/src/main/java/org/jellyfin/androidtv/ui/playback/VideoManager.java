@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -63,7 +64,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     private int mZoomMode = ZOOM_FIT;
 
-    private PlaybackOverlayActivity mActivity;
+    private Activity mActivity;
     private Equalizer mEqualizer;
     private DynamicsProcessing mDynamicsProcessing;
     private Limiter mLimiter;
@@ -97,7 +98,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
 
-    public VideoManager(PlaybackOverlayActivity activity, View view) {
+    public VideoManager(@NonNull Activity activity, @NonNull View view) {
         mActivity = activity;
         mSurfaceView = view.findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
