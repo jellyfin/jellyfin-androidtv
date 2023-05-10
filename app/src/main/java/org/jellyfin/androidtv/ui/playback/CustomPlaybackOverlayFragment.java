@@ -163,6 +163,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
 
+    private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,7 +247,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onViewCreated(view, savedInstanceState);
 
         if (playbackControllerContainer.getValue().getPlaybackController() != null) {
-            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager((requireActivity()), view), this);
+            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager((requireActivity()), view, helper), this);
         }
     }
 

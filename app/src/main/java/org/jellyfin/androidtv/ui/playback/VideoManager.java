@@ -71,6 +71,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
+    private PlaybackOverlayFragmentHelper _helper;
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
@@ -98,9 +99,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
 
-    public VideoManager(@NonNull Activity activity, @NonNull View view) {
+    public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
         mSurfaceView = view.findViewById(R.id.player_surface);
+        _helper = helper;
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
@@ -134,8 +136,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 if (isPlaying) {
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
+                    _helper.setScreensaverLock(true);
                 } else {
                     stopProgressLoop();
+                    _helper.setScreensaverLock(false);
                 }
             }
 
@@ -214,8 +218,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setNativeMode(boolean value) {
         nativeMode = value;
         if (nativeMode) {
+            _helper.setScreensaverLock(false);
             mExoPlayerView.setVisibility(View.VISIBLE);
         } else {
+            _helper.setScreensaverLock(true);
             mExoPlayerView.setVisibility(View.GONE);
         }
     }
