@@ -25,6 +25,7 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.integration.provider.ImageProvider
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.startup.StartupActivity
+import org.jellyfin.androidtv.util.ImageUtils
 import org.jellyfin.androidtv.util.dp
 import org.jellyfin.androidtv.util.sdk.isUsable
 import org.jellyfin.sdk.api.client.ApiClient
@@ -246,7 +247,7 @@ class LeanbackChannelWorker(
 			tag = imageTags?.get(ImageType.THUMB),
 		)
 
-		else -> api.imageApi.getItemImageUrl(
+		imageTags?.containsKey(ImageType.PRIMARY) == true -> api.imageApi.getItemImageUrl(
 			itemId = id,
 			imageType = ImageType.PRIMARY,
 			format = ImageFormat.WEBP,
@@ -254,6 +255,8 @@ class LeanbackChannelWorker(
 			height = 153.dp(context),
 			tag = imageTags?.get(ImageType.PRIMARY),
 		)
+
+		else -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_tv)
 	}.let(ImageProvider::getImageUri)
 
 	/**
