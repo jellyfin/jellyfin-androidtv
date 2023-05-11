@@ -3,78 +3,92 @@ package org.jellyfin.androidtv.ui.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.leanback.app.RowsSupportFragment
-import androidx.leanback.widget.BaseOnItemViewClickedListener
-import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.OnItemViewSelectedListener
-import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.data.service.BackgroundService
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.databinding.FragmentSearchTextBinding
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
-import org.koin.java.KoinJavaComponent.inject
 
-class TextSearchFragment : Fragment(), TextWatcher, TextView.OnEditorActionListener {
-	private lateinit var searchProvider: SearchProvider
-	private val backgroundService = inject<BackgroundService>(BackgroundService::class.java)
+class TextSearchFragment : Fragment() {
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+	private val viewModel by viewModels<SearchViewModel>()
 
-		// Create provider
-		searchProvider = SearchProvider(requireContext(), lifecycle)
+	private var _binding: FragmentSearchTextBinding? = null
+	private val binding get() = _binding!!
+
+	private val searchFragmentDelegate = SearchFragmentDelegate(this)
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		_binding = FragmentSearchTextBinding.inflate(inflater, container, false)
+		return binding.root
 	}
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-		FragmentSearchTextBinding.inflate(inflater, container, false).root
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		setupSearchBar()
+		setupResultFragment()
+		observeSearchResults()
+	}
 
-		// Add event listeners
-		requireActivity().findViewById<EditText>(R.id.search_bar).apply {
-			addTextChangedListener(this@TextSearchFragment)
-			setOnEditorActionListener(this@TextSearchFragment)
+	private fun setupSearchBar() {
+		binding.searchBar.apply {
+			onTextChanged {
+				viewModel.searchDebounced(it)
+			}
+			onSubmit {
+				viewModel.search(it)
+			}
 		}
+	}
 
+	private fun setupResultFragment() {
 		// Set up result fragment
-		val rowsSupportFragment = childFragmentManager.findFragmentById(R.id.results_frame) as? RowsSupportFragment
-		rowsSupportFragment?.adapter = searchProvider.resultsAdapter
-
-		rowsSupportFragment?.onItemViewClickedListener = BaseOnItemViewClickedListener<ListRow> { _, item, _, row ->
-			if (item !is BaseRowItem) return@BaseOnItemViewClickedListener
-
-			val adapter = row.adapter as ItemRowAdapter
-			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, requireContext())
-		}
-
-		rowsSupportFragment?.onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->
-			if (item is BaseRowItem) backgroundService.value.setBackground(item.searchHint!!)
-			else backgroundService.value.clearBackgrounds()
+		val rowsSupportFragment = binding.resultsFrame.getFragment<RowsSupportFragment?>()
+		rowsSupportFragment?.let {
+			it.adapter = searchFragmentDelegate.rowsAdapter
+			it.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
+			it.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 		}
 	}
 
-	override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
-	override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) = Unit
-
-	override fun afterTextChanged(editable: Editable) {
-		searchProvider.onQueryTextChange(editable.toString())
+	private fun observeSearchResults() {
+		viewModel.searchResultsFlow
+			.onEach {
+				searchFragmentDelegate.showResults(it)
+			}.launchIn(lifecycleScope)
 	}
 
-	override fun onEditorAction(view: TextView, actionId: Int, event: KeyEvent?): Boolean {
-		// Detect keyboard "submit" actions
-		if (actionId == EditorInfo.IME_ACTION_SEARCH) searchProvider.onQueryTextSubmit(view.text.toString())
+	override fun onDestroyView() {
+		_binding = null
+		super.onDestroyView()
+	}
 
-		// Return "false" to automatically close keyboard
-		return false
+	private fun EditText.onSubmit(onSubmit: (String) -> Unit) {
+		setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_DONE) {
+				onSubmit(text.toString())
+				true
+			} else {
+				false
+			}
+		}
+	}
+
+	private fun EditText.onTextChanged(onTextChanged: (String) -> Unit) {
+		val textWatcher = object : TextWatcher {
+			override fun afterTextChanged(s: Editable?) {
+				onTextChanged(s.toString())
+			}
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+		}
+		addTextChangedListener(textWatcher)
 	}
 }
