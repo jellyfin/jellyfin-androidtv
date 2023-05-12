@@ -1359,7 +1359,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                                             Utils.showToast(requireContext(), mSeriesTimerInfo.getName() + " Canceled");
                                             dataRefreshService.getValue().setLastDeletedItemId(UUIDSerializerKt.toUUID(mSeriesTimerInfo.getId()));
-                                            requireActivity().finish();
+                                            if (navigationRepository.getValue().getCanGoBack()) {
+                                                navigationRepository.getValue().goBack();
+                                            } else {
+                                                navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
+                                            }
                                         }
 
                                         @Override
