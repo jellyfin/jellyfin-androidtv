@@ -36,7 +36,7 @@ import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
@@ -75,7 +75,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
-    private PlayerView mExoPlayerView;
+    private StyledPlayerView mExoPlayerView;
     private LibVLC mLibVLC;
     private MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
