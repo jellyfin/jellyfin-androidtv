@@ -15,15 +15,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.ui.validateAuthentication
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
+import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : FragmentActivity(R.layout.activity_main) {
 	companion object {
@@ -31,6 +34,8 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 	}
 
 	private val navigationRepository by inject<NavigationRepository>()
+	private val sessionRepository by inject<SessionRepository>()
+	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
 
 	private val backPressedCallback = object : OnBackPressedCallback(false) {
@@ -85,6 +90,17 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 
 		if (screensaverViewModel.enabled) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 		else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+	}
+
+	private fun validateAuthentication(): Boolean {
+		if (sessionRepository.currentSession.value == null || userRepository.currentUser.value == null) {
+			Timber.w("Activity ${this::class.qualifiedName} started without a session, bouncing to StartupActivity")
+			startActivity(Intent(this, StartupActivity::class.java))
+			finish()
+			return false
+		}
+
+		return true
 	}
 
 	override fun onPause() {
