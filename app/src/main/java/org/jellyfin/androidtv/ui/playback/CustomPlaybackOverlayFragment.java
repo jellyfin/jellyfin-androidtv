@@ -184,7 +184,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
             Utils.showToast(requireContext(), getString(R.string.msg_no_playable_items));
-            finish();
+            closePlayer();
             return;
         }
 
@@ -434,7 +434,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             } else if (mGuideVisible) {
                 hideGuide();
             } else {
-                finish();
+                closePlayer();
             }
         }
     };
@@ -533,7 +533,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 }
 
                 if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
-                    finish();
+                    closePlayer();
                     return true;
                 }
 
@@ -697,7 +697,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     if (!getActive()) return;
 
                     Utils.showToast(requireContext(), R.string.msg_video_playback_error);
-                    finish();
+                    closePlayer();
                 }
             });
         }
@@ -1443,7 +1443,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         });
     }
 
-    public void finish() {
+    public void closePlayer() {
         if (navigationRepository.getValue().getCanGoBack()) {
             navigationRepository.getValue().goBack();
         } else {

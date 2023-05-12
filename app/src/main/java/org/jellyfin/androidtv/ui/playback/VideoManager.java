@@ -329,7 +329,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (nativeMode) {
             if (mExoPlayer == null) {
                 Timber.e("mExoPlayer should not be null!!");
-                mActivity.finish();
+                _helper.getFragment().closePlayer();
                 return;
             }
             mExoPlayer.setPlayWhenReady(true);
