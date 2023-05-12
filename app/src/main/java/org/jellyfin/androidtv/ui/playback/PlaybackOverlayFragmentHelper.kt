@@ -4,7 +4,7 @@ import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PlaybackOverlayFragmentHelper(
-	private val fragment: CustomPlaybackOverlayFragment
+	val fragment: CustomPlaybackOverlayFragment
 ) {
 	private val screensaverViewModel by fragment.activityViewModel<ScreensaverViewModel>()
 	private var screensaverLock: (() -> Unit)? = null

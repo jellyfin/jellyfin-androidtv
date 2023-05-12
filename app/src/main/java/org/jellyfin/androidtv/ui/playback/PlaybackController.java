@@ -301,7 +301,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mPlaybackState = PlaybackState.ERROR;
             if (mFragment != null) {
                 Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.too_many_errors));
-                mFragment.finish();
+                mFragment.closePlayer();
             }
         }
     }
@@ -479,7 +479,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     Timber.d("item is null - aborting play");
                     if (mFragment != null) {
                         Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.msg_cannot_play));
-                        mFragment.requireActivity().finish();
+                        mFragment.closePlayer();
                     }
                     return;
                 }
@@ -499,7 +499,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                                 .setNegativeButton(R.string.lbl_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        mFragment.requireActivity().finish();
+                                        mFragment.closePlayer();
                                     }
                                 })
                                 .create()
@@ -511,7 +511,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                                 .setPositiveButton(R.string.lbl_ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        mFragment.requireActivity().finish();
+                                        mFragment.closePlayer();
                                     }
                                 })
                                 .create()
@@ -758,7 +758,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         } catch (InterruptedException e) {
             Timber.e(e);
         }
-        if (mFragment != null) mFragment.finish();
+        if (mFragment != null) mFragment.closePlayer();
     }
 
     private void startItem(org.jellyfin.sdk.model.api.BaseItemDto item, long position, StreamInfo response) {
@@ -1135,7 +1135,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void endPlayback(Boolean closeActivity) {
-        if (closeActivity && mFragment != null) mFragment.getActivity().finish();
+        if (closeActivity && mFragment != null) mFragment.closePlayer();
         stop();
         if (mVideoManager != null)
             mVideoManager.destroy();
