@@ -28,7 +28,7 @@ class StartupToolbarFragment : Fragment() {
 		}
 
 		binding.settings.setOnClickListener {
-			val intent = Intent(requireActivity(), PreferencesActivity::class.java)
+			val intent = Intent(requireContext(), PreferencesActivity::class.java)
 			intent.putExtra(PreferencesActivity.EXTRA_SCREEN, AuthPreferencesScreen::class.qualifiedName)
 			intent.putExtra(PreferencesActivity.EXTRA_SCREEN_ARGS, bundleOf(
 				AuthPreferencesScreen.ARG_SHOW_ABOUT to true

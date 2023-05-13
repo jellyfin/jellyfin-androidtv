@@ -65,7 +65,7 @@ class PreferencesFragment : LeanbackSettingsFragmentCompat() {
 	}
 
 	private fun instantiateFragment(name: String, arguments: Bundle = bundleOf()) = childFragmentManager.fragmentFactory.instantiate(
-		requireActivity().classLoader,
+		requireContext().classLoader,
 		name
 	).also { fragment ->
 		fragment.arguments = arguments

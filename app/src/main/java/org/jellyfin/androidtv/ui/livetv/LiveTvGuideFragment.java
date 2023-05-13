@@ -334,7 +334,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                     Date curUTC = TimeUtils.convertToUtcDate(new Date());
                     if (mSelectedProgramView instanceof ProgramGridCell) {
                         if (mSelectedProgram.getStartDate().before(curUTC))
-                            PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireActivity());
+                            PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                         else
                             showProgramOptions();
                         return true;
@@ -347,7 +347,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                         && mSelectedProgram != null
                         && mSelectedProgram.getChannelId() != null) {
                     // tune to the current channel
-                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireActivity());
+                    PlaybackHelper.retrieveAndPlay(mSelectedProgram.getChannelId(), false, requireContext());
                     return true;
                 }
 
@@ -543,7 +543,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 displayedChannels = 0;
 
                 String label = TextUtilsKt.getLoadChannelsLabel(requireContext(), mAllChannels.get(pageUpStart).getNumber(), mAllChannels.get(mCurrentDisplayChannelStartNdx - 1).getNumber());
-                mProgramRows.addView(new GuidePagingButton(requireActivity(), LiveTvGuideFragment.this, pageUpStart, label));
+                mProgramRows.addView(new GuidePagingButton(requireContext(), LiveTvGuideFragment.this, pageUpStart, label));
             }
         }
 
@@ -612,7 +612,7 @@ public class LiveTvGuideFragment extends Fragment implements LiveTvGuide, View.O
                 mChannels.addView(placeHolder);
 
                 String label = TextUtilsKt.getLoadChannelsLabel(requireContext(), mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber(), mAllChannels.get(pageDnEnd).getNumber());
-                mProgramRows.addView(new GuidePagingButton(requireActivity(), LiveTvGuideFragment.this, mCurrentDisplayChannelEndNdx + 1, label));
+                mProgramRows.addView(new GuidePagingButton(requireContext(), LiveTvGuideFragment.this, mCurrentDisplayChannelEndNdx + 1, label));
             }
 
             mChannelStatus.setText(displayedChannels+" of "+mAllChannels.size()+" channels");
