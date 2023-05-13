@@ -252,6 +252,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        binding = null;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) return;
