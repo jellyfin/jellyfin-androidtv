@@ -6,7 +6,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
@@ -17,6 +16,7 @@ import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
@@ -28,7 +28,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MainActivity : FragmentActivity(R.layout.activity_main) {
+class MainActivity : FragmentActivity() {
 	companion object {
 		private const val FRAGMENT_TAG_CONTENT = "content"
 	}
@@ -37,6 +37,8 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+
+	private lateinit var binding: ActivityMainBinding
 
 	private val backPressedCallback = object : OnBackPressedCallback(false) {
 		override fun handleOnBackPressed() {
@@ -70,13 +72,10 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 			}
 		}
 
-		findViewById<ComposeView>(R.id.background).setContent {
-			AppBackground()
-		}
-
-		findViewById<ComposeView>(R.id.screensaver).setContent {
-			InAppScreensaver()
-		}
+		binding = ActivityMainBinding.inflate(layoutInflater)
+		binding.background.setContent { AppBackground() }
+		binding.screensaver.setContent { InAppScreensaver() }
+		setContentView(binding.root)
 	}
 
 	override fun onResume() {
