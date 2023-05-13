@@ -26,10 +26,11 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginQuickConnectFragment : Fragment() {
 	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
-	private lateinit var binding: FragmentUserLoginQuickConnectBinding
+	private var _binding: FragmentUserLoginQuickConnectBinding? = null
+	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentUserLoginQuickConnectBinding.inflate(inflater, container, false)
+		_binding = FragmentUserLoginQuickConnectBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
@@ -65,6 +66,7 @@ class UserLoginQuickConnectFragment : Fragment() {
 						state.server.version,
 						ServerRepository.minimumServerVersion.toString()
 					))
+
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
 					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
 					ServerUnavailableState,
@@ -76,6 +78,12 @@ class UserLoginQuickConnectFragment : Fragment() {
 				}
 			}
 		}
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	/**

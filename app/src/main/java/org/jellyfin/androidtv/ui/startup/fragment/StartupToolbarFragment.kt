@@ -15,10 +15,11 @@ import org.jellyfin.androidtv.ui.preference.PreferencesActivity
 import org.jellyfin.androidtv.ui.preference.screen.AuthPreferencesScreen
 
 class StartupToolbarFragment : Fragment() {
-	private lateinit var binding: FragmentToolbarStartupBinding
+	private var _binding: FragmentToolbarStartupBinding? = null
+	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		binding = FragmentToolbarStartupBinding.inflate(inflater, container, false)
+		_binding = FragmentToolbarStartupBinding.inflate(inflater, container, false)
 
 		binding.help.setOnClickListener {
 			parentFragmentManager.commit {
@@ -37,5 +38,11 @@ class StartupToolbarFragment : Fragment() {
 		}
 
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 }

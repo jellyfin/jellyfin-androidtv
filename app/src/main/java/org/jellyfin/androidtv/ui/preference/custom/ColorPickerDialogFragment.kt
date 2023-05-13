@@ -28,7 +28,8 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		}
 	}
 
-	private lateinit var binding: PreferenceColorListBinding
+	private var _binding: PreferenceColorListBinding? = null
+	private val binding get() = _binding!!
 	private lateinit var adapter: RecyclerView.Adapter<*>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val styledContext = ContextThemeWrapper(activity, androidx.leanback.preference.R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		binding = PreferenceColorListBinding.inflate(styledInflater, container, false)
+		_binding = PreferenceColorListBinding.inflate(styledInflater, container, false)
 
 		// Dialog
 		binding.decorTitle.text = preference.dialogTitle
@@ -62,6 +63,12 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		verticalGridView.requestFocus()
 
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	/**
@@ -97,8 +104,10 @@ class ColorPickerDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 				holder.button.isChecked -> when (item.key) {
 					@Suppress("MagicNumber")
 					0xFFEEDC00 -> R.color.button_default_disabled_text
+
 					else -> R.color.button_default_normal_text
 				}
+
 				else -> R.color.transparent
 			}
 			holder.buttonbg.background = context?.let {

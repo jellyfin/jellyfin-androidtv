@@ -25,8 +25,10 @@ class NextUpFragment : Fragment() {
 		const val ARGUMENT_ITEM_ID = "item_id"
 	}
 
+	private var _binding: FragmentNextUpBinding? = null
+	private val binding get() = _binding!!
+
 	private val viewModel: NextUpViewModel by viewModel()
-	private lateinit var binding: FragmentNextUpBinding
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
 	private val navigationRepository: NavigationRepository by inject()
@@ -55,7 +57,7 @@ class NextUpFragment : Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentNextUpBinding.inflate(inflater, container, false)
+		_binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -111,5 +113,11 @@ class NextUpFragment : Fragment() {
 		super.onPause()
 
 		binding.fragmentNextUpButtons.stopTimer()
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 }

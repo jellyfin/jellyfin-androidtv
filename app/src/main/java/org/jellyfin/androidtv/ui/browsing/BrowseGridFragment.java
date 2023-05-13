@@ -207,6 +207,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        binding = null;
         mGridView = null;
     }
 

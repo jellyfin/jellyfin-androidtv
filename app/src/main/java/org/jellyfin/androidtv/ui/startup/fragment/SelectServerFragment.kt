@@ -33,12 +33,13 @@ import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SelectServerFragment : Fragment() {
-	private lateinit var binding: FragmentSelectServerBinding
+	private var _binding: FragmentSelectServerBinding? = null
+	private val binding get() = _binding!!
 	private val startupViewModel: StartupViewModel by activityViewModel()
 
 	@Suppress("LongMethod")
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		binding = FragmentSelectServerBinding.inflate(inflater, container, false)
+		_binding = FragmentSelectServerBinding.inflate(inflater, container, false)
 
 		// Create spacing for recycler view of 8dp
 		@Suppress("MagicNumber")
@@ -162,6 +163,12 @@ class SelectServerFragment : Fragment() {
 		binding.root.requestFocus()
 
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	override fun onResume() {

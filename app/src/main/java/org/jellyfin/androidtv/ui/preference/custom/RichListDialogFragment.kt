@@ -24,7 +24,8 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		}
 	}
 
-	private lateinit var binding: PreferenceRichListBinding
+	private var _binding: PreferenceRichListBinding? = null
+	private val binding get() = _binding!!
 	private lateinit var adapter: RecyclerView.Adapter<*>
 
 	private fun <K> RichListPreference<K>.createAdapter() = Adapter(
@@ -43,6 +44,7 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 				},
 				selectedValue = preference.value
 			)
+
 			is RichListPreference<*> -> preference.createAdapter()
 			else -> throw NotImplementedError()
 		}
@@ -51,7 +53,7 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	public override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val styledContext = ContextThemeWrapper(activity, androidx.leanback.preference.R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		binding = PreferenceRichListBinding.inflate(styledInflater, container, false)
+		_binding = PreferenceRichListBinding.inflate(styledInflater, container, false)
 
 		// Dialog
 		binding.decorTitle.text = preference.dialogTitle
@@ -68,6 +70,12 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		verticalGridView.requestFocus()
 
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	/**
@@ -116,6 +124,7 @@ class RichListDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 				holder.summary.text = item.summary
 				holder.summary.isVisible = item.summary?.isNotBlank() == true
 			}
+
 			is RichListItem.RichListSection -> {
 				holder as CategoryViewHolder
 
