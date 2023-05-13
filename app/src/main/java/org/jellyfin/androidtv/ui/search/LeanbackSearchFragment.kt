@@ -24,7 +24,7 @@ class LeanbackSearchFragment : SearchSupportFragment() {
 			if (item !is BaseRowItem) return@setOnItemViewClickedListener
 
 			val adapter = (row as ListRow).adapter as ItemRowAdapter
-			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, activity)
+			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, requireContext())
 		}
 
 		setOnItemViewSelectedListener { _, item, _, _ ->

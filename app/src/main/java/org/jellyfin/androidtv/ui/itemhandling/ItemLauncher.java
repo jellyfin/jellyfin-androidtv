@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
-import android.app.Activity;
+import android.content.Context;
 
 import androidx.annotation.Nullable;
 
@@ -65,7 +65,7 @@ public class ItemLauncher {
         }
     }
 
-    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
+    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Context context) {
         NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
 
         switch (rowItem.getBaseRowType()) {
@@ -100,7 +100,7 @@ public class ItemLauncher {
                             return;
 
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem()))
+                        if (playbackLauncher.interceptPlayRequest(context, rowItem.getBaseItem()))
                             return;
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
@@ -117,7 +117,7 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            mediaManager.playNow(activity, audioItemsAsList, pos, false);
+                            mediaManager.playNow(context, audioItemsAsList, pos, false);
                         }
 
                         return;
@@ -169,7 +169,7 @@ public class ItemLauncher {
                                     }
                                 });
                             } else {
-                                Utils.showToast(activity, "Item not playable at this time");
+                                Utils.showToast(context, "Item not playable at this time");
                             }
                             break;
                     }
@@ -205,9 +205,7 @@ public class ItemLauncher {
                         if (response.getIsFolderItem() && ModelCompat.asSdk(response).getType() != BaseItemKind.SERIES) {
                             navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(response)));
                         } else if (ModelCompat.asSdk(response).getType() == BaseItemKind.AUDIO) {
-                            PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
-                            //produce item menu
-//                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
+                            PlaybackHelper.retrieveAndPlay(response.getId(), false, context);
                             return;
 
                         } else {
@@ -248,7 +246,7 @@ public class ItemLauncher {
                                 }
                             });
                         } else {
-                            Utils.showToast(activity, "Item not playable at this time");
+                            Utils.showToast(context, "Item not playable at this time");
                         }
                 }
                 break;
@@ -291,7 +289,7 @@ public class ItemLauncher {
                                 }
                             });
                         } else {
-                            Utils.showToast(activity, "Item not playable at this time");
+                            Utils.showToast(context, "Item not playable at this time");
                         }
                         break;
                 }
