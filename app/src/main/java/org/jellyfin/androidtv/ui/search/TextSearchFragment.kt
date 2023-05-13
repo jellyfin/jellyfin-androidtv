@@ -54,7 +54,7 @@ class TextSearchFragment : Fragment(), TextWatcher, TextView.OnEditorActionListe
 			if (item !is BaseRowItem) return@BaseOnItemViewClickedListener
 
 			val adapter = row.adapter as ItemRowAdapter
-			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, activity)
+			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, requireContext())
 		}
 
 		rowsSupportFragment?.onItemViewSelectedListener = OnItemViewSelectedListener { _, item, _, _ ->

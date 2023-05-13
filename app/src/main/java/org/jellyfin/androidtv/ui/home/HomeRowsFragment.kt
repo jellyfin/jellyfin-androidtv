@@ -260,7 +260,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
-			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, activity)
+			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
 		}
 	}
 
