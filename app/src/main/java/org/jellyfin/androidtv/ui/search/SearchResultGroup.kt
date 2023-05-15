@@ -5,5 +5,5 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 
 data class SearchResultGroup(
 	@StringRes val labelRes: Int,
-	val items: List<BaseItemDto>
+	val items: Collection<BaseItemDto>
 )

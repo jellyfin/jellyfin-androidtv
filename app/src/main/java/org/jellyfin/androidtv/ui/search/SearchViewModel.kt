@@ -10,47 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.util.apiclient.waitForSuccess
 import org.jellyfin.sdk.model.api.BaseItemKind
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class SearchViewModel : ViewModel() {
-
-	private var searchJob: Job? = null
-
-	private var previousQuery: String? = null
-
-	private val _searchResultsFlow = MutableStateFlow<List<SearchResultGroup>>(emptyList())
-	val searchResultsFlow = _searchResultsFlow.asStateFlow()
-
-	fun search(query: String) = searchDebounced(query, 0.milliseconds)
-
-	fun searchDebounced(query: String, debounceMs: Duration = debounceDuration): Boolean {
-		if (query == previousQuery) return false
-		previousQuery = query
-
-		if (query.isBlank()) {
-			_searchResultsFlow.value = emptyList()
-			return true
-		}
-
-		searchJob?.cancel()
-		searchJob = viewModelScope.launch {
-			delay(debounceMs)
-			val deferredResults = groups.map { (stringRes, itemKinds) ->
-				async {
-					val result = SearchRepository.search(query, itemKinds).waitForSuccess()
-					val items = result?.content?.items ?: emptyList()
-					SearchResultGroup(stringRes, items)
-				}
-			}
-			val results = deferredResults.awaitAll()
-			_searchResultsFlow.value = results
-		}
-		return true
-	}
-
+class SearchViewModel(
+	private val searchRepository: SearchRepository
+) : ViewModel() {
 	companion object {
 		private val debounceDuration = 600.milliseconds
 
@@ -66,5 +32,39 @@ class SearchViewModel : ViewModel() {
 			R.string.lbl_albums to setOf(BaseItemKind.MUSIC_ALBUM),
 			R.string.lbl_songs to setOf(BaseItemKind.AUDIO),
 		)
+	}
+
+	private var searchJob: Job? = null
+
+	private var previousQuery: String? = null
+
+	private val _searchResultsFlow = MutableStateFlow<List<SearchResultGroup>>(emptyList())
+	val searchResultsFlow = _searchResultsFlow.asStateFlow()
+
+	fun searchImmediately(query: String) = searchDebounced(query, 0.milliseconds)
+
+	fun searchDebounced(query: String, debounceMs: Duration = debounceDuration): Boolean {
+		if (query == previousQuery) return false
+		previousQuery = query
+
+		if (query.isBlank()) {
+			_searchResultsFlow.value = emptyList()
+			return true
+		}
+
+		searchJob?.cancel()
+		searchJob = viewModelScope.launch {
+			delay(debounceMs)
+			val deferredResults = groups.map { (stringRes, itemKinds) ->
+				async {
+					val result = searchRepository.search(query, itemKinds)
+					val items = result.getOrNull() ?: emptyList()
+					SearchResultGroup(stringRes, items)
+				}
+			}
+			val results = deferredResults.awaitAll()
+			_searchResultsFlow.value = results
+		}
+		return true
 	}
 }

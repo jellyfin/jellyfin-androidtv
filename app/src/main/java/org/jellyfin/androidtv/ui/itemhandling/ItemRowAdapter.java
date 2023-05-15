@@ -735,7 +735,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mTrailersQuery);
                 break;
             case Search:
-                loadSearchItems();
+                loadStaticItems();
+                addToParentIfResultsReceived();
                 break;
             case Artists:
                 retrieve(mArtistsQuery);
@@ -810,11 +811,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
         }
 
         notifyRetrieveFinished();
-    }
-
-    private void loadSearchItems() {
-        loadStaticItems();
-        addToParentIfResultsReceived();
     }
 
     private void retrieveViews() {

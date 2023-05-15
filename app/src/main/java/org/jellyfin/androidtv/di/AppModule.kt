@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.di
 
+import android.content.Context
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -22,6 +23,10 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.picture.PictureViewerViewModel
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
+import org.jellyfin.androidtv.ui.search.SearchFragmentDelegate
+import org.jellyfin.androidtv.ui.search.SearchRepository
+import org.jellyfin.androidtv.ui.search.SearchRepositoryImpl
+import org.jellyfin.androidtv.ui.search.SearchViewModel
 import org.jellyfin.androidtv.ui.startup.ServerAddViewModel
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
 import org.jellyfin.androidtv.ui.startup.UserLoginViewModel
@@ -95,6 +100,7 @@ val appModule = module {
 	single<ItemMutationRepository> { ItemMutationRepositoryImpl(get(), get()) }
 	single<CustomMessageRepository> { CustomMessageRepositoryImpl() }
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
+	single<SearchRepository> { SearchRepositoryImpl(get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
 	viewModel { UserLoginViewModel(get(), get(), get(), get(defaultDeviceInfo)) }
@@ -102,8 +108,13 @@ val appModule = module {
 	viewModel { NextUpViewModel(get(), get(), get(), get()) }
 	viewModel { PictureViewerViewModel(get()) }
 	viewModel { ScreensaverViewModel(get()) }
+	viewModel { SearchViewModel(get()) }
 
 	single { BackgroundService(get(), get(), get(), get()) }
 
 	single { MarkdownRenderer(get()) }
+
+	factory { (context: Context) ->
+		SearchFragmentDelegate(context, get())
+	}
 }
