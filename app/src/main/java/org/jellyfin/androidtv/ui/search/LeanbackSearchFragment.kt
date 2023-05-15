@@ -2,19 +2,24 @@ package org.jellyfin.androidtv.ui.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.leanback.app.SearchSupportFragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
-class LeanbackSearchFragment :
-	SearchSupportFragment(),
+class LeanbackSearchFragment : SearchSupportFragment(),
 	SearchSupportFragment.SearchResultProvider {
 
-	private val viewModel by viewModels<SearchViewModel>()
+	private val viewModel: SearchViewModel by viewModel()
 
-	private val searchFragmentDelegate = SearchFragmentDelegate(this)
+	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
+		parametersOf(
+			requireContext()
+		)
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -29,14 +34,9 @@ class LeanbackSearchFragment :
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		observeSearchResults()
-	}
-
-	private fun observeSearchResults() {
 		viewModel.searchResultsFlow
-			.onEach {
-				searchFragmentDelegate.showResults(it)
-			}.launchIn(lifecycleScope)
+			.onEach { searchFragmentDelegate.showResults(it) }
+			.launchIn(lifecycleScope)
 	}
 
 	override fun getResultsAdapter() = searchFragmentDelegate.rowsAdapter
@@ -45,6 +45,6 @@ class LeanbackSearchFragment :
 		viewModel.searchDebounced(query)
 
 	override fun onQueryTextSubmit(query: String): Boolean =
-		viewModel.search(query)
+		viewModel.searchImmediately(query)
 
 }

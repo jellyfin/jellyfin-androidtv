@@ -9,60 +9,52 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.leanback.app.RowsSupportFragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.databinding.FragmentSearchTextBinding
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class TextSearchFragment : Fragment() {
 
-	private val viewModel by viewModels<SearchViewModel>()
+	private val viewModel: SearchViewModel by viewModel()
 
 	private var _binding: FragmentSearchTextBinding? = null
 	private val binding get() = _binding!!
 
-	private val searchFragmentDelegate = SearchFragmentDelegate(this)
+	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
+		parametersOf(
+			requireContext()
+		)
+	}
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
 		_binding = FragmentSearchTextBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		setupSearchBar()
-		setupResultFragment()
-		observeSearchResults()
-	}
-
-	private fun setupSearchBar() {
 		binding.searchBar.apply {
-			onTextChanged {
-				viewModel.searchDebounced(it)
-			}
-			onSubmit {
-				viewModel.search(it)
-			}
+			onTextChanged { viewModel.searchDebounced(it) }
+			onSubmit { viewModel.searchImmediately(it) }
 		}
-	}
-
-	private fun setupResultFragment() {
-		// Set up result fragment
 		val rowsSupportFragment = binding.resultsFrame.getFragment<RowsSupportFragment?>()
 		rowsSupportFragment?.let {
 			it.adapter = searchFragmentDelegate.rowsAdapter
 			it.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
 			it.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 		}
-	}
-
-	private fun observeSearchResults() {
 		viewModel.searchResultsFlow
-			.onEach {
-				searchFragmentDelegate.showResults(it)
-			}.launchIn(lifecycleScope)
+			.onEach { searchFragmentDelegate.showResults(it) }
+			.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {
@@ -83,10 +75,13 @@ class TextSearchFragment : Fragment() {
 
 	private fun EditText.onTextChanged(onTextChanged: (String) -> Unit) {
 		val textWatcher = object : TextWatcher {
-			override fun afterTextChanged(s: Editable?) {
+			override fun afterTextChanged(s: Editable) {
 				onTextChanged(s.toString())
 			}
-			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+				Unit
+
 			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 		}
 		addTextChangedListener(textWatcher)
