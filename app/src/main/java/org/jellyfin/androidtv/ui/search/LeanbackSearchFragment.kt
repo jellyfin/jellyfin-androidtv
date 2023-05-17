@@ -10,41 +10,31 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class LeanbackSearchFragment : SearchSupportFragment(),
-	SearchSupportFragment.SearchResultProvider {
-
+class LeanbackSearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 	private val viewModel: SearchViewModel by viewModel()
 
 	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
-		parametersOf(
-			requireContext()
-		)
+		parametersOf(requireContext())
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 		setSearchResultProvider(this)
-		setOnItemViewClickedListener(
-			searchFragmentDelegate.onItemViewClickedListener
-		)
-		setOnItemViewSelectedListener(
-			searchFragmentDelegate.onItemViewSelectedListener
-		)
+		setOnItemViewClickedListener(searchFragmentDelegate.onItemViewClickedListener)
+		setOnItemViewSelectedListener(searchFragmentDelegate.onItemViewSelectedListener)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
 		viewModel.searchResultsFlow
 			.onEach { searchFragmentDelegate.showResults(it) }
 			.launchIn(lifecycleScope)
 	}
 
 	override fun getResultsAdapter() = searchFragmentDelegate.rowsAdapter
-
-	override fun onQueryTextChange(query: String): Boolean =
-		viewModel.searchDebounced(query)
-
-	override fun onQueryTextSubmit(query: String): Boolean =
-		viewModel.searchImmediately(query)
+	override fun onQueryTextChange(query: String): Boolean = viewModel.searchDebounced(query)
+	override fun onQueryTextSubmit(query: String): Boolean = viewModel.searchImmediately(query)
 
 }

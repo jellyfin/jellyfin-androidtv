@@ -11,7 +11,7 @@ import org.jellyfin.androidtv.R
 class SearchFragment : Fragment(R.layout.fragment_content_view) {
 	private val isSpeechEnabled by lazy {
 		SpeechRecognizer.isRecognitionAvailable(requireContext())
-				&& ContextCompat.checkSelfPermission(
+			&& ContextCompat.checkSelfPermission(
 			requireContext(),
 			Manifest.permission.RECORD_AUDIO
 		) != PackageManager.PERMISSION_DENIED

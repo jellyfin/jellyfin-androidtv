@@ -11,8 +11,8 @@ import timber.log.Timber
 interface SearchRepository {
 	suspend fun search(
 		searchTerm: String,
-		itemTypes: Collection<BaseItemKind>
-	): Result<List<BaseItemDto>?>
+		itemTypes: Collection<BaseItemKind>,
+	): Result<List<BaseItemDto>>
 }
 
 class SearchRepositoryImpl(
@@ -24,27 +24,26 @@ class SearchRepositoryImpl(
 
 	override suspend fun search(
 		searchTerm: String,
-		itemTypes: Collection<BaseItemKind>
-	): Result<List<BaseItemDto>?> {
-		return try {
-			val result = apiClient.itemsApi.getItemsByUserId(
-				searchTerm = searchTerm,
-				limit = QUERY_LIMIT,
-				imageTypeLimit = 1,
-				includeItemTypes = itemTypes,
-				fields = listOf(
-					ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
-					ItemFields.CAN_DELETE,
-					ItemFields.BASIC_SYNC_INFO,
-					ItemFields.MEDIA_SOURCE_COUNT
-				),
-				recursive = true,
-				enableTotalRecordCount = false,
-			)
-			Result.success(result.content.items)
-		} catch (e: ApiClientException) {
-			Timber.w("Failed to search for items: ${e.message}")
-			Result.failure(e)
-		}
+		itemTypes: Collection<BaseItemKind>,
+	): Result<List<BaseItemDto>> = try {
+		val result by apiClient.itemsApi.getItemsByUserId(
+			searchTerm = searchTerm,
+			limit = QUERY_LIMIT,
+			imageTypeLimit = 1,
+			includeItemTypes = itemTypes,
+			fields = listOf(
+				ItemFields.PRIMARY_IMAGE_ASPECT_RATIO,
+				ItemFields.CAN_DELETE,
+				ItemFields.BASIC_SYNC_INFO,
+				ItemFields.MEDIA_SOURCE_COUNT
+			),
+			recursive = true,
+			enableTotalRecordCount = false,
+		)
+
+		Result.success(result.items.orEmpty())
+	} catch (e: ApiClientException) {
+		Timber.e("Failed to search for items", e)
+		Result.failure(e)
 	}
 }

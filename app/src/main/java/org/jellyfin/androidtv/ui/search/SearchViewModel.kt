@@ -38,33 +38,35 @@ class SearchViewModel(
 
 	private var previousQuery: String? = null
 
-	private val _searchResultsFlow = MutableStateFlow<List<SearchResultGroup>>(emptyList())
+	private val _searchResultsFlow = MutableStateFlow<Collection<SearchResultGroup>>(emptyList())
 	val searchResultsFlow = _searchResultsFlow.asStateFlow()
 
 	fun searchImmediately(query: String) = searchDebounced(query, 0.milliseconds)
 
-	fun searchDebounced(query: String, debounceMs: Duration = debounceDuration): Boolean {
+	fun searchDebounced(query: String, debounce: Duration = debounceDuration): Boolean {
 		if (query == previousQuery) return false
 		previousQuery = query
+
+		searchJob?.cancel()
 
 		if (query.isBlank()) {
 			_searchResultsFlow.value = emptyList()
 			return true
 		}
 
-		searchJob?.cancel()
 		searchJob = viewModelScope.launch {
-			delay(debounceMs)
-			val deferredResults = groups.map { (stringRes, itemKinds) ->
+			delay(debounce)
+
+			_searchResultsFlow.value = groups.map { (stringRes, itemKinds) ->
 				async {
 					val result = searchRepository.search(query, itemKinds)
-					val items = result.getOrNull() ?: emptyList()
+					val items = result.getOrNull().orEmpty()
+
 					SearchResultGroup(stringRes, items)
 				}
-			}
-			val results = deferredResults.awaitAll()
-			_searchResultsFlow.value = results
+			}.awaitAll()
 		}
+
 		return true
 	}
 }
