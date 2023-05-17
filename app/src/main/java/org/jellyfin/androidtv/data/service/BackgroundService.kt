@@ -22,8 +22,6 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
-import org.jellyfin.sdk.model.api.SearchHint
-import org.jellyfin.sdk.model.serializer.toUUID
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.ExecutionException
@@ -80,26 +78,6 @@ class BackgroundService(
 		val itemBackdropUrls = baseItem.backdropImageTags.getUrls(baseItem.id)
 		val parentBackdropUrls = baseItem.parentBackdropImageTags.getUrls(baseItem.parentBackdropItemId)
 		val backdropUrls = itemBackdropUrls.union(parentBackdropUrls)
-
-		loadBackgrounds(backdropUrls)
-	}
-
-	/**
-	 * Use backdrop from [searchHint] as background.
-	 */
-	fun setBackground(searchHint: SearchHint) {
-		// Check if item is set and backgrounds are enabled
-		if (!userPreferences[UserPreferences.backdropEnabled])
-			return clearBackgrounds()
-
-		// Manually grab the backdrop URL
-		val backdropUrls = setOfNotNull(searchHint.backdropImageItemId?.let { itemId ->
-			api.imageApi.getItemImageUrl(
-				itemId = itemId.toUUID(),
-				imageType = ImageType.BACKDROP,
-				tag = searchHint.backdropImageTag,
-			)
-		})
 
 		loadBackgrounds(backdropUrls)
 	}

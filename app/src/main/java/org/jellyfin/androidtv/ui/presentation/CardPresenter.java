@@ -293,25 +293,6 @@ public class CardPresenter extends Presenter {
                     mCardView.setMainImageDimensions(cardWidth, cardHeight);
                     mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_chapter);
                     break;
-                case SearchHint:
-                    switch (mItem.getSearchHint().getType()) {
-                        case "Episode":
-                            cardWidth = (int) (ImageUtils.ASPECT_RATIO_16_9 * cardHeight);
-                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_tv);
-                            break;
-                        case "Person":
-                            cardWidth = (int) (ImageUtils.ASPECT_RATIO_7_9 * cardHeight);
-                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_person);
-                            break;
-                        default:
-                            cardWidth = (int) (ImageUtils.ASPECT_RATIO_7_9 * cardHeight);
-                            mCardView.setMainImageDimensions(cardWidth, cardHeight);
-                            mDefaultCardImage = ContextCompat.getDrawable(mCardView.getContext(), R.drawable.tile_port_video);
-                            break;
-                    }
-                    break;
                 case GridButton:
                     cardHeight = !m.getStaticHeight() ? pHeight : sHeight;
                     cardWidth = (int) (ImageUtils.ASPECT_RATIO_7_9 * cardHeight);

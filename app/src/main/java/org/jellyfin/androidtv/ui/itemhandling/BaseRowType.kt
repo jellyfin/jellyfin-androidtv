@@ -4,7 +4,6 @@ enum class BaseRowType {
 	BaseItem,
 	Person,
 	Chapter,
-	SearchHint,
 	LiveTvChannel,
 	LiveTvRecording,
 	GridButton,

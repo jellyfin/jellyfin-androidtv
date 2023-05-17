@@ -25,7 +25,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.PlayAccess;
-import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
@@ -196,34 +195,6 @@ public class ItemLauncher {
 
                 break;
 
-            case SearchHint:
-                final SearchHint hint = rowItem.getSearchHint();
-                //Retrieve full item for display and playback
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        if (response.getIsFolderItem() && ModelCompat.asSdk(response).getType() != BaseItemKind.SERIES) {
-                            navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(response)));
-                        } else if (ModelCompat.asSdk(response).getType() == BaseItemKind.AUDIO) {
-                            PlaybackHelper.retrieveAndPlay(response.getId(), false, context);
-                            return;
-
-                        } else {
-                            if (ModelCompat.asSdk(response).getType() == BaseItemKind.PROGRAM) {
-                                navigationRepository.navigate(Destinations.INSTANCE.channelDetails(UUIDSerializerKt.toUUID(response.getId()), UUIDSerializerKt.toUUID(response.getChannelId()), ModelCompat.asSdk(response)));
-                            } else {
-                                navigationRepository.navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(response.getId())));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        Timber.e(exception, "Error retrieving full object");
-                        exception.printStackTrace();
-                    }
-                });
-                break;
             case LiveTvProgram:
                 org.jellyfin.sdk.model.api.BaseItemDto program = rowItem.getBaseItem();
                 switch (rowItem.getSelectAction()) {
