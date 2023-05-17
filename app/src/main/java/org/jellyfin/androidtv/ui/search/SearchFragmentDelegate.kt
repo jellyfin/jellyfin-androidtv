@@ -17,11 +17,11 @@ import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter
 
 class SearchFragmentDelegate(
 	private val context: Context,
-	private val backgroundService: BackgroundService
+	private val backgroundService: BackgroundService,
 ) {
 	val rowsAdapter = MutableObjectAdapter<Row>(CustomListRowPresenter())
 
-	fun showResults(searchResultGroups: List<SearchResultGroup>) {
+	fun showResults(searchResultGroups: Collection<SearchResultGroup>) {
 		rowsAdapter.clear()
 		val adapters = mutableListOf<ItemRowAdapter>()
 		for ((labelRes, baseItems) in searchResultGroups) {

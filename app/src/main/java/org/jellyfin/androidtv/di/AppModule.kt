@@ -114,7 +114,5 @@ val appModule = module {
 
 	single { MarkdownRenderer(get()) }
 
-	factory { (context: Context) ->
-		SearchFragmentDelegate(context, get())
-	}
+	factory { (context: Context) -> SearchFragmentDelegate(context, get()) }
 }

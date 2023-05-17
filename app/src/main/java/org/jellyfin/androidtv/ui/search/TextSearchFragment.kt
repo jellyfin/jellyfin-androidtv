@@ -19,16 +19,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class TextSearchFragment : Fragment() {
-
 	private val viewModel: SearchViewModel by viewModel()
 
 	private var _binding: FragmentSearchTextBinding? = null
 	private val binding get() = _binding!!
 
 	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
-		parametersOf(
-			requireContext()
-		)
+		parametersOf(requireContext())
 	}
 
 	override fun onCreateView(
@@ -42,24 +39,27 @@ class TextSearchFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
 		binding.searchBar.apply {
 			onTextChanged { viewModel.searchDebounced(it) }
 			onSubmit { viewModel.searchImmediately(it) }
 		}
-		val rowsSupportFragment = binding.resultsFrame.getFragment<RowsSupportFragment?>()
-		rowsSupportFragment?.let {
+
+		binding.resultsFrame.getFragment<RowsSupportFragment?>()?.let {
 			it.adapter = searchFragmentDelegate.rowsAdapter
 			it.onItemViewClickedListener = searchFragmentDelegate.onItemViewClickedListener
 			it.onItemViewSelectedListener = searchFragmentDelegate.onItemViewSelectedListener
 		}
+
 		viewModel.searchResultsFlow
 			.onEach { searchFragmentDelegate.showResults(it) }
 			.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {
-		_binding = null
 		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private fun EditText.onSubmit(onSubmit: (String) -> Unit) {
@@ -74,16 +74,24 @@ class TextSearchFragment : Fragment() {
 	}
 
 	private fun EditText.onTextChanged(onTextChanged: (String) -> Unit) {
-		val textWatcher = object : TextWatcher {
-			override fun afterTextChanged(s: Editable) {
-				onTextChanged(s.toString())
-			}
+		addTextChangedListener(object : TextWatcher {
+			override fun afterTextChanged(
+				s: Editable,
+			) = onTextChanged(s.toString())
 
-			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
-				Unit
+			override fun beforeTextChanged(
+				s: CharSequence,
+				start: Int,
+				count: Int,
+				after: Int,
+			) = Unit
 
-			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-		}
-		addTextChangedListener(textWatcher)
+			override fun onTextChanged(
+				s: CharSequence,
+				start: Int,
+				before: Int,
+				count: Int,
+			) = Unit
+		})
 	}
 }
