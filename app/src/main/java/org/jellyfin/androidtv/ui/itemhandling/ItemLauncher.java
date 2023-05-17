@@ -131,7 +131,7 @@ public class ItemLauncher {
 
                     case PHOTO:
                         navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
-                                rowItem.getBaseItem().getId(),
+                                baseItem.getId(),
                                 false,
                                 adapter.getSortBy(),
                                 adapter.getSortOrder()
