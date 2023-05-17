@@ -30,6 +30,7 @@ import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
@@ -43,7 +44,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	}
 
 	private val screensaverViewModel by activityViewModel<ScreensaverViewModel>()
-	private val pictureViewerViewModel by activityViewModel<PictureViewerViewModel>()
+	private val pictureViewerViewModel by viewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
 	private var _binding: FragmentPictureViewerBinding? = null
 	private val binding get() = _binding!!
