@@ -10,7 +10,6 @@ import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
-import java.util.UUID
 import org.jellyfin.apiclient.model.dlna.SubtitleDeliveryMethod as LegacySubtitleDeliveryMethod
 import org.jellyfin.apiclient.model.drawing.ImageOrientation as LegacyImageOrientation
 import org.jellyfin.apiclient.model.dto.BaseItemDto as LegacyBaseItemDto
@@ -43,7 +42,6 @@ import org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto as LegacySeriesTim
 import org.jellyfin.apiclient.model.mediainfo.MediaProtocol as LegacyMediaProtocol
 import org.jellyfin.apiclient.model.mediainfo.TransportStreamTimestamp as LegacyTransportStreamTimestamp
 import org.jellyfin.apiclient.model.providers.ExternalUrl as LegacyExternalUrl
-import org.jellyfin.apiclient.model.search.SearchHint as LegacySearchHint
 import org.jellyfin.sdk.model.api.BaseItemDto as ModernBaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemPerson as ModernBaseItemPerson
 import org.jellyfin.sdk.model.api.ChannelType as ModernChannelType
@@ -67,7 +65,6 @@ import org.jellyfin.sdk.model.api.NameGuidPair as ModernNameGuidPair
 import org.jellyfin.sdk.model.api.NameIdPair as ModernNameIdPair
 import org.jellyfin.sdk.model.api.PlayAccess as ModernPlayAccess
 import org.jellyfin.sdk.model.api.ProgramAudio as ModernProgramAudio
-import org.jellyfin.sdk.model.api.SearchHint as ModernSearchHint
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto as ModernSeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.SortOrder as ModernSortOrder
 import org.jellyfin.sdk.model.api.SubtitleDeliveryMethod as ModernSubtitleDeliveryMethod
@@ -612,38 +609,6 @@ fun LegacyDayPattern.asSdk(): ModernDayPattern = when (this) {
 }
 
 fun Array<LegacyBaseItemPerson>.asSdk() = map(LegacyBaseItemPerson::asSdk).toTypedArray()
-
-fun LegacySearchHint.asSdk(): ModernSearchHint = ModernSearchHint(
-	itemId = this.itemId.toUUID(),
-	id = this.itemId.toUUID(),
-	name = this.name,
-	matchedTerm = this.matchedTerm,
-	indexNumber = this.indexNumber,
-	productionYear = this.productionYear,
-	parentIndexNumber = this.parentIndexNumber,
-	primaryImageTag = this.primaryImageTag,
-	thumbImageTag = this.thumbImageTag,
-	thumbImageItemId = this.thumbImageItemId,
-	backdropImageTag = this.backdropImageTag,
-	backdropImageItemId = this.backdropImageItemId,
-	type = this.type,
-	isFolder = null, // this.isFolder
-	runTimeTicks = this.runTimeTicks,
-	mediaType = this.mediaType,
-	startDate = null, // this.startDate
-	endDate = null, // this.endDate
-	series = this.series,
-	status = null, // this.status
-	album = this.album,
-	albumId = UUID.randomUUID(), // this.albumId
-	albumArtist = this.albumArtist,
-	artists = this.artists?.toList(),
-	songCount = this.songCount,
-	episodeCount = this.episodeCount,
-	channelId = this.channelId.toUUID(),
-	channelName = this.channelName,
-	primaryImageAspectRatio = this.primaryImageAspectRatio,
-)
 
 fun LegacyChannelInfoDto.asSdk() = ModernBaseItemDto(
 	name = this.name,
