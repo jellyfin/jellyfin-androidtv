@@ -1,7 +1,6 @@
 package org.jellyfin.androidtv.data.service
 
 import android.content.Context
-import androidx.annotation.MainThread
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.bumptech.glide.Glide
@@ -14,7 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.sdk.Jellyfin
@@ -25,6 +23,9 @@ import org.jellyfin.sdk.model.api.ImageType
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.ExecutionException
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class BackgroundService(
 	private val context: Context,
@@ -33,23 +34,21 @@ class BackgroundService(
 	private val userPreferences: UserPreferences,
 ) {
 	companion object {
-		const val SLIDESHOW_DURATION = 30000L // 30 seconds
-		const val UPDATE_INTERVAL = 500L // 0.5 seconds
+		val SLIDESHOW_DURATION = 30.seconds
+		val TRANSITION_DURATION = 800.milliseconds
 	}
 
 	// Async
 	private val scope = MainScope()
 	private var loadBackgroundsJob: Job? = null
 	private var updateBackgroundTimerJob: Job? = null
-	private var lastBackgroundUpdate = 0L
+	private var lastBackgroundTimerUpdate = 0L
 
-	// All background drawables currently showing
-	private val _backgrounds = MutableStateFlow(emptyList<ImageBitmap>())
-	val backgrounds get() = _backgrounds.asStateFlow()
-
-	// Current background index
-	private var _currentIndex = MutableStateFlow(0)
-	val currentIndex get() = _currentIndex.asStateFlow()
+	// Current background data
+	private var _backgrounds = emptyList<ImageBitmap>()
+	private var _currentIndex = 0
+	private var _currentBackground = MutableStateFlow<ImageBitmap?>(null)
+	val currentBackground get() = _currentBackground.asStateFlow()
 
 	// Helper function for [setBackground]
 	private fun List<String>?.getUrls(itemId: UUID?): List<String> {
@@ -101,14 +100,13 @@ class BackgroundService(
 		loadBackgrounds(setOf(splashscreenUrl))
 	}
 
-
 	private fun loadBackgrounds(backdropUrls: Set<String>) {
 		if (backdropUrls.isEmpty()) return clearBackgrounds()
 
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
-			_backgrounds.value = backdropUrls
+			_backgrounds = backdropUrls
 				.map { url ->
 					Glide.with(context).asBitmap().load(url).submit()
 				}
@@ -125,45 +123,45 @@ class BackgroundService(
 				.awaitAll()
 				.filterNotNull()
 
-			withContext(Dispatchers.Main) {
-				// Go to first background
-				_currentIndex.value = 0
-				update()
-			}
+			// Go to first background
+			_currentIndex = 0
+			update()
 		}
 	}
 
 	fun clearBackgrounds() {
 		loadBackgroundsJob?.cancel()
 
-		if (_backgrounds.value.isEmpty()) return
+		if (_backgrounds.isEmpty()) return
 
-		_backgrounds.value = emptyList()
+		_backgrounds = emptyList()
 		update()
 	}
 
-	@MainThread
 	internal fun update() {
 		val now = System.currentTimeMillis()
-		if (lastBackgroundUpdate > now - UPDATE_INTERVAL)
-			return setTimer(lastBackgroundUpdate - now + UPDATE_INTERVAL, false)
+		if (lastBackgroundTimerUpdate > now - TRANSITION_DURATION.inWholeMilliseconds)
+			return setTimer((lastBackgroundTimerUpdate - now).milliseconds + TRANSITION_DURATION, false)
 
-		lastBackgroundUpdate = now
+		lastBackgroundTimerUpdate = now
 
 		// Get next background to show
-		if (_currentIndex.value >= _backgrounds.value.size) _currentIndex.value = 0
+		if (_currentIndex >= _backgrounds.size) _currentIndex = 0
+
+		// Set background
+		_currentBackground.value = _backgrounds.getOrNull(_currentIndex)
 
 		// Set timer for next background
-		if (_backgrounds.value.size > 1) setTimer()
+		if (_backgrounds.size > 1) setTimer()
 		else updateBackgroundTimerJob?.cancel()
 	}
 
-	private fun setTimer(updateDelay: Long = SLIDESHOW_DURATION, increaseIndex: Boolean = true) {
+	private fun setTimer(updateDelay: Duration = SLIDESHOW_DURATION, increaseIndex: Boolean = true) {
 		updateBackgroundTimerJob?.cancel()
 		updateBackgroundTimerJob = scope.launch {
 			delay(updateDelay)
 
-			if (increaseIndex) _currentIndex.value++
+			if (increaseIndex) _currentIndex++
 
 			update()
 		}
