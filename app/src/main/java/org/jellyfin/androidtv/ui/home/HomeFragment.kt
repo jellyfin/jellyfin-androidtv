@@ -66,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 	}
 
 	private fun setUserImage(image: String?) {
-		Glide.with(requireContext())
+		Glide.with(this)
 			.load(image)
 			.placeholder(R.drawable.ic_switch_users)
 			.centerInside()
