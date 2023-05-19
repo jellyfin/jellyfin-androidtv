@@ -515,4 +515,5 @@
         <item quantity="many">%1$s pistes</item>
         <item quantity="other">%1$s piste(s)</item>
     </plurals>
+    <string name="lbl_album_artists">Artistes de l\'album</string>
 </resources>
