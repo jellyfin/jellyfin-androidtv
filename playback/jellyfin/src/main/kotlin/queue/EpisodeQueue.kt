@@ -18,6 +18,9 @@ class EpisodeQueue(
 		require(episode.type == BaseItemKind.EPISODE)
 	}
 
+	override var size: Int = 0
+		private set
+
 	override suspend fun loadPage(offset: Int, size: Int): Collection<QueueEntry> {
 		val result by api.itemsApi.getItemsByUserId(
 			parentId = episode.parentId,
@@ -31,6 +34,7 @@ class EpisodeQueue(
 			startIndex = offset,
 			limit = size,
 		)
+		this.size = result.totalRecordCount
 		return result.items.orEmpty().map { BaseItemDtoUserQueueEntry.build(api, it) }
 	}
 }
