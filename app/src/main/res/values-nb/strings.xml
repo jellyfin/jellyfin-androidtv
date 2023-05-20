@@ -17,7 +17,7 @@
     <string name="lbl_genres">Sjangere</string>
     <string name="lbl_search">Søk</string>
     <string name="msg_not_implemented">" ikke implementert"</string>
-    <string name="lbl_latest">Siste</string>
+    <string name="lbl_latest">Nylig lagt til</string>
     <string name="lbl_by_name">Etter navn</string>
     <string name="lbl_favorites">Favoritter</string>
     <string name="lbl_coming_up">Nestkommende</string>
@@ -376,4 +376,5 @@
     <string name="alphabetical">Alfabetisk</string>
     <string name="lbl_adjust">Tilpass</string>
     <string name="state_disabled">Deaktivert</string>
+    <string name="lbl_latest_in">Nylig lagt til i %1$s</string>
 </resources>
