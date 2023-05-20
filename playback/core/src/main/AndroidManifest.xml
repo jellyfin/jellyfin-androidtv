@@ -3,9 +3,10 @@
     <application>
         <service
             android:name="org.jellyfin.playback.core.mediasession.AndroidMediaService"
-            android:exported="true">
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback">
             <intent-filter>
-                <action android:name="androidx.media2.session.MediaSessionService" />
+                <action android:name="androidx.media3.session.MediaSessionService" />
             </intent-filter>
         </service>
     </application>

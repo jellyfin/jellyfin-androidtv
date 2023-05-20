@@ -1,18 +1,16 @@
 package org.jellyfin.playback.core.mediasession
 
 import android.content.Context
-import android.support.v4.media.session.PlaybackStateCompat
+import android.os.Looper
+import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.media.app.NotificationCompat.MediaStyle
-import androidx.media.session.MediaButtonReceiver
-import androidx.media2.common.VideoSize
-import androidx.media2.session.MediaSession
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.core.net.toUri
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaStyleNotificationHelper
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.item.QueueEntry
 
@@ -24,66 +22,48 @@ class MediaSessionService(
 	private var notifiedNotificationId: Int? = null
 
 	override suspend fun onInitialize() {
-		val glue = MediaSessionPlayerGlue(CoroutineScope(coroutineScope.coroutineContext), state)
-		val callback = SessionCallback()
-		val session = MediaSession.Builder(androidContext, glue).apply {
-			setSessionCallback(Dispatchers.IO.asExecutor(), callback)
+		val player = MediaSessionPlayer(
+			looper = Looper.getMainLooper(),
+			scope = coroutineScope,
+			state = state,
+		)
+		val session = MediaSession.Builder(androidContext, player).apply {
 			setId(options.notificationId.toString())
 			setSessionActivity(options.openIntent)
 		}.build()
 
-		coroutineScope.launch {
-			state.playState.collect {
-				glue.notifyCallbacks { onPlayerStateChanged(glue, glue.playerState) }
+		state.queue.entry.onEach { item ->
+			if (item != null) updateNotification(session, item)
+			else if (notifiedNotificationId != null) {
+				notificationManager.cancel(notifiedNotificationId!!)
+				notifiedNotificationId = null
 			}
-		}
-
-		coroutineScope.launch {
-			state.videoSize.collect { videoSize ->
-				glue.notifyCallbacks { onVideoSizeChanged(glue, VideoSize(videoSize.width, videoSize.height)) }
-			}
-		}
-
-		coroutineScope.launch {
-			state.queue.entry.collect { item ->
-				val mediaItem = withContext(Dispatchers.IO) { item?.metadata?.toMediaItemWithBitmaps() }
-				glue.currentMediaItem = mediaItem
-				glue.notifyCallbacks { onCurrentMediaItemChanged(glue, mediaItem) }
-
-				if (item != null) session.updateNotification(item)
-				else if (notifiedNotificationId != null) {
-					notificationManager.cancel(notifiedNotificationId!!)
-					notifiedNotificationId = null
-				}
-			}
-		}
+		}.launchIn(coroutineScope)
 	}
 
-	private fun MediaSession.updateNotification(item: QueueEntry) {
-		val stopIntent = MediaButtonReceiver.buildMediaButtonPendingIntent(androidContext, PlaybackStateCompat.ACTION_STOP)
+	@OptIn(UnstableApi::class)
+	private fun updateNotification(session: MediaSession, item: QueueEntry) {
 		val notification = NotificationCompat.Builder(androidContext, options.channelId).apply {
 			// Set metadata
 			setContentTitle(item.metadata.title)
 			setContentText(item.metadata.artist)
-			setSubText(item.metadata.displayDescription)
 
 			// Set actions
 			setContentIntent(options.openIntent)
-			setDeleteIntent(stopIntent)
+			setStyle(MediaStyleNotificationHelper.MediaStyle(session))
 
 			// Make visible on lock screen
 			setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-			// Add branding
+			// Set flags
+			setOnlyAlertOnce(true)
+			setOngoing(false)
+
+			// Add branding & art
 			setSmallIcon(options.iconSmall)
-
-			// Use MediaStyle
-			setStyle(MediaStyle().also { style ->
-				style.setMediaSession(sessionCompatToken)
-
-				style.setShowCancelButton(true)
-				style.setCancelButtonIntent(stopIntent)
-			})
+			item.metadata.artworkUri?.toUri()?.let { artworkUri ->
+				setLargeIcon(session.bitmapLoader.loadBitmap(artworkUri).get())
+			}
 		}.build()
 
 		if (notifiedNotificationId == null) notifiedNotificationId = options.notificationId
@@ -92,6 +72,4 @@ class MediaSessionService(
 		@Suppress("MissingPermission")
 		notificationManager.notify(notifiedNotificationId!!, notification)
 	}
-
-	inner class SessionCallback : MediaSession.SessionCallback()
 }

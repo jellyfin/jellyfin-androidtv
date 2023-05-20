@@ -1,8 +1,10 @@
 package org.jellyfin.playback.core.mediasession
 
-import androidx.media2.session.MediaSession
-import androidx.media2.session.MediaSessionService
+import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaSessionService
 
 class AndroidMediaService : MediaSessionService() {
-	override fun onGetSession(controllerInfo: MediaSession.ControllerInfo) = sessions.firstOrNull()
+	override fun onGetSession(
+		controllerInfo: MediaSession.ControllerInfo,
+	): MediaSession? = sessions.firstOrNull()
 }
