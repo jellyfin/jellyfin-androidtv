@@ -21,6 +21,7 @@ import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
+import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.queue.Queue
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.core.queue.queue
@@ -69,8 +70,8 @@ class RewriteMediaManager(
 		private set
 
 	override val isAudioPlayerInitialized: Boolean = true
-	override var isShuffleMode: Boolean = false
-		private set
+	override val isShuffleMode: Boolean
+		get() = playbackManager.state.playbackOrder.value != PlaybackOrder.DEFAULT
 
 	override val currentAudioQueue = ItemRowAdapter(
 		context,
@@ -198,9 +199,9 @@ class RewriteMediaManager(
 		get() = playbackManager.state.playState.value != PlayState.STOPPED
 
 	override fun playNow(context: Context, items: List<BaseItemDto>, position: Int, shuffle: Boolean) {
-		// TODO: Use shuffle
 		val filteredItems = items.drop(position)
 		val queue = BaseItemQueue(filteredItems, api)
+		playbackManager.state.setPlaybackOrder(if (shuffle) PlaybackOrder.SHUFFLE else PlaybackOrder.DEFAULT)
 		playbackManager.state.play(queue)
 
 		navigationRepository.navigate(Destinations.nowPlaying)
@@ -219,10 +220,12 @@ class RewriteMediaManager(
 	}
 
 	override fun shuffleAudioQueue() {
-		isShuffleMode = !isShuffleMode
+		val newMode = when (playbackManager.state.playbackOrder.value) {
+			PlaybackOrder.DEFAULT -> PlaybackOrder.SHUFFLE
+			else -> PlaybackOrder.DEFAULT
+		}
 
-		// TODO
-		Toast.makeText(context, "shuffleAudioQueue() - Not yet implemented", Toast.LENGTH_LONG).show()
+		playbackManager.state.setPlaybackOrder(newMode)
 	}
 
 	override val nextAudioItem: BaseItemDto?
@@ -280,6 +283,9 @@ class RewriteMediaManager(
 		val items: List<BaseItemDto>,
 		private val api: ApiClient,
 	) : Queue {
+		override val size: Int
+			get() = items.size
+
 		override suspend fun getItem(index: Int): QueueEntry? {
 			val item = items.getOrNull(index) ?: return null
 			return BaseItemDtoUserQueueEntry.build(api, item)

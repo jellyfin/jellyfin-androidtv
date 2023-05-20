@@ -28,6 +28,9 @@ class AudioInstantMixQueue(
 		require(item.type in instantMixableItems)
 	}
 
+	override var size: Int = 0
+		private set
+
 	override suspend fun loadPage(offset: Int, size: Int): Collection<QueueEntry> {
 		// API doesn't support paging for instant mix
 		if (offset > 0) return emptyList()
@@ -39,6 +42,7 @@ class AudioInstantMixQueue(
 			// Pagination
 			limit = size,
 		)
+		this.size = result.totalRecordCount
 		return result.items.orEmpty().map { BaseItemDtoUserQueueEntry.build(api, it) }
 	}
 }
