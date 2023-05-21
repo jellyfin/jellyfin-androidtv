@@ -25,6 +25,7 @@ class GarbagePlaybackLauncher(
 		BaseItemKind.EPISODE,
 		BaseItemKind.VIDEO,
 		BaseItemKind.SERIES,
+		BaseItemKind.SEASON,
 		BaseItemKind.RECORDING,
 		-> userPreferences[UserPreferences.videoPlayer] === PreferredVideoPlayer.EXTERNAL
 		BaseItemKind.TV_CHANNEL,
