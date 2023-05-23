@@ -445,7 +445,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             Double aspect = ImageUtils.getImageAspectRatio(ModelCompat.asSdk(item), false);
             posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 160) : Utils.convertDpToPixel(requireContext(), ModelCompat.asSdk(item).getType() == BaseItemKind.PERSON || ModelCompat.asSdk(item).getType() == BaseItemKind.MUSIC_ARTIST ? 300 : 200);
 
-            mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
+            if(mDetailsOverviewRow == null){
+                mDetailsOverviewRow = new MyDetailsOverviewRow(ModelCompat.asSdk(item));
+            }
 
             String primaryImageUrl = ImageUtils.getLogoImageUrl(ModelCompat.asSdk(mBaseItem), 600, true);
             if (primaryImageUrl == null) {
@@ -491,7 +493,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             }
 
             mDetailsOverviewRow.setImageDrawable(primaryImageUrl);
-
             return mDetailsOverviewRow;
         }
 
@@ -518,7 +519,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     public void setBaseItem(BaseItemDto item) {
         mBaseItem = item;
         backgroundService.getValue().setBackground(ModelCompat.asSdk(item));
-        if (mBaseItem != null) {
+        if (mBaseItem != null && mDetailsOverviewRow == null) {
             if (mChannelId != null) {
                 mBaseItem.setParentId(mChannelId);
                 mBaseItem.setPremiereDate(TimeUtils.getDate(mProgramInfo.getStartDate()));
