@@ -119,6 +119,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Lazy;
 import kotlinx.serialization.json.Json;
@@ -337,7 +338,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
-                    mDorPresenter.getViewHolder().setInfoValue3(getEndTime());
+                    Objects.requireNonNull(mDorPresenter.getViewHolder()).setInfoValue3(getEndTime());
                     mLoopHandler.postDelayed(this, 15000);
                 }
             }
