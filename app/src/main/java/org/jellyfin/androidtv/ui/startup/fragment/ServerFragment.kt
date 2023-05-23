@@ -53,7 +53,8 @@ class ServerFragment : Fragment() {
 	private val authenticationRepository: AuthenticationRepository by inject()
 	private val serverUserRepository: ServerUserRepository by inject()
 	private val backgroundService: BackgroundService by inject()
-	private lateinit var binding: FragmentServerBinding
+	private var _binding: FragmentServerBinding? = null
+	private val binding get() = _binding!!
 
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }?.toUUIDOrNull()
 
@@ -65,7 +66,7 @@ class ServerFragment : Fragment() {
 			return null
 		}
 
-		binding = FragmentServerBinding.inflate(inflater, container, false)
+		_binding = FragmentServerBinding.inflate(inflater, container, false)
 
 		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
 		userAdapter.onItemPressed = { user ->
@@ -82,7 +83,8 @@ class ServerFragment : Fragment() {
 						))
 						// Errors
 						ServerUnavailableState,
-						is ApiClientErrorLoginState-> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+						is ApiClientErrorLoginState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+
 						is ServerVersionNotSupported -> Toast.makeText(
 							context,
 							getString(R.string.server_unsupported, state.server.version, ServerRepository.minimumServerVersion.toString()),
@@ -118,6 +120,12 @@ class ServerFragment : Fragment() {
 		}
 
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private fun onServerChange(server: Server) {

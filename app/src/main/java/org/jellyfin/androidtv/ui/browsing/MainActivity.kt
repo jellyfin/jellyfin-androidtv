@@ -6,7 +6,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
@@ -15,23 +14,31 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
-import org.jellyfin.androidtv.auth.ui.validateAuthentication
+import org.jellyfin.androidtv.auth.repository.SessionRepository
+import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.databinding.ActivityMainBinding
 import org.jellyfin.androidtv.ui.ScreensaverViewModel
 import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
+import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
-class MainActivity : FragmentActivity(R.layout.activity_main) {
+class MainActivity : FragmentActivity() {
 	companion object {
 		private const val FRAGMENT_TAG_CONTENT = "content"
 	}
 
 	private val navigationRepository by inject<NavigationRepository>()
+	private val sessionRepository by inject<SessionRepository>()
+	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+
+	private lateinit var binding: ActivityMainBinding
 
 	private val backPressedCallback = object : OnBackPressedCallback(false) {
 		override fun handleOnBackPressed() {
@@ -65,13 +72,10 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 			}
 		}
 
-		findViewById<ComposeView>(R.id.background).setContent {
-			AppBackground()
-		}
-
-		findViewById<ComposeView>(R.id.screensaver).setContent {
-			InAppScreensaver()
-		}
+		binding = ActivityMainBinding.inflate(layoutInflater)
+		binding.background.setContent { AppBackground() }
+		binding.screensaver.setContent { InAppScreensaver() }
+		setContentView(binding.root)
 	}
 
 	override fun onResume() {
@@ -84,7 +88,18 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 		screensaverViewModel.activityPaused = false
 
 		if (screensaverViewModel.enabled) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-		else  window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+	}
+
+	private fun validateAuthentication(): Boolean {
+		if (sessionRepository.currentSession.value == null || userRepository.currentUser.value == null) {
+			Timber.w("Activity ${this::class.qualifiedName} started without a session, bouncing to StartupActivity")
+			startActivity(Intent(this, StartupActivity::class.java))
+			finish()
+			return false
+		}
+
+		return true
 	}
 
 	override fun onPause() {
@@ -94,21 +109,25 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 	}
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
-		is NavigationAction.NavigateFragment -> supportFragmentManager.commit {
-			val destination = action.destination
-			val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
-			val isSameFragment = currentFragment != null &&
-				destination.fragment.isInstance(currentFragment) &&
-				currentFragment.arguments == destination.arguments
+		is NavigationAction.NavigateFragment -> {
+			if (action.replace) supportFragmentManager.popBackStackImmediate()
 
-			if (!isSameFragment) {
-				setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+			supportFragmentManager.commit {
+				val destination = action.destination
+				val currentFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONTENT)
+				val isSameFragment = currentFragment != null &&
+					destination.fragment.isInstance(currentFragment) &&
+					currentFragment.arguments == destination.arguments
 
-				if (currentFragment != null) remove(currentFragment)
-				add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+				if (!isSameFragment) {
+					setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+
+					if (currentFragment != null) remove(currentFragment)
+					add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+				}
+
+				if (action.addToBackStack) addToBackStack(null)
 			}
-
-			if (action.addToBackStack) addToBackStack(null)
 		}
 
 		is NavigationAction.NavigateActivity -> {
@@ -146,6 +165,9 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
 		onKeyEvent(keyCode, event) || super.onKeyDown(keyCode, event)
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean =
+		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
+
+	override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean =
 		onKeyEvent(keyCode, event) || super.onKeyUp(keyCode, event)
 
 	override fun onUserInteraction() {

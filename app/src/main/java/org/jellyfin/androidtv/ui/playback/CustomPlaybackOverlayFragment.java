@@ -4,7 +4,6 @@ import static org.koin.java.KoinJavaComponent.inject;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.AsyncTask;
@@ -27,6 +26,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -59,7 +60,8 @@ import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuide;
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment;
 import org.jellyfin.androidtv.ui.livetv.TvManager;
-import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
+import org.jellyfin.androidtv.ui.navigation.Destinations;
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
@@ -97,7 +99,7 @@ import java.util.UUID;
 import kotlin.Lazy;
 import timber.log.Timber;
 
-public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide {
+public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
     private VlcPlayerInterfaceBinding binding;
     private OverlayTvGuideBinding tvGuideBinding;
 
@@ -159,6 +161,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<VideoQueueManager> videoQueueManager = inject(VideoQueueManager.class);
     private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
+    private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+
+    private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -167,20 +172,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // stop any audio that may be playing
         mediaManager.getValue().stopAudio(true);
 
-        mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) requireContext().getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager == null) {
             Timber.e("Unable to get audio manager");
-            Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
+            Utils.showToast(requireContext(), R.string.msg_cannot_play_time);
             return;
         }
 
         requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        ((PlaybackOverlayActivity) requireActivity()).setKeyListener(keyListener);
 
         mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
-            Utils.showToast(getContext(), getString(R.string.msg_no_playable_items));
-            requireActivity().finish();
+            Utils.showToast(requireContext(), getString(R.string.msg_no_playable_items));
+            closePlayer();
             return;
         }
 
@@ -202,6 +206,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = VlcPlayerInterfaceBinding.inflate(inflater, container, false);
+        binding.textClock.setVideoPlayer(true);
 
         // inject the RowsSupportFragment in the popup container
         if (getChildFragmentManager().findFragmentById(R.id.rows_area) == null) {
@@ -242,8 +247,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onViewCreated(view, savedInstanceState);
 
         if (playbackControllerContainer.getValue().getPlaybackController() != null) {
-            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager(((PlaybackOverlayActivity) requireActivity()), view), this);
+            playbackControllerContainer.getValue().getPlaybackController().init(new VideoManager((requireActivity()), view, helper), this);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        binding = null;
     }
 
     @Override
@@ -428,34 +440,66 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (mPlaybackController.isLiveTv()) hide();
             } else if (mGuideVisible) {
                 hideGuide();
-            } else if (!requireActivity().isFinishing()) {
-                onStop();
+            } else {
+                closePlayer();
             }
         }
     };
 
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
-            if (mGuideVisible && mSelectedProgramView instanceof ProgramGridCell && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
-                Date curUTC = TimeUtils.convertToUtcDate(new Date());
-                if (mSelectedProgram.getStartDate().before(curUTC))
-                    switchChannel(mSelectedProgram.getChannelId());
-                else
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.isLongPress()) {
+            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                if (mSelectedProgramView instanceof ProgramGridCell)
                     showProgramOptions();
+                else if (mSelectedProgramView instanceof GuideChannelHeader)
+                    toggleFavorite();
                 return true;
-            } else if (mSelectedProgramView instanceof GuideChannelHeader) {
-                switchChannel(((GuideChannelHeader) mSelectedProgramView).getChannel().getId(), false);
+            }
+        } else if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                event.startTracking();
+                return true;
+            }
+        } else if (event.getAction() == KeyEvent.ACTION_UP) {
+            if (keyListener.onKey(v, keyCode, event)) return true;
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                if ((event.getFlags() & KeyEvent.FLAG_CANCELED_LONG_PRESS) == 0) {
+                    if (mGuideVisible && mSelectedProgramView instanceof ProgramGridCell && mSelectedProgram != null && mSelectedProgram.getChannelId() != null) {
+                        Date curUTC = TimeUtils.convertToUtcDate(new Date());
+                        if (mSelectedProgram.getStartDate().before(curUTC))
+                            switchChannel(mSelectedProgram.getChannelId());
+                        else
+                            showProgramOptions();
+                        return true;
+                    } else if (mSelectedProgramView instanceof GuideChannelHeader) {
+                        switchChannel(((GuideChannelHeader) mSelectedProgramView).getChannel().getId(), false);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                mPlaybackController.play(0);
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+                mPlaybackController.pause();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                mPlaybackController.playPause();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD || keyCode == KeyEvent.KEYCODE_BUTTON_R1 || keyCode == KeyEvent.KEYCODE_BUTTON_R2) {
+                mPlaybackController.skip(30000);
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND || keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_L2) {
+                mPlaybackController.skip(-11000);
+                return true;
             }
         }
-        return false;
-    }
 
-    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        if (mSelectedProgramView instanceof ProgramGridCell)
-            showProgramOptions();
-        else if (mSelectedProgramView instanceof GuideChannelHeader)
-            toggleFavorite();
-        return true;
+        return false;
     }
 
     public void refreshFavorite(String channelId) {
@@ -495,8 +539,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                     leanbackOverlayFragment.hideOverlay();
                 }
 
-                if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP && !requireActivity().isFinishing()) {
-                    requireActivity().finish();
+                if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
+                    closePlayer();
                     return true;
                 }
 
@@ -659,8 +703,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 public void onError(Exception exception) {
                     if (!getActive()) return;
 
-                    Utils.showToast(getContext(), R.string.msg_video_playback_error);
-                    finish();
+                    Utils.showToast(requireContext(), R.string.msg_video_playback_error);
+                    closePlayer();
                 }
             });
         }
@@ -675,9 +719,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     @Override
     public void onResume() {
         super.onResume();
+
+        // Hide system bars
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), false);
+        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).hide(WindowInsetsCompat.Type.systemBars());
+
         if (mAudioManager.requestAudioFocus(mAudioFocusChanged, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Timber.e("Unable to get audio focus");
-            Utils.showToast(getActivity(), R.string.msg_cannot_play_time);
+            Utils.showToast(requireContext(), R.string.msg_cannot_play_time);
             return;
         }
     }
@@ -709,11 +758,6 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (mPlaybackController != null && mPlaybackController.getFragment() == this) {
             Timber.d("this fragment belongs to the current session, ending it");
             mPlaybackController.endPlayback();
-        }
-
-        if (!requireActivity().isFinishing()) {
-            // in case the app is suspended/stopped, eg: by pressing the home button, end the playback session.
-            requireActivity().finish();
         }
     }
 
@@ -842,12 +886,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageUpStart < 0) pageUpStart = 0;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
+                placeHolder.setHeight(Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
                 displayedChannels = 0;
 
                 String label = TextUtilsKt.getLoadChannelsLabel(requireContext(), mAllChannels.get(pageUpStart).getNumber(), mAllChannels.get(mCurrentDisplayChannelStartNdx - 1).getNumber());
-                tvGuideBinding.programRows.addView(new GuidePagingButton(requireActivity(), guide, pageUpStart, label));
+                tvGuideBinding.programRows.addView(new GuidePagingButton(requireContext(), guide, pageUpStart, label));
             }
         }
 
@@ -905,11 +949,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 if (pageDnEnd >= mAllChannels.size()) pageDnEnd = mAllChannels.size() - 1;
 
                 TextView placeHolder = new TextView(requireContext());
-                placeHolder.setHeight(Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
+                placeHolder.setHeight(Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP));
                 tvGuideBinding.channels.addView(placeHolder);
 
                 String label = TextUtilsKt.getLoadChannelsLabel(requireContext(), mAllChannels.get(mCurrentDisplayChannelEndNdx + 1).getNumber(), mAllChannels.get(pageDnEnd).getNumber());
-                tvGuideBinding.programRows.addView(new GuidePagingButton(requireActivity(), guide, mCurrentDisplayChannelEndNdx + 1, label));
+                tvGuideBinding.programRows.addView(new GuidePagingButton(requireContext(), guide, mCurrentDisplayChannelEndNdx + 1, label));
             }
 
             tvGuideBinding.channelsStatus.setText(getResources().getString(R.string.lbl_tv_channel_status, displayedChannels, mAllChannels.size()));
@@ -928,8 +972,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     }
 
     private LinearLayout getProgramRow(List<BaseItemDto> programs, String channelId) {
-        int guideRowHeightPx = Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP);
-        int guideRowWidthPerMinPx = Utils.convertDpToPixel(getContext(), LiveTvGuideFragment.GUIDE_ROW_WIDTH_PER_MIN_DP);
+        int guideRowHeightPx = Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_HEIGHT_DP);
+        int guideRowWidthPerMinPx = Utils.convertDpToPixel(requireContext(), LiveTvGuideFragment.GUIDE_ROW_WIDTH_PER_MIN_DP);
 
         LinearLayout programRow = new LinearLayout(requireContext());
         if (programs.size() == 0) {
@@ -1012,8 +1056,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         tvGuideBinding.displayDate.setText(TimeUtils.getFriendlyDate(requireContext(), mCurrentGuideStart.getTime()));
         Calendar current = (Calendar) mCurrentGuideStart.clone();
         mCurrentGuideEnd = (Calendar) mCurrentGuideStart.clone();
-        int oneHour = 60 * Utils.convertDpToPixel(getContext(), 7);
-        int halfHour = 30 * Utils.convertDpToPixel(getContext(), 7);
+        int oneHour = 60 * Utils.convertDpToPixel(requireContext(), 7);
+        int halfHour = 30 * Utils.convertDpToPixel(requireContext(), 7);
         int interval = current.get(Calendar.MINUTE) >= 30 ? 30 : 60;
         mCurrentGuideEnd.add(Calendar.HOUR, hours);
         mCurrentLocalGuideEnd = mCurrentGuideEnd.getTimeInMillis();
@@ -1340,7 +1384,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     public void updateDisplay() {
         org.jellyfin.sdk.model.api.BaseItemDto current = mPlaybackController.getCurrentlyPlayingItem();
-        if (current != null && getActivity() != null && !getActivity().isFinishing()) {
+        if (current != null && getContext() != null) {
             leanbackOverlayFragment.mediaInfoChanged();
             leanbackOverlayFragment.onFullyInitialized();
             leanbackOverlayFragment.recordingStateChanged();
@@ -1406,17 +1450,16 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         });
     }
 
-    public void finish() {
-        if (!requireActivity().isFinishing()) {
-            requireActivity().finish();
+    public void closePlayer() {
+        if (navigationRepository.getValue().getCanGoBack()) {
+            navigationRepository.getValue().goBack();
+        } else {
+            navigationRepository.getValue().reset(Destinations.INSTANCE.getHome());
         }
     }
 
-    public void showNextUp(String id) {
-        Intent intent = new Intent(getActivity(), NextUpActivity.class);
-        intent.putExtra(NextUpActivity.EXTRA_ID, id);
-        startActivity(intent);
-        finish();
+    public void showNextUp(@NonNull UUID id) {
+        navigationRepository.getValue().navigate(Destinations.INSTANCE.nextUp(id), true);
     }
 
     public void addManualSubtitles(@Nullable SubtitleTrackInfo info) {
@@ -1525,11 +1568,13 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return;
         }
         requireActivity().runOnUiThread(() -> {
-            // Encode whitespace as html entities
             final String htmlText = text
+                    // Encode whitespace as html entities
                     .replaceAll("\\r\\n", "<br>")
                     .replaceAll("\\n", "<br>")
-                    .replaceAll("\\\\h", "&ensp;");
+                    .replaceAll("\\\\h", "&ensp;")
+                    // Remove SSA tags
+                    .replaceAll("\\{\\\\.*?\\}", "");
 
             final SpannableString span = new SpannableString(TextUtilsKt.toHtmlSpanned(htmlText));
             if (subtitlesBackgroundEnabled) {
@@ -1546,5 +1591,14 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             binding.subtitlesText.setText(span);
             binding.subtitlesText.setVisibility(View.VISIBLE);
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // Show system bars
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), true);
+        WindowCompat.getInsetsController(requireActivity().getWindow(), requireActivity().getWindow().getDecorView()).show(WindowInsetsCompat.Type.systemBars());
     }
 }

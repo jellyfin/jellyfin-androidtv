@@ -15,7 +15,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.FragmentPictureViewerBinding
@@ -31,6 +30,7 @@ import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
@@ -44,9 +44,10 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	}
 
 	private val screensaverViewModel by activityViewModel<ScreensaverViewModel>()
-	private val pictureViewerViewModel by activityViewModel<PictureViewerViewModel>()
+	private val pictureViewerViewModel by viewModel<PictureViewerViewModel>()
 	private val api by inject<ApiClient>()
-	private lateinit var binding: FragmentPictureViewerBinding
+	private var _binding: FragmentPictureViewerBinding? = null
+	private val binding get() = _binding!!
 
 	private var actionHideTimer: Job? = null
 
@@ -79,7 +80,7 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentPictureViewerBinding.inflate(inflater, container, false)
+		_binding = FragmentPictureViewerBinding.inflate(inflater, container, false)
 		binding.actionPrevious.setOnClickListener {
 			pictureViewerViewModel.showPrevious()
 			resetHideActionsTimer()
@@ -117,6 +118,12 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 				binding.actionPlayPause.isActivated = active
 			}
 		}
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private val keyHandler = createKeyHandler {

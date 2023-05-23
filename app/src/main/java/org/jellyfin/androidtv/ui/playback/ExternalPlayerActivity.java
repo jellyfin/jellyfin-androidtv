@@ -17,15 +17,12 @@ import androidx.lifecycle.Lifecycle;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.auth.repository.UserRepository;
-import org.jellyfin.androidtv.auth.ui.ActivityAuthenticationExtensionsKt;
 import org.jellyfin.androidtv.data.compat.PlaybackException;
 import org.jellyfin.androidtv.data.compat.StreamInfo;
 import org.jellyfin.androidtv.data.compat.SubtitleStreamInfo;
 import org.jellyfin.androidtv.data.compat.VideoOptions;
 import org.jellyfin.androidtv.preference.UserPreferences;
-import org.jellyfin.androidtv.preference.constant.NextUpBehavior;
 import org.jellyfin.androidtv.preference.constant.PreferredVideoPlayer;
-import org.jellyfin.androidtv.ui.playback.nextup.NextUpActivity;
 import org.jellyfin.androidtv.util.Utils;
 import org.jellyfin.androidtv.util.apiclient.ReportingHelper;
 import org.jellyfin.androidtv.util.profile.ExternalPlayerProfile;
@@ -100,8 +97,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!ActivityAuthenticationExtensionsKt.validateAuthentication(this)) return;
-
         mItemsToPlay = videoQueueManager.getValue().getCurrentVideoQueue();
 
         if (mItemsToPlay == null || mItemsToPlay.size() == 0) {
@@ -119,8 +114,6 @@ public class ExternalPlayerActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (!ActivityAuthenticationExtensionsKt.validateAuthentication(this)) return;
 
         long playerFinishedTime = System.currentTimeMillis();
         Timber.d("Returned from player, result <%d>, extra data <%s>", resultCode, data);
@@ -267,19 +260,8 @@ public class ExternalPlayerActivity extends FragmentActivity {
     protected void playNext() {
         mItemsToPlay.remove(0);
         if (mItemsToPlay.size() > 0) {
-            if (userPreferences.getValue().get(UserPreferences.Companion.getNextUpBehavior()) != NextUpBehavior.DISABLED) {
-                // Set to "modified" so the queue won't be cleared
-                videoQueueManager.getValue().setVideoQueueModified(true);
-
-                Intent intent = new Intent(this, NextUpActivity.class);
-                intent.putExtra(NextUpActivity.EXTRA_ID, mItemsToPlay.get(mCurrentNdx).getId());
-                intent.putExtra(NextUpActivity.EXTRA_USE_EXTERNAL_PLAYER, true);
-                startActivity(intent);
-                finishAfterTransition();
-            } else {
-                mPosition = 0L; // reset for next item
-                launchExternalPlayer(0);
-            }
+            mPosition = 0L; // reset for next item
+            launchExternalPlayer(0);
         } else {
             finish();
         }

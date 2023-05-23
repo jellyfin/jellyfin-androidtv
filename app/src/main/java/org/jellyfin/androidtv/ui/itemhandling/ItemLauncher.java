@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.ui.itemhandling;
 
-import android.app.Activity;
+import android.content.Context;
 
 import androidx.annotation.Nullable;
 
@@ -25,7 +25,6 @@ import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.PlayAccess;
-import org.jellyfin.sdk.model.api.SearchHint;
 import org.jellyfin.sdk.model.constant.CollectionType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
@@ -65,7 +64,7 @@ public class ItemLauncher {
         }
     }
 
-    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Activity activity) {
+    public static void launch(final BaseRowItem rowItem, ItemRowAdapter adapter, int pos, final Context context) {
         NavigationRepository navigationRepository = KoinJavaComponent.<NavigationRepository>get(NavigationRepository.class);
 
         switch (rowItem.getBaseRowType()) {
@@ -100,7 +99,7 @@ public class ItemLauncher {
                             return;
 
                         PlaybackLauncher playbackLauncher = KoinJavaComponent.<PlaybackLauncher>get(PlaybackLauncher.class);
-                        if (playbackLauncher.interceptPlayRequest(activity, rowItem.getBaseItem()))
+                        if (playbackLauncher.interceptPlayRequest(context, rowItem.getBaseItem()))
                             return;
 
                         // if the song currently playing is selected (and is the exact item - this only happens in the nowPlayingRow), open AudioNowPlayingActivity
@@ -117,7 +116,7 @@ public class ItemLauncher {
                                 if (item instanceof BaseRowItem && ((BaseRowItem) item).getBaseItem() != null)
                                     audioItemsAsList.add(((BaseRowItem) item).getBaseItem());
                             }
-                            mediaManager.playNow(activity, audioItemsAsList, pos, false);
+                            mediaManager.playNow(context, audioItemsAsList, pos, false);
                         }
 
                         return;
@@ -131,7 +130,7 @@ public class ItemLauncher {
 
                     case PHOTO:
                         navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
-                                rowItem.getBaseItem().getId(),
+                                baseItem.getId(),
                                 false,
                                 adapter.getSortBy(),
                                 adapter.getSortOrder()
@@ -169,7 +168,7 @@ public class ItemLauncher {
                                     }
                                 });
                             } else {
-                                Utils.showToast(activity, "Item not playable at this time");
+                                Utils.showToast(context, "Item not playable at this time");
                             }
                             break;
                     }
@@ -196,36 +195,6 @@ public class ItemLauncher {
 
                 break;
 
-            case SearchHint:
-                final SearchHint hint = rowItem.getSearchHint();
-                //Retrieve full item for display and playback
-                KoinJavaComponent.<ApiClient>get(ApiClient.class).GetItemAsync(hint.getItemId().toString(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new Response<BaseItemDto>() {
-                    @Override
-                    public void onResponse(BaseItemDto response) {
-                        if (response.getIsFolderItem() && ModelCompat.asSdk(response).getType() != BaseItemKind.SERIES) {
-                            navigationRepository.navigate(Destinations.INSTANCE.libraryBrowser(ModelCompat.asSdk(response)));
-                        } else if (ModelCompat.asSdk(response).getType() == BaseItemKind.AUDIO) {
-                            PlaybackHelper.retrieveAndPlay(response.getId(), false, activity);
-                            //produce item menu
-//                            KeyProcessor.HandleKey(KeyEvent.KEYCODE_MENU, rowItem, (BaseActivity) activity);
-                            return;
-
-                        } else {
-                            if (ModelCompat.asSdk(response).getType() == BaseItemKind.PROGRAM) {
-                                navigationRepository.navigate(Destinations.INSTANCE.channelDetails(UUIDSerializerKt.toUUID(response.getId()), UUIDSerializerKt.toUUID(response.getChannelId()), ModelCompat.asSdk(response)));
-                            } else {
-                                navigationRepository.navigate(Destinations.INSTANCE.itemDetails(UUIDSerializerKt.toUUID(response.getId())));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        Timber.e(exception, "Error retrieving full object");
-                        exception.printStackTrace();
-                    }
-                });
-                break;
             case LiveTvProgram:
                 org.jellyfin.sdk.model.api.BaseItemDto program = rowItem.getBaseItem();
                 switch (rowItem.getSelectAction()) {
@@ -248,7 +217,7 @@ public class ItemLauncher {
                                 }
                             });
                         } else {
-                            Utils.showToast(activity, "Item not playable at this time");
+                            Utils.showToast(context, "Item not playable at this time");
                         }
                 }
                 break;
@@ -291,7 +260,7 @@ public class ItemLauncher {
                                 }
                             });
                         } else {
-                            Utils.showToast(activity, "Item not playable at this time");
+                            Utils.showToast(context, "Item not playable at this time");
                         }
                         break;
                 }

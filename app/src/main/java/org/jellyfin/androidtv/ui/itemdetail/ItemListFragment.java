@@ -273,7 +273,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             open.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, requireActivity());
+                    ItemLauncher.launch(new BaseRowItem(0, row.getItem()), null, 0, requireContext());
                     return true;
                 }
             });

@@ -30,7 +30,8 @@ class UserLoginFragment : Fragment() {
 
 	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
 	private val backgroundService: BackgroundService by inject()
-	private lateinit var binding: FragmentUserLoginBinding
+	private var _binding: FragmentUserLoginBinding? = null
+	private val binding get() = _binding!!
 
 	private val usernameArgument get() = arguments?.getString(ARG_USERNAME)?.ifBlank { null }
 	private val serverIdArgument get() = arguments?.getString(ARG_SERVER_ID)?.ifBlank { null }
@@ -44,7 +45,7 @@ class UserLoginFragment : Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentUserLoginBinding.inflate(inflater, container, false)
+		_binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
 		binding.cancel.setOnClickListener { parentFragmentManager.popBackStack() }
 		binding.useCredentials.setOnClickListener { setLoginMethod<UserLoginCredentialsFragment>() }
@@ -80,6 +81,12 @@ class UserLoginFragment : Fragment() {
 				if (state == UnavailableQuickConnectState) setLoginMethod<UserLoginCredentialsFragment>()
 			}
 		}
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private inline fun <reified T : Fragment> setLoginMethod() {

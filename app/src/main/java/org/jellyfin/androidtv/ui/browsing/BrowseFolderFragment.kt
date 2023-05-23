@@ -17,7 +17,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.constant.Extras
 import org.jellyfin.androidtv.data.service.BackgroundService
@@ -62,7 +61,7 @@ abstract class BrowseFolderFragment : BrowseSupportFragment(), RowLoader {
 					item,
 					(row as ListRow).adapter as ItemRowAdapter,
 					item.index,
-					activity
+					requireContext()
 				)
 			}
 		}

@@ -11,7 +11,8 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.databinding.PreferenceButtonRemapBinding
 
 class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
-	private lateinit var binding: PreferenceButtonRemapBinding
+	private var _binding: PreferenceButtonRemapBinding? = null
+	private val binding get() = _binding!!
 
 	private var dialogTitle: CharSequence? = null
 	private var dialogMessage: CharSequence? = null
@@ -70,7 +71,7 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val styledContext = ContextThemeWrapper(activity, androidx.leanback.preference.R.style.PreferenceThemeOverlayLeanback)
 		val styledInflater = inflater.cloneInContext(styledContext)
-		binding = PreferenceButtonRemapBinding.inflate(styledInflater, container, false)
+		_binding = PreferenceButtonRemapBinding.inflate(styledInflater, container, false)
 
 		return binding.root
 	}
@@ -108,6 +109,12 @@ class ButtonRemapDialogFragment : LeanbackPreferenceDialogFragmentCompat() {
 		}
 
 		setKeyCodeText()
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private fun setKeyCodeText() {

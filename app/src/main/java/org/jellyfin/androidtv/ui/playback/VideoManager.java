@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.playback;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -35,7 +36,7 @@ import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
@@ -63,17 +64,18 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
 
     private int mZoomMode = ZOOM_FIT;
 
-    private PlaybackOverlayActivity mActivity;
+    private Activity mActivity;
     private Equalizer mEqualizer;
     private DynamicsProcessing mDynamicsProcessing;
     private Limiter mLimiter;
     private PlaybackControllerNotifiable mPlaybackControllerNotifiable;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
+    private PlaybackOverlayFragmentHelper _helper;
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
-    private PlayerView mExoPlayerView;
+    private StyledPlayerView mExoPlayerView;
     private LibVLC mLibVLC;
     private MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
@@ -97,9 +99,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private boolean mSurfaceReady = false;
     public boolean isContracted = false;
 
-    public VideoManager(PlaybackOverlayActivity activity, View view) {
+    public VideoManager(@NonNull Activity activity, @NonNull View view, @NonNull PlaybackOverlayFragmentHelper helper) {
         mActivity = activity;
         mSurfaceView = view.findViewById(R.id.player_surface);
+        _helper = helper;
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(mSurfaceCallback);
         mSurfaceFrame = view.findViewById(R.id.player_surface_frame);
@@ -133,8 +136,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
                 if (isPlaying) {
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
+                    _helper.setScreensaverLock(true);
                 } else {
                     stopProgressLoop();
+                    _helper.setScreensaverLock(false);
                 }
             }
 
@@ -213,8 +218,10 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public void setNativeMode(boolean value) {
         nativeMode = value;
         if (nativeMode) {
+            _helper.setScreensaverLock(false);
             mExoPlayerView.setVisibility(View.VISIBLE);
         } else {
+            _helper.setScreensaverLock(true);
             mExoPlayerView.setVisibility(View.GONE);
         }
     }
@@ -322,7 +329,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
         if (nativeMode) {
             if (mExoPlayer == null) {
                 Timber.e("mExoPlayer should not be null!!");
-                mActivity.finish();
+                _helper.getFragment().closePlayer();
                 return;
             }
             mExoPlayer.setPlayWhenReady(true);

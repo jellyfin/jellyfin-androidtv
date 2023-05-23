@@ -22,10 +22,11 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class UserLoginCredentialsFragment : Fragment() {
 	private val userLoginViewModel: UserLoginViewModel by activityViewModel()
-	private lateinit var binding: FragmentUserLoginCredentialsBinding
+	private var _binding: FragmentUserLoginCredentialsBinding? = null
+	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentUserLoginCredentialsBinding.inflate(inflater, container, false)
+		_binding = FragmentUserLoginCredentialsBinding.inflate(inflater, container, false)
 
 		with(binding.username) {
 			// Prefill username
@@ -43,6 +44,7 @@ class UserLoginCredentialsFragment : Fragment() {
 						loginWithCredentials()
 						true
 					}
+
 					else -> false
 				}
 			}
@@ -71,6 +73,7 @@ class UserLoginCredentialsFragment : Fragment() {
 						state.server.version,
 						ServerRepository.minimumServerVersion.toString()
 					))
+
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
 					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
 					ServerUnavailableState,
@@ -84,6 +87,12 @@ class UserLoginCredentialsFragment : Fragment() {
 		}
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
+	}
+
 	private fun loginWithCredentials() {
 		when {
 			binding.username.text.isNotBlank() -> lifecycleScope.launch {
@@ -92,6 +101,7 @@ class UserLoginCredentialsFragment : Fragment() {
 					binding.password.text.toString()
 				)
 			}
+
 			else -> binding.error.setText(R.string.login_username_field_empty)
 		}
 	}

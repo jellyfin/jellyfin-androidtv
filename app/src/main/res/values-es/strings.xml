@@ -47,7 +47,7 @@
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Termina</string>
     <string name="lbl_directed_by">Dirigido Por</string>
-    <string name="lbl_last_played">"Reproducido Recientemente "</string>
+    <string name="lbl_last_played">"Ultimos vistos "</string>
     <string name="lbl_other_options">Otras opciones</string>
     <string name="lbl_people">Gente</string>
     <string name="lbl_none">Ninguno</string>
@@ -131,7 +131,7 @@
     <string name="lbl_artists">Artistas</string>
     <string name="lbl_albums">Álbumes</string>
     <string name="lbl_programs">Programas</string>
-    <string name="lbl_date_added">Añadido el</string>
+    <string name="lbl_date_added">Últimos añadidos</string>
     <string name="lbl_name">Nombre</string>
     <string name="lbl_sorted_by">ordenado por</string>
     <string name="lbl_now_playing_track">%1$s de %2$s</string>
@@ -199,8 +199,8 @@
     <string name="lbl_filters">Filtros de TV en directo</string>
     <string name="lbl_display_preferences">Mostrar preferencias</string>
     <string name="lbl_starting_with">comenzando con aquellos cuyo nombre comienza con</string>
-    <string name="lbl_rating">Clasificación</string>
-    <string name="lbl_critic_rating">Valoración crítica</string>
+    <string name="lbl_rating">Calificación parental</string>
+    <string name="lbl_critic_rating">Puntuación crítica (Tomates)</string>
     <string name="lbl_premier_date">Fecha de estreno</string>
     <string name="lbl_series_recordings">Grabaciones de Series</string>
     <string name="lbl_ended">FINALIZADO</string>
@@ -367,7 +367,7 @@
     <string name="always_authenticate">Siempre pedir credenciales</string>
     <string name="alphabetical">Alfabético</string>
     <string name="last_use">Más reciente usado</string>
-    <string name="lbl_community_rating">Calificación de la comunidad</string>
+    <string name="lbl_community_rating">Puntuación comunidad (Estrellas)</string>
     <string name="select_version">Versión</string>
     <string name="license_license">Licencia</string>
     <string name="license_author">Autor</string>

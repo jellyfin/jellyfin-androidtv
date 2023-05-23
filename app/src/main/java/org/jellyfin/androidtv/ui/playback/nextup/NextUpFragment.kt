@@ -8,23 +8,56 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.preference.constant.NEXTUP_TIMER_DISABLED
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NextUpFragment : Fragment() {
-	private val viewModel: NextUpViewModel by activityViewModel()
-	private lateinit var binding: FragmentNextUpBinding
+	companion object {
+		const val ARGUMENT_ITEM_ID = "item_id"
+	}
+
+	private var _binding: FragmentNextUpBinding? = null
+	private val binding get() = _binding!!
+
+	private val viewModel: NextUpViewModel by viewModel()
 	private val backgroundService: BackgroundService by inject()
 	private val userPreferences: UserPreferences by inject()
+	private val navigationRepository: NavigationRepository by inject()
 	private var timerStarted = false
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		val id = arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull()
+		viewModel.setItemId(id)
+
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				viewModel.state.collect { state ->
+					when (state) {
+						// Open next item
+						NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0), true)
+						// Close activity
+						NextUpState.CLOSE -> navigationRepository.goBack()
+						// Unknown state
+						else -> Unit
+					}
+				}
+			}
+		}
+	}
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentNextUpBinding.inflate(inflater, container, false)
+		_binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -62,8 +95,16 @@ class NextUpFragment : Fragment() {
 	override fun onStart() {
 		super.onStart()
 
+		binding.fragmentNextUpButtons.focusPlayNextButton()
+
 		if (!timerStarted) {
-			binding.fragmentNextUpButtons.startTimer()
+			// We need to workaround an issue where compose claims focus for a single draw
+			// causing the NextUpButtonsView to auto-stop the timer
+			lifecycleScope.launch {
+				delay(1)
+				binding.fragmentNextUpButtons.startTimer()
+			}
+
 			timerStarted = true
 		}
 	}
@@ -72,5 +113,11 @@ class NextUpFragment : Fragment() {
 		super.onPause()
 
 		binding.fragmentNextUpButtons.stopTimer()
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 }

@@ -1,35 +1,40 @@
 package org.jellyfin.androidtv.ui.search
 
 import android.os.Bundle
+import android.view.View
 import androidx.leanback.app.SearchSupportFragment
-import androidx.leanback.widget.ListRow
-import org.jellyfin.androidtv.data.service.BackgroundService
-import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
-import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
-import org.koin.java.KoinJavaComponent.inject
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
-class LeanbackSearchFragment : SearchSupportFragment() {
-	private val backgroundService = inject<BackgroundService>(BackgroundService::class.java)
+class LeanbackSearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
+	private val viewModel: SearchViewModel by viewModel()
+
+	private val searchFragmentDelegate: SearchFragmentDelegate by inject {
+		parametersOf(requireContext())
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		// Create provider
-		val searchProvider = SearchProvider(requireContext(), lifecycle)
-		setSearchResultProvider(searchProvider)
-
-		// Add event listeners
-		setOnItemViewClickedListener { _, item, _, row ->
-			if (item !is BaseRowItem) return@setOnItemViewClickedListener
-
-			val adapter = (row as ListRow).adapter as ItemRowAdapter
-			ItemLauncher.launch(item as BaseRowItem?, adapter, item.index, activity)
-		}
-
-		setOnItemViewSelectedListener { _, item, _, _ ->
-			if (item is BaseRowItem) backgroundService.value.setBackground(item.searchHint!!)
-			else backgroundService.value.clearBackgrounds()
-		}
+		setSearchResultProvider(this)
+		setOnItemViewClickedListener(searchFragmentDelegate.onItemViewClickedListener)
+		setOnItemViewSelectedListener(searchFragmentDelegate.onItemViewSelectedListener)
 	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		viewModel.searchResultsFlow
+			.onEach { searchFragmentDelegate.showResults(it) }
+			.launchIn(lifecycleScope)
+	}
+
+	override fun getResultsAdapter() = searchFragmentDelegate.rowsAdapter
+	override fun onQueryTextChange(query: String): Boolean = viewModel.searchDebounced(query)
+	override fun onQueryTextSubmit(query: String): Boolean = viewModel.searchImmediately(query)
+
 }

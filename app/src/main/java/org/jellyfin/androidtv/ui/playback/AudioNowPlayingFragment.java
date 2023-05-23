@@ -223,7 +223,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     public void onPause() {
         super.onPause();
         dismissPopup();
-        mPoster.setKeepScreenOn(false);
         mediaManager.getValue().removeAudioEventListener(audioEventListener);
     }
 
@@ -316,7 +315,7 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
     private void updatePoster() {
         // Figure image size
         Double aspect = ImageUtils.getImageAspectRatio(mBaseItem, false);
-        int posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireActivity(), 150) : Utils.convertDpToPixel(requireActivity(), 250);
+        int posterHeight = aspect > 1 ? Utils.convertDpToPixel(requireContext(), 150) : Utils.convertDpToPixel(requireActivity(), 250);
 
         String primaryImageUrl = ImageUtils.getPrimaryImageUrl(mBaseItem, false, posterHeight);
         Timber.d("Audio Poster url: %s", primaryImageUrl);
@@ -339,7 +338,6 @@ public class AudioNowPlayingFragment extends Fragment implements View.OnKeyListe
             public void run() {
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-                mPoster.setKeepScreenOn(playing);
                 if (!playing) {
                     mPlayPauseButton.setImageResource(R.drawable.ic_play);
                     mPlayPauseButton.setContentDescription(getString(R.string.lbl_play));

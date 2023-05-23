@@ -28,13 +28,12 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.BaseItemPerson
-import org.jellyfin.sdk.model.api.SearchHint
+import org.jellyfin.sdk.model.extensions.ticks
 import org.jellyfin.sdk.model.serializer.toUUID
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.temporal.ChronoUnit
 import org.jellyfin.apiclient.interaction.ApiClient as LegacyApiClient
 
 open class BaseRowItem protected constructor(
@@ -47,7 +46,6 @@ open class BaseRowItem protected constructor(
 	var baseItem: org.jellyfin.sdk.model.api.BaseItemDto? = null,
 	val basePerson: BaseItemPerson? = null,
 	val chapterInfo: ChapterItemInfo? = null,
-	val searchHint: SearchHint? = null,
 	val seriesTimerInfo: SeriesTimerInfoDto? = null,
 	val gridButton: GridButton? = null,
 ) : KoinComponent {
@@ -125,13 +123,6 @@ open class BaseRowItem protected constructor(
 	)
 
 	constructor(
-		item: SearchHint,
-	) : this(
-		baseRowType = BaseRowType.SearchHint,
-		searchHint = item,
-	)
-
-	constructor(
 		item: ChapterItemInfo,
 	) : this(
 		baseRowType = BaseRowType.Chapter,
@@ -183,11 +174,6 @@ open class BaseRowItem protected constructor(
 		BaseRowType.LiveTvChannel -> ImageUtils.getPrimaryImageUrl(baseItem!!)
 		BaseRowType.GridButton -> gridButton?.imageRes?.let { ImageUtils.getResourceUrl(context, it) }
 		BaseRowType.SeriesTimer -> ImageUtils.getResourceUrl(context, R.drawable.tile_land_series_timer)
-		BaseRowType.SearchHint -> when {
-			!searchHint?.primaryImageTag.isNullOrBlank() -> ImageUtils.getImageUrl(searchHint!!.itemId.toString(), org.jellyfin.apiclient.model.entities.ImageType.Primary, searchHint.primaryImageTag!!)
-			!searchHint?.thumbImageItemId.isNullOrBlank() -> ImageUtils.getImageUrl(searchHint!!.thumbImageItemId!!, org.jellyfin.apiclient.model.entities.ImageType.Thumb, searchHint.thumbImageTag!!)
-			else -> null
-		}
 	}
 
 	fun getBaseItemType() = baseItem?.type
@@ -211,7 +197,6 @@ open class BaseRowItem protected constructor(
 		BaseRowType.LiveTvChannel -> baseItem?.name
 		BaseRowType.GridButton -> gridButton?.text
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
-		BaseRowType.SearchHint -> listOfNotNull(searchHint?.series, searchHint?.name).joinToString(" - ")
 	}
 
 	fun getName(context: Context) = when (baseRowType) {
@@ -223,7 +208,6 @@ open class BaseRowItem protected constructor(
 		}
 		BaseRowType.Person -> basePerson?.name
 		BaseRowType.Chapter -> chapterInfo?.name
-		BaseRowType.SearchHint -> searchHint?.name
 		BaseRowType.LiveTvChannel -> baseItem?.name
 		BaseRowType.GridButton -> gridButton?.text
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.name
@@ -237,14 +221,13 @@ open class BaseRowItem protected constructor(
 		BaseRowType.Person -> basePerson?.id?.toString()
 		BaseRowType.Chapter -> chapterInfo?.itemId?.toString()
 		BaseRowType.GridButton -> null
-		BaseRowType.SearchHint -> searchHint?.itemId?.toString()
 		BaseRowType.SeriesTimer -> seriesTimerInfo?.id
 	}
 
 	fun getSubText(context: Context) = when (baseRowType) {
 		BaseRowType.BaseItem -> baseItem?.getSubName(context)
 		BaseRowType.Person -> basePerson?.role
-		BaseRowType.Chapter -> chapterInfo?.startPositionTicks?.div(10000)?.let(TimeUtils::formatMillis)
+		BaseRowType.Chapter -> chapterInfo?.startPositionTicks?.ticks?.inWholeMilliseconds?.let(TimeUtils::formatMillis)
 		BaseRowType.LiveTvChannel -> baseItem?.number
 		BaseRowType.LiveTvProgram -> baseItem?.episodeTitle ?: baseItem?.channelName
 		BaseRowType.LiveTvRecording -> {
@@ -263,7 +246,6 @@ open class BaseRowItem protected constructor(
 
 			"$title $timestamp"
 		}
-		BaseRowType.SearchHint -> searchHint?.type
 		BaseRowType.SeriesTimer -> {
 			val channelName = if (seriesTimerInfo?.recordAnyChannel == true) "All Channels"
 			else seriesTimerInfo?.channelName
@@ -281,24 +263,11 @@ open class BaseRowItem protected constructor(
 		else -> null
 	}.orEmpty()
 
-	fun getRuntimeTicks() = when (baseRowType) {
-		BaseRowType.LiveTvRecording,
-		BaseRowType.BaseItem -> baseItem?.runTimeTicks ?: 0
-		BaseRowType.LiveTvProgram -> {
-			val start = baseItem?.startDate
-			val end = baseItem?.endDate
-
-			if (start != null && end != null) (start.until(end, ChronoUnit.MILLIS)) * 10000
-			else 0
-		}
-		else -> 0
-	}
-
 	fun getChildCountStr(): String? {
 		// Playlist
 		if (baseItem?.type == BaseItemKind.PLAYLIST) {
-			val childCount = baseItem?.cumulativeRunTimeTicks?.let {
-				TimeUtils.formatMillis(it / 10000)
+			val childCount = baseItem?.cumulativeRunTimeTicks?.ticks?.inWholeMilliseconds?.let {
+				TimeUtils.formatMillis(it)
 			}
 			if (childCount != null) return childCount
 		}

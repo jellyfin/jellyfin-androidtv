@@ -58,8 +58,6 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
-import org.jellyfin.apiclient.model.search.SearchHintResult;
-import org.jellyfin.apiclient.model.search.SearchQuery;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
@@ -82,7 +80,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private UpcomingEpisodesQuery mUpcomingQuery;
     private SimilarItemsQuery mSimilarQuery;
     private PersonsQuery mPersonsQuery;
-    private SearchQuery mSearchQuery;
     private SpecialsQuery mSpecialsQuery;
     private AdditionalPartsQuery mAdditionalPartsQuery;
     private TrailersQuery mTrailersQuery;
@@ -108,7 +105,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private BaseItemPerson[] mPersons;
     private List<ChapterItemInfo> mChapters;
     private List<org.jellyfin.sdk.model.api.BaseItemDto> mItems;
-
     private MutableObjectAdapter<Row> mParent;
     private ListRow mRow;
     private int chunkSize = 0;
@@ -387,16 +383,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             mPersonsQuery.setLimit(chunkSize);
         }
         queryType = QueryType.Persons;
-    }
-
-    public ItemRowAdapter(Context context, SearchQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
-        super(presenter);
-        this.context = context;
-        mParent = parent;
-        mSearchQuery = query;
-        mSearchQuery.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-        mSearchQuery.setLimit(50);
-        queryType = QueryType.Search;
     }
 
     public ItemRowAdapter(Context context, ViewQuery query, Presenter presenter, MutableObjectAdapter<Row> parent) {
@@ -688,7 +674,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
 
     public void Retrieve() {
         notifyRetrieveStarted();
-
         lastFullRetrieve = Calendar.getInstance();
         itemsLoaded = 0;
         switch (queryType) {
@@ -750,7 +735,8 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                 retrieve(mTrailersQuery);
                 break;
             case Search:
-                retrieve(mSearchQuery);
+                loadStaticItems();
+                addToParentIfResultsReceived();
                 break;
             case Artists:
                 retrieve(mArtistsQuery);
@@ -839,36 +825,6 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                         if (userViewsRepository.getValue().isSupported(item.getCollectionType())) {
                             item.setDisplayPreferencesId(item.getId());
                             return new BaseRowItem(i, item, preferParentThumb, staticHeight);
-                        } else {
-                            return null;
-                        }
-                    });
-                } else if (getItemsLoaded() == 0) {
-                    removeRow();
-                }
-
-                notifyRetrieveFinished();
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                Timber.e(exception, "Error retrieving items");
-                removeRow();
-                notifyRetrieveFinished(exception);
-            }
-        });
-    }
-
-    private void retrieve(SearchQuery query) {
-        apiClient.getValue().GetSearchHintsAsync(query, new Response<SearchHintResult>() {
-            @Override
-            public void onResponse(SearchHintResult response) {
-                if (response.getSearchHints() != null && response.getSearchHints().length > 0) {
-                    setTotalItems(response.getTotalRecordCount());
-
-                    ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getSearchHints(), (item, i) -> {
-                        if (userViewsRepository.getValue().isSupported(item.getType())) {
-                            return new BaseRowItem(ModelCompat.asSdk(item));
                         } else {
                             return null;
                         }

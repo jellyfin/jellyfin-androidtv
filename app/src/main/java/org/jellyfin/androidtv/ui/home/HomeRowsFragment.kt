@@ -85,10 +85,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		adapter = MutableObjectAdapter<Row>(PositionableListRowPresenter())
 
 		val currentUser = userRepository.currentUser.value
-		if (currentUser == null) {
-			activity?.finish()
-			return
-		}
 
 		lifecycleScope.launch(Dispatchers.IO) {
 			// Start out with default sections
@@ -96,7 +92,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			var includeLiveTvRows = false
 
 			// Check for live TV support
-			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser.policy?.enableLiveTvAccess == true) {
+			if (homesections.contains(HomeSectionType.LIVE_TV) && currentUser?.policy?.enableLiveTvAccess == true) {
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
@@ -264,7 +260,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			row: Row?,
 		) {
 			if (item !is BaseRowItem) return
-			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, activity)
+			ItemLauncher.launch(item, (row as ListRow).adapter as ItemRowAdapter, item.index, requireContext())
 		}
 	}
 

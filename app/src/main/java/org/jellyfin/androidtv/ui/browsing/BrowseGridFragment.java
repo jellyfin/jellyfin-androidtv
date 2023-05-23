@@ -207,6 +207,8 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        binding = null;
         mGridView = null;
     }
 
@@ -952,7 +954,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), getActivity());
+            ItemLauncher.launch((BaseRowItem) item, mAdapter, ((BaseRowItem) item).getIndex(), requireContext());
         }
     }
 

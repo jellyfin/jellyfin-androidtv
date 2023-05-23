@@ -27,12 +27,13 @@ class ServerAddFragment : Fragment() {
 	}
 
 	private val startupViewModel: ServerAddViewModel by viewModel()
-	private lateinit var binding: FragmentServerAddBinding
+	private var _binding: FragmentServerAddBinding? = null
+	private val binding get() = _binding!!
 
 	private val serverAddressArgument get() = arguments?.getString(ARG_SERVER_ADDRESS)?.ifBlank { null }
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		binding = FragmentServerAddBinding.inflate(inflater, container, false)
+		_binding = FragmentServerAddBinding.inflate(inflater, container, false)
 
 		with(binding.address) {
 			setOnEditorActionListener { _, actionId, _ ->
@@ -41,6 +42,7 @@ class ServerAddFragment : Fragment() {
 						submitAddress()
 						true
 					}
+
 					else -> false
 				}
 			}
@@ -74,6 +76,7 @@ class ServerAddFragment : Fragment() {
 						// Update state text
 						binding.error.text = getString(R.string.server_connecting, state.address)
 					}
+
 					is UnableToConnectState -> {
 						// Enable form
 						binding.address.isEnabled = true
@@ -86,6 +89,7 @@ class ServerAddFragment : Fragment() {
 								.joinToString(prefix = "\n", separator = "\n")
 						)
 					}
+
 					is ConnectedState -> parentFragmentManager.commit {
 						// Open server view
 						replace<StartupToolbarFragment>(R.id.content_view)
@@ -97,10 +101,17 @@ class ServerAddFragment : Fragment() {
 							)
 						)
 					}
+
 					null -> Unit
 				}
 			}
 		}
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
 	}
 
 	private fun submitAddress() = when {

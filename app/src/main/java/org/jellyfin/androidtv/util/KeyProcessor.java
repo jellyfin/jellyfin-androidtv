@@ -92,14 +92,14 @@ public class KeyProcessor {
                             case SERIES:
                             case SEASON:
                             case BOX_SET:
-                                createPlayMenu(rowItem.getBaseItem(), true, false, activity);
+                                createPlayMenu(rowItem.getBaseItem(), false, activity);
                                 return true;
                             case MUSIC_ALBUM:
                             case MUSIC_ARTIST:
-                                createPlayMenu(rowItem.getBaseItem(), true, true, activity);
+                                createPlayMenu(rowItem.getBaseItem(), true, activity);
                                 return true;
                             case PLAYLIST:
-                                createPlayMenu(rowItem.getBaseItem(), true, MediaType.Audio.equals(item.getMediaType()), activity);
+                                createPlayMenu(rowItem.getBaseItem(), MediaType.Audio.equals(item.getMediaType()), activity);
                                 return true;
                             case PHOTO:
                                 NavigationRepository navigationRepository = KoinJavaComponent.get(NavigationRepository.class);
@@ -115,23 +115,6 @@ public class KeyProcessor {
                     case Person:
                         break;
                     case Chapter:
-                        break;
-                    case SearchHint:
-                        switch (rowItem.getSearchHint().getType()) {
-                            case "Movie":
-                            case "Episode":
-                            case "TvChannel":
-                            case "Video":
-                            case "Program":
-                                // retrieve full item and play
-                                PlaybackHelper.retrieveAndPlay(rowItem.getItemId(), false, activity);
-                                return true;
-                            case "Series":
-                            case "Season":
-                            case "BoxSet":
-                                createPlayMenu(rowItem.getBaseItem(), true, false, activity);
-                                return true;
-                        }
                         break;
                     case LiveTvChannel:
                     case LiveTvRecording:
@@ -182,8 +165,6 @@ public class KeyProcessor {
                     case Person:
                         break;
                     case Chapter:
-                        break;
-                    case SearchHint:
                         break;
                     case LiveTvChannel:
                         break;
@@ -289,7 +270,7 @@ public class KeyProcessor {
         return menu;
     }
 
-    private static void createPlayMenu(BaseItemDto item, boolean isFolder, boolean isMusic, Activity activity) {
+    private static void createPlayMenu(BaseItemDto item, boolean isMusic, Activity activity) {
         PopupMenu menu = new PopupMenu(activity, activity.getCurrentFocus(), Gravity.END);
         int order = 0;
         if (!isMusic && item.getType() != BaseItemKind.PLAYLIST) {

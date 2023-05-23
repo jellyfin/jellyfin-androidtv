@@ -16,6 +16,8 @@ class AudioTrackQueue(
 		require(item.type == BaseItemKind.AUDIO)
 	}
 
+	override var size: Int = 1
+
 	override suspend fun loadPage(offset: Int, size: Int): Collection<QueueEntry> {
 		// We only have a single item
 		if (offset > 0) return emptyList()

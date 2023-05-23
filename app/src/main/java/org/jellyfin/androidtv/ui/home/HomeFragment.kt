@@ -26,14 +26,16 @@ import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.koin.android.ext.android.inject
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
-	private lateinit var binding: FragmentHomeBinding
+class HomeFragment : Fragment() {
+	private var _binding: FragmentHomeBinding? = null
+	private val binding get() = _binding!!
+
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		binding = FragmentHomeBinding.inflate(inflater, container, false)
+		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 		binding.settings.setOnClickListener {
 			navigationRepository.navigate(Destinations.userPreferences)
@@ -65,8 +67,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		}
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+
+		_binding = null
+	}
+
 	private fun setUserImage(image: String?) {
-		Glide.with(requireContext())
+		Glide.with(this)
 			.load(image)
 			.placeholder(R.drawable.ic_switch_users)
 			.centerInside()

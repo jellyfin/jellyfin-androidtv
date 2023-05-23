@@ -63,14 +63,13 @@ private fun AppThemeBackground() {
 @OptIn(ExperimentalAnimationApi::class)
 fun AppBackground() {
 	val backgroundService = rememberKoinInject<BackgroundService>()
-	val backgrounds by backgroundService.backgrounds.collectAsState()
-	val backgroundIndex by backgroundService.currentIndex.collectAsState()
-	val serviceBackground = backgrounds.getOrNull(backgroundIndex)
+	val currentBackground by backgroundService.currentBackground.collectAsState()
 
 	AnimatedContent(
-		targetState = serviceBackground,
+		targetState = currentBackground,
 		transitionSpec = {
-			fadeIn(tween(durationMillis = 400)) with fadeOut(snap(delayMillis = 400))
+			val duration = (BackgroundService.TRANSITION_DURATION.inWholeMilliseconds / 2).toInt()
+			fadeIn(tween(durationMillis = duration)) with fadeOut(snap(delayMillis = duration))
 		},
 	) { background ->
 		if (background != null) {
