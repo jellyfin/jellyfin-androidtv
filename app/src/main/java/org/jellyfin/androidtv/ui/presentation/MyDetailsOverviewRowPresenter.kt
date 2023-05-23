@@ -60,7 +60,9 @@ class MyDetailsOverviewRowPresenter(
 
 			binding.fdButtonRow.removeAllViews()
 			for (button in row.actions) {
-				if (button.parent != null) binding.fdButtonRow.addView(button)
+				if (button.parent != null) {
+					binding.fdButtonRow.addView(button)
+				}
 			}
 		}
 
