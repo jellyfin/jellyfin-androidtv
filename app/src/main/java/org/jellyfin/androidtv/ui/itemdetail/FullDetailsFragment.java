@@ -338,7 +338,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
                 if (mBaseItem != null && ((mBaseItem.getRunTimeTicks() != null && mBaseItem.getRunTimeTicks() > 0) || mBaseItem.getOriginalRunTimeTicks() != null)) {
-                    Objects.requireNonNull(mDorPresenter.getViewHolder()).setInfoValue3(getEndTime());
+                    if (mDorPresenter.getViewHolder() != null) {
+                        Objects.requireNonNull(mDorPresenter.getViewHolder()).setInfoValue3(getEndTime());
+                    }
                     mLoopHandler.postDelayed(this, 15000);
                 }
             }
