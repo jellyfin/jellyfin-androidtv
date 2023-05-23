@@ -2,7 +2,6 @@ package org.jellyfin.androidtv.ui.presentation
 
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.leanback.widget.RowPresenter
