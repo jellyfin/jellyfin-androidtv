@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.leanback.widget.RowPresenter
 import org.jellyfin.androidtv.ui.DetailRowView
+import org.jellyfin.androidtv.ui.TextUnderButton
 import org.jellyfin.androidtv.ui.itemdetail.MyDetailsOverviewRow
 import org.jellyfin.androidtv.util.InfoLayoutHelper
 import org.jellyfin.androidtv.util.MarkdownRenderer
@@ -15,13 +16,18 @@ import org.jellyfin.sdk.model.api.BaseItemKind
 class MyDetailsOverviewRowPresenter(
 	private val markdownRenderer: MarkdownRenderer,
 ) : RowPresenter() {
+
+	private val _actions = mutableListOf<TextUnderButton>()
+	val actions get() = _actions.toList()
+	val visibleActions get() = _actions.count { it.isVisible }
+	fun addAction(button: TextUnderButton) = _actions.add(button)
+
 	class ViewHolder(
 		private val detailRowView: DetailRowView,
 		private val markdownRenderer: MarkdownRenderer,
 	) : RowPresenter.ViewHolder(detailRowView) {
-		private val binding get() = detailRowView.binding
-
-		fun setItem(row: MyDetailsOverviewRow) {
+		val binding get() = detailRowView.binding
+		fun setItem(row: MyDetailsOverviewRow, actions: List<TextUnderButton>) {
 			setTitle(row.item.name)
 
 			InfoLayoutHelper.addInfoRow(view.context, row.item, binding.fdMainInfoRow, false, false)
@@ -59,11 +65,12 @@ class MyDetailsOverviewRowPresenter(
 			}
 
 			binding.fdButtonRow.removeAllViews()
-			for (button in row.actions) {
+			for (button in actions) {
 				if (button.parent != null) {
 					binding.fdButtonRow.addView(button)
 				}
 			}
+
 		}
 
 		fun setTitle(title: String?) {
@@ -102,7 +109,7 @@ class MyDetailsOverviewRowPresenter(
 		if (item !is MyDetailsOverviewRow) return
 		if (viewHolder !is ViewHolder) return
 
-		viewHolder.setItem(item)
+		viewHolder.setItem(item, actions)
 	}
 
 	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder) = Unit
