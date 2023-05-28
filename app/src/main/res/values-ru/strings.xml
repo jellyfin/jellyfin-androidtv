@@ -483,4 +483,5 @@
     <string name="item_delete_confirm_title">Удалить</string>
     <string name="item_delete_confirm_message">Вы уверенны, что хотите удалить\? Это действие невозможно отменить.</string>
     <string name="pref_enable_media_management_description">Показывать возможности управления медиа во время навигации</string>
+    <string name="lbl_latest_in">Недавно добавлено в %1$s</string>
 </resources>
