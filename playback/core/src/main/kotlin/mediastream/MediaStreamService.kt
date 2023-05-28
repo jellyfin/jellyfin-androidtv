@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.plugin.PlayerService
-import org.jellyfin.playback.core.queue.queue
 import timber.log.Timber
 
 class MediaStreamService(
@@ -12,7 +11,7 @@ class MediaStreamService(
 ) : PlayerService() {
 	override suspend fun onInitialize() {
 		coroutineScope.launch {
-			state.currentEntry.collect { entry ->
+			state.queue.entry.collect { entry ->
 				if (entry != null) {
 					val stream = mediaStreamResolvers.firstNotNullOfOrNull { it.getStream(entry) }
 					if (stream != null) {
@@ -26,7 +25,7 @@ class MediaStreamService(
 				// Preload next item
 				// TODO: Do this once current stream is near it's end instead
 				// TODO: Move to queue service
-				val nextItem = manager.queue?.peekNext()
+				val nextItem = state.queue.peekNext()
 				if (nextItem != null) {
 					val stream = mediaStreamResolvers.firstNotNullOfOrNull { it.getStream(nextItem) }
 					if (stream != null) {
