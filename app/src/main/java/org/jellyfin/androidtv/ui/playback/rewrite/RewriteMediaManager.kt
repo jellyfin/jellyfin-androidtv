@@ -24,7 +24,6 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.queue.Queue
 import org.jellyfin.playback.core.queue.item.QueueEntry
-import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
@@ -44,7 +43,7 @@ class RewriteMediaManager(
 		get() = currentAudioQueue.size()
 
 	override val currentAudioQueuePosition: Int
-		get() = if ((playbackManager.queue?.currentItemPosition ?: -1) >= 0) 0 else -1
+		get() = if ((playbackManager.state.queue.entryIndex.value) >= 0) 0 else -1
 
 	override val currentAudioPosition: Long
 		get() = playbackManager.state.positionInfo.active.inWholeMilliseconds
@@ -53,11 +52,11 @@ class RewriteMediaManager(
 		get() = (currentAudioQueuePosition + 1).toString()
 
 	override val currentAudioQueueDisplaySize: String
-		get() = ((playbackManager.state.queue.value as? BaseItemQueue)?.items?.size
+		get() = ((playbackManager.state.queue.current.value as? BaseItemQueue)?.items?.size
 			?: currentAudioQueue.size()).toString()
 
 	override val currentAudioItem: BaseItemDto?
-		get() = (playbackManager.state.currentEntry.value as? BaseItemDtoUserQueueEntry)?.baseItem
+		get() = (playbackManager.state.queue.entry.value as? BaseItemDtoUserQueueEntry)?.baseItem
 
 	override fun toggleRepeat(): Boolean {
 		isRepeatMode = !isRepeatMode
@@ -123,7 +122,7 @@ class RewriteMediaManager(
 		}
 
 		launch {
-			playbackManager.state.queue.collect {
+			playbackManager.state.queue.current.collect {
 				notifyListeners {
 					onQueueStatusChanged(hasAudioQueueItems())
 				}
@@ -131,13 +130,13 @@ class RewriteMediaManager(
 		}
 
 		launch {
-			playbackManager.state.currentEntry.collect {
+			playbackManager.state.queue.entry.collect {
 				// Get all items as BaseRowItem
-				val items = (playbackManager.state.queue.value as? BaseItemQueue)
+				val items = (playbackManager.state.queue.current.value as? BaseItemQueue)
 					?.items
 					.orEmpty()
 					.run {
-						val currentItemIndex = playbackManager.queue?.currentItemPosition ?: -1
+						val currentItemIndex = playbackManager.state.queue.entryIndex.value ?: -1
 						// Drop previous items
 						if (currentItemIndex >= 0) drop(currentItemIndex) else this
 					}
@@ -216,7 +215,7 @@ class RewriteMediaManager(
 	}
 
 	override fun playFrom(ndx: Int): Boolean = runBlocking {
-		playbackManager.queue?.setIndex(ndx) != null
+		playbackManager.state.queue.setIndex(ndx) != null
 	}
 
 	override fun shuffleAudioQueue() {
@@ -229,29 +228,29 @@ class RewriteMediaManager(
 	}
 
 	override val nextAudioItem: BaseItemDto?
-		get() = runBlocking { (playbackManager.queue?.peekNext() as? BaseItemDtoUserQueueEntry)?.baseItem }
+		get() = runBlocking { (playbackManager.state.queue.peekNext() as? BaseItemDtoUserQueueEntry)?.baseItem }
 
 	override val prevAudioItem: BaseItemDto?
-		get() = runBlocking { (playbackManager.queue?.peekPrevious() as? BaseItemDtoUserQueueEntry)?.baseItem }
+		get() = runBlocking { (playbackManager.state.queue.peekPrevious() as? BaseItemDtoUserQueueEntry)?.baseItem }
 
 	override fun hasNextAudioItem(): Boolean = runBlocking {
-		playbackManager.queue?.peekNext() != null
+		playbackManager.state.queue.peekNext() != null
 	}
 
-	override fun hasPrevAudioItem(): Boolean = (playbackManager.queue?.currentItemPosition ?: 0) > 0
+	override fun hasPrevAudioItem(): Boolean = playbackManager.state.queue.entryIndex.value > 0
 
 	override fun nextAudioItem(): Int {
-		runBlocking { playbackManager.queue?.next() }
+		runBlocking { playbackManager.state.queue.next() }
 		notifyListeners { onQueueStatusChanged(hasAudioQueueItems()) }
 
-		return playbackManager.queue?.currentItemPosition ?: -1
+		return playbackManager.state.queue.entryIndex.value
 	}
 
 	override fun prevAudioItem(): Int {
-		runBlocking { playbackManager.queue?.previous() }
+		runBlocking { playbackManager.state.queue.previous() }
 		notifyListeners { onQueueStatusChanged(hasAudioQueueItems()) }
 
-		return playbackManager.queue?.currentItemPosition ?: -1
+		return playbackManager.state.queue.entryIndex.value
 	}
 
 	override fun stopAudio(releasePlayer: Boolean) {

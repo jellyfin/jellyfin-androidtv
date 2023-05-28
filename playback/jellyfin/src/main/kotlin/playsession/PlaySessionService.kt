@@ -6,7 +6,6 @@ import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
 import org.jellyfin.playback.core.queue.item.QueueEntry
-import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.playStateApi
@@ -26,7 +25,7 @@ class PlaySessionService(
 
 	override suspend fun onInitialize() {
 		coroutineScope.launch {
-			state.currentEntry.collect { entry ->
+			state.queue.entry.collect { entry ->
 				onItemChange(entry)
 			}
 		}
@@ -72,9 +71,8 @@ class PlaySessionService(
 	private suspend fun getQueue(): List<QueueItem> {
 		// The queues are lazy loaded so we only load a small amount of items to set as queue on the
 		// backend.
-		return manager.queue
-			?.peekNext(15)
-			.orEmpty()
+		return state.queue
+			.peekNext(15)
 			.filterIsInstance<BaseItemDtoUserQueueEntry>()
 			.map { QueueItem(id = it.baseItem.id, playlistItemId = it.baseItem.playlistItemId) }
 	}

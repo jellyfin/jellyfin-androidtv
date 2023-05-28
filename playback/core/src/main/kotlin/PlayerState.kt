@@ -1,5 +1,6 @@
 package org.jellyfin.playback.core
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,14 +11,14 @@ import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.PositionInfo
 import org.jellyfin.playback.core.model.VideoSize
+import org.jellyfin.playback.core.queue.DefaultPlayerQueueState
 import org.jellyfin.playback.core.queue.EmptyQueue
+import org.jellyfin.playback.core.queue.PlayerQueueState
 import org.jellyfin.playback.core.queue.Queue
-import org.jellyfin.playback.core.queue.item.QueueEntry
 import kotlin.time.Duration
 
 interface PlayerState {
-	val queue: StateFlow<Queue>
-	val currentEntry: StateFlow<QueueEntry?>
+	val queue: PlayerQueueState
 	val playState: StateFlow<PlayState>
 	val speed: StateFlow<Float>
 	val videoSize: StateFlow<VideoSize>
@@ -30,9 +31,8 @@ interface PlayerState {
 	 */
 	val positionInfo: PositionInfo
 
-	// Queueing
-
-	fun play(queue: Queue)
+	// Queue management
+	fun play(playQueue: Queue)
 	fun stop()
 
 	// Pausing
@@ -55,13 +55,10 @@ interface PlayerState {
 
 class MutablePlayerState(
 	private val options: PlaybackManagerOptions,
+	scope: CoroutineScope,
 	private val backendService: BackendService,
 ) : PlayerState {
-	private val _queue = MutableStateFlow<Queue>(EmptyQueue)
-	override val queue: StateFlow<Queue> get() = _queue.asStateFlow()
-
-	private val _currentEntry = MutableStateFlow<QueueEntry?>(null)
-	override val currentEntry: StateFlow<QueueEntry?> get() = _currentEntry.asStateFlow()
+	override val queue: PlayerQueueState
 
 	private val _playState = MutableStateFlow(PlayState.STOPPED)
 	override val playState: StateFlow<PlayState> get() = _playState.asStateFlow()
@@ -90,14 +87,13 @@ class MutablePlayerState(
 
 			override fun onMediaStreamEnd(mediaStream: MediaStream) = Unit
 		})
+
+		queue = DefaultPlayerQueueState(this, scope, backendService)
 	}
 
-	fun setCurrentEntry(currentEntry: QueueEntry?) {
-		_currentEntry.value = currentEntry
-	}
-
-	override fun play(queue: Queue) {
-		_queue.value = queue
+	override fun play(playQueue: Queue) {
+		queue.replaceQueue(playQueue)
+		backendService.backend?.play()
 	}
 
 	override fun pause() {
@@ -111,7 +107,7 @@ class MutablePlayerState(
 
 	override fun stop() {
 		backendService.backend?.stop()
-		_queue.value = EmptyQueue
+		queue.replaceQueue(EmptyQueue)
 	}
 
 	override fun seek(to: Duration) {

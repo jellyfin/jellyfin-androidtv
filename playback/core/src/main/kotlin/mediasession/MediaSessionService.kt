@@ -45,7 +45,7 @@ class MediaSessionService(
 		}
 
 		coroutineScope.launch {
-			state.currentEntry.collect { item ->
+			state.queue.entry.collect { item ->
 				val mediaItem = withContext(Dispatchers.IO) { item?.metadata?.toMediaItemWithBitmaps() }
 				glue.currentMediaItem = mediaItem
 				glue.notifyCallbacks { onCurrentMediaItemChanged(glue, mediaItem) }

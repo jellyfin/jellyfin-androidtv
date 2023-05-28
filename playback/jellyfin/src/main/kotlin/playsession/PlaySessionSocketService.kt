@@ -5,7 +5,6 @@ import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
-import org.jellyfin.playback.core.queue.queue
 import org.jellyfin.sdk.api.sockets.SocketInstance
 import org.jellyfin.sdk.api.sockets.addPlayStateCommandsListener
 import org.jellyfin.sdk.api.sockets.listener.SocketListener
@@ -25,8 +24,8 @@ class PlaySessionSocketService(
 					PlaystateCommand.STOP -> state.stop()
 					PlaystateCommand.PAUSE -> state.pause()
 					PlaystateCommand.UNPAUSE -> state.unpause()
-					PlaystateCommand.NEXT_TRACK -> manager.queue?.next()
-					PlaystateCommand.PREVIOUS_TRACK -> manager.queue?.previous()
+					PlaystateCommand.NEXT_TRACK -> state.queue.next()
+					PlaystateCommand.PREVIOUS_TRACK -> state.queue.previous()
 					PlaystateCommand.SEEK -> {
 						val to = message.request.seekPositionTicks?.ticks ?: Duration.ZERO
 						state.seek(to)
