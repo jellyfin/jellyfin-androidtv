@@ -128,6 +128,11 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 */
 		var libVLCAudioDelay = intPreference("libvlc_audio_delay", 0)
 
+		/**
+		 * Use playback rewrite module for audio
+		 */
+		var playbackRewriteAudioEnabled = booleanPreference("playback_new_audio", true)
+
 		/* Live TV */
 		/**
 		 * Use direct play
@@ -159,11 +164,6 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 		 * Use playback rewrite module for video
 		 */
 		var playbackRewriteVideoEnabled = booleanPreference("playback_new", false)
-
-		/**
-		 * Use playback rewrite module for audio
-		 */
-		var playbackRewriteAudioEnabled = booleanPreference("playback_new_audio", false)
 
 		/**
 		 * When to show the clock.
@@ -265,6 +265,12 @@ class UserPreferences(context: Context) : SharedPreferenceStore(
 						it.getBoolean("pref_refresh_switching", false) -> RefreshRateSwitchingBehavior.SCALE_ON_TV
 						else -> RefreshRateSwitchingBehavior.DISABLED
 					})
+			}
+
+			// v0.15.z to v0.16.0
+			migration(toVersion = 7) {
+				// Enable playback rewrite for music
+				putBoolean("playback_new_audio", true)
 			}
 		}
 	}
