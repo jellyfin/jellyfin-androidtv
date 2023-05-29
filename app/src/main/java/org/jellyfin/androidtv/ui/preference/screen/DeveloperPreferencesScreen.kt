@@ -38,13 +38,6 @@ class DeveloperPreferencesScreen : OptionsFragment() {
 
 					bind(userPreferences, UserPreferences.playbackRewriteVideoEnabled)
 				}
-
-				checkbox {
-					title = "Enable new playback module for audio"
-					setContent(R.string.enable_playback_module_description)
-
-					bind(userPreferences, UserPreferences.playbackRewriteAudioEnabled)
-				}
 			}
 		}
 	}
