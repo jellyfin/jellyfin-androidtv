@@ -195,7 +195,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         mChannelId = getArguments().getString("ChannelId");
         String programJson = getArguments().getString("ProgramInfo");
         if (programJson != null) {
-            mProgramInfo =Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);
+            mProgramInfo = Json.Default.decodeFromString(org.jellyfin.sdk.model.api.BaseItemDto.Companion.serializer(), programJson);
         }
         String timerJson = getArguments().getString("SeriesTimer");
         if (timerJson != null) {
@@ -284,7 +284,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                                     boolean resumeVisible = (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || response.getCanResume();
                                     mResumeButton.setVisibility(resumeVisible ? View.VISIBLE : View.GONE);
                                     if (response.getCanResume()) {
-                                        mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll())));
+                                        mResumeButton.setLabel(getString(R.string.lbl_resume_from, TimeUtils.formatMillis((response.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll())));
                                     }
                                     if (resumeVisible) {
                                         mResumeButton.requestFocus();
@@ -324,7 +324,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         } else if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) && BaseItemExtensionsKt.canPlay(ModelCompat.asSdk(mBaseItem))) {
             //default play action
             Long pos = mBaseItem.getUserData().getPlaybackPositionTicks() / 10000;
-            play(mBaseItem, pos.intValue() , false);
+            play(mBaseItem, pos.intValue(), false);
             return true;
         }
 
@@ -577,7 +577,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Similar
                 SimilarItemsQuery similar = new SimilarItemsQuery();
-                similar.setFields(new ItemFields[] {
+                similar.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
@@ -600,7 +600,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 //Similar
                 SimilarItemsQuery similarTrailer = new SimilarItemsQuery();
-                similarTrailer.setFields(new ItemFields[] {
+                similarTrailer.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.ChildCount
                 });
@@ -620,10 +620,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personMovies.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personMovies.setPersonIds(new String[] {mBaseItem.getId()});
+                personMovies.setPersonIds(new String[]{mBaseItem.getId()});
                 personMovies.setRecursive(true);
-                personMovies.setIncludeItemTypes(new String[] {"Movie"});
-                personMovies.setSortBy(new String[] {ItemSortBy.SortName});
+                personMovies.setIncludeItemTypes(new String[]{"Movie"});
+                personMovies.setSortBy(new String[]{ItemSortBy.SortName});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(requireContext(), personMovies, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, getString(R.string.lbl_movies));
 
@@ -634,10 +634,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personSeries.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personSeries.setPersonIds(new String[] {mBaseItem.getId()});
+                personSeries.setPersonIds(new String[]{mBaseItem.getId()});
                 personSeries.setRecursive(true);
-                personSeries.setIncludeItemTypes(new String[] {"Series"});
-                personSeries.setSortBy(new String[] {ItemSortBy.SortName});
+                personSeries.setIncludeItemTypes(new String[]{"Series"});
+                personSeries.setSortBy(new String[]{ItemSortBy.SortName});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(requireContext(), personSeries, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, getString(R.string.lbl_tv_series));
 
@@ -648,10 +648,10 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         ItemFields.ChildCount
                 });
                 personEpisodes.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
+                personEpisodes.setPersonIds(new String[]{mBaseItem.getId()});
                 personEpisodes.setRecursive(true);
-                personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
-                personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
+                personEpisodes.setIncludeItemTypes(new String[]{"Episode"});
+                personEpisodes.setSortBy(new String[]{ItemSortBy.SeriesSortName, ItemSortBy.SortName});
                 ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(requireContext(), personEpisodes, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
@@ -685,7 +685,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 SeasonQuery seasons = new SeasonQuery();
                 seasons.setSeriesId(mBaseItem.getId());
                 seasons.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
-                seasons.setFields(new ItemFields[] {
+                seasons.setFields(new ItemFields[]{
                         ItemFields.PrimaryImageAspectRatio,
                         ItemFields.DisplayPreferencesId,
                         ItemFields.ChildCount
@@ -729,7 +729,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     nextEpisodes.setIncludeItemTypes(new String[]{"Episode"});
                     nextEpisodes.setStartIndex(mBaseItem.getIndexNumber()); // query index is zero-based but episode no is not
                     nextEpisodes.setLimit(20);
-                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), nextEpisodes, 0 , false, true, new CardPresenter(true, 120), adapter);
+                    ItemRowAdapter nextAdapter = new ItemRowAdapter(requireContext(), nextEpisodes, 0, false, true, new CardPresenter(true, 120), adapter);
                     addItemRow(adapter, nextAdapter, 5, getString(R.string.lbl_next_episode));
                 }
 
@@ -758,7 +758,8 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             case SeriesTimer:
                 TimerQuery scheduled = new TimerQuery();
                 scheduled.setSeriesTimerId(mSeriesTimerInfo.getId());
-                TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {});
+                TvManager.getScheduleRowsAsync(requireContext(), scheduled, new CardPresenter(true), adapter, new LifecycleAwareResponse<Integer>(getLifecycle()) {
+                });
                 break;
         }
 
@@ -769,7 +770,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         if (KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDebuggingEnabled()) && mBaseItem.getMediaSources() != null) {
             for (MediaSourceInfo ms : mBaseItem.getMediaSources()) {
                 if (ms.getMediaStreams() != null && ms.getMediaStreams().size() > 0) {
-                    HeaderItem header = new HeaderItem("Media Details"+(ms.getContainer() != null ? " (" +ms.getContainer()+")" : ""));
+                    HeaderItem header = new HeaderItem("Media Details" + (ms.getContainer() != null ? " (" + ms.getContainer() + ")" : ""));
                     ArrayObjectAdapter infoAdapter = new ArrayObjectAdapter(new InfoCardPresenter());
                     for (MediaStream stream : ms.getMediaStreams()) {
                         infoAdapter.add(ModelCompat.asSdk(stream));
@@ -917,7 +918,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         } else {
             long startPos = 0;
             if (mBaseItem.getCanResume()) {
-                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks()/10000) - getResumePreroll();
+                startPos = (mBaseItem.getUserData().getPlaybackPositionTicks() / 10000) - getResumePreroll();
             }
             buttonLabel = getString(R.string.lbl_resume_from, TimeUtils.formatMillis(startPos));
         }
@@ -935,7 +936,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             if (!getActive()) return;
 
                             if (response.getItems().length > 0) {
-                                play(response.getItems()[0], 0 , false);
+                                play(response.getItems()[0], 0, false);
                             } else {
                                 Utils.showToast(requireContext(), "Unable to find next up episode");
                             }
@@ -966,7 +967,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     FullDetailsFragmentHelperKt.showPlayWithMenu(FullDetailsFragment.this, view, false);
                 }
             });
-            mDorPresenter.addAction(playButton);
+            mDorPresenter.getViewHolder().addAction(playButton);
 
             if (mBaseItem.getIsFolderItem()) {
                 shuffleButton = TextUnderButton.create(requireContext(), R.drawable.ic_shuffle, buttonSize, 2, getString(R.string.lbl_shuffle_all), new View.OnClickListener() {
@@ -975,11 +976,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         FullDetailsFragmentHelperKt.showPlayWithMenu(FullDetailsFragment.this, view, true);
                     }
                 });
-                mDorPresenter.addAction(shuffleButton);
+                mDorPresenter.getViewHolder().addAction(shuffleButton);
             }
         } else { //here playButton is only a play button
             if (BaseItemExtensionsKt.canPlay(baseItem)) {
-                mDorPresenter.addAction(mResumeButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mResumeButton);
                 boolean resumeButtonVisible = (baseItem.getType() == BaseItemKind.SERIES && !mBaseItem.getUserData().getPlayed()) || (mBaseItem.getCanResume());
                 mResumeButton.setVisibility(resumeButtonVisible ? View.VISIBLE : View.GONE);
 
@@ -990,7 +991,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                 });
 
-                mDorPresenter.addAction(playButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(playButton);
 
                 if (resumeButtonVisible) {
                     mResumeButton.requestFocus();
@@ -1010,7 +1011,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             addItemToQueue();
                         }
                     });
-                    mDorPresenter.addAction(queueButton);
+                    if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(queueButton);
                 }
 
                 if (mBaseItem.getIsFolderItem() || baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
@@ -1020,7 +1021,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             play(mBaseItem, 0, true);
                         }
                     });
-                    mDorPresenter.addAction(shuffleButton);
+                    if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(shuffleButton);
                 }
 
                 if (baseItem.getType() == BaseItemKind.MUSIC_ARTIST) {
@@ -1030,7 +1031,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                             PlaybackHelper.playInstantMix(requireContext(), baseItem);
                         }
                     });
-                    mDorPresenter.addAction(imix);
+                    if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(imix);
                 }
 
             }
@@ -1040,7 +1041,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             TextUnderButton versionsButton = TextUnderButton.create(requireContext(), R.drawable.ic_guide, buttonSize, 0, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (versions != null ) {
+                    if (versions != null) {
                         addVersionsMenu(v);
                     } else {
                         versions = mBaseItem.getMediaSources();
@@ -1048,7 +1049,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                 }
             });
-            mDorPresenter.addAction(versionsButton);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(versionsButton);
         }
 
         if (TrailerUtils.hasPlayableTrailers(requireContext(), ModelCompat.asSdk(mBaseItem))) {
@@ -1059,7 +1060,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
 
-            mDorPresenter.addAction(trailerButton);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(trailerButton);
         }
 
         if (mProgramInfo != null && Utils.canManageRecordings(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue())) {
@@ -1137,11 +1138,11 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 });
                 mRecordButton.setActivated(mProgramInfo.getTimerId() != null);
 
-                mDorPresenter.addAction(mRecordButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mRecordButton);
             }
 
             if (mProgramInfo.isSeries() != null && mProgramInfo.isSeries()) {
-                mRecSeriesButton= TextUnderButton.create(requireContext(), R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
+                mRecSeriesButton = TextUnderButton.create(requireContext(), R.drawable.ic_record_series, buttonSize, 4, getString(R.string.lbl_record_series), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (mProgramInfo.getSeriesTimerId() == null) {
@@ -1221,7 +1222,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 });
                 mRecSeriesButton.setActivated(mProgramInfo.getSeriesTimerId() != null);
 
-                mDorPresenter.addAction(mRecSeriesButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mRecSeriesButton);
 
                 mSeriesSettingsButton = TextUnderButton.create(requireContext(), R.drawable.ic_settings, buttonSize, 2, getString(R.string.lbl_series_settings), new View.OnClickListener() {
                     @Override
@@ -1232,7 +1233,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 mSeriesSettingsButton.setVisibility(mProgramInfo.getSeriesTimerId() != null ? View.VISIBLE : View.GONE);
 
-                mDorPresenter.addAction(mSeriesSettingsButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mSeriesSettingsButton);
             }
         }
 
@@ -1241,7 +1242,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.MUSIC_ARTIST && ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.PERSON) {
                 mWatchedToggleButton = TextUnderButton.create(requireContext(), R.drawable.ic_watch, buttonSize, 0, getString(R.string.lbl_watched), markWatchedListener);
                 mWatchedToggleButton.setActivated(userData.getPlayed());
-                mDorPresenter.addAction(mWatchedToggleButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mWatchedToggleButton);
             }
 
             //Favorite
@@ -1252,7 +1253,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
             favButton.setActivated(userData.getIsFavorite());
-            mDorPresenter.addAction(favButton);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(favButton);
         }
 
         if (ModelCompat.asSdk(mBaseItem).getType() == BaseItemKind.EPISODE && mBaseItem.getSeriesId() != null) {
@@ -1266,7 +1267,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 }
             });
 
-            mDorPresenter.addAction(mPrevButton);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(mPrevButton);
 
             //now go get our prev episode id
             EpisodeQuery adjacent = new EpisodeQuery();
@@ -1297,7 +1298,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     gotoSeries();
                 }
             });
-            mDorPresenter.addAction(goToSeriesButton);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(goToSeriesButton);
         }
 
         if (userPreferences.getValue().get(UserPreferences.Companion.getMediaManagementEnabled())) {
@@ -1314,20 +1315,21 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                         deleteItem();
                     }
                 });
-                mDorPresenter.addAction(deleteButton);
+                if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(deleteButton);
             }
         }
 
         if (mSeriesTimerInfo != null && mBaseItem.getBaseItemType() == BaseItemType.SeriesTimer) {
             //Settings
-            mDorPresenter.addAction(TextUnderButton.create(requireContext(), R.drawable.ic_settings, buttonSize, 0, getString(R.string.lbl_series_settings), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //show recording options
-                    showRecordingOptions(mSeriesTimerInfo.getId(), ModelCompat.asSdk(mBaseItem), true);
-                }
-            }));
-
+            if (mDorPresenter.getViewHolder() != null) {
+                mDorPresenter.getViewHolder().addAction(TextUnderButton.create(requireContext(), R.drawable.ic_settings, buttonSize, 0, getString(R.string.lbl_series_settings), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //show recording options
+                        showRecordingOptions(mSeriesTimerInfo.getId(), ModelCompat.asSdk(mBaseItem), true);
+                    }
+                }));
+            }
             //Delete
             TextUnderButton del = TextUnderButton.create(requireContext(), R.drawable.ic_trash, buttonSize, 0, getString(R.string.lbl_cancel_series), new View.OnClickListener() {
                 @Override
@@ -1365,7 +1367,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                 }
             });
-            mDorPresenter.addAction(del);
+            if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(del);
 
         }
 
@@ -1378,19 +1380,19 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         });
 
         moreButton.setVisibility(View.GONE);
-        mDorPresenter.addAction(moreButton);
+        if (mDorPresenter.getViewHolder() != null) mDorPresenter.getViewHolder().addAction(moreButton);
         if (ModelCompat.asSdk(mBaseItem).getType() != BaseItemKind.EPISODE) showMoreButtonIfNeeded();  //Episodes check for previous and then call this above
     }
 
     private void addVersionsMenu(View v) {
         PopupMenu menu = new PopupMenu(requireContext(), v, Gravity.END);
 
-        for (int i = 0; i< versions.size(); i++) {
+        for (int i = 0; i < versions.size(); i++) {
             MenuItem item = menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
             item.setChecked(i == selectedVersionPopupIndex);
         }
 
-        menu.getMenu().setGroupCheckable(0,true,false);
+        menu.getMenu().setGroupCheckable(0, true, false);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -1410,11 +1412,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         menu.show();
     }
 
-    int collapsedOptions = 0 ;
+    int collapsedOptions = 0;
 
     private void showMoreButtonIfNeeded() {
-        int visibleOptions = mDorPresenter.getVisibleActions();
-
+        int visibleOptions = 0;
+        if (mDorPresenter.getViewHolder() != null) {
+            visibleOptions = mDorPresenter.getViewHolder().getVisibleActions();
+        }
         List<TextUnderButton> actionsList = new ArrayList<>();
         // added in order of priority (should match res/menu/menu_details_more.xml)
         if (queueButton != null) actionsList.add(queueButton);
@@ -1445,12 +1449,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
     RecordPopup mRecordPopup;
+
     public void showRecordingOptions(String id, final org.jellyfin.sdk.model.api.BaseItemDto program, final boolean recordSeries) {
         if (mRecordPopup == null) {
             int width = Utils.convertDpToPixel(requireContext(), 600);
             Point size = new Point();
             requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
-            mRecordPopup = new RecordPopup(requireActivity(), getLifecycle(), mRowsFragment.getView(), (size.x/2) - (width/2), mRowsFragment.getView().getTop()+40, width);
+            mRecordPopup = new RecordPopup(requireActivity(), getLifecycle(), mRowsFragment.getView(), (size.x / 2) - (width / 2), mRowsFragment.getView().getTop() + 40, width);
         }
         apiClient.getValue().GetLiveTvSeriesTimerAsync(id, new LifecycleAwareResponse<org.jellyfin.apiclient.model.livetv.SeriesTimerInfoDto>(getLifecycle()) {
             @Override
@@ -1491,14 +1496,13 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     }
 
 
-
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(final Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (!(item instanceof BaseRowItem)) return;
-            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow)row).getAdapter(), ((BaseRowItem)item).getIndex(), requireContext());
+            ItemLauncher.launch((BaseRowItem) item, (ItemRowAdapter) ((ListRow) row).getAdapter(), ((BaseRowItem) item).getIndex(), requireContext());
         }
     }
 
@@ -1509,7 +1513,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             if (!(item instanceof BaseRowItem)) {
                 mCurrentItem = null;
             } else {
-                mCurrentItem = (BaseRowItem)item;
+                mCurrentItem = (BaseRowItem) item;
             }
         }
     }

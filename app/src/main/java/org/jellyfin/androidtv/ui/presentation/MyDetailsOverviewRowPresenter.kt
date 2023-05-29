@@ -17,16 +17,16 @@ class MyDetailsOverviewRowPresenter(
 	private val markdownRenderer: MarkdownRenderer,
 ) : RowPresenter() {
 
-	private val _actions = mutableListOf<TextUnderButton>()
-	val actions get() = _actions.toList()
-	val visibleActions get() = _actions.count { it.isVisible }
-	fun addAction(button: TextUnderButton) = _actions.add(button)
 
 	class ViewHolder(
 		private val detailRowView: DetailRowView,
 		private val markdownRenderer: MarkdownRenderer,
 	) : RowPresenter.ViewHolder(detailRowView) {
 		val binding get() = detailRowView.binding
+		private val _actions = mutableListOf<TextUnderButton>()
+		val actions get() = _actions.toList()
+		val visibleActions get() = _actions.count { it.isVisible }
+		fun addAction(button: TextUnderButton) = _actions.add(button)
 		fun setItem(row: MyDetailsOverviewRow, actions: List<TextUnderButton>) {
 			setTitle(row.item.name)
 
@@ -66,9 +66,7 @@ class MyDetailsOverviewRowPresenter(
 
 			binding.fdButtonRow.removeAllViews()
 			for (button in actions) {
-				if (button.parent != null) {
-					binding.fdButtonRow.addView(button)
-				}
+				binding.fdButtonRow.addView(button)
 			}
 
 		}
@@ -109,7 +107,7 @@ class MyDetailsOverviewRowPresenter(
 		if (item !is MyDetailsOverviewRow) return
 		if (viewHolder !is ViewHolder) return
 
-		viewHolder.setItem(item, actions)
+		viewHolder.setItem(item, viewHolder.actions)
 	}
 
 	override fun onSelectLevelChanged(holder: RowPresenter.ViewHolder) = Unit
