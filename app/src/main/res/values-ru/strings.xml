@@ -9,8 +9,8 @@
     <string name="settings_title">Предпочтения</string>
     <string name="chapters">Сцены</string>
     <string name="lbl_settings">Предпочтения</string>
-    <string name="lbl_continue_watching">Продолжение просмотра</string>
-    <string name="lbl_next_up">Очередное</string>
+    <string name="lbl_continue_watching">Продолжить просмотр</string>
+    <string name="lbl_next_up">Следующее</string>
     <string name="lbl_on_now">В эфире</string>
     <string name="lbl_views">Вид</string>
     <string name="lbl_by_letter">По буквам</string>
@@ -19,7 +19,7 @@
     <string name="lbl_search">Поиск</string>
     <string name="msg_not_implemented">" не реализовано"</string>
     <string name="lbl_latest">Недавно добавлено</string>
-    <string name="lbl_by_name">По названиям</string>
+    <string name="lbl_by_name">По названию</string>
     <string name="lbl_favorites">Избранное</string>
     <string name="lbl_coming_up">Ожидаемое</string>
     <string name="lbl_favorite_channels">Избранные каналы</string>
@@ -29,7 +29,7 @@
     <string name="lbl_tv_series">ТВ-сериалы</string>
     <string name="lbl_other">Другое</string>
     <string name="lbl_because_you_watched">"Потому что вы смотрели "</string>
-    <string name="lbl_play_all">Воспр. все</string>
+    <string name="lbl_play_all">Воспроизвести все</string>
     <string name="lbl_shuffle_all">Перемешать все</string>
     <string name="lbl_play">Воспроизвести</string>
     <string name="lbl_cancel">Отменить</string>
@@ -41,7 +41,7 @@
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
     <string name="msg_recording_cancelled">Запись отменена</string>
     <string name="msg_unable_to_cancel">Невозможно отменить запись</string>
-    <string name="lbl_cast_crew">Снимались/снимали</string>
+    <string name="lbl_cast_crew">Снимались и снимали</string>
     <string name="lbl_chapters">Сцены</string>
     <string name="lbl_specials">Специальные</string>
     <string name="lbl_trailers">Трейлеры</string>
@@ -54,7 +54,7 @@
     <string name="lbl_min">" мин"</string>
     <string name="lbl_ends">Конец</string>
     <string name="lbl_directed_by">Режиссёр</string>
-    <string name="lbl_last_played">"Крайнее воспроизведение "</string>
+    <string name="lbl_last_played">"Последнее воспроизведение "</string>
     <string name="lbl_other_options">Другие опции</string>
     <string name="lbl_people">Люди</string>
     <string name="lbl_videos">Видео</string>
@@ -63,7 +63,7 @@
     <string name="msg_video_playback_error">"Ошибка воспроизведения видео - "</string>
     <string name="lbl_bracket_unknown">Неизвестно</string>
     <string name="lbl_trailer">"Трейлер "</string>
-    <string name="lbl_play_trailers">Воспр. трейлеры</string>
+    <string name="lbl_play_trailers">Воспроизвести трейлеры</string>
     <string name="lbl_no">Нет</string>
     <string name="lbl_yes">Да</string>
     <string name="lbl_enter_server_address">Ввести адрес сервера</string>
@@ -83,10 +83,10 @@
     <string name="sum_tv_queuing">Добавить остаток сезона в очередь, пока воспроизводится эпизод</string>
     <string name="lbl_search_hint">Искомый текст (выбор для клавиатуры)</string>
     <string name="lbl_play_first_unwatched">Воспроизвести первое непросмотренное</string>
-    <string name="lbl_mark_unplayed">Как невоспроизведённое</string>
-    <string name="lbl_mark_played">Как воспроизведённое</string>
-    <string name="lbl_remove_favorite">Убрать из Избранного</string>
-    <string name="lbl_add_favorite">Добавить в Избранное</string>
+    <string name="lbl_mark_unplayed">Отметить как не воспроизведённое</string>
+    <string name="lbl_mark_played">Отметить как воспроизведённое</string>
+    <string name="lbl_remove_favorite">Убрать из избранного</string>
+    <string name="lbl_add_favorite">Добавить в избранное</string>
     <string name="msg_no_playable_items">Нет воспроизводимых элементов</string>
     <string name="lbl_unwatched">Непросмотренное</string>
     <string name="lbl_load_channels">"Загрузить каналы "</string>
@@ -128,7 +128,7 @@
     <string name="msg_subtitles_loading">Субтитры загружаются…</string>
     <string name="msg_unable_load_subs">Невозможно загрузить субтитры</string>
     <string name="msg_burn_sub_warning">Субтитры прошиваются. Это может занять несколько секунд…</string>
-    <string name="lbl_no_recordings">Не имеется записей</string>
+    <string name="lbl_no_recordings">Записи отсутствуют</string>
     <string name="lbl_live_tv_guide">Телегид</string>
     <string name="lbl_recorded_tv">Записанное ТВ</string>
     <string name="pref_live_tv_cat">Эфир</string>
@@ -152,7 +152,7 @@
     <string name="lbl_prev_item">Предыдущий элемент</string>
     <string name="lbl_now_playing">Воспроизводится</string>
     <string name="lbl_play_from_here">Воспроизвести отсюда</string>
-    <string name="lbl_remove_from_queue">Изъять из очереди</string>
+    <string name="lbl_remove_from_queue">Убрать из очереди</string>
     <string name="lbl_goto_now_playing">Перейти к воспроизводящемуся</string>
     <string name="lbl_instant_mix">Автомикс</string>
     <string name="lbl_delete">Удалить</string>
@@ -203,15 +203,15 @@
     <string name="lbl_status">%1$s / %2$s</string>
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
-    <string name="lbl_guide_option_played">Крайнее воспроизведение</string>
+    <string name="lbl_guide_option_played">Последнее воспроизведение</string>
     <string name="lbl_series_recordings">Записанные серии</string>
     <string name="lbl_episode_not_record">Эта передача НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>
     <string name="no_program_data">Программа не доступна</string>
     <string name="lbl_just_this_once">Только на этот раз</string>
     <string name="pref_authentication_cat">Аутентификация</string>
-    <string name="lbl_image_size">Размер рисунка</string>
-    <string name="lbl_image_type">Тип рисунка</string>
+    <string name="lbl_image_size">Размер изображения</string>
+    <string name="lbl_image_type">Тип изображения</string>
     <string name="lbl_start_favorites">Разместить избранные в начале</string>
     <string name="lbl_colored_backgrounds">Цветовое кодирование фонов</string>
     <string name="lbl_hd_programs">HD-передачи</string>
@@ -222,11 +222,11 @@
     <string name="lbl_new_only">Только новые</string>
     <string name="lbl_news">Новости</string>
     <string name="lbl_live_broadcasts">Прямые трансляции</string>
-    <string name="pref_video_player_vlc">libVLC</string>
+    <string name="pref_video_player_vlc">LibVLC (экспериментальный)</string>
     <string name="pref_video_player_external">Внешнее приложение</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="pref_video_player_auto">Автоматический выбор</string>
-    <string name="lbl_my_media">Мои медиаданные</string>
+    <string name="lbl_my_media">Мои медиафайлы</string>
     <string name="pref_next_up_timeout_title">Длительность таймера Очередного</string>
     <string name="pref_next_up_timeout_summary">Задержка воспроизведения следующего элемента</string>
     <string name="pref_libvlc_audio_delay_title">Задержка аудио для libVLC по умолчанию</string>
@@ -266,7 +266,7 @@
     <string name="episode_missing_message_2">Этот эпизод отсутствует в медиатеке. Воспроизведение будет остановлено.</string>
     <string name="episode_missing">Эпизод отсутствует</string>
     <string name="no_player_message">Не найдено приложение поддерживающее видео. Эта опция требует установки стороннего проигрывателя видео.</string>
-    <string name="mark_watched">Как просмотрено</string>
+    <string name="mark_watched">Отметить как просмотренное</string>
     <string name="pref_video_player_choose">Всегда спрашивать</string>
     <string name="lbl_tv_filter_status">на следующие %1$d часов</string>
     <string name="lbl_tv_channel_status">%1$d из %2$d каналов</string>
@@ -352,8 +352,8 @@
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">В %1$s</string>
     <string name="lbl_on_any_channel">С любого канала</string>
-    <string name="lbl_record_all">Записываются все эпизоды</string>
-    <string name="lbl_record_only_new">Записываются только новые эпизоды</string>
+    <string name="lbl_record_all">Будет записывать все эпизоды</string>
+    <string name="lbl_record_only_new">Будет записывать только новые эпизоды</string>
     <string name="lbl_start_end_on_schedule">Начало по расписанию и окончание по расписанию</string>
     <string name="lbl_starting_on_schedule_ending_after">Начало по расписанию и окончание %1$s позже расписания</string>
     <string name="lbl_starting_early_ending_on_schedule">Начало ранее %1$s и окончание по расписанию</string>
@@ -388,7 +388,7 @@
     <string name="home_section_resume">Продолжение просмотра</string>
     <string name="home_section_library_small">Мои медиаданные (компактно)</string>
     <string name="home_section_library">Мои медиаданные</string>
-    <string name="home_section_latest_media">Последние медиаданные</string>
+    <string name="home_section_latest_media">Последнее добавленные медиафайлы</string>
     <string name="home_prefs">Главное</string>
     <string name="searchable_settings_description">Медиаданные</string>
     <string name="searchable_hint">Поиск Jellyfin</string>
@@ -481,7 +481,44 @@
     <string name="item_deletion_failed">Неудалось удалить %1$s</string>
     <string name="pref_enable_media_management">Разрешить управление медиа</string>
     <string name="item_delete_confirm_title">Удалить</string>
-    <string name="item_delete_confirm_message">Вы уверенны, что хотите удалить\? Это действие невозможно отменить.</string>
+    <string name="item_delete_confirm_message">Вы уверенны, что хотите удалить это с сервера\? Это действие невозможно отменить.</string>
     <string name="pref_enable_media_management_description">Показывать возможности управления медиа во время навигации</string>
     <string name="lbl_latest_in">Недавно добавлено в %1$s</string>
+    <string name="pref_screensaver_inapp_enabled_description">Показывать заставку Jellyfin при открытом приложении</string>
+    <string name="lbl_album_artists">Исполнители альбома</string>
+    <string name="enable_reactive_homepage">Включить реактивную домашнюю страницу</string>
+    <string name="not_set">Не задано</string>
+    <string name="pref_screensaver">Заставка</string>
+    <string name="pref_screensaver_inapp_enabled">Использовать заставку приложения</string>
+    <plurals name="hours">
+        <item quantity="one">%1$s час</item>
+        <item quantity="few">%1$s часа</item>
+        <item quantity="many">%1$s часов</item>
+        <item quantity="other">%1$s часов</item>
+    </plurals>
+    <plurals name="episodes">
+        <item quantity="one">%1$s эпизод</item>
+        <item quantity="few">%1$s эпизода</item>
+        <item quantity="many">%1$s эпизодов</item>
+        <item quantity="other">%1$s эпизодов</item>
+    </plurals>
+    <plurals name="tracks">
+        <item quantity="one">%1$s дорожка</item>
+        <item quantity="few">%1$s дорожки</item>
+        <item quantity="many">%1$s дорожек</item>
+        <item quantity="other">%1$s дорожек</item>
+    </plurals>
+    <string name="pref_screensaver_inapp_timeout">Запускать заставку после</string>
+    <plurals name="seconds">
+        <item quantity="one">%1$s секунда</item>
+        <item quantity="few">%1$s секунды</item>
+        <item quantity="many">%1$s секунд</item>
+        <item quantity="other">%1$s секунд</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$s минута</item>
+        <item quantity="few">%1$s минуты</item>
+        <item quantity="many">%1$s минут</item>
+        <item quantity="other">%1$s минут</item>
+    </plurals>
 </resources>
