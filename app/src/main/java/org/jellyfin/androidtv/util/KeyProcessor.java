@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.ui.itemhandling.BaseRowType;
 import org.jellyfin.androidtv.ui.navigation.Destinations;
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository;
 import org.jellyfin.androidtv.ui.playback.MediaManager;
+import org.jellyfin.androidtv.ui.playback.rewrite.RewriteMediaManager;
 import org.jellyfin.androidtv.util.apiclient.PlaybackHelper;
 import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.androidtv.util.sdk.compat.FakeBaseItem;
@@ -60,11 +61,15 @@ public class KeyProcessor {
 
     public static boolean HandleKey(int key, BaseRowItem rowItem, Activity activity) {
         if (rowItem == null) return false;
+        MediaManager mediaManager = KoinJavaComponent.<MediaManager>get(MediaManager.class);
         switch (key) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).pauseAudio();
+                if (mediaManager.isPlayingAudio() && (rowItem.getBaseRowType() != BaseRowType.BaseItem || rowItem.getBaseItemType() != BaseItemKind.PHOTO)) {
+                    // Rewrite uses media sessions which the system automatically manipulates on key presses
+                    if (mediaManager instanceof RewriteMediaManager) return false;
+
+                    mediaManager.pauseAudio();
                     return true;
                 }
 
@@ -129,8 +134,11 @@ public class KeyProcessor {
                         break;
                 }
 
-                if (KoinJavaComponent.<MediaManager>get(MediaManager.class).hasAudioQueueItems()) {
-                    KoinJavaComponent.<MediaManager>get(MediaManager.class).resumeAudio();
+                if (mediaManager.hasAudioQueueItems()) {
+                    // Rewrite uses media sessions which the system automatically manipulates on key presses
+                    if (mediaManager instanceof RewriteMediaManager) return false;
+
+                    mediaManager.resumeAudio();
                     return true;
                 }
 
