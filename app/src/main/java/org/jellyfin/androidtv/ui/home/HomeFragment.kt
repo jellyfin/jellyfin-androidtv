@@ -81,18 +81,24 @@ class HomeFragment : Fragment() {
 			.circleCrop()
 			.into(object : CustomViewTarget<ImageButton, Drawable>(binding.switchUsers) {
 				override fun onLoadFailed(errorDrawable: Drawable?) {
-					binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
-					binding.switchUsers.setImageDrawable(errorDrawable)
+					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+						binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
+						binding.switchUsers.setImageDrawable(errorDrawable)
+					}
 				}
 
 				override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-					binding.switchUsers.imageTintMode = null
-					binding.switchUsers.setImageDrawable(resource)
+					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+						binding.switchUsers.imageTintMode = null
+						binding.switchUsers.setImageDrawable(resource)
+					}
 				}
 
 				override fun onResourceCleared(placeholder: Drawable?) {
-					binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
-					binding.switchUsers.setImageDrawable(placeholder)
+					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+						binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
+						binding.switchUsers.setImageDrawable(placeholder)
+					}
 				}
 			})
 	}
