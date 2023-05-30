@@ -13,10 +13,13 @@ import org.jellyfin.playback.core.backend.PlayerBackendEventListener
 import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
+import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.queue.item.QueueEntry
+import org.jellyfin.playback.core.queue.order.DefaultOrderIndexProvider
+import org.jellyfin.playback.core.queue.order.OrderIndexProvider
+import org.jellyfin.playback.core.queue.order.RandomOrderIndexProvider
+import org.jellyfin.playback.core.queue.order.ShuffleOrderIndexProvider
 import timber.log.Timber
-import kotlin.math.min
-import kotlin.random.Random
 
 interface PlayerQueueState {
 	companion object {
@@ -32,13 +35,17 @@ interface PlayerQueueState {
 
 	// Queue Seeking
 	suspend fun previous(): QueueEntry?
-	suspend fun next(usePlaybackOrder: Boolean = true): QueueEntry?
+	suspend fun next(usePlaybackOrder: Boolean = true, useRepeatMode: Boolean = false): QueueEntry?
 	suspend fun setIndex(index: Int, saveHistory: Boolean = false): QueueEntry?
 
 	// Peeking
 	suspend fun peekPrevious(): QueueEntry?
-	suspend fun peekNext(usePlaybackOrder: Boolean = true): QueueEntry?
-	suspend fun peekNext(amount: Int, usePlaybackOrder: Boolean = true): Collection<QueueEntry>
+	suspend fun peekNext(usePlaybackOrder: Boolean = true, useRepeatMode: Boolean = false): QueueEntry?
+	suspend fun peekNext(
+		amount: Int,
+		usePlaybackOrder: Boolean = true,
+		useRepeatMode: Boolean = false
+	): Collection<QueueEntry>
 }
 
 class DefaultPlayerQueueState(
@@ -55,13 +62,18 @@ class DefaultPlayerQueueState(
 	private val _entry = MutableStateFlow<QueueEntry?>(null)
 	override val entry: StateFlow<QueueEntry?> get() = _entry.asStateFlow()
 
+	private var defaultOrderIndexProvider = DefaultOrderIndexProvider()
+	private var orderIndexProvider: OrderIndexProvider = defaultOrderIndexProvider
 	private var currentQueueIndicesPlayed = mutableListOf<Int>()
-	private var currentQueueNextIndices = mutableListOf<Int>()
 
 	init {
 		// Reset calculated next-up indices when playback order changes
-		state.playbackOrder.onEach {
-			currentQueueNextIndices.clear()
+		state.playbackOrder.onEach { playbackOrder ->
+			orderIndexProvider = when (playbackOrder) {
+				PlaybackOrder.DEFAULT -> defaultOrderIndexProvider
+				PlaybackOrder.RANDOM -> RandomOrderIndexProvider()
+				PlaybackOrder.SHUFFLE -> ShuffleOrderIndexProvider()
+			}
 		}.launchIn(coroutineScope)
 
 		backendService.addListener(object : PlayerBackendEventListener {
@@ -71,7 +83,7 @@ class DefaultPlayerQueueState(
 			override fun onMediaStreamEnd(mediaStream: MediaStream) {
 				// TODO: Find position based on $mediaStream instead
 				// TODO: This doesn't work as expected
-				coroutineScope.launch { next() }
+				coroutineScope.launch { next(usePlaybackOrder = true, useRepeatMode = true) }
 			}
 		})
 	}
@@ -80,9 +92,10 @@ class DefaultPlayerQueueState(
 		Timber.d("Queue changed, setting index to 0")
 
 		_current.value = queue
+		orderIndexProvider.reset()
+		if (orderIndexProvider != defaultOrderIndexProvider) defaultOrderIndexProvider.reset()
 
 		currentQueueIndicesPlayed.clear()
-		currentQueueNextIndices.clear()
 
 		coroutineScope.launch {
 			when (state.playbackOrder.value) {
@@ -93,48 +106,19 @@ class DefaultPlayerQueueState(
 		}
 	}
 
-	private fun getNextIndices(amount: Int, usePlaybackOrder: Boolean = true): List<Int> {
-		val order = if (usePlaybackOrder) state.playbackOrder.value else PlaybackOrder.DEFAULT
-		val queue = _current.value
+	private fun getNextIndices(amount: Int, usePlaybackOrder: Boolean, useRepeatMode: Boolean): Collection<Int> {
+		val provider = if (usePlaybackOrder) orderIndexProvider else defaultOrderIndexProvider
+		val repeatMode = if (useRepeatMode) state.repeatMode.value else RepeatMode.NONE
 
-		return when (order) {
-			PlaybackOrder.DEFAULT -> {
-				// No need to use currentQueueNextIndices because we can efficiently calculate the next items
-				val remainingItemsSize = queue.size - _entryIndex.value - 1
-				if (remainingItemsSize <= 0) emptyList()
-				else Array(min(amount, remainingItemsSize)) { i -> _entryIndex.value + i + 1 }.toList()
-			}
+		return when (repeatMode) {
+			RepeatMode.NONE -> provider.provideIndices(amount, _current.value, currentQueueIndicesPlayed, entryIndex.value)
 
-			PlaybackOrder.RANDOM -> Array(amount) { i ->
-				if (i <= currentQueueNextIndices.lastIndex) {
-					currentQueueNextIndices[i]
-				} else {
-					val index = Random.nextInt(queue.size)
-					currentQueueNextIndices.add(index)
-					index
-				}
-			}.toList()
+			RepeatMode.REPEAT_ENTRY_ONCE -> buildList {
+				add(entryIndex.value)
+				addAll(provider.provideIndices(amount, _current.value, currentQueueIndicesPlayed, entryIndex.value))
+			}.take(amount)
 
-			PlaybackOrder.SHUFFLE -> {
-				val remainingItemsSize = queue.size - currentQueueIndicesPlayed.size
-				if (remainingItemsSize <= 0) {
-					emptyList()
-				} else {
-					val remainingIndices = (0..queue.size).filterNot {
-						it in currentQueueIndicesPlayed || it in currentQueueNextIndices
-					}.shuffled()
-
-					Array(min(amount, remainingItemsSize)) { i ->
-						if (i <= currentQueueNextIndices.lastIndex) {
-							currentQueueNextIndices[i]
-						} else {
-							val index = remainingIndices[i - currentQueueNextIndices.size]
-							currentQueueNextIndices.add(index)
-							index
-						}
-					}.toList()
-				}
-			}
+			RepeatMode.REPEAT_ENTRY_INFINITE -> List(amount) { entryIndex.value }
 		}
 	}
 
@@ -144,9 +128,16 @@ class DefaultPlayerQueueState(
 		setIndex(it)
 	}
 
-	override suspend fun next(usePlaybackOrder: Boolean): QueueEntry? {
-		val index = getNextIndices(1, usePlaybackOrder).firstOrNull() ?: return null
-		if (usePlaybackOrder) currentQueueNextIndices.removeFirstOrNull()
+	override suspend fun next(usePlaybackOrder: Boolean, useRepeatMode: Boolean): QueueEntry? {
+		val index = getNextIndices(1, usePlaybackOrder, useRepeatMode).firstOrNull() ?: return null
+		if (usePlaybackOrder) {
+			// Automatically set repeat mode back to none when using the ONCE option
+			if (state.repeatMode.value == RepeatMode.REPEAT_ENTRY_ONCE && index == this._entryIndex.value) {
+				state.setRepeatMode(RepeatMode.NONE)
+			} else if (state.repeatMode.value == RepeatMode.NONE) {
+				orderIndexProvider.useNextIndex()
+			}
+		}
 
 		return setIndex(index, true)
 	}
@@ -175,10 +166,16 @@ class DefaultPlayerQueueState(
 
 	override suspend fun peekNext(
 		usePlaybackOrder: Boolean,
-	): QueueEntry? = peekNext(1, usePlaybackOrder).firstOrNull()
+		useRepeatMode: Boolean,
+	): QueueEntry? = peekNext(1, usePlaybackOrder, useRepeatMode).firstOrNull()
 
-	override suspend fun peekNext(amount: Int, usePlaybackOrder: Boolean): Collection<QueueEntry> {
+	override suspend fun peekNext(
+		amount: Int,
+		usePlaybackOrder: Boolean,
+		useRepeatMode: Boolean,
+	): Collection<QueueEntry> {
 		val queue = _current.value
-		return getNextIndices(amount, usePlaybackOrder).mapNotNull { index -> queue.getItem(index) }
+		return getNextIndices(amount, usePlaybackOrder, useRepeatMode)
+			.mapNotNull { index -> queue.getItem(index) }
 	}
 }

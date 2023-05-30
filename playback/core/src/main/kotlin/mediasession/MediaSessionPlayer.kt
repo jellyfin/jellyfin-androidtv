@@ -20,6 +20,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
+import org.jellyfin.playback.core.model.RepeatMode
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -64,7 +65,7 @@ internal class MediaSessionPlayer(
 			add(COMMAND_SEEK_FORWARD)
 			add(COMMAND_SET_SPEED_AND_PITCH)
 			add(COMMAND_SET_SHUFFLE_MODE)
-			// add(COMMAND_SET_REPEAT_MODE)
+			add(COMMAND_SET_REPEAT_MODE)
 			add(COMMAND_GET_CURRENT_MEDIA_ITEM)
 			add(COMMAND_GET_TIMELINE)
 			add(COMMAND_GET_MEDIA_ITEMS_METADATA)
@@ -117,6 +118,7 @@ internal class MediaSessionPlayer(
 		setPlayWhenReady(state.playState.value == PlayState.PLAYING, PLAY_WHEN_READY_CHANGE_REASON_USER_REQUEST)
 		setPlaybackParameters(PlaybackParameters(state.speed.value))
 		setShuffleModeEnabled(state.playbackOrder.value != PlaybackOrder.DEFAULT)
+		setRepeatMode(if (state.repeatMode.value == RepeatMode.NONE) REPEAT_MODE_OFF else REPEAT_MODE_ALL)
 		setVideoSize(state.videoSize.value.let { VideoSize(it.width, it.height) })
 	}.build()
 
@@ -176,6 +178,18 @@ internal class MediaSessionPlayer(
 			false -> PlaybackOrder.DEFAULT
 		}
 		state.setPlaybackOrder(playbackOrder)
+		return Futures.immediateVoidFuture()
+	}
+
+	override fun handleSetRepeatMode(repeatMode: Int): ListenableFuture<*> {
+		Timber.d("handleSetRepeatMode(repeatMode=${repeatMode})")
+		val mode = when (repeatMode) {
+			REPEAT_MODE_ONE,
+			REPEAT_MODE_ALL -> RepeatMode.REPEAT_ENTRY_INFINITE
+
+			else -> RepeatMode.NONE
+		}
+		state.setRepeatMode(mode)
 		return Futures.immediateVoidFuture()
 	}
 

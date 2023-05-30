@@ -10,6 +10,7 @@ import org.jellyfin.playback.core.mediastream.MediaStream
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.PositionInfo
+import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.model.VideoSize
 import org.jellyfin.playback.core.queue.DefaultPlayerQueueState
 import org.jellyfin.playback.core.queue.EmptyQueue
@@ -23,6 +24,7 @@ interface PlayerState {
 	val speed: StateFlow<Float>
 	val videoSize: StateFlow<VideoSize>
 	val playbackOrder: StateFlow<PlaybackOrder>
+	val repeatMode: StateFlow<RepeatMode>
 
 	/**
 	 * The position information for the currently playing item or [PositionInfo.EMPTY]. This
@@ -51,6 +53,8 @@ interface PlayerState {
 	fun setSpeed(speed: Float)
 
 	fun setPlaybackOrder(order: PlaybackOrder)
+
+	fun setRepeatMode(mode: RepeatMode)
 }
 
 class MutablePlayerState(
@@ -71,6 +75,9 @@ class MutablePlayerState(
 
 	private val _playbackOrder = MutableStateFlow(PlaybackOrder.DEFAULT)
 	override val playbackOrder: StateFlow<PlaybackOrder> get() = _playbackOrder.asStateFlow()
+
+	private val _repeatMode = MutableStateFlow(RepeatMode.NONE)
+	override val repeatMode: StateFlow<RepeatMode> get() = _repeatMode.asStateFlow()
 
 	override val positionInfo: PositionInfo
 		get() = backendService.backend?.getPositionInfo() ?: PositionInfo.EMPTY
@@ -134,5 +141,9 @@ class MutablePlayerState(
 
 	override fun setPlaybackOrder(order: PlaybackOrder) {
 		_playbackOrder.value = order
+	}
+
+	override fun setRepeatMode(mode: RepeatMode) {
+		_repeatMode.value = mode
 	}
 }
