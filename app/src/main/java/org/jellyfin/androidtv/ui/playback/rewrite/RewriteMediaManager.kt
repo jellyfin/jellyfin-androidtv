@@ -22,6 +22,7 @@ import org.jellyfin.androidtv.ui.presentation.CardPresenter
 import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
+import org.jellyfin.playback.core.model.RepeatMode
 import org.jellyfin.playback.core.queue.Queue
 import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
@@ -59,14 +60,16 @@ class RewriteMediaManager(
 		get() = (playbackManager.state.queue.entry.value as? BaseItemDtoUserQueueEntry)?.baseItem
 
 	override fun toggleRepeat(): Boolean {
-		isRepeatMode = !isRepeatMode
-		// TODO
-		Toast.makeText(context, "Not yet implemented", Toast.LENGTH_LONG).show()
+		val newMode = when (playbackManager.state.repeatMode.value) {
+			RepeatMode.NONE -> RepeatMode.REPEAT_ENTRY_INFINITE
+			else -> RepeatMode.NONE
+		}
+		playbackManager.state.setRepeatMode(newMode)
+
 		return isRepeatMode
 	}
 
-	override var isRepeatMode: Boolean = false
-		private set
+	override val isRepeatMode get() = playbackManager.state.repeatMode.value != RepeatMode.NONE
 
 	override val isAudioPlayerInitialized: Boolean = true
 	override val isShuffleMode: Boolean
