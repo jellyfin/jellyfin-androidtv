@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="lbl_end_padding">Relleno de fin</string>
-    <string name="lbl_begin_padding">Relleno de inicio</string>
+    <string name="lbl_begin_padding">Comienza relleno</string>
     <string name="no_program_data">Información del programa no disponible</string>
     <string name="lbl_bracket_unknown">Desconocido</string>
     <string name="lbl_recorded_tv">Grabaciones de TV</string>
@@ -351,11 +351,11 @@
     <string name="lbl_time_range">%1$s–%2$s</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="lbl_on_channel">En %1$s</string>
-    <string name="lbl_on_any_channel">En cualquier Canal</string>
-    <string name="lbl_record_all">Grabar todos los Episodios</string>
-    <string name="lbl_record_only_new">Solo grabar episodios nuevos</string>
-    <string name="lbl_start_end_on_schedule">Comenzar y Finalizar en Horario</string>
-    <string name="lbl_starting_on_schedule_ending_after">Comenzar en Horario y Finalizar %1$s después de la hora</string>
+    <string name="lbl_on_any_channel">En cualquier canal</string>
+    <string name="lbl_record_all">Se grabarán todos los episodios</string>
+    <string name="lbl_record_only_new">Solo se grabarán episodios nuevos</string>
+    <string name="lbl_start_end_on_schedule">Comenzar según programado y finalizar según programado</string>
+    <string name="lbl_starting_on_schedule_ending_after">Comenzar según programado y finalizar %1$s después de la hora</string>
     <string name="lbl_starting_early_ending_on_schedule">Comenzar %1$s antes y finalizar en Horario</string>
     <string name="lbl_starting_early_ending_after">Comenzar %1$s antes y finalizar %2$s después del horario</string>
     <string name="enable_playback_module_description">Ésta característica es experimental. No tiene soporte.</string>
@@ -389,7 +389,7 @@
     <string name="home_section_resume">Continuar mirando</string>
     <string name="home_section_library_small">Mis Archivos (pequeño)</string>
     <string name="home_section_library">Mis archivos</string>
-    <string name="home_section_latest_media">Últimos archivos</string>
+    <string name="home_section_latest_media">Recientemente agregados</string>
     <string name="home_sections">Secciones de Inicio</string>
     <string name="home_prefs">Inicio</string>
     <string name="pref_direct_stream_live_on">Transcodificación deshabilitada</string>
@@ -509,4 +509,11 @@
     <string name="color_yellow">Amarillo</string>
     <string name="item_deleted">%1$s eliminado</string>
     <string name="pref_enable_media_management_description">Mostrar opción para administrar los medios mientras navega</string>
+    <string name="lbl_album_artists">Artista del álbum</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s canción</item>
+        <item quantity="many">%1$s canciones</item>
+        <item quantity="other">%1$s pistas</item>
+    </plurals>
+    <string name="color_cyan">Cian</string>
 </resources>
