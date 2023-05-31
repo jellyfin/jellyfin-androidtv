@@ -40,7 +40,7 @@
     <string name="msg_unable_to_create_recording">Imposible crear grabación</string>
     <string name="msg_recording_cancelled">Grabación cancelada</string>
     <string name="msg_unable_to_cancel">No fue posible cancelar la grabación</string>
-    <string name="lbl_cast_crew">Reparto/Equipo</string>
+    <string name="lbl_cast_crew">Reparto y equipo</string>
     <string name="lbl_chapters">Capítulos</string>
     <string name="lbl_specials">Especiales</string>
     <string name="lbl_trailers">Trailers</string>
@@ -81,10 +81,10 @@
     <string name="lbl_tv_queuing">Poner en cola todos los episodios siguientes</string>
     <string name="sum_tv_queuing">Añadir el resto de la temporada a la cola de reproducción al reproducir un episodio</string>
     <string name="lbl_search_hint">Buscar texto (seleccionar para teclado)</string>
-    <string name="lbl_play_first_unwatched">Reproducir el primer no visto</string>
+    <string name="lbl_play_first_unwatched">Reproducir el primero no visto</string>
     <string name="lbl_mark_unplayed">Marcar como no reproducido</string>
     <string name="lbl_mark_played">Marcar como reproducido</string>
-    <string name="lbl_remove_favorite">Remover favorito</string>
+    <string name="lbl_remove_favorite">Quitar favorito</string>
     <string name="lbl_add_favorite">Agregar a favoritos</string>
     <string name="msg_no_playable_items">No hay elementos reproducibles</string>
     <string name="lbl_unwatched">No visto</string>
@@ -151,7 +151,7 @@
     <string name="lbl_prev_item">Elemento anterior</string>
     <string name="lbl_now_playing">Reproduciendo ahora</string>
     <string name="lbl_play_from_here">Reproducir desde aquí</string>
-    <string name="lbl_remove_from_queue">Eliminar de la cola</string>
+    <string name="lbl_remove_from_queue">Quitar de la lista</string>
     <string name="lbl_goto_now_playing">Ir a Reproduciendo ahora</string>
     <string name="lbl_instant_mix">Mix instantáneo</string>
     <string name="lbl_delete">Eliminar</string>
@@ -361,7 +361,7 @@
     <string name="enable_playback_module_description">Ésta característica es experimental. No tiene soporte.</string>
     <string name="lbl_fit">Normal</string>
     <string name="lbl_stretch">Estirar</string>
-    <string name="lbl_auto_crop">Auto-ajuste</string>
+    <string name="lbl_auto_crop">Autoajuste</string>
     <string name="advanced_settings">Avanzado</string>
     <string name="always_authenticate_description">Habilitar ésta función deshabilita el inicio de sesión automático</string>
     <string name="always_authenticate">Siempre pedir credenciales</string>
@@ -435,8 +435,8 @@
     <string name="pref_subtitles_background_title">Habilitar fondo</string>
     <string name="server_connection_failed_candidates">No fue posible conectar el servidor, se intentó la siguiente dirección: %1$s</string>
     <string name="pref_show_backdrop_description">Cambiar imagen de fondo para los elementos seleccionados</string>
-    <string name="lbl_playback_speed">Velocidad de Reproducción</string>
-    <string name="lbl_shuffle_queue">Activar Aleatorio</string>
+    <string name="lbl_playback_speed">Velocidad de reproducción</string>
+    <string name="lbl_shuffle_queue">Activar aleatorio</string>
     <string name="state_disabled">Deshabilitado</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="lbl_subtitle_delay">Retraso del subtitulo</string>
@@ -463,4 +463,5 @@
     <string name="pref_audio_night_mode">Audio en modo nocturno (experimental)</string>
     <string name="desc_audio_night_mode">Baja el volumen del audio automáticamente</string>
     <string name="lbl_quality_profile">Perfil de calidad</string>
+    <string name="lbl_latest_in">Recientes en %1$s</string>
 </resources>
