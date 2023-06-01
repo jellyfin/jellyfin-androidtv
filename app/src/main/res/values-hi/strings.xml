@@ -31,7 +31,7 @@
     <string name="lbl_next_up">अगला</string>
     <string name="lbl_views">दर्शक</string>
     <string name="lbl_genres">शैलियां</string>
-    <string name="lbl_latest_in">हाल ही में %1$s में जोड़ा गया है</string>
+    <string name="lbl_latest_in">हाल ही में %1$s जोड़ा गया है</string>
     <string name="lbl_favorite_channels">पसंदीदा चैनल</string>
     <string name="lbl_collections">संग्रह</string>
     <string name="lbl_tv_series">टीवी सीरियल</string>
@@ -47,4 +47,13 @@
     <string name="msg_unable_to_cancel">रिकॉर्डिंग रद्द करने में असमर्थ</string>
     <string name="lbl_cast_crew">अभिनेता वर्ग और कर्मचारी</string>
     <string name="lbl_additional_parts">अतिरिक्त भाग</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_chapters">अध्याय</string>
+    <string name="lbl_specials">स्पेशल</string>
+    <string name="lbl_trailers">ट्रेलरों</string>
+    <string name="lbl_items">सामान</string>
+    <string name="lbl_item">वस्तु</string>
+    <string name="lbl_series">शृंखला</string>
+    <string name="lbl_seasons">मौसम के</string>
+    <string name="lbl_upcoming">आगामी</string>
 </resources>
