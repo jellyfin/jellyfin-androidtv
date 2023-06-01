@@ -20,6 +20,7 @@ import org.jellyfin.androidtv.util.sdk.BaseItemExtensionsKt;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.MediaStream;
+import org.jellyfin.sdk.model.api.MediaStreamType;
 import org.jellyfin.sdk.model.api.SeriesStatus;
 import org.koin.java.KoinJavaComponent;
 
@@ -27,6 +28,7 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 
 public class InfoLayoutHelper {
 
@@ -330,25 +332,33 @@ public class InfoLayoutHelper {
             addBlockText(context, layout, item.getOfficialRating());
             addSpacer(context, layout, "  ");
         }
-        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null && item.getMediaStreams().get(0).getHeight() != null) {
-            int width = item.getMediaStreams().get(0).getWidth();
-            int height = item.getMediaStreams().get(0).getHeight();
-            if (width <= 960 && height <= 576) {
-                addBlockText(context, layout, context.getString(R.string.lbl_sd));
-            } else if (width <= 1280 && height <= 962) {
-                addBlockText(context, layout, "720");
-            } else if (width <= 1920 && height <= 1440) {
-                addBlockText(context, layout, "1080");
-            } else if (width <= 4096 && height <= 3072) {
-                addBlockText(context, layout, "4K");
-            } else {
-                addBlockText(context, layout, "8K");
+        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0) {
+            Optional<MediaStream> optionalVideoStream = item.getMediaStreams()
+                    .stream()
+                    .filter(x -> x.getType() == MediaStreamType.VIDEO)
+                    .findFirst();
+            if (optionalVideoStream.isPresent()) {
+                MediaStream videoStream = optionalVideoStream.get();
+                if(videoStream.getWidth() != null && videoStream.getHeight() != null) {
+                    int width = videoStream.getWidth();
+                    int height = videoStream.getHeight();
+                    if (width <= 960 && height <= 576) {
+                        addBlockText(context, layout, context.getString(R.string.lbl_sd));
+                    } else if (width <= 1280 && height <= 962) {
+                        addBlockText(context, layout, "720");
+                    } else if (width <= 1920 && height <= 1440) {
+                        addBlockText(context, layout, "1080");
+                    } else if (width <= 4096 && height <= 3072) {
+                        addBlockText(context, layout, "4K");
+                    } else {
+                        addBlockText(context, layout, "8K");
+                    }
+
+                    addSpacer(context, layout, " ");
+
+                    addVideoCodecDetails(context, layout, videoStream);
+                }
             }
-
-            addSpacer(context, layout, " ");
-
-            addVideoCodecDetails(context, layout, item.getMediaStreams().get(0));
-
         }
         if (Utils.isTrue(item.getHasSubtitles())) {
             addBlockText(context, layout, "CC");
