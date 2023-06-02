@@ -336,26 +336,24 @@ public class InfoLayoutHelper {
 
         MediaStream videoStream = StreamHelper.getFirstVideoStream(item, selectedVersionPopupIndex);
 
-        if (videoStream != null) {
-            if(videoStream.getWidth() != null && videoStream.getHeight() != null) {
-                int width = videoStream.getWidth();
-                int height = videoStream.getHeight();
-                if (width <= 960 && height <= 576) {
-                    addBlockText(context, layout, context.getString(R.string.lbl_sd));
-                } else if (width <= 1280 && height <= 962) {
-                    addBlockText(context, layout, "720");
-                } else if (width <= 1920 && height <= 1440) {
-                    addBlockText(context, layout, "1080");
-                } else if (width <= 4096 && height <= 3072) {
-                    addBlockText(context, layout, "4K");
-                } else {
-                    addBlockText(context, layout, "8K");
-                }
-
-                addSpacer(context, layout, " ");
-
-                addVideoCodecDetails(context, layout, videoStream);
+        if(videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
+            int width = videoStream.getWidth();
+            int height = videoStream.getHeight();
+            if (width <= 960 && height <= 576) {
+                addBlockText(context, layout, context.getString(R.string.lbl_sd));
+            } else if (width <= 1280 && height <= 962) {
+                addBlockText(context, layout, "720");
+            } else if (width <= 1920 && height <= 1440) {
+                addBlockText(context, layout, "1080");
+            } else if (width <= 4096 && height <= 3072) {
+                addBlockText(context, layout, "4K");
+            } else {
+                addBlockText(context, layout, "8K");
             }
+
+            addSpacer(context, layout, " ");
+
+            addVideoCodecDetails(context, layout, videoStream);
         }
         if (Utils.isTrue(item.getHasSubtitles())) {
             addBlockText(context, layout, "CC");
