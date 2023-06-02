@@ -45,10 +45,10 @@ public class InfoLayoutHelper {
                 break;
         }
     }
-    public static void addInfoRow(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
-            addInfoRow(context, item, selectedVersionPopupIndex, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+            addInfoRow(context, item, mediaSourceIndex, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
         }else{
             addProgramChannel(context, item, layout);
         }
