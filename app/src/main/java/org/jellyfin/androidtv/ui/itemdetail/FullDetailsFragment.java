@@ -1391,12 +1391,14 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 selectedVersionPopupIndex = menuItem.getItemId();
+                mDetailsOverviewRow.setSelectedMediaSourceIndex(selectedVersionPopupIndex);
                 apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (!getActive()) return;
 
                         mBaseItem = response;
+                        mDorPresenter.getViewHolder().setItem(mDetailsOverviewRow);
                     }
                 });
                 return true;

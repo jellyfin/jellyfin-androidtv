@@ -26,9 +26,28 @@ public class StreamHelper {
         return getStreams(mediaSource, MediaStreamType.AUDIO);
     }
 
+    public static List<MediaStream> getVideoStreams(MediaSourceInfo mediaSource) {
+        return getStreams(mediaSource, MediaStreamType.VIDEO);
+    }
+
     public static MediaStream getFirstAudioStream(BaseItemDto item) {
-        if (item.getMediaSources() == null || item.getMediaSources().size() < 1) return null;
-        List<MediaStream> streams = getAudioStreams(item.getMediaSources().get(0));
+        return getFirstAudioStream(item, 0);
+    }
+
+    public static MediaStream getFirstAudioStream(BaseItemDto item, int mediaSourceIndex) {
+        if (item.getMediaSources() == null || item.getMediaSources().size() < mediaSourceIndex - 1) return null;
+        List<MediaStream> streams = getAudioStreams(item.getMediaSources().get(mediaSourceIndex));
+        if (streams == null || streams.size() < 1) return null;
+        return streams.get(0);
+    }
+
+    public static MediaStream getFirstVideoStream(BaseItemDto item) {
+        return getFirstVideoStream(item, 0);
+    }
+
+    public static MediaStream getFirstVideoStream(BaseItemDto item, int mediaSourceIndex) {
+        if (item.getMediaSources() == null || item.getMediaSources().size() < mediaSourceIndex - 1) return null;
+        List<MediaStream> streams = getVideoStreams(item.getMediaSources().get(mediaSourceIndex));
         if (streams == null || streams.size() < 1) return null;
         return streams.get(0);
     }

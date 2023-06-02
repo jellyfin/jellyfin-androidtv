@@ -47,17 +47,20 @@ public class InfoLayoutHelper {
                 break;
         }
     }
-
-    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+    public static void addInfoRow(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
-            addInfoRow(context, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+            addInfoRow(context, item, selectedVersionPopupIndex, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
         }else{
             addProgramChannel(context, item, layout);
         }
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
+    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+        addInfoRow(context, item, 0, layout, includeRuntime, includeEndTime);
+    }
+
+    public static void addInfoRow(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
         if (ratingType != RatingType.RATING_HIDDEN) {
             addCriticInfo(context, item, layout);
@@ -102,7 +105,7 @@ public class InfoLayoutHelper {
         }
         if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
         addSeriesStatus(context, item, layout);
-        addRatingAndRes(context, item, layout);
+        addRatingAndRes(context, item, selectedVersionPopupIndex, layout);
         addMediaDetails(context, audioStream, layout);
     }
 
@@ -327,37 +330,33 @@ public class InfoLayoutHelper {
 
     }
 
-    private static void addRatingAndRes(Context context, BaseItemDto item, LinearLayout layout) {
+    private static void addRatingAndRes(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout) {
         if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
             addBlockText(context, layout, item.getOfficialRating());
             addSpacer(context, layout, "  ");
         }
-        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0) {
-            Optional<MediaStream> optionalVideoStream = item.getMediaStreams()
-                    .stream()
-                    .filter(x -> x.getType() == MediaStreamType.VIDEO)
-                    .findFirst();
-            if (optionalVideoStream.isPresent()) {
-                MediaStream videoStream = optionalVideoStream.get();
-                if(videoStream.getWidth() != null && videoStream.getHeight() != null) {
-                    int width = videoStream.getWidth();
-                    int height = videoStream.getHeight();
-                    if (width <= 960 && height <= 576) {
-                        addBlockText(context, layout, context.getString(R.string.lbl_sd));
-                    } else if (width <= 1280 && height <= 962) {
-                        addBlockText(context, layout, "720");
-                    } else if (width <= 1920 && height <= 1440) {
-                        addBlockText(context, layout, "1080");
-                    } else if (width <= 4096 && height <= 3072) {
-                        addBlockText(context, layout, "4K");
-                    } else {
-                        addBlockText(context, layout, "8K");
-                    }
 
-                    addSpacer(context, layout, " ");
+        MediaStream videoStream = StreamHelper.getFirstVideoStream(item, selectedVersionPopupIndex);
 
-                    addVideoCodecDetails(context, layout, videoStream);
+        if (videoStream != null) {
+            if(videoStream.getWidth() != null && videoStream.getHeight() != null) {
+                int width = videoStream.getWidth();
+                int height = videoStream.getHeight();
+                if (width <= 960 && height <= 576) {
+                    addBlockText(context, layout, context.getString(R.string.lbl_sd));
+                } else if (width <= 1280 && height <= 962) {
+                    addBlockText(context, layout, "720");
+                } else if (width <= 1920 && height <= 1440) {
+                    addBlockText(context, layout, "1080");
+                } else if (width <= 4096 && height <= 3072) {
+                    addBlockText(context, layout, "4K");
+                } else {
+                    addBlockText(context, layout, "8K");
                 }
+
+                addSpacer(context, layout, " ");
+
+                addVideoCodecDetails(context, layout, videoStream);
             }
         }
         if (Utils.isTrue(item.getHasSubtitles())) {
