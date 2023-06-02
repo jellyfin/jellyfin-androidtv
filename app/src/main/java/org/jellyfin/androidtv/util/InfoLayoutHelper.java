@@ -58,7 +58,7 @@ public class InfoLayoutHelper {
         addInfoRow(context, item, 0, layout, includeRuntime, includeEndTime);
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
+    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
         if (ratingType != RatingType.RATING_HIDDEN) {
             addCriticInfo(context, item, layout);
@@ -103,7 +103,7 @@ public class InfoLayoutHelper {
         }
         if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
         addSeriesStatus(context, item, layout);
-        addRatingAndRes(context, item, selectedVersionPopupIndex, layout);
+        addRatingAndRes(context, item, mediaSourceIndex, layout);
         addMediaDetails(context, audioStream, layout);
     }
 
@@ -328,13 +328,13 @@ public class InfoLayoutHelper {
 
     }
 
-    private static void addRatingAndRes(Context context, BaseItemDto item, int selectedVersionPopupIndex, LinearLayout layout) {
+    private static void addRatingAndRes(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout) {
         if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
             addBlockText(context, layout, item.getOfficialRating());
             addSpacer(context, layout, "  ");
         }
 
-        MediaStream videoStream = StreamHelper.getFirstVideoStream(item, selectedVersionPopupIndex);
+        MediaStream videoStream = StreamHelper.getFirstVideoStream(item, mediaSourceIndex);
 
         if(videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
             int width = videoStream.getWidth();
