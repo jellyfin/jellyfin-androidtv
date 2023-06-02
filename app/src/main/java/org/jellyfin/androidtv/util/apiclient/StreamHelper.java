@@ -51,7 +51,7 @@ public class StreamHelper {
     }
 
     public static MediaStream getFirstStreamOfType(BaseItemDto item, MediaStreamType streamType, int mediaSourceIndex) {
-        if (item.getMediaSources() == null || item.getMediaSources().size() < mediaSourceIndex + 1) return null;
+        if (item.getMediaSources() == null || mediaSourceIndex > item.getMediaSources().size() - 1) return null;
         List<MediaStream> streams = getStreams(item.getMediaSources().get(mediaSourceIndex), streamType);
         if (streams == null || streams.size() < 1) return null;
         return streams.get(0);
