@@ -62,9 +62,9 @@ class UserLoginQuickConnectFragment : Fragment() {
 			userLoginViewModel.loginState.collect { state ->
 				when (state) {
 					is ServerVersionNotSupported -> binding.error.setText(getString(
-						R.string.server_unsupported,
+						R.string.server_issue_outdated_version,
 						state.server.version,
-						ServerRepository.minimumServerVersion.toString()
+						ServerRepository.recommendedServerVersion.toString()
 					))
 
 					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)

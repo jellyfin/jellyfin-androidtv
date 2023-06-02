@@ -35,7 +35,7 @@ fun RecommendedServerIssue.getFriendlyMessage(context: Context): String = when (
 	is RecommendedServerIssue.OutdatedServerVersion -> context.getString(
 		R.string.server_issue_outdated_version,
 		version.toString(),
-		ServerRepository.minimumServerVersion.toString()
+		ServerRepository.recommendedServerVersion.toString()
 	)
 
 	is RecommendedServerIssue.SlowResponse -> context.getString(R.string.server_issue_timeout)
