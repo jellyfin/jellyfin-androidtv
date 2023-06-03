@@ -133,7 +133,7 @@ public class ItemLauncher {
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).setCurrentMediaPosition(pos);
 
                         navigationRepository.navigate(Destinations.INSTANCE.pictureViewer(
-                                mediaManager.getCurrentMediaItem().getBaseItem().getId(),
+                                baseItem.getId(),
                                 false,
                                 mediaManager.getCurrentMediaAdapter().getSortBy(),
                                 mediaManager.getCurrentMediaAdapter().getSortOrder()
