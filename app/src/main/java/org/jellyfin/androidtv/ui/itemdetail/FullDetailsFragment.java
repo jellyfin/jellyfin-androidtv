@@ -129,6 +129,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     private int BUTTON_SIZE;
 
     private TextUnderButton mResumeButton;
+    private TextUnderButton mVersionsButton;
     private TextUnderButton mPrevButton;
     private TextUnderButton mRecordButton;
     private TextUnderButton mRecSeriesButton;
@@ -1031,7 +1032,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
         }
         //Video versions button
         if (mBaseItem.getMediaSources() != null && mBaseItem.getMediaSources().size() > 1) {
-            TextUnderButton versionsButton = TextUnderButton.create(requireContext(), R.drawable.ic_guide, buttonSize, 0, getString(R.string.select_version), new View.OnClickListener() {
+            mVersionsButton = TextUnderButton.create(requireContext(), R.drawable.ic_guide, buttonSize, 0, getString(R.string.select_version), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (versions != null ) {
@@ -1042,7 +1043,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     }
                 }
             });
-            mDetailsOverviewRow.addAction(versionsButton);
+            mDetailsOverviewRow.addAction(mVersionsButton);
         }
 
         if (TrailerUtils.hasPlayableTrailers(requireContext(), ModelCompat.asSdk(mBaseItem))) {
@@ -1396,6 +1397,9 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
                         mBaseItem = response;
                         mDorPresenter.getViewHolder().setItem(mDetailsOverviewRow);
+                        if (mVersionsButton != null) {
+                            mVersionsButton.requestFocus();
+                        }
                     }
                 });
                 return true;
