@@ -46,16 +46,20 @@ public class InfoLayoutHelper {
         }
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
-            addInfoRow(context, item, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
+            addInfoRow(context, item, mediaSourceIndex, layout, includeRuntime, includeEndTime, StreamHelper.getFirstAudioStream(item));
         }else{
             addProgramChannel(context, item, layout);
         }
     }
 
-    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
+    public static void addInfoRow(Context context, BaseItemDto item, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
+        addInfoRow(context, item, 0, layout, includeRuntime, includeEndTime);
+    }
+
+    public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime, MediaStream audioStream) {
         RatingType ratingType = KoinJavaComponent.<UserPreferences>get(UserPreferences.class).get(UserPreferences.Companion.getDefaultRatingType());
         if (ratingType != RatingType.RATING_HIDDEN) {
             addCriticInfo(context, item, layout);
@@ -100,7 +104,7 @@ public class InfoLayoutHelper {
         }
         if (includeRuntime) addRuntime(context, item, layout, includeEndTime);
         addSeriesStatus(context, item, layout);
-        addRatingAndRes(context, item, layout);
+        addRatingAndRes(context, item, mediaSourceIndex, layout);
         addMediaDetails(context, audioStream, layout);
     }
 
@@ -325,14 +329,17 @@ public class InfoLayoutHelper {
 
     }
 
-    private static void addRatingAndRes(Context context, BaseItemDto item, LinearLayout layout) {
+    private static void addRatingAndRes(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout) {
         if (item.getOfficialRating() != null && !item.getOfficialRating().equals("0")) {
             addBlockText(context, layout, item.getOfficialRating());
             addSpacer(context, layout, "  ");
         }
-        if (item.getMediaStreams() != null && item.getMediaStreams().size() > 0 && item.getMediaStreams().get(0).getWidth() != null && item.getMediaStreams().get(0).getHeight() != null) {
-            int width = item.getMediaStreams().get(0).getWidth();
-            int height = item.getMediaStreams().get(0).getHeight();
+
+        MediaStream videoStream = StreamHelper.getFirstVideoStream(item, mediaSourceIndex);
+
+        if (videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
+            int width = videoStream.getWidth();
+            int height = videoStream.getHeight();
             if (width <= 960 && height <= 576) {
                 addBlockText(context, layout, context.getString(R.string.lbl_sd));
             } else if (width <= 1280 && height <= 962) {
@@ -347,8 +354,7 @@ public class InfoLayoutHelper {
 
             addSpacer(context, layout, " ");
 
-            addVideoCodecDetails(context, layout, item.getMediaStreams().get(0));
-
+            addVideoCodecDetails(context, layout, videoStream);
         }
         if (Utils.isTrue(item.getHasSubtitles())) {
             addBlockText(context, layout, "CC");

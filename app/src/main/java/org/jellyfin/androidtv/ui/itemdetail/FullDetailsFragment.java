@@ -158,8 +158,6 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     BaseItemDto mBaseItem;
 
     private ArrayList<MediaSourceInfo> versions;
-    private int selectedVersionPopupIndex = 0;
-
     private Lazy<ApiClient> apiClient = inject(ApiClient.class);
     private Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private Lazy<UserPreferences> userPreferences = inject(UserPreferences.class);
@@ -1383,20 +1381,21 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
 
         for (int i = 0; i< versions.size(); i++) {
             MenuItem item = menu.getMenu().add(Menu.NONE, i, Menu.NONE, versions.get(i).getName());
-            item.setChecked(i == selectedVersionPopupIndex);
+            item.setChecked(i == mDetailsOverviewRow.getSelectedMediaSourceIndex());
         }
 
         menu.getMenu().setGroupCheckable(0,true,false);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                selectedVersionPopupIndex = menuItem.getItemId();
-                apiClient.getValue().GetItemAsync(versions.get(selectedVersionPopupIndex).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
+                mDetailsOverviewRow.setSelectedMediaSourceIndex(menuItem.getItemId());
+                apiClient.getValue().GetItemAsync(versions.get(mDetailsOverviewRow.getSelectedMediaSourceIndex()).getId(), KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString(), new LifecycleAwareResponse<BaseItemDto>(getLifecycle()) {
                     @Override
                     public void onResponse(BaseItemDto response) {
                         if (!getActive()) return;
 
                         mBaseItem = response;
+                        mDorPresenter.getViewHolder().setItem(mDetailsOverviewRow);
                     }
                 });
                 return true;
