@@ -11,6 +11,7 @@ import org.jellyfin.apiclient.interaction.EmptyResponse;
 import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
 import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
+import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.koin.java.KoinJavaComponent;
 
 import timber.log.Timber;
@@ -39,7 +40,7 @@ public class ReportingHelper {
     public static void reportStart(org.jellyfin.sdk.model.api.BaseItemDto item, long pos) {
         PlaybackStartInfo startInfo = new PlaybackStartInfo();
         startInfo.setItemId(item.getId().toString());
-        startInfo.setPositionTicks(pos);
+        if (item.getType() != BaseItemKind.TV_CHANNEL) startInfo.setPositionTicks(pos);
         KoinJavaComponent.<PlaybackManager>get(PlaybackManager.class).reportPlaybackStart(startInfo, KoinJavaComponent.<ApiClient>get(ApiClient.class), new EmptyResponse());
         Timber.i("Playback of %s started.", item.getName());
     }
@@ -48,9 +49,11 @@ public class ReportingHelper {
         if (item != null && currentStreamInfo != null) {
             PlaybackProgressInfo info = new PlaybackProgressInfo();
             info.setItemId(item.getId().toString());
-            info.setPositionTicks(position);
+            if (item.getType() != BaseItemKind.TV_CHANNEL) {
+                info.setPositionTicks(position);
+                info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
+            }
             info.setIsPaused(isPaused);
-            info.setCanSeek(currentStreamInfo.getRunTimeTicks() != null && currentStreamInfo.getRunTimeTicks() > 0);
             info.setPlayMethod(currentStreamInfo.getPlayMethod());
             if (playbackController != null && playbackController.isPlaying()) {
                 info.setAudioStreamIndex(playbackController.getAudioStreamIndex());
