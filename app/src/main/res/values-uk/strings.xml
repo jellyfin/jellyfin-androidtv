@@ -321,7 +321,7 @@
     <string name="pref_customization">Кастомізація</string>
     <string name="server_issue_ssl_handshake">SSL-рукостискання не вдалось</string>
     <string name="server_issue_timeout">Термін підʼєднання сплив</string>
-    <string name="server_issue_outdated_version">Сервер використовує версію %1$s, але має %2$s або новішу</string>
+    <string name="server_issue_outdated_version">Сервер використовує несумісну версію %1$s. Будь ласка, оновіть до %2$s або новішої версії</string>
     <string name="server_issue_unsupported_version">Сервер використовує версію %1$s яка не підтримується</string>
     <string name="server_issue_missing_version">Не вийшло визначити версію серверу</string>
     <string name="server_issue_invalid_product">Програмне забезпечення сервера не є сумісним</string>
@@ -442,7 +442,7 @@
     <string name="lbl_adjust">Підлаштувати</string>
     <string name="lbl_shuffle_queue">Перемкнути перемішування</string>
     <string name="state_disabled">Вимкнено</string>
-    <string name="server_unsupported_notification">Цей сервер використовує версію Jellyfin %1$s, яка не підтримується. Щоб продовжити користуватися додатком, оновіть його до Jellyfin %2$s.</string>
+    <string name="server_unsupported_notification">Цей сервер використовує версію Jellyfin %1$s, яка не підтримується. Щоб продовжити користуватися додатком, оновіть його до Jellyfin %2$s або новішої версії.</string>
     <string name="app_notification_uimode_invalid">Ця програма оптимізована для телевізорів. Ми рекомендуємо використовувати наш мобільний додаток на інших пристроях.</string>
     <string name="image_size_xlarge">Дуже великий</string>
     <string name="image_size_smallest">Найменший</string>
