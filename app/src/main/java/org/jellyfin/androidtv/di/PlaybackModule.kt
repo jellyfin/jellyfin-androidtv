@@ -20,6 +20,7 @@ import org.jellyfin.playback.core.mediasession.mediaSessionPlugin
 import org.jellyfin.playback.core.playbackManager
 import org.jellyfin.playback.exoplayer.exoPlayerPlugin
 import org.jellyfin.playback.jellyfin.jellyfinPlugin
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManager
@@ -49,7 +50,7 @@ val playbackModule = module {
 	single { createPlaybackManager() }
 }
 
-fun Scope.createPlaybackManager() = playbackManager {
+fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	install(exoPlayerPlugin(get()))
 	install(jellyfinPlugin(get(), get()))
 

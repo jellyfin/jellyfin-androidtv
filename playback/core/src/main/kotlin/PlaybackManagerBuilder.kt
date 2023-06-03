@@ -1,13 +1,19 @@
 package org.jellyfin.playback.core
 
+import android.content.Context
+import android.os.Build
+import androidx.core.content.getSystemService
 import org.jellyfin.playback.core.backend.PlayerBackend
 import org.jellyfin.playback.core.mediastream.MediaStreamResolver
 import org.jellyfin.playback.core.plugin.PlaybackPlugin
 import org.jellyfin.playback.core.plugin.PlayerService
 
-class PlaybackManagerBuilder {
+class PlaybackManagerBuilder(context: Context) {
 	private val factories = mutableListOf<PlaybackPlugin>()
-	val options = PlaybackManagerOptions()
+	private val volumeState = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) NoOpPlayerVolumeState()
+	else AndroidPlayerVolumeState(audioManager = requireNotNull(context.getSystemService()))
+
+	val options = PlaybackManagerOptions(volumeState)
 
 	fun install(pluginFactory: PlaybackPlugin) {
 		factories.add(pluginFactory)
@@ -40,5 +46,5 @@ class PlaybackManagerBuilder {
 	}
 }
 
-fun playbackManager(init: PlaybackManagerBuilder.() -> Unit): PlaybackManager =
-	PlaybackManagerBuilder().apply { init() }.build()
+fun playbackManager(context: Context, init: PlaybackManagerBuilder.() -> Unit): PlaybackManager =
+	PlaybackManagerBuilder(context).apply { init() }.build()
