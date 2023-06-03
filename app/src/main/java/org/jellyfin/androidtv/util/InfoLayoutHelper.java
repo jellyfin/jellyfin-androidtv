@@ -45,6 +45,7 @@ public class InfoLayoutHelper {
                 break;
         }
     }
+
     public static void addInfoRow(Context context, BaseItemDto item, int mediaSourceIndex, LinearLayout layout, boolean includeRuntime, boolean includeEndTime) {
         layout.removeAllViews();
         if (item.getId() != null) {
@@ -336,7 +337,7 @@ public class InfoLayoutHelper {
 
         MediaStream videoStream = StreamHelper.getFirstVideoStream(item, mediaSourceIndex);
 
-        if(videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
+        if (videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
             int width = videoStream.getWidth();
             int height = videoStream.getHeight();
             if (width <= 960 && height <= 576) {
