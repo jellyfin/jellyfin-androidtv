@@ -74,10 +74,10 @@ internal class MediaSessionPlayer(
 			// add(COMMAND_CHANGE_MEDIA_ITEMS)
 			// add(COMMAND_GET_AUDIO_ATTRIBUTES)
 			// add(COMMAND_GET_VOLUME)
-			// add(COMMAND_GET_DEVICE_VOLUME)
+			add(COMMAND_GET_DEVICE_VOLUME)
 			// add(COMMAND_SET_VOLUME)
-			// add(COMMAND_SET_DEVICE_VOLUME)
-			// add(COMMAND_ADJUST_DEVICE_VOLUME)
+			add(COMMAND_SET_DEVICE_VOLUME)
+			add(COMMAND_ADJUST_DEVICE_VOLUME)
 			// add(COMMAND_SET_VIDEO_SURFACE)
 			// add(COMMAND_GET_TEXT)
 			// add(COMMAND_SET_TRACK_SELECTION_PARAMETERS)
@@ -120,6 +120,9 @@ internal class MediaSessionPlayer(
 		setShuffleModeEnabled(state.playbackOrder.value != PlaybackOrder.DEFAULT)
 		setRepeatMode(if (state.repeatMode.value == RepeatMode.NONE) REPEAT_MODE_OFF else REPEAT_MODE_ALL)
 		setVideoSize(state.videoSize.value.let { VideoSize(it.width, it.height) })
+		@Suppress("MagicNumber")
+		setDeviceVolume((state.volume.volume * 100).toInt())
+		setIsDeviceMuted(state.volume.muted)
 	}.build()
 
 	override fun handleSetPlayWhenReady(playWhenReady: Boolean): ListenableFuture<*> {
@@ -190,6 +193,22 @@ internal class MediaSessionPlayer(
 			else -> RepeatMode.NONE
 		}
 		state.setRepeatMode(mode)
+		return Futures.immediateVoidFuture()
+	}
+
+	override fun handleIncreaseDeviceVolume(): ListenableFuture<*> {
+		state.volume.increaseVolume()
+		return Futures.immediateVoidFuture()
+	}
+
+	override fun handleDecreaseDeviceVolume(): ListenableFuture<*> {
+		state.volume.decreaseVolume()
+		return Futures.immediateVoidFuture()
+	}
+
+	override fun handleSetDeviceVolume(deviceVolume: Int): ListenableFuture<*> {
+		@Suppress("MagicNumber")
+		state.volume.setVolume(deviceVolume / 100f)
 		return Futures.immediateVoidFuture()
 	}
 

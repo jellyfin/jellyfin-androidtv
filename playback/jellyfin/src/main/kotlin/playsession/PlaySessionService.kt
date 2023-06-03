@@ -1,6 +1,8 @@
 package org.jellyfin.playback.jellyfin.playsession
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.playback.core.model.PlayState
@@ -17,28 +19,29 @@ import org.jellyfin.sdk.model.api.PlaybackStopInfo
 import org.jellyfin.sdk.model.api.QueueItem
 import org.jellyfin.sdk.model.api.RepeatMode
 import org.jellyfin.sdk.model.extensions.inWholeTicks
+import kotlin.math.roundToInt
 
 class PlaySessionService(
 	private val api: ApiClient,
 ) : PlayerService() {
-	var reportedItem: BaseItemDto? = null
+	private var reportedItem: BaseItemDto? = null
 
 	override suspend fun onInitialize() {
-		coroutineScope.launch {
-			state.queue.entry.collect { entry ->
-				onItemChange(entry)
-			}
-		}
+		state.queue.entry.onEach { entry -> onItemChange(entry) }.launchIn(coroutineScope)
 
-		coroutineScope.launch {
-			state.playState.collect { playState ->
-				when (playState) {
-					PlayState.PLAYING -> onStart()
-					PlayState.STOPPED -> onStop()
-					PlayState.PAUSED -> onPause()
-					PlayState.ERROR -> onStop()
-				}
+		state.playState.onEach { playState ->
+			when (playState) {
+				PlayState.PLAYING -> onStart()
+				PlayState.STOPPED -> onStop()
+				PlayState.PAUSED -> onPause()
+				PlayState.ERROR -> onStop()
 			}
+		}.launchIn(coroutineScope)
+	}
+
+	suspend fun sendUpdateIfActive() {
+		reportedItem?.let {
+			updateBaseItem(it)
 		}
 	}
 
@@ -82,7 +85,8 @@ class PlaySessionService(
 			itemId = item.id,
 			playlistItemId = item.playlistItemId,
 			canSeek = true,
-			isMuted = false,
+			isMuted = state.volume.muted,
+			volumeLevel = (state.volume.volume * 100).roundToInt(),
 			isPaused = state.playState.value != PlayState.PLAYING,
 			aspectRatio = state.videoSize.value.aspectRatio.toString(),
 			positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },
@@ -97,7 +101,8 @@ class PlaySessionService(
 			itemId = item.id,
 			playlistItemId = item.playlistItemId,
 			canSeek = true,
-			isMuted = false,
+			isMuted = state.volume.muted,
+			volumeLevel = (state.volume.volume * 100).roundToInt(),
 			isPaused = state.playState.value != PlayState.PLAYING,
 			aspectRatio = state.videoSize.value.aspectRatio.toString(),
 			positionTicks = withContext(Dispatchers.Main) { state.positionInfo.active.inWholeTicks },

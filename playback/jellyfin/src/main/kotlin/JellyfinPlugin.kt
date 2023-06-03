@@ -13,6 +13,7 @@ fun jellyfinPlugin(
 ) = playbackPlugin {
 	provide(UniversalAudioMediaStreamResolver(api))
 
-	provide(PlaySessionService(api))
-	provide(PlaySessionSocketService(socketInstance))
+	val playSessionService = PlaySessionService(api)
+	provide(playSessionService)
+	provide(PlaySessionSocketService(socketInstance, playSessionService))
 }

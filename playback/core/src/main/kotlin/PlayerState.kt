@@ -20,6 +20,7 @@ import kotlin.time.Duration
 
 interface PlayerState {
 	val queue: PlayerQueueState
+	val volume: PlayerVolumeState
 	val playState: StateFlow<PlayState>
 	val speed: StateFlow<Float>
 	val videoSize: StateFlow<VideoSize>
@@ -63,6 +64,7 @@ class MutablePlayerState(
 	private val backendService: BackendService,
 ) : PlayerState {
 	override val queue: PlayerQueueState
+	override val volume: PlayerVolumeState
 
 	private val _playState = MutableStateFlow(PlayState.STOPPED)
 	override val playState: StateFlow<PlayState> get() = _playState.asStateFlow()
@@ -96,6 +98,7 @@ class MutablePlayerState(
 		})
 
 		queue = DefaultPlayerQueueState(this, scope, backendService)
+		volume = options.playerVolumeState
 	}
 
 	override fun play(playQueue: Queue) {
