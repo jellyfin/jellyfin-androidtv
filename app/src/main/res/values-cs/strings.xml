@@ -397,7 +397,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Nebylo možné navázat spojení SSL</string>
     <string name="server_issue_timeout">Čas pro připojení vypršel</string>
-    <string name="server_issue_outdated_version">Verze serveru je %1$s, ale musí být %2$s nebo novější</string>
+    <string name="server_issue_outdated_version">Verze serveru %1$s již není podporovaná. Aktualizujte na verzi %2$s nebo novější</string>
     <string name="server_issue_unsupported_version">Verze serveru %1$s není podporována</string>
     <string name="server_issue_missing_version">Nebylo možné určit verzi serveru</string>
     <string name="server_issue_invalid_product">Software server není kompatibilní</string>
@@ -447,7 +447,7 @@
     <string name="lbl_adjust">Upravit</string>
     <string name="server_setup_incomplete">Nastavení tohoto serveru ještě nebylo dokončeno. Před přihlášením spusťte Jellyfin ve webovém prohlížeči a dokončete nastavení.</string>
     <string name="crash_report_toast">Aj! Něco se nepovedlo. Protokol o pádu byl zaslán Vašemu Jellyfin serveru.</string>
-    <string name="server_unsupported_notification">Tento server používá Jellyfin verzi %1$s, která již není podporována. Abyste mohli aplikaci dále používat, aktualizujte, prosím, na verzi Jellyfin %2$s.</string>
+    <string name="server_unsupported_notification">Tento server používá Jellyfin verzi %1$s, která již není podporována. Abyste mohli aplikaci dále používat, aktualizujte na verzi Jellyfin %2$s nebo novější.</string>
     <string name="app_notification_uimode_invalid">Tato aplikace je optimalizovaná pro televize. Pro ostatní zařízení doporučujeme použít naší mobilní aplikaci.</string>
     <string name="live_tv_preferences">Možnosti živé TV</string>
     <string name="login_quickconnect_step_3">3. Zadejte následující kód:</string>
@@ -513,4 +513,9 @@
     <string name="pref_enable_media_management">Povolit správu médií</string>
     <string name="lbl_latest_in">Naposledy přidáno v %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Zobrazit Jellfin spořič obrazovky když je aplikace otevřená</string>
+    <string name="lbl_album_artists">Umělci alba</string>
+    <string name="pref_music_cat">Hudba</string>
+    <string name="pref_music_rewrite_disable">Zakázat nový přehrávač hudby</string>
+    <string name="pref_music_rewrite_enable_description">Zakažte pouze v případě problémů s přehráváním hudby</string>
+    <string name="not_set">Nenastaveno</string>
 </resources>
