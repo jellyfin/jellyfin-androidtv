@@ -339,7 +339,6 @@
     <string name="who_is_watching">Cine se uită\?</string>
     <string name="no_user_warning">Nu se-a găsit niciun cont!
 \nAdăugați un cont nou apăsând butonul „Adăugați cont”.</string>
-    <string name="server_unsupported">Serverul ii trebuie update. Versiunea actuală este %1$s, dar aplicația ii trebe %2$s sau mai nou</string>
     <string name="welcome_content">Conectați-vă la server pentru a începe.</string>
     <string name="welcome_title">Bun venit la Jellyfin!</string>
     <string name="saved_servers">Servere favorite</string>

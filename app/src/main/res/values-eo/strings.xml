@@ -366,7 +366,6 @@
     <string name="lbl_starting_early_ending_after">Komencanta %1$s frue kaj Finonta %2$s poste Horaro</string>
     <string name="no_user_warning">Ni ne povis trovi ajnajn uzantojn!
 \nAldoni novan konton premante la butonon \"Aldoni konton\".</string>
-    <string name="server_unsupported">Servilo devas esti ĝisdatigita. Nuna versio estas %1$s sed la apo bezonas %2$s aŭ pli novan</string>
     <string name="welcome_content">Konekti al via servilo por komenci.</string>
     <string name="login_help_description">Jellyfin bezonas servilon por konektiĝi. Viziti nian dokumentaron ĉe docs.jellyfin.org aŭ skani la QR-kodon por komenci kun Jellyfin.</string>
     <string name="enable_smart_view_description">Inteligenta ekrano montras koncernajn aĵojn anstataŭ krado</string>

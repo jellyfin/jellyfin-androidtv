@@ -346,7 +346,6 @@
     <string name="who_is_watching">מי צופה\?</string>
     <string name="no_user_warning">לא הצלחנו למצוא אף חשבון!
 \nהוסף חשבון חדש על ידי לחיצה על כפתור \"הוסף משתמש\".</string>
-    <string name="server_unsupported">השרת צריך להיות מעודכן. הגרסה הנוכחית היא %1$s אבל צריך גרסה %2$s או חדשה יותר</string>
     <string name="welcome_content">תתחבר לשרת שלך כדי להתחיל.</string>
     <string name="welcome_title">ברוך הבא לjellyfin!</string>
     <string name="saved_servers">שרתים שמורים</string>

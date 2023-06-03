@@ -343,7 +343,6 @@
     <string name="no_user_warning">Kunne ikke finne noen brukere!
 \nLegg til ny bruker ved å trykke på \"Legg til bruker\" knappen.</string>
     <string name="add_user">Legg til bruker</string>
-    <string name="server_unsupported">Serveren må oppdateres. Nåværende versjon er %1$s men appen trenger %2$s eller nyere</string>
     <string name="welcome_content">Koble til serveren din for å starte.</string>
     <string name="welcome_title">Velkommen til Jellyfin!</string>
     <string name="saved_servers">Lagrede servere</string>

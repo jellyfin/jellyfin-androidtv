@@ -349,7 +349,6 @@
     <string name="who_is_watching">Tko gleda\?</string>
     <string name="no_user_warning">Ne mogu pronaći korisnike!
 \nDodajte novog korisnika pritiskom na gumb \"Dodaj korisnika\".</string>
-    <string name="server_unsupported">Poslužitelj je potrebno ažurirati. Trenutna verzija je %1$s, ali aplikacija zahtijeva %2$s ili noviju</string>
     <string name="welcome_content">Za početak se povežite s poslužiteljem.</string>
     <string name="welcome_title">Dobro došli u Jellyfin!</string>
     <string name="press_to_close">Pritisni za zatvaranje</string>

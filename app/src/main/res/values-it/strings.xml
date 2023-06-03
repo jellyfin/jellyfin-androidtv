@@ -350,7 +350,6 @@
     <string name="who_is_watching">Chi sta guardando\?</string>
     <string name="no_user_warning">Non abbiamo trovato alcun utente!
 \nAggiungi un nuovo utente premendo il pulsante \"Aggiungi utente\".</string>
-    <string name="server_unsupported">Il server deve essere aggiornato. La versione attuale è %1$s ma l\'applicazione richiede %2$s o più recente</string>
     <string name="welcome_content">Connettiti al tuo server per incominciare.</string>
     <string name="welcome_title">Benvenuto su Jellyfin!</string>
     <string name="saved_servers">Server salvati</string>

@@ -340,7 +340,6 @@
     <string name="who_is_watching">Ποιος παρακολουθεί\?</string>
     <string name="no_user_warning">Δεν μπορέσαμε να βρούμε κανένα χρήστη!
 \nΠροσθέστε ένα νέο χρήστη πατώντας το κουμπί \"Προσθήκη χρήστη\".</string>
-    <string name="server_unsupported">Ο διακομιστής πρέπει να ενημερωθεί. Η παρούσα έκδοση είναι η %1$s αλλά η εφαρμογή απαιτεί την %2$s ή νεότερη</string>
     <string name="welcome_content">Συνδεθείτε στο διακομιστή σας για να ξεκινήσετε.</string>
     <string name="welcome_title">Καλωσορίσατε στο Jellyfin!</string>
     <string name="saved_servers">Αποθηκευμένοι διακομιστές</string>

@@ -353,7 +353,6 @@
     <string name="who_is_watching">Kdo se bude dívat\?</string>
     <string name="no_user_warning">Nebyly nalezeny žádné účty!
 \nNový účet přidejte stisknutím tlačítka \"Přidat účet\".</string>
-    <string name="server_unsupported">Server je nutné aktualizovat. Aktuální verze je %1$s, ale aplikace vyžaduje verzi %2$s nebo novější</string>
     <string name="welcome_content">Začněte připojením k serveru.</string>
     <string name="welcome_title">Vítejte v Jellyfin!</string>
     <string name="saved_servers">Uložené servery</string>

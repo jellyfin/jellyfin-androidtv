@@ -341,7 +341,6 @@
     <string name="who_is_watching">Hvem ser noget\?</string>
     <string name="no_user_warning">Vi kunne ikke finde nogen brugere!
 \nTilføj en ny bruger ved at trykke på \"Tøjføj bruger\" knappen.</string>
-    <string name="server_unsupported">Serveren skal opdateres. Aktuelle version er %1$s men appen behøver %2$s eller nyere</string>
     <string name="welcome_content">Opret forbindelse til din server fro at starte.</string>
     <string name="welcome_title">Velkommen til Jellyfin!</string>
     <string name="saved_servers">Gemte servere</string>

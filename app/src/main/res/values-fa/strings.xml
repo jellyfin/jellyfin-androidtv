@@ -294,7 +294,6 @@
     <string name="help">کمک</string>
     <string name="add_user">اضافه کردن حساب</string>
     <string name="who_is_watching">چه کسی در حال تماشا می‌باشد؟</string>
-    <string name="server_unsupported">سرور نیاز به بروزرسانی دارد. نسخه فعلی %1$s است ولی برنامه به نسخه %2$s یا جدیدتر نیاز داد</string>
     <string name="welcome_content">برای شروع باید به سرور متصل شوید.</string>
     <string name="welcome_title">به Jellyfin خوش آمدید!</string>
     <string name="saved_servers">سرور های ذخیره شده</string>

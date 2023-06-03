@@ -403,7 +403,6 @@
     <string name="who_is_watching">誰正在觀看？</string>
     <string name="no_user_warning">我們找不到任何帳號！
 \n按下「新增帳號」的按鈕以新增新帳號。</string>
-    <string name="server_unsupported">伺服器需要更新。目前的版本為%1$s，但應用程式需要%2$s或更新的版本</string>
     <string name="welcome_content">請連結至你的伺服器以開始使用。</string>
     <string name="welcome_title">歡迎來到Jellyfin！</string>
     <string name="saved_servers">以儲存的伺服器</string>

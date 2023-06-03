@@ -356,7 +356,6 @@
     <string name="who_is_watching">Wie is er aan het kijken\?</string>
     <string name="no_user_warning">We konden geen accounts vinden!
 \nVoeg een nieuw account toe met de \"Account toevoegen\"-knop.</string>
-    <string name="server_unsupported">Server moet geüpdatet worden. Huidige versie is %1$s maar app verwacht %2$s of nieuwer</string>
     <string name="welcome_content">Maak verbinding met je server om te beginnen.</string>
     <string name="welcome_title">Welkom bij Jellyfin!</string>
     <string name="saved_servers">Opgeslagen servers</string>

@@ -332,7 +332,6 @@
     <string name="lbl_hide_unwatched_count">Skryť počet nepozretých</string>
     <string name="pref_watched_indicator">Zobraziť indikátor pozretia</string>
     <string name="press_to_close">Stlačením zavriete</string>
-    <string name="server_unsupported">Server je nutné aktualizovať. Súčasná verzia je %1$s a aplikácia vyžaduje verziu %2$s alebo novšiu</string>
     <string name="lbl_starting_on_schedule_ending_after">Začína načas a končí o %1$s neskôr</string>
     <string name="lbl_start_end_on_schedule">Začína načas a končí načas</string>
     <string name="lbl_starting_early_ending_on_schedule">Začína o %1$s skôr a končí načas</string>

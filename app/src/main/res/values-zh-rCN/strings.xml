@@ -335,7 +335,6 @@
     <string name="lbl_season_number">第%1$d季</string>
     <string name="add_user">添加帐号</string>
     <string name="help">帮助</string>
-    <string name="server_unsupported">服务端需要更新. 当前版本为 %1$s 但应用需要版本 %2$s 以上</string>
     <string name="welcome_content">请连接您的服务器以开始使用。</string>
     <string name="welcome_title">欢迎来到Jellyfin!</string>
     <string name="saved_servers">已保存的服务器</string>

@@ -376,7 +376,6 @@
     <string name="who_is_watching">Хто дивиться\?</string>
     <string name="no_user_warning">Не знайшли жодних облікових записів!
 \nДодати новий обліковий запис можна натиснувши кнопку \"Додати обліковий запис\".</string>
-    <string name="server_unsupported">Сервер має бути оновлено. Поточна версія %1$s, але застосунок вимагає %2$s або новішу</string>
     <string name="welcome_content">Підключіться до вашого сервера для початку роботи.</string>
     <string name="welcome_title">Вітаємо в Jellyfin!</string>
     <string name="saved_servers">Збережені сервери</string>

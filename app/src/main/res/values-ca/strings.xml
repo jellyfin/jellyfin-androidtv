@@ -354,7 +354,6 @@
     <string name="who_is_watching">Qui ho està mirant\?</string>
     <string name="no_user_warning">No s\'han trobat comptes!
 \nAfegeix un nou compte prement el botó \"Afegeix compte\".</string>
-    <string name="server_unsupported">El servidor necessita actualitzar-se. La versió actual és %1$s, però l\'\'aplicació requereix de %2$s o superior</string>
     <string name="welcome_content">Connecta\'t al teu servidor per començar.</string>
     <string name="welcome_title">Benvingut a Jellyfin!</string>
     <string name="saved_servers">Servidors guardats</string>

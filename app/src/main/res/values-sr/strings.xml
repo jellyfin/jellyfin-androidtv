@@ -389,7 +389,6 @@
     <string name="who_is_watching">Ко гледа\?</string>
     <string name="no_user_warning">Не можемо пронаћи ниједног корисника!
 \nДодајте новог корисника притиском на дугме \"Додај корисника\".</string>
-    <string name="server_unsupported">Сервер мора бити ажуриран. Тренутна верзија је %1$s али апликација захтева %2$s или новију</string>
     <string name="welcome_content">Повежите се са вашим сервером да бисте започели.</string>
     <string name="welcome_title">Добродошли у Jellyfin!</string>
     <string name="saved_servers">Сачувани сервери</string>

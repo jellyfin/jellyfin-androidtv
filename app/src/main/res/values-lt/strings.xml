@@ -445,7 +445,6 @@
     <string name="lbl_tv_queuing">Į eilę į visus tolesnius epizodus</string>
     <string name="lbl_show_backdrop">Rodyti fonus</string>
     <string name="lbl_program_ended">Programa pasibaigė</string>
-    <string name="server_unsupported">Serveris turi būti atnaujintas. Dabartinė versija yra %1$s bet aplikacija reikalauja %2$s arba naujesnės</string>
     <string name="lbl_instant_mix">Spontaniškas sumaišymas</string>
     <string name="msg_no_items">Nėra failų kuriuos galima būtų paleisti</string>
     <string name="play_with_external_app">Paleisti su išorine programėle</string>

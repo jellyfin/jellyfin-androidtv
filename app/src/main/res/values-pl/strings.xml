@@ -352,7 +352,6 @@
     <string name="who_is_watching">Kto ogląda\?</string>
     <string name="no_user_warning">Nie możemy znaleźć żadnych kont!
 \nDodaj nowe konto używając przycisku \"Dodaj konto\".</string>
-    <string name="server_unsupported">Serwer musi zostać zaktualizowany. Aktualna wersja to %1$s a aplikacja wymaga %2$s lub nowszej</string>
     <string name="welcome_content">Połącz się z serwerem aby rozpocząć.</string>
     <string name="welcome_title">Witaj w Jellyfin!</string>
     <string name="saved_servers">Zapisane serwery</string>

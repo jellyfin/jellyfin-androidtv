@@ -282,7 +282,6 @@
     <string name="who_is_watching">Kuka katselee\?</string>
     <string name="no_user_warning">Tilejä ei löytynyt!
 \nLisää uusi tili painamalla \"Lisää tili\".</string>
-    <string name="server_unsupported">Palvelin on päivitettävä. Nykyinen versio on %1$s, mutta sovellus tarvitsee ainakin version %2$s</string>
     <string name="welcome_title">Tervetuloa Jellyfiniin!</string>
     <string name="saved_servers">Tallennetut palvelimet</string>
     <string name="no_network_permissions">Jellyfin tarvitsee toimiakseen verkon käyttöoikeuden</string>

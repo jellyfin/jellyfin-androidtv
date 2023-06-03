@@ -349,7 +349,6 @@
     <string name="who_is_watching">Kdo gleda\?</string>
     <string name="no_user_warning">Ne najdemo nobenega računa!
 \nDodaj nov račun s izbiro na gumb \"Dodaj račun\".</string>
-    <string name="server_unsupported">Strežnik potrebuje posodobitev. Trenutna različica je %1$s toda aplikacija zahteva %2$s oz. novejšo</string>
     <string name="welcome_content">Poveži se na strežnik za začetek.</string>
     <string name="welcome_title">Dobrodošli v Jellyfinu!</string>
     <string name="saved_servers">Shranjeni strežniki</string>

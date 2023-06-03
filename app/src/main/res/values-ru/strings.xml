@@ -335,7 +335,6 @@
     <string name="who_is_watching">Кто смотрит\?</string>
     <string name="no_user_warning">Мы не смогли найти ни одну учётную запись!
 \nДобавьте новую учётную запись, нажав кнопку «Добавить учётную запись».</string>
-    <string name="server_unsupported">Сервер нуждается в обновлении. Текущая версия — %1$s, но приложению требуется версия %2$s или новее</string>
     <string name="welcome_content">Подключитесь к своему серверу, чтобы начать.</string>
     <string name="welcome_title">Начало работы в Jellyfin!</string>
     <string name="saved_servers">Сохранённые серверы</string>

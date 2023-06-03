@@ -336,7 +336,6 @@
     <string name="who_is_watching">Vem tittar\?</string>
     <string name="no_user_warning">Vi hittade inga konton!
 \nLägg till ett konto genom att trycka på \"Lägg till konto\".</string>
-    <string name="server_unsupported">Servern behöver uppdateras. Nuvarande version är %1$s men appen kräver %2$s eller nyare</string>
     <string name="welcome_content">Anslut till din server för att börja.</string>
     <string name="welcome_title">Välkommen till Jellyfin!</string>
     <string name="saved_servers">Sparade servrar</string>

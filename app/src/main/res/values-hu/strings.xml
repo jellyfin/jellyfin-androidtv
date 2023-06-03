@@ -336,7 +336,6 @@
     <string name="who_is_watching">Ki figyel\?</string>
     <string name="no_user_warning">Nem találtunk felhasználói fiókot!
 \nAdjon hozzá egy új felhasználót a \"Felhasználó hozzáadása\" gombbal.</string>
-    <string name="server_unsupported">A szervert frissíteni kell. Az aktuális verzió %1$s , de a működéshez %2$s vagy újabb szükséges</string>
     <string name="welcome_content">Csatlakozzon a kiszolgálóhoz az induláshoz.</string>
     <string name="welcome_title">Üdvözöljük a Jellyfinben!</string>
     <string name="saved_servers">Elmentett szerverek</string>

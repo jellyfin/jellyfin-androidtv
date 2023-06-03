@@ -343,7 +343,6 @@
     <string name="help">Ayuda</string>
     <string name="add_user">Agregar cuenta</string>
     <string name="who_is_watching">¿Quién está viendo\?</string>
-    <string name="server_unsupported">Este servidor necesita ser actualizado. La versión actual es %1$s pero la app requiere %2$s o superior</string>
     <string name="welcome_title">¡Bienvenido a Jellyfin!</string>
     <string name="saved_servers">Servidores guardados</string>
     <string name="press_to_close">Presione para cerrar</string>

@@ -250,7 +250,6 @@
     <string name="add_user">ユーザー追加</string>
     <string name="no_user_warning">ユーザーが見つかりませんでした
 \n“ユーザー追加”ボタンを押して、新しいユーザーを追加してください。</string>
-    <string name="server_unsupported">サーバーを更新する必要があります。現在のバージョンは %1$s ですが、アプリケーションには %2$s 以降が必要です</string>
     <string name="welcome_content">サーバーに接続して開始します。</string>
     <string name="welcome_title">Jellyfinへようこそ!</string>
     <string name="saved_servers">保存されたサーバー</string>
