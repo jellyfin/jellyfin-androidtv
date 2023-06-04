@@ -255,7 +255,7 @@
     <string name="server_issue_ssl_handshake">SSL-kättely epäonnistui</string>
     <string name="server_issue_timeout">Yhteys aikakatkaistiin</string>
     <string name="server_issue_unsupported_version">Palvelimen versio on %1$s, eikä sitä tueta</string>
-    <string name="server_issue_outdated_version">Palvelimen versio on %1$s, mutta tarvitaan ainakin versio %2$s</string>
+    <string name="server_issue_outdated_version">Palvelimen versio on %1$s, jota ei tueta. Päivitä vähintään versioon %2$s.</string>
     <string name="server_issue_missing_version">Palvelimen versiota ei tunnistettu</string>
     <string name="server_issue_invalid_product">Palvelinohjelmisto ei ole yhteensopiva</string>
     <string name="server_issue_unable_to_connect">Ei saatu yhteyttä</string>
@@ -456,7 +456,7 @@
     <string name="pref_crash_reports">Lähetä palvelimelle kaatumisilmoituksia</string>
     <string name="pref_telemetry_category">Kaatumisilmoitukset</string>
     <string name="pref_telemetry_description">Lähetä kaatumisilmoituksia ja sisällytä lokitiedot</string>
-    <string name="server_unsupported_notification">Palvelin käyttää Jellyfin-versiota %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin versioon %2$s.</string>
+    <string name="server_unsupported_notification">jellyfin-palvelimen versio on %1$s, jota ei tueta. Jatka sovelluksen käyttöä päivittämällä Jellyfin vähintään versioon %2$s.</string>
     <string name="server_setup_incomplete">Tämän palvelimen määritys on kesken. Ennen kirjautumista, avaa Jellyfin verkkoselaimessa ja viimeistele määritys.</string>
     <string name="episode_name_special">erikoisjakso</string>
     <string name="lbl_quality_profile">Laatuprofiili</string>
