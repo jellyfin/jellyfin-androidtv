@@ -419,7 +419,7 @@
     <string name="pref_accounts">Accounts</string>
     <string name="sort_accounts_by">Accounts sorteren op</string>
     <string name="pref_customization">Personalisatie</string>
-    <string name="server_issue_outdated_version">Server gebruikt versie %1$s maar moet versie %2$s of nieuwer zijn</string>
+    <string name="server_issue_outdated_version">Server gebruikt niet-ondersteunde versie %1$s; s.v.p bijwerken naar %2$s of nieuwer</string>
     <string name="server_issue_missing_version">Kon de serverversie niet bepalen</string>
     <string name="server_issue_invalid_product">Server software is niet ondersteund</string>
     <string name="server_issue_unable_to_connect">Kon niet verbinden</string>
@@ -451,7 +451,7 @@
     <string name="lbl_subtitle_position">Positie ondertiteling van onder</string>
     <string name="color_darkgrey">Donkergrijs</string>
     <string name="app_notification_uimode_invalid">Deze app is geoptimaliseerd voor televisies. Op andere apparaten adviseren we onze mobiele app te gebruiken.</string>
-    <string name="server_unsupported_notification">Deze server gebruikt versie %1$s van Jellyfin, die niet wordt ondersteund. We adviseren bij te werken naar Jellyfin %2$s om van deze app gebruik te kunnen maken.</string>
+    <string name="server_unsupported_notification">Deze server gebruikt versie %1$s van Jellyfin, die niet wordt ondersteund. We adviseren bij te werken naar Jellyfin %2$s of nieuwer om de app te blijven gebruiken.</string>
     <string name="pref_telemetry_category">Crashrapportage</string>
     <string name="pref_crash_reports_disabled">Crashrapporten worden niet verstuurd</string>
     <string name="lbl_quality_profile">Kwaliteitsprofiel</string>
