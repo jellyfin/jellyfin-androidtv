@@ -14,8 +14,8 @@
     <string name="lbl_add_favorite">Thêm ưa thích</string>
     <string name="lbl_remove_favorite">Xóa ưa thích</string>
     <string name="lbl_mark_played">Đánh dấu đã phát</string>
-    <string name="lbl_mark_unplayed">Đánh dấu đã phát</string>
-    <string name="lbl_play_first_unwatched">Phát Chưa Xem Đầu Tiên</string>
+    <string name="lbl_mark_unplayed">Đánh dấu chưa phát</string>
+    <string name="lbl_play_first_unwatched">Phát chưa xem đầu tiên</string>
     <string name="lbl_search_hint">Tìm kiếm văn bản (chọn cho bàn phím)</string>
     <string name="sum_tv_queuing">Thêm phần còn lại của phần phim vào hàng đợi khi phát một tập</string>
     <string name="lbl_tv_queuing">Xếp hàng đợi tất cả các tập tiếp theo</string>
@@ -64,14 +64,14 @@
     <string name="lbl_record">Ghi lại</string>
     <string name="lbl_record_series">Ghi Bộ Phim</string>
     <string name="lbl_cancel_series">Hủy Bộ Phim</string>
-    <string name="lbl_cancel_recording">Hủy Ghi</string>
+    <string name="lbl_cancel_recording">Hủy ghi</string>
     <string name="lbl_cancel">Hủy</string>
     <string name="lbl_play">Phát</string>
     <string name="lbl_shuffle_all">Xáo trộn tất cả</string>
-    <string name="lbl_play_all">Phát Tất Cả</string>
+    <string name="lbl_play_all">Phát tất cả</string>
     <string name="lbl_because_you_watched">"Bởi vì bạn đã xem "</string>
     <string name="lbl_other">Khác</string>
-    <string name="lbl_tv_series">Chương Trình TV</string>
+    <string name="lbl_tv_series">TV nhiều tập</string>
     <string name="lbl_movies">Phim</string>
     <string name="lbl_collections">Bộ Sưu Tập</string>
     <string name="lbl_other_channels">Kênh khác</string>
@@ -119,7 +119,7 @@
     <string name="lbl_filters">Bộ lọc TV trực tiếp</string>
     <string name="lbl_ended">ĐÃ HẾT</string>
     <string name="lbl__continuing">ĐANG TIẾP TỤC</string>
-    <string name="lbl_display_preferences">Tùy Chọn Hiển Thị</string>
+    <string name="lbl_display_preferences">Tùy chọn hiển thị</string>
     <string name="lbl_starting_with">bắt đầu bằng những người có tên bắt đầu bằng</string>
     <string name="lbl_rating">Xếp Hạng</string>
     <string name="lbl_critic_rating">Xếp Hạng Phê Bình</string>
@@ -128,7 +128,7 @@
     <string name="lbl_name">Tên</string>
     <string name="lbl_from">từ</string>
     <string name="lbl_sorted_by">sắp xếp theo</string>
-    <string name="lbl_all_items">Tất Cả Các Mục</string>
+    <string name="lbl_all_items">Tất cả các mục</string>
     <string name="lbl_showing">Hiển thị</string>
     <string name="desc_debug">Cung cấp thêm thông tin để gỡ lỗi</string>
     <string name="lbl_enable_debug">Tùy chọn gỡ lỗi</string>
@@ -149,7 +149,7 @@
     <string name="lbl_album_name">Tên Album</string>
     <string name="lbl_next_episode">Tập kế tiếp</string>
     <string name="lbl_previous_episode">Tập trước</string>
-    <string name="lbl_more_like_this">Thêm nữa như thế này</string>
+    <string name="lbl_more_like_this">Thêm nữa giống vậy</string>
     <string name="lbl_resume_from">Tiếp tục từ %1$s</string>
     <string name="lbl_guide_option_number">Số kênh</string>
     <string name="lbl_guide_option_played">Lần Phát Cuối</string>
@@ -174,7 +174,7 @@
     <string name="no_program_data">Không có dữ liệu chương trình</string>
     <string name="msg_record_entire_series">Ghi lại toàn bộ loạt phim truyền hình\?</string>
     <string name="lbl_just_this_once">Chỉ lần này thôi</string>
-    <string name="lbl_select_date">Chọn Ngày</string>
+    <string name="lbl_select_date">Chọn ngày</string>
     <string name="lbl_in_x_days">Trong %d ngày</string>
     <string name="desc_premieres">Hiển thị một loạt các thử nghiệm tập mới cho bất kỳ bộ phim nào bạn xem</string>
     <string name="lbl_show_premieres">Hiển thị các mùa công chiếu</string>
@@ -194,8 +194,8 @@
     <string name="lbl_instant_mix">Trộn tức thì</string>
     <string name="lbl_goto_now_playing">Đi tới bây giờ đang phát</string>
     <string name="lbl_remove_from_queue">Xóa Khỏi Hàng Đợi</string>
-    <string name="lbl_play_from_here">Phát Từ Đây</string>
-    <string name="lbl_now_playing">Đang Phát</string>
+    <string name="lbl_play_from_here">Phát từ đây</string>
+    <string name="lbl_now_playing">Đang phát</string>
     <string name="lbl_prev_item">Mục Trước</string>
     <string name="lbl_next_item">Mục Kế Tiếp</string>
     <string name="lbl_open_album">Mở Album</string>
@@ -243,7 +243,7 @@
     <string name="lbl_my_media">Phương tiện của tôi</string>
     <string name="lbl_image_size">Kích cỡ ảnh</string>
     <string name="lbl_image_type">Lọai hình ảnh</string>
-    <string name="lbl_start_favorites">Đặt Mục ưa thích ở phần đầu</string>
+    <string name="lbl_start_favorites">Đặt mục yêu thích ở đầu</string>
     <string name="lbl_hd_programs">Chương trình HD</string>
     <string name="lbl_live_broadcasts">Phát sóng trực tiếp</string>
     <string name="lbl_repeat_episodes">Lặp lại các tập</string>
@@ -354,7 +354,7 @@
     <string name="enable_playback_module_description">Đây là một tính năng thử nghiệm. Không có hỗ trợ nào được cung cấp.</string>
     <string name="lbl_fit">Bình thường</string>
     <string name="lbl_stretch">Căng ra</string>
-    <string name="lbl_auto_crop">Tự Động Cắt</string>
+    <string name="lbl_auto_crop">Tự động cắt xén</string>
     <string name="alphabetical">Bảng chữ cái</string>
     <string name="last_use">Được dùng gần đây nhất</string>
     <string name="advanced_settings">Nâng cao</string>
@@ -390,7 +390,7 @@
     <string name="pref_subtitles_background_title">Bật nền</string>
     <string name="server_issue_ssl_handshake">Bắt tay SSL không thành công</string>
     <string name="server_issue_timeout">Kết nối quá hạn</string>
-    <string name="server_issue_outdated_version">Máy chủ sử dụng phiên bản %1$s nhưng cần phải là %2$s hoặc mới hơn</string>
+    <string name="server_issue_outdated_version">Máy chủ sử dụng phiên bản không được hỗ trợ %1$s. Vui lòng cập nhật lên %2$s hoặc mới hơn</string>
     <string name="server_issue_unsupported_version">Máy chủ sử dụng phiên bản %1$s không được hỗ trợ</string>
     <string name="server_issue_missing_version">Không thể xác định phiên bản máy chủ</string>
     <string name="server_issue_invalid_product">Phần mềm máy chủ không tương thích</string>
@@ -443,7 +443,7 @@
     <string name="pref_crash_reports">Gửi báo cáo sự cố đến máy chủ</string>
     <string name="pref_telemetry_description">Gửi báo cáo sự cố, bao gồm nhật ký</string>
     <string name="pref_telemetry_category">Báo cáo sự cố</string>
-    <string name="server_unsupported_notification">Máy chủ này sử dụng phiên bản Jellyfin %1$s không được hỗ trợ. Vui lòng cập nhật lên Jellyfin %2$s để tiếp tục sử dụng ứng dụng.</string>
+    <string name="server_unsupported_notification">Máy chủ này sử dụng phiên bản Jellyfin %1$s không được hỗ trợ. Vui lòng cập nhật lên Jellyfin %2$s hoặc mới hơn để tiếp tục sử dụng ứng dụng.</string>
     <string name="app_notification_uimode_invalid">Ứng dụng này được tối ưu cho TV. Chúng tôi khuyên bạn nên dùng ứng dụng di động của chúng tôi trên các thiết bị khác.</string>
     <string name="image_size_xlarge">Cực Lớn</string>
     <string name="image_size_smallest">Nhỏ nhất</string>
