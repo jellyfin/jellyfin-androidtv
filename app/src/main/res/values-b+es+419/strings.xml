@@ -411,7 +411,7 @@
     <string name="pref_customization">Personalización</string>
     <string name="server_issue_ssl_handshake">Verificación SSL fallada</string>
     <string name="server_issue_timeout">Tiempo de conexión agotada</string>
-    <string name="server_issue_outdated_version">La versión del servidor es %1$s, necesita actualizar a %2$s o superior</string>
+    <string name="server_issue_outdated_version">La versión del servidor %1$s no tiene soporte, por favor actualiza a %2$s o superior</string>
     <string name="server_issue_unsupported_version">La versión %1$s del servidor no es soportada</string>
     <string name="server_issue_missing_version">No se pudo determinar la versión del servidor</string>
     <string name="server_issue_invalid_product">El software del servidor es incompatible</string>
@@ -445,7 +445,7 @@
     <string name="pref_crash_reports">Enviar reportes de fallos al servidor</string>
     <string name="pref_telemetry_description">Enviar reporte de fallo, incluye registros</string>
     <string name="pref_telemetry_category">Reporte de fallos</string>
-    <string name="server_unsupported_notification">Éste servidor usa la versión %1$s de Jellyin la cual no está soportada. Por favor actualice a la versión %2$s para seguir usando la app.</string>
+    <string name="server_unsupported_notification">Éste servidor usa la versión %1$s de Jellyin la cual no está soportada. Por favor actualice a la versión %2$s o superior para seguir usando la app.</string>
     <string name="app_notification_uimode_invalid">Ésta app está optimizada para TV. Recomendamos usar la app móvil en otros dispositivos.</string>
     <string name="live_tv_preferences">Opciones de TV en vivo</string>
     <string name="action_connect">Conectar</string>
