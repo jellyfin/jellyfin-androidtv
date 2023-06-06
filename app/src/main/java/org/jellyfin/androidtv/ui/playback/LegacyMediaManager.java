@@ -9,14 +9,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.PlaybackException;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import androidx.annotation.OptIn;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSource;
+import androidx.media3.datasource.DefaultDataSourceFactory;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 
 import org.jellyfin.androidtv.R;
 import org.jellyfin.androidtv.constant.QueryType;
@@ -53,6 +55,7 @@ import java.util.Random;
 import kotlin.Lazy;
 import timber.log.Timber;
 
+@OptIn(markerClass = UnstableApi.class)
 public class LegacyMediaManager implements MediaManager {
     private Context context;
 

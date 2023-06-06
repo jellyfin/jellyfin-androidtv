@@ -1,6 +1,8 @@
 package org.jellyfin.playback.exoplayer.support
 
-import com.google.android.exoplayer2.RendererCapabilities
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.RendererCapabilities
 
 enum class DecoderSupport {
 	PRIMARY,
@@ -8,6 +10,7 @@ enum class DecoderSupport {
 	FALLBACK;
 
 	companion object {
+		@OptIn(UnstableApi::class)
 		fun fromFlags(flags: Int) = when (RendererCapabilities.getDecoderSupport(flags)) {
 			RendererCapabilities.DECODER_SUPPORT_PRIMARY -> PRIMARY
 			RendererCapabilities.DECODER_SUPPORT_FALLBACK_MIMETYPE -> FALLBACK_MIMETYPE

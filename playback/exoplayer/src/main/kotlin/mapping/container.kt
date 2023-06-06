@@ -1,6 +1,8 @@
 package org.jellyfin.playback.exoplayer.mapping
 
-import com.google.android.exoplayer2.util.MimeTypes
+import androidx.annotation.OptIn
+import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 
 fun getFfmpegContainerMimeType(codec: String): String {
 	// Find in container mime type list
@@ -13,6 +15,7 @@ fun getFfmpegContainerMimeType(codec: String): String {
 	}
 }
 
+@OptIn(UnstableApi::class)
 val ffmpegContainerMimeTypes = mapOf(
 	"aac" to MimeTypes.AUDIO_AAC,
 	"alaw" to MimeTypes.AUDIO_ALAW,

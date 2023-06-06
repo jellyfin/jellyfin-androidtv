@@ -1,6 +1,6 @@
 package org.jellyfin.playback.exoplayer.mapping
 
-import com.google.android.exoplayer2.util.MimeTypes
+import androidx.media3.common.MimeTypes
 
 fun getFfmpegAudioMimeType(codec: String): String {
 	return ffmpegAudioMimeTypes.getOrDefault(codec, codec)
