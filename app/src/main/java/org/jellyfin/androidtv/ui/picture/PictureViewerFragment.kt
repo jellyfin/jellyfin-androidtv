@@ -27,8 +27,8 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
-import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -59,11 +59,13 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		// Load requested item in viewmodel
 		lifecycleScope.launch {
 			val itemId = requireNotNull(arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull())
-			val albumSortBy = arguments?.getString(ARGUMENT_ALBUM_SORT_BY) ?: ItemSortBy.SortName
+			val albumSortBy = arguments?.getString(ARGUMENT_ALBUM_SORT_BY)?.let {
+				Json.Default.decodeFromString<ItemSortBy>(it)
+			} ?: ItemSortBy.SORT_NAME
 			val albumSortOrder = arguments?.getString(ARGUMENT_ALBUM_SORT_ORDER)?.let {
 				Json.Default.decodeFromString<SortOrder>(it)
 			} ?: SortOrder.ASCENDING
-			pictureViewerViewModel.loadItem(itemId, albumSortBy, albumSortOrder)
+			pictureViewerViewModel.loadItem(itemId, setOf(albumSortBy), albumSortOrder)
 
 			val autoPlay = arguments?.getBoolean(ARGUMENT_AUTO_PLAY) == true
 			if (autoPlay) pictureViewerViewModel.startPresentation()

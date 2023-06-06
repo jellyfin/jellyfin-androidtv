@@ -11,8 +11,8 @@ import org.jellyfin.apiclient.model.livetv.RecommendedProgramQuery
 import org.jellyfin.apiclient.model.livetv.RecordingQuery
 import org.jellyfin.apiclient.model.querying.ItemFields
 import org.jellyfin.apiclient.model.querying.NextUpQuery
+import org.jellyfin.sdk.model.api.MediaType
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest
-import org.jellyfin.sdk.model.constant.MediaType
 import org.jellyfin.sdk.model.api.ItemFields as SdkItemFields
 
 class HomeFragmentHelper(
@@ -28,7 +28,7 @@ class HomeFragmentHelper(
 		return HomeFragmentBrowseRowDefRow(BrowseRowDef(context.getString(R.string.lbl_my_media), ViewQuery))
 	}
 
-	fun loadResume(title: String, includeMediaTypes: List<String>): HomeFragmentRow {
+	fun loadResume(title: String, includeMediaTypes: Collection<MediaType>): HomeFragmentRow {
 		val query = GetResumeItemsRequest(
 			userId = userRepository.currentUser.value!!.id,
 			limit = ITEM_LIMIT_RESUME,
@@ -48,11 +48,11 @@ class HomeFragmentHelper(
 	}
 
 	fun loadResumeVideo(): HomeFragmentRow {
-		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.Video))
+		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.VIDEO))
 	}
 
 	fun loadResumeAudio(): HomeFragmentRow {
-		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.Audio))
+		return loadResume(context.getString(R.string.lbl_continue_watching), listOf(MediaType.AUDIO))
 	}
 
 	fun loadLatestLiveTvRecordings(): HomeFragmentRow {

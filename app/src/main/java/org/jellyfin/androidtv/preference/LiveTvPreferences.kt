@@ -4,7 +4,7 @@ import org.jellyfin.androidtv.preference.store.DisplayPreferencesStore
 import org.jellyfin.preference.booleanPreference
 import org.jellyfin.preference.stringPreference
 import org.jellyfin.sdk.api.client.ApiClient
-import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.api.ItemSortBy
 
 class LiveTvPreferences(
 	api: ApiClient,
@@ -13,7 +13,7 @@ class LiveTvPreferences(
 	api = api,
 ) {
 	companion object {
-		val channelOrder = stringPreference("livetv-channelorder", ItemSortBy.DatePlayed)
+		val channelOrder = stringPreference("livetv-channelorder", ItemSortBy.DATE_PLAYED.name)
 		val colorCodeGuide = booleanPreference("guide-colorcodedbackgrounds", false)
 		val favsAtTop = booleanPreference("livetv-favoritechannelsattop", true)
 		val showHDIndicator = booleanPreference("guide-indicator-hd", false)

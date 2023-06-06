@@ -39,6 +39,9 @@ fun RecommendedServerIssue.getFriendlyMessage(context: Context): String = when (
 	)
 
 	is RecommendedServerIssue.SlowResponse -> context.getString(R.string.server_issue_timeout)
+
+	is RecommendedServerIssue.SecureConnectionFailed -> TODO()
+	is RecommendedServerIssue.ServerUnreachable -> TODO()
 }
 
 /**
@@ -49,11 +52,14 @@ fun RecommendedServerIssue.getFriendlyMessage(context: Context): String = when (
 fun Collection<RecommendedServerIssue>.getSummary(context: Context): String? = maxByOrNull {
 	// Assign a "score" to each issue type so we can return the most important one
 	when (it) {
-		is RecommendedServerIssue.MissingSystemInfo -> 5
-		is RecommendedServerIssue.UnsupportedServerVersion -> 4
-		is RecommendedServerIssue.OutdatedServerVersion -> 3
-		is RecommendedServerIssue.SlowResponse -> 2
+		is RecommendedServerIssue.MissingSystemInfo -> 7
+		is RecommendedServerIssue.UnsupportedServerVersion -> 6
+		is RecommendedServerIssue.OutdatedServerVersion -> 5
+		is RecommendedServerIssue.SlowResponse -> 4
+		is RecommendedServerIssue.ServerUnreachable -> 3
+		is RecommendedServerIssue.SecureConnectionFailed -> 2
 		RecommendedServerIssue.MissingVersion -> 1
 		is RecommendedServerIssue.InvalidProductName -> 0
+
 	}
 }?.getFriendlyMessage(context)

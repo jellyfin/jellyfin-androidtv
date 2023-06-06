@@ -9,6 +9,7 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import org.koin.android.ext.android.inject
 
@@ -21,11 +22,11 @@ class SuggestedMoviesFragment : EnhancedBrowseFragment() {
 
 	override fun setupQueries(rowLoader: RowLoader) {
 		lifecycleScope.launch {
-			val response by api.itemsApi.getItemsByUserId(
+			val response by api.itemsApi.getItems(
 				parentId = mFolder.id,
 				includeItemTypes = setOf(BaseItemKind.MOVIE),
 				sortOrder = setOf(SortOrder.DESCENDING),
-				sortBy = setOf("DatePlayed"),
+				sortBy = setOf(ItemSortBy.DATE_PLAYED),
 				limit = 8,
 				recursive = true,
 			)

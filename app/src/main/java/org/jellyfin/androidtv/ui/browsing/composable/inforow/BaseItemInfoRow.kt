@@ -27,6 +27,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.SeriesStatus
+import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.compose.koinInject
 import java.time.LocalDateTime
@@ -90,6 +91,14 @@ fun InfoRowSeriesStatus(
 
 	if (seriesStatus != null) {
 		when (seriesStatus) {
+			// TODO: Add proper translation
+			SeriesStatus.UNRELEASED -> InfoRowItem(
+				contentDescription = stringResource(R.string.lbl__continuing),
+				colors = InfoRowColors.Default,
+			) {
+				Text(stringResource(R.string.lbl__continuing))
+			}
+
 			SeriesStatus.CONTINUING -> InfoRowItem(
 				contentDescription = stringResource(R.string.lbl__continuing),
 				colors = InfoRowColors.Green,
@@ -175,8 +184,8 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	// Video stream
 	val videoCodecName = when {
 		!videoStream?.videoDoViTitle.isNullOrBlank() -> stringResource(R.string.dolby_vision)
-		videoStream?.videoRangeType != null && videoStream.videoRangeType != "SDR" ->
-			videoStream.videoRangeType?.uppercase()
+		videoStream?.videoRangeType != null && videoStream.videoRangeType != VideoRangeType.SDR && videoStream.videoRangeType != VideoRangeType.UNKNOWN ->
+			videoStream.videoRangeType.serialName.uppercase()
 
 		else -> videoStream?.codec?.uppercase()
 	}
