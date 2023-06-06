@@ -1,12 +1,11 @@
 package org.jellyfin.playback.core
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.time.Duration
 
 class PlaybackManagerOptions(
 	val playerVolumeState: PlayerVolumeState,
-) {
-	var defaultRewindAmount = MutableStateFlow(10.seconds)
-	var defaultFastForwardAmount = MutableStateFlow(10.seconds)
 
-}
+	val defaultRewindAmount: StateFlow<Duration>,
+	val defaultFastForwardAmount: StateFlow<Duration>,
+)
