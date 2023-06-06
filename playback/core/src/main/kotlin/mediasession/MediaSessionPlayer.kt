@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.guava.future
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.model.PlaybackOrder
 import org.jellyfin.playback.core.model.RepeatMode
@@ -30,6 +31,7 @@ internal class MediaSessionPlayer(
 	looper: Looper,
 	private val scope: CoroutineScope,
 	private val state: org.jellyfin.playback.core.PlayerState,
+	private val manager: PlaybackManager,
 ) : SimpleBasePlayer(looper) {
 	init {
 		// Invalidate mediasession state when certain player state changes
@@ -123,6 +125,8 @@ internal class MediaSessionPlayer(
 		@Suppress("MagicNumber")
 		setDeviceVolume((state.volume.volume * 100).toInt())
 		setIsDeviceMuted(state.volume.muted)
+		setSeekBackIncrementMs(manager.options.defaultRewindAmount.value.inWholeMilliseconds)
+		setSeekForwardIncrementMs(manager.options.defaultFastForwardAmount.value.inWholeMilliseconds)
 	}.build()
 
 	override fun handleSetPlayWhenReady(playWhenReady: Boolean): ListenableFuture<*> {

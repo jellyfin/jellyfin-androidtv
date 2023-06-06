@@ -26,6 +26,7 @@ class MediaSessionService(
 			looper = Looper.getMainLooper(),
 			scope = coroutineScope,
 			state = state,
+			manager = manager,
 		)
 		val session = MediaSession.Builder(androidContext, player).apply {
 			setId(options.notificationId.toString())

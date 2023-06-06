@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.preference.PlaybackPreferenceBridge
 import org.jellyfin.androidtv.preference.UserPreferences
 import org.jellyfin.androidtv.ui.browsing.MainActivity
 import org.jellyfin.androidtv.ui.playback.GarbagePlaybackLauncher
@@ -26,10 +27,11 @@ import org.koin.dsl.module
 import org.jellyfin.androidtv.ui.playback.PlaybackManager as LegacyPlaybackManager
 
 val playbackModule = module {
+	single { PlaybackPreferenceBridge(get()) }
 	single { LegacyPlaybackManager(get()) }
 	single { VideoQueueManager() }
 	single { LegacyMediaManager(get()) }
-	single { RewriteMediaManager(get(), get(), get(), get(), get()) }
+	single { RewriteMediaManager(get(), get(), get(), get()) }
 
 	factory {
 		val preferences = get<UserPreferences>()
@@ -73,4 +75,9 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 		iconSmall = R.drawable.app_icon_foreground,
 		openIntent = pendingIntent,
 	)))
+
+	// Options
+	val bridge = get<PlaybackPreferenceBridge>()
+	defaultRewindAmount = bridge.defaultRewindAmount
+	defaultFastForwardAmount = bridge.defaultFastForwardAmount
 }

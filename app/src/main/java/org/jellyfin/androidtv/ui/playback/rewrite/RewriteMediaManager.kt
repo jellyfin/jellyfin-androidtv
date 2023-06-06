@@ -10,7 +10,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
-import org.jellyfin.androidtv.preference.UserSettingPreferences
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemRowAdapter
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -28,14 +27,12 @@ import org.jellyfin.playback.core.queue.item.QueueEntry
 import org.jellyfin.playback.jellyfin.queue.item.BaseItemDtoUserQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
-import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("TooManyFunctions")
 class RewriteMediaManager(
 	private val context: Context,
 	private val api: ApiClient,
 	private val navigationRepository: NavigationRepository,
-	private val userSettingPreferences: UserSettingPreferences,
 	private val playbackManager: PlaybackManager,
 ) : MediaManager {
 	override fun hasAudioQueueItems(): Boolean = currentAudioQueue.size() > 0 && currentAudioItem != null
@@ -274,11 +271,11 @@ class RewriteMediaManager(
 	}
 
 	override fun fastForward() {
-		playbackManager.state.rewind(userSettingPreferences[UserSettingPreferences.skipForwardLength].milliseconds)
+		playbackManager.state.fastForward()
 	}
 
 	override fun rewind() {
-		playbackManager.state.rewind(userSettingPreferences[UserSettingPreferences.skipBackLength].milliseconds)
+		playbackManager.state.rewind()
 	}
 
 	private class BaseItemQueue(
