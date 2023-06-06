@@ -1,9 +1,11 @@
 package org.jellyfin.playback.exoplayer.support
 
-import com.google.android.exoplayer2.BaseRenderer
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.Format
-import com.google.android.exoplayer2.RendererCapabilities
+import androidx.annotation.OptIn
+import androidx.media3.common.Format
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.BaseRenderer
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.RendererCapabilities
 import org.jellyfin.playback.core.support.PlaySupportReport
 
 data class ExoPlayerPlaySupportReport(
@@ -16,6 +18,7 @@ data class ExoPlayerPlaySupportReport(
 	override val canPlay = format == FormatSupport.HANDLED || tunneling == true || hardwareAcceleration == true
 
 	companion object {
+		@OptIn(UnstableApi::class)
 		fun fromFlags(flags: Int): ExoPlayerPlaySupportReport = ExoPlayerPlaySupportReport(
 			format = FormatSupport.fromFlags(RendererCapabilities.getFormatSupport(flags)),
 			adaptive = AdaptiveSupport.fromFlags(RendererCapabilities.getAdaptiveSupport(flags)),
@@ -24,12 +27,14 @@ data class ExoPlayerPlaySupportReport(
 			decoder = DecoderSupport.fromFlags(RendererCapabilities.getDecoderSupport(flags)),
 		)
 
+		@OptIn(UnstableApi::class)
 		private fun tunnelingFromFlags(flags: Int) = when (RendererCapabilities.getTunnelingSupport(flags)) {
 			RendererCapabilities.TUNNELING_SUPPORTED -> true
 			RendererCapabilities.TUNNELING_NOT_SUPPORTED -> false
 			else -> null
 		}
 
+		@OptIn(UnstableApi::class)
 		private fun hardwareAccelerationFromFlags(flags: Int) = when (RendererCapabilities.getHardwareAccelerationSupport(flags)) {
 			RendererCapabilities.HARDWARE_ACCELERATION_SUPPORTED -> true
 			RendererCapabilities.HARDWARE_ACCELERATION_NOT_SUPPORTED -> false
@@ -41,6 +46,7 @@ data class ExoPlayerPlaySupportReport(
 fun ExoPlayer.getPlaySupportReport(format: Format): ExoPlayerPlaySupportReport =
 	ExoPlayerPlaySupportReport.fromFlags(supportsFormat(format))
 
+@OptIn(UnstableApi::class)
 fun ExoPlayer.supportsFormat(format: Format): Int {
 	var capabilities = 0
 

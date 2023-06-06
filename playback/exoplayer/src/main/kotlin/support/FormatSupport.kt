@@ -1,6 +1,9 @@
 package org.jellyfin.playback.exoplayer.support
 
-import com.google.android.exoplayer2.RendererCapabilities
+import androidx.annotation.OptIn
+import androidx.media3.common.C
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.RendererCapabilities
 
 enum class FormatSupport {
 	HANDLED,
@@ -10,12 +13,13 @@ enum class FormatSupport {
 	UNSUPPORTED_TYPE;
 
 	companion object {
+		@OptIn(UnstableApi::class)
 		fun fromFlags(flags: Int) = when (RendererCapabilities.getFormatSupport(flags)) {
-			RendererCapabilities.FORMAT_HANDLED -> HANDLED
-			RendererCapabilities.FORMAT_EXCEEDS_CAPABILITIES -> EXCEEDS_CAPABILITIES
-			RendererCapabilities.FORMAT_UNSUPPORTED_DRM -> UNSUPPORTED_DRM
-			RendererCapabilities.FORMAT_UNSUPPORTED_SUBTYPE -> UNSUPPORTED_SUBTYPE
-			RendererCapabilities.FORMAT_UNSUPPORTED_TYPE -> UNSUPPORTED_TYPE
+			C.FORMAT_HANDLED -> HANDLED
+			C.FORMAT_EXCEEDS_CAPABILITIES -> EXCEEDS_CAPABILITIES
+			C.FORMAT_UNSUPPORTED_DRM -> UNSUPPORTED_DRM
+			C.FORMAT_UNSUPPORTED_SUBTYPE -> UNSUPPORTED_SUBTYPE
+			C.FORMAT_UNSUPPORTED_TYPE -> UNSUPPORTED_TYPE
 			else -> null
 		}
 	}
