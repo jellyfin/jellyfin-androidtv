@@ -59,10 +59,10 @@ import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.SeriesTimerInfoDtoResult;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
 import org.jellyfin.sdk.model.api.UserDto;
 import org.jellyfin.sdk.model.api.request.GetResumeItemsRequest;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
 import org.koin.java.KoinJavaComponent;
 
 import java.time.Instant;
@@ -94,7 +94,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
     private GetResumeItemsRequest resumeQuery;
     private QueryType queryType;
 
-    private String mSortBy;
+    private ItemSortBy mSortBy;
     private SortOrder sortOrder;
     private FilterOptions mFilters;
 
@@ -428,25 +428,25 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
             sortOrder = option.order;
             switch (queryType) {
                 case Artists:
-                    mArtistsQuery.setSortBy(new String[]{mSortBy});
+                    mArtistsQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
                     mArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
                 case AlbumArtists:
-                    mAlbumArtistsQuery.setSortBy(new String[]{mSortBy});
+                    mAlbumArtistsQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
                     mAlbumArtistsQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
                 default:
-                    mQuery.setSortBy(new String[]{mSortBy});
+                    mQuery.setSortBy(new String[]{mSortBy.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
                     mQuery.setSortOrder(ModelCompat.asLegacy(option.order));
                     break;
             }
-            if (!ItemSortBy.SortName.equals(option.value)) {
+            if (!ItemSortBy.SORT_NAME.equals(option.value)) {
                 setStartLetter(null);
             }
         }
     }
 
-    public String getSortBy() {
+    public ItemSortBy getSortBy() {
         return mSortBy;
     }
 
@@ -817,7 +817,7 @@ public class ItemRowAdapter extends MutableObjectAdapter<Object> {
                     setTotalItems(response.getTotalRecordCount());
 
                     ItemRowAdapterHelperKt.setItems(ItemRowAdapter.this, response.getItems(), (item, i) -> {
-                        if (userViewsRepository.getValue().isSupported(item.getCollectionType())) {
+                        if (userViewsRepository.getValue().isSupported(ModelCompat.asSdk(item).getCollectionType())) {
                             item.setDisplayPreferencesId(item.getId());
                             return new BaseRowItem(i, item, preferParentThumb, staticHeight);
                         } else {

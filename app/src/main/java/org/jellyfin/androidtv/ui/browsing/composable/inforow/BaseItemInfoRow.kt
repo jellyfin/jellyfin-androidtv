@@ -27,6 +27,7 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.MediaStreamType
 import org.jellyfin.sdk.model.api.SeriesStatus
+import org.jellyfin.sdk.model.api.VideoRangeType
 import org.jellyfin.sdk.model.extensions.ticks
 import org.koin.compose.koinInject
 import java.time.LocalDateTime
@@ -79,14 +80,11 @@ fun InfoRowDate(
 	}
 }
 
-// TODO: Migrate to Enum.fromNameOrNull() with Kotlin SDK 1.5
-private fun getSeriesStatusOrNull(value: String) = SeriesStatus.entries.firstOrNull { it.serialName == value }
-
 @Composable
 fun InfoRowSeriesStatus(
 	item: BaseItemDto,
 ) {
-	val seriesStatus = item.status?.let(::getSeriesStatusOrNull)
+	val seriesStatus = item.status?.let(SeriesStatus::fromNameOrNull)
 
 	if (seriesStatus != null) {
 		when (seriesStatus) {
@@ -182,8 +180,8 @@ fun InfoRowMediaDetails(item: BaseItemDto) {
 	// Video stream
 	val videoCodecName = when {
 		!videoStream?.videoDoViTitle.isNullOrBlank() -> stringResource(R.string.dolby_vision)
-		videoStream?.videoRangeType != null && videoStream.videoRangeType != "SDR" ->
-			videoStream.videoRangeType?.uppercase()
+		videoStream?.videoRangeType != null && videoStream.videoRangeType != VideoRangeType.SDR && videoStream.videoRangeType != VideoRangeType.UNKNOWN ->
+			videoStream.videoRangeType.serialName.uppercase()
 
 		else -> videoStream?.codec?.uppercase()
 	}

@@ -7,7 +7,8 @@ import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.ItemSortBy
+import org.jellyfin.sdk.model.api.MediaType
 
 class AudioAlbumQueue(
 	private val album: BaseItemDto,
@@ -21,12 +22,12 @@ class AudioAlbumQueue(
 		private set
 
 	override suspend fun loadPage(offset: Int, size: Int): Collection<QueueEntry> {
-		val result by api.itemsApi.getItemsByUserId(
+		val result by api.itemsApi.getItems(
 			parentId = album.id,
 			recursive = true,
-			mediaTypes = listOf(MediaType.Audio),
+			mediaTypes = listOf(MediaType.AUDIO),
 			includeItemTypes = listOf(BaseItemKind.AUDIO),
-			sortBy = listOf(ItemFields.SORT_NAME.name),
+			sortBy = listOf(ItemSortBy.SORT_NAME),
 			fields = listOf(ItemFields.MEDIA_SOURCES),
 			// Pagination
 			startIndex = offset,

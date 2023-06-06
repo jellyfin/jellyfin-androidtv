@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.screen.UserPreferencesScreen
 import org.jellyfin.androidtv.ui.search.SearchFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
@@ -145,11 +146,11 @@ object Destinations {
 	// Playback
 	val nowPlaying = fragmentDestination<AudioNowPlayingFragment>()
 
-	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: String?, albumSortOrder: SortOrder?) =
+	fun pictureViewer(item: UUID, autoPlay: Boolean, albumSortBy: ItemSortBy?, albumSortOrder: SortOrder?) =
 		fragmentDestination<PictureViewerFragment>(
 			PictureViewerFragment.ARGUMENT_ITEM_ID to item.toString(),
-			PictureViewerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy,
-			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.let { Json.Default.encodeToString(it) },
+			PictureViewerFragment.ARGUMENT_ALBUM_SORT_BY to albumSortBy?.serialName,
+			PictureViewerFragment.ARGUMENT_ALBUM_SORT_ORDER to albumSortOrder?.serialName,
 			PictureViewerFragment.ARGUMENT_AUTO_PLAY to autoPlay,
 		)
 

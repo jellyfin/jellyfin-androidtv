@@ -23,7 +23,7 @@ import org.jellyfin.androidtv.util.sdk.compat.ModelCompat;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.CollectionType;
+import org.jellyfin.sdk.model.api.CollectionType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -44,19 +44,18 @@ public class ItemLauncher {
     }
 
     public static Destination.Fragment getUserViewDestination(@Nullable final BaseItemDto baseItem) {
-        String collectionType = baseItem == null ? null : baseItem.getCollectionType();
-        if (collectionType == null) collectionType = "";
+        CollectionType collectionType = baseItem == null ? CollectionType.UNKNOWN : baseItem.getCollectionType();
 
         switch (collectionType) {
-            case CollectionType.Movies:
-            case CollectionType.TvShows:
+            case MOVIES:
+            case TVSHOWS:
                 LibraryPreferences displayPreferences = KoinJavaComponent.<PreferencesRepository>get(PreferencesRepository.class).getLibraryPreferences(baseItem.getDisplayPreferencesId());
                 boolean enableSmartScreen = displayPreferences.get(LibraryPreferences.Companion.getEnableSmartScreen());
 
                 if (!enableSmartScreen) return Destinations.INSTANCE.libraryBrowser(baseItem);
                 else return Destinations.INSTANCE.librarySmartScreen(baseItem);
-            case CollectionType.Music:
-            case CollectionType.LiveTv:
+            case MUSIC:
+            case LIVETV:
                 return Destinations.INSTANCE.librarySmartScreen(baseItem);
             default:
                 return Destinations.INSTANCE.libraryBrowser(baseItem);

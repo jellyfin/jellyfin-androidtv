@@ -12,6 +12,8 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.LocationType
+import org.jellyfin.sdk.model.api.PersonKind
+import org.jellyfin.sdk.model.api.PlayAccess
 import java.time.LocalDateTime
 
 fun BaseItemDto.getSeasonEpisodeName(context: Context): String {
@@ -76,7 +78,7 @@ fun BaseItemDto.getProgramSubText(context: Context) = buildString {
 	))
 }
 
-fun BaseItemDto.getFirstPerson(searchedType: String) = people?.firstOrNull { it.type == searchedType }
+fun BaseItemDto.getFirstPerson(searchedType: PersonKind) = people?.firstOrNull { it.type == searchedType }
 
 fun BaseItemDto.getFullName(context: Context): String? = when (type) {
 	BaseItemKind.EPISODE -> buildList {

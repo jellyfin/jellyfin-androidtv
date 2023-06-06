@@ -64,8 +64,8 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemFilter;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
-import org.jellyfin.sdk.model.constant.MediaType;
+import org.jellyfin.sdk.model.api.ItemSortBy;
+import org.jellyfin.sdk.model.api.MediaType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -216,7 +216,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
         mAudioEventListener.onPlaybackStateChange(mediaManager.getValue().isPlayingAudio() ? PlaybackController.PlaybackState.PLAYING : PlaybackController.PlaybackState.IDLE, mediaManager.getValue().getCurrentAudioItem());
 
         if (!firstTime && dataRefreshService.getValue().getLastPlayback() != null && dataRefreshService.getValue().getLastPlayback().isAfter(lastUpdated)) {
-            if (MediaType.Video.equals(mBaseItem.getMediaType())) {
+            if (MediaType.VIDEO.equals(ModelCompat.asSdk(mBaseItem).getMediaType())) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -327,7 +327,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
             item.setId(FakeBaseItem.INSTANCE.getFAV_SONGS_ID().toString());
             item.setName(getString(R.string.lbl_favorites));
             item.setOverview(getString(R.string.desc_automatic_fav_songs));
-            item.setMediaType(MediaType.Audio);
+            item.setMediaType(MediaType.AUDIO.getSerialName());
             item.setBaseItemType(BaseItemType.Playlist);
             item.setIsFolder(true);
             setBaseItem(item);
@@ -368,7 +368,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                 favSongs.setIncludeItemTypes(new String[]{"Audio"});
                 favSongs.setRecursive(true);
                 favSongs.setFilters(new ItemFilter[]{ItemFilter.IsFavoriteOrLikes});
-                favSongs.setSortBy(new String[]{ItemSortBy.Random});
+                favSongs.setSortBy(new String[]{ItemSortBy.RANDOM.getSerialName()});
                 favSongs.setLimit(150);
                 apiClient.getValue().GetItemsAsync(favSongs, itemResponse);
             } else {
@@ -394,7 +394,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
                     ItemFields.ChildCount
             });
             songs.setIncludeItemTypes(new String[]{"Audio"});
-            songs.setSortBy(new String[] {ItemSortBy.SortName});
+            songs.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
             songs.setLimit(200);
             apiClient.getValue().GetItemsAsync(songs, itemResponse);
         }
@@ -459,7 +459,7 @@ public class ItemListFragment extends Fragment implements View.OnKeyListener {
     private void play(List<BaseItemDto> items, int ndx, boolean shuffle) {
         Timber.d("play items: %d, ndx: %d, shuffle: %b", items.size(), ndx, shuffle);
 
-        if (MediaType.Video.equals(mBaseItem.getMediaType())) {
+        if (MediaType.VIDEO.equals(ModelCompat.asSdk(mBaseItem).getMediaType())) {
             if (shuffle) {
                 Collections.shuffle(items);
             }

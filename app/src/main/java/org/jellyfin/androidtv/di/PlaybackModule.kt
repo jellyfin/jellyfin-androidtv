@@ -45,7 +45,7 @@ val playbackModule = module {
 
 fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	install(exoPlayerPlugin(get()))
-	install(jellyfinPlugin(get(), get()))
+	install(jellyfinPlugin(get()))
 
 	val activityIntent = Intent(get(), MainActivity::class.java)
 	val pendingIntent = PendingIntent.getActivity(get(), 0, activityIntent, PendingIntent.FLAG_IMMUTABLE)

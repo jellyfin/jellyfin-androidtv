@@ -14,7 +14,7 @@ import org.jellyfin.androidtv.ui.livetv.GuideOptionsScreen
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
-import org.jellyfin.sdk.model.constant.CollectionType
+import org.jellyfin.sdk.model.api.CollectionType
 import org.koin.android.ext.android.inject
 
 class LibrariesPreferencesScreen : OptionsFragment() {
@@ -47,7 +47,7 @@ class LibrariesPreferencesScreen : OptionsFragment() {
 							DisplayPreferencesScreen.ARG_ALLOW_VIEW_SELECTION to allowViewSelection,
 							DisplayPreferencesScreen.ARG_PREFERENCES_ID to it.displayPreferencesId,
 						))
-					} else if (it.collectionType == CollectionType.LiveTv) {
+					} else if (it.collectionType == CollectionType.LIVETV) {
 						icon = R.drawable.ic_guide
 						withFragment<GuideOptionsScreen>()
 					} else {

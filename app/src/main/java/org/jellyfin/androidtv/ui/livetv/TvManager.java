@@ -38,7 +38,7 @@ import org.jellyfin.apiclient.model.livetv.TimerQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.results.ChannelInfoDtoResult;
 import org.jellyfin.apiclient.model.results.TimerInfoDtoResult;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
+import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -117,11 +117,11 @@ public class TvManager {
         query.setUserId(KoinJavaComponent.<UserRepository>get(UserRepository.class).getCurrentUser().getValue().getId().toString());
         query.setAddCurrentProgram(true);
         query.setEnableFavoriteSorting(liveTvPreferences.get(LiveTvPreferences.Companion.getFavsAtTop()));
-        if (ItemSortBy.DatePlayed.equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
+        if (ItemSortBy.DATE_PLAYED.getSerialName().equals(liveTvPreferences.get(LiveTvPreferences.Companion.getChannelOrder()))) {
             query.setSortOrder(SortOrder.Descending);
-            query.setSortBy(new String[] { ItemSortBy.DatePlayed });
+            query.setSortBy(new String[] { ItemSortBy.DATE_PLAYED.getSerialName() });
         } else {
-            query.setSortBy(new String[] { ItemSortBy.SortName });
+            query.setSortBy(new String[] { ItemSortBy.SORT_NAME.getSerialName() });
         }
 
         Timber.d("*** About to load channels");
@@ -165,7 +165,7 @@ public class TvManager {
             endNdx = endNdx > channelIds.length ? channelIds.length : endNdx+1; //array copy range final ndx is exclusive
             query.setChannelIds(Arrays.copyOfRange(channelIds, startNdx, endNdx));
             query.setEnableImages(false);
-            query.setSortBy(new String[] {ItemSortBy.StartDate});
+            query.setSortBy(new String[] {ItemSortBy.START_DATE.getSerialName()});
             Calendar end = (Calendar) endTime.clone();
             end.setTimeZone(TimeZone.getTimeZone("Z"));
             end.add(Calendar.SECOND, -1);
