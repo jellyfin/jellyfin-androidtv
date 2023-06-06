@@ -393,7 +393,7 @@
     <string name="home_section_i">Sección Principal %1$d</string>
     <string name="server_issue_ssl_handshake">El emparejamiento SSL ha fallado</string>
     <string name="server_issue_timeout">No se ha podido conectar</string>
-    <string name="server_issue_outdated_version">El servidor usa la versión %1$s pero debe ser %2$s o más reciente</string>
+    <string name="server_issue_outdated_version">El servidor usa la versión sin soporte %1$s, por favor actualiza a la versión %2$s o más reciente</string>
     <string name="server_issue_unsupported_version">El servidor usa la versión %1$s que no es compatible</string>
     <string name="server_issue_missing_version">No se puede determinar la versión del servidor</string>
     <string name="server_issue_invalid_product">El software del servidor es incompatible</string>
@@ -449,7 +449,7 @@
     <string name="lbl_additional_parts">Partes adicionales</string>
     <string name="pref_telemetry_description">Enviar informe de fallos, incluye registros</string>
     <string name="pref_telemetry_category">Informe de fallos</string>
-    <string name="server_unsupported_notification">Este servidor utilizar la versión %1$s de Jellyfin, la cual no es compatible. Por favor actualiza a Jellyfin %2$s para seguir utilizando esta aplicación.</string>
+    <string name="server_unsupported_notification">Este servidor utilizar la versión %1$s de Jellyfin, la cual no está soportada. Por favor actualiza a Jellyfin %2$s o mas reciente para seguir utilizando esta aplicación.</string>
     <string name="episode_name_special">especial</string>
     <string name="server_setup_incomplete">El servidor no se ha configurado aún. Abre Jellyfin en un navegador web para terminar la configuración antes de iniciar sesión.</string>
     <string name="crash_report_toast">Ups! Algo ha ido mal, se ha enviado un informe de fallos a tu servidor de Jellyfin.</string>
