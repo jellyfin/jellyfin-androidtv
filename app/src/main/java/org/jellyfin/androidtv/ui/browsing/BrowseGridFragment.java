@@ -67,9 +67,9 @@ import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.sdk.model.api.BaseItemDto;
 import org.jellyfin.sdk.model.api.BaseItemKind;
+import org.jellyfin.sdk.model.api.CollectionType;
+import org.jellyfin.sdk.model.api.ItemSortBy;
 import org.jellyfin.sdk.model.api.SortOrder;
-import org.jellyfin.sdk.model.constant.CollectionType;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -164,16 +164,16 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
         sortOptions = new HashMap<>();
         {
-            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DateCreated + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PremiereDate + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OfficialRating + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
-            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.CommunityRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CriticRating + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
-            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DatePlayed + "," + ItemSortBy.SortName, SortOrder.DESCENDING));
+            sortOptions.put(0, new SortOption(getString(R.string.lbl_name), ItemSortBy.SORT_NAME, SortOrder.ASCENDING));
+            sortOptions.put(1, new SortOption(getString(R.string.lbl_date_added), ItemSortBy.DATE_CREATED, SortOrder.DESCENDING));
+            sortOptions.put(2, new SortOption(getString(R.string.lbl_premier_date), ItemSortBy.PREMIERE_DATE, SortOrder.DESCENDING));
+            sortOptions.put(3, new SortOption(getString(R.string.lbl_rating), ItemSortBy.OFFICIAL_RATING, SortOrder.ASCENDING));
+            sortOptions.put(4, new SortOption(getString(R.string.lbl_community_rating), ItemSortBy.COMMUNITY_RATING, SortOrder.DESCENDING));
+            sortOptions.put(5, new SortOption(getString(R.string.lbl_critic_rating), ItemSortBy.CRITIC_RATING, SortOrder.DESCENDING));
+            sortOptions.put(6, new SortOption(getString(R.string.lbl_last_played), ItemSortBy.DATE_PLAYED, SortOrder.DESCENDING));
 
-            if (mFolder.getCollectionType() != null && mFolder.getCollectionType().equalsIgnoreCase(CollectionType.Movies)) {
-                sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.Runtime + "," + ItemSortBy.SortName, SortOrder.ASCENDING));
+            if (mFolder.getCollectionType() != null && mFolder.getCollectionType() == CollectionType.MOVIES) {
+                sortOptions.put(7, new SortOption(getString(R.string.lbl_runtime), ItemSortBy.RUNTIME, SortOrder.ASCENDING));
             }
         }
 
@@ -286,10 +286,10 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     public class SortOption {
         public String name;
-        public String value;
+        public ItemSortBy value;
         public SortOrder order;
 
-        public SortOption(String name, String value, SortOrder order) {
+        public SortOption(String name, ItemSortBy value, SortOrder order) {
             this.name = name;
             this.value = value;
             this.order = order;
@@ -298,13 +298,13 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
 
     private Map<Integer, SortOption> sortOptions;
 
-    private SortOption getSortOption(String value) {
+    private SortOption getSortOption(ItemSortBy value) {
         for (Integer key : sortOptions.keySet()) {
             SortOption option = sortOptions.get(key);
             if (Objects.requireNonNull(option).value.equals(value)) return option;
         }
 
-        return new SortOption("Unknown", "", SortOrder.ASCENDING);
+        return new SortOption("Unknown", ItemSortBy.SORT_NAME, SortOrder.ASCENDING);
     }
 
     public void setStatusText(String folderName) {
@@ -364,7 +364,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 BaseItemKind fType = folder.getType();
                 if (fType == BaseItemKind.AUDIO || fType == BaseItemKind.GENRE || fType == BaseItemKind.MUSIC_ALBUM || fType == BaseItemKind.MUSIC_ARTIST || fType == BaseItemKind.MUSIC_GENRE) {
                     return cardHeight;
-                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.Music.equals(folder.getCollectionType())) {
+                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.MUSIC.equals(folder.getCollectionType())) {
                     return cardHeight;
                 } else {
                     return cardHeight * ImageUtils.ASPECT_RATIO_2_3;
@@ -385,7 +385,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                 BaseItemKind fType = folder.getType();
                 if (fType == BaseItemKind.AUDIO || fType == BaseItemKind.GENRE || fType == BaseItemKind.MUSIC_ALBUM || fType == BaseItemKind.MUSIC_ARTIST || fType == BaseItemKind.MUSIC_GENRE) {
                     return cardWidth;
-                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.Music.equals(folder.getCollectionType())) {
+                } else if (fType == BaseItemKind.COLLECTION_FOLDER && CollectionType.MUSIC.equals(folder.getCollectionType())) {
                     return cardWidth;
                 } else {
                     return cardWidth / ImageUtils.ASPECT_RATIO_2_3;
@@ -556,22 +556,22 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
         });
         query.setParentId(mParentId.toString());
         if (mFolder.getType() == BaseItemKind.USER_VIEW || mFolder.getType() == BaseItemKind.COLLECTION_FOLDER) {
-            String type = mFolder.getCollectionType() != null ? mFolder.getCollectionType().toLowerCase() : "";
+            CollectionType type = mFolder.getCollectionType() != null ? mFolder.getCollectionType() : CollectionType.UNKNOWN;
             switch (type) {
-                case CollectionType.Movies:
+                case MOVIES:
                     query.setIncludeItemTypes(new String[]{"Movie"});
                     query.setRecursive(true);
                     break;
-                case CollectionType.TvShows:
+                case TVSHOWS:
                     query.setIncludeItemTypes(new String[]{"Series"});
                     query.setRecursive(true);
                     break;
-                case CollectionType.BoxSets:
+                case BOXSETS:
                     query.setIncludeItemTypes(new String[]{"BoxSet"});
                     query.setParentId(null);
                     query.setRecursive(true);
                     break;
-                case CollectionType.Music:
+                case MUSIC:
                     //Special queries needed for album artists
                     String includeType = getArguments().getString(Extras.IncludeType);
                     if ("AlbumArtist".equals(includeType)) {
@@ -723,7 +723,7 @@ public class BrowseGridFragment extends Fragment implements View.OnKeyListener {
                     setItem(null);
                     updateCounter(mAdapter.getTotalItems() > 0 ? 1 : 0);
                 }
-                mLetterButton.setVisibility(ItemSortBy.SortName.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
+                mLetterButton.setVisibility(ItemSortBy.SORT_NAME.equals(mAdapter.getSortBy()) ? View.VISIBLE : View.GONE);
                 if (mAdapter.getItemsLoaded() == 0) {
                     mGridView.setFocusable(false);
                     mHandler.postDelayed(() -> {

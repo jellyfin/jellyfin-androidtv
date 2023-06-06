@@ -16,7 +16,7 @@ class VideoSpeedControllerTests : FunSpec({
 	}
 
 	test("VideoSpeedController.SpeedSteps uses intervals of 0.25") {
-		VideoSpeedController.SpeedSteps.values().forEachIndexed { i, v ->
+		VideoSpeedController.SpeedSteps.entries.forEachIndexed { i, v ->
 			v.speed.shouldBe((i + 1) * 0.25f plusOrMinus 1.0E-4F)
 		}
 	}
@@ -73,7 +73,7 @@ class VideoSpeedControllerTests : FunSpec({
 	test("VideoSpeedController remembers previous instance speed value") {
 		var lastSetSpeed = 1.0f
 
-		VideoSpeedController.SpeedSteps.values().forEach { newSpeed ->
+		VideoSpeedController.SpeedSteps.entries.forEach { newSpeed ->
 			val mockController = mockk<PlaybackController>(relaxed = true)
 			val slot = slot<Float>()
 			justRun { mockController.setPlaybackSpeed(capture(slot)) }

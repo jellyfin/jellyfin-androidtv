@@ -15,7 +15,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -50,12 +49,11 @@ import org.jellyfin.androidtv.util.KeyProcessor
 import org.jellyfin.androidtv.util.apiclient.LifecycleAwareResponse
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.liveTvApi
-import org.jellyfin.sdk.api.sockets.SocketInstance
-import org.jellyfin.sdk.api.sockets.addGlobalListener
+import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.socket.LibraryChangedMessage
-import org.jellyfin.sdk.model.socket.UserDataChangedMessage
+import org.jellyfin.sdk.model.api.LibraryChangedMessage
+import org.jellyfin.sdk.model.api.UserDataChangedMessage
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
@@ -72,7 +70,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 	private val dataRefreshService by inject<DataRefreshService>()
 	private val customMessageRepository by inject<CustomMessageRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
-	private val socketInstance by inject<SocketInstance>()
 
 	private val helper by lazy { HomeFragmentHelper(requireContext(), userRepository, userViewsRepository) }
 
@@ -105,7 +102,6 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				// This is kind of ugly, but it mirrors how web handles the live TV rows on the home screen
 				// If we can retrieve one live TV recommendation, then we should display the rows
 				val recommendedPrograms by api.liveTvApi.getRecommendedPrograms(
-					userId = api.userId,
 					enableTotalRecordCount = false,
 					imageTypeLimit = 1,
 					isAiring = true,
@@ -171,17 +167,13 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				if (userPreferences[UserPreferences.homeReactive]) {
-					val listener = socketInstance.addGlobalListener {
-						if (it is UserDataChangedMessage || it is LibraryChangedMessage) {
-							refreshRows(force = true, delayed = false)
-						}
-					}
+					api.webSocket.subscribe<UserDataChangedMessage>()
+						.onEach { refreshRows(force = true, delayed = false) }
+						.launchIn(this)
 
-					try {
-						awaitCancellation()
-					} finally {
-						listener.stop()
-					}
+					api.webSocket.subscribe<LibraryChangedMessage>()
+						.onEach { refreshRows(force = true, delayed = false) }
+						.launchIn(this)
 				}
 			}
 		}

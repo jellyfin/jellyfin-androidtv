@@ -11,6 +11,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.universalAudioApi
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.DeviceProfile
+import org.jellyfin.sdk.model.api.MediaStreamProtocol
 
 class UniversalAudioMediaStreamResolver(
 	val api: ApiClient,
@@ -37,7 +38,7 @@ class UniversalAudioMediaStreamResolver(
 			),
 			// Transcoding fallback
 			transcodingContainer = "mp3",
-			transcodingProtocol = "http",
+			transcodingProtocol = MediaStreamProtocol.HTTP,
 			audioCodec = "mp3",
 		)
 

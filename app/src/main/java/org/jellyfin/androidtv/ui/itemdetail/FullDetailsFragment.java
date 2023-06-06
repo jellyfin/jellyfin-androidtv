@@ -104,11 +104,11 @@ import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.apiclient.model.querying.UpcomingEpisodesQuery;
 import org.jellyfin.sdk.model.api.BaseItemKind;
 import org.jellyfin.sdk.model.api.BaseItemPerson;
+import org.jellyfin.sdk.model.api.ItemSortBy;
+import org.jellyfin.sdk.model.api.MediaType;
+import org.jellyfin.sdk.model.api.PersonKind;
 import org.jellyfin.sdk.model.api.SeriesTimerInfoDto;
 import org.jellyfin.sdk.model.api.UserDto;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
-import org.jellyfin.sdk.model.constant.MediaType;
-import org.jellyfin.sdk.model.constant.PersonType;
 import org.jellyfin.sdk.model.serializer.UUIDSerializerKt;
 import org.koin.java.KoinJavaComponent;
 
@@ -473,7 +473,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                     break;
                 default:
 
-                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonType.Director);
+                    BaseItemPerson director = BaseItemExtensionsKt.getFirstPerson(ModelCompat.asSdk(item), PersonKind.DIRECTOR);
 
                     InfoItem firstRow;
                     if (ModelCompat.asSdk(item).getType() == BaseItemKind.SERIES) {
@@ -631,7 +631,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 personMovies.setPersonIds(new String[] {mBaseItem.getId()});
                 personMovies.setRecursive(true);
                 personMovies.setIncludeItemTypes(new String[] {"Movie"});
-                personMovies.setSortBy(new String[] {ItemSortBy.SortName});
+                personMovies.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
                 ItemRowAdapter personMoviesAdapter = new ItemRowAdapter(requireContext(), personMovies, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personMoviesAdapter, 0, getString(R.string.lbl_movies));
 
@@ -645,7 +645,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 personSeries.setPersonIds(new String[] {mBaseItem.getId()});
                 personSeries.setRecursive(true);
                 personSeries.setIncludeItemTypes(new String[] {"Series"});
-                personSeries.setSortBy(new String[] {ItemSortBy.SortName});
+                personSeries.setSortBy(new String[] {ItemSortBy.SORT_NAME.getSerialName()});
                 ItemRowAdapter personSeriesAdapter = new ItemRowAdapter(requireContext(), personSeries, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personSeriesAdapter, 1, getString(R.string.lbl_tv_series));
 
@@ -659,7 +659,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 personEpisodes.setPersonIds(new String[] {mBaseItem.getId()});
                 personEpisodes.setRecursive(true);
                 personEpisodes.setIncludeItemTypes(new String[] {"Episode"});
-                personEpisodes.setSortBy(new String[] {ItemSortBy.SeriesSortName, ItemSortBy.SortName});
+                personEpisodes.setSortBy(new String[] {ItemSortBy.SERIES_SORT_NAME.getSerialName(), ItemSortBy.SORT_NAME.getSerialName()});
                 ItemRowAdapter personEpisodesAdapter = new ItemRowAdapter(requireContext(), personEpisodes, 100, false, new CardPresenter(), adapter);
                 addItemRow(adapter, personEpisodesAdapter, 2, getString(R.string.lbl_episodes));
 
@@ -750,7 +750,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 if (mBaseItem.getPeople() != null && mBaseItem.getPeople().length > 0) {
                     List<BaseItemPerson> guests = new ArrayList<>();
                     for (BaseItemPerson person : ModelCompat.asSdk(mBaseItem.getPeople())) {
-                        if (person.getType() == PersonType.GuestStar) guests.add(person);
+                        if (person.getType() == PersonKind.GUEST_STAR) guests.add(person);
                     }
                     if (guests.size() > 0) {
                         ItemRowAdapter castAdapter = new ItemRowAdapter(requireContext(), guests.toArray(new BaseItemPerson[guests.size()]), new CardPresenter(true, 130), adapter);
@@ -1014,7 +1014,7 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
                 boolean isMusic = baseItem.getType() == BaseItemKind.MUSIC_ALBUM
                         || baseItem.getType() == BaseItemKind.MUSIC_ARTIST
                         || baseItem.getType() == BaseItemKind.AUDIO
-                        || (baseItem.getType() == BaseItemKind.PLAYLIST && MediaType.Audio.equals(mBaseItem.getMediaType()));
+                        || (baseItem.getType() == BaseItemKind.PLAYLIST && MediaType.AUDIO.equals(baseItem.getMediaType()));
 
                 if (isMusic) {
                     queueButton = TextUnderButton.create(requireContext(), R.drawable.ic_add, buttonSize, 2, getString(R.string.lbl_add_to_queue), new View.OnClickListener() {

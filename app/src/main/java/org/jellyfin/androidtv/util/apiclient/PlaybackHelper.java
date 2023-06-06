@@ -29,8 +29,8 @@ import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 import org.jellyfin.sdk.model.api.BaseItemKind;
-import org.jellyfin.sdk.model.constant.ItemSortBy;
-import org.jellyfin.sdk.model.constant.MediaType;
+import org.jellyfin.sdk.model.api.ItemSortBy;
+import org.jellyfin.sdk.model.api.MediaType;
 import org.koin.java.KoinJavaComponent;
 
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ public class PlaybackHelper {
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
                 query.setIncludeItemTypes(new String[]{"Episode", "Movie", "Video"});
-                query.setSortBy(new String[]{shuffle ? ItemSortBy.Random : ItemSortBy.SortName});
+                query.setSortBy(new String[]{shuffle ? ItemSortBy.RANDOM.getSerialName() : ItemSortBy.SORT_NAME.getSerialName()});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
@@ -141,10 +141,10 @@ public class PlaybackHelper {
                 //get all songs
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
-                query.setMediaTypes(new String[]{MediaType.Audio});
+                query.setMediaTypes(new String[]{MediaType.AUDIO.getSerialName()});
                 query.setSortBy(mainItem.getType() == BaseItemKind.MUSIC_ARTIST ?
-                        new String[] {ItemSortBy.Album,ItemSortBy.SortName} :
-                            new String[] {ItemSortBy.SortName});
+                        new String[] {ItemSortBy.ALBUM_ARTIST.getSerialName(),ItemSortBy.SORT_NAME.getSerialName()} :
+                            new String[] {ItemSortBy.SORT_NAME.getSerialName()});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
@@ -169,7 +169,7 @@ public class PlaybackHelper {
                 }
                 query.setIsMissing(false);
                 query.setIsVirtualUnaired(false);
-                if (shuffle) query.setSortBy(new String[] {ItemSortBy.Random});
+                if (shuffle) query.setSortBy(new String[] {ItemSortBy.RANDOM.getSerialName()});
                 query.setRecursive(true);
                 query.setLimit(ITEM_QUERY_LIMIT);
                 query.setFields(new ItemFields[] {
@@ -282,7 +282,7 @@ public class PlaybackHelper {
                         KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
                         break;
                     case PLAYLIST:
-                        if (MediaType.Audio.equals(item.getMediaType())) {
+                        if (MediaType.AUDIO.equals(item.getMediaType())) {
                             KoinJavaComponent.<MediaManager>get(MediaManager.class).playNow(activity, response, 0, shuffle);
                         } else {
                             BaseItemKind itemType = response.size() > 0 ? response.get(0).getType() : null;

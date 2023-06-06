@@ -142,7 +142,7 @@ class SessionRepositoryImpl(
 
 			if (applied && session != null) {
 				// Update crash reporting URL
-				val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
+				val crashReportUrl = userApiClient.clientLogApi.logFileUrl()
 				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
 				telemetryPreferences[TelemetryPreferences.crashReportToken] = session.accessToken
 
@@ -184,18 +184,21 @@ class SessionRepositoryImpl(
 	}
 
 	private fun ApiClient.applySession(session: Session?, newDeviceInfo: DeviceInfo = defaultDeviceInfo): Boolean {
-		deviceInfo = newDeviceInfo
-
 		if (session == null) {
-			baseUrl = null
-			accessToken = null
-			userId = null
+			update(
+				baseUrl = null,
+				accessToken = null,
+				deviceInfo = newDeviceInfo,
+			)
 		} else {
 			val server = authenticationStore.getServer(session.serverId)
 				?: return false
-			baseUrl = server.address
-			accessToken = session.accessToken
-			userId = session.userId
+
+			update(
+				baseUrl = server.address,
+				accessToken = session.accessToken,
+				deviceInfo = newDeviceInfo,
+			)
 		}
 
 		return true

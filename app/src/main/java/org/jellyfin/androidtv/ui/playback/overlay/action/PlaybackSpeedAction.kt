@@ -8,7 +8,6 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.playback.PlaybackController
 import org.jellyfin.androidtv.ui.playback.VideoSpeedController
 import org.jellyfin.androidtv.ui.playback.overlay.CustomPlaybackTransportControlGlue
-import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment
 import org.jellyfin.androidtv.ui.playback.overlay.VideoPlayerAdapter
 import java.util.Locale
 
@@ -18,7 +17,7 @@ class PlaybackSpeedAction(
 	playbackController: PlaybackController
 ) : CustomAction(context, customPlaybackTransportControlGlue) {
 	private val speedController = VideoSpeedController(playbackController)
-	private val speeds = VideoSpeedController.SpeedSteps.values()
+	private val speeds = VideoSpeedController.SpeedSteps.entries.toTypedArray()
 
 	init {
 		initializeWithIcon(R.drawable.ic_playback_speed)

@@ -6,8 +6,10 @@ import android.os.Build
 import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.Destinations
@@ -19,21 +21,20 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
-import org.jellyfin.sdk.api.sockets.SocketInstance
-import org.jellyfin.sdk.api.sockets.SocketInstanceState
-import org.jellyfin.sdk.api.sockets.addGeneralCommandsListener
-import org.jellyfin.sdk.api.sockets.addListener
+import org.jellyfin.sdk.api.sockets.subscribe
+import org.jellyfin.sdk.api.sockets.subscribeGeneralCommand
+import org.jellyfin.sdk.api.sockets.subscribeGeneralCommands
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.GeneralCommandType
+import org.jellyfin.sdk.model.api.LibraryChangedMessage
 import org.jellyfin.sdk.model.api.LibraryUpdateInfo
+import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.sdk.model.api.PlayMessage
 import org.jellyfin.sdk.model.api.PlaystateCommand
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.PlaystateMessage
 import org.jellyfin.sdk.model.extensions.get
 import org.jellyfin.sdk.model.extensions.getValue
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import org.jellyfin.sdk.model.socket.LibraryChangedMessage
-import org.jellyfin.sdk.model.socket.PlayMessage
-import org.jellyfin.sdk.model.socket.PlayStateMessage
 import timber.log.Timber
 import java.time.Instant
 import java.util.UUID
@@ -41,7 +42,6 @@ import java.util.UUID
 class SocketHandler(
 	private val context: Context,
 	private val api: ApiClient,
-	private val socketInstance: SocketInstance,
 	private val dataRefreshService: DataRefreshService,
 	private val mediaManager: MediaManager,
 	private val playbackControllerContainer: PlaybackControllerContainer,
@@ -49,12 +49,11 @@ class SocketHandler(
 	private val audioManager: AudioManager,
 ) {
 	private val coroutineScope = CoroutineScope(Dispatchers.IO)
-	val state = socketInstance.state
 
 	suspend fun updateSession() {
 		try {
 			api.sessionApi.postCapabilities(
-				playableMediaTypes = listOf(MediaType.Video, MediaType.Audio),
+				playableMediaTypes = listOf(MediaType.VIDEO, MediaType.AUDIO),
 				supportsMediaControl = true,
 				supportedCommands = buildList {
 					add(GeneralCommandType.DISPLAY_CONTENT)
@@ -80,54 +79,70 @@ class SocketHandler(
 			Timber.e(err, "Unable to update capabilities")
 			return
 		}
-
-		val isOffline = state.value == SocketInstanceState.DISCONNECTED || state.value == SocketInstanceState.ERROR
-		if (isOffline) socketInstance.reconnect()
-		else socketInstance.updateCredentials()
 	}
 
 	init {
-		socketInstance.apply {
+		api.webSocket.apply {
 			// Library
-			addListener<LibraryChangedMessage> { message -> onLibraryChanged(message.info) }
+			subscribe<LibraryChangedMessage>()
+				.onEach { message -> message.data?.let(::onLibraryChanged) }
+				.launchIn(coroutineScope)
 
 			// Media playback
-			addListener<PlayMessage> { message -> onPlayMessage(message) }
-			addListener<PlayStateMessage> { message -> onPlayStateMessage(message) }
+			subscribe<PlayMessage>()
+				.onEach { message -> onPlayMessage(message) }
+				.launchIn(coroutineScope)
 
-			addGeneralCommandsListener(setOf(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)) { message ->
-				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
+			subscribe<PlaystateMessage>()
+				.onEach { message -> onPlayStateMessage(message) }
+				.launchIn(coroutineScope)
 
-				coroutineScope.launch(Dispatchers.Main) {
-					playbackControllerContainer.playbackController?.switchSubtitleStream(index)
+			subscribeGeneralCommand(GeneralCommandType.SET_SUBTITLE_STREAM_INDEX)
+				.onEach { message ->
+					val index = message["index"]?.toIntOrNull() ?: return@onEach
+
+					withContext(Dispatchers.Main) {
+						playbackControllerContainer.playbackController?.switchSubtitleStream(index)
+					}
 				}
-			}
+				.launchIn(coroutineScope)
 
-			addGeneralCommandsListener(setOf(GeneralCommandType.SET_AUDIO_STREAM_INDEX)) { message ->
-				val index = message["index"]?.toIntOrNull() ?: return@addGeneralCommandsListener
+			subscribeGeneralCommand(GeneralCommandType.SET_AUDIO_STREAM_INDEX)
+				.onEach { message ->
+					val index = message["index"]?.toIntOrNull() ?: return@onEach
 
-				coroutineScope.launch(Dispatchers.Main) {
-					playbackControllerContainer.playbackController?.switchAudioStream(index)
+					withContext(Dispatchers.Main) {
+						playbackControllerContainer.playbackController?.switchAudioStream(index)
+					}
 				}
-			}
+				.launchIn(coroutineScope)
 
 			// General commands
-			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_CONTENT)) { message ->
-				val itemId by message
-				val itemType by message
+			subscribeGeneralCommand(GeneralCommandType.DISPLAY_CONTENT)
+				.onEach { message ->
+					val itemId by message
+					val itemType by message
 
-				val itemUuid = itemId?.toUUIDOrNull()
-				val itemKind = itemType?.let { type -> BaseItemKind.values().find { value -> value.serialName.equals(type, true) } }
+					val itemUuid = itemId?.toUUIDOrNull()
+					val itemKind = itemType?.let { type ->
+						BaseItemKind.entries.find { value ->
+							value.serialName.equals(type, true)
+						}
+					}
 
-				if (itemUuid != null && itemKind != null) onDisplayContent(itemUuid, itemKind)
-			}
-			addGeneralCommandsListener(setOf(GeneralCommandType.DISPLAY_MESSAGE, GeneralCommandType.SEND_STRING)) { message ->
-				val header by message
-				val text by message
-				val string by message
+					if (itemUuid != null && itemKind != null) onDisplayContent(itemUuid, itemKind)
+				}
+				.launchIn(coroutineScope)
 
-				onDisplayMessage(header, text ?: string)
-			}
+			subscribeGeneralCommands(setOf(GeneralCommandType.DISPLAY_MESSAGE, GeneralCommandType.SEND_STRING))
+				.onEach { message ->
+					val header by message
+					val text by message
+					val string by message
+
+					onDisplayMessage(header, text ?: string)
+				}
+				.launchIn(coroutineScope)
 		}
 	}
 
@@ -144,61 +159,63 @@ class SocketHandler(
 	}
 
 	private fun onPlayMessage(message: PlayMessage) {
-		val itemId = message.request.itemIds?.firstOrNull() ?: return
+		val itemId = message.data?.itemIds?.firstOrNull() ?: return
 
 		runCatching {
 			PlaybackHelper.retrieveAndPlay(
 				itemId,
 				false,
-				message.request.startPositionTicks,
+				message.data?.startPositionTicks,
 				context
 			)
 		}.onFailure { Timber.w(it, "Failed to start playback") }
 	}
 
 	@Suppress("ComplexMethod")
-	private fun onPlayStateMessage(message: PlayStateMessage) = coroutineScope.launch(Dispatchers.Main) {
-		Timber.i("Received PlayStateMessage with command ${message.request.command}")
+	private suspend fun onPlayStateMessage(message: PlaystateMessage) = withContext(Dispatchers.Main) {
+		Timber.i("Received PlayStateMessage with command ${message.data?.command}")
 
 		// Audio playback uses (Rewrite)MediaManager, (legacy) video playback uses playbackController
 		when {
 			mediaManager.hasAudioQueueItems() -> {
 				Timber.i("Ignoring PlayStateMessage: should be handled by PlaySessionSocketService")
-				return@launch
+				return@withContext
 			}
 
 			// PlaybackController
 			else -> {
 				val playbackController = playbackControllerContainer.playbackController
-				when (message.request.command) {
+				when (message.data?.command) {
 					PlaystateCommand.STOP -> playbackController?.endPlayback(true)
 					PlaystateCommand.PAUSE, PlaystateCommand.UNPAUSE, PlaystateCommand.PLAY_PAUSE -> playbackController?.playPause()
 					PlaystateCommand.NEXT_TRACK -> playbackController?.next()
 					PlaystateCommand.PREVIOUS_TRACK -> playbackController?.prev()
 					PlaystateCommand.SEEK -> playbackController?.seek(
-						(message.request.seekPositionTicks ?: 0) / TICKS_TO_MS
+						(message.data?.seekPositionTicks ?: 0) / TICKS_TO_MS
 					)
 
 					PlaystateCommand.REWIND -> playbackController?.rewind()
 					PlaystateCommand.FAST_FORWARD -> playbackController?.fastForward()
+
+					null -> Unit
 				}
 			}
 		}
 	}
 
-	private fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) = coroutineScope.launch(Dispatchers.Main) {
+	private suspend fun onDisplayContent(itemId: UUID, itemKind: BaseItemKind) = withContext(Dispatchers.Main) {
 		val playbackController = playbackControllerContainer.playbackController
 
 		if (playbackController?.isPlaying == true || playbackController?.isPaused == true) {
 			Timber.i("Not launching $itemId: playback in progress")
-			return@launch
+			return@withContext
 		}
 
 		Timber.i("Launching $itemId")
 
 		when (itemKind) {
 			BaseItemKind.USER_VIEW,
-			BaseItemKind.COLLECTION_FOLDER -> coroutineScope.launch {
+			BaseItemKind.COLLECTION_FOLDER -> {
 				val item by api.userLibraryApi.getItem(itemId = itemId)
 				ItemLauncher.launchUserView(item)
 			}

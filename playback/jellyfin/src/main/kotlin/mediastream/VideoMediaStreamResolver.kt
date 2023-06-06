@@ -13,7 +13,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.dynamicHlsApi
 import org.jellyfin.sdk.api.client.extensions.videosApi
 import org.jellyfin.sdk.model.api.DeviceProfile
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.MediaType
 
 class VideoMediaStreamResolver(
 	val api: ApiClient,
@@ -53,7 +53,7 @@ class VideoMediaStreamResolver(
 		testStream: (stream: MediaStream) -> PlaySupportReport,
 	): PlayableMediaStream? {
 		val baseItem = queueEntry.baseItem
-		if (baseItem == null || baseItem.mediaType != MediaType.Video) return null
+		if (baseItem == null || baseItem.mediaType != MediaType.VIDEO) return null
 
 		val mediaInfo = getPlaybackInfo(baseItem, queueEntry.mediaSourceId)
 

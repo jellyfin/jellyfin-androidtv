@@ -1,38 +1,37 @@
 package org.jellyfin.playback.jellyfin.playsession
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.playback.core.model.PlayState
 import org.jellyfin.playback.core.plugin.PlayerService
-import org.jellyfin.sdk.api.sockets.SocketInstance
-import org.jellyfin.sdk.api.sockets.addGeneralCommandsListener
-import org.jellyfin.sdk.api.sockets.addPlayStateCommandsListener
-import org.jellyfin.sdk.api.sockets.listener.SocketListener
+import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.sockets.subscribe
+import org.jellyfin.sdk.api.sockets.subscribeGeneralCommand
 import org.jellyfin.sdk.model.api.GeneralCommandType
 import org.jellyfin.sdk.model.api.PlaystateCommand
+import org.jellyfin.sdk.model.api.PlaystateMessage
 import org.jellyfin.sdk.model.extensions.get
 import org.jellyfin.sdk.model.extensions.ticks
 import kotlin.time.Duration
 
 class PlaySessionSocketService(
-	private val socketInstance: SocketInstance,
+	private val api: ApiClient,
 	private val playSessionService: PlaySessionService,
 ) : PlayerService() {
-	private var listeners = mutableListOf<SocketListener>()
-
 	override suspend fun onInitialize() {
 		// Player control
-		listeners += socketInstance.addPlayStateCommandsListener { message ->
+		api.webSocket.subscribe<PlaystateMessage>().onEach { message ->
 			coroutineScope.launch(Dispatchers.Main) {
-				when (message.request.command) {
+				when (message.data?.command) {
 					PlaystateCommand.STOP -> state.stop()
 					PlaystateCommand.PAUSE -> state.pause()
 					PlaystateCommand.UNPAUSE -> state.unpause()
 					PlaystateCommand.NEXT_TRACK -> state.queue.next()
 					PlaystateCommand.PREVIOUS_TRACK -> state.queue.previous()
 					PlaystateCommand.SEEK -> {
-						val to = message.request.seekPositionTicks?.ticks ?: Duration.ZERO
+						val to = message.data?.seekPositionTicks?.ticks ?: Duration.ZERO
 						state.seek(to)
 					}
 
@@ -42,56 +41,48 @@ class PlaySessionSocketService(
 						PlayState.PLAYING -> state.pause()
 						else -> state.unpause()
 					}
+
+					// Do nothing
+					null -> Unit
 				}
 				coroutineScope.launch { playSessionService.sendUpdateIfActive() }
 			}
-		}
+		}.launchIn(coroutineScope)
 
 		// Volume control
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.VOLUME_UP)) {
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.VOLUME_UP).onEach {
 			state.volume.increaseVolume()
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
+		}.launchIn(coroutineScope)
 
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.VOLUME_DOWN)) {
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.VOLUME_DOWN).onEach {
 			state.volume.decreaseVolume()
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
+		}.launchIn(coroutineScope)
 
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.SET_VOLUME)) { message ->
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.SET_VOLUME).onEach { message ->
 			@Suppress("MagicNumber")
 			val volume = message["volume"]?.toFloatOrNull()?.div(100f)
 			if (volume != null && volume in 0f..1f) state.volume.setVolume(volume)
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
+		}.launchIn(coroutineScope)
 
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.MUTE)) {
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.MUTE).onEach {
 			state.volume.mute()
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
+		}.launchIn(coroutineScope)
 
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.UNMUTE)) {
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.UNMUTE).onEach {
 			state.volume.unmute()
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
+		}.launchIn(coroutineScope)
 
-		listeners += socketInstance.addGeneralCommandsListener(setOf(GeneralCommandType.TOGGLE_MUTE)) {
+		api.webSocket.subscribeGeneralCommand(GeneralCommandType.TOGGLE_MUTE).onEach {
 			when (state.volume.muted) {
 				true -> state.volume.unmute()
 				false -> state.volume.mute()
 			}
 			coroutineScope.launch { playSessionService.sendUpdateIfActive() }
-		}
-
-		coroutineScope.launch {
-			try {
-				awaitCancellation()
-			} finally {
-				listeners.removeAll { listener ->
-					listener.stop()
-					true
-				}
-			}
-		}
+		}.launchIn(coroutineScope)
 	}
 }

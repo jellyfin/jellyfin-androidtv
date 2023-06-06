@@ -30,7 +30,7 @@ import org.jellyfin.playback.jellyfin.queue.baseItem
 import org.jellyfin.playback.jellyfin.queue.createBaseItemQueueEntry
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.model.api.BaseItemDto
-import org.jellyfin.sdk.model.constant.MediaType
+import org.jellyfin.sdk.model.api.MediaType
 import kotlin.math.max
 
 @Suppress("TooManyFunctions")
@@ -62,7 +62,7 @@ class RewriteMediaManager(
 
 	override val currentAudioItem: BaseItemDto?
 		get() = playbackManager.state.queue.entry.value?.baseItem
-			?.takeIf { it.mediaType == MediaType.Audio }
+			?.takeIf { it.mediaType == MediaType.AUDIO }
 
 	override fun toggleRepeat(): Boolean {
 		val newMode = when (playbackManager.state.repeatMode.value) {

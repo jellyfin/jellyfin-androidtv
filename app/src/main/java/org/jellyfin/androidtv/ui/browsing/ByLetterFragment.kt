@@ -2,7 +2,7 @@ package org.jellyfin.androidtv.ui.browsing
 
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.querying.StdItemQuery
-import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.api.ItemSortBy
 
 class ByLetterFragment : BrowseFolderFragment() {
 	override suspend fun setupQueries(rowLoader: RowLoader) {
@@ -14,7 +14,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 		// Add a '#' item
 		val numbersQuery = StdItemQuery().apply {
 			parentId = folder?.id?.toString()
-			sortBy = arrayOf(ItemSortBy.SortName)
+			sortBy = arrayOf(ItemSortBy.SORT_NAME.serialName)
 			includeType?.let { includeItemTypes = arrayOf(it) }
 			nameLessThan = letters.substring(0, 1)
 			recursive = true
@@ -26,7 +26,7 @@ class ByLetterFragment : BrowseFolderFragment() {
 		for (letter in letters.toCharArray()) {
 			val letterQuery = StdItemQuery().apply {
 				parentId = folder?.id?.toString()
-				sortBy = arrayOf(ItemSortBy.SortName)
+				sortBy = arrayOf(ItemSortBy.SORT_NAME.serialName)
 				includeType?.let { includeItemTypes = arrayOf(it) }
 				nameStartsWith = letter.toString()
 				recursive = true

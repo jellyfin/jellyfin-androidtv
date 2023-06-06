@@ -80,7 +80,7 @@ class UserLoginViewModel(
 		quickConnectApi.deviceInfo = defaultDeviceInfo.forUser(UUID.randomUUID())
 
 		try {
-			val response by quickConnectApi.quickConnectApi.initiate()
+			val response by quickConnectApi.quickConnectApi.initiateQuickConnect()
 
 			quickConnectSecret = response.secret
 			_quickConnectState.emit(PendingQuickConnectState(response.code))
@@ -108,7 +108,7 @@ class UserLoginViewModel(
 		val secret = quickConnectSecret ?: return false
 
 		try {
-			val state by quickConnectApi.quickConnectApi.connect(secret = secret)
+			val state by quickConnectApi.quickConnectApi.getQuickConnectState(secret = secret)
 
 			if (state.authenticated) {
 				_quickConnectState.emit(ConnectedQuickConnectState)

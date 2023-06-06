@@ -30,7 +30,6 @@ class ImageHelper(
 
 		return api.imageApi.getUserImageUrl(
 			userId = item.id,
-			imageType = ImageType.PRIMARY,
 			tag = item.primaryImageTag,
 			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT,
 		)

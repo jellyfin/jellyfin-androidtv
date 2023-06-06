@@ -33,7 +33,6 @@ import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.api.AuthenticationResult
-import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.api.UserDto
 import timber.log.Timber
 import java.time.Instant
@@ -209,7 +208,6 @@ class AuthenticationRepositoryImpl(
 		jellyfin.createApi(server.address).imageApi.getUserImageUrl(
 			userId = user.id,
 			tag = tag,
-			imageType = ImageType.PRIMARY,
 			maxHeight = ImageUtils.MAX_PRIMARY_IMAGE_HEIGHT
 		)
 	}

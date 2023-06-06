@@ -25,7 +25,6 @@ abstract class JellyfinStreamResolver(
 		val response by api.mediaInfoApi.getPostedPlaybackInfo(
 			itemId = item.id,
 			data = PlaybackInfoDto(
-				userId = api.userId,
 				maxStreamingBitrate = profile.maxStreamingBitrate,
 				mediaSourceId = mediaSourceId,
 				deviceProfile = profile,

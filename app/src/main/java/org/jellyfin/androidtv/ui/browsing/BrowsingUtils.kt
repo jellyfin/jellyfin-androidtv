@@ -8,7 +8,7 @@ import org.jellyfin.sdk.api.client.exception.ApiClientException
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
-import org.jellyfin.sdk.model.constant.ItemSortBy
+import org.jellyfin.sdk.model.api.ItemSortBy
 import timber.log.Timber
 
 object BrowsingUtils {
@@ -16,11 +16,11 @@ object BrowsingUtils {
 	fun getRandomItem(api: ApiClient, lifecycle: LifecycleOwner, library: BaseItemDto, type: BaseItemKind, callback: (item: BaseItemDto?) -> Unit) {
 		lifecycle.lifecycleScope.launch {
 			try {
-				val result by api.itemsApi.getItemsByUserId(
+				val result by api.itemsApi.getItems(
 					parentId = library.id,
 					includeItemTypes = setOf(type),
 					recursive = true,
-					sortBy = setOf(ItemSortBy.Random),
+					sortBy = setOf(ItemSortBy.RANDOM),
 					limit = 1,
 				)
 

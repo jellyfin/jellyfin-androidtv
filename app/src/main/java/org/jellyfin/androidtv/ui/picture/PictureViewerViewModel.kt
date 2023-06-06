@@ -15,6 +15,7 @@ import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ItemFields
+import org.jellyfin.sdk.model.api.ItemSortBy
 import org.jellyfin.sdk.model.api.SortOrder
 import java.util.UUID
 import kotlin.time.Duration.Companion.seconds
@@ -26,16 +27,16 @@ class PictureViewerViewModel(private val api: ApiClient) : ViewModel() {
 	private val _currentItem = MutableStateFlow<BaseItemDto?>(null)
 	val currentItem = _currentItem.asStateFlow()
 
-	suspend fun loadItem(id: UUID, sortBy: String, sortOrder: SortOrder) {
+	suspend fun loadItem(id: UUID, sortBy: Collection<ItemSortBy>, sortOrder: SortOrder) {
 		// Load requested item
 		val itemResponse by api.userLibraryApi.getItem(itemId = id)
 		_currentItem.value = itemResponse
 
-		val albumResponse by api.itemsApi.getItemsByUserId(
+		val albumResponse by api.itemsApi.getItems(
 			parentId = itemResponse.parentId,
 			includeItemTypes = setOf(BaseItemKind.PHOTO),
 			fields = setOf(ItemFields.PRIMARY_IMAGE_ASPECT_RATIO),
-			sortBy = sortBy.split(","),
+			sortBy = sortBy,
 			sortOrder = listOf(sortOrder),
 		)
 		album = albumResponse.items.orEmpty()
