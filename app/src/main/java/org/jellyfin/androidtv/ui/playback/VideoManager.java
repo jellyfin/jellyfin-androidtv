@@ -18,25 +18,27 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
+import androidx.media3.common.C;
+import androidx.media3.common.Format;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.PlaybackParameters;
+import androidx.media3.common.Player;
+import androidx.media3.common.Timeline;
+import androidx.media3.common.TrackGroup;
+import androidx.media3.common.TrackSelectionOverride;
+import androidx.media3.common.TrackSelectionParameters;
+import androidx.media3.common.Tracks;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.extractor.DefaultExtractorsFactory;
+import androidx.media3.extractor.ts.TsExtractor;
+import androidx.media3.ui.AspectRatioFrameLayout;
+import androidx.media3.ui.PlayerView;
 
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.PlaybackException;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.Tracks;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ts.TsExtractor;
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
-import com.google.android.exoplayer2.source.TrackGroup;
-import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
-import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.common.collect.ImmutableSet;
 
 import org.jellyfin.androidtv.R;
@@ -58,6 +60,7 @@ import java.util.Optional;
 
 import timber.log.Timber;
 
+@OptIn(markerClass = UnstableApi.class)
 public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     public final static int ZOOM_FIT = 0;
     public final static int ZOOM_AUTO_CROP = 1;
@@ -76,7 +79,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private SurfaceView mSubtitlesSurface;
     private FrameLayout mSurfaceFrame;
     private ExoPlayer mExoPlayer;
-    private StyledPlayerView mExoPlayerView;
+    private PlayerView mExoPlayerView;
     private LibVLC mLibVLC;
     private MediaPlayer mVlcPlayer;
     private Media mCurrentMedia;
@@ -94,7 +97,7 @@ public class VideoManager implements IVLCVout.OnNewVideoLayoutListener {
     private long mMetaDuration = -1;
     private long mMetaVLCStreamStartPosition = -1;
     private long lastExoPlayerPosition = -1;
-    private boolean nightModeEnabled = false;
+    private boolean nightModeEnabled;
 
     private boolean nativeMode = false;
     private boolean mSurfaceReady = false;
