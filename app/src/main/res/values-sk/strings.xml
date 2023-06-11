@@ -397,7 +397,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Spojenie SSL zlyhalo</string>
     <string name="server_issue_timeout">Čas pre pripojenie vypršal</string>
-    <string name="server_issue_outdated_version">Server používa verziu %1$s, potrebná je však verzia %2$s alebo novšia</string>
+    <string name="server_issue_outdated_version">Verzia serveru %1$s už nie je podporovaná. Aktualizujte server na verziu %2$s alebo novšiu.</string>
     <string name="server_issue_unsupported_version">Server používa verziu %1$s, ktorá nie je podporovaná</string>
     <string name="server_issue_missing_version">Nebolo možné určiť verziu serveru</string>
     <string name="server_issue_invalid_product">Serverový softvér nie je kompatibilný</string>
@@ -442,7 +442,7 @@
     <string name="lbl_subtitle_delay">Oneskorenie tituliek</string>
     <string name="lbl_adjust">Upraviť</string>
     <string name="live_tv_preferences">Nastavenia pre živú TV</string>
-    <string name="server_unsupported_notification">Tento server používa Jellyfin verziu %1$s, ktorá je nepodporovaná. Prosím, aktualizujte Jellyfin na verziu %2$s aby ste mohli naďalej používať túto appku.</string>
+    <string name="server_unsupported_notification">Tento server používa Jellyfin verziu %1$s, ktorá už nie je podporovaná. Prosím, aktualizujte Jellyfin na verziu %2$s alebo novšiu aby ste mohli naďalej používať túto aplikáciu.</string>
     <string name="app_notification_uimode_invalid">Táto aplikácia je optimalizovaná pre televízory. Na iných zariadeniach odporúčame používať našu mobilnú aplikáciu.</string>
     <string name="image_size_xlarge">Extra veľké</string>
     <string name="image_size_smallest">Najmenšie</string>
