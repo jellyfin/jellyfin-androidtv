@@ -55,16 +55,16 @@
     <string name="lbl_no">Nem</string>
     <string name="desc_bitstream_ac3">Kompatibilis hardver szükséges</string>
     <string name="lbl_bitstream_ac3">Bitstream Dolby Digital hang</string>
-    <string name="lbl_next_up">A következőekben</string>
+    <string name="lbl_next_up">Következik</string>
     <string name="msg_recording_cancelled">Felvétel törölve</string>
     <string name="msg_unable_to_create_recording">Sikertelen felvétel készítés</string>
     <string name="lbl_record">Felvétel</string>
     <string name="lbl_record_series">Sorozatok rögzítése</string>
     <string name="lbl_cancel_series">Sorozat törlése</string>
-    <string name="lbl_cancel_recording">Felvétel törlése</string>
+    <string name="lbl_cancel_recording">Felvétel megszakítása</string>
     <string name="lbl_cancel">Mégse</string>
     <string name="lbl_play">Lejátszás</string>
-    <string name="lbl_play_all">Összes Lejátszása</string>
+    <string name="lbl_play_all">Összes lejátszása</string>
     <string name="lbl_because_you_watched">"Amiért megnézted ezt: {0} "</string>
     <string name="lbl_other">Egyéb</string>
     <string name="lbl_tv_series">Sorozatok</string>
@@ -159,9 +159,9 @@
     <string name="lbl_show_indicators">Indikátorok mutatása</string>
     <string name="lbl_sort_by">Rendezés</string>
     <string name="lbl_premiere">Premier</string>
-    <string name="lbl_guest_stars">Vendégsztárok</string>
+    <string name="lbl_guest_stars">Vendégszereplők</string>
     <string name="lbl_on_schedule">Ütemezve</string>
-    <string name="lbl_at_any_time">bármikor</string>
+    <string name="lbl_at_any_time">Bármikor</string>
     <string name="lbl_series_recordings">Filmsorozat felvételek</string>
     <string name="lbl_save">Mentés</string>
     <string name="msg_settings_updated">Beállítások frissítve</string>
@@ -366,7 +366,7 @@
     <string name="always_authenticate">Mindig kérjen hitelesítő adatokat</string>
     <string name="alphabetical">ABC-sorrend</string>
     <string name="last_use">Legutóbb használt</string>
-    <string name="lbl_community_rating">Közösségi Értékelés</string>
+    <string name="lbl_community_rating">Közösségi értékelés</string>
     <string name="select_version">Verzió</string>
     <string name="license_license">Licensz</string>
     <string name="license_author">Szerző</string>
@@ -424,7 +424,7 @@
     <string name="pref_customization">Testreszabás</string>
     <string name="pref_show_backdrop_description">A háttérkép módosítása a kiválasztott elemekre</string>
     <string name="home_section_resume_book">Olvasás folytatása</string>
-    <string name="lbl_shuffle_queue">Véletlenszerű Lejátszás</string>
+    <string name="lbl_shuffle_queue">Véletlenszerű lejátszás</string>
     <string name="login_quickconnect_step_3">3. Írjd be a következő kódot:</string>
     <string name="login_quickconnect_step_2">2. Nyisd meg a felhasználói menüt, és lépj a Quick Connect oldalra</string>
     <string name="login_quickconnect_step_1">1. Nyisd meg a Jellyfin alkalmazást telefonodon, vagy webböngészőben, és jelentkezz be a fiókoddal</string>
@@ -442,8 +442,8 @@
     <string name="lbl_adjust">Igazítás</string>
     <string name="lbl_subtitle_delay">Felirat késleltetése</string>
     <string name="live_tv_preferences">Élő TV lehetőségek</string>
-    <string name="lbl_additional_parts">További Részletek</string>
-    <string name="server_unsupported_notification">Ez a szerver a Jellyfin %1$s verzióját használja, amely nem támogatott. Az alkalmazás használatának folytatásához frissíts a Jellyfin %2$s verzióra.</string>
+    <string name="lbl_additional_parts">További részletek</string>
+    <string name="server_unsupported_notification">Ez a szerver a Jellyfin %1$s verzióját használja, amely nem támogatott. Az alkalmazás használatának folytatásához frissíts a Jellyfin %2$s verziójára vagy újabbra.</string>
     <string name="app_notification_uimode_invalid">Ez az alkalmazás televízióra van optimalizálva. Javasoljuk, hogy más eszközön mobilalkalmazásunkat használd.</string>
     <string name="image_size_xlarge">Extra-Nagy</string>
     <string name="image_size_smallest">Legkisebb</string>
@@ -499,4 +499,15 @@
     </plurals>
     <string name="lbl_latest_in">Hozááadva %1$s</string>
     <string name="pref_screensaver_inapp_enabled_description">Jellyfin képernyővédő használata, amíg az alkalmazás nyitva van</string>
+    <string name="lbl_album_artists">Album szerzői</string>
+    <plurals name="episodes">
+        <item quantity="one">%1$s epizód</item>
+        <item quantity="other">%1$s epizódok</item>
+    </plurals>
+    <string name="enable_reactive_homepage">Reaktív kezdőlap engedélyezése</string>
+    <plurals name="tracks">
+        <item quantity="one">%1$s zeneszám</item>
+        <item quantity="other">%1$s zeneszámok</item>
+    </plurals>
+    <string name="not_set">Nincs beállítva</string>
 </resources>
