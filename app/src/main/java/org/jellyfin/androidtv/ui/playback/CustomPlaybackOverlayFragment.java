@@ -256,6 +256,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onDestroyView();
 
         binding = null;
+        // To fix race condition in hide timer
+        mIsVisible = false;
     }
 
     @Override
