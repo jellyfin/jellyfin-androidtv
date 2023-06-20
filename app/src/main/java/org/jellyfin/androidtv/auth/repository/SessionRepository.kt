@@ -64,7 +64,7 @@ class SessionRepositoryImpl(
 	override val state = _state.asStateFlow()
 
 	override suspend fun restoreSession(): Unit = currentSessionMutex.withLock {
-		Timber.d("Restoring session")
+		Timber.i("Restoring session")
 		_state.value = SessionRepositoryState.RESTORING_SESSION
 
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return destroyCurrentSession()
@@ -84,14 +84,17 @@ class SessionRepositoryImpl(
 
 	override suspend fun switchCurrentSession(serverId: UUID, userId: UUID): Boolean {
 		// No change in user - don't switch
-		if (currentSession.value?.userId == userId) return false
+		if (currentSession.value?.userId == userId) {
+			Timber.d("Current session user is the same as the requested user")
+			return false
+		}
 
 		_state.value = SessionRepositoryState.SWITCHING_SESSION
-		Timber.d("Switching current session to user $userId")
+		Timber.i("Switching current session to user $userId")
 
 		val session = createUserSession(serverId, userId)
 		if (session == null) {
-			Timber.d("Could not switch to non-existing session for user $userId")
+			Timber.w("Could not switch to non-existing session for user $userId")
 			return false
 		}
 
@@ -101,7 +104,7 @@ class SessionRepositoryImpl(
 	}
 
 	override fun destroyCurrentSession() {
-		Timber.d("Destroying current session")
+		Timber.i("Destroying current session")
 
 		userRepository.updateCurrentUser(null)
 		_currentSession.value = null
@@ -127,7 +130,7 @@ class SessionRepositoryImpl(
 		// Update session after binding the apiclient settings
 		val deviceInfo = session?.let { defaultDeviceInfo.forUser(it.userId) } ?: defaultDeviceInfo
 		val success = apiBinder.updateSession(session, deviceInfo)
-		Timber.d("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
+		Timber.i("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
 		if (success) {
 			userApiClient.applySession(session, deviceInfo)
