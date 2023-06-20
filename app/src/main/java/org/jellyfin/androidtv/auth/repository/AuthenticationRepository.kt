@@ -70,7 +70,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	private fun authenticateAutomatic(server: Server, user: User): Flow<LoginState> {
-		Timber.d("Authenticating user %s", user)
+		Timber.i("Authenticating user %s", user)
 
 		// Automatic logic is disabled when the always authenticate preference is enabled
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
@@ -121,7 +121,7 @@ class AuthenticationRepositoryImpl(
 	}
 
 	private fun authenticateAuthenticationResult(server: Server, result: AuthenticationResult) = flow {
-		val accessToken = result.accessToken ?:return@flow emit(RequireSignInState)
+		val accessToken = result.accessToken ?: return@flow emit(RequireSignInState)
 		val userInfo = result.user ?: return@flow emit(RequireSignInState)
 		val user = PrivateUser(
 			id = userInfo.id,
@@ -135,8 +135,12 @@ class AuthenticationRepositoryImpl(
 
 		authenticateFinish(server, userInfo, accessToken)
 		val success = setActiveSession(user, server)
-		if (success) emit(AuthenticatedState)
-		else emit(RequireSignInState)
+		if (success) {
+			emit(AuthenticatedState)
+		} else {
+			Timber.w("Failed to set active session after authenticating")
+			emit(RequireSignInState)
+		}
 	}
 
 	private fun authenticateToken(server: Server, user: User) = flow {

@@ -83,12 +83,12 @@ class ServerRepositoryImpl(
 
 	// Mutating data
 	override fun addServer(address: String): Flow<ServerAdditionState> = flow {
-		Timber.d("Adding server %s", address)
+		Timber.i("Adding server %s", address)
 
 		emit(ConnectingState(address))
 
 		val addressCandidates = jellyfin.discovery.getAddressCandidates(address)
-		Timber.d("Found ${addressCandidates.size} candidates")
+		Timber.i("Found ${addressCandidates.size} candidates")
 
 		val goodRecommendations = mutableListOf<RecommendedServerInfo>()
 		val badRecommendations = mutableListOf<RecommendedServerInfo>()
