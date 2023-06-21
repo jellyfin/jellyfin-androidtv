@@ -415,7 +415,7 @@
     <string name="pref_customization">Personalisierung</string>
     <string name="server_issue_ssl_handshake">SSL-Handshake fehlgeschlagen</string>
     <string name="server_issue_timeout">Zeitüberschreitung der Verbindung</string>
-    <string name="server_issue_outdated_version">Server verwendet Version %1$s, muss aber %2$s oder neuer sein</string>
+    <string name="server_issue_outdated_version">Server verwendet nicht unterstützte Version %1$s. Bitte aktualisiere auf %2$s oder eine neuere Version.</string>
     <string name="server_issue_unsupported_version">Server verwendet Version %1$s, die nicht unterstützt wird</string>
     <string name="server_issue_missing_version">Serverversion konnte nicht bestimmt werden</string>
     <string name="server_issue_invalid_product">Server-Software ist nicht kompatibel</string>
@@ -443,7 +443,7 @@
     <string name="lbl_adjust">Anpassen</string>
     <string name="live_tv_preferences">Fernseh-Optionen</string>
     <string name="pref_telemetry_category">Absturzbericht</string>
-    <string name="server_unsupported_notification">Dieser Server verwendet Jellyfin Version %1$s, die nicht unterstützt wird. Bitte aktualisieren Sie auf Jellyfin %2$s, um die App weiter nutzen zu können.</string>
+    <string name="server_unsupported_notification">Dieser Server verwendet Jellyfin Version %1$s, die nicht unterstützt wird. Bitte aktualisieren Sie auf Jellyfin %2$s oder eine neuere Version, um die App weiter nutzen zu können.</string>
     <string name="app_notification_uimode_invalid">Diese App ist für Fernsehgeräte optimiert. Wir empfehlen die Verwendung unserer mobilen App auf anderen Geräten.</string>
     <string name="image_size_xlarge">Extragroß</string>
     <string name="image_size_smallest">Kleinste</string>
