@@ -56,7 +56,7 @@
     <string name="lbl_trailers">Giới thiệu</string>
     <string name="lbl_specials">Đặc biệt</string>
     <string name="lbl_chapters">Cảnh quay</string>
-    <string name="lbl_cast_crew">Diễn viên / Đoàn làm phim</string>
+    <string name="lbl_cast_crew">Diễn viên / đoàn phim</string>
     <string name="msg_unable_to_cancel">Không thể hủy ghi lại</string>
     <string name="msg_recording_cancelled">Ghi lại đã bị hủy</string>
     <string name="msg_unable_to_create_recording">Không thể tạo bản ghi</string>
@@ -141,9 +141,9 @@
     <string name="lbl_record_any_channel">Ghi lại trên bất kỳ kênh nào</string>
     <string name="lbl_similar_items_library">Các mục tương tự trong thư viện của bạn</string>
     <string name="lbl_premieres">Công Chiếu</string>
-    <string name="lbl_new_episodes">Tập Mới</string>
-    <string name="lbl_audio_delay">Độ Trễ Âm Thanh</string>
-    <string name="lbl_new_only">Chỉ Những Thứ Mới</string>
+    <string name="lbl_new_episodes">Tập mới</string>
+    <string name="lbl_audio_delay">Độ trễ âm thanh</string>
+    <string name="lbl_new_only">Chỉ thứ mới</string>
     <string name="lbl_news">Tin Tức</string>
     <string name="lbl_song_title">Tựa bài hát</string>
     <string name="lbl_album_name">Tên Album</string>
@@ -152,12 +152,12 @@
     <string name="lbl_more_like_this">Thêm nữa giống vậy</string>
     <string name="lbl_resume_from">Tiếp tục từ %1$s</string>
     <string name="lbl_guide_option_number">Số kênh</string>
-    <string name="lbl_guide_option_played">Lần Phát Cuối</string>
+    <string name="lbl_guide_option_played">Lần phát cuối</string>
     <string name="lbl_show_indicators">Hiển thị các chỉ số cho</string>
     <string name="lbl_sort_by">Sắp Xếp Theo</string>
     <string name="lbl_premiere">Công Chiếu</string>
     <string name="lbl_guest_stars">Ngôi sao khách mời</string>
-    <string name="lbl_on_schedule">Đúng Tiến Độ</string>
+    <string name="lbl_on_schedule">Đúng tiến độ</string>
     <string name="lbl_at_any_time">Bất cứ lúc nào</string>
     <string name="lbl_series_recordings">Bản Ghi Loạt Phim Bộ</string>
     <string name="lbl_save">Lưu</string>
@@ -193,7 +193,7 @@
     <string name="lbl_delete">Xóa</string>
     <string name="lbl_instant_mix">Trộn tức thì</string>
     <string name="lbl_goto_now_playing">Đi tới bây giờ đang phát</string>
-    <string name="lbl_remove_from_queue">Xóa Khỏi Hàng Đợi</string>
+    <string name="lbl_remove_from_queue">Xóa khỏi hàng đợi</string>
     <string name="lbl_play_from_here">Phát từ đây</string>
     <string name="lbl_now_playing">Đang phát</string>
     <string name="lbl_prev_item">Mục Trước</string>
@@ -410,7 +410,7 @@
     <string name="sort_accounts_by">Sắp xếp tài khoản theo</string>
     <string name="pref_customization">Tùy biến</string>
     <string name="pref_show_backdrop_description">Thay đổi hình nền cho các mục đã chọn</string>
-    <string name="lbl_playback_speed">Tốc Độ Phát Lại</string>
+    <string name="lbl_playback_speed">Tốc độ phát lại</string>
     <string name="pref_theme">Chủ đề</string>
     <string name="pref_browsing">Duyệt</string>
     <string name="pref_behavior">Hành vi</string>
@@ -432,7 +432,7 @@
     <string name="state_disabled">Đã Tắt</string>
     <string name="live_tv_preferences">Tùy chọn TV trực tiếp</string>
     <string name="pref_audio">Âm thanh</string>
-    <string name="lbl_subtitle_delay">Độ Trễ Phụ Đề</string>
+    <string name="lbl_subtitle_delay">Độ trễ phụ đề</string>
     <string name="lbl_adjust">Điều chỉnh</string>
     <string name="crash_report_toast">Ôi ! Đã xảy ra sự cố, báo cáo sự cố đã được gửi tới máy chủ Jellyfin của bạn.</string>
     <string name="pref_crash_report_logs_disabled">Nhật ký sẽ không được đưa vào báo cáo sự cố</string>
