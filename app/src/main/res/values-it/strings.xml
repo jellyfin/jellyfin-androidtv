@@ -368,7 +368,7 @@
     <string name="license_author">Autore</string>
     <string name="license_repository">Repository</string>
     <string name="license_website">Sito web</string>
-    <string name="license_artifact">Artifact</string>
+    <string name="license_artifact">artefatto</string>
     <string name="license_version">Versione</string>
     <string name="license_description">Descrizione</string>
     <string name="licenses_link_description">Visualizza le licenze delle librerie usate dall\'app Jellyfin</string>
@@ -444,7 +444,7 @@
     <string name="live_tv_preferences">Opzioni TV Diretta</string>
     <string name="lbl_additional_parts">Parti addizionali</string>
     <string name="server_unsupported_notification">Questo server utilizza Jellyfin %1$s non è più supportato. Aggiorna Jellyfin %2$s o superiore per continuare ad utilizzare l\'app.</string>
-    <string name="image_type_poster">Poster</string>
+    <string name="image_type_poster">poster</string>
     <string name="crash_report_toast">Oops! Qualcosa è andato storto, la segnalazione di crash è stata inviata al tuo server Jellyfin.</string>
     <string name="pref_crash_report_logs_disabled">I log non saranno inclusi nelle segnalazioni di crash</string>
     <string name="pref_crash_report_logs_enabled">I log saranno inclusi nelle segnalazioni di crash</string>
@@ -485,7 +485,7 @@
     <plurals name="hours">
         <item quantity="one">%1$s ora</item>
         <item quantity="many">%1$s ore</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s ore</item>
     </plurals>
     <string name="pref_screensaver">Salvaschermo</string>
     <string name="pref_screensaver_inapp_enabled_description">Motra il salvaschermo Jellyfin mentre l\'app è aperta</string>
@@ -493,22 +493,22 @@
     <plurals name="minutes">
         <item quantity="one">%1$s minuto</item>
         <item quantity="many">%1$s minuti</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s minuti</item>
     </plurals>
     <plurals name="seconds">
         <item quantity="one">%1$s secondo</item>
         <item quantity="many">%1$s secondi</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s secondi</item>
     </plurals>
     <plurals name="tracks">
         <item quantity="one">%1$s traccia</item>
         <item quantity="many">%1$s tracce</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s tracce</item>
     </plurals>
     <plurals name="episodes">
         <item quantity="one">%1$s episodio</item>
         <item quantity="many">%1$s episodi</item>
-        <item quantity="other"/>
+        <item quantity="other">%1$s episodi</item>
     </plurals>
     <string name="pref_screensaver_inapp_enabled">Usa il salvaschermo integrato</string>
     <string name="enable_reactive_homepage">Abilita la homepage reattiva</string>
