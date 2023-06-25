@@ -229,7 +229,7 @@
     <string name="bitrate_kbit">%1$,.0f Kbit/s</string>
     <string name="bitrate_mbit">%1$,.0f Mbit/s</string>
     <string name="grid_direction_vertical">Vertical</string>
-    <string name="pref_video_player_vlc">LibVLC (experimental)</string>
+    <string name="pref_video_player_vlc">LibVLC (reproductor experimental)</string>
     <string name="pref_video_player_exoplayer">ExoPlayer</string>
     <string name="login_username_field_empty">El nom d\'usuari no pot estar buit</string>
     <string name="login_invalid_credentials">Nom d\'usuari i/o contrasenya no vàlids</string>
@@ -295,7 +295,7 @@
     <string name="lbl_image_size">Mida de la imatge</string>
     <string name="server_issue_ssl_handshake">Ha fallat l\'emparellament SSL</string>
     <string name="server_issue_timeout">No s\'ha pogut connectar</string>
-    <string name="server_issue_outdated_version">El servidor utilitza la versió %1$s, però es necessita que sigui la %2$s o superior</string>
+    <string name="server_issue_outdated_version">El servidor utilitza la versió no suportada %1$s, si us plau actualitza a la %2$s o superior</string>
     <string name="server_issue_unsupported_version">El servidor utilitza la versió %1$s que no està suportada</string>
     <string name="server_issue_missing_version">No es pot determinar la versió del servidor</string>
     <string name="server_issue_invalid_product">El programari del servidor és incompatible</string>
@@ -414,7 +414,7 @@
     <string name="pref_crash_reports">Enviar informes de fallada al servidor</string>
     <string name="pref_telemetry_description">Envia informes de fallada, inclou registres</string>
     <string name="pref_telemetry_category">Informe de fallada</string>
-    <string name="server_unsupported_notification">Aquest servidor utilitza la versió %1$s de Jellyfin, que no és compatible. Si us plau, actualitza a Jellyfin %2$s per a continuar utilitzant aquesta aplicació.</string>
+    <string name="server_unsupported_notification">Aquest servidor utilitza la versió %1$s de Jellyfin, que no és compatible. Si us plau, actualitza a Jellyfin %2$s o superior per a continuar utilitzant aquesta aplicació.</string>
     <string name="app_notification_uimode_invalid">Aquesta aplicació està optimitzada per televisions. Recomanem utilitzar la nostra aplicació mòbil en altres dispositius.</string>
     <string name="live_tv_preferences">Opcions de TV en directe</string>
     <string name="action_connect">Connectar</string>
@@ -510,4 +510,7 @@
     <string name="pref_screensaver">Protector de pantalla</string>
     <string name="pref_screensaver_inapp_enabled">Utilitzar el protector de pantalla de l\'aplicació</string>
     <string name="pref_screensaver_inapp_timeout">Iniciar protector de pantalla després de</string>
+    <string name="pref_music_rewrite_disable">Deshabilita el nou backend de musica</string>
+    <string name="pref_music_rewrite_enable_description">Deshabilita això només si experimentes problemes amb la reproducció de musica</string>
+    <string name="pref_music_cat">Musica</string>
 </resources>
