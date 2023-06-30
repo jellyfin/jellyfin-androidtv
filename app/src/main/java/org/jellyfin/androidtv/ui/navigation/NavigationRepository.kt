@@ -65,11 +65,11 @@ class NavigationRepositoryImpl(
 		// Never add the initial destination to the history to prevent an empty screen when the user
 		// uses the "back" button to close the app
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(initialDestination, false, false))
-		Timber.d("Navigating to $initialDestination")
+		Timber.d("Navigating to $initialDestination (via init)")
 	}
 
 	override fun navigate(destination: Destination, replace: Boolean) {
-		Timber.d("Navigating to $destination")
+		Timber.d("Navigating to $destination (via navigate function)")
 		val action = when (destination) {
 			is Destination.Fragment -> NavigationAction.NavigateFragment(destination, true, replace)
 			is Destination.Activity -> NavigationAction.NavigateActivity(destination) {
@@ -99,7 +99,7 @@ class NavigationRepositoryImpl(
 		fragmentHistory.clear()
 		val actualDestination = destination ?: initialDestination
 		_currentAction.tryEmit(NavigationAction.NavigateFragment(actualDestination, false, false))
-		Timber.d("Navigating to $actualDestination")
+		Timber.d("Navigating to $actualDestination (via reset)")
 	}
 }
 
