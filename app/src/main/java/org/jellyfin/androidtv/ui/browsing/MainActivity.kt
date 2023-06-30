@@ -37,6 +37,7 @@ class MainActivity : FragmentActivity() {
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val screensaverViewModel by viewModel<ScreensaverViewModel>()
+	private var inTransaction = false
 
 	private lateinit var binding: ActivityMainBinding
 
@@ -56,7 +57,7 @@ class MainActivity : FragmentActivity() {
 		onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
 		supportFragmentManager.addOnBackStackChangedListener {
-			if (supportFragmentManager.backStackEntryCount == 0)
+			if (!inTransaction && supportFragmentManager.backStackEntryCount == 0)
 				navigationRepository.reset()
 		}
 
@@ -110,7 +111,13 @@ class MainActivity : FragmentActivity() {
 
 	private fun handleNavigationAction(action: NavigationAction) = when (action) {
 		is NavigationAction.NavigateFragment -> {
-			if (action.replace) supportFragmentManager.popBackStackImmediate()
+			if (action.replace) {
+				// Prevent back stack changed listener from resetting when popping to
+				// the initial destination
+				inTransaction = true
+				supportFragmentManager.popBackStack()
+				inTransaction = false
+			}
 
 			supportFragmentManager.commit {
 				val destination = action.destination
@@ -122,8 +129,7 @@ class MainActivity : FragmentActivity() {
 				if (!isSameFragment) {
 					setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
 
-					if (currentFragment != null) remove(currentFragment)
-					add(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
+					replace(R.id.content_view, destination.fragment.java, destination.arguments, FRAGMENT_TAG_CONTENT)
 				}
 
 				if (action.addToBackStack) addToBackStack(null)
