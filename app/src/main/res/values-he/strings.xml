@@ -376,7 +376,7 @@
     <string name="pref_customization">התאמה אישית</string>
     <string name="server_issue_ssl_handshake">קישור SSL נכשל</string>
     <string name="server_issue_timeout">תם הזמן הקצוב להתחברות</string>
-    <string name="server_issue_outdated_version">השרת משתמש בגרסה %1$s, יש לעדכן את השרת לגרסה %2$s או חדשה יותר</string>
+    <string name="server_issue_outdated_version">השרת משתמש בגרסה %1$s שאינה נתמכת עוד, אנא עדכנו את השרת לגרסה %2$s או חדשה יותר</string>
     <string name="server_issue_unsupported_version">השרת משתמש בגרסה %1$s שאינה נתמכת</string>
     <string name="server_issue_missing_version">לא ניתן לזהות גרסת השרת</string>
     <string name="server_issue_invalid_product">תוכנת השרת אינה נתמכת</string>
@@ -453,7 +453,7 @@
     <string name="pref_refresh_rate_scale_on_tv">קנה מידה בטלוויזיה</string>
     <string name="pref_refresh_rate_scale_on_device">קנה מידה במכשיר</string>
     <string name="app_notification_uimode_invalid">אפליקציה זו מותאמת לטלוויזיות. אנו ממליצים להשתמש באפליקציה שלנו לנייד במכשירים אחרים.</string>
-    <string name="server_unsupported_notification">שרת זה משתמש בגרסת Jellyfin %1$s שאינה נתמכת. עדכן ל-Jellyfin %2$s כדי להמשיך להשתמש באפליקציה.</string>
+    <string name="server_unsupported_notification">שרת זה משתמש בגרסת %1$s Jellyfin שאינה נתמכת. עדכן ל-Jellyfin %2$s כדי להמשיך להשתמש באפליקציה.</string>
     <string name="pref_telemetry_description">שלח דוחות קריסה, כולל יומנים</string>
     <string name="pref_crash_reports">שלח דוחות קריסה לשרת</string>
     <string name="pref_crash_reports_enabled">דוחות קריסה יישלחו לשרת האחרון שבו השתמשת</string>
@@ -486,21 +486,21 @@
     <string name="pref_screensaver_inapp_enabled_description">הצג את שומר המסך בזמן שג\'ליפין פתוח</string>
     <string name="lbl_album_artists">אלבומים</string>
     <plurals name="tracks">
-        <item quantity="one">%1$s שיר</item>
+        <item quantity="one">שיר %1$s</item>
         <item quantity="two">%1$s שירים</item>
         <item quantity="many">%1$s שירים</item>
         <item quantity="other">%1$s שירים</item>
     </plurals>
-    <string name="enable_reactive_homepage">הפעל עמוד reactive</string>
+    <string name="enable_reactive_homepage">הפעל עמוד בית ריאקטיבי</string>
     <plurals name="seconds">
-        <item quantity="one">%1$s שניה</item>
+        <item quantity="one">שניה %1$s</item>
         <item quantity="two">%1$s שניות</item>
         <item quantity="many">%1$s שניות</item>
         <item quantity="other">%1$s שניות</item>
     </plurals>
     <string name="not_set">לא נקבע</string>
     <plurals name="hours">
-        <item quantity="one">%1$s שעה</item>
+        <item quantity="one">שעה %1$s</item>
         <item quantity="two">%1$s שעות</item>
         <item quantity="many">%1$s שעות</item>
         <item quantity="other">%1$s שעות</item>
@@ -514,7 +514,7 @@
     <string name="pref_screensaver_inapp_enabled">השתמש בשומר מסך מובנה</string>
     <string name="pref_screensaver_inapp_timeout">התחל שומר מסך אחרי</string>
     <plurals name="minutes">
-        <item quantity="one">%1$s דקה</item>
+        <item quantity="one">דקה %1$s</item>
         <item quantity="two">%1$s דקות</item>
         <item quantity="many">%1$s דקות</item>
         <item quantity="other">%1$s דקות</item>
