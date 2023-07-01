@@ -5,6 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -23,6 +34,7 @@ import org.jellyfin.androidtv.auth.model.ConnectingState
 import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerAdditionState
 import org.jellyfin.androidtv.auth.model.UnableToConnectState
+import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.databinding.FragmentSelectServerBinding
 import org.jellyfin.androidtv.ui.ServerButtonView
 import org.jellyfin.androidtv.ui.SpacingItemDecoration
@@ -31,6 +43,7 @@ import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.getSummary
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.compose.rememberKoinInject
 
 class SelectServerFragment : Fragment() {
 	private var _binding: FragmentSelectServerBinding? = null
@@ -144,6 +157,32 @@ class SelectServerFragment : Fragment() {
 				}
 
 				binding.discoveryProgressIndicator.isVisible = false
+			}
+		}
+
+		// Notifications
+		binding.notifications.setContent {
+			val notificationsRepository = rememberKoinInject<NotificationsRepository>()
+			val notifications by notificationsRepository.notifications.collectAsState()
+
+			Column(
+				verticalArrangement = Arrangement.spacedBy(5.dp)
+			) {
+				for (notification in notifications) {
+					if (!notification.public) continue
+
+					Card(
+						modifier = Modifier
+							.fillMaxWidth(),
+						backgroundColor = colorResource(id = R.color.lb_basic_card_info_bg_color),
+						contentColor = colorResource(id = R.color.white),
+					) {
+						Text(
+							text = notification.message,
+							modifier = Modifier.padding(10.dp)
+						)
+					}
+				}
 			}
 		}
 

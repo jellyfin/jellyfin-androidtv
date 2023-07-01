@@ -5,7 +5,7 @@ import org.gradle.api.Project
  */
 fun Project.getProperty(name: String): String? {
 	// sample.var --> SAMPLE_VAR
-	val environmentName = name.toUpperCase().replace(".", "_")
+	val environmentName = name.uppercase().replace(".", "_")
 
 	return findProperty(name)?.toString() ?: System.getenv(environmentName) ?: null
 }

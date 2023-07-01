@@ -34,8 +34,8 @@ class NotificationsRepositoryImpl(
 		addBetaNotification()
 	}
 
-	private fun addNotification(message: String, dismiss: () -> Unit = {}) {
-		notifications.value = notifications.value + AppNotification(message, dismiss)
+	private fun addNotification(message: String, public: Boolean = false, dismiss: () -> Unit = {}) {
+		notifications.value = notifications.value + AppNotification(message, dismiss, public)
 	}
 
 	private fun addUiModeNotification() {
@@ -45,7 +45,7 @@ class NotificationsRepositoryImpl(
 		val hasHdmiCec = context.packageManager.hasSystemFeature("android.hardware.hdmi.cec")
 
 		if (invalidUiMode && isTouch && !hasHdmiCec) {
-			addNotification(context.getString(R.string.app_notification_uimode_invalid))
+			addNotification(context.getString(R.string.app_notification_uimode_invalid), public = true)
 		}
 	}
 
