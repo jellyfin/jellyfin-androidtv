@@ -515,4 +515,7 @@
         <item quantity="other">%1$s pistas</item>
     </plurals>
     <string name="color_cyan">Cian</string>
+    <string name="pref_music_cat">Música</string>
+    <string name="pref_music_rewrite_disable">Deshabilitar el nuevo manejo de la librería de música</string>
+    <string name="pref_music_rewrite_enable_description">Deshabilita ésto solo si experimentas problemas con la reproducción de música</string>
 </resources>
