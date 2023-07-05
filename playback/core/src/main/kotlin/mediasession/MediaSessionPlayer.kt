@@ -78,8 +78,8 @@ internal class MediaSessionPlayer(
 			// add(COMMAND_GET_VOLUME)
 			add(COMMAND_GET_DEVICE_VOLUME)
 			// add(COMMAND_SET_VOLUME)
-			add(COMMAND_SET_DEVICE_VOLUME)
-			add(COMMAND_ADJUST_DEVICE_VOLUME)
+			add(COMMAND_SET_DEVICE_VOLUME_WITH_FLAGS)
+			add(COMMAND_ADJUST_DEVICE_VOLUME_WITH_FLAGS)
 			// add(COMMAND_SET_VIDEO_SURFACE)
 			// add(COMMAND_GET_TEXT)
 			// add(COMMAND_SET_TRACK_SELECTION_PARAMETERS)
@@ -200,19 +200,25 @@ internal class MediaSessionPlayer(
 		return Futures.immediateVoidFuture()
 	}
 
-	override fun handleIncreaseDeviceVolume(): ListenableFuture<*> {
+	override fun handleIncreaseDeviceVolume(flags: Int): ListenableFuture<*> {
 		state.volume.increaseVolume()
 		return Futures.immediateVoidFuture()
 	}
 
-	override fun handleDecreaseDeviceVolume(): ListenableFuture<*> {
+	override fun handleDecreaseDeviceVolume(flags: Int): ListenableFuture<*> {
 		state.volume.decreaseVolume()
 		return Futures.immediateVoidFuture()
 	}
 
-	override fun handleSetDeviceVolume(deviceVolume: Int): ListenableFuture<*> {
+	override fun handleSetDeviceVolume(deviceVolume: Int, flags: Int): ListenableFuture<*> {
 		@Suppress("MagicNumber")
 		state.volume.setVolume(deviceVolume / 100f)
+		return Futures.immediateVoidFuture()
+	}
+
+	override fun handleSetDeviceMuted(muted: Boolean, flags: Int): ListenableFuture<*> {
+		if (muted) state.volume.mute()
+		else state.volume.unmute()
 		return Futures.immediateVoidFuture()
 	}
 
