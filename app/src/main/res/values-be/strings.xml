@@ -28,4 +28,16 @@
     <string name="state_disabled">Адключана</string>
     <string name="lbl_views">Прагляды</string>
     <string name="pref_max_bitrate_title">Максімальны бітрэйт трансляцыі</string>
+    <string name="msg_not_implemented">" не рэалізована"</string>
+    <string name="lbl_suggested">Прапанованае</string>
+    <string name="lbl_status">%1$s / %2$s</string>
+    <string name="lbl_play">Прайграць</string>
+    <string name="lbl_by_letter">Па літарах</string>
+    <string name="lbl_coming_up">Наступнае</string>
+    <string name="lbl_favorite_channels">Абраныя каналы</string>
+    <string name="lbl_play_all">Прайграць усё</string>
+    <string name="lbl_cancel_recording">Адмяніць запіс</string>
+    <string name="lbl_latest">Нядаўна дададзенае</string>
+    <string name="lbl_latest_in">Нядаўна дадазенае ў %1$s</string>
+    <string name="lbl_collections">Калекцыі</string>
 </resources>
