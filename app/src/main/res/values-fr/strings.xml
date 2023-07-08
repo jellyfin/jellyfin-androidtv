@@ -400,7 +400,7 @@
     <string name="lbl_playback_speed">Vitesse de lecture</string>
     <string name="server_issue_ssl_handshake">La négociation SSL a échoué</string>
     <string name="server_issue_timeout">Délais de connexion dépassé</string>
-    <string name="server_issue_outdated_version">Une version du serveur supérieur ou égale à %2$s est nécessaire, hors le serveur est en version %1$s</string>
+    <string name="server_issue_outdated_version">Le serveur utilise une version %2$s non supportée. Veuillez faire une mise à jour vers une version %1$s ou supérieure</string>
     <string name="server_issue_unsupported_version">La version du serveur : %1$s n\'est pas compatible</string>
     <string name="server_issue_missing_version">Impossible de déterminer la version du serveur</string>
     <string name="pref_direct_stream_live_on">Le transcodage est désactivé</string>
@@ -442,7 +442,7 @@
     <string name="live_tv_preferences">Options TV Live</string>
     <string name="lbl_subtitle_delay">Décalage sous-titre</string>
     <string name="lbl_adjust">Ajuster</string>
-    <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s pour continuer à utiliser l\'application.</string>
+    <string name="server_unsupported_notification">Ce serveur utilise la version %1$s de Jellyfin qui n\'est pas prise en charge. Veuillez mettre à jour le serveur vers la version %2$s ou supérieure pour continuer à utiliser l\'application.</string>
     <string name="app_notification_uimode_invalid">Cette application est optimisée pour un usage sur une télévision. Nous vous recommandons d\'utiliser notre application mobile sur un autre appareil.</string>
     <string name="server_setup_incomplete">La configuration de ce serveur est incomplète. Ouvrez Jellyfin dans un navigateur Web pour terminer la configuration avant de se connecter.</string>
     <string name="crash_report_toast">Oups ! Il y a eu un problème. Un rapport de plantage a été envoyé à votre serveur Jellyfin.</string>
