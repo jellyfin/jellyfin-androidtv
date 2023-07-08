@@ -17,7 +17,7 @@
     <string name="lbl_genres">Genres</string>
     <string name="lbl_search">Suche</string>
     <string name="msg_not_implemented">" Nicht implementiert"</string>
-    <string name="lbl_latest">Zuletzt hinzugefügt</string>
+    <string name="lbl_latest">Kürzlich hinzugefügt</string>
     <string name="lbl_by_name">Nach Name</string>
     <string name="lbl_favorites">Favoriten</string>
     <string name="lbl_coming_up">Als Nächstes</string>
@@ -115,9 +115,9 @@
     <string name="lbl_sorted_by">sortiert nach</string>
     <string name="lbl_from">von</string>
     <string name="lbl_name">Name</string>
-    <string name="lbl_date_added">Datum hinzugefügt</string>
+    <string name="lbl_date_added">Hinzugefügt am</string>
     <string name="lbl_premier_date">Premiere</string>
-    <string name="lbl_critic_rating">Kritiker Bewertung</string>
+    <string name="lbl_critic_rating">Kritikerwertung</string>
     <string name="lbl_rating">Bewertung</string>
     <string name="lbl_starting_with">beginnend mit jenen, deren Namen beginnt mit</string>
     <string name="lbl_display_preferences">Zeige Einstellungen</string>
@@ -153,7 +153,7 @@
     <string name="lbl_play_from_here">Abspielen von hier</string>
     <string name="lbl_remove_from_queue">Entferne aus Warteschlange</string>
     <string name="lbl_goto_now_playing">Gehe zur aktuellen Wiedergabe</string>
-    <string name="lbl_instant_mix">Instant mix</string>
+    <string name="lbl_instant_mix">Instant Mix</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Element hinzugefügt"</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
@@ -215,7 +215,7 @@
     <string name="lbl_image_type">Bildtyp</string>
     <string name="lbl_start_favorites">Setze Favoriten zum Anfang</string>
     <string name="lbl_colored_backgrounds">Farbkodierte Hintergründe</string>
-    <string name="lbl_hd_programs">HD Programme</string>
+    <string name="lbl_hd_programs">HD-Programme</string>
     <string name="lbl_live_broadcasts">Live-Übertragungen</string>
     <string name="lbl_new_episodes">Neue Episoden</string>
     <string name="lbl_audio_delay">Audioverzögerung</string>
