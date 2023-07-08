@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.bumptech.glide.Glide
+import androidx.core.graphics.drawable.toBitmap
+import coil.ImageLoader
+import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -27,7 +29,6 @@ import org.jellyfin.sdk.model.api.ImageType
 import org.jellyfin.sdk.model.constant.ItemSortBy
 import org.koin.androidx.compose.get
 import timber.log.Timber
-import java.util.concurrent.ExecutionException
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -35,6 +36,7 @@ fun DreamHost() {
 	val api = get<ApiClient>()
 	val userPreferences = get<UserPreferences>()
 	val mediaManager = get<MediaManager>()
+	val imageLoader = get<ImageLoader>()
 	val context = LocalContext.current
 
 	var libraryShowcase by remember { mutableStateOf<DreamContent.LibraryShowcase?>(null) }
@@ -44,7 +46,7 @@ fun DreamHost() {
 		delay(2.seconds)
 
 		while (true) {
-			libraryShowcase = getRandomLibraryShowcase(api, context)
+			libraryShowcase = getRandomLibraryShowcase(api, imageLoader, context)
 			delay(30.seconds)
 		}
 	}
@@ -62,7 +64,11 @@ fun DreamHost() {
 	)
 }
 
-private suspend fun getRandomLibraryShowcase(api: ApiClient, context: Context): DreamContent.LibraryShowcase? {
+private suspend fun getRandomLibraryShowcase(
+	api: ApiClient,
+	imageLoader: ImageLoader,
+	context: Context
+): DreamContent.LibraryShowcase? {
 	try {
 		val response by api.itemsApi.getItemsByUserId(
 			includeItemTypes = listOf(BaseItemKind.MOVIE, BaseItemKind.SERIES),
@@ -89,12 +95,9 @@ private suspend fun getRandomLibraryShowcase(api: ApiClient, context: Context): 
 		)
 
 		val backdrop = withContext(Dispatchers.IO) {
-			try {
-				Glide.with(context).asBitmap().load(backdropUrl).submit().get()
-			} catch (err: ExecutionException) {
-				Timber.e("Unable to retrieve image for item ${item.id}", err)
-				null
-			}
+			imageLoader.execute(
+				request = ImageRequest.Builder(context).data(backdropUrl).build()
+			).drawable?.toBitmap()
 		} ?: return null
 
 		return DreamContent.LibraryShowcase(item, backdrop)

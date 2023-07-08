@@ -7,18 +7,18 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import coil.ImageLoader
+import coil.request.ImageRequest
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
+import org.koin.android.ext.android.inject
+import java.io.IOException
 
 class ImageProvider : ContentProvider() {
+	private val imageLoader by inject<ImageLoader>()
+
 	override fun onCreate(): Boolean = true
 
 	override fun getType(uri: Uri) = null
@@ -33,30 +33,40 @@ class ImageProvider : ContentProvider() {
 		val (read, write) = ParcelFileDescriptor.createPipe()
 		val outputStream = ParcelFileDescriptor.AutoCloseOutputStream(write)
 
-		ProcessLifecycleOwner.get().lifecycleScope.launch(Dispatchers.IO) {
-			Glide.with(context!!)
-				.asBitmap()
-				.error(R.drawable.placeholder_icon)
-				.load(src)
-				.into(object : CustomTarget<Bitmap>() {
-					override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-						@Suppress("DEPRECATION")
-						val format = when {
-							Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Bitmap.CompressFormat.WEBP_LOSSY
-							else -> Bitmap.CompressFormat.WEBP
-						}
-						resource.compress(format, 95, outputStream)
-						outputStream.close()
-					}
-
-					override fun onLoadCleared(placeholder: Drawable?) = outputStream.close()
-				})
-		}
+		imageLoader.enqueue(ImageRequest.Builder(context!!).apply {
+			data(src)
+			error(R.drawable.placeholder_icon)
+			target(
+				onSuccess = { drawable -> writeDrawable(drawable, outputStream) },
+				onError = { drawable -> writeDrawable(requireNotNull(drawable), outputStream) }
+			)
+		}.build())
 
 		return read
 	}
 
+	private fun writeDrawable(
+		drawable: Drawable,
+		outputStream: ParcelFileDescriptor.AutoCloseOutputStream
+	) {
+		@Suppress("DEPRECATION")
+		val format = when {
+			Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Bitmap.CompressFormat.WEBP_LOSSY
+			else -> Bitmap.CompressFormat.WEBP
+		}
+
+		try {
+			outputStream.use {
+				drawable.toBitmap().compress(format, COMPRESSION_QUALITY, outputStream)
+			}
+		} catch (_: IOException) {
+			// Ignore IOException as this is commonly thrown when the load request is cancelled
+		}
+	}
+
 	companion object {
+		private const val COMPRESSION_QUALITY = 95
+
 		/**
 		 * Get a [Uri] that uses the [ImageProvider] to load an image. The input should be a valid
 		 * Jellyfin image URL created using the SDK.

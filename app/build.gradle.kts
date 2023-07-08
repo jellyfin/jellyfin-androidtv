@@ -1,7 +1,6 @@
 plugins {
 	id("com.android.application")
 	kotlin("android")
-	alias(libs.plugins.kotlin.ksp)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.aboutlibraries)
 }
@@ -149,8 +148,7 @@ dependencies {
 
 	// Image utility
 	implementation(libs.blurhash)
-	implementation(libs.glide.core)
-	ksp(libs.glide.ksp)
+	implementation(libs.bundles.coil)
 
 	// Crash Reporting
 	implementation(libs.bundles.acra)

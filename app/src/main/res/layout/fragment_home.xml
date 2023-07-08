@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -40,13 +41,21 @@
                 android:layout_width="8dp"
                 android:layout_height="0dp" />
 
-            <ImageButton
+            <FrameLayout
                 android:id="@+id/switch_users"
                 style="@style/Button.Icon"
                 android:layout_width="41dp"
                 android:layout_height="41dp"
-                android:contentDescription="@string/lbl_switch_user"
-                android:src="@drawable/ic_switch_users" />
+                android:contentDescription="@string/lbl_switch_user">
+
+                <org.jellyfin.androidtv.ui.AsyncImageView
+                    android:id="@+id/switch_users_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="4dp"
+                    app:circleCrop="true"
+                    tools:src="@drawable/ic_user" />
+            </FrameLayout>
         </LinearLayout>
     </org.jellyfin.androidtv.ui.shared.ToolbarView>
 

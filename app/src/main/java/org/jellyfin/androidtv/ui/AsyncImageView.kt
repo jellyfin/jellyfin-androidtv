@@ -9,15 +9,16 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnAttach
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.vanniktech.blurhash.BlurHash
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.R
-import org.jellyfin.sdk.api.client.ApiClient
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.math.round
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -30,9 +31,10 @@ class AsyncImageView @JvmOverloads constructor(
 	context: Context,
 	attrs: AttributeSet? = null,
 	defStyleAttr: Int = 0,
-) : AppCompatImageView(context, attrs, defStyleAttr) {
+) : AppCompatImageView(context, attrs, defStyleAttr), KoinComponent {
 	private val lifeCycleOwner get() = findViewTreeLifecycleOwner()
 	private val styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.AsyncImageView, defStyleAttr, 0)
+	private val imageLoader by inject<ImageLoader>()
 
 	/**
 	 * The duration of the crossfade when changing switching the images of the url, blurhash and
@@ -73,21 +75,20 @@ class AsyncImageView @JvmOverloads constructor(
 
 			// Start loading image or placeholder
 			if (url == null) {
-				Glide.with(this@AsyncImageView).load(placeholder).apply {
-					if (circleCrop) circleCrop()
-				}.into(this@AsyncImageView)
-			} else {
-				val glideUrl = GlideUrl(url, LazyHeaders.Builder().apply {
-					setHeader("Accept", ApiClient.HEADER_ACCEPT)
+				imageLoader.enqueue(ImageRequest.Builder(context).apply {
+					target(this@AsyncImageView)
+					data(placeholder)
+					if (circleCrop) transformations(CircleCropTransformation())
 				}.build())
-
-				Glide.with(this@AsyncImageView).load(glideUrl).apply {
+			} else {
+				imageLoader.enqueue(ImageRequest.Builder(context).apply {
+					crossfade(crossFadeDuration.inWholeMilliseconds.toInt())
+					target(this@AsyncImageView)
+					data(url)
 					placeholder(placeholderOrBlurHash)
+					if (circleCrop) transformations(CircleCropTransformation())
 					error(placeholder)
-					if (circleCrop) circleCrop()
-					// FIXME: Glide is unable to scale the image when transitions are enabled
-					//transition(DrawableTransitionOptions.withCrossFade(crossFadeDuration.inWholeMilliseconds.toInt()))
-				}.into(this@AsyncImageView)
+				}.build())
 			}
 		}
 	}
