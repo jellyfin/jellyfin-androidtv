@@ -1,20 +1,15 @@
 package org.jellyfin.androidtv.ui.home
 
 import android.content.Intent
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
@@ -59,8 +54,10 @@ class HomeFragment : Fragment() {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				userRepository.currentUser.collect { user ->
 					if (user != null) {
-						val image = ImageUtils.getPrimaryImageUrl(user)
-						setUserImage(image)
+						binding.switchUsersImage.load(
+							url = ImageUtils.getPrimaryImageUrl(user),
+							placeholder = ContextCompat.getDrawable(requireContext(), R.drawable.ic_user)
+						)
 					}
 				}
 			}
@@ -71,36 +68,6 @@ class HomeFragment : Fragment() {
 		super.onDestroyView()
 
 		_binding = null
-	}
-
-	private fun setUserImage(image: String?) {
-		Glide.with(this)
-			.load(image)
-			.placeholder(R.drawable.ic_switch_users)
-			.centerInside()
-			.circleCrop()
-			.into(object : CustomViewTarget<ImageButton, Drawable>(binding.switchUsers) {
-				override fun onLoadFailed(errorDrawable: Drawable?) {
-					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-						binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
-						binding.switchUsers.setImageDrawable(errorDrawable)
-					}
-				}
-
-				override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-						binding.switchUsers.imageTintMode = null
-						binding.switchUsers.setImageDrawable(resource)
-					}
-				}
-
-				override fun onResourceCleared(placeholder: Drawable?) {
-					if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-						binding.switchUsers.imageTintMode = PorterDuff.Mode.SRC_IN
-						binding.switchUsers.setImageDrawable(placeholder)
-					}
-				}
-			})
 	}
 
 	private fun switchUser() {

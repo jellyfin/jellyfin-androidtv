@@ -3,12 +3,12 @@ package org.jellyfin.androidtv.data.service
 import android.content.Context
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import com.bumptech.glide.Glide
+import androidx.core.graphics.drawable.toBitmap
+import coil.ImageLoader
+import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,9 +20,7 @@ import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.imageApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
-import timber.log.Timber
 import java.util.UUID
-import java.util.concurrent.ExecutionException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -32,6 +30,7 @@ class BackgroundService(
 	private val jellyfin: Jellyfin,
 	private val api: ApiClient,
 	private val userPreferences: UserPreferences,
+	private val imageLoader: ImageLoader,
 ) {
 	companion object {
 		val SLIDESHOW_DURATION = 30.seconds
@@ -106,22 +105,11 @@ class BackgroundService(
 		// Cancel current loading job
 		loadBackgroundsJob?.cancel()
 		loadBackgroundsJob = scope.launch(Dispatchers.IO) {
-			_backgrounds = backdropUrls
-				.map { url ->
-					Glide.with(context).asBitmap().load(url).submit()
-				}
-				.map { future ->
-					async {
-						try {
-							future.get().asImageBitmap()
-						} catch (ex: ExecutionException) {
-							Timber.e(ex, "There was an error fetching the background image.")
-							null
-						}
-					}
-				}
-				.awaitAll()
-				.filterNotNull()
+			_backgrounds = backdropUrls.mapNotNull { url ->
+				imageLoader.execute(
+					request = ImageRequest.Builder(context).data(url).build()
+				).drawable?.toBitmap()?.asImageBitmap()
+			}
 
 			// Go to first background
 			_currentIndex = 0
