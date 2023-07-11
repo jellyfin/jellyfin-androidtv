@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.di
 
+import org.jellyfin.androidtv.auth.AccountManagerMigration
 import org.jellyfin.androidtv.auth.apiclient.ApiBinder
 import org.jellyfin.androidtv.auth.repository.AuthenticationRepository
 import org.jellyfin.androidtv.auth.repository.AuthenticationRepositoryImpl
@@ -14,7 +15,8 @@ import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.koin.dsl.module
 
 val authModule = module {
-	single { AuthenticationStore(get()) }
+	single { AccountManagerMigration(get()) }
+	single { AuthenticationStore(get(), get()) }
 	single { AuthenticationPreferences(get()) }
 
 	single<AuthenticationRepository> {
