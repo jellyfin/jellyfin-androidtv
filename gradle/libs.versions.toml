@@ -1,5 +1,5 @@
 [versions]
-aboutlibraries = "10.8.1"
+aboutlibraries = "10.8.2"
 acra = "5.10.1"
 android-desugar = "2.0.3"
 android-gradle = "8.0.2"
