@@ -13,6 +13,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
+import org.jellyfin.androidtv.auth.AccountManagerMigration
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreServer
 import org.jellyfin.androidtv.auth.model.AuthenticationStoreUser
 import org.jellyfin.sdk.model.serializer.UUIDSerializer
@@ -26,7 +27,8 @@ import java.util.UUID
  * The data is stored in a JSON file located in the applications data directory.
  */
 class AuthenticationStore(
-	private val context: Context
+	private val context: Context,
+	private val accountManagerMigration: AccountManagerMigration,
 ) {
 	private val storePath
 		get() = context.filesDir.resolve("authentication_store.json")
@@ -57,11 +59,18 @@ class AuthenticationStore(
 
 		// Check for version
 		return when (root["version"]?.jsonPrimitive?.intOrNull) {
-			1, 2 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
+			1 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
+				// Add access tokens from account manager to stored users and save the migrated data
+				.let { servers -> accountManagerMigration.migrate(servers) }
+				.also { servers -> write(servers) }
+
+			2 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
+
 			null -> {
 				Timber.e("Authentication Store is corrupt!")
 				emptyMap()
 			}
+
 			else -> {
 				Timber.e("Authentication Store is using an unknown version!")
 				emptyMap()
@@ -69,15 +78,19 @@ class AuthenticationStore(
 		}
 	}
 
-	private fun save(): Boolean {
+	private fun write(servers: Map<UUID, AuthenticationStoreServer>): Boolean {
 		val root = JsonObject(mapOf(
 			"version" to JsonPrimitive(2),
-			"servers" to json.encodeToJsonElement(store)
+			"servers" to json.encodeToJsonElement(servers)
 		))
 
 		storePath.writeText(json.encodeToString(root))
 
 		return true
+	}
+
+	private fun save(): Boolean {
+		return write(store)
 	}
 
 	fun getServers(): Map<UUID, AuthenticationStoreServer> = store
