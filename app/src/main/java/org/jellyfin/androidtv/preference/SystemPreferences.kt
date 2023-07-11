@@ -69,5 +69,10 @@ class SystemPreferences(context: Context) : SharedPreferenceStore(
 		 * The version name for the latest dismissed beta notification or empty if none.
 		 */
 		val dismissedBetaNotificationVersion = stringPreference("dismissed_beta_notification_version", "")
+
+		/**
+		 * Whether to disable the "UI mode" warning that shows when using the app on non TV devices.
+		 */
+		val disableUiModeWarning = booleanPreference("disable_ui_mode_warning", false)
 	}
 }
