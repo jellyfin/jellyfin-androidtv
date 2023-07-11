@@ -2,13 +2,13 @@ package org.jellyfin.androidtv.data.repository
 
 import android.app.UiModeManager
 import android.content.Context
-import android.content.res.Configuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.AppNotification
 import org.jellyfin.androidtv.preference.SystemPreferences
+import org.jellyfin.androidtv.util.isTvDevice
 
 interface NotificationsRepository {
 	val notifications: StateFlow<List<AppNotification>>
@@ -39,12 +39,9 @@ class NotificationsRepositoryImpl(
 	}
 
 	private fun addUiModeNotification() {
-		val supportedUiModes = setOf(Configuration.UI_MODE_TYPE_TELEVISION, Configuration.UI_MODE_TYPE_UNDEFINED)
-		val invalidUiMode = !supportedUiModes.contains(uiModeManager.currentModeType)
-		val isTouch = context.packageManager.hasSystemFeature("android.hardware.touchscreen")
-		val hasHdmiCec = context.packageManager.hasSystemFeature("android.hardware.hdmi.cec")
+		val disableUiModeWarning = systemPreferences[SystemPreferences.disableUiModeWarning]
 
-		if (invalidUiMode && isTouch && !hasHdmiCec) {
+		if (!context.isTvDevice() && !disableUiModeWarning) {
 			addNotification(context.getString(R.string.app_notification_uimode_invalid), public = true)
 		}
 	}
