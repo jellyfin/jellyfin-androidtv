@@ -20,9 +20,8 @@ import timber.log.Timber
 import java.util.UUID
 
 /**
- * Storage for authentication related entities. Stores servers with users inside. Should be used in
- * combination with the [AccountManagerStore] to store access tokens and integrate with the
- * operating system.
+ * Storage for authentication related entities. Stores servers with users inside, including
+ * access tokens.
  *
  * The data is stored in a JSON file located in the applications data directory.
  */
@@ -58,7 +57,7 @@ class AuthenticationStore(
 
 		// Check for version
 		return when (root["version"]?.jsonPrimitive?.intOrNull) {
-			1 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
+			1, 2 -> json.decodeFromJsonElement<Map<UUID, AuthenticationStoreServer>>(root["servers"]!!)
 			null -> {
 				Timber.e("Authentication Store is corrupt!")
 				emptyMap()
@@ -72,7 +71,7 @@ class AuthenticationStore(
 
 	private fun save(): Boolean {
 		val root = JsonObject(mapOf(
-			"version" to JsonPrimitive(1),
+			"version" to JsonPrimitive(2),
 			"servers" to json.encodeToJsonElement(store)
 		))
 

@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.jellyfin.androidtv.auth.apiclient.ApiBinder
-import org.jellyfin.androidtv.auth.store.AccountManagerStore
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.preference.PreferencesRepository
@@ -47,7 +46,6 @@ interface SessionRepository {
 
 class SessionRepositoryImpl(
 	private val authenticationPreferences: AuthenticationPreferences,
-	private val accountManagerStore: AccountManagerStore,
 	private val apiBinder: ApiBinder,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
@@ -168,12 +166,12 @@ class SessionRepositoryImpl(
 	}
 
 	private fun createUserSession(serverId: UUID, userId: UUID): Session? {
-		val account = accountManagerStore.getAccount(serverId, userId)
+		val account = authenticationStore.getUser(serverId, userId)
 		if (account?.accessToken == null) return null
 
 		return Session(
-			userId = account.id,
-			serverId = account.server,
+			userId = userId,
+			serverId = serverId,
 			accessToken = account.accessToken
 		)
 	}

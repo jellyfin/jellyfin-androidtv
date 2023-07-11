@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import org.jellyfin.androidtv.auth.model.AccountManagerAccount
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
 import org.jellyfin.androidtv.auth.model.AuthenticateMethod
 import org.jellyfin.androidtv.auth.model.AuthenticatedState
@@ -20,7 +19,6 @@ import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.model.ServerUnavailableState
 import org.jellyfin.androidtv.auth.model.ServerVersionNotSupported
 import org.jellyfin.androidtv.auth.model.User
-import org.jellyfin.androidtv.auth.store.AccountManagerStore
 import org.jellyfin.androidtv.auth.store.AuthenticationPreferences
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.util.ImageUtils
@@ -52,7 +50,6 @@ interface AuthenticationRepository {
 class AuthenticationRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val sessionRepository: SessionRepository,
-	private val accountManagerStore: AccountManagerStore,
 	private val authenticationStore: AuthenticationStore,
 	private val userApiClient: ApiClient,
 	private val authenticationPreferences: AuthenticationPreferences,
@@ -75,9 +72,9 @@ class AuthenticationRepositoryImpl(
 		// Automatic logic is disabled when the always authenticate preference is enabled
 		if (authenticationPreferences[AuthenticationPreferences.alwaysAuthenticate]) return flowOf(RequireSignInState)
 
-		val account = accountManagerStore.getAccount(server.id, user.id)
+		val authStoreUser = authenticationStore.getUser(server.id, user.id)
 		// Try login with access token
-		return if (account?.accessToken != null) authenticateToken(server, user.withToken(account.accessToken))
+		return if (authStoreUser?.accessToken != null) authenticateToken(server, user.withToken(authStoreUser.accessToken))
 		// Try login without password
 		else if (!user.requirePassword) authenticateCredential(server, user.name, "")
 		// Require login
@@ -171,22 +168,15 @@ class AuthenticationRepositoryImpl(
 			name = userInfo.name!!,
 			lastUsed = Date().time,
 			requirePassword = userInfo.hasPassword,
-			imageTag = userInfo.primaryImageTag
+			imageTag = userInfo.primaryImageTag,
+			accessToken = accessToken,
 		) ?: AuthenticationStoreUser(
 			name = userInfo.name!!,
 			requirePassword = userInfo.hasPassword,
-			imageTag = userInfo.primaryImageTag
-		)
-		authenticationStore.putUser(server.id, userInfo.id, updatedUser)
-
-		val accountManagerAccount = AccountManagerAccount(
-			id = userInfo.id,
-			address = "${updatedUser.name}@${server.address}",
-			server = server.id,
-			name = updatedUser.name,
+			imageTag = userInfo.primaryImageTag,
 			accessToken = accessToken,
 		)
-		accountManagerStore.putAccount(accountManagerAccount)
+		authenticationStore.putUser(server.id, userInfo.id, updatedUser)
 	}
 
 	private suspend fun setActiveSession(user: User, server: Server): Boolean {
@@ -207,8 +197,12 @@ class AuthenticationRepositoryImpl(
 	}
 
 	override fun logout(user: User): Boolean {
-		val authInfo = accountManagerStore.getAccount(user.serverId, user.id) ?: return false
-		return accountManagerStore.removeAccount(authInfo)
+		val authStoreUser = authenticationStore
+			.getUser(user.serverId, user.id)
+			?.copy(accessToken = null)
+
+		return if (authStoreUser != null) authenticationStore.putUser(user.serverId, user.id, authStoreUser)
+		else false
 	}
 
 	override fun getUserImageUrl(server: Server, user: User): String? = user.imageTag?.let { tag ->

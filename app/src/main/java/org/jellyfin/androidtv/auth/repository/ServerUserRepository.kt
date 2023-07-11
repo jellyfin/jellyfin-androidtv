@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.auth.repository
 import org.jellyfin.androidtv.auth.model.PrivateUser
 import org.jellyfin.androidtv.auth.model.PublicUser
 import org.jellyfin.androidtv.auth.model.Server
-import org.jellyfin.androidtv.auth.store.AccountManagerStore
 import org.jellyfin.androidtv.auth.store.AuthenticationStore
 import org.jellyfin.androidtv.util.sdk.toPublicUser
 import org.jellyfin.sdk.Jellyfin
@@ -27,14 +26,13 @@ interface ServerUserRepository {
 class ServerUserRepositoryImpl(
 	private val jellyfin: Jellyfin,
 	private val authenticationStore: AuthenticationStore,
-	private val accountManagerStore: AccountManagerStore,
 ) : ServerUserRepository {
 	override fun getStoredServerUsers(server: Server) = authenticationStore.getUsers(server.id)
 		?.mapNotNull { (userId, userInfo) ->
-			val authInfo = accountManagerStore.getAccount(server.id, userId)
+			val authInfo = authenticationStore.getUser(server.id, userId)
 			PrivateUser(
-				id = authInfo?.id ?: userId,
-				serverId = authInfo?.server ?: server.id,
+				id = userId,
+				serverId = server.id,
 				name = userInfo.name,
 				accessToken = authInfo?.accessToken,
 				requirePassword = userInfo.requirePassword,
@@ -62,10 +60,5 @@ class ServerUserRepositoryImpl(
 	override fun deleteStoredUser(user: PrivateUser) {
 		// Remove user info from store
 		authenticationStore.removeUser(user.serverId, user.id)
-
-		// Remove authentication info from system account manager
-		accountManagerStore.getAccount(user.serverId, user.id)?.let { accountManagerAccount ->
-			accountManagerStore.removeAccount(accountManagerAccount)
-		}
 	}
 }
