@@ -518,4 +518,5 @@
     <string name="pref_music_rewrite_disable">Zakázat nový přehrávač hudby</string>
     <string name="pref_music_rewrite_enable_description">Zakažte pouze v případě problémů s přehráváním hudby</string>
     <string name="not_set">Nenastaveno</string>
+    <string name="disable_ui_mode_warning">Vypnout upozornění na typ zařízení</string>
 </resources>
