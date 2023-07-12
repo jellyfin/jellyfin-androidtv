@@ -435,7 +435,7 @@
     <string name="login_connect_to">Mit %1$s verbinden</string>
     <string name="input_password">Passwort</string>
     <string name="input_username">Benutzername</string>
-    <string name="action_use_quickconnect">QuickConnect verwenden</string>
+    <string name="action_use_quickconnect">Quick Connect verwenden</string>
     <string name="action_use_password">Passwort verwenden</string>
     <string name="action_login">Anmelden</string>
     <string name="state_disabled">Deaktiviert</string>
