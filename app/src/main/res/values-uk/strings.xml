@@ -520,4 +520,8 @@
     <string name="enable_reactive_homepage">Увімкнути динамічну домашню сторінку</string>
     <string name="lbl_album_artists">Виконавці альбому</string>
     <string name="not_set">Не встановлено</string>
+    <string name="pref_music_rewrite_disable">Вимкнути новий музичний бекенд</string>
+    <string name="disable_ui_mode_warning">Вимкнути попередження про тип пристрою</string>
+    <string name="pref_music_cat">Музика</string>
+    <string name="pref_music_rewrite_enable_description">Вимикайте цю опцію, лише якщо у вас виникають проблеми з відтворенням музики</string>
 </resources>
