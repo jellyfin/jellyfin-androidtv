@@ -510,4 +510,8 @@
     <string name="enable_reactive_homepage">Käytä reaktiivista aloitussivua</string>
     <string name="lbl_album_artists">Albumin esittäjät</string>
     <string name="not_set">Ei määritetty</string>
+    <string name="pref_music_cat">Musiikki</string>
+    <string name="disable_ui_mode_warning">Älä varoita laitteen tyypistä</string>
+    <string name="pref_music_rewrite_disable">Älä käytä uuttaa musiikin taustajärjestelmää</string>
+    <string name="pref_music_rewrite_enable_description">Poista käytöstä vain, jos kohtaat musiikin toisto-ongelmia.</string>
 </resources>
