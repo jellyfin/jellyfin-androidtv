@@ -335,17 +335,23 @@ public class InfoLayoutHelper {
             addSpacer(context, layout, "  ");
         }
 
+        if (Utils.isTrue(item.getHasSubtitles())) {
+            addBlockText(context, layout, "CC");
+            addSpacer(context, layout, "  ");
+        }
+
         MediaStream videoStream = StreamHelper.getFirstVideoStream(item, mediaSourceIndex);
 
         if (videoStream != null && videoStream.getWidth() != null && videoStream.getHeight() != null) {
             int width = videoStream.getWidth();
             int height = videoStream.getHeight();
+            Boolean isInterlaced = videoStream.isInterlaced();
             if (width <= 960 && height <= 576) {
                 addBlockText(context, layout, context.getString(R.string.lbl_sd));
             } else if (width <= 1280 && height <= 962) {
-                addBlockText(context, layout, "720");
+                addBlockText(context, layout, "720" + (isInterlaced == null || !isInterlaced ? "p" : "i"));
             } else if (width <= 1920 && height <= 1440) {
-                addBlockText(context, layout, "1080");
+                addBlockText(context, layout, "1080" + (isInterlaced == null || !isInterlaced ? "p" : "i"));
             } else if (width <= 4096 && height <= 3072) {
                 addBlockText(context, layout, "4K");
             } else {
@@ -355,11 +361,6 @@ public class InfoLayoutHelper {
             addSpacer(context, layout, " ");
 
             addVideoCodecDetails(context, layout, videoStream);
-        }
-        if (Utils.isTrue(item.getHasSubtitles())) {
-            addBlockText(context, layout, "CC");
-            addSpacer(context, layout, "  ");
-
         }
     }
 
@@ -374,7 +375,13 @@ public class InfoLayoutHelper {
 
     private static void addVideoCodecDetails(Context context, LinearLayout layout, MediaStream stream) {
         if (stream != null) {
-            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
+            if (stream.getVideoDoViTitle() != null && stream.getVideoDoViTitle().trim().length() > 0) {
+                addBlockText(context, layout, "VISION");
+                addSpacer(context, layout, "  ");
+            } else if (stream.getVideoRangeType() != null && !stream.getVideoRangeType().equals("SDR")) {
+                addBlockText(context, layout, stream.getVideoRangeType().toUpperCase());
+                addSpacer(context, layout, "  ");
+            } else if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
                 String codec = stream.getCodec().toUpperCase();
                 addBlockText(context, layout, codec);
                 addSpacer(context, layout, "  ");
@@ -385,10 +392,28 @@ public class InfoLayoutHelper {
     private static void addMediaDetails(Context context, MediaStream stream, LinearLayout layout) {
 
         if (stream != null) {
-            if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
-                String codec = stream.getCodec().equals("dca") || stream.getCodec().equals("DCA") ? "DTS" : stream.getCodec().equals("ac3") || stream.getCodec().equals("AC3") ? "Dolby" : stream.getCodec().toUpperCase();
-                addBlockText(context, layout, codec);
+            if (stream.getProfile() != null && stream.getProfile().contains("Dolby Atmos")) {
+                addBlockText(context, layout, "ATMOS");
                 addSpacer(context, layout, " ");
+            } else if (stream.getProfile() != null && stream.getProfile().contains("DTS:X")) {
+                addBlockText(context, layout, "DTS:X");
+                addSpacer(context, layout, " ");
+            } else {
+                String codec = null;
+                if (stream.getProfile() != null && stream.getProfile().contains("DTS-HD")) {
+                    codec = "DTS-HD";
+                } else if (stream.getCodec() != null && stream.getCodec().trim().length() > 0) {
+                    switch (stream.getCodec().toLowerCase()) {
+                        case "dca": codec = "DTS"; break;
+                        case "eac3": codec = "DD+"; break;
+                        case "ac3": codec = "DD"; break;
+                        default: codec = stream.getCodec().toUpperCase();
+                    }
+                }
+                if (codec != null) {
+                    addBlockText(context, layout, codec);
+                    addSpacer(context, layout, " ");
+                }
             }
             if (stream.getChannelLayout() != null && stream.getChannelLayout().trim().length() > 0) {
                 addBlockText(context, layout, stream.getChannelLayout().toUpperCase());
