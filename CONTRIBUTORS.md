@@ -11,6 +11,7 @@
  - [Niels van Velzen](https://github.com/nielsvanvelzen)
  - [GodTamIt](https://github.com/GodTamIt)
  - [sparky3387](https://github.com/sparky3387)
+ - [mohd-akram](https://github.com/mohd-akram)
 
 # Emby Contributors
 
