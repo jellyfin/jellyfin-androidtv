@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository;
 import org.jellyfin.androidtv.constant.CustomMessage;
 import org.jellyfin.androidtv.data.model.DataRefreshService;
 import org.jellyfin.androidtv.data.repository.CustomMessageRepository;
+import org.jellyfin.androidtv.data.service.BackgroundService;
 import org.jellyfin.androidtv.databinding.OverlayTvGuideBinding;
 import org.jellyfin.androidtv.databinding.VlcPlayerInterfaceBinding;
 import org.jellyfin.androidtv.preference.UserPreferences;
@@ -162,6 +163,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private final Lazy<PlaybackControllerContainer> playbackControllerContainer = inject(PlaybackControllerContainer.class);
     private final Lazy<CustomMessageRepository> customMessageRepository = inject(CustomMessageRepository.class);
     private final Lazy<NavigationRepository> navigationRepository = inject(NavigationRepository.class);
+    private final Lazy<BackgroundService> backgroundService = inject(BackgroundService.class);
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
@@ -200,6 +202,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 leanbackOverlayFragment.hideOverlay();
             }
         };
+
+        backgroundService.getValue().clearBackgrounds();
     }
 
     @Nullable
