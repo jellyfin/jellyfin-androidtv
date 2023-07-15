@@ -105,7 +105,7 @@
     <string name="lbl_repeat_options">Optionen wiederholen</string>
     <string name="msg_cancel_entire_series">Möchtest du die KOMPLETTE SERIE wirklich abbrechen\?</string>
     <string name="pref_audio_direct">Direkt</string>
-    <string name="pref_audio_compat">Heruntermischen zu Stereo</string>
+    <string name="pref_audio_compat">Zu Stereo heruntermischen</string>
     <string name="lbl_audio_output">Audioausgabe</string>
     <string name="lbl_goto_series">Gehe zur Serie</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
@@ -508,6 +508,10 @@
         <item quantity="other">%1$s Episoden</item>
     </plurals>
     <string name="not_set">Nicht gesetzt</string>
-    <string name="lbl_album_artists">Künstler des Albums</string>
+    <string name="lbl_album_artists">Albuminterpret</string>
     <string name="enable_reactive_homepage">Reaktive Homepage aktivieren</string>
+    <string name="pref_music_cat">Musik</string>
+    <string name="pref_music_rewrite_disable">Neues Musik-Backend deaktivieren</string>
+    <string name="pref_music_rewrite_enable_description">Nur deaktivieren, wenn bei dir Probleme bei der Musikwiedergabe auftreten</string>
+    <string name="disable_ui_mode_warning">Warnung für Gerätetyp deaktivieren</string>
 </resources>
