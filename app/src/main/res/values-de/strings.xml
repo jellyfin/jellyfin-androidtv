@@ -27,7 +27,7 @@
     <string name="lbl_movies">Filme</string>
     <string name="lbl_tv_series">Fernsehserien</string>
     <string name="lbl_other">Sonstiges</string>
-    <string name="lbl_because_you_watched">"Weil du Folgendes angesehen hast: "</string>
+    <string name="lbl_because_you_watched">"Weil du Folgendes angesehen hast "</string>
     <string name="lbl_play_all">Alles abspielen</string>
     <string name="lbl_shuffle_all">Zufällige Wiedergabe</string>
     <string name="lbl_play">Abspielen</string>
@@ -53,7 +53,7 @@
     <string name="lbl_min">" min"</string>
     <string name="lbl_ends">Endet</string>
     <string name="lbl_directed_by">Regie</string>
-    <string name="lbl_last_played">"Zuletzt gespielt "</string>
+    <string name="lbl_last_played">"Zuletzt wiedergegeben "</string>
     <string name="lbl_other_options">Weitere Optionen</string>
     <string name="lbl_people">Personen</string>
     <string name="lbl_videos">Videos</string>
@@ -109,7 +109,7 @@
     <string name="lbl_audio_output">Audioausgabe</string>
     <string name="lbl_goto_series">Gehe zur Serie</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
-    <string name="desc_debug">Extra Informationen zum Debugging übermitteln</string>
+    <string name="desc_debug">Zusatzinformationen zum Debugging übermitteln</string>
     <string name="lbl_showing">zeige</string>
     <string name="lbl_all_items">Alle Einträge</string>
     <string name="lbl_sorted_by">sortiert nach</string>
@@ -120,7 +120,7 @@
     <string name="lbl_critic_rating">Kritikerbewertung</string>
     <string name="lbl_rating">Bewertung</string>
     <string name="lbl_starting_with">beginnend mit jenen, deren Namen beginnt mit</string>
-    <string name="lbl_display_preferences">Zeige Einstellungen</string>
+    <string name="lbl_display_preferences">Anzeigeeinstellungen</string>
     <string name="lbl__continuing">FORTGESETZT</string>
     <string name="lbl_ended">BEENDET</string>
     <string name="lbl_filters">Fernseh-Filter</string>
@@ -141,7 +141,7 @@
     <string name="lbl_album">Album</string>
     <string name="lbl_episodes">Episoden</string>
     <string name="lbl_enable_cinema_mode">Kino-Modus</string>
-    <string name="sum_enable_cinema_mode">Zeige verfügbare Intros und Vorschauen vor dem Film</string>
+    <string name="sum_enable_cinema_mode">Spiele verfügbare Intros und Vorschauen vor dem Film ab</string>
     <string name="lbl_playlists">Wiedergabelisten</string>
     <string name="msg_items_added">" Elemente hinzugefügt"</string>
     <string name="lbl_add_to_queue">Zur Warteschlange hinzufügen</string>
@@ -333,7 +333,7 @@
     <string name="pref_theme_muted_purple">Gedämpftes Violett</string>
     <string name="press_to_close">Zum Schließen klicken</string>
     <string name="add_user">Konto erstellen</string>
-    <string name="who_is_watching">Wer schaut zu\?</string>
+    <string name="who_is_watching">Wer schaut gerade\?</string>
     <string name="no_user_warning">Wir konnten keine Konten finden!
 \nFüge ein neues Konto hinzu, indem du auf die Schaltfläche \"Konto hinzufügen\" drückst.</string>
     <string name="welcome_content">Verbinde dich mit deinem Server, um loszulegen.</string>
@@ -375,7 +375,7 @@
     <string name="license_artifact">Artefakt</string>
     <string name="license_version">Version</string>
     <string name="license_description">Beschreibung</string>
-    <string name="licenses_link_description">Zeigt die Lizenzen der von der Jellyfin-App verwendeten Bibliotheken an</string>
+    <string name="licenses_link_description">Lizenzen der von der Jellyfin-App verwendeten Bibliotheken anzeigen</string>
     <string name="licenses_link">Lizenzen</string>
     <string name="searchable_settings_description">Medien</string>
     <string name="searchable_hint">Jellyfin durchsuchen</string>
@@ -429,7 +429,7 @@
     <string name="pref_refresh_rate_scale_on_device">Skalierung durch Gerät</string>
     <string name="pref_refresh_rate_scale_on_tv">Skalierung durch TV</string>
     <string name="login_quickconnect_step_3">3. Gib den folgenden Code ein:</string>
-    <string name="login_quickconnect_step_2">2. Öffne das Benutzermenü und gehe auf die QuickConnect-Seite</string>
+    <string name="login_quickconnect_step_2">2. Öffne das Benutzermenü und gehe auf die Quick Connect-Seite</string>
     <string name="login_quickconnect_step_1">1. Öffne die Jellyfin-App auf deinem Telefon oder Webbrowser und melde dich mit deinem Konto an</string>
     <string name="login_other_options">Andere Optionen:</string>
     <string name="login_connect_to">Mit %1$s verbinden</string>
@@ -491,7 +491,7 @@
         <item quantity="one">%1$s Stunde</item>
         <item quantity="other">%1$s Stunden</item>
     </plurals>
-    <string name="pref_enable_media_management_description">Option zum Verwalten von Medien beim Surfen anzeigen</string>
+    <string name="pref_enable_media_management_description">Option zum Verwalten von Medien während dem Durchsuchen anzeigen</string>
     <plurals name="tracks">
         <item quantity="one">%1$s Spur</item>
         <item quantity="other">%1$s Spuren</item>
