@@ -34,8 +34,8 @@
     <string name="lbl_play">Воспроизвести</string>
     <string name="lbl_cancel">Отменить</string>
     <string name="lbl_cancel_recording">Отменить запись</string>
-    <string name="lbl_cancel_series">Отменить серии</string>
-    <string name="lbl_record_series">Записать серии</string>
+    <string name="lbl_cancel_series">Отменить сериал</string>
+    <string name="lbl_record_series">Записать сериал</string>
     <string name="lbl_record">Записать</string>
     <string name="msg_set_to_record">Передача к записи</string>
     <string name="msg_unable_to_create_recording">Невозможно создать запись</string>
@@ -204,7 +204,7 @@
     <string name="lbl_more_like_this">Ещё подобное</string>
     <string name="lbl_resume_preroll">Откат для возобновления</string>
     <string name="lbl_guide_option_played">Последнее воспроизведение</string>
-    <string name="lbl_series_recordings">Записанные серии</string>
+    <string name="lbl_series_recordings">Записанные сериалы</string>
     <string name="lbl_episode_not_record">Эта передача НЕ БУДЕТ записываться</string>
     <string name="lbl_schedule">Расписание</string>
     <string name="no_program_data">Программа не доступна</string>
@@ -397,7 +397,7 @@
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="server_issue_ssl_handshake">Ошибка подтверждения SSL</string>
     <string name="server_issue_timeout">Время соединения истекло</string>
-    <string name="server_issue_outdated_version">Сервер использует версию %1$s, но должна быть версии %2$s или новее</string>
+    <string name="server_issue_outdated_version">Сервер использует несовместимую версию %1$s. Пожалуйста, обновите до %2$s или более новой версии</string>
     <string name="server_issue_unsupported_version">Сервер использует версию %1$s, которая не поддерживается</string>
     <string name="server_issue_missing_version">Не удалось определить версию сервера</string>
     <string name="server_issue_invalid_product">Программное обеспечение сервера несовместимо</string>
@@ -443,7 +443,7 @@
     <string name="lbl_adjust">Подстройка</string>
     <string name="live_tv_preferences">Опции эфирного ТВ</string>
     <string name="app_notification_uimode_invalid">Это приложение оптимизировано для телевизоров. Мы рекомендуем использовать наше мобильное приложение на других устройствах.</string>
-    <string name="server_unsupported_notification">Этот сервер использует версию Jellyfin %1$s, которая не поддерживается. Обновитесь до Jellyfin %2$s, чтобы продолжить использовать приложение.</string>
+    <string name="server_unsupported_notification">Этот сервер использует версию Jellyfin %1$s, которая не поддерживается. Обновитесь до Jellyfin %2$s или более новой, чтобы продолжить использовать приложение.</string>
     <string name="image_size_xlarge">Самый крупный</string>
     <string name="image_size_smallest">Самый мелкий</string>
     <string name="image_type_poster">Постер</string>
@@ -520,4 +520,8 @@
         <item quantity="many">%1$s минут</item>
         <item quantity="other">%1$s минут</item>
     </plurals>
+    <string name="pref_music_cat">Музыка</string>
+    <string name="pref_music_rewrite_disable">Отключить новый музыкальный бэкенд</string>
+    <string name="pref_music_rewrite_enable_description">Отключите эту опцию, если у вас возникают проблемы с воспроизведением музыки</string>
+    <string name="disable_ui_mode_warning">Отключить предупреждение о типе устройства</string>
 </resources>
