@@ -462,8 +462,8 @@
     <string name="server_setup_incomplete">ההגדרה של שרת זה לא הושלמה. פתח את Jellyfin בדפדפן אינטרנט כדי לסיים את ההגדרה לפני הכניסה.</string>
     <string name="episode_name_special">מיוחד</string>
     <string name="crash_report_toast">אופס! משהו השתבש, דוח קריסה נשלח לשרת Jellyfin שלך.</string>
-    <string name="app_notification_beta">האפליקציה עודכנה ל%1$s
-\nתודה על השתתפותך בתוכנית הבטא של ג\'ליפין</string>
+    <string name="app_notification_beta">היישום עודכן ל־%1$s
+\nתודה על השתתפותך בתוכנית הבטא של Jellyfin</string>
     <string name="color_black">שחור</string>
     <string name="lbl_subtitle_fg">צבע הכתוביות</string>
     <string name="lbl_subtitle_stroke">גודל הכתוביות</string>
@@ -476,12 +476,12 @@
     <string name="color_darkgrey">אפור כהה</string>
     <string name="color_cyan">טורקיז</string>
     <string name="color_pink">ורוד</string>
-    <string name="pref_enable_media_management">הפעל סידור מדיה</string>
+    <string name="pref_enable_media_management">הפעלת ניהול מדיה</string>
     <string name="item_delete_confirm_message">אתה בטוח שאתה רוצה למחוק את הפריט הזה מהשרת\? אי אפשר לשחזר את הפעולה הזאת.</string>
     <string name="pref_enable_media_management_description">הראה אפשרויות לסדר את המדיה בזמן שימוש</string>
     <string name="item_delete_confirm_title">מחיקת פריט</string>
     <string name="item_deleted">%1$s נמחקו</string>
-    <string name="item_deletion_failed">לא יכול למחוק %1$s</string>
+    <string name="item_deletion_failed">לא ניתן למחוק את %1$s</string>
     <string name="pref_screensaver">שומר מסך</string>
     <string name="pref_screensaver_inapp_enabled_description">הצג את שומר המסך בזמן שג\'ליפין פתוח</string>
     <string name="lbl_album_artists">אלבומים</string>
@@ -491,14 +491,14 @@
         <item quantity="many">%1$s שירים</item>
         <item quantity="other">%1$s שירים</item>
     </plurals>
-    <string name="enable_reactive_homepage">הפעל עמוד בית ריאקטיבי</string>
+    <string name="enable_reactive_homepage">הפעלת עמוד בית מסתגל</string>
     <plurals name="seconds">
         <item quantity="one">שניה %1$s</item>
         <item quantity="two">%1$s שניות</item>
         <item quantity="many">%1$s שניות</item>
         <item quantity="other">%1$s שניות</item>
     </plurals>
-    <string name="not_set">לא נקבע</string>
+    <string name="not_set">לא הוגדר</string>
     <plurals name="hours">
         <item quantity="one">שעה %1$s</item>
         <item quantity="two">%1$s שעות</item>
@@ -520,4 +520,8 @@
         <item quantity="other">%1$s דקות</item>
     </plurals>
     <string name="lbl_latest_in">נוסף לאחרונה ב%1$s</string>
+    <string name="pref_music_cat">מוזיקה</string>
+    <string name="pref_music_rewrite_disable">השבתת מנגנון מוזיקה חדש</string>
+    <string name="pref_music_rewrite_enable_description">יש להשבית את זה רק אם חווית תקלות בניגון מוזיקה</string>
+    <string name="disable_ui_mode_warning">השבתת אזהרת סוג התקן</string>
 </resources>
