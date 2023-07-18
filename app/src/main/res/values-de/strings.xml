@@ -153,7 +153,7 @@
     <string name="lbl_play_from_here">Ab hier abspielen</string>
     <string name="lbl_remove_from_queue">Aus Warteschlange entfernen</string>
     <string name="lbl_goto_now_playing">Zur aktuellen Wiedergabe gehen</string>
-    <string name="lbl_instant_mix">Instant Mix</string>
+    <string name="lbl_instant_mix">Instant-Mix</string>
     <string name="lbl_delete">Löschen</string>
     <string name="msg_item_added">" Eintrag hinzugefügt"</string>
     <string name="desc_automatic_fav_songs">Automatische Wiedergabeliste von Favoritensongs</string>
