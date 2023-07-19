@@ -277,7 +277,7 @@
     <string name="lbl_audio_track">Seleccione pista de audio</string>
     <string name="lbl_pause">Pausa</string>
     <string name="watch_count_overflow">99+</string>
-    <string name="lbl_playback_control_ends">Termina en %1$s</string>
+    <string name="lbl_playback_control_ends">Termina a las %1$s</string>
     <string name="lbl_sign_in">Por favor, inicie sesión</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Miniatura</string>
