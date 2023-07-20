@@ -107,7 +107,7 @@
     <string name="pref_audio_direct">Direkt</string>
     <string name="pref_audio_compat">Zu Stereo heruntermischen</string>
     <string name="lbl_audio_output">Audioausgabe</string>
-    <string name="lbl_goto_series">Zur Serie gehen</string>
+    <string name="lbl_goto_series">Zur Serie</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
     <string name="desc_debug">Zusatzinformationen zum Debugging übermitteln</string>
     <string name="lbl_showing">Zeige</string>
