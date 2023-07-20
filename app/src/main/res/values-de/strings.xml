@@ -9,7 +9,7 @@
     <string name="chapters">Kapitel</string>
     <string name="lbl_settings">Einstellungen</string>
     <string name="lbl_continue_watching">Fortsetzen</string>
-    <string name="lbl_next_up">Es folgt</string>
+    <string name="lbl_next_up">Als Nächstes</string>
     <string name="lbl_on_now">Läuft gerade</string>
     <string name="lbl_views">Aufrufe</string>
     <string name="lbl_by_letter">Nach Buchstabe</string>
@@ -110,7 +110,7 @@
     <string name="lbl_goto_series">Zur Serie gehen</string>
     <string name="lbl_enable_debug">Debug-Optionen</string>
     <string name="desc_debug">Zusatzinformationen zum Debugging übermitteln</string>
-    <string name="lbl_showing">zeige</string>
+    <string name="lbl_showing">Zeige</string>
     <string name="lbl_all_items">Alle Einträge</string>
     <string name="lbl_sorted_by">sortiert nach</string>
     <string name="lbl_from">von</string>
@@ -306,7 +306,7 @@
     <string name="image_size_small">Klein</string>
     <string name="image_type_banner">Banner</string>
     <string name="image_type_thumbnail">Vorschaubild</string>
-    <string name="enable_smart_view_description">Smart Screen zeigt relevante Elemente anstelle eines Rasters an</string>
+    <string name="enable_smart_view_description">Der Smart Screen zeigt relevante Einträge anstelle eines Rasters an</string>
     <string name="enable_smart_view">Smart Screen aktivieren</string>
     <string name="lbl_sign_out">Abmelden</string>
     <string name="lbl_remove">Entfernen</string>
@@ -396,7 +396,7 @@
     <string name="pref_subtitles_background_title">Hintergrund aktivieren</string>
     <string name="pref_next_up_timeout_disabled">∞</string>
     <string name="pref_home_description">Konfigurieren der angezeigten Abschnitte</string>
-    <string name="pref_show_backdrop_description">Hintergrundbild zu ausgewählten Einträgen ändern</string>
+    <string name="pref_show_backdrop_description">Wechselt das Hintergrundbild passend zu den ausgewählten Einträgen</string>
     <string name="pref_direct_stream_live_off">Transkodierung wird bei Bedarf verwendet</string>
     <string name="pref_audio">Audio</string>
     <string name="pref_subtitles">Untertitel</string>
