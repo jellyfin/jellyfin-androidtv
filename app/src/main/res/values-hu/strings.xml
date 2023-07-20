@@ -85,8 +85,8 @@
     <string name="lbl_now_playing_track">%1$s / %2$s</string>
     <string name="lbl_add_favorite">Hozzáadás a kedvencekhez</string>
     <string name="lbl_remove_favorite">Eltávolítás a kedvencek közül</string>
-    <string name="lbl_mark_played">Lejátszottnak megjelölés</string>
-    <string name="lbl_mark_unplayed">Nem lejátszottnak megjelölés</string>
+    <string name="lbl_mark_played">Lejátszottnak jelölés</string>
+    <string name="lbl_mark_unplayed">Nem lejátszottnak jelölés</string>
     <string name="lbl_play_first_unwatched">Az első még nem látott elem lejátszása</string>
     <string name="lbl_search_hint">Keresés</string>
     <string name="sum_tv_queuing">Adja hozzá az évad hátralévő epizódjait a lejátszási listához</string>
@@ -106,15 +106,15 @@
     <string name="lbl_record_any_time">Felvétel véletlenszerű időben</string>
     <string name="lbl_record_any_channel">Véletlenszerű csatorna felvétele</string>
     <string name="lbl_similar_items_library">Hasonló elemek a könyvtárban</string>
-    <string name="lbl_end_padding">Padding a végén</string>
+    <string name="lbl_end_padding">Padding befejezése</string>
     <string name="lbl_program_ended">A műsor véget ért</string>
-    <string name="lbl_begin_padding">Padding az elején</string>
+    <string name="lbl_begin_padding">Padding kezdése</string>
     <string name="msg_will_record">Fel lesz véve</string>
     <string name="msg_recording_now">Felvétel most</string>
     <string name="lbl_tune_to_channel">Csatornaváltás</string>
     <string name="lbl_tomorrow">Holnap</string>
     <string name="lbl_today">Ma</string>
-    <string name="lbl_load_channels">"Műsorok betöltése "</string>
+    <string name="lbl_load_channels">"Csatornák betöltése "</string>
     <string name="lbl_unwatched">Nem lejátszott</string>
     <string name="msg_no_playable_items">Nince lejátszható elem</string>
     <string name="lbl_now_playing_album">%1$s -tól</string>
@@ -136,7 +136,7 @@
     <string name="pref_video_player_auto">Automatikus kiválasztás</string>
     <string name="pref_theme_emerald">Klasszikus smaragd</string>
     <string name="pref_theme_dark">Sötét (Alapértelmezett)</string>
-    <string name="lbl_my_media">Médiaelemeim</string>
+    <string name="lbl_my_media">Én médiám</string>
     <string name="lbl_image_size">Képméret</string>
     <string name="lbl_image_type">Képtípus</string>
     <string name="lbl_start_favorites">Tegye előre a kedvenceket</string>
@@ -194,7 +194,7 @@
     <string name="lbl_goto_now_playing">Ugrás a most játszotthoz</string>
     <string name="lbl_remove_from_queue">Eltávolítás a várakozási listából</string>
     <string name="lbl_play_from_here">Lejátszás innen</string>
-    <string name="lbl_now_playing">Jelenleg lejátszás alatt</string>
+    <string name="lbl_now_playing">Most játszott</string>
     <string name="lbl_prev_item">Előző elem</string>
     <string name="lbl_next_item">Következő elem</string>
     <string name="lbl_open_album">Album megnyitása</string>
@@ -250,7 +250,7 @@
     <string name="bitrate_auto">Automatikus</string>
     <string name="no_player_message">Úgy tűnik, hogy nincs telepítve videot támogató alkalmazás. Ez az opció megköveteli egy harmadik féltől származó videotartalom-lejátszó alkalmazás telepítését.</string>
     <string name="no_player">Nincs elérhető lejátszó</string>
-    <string name="mark_watched">Megtekintettnek jelölés</string>
+    <string name="mark_watched">Nézettnek jelöl</string>
     <string name="pref_video_player_choose">Mindig rákérdez</string>
     <string name="lbl_tv_filter_status">az elkövetkezendő %1$d órá(k)ban</string>
     <string name="lbl_tv_channel_status">%1$d a %2$d csatornából</string>
@@ -268,7 +268,7 @@
     <string name="lbl_load_guide_data">Útmutató adatok betöltése</string>
     <string name="episode_missing_message_2">Ez az epizód hiányzik a könyvtáradból. A lejátszás megáll.</string>
     <string name="episode_missing_message">Ez az epizód hiányzik a könyvtáradból. Szeretnéd kihagyni, és folytatni az azután következővel\?</string>
-    <string name="episode_missing">Epizód hiányzik</string>
+    <string name="episode_missing">Hiányzó epizód</string>
     <string name="mark_watched_message">Úgy tűnik hogy nem lett teljes hosszában lejátszva. Megjelöljük megtekintettként\?</string>
     <string name="watch_count_overflow">99+</string>
     <string name="lbl_playback_control_ends">%1$s -kor lesz vége</string>
@@ -330,7 +330,7 @@
     <string name="auto_sign_in">Automatikus bejelentkezés</string>
     <string name="lbl_switch_user">Felhasználóváltás</string>
     <string name="no_network_permissions">A Jellyfin működéséhez hálózati engedélyekre van szükség</string>
-    <string name="pref_theme_muted_purple">Néma lila</string>
+    <string name="pref_theme_muted_purple">Tompa lila</string>
     <string name="press_to_close">Nyomja meg a bezáráshoz</string>
     <string name="add_user">Felhasználó hozzáadása</string>
     <string name="who_is_watching">Ki figyel\?</string>
@@ -353,10 +353,10 @@
     <string name="lbl_on_any_channel">Bármely csatornán</string>
     <string name="lbl_record_all">Összes rész rögzítése</string>
     <string name="lbl_record_only_new">Csak új epizódokat rögzítsen</string>
-    <string name="lbl_start_end_on_schedule">Menetrend szerint indul, és menetrend szerint végződik</string>
-    <string name="lbl_starting_on_schedule_ending_after">Menetrend szerint indul, és %1$s -al a menetrend után lesz vége</string>
+    <string name="lbl_start_end_on_schedule">Terv szerint indul, és terv szerint végződik</string>
+    <string name="lbl_starting_on_schedule_ending_after">Tervezett időben indul, és %1$s -al a tervezett befejezés után lesz vége</string>
     <string name="lbl_starting_early_ending_on_schedule">%1$s -kor kezdődik, és időben véget ér</string>
-    <string name="lbl_starting_early_ending_after">Kezdés %1$s korai és befejezés %2$s ütemezés után</string>
+    <string name="lbl_starting_early_ending_after">Kezdés %1$s korábban és befejezés %2$s ütemezés után</string>
     <string name="enable_playback_module_description">Ez egy kísérleti funkció. Nem nyújt támogatást.</string>
     <string name="lbl_fit">Normál</string>
     <string name="lbl_stretch">Kinyújtás</string>
@@ -432,7 +432,7 @@
     <string name="login_connect_to">Kapcsolódás a %1$s-hoz</string>
     <string name="input_password">Jelszó</string>
     <string name="input_username">Felhasználónév</string>
-    <string name="action_use_quickconnect">QuickConnect használata</string>
+    <string name="action_use_quickconnect">QuickConnect (gyorscsatlakozó) használata</string>
     <string name="action_use_password">Használj jelszót</string>
     <string name="action_login">Bejelentkezés</string>
     <string name="pref_refresh_rate_scale_on_device">Skálázás az eszközön</string>
@@ -510,4 +510,8 @@
         <item quantity="other">%1$s zeneszámok</item>
     </plurals>
     <string name="not_set">Nincs beállítva</string>
+    <string name="pref_music_rewrite_disable">Új zenei backend kikapcsolása</string>
+    <string name="pref_music_cat">Zene</string>
+    <string name="pref_music_rewrite_enable_description">Csak akkor kapcsolja ki, ha problémái vannak a zenelejátszással</string>
+    <string name="disable_ui_mode_warning">Eszköztípus figyelmeztetés letiltása</string>
 </resources>
