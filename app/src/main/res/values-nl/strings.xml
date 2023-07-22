@@ -266,7 +266,7 @@
     <string name="msg_live_tv_prev">Vorige %1$d uren laden\?</string>
     <string name="msg_live_tv_next">Volgende %1$d uren laden\?</string>
     <string name="episode_missing_message_2">Deze aflevering ontbreekt in uw bibliotheek. Afspelen zal stoppen.</string>
-    <string name="episode_missing_message">Deze aflevering ontbreekt in uw bibliotheek. Wil je deze overslaan en verdergaan met de volgende\?</string>
+    <string name="episode_missing_message">Deze aflevering ontbreekt in je bibliotheek. Wil je deze overslaan en verdergaan met de volgende\?</string>
     <string name="episode_missing">Aflevering ontbreekt</string>
     <string name="no_player_message">Het lijkt erop dat je geen app geïnstalleerd hebt die video\'s kan afspelen. Deze optie vereist een app van derden om video-inhoud af te spelen.</string>
     <string name="no_player">Geen speler</string>
