@@ -415,4 +415,14 @@
     <string name="lbl_additional_parts">İlave parçalar</string>
     <string name="state_disabled">Devre dışı</string>
     <string name="lbl_latest_in">Son zamanlarda eklendi %1$s</string>
+    <string name="pref_accounts">Hesaplar</string>
+    <string name="color_cyan">Cam göbeği</string>
+    <string name="server_issue_timeout">Bağlantı zaman aşımına uğradı</string>
+    <string name="pref_theme">Tema</string>
+    <string name="pref_customization">Özelleştirme</string>
+    <string name="pref_subtitles_background_title">Arka planı etkinleştir</string>
+    <string name="server_issue_missing_version">Sunucu versiyonu algılanamadı</string>
+    <string name="server_issue_outdated_version">%1$s sunucu versiyonu desteklenmektedir. Lütfen %2$s veya daha yeni bir versiyona güncelleyin</string>
+    <string name="pref_behavior">Davranış</string>
+    <string name="server_issue_unsupported_version">Bu sunucu versiyonu %1$s desteklenmemektedir</string>
 </resources>
