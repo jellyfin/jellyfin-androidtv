@@ -17,6 +17,7 @@ import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.FragmentHomeBinding
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.ImageUtils
 import org.koin.android.ext.android.inject
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
 	private val sessionRepository by inject<SessionRepository>()
 	private val userRepository by inject<UserRepository>()
 	private val navigationRepository by inject<NavigationRepository>()
+	private val mediaManager by inject<MediaManager>()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -71,6 +73,7 @@ class HomeFragment : Fragment() {
 	}
 
 	private fun switchUser() {
+		mediaManager.clearAudioQueue()
 		sessionRepository.destroyCurrentSession()
 
 		// Open login activity
