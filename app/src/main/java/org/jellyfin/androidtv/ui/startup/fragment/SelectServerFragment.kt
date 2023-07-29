@@ -26,6 +26,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.R
@@ -90,37 +92,35 @@ class SelectServerFragment : Fragment() {
 		binding.discoveryServers.addItemDecoration(serverDivider)
 		val discoveryServerAdapter = ServerAdapter(
 			serverClickListener = { (_, server) ->
-				viewLifecycleOwner.lifecycleScope.launch {
-					startupViewModel.addServer(server.address).collect { state ->
-						if (state is ConnectedState) {
-							parentFragmentManager.commit {
-								replace<StartupToolbarFragment>(R.id.content_view)
-								add<ServerFragment>(
-									R.id.content_view,
-									null,
-									bundleOf(
-										ServerFragment.ARG_SERVER_ID to state.id.toString()
-									)
+				startupViewModel.addServer(server.address).onEach { state ->
+					if (state is ConnectedState) {
+						parentFragmentManager.commit {
+							replace<StartupToolbarFragment>(R.id.content_view)
+							add<ServerFragment>(
+								R.id.content_view,
+								null,
+								bundleOf(
+									ServerFragment.ARG_SERVER_ID to state.id.toString()
 								)
-							}
-						} else {
-							items = items.map {
-								if (it.server.id == server.id) StatefulServer(state, it.server)
-								else it
-							}
+							)
+						}
+					} else {
+						items = items.map {
+							if (it.server.id == server.id) StatefulServer(state, it.server)
+							else it
+						}
 
-							// Show error as toast
-							if (state is UnableToConnectState) {
-								Toast.makeText(requireContext(), getString(
-									R.string.server_connection_failed_candidates,
-									state.addressCandidates
-										.map { "${it.key} ${it.value.getSummary(requireContext())}" }
-										.joinToString(prefix = "\n", separator = "\n")
-								), Toast.LENGTH_LONG).show()
-							}
+						// Show error as toast
+						if (state is UnableToConnectState) {
+							Toast.makeText(requireContext(), getString(
+								R.string.server_connection_failed_candidates,
+								state.addressCandidates
+									.map { "${it.key} ${it.value.getSummary(requireContext())}" }
+									.joinToString(prefix = "\n", separator = "\n")
+							), Toast.LENGTH_LONG).show()
 						}
 					}
-				}
+				}.launchIn(lifecycleScope)
 			}
 		)
 		binding.discoveryServers.adapter = discoveryServerAdapter
@@ -131,30 +131,26 @@ class SelectServerFragment : Fragment() {
 				binding.discoveryServers.isVisible = true
 				binding.discoveryServers.isFocusable = false
 
-				launch {
-					startupViewModel.storedServers.collect { servers ->
-						storedServerAdapter.items = servers.map { StatefulServer(server = it) }
+				startupViewModel.storedServers.onEach { servers ->
+					storedServerAdapter.items = servers.map { StatefulServer(server = it) }
 
-						binding.storedServersTitle.isVisible = servers.isNotEmpty()
-						binding.storedServers.isVisible = servers.isNotEmpty()
-						binding.storedServers.isFocusable = servers.isNotEmpty()
-						binding.welcomeTitle.isVisible = servers.isEmpty()
-						binding.welcomeContent.isVisible = servers.isEmpty()
+					binding.storedServersTitle.isVisible = servers.isNotEmpty()
+					binding.storedServers.isVisible = servers.isNotEmpty()
+					binding.storedServers.isFocusable = servers.isNotEmpty()
+					binding.welcomeTitle.isVisible = servers.isEmpty()
+					binding.welcomeContent.isVisible = servers.isEmpty()
 
-						// Make sure focus is properly set when no servers exist
-						if (servers.isEmpty()) binding.enterServerAddress.requestFocus()
-					}
-				}
+					// Make sure focus is properly set when no servers exist
+					if (servers.isEmpty()) binding.enterServerAddress.requestFocus()
+				}.launchIn(this)
 
-				launch {
-					startupViewModel.discoveredServers.collect { servers ->
-						discoveryServerAdapter.items = servers.map { StatefulServer(server = it) }
+				startupViewModel.discoveredServers.onEach { servers ->
+					discoveryServerAdapter.items = servers.map { StatefulServer(server = it) }
 
-						binding.discoveryServers.isFocusable = servers.any()
-						binding.discoveryServers.isVisible = discoveryServerAdapter.itemCount > 0
-						binding.discoveryNoneFound.isVisible = discoveryServerAdapter.itemCount == 0
-					}
-				}
+					binding.discoveryServers.isFocusable = servers.any()
+					binding.discoveryServers.isVisible = discoveryServerAdapter.itemCount > 0
+					binding.discoveryNoneFound.isVisible = discoveryServerAdapter.itemCount == 0
+				}.launchIn(this)
 
 				binding.discoveryProgressIndicator.isVisible = false
 			}

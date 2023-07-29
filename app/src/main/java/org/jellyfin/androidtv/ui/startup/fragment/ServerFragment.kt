@@ -18,6 +18,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
@@ -70,33 +72,31 @@ class ServerFragment : Fragment() {
 
 		val userAdapter = UserAdapter(requireContext(), server, startupViewModel, authenticationRepository, serverUserRepository)
 		userAdapter.onItemPressed = { user ->
-			lifecycleScope.launch {
-				startupViewModel.authenticate(server, user).collect { state ->
-					when (state) {
-						// Ignored states
-						AuthenticatingState -> Unit
-						AuthenticatedState -> Unit
-						// Actions
-						RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
-							UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
-							UserLoginFragment.ARG_USERNAME to user.name,
-						))
-						// Errors
-						ServerUnavailableState,
-						is ApiClientErrorLoginState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
+			startupViewModel.authenticate(server, user).onEach { state ->
+				when (state) {
+					// Ignored states
+					AuthenticatingState -> Unit
+					AuthenticatedState -> Unit
+					// Actions
+					RequireSignInState -> navigateFragment<UserLoginFragment>(bundleOf(
+						UserLoginFragment.ARG_SERVER_ID to server.id.toString(),
+						UserLoginFragment.ARG_USERNAME to user.name,
+					))
+					// Errors
+					ServerUnavailableState,
+					is ApiClientErrorLoginState -> Toast.makeText(context, R.string.server_connection_failed, Toast.LENGTH_LONG).show()
 
-						is ServerVersionNotSupported -> Toast.makeText(
-							context,
-							getString(
-								R.string.server_issue_outdated_version,
-								state.server.version,
-								ServerRepository.recommendedServerVersion.toString()
-							),
-							Toast.LENGTH_LONG
-						).show()
-					}
+					is ServerVersionNotSupported -> Toast.makeText(
+						context,
+						getString(
+							R.string.server_issue_outdated_version,
+							state.server.version,
+							ServerRepository.recommendedServerVersion.toString()
+						),
+						Toast.LENGTH_LONG
+					).show()
 				}
-			}
+			}.launchIn(lifecycleScope)
 		}
 		binding.users.adapter = userAdapter
 

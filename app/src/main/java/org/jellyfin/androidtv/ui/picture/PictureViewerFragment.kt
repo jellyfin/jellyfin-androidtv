@@ -14,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
@@ -106,18 +108,14 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		lifecycleScope.launch {
-			pictureViewerViewModel.currentItem.filterNotNull().collect { item ->
-				binding.itemSwitcher.getNextView<AsyncImageView>().load(item)
-				binding.itemSwitcher.showNextView()
-			}
-		}
+		pictureViewerViewModel.currentItem.filterNotNull().onEach { item ->
+			binding.itemSwitcher.getNextView<AsyncImageView>().load(item)
+			binding.itemSwitcher.showNextView()
+		}.launchIn(lifecycleScope)
 
-		lifecycleScope.launch {
-			pictureViewerViewModel.presentationActive.collect { active ->
-				binding.actionPlayPause.isActivated = active
-			}
-		}
+		pictureViewerViewModel.presentationActive.onEach { active ->
+			binding.actionPlayPause.isActivated = active
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {

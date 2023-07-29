@@ -6,6 +6,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.auth.model.AuthenticatingState
@@ -55,11 +57,9 @@ class UserLoginViewModel(
 	fun login(username: String, password: String) {
 		val server = server.value ?: return
 		_loginState.value = AuthenticatingState
-		viewModelScope.launch {
-			authenticationRepository.authenticate(server, CredentialAuthenticateMethod(username, password)).collect {
-				_loginState.value = it
-			}
-		}
+		authenticationRepository.authenticate(server, CredentialAuthenticateMethod(username, password)).onEach {
+			_loginState.value = it
+		}.launchIn(viewModelScope)
 	}
 
 	fun clearLoginState() {

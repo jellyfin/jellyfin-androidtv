@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jellyfin.androidtv.constant.QueryType
@@ -96,21 +98,19 @@ class RewriteMediaManager(
 	}
 
 	private suspend fun watchPlaybackStateChanges() = coroutineScope {
-		launch {
-			playbackManager.state.playState.collect { playState ->
-				notifyListeners {
-					val firstItem = currentAudioQueue.get(0) as? BaseRowItem
-					firstItem?.playing = playState == PlayState.PLAYING
+		playbackManager.state.playState.onEach { playState ->
+			notifyListeners {
+				val firstItem = currentAudioQueue.get(0) as? BaseRowItem
+				firstItem?.playing = playState == PlayState.PLAYING
 
-					onPlaybackStateChange(when (playState) {
-						PlayState.STOPPED -> PlaybackController.PlaybackState.IDLE
-						PlayState.PLAYING -> PlaybackController.PlaybackState.PLAYING
-						PlayState.PAUSED -> PlaybackController.PlaybackState.PAUSED
-						PlayState.ERROR -> PlaybackController.PlaybackState.ERROR
-					}, currentAudioItem)
-				}
+				onPlaybackStateChange(when (playState) {
+					PlayState.STOPPED -> PlaybackController.PlaybackState.IDLE
+					PlayState.PLAYING -> PlaybackController.PlaybackState.PLAYING
+					PlayState.PAUSED -> PlaybackController.PlaybackState.PAUSED
+					PlayState.ERROR -> PlaybackController.PlaybackState.ERROR
+				}, currentAudioItem)
 			}
-		}
+		}.launchIn(this)
 
 		launch {
 			while (true) {
@@ -121,38 +121,34 @@ class RewriteMediaManager(
 			}
 		}
 
-		launch {
-			playbackManager.state.queue.current.collect {
-				notifyListeners {
-					onQueueStatusChanged(hasAudioQueueItems())
+		playbackManager.state.queue.current.onEach {
+			notifyListeners {
+				onQueueStatusChanged(hasAudioQueueItems())
+			}
+		}.launchIn(this)
+
+		playbackManager.state.queue.entry.onEach {
+			// Get all items as BaseRowItem
+			val items = (playbackManager.state.queue.current.value as? BaseItemQueue)
+				?.items
+				.orEmpty()
+				.run {
+					val currentItemIndex = playbackManager.state.queue.entryIndex.value ?: -1
+					// Drop previous items
+					if (currentItemIndex >= 0) drop(currentItemIndex) else this
 				}
-			}
-		}
+				.map(::BaseRowItem)
+				.apply {
+					// Set first as playing
+					if (isNotEmpty()) first().playing = true
+					forEachIndexed { index, item -> item.index = index }
+				}
 
-		launch {
-			playbackManager.state.queue.entry.collect {
-				// Get all items as BaseRowItem
-				val items = (playbackManager.state.queue.current.value as? BaseItemQueue)
-					?.items
-					.orEmpty()
-					.run {
-						val currentItemIndex = playbackManager.state.queue.entryIndex.value ?: -1
-						// Drop previous items
-						if (currentItemIndex >= 0) drop(currentItemIndex) else this
-					}
-					.map(::BaseRowItem)
-					.apply {
-						// Set first as playing
-						if (isNotEmpty()) first().playing = true
-						forEachIndexed { index, item -> item.index = index }
-					}
+			// Update item row
+			currentAudioQueue.replaceAll(items)
 
-				// Update item row
-				currentAudioQueue.replaceAll(items)
-
-				notifyListeners { onQueueReplaced() }
-			}
-		}
+			notifyListeners { onQueueReplaced() }
+		}.launchIn(this)
 	}
 
 	private fun notifyListeners(body: AudioEventListener.() -> Unit) {

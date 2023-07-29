@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.auth.model.ServerAdditionState
 import org.jellyfin.androidtv.auth.repository.ServerRepository
 
@@ -15,10 +16,8 @@ class ServerAddViewModel(
 	val state = _state.asStateFlow()
 
 	fun addServer(address: String) {
-		viewModelScope.launch {
-			serverRepository.addServer(address).collect { state ->
-				_state.value = state
-			}
-		}
+		serverRepository.addServer(address).onEach { state ->
+			_state.value = state
+		}.launchIn(viewModelScope)
 	}
 }
