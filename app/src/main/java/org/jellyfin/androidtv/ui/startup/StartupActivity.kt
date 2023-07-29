@@ -12,10 +12,12 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
@@ -94,32 +96,31 @@ class StartupActivity : FragmentActivity() {
 		applyTheme()
 	}
 
-	private fun onPermissionsGranted() = lifecycleScope.launch {
-		lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-			sessionRepository.state.filter { it == SessionRepositoryState.READY }.collect {
-				val session = sessionRepository.currentSession.value
-				if (session != null) {
-					Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
+	private fun onPermissionsGranted() = sessionRepository.state
+		.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+		.filter { it == SessionRepositoryState.READY }
+		.onEach {
+			val session = sessionRepository.currentSession.value
+			if (session != null) {
+				Timber.i("Found a session in the session repository, waiting for the currentUser in the application class.")
 
-					showSplash()
+				showSplash()
 
-					val currentUser = userRepository.currentUser.first { it != null }
-					Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
+				val currentUser = userRepository.currentUser.first { it != null }
+				Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
-					lifecycleScope.launch {
-						openNextActivity()
-					}
-				} else {
-					// Clear audio queue in case left over from last run
-					mediaManager.clearAudioQueue()
-
-					val server = startupViewModel.getLastServer()
-					if (server != null) showServer(server.id)
-					else showServerSelection()
+				lifecycleScope.launch {
+					openNextActivity()
 				}
+			} else {
+				// Clear audio queue in case left over from last run
+				mediaManager.clearAudioQueue()
+
+				val server = startupViewModel.getLastServer()
+				if (server != null) showServer(server.id)
+				else showServerSelection()
 			}
-		}
-	}
+		}.launchIn(lifecycleScope)
 
 	private suspend fun openNextActivity() {
 		val itemId = when {

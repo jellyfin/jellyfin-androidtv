@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -50,18 +51,16 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		viewLifecycleOwner.lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				userRepository.currentUser.collect { user ->
-					if (user != null) {
-						binding.switchUsersImage.load(
-							url = ImageUtils.getPrimaryImageUrl(user),
-							placeholder = ContextCompat.getDrawable(requireContext(), R.drawable.ic_user)
-						)
-					}
+		userRepository.currentUser
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+			.onEach { user ->
+				if (user != null) {
+					binding.switchUsersImage.load(
+						url = ImageUtils.getPrimaryImageUrl(user),
+						placeholder = ContextCompat.getDrawable(requireContext(), R.drawable.ic_user)
+					)
 				}
-			}
-		}
+			}.launchIn(viewLifecycleOwner.lifecycleScope)
 	}
 
 	override fun onDestroyView() {

@@ -15,6 +15,7 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
@@ -100,17 +101,15 @@ class ServerFragment : Fragment() {
 		}
 		binding.users.adapter = userAdapter
 
-		viewLifecycleOwner.lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				startupViewModel.users.collect { users ->
-					userAdapter.items = users
+		startupViewModel.users
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+			.onEach { users ->
+				userAdapter.items = users
 
-					binding.users.isFocusable = users.any()
-					binding.noUsersWarning.isVisible = users.isEmpty()
-					binding.root.requestFocus()
-				}
-			}
-		}
+				binding.users.isFocusable = users.any()
+				binding.noUsersWarning.isVisible = users.isEmpty()
+				binding.root.requestFocus()
+			}.launchIn(viewLifecycleOwner.lifecycleScope)
 
 		startupViewModel.loadUsers(server)
 

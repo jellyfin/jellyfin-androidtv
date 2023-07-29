@@ -70,15 +70,13 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		}
 
 		// Add a screensaver lock when the slide show is active
-		lifecycleScope.launch {
-			var lock: (() -> Unit)? = null
-			pictureViewerViewModel.presentationActive.collect { active ->
-				Timber.i("presentationActive=$active")
-				lock?.invoke()
+		var lock: (() -> Unit)? = null
+		pictureViewerViewModel.presentationActive.onEach { active ->
+			Timber.i("presentationActive=$active")
+			lock?.invoke()
 
-				if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
-			}
-		}
+			if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
