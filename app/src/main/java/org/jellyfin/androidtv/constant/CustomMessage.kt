@@ -1,6 +1,6 @@
 package org.jellyfin.androidtv.constant
 
 sealed interface CustomMessage {
-	object RefreshCurrentItem : CustomMessage
-	object ActionComplete : CustomMessage
+	data object RefreshCurrentItem : CustomMessage
+	data object ActionComplete : CustomMessage
 }

@@ -24,10 +24,10 @@ sealed interface NavigationAction {
 	/**
 	 * Go back to the previous fragment manager state.
 	 */
-	object GoBack : NavigationAction
+	data object GoBack : NavigationAction
 
 	/**
 	 * Do nothing.
 	 */
-	object Nothing : NavigationAction
+	data object Nothing : NavigationAction
 }
