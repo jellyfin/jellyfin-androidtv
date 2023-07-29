@@ -106,7 +106,6 @@ class SessionRepositoryImpl(
 
 		userRepository.updateCurrentUser(null)
 		_currentSession.value = null
-		userApiClient.applySession(null)
 		apiBinder.updateSession(null, userApiClient.deviceInfo)
 		_state.value = SessionRepositoryState.READY
 	}
@@ -131,9 +130,9 @@ class SessionRepositoryImpl(
 		Timber.i("Updating current session. userId=${session?.userId} apiBindingSuccess=${success}")
 
 		if (success) {
-			userApiClient.applySession(session, deviceInfo)
+			val applied = userApiClient.applySession(session, deviceInfo)
 
-			if (session != null) {
+			if (applied && session != null) {
 				// Update crash reporting URL
 				val crashReportUrl = userApiClient.clientLogApi.logFileUrl(includeCredentials = false)
 				telemetryPreferences[TelemetryPreferences.crashReportUrl] = crashReportUrl
@@ -176,7 +175,7 @@ class SessionRepositoryImpl(
 		)
 	}
 
-	private fun ApiClient.applySession(session: Session?, newDeviceInfo: DeviceInfo = defaultDeviceInfo) {
+	private fun ApiClient.applySession(session: Session?, newDeviceInfo: DeviceInfo = defaultDeviceInfo): Boolean {
 		deviceInfo = newDeviceInfo
 
 		if (session == null) {
@@ -185,10 +184,12 @@ class SessionRepositoryImpl(
 			userId = null
 		} else {
 			val server = authenticationStore.getServer(session.serverId)
-				?: return applySession(null)
+				?: return false
 			baseUrl = server.address
 			accessToken = session.accessToken
 			userId = session.userId
 		}
+
+		return true
 	}
 }
