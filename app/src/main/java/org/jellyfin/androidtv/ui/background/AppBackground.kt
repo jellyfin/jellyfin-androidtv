@@ -71,6 +71,7 @@ fun AppBackground() {
 			val duration = (BackgroundService.TRANSITION_DURATION.inWholeMilliseconds / 2).toInt()
 			fadeIn(tween(durationMillis = duration)) with fadeOut(snap(delayMillis = duration))
 		},
+		label = "BackgroundTransition",
 	) { background ->
 		if (background != null) {
 			Image(

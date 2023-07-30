@@ -21,14 +21,17 @@ fun ZoomBox(
 	durationMillis: Int = 1_000,
 	content: @Composable BoxScope.() -> Unit,
 ) {
-	val transition = rememberInfiniteTransition()
+	val transition = rememberInfiniteTransition(
+		label = "ZoomBoxTransition"
+	)
 	val scale by transition.animateFloat(
 		initialValue = initialValue,
 		targetValue = targetValue,
 		animationSpec = infiniteRepeatable(
 			animation = tween(durationMillis = durationMillis, delayMillis = delayMillis, LinearEasing),
 			repeatMode = RepeatMode.Reverse
-		)
+		),
+		label = "ZoomBoxTransitionScale"
 	)
 
 	Box(
