@@ -203,7 +203,8 @@
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="60dp" />
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/shape_card" />
 
             <FrameLayout
                 android:id="@+id/rowsFragment"
