@@ -130,11 +130,11 @@ class MutablePlayerState(
 	}
 
 	override fun fastForward(amount: Duration?) {
-		seekRelative(amount ?: options.defaultFastForwardAmount.value)
+		seekRelative(amount ?: options.defaultFastForwardAmount())
 	}
 
 	override fun rewind(amount: Duration?) {
-		seekRelative(-(amount ?: options.defaultRewindAmount.value))
+		seekRelative(-(amount ?: options.defaultRewindAmount()))
 	}
 
 	override fun setSpeed(speed: Float) {

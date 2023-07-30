@@ -125,8 +125,8 @@ internal class MediaSessionPlayer(
 		@Suppress("MagicNumber")
 		setDeviceVolume((state.volume.volume * 100).toInt())
 		setIsDeviceMuted(state.volume.muted)
-		setSeekBackIncrementMs(manager.options.defaultRewindAmount.value.inWholeMilliseconds)
-		setSeekForwardIncrementMs(manager.options.defaultFastForwardAmount.value.inWholeMilliseconds)
+		setSeekBackIncrementMs(manager.options.defaultRewindAmount().inWholeMilliseconds)
+		setSeekForwardIncrementMs(manager.options.defaultFastForwardAmount().inWholeMilliseconds)
 	}.build()
 
 	override fun handleSetPlayWhenReady(playWhenReady: Boolean): ListenableFuture<*> {
