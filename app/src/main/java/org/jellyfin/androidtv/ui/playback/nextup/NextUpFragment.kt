@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.data.service.BackgroundService
 import org.jellyfin.androidtv.databinding.FragmentNextUpBinding
@@ -40,47 +43,41 @@ class NextUpFragment : Fragment() {
 		val id = arguments?.getString(ARGUMENT_ITEM_ID)?.toUUIDOrNull()
 		viewModel.setItemId(id)
 
-		lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.state.collect { state ->
-					when (state) {
-						// Open next item
-						NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0), true)
-						// Close activity
-						NextUpState.CLOSE -> navigationRepository.goBack()
-						// Unknown state
-						else -> Unit
-					}
+		viewModel.state
+			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.onEach { state ->
+				when (state) {
+					// Open next item
+					NextUpState.PLAY_NEXT -> navigationRepository.navigate(Destinations.videoPlayer(0), true)
+					// Close activity
+					NextUpState.CLOSE -> navigationRepository.goBack()
+					// Unknown state
+					else -> Unit
 				}
-			}
-		}
+			}.launchIn(lifecycleScope)
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentNextUpBinding.inflate(inflater, container, false)
 
-		viewLifecycleOwner.lifecycleScope.launch {
-			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.item.collect { data ->
-					// No data, keep current
-					if (data == null) return@collect
+		viewModel.item
+			.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
+			.filterNotNull()
+			.onEach { data ->
+				backgroundService.setBackground(data.baseItem)
 
-					backgroundService.setBackground(data.baseItem)
-
-					binding.logo.load(
-						url = data.logo.url,
-						blurHash = data.logo.blurHash,
-						aspectRatio = data.logo.aspectRatio
-					)
-					binding.image.load(
-						url = data.thumbnail.url,
-						blurHash = data.thumbnail.blurHash,
-						aspectRatio = data.thumbnail.aspectRatio
-					)
-					binding.title.text = data.title
-				}
-			}
-		}
+				binding.logo.load(
+					url = data.logo.url,
+					blurHash = data.logo.blurHash,
+					aspectRatio = data.logo.aspectRatio
+				)
+				binding.image.load(
+					url = data.thumbnail.url,
+					blurHash = data.thumbnail.blurHash,
+					aspectRatio = data.thumbnail.aspectRatio
+				)
+				binding.title.text = data.title
+			}.launchIn(viewLifecycleOwner.lifecycleScope)
 
 		binding.fragmentNextUpButtons.apply {
 			duration = userPreferences[UserPreferences.nextUpTimeout]

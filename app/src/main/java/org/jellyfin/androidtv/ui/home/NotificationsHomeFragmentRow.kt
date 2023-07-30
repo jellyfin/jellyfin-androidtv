@@ -7,7 +7,8 @@ import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.LifecycleCoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.data.model.AppNotification
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.ui.notification.AppNotificationPresenter
@@ -24,12 +25,10 @@ class NotificationsHomeFragmentRow(
 	private var rowAdded = false
 
 	init {
-		lifecycleScope.launch {
-			notificationsRepository.notifications.collect { notifications ->
-				announcementAdapter.replaceAll(notifications)
-				update(notifications.isEmpty())
-			}
-		}
+		notificationsRepository.notifications.onEach { notifications ->
+			announcementAdapter.replaceAll(notifications)
+			update(notifications.isEmpty())
+		}.launchIn(lifecycleScope)
 	}
 
 	private fun update(empty: Boolean) {

@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.browsing.DisplayPreferencesScreen
@@ -25,9 +26,9 @@ class LibrariesPreferencesScreen : OptionsFragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		lifecycleScope.launch {
-			userViews.collect { rebuild() }
-		}
+		userViews.onEach {
+			rebuild()
+		}.launchIn(lifecycleScope)
 	}
 
 	override val screen by optionsScreen {

@@ -10,9 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -63,15 +64,13 @@ class MainActivity : FragmentActivity() {
 
 		if (savedInstanceState == null && navigationRepository.canGoBack) navigationRepository.reset()
 
-		lifecycleScope.launch {
-			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				navigationRepository.currentAction.collect { action ->
-					handleNavigationAction(action)
-					backPressedCallback.isEnabled = navigationRepository.canGoBack
-					screensaverViewModel.notifyInteraction(false)
-				}
-			}
-		}
+		navigationRepository.currentAction
+			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.onEach { action ->
+				handleNavigationAction(action)
+				backPressedCallback.isEnabled = navigationRepository.canGoBack
+				screensaverViewModel.notifyInteraction(false)
+			}.launchIn(lifecycleScope)
 
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		binding.background.setContent { AppBackground() }

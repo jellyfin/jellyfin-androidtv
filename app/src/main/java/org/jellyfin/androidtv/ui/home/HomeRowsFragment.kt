@@ -11,11 +11,14 @@ import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -150,16 +153,14 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 			registerListener(ItemViewSelectedListener())
 		}
 
-		lifecycleScope.launch {
-			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				customMessageRepository.message.collect { message ->
-					when (message) {
-						CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
-						else -> Unit
-					}
+		customMessageRepository.message
+			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.onEach { message ->
+				when (message) {
+					CustomMessage.RefreshCurrentItem -> refreshCurrentItem()
+					else -> Unit
 				}
-			}
-		}
+			}.launchIn(lifecycleScope)
 
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {

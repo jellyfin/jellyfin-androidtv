@@ -14,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.jellyfin.androidtv.R
@@ -68,15 +70,13 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 		}
 
 		// Add a screensaver lock when the slide show is active
-		lifecycleScope.launch {
-			var lock: (() -> Unit)? = null
-			pictureViewerViewModel.presentationActive.collect { active ->
-				Timber.i("presentationActive=$active")
-				lock?.invoke()
+		var lock: (() -> Unit)? = null
+		pictureViewerViewModel.presentationActive.onEach { active ->
+			Timber.i("presentationActive=$active")
+			lock?.invoke()
 
-				if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
-			}
-		}
+			if (active) lock = screensaverViewModel.addLifecycleLock(lifecycle)
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -106,18 +106,14 @@ class PictureViewerFragment : Fragment(), View.OnKeyListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		lifecycleScope.launch {
-			pictureViewerViewModel.currentItem.filterNotNull().collect { item ->
-				binding.itemSwitcher.getNextView<AsyncImageView>().load(item)
-				binding.itemSwitcher.showNextView()
-			}
-		}
+		pictureViewerViewModel.currentItem.filterNotNull().onEach { item ->
+			binding.itemSwitcher.getNextView<AsyncImageView>().load(item)
+			binding.itemSwitcher.showNextView()
+		}.launchIn(lifecycleScope)
 
-		lifecycleScope.launch {
-			pictureViewerViewModel.presentationActive.collect { active ->
-				binding.actionPlayPause.isActivated = active
-			}
-		}
+		pictureViewerViewModel.presentationActive.onEach { active ->
+			binding.actionPlayPause.isActivated = active
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {

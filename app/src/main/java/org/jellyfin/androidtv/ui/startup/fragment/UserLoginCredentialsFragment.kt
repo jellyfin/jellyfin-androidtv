@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.model.ApiClientErrorLoginState
@@ -65,26 +67,24 @@ class UserLoginCredentialsFragment : Fragment() {
 		else binding.password.requestFocus()
 
 		// React to login state
-		lifecycleScope.launch {
-			userLoginViewModel.loginState.collect { state ->
-				when (state) {
-					is ServerVersionNotSupported -> binding.error.setText(getString(
-						R.string.server_issue_outdated_version,
-						state.server.version,
-						ServerRepository.recommendedServerVersion.toString()
-					))
+		userLoginViewModel.loginState.onEach { state ->
+			when (state) {
+				is ServerVersionNotSupported -> binding.error.setText(getString(
+					R.string.server_issue_outdated_version,
+					state.server.version,
+					ServerRepository.recommendedServerVersion.toString()
+				))
 
-					AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
-					RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
-					ServerUnavailableState,
-					is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
-					// Do nothing because the activity will respond to the new session
-					AuthenticatedState -> Unit
-					// Not initialized
-					null -> Unit
-				}
+				AuthenticatingState -> binding.error.setText(R.string.login_authenticating)
+				RequireSignInState -> binding.error.setText(R.string.login_invalid_credentials)
+				ServerUnavailableState,
+				is ApiClientErrorLoginState -> binding.error.setText(R.string.login_server_unavailable)
+				// Do nothing because the activity will respond to the new session
+				AuthenticatedState -> Unit
+				// Not initialized
+				null -> Unit
 			}
-		}
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroyView() {
