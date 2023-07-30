@@ -25,6 +25,7 @@ class MediaStreamService(
 				// Preload next item
 				// TODO: Do this once current stream is near it's end instead
 				// TODO: Move to queue service
+				// TODO: Allow access to the stream from outside the backend (e.g. PlaySessionService)
 				val nextItem = state.queue.peekNext()
 				if (nextItem != null) {
 					val stream = mediaStreamResolvers.firstNotNullOfOrNull { it.getStream(nextItem) }
